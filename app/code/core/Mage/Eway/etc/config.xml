@@ -133,6 +133,7 @@
             <eway_direct>
                 <payment_action>authorize_capture</payment_action>
                 <model>eway/direct</model>
+                <currency>AUD</currency>
                 <title>eWAY Direct</title>
                 <order_status>processing</order_status>
                 <cctypes>AE,VI,MC,DI</cctypes>
@@ -140,12 +141,14 @@
             </eway_direct>
             <eway_shared>
                 <model>eway/shared</model>
+                <currency>AUD</currency>
                 <title>eWAY Shared</title>
                 <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>
             </eway_shared>
             <eway_secure>
                 <model>eway/secure</model>
+                <currency>AUD</currency>
                 <title>eWAY 3D-Secure</title>
                 <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>

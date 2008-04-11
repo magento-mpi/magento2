@@ -65,6 +65,26 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         return Mage::getStoreConfig('eway/eway_directapi/customer_id');
     }
+    
+    public function getAccepteCurrency()
+    {
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
+    }
+    
+    public function validate()
+    {
+        parent::validate();
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+            $currency_code = $paymentInfo->getOrder()->getBaseCurrencyCode();
+        } else {
+            $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
+        }
+        if ($currency_code != $this->getAccepteCurrency()) {
+            Mage::throwException(Mage::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatabile with eWAY'));
+        }
+        return $this;
+    }
 
     public function capture(Varien_Object $payment, $amount)
     {

@@ -36,9 +36,13 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping  = false;
     
     protected $_formBlockType = 'eway/shared_form';
-    protected $_allowCurrencyCode = array('AUD', 'USD', 'CAD', 'EUR', 'JPY', 'NZD', 'HKD', 'SGD', 'GBP');
     protected $_paymentMethod = 'shared';
 
+    public function getAccepteCurrency()
+    {
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
+    }
+    
     public function validate()
     {
         parent::validate();
@@ -48,7 +52,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         } else {
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
-        if (!in_array($currency_code,$this->_allowCurrencyCode)) {
+        if ($currency_code != $this->getAccepteCurrency()) {
             Mage::throwException(Mage::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatabile with eWAY'));
         }
         return $this;
