@@ -21,20 +21,22 @@
                         <td class="label"><label for="under_default_website"><?php echo Mage::helper('oscommerce')->__('Website Code') ?></label></td>
                         <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
                         <td><small/></td>
-                    </tr>
-                    <tr>
-                        <td class="label" colspan="3">
-						    <ul class="messages">
-						        <li class="warning-msg">
-						            <ul>
-						                <li><?php echo Mage::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?></li>
-						            </ul>
-						        </li>
-						    </ul>                        
-       					</td>
-                    </tr>                    
+                    </tr>                   
                 </tbody>
-            </table>          
+            </table>   
+            <table>
+            	<tr>
+            		<td>
+					    <ul class="messages">
+					        <li class="warning-msg">
+					            <ul>
+					                <li><?php echo Mage::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?></li>
+					            </ul>
+					        </li>
+					    </ul>                        
+            		</td>
+            	</tr>
+            </table>       
         </fieldset>    
     </div>
     <div class="entry-edit">

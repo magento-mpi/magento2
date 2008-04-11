@@ -153,7 +153,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         
         
        
-        
+       	$importModel->getResource()->setImportModel($importModel); 
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
             if (isset($collections['website'])) {
                 $importModel->getResource()->getWebsiteModel()->load($collections['website']);
@@ -167,6 +167,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             }
         }
         
+        if ($charset = $importModel->getSession()->getTableCharset()) {
+        	$importModel->getResource()->setCharset($charset);
+        }
 
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
@@ -187,38 +190,33 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
         $importType = $this->getRequest()->getParam('import_type');
         $importFrom = $this->getRequest()->getParam('from');
+        $isImportDone = $this->getRequest()->getParam('is_done');
         switch($importType) {
             case 'products':
                     $importModel->getResource()->importProducts($importModel, $importFrom, true);
                 break;
             case 'categories':
-                    $importModel->getResource()->importCategories($importModel);
+                    $importModel->getResource()->importCategories($importModel, $importFrom, true);
+                    if ($isImportDone == 'true') {
+                    	$categoryIdPair = $importModel->getSession()->getCategoryIdPair();
+                    	$importModel->getResource()->setCategoryIdPair($categoryIdPair);
+                    	$importModel->getResource()->buildCategoryPath();
+                    }
                 break;
             case 'customers':
                     $importModel->getResource()->importCustomers($importModel, $importFrom, true);
-                    $customerIdPair = $importModel->getResource()->getCustomerIdPair();
-                    if ($customerIdPair) {
-                        $sessCustomerIdPair = $importModel->getSession()->getCustomerIdPair();
-                        if ($sessCustomerIdPair) {
-                            $importModel->getSession()->setCustomerIdPair(array_merge($customerIdPair, $sessCustomerIdPair));
-                        } else {
-                            $importModel->getSession()->setCustomerIdPair($customerIdPair);
-                        }
-                    }
                 break;
             case 'orders':
-                    if ($customerIdPair = $importModel->getSession()->getCustomerIdPair()) {
-                        $importModel->getResource()->setCustomerIdPair($customerIdPair);
-                    }
                     $importModel->getResource()->importOrders($importModel, $importFrom, true);
                 break;
         }
 
-            $result = array(
-                'savedRows' => $importModel->getResource()->getSaveRows(),
-                'errors'    => ($errors = $importModel->getResource()->getErrors() ? $errors: array())
-            );
-        $this->getResponse()->setBody(Zend_Json::encode($result));        
+        $errors = $importModel->getResource()->getErrors();
+        $result = array(
+	        'savedRows' => $importModel->getResource()->getSaveRows(),
+	        'errors'    => ( $errors ? $errors: array())
+        );
+        $this->getResponse()->setBody(Zend_Json::encode($result));
         //$this->getResponse()->setBody(Zend_Json::encode($model->getResource()->getResultStatistic()));
     }
     
@@ -284,6 +282,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getResource()->importTaxClasses();
         $importModel->getResource()->createOrderTables($importModel);
         
+        if ($charset = $importModel->getResource()->getCharsetCollection()) {
+        	$importModel->getSession()->setTableCharset($charset);
+        }
+        
         if (isset($options['categories'])) {
             $importModel->getSession()->setIsProductWithCategories(true);
             $totalRecords['categories'] = $importModel->getResource()->getCategoriesCount();
@@ -333,10 +335,14 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function checkStoreAction()
     {
         $this->_initImport();
-        $model = Mage::registry('oscommerce_adminhtml_import');
-        if ($model->getId()) {
+        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        
+        $charset = $importModel->getResource()->getCharset('languages');
+        $defaultOscCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_OSC_CHARSET;
+        $defaultMageCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_MAGENTO_CHARSET;
+        if ($importModel->getId()) {
             try {
-                $stores = $model->getResource()->getOscStores();
+                $stores = $importModel->getResource()->getOscStores();
     
                 $locales = Mage::app()->getLocale()->getOptionLocales();
                 $options = '';
@@ -347,7 +353,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 if ($stores) {
                     $html .= "<table>\n";
                     foreach ($stores as $store) {
-                        $html .= "<tr><td style='width: 100px'>".iconv("ISO-8859-1", "UTF-8", $store['name'])." Store</td><td>";
+                        $html .= "<tr><td style='width: 100px'>".iconv($charset?$charset:$defaultOscCharset, $defaultMageCharset, $store['name'])." Store</td><td>";
                         $html .= "<select id='store_locale_{$store['code']}' name='store[{$store['code']}'";
                         $html .= ">{$options}</select>";
                         $html .= "</td></tr>\n";

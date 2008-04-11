@@ -232,16 +232,6 @@ String.prototype.ucFirst = function () {
                     echo '<script type="text/javascript">maxRows='.$maxRows.';</script>';
                     foreach($totalRecords as $importType => $totalRecord) {
                         echo '<script type="text/javascript">totalRecords["'.$importType.'"]='.$totalRecord.';</script>';
-                        if ($importType=='categories') {
-                            $data = array(
-                                'import_id'   => $importModel->getId(),
-                                'import_type' => $importType,
-                                'page'        => 'all',
-                                'is_done'     => true
-                            );
-                            echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
-                            
-                        } else {
                             $page =  floor($totalRecord/$maxRows) + 1;
                             for ($i = 0; $i < $page; $i++) {
                                 $data = array(
@@ -252,7 +242,28 @@ String.prototype.ucFirst = function () {
                                 );
                                 echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
                             }
-                        }
+                        
+//                        if ($importType=='categories') {
+//                            $data = array(
+//                                'import_id'   => $importModel->getId(),
+//                                'import_type' => $importType,
+//                                'page'        => 'all',
+//                                'is_done'     => true
+//                            );
+//                            echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+//                            
+//                        } else {
+//                            $page =  floor($totalRecord/$maxRows) + 1;
+//                            for ($i = 0; $i < $page; $i++) {
+//                                $data = array(
+//                                    'import_id'   => $importModel->getId(),
+//                                    'import_type' => $importType,
+//                                    'from'        => ($i > 0 ? $i * $maxRows:$i),
+//                                    'is_done'     => ($i == $page - 1)?true:false
+//                                );
+//                                echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+//                            }
+//                        }
                     }
                     echo '<script type="text/javascript">execImportData()</script>';   
 

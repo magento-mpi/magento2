@@ -46,6 +46,9 @@
                     <catalog_product_website>
                         <table>catalog_product_website</table>
                     </catalog_product_website>
+                    <catalog_category>
+                        <table>catalog_category_entity</table>
+                    </catalog_category>                    
                     <oscommerce_order>
                         <table>oscommerce_orders</table>
                     </oscommerce_order>
