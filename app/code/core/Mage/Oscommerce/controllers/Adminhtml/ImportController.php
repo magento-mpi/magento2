@@ -198,8 +198,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             case 'categories':
                     $importModel->getResource()->importCategories($importModel, $importFrom, true);
                     if ($isImportDone == 'true') {
-                    	$categoryIdPair = $importModel->getSession()->getCategoryIdPair();
-                    	$importModel->getResource()->setCategoryIdPair($categoryIdPair);
+                    	$categoryIdPair = $importModel->getResource()->getCategoryIdPair();
                     	$importModel->getResource()->buildCategoryPath();
                     }
                 break;
