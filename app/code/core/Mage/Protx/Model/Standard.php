@@ -432,6 +432,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getStandardCheckoutFormFields ()
     {
+        logme($this->getConfig()->getVersion().' - '. $this->getConfig()->getPaymentType(). ' - '. $this->getConfig()->getVendorName());
 
         $fields = array(
                         'VPSProtocol'       => $this->getConfig()->getVersion(),

@@ -21,7 +21,6 @@
  * Protx Form Method Front Controller
  *
  * @name       Mage_Protx_Form_Controller
- * @date       Fri Apr 04 15:46:14 EEST 2008
  */
 class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 {
@@ -87,7 +86,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      *
      *  @param    none
      *  @return	  void
-     *  @date	  Tue Apr 08 15:06:36 EEST 2008
      */
     public function  successResponseAction()
     {
@@ -114,6 +112,8 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
+        $order->sendNewOrderEmail();
+
         if (sprintf('%.2f', $responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
             $order->addStatusToHistory(
                 $order->getStatus(),
@@ -126,16 +126,17 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             } else {
                 $order->addStatusToHistory(
                     $this->getConfig()->getNewOrderStatus(), //update order status to processing after creating an invoice
-                    Mage::helper('protx')->__('Order '.$invoice->getIncrementId().' has pending status')
+                    Mage::helper('protx')->__('Order '.$order->getId().' has pending status')
                 );
             }
         }
 
         $order->save();
 
-        Mage::getSingleton('protx/session')
-            ->addSuccess($this->__('You order was paid successfully'));
-        $this->_redirect('protx/standard/success');
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getProtxStandardQuoteId(true));
+        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        $this->_redirect('checkout/onepage/success');
     }
 
     /**
@@ -143,7 +144,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      *
      *  @param    Mage_Sales_Model_Order $order
      *  @return	  boolean
-     *  @date	  Tue Apr 08 20:26:14 EEST 2008
      */
     protected function saveInvoice (Mage_Sales_Model_Order $order)
     {
@@ -187,7 +187,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      *
      *  @param    none
      *  @return	  void
-     *  @date	  Tue Apr 08 21:43:22 EEST 2008
      */
     public function failureResponseAction ()
     {
@@ -223,17 +222,17 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $order->cancel()->save();
 
-        Mage::getSingleton('protx/session')
-            ->addError($this->__($responseArr['StatusDetail']));
+        $session = Mage::getSingleton('checkout/session');
+        $session->setErrorMessage($responseArr['StatusDetail']);
+        $session->setQuoteId($session->getProtxStandardQuoteId(true));
         $this->_redirect('protx/standard/failure');
     }
 
     /**
-     *  Pre actio
+     *  Expected GET HTTP Method
      *
      *  @param    none
      *  @return	  void
-     *  @date	  Tue Apr 08 20:54:40 EEST 2008
      */
     protected function preResponse ()
     {
@@ -243,13 +242,12 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         }
     }
 
-    public function successAction ()
-    {
-        $this->loadLayout();
-        $this->_initLayoutMessages('protx/session');
-        $this->renderLayout();
-    }
-
+    /**
+     *  Failure Action
+     *
+     *  @param    none
+     *  @return	  void
+     */
     public function failureAction ()
     {
         $this->loadLayout();

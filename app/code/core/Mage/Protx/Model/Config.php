@@ -88,7 +88,7 @@ class Mage_Protx_Model_Config extends Varien_Object
      */
     public function getPaymentType ()
     {
-        return $this->getConfigData('payment_type');
+        return $this->getConfigData('payment_action');
     }
 
     /**
