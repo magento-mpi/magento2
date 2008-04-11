@@ -117,7 +117,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function catchError()
     {
         if ($this->getApi()->getError()) {
-            $s = $this->getSession();
+            $s = $this->getCheckout();
             $e = $this->getApi()->getError();
             switch ($e['type']) {
                 case 'CURL':
