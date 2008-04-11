@@ -535,7 +535,7 @@ final class Mage {
         $trace = ob_get_clean();
 	#exit;
         if ( DEVELOPER_MODE ) {
-            echo '<pre>'.$trace.'</pre>';
+            echo '<pre>'.$e.'</pre>';
         } else {
             $file = microtime(true)*100;
             $traceFile = Mage::getBaseDir('var').DS.$file;

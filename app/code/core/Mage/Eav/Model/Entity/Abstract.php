@@ -123,6 +123,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
     protected $_isPartialSave = false;
 
     /**
+     * Attribute set id which used for get sorted attributes
+     *
+     * @var int
+     */
+    protected $_sortingSetId = null;
+
+    /**
      * Set connections for entity operations
      *
      * @param Zend_Db_Adapter_Abstract $read
@@ -447,6 +454,34 @@ abstract class Mage_Eav_Model_Entity_Abstract
             $this->getAttribute($attribute);
         }*/
         return $this;
+    }
+
+    public function getSortedAttributes($setId=null)
+    {
+        $attributes =$this->getAttributesByCode();
+        if (is_null($setId)) {
+            $setId = $this->getEntityType()->getDefaultAttributeSetId();
+        }
+        $this->_sortingSetId = $setId;
+        uasort($attributes, array($this, 'attributesCompare'));
+        return $attributes;
+    }
+
+    public function attributesCompare($attribute1, $attribute2)
+    {
+        $sortPath      = 'attribute_set_info/' . $this->_sortingSetId . '/sort';
+        $groupSortPath = 'attribute_set_info/' . $this->_sortingSetId . '/group_sort';
+
+        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
+        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
+
+        if ($sort1 > $sort2) {
+            return 1;
+        } elseif ($sort1 < $sort2) {
+            return -1;
+        }
+
+        return 0;
     }
 
     /**

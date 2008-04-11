@@ -142,21 +142,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Get category attribute set identifier. When set id not declared, we use default
-     *
-     * @return int
-     */
-    public function getAttributeSetId()
-    {
-        $setId = $this->getData('attribute_set_id');
-        if (is_null($setId)) {
-            $setId = $this->getDefaultAttributeSetId();
-            $this->setData('attribute_set_id', $setId);
-        }
-        return $setId;
-    }
-
-    /**
      * Retrieve all customer attributes
      *
      * @return array
@@ -165,7 +150,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         $result = $this->getResource()
             ->loadAllAttributes($this)
-            ->getAttributesByCode();
+            ->getSortedAttributes();
 
         if ($noDesignAttributes){
             foreach ($result as $k=>$a){
@@ -175,26 +160,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             }
         }
 
-        uasort($result, array($this, 'attributesCompare'));
-
         return $result;
-    }
-
-    public function attributesCompare($attribute1, $attribute2)
-    {
-        $sortPath      = 'attribute_set_info/' . $this->getAttributeSetId() . '/sort';
-        $groupSortPath = 'attribute_set_info/' . $this->getAttributeSetId() . '/group_sort';
-
-        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
-        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
-
-        if ($sort1 > $sort2) {
-            return 1;
-        } elseif ($sort1 < $sort2) {
-            return -1;
-        }
-
-        return 0;
     }
 
     /**
