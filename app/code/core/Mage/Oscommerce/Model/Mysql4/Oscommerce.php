@@ -1514,6 +1514,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         $select = "SELECT `address_book_id` `id`, `customers_id`, `entry_firstname` `firstname`";
         $select .= ", `entry_lastname` `lastname`, `entry_street_address` `street1`";
+        $select .= ", `entry_company` `company` ";
         $select .= ", `entry_postcode` `postcode`, `entry_city` `city`";
         $select .= ", `entry_state` `region`, `entry_country_id` `country_id`";
         $select .= ", `entry_zone_id` `region_id` FROM `{$this->_prefix}address_book` WHERE customers_id={$customerId}";
