@@ -25,6 +25,16 @@
 class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Crypt field contents returned from Protx
+     */
+    protected $responseArr = array();
+
+    /**
+     * Valid Response Indicator from Protx
+     */
+    protected $isValidResponse = false;
+
+    /**
      * Get singleton with protx strandard
      *
      * @return Mage_Protx_Model_Standard
@@ -66,7 +76,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      *
      *   [Status] => OK
      *   [StatusDetail] => Successfully Authorised Transaction
-     *   [VendorTxCode] => magento77771148
+     *   [VendorTxCode] => 100000061 (== orderId)
      *   [VPSTxId] => {CA8D1CC1-22E8-4F42-8FDD-BAF0F1A85C8B}
      *   [TxAuthNo] => 7349
      *   [Amount] => 463
@@ -91,14 +101,16 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     {
         $this->preResponse();
 
-        $responseQuery = $this->getRequest()->getQuery();
-        $responseArr = $this->getStandard()->cryptToArray($responseQuery['crypt']);
+        if (!$this->isValidResponse) {
+            $this->_redirect('');
+            return ;
+        }
 
-        $transactionId = $responseArr['VendorTxCode'];
+        $transactionId = $this->responseArr['VendorTxCode'];
 
         if ($this->getDebug()) {
             Mage::getModel('protx/api_debug')
-                ->setResponseBody(print_r($responseArr,1))
+                ->setResponseBody(print_r($this->responseArr,1))
                 ->save();
         }
 
@@ -114,13 +126,13 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $order->sendNewOrderEmail();
 
-        if (sprintf('%.2f', $responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
+        if (sprintf('%.2f', $this->responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
             $order->addStatusToHistory(
                 $order->getStatus(),
                 Mage::helper('protx')->__('Order total amount does not match protx gross total amount')
             );
         } else {
-            $order->getPayment()->setTransactionId($responseArr['VPSTxId']);
+            $order->getPayment()->setTransactionId($this->responseArr['VPSTxId']);
             if ($this->getConfig()->getPaymentType() == Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT) {
                 $this->saveInvoice($order);
             } else {
@@ -192,14 +204,16 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     {
         $this->preResponse();
 
-        $responseQuery = $this->getRequest()->getQuery();
-        $responseArr = $this->getStandard()->cryptToArray($responseQuery['crypt']);
+        if (!$this->isValidResponse) {
+            $this->_redirect('');
+            return ;
+        }
 
-        $transactionId = $responseArr['VendorTxCode'];
+        $transactionId = $this->responseArr['VendorTxCode'];
 
         if ($this->getDebug()) {
             Mage::getModel('protx/api_debug')
-                ->setResponseBody(print_r($responseArr,1))
+                ->setResponseBody(print_r($this->responseArr,1))
                 ->save();
         }
 
@@ -213,18 +227,22 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        if ($responseArr['Status'] == 'ABORT') {
+        $order->cancel()->save();
+
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getProtxStandardQuoteId(true));
+
+        // Customer clicked CANCEL Butoon
+        if ($this->responseArr['Status'] == 'ABORT') {
+            $this->_redirect('checkout/cart');
+            return;
             /*$order->addStatusToHistory(
                 Mage_Sales_Model_Order::STATE_CANCELED,
                 Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer')
             );*/
         }
 
-        $order->cancel()->save();
-
-        $session = Mage::getSingleton('checkout/session');
-        $session->setErrorMessage($responseArr['StatusDetail']);
-        $session->setQuoteId($session->getProtxStandardQuoteId(true));
+        $session->setErrorMessage($this->responseArr['StatusDetail']);
         $this->_redirect('protx/standard/failure');
     }
 
@@ -236,9 +254,19 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      */
     protected function preResponse ()
     {
-        if (!$this->getRequest()->isGet()) {
-            $this->_redirect('');
-            return;
+        $responseCryptString = $this->getRequest()->crypt;
+
+        if ($responseCryptString != '') {
+            $rArr = $this->getStandard()->cryptToArray($responseCryptString);
+            $ok = is_array($rArr)
+                && isset($rArr['Status']) && $rArr['Status'] != ''
+                && isset($rArr['VendorTxCode']) && $rArr['VendorTxCode'] != ''
+                && isset($rArr['Amount']) && $rArr['Amount'] != '';
+
+            if ($ok) {
+                $this->responseArr = $rArr;
+                $this->isValidResponse = true;
+            }
         }
     }
 
