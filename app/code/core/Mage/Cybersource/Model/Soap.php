@@ -75,11 +75,17 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return md5(microtime() . rand(0, time()));
     }
 
+    protected function getIpAddress()
+    {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
     protected function addBillingAddress($billing, $email)
     {
         $billTo = new stdClass();
         $billTo->firstName = $billing->getFirstname();
         $billTo->lastName = $billing->getLastname();
+        $billTo->company = $billing->getCompany();
         $billTo->street1 = $billing->getStreet(1);
         $billTo->street2 = $billing->getStreet(2);
         $billTo->city = $billing->getCity();
@@ -88,6 +94,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $billTo->country = $billing->getCountry();
         $billTo->phoneNumber = $billing->getTelephone();
         $billTo->email = $email;
+        $billTo->ipAddress = $this->getIpAddress();
         $this->_request->billTo = $billTo;
     }
 
@@ -96,6 +103,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $shipTo = new stdClass();
         $shipTo->firstName = $shipping->getFirstname();
         $shipTo->lastName = $shipping->getLastname();
+        $shipTo->company = $shipping->getCompany();
         $shipTo->street1 = $shipping->getStreet(1);
         $shipTo->street2 = $shipping->getStreet(2);
         $shipTo->city = $shipping->getCity();
