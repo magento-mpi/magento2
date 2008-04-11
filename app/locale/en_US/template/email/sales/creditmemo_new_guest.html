@@ -11,7 +11,7 @@
         <!-- [ header starts here] -->
         <table cellspacing="0" cellpadding="0" border="0" width="650">
             <tr>
-                <td valign="top"><a href="{{store url=""}}"><img src="{{skin url="images/logo_email.gif"}}" alt="Magento"  style="margin-bottom:10px;" border="0"/></a></td>
+                <td valign="top"><a href="{{store url=""}}"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="Magento"  style="margin-bottom:10px;" border="0"/></a></td>
             </tr>
         </table>
         <!-- [ middle starts here] -->
@@ -68,7 +68,7 @@
                         </tbody>
                     </table>
                     <br/>
-                    {{block type='core/template' template='email/order/items_creditmemo.phtml' creditmemo=$creditmemo order=$order}}
+                    {{block type='core/template' area='frontend' template='email/order/items_creditmemo.phtml' creditmemo=$creditmemo order=$order}}
                     <p>{{var comment}}</p>
                     <p>
                         Thank you again,<br/><strong>{{var order.getStoreGroupName()}}</strong>

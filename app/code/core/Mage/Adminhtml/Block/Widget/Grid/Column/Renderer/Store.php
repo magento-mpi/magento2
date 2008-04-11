@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
     {
         return Mage::getSingleton('adminhtml/system_store');
     }
-    
+
     protected function _getShowAllStoresLabelFlag()
     {
         return $this->getColumn()->getData('skipAllStoresLabel')?$this->getColumn()->getData('skipAllStoresLabel'):$this->_skipAllStoresLabel;
