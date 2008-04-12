@@ -1213,7 +1213,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->_resultStatistic['orders']['imported']++; // not using it
             $this->_saveRows++;
             // Get orders products
-            if ($orderProducts = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$data['orders_id']}")) {
+            $select  = "SELECT `orders_products_id`, `orders_id`, `products_id` ";
+            $select .= ", `products_model`, `products_name`, `products_price`, `final_price` ";
+            $select .= ", `products_tax`, `products_quantity` ";
+            $select .= " FROM `{$this->_prefix}orders_products` WHERE `orders_id`={$data['orders_id']}";
+            if ($orderProducts = $this->_getForeignAdapter()->fetchAll($select)) {
                 foreach ($orderProducts as $orderProduct) {
                     unset($orderProduct['orders_id']);
                     unset($orderProduct['orders_products_id']);
@@ -1226,7 +1230,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
 
             // Get orders totals
-            if ($orderTotals = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$data['orders_id']}")) {
+            $select  = "SELECT `orders_total_id`, `orders_id`, `title`, `text`, `value`, `class`, `sort_order` ";
+            $select .= " FROM `{$this->_prefix}orders_total` WHERE `orders_id`={$data['orders_id']}";
+            
+            if ($orderTotals = $this->_getForeignAdapter()->fetchAll($select)) {
                 foreach ($orderTotals as $orderTotal) {
                     unset($orderTotal['orders_id']);
                     unset($orderTotal['orders_total_id']);
@@ -1239,7 +1246,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
 
             // Get orders totals
-            if ($orderHistories = $this->_getForeignAdapter()->fetchAll("SELECT * FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$data['orders_id']}")) {
+            $select = "SELECT `orders_status_history_id`, `orders_id`, `orders_status_id` ";
+            $select .= ", `date_added`, `customer_notified`, `comments` ";
+            $select .= " FROM `{$this->_prefix}orders_status_history` WHERE `orders_id`={$data['orders_id']}";
+            if ($orderHistories = $this->_getForeignAdapter()->fetchAll($select)) {
                 foreach ($orderHistories as $orderHistory) {
                     unset($orderHistory['orders_id']);
                     unset($orderHistory['orders_status_history_id']);
@@ -1248,6 +1258,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
                 }
             }
+        } else {
+        	$this->_addErrors(Mage::helper('oscommerce')->__('Order of customer %s [%s] cannot be saved because of order might be placed by guest account.', $data['customers_name'], $data['customers_email_address']));
         }
     }
     

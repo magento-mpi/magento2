@@ -104,7 +104,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     }
 
     /**
-     * Save action of importController
+     * Save action of 
      */
     public function saveAction()
     {
@@ -159,7 +159,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 $importModel->getResource()->getWebsiteModel()->load($collections['website']);
             }
             if (isset($collections['root_category'])) {
-                $importModel->getResource()->setRootCategory($importModel->getResource()->getCategoryModel()->load($collections['root_category']));
+                $importModel->getResource()->setRootCategory(clone $importModel->getResource()->getCategoryModel()->load($collections['root_category']));
             }
             if (isset($collections['group'])) {
                 $importModel->getResource()->getStoreGroupModel()->load($collections['group']);
@@ -198,7 +198,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             case 'categories':
                     $importModel->getResource()->importCategories($importModel, $importFrom, true);
                     if ($isImportDone == 'true') {
-                    	$categoryIdPair = $importModel->getResource()->getCategoryIdPair();
+                    	//$categoryIdPair = $importModel->getSession()->getCategoryIdPair();
+                    	//$importModel->getResource()->setCategoryIdPair($categoryIdPair);
                     	$importModel->getResource()->buildCategoryPath();
                     }
                 break;
