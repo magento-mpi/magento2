@@ -16,11 +16,10 @@
  */
 .page-head,
 .page-head-alt,
-.clear,
 .col2-set,
+.col2-alt-set,
 .col3-set,
 .col4-set,
-.col2-alt-set,
 .header,
 .head,
 .head-alt,
@@ -29,6 +28,7 @@
 #nav,
 .middle,
 .button-set,
+.one-page-checkout,
 .actions,
 .legend,
 .ratings,
@@ -37,9 +37,11 @@
 .search-bar,
 .col-left li.item,
 .group-select li,
+.search-autocomplete li,
 .tabs,
 .my-review-detail,
-.generic-product-list li { zoom:1; }
+.generic-product-list li,
+.account-nav li { zoom:1; }
 
 .clear {
 	display:block;

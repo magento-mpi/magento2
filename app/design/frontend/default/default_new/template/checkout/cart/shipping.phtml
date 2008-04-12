@@ -28,8 +28,8 @@
        <li><label for="state"><?php echo $this->__('State/Province') ?></label><br/>
        <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none">
             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
-       </select></li>
-       <li><input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getEstimateRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none" /></li>
+       </select>
+     <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getEstimateRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none" /></li>
 
     <?php if($this->getCityActive()): ?>
      <li><label for="city"><?php echo $this->__('City') ?></label><br/>

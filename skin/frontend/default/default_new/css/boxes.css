@@ -70,7 +70,7 @@ input.form-radio        { margin-right:3px;}
     padding-top:8px;
     text-align:right;
     }
-.button-top-set.button-set { margin-top:0; border-top:0; padding-top:0; padding-bottom:8px; }
+.button-top-set { margin-top:0; border-top:0; padding-top:0; padding-bottom:8px; }
 
 /* Form lists */
 .form-list                          { margin-bottom:10px; }
@@ -339,6 +339,7 @@ h1#logo                 { float:left; }
 
 /* Mini search */
 .mini-search {
+    position:relative;
     float:right;
     width:270px;
     background:url(../images/head_search.gif) no-repeat 0 50%;
@@ -347,14 +348,14 @@ h1#logo                 { float:left; }
 .mini-search .input-text { width:212px; margin-right:2px; }
 
 .search-autocomplete {
-    border:1px solid #5c7989;
+    border:1px solid #999;
     background:#f9f5f0;
     left:-1px !important;
     top:21px !important;
     }
 .search-autocomplete li { border-bottom:1px solid #f4eee7; padding:2px 8px 1px 8px; }
-.search-autocomplete li.odd { background:#fffefb; }
-.search-autocomplete li.selected { background:#f7e8dd; }
+.search-autocomplete li.odd { background:#f6f6f6; }
+.search-autocomplete li.selected { background:#ecf9ea; }
 
 
 
@@ -810,7 +811,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 
 /* One-Page checkout */
-.one-page-checkout .group-select { margin-right:0; }
 .one-page-checkout .box {
     border:1px solid #ddd;
     border-top:0;
@@ -818,13 +818,11 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     background:#fbfbfb;
     }
 .one-page-checkout .head {
-    margin-bottom:0 ;
     padding:4px 8px 6px 8px;
-    background:url(../images/opc_off_head_bg.gif) repeat-x 0 100% #eee;
-    border-width:0 1px 0 1px;
-    border-color:#D9DDE3;
+    border-width:1px 1px 0 1px;
     border-style:solid;
-    border-top:1px solid #fff;
+    border-color:#fff #D9DDE3 #D9DDE3 #D9DDE3;
+    background:#eee;
     }
 .one-page-checkout .head a { display:none; }  /* Hide Edit button in step header */
 .one-page-checkout h3 { float:left; margin:0; color:#999; font-size:1.05em; }
@@ -832,14 +830,14 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .step-count { padding:0 4px; background:#fff; color:#444; font-size:.9em; line-height:1em;  }
 .one-page-checkout .content { padding: 10px 20px; }
 .one-page-checkout label.label { font-size:1.05em; color:#2f2f2f; }
-.one-page-checkout .allow .head { margin-bottom:1px; background:#999; border-color:#999; border-width:1px 1px 0 1px; cursor:pointer; }
-.one-page-checkout .active .head { margin-bottom:0; border:1px solid #e46b00; background:#e46b00; padding-bottom:5px; cursor:default; }
+.one-page-checkout .allow .head { background:#999; border-color:#999; border-width:1px 1px 0 1px; cursor:pointer; }
+.one-page-checkout .active .head { border:1px solid #e46b00; background:#e46b00; cursor:default; }
 .one-page-checkout .allow .head a { display:block; color:#fff; } /* Display Edit button in active selection */
 .one-page-checkout .active .head a { display:none; }
-.one-page-checkout .group-select { margin-top:0; border:0; background:none; padding:0; }
+.one-page-checkout .group-select { margin-top:0; margin-right:0; border:0; background:none; padding:0; }
 .one-page-checkout .allow h3 { color:#fff; }
 .one-page-checkout .active h3 { color:#fff; }
-.one-page-checkout .active .box { display:block; border-color:#ddd;  background:#fbfbfb; }
+.one-page-checkout .active .box { display:block; border-color:#ddd; background:#fbfbfb; }
 .one-page-checkout dd .form-list ul { margin:5px 17px 15px 17px; }
 .one-page-checkout .checkmo-mailing-address { padding-left: 20px; }
 .one-page-checkout-progress .page-head { margin-bottom:1em; }
@@ -899,8 +897,9 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .multi-address-checkout-box .head { margin-bottom:4px; }
 .multi-address-checkout-box .head a { font-weight:normal;}
 .multi-address-checkout-box .checkmo-mailing-address { display: block; padding-left: 20px; }
-.shipping-method-pointer { border:1px solid #ddd; padding:13px; background:#eee; position:relative; }
-.shipping-method-pointer .pointer { position:absolute; top:-20px; right:-40px; }
+.shipping-method-pointer { border:1px solid #ddd; padding:13px; background:#eee; }
+.shipping-method-pointer .head { position:relative; }
+.shipping-method-pointer .pointer { position:absolute; top:-20px; right:-40px; zoom:1; }
 .place-order-box { float:right; height:71px; overflow:hidden; }
 .place-order-box .left-radius { width:21px; background:url(../images/place_order_container_bg.gif) no-repeat; }
 .place-order-box .main-radius{ background:url(../images/place_order_bg.gif) no-repeat 100% 0; padding-right:21px; vertical-align:middle; }

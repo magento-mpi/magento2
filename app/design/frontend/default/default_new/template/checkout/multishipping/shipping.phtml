@@ -46,8 +46,8 @@
             </address>
             <br/>
             <div class="shipping-method-pointer">
-                <img src="<?php echo $this->getSkinUrl('images/shipping_method_pointer.gif') ?>" class="pointer" alt=""/>
-                <div class="head">
+                
+                <div class="head"><img src="<?php echo $this->getSkinUrl('images/shipping_method_pointer.gif') ?>" class="pointer" alt=""/>
                     <h5 class="title"><?php echo $this->__('Shipping Method') ?></h5>
                 </div>
                 <?php if (!($_shippingRateGroups = $this->getShippingRates($_address))): ?>

@@ -44,6 +44,7 @@
 .group-select li:after,
 .tabs:after,
 .my-review-detail:after,
+.search-autocomplete li:after,
 .generic-product-list li:after {
 	content:".";
 	display:block;
