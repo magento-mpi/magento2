@@ -37,6 +37,11 @@
                     <api_debug><table>cybersource_api_debug</table></api_debug>
                 </entities>
             </cybersource_mysql4>
+            <sales>
+                <rewrite>
+                    <order_payment>Mage_Cybersource_Model_Order_Payment</order_payment>
+                </rewrite>
+            </sales>
         </models>
         <resources>
             <cybersource_setup>
