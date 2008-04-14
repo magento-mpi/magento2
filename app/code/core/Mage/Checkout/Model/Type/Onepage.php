@@ -354,7 +354,6 @@ class Mage_Checkout_Model_Type_Onepage
         $this->validateOrder();
         $billing = $this->getQuote()->getBillingAddress();
         $shipping = $this->getQuote()->getShippingAddress();
-
         switch ($this->getQuote()->getCheckoutMethod()) {
         case 'guest':
             $this->getQuote()->setCustomerEmail($billing->getEmail())
@@ -379,7 +378,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->setEmail($billing->getEmail());
             $customer->setPassword($customer->decryptPassword($this->getQuote()->getPasswordHash()));
             $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
-
+            $this->getQuote()->setCustomer($customer);
             break;
 
         default:
@@ -420,13 +419,11 @@ class Mage_Checkout_Model_Type_Onepage
         $convertQuote = Mage::getModel('sales/convert_quote');
         /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
         //$order = Mage::getModel('sales/order');
-
         $order = $convertQuote->addressToOrder($shipping);
         /* @var $order Mage_Sales_Model_Order */
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
         $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
         $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
-
         foreach ($this->getQuote()->getAllItems() as $item) {
             $item->setDescription(
                 Mage::helper('checkout')->getQuoteItemProductDescription($item)
