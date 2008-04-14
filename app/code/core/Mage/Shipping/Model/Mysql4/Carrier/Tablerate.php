@@ -111,14 +111,17 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
 
             $websiteId = $object->getScopeId();
             $websiteModel = Mage::app()->getWebsite($websiteId);
-            $conditionName = $object->getValue();
-            if ($conditionName{0} == '_') {
-                $conditionName = substr($conditionName, 1, strpos($conditionName, '/')-1);
-            } else {
-                $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
-            }
+            /*
+            getting condition name from post instead of the following commented logic
+            */
+            $conditionName = $_POST['groups']['tablerate']['fields']['condition_name']['value'];
+//            $conditionName = $object->getValue();
+//            if ($conditionName{0} == '_') {
+//                $conditionName = substr($conditionName, 1, strpos($conditionName, '/')-1);
+//            } else {
+//                $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
+//            }
             $conditionFullName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
-
             if (!empty($csv)) {
                 $exceptions = array();
                 $csvLines = explode("\n", $csv);
