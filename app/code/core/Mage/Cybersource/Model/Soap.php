@@ -93,7 +93,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $billTo->postalCode = $billing->getPostcode();
         $billTo->country = $billing->getCountry();
         $billTo->phoneNumber = $billing->getTelephone();
-        $billTo->email = $email;
+        $billTo->email = ($email ? $email : Mage::getStoreConfig('trans_email/ident_general/email'));
         $billTo->ipAddress = $this->getIpAddress();
         $this->_request->billTo = $billTo;
     }
