@@ -45,7 +45,8 @@
 .tabs:after,
 .my-review-detail:after,
 .search-autocomplete li:after,
-.generic-product-list li:after {
+.generic-product-list li:after,
+.listing-type-list .listing-item:after {
 	content:".";
 	display:block;
 	clear:both;

@@ -35,11 +35,11 @@
 
 
 /************ 1ST LEVEL  ***************/
-#nav li { float:left; margin:1px 1px 11px 1px; padding:3px 8px; }
+#nav li { float:left; margin:1px 8px 11px 1px; padding:3px 8px; }
 #nav li.active a { color:#444; }
 #nav a { float:left; background:url(../images/nav_top_level_arrow.gif) no-repeat 100% 50%; padding-right:11px; color:#444; font-weight:bold; }
 #nav li.over a, #nav a:hover { color:#444; }
-#nav li.over { margin:0 0 10px 0; border:1px solid #bbb; background:#ececec; }
+#nav li.over, #nav li.active { margin:0 7px 10px 0; border:1px solid #bbb; background:#ececec; }
 
 
 

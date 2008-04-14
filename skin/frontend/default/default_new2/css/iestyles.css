@@ -41,7 +41,8 @@
 .tabs,
 .my-review-detail,
 .generic-product-list li,
-.account-nav li { zoom:1; }
+.account-nav li,
+.listing-type-list .listing-item { zoom:1; }
 
 .clear {
 	display:block;
