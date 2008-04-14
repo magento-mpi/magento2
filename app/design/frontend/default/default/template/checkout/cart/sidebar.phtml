@@ -46,7 +46,7 @@
         </div>
     <?php endif ?>
     <?php if(count($_items)): ?>
-    <h5>Recently added item(s)</h5>
+    <h5><?php echo $this->__('Recently added item(s)') ?></h5>
     <ol id="cart-sidebar">
     <?php foreach($_items as $_item): ?>
         <li>
