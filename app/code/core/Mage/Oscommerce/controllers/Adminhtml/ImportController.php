@@ -217,7 +217,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 	        'errors'    => ( $errors ? $errors: array())
         );
         $this->getResponse()->setBody(Zend_Json::encode($result));
-        //$this->getResponse()->setBody(Zend_Json::encode($model->getResource()->getResultStatistic()));
     }
     
     public function batchFinishAction()
