@@ -132,9 +132,16 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('protx')->__('Customer was redirected to Protx')
+        );
+
         $order->sendNewOrderEmail();
 
         if (sprintf('%.2f', $this->responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
+            // cancel order
+            $order->cancel();
             $order->addStatusToHistory(
                 $order->getStatus(),
                 Mage::helper('protx')->__('Order total amount does not match protx gross total amount')
@@ -142,11 +149,23 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         } else {
             $order->getPayment()->setTransactionId($this->responseArr['VPSTxId']);
             if ($this->getConfig()->getPaymentType() == Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT) {
-                $this->saveInvoice($order);
+                if ($this->saveInvoice($order)) {
+                    $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+
+                    $order->addStatusToHistory(
+                        $order->getStatus(),
+                        Mage::helper('protx')->__('Invoice was created for order ' . $order->getId())
+                    );
+                } else {
+                    $order->addStatusToHistory(
+                        $this->getConfig()->getNewOrderStatus(),
+                        Mage::helper('protx')->__('Cannot save invoice for order '.$order->getId())
+                    );
+                }
             } else {
                 $order->addStatusToHistory(
                     $this->getConfig()->getNewOrderStatus(), //update order status to processing after creating an invoice
-                    Mage::helper('protx')->__('Order '.$order->getId().' has pending status')
+                    Mage::helper('protx')->__($this->responseArr['StatusDetail'])
                 );
             }
         }
@@ -184,22 +203,10 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
                ->addObject($invoice)
                ->addObject($invoice->getOrder())
                ->save();
-
-            $order->addStatusToHistory(
-                'processing',//update order status to processing after creating an invoice
-                Mage::helper('protx')->__('Invoice '.$invoice->getIncrementId().' was created')
-            );
-
             return true;
-
-        } else {
-            $order->addStatusToHistory(
-                $order->getStatus(),
-                Mage::helper('protx')->__('Error in creating an invoice')
-            );
-
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -234,23 +241,31 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $order->cancel()->save();
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('protx')->__('Customer was redirected to Protx')
+        );
+
+        // cancel order in anyway
+        $order->cancel();
 
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getProtxStandardQuoteId(true));
 
         // Customer clicked CANCEL Butoon
         if ($this->responseArr['Status'] == 'ABORT') {
-            $this->_redirect('checkout/cart');
-            return;
-            /*$order->addStatusToHistory(
-                Mage_Sales_Model_Order::STATE_CANCELED,
-                Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer')
-            );*/
+            $history = Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer');
+            $redirectTo = 'checkout/cart';
+        } else {
+            $history = Mage::helper('protx')->__($this->responseArr['StatusDetail']);
+            $redirectTo = 'protx/standard/failure';
         }
 
+        $order->addStatusToHistory($order->getStatus(), $history);
+        $order->save();
+
         $session->setErrorMessage($this->responseArr['StatusDetail']);
-        $this->_redirect('protx/standard/failure');
+        $this->_redirect($redirectTo);
     }
 
     /**
