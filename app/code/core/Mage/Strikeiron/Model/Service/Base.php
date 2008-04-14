@@ -30,7 +30,7 @@ class Mage_Strikeiron_Model_Service_Base extends Zend_Service_StrikeIron_Base
 {
     public function __construct($options = array())
     {
-        //$this->_options['wsdl'] = $this->_wsdlDecode();
+        $this->_options['wsdl'] = $this->_wsdlDecode();
         parent::__construct($options);
     }
 

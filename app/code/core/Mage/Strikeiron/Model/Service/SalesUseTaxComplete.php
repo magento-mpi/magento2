@@ -35,5 +35,5 @@ class Mage_Strikeiron_Model_Service_SalesUseTaxComplete extends Mage_Strikeiron_
                                 'client'   => null,
                                 'options'  => null,
                                 'headers'  => null,
-                                'wsdl'     => 'http://ws.strikeiron.com/varien.StrikeIron/TaxDataComplete4?WSDL');
+                                'wsdl'     => 'aHR0cDovL3dzLnN0cmlrZWlyb24uY29tL3Zhcmllbi5TdHJpa2VJcm9uL1RheERhdGFDb21wbGV0ZTQ/V1NETA==');
 }
