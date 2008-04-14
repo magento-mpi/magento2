@@ -82,6 +82,9 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 
     protected function addBillingAddress($billing, $email)
     {
+        if (!$email) {
+            $email = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getEmail();
+        }
         $billTo = new stdClass();
         $billTo->firstName = $billing->getFirstname();
         $billTo->lastName = $billing->getLastname();
