@@ -93,7 +93,7 @@
                         </default_tax_group>
                     </fields>
                 </product>
-                <placeholder>
+                <placeholder translate="label">
                     <label>Product Image Placeholders</label>
                     <clone_fields>1</clone_fields>
                     <clone_model>adminhtml/system_config_clone_media_image</clone_model>
@@ -174,7 +174,7 @@
         </catalog>
         <design>
             <groups>
-                <watermark>
+                <watermark translate="label">
                     <label>Product Image Watermarks</label>
                     <clone_fields>1</clone_fields>
                     <clone_model>adminhtml/system_config_clone_media_image</clone_model>
