@@ -18,14 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Enter description here...
+ * Setup model
  *
  * @category   Mage
  * @package    Mage_Protx
- *
+ * @name       Mage_Protx_Model_Mysql4_Setup
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
+
 class Mage_Protx_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
 {
 

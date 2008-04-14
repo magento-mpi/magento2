@@ -17,12 +17,14 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 /**
- * Description goes here...
+ * Protx Session Model
  *
+ * @category   Mage
+ * @package    Mage_Protx
  * @name       Mage_Protx_Model_Session
- * @author	   Dmitriy Volik <killoff@gmail.com>
- * @date       Fri Apr 04 15:06:35 EEST 2008
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 
 class Mage_Protx_Model_Session extends Mage_Core_Model_Session_Abstract

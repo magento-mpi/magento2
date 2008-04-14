@@ -19,7 +19,12 @@
  */
 
 /**
- * Protx data helper
+ * Data Helper
+ *
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_Helper_Data
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 class Mage_Protx_Helper_Data extends Mage_Core_Helper_Abstract
 {

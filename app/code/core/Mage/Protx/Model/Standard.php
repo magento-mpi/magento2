@@ -21,7 +21,10 @@
 /**
  * Protx Form Model
  *
- * @name       Mage_Protx_Model_Form
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_Model_Standard
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
@@ -39,6 +42,11 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping  = false;
 
 
+    /**
+     * Get Config model
+     *
+     * @return object Mage_Protx_Model_Config
+     */
     public function getConfig()
     {
         return Mage::getSingleton('protx/config');
@@ -47,7 +55,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * Get checkout session namespace
      *
-     * @return Mage_Checkout_Model_Session
+     * @return object Mage_Checkout_Model_Session
      */
     public function getCheckout()
     {
@@ -57,7 +65,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * Get current quote
      *
-     * @return Mage_Sales_Model_Quote
+     * @return object Mage_Sales_Model_Quote
      */
     public function getQuote()
     {
@@ -65,9 +73,9 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Return debug flag
      *
-     *  @param    none
-     *  @return	  boolean
+     *  @return  boolean
      */
     public function getDebug ()
     {
@@ -77,7 +85,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Returns Target URL
      *
-     *  @param    none
      *  @return	  string Target URL
      */
     public function getProtxUrl ()
@@ -99,7 +106,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Protx success response
      *
-     *  @param    none
      *  @return	  string URL
      */
     protected function getSuccessURL ()
@@ -110,7 +116,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Protx failure response
      *
-     *  @param    none
      *  @return	  string URL
      */
     protected function getFailureURL ()
@@ -122,7 +127,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      * Transaction unique ID sent to Protx and sent back by Protx for order restore
      * Using created order ID
      *
-     *  @param    none
      *  @return	  string Transaction unique number
      */
     protected function getVendorTxCode ()
@@ -135,7 +139,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  String format:
      *  Number of lines:Name1:Quantity1:CostNoTax1:Tax1:CostTax1:Total1:Name2:Quantity2:CostNoTax2...
      *
-     *  @param    none
      *  @return	  string Formatted cart items
      */
     protected function getFormattedCart ()
@@ -176,7 +179,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Format Crypted string with all order data for request to Protx
      *
-     *  @param    none
      *  @return	  string Crypted string
      */
     protected function getCrypted ()
@@ -184,9 +186,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $shipping = $this->getQuote()->getShippingAddress();
         $billing = $this->getQuote()->getBillingAddress();
 
-        $amount = $shipping->getBaseSubtotal()
-                  - $shipping->getBaseDiscountAmount()
-                  + $shipping->getBaseShippingAmount();
+        $amount = $shipping->getBaseGrandTotal();
 
         $currency = $this->getQuote()->getBaseCurrencyCode();
 
@@ -200,8 +200,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['Currency'] = $currency;
 
         // Up to 100 chars of free format description
-        $storeName = Mage::getStoreConfig('store/system/name');
-        $queryPairs['Description'] = 'Protx Form Testing'; // . $storeName;
+        $queryPairs['Description'] = $this->getConfig()->getDescription();
 
         $queryPairs['SuccessURL'] = $this->getSuccessURL();
         $queryPairs['FailureURL'] = $this->getFailureURL();
@@ -250,8 +249,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Form block description
      *
-     *  @param    string
-     *  @return	  object
+     *  @return	 object
      */
     public function createFormBlock($name)
     {
@@ -264,7 +262,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Order Place Redirect URL
      *
-     *  @param    none
      *  @return	  string Order Redirect URL
      */
     public function getOrderPlaceRedirectUrl()
@@ -427,7 +424,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Standard Checkout Form Fields for request to Protx
      *
-     *  @param    none
      *  @return	  array Array of hidden form fields
      */
     public function getStandardCheckoutFormFields ()
@@ -440,7 +436,4 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         );
         return $fields;
     }
-
-
-
 }

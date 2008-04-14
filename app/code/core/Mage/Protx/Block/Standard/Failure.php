@@ -20,7 +20,10 @@
 /**
  * Failure Response from Protx
  *
+ * @category   Mage
+ * @package    Mage_Protx
  * @name       Mage_Protx_Block_Standard_Failure
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 
 class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template
@@ -28,7 +31,6 @@ class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template
     /**
      *  Return StatusDetail field value from Response
      *
-     *  @param    none
      *  @return	  string
      */
     public function getErrorMessage ()

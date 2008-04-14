@@ -19,10 +19,14 @@
  */
 
 /**
- *
  * Protx API Debug Resource
  *
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_Model_Mysql4_Api_Debug
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
+
 class Mage_Protx_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()

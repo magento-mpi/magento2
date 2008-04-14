@@ -19,7 +19,12 @@
  */
 
 /**
- * Abstract class for Protx Debug
+ * Api Debug
+ *
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_Model_Api_Debug
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 class Mage_Protx_Model_Api_Debug extends Mage_Core_Model_Abstract
 {

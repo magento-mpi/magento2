@@ -18,6 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Redirect to Protx
+ *
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_Block_Standard_Redirect
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ */
+
 class Mage_Protx_Block_Standard_Redirect extends Mage_Core_Block_Abstract
 {
     protected function _toHtml()

@@ -17,10 +17,14 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 /**
  * Protx Form Method Front Controller
  *
- * @name       Mage_Protx_Form_Controller
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_StandardController
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 {
@@ -37,22 +41,27 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     /**
      * Get singleton with protx strandard
      *
-     * @return Mage_Protx_Model_Standard
+     * @return object Mage_Protx_Model_Standard
      */
     public function getStandard()
     {
         return Mage::getSingleton('protx/standard');
     }
 
+    /**
+     * Get Config model
+     *
+     * @return object Mage_Protx_Model_Config
+     */
     public function getConfig()
     {
         return $this->getStandard()->getConfig();
     }
 
     /**
+     *  Return debug flag
      *
-     *  @param    none
-     *  @return	  boolean
+     *  @return  boolean
      */
     public function getDebug ()
     {
@@ -94,7 +103,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     /**
      *  Success response from Protx
      *
-     *  @param    none
      *  @return	  void
      */
     public function  successResponseAction()
@@ -155,7 +163,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      *  Save invoice for order
      *
      *  @param    Mage_Sales_Model_Order $order
-     *  @return	  boolean
+     *  @return	  boolean Can save invoice or not
      */
     protected function saveInvoice (Mage_Sales_Model_Order $order)
     {
@@ -197,7 +205,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     /**
      *  Failure response from Protx
      *
-     *  @param    none
      *  @return	  void
      */
     public function failureResponseAction ()
@@ -249,7 +256,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     /**
      *  Expected GET HTTP Method
      *
-     *  @param    none
      *  @return	  void
      */
     protected function preResponse ()
@@ -273,7 +279,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     /**
      *  Failure Action
      *
-     *  @param    none
      *  @return	  void
      */
     public function failureAction ()

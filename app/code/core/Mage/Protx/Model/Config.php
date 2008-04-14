@@ -20,7 +20,10 @@
 /**
  * Protx Configuration Model
  *
+ * @category   Mage
+ * @package    Mage_Protx
  * @name       Mage_Protx_Model_Config
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 
 class Mage_Protx_Model_Config extends Varien_Object
@@ -35,6 +38,13 @@ class Mage_Protx_Model_Config extends Varien_Object
     const PAYMENT_TYPE_AUTHORISE    = 'AUTHORISE';
 
 
+    /**
+     *  Return config var
+     *
+     *  @param    string Var key
+     *  @param    string Default value for non-existing key
+     *  @return	  mixed
+     */
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
@@ -50,8 +60,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return Protocol version
      *
-     *  @param    none
-     *  @return	  String Protocol version
+     *  @return	  string Protocol version
      */
     public function getVersion ()
     {
@@ -59,9 +68,18 @@ class Mage_Protx_Model_Config extends Varien_Object
     }
 
     /**
-     * Return Protx registered merchant account name
+     *  Return Store description sent to Protx
      *
-     *  @param    none
+     *  @return	  string Description
+     */
+    public function getDescription ()
+    {
+        return $this->getConfigData('description');
+    }
+
+    /**
+     *  Return Protx registered merchant account name
+     *
      *  @return	  string Merchant account name
      */
     public function getVendorName ()
@@ -70,9 +88,8 @@ class Mage_Protx_Model_Config extends Varien_Object
     }
 
     /**
-     * Return Protx merchant password
+     *  Return Protx merchant password
      *
-     *  @param    none
      *  @return	  string Merchant password
      */
     public function getVendorPassword ()
@@ -81,9 +98,8 @@ class Mage_Protx_Model_Config extends Varien_Object
     }
 
     /**
-     * Return preferred payment type (see SELF::PAYMENT_TYPE_* constants)
+     *  Return preferred payment type (see SELF::PAYMENT_TYPE_* constants)
      *
-     *  @param    none
      *  @return	  string payment type
      */
     public function getPaymentType ()
@@ -94,7 +110,6 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return working mode (see SELF::MODE_* constants)
      *
-     *  @param    none
      *  @return	  string Working mode
      */
     public function getMode ()
@@ -105,7 +120,6 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return new order status
      *
-     *  @param    none
      *  @return	  string New order status
      */
     public function getNewOrderStatus ()
@@ -116,7 +130,6 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return debug flag
      *
-     *  @param    none
      *  @return	  boolean Debug flag (0/1)
      */
     public function getDebug ()
@@ -127,7 +140,6 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return key for simple XOR crypt, using Vendor encrypted password by Protx
      *
-     *  @param    none
      *  @return	  string Лey for simple XOR crypt
      */
     public function getCryptKey ()

@@ -18,6 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Form Block
+ *
+ * @category   Mage
+ * @package    Mage_Protx
+ * @name       Mage_Protx_Block_Standard_Form
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ */
 
 class Mage_Protx_Block_Standard_Form extends Mage_Payment_Block_Form
 {

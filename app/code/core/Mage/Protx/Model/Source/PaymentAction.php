@@ -17,11 +17,14 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 /**
- * Description goes here...
+ * Protx Payment Actions Resource
  *
+ * @category   Mage
+ * @package    Mage_Protx
  * @name       Mage_Protx_Model_Source_PaymentAction
- * @date       Fri Apr 04 12:55:04 EEST 2008
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
  */
 
 class Mage_Protx_Model_Source_PaymentAction
