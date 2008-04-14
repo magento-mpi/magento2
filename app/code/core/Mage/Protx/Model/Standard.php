@@ -200,7 +200,10 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['Currency'] = $currency;
 
         // Up to 100 chars of free format description
-        $queryPairs['Description'] = $this->getConfig()->getDescription();
+        $description = $this->getConfig()->getDescription() != ''
+                       ? $this->getConfig()->getDescription()
+                       : Mage::getStoreConfig('store/system/name') . ' ' . ' payment';
+        $queryPairs['Description'] = $description;
 
         $queryPairs['SuccessURL'] = $this->getSuccessURL();
         $queryPairs['FailureURL'] = $this->getFailureURL();
