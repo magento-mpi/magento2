@@ -90,13 +90,6 @@
                 </Mage_Cybersource>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <cybersource>
-                    <file>cybersource.xml</file>
-                </cybersource>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
         <translate>

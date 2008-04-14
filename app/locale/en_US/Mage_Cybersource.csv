@@ -1,0 +1,7 @@
+"SOAP extension is not enabled. Please contact us."
+"There is an error in processing payment. Please try again or contact us."
+"Gateway request error: %s"
+"Error in refunding the payment"
+"Authorization"
+"Sale"
+"Invalid transaction id or token"
