@@ -315,7 +315,7 @@ Product.Config.prototype = {
         }
 
         if(options) {
-            var index = 1;
+            var index = 0;
             for(var i=0;i<options.length;i++){
                 var allowedProducts = [];
                 if(prevConfig) {
