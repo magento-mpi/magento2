@@ -180,13 +180,16 @@ class Mage_Core_Model_Locale
                 if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
                     continue;
                 }
+                $language = $this->getLocale()->getLanguageTranslation($data[0], $code);
+                $country  = $this->getLocale()->getCountryTranslation($data[1], $code);
                 $options[] = array(
                     'value' => $code,
-                    'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')'
+                    'label' => $language . ' (' . $country . ')'
                 );
             }
         }
-        return $this->_sortOptionArray($options);
+        return $options;
+        //return $this->_sortOptionArray($options);
     }
 
     /**
