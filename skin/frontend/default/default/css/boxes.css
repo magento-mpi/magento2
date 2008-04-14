@@ -683,7 +683,7 @@ h1#logo {
 .catalog-listing h5 {
     margin-bottom:.4em;
     font-size:1.05em;
-    width:135px;
+    width:100%;
     overflow:hidden;
     }
 .catalog-listing h5 a, .catalog-listing h5 a:hover {
