@@ -37,17 +37,17 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
 
     /**
      * Get singleton of Shared Model
-     * 
+     *
      * @return Mage_Eway_Model_Shared
      */
     public function getModel()
     {
         return Mage::getSingleton('eway/shared');
     }
-    
+
     /**
      * Get singleton of Checkout Session Model
-     * 
+     *
      * @return Mage_Checkout_Model_Session
      */
     public function getCheckout()
@@ -67,7 +67,7 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
 
         $session->setEwayQuoteId($session->getQuoteId());
         $session->setEwayRealOrderId($session->getLastRealOrderId());
-        
+
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
         $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was redirected to eWAY.'));
@@ -110,16 +110,16 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
             $this->_redirect('');
             return;
         }
-        
+
         $response = $this->getRequest()->getPost();
 
         if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
             $this->_redirect('');
             return;
         }
-        
+
         $this->getModel()->setResponse($response);
-        
+
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($response['ewayTrxnNumber']);
 
@@ -142,9 +142,9 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder())
                     ->save();
-                    
+
                 $this->getModel()->setTransactionId($response['ewayTrxnReference']);
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfuly returned from eWAY'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfully returned from eWAY'));
             }
         } else {
             $order->cancel();

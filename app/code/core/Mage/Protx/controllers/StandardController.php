@@ -76,6 +76,15 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setProtxStandardQuoteId($session->getQuoteId());
+
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($session->getLastRealOrderId());
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('protx')->__('Customer was redirected to Protx')
+        );
+        $order->save();
+
         $this->getResponse()->setBody($this->getLayout()->createBlock('protx/standard_redirect')->toHtml());
         $session->unsQuoteId();
     }
@@ -134,7 +143,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('protx')->__('Customer was redirected to Protx')
+            Mage::helper('protx')->__('Customer successfully returned from Protx')
         );
 
         $order->sendNewOrderEmail();
@@ -241,11 +250,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $order->addStatusToHistory(
-            $order->getStatus(),
-            Mage::helper('protx')->__('Customer was redirected to Protx')
-        );
-
         // cancel order in anyway
         $order->cancel();
 
@@ -261,6 +265,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             $redirectTo = 'protx/standard/failure';
         }
 
+        $history = Mage::helper('protx')->__('Customer was returned from Protx.') . ' ' . $history;
         $order->addStatusToHistory($order->getStatus(), $history);
         $order->save();
 
