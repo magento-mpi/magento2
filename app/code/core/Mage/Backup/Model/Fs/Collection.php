@@ -102,7 +102,7 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
                     $item = new $this->_itemObjectClass();
                     $item->load($entry['text'], $readPath);
                     $item->setSize($entry['size']);
-                    if($this->_checkCondition($item)) {
+                    if ($this->_checkCondition($item)) {
                         $this->addItem($item);
                     }
                 }
@@ -163,16 +163,16 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
 
     protected function _checkCondition($item)
     {
-
-        foreach ($this->_filters as $field=>$condition) {
+        foreach ($this->_filters as $field => $condition) {
             if (is_array($condition)) {
                 if (isset($condition['from']) || isset($condition['to'])) {
-                    if($field == 'time_formated') {
-                        if(isset($condition['from'])) {
-                            $condition['from'] = strtotime($condition['from']);
+                    if ($field == 'time_formated') {
+                        $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                        if (isset($condition['from'])) {
+                            $condition['from'] = Mage::app()->getLocale()->date($condition['from'], $format)->getTimestamp();
                         }
-                        if(isset($condition['to'])) {
-                            $condition['to'] = strtotime($condition['to'])+24*60*60-1;
+                        if (isset($condition['to'])) {
+                            $condition['to'] = Mage::app()->getLocale()->date($condition['to'], $format)->getTimestamp();
                         }
                         $field = 'time';
                     }
