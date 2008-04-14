@@ -553,6 +553,7 @@ td.divider              { font-size:1px; line-height:0; }
 .hor-scroll.grid table { margin-bottom:0 !important; padding-bottom:0 !important; }
 
 /**/
+.note-list { width:100%; overflow:hidden; }
 .note-list li {
     border-top:1px solid #e3e3e3;
     margin-top:9px !important;
