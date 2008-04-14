@@ -225,8 +225,8 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         try {
             if ($invoice = $this->_initInvoice()) {
 
-                if (!empty($data['do_capture'])) {
-                    $invoice->setCaptureRequested(true);
+                if (!empty($data['capture_case'])) {
+                    $invoice->setRequestedCaptureCase($data['capture_case']);
                 }
 
                 if (!empty($data['comment_text'])) {

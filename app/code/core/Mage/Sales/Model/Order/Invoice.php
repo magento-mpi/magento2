@@ -28,6 +28,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     const STATE_PAID       = 2;
     const STATE_CANCELED   = 3;
 
+    const CAPTURE_ONLINE   = 'online';
+    const CAPTURE_OFFLINE  = 'offline';
+    const NOT_CAPTURE      = 'not_capture';
+
     const XML_PATH_EMAIL_TEMPLATE       = 'sales_email/invoice/template';
     const XML_PATH_EMAIL_GUEST_TEMPLATE = 'sales_email/invoice/guest_template';
     const XML_PATH_EMAIL_IDENTITY       = 'sales_email/invoice/identity';
@@ -390,8 +394,14 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         }
 
         if ($this->canCapture()) {
-            if ($this->getCaptureRequested()) {
-                $this->capture();
+            if ($captureCase = $this->getRequestedCaptureCase()) {
+                if ($captureCase == self::CAPTURE_ONLINE) {
+                    $this->capture();
+                }
+                elseif ($captureCase == self::CAPTURE_OFFLINE) {
+                    $this->setCanVoidFlag(false);
+                    $this->pay();
+                }
             }
         }
         elseif(!$this->getOrder()->getPayment()->getMethodInstance()->isGateway()) {
@@ -505,7 +515,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         else {
             $customerEmail = $bcc;
         }
-        
+
         if ($order->getCustomerIsGuest()) {
             $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
             $customerName = $order->getBillingAddress()->getName();
@@ -513,7 +523,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId());
             $customerName = $order->getCustomerName();
         }
-        
+
 
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
             ->sendTransactional(
@@ -561,7 +571,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
             $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $order->getStoreId());
             $customerName = $order->getCustomerName();
         }
-        
+
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
                 $template,
