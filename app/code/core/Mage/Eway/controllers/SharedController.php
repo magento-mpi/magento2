@@ -70,7 +70,7 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
         
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
-        $order->addStatusToHistory($order->getStatusLabel(), Mage::helper('eway')->__('Customer was redirected to eWAY.'));
+        $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was redirected to eWAY.'));
         $order->save();
 
         $this->getResponse()->setBody($this->getLayout()->createBlock('eway/shared_redirect')->toHtml());
@@ -144,11 +144,11 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
                     ->save();
                     
                 $this->getModel()->setTransactionId($response['ewayTrxnReference']);
-                $order->addStatusToHistory($order->getStatusLabel(), Mage::helper('eway')->__('Customer successfuly returned from eWAY'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfuly returned from eWAY'));
             }
         } else {
             $order->cancel();
-            $order->addStatusToHistory($order->getStatusLabel(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
+            $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
         }
 
         $order->save();
