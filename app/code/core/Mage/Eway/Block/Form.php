@@ -18,10 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * eWAY Direct Form Block
+ *
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ */
 class Mage_Eway_Block_Form extends Mage_Payment_Block_Form_Cc
 {
-
     protected function _construct()
     {
         parent::_construct();

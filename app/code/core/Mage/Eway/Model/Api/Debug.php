@@ -19,7 +19,11 @@
  */
 
 /**
- * Abstract class for Eway Debug
+ * eWAY Api Debug Model
+ * 
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
 class Mage_Eway_Model_Api_Debug extends Mage_Core_Model_Abstract
 {

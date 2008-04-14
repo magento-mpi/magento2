@@ -19,7 +19,11 @@
  */
 
 /**
- * Eway data helper
+ * Eway Data Helper
+ * 
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
 class Mage_Eway_Helper_Data extends Mage_Core_Helper_Abstract
 {

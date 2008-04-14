@@ -19,6 +19,13 @@
  */
 
 
+/**
+ * eWAY Shared Form Block
+ *
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ */
 class Mage_Eway_Block_Shared_Form extends Mage_Payment_Block_Form
 {
     protected function _construct()

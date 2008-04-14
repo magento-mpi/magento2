@@ -19,15 +19,24 @@
  */
 
 /**
- *
- * Eway Shared Checkout Module
+ * eWAY 3D-Secure Model
+ * 
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
 class Mage_Eway_Model_Secure extends Mage_Eway_Model_Shared
 {
     protected $_code  = 'eway_secure';
+
     protected $_formBlockType = 'eway/secure_form';
     protected $_paymentMethod = 'secure';
 
+    /**
+     * Get url of eWAY 3D-Secure Payment
+     *
+     * @return string
+     */
     public function getEwaySecureUrl()
     {
          if (!$url = Mage::getStoreConfig('eway/' . $this->_code . 'api/api_url')) {

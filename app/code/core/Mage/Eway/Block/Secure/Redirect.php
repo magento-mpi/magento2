@@ -18,6 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * eWAY Secure Redirect Block
+ *
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ */
 class Mage_Eway_Block_Secure_Redirect extends Mage_Core_Block_Abstract
 {
     protected function _toHtml()

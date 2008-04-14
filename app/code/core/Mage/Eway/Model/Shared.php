@@ -19,7 +19,11 @@
  */
 
 /**
- * Eway Shared Checkout Module
+ * eWAY Shared Model
+ * 
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
 class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
 {   
@@ -38,6 +42,11 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_formBlockType = 'eway/shared_form';
     protected $_paymentMethod = 'shared';
 
+    /**
+     * Get currency that accepted by eWAY account
+     *
+     * @return string
+     */
     public function getAccepteCurrency()
     {
         return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
@@ -124,6 +133,11 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         return $fieldsArr;
     }
 
+    /**
+     * Get url of eWAY Shared Payment
+     *
+     * @return string
+     */
     public function getEwaySharedUrl()
     {
          if (!$url = Mage::getStoreConfig('eway/eway_sharedapi/api_url')) {
@@ -132,6 +146,11 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
          return $url;
     }
 
+    /**
+     * Get debug flag
+     *
+     * @return string
+     */
     public function getDebug()
     {
         return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/debug_flag');

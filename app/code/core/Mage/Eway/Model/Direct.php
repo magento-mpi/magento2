@@ -19,9 +19,11 @@
  */
 
 /**
- *
- * Eway Direct Module
- *
+ * eWAY Direct Model
+ * 
+ * @category   Mage
+ * @package    Mage_Eway
+ * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
 class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
@@ -40,18 +42,32 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     protected $_formBlockType = 'eway/form';
     protected $_infoBlockType = 'eway/info';
-    
 
+    /**
+     * Get debug flag
+     *
+     * @return string
+     */
     public function getDebug()
     {
         return Mage::getStoreConfig('eway/eway_directapi/debug_flag');
     }
-    
+
+    /**
+     * Get flag to use CCV or not
+     *
+     * @return string
+     */
     public function getUseccv()
     {
         return Mage::getStoreConfig('payment/eway_direct/useccv');
     }
-    
+
+    /**
+     * Get api url of eWAY Direct payment
+     *
+     * @return string
+     */
     public function getApiGatewayUrl()
     {
         $value = Mage::getStoreConfig('eway/eway_directapi/api_url');
@@ -60,12 +76,22 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
         return $value;
     }
-    
+
+    /**
+     * Get Customer Id
+     *
+     * @return string
+     */
     public function getCustomerId()
     {
         return Mage::getStoreConfig('eway/eway_directapi/customer_id');
     }
-    
+
+    /**
+     * Get currency that accepted by eWAY account
+     *
+     * @return string
+     */
     public function getAccepteCurrency()
     {
         return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
