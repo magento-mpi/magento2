@@ -65,8 +65,8 @@
                 <?php echo $_item->getDescription() ?>
             </td>
             <td class="a-right nowrap"><?php echo $_order->formatPrice($_item->getPrice()) ?></td>
-            <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
-            <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
+            <td class="a-center"><?php echo $_item->getQtyOrdered()*1 ?></td>
+            <td class="a-center"><?php echo $_item->getQtyShipped()*1 ?></td>
             <td class="last a-right nowrap"><?php echo $_order->formatPrice($_item->getRowTotal()) ?></td>
         <?php endforeach; ?>
         </tr>
