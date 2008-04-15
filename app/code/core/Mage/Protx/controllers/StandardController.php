@@ -157,6 +157,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             );
         } else {
             $order->getPayment()->setTransactionId($this->responseArr['VPSTxId']);
+
             if ($this->getConfig()->getPaymentType() == Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT) {
                 if ($this->saveInvoice($order)) {
                     $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
@@ -166,14 +167,17 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
                         Mage::helper('protx')->__('Invoice was created for order ' . $order->getId())
                     );
                 } else {
+                    $newOrderStatus = $this->getConfig()->getNewOrderStatus() ?
+                        $this->getConfig()->getNewOrderStatus() : Mage_Sales_Model_Order::STATE_NEW;
+
                     $order->addStatusToHistory(
-                        $this->getConfig()->getNewOrderStatus(),
+                        $newOrderStatus,
                         Mage::helper('protx')->__('Cannot save invoice for order '.$order->getId())
                     );
                 }
             } else {
                 $order->addStatusToHistory(
-                    $this->getConfig()->getNewOrderStatus(), //update order status to processing after creating an invoice
+                    $order->getStatus(),
                     Mage::helper('protx')->__($this->responseArr['StatusDetail'])
                 );
             }
