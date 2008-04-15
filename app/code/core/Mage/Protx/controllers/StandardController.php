@@ -148,7 +148,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $order->sendNewOrderEmail();
 
-        if (sprintf('%.2f', $this->responseArr['Amount']) != sprintf('%.2f', $order->getGrandTotal())) {
+        if (sprintf('%.2f', $this->responseArr['Amount']) != sprintf('%.2f', $order->getBaseGrandTotal())) {
             // cancel order
             $order->cancel();
             $order->addStatusToHistory(

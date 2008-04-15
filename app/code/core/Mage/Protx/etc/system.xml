@@ -58,7 +58,8 @@
                             <show_in_store>0</show_in_store>
                         </title>
                         <description translate="label">
-                            <label>Description</label>
+                            <label>Transaction Description</label>
+                            <comment>Store name will be used if left empty</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>

@@ -41,6 +41,8 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 
+    protected $_order = null;
+
 
     /**
      * Get Config model
@@ -70,6 +72,20 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function getQuote()
     {
         return $this->getCheckout()->getQuote();
+    }
+
+    /**
+     * Get created order
+     *
+     * @return object Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        if ($this->_order == null) {
+            $this->_order = Mage::getModel('sales/order');
+            $this->_order->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+        }
+        return $this->_order;
     }
 
     /**
@@ -143,16 +159,16 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getFormattedCart ()
     {
-        $items = $this->getQuote()->getAllItems();
+        $items = $this->getOrder()->getAllItems();
         $resultParts = array();
         $totalLines = 0;
         if ($items) {
             foreach($items as $item) {
-                $cost = sprintf('%.2f', $item->getBaseCalculationPrice() - $item->getBaseDiscountAmount());
+                $cost = sprintf('%.2f', $item->getBasePrice() - $item->getBaseDiscountAmount());
                 $tax = sprintf('%.2f', $item->getBaseTaxAmount());
                 $costPlusTax = sprintf('%.2f', $cost + $tax);
 
-                $quantity = $item->getQty();
+                $quantity = $item->getQtyOrdered();
                 $totalCostPlusTax = sprintf('%.2f', $quantity * $costPlusTax);
 
                 $resultParts[] = $item->getName();
@@ -166,7 +182,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
        }
 
        // add delivery
-       $shipping = $this->getQuote()->getShippingAddress()->getBaseShippingAmount();
+       $shipping = $this->getOrder()->getShippingAddress()->getBaseShippingAmount();
        if ((int)$shipping > 0) {
            $totalLines++;
            $resultParts = array_merge($resultParts, array('Shipping','','','','',sprintf('%.2f', $shipping)));
@@ -183,12 +199,12 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getCrypted ()
     {
-        $shipping = $this->getQuote()->getShippingAddress();
-        $billing = $this->getQuote()->getBillingAddress();
+        $shipping = $this->getOrder()->getShippingAddress();
+        $billing = $this->getOrder()->getBillingAddress();
 
-        $amount = $shipping->getBaseGrandTotal();
+        $amount = $this->getOrder()->getBaseGrandTotal();
 
-        $currency = $this->getQuote()->getBaseCurrencyCode();
+        $currency = $this->getOrder()->getBaseCurrencyCode();
 
         $queryPairs = array();
 
@@ -209,7 +225,9 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['FailureURL'] = $this->getFailureURL();
 
         $queryPairs['CustomerName'] = $shipping->getFirstname().' '.$shipping->getLastname();
-        $queryPairs['CustomerEMail'] = $shipping->getEmail();
+        $queryPairs['CustomerEMail'] = $this->getOrder()->getCustomerEmail();
+        $queryPairs['ContactNumber'] = $billing->getTelephone();
+        $queryPairs['ContactFax'] = $billing->getFax();
 
         $queryPairs['VendorEMail'] = '';
         $queryPairs['eMailMessage'] = '';
