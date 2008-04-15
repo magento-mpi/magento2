@@ -143,7 +143,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
 
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-products">Items Ordered</h4>
+        <h4 class="icon-head head-products"><?php echo $this->__('Items Ordered') ?></h4>
     </div>
 </div>
 <div>
@@ -151,11 +151,11 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
         <table cellspacing="0" class="data">
             <thead>
                 <tr class="headings">
-                  <th>Product</th>
-                  <th>SKU</th>
-                  <th>Price</th>
-                  <th>Qty</th>
-                  <th class="last">Final Price</th>
+                  <th><?php echo $this->__('Product') ?></th>
+                  <th><?php echo $this->__('SKU') ?></th>
+                  <th><?php echo $this->__('Price') ?></th>
+                  <th><?php echo $this->__('Qty') ?></th>
+                  <th class="last"><?php echo $this->__('Final Price') ?></th>
                 </tr>
             </thead>
             <?php if ($_products) :?>
@@ -183,7 +183,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
 <div class="box-left">
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4>Comments History</h4>
+            <h4><?php echo $this->__('Comments History') ?></h4>
         </div>
         <fieldset id="order_history_block">
             <div class="order-history-form" id="history_form">
@@ -206,7 +206,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
 </div>
 
 <div class="box-right entry-edit">
-    <div class="entry-edit-head"><h4>Order Totals</h4></div>
+    <div class="entry-edit-head"><h4><?php echo $this->__('Order Totals') ?></h4></div>
     <div class="order-totals">
         <table width="100%" cellspacing="0">
         <tbody>
