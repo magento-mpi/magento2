@@ -210,7 +210,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
      */
     protected function getIpAddress()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        return (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
     }
 
     /**
