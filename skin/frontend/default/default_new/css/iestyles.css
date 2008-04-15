@@ -37,13 +37,15 @@
 .page-head-alt,
 .search-bar,
 .sidebar li.item,
+.sidebar .content,
 .group-select li,
 .search-autocomplete li,
 .tabs,
+.cross-sell-block,
 .my-review-detail,
+.search-autocomplete li,
 .generic-product-list li,
 .account-nav li,
-.sidebar .content,
 .listing-type-list .listing-item,
 #nav li { zoom:1; }
 

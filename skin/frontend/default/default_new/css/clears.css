@@ -45,9 +45,11 @@
 .sidebar .content:after,
 .group-select li:after,
 .tabs:after,
+.cross-sell-block:after,
 .my-review-detail:after,
 .search-autocomplete li:after,
 .generic-product-list li:after,
+.account-nav li:after,
 .listing-type-list .listing-item:after {
 	content:".";
 	display:block;

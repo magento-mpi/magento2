@@ -44,17 +44,18 @@
 
 
 /************ 1ST LEVEL RESET ************/
-#nav ul li, #nav ul li.active {
-	float:none;
-	margin:0;
+#nav ul li, #nav ul li.active, #nav ul li.over {
+    float:none;
+    border:none;
+    margin:0;
+    background:none;
     padding:0;
-	padding-bottom:1px;
+    padding-bottom:1px;
     text-transform:none;
-	}
-#nav ul li.over { background:#d5e4eb url(../images/nav_divider.gif) repeat-x 0 100%;}
+    }
+#nav ul li.parent { background:url(../images/nav_parent_arrow.gif) no-repeat 100% 50%; }
 #nav ul li.last { padding-bottom:0; }
 #nav ul li.active { margin:0; border:0; background:none; }
-
 #nav ul a, #nav ul a:hover {
 	float:none;
 	padding:0;
