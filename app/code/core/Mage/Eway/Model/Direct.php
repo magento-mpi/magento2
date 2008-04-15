@@ -20,7 +20,7 @@
 
 /**
  * eWAY Direct Model
- * 
+ *
  * @category   Mage
  * @package    Mage_Eway
  * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
@@ -96,7 +96,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
     }
-    
+
     public function validate()
     {
         parent::validate();
@@ -118,7 +118,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setPayment($payment);
 
         $result = $this->callDoDirectPayment($payment)!==false;
-        
+
         if ($result) {
             $payment->setStatus(self::STATUS_APPROVED)
                 ->setLastTransId($this->getTransactionId());
@@ -133,12 +133,13 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
         return $this;
     }
-    
+
     public function cancel(Varien_Object $payment)
     {
         $payment->setStatus(self::STATUS_DECLINED);
         return $this;
     }
+
     /**
      * prepare params to send to gateway
      *
@@ -172,7 +173,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $xml = "<ewaygateway>";
         $xml .= "<ewayCustomerID>" . $this->getCustomerId() . "</ewayCustomerID>";
         $xml .= "<ewayTotalAmount>" . ($this->getAmount()*100) . "</ewayTotalAmount>";
-        $xml .= "<ewayCardHoldersName>" . $payment->getCcName() . "</ewayCardHoldersName>";
+        $xml .= "<ewayCardHoldersName>" . $payment->getCcOwner() . "</ewayCardHoldersName>";
         $xml .= "<ewayCardNumber>" . $payment->getCcNumber() . "</ewayCardNumber>";
         $xml .= "<ewayCardExpiryMonth>" . $payment->getCcExpMonth() . "</ewayCardExpiryMonth>";
         $xml .= "<ewayCardExpiryYear>" . $payment->getCcExpYear() . "</ewayCardExpiryYear>";
@@ -187,7 +188,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $xml .= "<ewayCustomerInvoiceRef>" . '' . "</ewayCustomerInvoiceRef>";
 
         if ($this->getUseccv()) {
-            $xml .= "<ewayCVN>" . $payment->getCvn() . "</ewayCVN>";
+            $xml .= "<ewayCVN>" . $payment->getCcCid() . "</ewayCVN>";
         }
 
         $xml .= "<ewayOption1>" . '' . "</ewayOption1>";
@@ -196,16 +197,16 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      	$xml .= "</ewaygateway>";
 
      	$resultArr = $this->call($xml);
-     	
+
      	if ($resultArr === false) {
      	    return false;
      	}
 
      	$this->setTransactionId($resultArr['ewayTrxnNumber']);
-     	
+
      	return $resultArr;
     }
-    
+
     /**
      * Send params to gateway
      *
@@ -226,7 +227,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $http->setConfig($config);
         $http->write(Zend_Http_Client::POST, $this->getApiGatewayUrl(), '1.1', array(), $xml);
         $response = $http->read();
-        
+
         $response = preg_split('/^\r?$/m', $response, 2);
         $response = trim($response[1]);
 
@@ -242,7 +243,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
             return false;
         }
         $http->close();
-        
+
         $parsedResArr = $this->parseXmlResponse($response);
 
         if ($parsedResArr['ewayTrxnStatus'] == 'True') {
@@ -258,7 +259,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         return false;
     }
-    
+
     /**
      * parse response of gateway
      *

@@ -41,6 +41,32 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     
     protected $_formBlockType = 'eway/shared_form';
     protected $_paymentMethod = 'shared';
+    
+    protected $_order;
+    
+    /**
+     * Get order model
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        if (!$this->_order) {
+            $this->_order = Mage::getModel('sales/order')
+                            ->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+        }
+        return $this->_order;
+    }
+    
+    /**
+     * Get Customer Id
+     *
+     * @return string
+     */
+    public function getCustomerId()
+    {
+        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/customer_id');
+    }
 
     /**
      * Get currency that accepted by eWAY account
@@ -79,15 +105,15 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getFormFields()
     {
-        $billing = $this->getQuote()->getBillingAddress();
+        $billing = $this->getOrder()->getBillingAddress();
         $fieldsArr = array();
         $invoiceDesc = '';
         $lengs = 0;
-        foreach ($this->getQuote()->getAllItems() as $item) {
-            if (strlen($invoiceDesc.$item->getProduct()->getName()) > 10000) {
+        foreach ($this->getOrder()->getAllItems() as $item) {
+            if (strlen($invoiceDesc.$item->getName()) > 10000) {
                 break;
             }
-            $invoiceDesc .= $item->getProduct()->getName() . ', ';
+            $invoiceDesc .= $item->getName() . ', ';
         }
         $invoiceDesc = substr($invoiceDesc, 0, -2);
 
@@ -100,12 +126,12 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         foreach ($tmpAddress as $part) {
             if (strlen($part) > 0) $formatedAddress .= $part . ' ';
         }
-        
-        $fieldsArr['ewayCustomerID'] = Mage::getStoreConfig('eway/' . $this->getCode() . 'api/customer_id');
-        $fieldsArr['ewayTotalAmount'] = ($this->getQuote()->getGrandTotal()*100);
+
+        $fieldsArr['ewayCustomerID'] = $this->getCustomerId();
+        $fieldsArr['ewayTotalAmount'] = ($this->getOrder()->getBaseGrandTotal()*100);
         $fieldsArr['ewayCustomerFirstName'] = $billing->getFirstname();
         $fieldsArr['ewayCustomerLastName'] = $billing->getLastname();
-        $fieldsArr['ewayCustomerEmail'] = $this->getQuote()->getCustomerEmail();
+        $fieldsArr['ewayCustomerEmail'] = $this->getOrder()->getCustomerEmail();
         $fieldsArr['ewayCustomerAddress'] = trim($formatedAddress);
         $fieldsArr['ewayCustomerPostcode'] = $billing->getPostcode();
 //        $fieldsArr['ewayCustomerInvoiceRef'] = '';
