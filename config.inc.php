@@ -166,6 +166,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/productalert/',
     ),
 
+    'Mage_Protx' => array(
+        'app/code/core/Mage/Protx/',
+        'app/design/frontend/default/default/template/protx',
+    ),
+
     'Mage_Rating' => array(
         'app/code/core/Mage/Rating/',
         'app/design/frontend/default/default/template/rating/',
@@ -268,6 +273,7 @@ $CONFIG['helpers']  = array(
     'paypaluk'          => 'Mage_PaypalUk',
     'poll'              => 'Mage_Poll',
     'productalert'      => 'Mage_ProductAlert',
+    'protx'             => 'Mage_Protx',
     'rating'            => 'Mage_Rating',
     'reports'           => 'Mage_Reports',
     'review'            => 'Mage_Review',
