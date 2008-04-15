@@ -140,7 +140,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return key for simple XOR crypt, using Vendor encrypted password by Protx
      *
-     *  @return	  string Лey for simple XOR crypt
+     *  @return	  string Key for simple XOR crypt
      */
     public function getCryptKey ()
     {

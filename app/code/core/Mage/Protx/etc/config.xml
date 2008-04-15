@@ -102,27 +102,7 @@
                 </Mage_Protx>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <protx>
-                                            <title>Protx Section</title>
-                                        </protx>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
-
     <default>
         <payment>
             <protx_standard>
