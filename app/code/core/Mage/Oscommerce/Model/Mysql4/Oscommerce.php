@@ -35,6 +35,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     const DEFAULT_MAGENTO_CHARSET  = 'UTF-8';
     const DEFAULT_OSC_CHARSET      = 'ISO-8859-1';
     const DEFAULT_SELECT_ROWS      = 10;
+    const DEFAULT_FIELD_CHARSET	   = 'utf8';
 
     protected $_currentWebsiteId;
     protected $_currentWebsite;
@@ -84,6 +85,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected $_importModel;
     protected $_lengthShortDescription;
     protected $_currentUserId;
+    
+    protected $_oscTables				= array(
+    	'products', 'customers', 'categories', 'orders', 
+    	'languages','orders_products', 'orders_status_history', 
+    	'orders_total', 'products_description', 'address_book', 'categories_description'
+    );
 
 	protected $_encodingList = "ISO-8859-1, ISO-8859-2, UTF-8";
 
@@ -95,8 +102,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_currentWebsiteId = $this->_currentWebsite->getId();
         $this->_maxRows = Mage::getStoreConfig('oscommerce/import/max_rows');
         $this->_lengthShortDescription = Mage::getStoreConfig('oscommerce/import/short_description_length');
-        $this->_currentUserId = Mage::getSingleton('admin/session')->getUser()->getId();
-        $this->_logData['user_id'] = $this->_currentUserId;
         $this->_logData['created_at'] = $this->formatDate(time());
     }
 
@@ -116,7 +121,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      * @param string $tableName
      * @return string
      */
-    public function getCharset($tableName = '')
+    public function getTableCharset($tableName = '')
     {
         $oscTables = array('products', 'customers', 'categories', 'orders', 'languages','orders_products', 'orders_status_history', 'orders_total');
         if (!$this->_tableCharset) foreach($oscTables as $oscTable) {
@@ -170,6 +175,21 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	if (is_array($charset)) {
     		$this->_tableCharset = $charset;
     	}
+    }
+    
+    public function getCharset($table = '') {
+    	if (!$this->_tableCharset) {
+	    	foreach($this->_oscTables as $oscTable) {
+	    		$tableName = "{$this->_prefix}$oscTable";
+	    		foreach ($result = $this->_getForeignAdapter()->fetchAll("SHOW FULL COLUMNS FROM {$tableName}") as $field) {
+	    			$this->_tableCharset[$tableName][$field['Field']] = $field['Collation'] ? strtolower(preg_replace('/(\_\w+)$/','', $field['Collation'])):'';
+	    		}    		
+	    	}
+    	}
+    	if (!empty($table) && isset($this->_tableCharset[$table])) {
+    		return $this->_tableCharset[$table];
+    	}
+    	return $this->_tableCharset;
     }
     
     /**
@@ -365,6 +385,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function importStores(Mage_Oscommerce_Model_Oscommerce $obj)
     {
+    	$charsetLang = $this->getCharset("{$this->_prefix}languaes");
+    	
         //    	$groupmodel = mage::getmodel('core/store_group')->load(self::DEFAULT_WEBSITE_GROUP);
         $this->_logData['user_id'] = Mage::getSingleton('admin/session')->getUser()->getId();
         $this->_logData['import_id'] = $obj->getId();
@@ -396,19 +418,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $store['code'] = $store['code'].'_'.$websiteId.time(); // for unique store code
                     $locales[$store['code']] = $localeCode;
                 }
-
-                //$store['code'] = $this->getWebsite()->getCode().$store['code'];
-                //$store['name'] = iconv($this->getCharset('languages'), self::DEFAULT_MAGENTO_CHARSET, $store['name']);
                 
-                if ($this->checkDetectEncoding()) {
-	                $encoding = mb_detect_encoding($store['name'], "ISO-8859-1, ISO-8859-2, UTF-8");
-                } else {
-    				$encoding = $this->getCharset('languages');            	
-                }
-	            if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-	              	$store['name'] = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $store['name']);
-	            }
-                
+				if (!empty($charsetLang['name'])
+					&& $charsetLang['name'] != self::DEFAULT_FIELD_CHARSET) {
+					$store['name'] = @iconv($charsetLang['name'], self::DEFAULT_FIELD_CHARSET, $store['name']);		
+				}
+				
                 $storeModel->unsetData();
                 $storeModel->setOrigData();
                 $storeModel->setData($store);
@@ -481,7 +496,17 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      * @param array $data
      */
     protected function _saveCustomer(Mage_Oscommerce_Model_Oscommerce $obj, $data = null) {
+    	$addressFieldMapping = array(
+	    	'street' => 'entry_street_address',
+	    	'firstname' => 'entry_firstname',
+	    	'lastname'	=> 'entry_lastname',
+	    	'city'		=> 'entry_city',
+	    	'region'	=> 'entry_state'
+	    );
+	    
         if (!is_null($data)) {
+        	$charsetCustomer = $this->getCharset("{$this->_prefix}customers");
+			$charsetAddress  = $this->getCharset("{$this->_prefix}address_book");
             $customerAddresses = array();
             // Getting customer group data
             $customerGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
@@ -500,7 +525,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             
             $newData = array();
             foreach($data as $field => $value) {
+            	if (in_array($field, array('firstname', 'lastname')) 
+            		&& !empty($charsetCustomer['customers_'.$field])
+            		&& $charsetCustomer['customers_'.$field] != self::DEFAULT_FIELD_CHARSET) {
+            		$value = @iconv($charsetCustomer['customers_'.$field], self::DEFAULT_FIELD_CHARSET, $value);
+            	}
             	$newData[$field] = html_entity_decode($value, ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
+            	
             }
             $data = $newData;
             
@@ -509,6 +540,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             if ($addresses) {
                 foreach ($addresses as $address) {
                     foreach ($address as $field => $value) {
+                    	
                         if ($field == 'street1') {
                             $field = 'street';
                         }
@@ -519,6 +551,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         if ($field == 'region_id'
                         && in_array($address['country_id'], array(38, 223))) {
                             $field = 'region';
+                        }
+                        
+                        if (in_array($field, array_keys($addressFieldMapping))
+                        	&& !empty($charsetAddress[$addressFieldMapping[$field]])
+                        	&& $charsetAddress[$addressFieldMapping[$field]] != self::DEFAULT_FIELD_CHARSET
+   							) {
+                        	$value = @iconv($charsetAddress[$addressFieldMapping[$field]], self::DEFAULT_FIELD_CHARSET, $value);
                         }
                         if (!in_array($field, array('customers_id'))) {
                             $address[$field] = $value;
@@ -589,89 +628,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
     }
 
-    /**
-     * Importing categories recursively from osCommerce to Magento
-     *
-     * @param Mage_Oscommerce_Model_Oscommerce $obj
-     * @param array $children
-     * @param string $parentId
-     */
-    public function importCategoriesWithParent(Mage_Oscommerce_Model_Oscommerce $obj, $parentId = null, $parentPath = null, &$children = null)
-    {
-        $this->_logData['type_id'] = $this->getImportTypeIdByCode('category');
-        $this->_logData['import_id'] = $obj->getId();
-        $rootCategory = $this->getRootCategory();
-        $parentPath = !is_null($parentPath) ? $parentPath: $rootCategory->getPath();
-        $parentId = !is_null($parentId) ? $parentId: $rootCategory->getId();
-        if (!is_null($children)) {
-            $categories = $children;
-        } else {
-            $categories = $this->getCategories($obj);
-        }
-
-        // Getting cagetory object from cache
-        $categoryModel = $this->getCategoryModel();
-
-        if ($categories) foreach($categories as $category) {
-            $data = $category;
-            if (isset($data['children'])) {
-                unset($data['children']);
-            }
-
-            // Setting and saving category
-            $this->_logData['value'] = $data['id'];
-
-            try {
-                unset($data['stores']);
-                unset($data['id']);
-                $data['store_id'] = 0;
-                $data['is_active'] = 1;
-                $data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
-                $data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
-                $data['parent_id'] = $parentId;
-                $data['attribute_set_id'] = $categoryModel->getDefaultAttributeSetId();
-                $data['path'] = $parentPath;
-                if ($this->checkDetectEncoding()) {
-	                $encoding = mb_detect_encoding($data['name'], "ISO-8859-1, ISO-8859-2, UTF-8");
-                } else {
-    				$encoding = $this->getCharset('categories');            	
-                }
-	            if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-	              	$data['name'] = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET,$data['name']);
-	            }
-//                $data['name'] = iconv($this->getCharset('categories'), self::DEFAULT_MAGENTO_CHARSET, $data['name']);
-                $data['description'] = $data['meta_title'] = $data['name'];
-                
-                $categoryModel->setData($data);
-                $categoryModel->save();
-                $newParentId = $categoryModel->getId();
-                $newParentPath = $categoryModel->getPath();
-                $this->_logData['ref_id'] = $newParentId;
-                $this->_logData['created_at'] = $this->formatDate(time());
-                $this->log($this->_logData);
-
-                // saving data for different
-                if (isset($category['stores'])) foreach($category['stores'] as $storeId=>$catData) {
-                    if ($categoryModel->getStoreId() != $storeId) {
-                        $categoryModel->setStoreId($storeId)->setName($catData['name'])->setDescription($catData['name'])
-                            ->setMultistoreSaveFlag(true)
-                            ->save();
-                    }
-                }
-
-                $this->_saveRows++;
-            } catch (Exception $e) {
-                $this->_addErrors(Mage::helper('oscommerce')->__('Category %s cannot be saved because of %s', $data['name'], $e->getMessage()));
-            }
-            // End setting and saving category
-
-            // Checking child category recursively
-            if (isset($category['children'])) {
-                $this->importCategoriesWithParent($obj, $newParentId, $newParentPath, $category['children']);
-            }
-        }
-    }
-
     public function importCategories(Mage_Oscommerce_Model_Oscommerce $obj, $startFrom = 0, $useStartFrom = false)
     {
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('category');
@@ -702,6 +658,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     }
 
     protected function _saveCategory(Mage_Oscommerce_Model_Oscommerce $obj, $data) {
+    	$charsetCategory = $this->getCharset("{$this->_prefix}categories");
+    	$charsetDescription = $this->getCharset("{$this->_prefix}categories_description");
+    	
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('category');
         $this->_logData['import_id'] = $obj->getId();
         $categoryModel = $this->getCategoryModel();
@@ -715,14 +674,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         	$data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
         	$data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
         	$data['attribute_set_id'] = $categoryModel->getDefaultAttributeSetId();
-        	if ($this->checkDetectEncoding()) {
-        		$encoding = mb_detect_encoding($data['name'], "ISO-8859-1, ISO-8859-2, UTF-8");
-        	} else {
-        		$encoding = $this->getCharset('categories');
-        	}
-        	if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-        		$data['name'] = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $data['name']);
-        	}
+			if (!empty($charsetDescription['categories_name'])
+				&& $charsetDescription['categories_name'] != self::DEFAULT_FIELD_CHARSET)
+			{
+				$data['name'] = @iconv($charsetDescription['categories_name'], self::DEFAULT_FIELD_CHARSET, $data['name']);
+			}
+			
         	$data['name'] = $data['meta_title'] = html_entity_decode($data['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
         	$categoryModel->setData($data);
         	$categoryModel->save();
@@ -730,7 +687,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         	$this->_logData['ref_id'] = $categoryId;
         	$this->_logData['created_at'] = $this->formatDate(time());
         	$this->log($this->_logData);
-        	// saving data for different
+        	// saving data for different (encoding has been done in getCategoryToStores method)
         	if (isset($data['stores'])) foreach($data['stores'] as $storeId=>$catData) {
         		if ($categoryModel->getStoreId() != $storeId) {
         			$catData['name'] = $catData['name'];
@@ -865,7 +822,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      * @param array $data
      */
     protected function _saveProduct(Mage_Oscommerce_Model_Oscommerce $obj, $data) {
-        $productAdapterModel = $this->getProductAdapterModel();
+        $charsetProduct = $this->getCharset("{$this->_prefix}products");
+        $charsetDescription = $this->getCharset("{$this->_prefix}products_description");
+    	$productAdapterModel = $this->getProductAdapterModel();
         $productModel = $this->getProductModel();
         $mageStores = $this->getLanguagesToStores($obj);
         $this->_logData['value'] = $oscProductId = $data['id'];
@@ -915,18 +874,16 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         $storeCode = $this->getCurrentWebsite()->getDefaultStore()->getCode();
                     }
                     $data['store'] = $storeCode;
-		        	if ($this->checkDetectEncoding()) {
-		        		$encoding = mb_detect_encoding($data['name'], "ISO-8859-1, ISO-8859-2, UTF-8");
-		        	} else {
-		        		$encoding = $this->getCharset('products');
-		        	}
-		        	if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-		        		$data['name'] = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $data['name']);
-		        		$data['description'] = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $data['description']);
-		        	}                    
-//                    $data['name'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, html_entity_decode($store['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET));
-//                    $data['description'] = iconv($this->getCharset('products'), self::DEFAULT_MAGENTO_CHARSET, html_entity_decode($store['description'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET));
-                    //$data['short_description'] = $this->_formatStringTruncate($data['description'], $this->_lengthShortDescription) . ' ...';
+                    if (!empty($charsetProduct['products_name']) && $charsetProduct['products_name'] != self::DEFAULT_FIELD_CHARSET) {
+                    	$store['name'] = @iconv($charsetProduct['products_name'], self::DEFAULT_FIELD_CHARSET, $store['name']);
+                    }
+                    if (!empty($charsetDescription['products_description']) && $charsetDescription['products_description'] != self::DEFAULT_FIELD_CHARSET) {
+                    	$store['description'] = @iconv($charset['products_description'], self::DEFAULT_FIELD_CHARSET, $store['description']);
+                    }
+                    
+                    $data['name'] = html_entity_decode($store['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
+                    $data['description'] = html_entity_decode($store['description'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
+//                    $data['short_description'] = $this->_formatStringTruncate($data['description'], $this->_lengthShortDescription) . ' ...';
                     $data['short_description'] = $data['description'];
                     $productAdapterModel->saveRow($data);
                 }
@@ -1231,26 +1188,24 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     
     protected function _saveOrder(Mage_Oscommerce_Model_Oscommerce $obj, $data)
     {
+    	$charsetOrder = $this->getCharset("{$this->_prefix}orders");
+    	$charsetHistory = $this->getCharset("{$this->_prefix}orders_status_history");
+    	$charsetTotal = $this->getCharset("{$this->_prefix}orders_total");
+    	$charsetProduct = $this->getCharset("{$this->_prefix}orders_products");
+    	
         $customerIdPair = $this->getCustomerIdPair();
         $importId  = $obj->getId();
         $websiteId = $this->getWebsiteModel()->getId();
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix'); 
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         if (isset($data['customers_id']) && isset($this->_customerIdPair[$data['customers_id']])) {
-        	$newData = array();
         	foreach($data as $field => $value) {
-                if ($this->checkDetectEncoding()) {
-	                $encoding = mb_detect_encoding($value, "ISO-8859-1, ISO-8859-2, UTF-8");
-                } else {
-    				$encoding = $this->getCharset('orders');            	
-                }
-	            if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-	              	$value = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET,$value);
-	            }        	
-        		$newData[$field] = $value;
-//        		$newData[$field] = iconv($this->getCharset('orders'), self::DEFAULT_MAGENTO_CHARSET, $value);
+        		if (!empty($charsetOrder[$field])
+        			&& $charsetOrder[$field] != self::DEFAULT_FIELD_CHARSET) {
+        			$data[$field] = @iconv($charsetOrder[$field], self::DEFAULT_FIELD_CHARSET, $value);
+        		}
         	}
-        	$data = $newData;
+
             $data['magento_customers_id'] = $this->_customerIdPair[$data['customers_id']]; // get Magento CustomerId
             $data['import_id'] = $importId;
             $data['website_id'] = $websiteId;
@@ -1270,21 +1225,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     unset($orderProduct['orders_id']);
                     unset($orderProduct['orders_products_id']);
                     $orderProduct['osc_magento_id'] = $oscMagentoId;
-                    $newOrderProduct = array();
-					foreach ($orderProduct as $field => $value) {
-		                if ($this->checkDetectEncoding()) {
-			                $encoding = mb_detect_encoding($value, "ISO-8859-1, ISO-8859-2, UTF-8");
-		                } else {
-		    				$encoding = $this->getCharset('orders_products');            	
-		                }
-			            if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-			              	$value = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET,$value);
-			            }
-			            $newOrderProduct[$field] = $value;        							
-//						$newOrderProduct[$field] = iconv($this->getCharset('orders_products'), self::DEFAULT_MAGENTO_CHARSET, $value);
+					foreach ($orderProduct as $field => $value) {		
+		        		if (!empty($charsetProduct[$field])
+		        			&& $charsetProduct[$field] != self::DEFAULT_FIELD_CHARSET) {
+		        			$orderProduct[$field] = @iconv($charsetProduct[$field], self::DEFAULT_FIELD_CHARSET, $value);
+		        		}						
 					}
-                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $newOrderProduct);
-
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_products", $orderProduct);
                 }
             }
 
@@ -1299,22 +1246,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     unset($orderTotal['orders_total_id']);
                     $orderTotal['osc_magento_id'] = $oscMagentoId;
                     
-                    $newOrderTotal = array();
 					foreach ($orderTotal as $field => $value) {
-		                if ($this->checkDetectEncoding()) {
-			                $encoding = mb_detect_encoding($value, "ISO-8859-1, ISO-8859-2, UTF-8");
-		                } else {
-		    				$encoding = $this->getCharset('orders_total');            	
-		                }
-						if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-							$value = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $value);
-						}
-						$newOrderTotal[$field] = $value;
+		        		if (!empty($charsetTotal[$field])
+		        			&& $charsetTotal[$field] != self::DEFAULT_FIELD_CHARSET) {
+		        			$orderTotal[$field] = @iconv($charsetTotal[$field], self::DEFAULT_FIELD_CHARSET, $value);
+		        		}	
 					}
-                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $newOrderTotal);
-					
-//                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);
-
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_total", $orderTotal);					
                 }
             }
 
@@ -1333,22 +1271,14 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     unset($orderHistory['orders_id']);
                     unset($orderHistory['orders_status_history_id']);
                     $orderHistory['osc_magento_id'] = $oscMagentoId;
-                    
-                    $newOrderStatusHistory = array();
                     foreach($orderHistory as $field => $value) {
-		                if ($this->checkDetectEncoding()) {
-			                $encoding = mb_detect_encoding($value, "ISO-8859-1, ISO-8859-2, UTF-8");
-		                } else {
-		    				$encoding = $this->getCharset('orders_status_history');            	
-		                }
-						if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-							$value = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $value);
-						}
-						$newOrderStatusHistory[$field] = $value;
+		        		if (!empty($charsetHistory[$field])
+		        			&& $charsetHistory[$field] != self::DEFAULT_FIELD_CHARSET) {
+		        			$orderHistory[$field] = @iconv($charsetHistory[$field], self::DEFAULT_FIELD_CHARSET, $value);
+		        		}
                     }
                     
-                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $newOrderStatusHistory);
-//                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
+                    $this->_getWriteAdapter()->insert("{$tablePrefix}oscommerce_orders_status_history", $orderHistory);
                 }
             }
         } else {
@@ -1423,41 +1353,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return false;
     }
 
-    /**
-     * Getting categories recursively of osCommerce
-     *
-     * @param integer $parentId
-     * @return array
-     */
-    public function getCategoriesWithParent(Mage_Oscommerce_Model_Oscommerce $obj, $parentId = '0') {
-        $defaultLanguage = $this->getOscDefaultLanguage();
-        $defaultLanguageId = $defaultLanguage['id'];
-        $select = "SELECT `c`.`categories_id` as `id`, `c`.`parent_id`, `cd`.`categories_name` `name` FROM `{$this->_prefix}categories` c ";// WHERE `c`.`parent_id`={$parentId}";
-        $select .= " INNER JOIN `{$this->_prefix}categories_description` cd on `cd`.`categories_id`=`c`.`categories_id`";
-        $select .= " AND `cd`.`language_id`={$defaultLanguageId} WHERE `c`.`parent_id`={$parentId}";
-        if (!$results = $this->_getForeignAdapter()->fetchAll($select)) {
-            $results = array();
-        } else {
-            $stores = $this->getLanguagesToStores($obj);
-            foreach($results as $index => $result) {
-                if ($categoriesToStores = $this->getCategoriesToStores($result['id'])) {
-                    foreach($categoriesToStores as $store => $categoriesName) {
-                        $results[$index]['stores'][$stores[$store]] = array(
-                            'name'=>iconv($this->getCharset('categories'), self::DEFAULT_MAGENTO_CHARSET, $categoriesName)
-                        );
-                    }
-                }
-
-                $sub = $this->getCategoriesWithParent($obj, $result['id']);
-                if ($sub) {
-                    $results[$index]['children'] = $sub;
-                }
-            }
-        }
-        return $results;
-    }
-
     public function getCategories(Mage_Oscommerce_Model_Oscommerce $obj, $limit = array()) {
+    	$charsetCategory = $this->getCharset("{$this->_prefix}categories");
+    	$charsetDescription = $this->getCharset("{$this->_prefix}categories_description");
         $defaultLanguage = $this->getOscDefaultLanguage();
         $defaultLanguageId = $defaultLanguage['id'];
         $select = "SELECT `c`.`categories_id` as `id`, `c`.`parent_id`, `cd`.`categories_name` `name` FROM `{$this->_prefix}categories` c ";// WHERE `c`.`parent_id`={$parentId}";
@@ -1473,16 +1371,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             foreach($results as $index => $result) {
                 if ($categoriesToStores = $this->getCategoriesToStores($result['id'])) {
                     foreach($categoriesToStores as $store => $categoriesName) {
-            
-		                if ($this->checkDetectEncoding()) {
-			                $encoding = mb_detect_encoding($categoriesName, "ISO-8859-1, ISO-8859-2, UTF-8");
-		                } else {
-		    				$encoding = $this->getCharset('categories');            	
-		                }
-			            if ($encoding != self::DEFAULT_MAGENTO_CHARSET) {
-			              	$categoriesName = iconv($encoding, self::DEFAULT_MAGENTO_CHARSET, $categoriesName);
-			            } 
-			                               	
+						if (!empty($charsetDescription['categories_description']) 
+							&& $charsetDescription['categories_description'] != self::DEFAULT_FIELD_CHARSET) {
+							$categoriesName = @iconv($charsetDescription['categories_description'],
+								self::DEFAULT_FIELD_CHARSET, $categoriesName);
+						}
+						
                         $results[$index]['stores'][$stores[$store]] = array(
                             'name'=>html_entity_decode($categoriesName, ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET)
                         );
@@ -2127,6 +2021,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 	
 	protected function _getCurrentUserId()
 	{
+		if (!$this->_currentUserId) {
+			$this->_currentUserId = Mage::getSingleton('admin/session')->getUser()->getId();
+			$this->_logData['user_id'] = $this->_currentUserId;
+		}
 		return $this->_currentUserId;
 	}
 	

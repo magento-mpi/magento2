@@ -336,7 +336,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $this->_initImport();
         $importModel = Mage::registry('oscommerce_adminhtml_import');
         
-        $charset = $importModel->getResource()->getCharset('languages');
+        $charset = $importModel->getResource()->getConnectionCharset();
         $defaultOscCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_OSC_CHARSET;
         $defaultMageCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_MAGENTO_CHARSET;
         if ($importModel->getId()) {
