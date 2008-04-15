@@ -182,7 +182,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
        }
 
        // add delivery
-       $shipping = $this->getOrder()->getShippingAddress()->getBaseShippingAmount();
+       $shipping = $this->getOrder()->getBaseShippingAmount();
        if ((int)$shipping > 0) {
            $totalLines++;
            $resultParts = array_merge($resultParts, array('Shipping','','','','',sprintf('%.2f', $shipping)));
