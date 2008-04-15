@@ -42,11 +42,6 @@
                     <order_payment>Mage_Cybersource_Model_Order_Payment</order_payment>
                 </rewrite>
             </sales>
-            <payment>
-                <rewrite>
-                    <config>Mage_Cybersource_Model_Config</config>
-                </rewrite>
-            </payment>
         </models>
         <resources>
             <cybersource_setup>

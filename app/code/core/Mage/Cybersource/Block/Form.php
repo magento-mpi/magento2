@@ -27,10 +27,33 @@ class Mage_Cybersource_Block_Form extends Mage_Payment_Block_Form_Cc
         $this->setTemplate('cybersource/form.phtml');
     }
 
-    protected function _getDirect()
+    protected function _getConfig()
     {
-        return Mage::getSingleton('cybersource/soap');
+        return Mage::getSingleton('cybersource/config');
     }
+
+   /**
+     * Retrieve availables credit card types
+     *
+     * @return array
+     */
+    public function getCcAvailableTypes()
+    {
+        $types = $this->_getConfig()->getCcTypes();
+        if ($method = $this->getMethod()) {
+            $availableTypes = $method->getConfigData('cctypes');
+            if ($availableTypes) {
+                $availableTypes = explode(',', $availableTypes);
+                foreach ($types as $code=>$name) {
+                    if (!in_array($code, $availableTypes)) {
+                        unset($types[$code]);
+                    }
+                }
+            }
+        }
+        return $types;
+    }
+
 
     /*
     * solo/switch card start year

@@ -82,6 +82,12 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+    /**
+     * Validate payment method information object
+     *
+     * @param   Mage_Payment_Model_Info $info
+     * @return  Mage_Payment_Model_Abstract
+     */
     public function validate()
     {
         if (!extension_loaded('soap')) {
@@ -161,12 +167,21 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+   /**
+     * Getting Soap Api object
+     *
+     * @param   array $options
+     * @return  Mage_Cybersource_Model_Api_ExtendedSoapClient
+     */
     protected function getSoapApi($options = array())
     {
         $wsdl = $this->getConfigData('test') ? self::WSDL_URL_TEST  : self::WSDL_URL_LIVE;
         return new Mage_Cybersource_Model_Api_ExtendedSoapClient($wsdl, $options);
     }
 
+    /**
+     * Initializing soap header
+     */
     protected function iniRequest()
     {
         $this->_request = new stdClass();
@@ -176,19 +191,34 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $this->_request->clientLibrary = "PHP";
         $this->_request->clientLibraryVersion = phpversion();
         $this->_request->clientEnvironment = php_uname();
-
     }
 
+    /**
+     * Random generator for merchant referenc code
+     *
+     * @return random number
+     */
     protected function _generateReferenceCode()
     {
         return md5(microtime() . rand(0, time()));
     }
 
+    /**
+     * Getting customer IP address
+     *
+     * @return IP address string
+     */
     protected function getIpAddress()
     {
         return $_SERVER['REMOTE_ADDR'];
     }
 
+    /**
+     * Assigning billing address to soap
+     *
+     * @param Varien_Object $billing
+     * @param String $email
+     */
     protected function addBillingAddress($billing, $email)
     {
         if (!$email) {
@@ -210,6 +240,11 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $this->_request->billTo = $billTo;
     }
 
+    /**
+     * Assigning shipping address to soap object
+     *
+     * @param Varien_Object $shipping
+     */
     protected function addShippingAddress($shipping)
     {
         $shipTo = new stdClass();
@@ -226,6 +261,11 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $this->_request->shipTo = $shipTo;
     }
 
+    /**
+     * Assigning credit card information
+     *
+     * @param Mage_Model_Order_Payment $payment
+     */
     protected function addCcInfo($payment)
     {
         $card = new stdClass();
@@ -246,6 +286,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     	$this->_request->card = $card;
     }
 
+    /**
+     * Authorizing payment
+     *
+     * @param Varien_Object $payment
+     * @param float $amount
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function authorize(Varien_Object $payment, $amount)
     {
         $error = false;
@@ -290,6 +337,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+    /**
+     * Capturing payment
+     *
+     * @param Varien_Object $payment
+     * @param float $amount
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function capture(Varien_Object $payment, $amount)
     {
         $error = false;
@@ -350,6 +404,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+   /**
+     * To assign transaction id and token after capturing payment
+     *
+     * @param Mage_Sale_Model_Order_Invoice $invoice
+     * @param Mage_Sale_Model_Order_Payment $payment
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function processInvoice($invoice, $payment)
     {
         parent::processInvoice($invoice, $payment);
@@ -357,6 +418,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+   /**
+     * To assign transaction id and token before voiding the transaction
+     *
+     * @param Mage_Sale_Model_Order_Invoice $invoice
+     * @param Mage_Sale_Order_Payment $payment
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function processBeforeVoid($invoice, $payment)
     {
         parent::processBeforeVoid($invoice, $payment);
@@ -364,10 +432,12 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    /*
-    * we call void method only from invoice and credit memo
-    * in invoice and credit memo, we save transaction in transactionid
-    */
+   /**
+     * Void the payment transaction
+     *
+     * @param Mage_Sale_Model_Order_Payment $payment
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function void(Varien_Object $payment)
     {
         $error = false;
@@ -403,6 +473,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+   /**
+     * To assign correct transaction id and token before refund
+     *
+     * @param Mage_Sale_Model_Order_Invoice $invoice
+     * @param Mage_Sale_Model_Order_Payment $payment
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function processBeforeRefund($invoice, $payment)
     {
         parent::processBeforeRefund($invoice, $payment);
@@ -410,6 +487,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+   /**
+     * Refund the payment transaction
+     *
+     * @param Mage_Sale_Model_Order_Payment $payment
+     * @param flaot $amount
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function refund(Varien_Object $payment, $amount)
     {
         $error = false;
@@ -449,6 +533,14 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+
+   /**
+     * To assign correct transaction id and token after refund
+     *
+     * @param Mage_Sale_Model_Order_Creditmemo $creditmemo
+     * @param Mage_Sale_Model_Order_Payment $payment
+     * @return Mage_Cybersource_Model_Soap
+     */
     public function processCreditmemo($creditmemo, $payment)
     {
         parent::processCreditmemo($creditmemo, $payment);
