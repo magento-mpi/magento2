@@ -52,7 +52,7 @@
                     <?php echo $this->helper('catalog/product')->getPriceHtml($item) ?>
                 </td>
                 <td align="center">
-                    <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?php echo ( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
+                    <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="3" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?php echo ( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
                 </td>
                 <td>
                     <?php echo $this->getFormatedDate($item->getAddedAt()) ?>
