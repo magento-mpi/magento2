@@ -67,15 +67,15 @@
                 <label for="<?php echo $_code ?>_issue"><?php echo $this->__('Switch/Solo/Maestro(UK Domestic) Only') ?> <span class="required">*</span></label><br/>
                 <ul style="margin:5px 0;">
                 <li><?php echo $this->__('Issue Number') ?>:
-                <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text validate-cc-ukss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" style="width:3em;" value="" /></li>
+                <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text validate-cybersource-cc-ss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" style="width:3em;" value="" /></li>
                 <li><?php echo $this->__('Start Date') ?>:
-                 <select id="<?php echo $_code ?>_start_month" style="width:140px;" name="payment[cc_ss_start_month]" class="validate-cc-ukss">
+                 <select id="<?php echo $_code ?>_start_month" style="width:140px;" name="payment[cc_ss_start_month]" class="validate-cybersource-cc-ss">
                  <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
                  <?php foreach ($this->getCcMonths() as $k=>$v): ?>
                     <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
                  <?php endforeach ?>
                  </select>
-                 <select id="<?php echo $_code ?>_start_year" style="width:103px;" name="payment[cc_ss_start_year]" class="validate-cc-ukss">
+                 <select id="<?php echo $_code ?>_start_year" style="width:103px;" name="payment[cc_ss_start_year]" class="validate-cybersource-cc-ss">
                  <?php $_ccStartYear = $this->getInfoData('cc_ss_start_year') ?>
                  <?php foreach ($this->getSsStartYears() as $k=>$v): ?>
                     <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
@@ -113,7 +113,7 @@
 </fieldset>
 <script type="text/javascript">
 Validation.addAllThese([
-    ['validate-cc-ukss', 'Please enter issue number or start date for Switch/Solo/Maestro(UK Domestic) card type.', function(v,elm) {
+    ['validate-cybersource-cc-ss', 'Please enter issue number or start date for Switch/Solo/Maestro(UK Domestic) card type.', function(v,elm) {
               var endposition;
 
               if (elm.id.match(/(.)+_cc_issue$/)) {

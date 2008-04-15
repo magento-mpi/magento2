@@ -236,10 +236,10 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     	if ($payment->hasCcCid()) {
     	    $card->cvNumber =  $payment->getCcCid();
     	}
-    	if ($payment->hasCcSsIssue()) {
+    	if ($payment->getCcType()==self::CC_CARDTYPE_SS && $payment->hasCcSsIssue()) {
     	    $card->issueNumber =  $payment->getCcSsIssue();
     	}
-    	if ($payment->hasCcSsStartYear()) {
+    	if ($payment->getCcType()==self::CC_CARDTYPE_SS && $payment->hasCcSsStartYear()) {
     	    $card->startMonth =  $payment->getCcSsStartMonth();
     	    $card->startYear =  $payment->getCcSsStartYear();
     	}
