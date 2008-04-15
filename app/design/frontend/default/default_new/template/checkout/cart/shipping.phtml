@@ -25,7 +25,7 @@
     <fieldset>
     <ul class="form-list">
         <li><label for="country"><?php echo $this->__('Country') ?></label><br/><span><?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?></span></li>
-       <li><label for="state"><?php echo $this->__('State/Province') ?></label><br/>
+       <li><label for="region_id"><?php echo $this->__('State/Province') ?></label><br/>
        <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none">
             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
        </select>
@@ -39,7 +39,7 @@
     <li><label for="postcode"><?php echo $this->__('Zip/Postal Code') ?></label><br/>
     <input  class="input-text" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>" /></li>
   </ul>
-    <p><a href="#" onclick="coShippingMethodForm.submit()"><img src="<?php echo $this->getSkinUrl('images/btn_cart_get_a_quote.gif') ?>" alt="<?php echo $this->__('Get a Quote') ?>"/></a>
+    <p><a href="#" onclick="coShippingMethodForm.submit()"><img src="<?php echo $this->getSkinUrl('images/btn_cart_get_a_quote.gif') ?>" alt="<?php echo $this->__('Get a Quote') ?>"/></a></p>
        <script type="text/javascript">
            $('region_id').setAttribute('defaultValue', "<?php echo $this->getEstimateRegionId() ?>");
        </script>

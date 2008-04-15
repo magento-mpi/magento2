@@ -58,9 +58,9 @@
     <tbody>
     <?php foreach($this->getItems() as $_item): ?>
         <tr>
-            <td width="75">
+            <td>
                 <a href="<?php echo $this->getItemUrl($_item) ?>">
-                    <img src="<?php echo $this->helper('catalog/image')->init($this->getItemProductForThumbnail($_item), 'thumbnail')->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getItemName($_item)) ?>" width="75"/>
+                    <img src="<?php echo $this->helper('catalog/image')->init($this->getItemProductForThumbnail($_item), 'thumbnail')->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getItemName($_item)) ?>" width="75" />
                 </a>
             </td>
             <td class="attributes-col">
@@ -80,7 +80,7 @@
             <td class="a-right">
                 <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?>
             </td>
-            <td class="a-center" width="40">
+            <td class="a-center">
                 <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getItemQty($_item) ?>" size="4" class="input-text qty" maxlength="8"/>
             </td>
             <td class="a-right">
@@ -137,9 +137,5 @@
 
 
     <?php echo $this->getChildHtml('crosssell') ?>
-
-<div class="clear"></div>
-
-
 
 <div class="clear"></div>
