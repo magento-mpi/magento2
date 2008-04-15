@@ -32,5 +32,4 @@ class Mage_PaypalUk_Model_Source_Cctype
 
         return $options;
     }
-
 }

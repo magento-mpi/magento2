@@ -22,11 +22,15 @@
 class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = 'cybersource_soap';
+    protected $_formBlockType = 'cybersource/form';
+    protected $_infoBlockType = 'cybersource/info';
 
     const WSDL_URL_TEST = 'https://ics2wstest.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
     const WSDL_URL_LIVE = 'https://ics2ws.ic3.com/commerce/1.x/transactionProcessor/CyberSourceTransaction_1.26.wsdl';
 
     const RESPONSE_CODE_SUCCESS = 100;
+
+    const CC_CARDTYPE_SS = 'SS';
 
     /**
      * Availability options
@@ -43,6 +47,40 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected $_canSaveCc = false;
 
     protected $_request;
+
+        /*
+    * overwrites the method of Mage_Payment_Model_Method_Cc
+    * for switch or solo card
+    */
+    public function OtherCcType($type)
+    {
+        return (parent::OtherCcType($type) || $type==self::CC_CARDTYPE_SS || $type=='JCB' || $type=='UATP');
+    }
+
+    /**
+     * overwrites the method of Mage_Payment_Model_Method_Cc
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+
+        if (!($data instanceof Varien_Object)) {
+            $data = new Varien_Object($data);
+        }
+        parent::assignData($data);
+        $info = $this->getInfoInstance();
+
+        if ($data->getCcType()==self::CC_CARDTYPE_SS) {
+            $info->setCcSsIssue($data->getCcSsIssue())
+                ->setCcSsStartMonth($data->getCcSsStartMonth())
+                ->setCcSsStartYear($data->getCcSsStartYear())
+            ;
+        }
+        return $this;
+    }
 
     public function validate()
     {
@@ -120,11 +158,19 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected function addCcInfo($payment)
     {
         $card = new stdClass();
+        $card->fullName = $payment->getCcOwner();
     	$card->accountNumber = $payment->getCcNumber();
     	$card->expirationMonth = $payment->getCcExpMonth();
     	$card->expirationYear =  $payment->getCcExpYear();
     	if ($payment->hasCcCid()) {
     	    $card->cvNumber =  $payment->getCcCid();
+    	}
+    	if ($payment->hasCcSsIssue()) {
+    	    $card->issueNumber =  $payment->getCcSsIssue();
+    	}
+    	if ($payment->hasCcSsStartYear()) {
+    	    $card->startMonth =  $payment->getCcSsStartMonth();
+    	    $card->startYear =  $payment->getCcSsStartYear();
     	}
     	$this->_request->card = $card;
     }
