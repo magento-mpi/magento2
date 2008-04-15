@@ -1068,6 +1068,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .my-review-detail .product-image { float:left; width:135px; }
 .my-review-detail .details { float:right; width:550px; }
 .my-review-detail .ratings-list { margin-bottom:.8em; }
+.my-review-detail .ratings { line-height:1.55; }
+.my-review-detail .ratings .rating-box { float:none; margin-bottom:3px; }
+.my-review-detail .ratings .pipe { display:none; }
+.my-review-detail .ratings a { display:block; }
 
 
 
