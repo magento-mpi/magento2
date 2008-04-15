@@ -389,7 +389,9 @@ class Varien_Object
         if ($addOpenTag) {
             $xml.= '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         }
-        $xml.= '<'.$rootName.'>'."\n";
+        if (!empty($rootName)) {
+            $xml.= '<'.$rootName.'>'."\n";
+        }
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
         $arrData = $this->toArray($arrAttributes);
         foreach ($arrData as $fieldName => $fieldValue) {
@@ -400,7 +402,9 @@ class Varien_Object
             }
             $xml.= "<$fieldName>$fieldValue</$fieldName>"."\n";
         }
-        $xml.= '</'.$rootName.'>'."\n";
+        if (!empty($rootName)) {
+            $xml.= '</'.$rootName.'>'."\n";
+        }
         return $xml;
     }
 
