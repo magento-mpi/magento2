@@ -53,8 +53,8 @@
 	}
 #nav ul li.over { background:#d5e4eb url(../images/nav_divider.gif) repeat-x 0 100%;}
 #nav ul li.last { padding-bottom:0; }
+#nav ul li.active { margin:0; border:0; background:none; }
 
-	
 #nav ul a, #nav ul a:hover {
 	float:none;
 	padding:0;

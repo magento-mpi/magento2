@@ -17,7 +17,6 @@
 .middle { height:350px; }
 
 
-
-
-
-
+/* Show menu */
+#nav li.over ul.shown-sub { left:-1px; }
+#nav li.over li ul.shown-sub { left:100px; }

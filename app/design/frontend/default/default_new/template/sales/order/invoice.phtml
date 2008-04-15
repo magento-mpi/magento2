@@ -49,12 +49,13 @@ function giftMessageToogle(giftMessageIdentifier)
 }
 </script>
 <?php endif; ?>
+<div class="padder">
 <?php  $_order = $this->getOrder() ?>
-<a href="<?php echo $this->getPrintAllInvoicesUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Invoices') ?></a>
+<p class="a-right"><strong><a href="<?php echo $this->getPrintAllInvoicesUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Invoices') ?></a></strong></p>
 <?php foreach ($_order->getInvoiceCollection() as $_invoice): ?>
-<br />
-<div class="head">
-    <h3><?php echo $this->__('Invoice #') ?><?php echo $_invoice->getIncrementId(); ?></h3>
+
+<div class="head-alt2">
+    <h3 class="title"><?php echo $this->__('Invoice #') ?><?php echo $_invoice->getIncrementId(); ?></h3>
     <a href="<?php echo $this->getPrintInvoiceUrl($_invoice) ?>" target="_blank"><?php echo $this->__('Print Invoice') ?></a>
 </div>
 
@@ -118,9 +119,10 @@ function giftMessageToogle(giftMessageIdentifier)
             <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
         </tr>
     </tfoot>
-</table>
+</table><br/>
 <script type="text/javascript">decorateTable('my-orders-table-<?php echo $_invoice->getId(); ?>')</script>
 <?php endforeach; ?>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="f-left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+</div>
 </div>
