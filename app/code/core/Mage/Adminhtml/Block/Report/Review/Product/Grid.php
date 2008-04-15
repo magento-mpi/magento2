@@ -54,8 +54,9 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
-            'index'     =>'name'
+            'header'    => Mage::helper('reports')->__('Product Name'),
+            'index'     => 'name',
+            'renderer'  => 'adminhtml/report_grid_column_renderer_product',
         ));
 
         $this->addColumn('review_cnt', array(
