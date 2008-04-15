@@ -416,6 +416,7 @@ class Mage_Checkout_Model_Type_Onepage
             }
         }
 
+        $this->getQuote()->reserveOrderId();
         $convertQuote = Mage::getModel('sales/convert_quote');
         /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
         //$order = Mage::getModel('sales/order');
