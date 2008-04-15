@@ -262,6 +262,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             $redirectTo = 'checkout/cart';
         } else {
             $history = Mage::helper('protx')->__($this->responseArr['StatusDetail']);
+            $session->setErrorMessage($this->responseArr['StatusDetail']);
             $redirectTo = 'protx/standard/failure';
         }
 
@@ -269,7 +270,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         $order->addStatusToHistory($order->getStatus(), $history);
         $order->save();
 
-        $session->setErrorMessage($this->responseArr['StatusDetail']);
         $this->_redirect($redirectTo);
     }
 
@@ -303,6 +303,13 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function failureAction ()
     {
+        $session = Mage::getSingleton('checkout/session');
+
+        if (!$session->getErrorMessage()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
         $this->loadLayout();
         $this->_initLayoutMessages('protx/session');
         $this->renderLayout();

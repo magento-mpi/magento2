@@ -34,7 +34,7 @@ class Mage_Protx_Model_Source_PaymentAction
         return array(
             array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT, 'label' => Mage::helper('protx')->__('PAYMENT')),
             array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_DEFERRED, 'label' => Mage::helper('protx')->__('DEFERRED')),
-            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_AUTHORISE, 'label' => Mage::helper('protx')->__('AUTHORISE')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_AUTHENTICATE, 'label' => Mage::helper('protx')->__('AUTHENTICATE')),
         );
     }
 }

@@ -37,4 +37,12 @@ class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template
     {
         return Mage::getSingleton('checkout/session')->getErrorMessage();
     }
+
+    /**
+     * Get continue shopping url
+     */
+    public function getContinueShoppingUrl()
+    {
+        return Mage::getUrl('checkout/cart');
+    }
 }
