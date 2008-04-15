@@ -92,11 +92,11 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
                 }
 
                 if ($attribute->getBackendType() == 'static') {
-                   $selects[] = $this->getConnection()->select()
-                   ->from($table, 'entity_id')
-                   ->where($attribute->getAttributeCode().' LIKE :search_query');
+                    $selects[] = $this->getConnection()->select()
+                        ->from($table, 'entity_id')
+                        ->where($attribute->getAttributeCode().' LIKE :search_query');
                 } else {
-                   $tables[$table][] = $attribute->getId();
+                    $tables[$table][] = $attribute->getId();
                 }
             }
         }
@@ -163,7 +163,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
             ->where('default.store_id=0')
             ->where('option.attribute_id IN (?)', $attributeIds);
 
-        $searchCondition = '(store.value IS NULL AND default.value LIKE :search_query) OR (store.value LIKE :search_query)';
+        $searchCondition = 'IFNULL(store.value, default.value) LIKE :search_query';
         $select->where($searchCondition);
 
         $options = $this->getConnection()->fetchAll($select, $this->_bindParams);
