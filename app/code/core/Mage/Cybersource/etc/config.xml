@@ -95,13 +95,6 @@
                 </Mage_Cybersource>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <paypaluk>
-                    <file>cybersource.xml</file>
-                </paypaluk>
-            </updates>
-        </layout>
     </frontend>
     <adminhtml>
         <translate>

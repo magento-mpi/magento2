@@ -87,7 +87,78 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         if (!extension_loaded('soap')) {
             Mage::throwException(Mage::helper('cybersource')->__('SOAP extension is not enabled. Please contact us.'));
         }
-        parent::validate();
+        /**
+        * to validate paymene method is allowed for billing country or not
+        */
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+            $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
+        } else {
+            $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
+        }
+        if (!$this->canUseForCountry($billingCountry)) {
+            Mage::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
+        }
+
+        $info = $this->getInfoInstance();
+        $errorMsg = false;
+        $availableTypes = explode(',',$this->getConfigData('cctypes'));
+
+        $ccNumber = $info->getCcNumber();
+
+        // remove credit card number delimiters such as "-" and space
+        $ccNumber = preg_replace('/[\-\s]+/', '', $ccNumber);
+        $info->setCcNumber($ccNumber);
+
+        $ccType = '';
+
+        if (!$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
+            $errorCode = 'ccsave_expiration,ccsave_expiration_yr';
+            $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date');
+        }
+
+        if (in_array($info->getCcType(), $availableTypes)){
+            if ($this->validateCcNum($ccNumber)
+                // Other credit card type number validation
+                || ($this->OtherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
+
+                $ccType = 'OT';
+                $ccTypeRegExpList = array(
+                    'VI' => '/^4[0-9]{12}([0-9]{3})?$/', // Visa
+                    'MC' => '/^5[1-5][0-9]{14}$/',       // Master Card
+                    'AE' => '/^3[47][0-9]{13}$/',        // American Express
+                    'DI' => '/^6011[0-9]{12}$/',          // Discovery
+                    'JCB' => '/^(3[0-9]{15}|(2131|1800)[0-9]{12})$/', // JCB
+                    'LASER' => '/^(6304|6706|6771|6709)[0-9]{12}([0-9]{3})?$/' // LASER
+                );
+
+                foreach ($ccTypeRegExpList as $ccTypeMatch=>$ccTypeRegExp) {
+                    if (preg_match($ccTypeRegExp, $ccNumber)) {
+                        $ccType = $ccTypeMatch;
+                        break;
+                    }
+                }
+
+                if (!$this->OtherCcType($info->getCcType()) && $ccType!=$info->getCcType()) {
+                    $errorCode = 'ccsave_cc_type,ccsave_cc_number';
+                    $errorMsg = $this->_getHelper()->__('Credit card number mismatch with credit card type');
+                }
+            }
+            else {
+                $errorCode = 'ccsave_cc_number';
+                $errorMsg = $this->_getHelper()->__('Invalid Credit Card Number');
+            }
+
+        }
+        else {
+            $errorCode = 'ccsave_cc_type';
+            $errorMsg = $this->_getHelper()->__('Credit card type is not allowed for this payment method');
+        }
+
+        if($errorMsg){
+            Mage::throwException($errorMsg);
+        }
+        return $this;
     }
 
     protected function getSoapApi($options = array())
