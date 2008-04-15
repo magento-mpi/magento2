@@ -29,50 +29,202 @@
 class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Get singleton with ideal strandard
+     *
+     * @return object Mage_Ideal_Model_Basic
+     */
+    public function getBasic()
+    {
+        return Mage::getSingleton('ideal/basic');
+    }
+
+    /**
+     *  Return order instance for last real order ID (stored in session)
+     *
+     *  @param    none
+     *  @return	  Mage_Sales_Model_Entity_Order object
+     */
+    protected function getOrder ()
+    {
+        $session = Mage::getSingleton('checkout/session');
+        $session->setIdealBasicQuoteId($session->getQuoteId());
+
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($session->getLastRealOrderId());
+        return $order;
+    }
+
+    /**
      * When a customer chooses iDEAL Basic on Checkout/Payment page
      */
     public function redirectAction()
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setIdealBasicQuoteId($session->getQuoteId());
+        $order = $this->getOrder();
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('ideal')->__('Customer was redirected to iDeal')
+        );
+        $order->save();
+
         $this->getResponse()->setBody($this->getLayout()->createBlock('ideal/basic_redirect')->toHtml());
         $session->unsQuoteId();
     }
 
     /**
-     * When a customer cancel payment from iDEAL.
+     *  Perform some validate actions for iDeal Response
+     *
+     *  @return	  void
      */
-    public function cancelAction()
+    protected function preResponse ()
     {
-        $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getIdealBasicQuoteId(true));
-        $this->_redirect('checkout/cart');
+        if ($this->getBasic()->getDebug()) {
+            Mage::getModel('ideal/api_debug')
+                ->setResponseBody($_SERVER['HTTP_REFERER']) // :(
+                ->save();
+        }
     }
 
     /**
-     * When customer return from iDEAL
+     *  Success response from iDeal
+     *
+     *  @return	  void
      */
     public function  successAction()
     {
-        $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getIdealBasicQuoteId(true));
-        /**
-         * set the quote as inactive after back from iDEAL
-         */
-        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        $order = $this->getOrder();
 
-        /**
-         * send confirmation email to customer
-         */
-        $order = Mage::getModel('sales/order');
-
-        $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
-        if($order->getId()){
-            $order->sendNewOrderEmail();
+        if (!$order->getId()) {
+            $this->_redirect('');
+            return false;
         }
 
-        //Mage::getSingleton('checkout/session')->unsQuoteId();
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('ideal')->__('Customer successfully returned from iDeal')
+        );
 
-        $this->_redirect('checkout/onepage/success', array('_secure'=>true));
+        $order->sendNewOrderEmail();
+
+        if ($this->saveInvoice($order)) {
+            $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+            $order->addStatusToHistory(
+                $order->getStatus(),
+                Mage::helper('ideal')->__('Invoice was created for order ' . $order->getId())
+            );
+        } else {
+            $order->addStatusToHistory(
+                Mage::getStoreConfig('payment/ideal_basic/order_status'),
+                Mage::helper('ideal')->__('Cannot save invoice for order '.$order->getId())
+            );
+        }
+
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('ideal')->__('Please, check the status of a transaction via the '
+                                      . 'ING iDEAL Dashboard before delivery of the goods purchased.')
+        );
+
+        $order->save();
+
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getIdealBasicQuoteId(true));
+        $session->getQuote()->setIsActive(false)->save();
+        $this->_redirect('checkout/onepage/success');
     }
+
+    /**
+     *  Cancel response from iDeal
+     *
+     *  @return	  void
+     */
+    public function cancelAction()
+    {
+        $order = $this->getOrder();
+
+        if (!$order->getId()) {
+            $this->_redirect('');
+            return false;
+        }
+
+        $order->cancel();
+
+        $history = Mage::helper('ideal')->__('Order '.$order->getId().' was canceled by customer')
+                 . Mage::helper('ideal')->__('Customer was returned from iDeal.');
+
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            $history
+        );
+
+        $order->save();
+
+        $this->_redirect('checkout/cart');
+    }
+
+
+    /**
+     *  Error response from iDeal
+     *
+     *  @return	  void
+     */
+    public function errorAction ()
+    {
+        $order = $this->getOrder();
+
+        if (!$order->getId()) {
+            $this->_redirect('');
+            return false;
+        }
+
+        $order->cancel();
+
+        $history = Mage::helper('ideal')->__('Error was occured with order '.$order->getId())
+                 . Mage::helper('ideal')->__('Customer was returned from iDeal.');
+
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            $history
+        );
+
+        $order->save();
+
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getIdealBasicQuoteId(true));
+        $session->setErrorMessage(Mage::helper('ideal')->__('Error was occured with order '.$order->getId()));
+    }
+
+    /**
+     *  Save invoice for order
+     *
+     *  @param    Mage_Sales_Model_Order $order
+     *  @return	  boolean Can save invoice or not
+     */
+    protected function saveInvoice (Mage_Sales_Model_Order $order)
+    {
+        if ($order->canInvoice()) {
+            $convertor = Mage::getModel('sales/convert_order');
+            $invoice = $convertor->toInvoice($order);
+            foreach ($order->getAllItems() as $orderItem) {
+               if (!$orderItem->getQtyToInvoice()) {
+                   continue;
+               }
+               $item = $convertor->itemToInvoiceItem($orderItem);
+               $item->setQty($orderItem->getQtyToInvoice());
+               $invoice->addItem($item);
+            }
+            $invoice->collectTotals();
+            $invoice->register()->capture();
+            Mage::getModel('core/resource_transaction')
+               ->addObject($invoice)
+               ->addObject($invoice->getOrder())
+               ->save();
+            return true;
+        }
+
+        return false;
+    }
+
+
 }

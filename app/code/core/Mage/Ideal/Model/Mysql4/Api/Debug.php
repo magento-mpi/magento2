@@ -18,22 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Ideal API Debug Resource
+ *
+ * @category   Mage
+ * @package    Mage_Ideal
+ * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ */
 
-$installer = $this;
-/* @var $installer Mage_Ideal_Model_Mysql4_Setup */
-
-$installer->startSetup();
-
-$installer->run("
-CREATE TABLE `{$this->getTable('ideal_api_debug')}` (
-  `debug_id` int(10) unsigned NOT NULL auto_increment,
-  `debug_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `request_body` text,
-  `response_body` text,
-  PRIMARY KEY  (`debug_id`),
-  KEY `debug_at` (`debug_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-    ");
-
-$installer->endSetup();
+class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+{
+    protected function _construct()
+    {
+        $this->_init('ideal/api_debug', 'debug_id');
+    }
+}

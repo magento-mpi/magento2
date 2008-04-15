@@ -46,7 +46,6 @@ class Mage_Ideal_Block_Basic_Redirect extends Mage_Core_Block_Abstract
         $html.= $form->toHtml();
         $html.= '<script type="text/javascript">document.getElementById("ideal_basic_checkout").submit();</script>';
         $html.= '</body></html>';
-
         return $html;
     }
 }

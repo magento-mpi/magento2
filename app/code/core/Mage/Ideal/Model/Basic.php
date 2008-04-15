@@ -32,6 +32,12 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     protected $_formBlockType = 'ideal/basic_form';
     protected $_allowCurrencyCode = array('EUR');
 
+    protected $_isGateway               = false;
+    protected $_canAuthorize            = false;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = false;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
@@ -54,6 +60,16 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     public function getQuote()
     {
         return $this->getCheckout()->getQuote();
+    }
+
+    /**
+     * Get debug flag
+     *
+     * @return boolean
+     */
+    public function getDebug()
+    {
+        return Mage::getStoreConfig('payment/ideal_basic/debug_flag');
     }
 
     public function createFormBlock($name)
@@ -87,6 +103,21 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Return iDEAL Basic Api Url
+     *
+     * @return string Payment API URL
+     */
+    public function getApiUrl()
+    {
+         if (Mage::getStoreConfig('ideal/basic/test_flag') == 1) {
+             $url = "https://idealtest.secure-ing.com/ideal/mpiPayInitIng.do";
+         } else {
+             $url = "https://ideal.secure-ing.com/ideal/mpiPayInitIng.do";
+         }
+         return $url;
+    }
+
+    /**
      * Generates array of fields for redirect form
      *
      * @return array
@@ -105,8 +136,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             'amount' => ($shippingAddress->getBaseSubtotal()-$shippingAddress->getBaseDiscountAmount())*100,
             'purchaseID' => $quote->getReservedOrderId(),
             'paymentType' => 'ideal',
-            'validUntil' => gmdate('Y') . '-' . gmdate('m') . '-' . gmdate('d') . 'T'
-            . gmdate('H'+1) . ':' . gmdate('i') . ':' . gmdate('s') . '.000Z'
+            'validUntil' => gmdate('Y-m-d\TH:i:s.000\Z', time() + 60 * 60) // plus 1 hour gmmktime () ???
         );
 
         $i = 1;
@@ -122,10 +152,15 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
 
         $fields = $this->appendHash($fields);
 
+        $description = Mage::getStoreConfig('ideal/basic/description');
+        if ($description == '') {
+            $description = Mage::app()->getStore()->getName() . ' ' . 'payment';
+        }
+
         $fields = array_merge($fields, array(
             'language' => 'nl',
             'currency' => $currency_code,
-            'description' => Mage::getStoreConfig('ideal/basic/description'),
+            'description' => $description,
             'urlCancel' => Mage::getUrl('ideal/basic/cancel', array('_secure' => true)),
             'urlSuccess' => Mage::getUrl('ideal/basic/success', array('_secure' => true)),
             'urlError' => Mage::getUrl('ideal/basic/error', array('_secure' => true))
@@ -139,37 +174,15 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             $requestString .= '&'.$k.'='.$v;
         }
 
-        if ($this->getDebug() && $requestString) {
-            $requestString = substr($requestString, 1);
-            $debug = Mage::getModel('ideal/api_debug')
-                    ->setApiEndpoint($this->getApiUrl())
-                    ->setRequestBody($requestString)
-                    ->save();
+        if ($this->getDebug()) {
+            Mage::getModel('ideal/api_debug')
+                ->setRequestBody($this->getApiUrl() . "\n" . $requestString . "\n" . print_r($returnArray,1))
+                ->save();
         }
 
         return $returnArray;
     }
 
-    /**
-     * Return iDEAL Basic Api Url
-     *
-     * @return stringphp5
-     */
-    public function getApiUrl()
-    {
-         if (Mage::getStoreConfig('ideal/basic/test') == 1) {
-             $url = "https://idealtest.secure-ing.com/ideal/mpiPayInitIng.do";
-         } else {
-             $url = "https://ideal.secure-ing.com/ideal/mpiPayInitIng.do";
-         }
-
-         return $url;
-    }
-
-    public function getDebug()
-    {
-        return false;
-    }
 
     /**
      * Calculates and appends hash to form fields
@@ -180,7 +193,6 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     public function appendHash($returnArray)
     {
         $merchantKey = Mage::getStoreConfig('ideal/basic/merchant_key');
-
         $hashString = $merchantKey.implode('', $returnArray);
         $hashString = str_replace(
             array(" ", "\t", "\n", "&amp;", "&lt;", "&gt;", "&quote;"),

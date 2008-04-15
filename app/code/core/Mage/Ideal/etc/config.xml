@@ -29,9 +29,13 @@
         <models>
             <ideal>
                 <class>Mage_Ideal_Model</class>
+                <resourceModel>ideal_mysql4</resourceModel>
             </ideal>
             <ideal_mysql4>
                 <class>Mage_Ideal_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>ideal_api_debug</table></api_debug>
+                </entities>
             </ideal_mysql4>
         </models>
         <resources>
