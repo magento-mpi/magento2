@@ -64,7 +64,7 @@
                 </a>
             </td>
             <td class="attributes-col">
-                <a href="<?php echo $this->getItemUrl($_item) ?>" class="link-base"><?php echo $this->getItemName($_item) ?></a>
+                <p class="pname"><a href="<?php echo $this->getItemUrl($_item) ?>" class="link-base"><?php echo $this->getItemName($_item) ?></a></p>
                 <?php echo $this->getItemDescription($_item) ?>
                 <?php if($_item->getMessage()): ?>
                 <div style="font-size:95%;margin-top:6px;" class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">

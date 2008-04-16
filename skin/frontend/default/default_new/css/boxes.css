@@ -801,6 +801,7 @@ td.attributes-col ul                { margin:5px 0; font-size:.95em;}
 td.attributes-col dt                { margin-top:.5em; font-size:.95em; font-weight:bold; }
 td.attributes-col dd ul             { margin: 0 0 5px 0; }
 td.attributes-col dd ul li          { margin-left:15px; list-style:disc; }
+td.attributes-col p.pname           { width:190px; overflow:hidden; padding:0; margin:0; }
 .cart-totals                    { padding:12px 0;  background:url(../images/cart_totals_bg.gif) no-repeat; text-align:right; }
 .cart-totals table              { float:right; width:400px; margin-bottom:8px; }
 .cart-totals td                 { padding-left:15px; font-size:1.1em; }
