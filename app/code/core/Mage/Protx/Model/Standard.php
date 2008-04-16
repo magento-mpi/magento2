@@ -164,12 +164,13 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $totalLines = 0;
         if ($items) {
             foreach($items as $item) {
+                $quantity = $item->getQtyOrdered();
+
                 $cost = sprintf('%.2f', $item->getBasePrice() - $item->getBaseDiscountAmount());
                 $tax = sprintf('%.2f', $item->getBaseTaxAmount());
-                $costPlusTax = sprintf('%.2f', $cost + $tax);
+                $costPlusTax = sprintf('%.2f', $cost + $tax/$quantity);
 
-                $quantity = $item->getQtyOrdered();
-                $totalCostPlusTax = sprintf('%.2f', $quantity * $costPlusTax);
+                $totalCostPlusTax = sprintf('%.2f', $quantity * $cost + $tax);
 
                 $resultParts[] = $item->getName();
                 $resultParts[] = $quantity;
