@@ -395,7 +395,7 @@ h1#logo                 { float:left; }
     color:#444;
     text-transform:uppercase;
     }
-.base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; font-size:.95em;}
+.base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; font-size:.95em; }
 .base-mini h5 { margin:0; font-size:10px; font-weight:normal; text-align:left; text-transform:uppercase; }
 .base-mini ul.super-product-attributes li { padding:0px; background-color:transparent !important; }
 .base-mini .product-images      { float:left; left:8px; width:52px; height:52px; }
