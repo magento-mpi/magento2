@@ -27,9 +27,24 @@ class Mage_Cybersource_Block_Info extends Mage_Payment_Block_Info_Cc
         $this->setTemplate('cybersource/info.phtml');
     }
 
-    protected function _getDirect()
+    protected function _getConfig()
     {
-        return Mage::getSingleton('cybersource/soap');
+        return Mage::getSingleton('cybersource/config');
+    }
+
+
+     /**
+     * Retrieve credit card type name
+     *
+     * @return string
+     */
+    public function getCcTypeName()
+    {
+        $types = $this->_getConfig()->getCcTypes();
+        if (isset($types[$this->getInfo()->getCcType()])) {
+            return $types[$this->getInfo()->getCcType()];
+        }
+        return $this->getInfo()->getCcType();
     }
 
     /**

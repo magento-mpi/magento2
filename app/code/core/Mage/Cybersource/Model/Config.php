@@ -19,6 +19,7 @@
  */
 class Mage_Cybersource_Model_Config extends Mage_Payment_Model_Config
 {
+    protected $_ccTypes = array();
     /**
      * Retrieve array of credit card types
      *
@@ -27,28 +28,28 @@ class Mage_Cybersource_Model_Config extends Mage_Payment_Model_Config
     public function getCcTypes()
     {
         $pTypes = parent::getCcTypes();
-        $types = array();
+        $this->_ccTypes = array();
         $added = false;
         foreach ($pTypes as $code => $name) {
              if ($code=='OT') {
                 $added = true;
-                $this->addExtraCcTypes(&$types);
+                $this->addExtraCcTypes();
             }
-            $types[$code] = $name;
+            $this->_ccTypes[$code] = $name;
         }
         if (!$added) {
-            $this->addExtraCcTypes(&$types);
+            $this->addExtraCcTypes();
         }
-        return $types;
+        return $this->_ccTypes;
     }
 
-    public function addExtraCcTypes($types)
+    public function addExtraCcTypes()
     {
-        $types['JCB'] = Mage::helper('cybersource')->__('JCB');
-        $types['LASER'] = Mage::helper('cybersource')->__('Laser');
-        $types['UATP'] = Mage::helper('cybersource')->__('UATP');
-        $types['MCI'] = Mage::helper('cybersource')->__('Maestro (International)');
-        $types[Mage_Cybersource_Model_Soap::CC_CARDTYPE_SS] = Mage::helper('cybersource')->__('Switch/Solo/Maestro(UK Domestic)');
+        $this->_ccTypes['JCB'] = Mage::helper('cybersource')->__('JCB');
+        $this->_ccTypes['LASER'] = Mage::helper('cybersource')->__('Laser');
+        $this->_ccTypes['UATP'] = Mage::helper('cybersource')->__('UATP');
+        $this->_ccTypes['MCI'] = Mage::helper('cybersource')->__('Maestro (International)');
+        $this->_ccTypes[Mage_Cybersource_Model_Soap::CC_CARDTYPE_SS] = Mage::helper('cybersource')->__('Switch/Solo/Maestro(UK Domestic)');
 
     }
 
