@@ -206,7 +206,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     {
         if (!$object->getCreatedAt()) {
             $object->setCreatedAt($this->formatDate(time()));
-        }
+        } 
         $object->setUpdatedAt($this->formatDate(time()));
         parent::_beforeSave($object);
     }
@@ -253,11 +253,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!is_null($websiteId)) {
             $websiteModel->load($websiteId);
         }
-        if (!$websiteModel->getId() && $importedWebsiteId = $this->_getCollection('website')) {
-            $websiteModel->load($importedWebsiteId);
-        } else {
-            $importedWebsiteId = '';
-        }
+
         if (!$websiteModel->getId()) {
             $storeInfo = $this->getOscStoreInformation();
             if ($this->_websiteCode && !($websiteModel->load($this->_websiteCode)->getId())) {
@@ -268,7 +264,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         }
 
 
-        if ($importedWebsiteId != $websiteModel->getId()) {
+        if ($websiteModel->getId()) {
             $this->_logData['user_id'] = $this->_getCurrentUserId();
             $this->_logData['import_id']  = $obj->getId();
             $this->_logData['type_id']      = $this->getImportTypeIdByCode('website');
@@ -511,7 +507,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             // Getting customer group data
             $customerGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
             $customerGroupModel = $this->getCustomerGroupModel()->load($customerGroupId);        
-            $websiteCode = $this->getWebsiteModel()->getCode();
+            $websiteId = $this->getWebsiteModel()->getId();
             $customerModel = $this->getCustomerModel();
             $addressModel = $this->getAddressModel();
             
@@ -573,13 +569,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $defaultBilling = '';
             $defaultBilling = $data['default_billing'];
             unset($data['default_billing']);
-    
-            $data['website'] = $websiteCode ? $websiteCode: $this->getCurrentWebsite()->getCode();
             unset($data['id']);
+            
             try {
-                $customerModel->unsetData();
-                $customerModel->setOrigData();
                 $customerModel->setData($data);
+                $customerModel->setWebsiteId($websiteId > 0 ? $websiteId: $this->getCurrentWebsite()->getId());
                 $customerModel->save();
                 $customerId = $customerModel->getId();
     
@@ -1206,6 +1200,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         		}
         	}
 
+			$data['date_purchased'] = date('Y-m-d H:i:s', Mage::getSingleton('core/date')->gmtTimestamp($data['date_purchased']) + Mage::getSingleton('core/date')->getGmtOffset());
+			if ($data['last_modified']) {
+				$data['last_modified'] = date('Y-m-d H:i:s', Mage::getSingleton('core/date')->gmtTimestamp($data['last_modified']) + Mage::getSingleton('core/date')->getGmtOffset());
+			}
             $data['magento_customers_id'] = $this->_customerIdPair[$data['customers_id']]; // get Magento CustomerId
             $data['import_id'] = $importId;
             $data['website_id'] = $websiteId;
@@ -1282,7 +1280,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
             }
         } else {
-        	$this->_addErrors(Mage::helper('oscommerce')->__('Order of customer %s [%s] cannot be saved because of order might be placed by guest account.', $data['customers_name'], $data['customers_email_address']));
+        	$this->_addErrors(Mage::helper('oscommerce')->__('Order of customer %s [%s] cannot be saved because of email does not have matching in customer entry.', $data['customers_name'], $data['customers_email_address']));
         }
     }
     

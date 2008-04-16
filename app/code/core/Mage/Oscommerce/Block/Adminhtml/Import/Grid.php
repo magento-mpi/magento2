@@ -38,7 +38,6 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
     {
         $collection = Mage::getModel('oscommerce/oscommerce')->getCollection();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
@@ -77,7 +76,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
             'align'     => 'center',
             'index'     =>'updated_at',
         ));
-
+		
         return parent::_prepareColumns();
     }
 

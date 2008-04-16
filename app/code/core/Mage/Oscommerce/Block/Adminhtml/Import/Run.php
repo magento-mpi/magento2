@@ -86,7 +86,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
             . '<span class="text">#{text}</span>'
             . '</li>',
             'text'     => $this->__('processed <strong>%s%% %s/%s</strong> records', '#{percent}', '#{updated}', '#{total}'),
-            'successText'  => $this->__('Imported <strong>%s</strong> records', '#{updated}')
+            'successText'  => $this->__('Total imported <strong>%s</strong> records', '#{updated}')
             );
 
             
@@ -115,7 +115,9 @@ function addImportData(data) {
 }
 
 function execImportData() {
+    
     if (importData.length == 0) {
+    	resetAllCount();
         new Insertion.Before($("liFinished"), config.tpl.evaluate({
             style: "background-color:"+config.styles.message.bg,
             image: config.styles.message.icon,

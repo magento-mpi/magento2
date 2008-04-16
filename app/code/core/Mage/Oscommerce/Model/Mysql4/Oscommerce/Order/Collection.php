@@ -28,5 +28,29 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order_Collection extends Mage_Core
     protected function _construct()
     {
         $this->_init('oscommerce/oscommerce_order');
+    }
+
+    public function addOrderTotalField()
+    {
+        $this->_select
+            ->from(null, array('orders_total'=>new Zend_Db_Expr('FORMAT(main_table.orders_total,2)')));
+        return $this;
     }    
+    
+    public function addDatePurchasedField()
+    {
+        $this->_select
+            ->from(null, array('date_purchased'=>new Zend_Db_Expr('UNIX_TIMESTAMP(main_table.date_purchased)')));
+        return $this;    	
+    }
+    public function load($printQuery=false, $logQuery=false)
+    {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+        $this->addOrderTotalField();
+        //$this->addDatePurchasedField();
+        parent::load($printQuery, $logQuery);
+        return $this;
+    }
 }

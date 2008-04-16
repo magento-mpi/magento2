@@ -32,14 +32,12 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('oscommerceOrderGrid');
         $this->setDefaultSort('id');
-
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('oscommerce/oscommerce_order')->getCollection();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
@@ -72,7 +70,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'width' =>'50px',
             'index' =>'orders_total',
             'type' => 'currency',
-            'currency'=>'store_currency_code'
+            'currency'=>'order_currency_code'
         ));             
 
         $this->addColumn('orders_status', array(
@@ -85,9 +83,8 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'header'    =>Mage::helper('oscommerce')->__('Purchased On'),
             'index'     =>'date_purchased',
             'width'     =>'200px',
-            'type' => 'datetime'
+            'type' 		=> 'datetime'
         ));        
-
 
         return parent::_prepareColumns();
     }
