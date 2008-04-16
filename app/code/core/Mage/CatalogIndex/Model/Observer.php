@@ -32,31 +32,29 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
 
     public function reindexAll()
     {
-        Mage::getSingleton('catalogindex/indexer')->reindex();
+        Mage::getSingleton('catalogindex/indexer')->plainReindex();
     }
 
     public function reindexDaily()
     {
-        Mage::getSingleton('catalogindex/indexer')->reindexPrices();
+        Mage::getSingleton('catalogindex/indexer')->plainReindex(null, Mage_CatalogIndex_Model_Indexer::REINDEX_TYPE_PRICE);
     }
-
-    // event handlers
 
     public function processAfterSaveEvent(Varien_Event_Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
-        Mage::getSingleton('catalogindex/indexer')->index($eventProduct);
+        Mage::getSingleton('catalogindex/indexer')->plainReindex($eventProduct);
     }
 
     public function processPriceScopeChange(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('catalogindex/indexer')->reindexPrices();
+        Mage::getSingleton('catalogindex/indexer')->plainReindex(null, Mage_CatalogIndex_Model_Indexer::REINDEX_TYPE_PRICE);
     }
 
     public function processPriceRuleApplication(Varien_Event_Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
-        Mage::getSingleton('catalogindex/indexer')->reindexPrices($eventProduct);
+        Mage::getSingleton('catalogindex/indexer')->plainReindex($eventProduct, Mage_CatalogIndex_Model_Indexer::REINDEX_TYPE_PRICE);
     }
 
     public function registerParentIds(Varien_Event_Observer $observer)
@@ -70,15 +68,19 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
         Mage::getSingleton('catalogindex/indexer')->cleanup($eventProduct);
         $parentProductIds = $eventProduct->getParentProductIds();
 
-        foreach ($parentProductIds as $parent) {
-            Mage::getSingleton('catalogindex/indexer')->index($parent);
+        if ($parentProductIds) {
+            Mage::getSingleton('catalogindex/indexer')->plainReindex($parentProductIds);
         }
     }
 
     public function processAttributeChangeEvent(Varien_Event_Observer $observer)
     {
+        if ($observer->getAttribute()->getOrigData('is_filterable') == $observer->getAttribute()->getIsFilterable()) {
+            return;
+        }
+
         if ($observer->getAttribute()->getIsFilterable() != 0) {
-            Mage::getSingleton('catalogindex/indexer')->reindex();
+            Mage::getSingleton('catalogindex/indexer')->plainReindex(null, $observer->getAttribute());
         }
     }
 }

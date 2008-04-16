@@ -381,6 +381,10 @@
                 <product_use_categories>1</product_use_categories>
                 <title_separator>-</title_separator>
             </seo>
+
+            <layer>
+                <configurable_children>1</configurable_children>
+            </layer>
         </catalog>
     </default>
 </config>

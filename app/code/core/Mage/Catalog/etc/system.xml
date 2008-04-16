@@ -135,6 +135,7 @@
                             <label>Use categories path for product URLs</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>adminhtml/system_config_backend_seo_product</backend_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -170,6 +171,22 @@
                         </scope>
                     </fields>
                 </price>
+                <layer translate="label">
+                    <label>Layered Navigation</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>450</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <configurable_children translate="label">
+                            <label>Index configurable product's children</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>adminhtml/system_config_backend_layer_children</backend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </configurable_children>
+                    </fields>
+                </layer>
             </groups>
         </catalog>
         <design>
