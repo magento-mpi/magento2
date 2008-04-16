@@ -422,6 +422,7 @@ h1#logo                 { float:left; }
 .mini-newsletter label              { float:left; }
 .mini-newsletter .input-box         { float:left; margin:0 5px; }
 .mini-newsletter .input-text        { width:180px; }
+.mini-newsletter .validation-advice { width:178px; }
 
 .mini-cart .head                    { background:#679100; }
 .mini-cart .head h4                 { color:#fff; }
