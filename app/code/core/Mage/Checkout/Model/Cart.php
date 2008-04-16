@@ -479,7 +479,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
                 $item->setProductDescription(Mage::helper('catalog/product')->getProductDescription($product));
 
-                $item->unsProduct()->unsSuperProduct();
+                //$item->unsProduct()->unsSuperProduct();
 
                 $cart['items'][] = $item;
 
