@@ -340,12 +340,13 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     {
         $this->_initImport();
         $importModel = Mage::registry('oscommerce_adminhtml_import');
-        
-        $charset = $importModel->getResource()->getConnectionCharset();
-        $defaultOscCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_OSC_CHARSET;
-        $defaultMageCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_MAGENTO_CHARSET;
+        $error = false;
         if ($importModel->getId()) {
             try {
+		        $charset = $importModel->getResource()->getConnectionCharset();
+		        $defaultOscCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_OSC_CHARSET;
+		        $defaultMageCharset = Mage_Oscommerce_Model_Mysql4_Oscommerce::DEFAULT_MAGENTO_CHARSET;
+            	
                 $stores = $importModel->getResource()->getOscStores();
     
                 $locales = Mage::app()->getLocale()->getOptionLocales();
@@ -365,9 +366,19 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                     $html .= "</table>\n";
                 }
             } catch (Exception $e) {
-                $html = "error";
+                $error = true;
+                $html = (preg_match("/Column not found/",$e->getMessage())? Mage::helper('oscommerce')->__('languages table error '):'') . $e->getMessage();
             }
-            $this->getResponse()->setBody($html);
+            
+            if ($error) {
+		        $result = array(
+			        'error'    => true,
+			        'messages' => $html
+		        );
+        		$this->getResponse()->setBody(Zend_Json::encode($result));            
+            } else {
+        		$this->getResponse()->setBody($html);
+            }
         }
     }
     

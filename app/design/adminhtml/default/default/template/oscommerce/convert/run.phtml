@@ -239,8 +239,8 @@ Event.observe($('check_import'), 'click', function(){
             onSuccess: function(transport) {
                 var response = transport.responseText;
                 if (response) {
-                    if (response == 'error') {
-                        $('show_errors').update('<?php echo Mage::helper('oscommerce')->__('Connection error! Please check db configuration') ?>');
+                    if (response.isJSON()) {
+                        $('show_errors').update(transport.responseText.evalJSON()['messages']);
                         Element.show($('error_messages'));                       
                     } else {
                         showForm(response);
