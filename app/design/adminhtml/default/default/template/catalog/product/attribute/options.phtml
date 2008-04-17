@@ -87,7 +87,7 @@
 		                    <input type="hidden" class="delete-flag" name="option[delete][{{id}}]" value="">
 		                    <?php echo $this->getDeleteButtonHtml() ?>
 		                </td>
-		            </tr>				
+		            </tr>
 	        </table>
 		</div>
 		<input type="hidden" id="option-count-check" value=""/>
@@ -199,8 +199,4 @@ Validation.addAllThese([
 <?php foreach ($this->getOptionValues() as $_value): ?>
     attributeOption.add(<?php echo $_value->toJson() ?>);
 <?php endforeach; ?>
-attributeOption.intervalIdentifier = setInterval(
-    attributeOption.syncTableSize.bind(attributeOption),
-    3000
-);
 </script>
