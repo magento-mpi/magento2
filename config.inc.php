@@ -103,6 +103,12 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Eav/',
     ),
 
+    'Mage_Eway' => array(
+        'app/code/core/Mage/Eway/',
+        'app/design/frontend/default/default/template/eway/',
+        'app/design/adminhtml/default/default/template/eway/',
+    ),
+
     'Mage_GiftMessage' => array(
         'app/code/core/Mage/GiftMessage/',
         'app/design/frontend/default/default/template/giftmessage/',
@@ -259,6 +265,7 @@ $CONFIG['helpers']  = array(
     'dataflow'          => 'Mage_Dataflow',
     'directory'         => 'Mage_Directory',
     'eav'               => 'Mage_Eav',
+    'eway'              => 'Mage_Eway',
     'giftmessage'       => 'Mage_GiftMessage',
     'googleanalytics'   => 'Mage_GoogleAnalytics',
     'googlecheckout'    => 'Mage_GoogleCheckout',
