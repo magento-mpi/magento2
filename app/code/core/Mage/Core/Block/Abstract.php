@@ -616,6 +616,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Generate url-encoded url by route and parameters
+     *
+     * @param   string $route
+     * @param   array $params
+     * @return  string
+     */
+    public function getUrlEncoded($route = '', $params = array())
+    {
+        return Mage::helper('core')->urlEncode($this->getUrl($route, $params));
+    }
+
+    /**
      * Retrieve url of skins file
      *
      * @param   string $file path to file in skin

@@ -117,6 +117,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
 
+        if (is_null(Mage::getSingleton('adminhtml/session')->getLocale())) {
+            Mage::getSingleton('adminhtml/session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
+        }
+
         return $this;
     }
 
