@@ -150,9 +150,12 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         }
         
         Mage::app()->cleanCache();
+
         
+        if ($timezone = $importModel->getSession()->getTimezone()) {
+        	$importModel->setTimezone($timezone);
+        }        
         
-       
        	$importModel->getResource()->setImportModel($importModel); 
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
             if (isset($collections['website'])) {
@@ -263,7 +266,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getSession()->setStoreLocales($storeLocales);
         $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
-        
+		$timezone = $this->getRequest()->getParam('timezone');
+		$importModel->getSession()->setTimezone($timezone);
+
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');

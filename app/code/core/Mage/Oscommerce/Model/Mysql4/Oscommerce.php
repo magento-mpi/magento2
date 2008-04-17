@@ -912,13 +912,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             for ($i = 0; $i < $pages; $i++) {
                 $orders = $this->getOrders(array('from' => $i * $maxRows, 'max' => $maxRows));
                 if ($orders) foreach($orders as $order) {
-                    $this->_saveOrder($obj, $order);
+                    $this->_saveOrder($order);
                 }
             }
         } else {
             $orders = $this->getOrders(array('from' => $startFrom, 'max' => $maxRows));
             if ($orders) foreach($orders as $order) {
-                $this->_saveOrder($obj, $order);
+                $this->_saveOrder($order);
             }
         }
     }
@@ -1180,15 +1180,18 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         return $result;
     }
     
-    protected function _saveOrder(Mage_Oscommerce_Model_Oscommerce $obj, $data)
+    protected function _saveOrder($data)
     {
+    	
+    	$importModel = $this->getImportModel();
+    	$timezone = $importModel->getTimezone();
     	$charsetOrder = $this->getCharset("{$this->_prefix}orders");
     	$charsetHistory = $this->getCharset("{$this->_prefix}orders_status_history");
     	$charsetTotal = $this->getCharset("{$this->_prefix}orders_total");
     	$charsetProduct = $this->getCharset("{$this->_prefix}orders_products");
     	
         $customerIdPair = $this->getCustomerIdPair();
-        $importId  = $obj->getId();
+        $importId  = $importModel->getId();
         $websiteId = $this->getWebsiteModel()->getId();
         $tablePrefix = (string)Mage::getConfig()->getNode('global/resources/db/table_prefix'); 
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
@@ -1200,10 +1203,29 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         		}
         	}
 
-			$data['date_purchased'] = date('Y-m-d H:i:s', Mage::getSingleton('core/date')->gmtTimestamp($data['date_purchased']) + Mage::getSingleton('core/date')->getGmtOffset());
-			if ($data['last_modified']) {
-				$data['last_modified'] = date('Y-m-d H:i:s', Mage::getSingleton('core/date')->gmtTimestamp($data['last_modified']) + Mage::getSingleton('core/date')->getGmtOffset());
-			}
+
+
+        	if ($data['date_purchased']) {
+        		$datePurchased = strtotime($data['date_purchased']);
+        		$data['purchased_year'] = date('Y', $datePurchased);
+        		$data['purchased_month'] = date('m', $datePurchased);
+        		$data['purchased_day'] = date('d', $datePurchased);
+        	}
+        	if ($data['last_modified']) {
+        		$dateModified = strtotime($data['last_modified']);
+        		$data['modified_year'] = date('Y', $dateModified);
+        		$data['modified_month'] = date('m', $dateModified);
+        		$data['modified_day'] = date('d', $dateModified);
+        	}
+
+	        $preparePurchased = explode(' ', $data['date_purchased']);
+	        $datePurchased = new Zend_Date();	        
+	        $datePurchased->setTimezone($timezone);
+	        $datePurchased->set($preparePurchased[0], Zend_Date::DATES);
+	        $datePurchased->set($preparePurchased[1], Zend_Date::TIMES);
+	       	$datePurchased->setTimezone('GMT');
+	        $data['date_purchased'] =  $datePurchased->toString('yyyy-MM-dd HH:mm:ss');        	
+        	       	
             $data['magento_customers_id'] = $this->_customerIdPair[$data['customers_id']]; // get Magento CustomerId
             $data['import_id'] = $importId;
             $data['website_id'] = $websiteId;

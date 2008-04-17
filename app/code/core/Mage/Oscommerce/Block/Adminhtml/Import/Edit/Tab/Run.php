@@ -106,4 +106,17 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $html .= '</select>';
         return $html;
     }
+    
+    public function getTimezoneOptionHtml()
+    {
+        $html  = '<select id="timezone" name="timezone">';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a timezone'). '</option>';
+        $options = Mage::getModel('core/locale')->getOptionTimezones();
+        if ($options) foreach($options as $option) {
+            $html .= '<option value='. $option['value'] . '>' . $option['label'] . '</option>';
+        }
+        $html .= '</select>';
+        return $html;
+    	
+    }
 }
