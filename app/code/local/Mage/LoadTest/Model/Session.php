@@ -65,6 +65,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_layouts = array();
 
     protected $_timers = array();
+    protected $_paths = array();
 
     /**
      * Init Session model
@@ -72,7 +73,6 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function __construct()
     {
-
         $this->init('loadtest');
 
         $this->setCountLoadTime(0);
@@ -136,6 +136,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function isToProcess()
     {
+        return true;
         return $this->isEnabled() && $this->isLoggedIn();
     }
 
@@ -158,11 +159,15 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $path[] = $block->getNameInLayout();
         if ($block->getParentBlock()) {
-            return $this->getBlockPath($block->getParentBlock(), $path);
+            $blockPath = $this->getBlockPath($block->getParentBlock(), $path);
         }
         else {
-            return '/' . join('/', array_reverse($path));
+            $blockPath = '/' . join('/', array_reverse($path));
         }
+        if (!isset($this->_paths[$block->getNameInLayout()])) {
+            $this->_paths[$block->getNameInLayout()] = $blockPath;
+        }
+        return $blockPath;
     }
 
     public function blockStart($path, $useLayout = false)
@@ -266,12 +271,16 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
         $totalLayoutTime = 0;
 
-        foreach ($this->_blocks as $blockPath => $count) {
+        foreach ($this->_blocks as $blockName => $count) {
             $blockNode = $blocksNode->addChild('block');
-            $blockNode->addChild('path', $blockPath)
+            $blockNode->addChild('name', $blockName)
                 ->addAttribute('count', $count);
+            if (isset($this->_paths[$blockName])) {
+                $blockNode->addChild('path', $this->_paths[$blockName]);
+            }
+
             $i = 0;
-            foreach ($this->_timers['block'][$blockPath] as $timer) {
+            foreach ($this->_timers['block'][$blockName] as $timer) {
                 $blockNode->addChild('to_html_time', ($timer[1] - $timer[0]))
                     ->addAttribute('id', $i);
                 $blockNode->addChild('prepare_layout_time', $timer[2])

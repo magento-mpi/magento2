@@ -34,9 +34,9 @@ class Mage_LoadTest_Model_Observer
         /* @var $session Mage_LoadTest_Model_Session */
         $controller = $observer->getEvent()->getControllerAction();
 
-        if ($session->isEnabled() && !$session->isLoggedIn() && $session->isAcceptedController(get_class($controller))) {
+        /*if ($session->isEnabled() && !$session->isLoggedIn() && $session->isAcceptedController(get_class($controller))) {
             die();
-        }
+        }*/
     }
 
     public function postDispatch(Varien_Event_Observer $observer)
@@ -60,8 +60,8 @@ class Mage_LoadTest_Model_Observer
         $toProcess = $session->isToProcess();
         if ($toProcess) {
             $block->setUseLayout(true);
-            $block->setBlockPath($session->getBlockPath($block));
-            $session->layoutStart($block->getBlockPath());
+            //$block->setBlockPath($session->getBlockPath($block));
+            $session->layoutStart($block->getNameInLayout());
         }
     }
 
@@ -73,7 +73,7 @@ class Mage_LoadTest_Model_Observer
 
         $toProcess = $session->isToProcess();
         if ($toProcess) {
-            $session->layoutStop($block->getBlockPath());
+            $session->layoutStop($block->getNameInLayout());
         }
     }
 
@@ -87,8 +87,9 @@ class Mage_LoadTest_Model_Observer
         if ($toProcess) {
             if (!$block->getBlockPath()) {
                 $block->setBlockPath($session->getBlockPath($block));
+                $session->layoutStart($block->getBlockPath());
             }
-            $session->blockStart($block->getBlockPath(), $block->setUseLayout());
+            $session->blockStart($block->getNameInLayout(), $block->setUseLayout());
         }
     }
 
@@ -100,7 +101,7 @@ class Mage_LoadTest_Model_Observer
 
         $toProcess = $session->isToProcess();
         if ($toProcess) {
-            $session->blockStop($block->getBlockPath());
+            $session->blockStop($block->getNameInLayout());
         }
     }
 }
