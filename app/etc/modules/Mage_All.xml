@@ -21,10 +21,6 @@
 -->
 <config>
     <modules>
-        <Mage_Dmitro>
-            <active>true</active>
-            <codePool>local</codePool>
-        </Mage_Dmitro>
         <Mage_Core>
             <active>true</active>
             <codePool>core</codePool>
