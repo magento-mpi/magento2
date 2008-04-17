@@ -119,12 +119,12 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                             if (isset($values[$code]['from']) && isset($values[$code]['to']) && (!$values[$code]['from'] && !$values[$code]['to']))
                                 continue;
                             $table = $indexer->getResource()->getMainTable();
-                            if (!isset($filter[$table])) {
-                                $filter[$table] = $this->_getSelect();
-                                $filter[$table]->from($table, array('entity_id'));
+                            if (!isset($filter[$code])) {
+                                $filter[$code] = $this->_getSelect();
+                                $filter[$code]->from($table, array('entity_id'));
                             }
                             if ($indexer->isAttributeIdUsed()) {
-                                $filter[$table]->where('(attribute_id = ?', $attribute->getId());
+                                $filter[$code]->where('attribute_id = ?', $attribute->getId());
                             }
                             if (is_array($values[$code])) {
                                 if (isset($values[$code]['from']) && isset($values[$code]['to'])) {
@@ -133,7 +133,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                         if (!is_numeric($values[$code]['from'])) {
                                             $values[$code]['from'] = date("Y-m-d H:i:s", strtotime($values[$code]['from']));
                                         }
-                                        $filter[$table]->where('value >= ?', $values[$code]['from']);
+                                        $filter[$code]->where('value >= ?', $values[$code]['from']);
                                     }
 
 
@@ -141,22 +141,21 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                         if (!is_numeric($values[$code]['to'])) {
                                             $values[$code]['to'] = date("Y-m-d H:i:s", strtotime($values[$code]['to']));
                                         }
-                                        $filter[$table]->where('value <= ?', $values[$code]['to']);
+                                        $filter[$code]->where('value <= ?', $values[$code]['to']);
                                     }
                                 } else {
-                                    $filter[$table]->where('value in (?)', $values[$code]);
+                                    $filter[$code]->where('value in (?)', $values[$code]);
                                 }
                             } else {
-                                $filter[$table]->where('value = ?', $values[$code]);
+                                $filter[$code]->where('value = ?', $values[$code]);
                             }
-                            $filter[$table]->where('store_id = ?)', $store);
+                            $filter[$code]->where('store_id = ?', $store);
                             $filteredAttributes[]=$code;
                         }
                     }
                 }
             }
         }
-
         return $filter;
     }
 

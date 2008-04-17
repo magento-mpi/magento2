@@ -44,6 +44,12 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
     {
         $eventProduct = $observer->getEvent()->getProduct();
         Mage::getSingleton('catalogindex/indexer')->plainReindex($eventProduct);
+
+        $eventProduct->loadParentProductIds();
+        $parentProductIds = $eventProduct->getParentProductIds();
+        if ($parentProductIds) {
+            Mage::getSingleton('catalogindex/indexer')->plainReindex($parentProductIds);
+        }
     }
 
     public function processPriceScopeChange(Varien_Event_Observer $observer)
