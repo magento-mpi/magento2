@@ -83,7 +83,7 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
      */
     public function successAction()
     {
-        $this->_checkReturnedPost();
+        $status = $this->_checkReturnedPost();
 
         $session = $this->getCheckout();
 
@@ -97,7 +97,24 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
             $order->sendNewOrderEmail();
         }
 
-        $this->_redirect('checkout/onepage/success');
+        if ($status) {
+            $this->_redirect('checkout/onepage/success');
+        } else {
+            $this->_redirect('eway/shared/failure');
+        }
+    }
+
+    public function failureAction()
+    {
+        if (!$this->getCheckout()->getEwayErrorMessage()) {
+            $this->_redirect('');
+            return;
+        }
+
+        $this->getCheckout()->clear();
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -110,7 +127,7 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
             $this->_redirect('');
             return;
         }
-
+        $status = true;
         $response = $this->getRequest()->getPost();
 
         if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
@@ -147,13 +164,16 @@ class Mage_Eway_SharedController extends Mage_Core_Controller_Front_Action
                 $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfully returned from eWAY'));
             }
         } else {
+            $this->getModel()->setTransactionId($response['ewayTrxnReference']);
             $order->cancel();
             $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
+            $status = false;
+            $this->getCheckout()->setEwayErrorMessage($response['eWAYresponseText']);
         }
 
         $order->save();
 
-        return;
+        return $status;
     }
 
 }

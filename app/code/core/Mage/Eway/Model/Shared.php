@@ -192,7 +192,8 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
 
     public function cancel(Varien_Object $payment)
     {
-        $payment->setStatus(self::STATUS_DECLINED);
+        $payment->setStatus(self::STATUS_DECLINED)
+            ->setLastTransId($this->getTransactionId());
 
         return $this;
     }

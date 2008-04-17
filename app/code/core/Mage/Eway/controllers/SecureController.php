@@ -37,17 +37,17 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
 
     /**
      * Get singleton of Secure Model
-     * 
+     *
      * @return Mage_Eway_Model_Secure
      */
     public function getModel()
     {
         return Mage::getSingleton('eway/secure');
     }
-    
+
     /**
      * Get singleton of Checkout Session Model
-     * 
+     *
      * @return Mage_Checkout_Model_Session
      */
     public function getCheckout()
@@ -61,20 +61,20 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
     public function redirectAction()
     {
         $session = $this->getCheckout();
-        
+
         $this->getModel()->setCheckout($session);
         $this->getModel()->setQuote($session->getQuote());
 
         $session->setEwayQuoteId($session->getQuoteId());
         $session->setEwayRealOrderId($session->getLastRealOrderId());
-        
+
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
         $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was redirected to eWAY.'));
         $order->save();
-        
+
         $this->getResponse()->setBody($this->getLayout()->createBlock('eway/secure_redirect')->toHtml());
-        
+
         $session->unsQuoteId();
     }
 
@@ -83,21 +83,36 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
      */
     public function  successAction()
     {
-        $this->_checkReturnedPost();
-        
+        $status = $this->_checkReturnedPost();
+
         $session = $this->getCheckout();
-        
+
         $session->unsEwayRealOrderId();
         $session->setQuoteId($session->getEwayQuoteId(true));
         $session->getQuote()->setIsActive(false)->save();
-        
+
         $order = Mage::getModel('sales/order');
         $order->load($this->getCheckout()->getLastOrderId());
         if($order->getId()) {
             $order->sendNewOrderEmail();
         }
 
-        $this->_redirect('checkout/onepage/success');
+        if ($status) {
+            $this->_redirect('checkout/onepage/success');
+        } else {
+            $this->_redirect('eway/shared/failure');
+        }
+    }
+
+    public function failureAction()
+    {
+        if (!$this->getCheckout()->getEwayErrorMessage()) {
+            $this->_redirect('');
+            return;
+        }
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -110,16 +125,16 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
             $this->_redirect('');
             return;
         }
-        
+$status = true;
         $response = $this->getRequest()->getPost();
 
         if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
             $this->_redirect('');
             return;
         }
-        
+
         $this->getModel()->setResponse($response);
-        
+
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($response['ewayTrxnNumber']);
 
@@ -142,18 +157,21 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder())
                     ->save();
-                    
+
                 $this->getModel()->setTransactionId($response['ewayTrxnReference']);
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfuly returned from eWAY'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfully returned from eWAY'));
             }
         } else {
+            $this->getModel()->setTransactionId($response['ewayTrxnReference']);
             $order->cancel();
             $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
+            $status = false;
+            $this->getCheckout()->setEwayErrorMessage($response['eWAYresponseText']);
         }
 
         $order->save();
 
-        return;
+        return $status;
     }
 
 }

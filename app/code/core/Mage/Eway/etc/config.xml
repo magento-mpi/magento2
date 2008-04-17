@@ -99,6 +99,13 @@
                 </Mage_Eway>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <eway>
+                    <file>eway.xml</file>
+                </eway>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <translate>
