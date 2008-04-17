@@ -43,7 +43,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $this->_init('catalog/product', 'entity_id');
     }
 
-    public function clear($eav = true, $price = true, $minimal = true, $products = null)
+    public function clear($eav = true, $price = true, $minimal = true, $products = null, $store = null)
     {
         $suffix = '';
         $tables = array('eav'=>'catalogindex/eav', 'price'=>'catalogindex/price');
@@ -55,6 +55,18 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             }
             $suffix = $this->_getWriteAdapter()->quoteInto('entity_id in (?)', $products);
         }
+        if (!is_null($store)) {
+            if ($store instanceof Mage_Core_Model_Store) {
+                $store = $store->getId();
+            }
+
+            if ($suffix) {
+                $suffix .= ' AND ';
+            }
+            $suffix .= $this->_getWriteAdapter()->quoteInto('store_id in (?)', $store);
+
+        }
+
 
         foreach ($tables as $variable=>$table) {
             $variable = $$variable;
@@ -272,7 +284,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     public function reindexMinimalPrices($products, $store)
     {
         $this->_beginInsert('catalogindex/minimal_price', array('store_id', 'entity_id', 'customer_group_id', 'value'));
-        $this->clear(false, false, true, $products);
+        $this->clear(false, false, true, $products, $store);
         $withChildren = $this->getNonSimpleProducts($products, Mage_Catalog_Model_Product_Type::TYPE_GROUPED);
         if ($withChildren) {
             foreach ($withChildren as $parent) {
