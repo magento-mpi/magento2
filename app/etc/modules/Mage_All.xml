@@ -135,9 +135,6 @@
         <Mage_Paygate>
             <active>true</active>
             <codePool>core</codePool>
-             <depends>
-                <Mage_Sales />
-             </depends>
         </Mage_Paygate>
         <Mage_Paypal>
             <active>true</active>

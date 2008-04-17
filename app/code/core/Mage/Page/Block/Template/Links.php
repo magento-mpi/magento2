@@ -68,7 +68,7 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
      * @param string|array $aParams
      * @param string $beforeText
      * @param string $afterText
-     * @return Mage_Page_Block_Html_Toplinks
+     * @return Mage_Page_Block_Template_Links
      */
     public function addLink($label, $url='', $title='', $prepare=false, $urlParams=array(),
         $position=null, $liParams=null, $aParams=null, $beforeText='', $afterText='')
@@ -126,7 +126,7 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
     /**
      * Set first/last
      *
-     * @return Mage_Page_Block_Html_Toplinks
+     * @return Mage_Page_Block_Template_Links
      */
     protected function _beforeToHtml()
     {
