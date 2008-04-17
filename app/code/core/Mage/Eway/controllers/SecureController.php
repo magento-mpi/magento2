@@ -111,6 +111,8 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
             return;
         }
 
+        $this->getCheckout()->clear();
+
         $this->loadLayout();
         $this->renderLayout();
     }
@@ -125,7 +127,7 @@ class Mage_Eway_SecureController extends Mage_Core_Controller_Front_Action
             $this->_redirect('');
             return;
         }
-$status = true;
+        $status = true;
         $response = $this->getRequest()->getPost();
 
         if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
