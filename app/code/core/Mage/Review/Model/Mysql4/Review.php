@@ -149,7 +149,11 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
             ->from($this->_reviewStoreTable, array('store_id'))
             ->where('review_id=?', $object->getId());
         $stores = $this->_getReadAdapter()->fetchCol($select);
-        $object->setStores($stores);
+        if (empty($stores) && Mage::app()->isSingleStoreMode()) {
+            $object->setStores(array(Mage::app()->getStore(true)->getId()));
+        } else {
+            $object->setStores($stores);
+        }
         return $this;
     }
 

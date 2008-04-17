@@ -54,8 +54,6 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_T
                     ->load()
                     ->addOptionToItems();
 
-
-
                 $this->_voteCollection = Mage::getModel('rating/rating_option_vote')
                     ->getResourceCollection()
                     ->setReviewFilter($this->getReviewId())
