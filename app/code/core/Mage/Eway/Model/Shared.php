@@ -20,15 +20,15 @@
 
 /**
  * eWAY Shared Model
- * 
+ *
  * @category   Mage
  * @package    Mage_Eway
  * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
 class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
-{   
+{
     protected $_code  = 'eway_shared';
-    
+
     protected $_isGateway               = false;
     protected $_canAuthorize            = false;
     protected $_canCapture              = true;
@@ -38,12 +38,12 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
-    
+
     protected $_formBlockType = 'eway/shared_form';
     protected $_paymentMethod = 'shared';
-    
+
     protected $_order;
-    
+
     /**
      * Get order model
      *
@@ -57,7 +57,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         }
         return $this->_order;
     }
-    
+
     /**
      * Get Customer Id
      *
@@ -75,9 +75,9 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getAccepteCurrency()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
+        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/currency');
     }
-    
+
     public function validate()
     {
         parent::validate();
@@ -97,7 +97,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     {
           return Mage::getUrl('eway/' . $this->_paymentMethod . '/redirect');
     }
-    
+
     /**
      * prepare params array to send it to gateway page via POST
      *
@@ -148,7 +148,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         foreach ($fieldsArr as $k=>$v) {
             $request .= '<' . $k . '>' . $v . '</' . $k . '>';
         }
-        
+
         if ($this->getDebug()) {
             $debug = Mage::getModel('eway/api_debug')
                 ->setRequestBody($request)
@@ -181,7 +181,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     {
         return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/debug_flag');
     }
-    
+
     public function capture(Varien_Object $payment, $amount)
     {
         $payment->setStatus(self::STATUS_APPROVED)
@@ -189,11 +189,11 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
 
         return $this;
     }
-    
+
     public function cancel(Varien_Object $payment)
     {
         $payment->setStatus(self::STATUS_DECLINED);
-        
+
         return $this;
     }
 
@@ -205,14 +205,14 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     public function parseResponse()
     {
         $response = $this->getResponse();
-        
+
         if ($this->getDebug()) {
             $debug = Mage::getModel('eway/api_debug')
                 ->load($response['eWAYoption1'])
                 ->setResponseBody(print_r($response, 1))
                 ->save();
         }
-        
+
         if ($response['ewayTrxnStatus'] == 'True') {
             return true;
         }

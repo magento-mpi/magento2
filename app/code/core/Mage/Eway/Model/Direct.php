@@ -94,7 +94,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getAccepteCurrency()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
+        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/currency');
     }
 
     public function validate()
@@ -194,17 +194,17 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $xml .= "<ewayOption1>" . '' . "</ewayOption1>";
         $xml .= "<ewayOption2>" . '' . "</ewayOption2>";
         $xml .= "<ewayOption3>" . '' . "</ewayOption3>";
-     	$xml .= "</ewaygateway>";
+        $xml .= "</ewaygateway>";
 
-     	$resultArr = $this->call($xml);
+        $resultArr = $this->call($xml);
 
-     	if ($resultArr === false) {
-     	    return false;
-     	}
+        if ($resultArr === false) {
+            return false;
+        }
 
-     	$this->setTransactionId($resultArr['ewayTrxnNumber']);
+        $this->setTransactionId($resultArr['ewayTrxnNumber']);
 
-     	return $resultArr;
+        return $resultArr;
     }
 
     /**

@@ -19,13 +19,31 @@
  */
 
 /**
- * eWay Data Helper
+ * eWAY CC Types Source Model
  *
  * @category   Mage
  * @package    Mage_Eway
- * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ * @author     Dmytro Vasylenko <dimav@varien.com>
  */
-class Mage_Eway_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Eway_Model_Source_Cctype
 {
+    public function toOptionArray()
+    {
+        /**
+         * making filter by allowed cards
+         */
+        $allowed = array('VI', 'MC', 'AE', 'DICL', 'JCB');
+        $options = array();
 
+        foreach (Mage::getSingleton('payment/config')->getCcTypes() as $code => $name) {
+            if (in_array($code, $allowed)) {
+                $options[] = array(
+                   'value' => $code,
+                   'label' => $name
+                );
+            }
+        }
+
+        return $options;
+    }
 }
