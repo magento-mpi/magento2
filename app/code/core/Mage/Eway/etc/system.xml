@@ -26,7 +26,7 @@
                 <eway_direct translate="label" module="eway">
                     <label>eWAY Direct</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>101</sort_order>
+                    <sort_order>201</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
@@ -106,7 +106,7 @@
                 <eway_shared translate="label" module="eway">
                     <label>eWAY Shared</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>101</sort_order>
+                    <sort_order>202</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
@@ -168,7 +168,7 @@
                 <eway_secure translate="label" module="eway">
                     <label>eWAY 3D-Secure</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>101</sort_order>
+                    <sort_order>203</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
@@ -241,7 +241,7 @@
                 <eway_directapi translate="label" module="eway">
                     <label>eWAY Direct Api Settings</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>101</sort_order>
+                    <sort_order>201</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -286,7 +286,7 @@
                 <eway_sharedapi translate="label" module="eway">
                     <label>eWAY Shared Api Settings</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>101</sort_order>
+                    <sort_order>202</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -331,7 +331,7 @@
                 <eway_secureapi translate="label" module="eway">
                     <label>eWAY 3D-Secure Api Settings</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>101</sort_order>
+                    <sort_order>203</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
