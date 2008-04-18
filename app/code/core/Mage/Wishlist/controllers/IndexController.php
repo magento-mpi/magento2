@@ -331,6 +331,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                     null,
                     array(
                         'customer'      => $customer,
+                        'salable'       => $wishlist->isSalable() ? 'yes' : '',
                         'items'         => &$wishlistBlock,
                         'addAllLink'    => Mage::getUrl('*/shared/allcart',array('code'=>$wishlist->getSharingCode())),
                         'viewOnSiteLink'=> Mage::getUrl('*/shared/index',array('code'=>$wishlist->getSharingCode())),

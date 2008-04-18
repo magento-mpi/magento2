@@ -34,6 +34,12 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Reso
         $this->_init('wishlist/item', 'catalog/product');
     }
 
+    public function useProductItem()
+    {
+        $this->setObject(Mage::getModel('catalog/product'));
+        return $this;
+    }
+
     public function addWishlistFilter(Mage_Wishlist_Model_Wishlist    $wishlist)
     {
         $this->_joinFields['e_id'] = array('table'=>'e','field'=>'entity_id');
