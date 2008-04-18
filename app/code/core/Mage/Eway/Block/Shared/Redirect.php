@@ -27,16 +27,6 @@
  */
 class Mage_Eway_Block_Shared_Redirect extends Mage_Core_Block_Abstract
 {
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-//    public function getOrder()
-//    {
-//        return Mage::getModel('sales/order');
-//    }
-
     protected function _toHtml()
     {
         $shared = $this->getOrder()->getPayment()->getMethodInstance();

@@ -27,26 +27,17 @@
  */
 class Mage_Eway_Block_Secure_Redirect extends Mage_Core_Block_Abstract
 {
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function getOrder()
-    {
-        return Mage::getModel('sales/order');
-    }
     protected function _toHtml()
     {
-        $shared = $this->getOrder()->getPayment()->getMethodInstance();
+        $secure = $this->getOrder()->getPayment()->getMethodInstance();
 
         $form = new Varien_Data_Form();
-        $form->setAction($shared->getEwaySecureUrl())
+        $form->setAction($secure->getEwaySecureUrl())
             ->setId('eway_secure_checkout')
             ->setName('eway_secure_checkout')
             ->setMethod('POST')
             ->setUseContainer(true);
-        foreach ($shared->getFormFields() as $field=>$value) {
+        foreach ($secure->getFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
         $html = '<html><body>';
