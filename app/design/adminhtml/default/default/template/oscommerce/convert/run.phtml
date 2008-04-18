@@ -22,11 +22,11 @@
                         <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
                         <td><small/></td>
                     </tr>   
-                    <tr>
+                    <!--tr>
                         <td class="label"><label for="timezone"><?php echo Mage::helper('oscommerce')->__('Timezone') ?></label></td>
                         <td class="value"><?php echo $this->getTimezoneOptionHtml() ?></td>
                         <td><small/></td>
-                    </tr> 
+                    </tr--> 
                 </tbody>
             </table>   
             <table>
@@ -138,10 +138,11 @@ Event.observe($('run_import'), 'click', function(){
         }        
     }
     
-    if ($('timezone').value == '') {
-    	error += "<?php echo Mage::helper('oscommerce')->__('Please select a timezone\n') ?>";
-   	}
-   	params += '&timezone='+$('timezone').value;    
+//    if ($('timezone').value == '') {
+//    	error += "<?php echo Mage::helper('oscommerce')->__('Please select a timezone\n') ?>";
+//   	}
+//   	params += '&timezone='+$('timezone').value;    
+   	
     // Data validation
 //    if (underDefaultWebsite == false
 //        && (websiteCode == null || websiteCode.length < 2)) {

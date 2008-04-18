@@ -191,7 +191,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
                 <?php if ($_comments) :?>
                     <?php foreach ($_comments as $_comment) :?>
                     <li>
-                        <strong><?php echo $this->formatDate($_comment['date_added'], "medium", true) ?></strong>
+                        <strong><?php echo date('M j, Y h:i A', strtotime($_comment['date_added'])) ?></strong>
                         <strong>| <?php echo $_comment['orders_status'] ?></strong> <br/>
                         <small>
                             <?php echo $_comment['comments'] ?>

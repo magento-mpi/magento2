@@ -79,12 +79,12 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'index' =>'orders_status',
         ));  
                 
-        $this->addColumn('date_purchased', array(
-            'header'    =>Mage::helper('oscommerce')->__('Purchased Year'),
-            'width' =>'50px',
-            'index'     =>'date_purchased',
-            'type'	=> 'datetime',
-        ));
+//        $this->addColumn('date_purchased', array(
+//            'header'    =>Mage::helper('oscommerce')->__('Purchased Year'),
+//            'width' =>'50px',
+//            'index'     =>'date_purchased',
+//            'type'	=> 'datetime',
+//        ));
                 
         $this->addColumn('purchased_year', array(
             'header'    =>Mage::helper('oscommerce')->__('Purchased Year'),

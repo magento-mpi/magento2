@@ -30,7 +30,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      * Initailization action of importController
      */
     protected function _initAction()
-    {        
+    {       	     
         $this->loadLayout();
         $this->_setActiveMenu('oscommerce/adminhtml_import');
         return $this;
@@ -152,9 +152,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         Mage::app()->cleanCache();
 
         
-        if ($timezone = $importModel->getSession()->getTimezone()) {
-        	$importModel->setTimezone($timezone);
-        }        
+//        if ($timezone = $importModel->getSession()->getTimezone()) {
+//        	$importModel->setTimezone($timezone);
+//        }        
         
        	$importModel->getResource()->setImportModel($importModel); 
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
@@ -266,8 +266,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getSession()->setStoreLocales($storeLocales);
         $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
-		$timezone = $this->getRequest()->getParam('timezone');
-		$importModel->getSession()->setTimezone($timezone);
+//		$timezone = $this->getRequest()->getParam('timezone');
+//		$importModel->getSession()->setTimezone($timezone);
 
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');

@@ -1184,7 +1184,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     {
     	
     	$importModel = $this->getImportModel();
-    	$timezone = $importModel->getTimezone();
+//    	$timezone = $importModel->getTimezone();
     	$charsetOrder = $this->getCharset("{$this->_prefix}orders");
     	$charsetHistory = $this->getCharset("{$this->_prefix}orders_status_history");
     	$charsetTotal = $this->getCharset("{$this->_prefix}orders_total");
@@ -1218,14 +1218,23 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         		$data['modified_day'] = date('d', $dateModified);
         	}
 
-	        $preparePurchased = explode(' ', $data['date_purchased']);
-	        $datePurchased = new Zend_Date();	        
-	        $datePurchased->setTimezone($timezone);
-	        $datePurchased->set($preparePurchased[0], Zend_Date::DATES);
-	        $datePurchased->set($preparePurchased[1], Zend_Date::TIMES);
-	       	$datePurchased->setTimezone('GMT');
-	        $data['date_purchased'] =  $datePurchased->toString('yyyy-MM-dd HH:mm:ss');        	
-        	       	
+//	        $preparePurchased = explode(' ', $data['date_purchased']);
+//	       	$dateFormat = 'YYYY-MM-dd HH:mm:ss';
+//	        $datePurchased = new Zend_Date();	        
+//			$datePurchased->setTimezone($timezone);
+//	        $datePurchased->setDate($preparePurchased[0], 'YYYY-MM-dd');
+//	        $datePurchased->setTime($preparePurchased[1], 'HH:mm:ss');
+//	       	$datePurchased->setTimezone($timezone);
+//	        $data['date_purchased'] =  $datePurchased->toString($dateFormat);        	
+//        	
+//	        if ($data['date_modified']) {
+//		        $datePurchased = new Zend_Date();	        
+//				$datePurchased->setTimezone($timezone);
+//		        $datePurchased->setDate($preparePurchased[0], 'YYYY-MM-dd');
+//		        $datePurchased->setTime($preparePurchased[1], 'HH:mm:ss');
+//		       	$datePurchased->setTimezone($timezone);
+//		        $data['date_purchased'] =  $datePurchased->toString($dateFormat);        	        	
+//	        }
             $data['magento_customers_id'] = $this->_customerIdPair[$data['customers_id']]; // get Magento CustomerId
             $data['import_id'] = $importId;
             $data['website_id'] = $websiteId;

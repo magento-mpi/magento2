@@ -18,7 +18,7 @@
         <?php foreach ($_oscOrders as $_oscOrder): ?>
             <tr>
                 <td><?php echo $_oscOrder['orders_id'] ?></td>
-                <td><?php echo date('M j, Y', mktime(0,0,0,$_oscOrder['purchased_month'], $_oscOrder['purchased_day'], $_oscOrder['purchased_year'])) ?></td>
+                <td><?php echo date('M j, Y h:i A', strtotime($_oscOrder['date_purchased'])) ?></td>
                 <td><?php echo $this->htmlEscape($_oscOrder['delivery_street_address']) ?></td>
                 <td><?php echo ($_oscOrder['currency_symbol']?$_oscOrder['currency_symbol']:$_oscOrder['currency']).' '.number_format($_oscOrder['value'],2) ?></td>
                 <td class="a-center"><a href="<?php echo $this->getViewOscommerceUrl($_oscOrder) ?>"><?php echo $this->__('View Order') ?></a>
