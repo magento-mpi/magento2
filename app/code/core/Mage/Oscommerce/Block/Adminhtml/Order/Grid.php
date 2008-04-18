@@ -79,36 +79,36 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
             'index' =>'orders_status',
         ));  
                 
-//        $this->addColumn('date_purchased', array(
+        $this->addColumn('date_purchased', array(
+            'header'    => Mage::helper('oscommerce')->__('Purchased Year'),
+            'width' 	=> '150px',
+            'index'     => 'date_purchased',
+            'type'		=> 'datetime',
+        ));
+                
+//        $this->addColumn('purchased_year', array(
 //            'header'    =>Mage::helper('oscommerce')->__('Purchased Year'),
 //            'width' =>'50px',
-//            'index'     =>'date_purchased',
-//            'type'	=> 'datetime',
+//            'index'     =>'purchased_year',
+//            'type'	=> 'currency',
+//            'currency' => 'store_currency_code',
 //        ));
-                
-        $this->addColumn('purchased_year', array(
-            'header'    =>Mage::helper('oscommerce')->__('Purchased Year'),
-            'width' =>'50px',
-            'index'     =>'purchased_year',
-            'type'	=> 'currency',
-            'currency' => 'store_currency_code',
-        ));
-                
-        $this->addColumn('purchased_month', array(
-            'header'    =>Mage::helper('oscommerce')->__('Purchased Month'),
-            'width' =>'50px',
-            'index'     =>'purchased_month',
-            'type'	=> 'currency',
-            'currency' => 'store_currency_code',            
-        ));
-
-        $this->addColumn('purchased_day', array(
-            'header'    =>Mage::helper('oscommerce')->__('Purchased Date'),
-            'width' =>'50px',
-            'index'     =>'purchased_day',
-            'type'	=> 'currency',
-            'currency' => 'store_currency_code',            
-        ));
+//                
+//        $this->addColumn('purchased_month', array(
+//            'header'    =>Mage::helper('oscommerce')->__('Purchased Month'),
+//            'width' =>'50px',
+//            'index'     =>'purchased_month',
+//            'type'	=> 'currency',
+//            'currency' => 'store_currency_code',            
+//        ));
+//
+//        $this->addColumn('purchased_day', array(
+//            'header'    =>Mage::helper('oscommerce')->__('Purchased Date'),
+//            'width' =>'50px',
+//            'index'     =>'purchased_day',
+//            'type'	=> 'currency',
+//            'currency' => 'store_currency_code',            
+//        ));
         
         return parent::_prepareColumns();
     }

@@ -152,9 +152,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         Mage::app()->cleanCache();
 
         
-//        if ($timezone = $importModel->getSession()->getTimezone()) {
-//        	$importModel->setTimezone($timezone);
-//        }        
+        if ($timezone = $importModel->getSession()->getTimezone()) {
+        	$importModel->setTimezone($timezone);
+        }        
         
        	$importModel->getResource()->setImportModel($importModel); 
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
@@ -196,10 +196,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $isImportDone = $this->getRequest()->getParam('is_done');
         switch($importType) {
             case 'products':
-                    $importModel->getResource()->importProducts($importModel, $importFrom, true);
+                    $importModel->getResource()->importProducts($importFrom, true);
                 break;
             case 'categories':
-                    $importModel->getResource()->importCategories($importModel, $importFrom, true);
+                    $importModel->getResource()->importCategories($importFrom, true);
                     if ($isImportDone == 'true') {
                     	//$categoryIdPair = $importModel->getSession()->getCategoryIdPair();
                     	//$importModel->getResource()->setCategoryIdPair($categoryIdPair);
@@ -207,10 +207,10 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                     }
                 break;
             case 'customers':
-                    $importModel->getResource()->importCustomers($importModel, $importFrom, true);
+                    $importModel->getResource()->importCustomers($importFrom, true);
                 break;
             case 'orders':
-                    $importModel->getResource()->importOrders($importModel, $importFrom, true);
+                    $importModel->getResource()->importOrders($importFrom, true);
                 break;
         }
 
@@ -251,6 +251,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $importModel->getSession()->setTablePrefix($tablePrefix);
         }
         
+        $importModel->getResource()->setImportModel($importModel); 
         $importModel->getResource()->importCollection($importModel->getId());
         
         //setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
@@ -266,8 +267,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getSession()->setStoreLocales($storeLocales);
         $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
-//		$timezone = $this->getRequest()->getParam('timezone');
-//		$importModel->getSession()->setTimezone($timezone);
+		$timezone = $this->getRequest()->getParam('timezone');
+		$importModel->getSession()->setTimezone($timezone);
 
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
@@ -276,15 +277,15 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         // Checking Website, StoreGroup and RootCategory
         if (!$websiteId) {
             $importModel->getResource()->setWebsiteCode($websiteCode);
-            $importModel->getResource()->createWebsite($importModel);
+            $importModel->getResource()->createWebsite();
         } else {
-            $importModel->getResource()->createWebsite($importModel, $websiteId);
+            $importModel->getResource()->createWebsite($websiteId);
         }
         // End checking Website, StoreGroup and RootCategory
         
-        $importModel->getResource()->importStores($importModel);
+        $importModel->getResource()->importStores();
         $importModel->getResource()->importTaxClasses();
-        $importModel->getResource()->createOrderTables($importModel);
+        $importModel->getResource()->createOrderTables();
         
         if ($charset = $importModel->getResource()->getCharsetCollection()) {
         	$importModel->getSession()->setTableCharset($charset);
