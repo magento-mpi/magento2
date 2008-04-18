@@ -58,7 +58,10 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         if (!is_null($store)) {
             if ($store instanceof Mage_Core_Model_Store) {
                 $store = $store->getId();
+            } else if ($store instanceof Mage_Core_Model_Mysql4_Store_Collection) {
+                $store = $store->getAllIds();
             }
+
 
             if ($suffix) {
                 $suffix .= ' AND ';
@@ -192,7 +195,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                         if ($children != self::REINDEX_CHILDREN_ALL && $children != self::REINDEX_CHILDREN_CONFIGURABLE && $parent['type_id'] == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                         } elseif ($children != self::REINDEX_CHILDREN_ALL && $children != self::REINDEX_CHILDREN_GROUPED && $parent['type_id'] == Mage_Catalog_Model_Product_Type::TYPE_GROUPED) {
                         } else {
-                            $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id']);
+                            $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
                             $this->reindexAttributes($childrenIds, $attributeIds, $store, $parent['entity_id'], $table);
                         }
                     }
@@ -255,7 +258,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             $nonSimple = $this->getNonSimpleProducts($products, Mage_Catalog_Model_Product_Type::TYPE_GROUPED);
             if ($nonSimple) {
                 foreach ($nonSimple as $parent) {
-                    $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id']);
+                    $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
                     $this->reindexTiers($childrenIds, $store, $parent['entity_id']);
                 }
             }
@@ -291,7 +294,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                 if (in_array($parent['entity_id'], $products))
                     unset($products[array_search($parent['entity_id'], $products)]);
 
-                $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id']);
+                $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
                 $minimal = $this->_getMinimalPrices($childrenIds, $store);
                 if (is_array($minimal)) {
                     foreach ($minimal as $price) {
@@ -341,7 +344,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             $nonSimple = $this->getNonSimpleProducts($products, Mage_Catalog_Model_Product_Type::TYPE_GROUPED);
             if ($nonSimple) {
                 foreach ($nonSimple as $parent) {
-                    $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id']);
+                    $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
                     $this->reindexFinalPrices($childrenIds, $store, $parent['entity_id']);
                 }
             }
@@ -420,28 +423,40 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
-    public function getProductChildrenFilter($id, $type)
+    public function getProductChildrenFilter($id, $type, $store = null)
     {
         $select = $this->_getReadAdapter()->select();
         switch ($type){
             case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
                 $table = $this->getTable('catalog/product_link');
-                $field = 'linked_product_id';
-                $searchField = 'product_id';
-                $select->where("link_type_id = ?", Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+                $field = 'l.linked_product_id';
+                $searchField = 'l.product_id';
+                $select->where("l.link_type_id = ?", Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
                 break;
 
             case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                 $table = $this->getTable('catalog/product_super_link');
-                $field = 'product_id';
-                $searchField = 'parent_id';
+                $field = 'l.product_id';
+                $searchField = 'l.parent_id';
                 break;
 
             default:
                 return false;
         }
-        $select->from($table, $field)
+
+        $select->from(array('l'=>$table), $field)
             ->where("$searchField = ?", $id);
+
+        if ($type == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            $statusAttribute = $this->_getAttribute('status', true);
+
+            $select->joinLeft(array('s'=>$this->getTable('cataloginventory/stock_item')), "s.product_id={$field}", array());
+            $select->where('s.is_in_stock = 1');
+
+            $select->joinLeft(array('a'=>$this->getTable('catalog/product') . '_int'), "a.entity_id={$field} AND a.store_id = {$store->getId()} AND a.attribute_id = {$statusAttribute->getId()}", array());
+            $select->joinLeft(array('d'=>$this->getTable('catalog/product') . '_int'), "d.entity_id={$field} AND d.store_id = 0 AND d.attribute_id = {$statusAttribute->getId()}", array());
+            $select->where('a.value = 1 OR (a.value is null AND d.value = 1)');
+        }
 
         return $select;
     }

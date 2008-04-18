@@ -171,6 +171,7 @@
                         </scope>
                     </fields>
                 </price>
+<!--
                 <layer translate="label">
                     <label>Layered Navigation</label>
                     <frontend_type>text</frontend_type>
@@ -187,6 +188,7 @@
                         </configurable_children>
                     </fields>
                 </layer>
+-->
             </groups>
         </catalog>
         <design>

@@ -156,7 +156,7 @@
 "There are <a href=""%s""><strong>%s items</strong></a> in your cart.","There are <a href=""%s""><strong>%s items</strong></a> in your cart."
 "There is <a href=""%s""><strong>1 item</strong></a> in your cart.","There is <a href=""%s""><strong>1 item</strong></a> in your cart."
 "There is already a customer registered using this email address","There is already a customer registered using this email address"
-"There was an error processing your order. Please contact us or try agian later.","There was an error processing your order. Please contact us or try agian later."
+"There was an error processing your order. Please contact us or try again later.","There was an error processing your order. Please contact us or try again later."
 "Total for this address","Total for this address"
 "Unit Price","Unit Price"
 "Update Qty &amp; Addresses","Update Qty &amp; Addresses"

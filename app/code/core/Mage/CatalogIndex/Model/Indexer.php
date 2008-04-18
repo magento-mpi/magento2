@@ -298,7 +298,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     }
 
 
-    public function plainReindex($products = null, $attributes = null)
+    public function plainReindex($products = null, $attributes = null, $stores = null)
     {
         $attributeCodes = $priceAttributeCodes = array();
         $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
@@ -307,6 +307,14 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
             Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
         );
+
+        if (is_null($stores)) {
+            $stores = $this->_getStores();
+        } else if ($stores instanceof Mage_Core_Model_Store) {
+            $stores = array($stores);
+        } else if (!is_array($stores)) {
+            Mage::throwException('Invalid stores supplied for indexing');
+        }
 
         if (is_null($attributes)) {
             $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
@@ -326,8 +334,8 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             Mage::throwException('Invalid attributes supplied for indexing');
         }
 
-        $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, $products);
-        foreach ($this->_getStores() as $store) {
+        $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, $products, $stores);
+        foreach ($stores as $store) {
             $collection = Mage::getModel('catalog/product')
                 ->getCollection()
                 ->addAttributeToFilter('status', $status)

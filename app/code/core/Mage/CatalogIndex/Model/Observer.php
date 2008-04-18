@@ -89,4 +89,10 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
             Mage::getSingleton('catalogindex/indexer')->plainReindex(null, $observer->getAttribute());
         }
     }
+
+    public function processStoreAdd(Varien_Event_Observer $observer)
+    {
+        $store = $observer->getEvent()->getStore();
+        Mage::getSingleton('catalogindex/indexer')->plainReindex(null, null, $store);
+    }
 }

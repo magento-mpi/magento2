@@ -81,6 +81,15 @@
         </catalogindex>
 
         <events>
+            <store_add>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>processStoreAdd</method>
+                    </catalogindex>
+                </observers>
+            </store_add>
             <catalog_product_save_after>
                 <observers>
                     <catalogindex>
