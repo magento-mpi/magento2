@@ -40,7 +40,6 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping  = false;
 
     protected $_formBlockType = 'eway/shared_form';
-    protected $_redirectBlockType = 'eway/shared_redirect';
     protected $_paymentMethod = 'shared';
 
     protected $_order;
@@ -143,7 +142,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $fieldsArr['ewayURL'] = Mage::getUrl('eway/' . $this->_paymentMethod . '/success', array('_secure' => true));
         $fieldsArr['eWAYTrxnNumber'] = $paymentInfo->getOrder()->getRealOrderId();
         $fieldsArr['ewayOption1'] = '';
-        $fieldsArr['ewayOption2'] = '';
+        $fieldsArr['ewayOption2'] = Mage::helper('core')->encrypt($fieldsArr['eWAYTrxnNumber']);
         $fieldsArr['ewayOption3'] = '';
 
         $request = '';

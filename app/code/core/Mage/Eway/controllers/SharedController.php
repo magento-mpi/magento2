@@ -28,12 +28,9 @@
 class Mage_Eway_SharedController extends Mage_Eway_Controller_Abstract
 {
     /**
-     * Get singleton of Shared Model
+     * Redirect Block Type
      *
-     * @return Mage_Eway_Model_Shared
+     * @var string
      */
-    protected function _getModel()
-    {
-        return Mage::getSingleton('eway/shared');
-    }
+    protected $_redirectBlockType = 'eway/shared_redirect';
 }

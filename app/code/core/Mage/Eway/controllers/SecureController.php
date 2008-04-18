@@ -27,16 +27,10 @@
  */
 class Mage_Eway_SecureController extends Mage_Eway_Controller_Abstract
 {
-
     /**
-     * Get singleton of Secure Model
+     * Redirect Block Type
      *
-     * @return Mage_Eway_Model_Secure
+     * @var string
      */
-    protected function _getModel()
-    {
-        return Mage::getSingleton('eway/secure');
-    }
-
-
+    protected $_redirectBlockType = 'eway/secure_redirect';
 }

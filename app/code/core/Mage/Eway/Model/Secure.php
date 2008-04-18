@@ -30,7 +30,6 @@ class Mage_Eway_Model_Secure extends Mage_Eway_Model_Shared
     protected $_code  = 'eway_secure';
 
     protected $_formBlockType = 'eway/secure_form';
-    protected $_redirectBlockType = 'eway/secure_redirect';
     protected $_paymentMethod = 'secure';
 
     /**

@@ -36,10 +36,10 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
     }
 
     /**
-     * Get singleton of Payment Model
+     * Redirect Block
      * need to be redeclared
      */
-    abstract protected function _getModel();
+    protected $_redirectBlockType;
 
     /**
      * Get singleton of Checkout Session Model
@@ -67,7 +67,7 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
 
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock($this->_getModel()->getRedirectBlockType())
+                ->createBlock($this->_redirectBlockType)
                 ->setOrder($order)
                 ->toHtml()
         );
@@ -97,7 +97,7 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         if ($status) {
             $this->_redirect('checkout/onepage/success');
         } else {
-            $this->_redirect('eway/' . $this->_getModel()->getPaymentMethodType() . '/failure');
+            $this->_redirect('*/*/failure');
         }
     }
 
@@ -131,17 +131,19 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $status = true;
         $response = $this->getRequest()->getPost();
 
-        if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
+        if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber'] ||
+                $this->getCheckout()->getEwayRealOrderId() != Mage::helper('core')->decrypt($response['eWAYoption2'])) {
             $this->norouteAction();
             return;
         }
 
-        $this->_getModel()->setResponse($response);
-
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($response['ewayTrxnNumber']);
 
-        if ($this->_getModel()->parseResponse()) {
+        $paymentInst = $order->getPayment()->getMethodInstance();
+        $paymentInst->setResponse($response);
+
+        if ($paymentInst->parseResponse()) {
 
             if ($order->canInvoice()) {
                 $convertor = Mage::getModel('sales/convert_order');
@@ -161,11 +163,11 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
                     ->addObject($invoice->getOrder())
                     ->save();
 
-                $this->_getModel()->setTransactionId($response['ewayTrxnReference']);
+                $paymentInst->setTransactionId($response['ewayTrxnReference']);
                 $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfully returned from eWAY'));
             }
         } else {
-            $this->_getModel()->setTransactionId($response['ewayTrxnReference']);
+            $paymentInst->setTransactionId($response['ewayTrxnReference']);
             $order->cancel();
             $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
             $status = false;
