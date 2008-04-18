@@ -415,6 +415,7 @@ h1#logo                 { float:left; }
 /* Sidebar Blocks */
 .mini-product-tags .head h4         { background-image:url(../images/icon_tag_green.gif); }
 .mini-product-tags li               { display:inline; padding-right:4px; line-height:1.5em; }
+.mini-product-tags li:after         { display:inline!important; }
 .mini-product-tags .content a, 
 .mini-product-tags .content a:hover { color:#1b2d3b; }
 

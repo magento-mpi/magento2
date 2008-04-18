@@ -533,6 +533,7 @@ h1#logo {
 /* Sidebar Blocks */
 .mini-product-tags .head h4 { background-image:url(../images/icon_tag_green.gif); }
 .mini-product-tags li { display:inline; padding-right:4px; line-height:1.5em; }
+.mini-product-tags li:after { display:inline!important; }
 .mini-product-tags .content { padding:10px; }
 .mini-product-tags .content a, .mini-product-tags .content a:hover { color:#1b2d3b; }
 
@@ -704,8 +705,13 @@ h1#logo {
     margin-bottom:.6em;
     }
 
+.catalog-listing .ratings { line-height:1.5; }
+.catalog-listing .ratings .rating-box { float:none; margin-bottom:3px; }
+.catalog-listing .ratings .pipe { display:none; }
+.catalog-listing .ratings a { display:block; }
+
 /* Generic Product Grid */
-.generic-product-grid { width:100%;}
+.generic-product-grid { width:100%; }
 .generic-product-grid td {
     border-right:1px solid #d9dde3;
     border-bottom:1px solid #d9dde3;
