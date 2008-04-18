@@ -1254,14 +1254,16 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 //        		$data[$field] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
         	}
 
-	        $preparePurchased = explode(' ', $data['date_purchased']);
-	       	$dateFormat = 'YYYY-MM-dd HH:mm:ss';
-	        $datePurchased = new Zend_Date();	        
-			$datePurchased->setTimezone($timezone);
-	        $datePurchased->setDate($preparePurchased[0], 'YYYY-MM-dd');
-	        $datePurchased->setTime($preparePurchased[1], 'HH:mm:ss');
-	       	$datePurchased->setTimezone('GMT');
-	        $data['date_purchased'] =  $datePurchased->toString($dateFormat);        	
+        	if ($data['date_purchased']) {
+		        $preparePurchased = explode(' ', $data['date_purchased']);
+		       	$dateFormat = 'YYYY-MM-dd HH:mm:ss';
+		        $datePurchased = new Zend_Date();	        
+				$datePurchased->setTimezone($timezone);
+		        $datePurchased->setDate($preparePurchased[0], 'YYYY-MM-dd');
+		        $datePurchased->setTime($preparePurchased[1], 'HH:mm:ss');
+		       	$datePurchased->setTimezone('GMT');
+		        $data['date_purchased'] =  $datePurchased->toString($dateFormat);        	
+        	}
         	
 	        if ($data['last_modified']) {
 	        	$prepareModified = explode(' ', $data['last_modified']);
