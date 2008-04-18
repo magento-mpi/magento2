@@ -40,6 +40,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping  = false;
 
     protected $_formBlockType = 'eway/shared_form';
+    protected $_redirectBlockType = 'eway/shared_redirect';
     protected $_paymentMethod = 'shared';
 
     protected $_order;
@@ -218,5 +219,25 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return redirect block type
+     *
+     * @return string
+     */
+    public function getRedirectBlockType()
+    {
+        return $this->_redirectBlockType;
+    }
+
+    /**
+     * Return payment method type string
+     *
+     * @return string
+     */
+    public function getPaymentMethodType()
+    {
+        return $this->_paymentMethod;
     }
 }

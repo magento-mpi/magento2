@@ -20,7 +20,7 @@
 
 /**
  * eWAY 3D-Secure Model
- * 
+ *
  * @category   Mage
  * @package    Mage_Eway
  * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
@@ -30,6 +30,7 @@ class Mage_Eway_Model_Secure extends Mage_Eway_Model_Shared
     protected $_code  = 'eway_secure';
 
     protected $_formBlockType = 'eway/secure_form';
+    protected $_redirectBlockType = 'eway/secure_redirect';
     protected $_paymentMethod = 'secure';
 
     /**
