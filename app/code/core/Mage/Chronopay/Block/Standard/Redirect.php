@@ -29,6 +29,7 @@
 
 class Mage_Chronopay_Block_Standard_Redirect extends Mage_Core_Block_Abstract
 {
+
     protected function _toHtml()
     {
         $standard = Mage::getModel('chronopay/standard');
@@ -38,7 +39,7 @@ class Mage_Chronopay_Block_Standard_Redirect extends Mage_Core_Block_Abstract
             ->setName('chronopay_standard_checkout')
             ->setMethod('POST')
             ->setUseContainer(true);
-        foreach ($standard->getStandardCheckoutFormFields() as $field => $value) {
+        foreach ($standard->setOrder($this->getOrder())->getStandardCheckoutFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
         $html = '<html><body>';

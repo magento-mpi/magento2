@@ -29,39 +29,9 @@
 class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Crypt field contents returned from Chronopay
-     */
-    protected $responseArr = array();
-
-    /**
-     * Valid Response Indicator from Chronopay
-     */
-    protected $isValidResponse = false;
-
-    /**
-     * Order
+     * Order instance
      */
     protected $_order;
-
-    /**
-     * Get singleton with chronopay strandard
-     *
-     * @return object Mage_Chronopay_Model_Standard
-     */
-    public function getStandard()
-    {
-        return Mage::getSingleton('chronopay/standard');
-    }
-
-    /**
-     * Get Config model
-     *
-     * @return object Mage_Chronopay_Model_Config
-     */
-    public function getConfig()
-    {
-        return $this->getStandard()->getConfig();
-    }
 
     /**
      *  Return debug flag
@@ -70,7 +40,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function getDebug ()
     {
-        return $this->getStandard()->getDebug();
+        return Mage::getSingleton('chronopay/config')->getDebug();
     }
 
     /**
@@ -79,7 +49,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      *  @param    none
      *  @return	  object order
      */
-    protected function getOrder ()
+    public function getOrder ()
     {
         if ($this->_order == null) {
             $session = Mage::getSingleton('checkout/session');
@@ -105,43 +75,16 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
         );
         $order->save();
 
-        $this->getResponse()->setBody($this->getLayout()->createBlock('chronopay/standard_redirect')->toHtml());
+        $this->getResponse()
+            ->setBody($this->getLayout()
+                ->createBlock('chronopay/standard_redirect')
+                ->setOrder($order)
+                ->toHtml());
 
         $session = Mage::getSingleton('checkout/session');
         $session->setChronopayStandardQuoteId($session->getQuoteId());
         $session->unsQuoteId();
     }
-
-    /**
-     *  Example of Response data
-     *
-        [transaction_type] => onetime
-        [customer_id] => 003725-000000676
-        [site_id] => 003725-0056
-        [product_id] => 003725-0056-0001
-        [date] =>
-        [time] =>
-        [transaction_id] =>
-        [email] => dmitriy.volik@varien.com
-        [country] => ATA
-        [name] => DMITRIY VOLIK
-        [city] => Kyiv
-        [street] => Kyiv333
-        [phone] => 321-54-87
-        [state] => XX
-        [zip] => 1321366
-        [language] => EN
-        [cs1] =>
-        [cs2] =>
-        [cs3] =>
-        [username] =>
-        [password] =>
-        [total] =>
-        [currency] => USD
-        [payment_type] => VISA / Visa Electron
-        [sign] => 4797d777ed430eae032b7c1a49d42ff7     *
-     */
-
 
     /**
      *  Success response from Chronopay
@@ -151,12 +94,11 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     public function  successAction()
     {
         $order = $this->getOrder();
-
         $order->addStatusToHistory(
             $order->getStatus(),
             Mage::helper('chronopay')->__('Customer successfully returned from Chronopay')
         );
-
+        $order->save();
         $this->_redirect('checkout/onepage/success');
     }
 
@@ -169,78 +111,39 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function notifyAction ()
     {
-        $this->preResponse();
+        $postData = $this->getRequest()->getPost();
+
+        if ($this->getDebug()) {
+            Mage::getModel('chronopay/api_debug')
+                ->setResponseBody(print_r($postData,1))
+                ->save();
+        }
 
         $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($this->responseArr['cs1']);
+        $order->loadByIncrementId(Mage::helper('core')->decrypt($postData['cs1']));
 
-        try {
-            if (!$this->isValidResponse) {
-                throw new Exception(Mage::helper('chronopay')->__('Invalid ChronoPay Response'));
-            }
+        $result = $order->getPayment()->getMethodInstance()->setOrder($order)->validateResponse($postData);
 
-            if ($this->getDebug()) {
-                Mage::getModel('chronopay/api_debug')
-                    ->setResponseBody(print_r($this->responseArr,1))
-                    ->save();
-            }
-
-            // validate order ID
-            if (!$order->getId() || $order->getId() != $this->responseArr['cs1']) {
-                throw new Exception(Mage::helper('chronopay')->__('Cannot restore order or invalid order ID'));
-            }
-
-            // validate site ID
-            if ($this->getConfig()->getSiteId() != $this->responseArr['site_id']) {
-                throw new Exception(Mage::helper('chronopay')->__('Invalid site ID'));
-            }
-
-            // validate product ID
-            if ($this->getConfig()->getProductId() != $this->responseArr['product_id']) {
-                throw new Exception(Mage::helper('chronopay')->__('Invalid product ID'));
-            }
-
-            // Successful transaction type
-            if (!in_array($this->responseArr['transaction_type'], array('initial', 'onetime'))) {
-                throw new Exception(Mage::helper('chronopay')->__('Transaction is not successful'));
-            }
-
-            $order->sendNewOrderEmail();
-
-            if (sprintf('%.2f', $this->responseArr['total']) != sprintf('%.2f', $order->getBaseGrandTotal())) {
-    //            $order->cancel();
-                $order->addStatusToHistory(
-                    $order->getStatus(),
-                    Mage::helper('chronopay')->__('Order total amount does not match chronopay gross total amount')
-                );
-            }
-            $order->getPayment()->setTransactionId($this->responseArr['transaction_id']);
-
-            if ($this->saveInvoice($order)) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
-                $order->addStatusToHistory(
-                    $order->getStatus(),
-                    Mage::helper('chronopay')->__('Invoice was created for order ' . $order->getId())
-                );
-            } else {
-                $order->addStatusToHistory(
-                    $this->getConfig()->getNewOrderStatus(),
-                    Mage::helper('chronopay')->__('Cannot save invoice for order '.$order->getId())
-                );
-            }
-
-            $order->save();
-
-        } catch (Exception $e) {
+        if ($result instanceof Exception) {
             if ($order->getId()) {
                 $order->addStatusToHistory(
                     $order->getStatus(),
-                    $e->getMessage()
+                    Mage::helper('chronopay')->__($result->getMessage())
                 );
                 $order->cancel();
                 $order->save();
             }
-//            logme($e->getMessage());
+            Mage::throwException(Mage::helper('chronopay')->__($result->getMessage()));
+            return;
+        }
+
+        $order->sendNewOrderEmail();
+
+        $order->getPayment()->getMethodInstance()->setTransactionId($postData['transaction_id']);
+
+        if ($this->saveInvoice($order)) {
+            $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+            $order->save();
         }
     }
 
@@ -282,13 +185,12 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function failureAction ()
     {
-//        $this->preResponse();
-//
+
 //        if (!$this->isValidResponse) {
-//            $this->_redirect('');
-//            return ;
+            $this->norouteAction();
+            return ;
 //        }
-//
+
 //        $transactionId = $this->responseArr['VendorTxCode'];
 //
 //        if ($this->getDebug()) {
@@ -328,32 +230,5 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 //        $order->save();
 //
 //        $this->_redirect($redirectTo);
-    }
-
-    /**
-     *  Expected POST Response from ChronoPay
-     *
-     *  @return	  void
-     */
-    protected function preResponse ()
-    {
-        $rArr = $this->getRequest()->getPost();
-
-        if ($this->getDebug()) {
-            Mage::getModel('chronopay/api_debug')
-                ->setResponseBody(print_r($rArr,1))
-                ->save();
-        }
-
-        $ok = is_array($rArr)
-            && isset($rArr['transaction_type']) && $rArr['transaction_type'] != ''
-            && isset($rArr['customer_id']) && $rArr['customer_id'] != ''
-            && isset($rArr['site_id']) && $rArr['site_id'] != ''
-            && isset($rArr['product_id']) && $rArr['product_id'] != '';
-
-        if ($ok) {
-            $this->responseArr = $rArr;
-            $this->isValidResponse = true;
-        }
     }
 }

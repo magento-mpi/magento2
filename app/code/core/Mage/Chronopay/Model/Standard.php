@@ -37,7 +37,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_canCapturePartial       = false;
     protected $_canRefund               = false;
     protected $_canVoid                 = false;
-    protected $_canUseInternal          = false;
+    protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 
@@ -54,38 +54,19 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return Mage::getSingleton('chronopay/config');
     }
 
-    /**
-     * Get checkout session namespace
-     *
-     * @return object Mage_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        return Mage::getSingleton('checkout/session');
-    }
 
     /**
-     * Get current quote
+     * Capture payment
      *
-     * @return object Mage_Sales_Model_Quote
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
      */
-    public function getQuote()
+    public function capture (Varien_Object $payment, $amount)
     {
-        return $this->getCheckout()->getQuote();
-    }
+        $payment->setStatus(self::STATUS_APPROVED)
+            ->setLastTransId($this->getTransactionId());
 
-    /**
-     * Get created order
-     *
-     * @return object Mage_Sales_Model_Order
-     */
-    public function getOrder()
-    {
-        if ($this->_order == null) {
-            $this->_order = Mage::getModel('sales/order');
-            $this->_order->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
-        }
-        return $this->_order;
+        return $this;
     }
 
     /**
@@ -115,8 +96,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getNotificationURL ()
     {
-        return 'http://kv.no-ip.org/dev/dmitriy.volik/magento/chronopay/standard/notify';
-//        return Mage::getUrl('chronopay/standard/notify');
+        return Mage::getUrl('chronopay/standard/notify');
     }
 
     /**
@@ -126,8 +106,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getFailureURL ()
     {
-        return 'http://kv.no-ip.org/dev/dmitriy.volik/magento/chronopay/standard/failure';
-//        return Mage::getUrl('chronopay/standard/failure');
+        return Mage::getUrl('chronopay/standard/failure');
     }
 
     /**
@@ -140,6 +119,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $block = $this->getLayout()->createBlock('chronopay/form_standard', $name);
         $block->setMethod($this->_code);
         $block->setPayment($this->getPayment());
+
         return $block;
     }
 
@@ -160,32 +140,38 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getStandardCheckoutFormFields ()
     {
-        $billingAddress = $this->getOrder()->getShippingAddress();
+        $order = $this->getOrder();
+        if (!($order instanceof Mage_Sales_Model_Order)) {
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+        }
+
+        $billingAddress = $order->getBillingAddress();
+
         $streets = $billingAddress->getStreet();
         $street = isset($streets[0]) && $streets[0] != ''
                   ? $streets[0]
                   : (isset($streets[1]) && $streets[1] != '' ? $streets[1] : '');
 
-
         $fields = array(
                         'product_id'       => $this->getConfig()->getProductId(),
                         'product_name'     => $this->getConfig()->getDescription(),
-                        'product_price'    => $this->getOrder()->getBaseGrandTotal(),
+                        'product_price'    => $order->getBaseGrandTotal(),
                         'language'         => 'EN',
-                        'f_name'           => $this->getOrder()->getCustomerFirstname(),
-                        's_name'           => $this->getOrder()->getCustomerLastname(),
+                        'f_name'           => $order->getCustomerFirstname(),
+                        's_name'           => $order->getCustomerLastname(),
                         'street'           => $street,
                         'city'             => $billingAddress->getCity(),
-                        'state'            => $billingAddress->getRegion(),
+                        'state'            => $billingAddress->getRegionModel()->getCode(),
                         'zip'              => $billingAddress->getPostcode(),
-                        'country'          => $billingAddress->getCountry(),
+                        'country'          => $billingAddress->getCountryModel()->getIso3Code(),
                         'phone'            => $billingAddress->getTelephone(),
-                        'email'            => $this->getOrder()->getCustomerEmail(),
+                        'email'            => $order->getCustomerEmail(),
                         'cb_url'           => $this->getNotificationURL(),
                         'cb_type'          => 'P', // POST method used (G - GET method)
                         'decline_url'      => $this->getFailureURL(),
-                        'cs1'              => $this->getOrder()->getRealOrderId()
+                        'cs1'              => Mage::helper('core')->encrypt($order->getRealOrderId())
                         );
+
         if ($this->getConfig()->getDebug()) {
              Mage::getModel('chronopay/api_debug')
                 ->setRequestBody($this->getChronopayUrl()."\n".print_r($fields,1))
@@ -194,4 +180,51 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         return $fields;
     }
+
+    /**
+     *  Validate Response from ChronoPay
+     *
+     *  @param    array Post data returned from ChronoPay
+     *  @return	  boolean
+     */
+    public function validateResponse ($data)
+    {
+        $order = $this->getOrder();
+
+        if (!($order instanceof Mage_Sales_Model_Order)) {
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+        }
+
+        try {
+            $ok = is_array($data)
+                && isset($data['transaction_type']) && $data['transaction_type'] != ''
+                && isset($data['customer_id']) && $data['customer_id'] != ''
+                && isset($data['site_id']) && $data['site_id'] != ''
+                && isset($data['product_id']) && $data['product_id'] != '';
+
+            if (!$ok) {
+                throw new Exception('Cannot restore order or invalid order ID');
+            }
+
+            // validate site ID
+            if ($this->getConfig()->getSiteId() != $data['site_id']) {
+                throw new Exception('Invalid site ID');
+            }
+
+            // validate product ID
+            if ($this->getConfig()->getProductId() != $data['product_id']) {
+                throw new Exception('Invalid product ID');
+            }
+
+            // Successful transaction type
+            if (!in_array($data['transaction_type'], array('initial', 'onetime'))) {
+                throw new Exception('Transaction is not successful');
+            }
+
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+
 }
