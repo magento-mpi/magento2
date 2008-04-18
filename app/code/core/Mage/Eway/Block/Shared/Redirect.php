@@ -27,9 +27,19 @@
  */
 class Mage_Eway_Block_Shared_Redirect extends Mage_Core_Block_Abstract
 {
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
+//    public function getOrder()
+//    {
+//        return Mage::getModel('sales/order');
+//    }
+
     protected function _toHtml()
     {
-        $shared = Mage::getSingleton('eway/shared');
+        $shared = $this->getOrder()->getPayment()->getMethodInstance();
 
         $form = new Varien_Data_Form();
         $form->setAction($shared->getEwaySharedUrl())
@@ -40,6 +50,7 @@ class Mage_Eway_Block_Shared_Redirect extends Mage_Core_Block_Abstract
         foreach ($shared->getFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
+
         $html = '<html><body>';
         $html.= $this->__('You will be redirected to eWAY in a few seconds.');
         $html.= $form->toHtml();

@@ -57,10 +57,6 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
     public function redirectAction()
     {
         $session = $this->getCheckout();
-
-        $this->_getModel()->setCheckout($session);
-        $this->_getModel()->setQuote($session->getQuote());
-
         $session->setEwayQuoteId($session->getQuoteId());
         $session->setEwayRealOrderId($session->getLastRealOrderId());
 
@@ -70,7 +66,10 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $order->save();
 
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock($this->_getModel()->getRedirectBlockType())->toHtml()
+            $this->getLayout()
+                ->createBlock($this->_getModel()->getRedirectBlockType())
+                ->setOrder($order)
+                ->toHtml()
         );
 
         $session->unsQuoteId();

@@ -27,9 +27,18 @@
  */
 class Mage_Eway_Block_Secure_Redirect extends Mage_Core_Block_Abstract
 {
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        return Mage::getModel('sales/order');
+    }
     protected function _toHtml()
     {
-        $shared = Mage::getSingleton('eway/secure');
+        $shared = $this->getOrder()->getPayment()->getMethodInstance();
 
         $form = new Varien_Data_Form();
         $form->setAction($shared->getEwaySecureUrl())

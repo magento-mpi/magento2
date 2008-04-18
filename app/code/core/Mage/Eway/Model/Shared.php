@@ -53,8 +53,9 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     public function getOrder()
     {
         if (!$this->_order) {
+            $paymentInfo = $this->getInfoInstance();
             $this->_order = Mage::getModel('sales/order')
-                            ->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+                            ->loadByIncrementId($paymentInfo->getOrder()->getRealOrderId());
         }
         return $this->_order;
     }
@@ -127,7 +128,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         foreach ($tmpAddress as $part) {
             if (strlen($part) > 0) $formatedAddress .= $part . ' ';
         }
-
+        $paymentInfo = $this->getInfoInstance();
         $fieldsArr['ewayCustomerID'] = $this->getCustomerId();
         $fieldsArr['ewayTotalAmount'] = ($this->getOrder()->getBaseGrandTotal()*100);
         $fieldsArr['ewayCustomerFirstName'] = $billing->getFirstname();
@@ -140,7 +141,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $fieldsArr['eWAYSiteTitle '] = Mage::app()->getStore()->getName();
         $fieldsArr['eWAYAutoRedirect'] = 1;
         $fieldsArr['ewayURL'] = Mage::getUrl('eway/' . $this->_paymentMethod . '/success', array('_secure' => true));
-        $fieldsArr['eWAYTrxnNumber'] = $this->getCheckout()->getLastRealOrderId();
+        $fieldsArr['eWAYTrxnNumber'] = $paymentInfo->getOrder()->getRealOrderId();
         $fieldsArr['ewayOption1'] = '';
         $fieldsArr['ewayOption2'] = '';
         $fieldsArr['ewayOption3'] = '';
