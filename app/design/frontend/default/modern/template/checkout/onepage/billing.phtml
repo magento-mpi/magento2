@@ -24,7 +24,7 @@
     <ul><li><p><?php echo $this->getAddressesHtmlSelect('billing') ?></p></li></ul>
 
 <?php endif ?>
-    <fieldset class="group-select" id="billing-new-address-form" <?php if ($this->customerHasAddresses()): ?>style="display:none"<?php endif ?>>
+    <fieldset class="group-select" id="billing-new-address-form"<?php if ($this->customerhasaddresses()): ?> style="display:none"<?php endif ?>>
         <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id"/>
         <ul>
             <li><div class="input-box">
@@ -89,9 +89,9 @@
         - Create the JS setPickupOrUseForShipping method in billing
     -->
     <p>
-        <input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_yes" value="1" <?php  if(($this->getPickupOrUseForShipping() === 1) || ($this->getPickupOrUseForShipping() === false)): ?>checked="checked" <?php  endif ?>onclick="billing.setPickupOrUseForShipping(1);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_no" value="0" <?php  if($this->getPickupOrUseForShipping() === 0): ?>checked="checked" <?php  endif ?>onclick="billing.setPickupOrUseForShipping(0);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_no"><?php echo  $this->__('Ship to different address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
-        <?php  if(Mage::getStoreConfig('carriers/pickup/active')) : ?><input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_pickup" value="2" <?php  if($this->getPickupOrUseForShipping() === 2): ?>checked="checked" <?php  endif ?>onclick="billing.setPickupOrUseForShipping(2);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_pickup"><?php echo  $this->__('Store Pickup') ?></label><?php  endif ?>
+        <input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_yes" value="1"<?php if(($this->getpickuporuseforshipping() === 1) || ($this->getpickuporuseforshipping() === false)): ?> checked="checked"<?php endif ?> onclick="billing.setPickupOrUseForShipping(1);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_no" value="0"<?php if($this->getpickuporuseforshipping() === 0): ?> checked="checked"<?php endif ?> onclick="billing.setPickupOrUseForShipping(0);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_no"><?php echo  $this->__('Ship to different address') ?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <?php  if(Mage::getStoreConfig('carriers/pickup/active')) : ?><input type="radio" name="billing[pickup_or_use_for_shipping]" id="billing:pickup_or_use_for_shipping_pickup" value="2"<?php  if($this->getpickuporuseforshipping() === 2): ?> checked="checked"<?php endif ?> onclick="billing.setPickupOrUseForShipping(2);" />&nbsp;<label for="billing:pickup_or_use_for_shipping_pickup"><?php echo  $this->__('Store Pickup') ?></label><?php  endif ?>
     </p>
 </form>
 <div class="button-set">
