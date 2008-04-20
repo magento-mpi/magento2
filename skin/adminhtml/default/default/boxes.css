@@ -548,7 +548,8 @@ td.divider              { font-size:1px; line-height:0; }
 .scrollContent              { position: absolute; left: 0px; top: 0px;}
 
 /* Horizontal scroll */
-.hor-scroll {width:100%;overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
+.hor-scroll { width:100%; overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
+.hor-scroll .form-list[class] { width:99%; }
 .hor-scroll.grid { padding-bottom:0 !important; }
 .hor-scroll.grid table { margin-bottom:0 !important; padding-bottom:0 !important; }
 
