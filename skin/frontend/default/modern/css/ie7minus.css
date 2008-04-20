@@ -16,6 +16,7 @@
  */
 .middle { height:350px; }
 
+.link-feed { zoom:1; }
 
 /* Show menu */
 #nav li.over ul.shown-sub { left:-1px; }

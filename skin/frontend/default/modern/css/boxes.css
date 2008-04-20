@@ -544,6 +544,11 @@ h1#logo                 { float:left; }
     margin:.2em 0 1.8em 0;
     line-height:1.3em;
     }
+.catalog-listing .ratings { line-height:1.5; }
+.catalog-listing .ratings .rating-box { float:none; margin-bottom:3px; }
+.catalog-listing .ratings .pipe { display:none; }
+.catalog-listing .ratings a { display:block; }
+
 .add-to li { background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; line-height:1.25em; }
 .add-to a, .add-to a:hover { color:#444; }
 .catalog-listing .ratings {
@@ -1128,7 +1133,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 /* Link highlights */
 .link-print     { background:url(../images/icon_printer.gif) no-repeat 0 2px; padding-left:23px; }
-.link-feed      { background:url(../images/icon_feed.png) no-repeat left center; padding-left:18px; }
+.link-feed      { background:url(../images/icon_feed.png) no-repeat left center; padding-left:18px; line-height:1.15; }
 .link-base      { color:#444; }
  
 /* For Demo store only */

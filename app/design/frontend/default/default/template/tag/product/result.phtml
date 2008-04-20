@@ -32,7 +32,7 @@
         <tbody>
         <?php $iterator = 0 ?>
         <?php foreach($this->getProducts() as $_product): ?>
-            <tr <?php if($iterator % 2 == 0): ?>class="odd"<?php $iterator++;endif; ?>>
+            <tr<?php if($iterator % 2 == 0): ?> class="odd"<?php $iterator++;endif; ?>>
                 <td><a href="<?php echo $_product->getProductUrl(); ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(100, 100); ?>" alt="" height="100" width="100" /></a></td>
                 <td>
 

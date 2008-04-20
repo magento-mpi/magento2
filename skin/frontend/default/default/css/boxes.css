@@ -1477,7 +1477,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .link-cart { color:#DC6809 !important; font-weight:bold !important;}
 .link-remove { color:#646464 !important;}
 .link-print { background:url(../images/icon_printer.gif) no-repeat 0 2px; padding-left:23px; }
-.link-feed { background:url(../images/icon_feed.png) no-repeat left center; padding-left:18px; }
+.link-feed { background:url(../images/icon_feed.png) no-repeat left center; padding-left:18px; line-height:1.15; }
 
 
 /* For Demo store only */
