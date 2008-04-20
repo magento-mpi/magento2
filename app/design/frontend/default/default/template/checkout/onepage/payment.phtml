@@ -21,7 +21,7 @@
 <script type="text/javascript">
 var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>');
 </script>
-<form id="co-payment-form">
+<form action="" id="co-payment-form">
     <?php echo $this->getChildHtml('methods') ?>
     <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none;padding-top:15px;">
         <a href="#" id="payment-tool-tip-close" class="btn-close">

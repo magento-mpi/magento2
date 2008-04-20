@@ -20,7 +20,7 @@
 ?>
 <?php if ($_products = $this->getProducts()): ?>
 <p><?php echo $this->__('You are receiving this notification because you subscribed to receive alerts when the prices for the following products changed:') ?></p>
-<p><table>
+<table>
 <?php foreach ($_products as $_product): ?>
     <tr>
         <td><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $_product->getThumbnailUrl() ?>" border="0" align="left" height="75" width="75" /></a></td>

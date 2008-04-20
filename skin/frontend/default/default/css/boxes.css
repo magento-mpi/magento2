@@ -134,7 +134,7 @@ a.form-button-alt { padding: 2px 9px; text-decoration:none; }
     font-weight:bold;
     font-size:1.1em;
     }
-.group-select li { padding:4px 8px !important; }
+.group-select li { padding:4px 8px; }
 .group-select li .input-box { float:left; width:275px; }
 .group-select li .input-text, .group-select li select, .group-select li textarea { width:525px; }
 .group-select li .input-box .input-text, .group-select li .input-box textarea { width:250px; }
