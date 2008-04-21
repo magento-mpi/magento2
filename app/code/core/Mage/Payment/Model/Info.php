@@ -56,11 +56,16 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      */
     public function getMethodInstance()
     {
-        if ($method = $this->getMethod()) {
-            if ($instance = Mage::helper('payment')->getMethodInstance($this->getMethod())) {
-                $instance->setInfoInstance($this);
-                return $instance;
+        if (!$this->hasMethodInstance()) {
+            if ($method = $this->getMethod()) {
+                if ($instance = Mage::helper('payment')->getMethodInstance($this->getMethod())) {
+                    $instance->setInfoInstance($this);
+                    $this->setMethodInstance($instance);
+                    return $instance;
+                }
             }
+        } else {
+            return $this->_getData('method_instance');
         }
         Mage::throwException(Mage::helper('payment')->__('Can not retrieve payment method instance'));
     }
