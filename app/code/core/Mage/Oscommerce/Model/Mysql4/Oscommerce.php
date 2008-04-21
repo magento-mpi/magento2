@@ -1253,7 +1253,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 //        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         if ($data['customers_id'] > 0 && isset($this->_customerIdPair[$data['customers_id']])) {
         	foreach($data as $field => $value) {
-        		if (!empty($charsetOrder[$field])
+        		if (!in_array($field, $fieldNoEnc) && !empty($charsetOrder[$field])
         			&& $charsetOrder[$field] != self::DEFAULT_FIELD_CHARSET) {
         			$data[$field] = @iconv($charsetOrder[$field], self::DEFAULT_FIELD_CHARSET, $value);
         		}
