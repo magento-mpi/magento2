@@ -132,7 +132,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Unable to find a search term to delete'));
         $this->_redirect('*/*/');
     }
-    
+
     public function massDeleteAction()
     {
         $searchIds = $this->getRequest()->getParam('search');

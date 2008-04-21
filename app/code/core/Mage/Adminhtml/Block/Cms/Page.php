@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Cms_Page extends Mage_Adminhtml_Block_Widget_Grid_Con
     public function __construct()
     {
         $this->_controller = 'cms_page';
-        $this->_headerText = Mage::helper('cms')->__('CMS Pages');
+        $this->_headerText = Mage::helper('cms')->__('Manage Pages');
         $this->_addButtonLabel = Mage::helper('cms')->__('Add New Page');
         parent::__construct();
     }
