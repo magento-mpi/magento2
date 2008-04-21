@@ -66,8 +66,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
     protected $_source;
 
     /**
-     * Enter description here...
-     *
+     * Initialize resource model
      */
     protected function _construct()
     {
@@ -75,11 +74,11 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
     }
 
     /**
-     * Enter description here...
+     * Load attribute data by code
      *
-     * @param unknown_type $entityType
-     * @param unknown_type $code
-     * @return unknown
+     * @param   mixed $entityType
+     * @param   string $code
+     * @return  Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function loadByCode($entityType, $code)
     {
@@ -134,11 +133,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
         return $this->setData('attribute_code', $data);
     }
 
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
     public function getAttributeCode()
     {
         return (isset($this->_data['attribute_code'])) ? $this->_data['attribute_code'] : null;
@@ -192,6 +186,39 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
     public function getDefaultValue()
     {
         return (isset($this->_data['default_value'])) ? $this->_data['default_value'] : null;
+    }
+
+    public function getAttributeSetId()
+    {
+        return isset($this->_data['attribute_set_id'] ) ? $this->_data['attribute_set_id'] : null;
+    }
+
+    public function setAttributeSetId($id)
+    {
+        $this->_data['attribute_set_id'] = $id;
+        return $this;
+    }
+
+    public function getEntityTypeId()
+    {
+        return $this->getData('entity_type_id');
+    }
+
+    public function setEntityTypeId($id)
+    {
+        $this->_data['entity_type_id'] = $id;
+        return $this;
+    }
+
+    public function setEntityType($type)
+    {
+        $this->setData('entity_type', $type);
+        return $this;
+    }
+
+    public function getIsGlobal()
+    {
+        return $this->_getData('is_global');
     }
 
     /**

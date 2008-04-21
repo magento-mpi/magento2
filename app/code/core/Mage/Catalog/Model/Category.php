@@ -216,6 +216,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         return $layout;
     }
 
+    public function getStoreId()
+    {
+        return $this->_getData('store_id');
+    }
+
     /**
      * Get category url
      *
@@ -223,7 +228,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getUrl()
     {
-        $url = $this->getData('url');
+        $url = $this->_getData('url');
         if (is_null($url)) {
             $queryParams = '';
 //            $store = Mage::app()->getStore();

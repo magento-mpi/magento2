@@ -613,7 +613,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $this->_classNameCache[$groupRootNode][$group][$class];
         }
 
-        $config = $this->getNode($groupRootNode.'/'.$group);
+        //$config = $this->getNode($groupRootNode.'/'.$group);
+        $config = $this->_xml->global->{$groupType.'s'}->{$group};
 
         if (isset($config->rewrite->$class)) {
             $className = (string)$config->rewrite->$class;
@@ -693,12 +694,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $className = $this->getModelClassName($modelClass);
         if (class_exists($className)) {
-            $model = new $className($constructArguments);
+            return new $className($constructArguments);
         } else {
             #throw Mage::exception('Mage_Core', Mage::helper('core')->__('Model class does not exist: %s', $modelClass));
             return false;
         }
-        return $model;
     }
 
     public function getNodeClassInstance($path)
@@ -717,12 +717,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $classArr = explode('/', $modelClass);
 
         $resourceModel = false;
-        if ($this->getNode('global/models/'.$modelClass.'/resourceModel')) {
+
+        if ($resourceInfo = $this->_xml->global->models->{$modelClass}->resourceModel) {
+            $resourceModel = (string) $resourceInfo;
+        }
+        elseif ($resourceInfo = $this->_xml->global->models->{$classArr[0]}->resourceModel) {
+            $resourceModel = (string) $resourceInfo;
+        }
+        /*if ($this->getNode('global/models/'.$modelClass.'/resourceModel')) {
             $resourceModel = (string) $this->getNode('global/models/'.$modelClass.'/resourceModel');
         }
         elseif ($this->getNode('global/models/'.$classArr[0].'/resourceModel')) {
             $resourceModel = (string) $this->getNode('global/models/'.$classArr[0].'/resourceModel');
-        }
+        }*/
 
         if (!$resourceModel) {
             return false;
@@ -738,7 +745,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceConfig($name)
     {
-        return $this->getNode("global/resources/$name");
+        //return $this->getNode("global/resources/$name");
+        return $this->_xml->global->resources->{$name};
     }
 
     public function getResourceConnectionConfig($name)
@@ -763,7 +771,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceTypeConfig($type)
     {
-        return $this->getNode("global/resource/connection/types/$type");
+        //return $this->getNode("global/resource/connection/types/$type");
+        return $this->_xml->global->resource->connection->types->{$type};
     }
 
     /**
@@ -860,4 +869,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return parent::getNode($path);
     }
 
+    public function getTablePrefix()
+    {
+        return $this->_xml->global->resources->db->table_prefix;
+    }
+
+    public function getEventConfig($area, $eventName)
+    {
+        return $this->_xml->{$area}->events->{$eventName};
+    }
 }

@@ -70,7 +70,10 @@ Category default layout
         </reference>
         <reference name="content">
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
-                <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml" />
+                <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
+                    <action method="setToolbarTemplate"><template>catalog/product/list/toolbar.phtml</template></action>
+                    <action method="setPriceTemplate"><template>catalog/product/price.phtml</template></action>
+                </block>
             </block>
         </reference>
     </catalog_category_default>

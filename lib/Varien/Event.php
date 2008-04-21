@@ -108,4 +108,9 @@ class Varien_Event extends Varien_Object
         $this->_data['name'] = $data;
         return $this;
     }
+
+    public function getBlock()
+    {
+        return $this->_getData('block');
+    }
 }

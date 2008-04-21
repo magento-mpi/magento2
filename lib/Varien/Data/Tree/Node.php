@@ -158,6 +158,18 @@ class Varien_Data_Tree_Node extends Varien_Object
         return $this->_childNodes->count() > 0;
     }
 
+    public function setLevel($level)
+    {
+        $this->setData('level', $level);
+        return $this;
+    }
+
+    public function setPathId($path)
+    {
+        $this->setData('path_id', $path);
+        return $this;
+    }
+
     public function isChildOf($node)
     {
 

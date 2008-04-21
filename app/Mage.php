@@ -418,11 +418,13 @@ final class Mage {
         try {
             Varien_Profiler::start('app');
 
-            //self::loadRequiredExtensions();
-
+            Varien_Profiler::start('app::init');
             self::app($code, $type, $options);
-//            print self::app()->getStore();
+            Varien_Profiler::stop('app::init');
+
+            Varien_Profiler::start('app::dispatch');
             self::app()->getFrontController()->dispatch();
+            Varien_Profiler::stop('app::dispatch');
 
             Varien_Profiler::stop('app');
         }

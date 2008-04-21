@@ -422,4 +422,9 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     {
         return join('-', array($this->getWebsiteId(), $this->getGroupId(), $this->getStoreId()));
     }
+
+    public function getDefaultGroupId()
+    {
+        return $this->_getData('default_group_id');
+    }
 }

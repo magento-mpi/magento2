@@ -120,14 +120,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function loadConfig($code)
     {
         if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode('stores')->children() as $storeCode=>$store) {
+            foreach (Mage::getConfig()->getNode()->stores->children() as $storeCode=>$store) {
                 if ((int)$store->system->store->id==$code) {
                     $code = $storeCode;
                     break;
                 }
             }
         } else {
-            $store = Mage::getConfig()->getNode('stores/'.$code);
+            $store = Mage::getConfig()->getNode()->stores->{$code};
         }
         if (!empty($store)) {
             $this->setCode($code);
@@ -158,7 +158,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getCode()
     {
-        return $this->getData('code');
+        return $this->_getData('code');
     }
 
     /**
@@ -623,6 +623,21 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->_group = Mage::getModel('core/store_group')->load($this->getGroupId());
         }
         return $this->_group;
+    }
+
+    public function getWebsiteId()
+    {
+        return $this->_getData('website_id');
+    }
+
+    public function getGroupId()
+    {
+        return $this->_getData('group_id');
+    }
+
+    public function getDefaultGroupId()
+    {
+        return $this->_getData('default_group_id');
     }
 
     public function isCanDelete()

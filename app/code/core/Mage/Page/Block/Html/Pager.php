@@ -37,9 +37,9 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     protected $_displayPages    = 5;
     protected $_showPerPage		= true;
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('page/html/pager.phtml');
     }
 

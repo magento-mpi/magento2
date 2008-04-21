@@ -49,6 +49,16 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
     protected static $_showTemplateHints;
 
+    public function getTemplate()
+    {
+        return $this->_getData('template');
+    }
+
+    public function getArea()
+    {
+        return $this->_getData('area');
+    }
+
     /**
      * Assign variable
      *

@@ -50,6 +50,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         return 1;
     }
 
+    public function getProductId()
+    {
+        return $this->_getData('product_id');
+    }
+
     /**
      * Load item data by product
      *

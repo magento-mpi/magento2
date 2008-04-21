@@ -179,6 +179,8 @@ class Mage_Core_Model_App
      */
     protected $_events = array();
 
+    static protected $_isInstalled = NULL;
+
     /**
      * Constructor
      *
@@ -195,8 +197,6 @@ class Mage_Core_Model_App
      */
     public function init($code, $type=null, $options=array())
     {
-        Varien_Profiler::start('app/construct');
-
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
@@ -236,8 +236,6 @@ class Mage_Core_Model_App
 
             $this->getRequest()->setPathInfo();
         }
-
-        Varien_Profiler::stop('app/construct');
         return $this;
     }
 
@@ -761,11 +759,14 @@ class Mage_Core_Model_App
      */
     public function isInstalled()
     {
-        $installDate = Mage::getConfig()->getNode(self::XML_PATH_INSTALL_DATE);
-        if ($installDate && strtotime($installDate)) {
-            return true;
+        if (self::$_isInstalled === null) {
+            $installDate = Mage::getConfig()->getNode(self::XML_PATH_INSTALL_DATE);
+            $installDate = (string)$installDate;
+            if ($installDate && strtotime($installDate)) {
+                self::$_isInstalled = true;
+            }
         }
-        return false;
+        return self::$_isInstalled;
     }
 
     /**
@@ -1006,7 +1007,7 @@ class Mage_Core_Model_App
 
         foreach ($this->_events as $area=>$events) {
             if (!isset($events[$eventName])) {
-                $eventConfig = $this->getConfig()->getNode("$area/events/$eventName");
+                $eventConfig = $this->getConfig()->getEventConfig($area, $eventName);
                 if (!$eventConfig) {
                     $this->_events[$area][$eventName] = false;
                     continue;
