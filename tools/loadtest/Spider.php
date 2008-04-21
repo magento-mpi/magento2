@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class LoadTest_Object

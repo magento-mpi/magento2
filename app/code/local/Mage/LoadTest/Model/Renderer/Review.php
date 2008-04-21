@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_LoadTest
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_LoadTest_Model_Renderer_Review extends Mage_LoadTest_Model_Renderer_Abstract

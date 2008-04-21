@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_LoadTest
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_LoadTest_Helper_Data extends Mage_Core_Helper_Abstract
