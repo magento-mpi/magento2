@@ -124,31 +124,33 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getTableCharset($tableName = '')
     {
         $oscTables = array('products', 'customers', 'categories', 'orders', 'languages','orders_products', 'orders_status_history', 'orders_total');
-        if (!$this->_tableCharset) foreach($oscTables as $oscTable) {
-            $oscTableName = $this->getOscTable($oscTable);
-            if ($results = $this->_getForeignAdapter()->fetchAll("show create table `{$oscTableName}`")) {
-                foreach ($results as $result) {
-                    if($result['Create Table']) {
-                        $lines  = explode("\n",$result['Create Table']);
-                        $i = 0;
-                        foreach ($lines as $line) {
-                            if ($i == sizeof($lines) - 1) {
-                                if (preg_match_all('/CHARSET=(\w+)/', $line, $matches)) {
-                                    if (isset($matches[1][0]))
-                                    {
-                                        $this->_tableCharset[$oscTableName] = $matches[1][0];
-                                    }
-                                }
-                            }
-                            $i++;
-                        }
-                    }
-
-                }
-                if (!isset($this->_tableCharset[$oscTableName])) {
-                    $this->_tableCharset[$oscTableName] = self::DEFAULT_OSC_CHARSET;
-                }
-            }
+        if (!$this->_tableCharset) {
+	       	foreach($oscTables as $oscTable) {
+	            $oscTableName = $this->getOscTable($oscTable);
+	            if ($results = $this->_getForeignAdapter()->fetchAll("show create table `{$oscTableName}`")) {
+	                foreach ($results as $result) {
+	                    if($result['Create Table']) {
+	                        $lines  = explode("\n",$result['Create Table']);
+	                        $i = 0;
+	                        foreach ($lines as $line) {
+	                            if ($i == sizeof($lines) - 1) {
+	                                if (preg_match_all('/CHARSET=(\w+)/', $line, $matches)) {
+	                                    if (isset($matches[1][0]))
+	                                    {
+	                                        $this->_tableCharset[$oscTableName] = $matches[1][0];
+	                                    }
+	                                }
+	                            }
+	                            $i++;
+	                        }
+	                    }
+	
+	                }
+	                if (!isset($this->_tableCharset[$oscTableName])) {
+	                    $this->_tableCharset[$oscTableName] = self::DEFAULT_OSC_CHARSET;
+	                }
+	            }
+	        }
         }
         if (isset($tableName) && isset($this->_tableCharset[$tableName])) {
             return $this->_tableCharset[$tableName];
@@ -590,10 +592,6 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
    							) {
                         	$value = iconv($charsetAddress[$addressFieldMapping[$field]], self::DEFAULT_FIELD_CHARSET, $value);
                         }
-
-//                        if (in_array($field, array_keys($addressFieldMapping))) {
-//                        	$value = iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
-//                        }
                         
                         if (!in_array($field, array('customers_id'))) {
                             $address[$field] = $value;
@@ -1674,10 +1672,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function getImportTypeIdByCode($code = '') {
         $types = $this->getImportTypes();
-        if (isset($code) && $types) foreach ($types as $type) {
-            if ($type['type_code'] == $code) {
-                return $type['type_id'];
-            }
+        if (isset($code) && $types) {
+        	foreach ($types as $type) {
+	            if ($type['type_code'] == $code) {
+	                return $type['type_id'];
+	            }        		
+        	}
         }
         return false;
     }
@@ -1741,10 +1741,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!$this->_countryIdToCode) {
             $this->getCountryCodeData();
         }
-        if (isset($code)) foreach($this->_countryToCode as $id => $code) {
-            if ($code == $countryCode) {
-                return $id;
-            }
+        if (isset($code)) {
+        	foreach($this->_countryToCode as $id => $code) {
+	            if ($code == $countryCode) {
+	                return $id;
+	            }
+        	}
         }
         return false;
     }
@@ -1907,9 +1909,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $columnName = 'currency_symbol';
         try {
             if (!($result = $this->_getReadAdapter()->fetchRow("SHOW `columns` FROM `{$this->getTable('oscommerce_order')}` WHERE field='{$columnName}'"))) {
-
-                    $this->_setupConnection()->query("ALTER TABLE `{$this->getTable('oscommerce_order')}` ADD {$columnName} char(3) DEFAULT NULL");
-                    $this->_setupConnection()->commit();
+                $this->_setupConnection()->query("ALTER TABLE `{$this->getTable('oscommerce_order')}` ADD {$columnName} char(3) DEFAULT NULL");
+                $this->_setupConnection()->commit();
             }
         } catch (Exception $e) {
 

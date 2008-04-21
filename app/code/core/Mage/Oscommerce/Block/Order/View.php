@@ -38,12 +38,6 @@ class Mage_Oscommerce_Block_Order_View extends Mage_Core_Block_Template
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle($this->__('Order # %s', $order['orders_id']));
         }
-        /*
-        $this->setChild(
-            'payment_info',
-            $this->helper('payment')->getInfoBlock($this->getOrder()->getPayment())
-        );
-        */
     }
 
     public function getPaymentInfoHtml()
