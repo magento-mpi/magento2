@@ -825,4 +825,16 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this->helper('core')->htmlEscape($data);
     }
 
+    /**
+     * Escape quotes in java scripts
+     *
+     * @param mixed $data
+     * @param string $quote
+     * @return mixed
+     */
+    public function jsQuoteEscape($data, $quote = '\'')
+    {
+        return $this->helper('core')->jsEscape($data, $quote);
+    }
+
 }

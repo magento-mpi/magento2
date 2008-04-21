@@ -152,6 +152,23 @@ abstract class Mage_Core_Helper_Abstract
     }
 
     /**
+     * Escape quotes in java script
+     *
+     * @param moxed $data
+     * @param string $quote
+     * @return mixed
+     */
+    public function jsQuoteEscape($data, $quote='\'')
+    {
+        if (is_array($data)) {
+            foreach ($data as $item) {
+                return $this->jsEscape($item, $quote);
+            }
+        }
+        return str_replace($quote, '\\'.$quote, $data);
+    }
+
+    /**
      * Retrieve url
      *
      * @param   string $route
