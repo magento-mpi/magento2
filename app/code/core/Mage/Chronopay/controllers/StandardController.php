@@ -24,7 +24,6 @@
  * @category   Mage
  * @package    Mage_Chronopay
  * @name       Mage_Chronopay_StandardController
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Action
 {
@@ -47,7 +46,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      *  Get order
      *
      *  @param    none
-     *  @return	  object order
+     *  @return	  Mage_Sales_Model_Order
      */
     public function getOrder ()
     {
@@ -98,13 +97,21 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
             $order->getStatus(),
             Mage::helper('chronopay')->__('Customer successfully returned from Chronopay')
         );
+
+
+        $session = Mage::getSingleton('checkout/session');
+        $session->setSuccessMessage(Mage::helper('chronopay')->__('Your Order #') . $order->getRealOrderId());
+
         $order->save();
-        $this->_redirect('checkout/onepage/success');
+
+        $this->loadLayout();
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
     }
 
 
     /**
-     *  Description goes here...
+     *  Notification Action from ChronoPay
      *
      *  @param    none
      *  @return	  void
@@ -112,7 +119,6 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     public function notifyAction ()
     {
         $postData = $this->getRequest()->getPost();
-
         if ($this->getDebug()) {
             Mage::getModel('chronopay/api_debug')
                 ->setResponseBody(print_r($postData,1))
@@ -185,50 +191,17 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function failureAction ()
     {
+        $errorMsg = Mage::helper('chronopay')->__('There was an error occurred during paying process.');
 
-//        if (!$this->isValidResponse) {
-            $this->norouteAction();
-            return ;
-//        }
+        $order = $this->getOrder();
 
-//        $transactionId = $this->responseArr['VendorTxCode'];
-//
-//        if ($this->getDebug()) {
-//            Mage::getModel('chronopay/api_debug')
-//                ->setResponseBody(print_r($this->responseArr,1))
-//                ->save();
-//        }
-//
-//        $order = Mage::getModel('sales/order');
-//        $order->loadByIncrementId($transactionId);
-//
-//        if (!$order->getId()) {
-//            /**
-//             * need to have logic when there is no order with the order id from chronopay
-//             */
-//            return false;
-//        }
-//
-//        // cancel order in anyway
-//        $order->cancel();
-//
-//        $session = Mage::getSingleton('checkout/session');
-//        $session->setQuoteId($session->getChronopayStandardQuoteId(true));
-//
-//        // Customer clicked CANCEL Butoon
-//        if ($this->responseArr['Status'] == 'ABORT') {
-//            $history = Mage::helper('chronopay')->__('Order '.$order->getId().' was canceled by customer');
-//            $redirectTo = 'checkout/cart';
-//        } else {
-//            $history = Mage::helper('chronopay')->__($this->responseArr['StatusDetail']);
-//            $session->setErrorMessage($this->responseArr['StatusDetail']);
-//            $redirectTo = 'chronopay/standard/failure';
-//        }
-//
-//        $history = Mage::helper('chronopay')->__('Customer was returned from Chronopay.') . ' ' . $history;
-//        $order->addStatusToHistory($order->getStatus(), $history);
-//        $order->save();
-//
-//        $this->_redirect($redirectTo);
+        if ($order instanceof Mage_Sales_Model_Order && $order->getId()) {
+            $order->addStatusToHistory($order->getStatus(), $errorMsg);
+            $order->cancel();
+            $order->save();
+        }
+        $this->loadLayout();
+        $this->renderLayout();
     }
+
 }

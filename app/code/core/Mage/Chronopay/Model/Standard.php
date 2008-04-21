@@ -54,6 +54,26 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return Mage::getSingleton('chronopay/config');
     }
 
+    /**
+     * Payment validation
+     *
+     * @param   none
+     * @return  Mage_Chronopay_Model_Standard
+     */
+    public function validate()
+    {
+        parent::validate();
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+            $currency_code = $paymentInfo->getOrder()->getBaseCurrencyCode();
+        } else {
+            $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
+        }
+        if ($currency_code != $this->getConfig()->getCurrency()) {
+            Mage::throwException(Mage::helper('chronopay')->__('Selected currency code ('.$currency_code.') is not compatabile with ChronoPay'));
+        }
+        return $this;
+    }
 
     /**
      * Capture payment
@@ -156,7 +176,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         'product_id'       => $this->getConfig()->getProductId(),
                         'product_name'     => $this->getConfig()->getDescription(),
                         'product_price'    => $order->getBaseGrandTotal(),
-                        'language'         => 'EN',
+                        'language'         => $this->getConfig()->getLanguage(),
                         'f_name'           => $order->getCustomerFirstname(),
                         's_name'           => $order->getCustomerLastname(),
                         'street'           => $street,

@@ -105,4 +105,26 @@ class Mage_Chronopay_Model_Config extends Varien_Object
     {
         return $this->getConfigData('debug_flag');
     }
+
+    /**
+     *  Return accepted currency
+     *
+     *  @param    none
+     *  @return	  string Currenc
+     */
+    public function getCurrency ()
+    {
+        return $this->getConfigData('currency');
+    }
+
+    /**
+     *  Return client interface language
+     *
+     *  @param    none
+     *  @return	  string(2) Accepted language
+     */
+    public function getLanguage ()
+    {
+        return $this->getConfigData('language');
+    }
 }
