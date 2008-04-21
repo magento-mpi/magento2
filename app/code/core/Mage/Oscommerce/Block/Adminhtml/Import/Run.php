@@ -86,7 +86,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
             . '<span class="text">#{text}</span>'
             . '</li>',
             'text'     => $this->__('processed <strong>%s%% %s/%s</strong> records', '#{percent}', '#{updated}', '#{total}'),
-            'successText'  => $this->__('Total imported <strong>%s</strong> records', '#{updated}')
+            'successText'  => $this->__('Total imported <strong>%s</strong> records (%s)', '#{updated}', '#{totalImported}')
             );
 
             
@@ -106,7 +106,8 @@ var countOfError = 0;
 var importData = [];
 var maxRows = 0;
 var savedRows = 0;
-var totalRecords = {"products":0,"customers":0,"categories":0,"orders":0};
+var totalRecords = {"categories":0,"products":0,"customers":0,"orders":0};
+var totalImportedRecords = {"categories":0,"products":0,"customers":0,"orders":0};
 var config= '.Zend_Json::encode($batchConfig).';
 </script>
 <script type="text/javascript">
@@ -118,10 +119,14 @@ function execImportData() {
     
     if (importData.length == 0) {
     	resetAllCount();
+    	var totalImported = "";
+    	for (var idx in totalImportedRecords) {
+    		totalImported += (totalImported?", ":"") + idx.ucFirst() + " <strong>" + totalImportedRecords[idx] + "</strong> '.$this->__('records').'";
+    	}
         new Insertion.Before($("liFinished"), config.tpl.evaluate({
             style: "background-color:"+config.styles.message.bg,
             image: config.styles.message.icon,
-            text: config.tplSccTxt.evaluate({updated:(countOfTotalUpdated-countOfError)}),
+            text: config.tplSccTxt.evaluate({updated:(countOfTotalUpdated-countOfError), totalImported:totalImported}),
             id: "updatedFinish"
         }));
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $importModel->getId())) .'", {
@@ -189,6 +194,7 @@ function getPercent(data) {
 	if (parseInt(totalRecords[data["import_type"]]) == 0)	{
 		return 0;
 	} else {
+		totalImportedRecords[data["import_type"]] = countOfUpdated;
     	return Math.ceil((countOfUpdated/totalRecords[data["import_type"]])*1000)/10;
 	}
 }

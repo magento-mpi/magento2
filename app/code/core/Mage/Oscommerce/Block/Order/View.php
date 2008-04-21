@@ -63,21 +63,7 @@ class Mage_Oscommerce_Block_Order_View extends Mage_Core_Block_Template
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return Mage::getUrl('sales/order/history');
     }
 
-    public function getInvoiceUrl($order)
-    {
-        return Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
-    }
-
-    public function getShipmentUrl($order)
-    {
-        return Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
-    }
-
-    public function getCreditmemoUrl($order)
-    {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
-    }
 }
