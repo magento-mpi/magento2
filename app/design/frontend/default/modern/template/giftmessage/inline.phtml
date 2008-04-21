@@ -91,7 +91,7 @@ billing.onSave = function(evt){
         <span class="gift-header"><?php echo $this->__('Do you have any gift items in your order?'); ?></span>
         <div class="clear"></div>
         <div class="a-left input-checkbox">
-            <input type="checkbox" name="allow_gift_messages" id="allow_gift_messages" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container']);" <?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?>checked="checked"<?php endif ?>/>
+            <input type="checkbox" name="allow_gift_messages" id="allow_gift_messages" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container']);"<?php if($this->getitemshasmesssages() || $this->getentityhasmessage()): ?> checked="checked"<?php endif ?> />
             <label for="allow_gift_messages"><?php echo $this->__('Check this checkbox if you want to add gift messages.') ?></label>
         </div>
         <div class="clear"></div>
@@ -178,7 +178,7 @@ billing.onSave = function(evt){
         <span class="gift-header"><?php echo $this->__('Gift Messages'); ?></span>
         <div class="clear"></div>
         <div class="a-left input-checkbox">
-            <input type="checkbox" name="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container-<?php echo $this->getEntity()->getId() ?>']);" <?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?>checked="checked"<?php endif ?>/>
+            <input type="checkbox" name="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container-<?php echo $this->getEntity()->getId() ?>']);"<?php if($this->getitemshasmesssages() || $this->getentityhasmessage()): ?> checked="checked"<?php endif ?> />
             <label for="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>"><?php echo $this->__('Check this checkbox if you want to add gift messages to your items.') ?></label>
         </div>
         <div class="clear"></div>

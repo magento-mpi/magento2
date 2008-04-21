@@ -52,7 +52,7 @@
 <?php if (($_shippingRateGroups = $this->getEstimateRates())): ?>
 <div class="divider"></div>
 <form id="co-shipping-method-form" action="<?php echo $this->getUrl('checkout/cart/estimateUpdatePost') ?>">
-    <dl class="shipment-methods">
+    <dl class="shipment-methods" id="shipping-rates">
         <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
             <dt><?php echo $this->getCarrierName($code) ?></dt>
             <dd>
