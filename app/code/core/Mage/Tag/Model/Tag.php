@@ -59,7 +59,8 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
 
     public function setRatio($ratio)
     {
-        return $this->_getData('ratio', $ratio);
+        $this->setData('ratio', $ratio);
+        return $this;
     }
 
     public function loadByName($name)
