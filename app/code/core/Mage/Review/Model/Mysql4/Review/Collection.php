@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Review
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_Db
 {

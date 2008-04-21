@@ -23,7 +23,7 @@
  * @category   Mage
  * @package    Mage_Protx
  * @name       Mage_Protx_Block_Standard_Failure
- * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template

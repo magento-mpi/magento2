@@ -23,7 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Filter
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 abstract class Varien_Filter_Template_Tokenizer_Abstract

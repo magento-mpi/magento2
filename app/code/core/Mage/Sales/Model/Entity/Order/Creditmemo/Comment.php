@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Entity_Order_Creditmemo_Comment extends Mage_Eav_Model_Entity_Abstract
 {

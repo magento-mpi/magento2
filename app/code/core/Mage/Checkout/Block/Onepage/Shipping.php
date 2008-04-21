@@ -21,7 +21,7 @@
 /**
  * One page checkout status
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_Abstract
 {

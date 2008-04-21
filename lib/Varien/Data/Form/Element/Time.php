@@ -23,7 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Data_Form_Element_Time extends Varien_Data_Form_Element_Abstract
 {

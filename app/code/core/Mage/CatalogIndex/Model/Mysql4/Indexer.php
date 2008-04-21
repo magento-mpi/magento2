@@ -22,7 +22,7 @@
 /**
  * Reindexer resource model
  *
- * @author Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abstract
 {

@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
 {

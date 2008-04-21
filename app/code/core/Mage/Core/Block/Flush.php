@@ -22,8 +22,7 @@
 /**
  * Immediate flush block. To be used only as root
  *
- * @author     Moshe Gurvich <moshe@varien.com>
- * @author     Soroka Dmitriy <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Block_Flush extends Mage_Core_Block_Abstract
 {

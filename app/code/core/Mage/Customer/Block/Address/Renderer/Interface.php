@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface Mage_Customer_Block_Address_Renderer_Interface
 {

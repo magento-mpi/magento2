@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author      Michael Bessolov <michael@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Sales_Block_Order_Print_Creditmemo extends Mage_Core_Block_Template

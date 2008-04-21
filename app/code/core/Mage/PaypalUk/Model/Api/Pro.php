@@ -23,7 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Paygate
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
@@ -434,7 +434,6 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
     /**
       * canVoid
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       * @desc checking the transaction id is valid or not and transction id was not settled
       */
@@ -471,7 +470,6 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
      /**
       * void
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       */
     public function void()
@@ -499,7 +497,6 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
      /**
       * refund the amount with transaction id
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       */
     public function refund()

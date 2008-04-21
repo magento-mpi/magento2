@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Cron
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
 {

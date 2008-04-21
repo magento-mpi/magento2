@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Customer_Attribute_Source_Group extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {

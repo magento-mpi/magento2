@@ -22,7 +22,7 @@
  *
  * PayPal Express Checkout Module
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 {
@@ -325,7 +325,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * void
      *
-     * @author Lindy Kyaw <lindy@varien.com>
      * @access public
      * @param string $payment Varien_Object object
      * @return Mage_Payment_Model_Abstract
@@ -356,7 +355,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * refund the amount with transaction id
      *
-     * @author Lindy Kyaw <lindy@varien.com>
      * @access public
      * @param string $payment Varien_Object object
      * @return Mage_Payment_Model_Abstract

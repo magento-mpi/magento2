@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sitemap
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sitemap_Model_Mysql4_Cms_Page extends Mage_Core_Model_Mysql4_Abstract
 {

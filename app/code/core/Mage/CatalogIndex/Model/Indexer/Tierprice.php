@@ -22,7 +22,7 @@
 /**
  * Tier Price indexer
  *
- * @author Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Indexer_Tierprice extends Mage_CatalogIndex_Model_Indexer_Abstract
 {

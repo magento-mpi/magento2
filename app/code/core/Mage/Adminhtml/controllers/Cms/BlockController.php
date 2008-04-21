@@ -24,9 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @author     Alexander Stadnitski <alexander@varien.com>
- * @author     Michael Bessolov <michael@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Action
 {

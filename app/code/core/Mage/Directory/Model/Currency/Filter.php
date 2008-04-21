@@ -21,7 +21,7 @@
 /**
  * Currency filter
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Directory_Model_Currency_Filter implements Zend_Filter_Interface
 {

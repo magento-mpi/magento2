@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Rating
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Rating_Model_Mysql4_Rating_Option
 {

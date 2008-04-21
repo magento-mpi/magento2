@@ -23,8 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Newsletter
- * @author      Ivan Chepurnyi <mitch@varien.com>
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Action
 {

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Dmitriy Soroka <dmitriy.soroka@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Invoice_Total_Shipping extends Mage_Sales_Model_Order_Invoice_Total_Abstract
 {

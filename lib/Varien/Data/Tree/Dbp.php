@@ -27,7 +27,7 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author     Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Data_Tree_Dbp extends Varien_Data_Tree
 {

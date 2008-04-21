@@ -23,7 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface Varien_Data_Form_Element_Renderer_Interface
 {

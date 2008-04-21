@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Michael Bessolov <michael@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Text_List extends Mage_Core_Block_Text_List
 {

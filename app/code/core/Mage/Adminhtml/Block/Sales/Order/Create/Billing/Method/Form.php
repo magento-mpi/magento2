@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Michael Bessolov <michael@varien.com>
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_Payment_Block_Form_Container
 {

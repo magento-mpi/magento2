@@ -23,8 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_File
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Varien_File_Uploader

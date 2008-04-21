@@ -22,7 +22,7 @@
  *
  * @category   Mage
  * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 require_once 'Zend/Service/StrikeIron/Base.php';
 

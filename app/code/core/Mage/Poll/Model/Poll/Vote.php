@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Poll
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Poll_Model_Poll_Vote extends Varien_Object
 {

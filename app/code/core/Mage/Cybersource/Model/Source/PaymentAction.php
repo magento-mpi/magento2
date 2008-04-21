@@ -22,7 +22,7 @@
  *
  * Cybersource Payment Action Dropdown source
  *
- * @author     Lindy Yang <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cybersource_Model_Source_PaymentAction
 {

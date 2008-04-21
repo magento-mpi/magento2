@@ -21,7 +21,7 @@
 /**
  * osCommerce edit form block
  * 
- * @author     Kayw Soe Lynn Maung <vincent@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_Block_Widget_Form

@@ -23,7 +23,7 @@
  *
  * @category    Mage_Ideal
  * @package     Mage_Ideal
- * @author      Dmytro Vasylenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract

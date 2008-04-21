@@ -25,7 +25,7 @@
  *
  * @category   Mage
  * @package    Mage_Payment
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Payment_Model_Config
 {

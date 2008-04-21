@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Log
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
 {

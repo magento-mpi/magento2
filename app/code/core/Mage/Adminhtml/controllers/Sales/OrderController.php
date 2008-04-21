@@ -23,8 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @author      Michael Bessolov <michael@varien.com>
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Action
 {

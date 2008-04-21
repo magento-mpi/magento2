@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Shipping
- * @author     Moshe Gurvich <moshe@varien.com>
- * @author     Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql4_Abstract
 {

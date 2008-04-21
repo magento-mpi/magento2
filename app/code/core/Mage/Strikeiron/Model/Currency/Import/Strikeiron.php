@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Directory
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Model_Currency_Import_Abstract
 {

@@ -21,7 +21,7 @@
 /**
  * osCommerce import grid block
  *
- * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_Widget_Grid

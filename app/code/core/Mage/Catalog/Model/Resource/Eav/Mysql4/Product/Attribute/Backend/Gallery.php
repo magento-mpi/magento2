@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Gallery extends Mage_Eav_Model_Entity_Attribute_Backend_Gallery

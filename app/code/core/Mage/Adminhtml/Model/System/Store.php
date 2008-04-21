@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Model_System_Store extends Varien_Object
 {
@@ -190,7 +190,6 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      *
      * @param int websiteId
      * @return string
-     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
      */
     public function getWebsiteName($websiteId)
     {
@@ -207,7 +206,6 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      *
      * @param int groupId
      * @return string
-     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
      */
     public function getGroupName($groupId)
     {
@@ -238,7 +236,6 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      *
      * @param  int $storeId
      * @return Mage_Core_Model_Store
-     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
      **/
     public function getStoreData($storeId)
     {
@@ -253,7 +250,6 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
      *
      * @param  int $storeId
      * @return string
-     * @author Kyaw Soe Lynn Maung <vincent@varien.com>
      **/
     public function getStoreNameWithWebsite($storeId)
     {

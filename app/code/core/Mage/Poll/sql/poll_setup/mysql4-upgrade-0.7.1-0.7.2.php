@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Poll
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 $installer = $this;

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Template

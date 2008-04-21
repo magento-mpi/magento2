@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Review
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Review_Model_Observer
 {

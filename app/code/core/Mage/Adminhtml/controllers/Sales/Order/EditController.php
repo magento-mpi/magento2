@@ -24,7 +24,7 @@ require_once('CreateController.php');
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Order_CreateController
 {

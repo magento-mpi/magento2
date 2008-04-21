@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Reports
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Reports_Block_Product_Compared extends Mage_Catalog_Block_Product_Abstract

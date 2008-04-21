@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Admin
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 {

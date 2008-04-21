@@ -21,7 +21,7 @@
 /**
  * Catalog data helper
  *
- * @author      Vasily  Selivanov <vasily@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Helper_Data extends Mage_Core_Helper_Abstract
 {

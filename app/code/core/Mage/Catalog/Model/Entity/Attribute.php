@@ -21,7 +21,7 @@
 /**
  * Product attribute extension with event dispatching
  *
- * @author Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute
 {

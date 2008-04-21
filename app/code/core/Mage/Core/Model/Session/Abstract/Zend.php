@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
 {

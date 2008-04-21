@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Payment
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
 {

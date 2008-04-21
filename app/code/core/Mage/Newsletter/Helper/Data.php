@@ -21,7 +21,7 @@
 /**
  * Newsletter base observer
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
 {

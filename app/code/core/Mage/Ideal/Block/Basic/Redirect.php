@@ -23,7 +23,7 @@
  *
  * @category Mage
  * @package  Mage_Ideal
- * @author Dmytro Vasylenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Ideal_Block_Basic_Redirect extends Mage_Core_Block_Abstract

@@ -23,7 +23,7 @@
  * @category   Mage
  * @package    Mage_Protx
  * @name       Mage_Protx_Model_Config
- * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Protx_Model_Config extends Varien_Object

@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
 {

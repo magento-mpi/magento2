@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tax
- * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 

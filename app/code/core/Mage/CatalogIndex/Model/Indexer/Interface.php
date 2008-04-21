@@ -22,7 +22,7 @@
 /**
  * Catalog indexer interface
  *
- * @author Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface Mage_CatalogIndex_Model_Indexer_Interface
 {

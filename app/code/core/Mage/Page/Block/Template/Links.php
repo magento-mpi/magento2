@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Michael Bessolov <michael@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
 {

@@ -21,7 +21,7 @@
 /**
  * Paypal Standard Checkout Controller
  *
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
 {

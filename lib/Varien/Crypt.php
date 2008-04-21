@@ -24,7 +24,7 @@
  *
  * @category   Varien
  * @package    Varien_Crypt
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Crypt
 {

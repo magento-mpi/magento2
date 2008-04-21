@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Strikeiron
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 {

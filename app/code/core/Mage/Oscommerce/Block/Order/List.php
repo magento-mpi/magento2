@@ -21,7 +21,7 @@
 /**
  * osCommerce order view block
  * 
- * @author      Kyaw Soe Lynn Maung <vincent@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Oscommerce_Block_Order_List extends Mage_Core_Block_Template
 {

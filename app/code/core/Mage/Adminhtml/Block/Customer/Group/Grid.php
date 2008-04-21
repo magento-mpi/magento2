@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Ivan Chepurnyi <mitch@varien.com>
- * @author     Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {

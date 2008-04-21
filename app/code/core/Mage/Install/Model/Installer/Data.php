@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Install
- * @author     Michael Bessolov <michael@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Installer_Data extends Varien_Object
 {

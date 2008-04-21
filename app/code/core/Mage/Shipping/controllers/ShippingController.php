@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Yuriy Scgerbina <yuriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Shipping_ShippingController extends Mage_Core_Controller_Front_Action

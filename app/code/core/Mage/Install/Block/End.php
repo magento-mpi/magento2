@@ -21,7 +21,7 @@
 /**
  * Installation ending block
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Block_End extends Mage_Install_Block_Abstract
 {

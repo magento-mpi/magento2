@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Eway
- * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Eway_Model_Secure extends Mage_Eway_Model_Shared
 {

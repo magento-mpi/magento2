@@ -21,7 +21,7 @@
 /**
  *
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Strikeiron_Model_Source_UndeterminedEmailAction
 {

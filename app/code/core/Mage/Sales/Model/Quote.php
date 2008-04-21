@@ -28,8 +28,7 @@
  *  sales_quote_delete_before
  *  sales_quote_delete_after
  *
- * @author  Moshe Gurvich <moshe@varien.com>
- * @author  Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {

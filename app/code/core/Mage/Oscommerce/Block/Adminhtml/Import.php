@@ -21,7 +21,7 @@
 /**
  * osCommerce convert list block
  *
- * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget_Grid_Container

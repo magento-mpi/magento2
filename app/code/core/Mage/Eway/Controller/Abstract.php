@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Eway
- * @author     Dmytro Vasylenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_Action
 {

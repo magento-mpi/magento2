@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface Mage_Adminhtml_Block_Widget_Grid_Massaction_Item_Additional_Interface
 {

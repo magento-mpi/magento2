@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Entity_Address extends Mage_Eav_Model_Entity_Abstract
 {

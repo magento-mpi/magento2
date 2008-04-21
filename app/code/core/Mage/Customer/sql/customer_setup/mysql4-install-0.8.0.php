@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 $installer = $this;
 /* @var $installer Mage_Customer_Model_Entity_Setup */

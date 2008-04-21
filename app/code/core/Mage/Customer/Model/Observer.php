@@ -21,7 +21,7 @@
 /**
  * Customer module observer
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Observer
 {

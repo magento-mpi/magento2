@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Dataflow
- * @author     Vincent Maung <vincent@varien>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Mysql4_Session extends Mage_Core_Model_Mysql4_Abstract
 {

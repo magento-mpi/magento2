@@ -22,7 +22,7 @@
  *
  * PayPal Express Checkout Module
  *
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 {

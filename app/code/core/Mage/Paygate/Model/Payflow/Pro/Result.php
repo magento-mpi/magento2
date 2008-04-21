@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Paygate
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Paygate_Model_Payflow_Pro_Result extends Varien_Object

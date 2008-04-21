@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Rating
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Rating_Model_Rating_Option_Vote extends Mage_Core_Model_Abstract

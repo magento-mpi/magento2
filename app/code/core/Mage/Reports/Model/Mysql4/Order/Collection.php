@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Reports
- * @author     Ivan Chepurnyi  <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {

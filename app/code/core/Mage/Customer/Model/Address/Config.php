@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
 {

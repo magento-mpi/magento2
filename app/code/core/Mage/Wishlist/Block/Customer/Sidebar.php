@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Wishlist
- * @author	   Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template

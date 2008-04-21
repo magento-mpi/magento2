@@ -21,7 +21,7 @@
 /**
  * osCommerce orders controller
  * 
- * @author      Kyaw Soe Lynn Maung <vincent@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Action

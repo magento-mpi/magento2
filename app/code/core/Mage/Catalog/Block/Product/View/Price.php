@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
  class Mage_Catalog_Block_Product_View_Price extends Mage_Core_Block_Template
  {

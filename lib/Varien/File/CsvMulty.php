@@ -21,7 +21,7 @@
 /**
  * Csv parse
  *
- * @author      Vasily Selivanov <vasily@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 require_once 'Varien/File/Csv.php';

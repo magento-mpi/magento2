@@ -21,7 +21,7 @@
 /**
  *
  * @file        Image.php
- * @author      Alexander Stadnitski (hacki) alexander@varien.com
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Varien_File_Uploader_Image extends Varien_File_Uploader

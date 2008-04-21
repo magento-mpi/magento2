@@ -23,7 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Ideal
- * @author      Dmytro Vasylenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action

@@ -22,7 +22,7 @@
  * Poll index controller
  *
  * @file        IndexController.php
- * @author      Lindy Kyaw lindy@varien.com
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Rss_IndexController extends Mage_Core_Controller_Front_Action

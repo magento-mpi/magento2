@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Media
- * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Media_Helper_Data extends Mage_Core_Helper_Data
 {

@@ -22,7 +22,7 @@
  *
  * @category   Mage
  * @package    Mage_StrikeIron
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Strikeiron_Model_Service_SalesUseTaxBasic extends Mage_Strikeiron_Model_Service_SalesUseTax
 {

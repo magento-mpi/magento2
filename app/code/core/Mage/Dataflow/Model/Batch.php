@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Dataflow
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Dataflow_Model_Batch extends Mage_Core_Model_Abstract
 {

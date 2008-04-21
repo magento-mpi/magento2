@@ -26,7 +26,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Core_Controller_Varien_Action
 {

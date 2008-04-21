@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Adminhtml_Block_Store_Switcher
 {

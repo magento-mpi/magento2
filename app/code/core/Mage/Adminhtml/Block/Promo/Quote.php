@@ -24,7 +24,7 @@
  * @category    Mage
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Adminhtml_Block_Promo_Quote extends Mage_Adminhtml_Block_Widget_Grid_Container

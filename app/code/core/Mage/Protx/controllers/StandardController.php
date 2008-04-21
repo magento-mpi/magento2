@@ -24,7 +24,7 @@
  * @category   Mage
  * @package    Mage_Protx
  * @name       Mage_Protx_StandardController
- * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 {

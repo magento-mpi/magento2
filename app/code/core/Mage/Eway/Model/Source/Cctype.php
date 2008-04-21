@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Eway
- * @author     Dmytro Vasylenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Eway_Model_Source_Cctype
 {

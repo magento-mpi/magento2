@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_GiftMessage
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
 {

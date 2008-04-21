@@ -151,7 +151,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * void
      *
-     * @author Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
      * @access public
      * @param string $payment Varien_Object object
      * @return Mage_Payment_Model_Abstract
@@ -184,7 +184,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * refund the amount with transaction id
      *
-     * @author Lindy Kyaw <lindy@varien.com>
      * @access public
      * @param string $payment Varien_Object object
      * @return Mage_Payment_Model_Abstract

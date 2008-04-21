@@ -24,7 +24,7 @@
  * 
  * @category   Varien
  * @package    Varien_Event
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Event_Observer extends Varien_Object
 {

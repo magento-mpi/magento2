@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_ProductAlert
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
 {

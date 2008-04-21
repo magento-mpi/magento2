@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_CatalogSearch
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
 {

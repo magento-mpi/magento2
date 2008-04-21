@@ -21,7 +21,7 @@
 /**
  * Html helper
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Page_Helper_Html extends Mage_Core_Helper_Abstract
 {

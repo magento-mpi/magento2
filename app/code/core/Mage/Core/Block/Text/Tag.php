@@ -22,7 +22,7 @@
 /**
  * Base html block
  *
- * @author     Soroka Dmitriy <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Block_Text_Tag extends Mage_Core_Block_Text
 {

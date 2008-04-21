@@ -21,7 +21,7 @@
 /**
  * Order create model
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 {

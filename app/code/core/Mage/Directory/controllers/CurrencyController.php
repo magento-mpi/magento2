@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Directory
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Directory_CurrencyController extends Mage_Core_Controller_Front_Action
 {

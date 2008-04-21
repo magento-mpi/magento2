@@ -20,7 +20,7 @@
 
 /**
  * @file        Abstract.php
- * @author      Alexander Stadnitski (hacki) alexander@varien.com
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 abstract class Varien_Image_Adapter_Abstract

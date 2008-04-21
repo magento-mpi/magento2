@@ -22,7 +22,7 @@
  *
  * Cybersource API Debug Resource
  *
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cybersource_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
 {

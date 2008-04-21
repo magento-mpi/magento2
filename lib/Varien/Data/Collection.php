@@ -23,9 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @author     Andrey Korolyov <andrey@varien.com>
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Data_Collection implements IteratorAggregate, Countable
 {

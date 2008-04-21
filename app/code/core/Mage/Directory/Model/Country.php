@@ -21,7 +21,7 @@
 /**
  * Country model
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Directory_Model_Country extends Mage_Core_Model_Abstract
 {

@@ -21,7 +21,7 @@
 /**
  * Payment method abstract model
  *
- * @author Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 {

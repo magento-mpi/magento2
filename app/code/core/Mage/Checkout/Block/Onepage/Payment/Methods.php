@@ -24,7 +24,7 @@
  * @category   Mage
  * @category   Mage
  * @package    Mage_Checkout
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Block_Onepage_Payment_Methods extends Mage_Payment_Block_Form_Container
 {

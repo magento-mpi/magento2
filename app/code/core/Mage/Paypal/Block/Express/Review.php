@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Paypal
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
 {

@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Moshe Gurvich <moshe@varien.com>
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Url
 {

@@ -21,7 +21,7 @@
 /**
  * Abstract class for Paypal API wrappers
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
 {

@@ -21,7 +21,7 @@
 /**
  * osCommerce edit tab
  * 
- * @author     Kyaw Soe Lynn Maung <vincent@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form
 {

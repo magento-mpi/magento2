@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Customer
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Block_Newsletter extends Mage_Core_Block_Template
 {

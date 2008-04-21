@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_GiftRegstry
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GiftRegistry_Model_Mysql4_Gift extends Mage_Core_Model_Mysql4_Abstract
 {

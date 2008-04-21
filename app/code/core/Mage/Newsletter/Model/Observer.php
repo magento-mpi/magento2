@@ -21,7 +21,7 @@
 /**
  * Newsletter module observer
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Model_Observer
 {

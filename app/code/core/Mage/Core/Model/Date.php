@@ -22,7 +22,7 @@
 /**
  * Date conversion model
  *
- * @author Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Date
 {

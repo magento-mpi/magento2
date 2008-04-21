@@ -21,7 +21,7 @@
 /**
  * Download Magento core modules and updates choice (online, offline)
  *
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
 {

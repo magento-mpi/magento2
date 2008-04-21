@@ -22,7 +22,7 @@
  *
  * Authorizenet Payment Action Dropdown source
  *
- * @author     Yuriy Scherbina <yuriy.scherbina@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paygate_Model_Authorizenet_Source_PaymentAction
 {

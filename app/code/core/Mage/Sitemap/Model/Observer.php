@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Sitemap
- * @author     Yuriy Scherbina <yuriy.scherbina@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sitemap_Model_Observer
 {

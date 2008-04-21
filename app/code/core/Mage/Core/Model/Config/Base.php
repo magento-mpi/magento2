@@ -27,7 +27,7 @@
  * @category   Mage
  * @package    Mage_Core
  * @link        http://var-dev.varien.com/wiki/doku.php?id=magento:api:mage:core:config
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config

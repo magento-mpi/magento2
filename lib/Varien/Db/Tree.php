@@ -24,8 +24,7 @@
  *
  * @category   Varien
  * @package    Varien_Db
- * @author     Andrey Korolyov <andrey@varien.com>
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 

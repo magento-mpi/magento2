@@ -157,7 +157,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     /**
      * Split multi statement query
      *
-     * @author Moshe Gurvich
+ * @author      Magento Core Team <core@magentocommerce.com>
      * @param $sql string
      * @return array
      */

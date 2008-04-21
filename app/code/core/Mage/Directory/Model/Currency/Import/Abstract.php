@@ -21,7 +21,7 @@
 /**
  * Abstract model for import currency
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Directory_Model_Currency_Import_Abstract
 {

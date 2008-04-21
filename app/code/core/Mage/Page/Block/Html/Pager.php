@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Page
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @todo        separate order, mode and pager
  */

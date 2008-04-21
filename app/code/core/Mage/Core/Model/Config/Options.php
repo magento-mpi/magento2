@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Config_Options extends Varien_Object
 {

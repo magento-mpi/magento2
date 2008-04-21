@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author      Moshe Gurvich <moshe@varien.com>
- * @author      Michael Bessolov <michael@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Sales_Model_Entity_Order_Invoice extends Mage_Eav_Model_Entity_Abstract

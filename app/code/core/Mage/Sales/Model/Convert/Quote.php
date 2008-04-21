@@ -26,7 +26,7 @@
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Convert_Quote extends Varien_Object
 {

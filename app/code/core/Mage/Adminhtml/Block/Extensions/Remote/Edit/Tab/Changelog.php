@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Changelog
     extends Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Abstract

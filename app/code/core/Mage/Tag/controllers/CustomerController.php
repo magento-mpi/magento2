@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tag
- * @author      Michael Bessolov <michael@varien.com>
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action

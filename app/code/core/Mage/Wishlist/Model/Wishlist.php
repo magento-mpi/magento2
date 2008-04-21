@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Wishlist
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 {

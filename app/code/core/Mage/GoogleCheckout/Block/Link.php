@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_GoogleCheckout
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
 {

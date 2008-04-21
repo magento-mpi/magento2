@@ -27,8 +27,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Moshe Gurvich <moshe@varien.com>
- * @author     Soroka Dmitriy <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Core_Block_Abstract extends Varien_Object
 {

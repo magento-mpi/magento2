@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Usa
- * @author     Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Model_Shipping_Carrier_Dhl
     extends Mage_Usa_Model_Shipping_Carrier_Abstract

@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_CatalogSearch
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogSearch_Model_Advanced extends Varien_Object
 {

@@ -24,7 +24,7 @@
  * @category   Mage
  * @package    Mage_Protx
  * @name       Mage_Protx_Model_Standard
- * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {

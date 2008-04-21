@@ -21,8 +21,7 @@
 /**
  * Customer group collection
  *
- * @author     Ivan Chepurnyi <mitch@varien.com>
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Entity_Group_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {

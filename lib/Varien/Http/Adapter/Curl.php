@@ -23,7 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Http
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
 {

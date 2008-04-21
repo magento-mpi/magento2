@@ -21,7 +21,7 @@
 /**
  * Express Checkout Controller
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action

@@ -22,7 +22,7 @@
  * Poll block
  *
  * @file        Poll.php
- * @author      Alexander Stadnitski (hacki) alexander@varien.com
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Poll_Block_Poll extends Mage_Core_Block_Template

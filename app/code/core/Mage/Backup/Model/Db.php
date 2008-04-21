@@ -23,9 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Backup
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @author     Ivan Chepurnyi <mitch@varien.com>
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Backup_Model_Db

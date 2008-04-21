@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Soroka Dmitriy <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Block_Template_Zend extends Mage_Core_Block_Template
 {
@@ -36,7 +36,6 @@ class Mage_Core_Block_Template_Zend extends Mage_Core_Block_Template
      *
      * @param      none
      * @return     void
-     * @author     Soroka Dmitriy <dmitriy@varien.com>
      */
     function _construct()
     {

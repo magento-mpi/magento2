@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Layer extends Varien_Object
 {

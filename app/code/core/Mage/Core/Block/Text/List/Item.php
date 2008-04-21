@@ -22,7 +22,7 @@
 /**
  * List item block
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Block_Text_List_Item extends Mage_Core_Block_Text
 {

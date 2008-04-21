@@ -21,7 +21,7 @@
 /**
  * Payment module base helper
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
 {

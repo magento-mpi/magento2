@@ -23,7 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Review
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action

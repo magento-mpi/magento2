@@ -21,7 +21,7 @@
 /**
  * Multishipping checkout controller
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_Action
 {

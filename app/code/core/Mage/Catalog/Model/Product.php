@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author     Dmitriy Soroka <dmitriy@varien.com>
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {

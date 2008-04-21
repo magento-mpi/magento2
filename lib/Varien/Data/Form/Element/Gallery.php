@@ -23,8 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author      Dmitriy Soroka <dmitriy@varien.com>
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Data_Form_Element_Gallery extends Varien_Data_Form_Element_Abstract
 {

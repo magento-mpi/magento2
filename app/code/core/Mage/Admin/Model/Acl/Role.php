@@ -24,7 +24,7 @@
  * 
  * @category   Mage
  * @package    Mage_Admin
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Admin_Model_Acl_Role extends Varien_Object 
 {

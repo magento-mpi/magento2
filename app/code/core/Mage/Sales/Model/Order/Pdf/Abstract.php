@@ -21,7 +21,7 @@
 /**
  * Payment method abstract model
  *
- * @author Yuriy Scherbina <yuriy.scherbina@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 {

@@ -23,7 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Ideal
- * @author      Dmytro Vasulenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Ideal_Helper_Data extends Mage_Core_Helper_Abstract

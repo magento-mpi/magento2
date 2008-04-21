@@ -21,7 +21,7 @@
 /**
  * Convert profile
  *
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 {

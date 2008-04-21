@@ -21,7 +21,7 @@
 /**
  * Module configuration changes model
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Oscommerce_Model_Config extends Mage_Core_Model_Config_Base
 {

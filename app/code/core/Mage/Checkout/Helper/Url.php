@@ -21,7 +21,7 @@
 /**
  * Checkout url helper
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Helper_Url extends Mage_Core_Helper_Url
 {

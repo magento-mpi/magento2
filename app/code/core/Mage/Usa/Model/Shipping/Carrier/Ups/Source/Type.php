@@ -22,7 +22,7 @@
  *
  * Usa Ups type action Dropdown source
  *
- * @author     Vasily Selivanov <vasily@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Model_Shipping_Carrier_Ups_Source_Type
 {

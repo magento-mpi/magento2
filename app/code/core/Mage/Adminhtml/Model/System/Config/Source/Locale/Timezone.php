@@ -21,7 +21,7 @@
 /**
  * Locale timezone source
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Model_System_Config_Source_Locale_Timezone
 {

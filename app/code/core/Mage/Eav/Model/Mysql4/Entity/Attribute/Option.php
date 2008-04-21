@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Eav
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Eav_Model_Mysql4_Entity_Attribute_Option extends Mage_Core_Model_Mysql4_Abstract
 {

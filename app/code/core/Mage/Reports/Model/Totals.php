@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Reports
- * @author      Dmytro Vasylenko <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Totals
 {

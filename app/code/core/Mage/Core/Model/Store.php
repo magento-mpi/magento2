@@ -22,7 +22,7 @@
 /**
  * Store model
  *
- * @author     Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  * @category   Mage
  * @package    Mage_Core
  */

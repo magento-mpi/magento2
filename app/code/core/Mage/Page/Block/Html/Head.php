@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Page
- * @author      Sergiy Lysak <sergey@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 {

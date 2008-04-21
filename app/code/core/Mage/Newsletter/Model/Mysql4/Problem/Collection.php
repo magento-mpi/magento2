@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Newsletter
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Newsletter_Model_Mysql4_Problem_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {

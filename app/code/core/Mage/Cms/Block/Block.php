@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Cms
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
 {

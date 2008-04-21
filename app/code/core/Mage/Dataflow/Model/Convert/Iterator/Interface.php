@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Dataflow
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface Mage_Dataflow_Model_Convert_Iterator_Interface
 {

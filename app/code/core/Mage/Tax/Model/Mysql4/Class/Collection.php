@@ -23,8 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Tax
- * @author     Alexander Stadnitski <alexander@varien.com>
- * @author     Victor Tihonchuk <victor.tihonchuk@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Tax_Model_Mysql4_Class_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract

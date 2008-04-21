@@ -22,7 +22,7 @@
 /**
  * Event observer and indexer running application
  *
- * @author Sasha Boyko <alex.boyko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
 {

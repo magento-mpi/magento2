@@ -24,7 +24,7 @@
  * @category   Mage
  * @package    Mage_Ideal
  * @name       Mage_Ideal_Model_Mysql4_Api_Debug
- * @author     Dmitriy Volik <dmitriy.volik@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract

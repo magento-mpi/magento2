@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */

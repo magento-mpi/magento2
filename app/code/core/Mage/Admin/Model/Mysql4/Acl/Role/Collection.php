@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Admin
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Admin_Model_Mysql4_Acl_Role_Collection extends Varien_Data_Collection_Db
 {

@@ -25,7 +25,7 @@ include_once "ProfileController.php";
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_Convert_ProfileController
 {

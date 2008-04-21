@@ -24,7 +24,7 @@
  *
  * @category   Varien
  * @package    Varien_Convert
- * @author     Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
  class Mage_Core_Model_Convert_Adapter_Interactive extends Varien_Convert_Adapter_Abstract
  {

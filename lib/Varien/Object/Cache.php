@@ -24,7 +24,7 @@
  *
  * Stores objects for reuse, cleanup and to avoid circular references
  *
- * @author  Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Object_Cache
 {

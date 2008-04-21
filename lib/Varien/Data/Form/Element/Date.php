@@ -23,7 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Data
- * @author     Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract

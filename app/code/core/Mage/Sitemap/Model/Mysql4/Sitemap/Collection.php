@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Sitemap
- * @author     Yuriy Scherbina <yuriy.scherbina@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sitemap_Model_Mysql4_Sitemap_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {

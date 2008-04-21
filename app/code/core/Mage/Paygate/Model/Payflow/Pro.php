@@ -23,7 +23,7 @@
  *
  * @category    Mage
  * @package     Mage_Paygate
- * @author      Alexander Stadnitski <alexander@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
@@ -164,7 +164,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     /**
       * canVoid
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
@@ -206,7 +205,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
      /**
       * void
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
@@ -248,7 +246,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
      /**
       * refund the amount with transaction id
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       * @param string $payment Varien_Object object
       * @return Mage_Payment_Model_Abstract
@@ -425,7 +422,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
      /**
       * Prepare base request
       *
-      * @author Lindy Kyaw <lindy@varien.com>
       * @access public
       * @return object which was set with all basic required information
       */

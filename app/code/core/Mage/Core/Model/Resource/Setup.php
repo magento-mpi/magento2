@@ -150,7 +150,7 @@ class Mage_Core_Model_Resource_Setup
      *
      * @param     string $version
      * @return    boll
-     * @author    Soroka Dmitriy <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
      */
 
     protected function _installResourceDb($newVersion)

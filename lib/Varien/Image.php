@@ -23,7 +23,7 @@
  *
  * @category   Varien
  * @package    Varien_Image
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Varien_Image
 {

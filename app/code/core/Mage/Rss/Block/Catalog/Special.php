@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Rss
- * @author     Lindy Kyaw <lindy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
 {

@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Directory
- * @author     Ivan Chepurnyi <ivan.chepurnoy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Directory_Model_Mysql4_Country_Format_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {

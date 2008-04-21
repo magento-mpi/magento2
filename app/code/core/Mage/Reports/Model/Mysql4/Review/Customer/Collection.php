@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Reports
- * @author     Dmytro Vasylenko  <dimav@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_Model_Mysql4_Review_Collection
 {

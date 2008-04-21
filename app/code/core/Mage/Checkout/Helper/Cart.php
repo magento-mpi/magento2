@@ -21,7 +21,7 @@
 /**
  * Shopping cart helper
  *
- * @author      Dmitriy Soroka <dmitriy@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
 {

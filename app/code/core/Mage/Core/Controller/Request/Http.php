@@ -24,7 +24,7 @@
  *
  * Allows dispatching before and after events for each controller action
  *
- * @author  <>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 {

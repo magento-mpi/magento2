@@ -22,7 +22,7 @@
  * Poll vote controller
  *
  * @file        Vote.php
- * @author      Alexander Stadnitski (hacki) alexander@varien.com
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
