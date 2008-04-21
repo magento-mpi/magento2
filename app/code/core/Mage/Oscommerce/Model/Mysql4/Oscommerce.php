@@ -440,10 +440,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 
 				if (!empty($charsetLang['name'])
 					&& $charsetLang['name'] != self::DEFAULT_FIELD_CHARSET) {
-					$store['name'] = iconv($charsetLang['name'], self::DEFAULT_FIELD_CHARSET, $store['name']);		
+					$store['name'] = @iconv($charsetLang['name'], self::DEFAULT_FIELD_CHARSET, $store['name']);		
 				}
 
-//				$store['name'] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $store['name']);
+//				$store['name'] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $store['name']);
 				
                 $storeModel->unsetData();
                 $storeModel->setOrigData();
@@ -558,10 +558,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             	if (in_array($field, array('firstname', 'lastname')) 
             		&& !empty($charsetCustomer['customers_'.$field])
             		&& $charsetCustomer['customers_'.$field] != self::DEFAULT_FIELD_CHARSET) {
-            		$value = iconv($charsetCustomer['customers_'.$field], self::DEFAULT_FIELD_CHARSET, $value);
+            		$value = @iconv($charsetCustomer['customers_'.$field], self::DEFAULT_FIELD_CHARSET, $value);
             	}
 //            	if (in_array($field, array('firstname', 'lastname'))) {
-//            		$value = iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
+//            		$value = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
 //            	}
             	$data[$field] = html_entity_decode($value, ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
             	
@@ -590,7 +590,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         	&& !empty($charsetAddress[$addressFieldMapping[$field]])
                         	&& $charsetAddress[$addressFieldMapping[$field]] != self::DEFAULT_FIELD_CHARSET
    							) {
-                        	$value = iconv($charsetAddress[$addressFieldMapping[$field]], self::DEFAULT_FIELD_CHARSET, $value);
+                        	$value = @iconv($charsetAddress[$addressFieldMapping[$field]], self::DEFAULT_FIELD_CHARSET, $value);
                         }
                         
                         if (!in_array($field, array('customers_id'))) {
@@ -710,10 +710,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 			if (!empty($charsetDescription['categories_name'])
 				&& $charsetDescription['categories_name'] != self::DEFAULT_FIELD_CHARSET)
 			{
-				$data['name'] = iconv($charsetDescription['categories_name'], self::DEFAULT_FIELD_CHARSET, $data['name']);
+				$data['name'] = @iconv($charsetDescription['categories_name'], self::DEFAULT_FIELD_CHARSET, $data['name']);
 			}
 
-//			$data['name'] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $data['name']);
+//			$data['name'] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $data['name']);
 			
         	$data['name'] = $data['meta_title'] = html_entity_decode($data['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
         	$categoryModel->setData($data);
@@ -913,13 +913,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     }
                     $data['store'] = $storeCode;
                     if (!empty($charsetProduct['products_name']) && $charsetProduct['products_name'] != self::DEFAULT_FIELD_CHARSET) {
-                    	$store['name'] = iconv($charsetProduct['products_name'], self::DEFAULT_FIELD_CHARSET, $store['name']);
+                    	$store['name'] = @iconv($charsetProduct['products_name'], self::DEFAULT_FIELD_CHARSET, $store['name']);
                     }
                     if (!empty($charsetDescription['products_description']) && $charsetDescription['products_description'] != self::DEFAULT_FIELD_CHARSET) {
-                    	$store['description'] = iconv($charset['products_description'], self::DEFAULT_FIELD_CHARSET, $store['description']);
+                    	$store['description'] = @iconv($charsetProduct['products_description'], self::DEFAULT_FIELD_CHARSET, $store['description']);
                     }
-//					$store['name'] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $store['name']);
-//                  $store['description'] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $store['description']);
+//					$store['name'] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $store['name']);
+//                  $store['description'] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $store['description']);
                     
                     $data['name'] = html_entity_decode($store['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
                     $data['description'] = html_entity_decode($store['description'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
@@ -1255,9 +1255,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         	foreach($data as $field => $value) {
         		if (!empty($charsetOrder[$field])
         			&& $charsetOrder[$field] != self::DEFAULT_FIELD_CHARSET) {
-        			$data[$field] = iconv($charsetOrder[$field], self::DEFAULT_FIELD_CHARSET, $value);
+        			$data[$field] = @iconv($charsetOrder[$field], self::DEFAULT_FIELD_CHARSET, $value);
         		}
-//        		$data[$field] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
+//        		$data[$field] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
         	}
 
         	if ($data['date_purchased']) {
@@ -1314,9 +1314,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 		        		if (!in_array($field, $fieldNoEnc)) {
 //		        			&& !empty($charsetProduct[$field])
 //		        			&& $charsetProduct[$field] != self::DEFAULT_FIELD_CHARSET) {
-		        			$orderProduct[$field] = iconv($charsetProduct[$field], self::DEFAULT_FIELD_CHARSET, $value);
+		        			$orderProduct[$field] = @iconv($charsetProduct[$field], self::DEFAULT_FIELD_CHARSET, $value);
 		        		}						
-//	        			$orderProduct[$field] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
+//	        			$orderProduct[$field] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
 					}
                     $this->_getWriteAdapter()->insert($this->getTable('oscommerce_order_products'), $orderProduct);
                 }
@@ -1336,13 +1336,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 //					foreach ($orderTotal as $field => $value) {
 //		        		if (!empty($charsetTotal[$field])
 //		        			&& $charsetTotal[$field] != self::DEFAULT_FIELD_CHARSET) {
-//		        			$orderTotal[$field] = iconv($charsetTotal[$field], self::DEFAULT_FIELD_CHARSET, $value);
+//		        			$orderTotal[$field] = @iconv($charsetTotal[$field], self::DEFAULT_FIELD_CHARSET, $value);
 //		        		}		
-//		       			$orderTotal[$field] = iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
+//		       			$orderTotal[$field] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
 //					}
 
-                    $orderTotal['title'] = @iconv($charsetTotal['title'], self::DEFAULT_FIELD_CHARSET, $orderTotal['title']);
-                    $orderTotal['text'] = @iconv($charsetTotal['text'], self::DEFAULT_FIELD_CHARSET, $orderTotal['text']);
+                    $orderTotal['title'] = @@iconv($charsetTotal['title'], self::DEFAULT_FIELD_CHARSET, $orderTotal['title']);
+                    $orderTotal['text'] = @@iconv($charsetTotal['text'], self::DEFAULT_FIELD_CHARSET, $orderTotal['text']);
                     $this->_getWriteAdapter()->insert($this->getTable('oscommerce_order_total'), $orderTotal);					
                 }
             }
@@ -1373,13 +1373,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 //			        foreach($orderHistory as $field => $value) {
 //		        		if (!empty($charsetHistory[$field])
 //		        			&& $charsetHistory[$field] != self::DEFAULT_FIELD_CHARSET) {
-//		        			$orderHistory[$field] = iconv($charsetHistory[$field], self::DEFAULT_FIELD_CHARSET, $value);
+//		        			$orderHistory[$field] = @iconv($charsetHistory[$field], self::DEFAULT_FIELD_CHARSET, $value);
 //		        		}
 //                    }
 
-                    $orderHistory['orders_status'] = @iconv($charsetHistory['orders_status'], self::DEFAULT_FIELD_CHARSET, $orderHistory['orders_status']);
-                    $orderHistory['comments'] = @iconv($charsetHistory['comments'], self::DEFAULT_FIELD_CHARSET, $orderHistory['comments']);
-                    $orderHistory['customer_notified'] = @iconv($charsetHistory['customer_notified'], self::DEFAULT_FIELD_CHARSET, $orderHistory['customer_notified']);
+                    $orderHistory['orders_status'] = @@iconv($charsetHistory['orders_status'], self::DEFAULT_FIELD_CHARSET, $orderHistory['orders_status']);
+                    $orderHistory['comments'] = @@iconv($charsetHistory['comments'], self::DEFAULT_FIELD_CHARSET, $orderHistory['comments']);
+                    $orderHistory['customer_notified'] = @@iconv($charsetHistory['customer_notified'], self::DEFAULT_FIELD_CHARSET, $orderHistory['customer_notified']);
                     
                     $this->_getWriteAdapter()->insert($this->getTable('oscommerce_order_history'), $orderHistory);
                 }
@@ -1480,10 +1480,10 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     foreach($categoriesToStores as $store => $categoriesName) {
 						if (!empty($charsetDescription['categories_description']) 
 							&& $charsetDescription['categories_description'] != self::DEFAULT_FIELD_CHARSET) {
-							$categoriesName = iconv($charsetDescription['categories_description'],
+							$categoriesName = @iconv($charsetDescription['categories_description'],
 								self::DEFAULT_FIELD_CHARSET, $categoriesName);
 						}
-//						$categoriesName = iconv($charset,
+//						$categoriesName = @iconv($charset,
 //								self::DEFAULT_FIELD_CHARSET, $categoriesName);
 						
                         $results[$index]['stores'][$stores[$store]] = array(
