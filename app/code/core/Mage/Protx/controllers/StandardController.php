@@ -24,20 +24,10 @@
  * @category   Mage
  * @package    Mage_Protx
  * @name       Mage_Protx_StandardController
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 {
-    /**
-     * Crypt field contents returned from Protx
-     */
-    protected $responseArr = array();
-
-    /**
-     * Valid Response Indicator from Protx
-     */
-    protected $isValidResponse = false;
-
     /**
      * Get singleton with protx strandard
      *
@@ -85,29 +75,14 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         );
         $order->save();
 
-        $this->getResponse()->setBody($this->getLayout()->createBlock('protx/standard_redirect')->toHtml());
+        $this->getResponse()
+            ->setBody($this->getLayout()
+                ->createBlock('protx/standard_redirect')
+                ->setOrder($order)
+                ->toHtml());
+
         $session->unsQuoteId();
     }
-
-    /**
-     *  Example Crypt field contents:
-     *
-     *   [Status] => OK
-     *   [StatusDetail] => Successfully Authorised Transaction
-     *   [VendorTxCode] => 100000061 (== orderId)
-     *   [VPSTxId] => {CA8D1CC1-22E8-4F42-8FDD-BAF0F1A85C8B}
-     *   [TxAuthNo] => 7349
-     *   [Amount] => 463
-     *   [AVSCV2] => ALL MATCH
-     *   [AddressResult] => MATCHED
-     *   [PostCodeResult] => MATCHED
-     *   [CV2Result] => MATCHED
-     *   [GiftAid] => 0
-     *   [3DSecureStatus] => OK
-     *   [CAVV] => MNAXJRSRZK22PYKXPCFG1Z
-     *
-     */
-
 
     /**
      *  Success response from Protx
@@ -161,19 +136,9 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             if ($this->getConfig()->getPaymentType() == Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT) {
                 if ($this->saveInvoice($order)) {
                     $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
-
-                    $order->addStatusToHistory(
-                        $order->getStatus(),
-                        Mage::helper('protx')->__('Invoice was created for order ' . $order->getId())
-                    );
                 } else {
                     $newOrderStatus = $this->getConfig()->getNewOrderStatus() ?
                         $this->getConfig()->getNewOrderStatus() : Mage_Sales_Model_Order::STATE_NEW;
-
-                    $order->addStatusToHistory(
-                        $newOrderStatus,
-                        Mage::helper('protx')->__('Cannot save invoice for order '.$order->getId())
-                    );
                 }
             } else {
                 $order->addStatusToHistory(

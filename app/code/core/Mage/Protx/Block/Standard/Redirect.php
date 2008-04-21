@@ -38,7 +38,7 @@ class Mage_Protx_Block_Standard_Redirect extends Mage_Core_Block_Abstract
             ->setName('protx_standard_checkout')
             ->setMethod('POST')
             ->setUseContainer(true);
-        foreach ($standard->getStandardCheckoutFormFields() as $field => $value) {
+        foreach ($standard->setOrder($this->getOrder())->getStandardCheckoutFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
         $html = '<html><body>';

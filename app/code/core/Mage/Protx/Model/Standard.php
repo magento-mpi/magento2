@@ -24,7 +24,7 @@
  * @category   Mage
  * @package    Mage_Protx
  * @name       Mage_Protx_Model_Standard
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
@@ -52,40 +52,6 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function getConfig()
     {
         return Mage::getSingleton('protx/config');
-    }
-
-    /**
-     * Get checkout session namespace
-     *
-     * @return object Mage_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        return Mage::getSingleton('checkout/session');
-    }
-
-    /**
-     * Get current quote
-     *
-     * @return object Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return $this->getCheckout()->getQuote();
-    }
-
-    /**
-     * Get created order
-     *
-     * @return object Mage_Sales_Model_Order
-     */
-    public function getOrder()
-    {
-        if ($this->_order == null) {
-            $this->_order = Mage::getModel('sales/order');
-            $this->_order->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
-        }
-        return $this->_order;
     }
 
     /**
@@ -147,7 +113,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getVendorTxCode ()
     {
-        return $this->getCheckout()->getLastRealOrderId();
+        return $this->getOrder()->getRealOrderId();
     }
 
     /**
@@ -200,12 +166,17 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getCrypted ()
     {
-        $shipping = $this->getOrder()->getShippingAddress();
-        $billing = $this->getOrder()->getBillingAddress();
+        $order = $this->getOrder();
+        if (!($order instanceof Mage_Sales_Model_Order)) {
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+        }
 
-        $amount = $this->getOrder()->getBaseGrandTotal();
+        $shipping = $order->getShippingAddress();
+        $billing = $order->getBillingAddress();
 
-        $currency = $this->getOrder()->getBaseCurrencyCode();
+        $amount = $order->getBaseGrandTotal();
+
+        $currency = $order->getBaseCurrencyCode();
 
         $queryPairs = array();
 
@@ -226,7 +197,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['FailureURL'] = $this->getFailureURL();
 
         $queryPairs['CustomerName'] = $shipping->getFirstname().' '.$shipping->getLastname();
-        $queryPairs['CustomerEMail'] = $this->getOrder()->getCustomerEmail();
+        $queryPairs['CustomerEMail'] = $order->getCustomerEmail();
         $queryPairs['ContactNumber'] = $billing->getTelephone();
         $queryPairs['ContactFax'] = $billing->getFax();
 
