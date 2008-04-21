@@ -23,7 +23,7 @@
  * @category   Mage
  * @package    Mage_Chronopay
  * @name       Mage_Chronopay_Model_Config
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Chronopay_Model_Config extends Varien_Object

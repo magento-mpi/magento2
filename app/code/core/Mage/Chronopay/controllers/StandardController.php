@@ -24,7 +24,8 @@
  * @category   Mage
  * @package    Mage_Chronopay
  * @name       Mage_Chronopay_StandardController
- */
+ * @author     Magento Core Team <core@magentocommerce.com>
+*/
 class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Action
 {
     /**

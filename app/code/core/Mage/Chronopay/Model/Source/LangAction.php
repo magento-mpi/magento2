@@ -24,6 +24,7 @@
  * @category   Mage
  * @package    Mage_Chronopay
  * @name       Mage_Chronopay_Model_Source_ModeAction
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_Chronopay_Model_Source_LangAction

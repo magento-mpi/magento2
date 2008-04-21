@@ -24,7 +24,7 @@
  * @category   Mage
  * @package    Mage_Chronopay
  * @name       Mage_Chronopay_Model_Standard
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
@@ -205,7 +205,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Validate Response from ChronoPay
      *
      *  @param    array Post data returned from ChronoPay
-     *  @return	  boolean
+     *  @return	  mixed
      */
     public function validateResponse ($data)
     {

@@ -23,7 +23,8 @@
  * @category   Mage
  * @package    Mage_Chronopay
  * @name       Mage_Chronopay_Block_Standard_Success
- */
+ * @author     Magento Core Team <core@magentocommerce.com>
+*/
 
 class Mage_Chronopay_Block_Standard_Success extends Mage_Core_Block_Template
 {
