@@ -223,7 +223,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $qty    = $item->getQty();
         $helper = Mage::helper('cataloginventory');
         if (!is_numeric($qty)) {
-            $qty = floatval($qty);
+            $qty = Mage::app()->getLocale()->getNumber($qty);
         }
 
         if (!$this->getIsInStock()) {

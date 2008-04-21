@@ -88,6 +88,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
     protected $_entityTable;
 
     /**
+     * Describe data for tables
+     *
+     * @var array
+     */
+    protected $_describeTable = array();
+
+    /**
      * Enter description here...
      *
      * @var string
@@ -910,7 +917,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
              * if attribute is static add to entity row and continue
              */
             if ($this->isAttributeStatic($k)) {
-                $entityRow[$k] = $v;
+                $entityRow[$k] = $this->_prepareStaticValue($k, $v);
                 continue;
             }
 
@@ -938,6 +945,47 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         $result = compact('newObject', 'entityRow', 'insert', 'update', 'delete');
         return $result;
+    }
+
+    /**
+     * Retrieve static field properties
+     *
+     * @param string $field
+     * @return array
+     */
+    protected function _getStaticFieldProperties($field)
+    {
+        if (empty($this->_describeTable[$this->getEntityTable()])) {
+            $this->_describeTable[$this->getEntityTable()] = $this->_getWriteAdapter()->describeTable($this->getEntityTable());
+        }
+
+        if (isset($this->_describeTable[$this->getEntityTable()][$field])) {
+            return $this->_describeTable[$this->getEntityTable()][$field];
+        }
+
+        return false;
+    }
+
+    /**
+     * Prepare static value for save
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function _prepareStaticValue($key, $value)
+    {
+        $fieldProp = $this->_getStaticFieldProperties($key);
+
+        if (!$fieldProp) {
+            return $value;
+        }
+
+        if ($fieldProp['DATA_TYPE'] == 'decimal') {
+            $value = Mage::app()->getLocale()->getNumber($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -1021,7 +1069,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             $entityIdField  => $object->getId(),
             'entity_type_id'=> $object->getEntityTypeId(),
             'attribute_id'  => $attribute->getId(),
-            'value'         => $value,
+            'value'         => $this->_prepareValueForSave($value, $attribute),
         );
         $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), $row);
         return $this;
@@ -1039,10 +1087,25 @@ abstract class Mage_Eav_Model_Entity_Abstract
     protected function _updateAttribute($object, $attribute, $valueId, $value)
     {
         $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
-            array('value'=>$value),
+            array('value' => $this->_prepareValueForSave($value, $attribute)),
             'value_id='.(int)$valueId
         );
         return $this;
+    }
+
+    /**
+     * Prepare value for save
+     *
+     * @param mixed $value
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @return mixed
+     */
+    protected function _prepareValueForSave($value, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    {
+        if ($attribute->getBackendType() == 'decimal') {
+            return Mage::app()->getLocale()->getNumber($value);
+        }
+        return $value;
     }
 
     /**

@@ -320,6 +320,7 @@ Validation.addAllThese([
                 return !Validation.get('IsEmpty').test(v);
             }],
     ['validate-number', 'Please enter a valid number in this field.', function(v) {
+                v = parseNumber(v);
                 return Validation.get('IsEmpty').test(v) || (!isNaN(v) && !/^\s+$/.test(v));
             }],
     ['validate-digits', 'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.', function(v) {
@@ -422,6 +423,7 @@ Validation.addAllThese([
                 }
             }],
     ['validate-not-negative-number', 'Please enter a valid number in this field.', function(v) {
+                v = parseNumber(v);
                 return (!isNaN(v) && v>=0);
             }],
     ['validate-state', 'Please select State/Province.', function(v) {
@@ -571,4 +573,28 @@ function removeDelimiters (v) {
     v = v.replace(/\s/g, '');
     v = v.replace(/\-/g, '');
     return v;
+}
+
+function parseNumber(v)
+{
+    if (typeof v != 'string') {
+        return parseFloat(v);
+    }
+
+    var isDot  = v.indexOf('.');
+    var isComa = v.indexOf(',');
+
+    if (isDot != -1 && isComa != -1) {
+        if (isComa > isDot) {
+            v = v.replace('.', '').replace(',', '.');
+        }
+        else {
+            v = v.replace(',', '');
+        }
+    }
+    else if (isComa != -1) {
+        v = v.replace(',', '.');
+    }
+
+    return parseFloat(v);
 }

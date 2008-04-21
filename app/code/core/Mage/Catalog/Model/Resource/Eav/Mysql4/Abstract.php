@@ -107,7 +107,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             $entityIdField  => $object->getId(),
             'entity_type_id'=> $object->getEntityTypeId(),
             'attribute_id'  => $attribute->getId(),
-            'value'         => $value,
+            'value'         => $this->_prepareValueForSave($value, $attribute),
             'store_id'      => $this->getDefaultStoreId()
         );
         $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), $row);
@@ -148,7 +148,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         }
         else {
             $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
-                array('value'=>$value),
+                array('value' => $this->_prepareValueForSave($value, $attribute)),
                 'value_id='.(int)$valueId
             );
         }
@@ -178,7 +178,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          */
         if ($valueId = $this->_getWriteAdapter()->fetchOne($select)) {
             $this->_getWriteAdapter()->update($attribute->getBackend()->getTable(),
-                array('value' => $value),
+                array('value' => $this->_prepareValueForSave($value, $attribute)),
                 'value_id='.$valueId
             );
         }
@@ -187,7 +187,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
                 $entityIdField  => $object->getId(),
                 'entity_type_id'=> $object->getEntityTypeId(),
                 'attribute_id'  => $attribute->getId(),
-                'value'         => $value,
+                'value'         => $this->_prepareValueForSave($value, $attribute),
                 'store_id'      => $storeId
             ));
         }
@@ -270,8 +270,6 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         $this->load($origObject, $object->getData($this->getEntityIdField()));
         return $origObject;
     }
-
-
 
 
 
