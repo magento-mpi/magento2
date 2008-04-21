@@ -277,15 +277,15 @@ class Mage_Core_Model_Locale
     {
         $data = array();
         foreach ($option as $item) {
-        	$data[$item['value']] = $item['label'];
+            $data[$item['value']] = $item['label'];
         }
         asort($data);
         $option = array();
         foreach ($data as $key => $label) {
-        	$option[] = array(
-        	   'value' => $key,
-        	   'label' => $label
-        	);
+            $option[] = array(
+               'value' => $key,
+               'label' => $label
+            );
         }
         return $option;
     }
@@ -455,6 +455,10 @@ class Mage_Core_Model_Locale
      */
     public function getNumber($value)
     {
+        if (is_null($value)) {
+            return null;
+        }
+
         if (!is_string($value)) {
             return floatval($value);
         }
