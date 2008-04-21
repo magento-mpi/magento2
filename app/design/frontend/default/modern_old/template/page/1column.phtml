@@ -23,18 +23,19 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
     <?php echo $this->getChildHtml('head') ?>
 </head>
+
 
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 	<div class="no-display">
 		<h4>Skip to Store Area:</h4>
 		<ul>
 			<li><a href="#main"><?php echo $this->__('Skip to Main Content') ?></a></li>
-			<li><a href="#col-left"><?php echo $this->__('Skip to Left Column') ?></a></li>
 			<li><a href="#footer"><?php echo $this->__('Skip to Footer') ?></a></li>
 		</ul>
 	</div>
@@ -44,23 +45,17 @@
         <div class="outline-creator">
             <div class="toplinks-bar">
                 <?php  echo $this->getChildHtml('store_language') ?>
-                <strong><?php echo $this->htmlEscape($this->getLayout()->getBlock('header')->getWelcome()) ?></strong>
+                <?php echo $this->htmlEscape($this->getLayout()->getBlock('header')->getWelcome()) ?>
                 <?php echo $this->getChildHtml('topLinks') ?>
              </div>
             <div class="search-bar">
                 <?php echo $this->getChildHtml('breadcrumbs') ?>
                 <?php echo $this->getChildHtml('topSearch') ?>
             </div>
-            <div class="middle layout-2columns-right">
-                <div class="col-main" id="main">
-                    <?php echo $this->getChildHtml('global_messages') ?>
-                    <?php echo $this->getChildHtml('content') ?>
-                    <!-- [end] content -->
-                </div>
-                <div class="col-right sidebar" id="col-right">
-                    <?php echo $this->getChildHtml('right') ?>&nbsp;
-                    <!-- [end] col-left -->
-                </div>
+            <div class="middle layout-1column" id="main">
+                <?php echo $this->getChildHtml('global_messages') ?>
+                <?php echo $this->getChildHtml('content') ?>
+                <!-- [end] content -->
             </div>
         </div>
 		<div class="footer" id="footer">
@@ -70,3 +65,6 @@
     <?php echo $this->getChildHtml('before_body_end') ?>
     </body>
 </html>
+
+
+

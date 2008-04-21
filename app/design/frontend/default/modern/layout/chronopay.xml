@@ -26,7 +26,7 @@ Chronopay Failure Response Review
 -->
 <chronopay_standard_failure>
     <reference name="root">
-        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        <action method="setTemplate"><template>page/2columns.phtml</template></action>
     </reference>
     <reference name="content">
         <block type="chronopay/standard_failure" name="chronopay_standard_failure" template="chronopay/standard/failure.phtml">
@@ -36,7 +36,7 @@ Chronopay Failure Response Review
 
 <chronopay_standard_success>
     <reference name="root">
-        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        <action method="setTemplate"><template>page/2columns.phtml</template></action>
     </reference>
     <reference name="content">
         <block type="chronopay/standard_success" name="chronopay_standard_success" template="chronopay/standard/success.phtml">

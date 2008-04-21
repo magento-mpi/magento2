@@ -220,7 +220,7 @@ One page checkout main layout
         <!-- Mage_Checkout -->
 
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>page/2columns.phtml</template></action>
         </reference>
         <reference name="left">
             <action method="unsetChildren"></action>
@@ -310,7 +310,7 @@ One page checkout order review block
 
     <checkout_onepage_success>
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>page/2columns.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="core/template" name="checkout.success" template="checkout/success.phtml"/>
