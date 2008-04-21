@@ -448,7 +448,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'quote_payment_id'      => array('type'=>'int'),
                     'method'                => array(),
                     'additional_data'       => array('type'=>'text'),
-
+                    'last_trans_id'         => array(),
                     'po_number'     => array(),
 
                     'cc_type'       => array(),
