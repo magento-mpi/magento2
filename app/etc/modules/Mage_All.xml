@@ -150,10 +150,6 @@
                 <Mage_Paygate />
             </depends>
         </Mage_PaypalUk>
-        <Mage_Protx>
-            <active>true</active>
-            <codePool>core</codePool>
-        </Mage_Protx>
         <Mage_GoogleCheckout>
             <active>true</active>
             <codePool>core</codePool>
