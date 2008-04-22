@@ -134,7 +134,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
             }
         }
         $html  = '<select id="charset" name="charset">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select Data Charset'). '</option>';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a charset'). '</option>';
         $html .= $options;
         $html .= '</select>';
         return $html;
