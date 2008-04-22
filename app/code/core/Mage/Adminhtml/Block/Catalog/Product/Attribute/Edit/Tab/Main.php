@@ -40,8 +40,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         ));
 
         $disableAttributeFields = array(
-            'sku'   => array(
-                'is_global'
+            'sku'       => array(
+                'is_global',
+                'is_unique',
+            ),
+            'url_key'   => array(
+                'is_unique',
             ),
         );
 
