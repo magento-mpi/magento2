@@ -470,8 +470,12 @@ Validation.addAllThese([
                 }
                 var ccType = ccTypeContainer.value;
 
+                if (typeof Validation.creaditCartTypes[ccType] == 'undefined') {
+                    return false;
+                }
+
                 // Other card type or switch or solo card
-                if (ccType == 'OT' || ccType == 'SS') {
+                if (Validation.creaditCartTypes[ccType][0]==false) {
                     return true;
                 }
 
@@ -485,8 +489,8 @@ Validation.addAllThese([
 
                 // Matched credit card type
                 var ccMatchedType = '';
-                $H(ccTypeRegExp).each(function (pair) {
-                    if (v.match(pair.value)) {
+                Validation.creaditCartTypes.each(function (pair) {
+                    if (pair.value[0] && v.match(pair.value[0])) {
                         ccMatchedType = pair.key;
                         throw $break;
                     }
@@ -509,20 +513,11 @@ Validation.addAllThese([
                 }
                 var ccType = ccTypeContainer.value;
 
-                switch (ccType) {
-                    case 'VI' :
-                    case 'MC' :
-                    case 'DI' :
-                        re = new RegExp('^[0-9]{3}$');
-                        break;
-                    case 'AE' :
-                        re = new RegExp('^[0-9]{4}$');
-                        break;
-                    case 'OT' :
-                    case 'SS' :
-                        re = new RegExp('^([0-9]{3}|[0-9]{4})?$');
-                        break;
+                if (typeof Validation.creaditCartTypes[ccType] == 'undefined') {
+                    return false;
                 }
+
+                var re = Validation.creaditCartTypes[ccType][1];
 
                 if (v.match(re)) {
                     return true;
@@ -598,3 +593,12 @@ function parseNumber(v)
 
     return parseFloat(v);
 }
+
+Validation.creaditCartTypes = $H({
+    'VI': [new RegExp('^4[0-9]{12}([0-9]{3})?$'), new RegExp('^[0-9]{3}$')],
+    'MC': [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$')],
+    'AE': [new RegExp('^3[47][0-9]{13}$'), new RegExp('^[0-9]{4}$')],
+    'DI': [new RegExp('^6011[0-9]{12}$'), new RegExp('^[0-9]{3}$')],
+    'OT': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$')],
+    'SS': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$')]
+});
