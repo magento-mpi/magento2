@@ -190,7 +190,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         /**
          * Load configuration from DB
          */
-        if($localConfigLoaded) {
+        if ($localConfigLoaded) {
             Varien_Profiler::start('dbUpdates');
             Mage_Core_Model_Resource_Setup::applyAllUpdates();
             Varien_Profiler::stop('dbUpdates');
@@ -282,10 +282,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param string $etcDir
      * @return Mage_Core_Model_Config
      */
-    public function reinit($etcDir=null)
+    public function reinit($options = array())
     {
         $this->removeCache();
-        return $this->init($etcDir);
+        return $this->init($options);
     }
 
     /**

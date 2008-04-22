@@ -28,7 +28,7 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_STORE_IN_URL     = 'web/url/use_store';
+    const XML_PATH_STORE_IN_URL         = 'web/url/use_store';
     const XML_PATH_USE_REWRITES         = 'web/seo/use_rewrites';
     const XML_PATH_UNSECURE_BASE_URL    = 'web/unsecure/base_url';
     const XML_PATH_SECURE_BASE_URL      = 'web/secure/base_url';
@@ -36,8 +36,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const XML_PATH_SECURE_IN_ADMINHTML  = 'web/secure/use_in_adminhtml';
 
     const XML_PATH_PRICE_SCOPE          = 'catalog/price/scope';
-    const PRICE_SCOPE_GLOBAL = 0;
-    const PRICE_SCOPE_WEBSITE = 1;
+    const PRICE_SCOPE_GLOBAL            = 0;
+    const PRICE_SCOPE_WEBSITE           = 1;
 
     const URL_TYPE_LINK                 = 'link';
     const URL_TYPE_WEB                  = 'web';
@@ -47,7 +47,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     const DEFAULT_CODE                  = 'default';
 
-    const CACHE_TAG         = 'store';
+    const CACHE_TAG                     = 'store';
+
     protected $_cacheTag    = true;
 
     protected $_priceFilter;
@@ -181,6 +182,25 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return null;
         }
         return $this->_processConfigValue($fullPath, $path, $data);
+    }
+
+    /**
+     * Set config value for CURRENT model
+     * This value don't save in config
+     *
+     * @param string $path
+     * @param mixed $value
+     * @return Mage_Core_Model_Store
+     */
+    public function setConfig($path, $value)
+    {
+        if (isset($this->_configCache[$path])) {
+            $this->_configCache[$path] = $value;
+        }
+        $fullPath = 'stores/'.$this->getCode().'/'.$path;
+        Mage::getConfig()->setNode($fullPath, $value);
+
+        return $this;
     }
 
     /**

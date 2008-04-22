@@ -27,6 +27,8 @@
  */
 class Mage_Page_Block_Switch extends Mage_Core_Block_Template
 {
+    protected $_storeInUrl;
+
     public function getCurrentWebsiteId()
     {
         return Mage::app()->getStore()->getWebsiteId();
@@ -133,5 +135,21 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
     public function getCurrentStoreCode()
     {
         return Mage::app()->getStore()->getCode();
+    }
+
+    public function isStoreInUrl()
+    {
+        if (is_null($this->_storeInUrl)) {
+            $this->_storeInUrl = Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
+        }
+        return $this->_storeInUrl;
+    }
+
+    public function getCleanUrl()
+    {
+        if ($this->isStoreInUrl()) {
+            return preg_replace('/'.preg_quote($this->getCurrentStoreCode()).'\/$/s', '', $this->getUrl());
+        }
+        return $this->getUrl();
     }
 }

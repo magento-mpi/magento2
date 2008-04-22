@@ -231,9 +231,9 @@ class Mage_Core_Model_App
                 default:
                     $this->throwStoreException();
             }
+
             $this->_checkCookieStore($type);
             $this->_checkGetStore($type);
-
             $this->getRequest()->setPathInfo();
         }
         return $this;
@@ -268,9 +268,11 @@ class Mage_Core_Model_App
         $curStoreObj = $this->_stores[$this->_currentStore];
         if ($type == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
             $this->_currentStore = $store;
-        } elseif ($type == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
+        }
+        elseif ($type == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
             $this->_currentStore = $store;
-        } elseif ($type == 'store') {
+        }
+        elseif ($type == 'store') {
             $this->_currentStore = $store;
         }
 
