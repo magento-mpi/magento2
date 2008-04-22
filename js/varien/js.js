@@ -30,11 +30,8 @@ function setPLocation(url, setFocus){
     window.opener.location.href = url;
 }
 
-function setLanguageCode(code, fromCode, switcherUrl)
-{
+function setLanguageCode(code, fromCode){
     //TODO: javascript cookies have different domain and path than php cookies
-    var fromCode = typeof(fromCode) != 'undefined' ? fromCode : false;
-    var switcherUrl = typeof(switcherUrl) != 'undefined' ? switcherUrl : false;
     var href = window.location.href;
     var after = '', dash;
     if (dash = href.match(/\#(.*)$/)) {
@@ -42,48 +39,23 @@ function setLanguageCode(code, fromCode, switcherUrl)
         after = dash[0];
     }
 
-    if (switcherUrl) {
-        if (href == switcherUrl) {
-            href += code + '/';
-        }
-        else {
-            var reFind    = new RegExp(switcherUrl + fromCode, "g");
-            var reReplace = switcherUrl + code;
-
-            href = href.replace(reFind, reReplace);
-        }
-//        href.replace();
-    }
-    else {
-        if (href.match(/[?]/)) {
-            var re = /([?&]store=)[a-z0-9_]*/;
-            if (href.match(re)) {
-                href = href.replace(re, '$1'+code);
-            } else {
-                href += '&store='+code;
-            }
-
-            var re = /([?&]from_store=)[a-z0-9_]*/;
-            if (href.match(re)) {
-                href = href.replace(re, '');
-            }
+    if (href.match(/[?]/)) {
+        var re = /([?&]store=)[a-z0-9_]*/;
+        if (href.match(re)) {
+            href = href.replace(re, '$1'+code);
         } else {
-            href += '?store='+code;
+            href += '&store='+code;
         }
+
+        var re = /([?&]from_store=)[a-z0-9_]*/;
+        if (href.match(re)) {
+            href = href.replace(re, '');
+        }
+    } else {
+        href += '?store='+code;
     }
-    if (fromCode) {
-        if (href.match(/[?]/)) {
-            var re = /([?&]from_store=)[a-z0-9_]*/;
-            if (href.match(re)) {
-                href = href.replace(re, '$1'+fromCode);
-            }
-            else {
-                href += '&from_store='+fromCode;
-            }
-        }
-        else {
-            href += '?from_store='+fromCode;
-        }
+    if (typeof(fromCode) != 'undefined') {
+        href += '&from_store='+fromCode;
     }
     href += after;
 

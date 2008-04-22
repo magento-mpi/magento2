@@ -668,4 +668,30 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         return $this->getGroup()->getDefaultStoreId() != $this->getId();
     }
+
+    /**
+     * Retrieve current url for store
+     *
+     * @param bool|string $fromStore
+     * @return string
+     */
+    public function getCurrentUrl($fromStore = true)
+    {
+        $url = $this->getBaseUrl() . ltrim(Mage::app()->getRequest()->getRequestString(), '/');
+
+        $parsedUrl = parse_url($url);
+        $parsedQuery = isset($parsedUrl['query']) ? parse_str($parsedUrl['query']) : array();
+
+        if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getCode())) {
+            $parsedQuery['store'] = $this->getCode();
+        }
+        if ($fromStore !== false) {
+            $parsedQuery['from_store'] = $fromStore === true ? Mage::app()->getStore()->getCode() : $fromStore;
+        }
+
+        return $parsedUrl['scheme'] . '://' . $parsedUrl['host']
+            . (isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '')
+            . $parsedUrl['path']
+            . ($parsedQuery ? '?'.http_build_query($parsedQuery, '', '&amp;') : '');
+    }
 }

@@ -429,7 +429,7 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Mage_Core_Model_Store_Exception $e) {
-            $baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])),'/').'/';
+            $baseUrl = dirname($_SERVER['SCRIPT_NAME']).'/';
             header('Location: ' . $baseUrl.'404/');
             die();
         }

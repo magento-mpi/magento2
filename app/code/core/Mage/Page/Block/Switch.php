@@ -69,7 +69,7 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
                 }
                 $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
                 $baseUrl = $store->getBaseUrl();
-                if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
+                if (!$this->isStoreInUrl()) {
                     $baseUrl .= '?store='.$store->getCode();
                 }
                 $store->setHomeUrl($baseUrl);
@@ -143,13 +143,5 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
             $this->_storeInUrl = Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
         }
         return $this->_storeInUrl;
-    }
-
-    public function getCleanUrl()
-    {
-        if ($this->isStoreInUrl()) {
-            return preg_replace('/'.preg_quote($this->getCurrentStoreCode()).'\/$/s', '', $this->getUrl());
-        }
-        return $this->getUrl();
     }
 }

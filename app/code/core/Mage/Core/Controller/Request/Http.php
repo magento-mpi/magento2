@@ -34,6 +34,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected $_originalPathInfo = '';
     protected $_storeCode = null;
+    protected $_requestString = '';
 
     /**
      * Returns ORIGINAL_PATH_INFO.
@@ -110,6 +111,8 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             }
 
             $this->_originalPathInfo = (string) $pathInfo;
+
+            $this->_requestString = $pathInfo . ($pos!==false ? substr($requestUri, $pos) : '');
         }
 
         $this->_pathInfo = (string) $pathInfo;
@@ -121,6 +124,11 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         $request = new Zend_Controller_Request_Http();
         $request->setPathInfo($this->getOriginalPathInfo());
         return $request;
+    }
+
+    public function getRequestString()
+    {
+        return $this->_requestString;
     }
 
     public function getBasePath()
