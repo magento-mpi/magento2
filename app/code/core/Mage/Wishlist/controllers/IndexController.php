@@ -61,6 +61,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
     {
         $this->_getWishlist();
         $this->loadLayout();
+        $this->getLayout()->getBlock('customer.wishlist')->setRefererUrl($this->_getRefererUrl());
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
