@@ -80,9 +80,6 @@ class Mage_Chronopay_Model_Config extends Varien_Object
     public function getDescription ()
     {
         $description = $this->getConfigData('description');
-        if (!$description) {
-            $description = Mage::app()->getStore()->getName() . ' ' . ' payment';
-        }
         return $description;
     }
 

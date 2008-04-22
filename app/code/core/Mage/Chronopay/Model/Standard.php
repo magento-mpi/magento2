@@ -172,9 +172,15 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                   ? $streets[0]
                   : (isset($streets[1]) && $streets[1] != '' ? $streets[1] : '');
 
+        if ($this->getConfig()->getDescription()) {
+            $transDescription = $this->getConfig()->getDescription();
+        } else {
+            $transDescription = Mage::helper('chronopay')->__('Order #%s', $order->getRealOrderId());
+        }
+
         $fields = array(
                         'product_id'       => $this->getConfig()->getProductId(),
-                        'product_name'     => $this->getConfig()->getDescription(),
+                        'product_name'     => $transDescription,
                         'product_price'    => $order->getBaseGrandTotal(),
                         'language'         => $this->getConfig()->getLanguage(),
                         'f_name'           => $order->getCustomerFirstname(),
