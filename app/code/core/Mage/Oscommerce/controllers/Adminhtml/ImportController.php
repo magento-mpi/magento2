@@ -150,11 +150,14 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         }
         
         Mage::app()->cleanCache();
-
         
+        $importModel->getResource()->resetConnectionCharset();
         if ($timezone = $importModel->getSession()->getTimezone()) {
         	$importModel->setTimezone($timezone);
         }        
+        if ($dataCharset = $importModel->getSession()->getDataCharset()) {
+            $importModel->getResource()->setDataCharset($dataCharset);
+        }
         
        	$importModel->getResource()->setImportModel($importModel); 
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
@@ -170,14 +173,13 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             }
         }
         
-        if ($charset = $importModel->getSession()->getTableCharset()) {
-        	$importModel->getResource()->setCharset($charset);
-        }
+//        if ($charset = $importModel->getSession()->getTableCharset()) {
+//        	$importModel->getResource()->setCharset($charset);
+//        }
 
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+        //setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
-        // Setting Locale for stores
-        
+        // Setting Locale for stores        
         if ($storeLocales = $importModel->getSession()->getStoreLocales()) {
             $importModel->getResource()->setStoreLocales($storeLocales);
         }
@@ -185,10 +187,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $importModel->getResource()->setIsProductWithCategories($isPoductWithCategories);
         }
         // End setting Locale for stores
-        
-//        if ($prefixPath = $this->getRequest()->getParam('images_path')) {
-//            $model->getResource()->setPrefixPath($prefixPath);
-//        }
         
         //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
         $importType = $this->getRequest()->getParam('import_type');
@@ -246,9 +244,11 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel = Mage::registry('oscommerce_adminhtml_import');
         $totalRecords = array();
         Mage::app()->cleanCache(); // Clean all cache
+
+        $importModel->getResource()->resetConnectionCharset();
+                 
         if ($tablPrefix = $importModel->getTablePrefix()) {
             $importModel->getResource()->setTablePrefix($tablPrefix);
-            $importModel->getSession()->setTablePrefix($tablePrefix);
         }
         
         $importModel->getResource()->setImportModel($importModel); 
@@ -267,9 +267,17 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getSession()->setStoreLocales($storeLocales);
         $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
+        
 		$timezone = $this->getRequest()->getParam('timezone');
 		$importModel->getSession()->setTimezone($timezone);
-
+		
+		// Handling dataCharset
+        $dataCharset = $this->getRequest()->getParam('charset');
+        if ($dataCharset) {
+            $importModel->getSession()->setDataCharset($dataCharset);
+            $importModel->getResource()->setDataCharset($dataCharset);
+        } // end hanlding dataCharset
+        
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
@@ -287,9 +295,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getResource()->importTaxClasses();
         $importModel->getResource()->createOrderTables();
         
-        if ($charset = $importModel->getResource()->getCharsetCollection()) {
-        	$importModel->getSession()->setTableCharset($charset);
-        }
+//        if ($charset = $importModel->getResource()->getCharsetCollection()) {
+//        	$importModel->getSession()->setTableCharset($charset);
+//        }
         
         if (isset($options['categories'])) {
             $importModel->getSession()->setIsProductWithCategories(true);

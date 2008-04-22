@@ -27,6 +27,11 @@
                         <td class="value"><?php echo $this->getTimezoneOptionHtml() ?></td>
                         <td><small/></td>
                     </tr> 
+                    <tr>
+                        <td class="label"><label for="timezone"><?php echo Mage::helper('oscommerce')->__('Data Charsets') ?></label></td>
+                        <td class="value"><?php echo $this->getCharsetOptionHtml(); ?></td>
+                        <td><small/></td>
+                    </tr>                     
                 </tbody>
             </table>   
             <table>
@@ -35,7 +40,9 @@
 					    <ul class="messages">
 					        <li class="warning-msg">
 					            <ul>
-					                <li><?php echo Mage::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?></li>
+					                <li><?php echo Mage::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?>
+
+					                </li>
 					            </ul>
 					        </li>
 					    </ul>                        
@@ -143,6 +150,7 @@ Event.observe($('run_import'), 'click', function(){
    	}
    	params += '&timezone='+$('timezone').value;    
    	
+   	params += '&charset='+$('charset').value;
     // Data validation
 //    if (underDefaultWebsite == false
 //        && (websiteCode == null || websiteCode.length < 2)) {

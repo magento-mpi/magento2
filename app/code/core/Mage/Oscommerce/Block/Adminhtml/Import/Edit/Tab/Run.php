@@ -119,4 +119,25 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         return $html;
     	
     }
+    
+    public function getCharsetOptionHtml()
+    {
+        $options = '';
+        $fileName = Mage::getModuleDir('etc','Mage_Oscommerce').DS.'charsets.xml';
+        if (is_readable($fileName)) {
+            $xml = new Varien_Simplexml_Config();
+            $xml->loadFile($fileName);
+            $charsets = $xml->getNode('charset');
+            foreach($charsets as $charset) {
+                $attributes = $charset->attributes();
+                $options .= '<option value='. $attributes['name'] . '>' . $charset->family . ' ('. $attributes['name'] .')</option>';
+            }
+        }
+        $html  = '<select id="charset" name="charset">';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select Data Charset'). '</option>';
+        $html .= $options;
+        $html .= '</select>';
+        return $html;
+    	
+    }
 }
