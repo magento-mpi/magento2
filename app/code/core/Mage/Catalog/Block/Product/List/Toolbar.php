@@ -225,13 +225,13 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function getAvailableLimit()
     {
         if ($this->getCurrentMode() == 'list') {
-            $perPageValues = (string) Mage::getConfig()->getNode('frontend/catalog/per_page_values/list');
+            $perPageValues = (string)Mage::getStoreConfig('catalog/frontend/list_per_page_values');
             $perPageValues = explode(',', $perPageValues);
             $perPageValues = array_combine($perPageValues, $perPageValues);
             return ($perPageValues + array('all'=>$this->__('All')));
         }
         elseif ($this->getCurrentMode() == 'grid') {
-            $perPageValues = (string) Mage::getConfig()->getNode('frontend/catalog/per_page_values/grid');
+            $perPageValues = (string)Mage::getStoreConfig('catalog/frontend/grid_per_page_values');
             $perPageValues = explode(',', $perPageValues);
             $perPageValues = array_combine($perPageValues, $perPageValues);
             return ($perPageValues + array('all'=>$this->__('All')));
