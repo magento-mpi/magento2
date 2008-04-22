@@ -67,6 +67,9 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function redirectAction()
     {
+        $session = Mage::getSingleton('checkout/session');
+        $session->setChronopayStandardQuoteId($session->getQuoteId());
+
         $order = $this->getOrder();
 
         $order->addStatusToHistory(
@@ -81,8 +84,6 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
                 ->setOrder($order)
                 ->toHtml());
 
-        $session = Mage::getSingleton('checkout/session');
-        $session->setChronopayStandardQuoteId($session->getQuoteId());
         $session->unsQuoteId();
     }
 
@@ -93,21 +94,18 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function  successAction()
     {
+        $session = Mage::getSingleton('checkout/session');
+        $session->setQuoteId($session->getChronopayStandardQuoteId(true));
+
         $order = $this->getOrder();
+
         $order->addStatusToHistory(
             $order->getStatus(),
             Mage::helper('chronopay')->__('Customer successfully returned from Chronopay')
         );
 
-
-        $session = Mage::getSingleton('checkout/session');
-        $session->setSuccessMessage(Mage::helper('chronopay')->__('Your Order #') . $order->getRealOrderId());
-
         $order->save();
-
-        $this->loadLayout();
-        $this->_initLayoutMessages('checkout/session');
-        $this->renderLayout();
+        $this->_redirect('checkout/onepage/success');
     }
 
 
@@ -135,12 +133,12 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
             if ($order->getId()) {
                 $order->addStatusToHistory(
                     $order->getStatus(),
-                    Mage::helper('chronopay')->__($result->getMessage())
+                    $result->getMessage()
                 );
                 $order->cancel();
                 $order->save();
             }
-            Mage::throwException(Mage::helper('chronopay')->__($result->getMessage()));
+            Mage::throwException($result->getMessage());
             return;
         }
 

@@ -33,15 +33,4 @@ Chronopay Failure Response Review
         </block>
     </reference>
 </chronopay_standard_failure>
-
-<chronopay_standard_success>
-    <reference name="root">
-        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-    </reference>
-    <reference name="content">
-        <block type="chronopay/standard_success" name="chronopay_standard_success" template="chronopay/standard/success.phtml">
-        </block>
-    </reference>
-</chronopay_standard_success>
-
 </layout>
