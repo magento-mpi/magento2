@@ -758,17 +758,19 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_logData['type_id'] = $this->getImportTypeIdByCode('product');
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
         $productModel = $this->getProductModel();
-
+        $taxCollections = $this->_getTaxCollections();       
         $this->_resetSaveRows();
         $this->_resetErrors();
         $maxRows = $this->getMaxRows();        
         $totalProducts = $this->getProductsCount();
-
         $pages = floor($totalProducts / $maxRows) + 1;
         if (!$useStartFrom) {
             for ($i = 0; $i < $pages; $i++) {
                 if ($products = $this->getProducts(array('from'=> $i * $maxRows,'max'=>$maxRows))) {
                     foreach ($products as $product) {
+                        if (!empty($product['tax_class_id'])) {
+                            $product['tax_class_id'] = $taxCollections[$product['tax_class_id']];
+                        }
                         $this->_saveProduct($product);
                     }
                 }
@@ -776,6 +778,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         } else {
             if ($products = $this->getProducts(array('from'=> $startFrom ,'max'=>$maxRows))) {
                 foreach ($products as $product) {
+                    if (!empty($product['tax_class_id'])) {
+                        $product['tax_class_id'] = $taxCollections[$product['tax_class_id']];
+                    }
                     $this->_saveProduct($product);
                 }
             }
@@ -1093,8 +1098,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= " , `p`.`products_weight` `weight`, IF(`p`.`products_status`,'Enabled','Disabled') `status` ";
         $select .= " , IF(`p`.`products_status`,'1','0') `is_in_stock`";
         $select .= " , `pd`.`products_name` `name`, `pd`.`products_description` `description` ";
-        //$select .= " , `pd`.`products_description` `short_description` ";
-        $select .= " , `tc`.`tax_class_title` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
+//        $select .= " , `tc`.`tax_class_title` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
+        $select .= " , `p`.`products_tax_class_id` `tax_class_id`, IF(1,'".self::DEFAULT_VISIBILITY."','') `visibility` ";
         $select .= " , `sp`.`specials_new_products_price` `special_price` ";
         $select .= " , `sp`.`specials_date_added` `special_from_date` ";
         $select .= " , `sp`.`expires_date` `special_to_date` ";
@@ -1104,7 +1109,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $select .= " , IF(1,'".$website."','') `website` ";
         $select .= " FROM `{$this->getOscTable('products')}` p LEFT JOIN `{$this->getOscTable('products_description')}` pd ";
         $select .= " ON `pd`.`products_id`=`p`.`products_id` AND `pd`.`language_id`={$defaultLanguageId} ";
-        $select .= " LEFT JOIN `{$this->getOscTable('tax_class')}` tc ON `tc`.`tax_class_id`=`p`.`products_tax_class_id` ";
+//        $select .= " LEFT JOIN `{$this->getOscTable('tax_class')}` tc ON `tc`.`tax_class_id`=`p`.`products_tax_class_id` ";
         $select .= " LEFT JOIN `{$this->getOscTable('specials')}` sp ON `sp`.`products_id`=`p`.`products_id` ";
         if ($limit && isset($limit['from']) && isset($limit['max'])) {
             $select .= " LIMIT {$limit['from']}, {$limit['max']}";
@@ -1707,19 +1712,83 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function importTaxClasses()
     {
         $taxModel = Mage::getModel('tax/class');
+        $storeInfo = $this->getOscStoreInformation();
+        $storeName = $storeInfo['STORE_NAME'];
+        $taxPairs = array();
         if ($classes = $this->getTaxClasses()) {
             foreach ($classes as $id => $name) {
                 $taxModel->unsData();
                 $taxModel->setId(null);
                 try {
-                    $taxModel->setClassType('product');
-                    $taxModel->setClassName($name);
+                    $taxModel->setClassType('PRODUCT');
+                    $taxModel->setClassName($name . '_' . $storeName);
                     $taxModel->save();
-                } catch (Exception $e) {}
+                    $taxPairs[$id] = $taxModel->getId();
+                } catch (Exception $e) {
+                    
+                }
             }
+        }
+        if (sizeof($taxPairs) > 0) {
+            $this->saveLogs($taxPairs, 'taxclass');
         }
     }
 
+    protected function _getTaxCollections()
+    {
+        $taxPairs = $this->getLogPairsByTypeCode('taxclass');
+        $flipTaxPairs = array_flip($taxPairs);
+        $newTaxPairs = array();
+        $taxCollections = Mage::getResourceModel('tax/class_collection')
+        		->addFieldToFilter('class_type', 'PRODUCT')
+        		->load()
+        		->toOptionArray();
+        if ($taxCollections) {
+            foreach ($taxCollections as $tax) {
+                if (isset($flipTaxPairs[$tax['value']])) {
+                    $newTaxPairs[$flipTaxPairs[$tax['value']]] = $tax['label'];
+                }
+            }
+        }
+        return $newTaxPairs; 
+    }
+    
+    public function saveLogs($data, $type = null)
+    {
+        $importId   = $this->getImportModel()->getId();
+        $typeId     = $this->getImportTypeIdByCode($type);
+        $userId     = $this->_getCurrentUserId();
+        $createdAt  = $this->formatDate(time());
+        if (is_array($data) && !is_null($typeId)) {
+            foreach($data as $value => $refId) {
+                $log = array(
+                    'value'     => $value,
+                    'ref_id'    => $refId,
+                    'import_id' => $importId,
+                    'type_id'   => $typeId,
+                    'user_id'   => $userId,
+                    'created_at'=> $createdAt
+                );
+                $this->_getWriteAdapter()->insert($this->getTable('oscommerce_ref'), $log);
+            }
+        }
+    }
+    
+    public function getLogPairsByTypeCode($code)
+    {
+        $typeId = $this->getImportTypeIdByCode($code);
+        $importId = $this->getImportModel()->getId();
+        $result = array();
+        if (!is_null($typeId)) {
+            $select =  $this->_getReadAdapter()->select();
+            $select->from($this->getTable('oscommerce_ref'), array('value','ref_id'))
+                   ->where("import_id={$importId}")
+                   ->where("type_id={$typeId}");
+            $result = $this->_getReadAdapter()->fetchPairs($select);
+        }
+        return $result;
+    }
+    
     public function getTaxClasses()
     {
         $select = "SELECT  `tax_class_id` `id`, `tax_class_title` `title` FROM `{$this->getOscTable('tax_class')}`";
