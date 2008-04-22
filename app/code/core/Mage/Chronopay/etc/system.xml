@@ -30,8 +30,9 @@
             <show_in_website>1</show_in_website>
             <show_in_store>0</show_in_store>
             <groups>
-                <standard translate="label">
+                <standard translate="label comment">
                     <label>ChronoPay Standard</label>
+                    <comment>Please specify Access URL: {STORE_URL}/chronopay/standard/success in the ChronoPay Client Admin.</comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>0</sort_order>
                     <show_in_default>1</show_in_default>
@@ -89,7 +90,6 @@
             <groups>
                 <chronopay_standard translate="label" module="chronopay">
                     <label>ChronoPay Standard</label>
-                    <comment>Notice: You must specify Success URL = {STORE_URL}/chronopay/standard/success in the ChronoPay Client Admin: go to "set up", click on "List Your Products", click on your site ID, click on "update", You can change the "access URL"</comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>102</sort_order>
                     <show_in_default>1</show_in_default>
