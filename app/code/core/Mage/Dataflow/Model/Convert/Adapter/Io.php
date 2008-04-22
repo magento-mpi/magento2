@@ -105,7 +105,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
         $batchModel = Mage::getSingleton('dataflow/batch');
         $destFile = $batchModel->getIoAdapter()->getFile(true);
 
-        $result = $this->getResource()->cp($this->getVar('filename'), $destFile);
+        $result = $this->getResource()->read($this->getVar('filename'), $destFile);
         $filename = $this->getResource()->pwd() . '/' . $this->getVar('filename');
         if (false === $result) {
             $message = Mage::helper('dataflow')->__('Could not load file: "%s"', $filename);
