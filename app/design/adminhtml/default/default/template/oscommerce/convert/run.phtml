@@ -6,11 +6,6 @@
         <fieldset>
             <table cellspacing="0" class="form-list" width="100%">
                 <tbody>
-                    <!--tr>
-                        <td class="label"><label for="under_default_website">Create under default website</label></td>
-                        <td class="value"><input type="checkbox" class=" input-checkbox" title="Create under default website" name="under_default_website" id="under_default_website"/></td>
-                        <td><small/></td>
-                    </tr-->
                     <tr>
                         <td class="label"><label for="under_default_website"><?php echo Mage::helper('oscommerce')->__('Create under default website') ?></label></td>
                         <td class="value"><?php echo $this->getWebsiteOptionHtml() ?></td>
@@ -65,6 +60,14 @@
             <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('Import Options') ?></h4>
         </div>
         <fieldset>
+    		<ul class="messages">
+    		  <li class="warning-msg">
+			     <ul>
+					<li><?php echo Mage::helper('oscommerce')->__('To import orders, Magento requires that customers also be imported.') ?>
+					</li>
+			     </ul>
+			   </li>
+			</ul>         
             <input type="checkbox" id="import_categories" name="import_categories" class=" input-checkbox"  />             
            	<label for="import_categories"><?php echo Mage::helper('oscommerce')->__('Categories') ?></label> <br/>
             <input type="checkbox" id="import_products" name="import_products" class=" input-checkbox"  /> 
@@ -151,21 +154,6 @@ Event.observe($('run_import'), 'click', function(){
    	params += '&timezone='+$('timezone').value;    
    	
    	params += '&charset='+$('charset').value;
-    // Data validation
-//    if (underDefaultWebsite == false
-//        && (websiteCode == null || websiteCode.length < 2)) {
-//        error += "Please check default website or input website code in General Information\n";
-//    } else {
-//        if (underDefaultWebsite == true) {
-//            params = 'under_default_website='+underDefaultWebsite;
-//        } else {
-//            params = 'website_code='+websiteCode;
-//        }
-//    }
-
-//    if (imagesPath) {
-//        params += '&images_path='+imagesPath;
-//    }
     
     for (var i = 0; i < importArray.length; i++) {        
         if ($('import_'+importArray[i]).checked) {
@@ -195,47 +183,9 @@ Event.observe($('run_import'), 'click', function(){
     }
     
     params += (params?'&':'')+'store_locale='+locale;
-    
-    //Element.hide($('required_information'));
     Element.toggle($('import_processing'));
     Element.toggle($('run_import').parentNode);
     url = url+params;
-    /*
-    new Ajax.Request(url,
-        {
-            method: 'post',
-            parameters: params,
-            onSuccess: function(transport) {
-                var response = transport.responseText.evalJSON();
-                if (response) {
-                    Element.toggle($('import_processing'));
-                    Element.toggle($('import_done'));
-                    var result = '';
-                    for (var type in response) {
-                        if (in_array(type, checkedImport)) {
-                            result += '<tr><td class="label">' + type + '</td><td class="center">' + response[type]['total'] + '</td><td class="center">' + response[type]['imported'] + '</td><td class="center">'+(parseInt(response[type]['total'])-parseInt(response[type]['imported']))+'</td></tr>';
-                        }
-                    }
-                    if (result) {
-                        var results = '<table class="data" cellspacing="0"><thead>';
-                        results += '<tr class="headings"><th>Name</th><th>Total Records</th><th>Total Imported Records</th><th>Not Imported Records</th></tr></thead>';
-                        results += '<tbody>'+result+'</tbody>';
-                        results += '</table>';
-                        $('result_statistic').update(results);
-                    }
-                }
-            },
-            onFailure: function() {
-                // TODO: handle error
-                alert('Error!');
-            },
-            onComplete: function() {
-                $('loading-mask').toggle();
-            }
-        }
-    );
-    */
-    //window.location = url;
     window.open(url);
 });
 
