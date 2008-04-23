@@ -662,6 +662,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
             'website_id',
             'group_id',
             'created_in',
+            'is_subscribed',
             'default_billing',
             'default_shipping',
             'country_id'
