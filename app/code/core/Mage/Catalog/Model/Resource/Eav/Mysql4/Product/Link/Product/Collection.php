@@ -199,7 +199,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
     public function setPositionOrder($dir='asc')
     {
         if ($this->getProduct() && $this->getProduct()->getId()) {
-            $this->setOrder('links.position', $dir);
+            $this->setOrder('position', $dir);
         }
         return $this;
     }
