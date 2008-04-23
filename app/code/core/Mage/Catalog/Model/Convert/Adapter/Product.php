@@ -457,7 +457,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $product->setAttributeSetId($productAttributeSets[$importData['attribute_set']]);
 
             foreach ($this->_requiredFields as $field) {
-                if (!isset($importData[$field])) {
+                $attribute = $this->getAttribute($field);
+                if (!isset($importData[$field]) && $attribute && $attribute->getIsRequired()) {
                     $message = Mage::helper('catalog')->__('Skip import row, required field "%s" for new products not defined', $field);
                     Mage::throwException($message);
                 }
