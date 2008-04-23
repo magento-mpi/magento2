@@ -619,7 +619,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	$importModel = $this->getImportModel();
         $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
         $productModel = $this->getProductModel();
-        $taxCollections = $this->_getTaxCollections();       
+        $taxCollections = $this->_getTaxCollections();
         $this->_resetSaveRows();
         $this->_resetErrors();
         $maxRows = $this->getMaxRows();        
@@ -659,6 +659,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     	$productAdapterModel = $this->getProductAdapterModel();
         $productModel = $this->getProductModel();
         $mageStores = $this->getLanguagesToStores();
+        $storeInfo = $this->getOscStoreInformation();
+        $storeName = $storeInfo['STORE_NAME'];
         $oscProductId = $data['id'];
         unset($data['id']);
         if ($this->_isProductWithCategories) {
@@ -669,6 +671,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         /**
          * Checking product by using sku and website
          */
+        if (empty($data['sku'])) {
+            $data['sku'] = $storeName . ' - ' . $oscProductId;
+        }
         $productModel->unsetData();
         $productId = $productModel->getIdBySku($data['sku']);
         $productModel->load($productId);

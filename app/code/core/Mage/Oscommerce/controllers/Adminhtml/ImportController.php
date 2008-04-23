@@ -304,11 +304,12 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 
             if ($importId = $importModel->getId()) {
                 $importModel->deleteImportedRecords($importId);
-                $importModel->getSession()->unsStoreLocales();
-                $importModel->getSession()->unsIsProductWithCategories();
-                if ($importModel->getSession()->getTablePrefix()) {
-                    $importModel->getSession()->unsTablePrefix();
-                }
+//                $importModel->getSession()->unsStoreLocales();
+//                $importModel->getSession()->unsIsProductWithCategories();
+//                if ($importModel->getSession()->getTablePrefix()) {
+//                    $importModel->getSession()->unsTablePrefix();
+//                }
+                $importModel->getSession()->clear();
             }
         }
     }
