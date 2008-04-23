@@ -23,10 +23,15 @@
                         <td><small/></td>
                     </tr> 
                     <tr>
-                        <td class="label"><label for="timezone"><?php echo Mage::helper('oscommerce')->__('Data Charsets') ?></label></td>
-                        <td class="value"><?php echo $this->getCharsetOptionHtml(); ?></td>
+                        <td class="label"><label for="connection_charset"><?php echo Mage::helper('oscommerce')->__('Database Connection Charset') ?></label></td>
+                        <td class="value"><?php echo $this->getConnectionCharsetOptionHtml(); ?></td>
                         <td><small/></td>
-                    </tr>                     
+                    </tr> 
+                    <tr>
+                        <td class="label"><label for="data_charset"><?php echo Mage::helper('oscommerce')->__('Database Data Charset') ?></label></td>
+                        <td class="value"><?php echo $this->getDataCharsetOptionHtml(); ?></td>
+                        <td><small/></td>
+                    </tr>    
                 </tbody>
             </table>   
             <table>
@@ -152,9 +157,8 @@ Event.observe($('run_import'), 'click', function(){
     	error += "<?php echo Mage::helper('oscommerce')->__('Please select a timezone\n') ?>";
    	}
    	params += '&timezone='+$('timezone').value;    
-   	
-   	params += '&charset='+$('charset').value;
-    
+   	params += '&data_charset='+$('data_charset').value;
+    params += '&connection_charset='+$('connection_charset').value;    
     for (var i = 0; i < importArray.length; i++) {        
         if ($('import_'+importArray[i]).checked) {
             isCheckedImportOptions = true;

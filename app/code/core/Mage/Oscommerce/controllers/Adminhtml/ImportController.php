@@ -149,15 +149,26 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             $importModel->getResource()->setTablePrefix($tablePrefix);
         }
         
-        Mage::app()->cleanCache();
-        
-        $importModel->getResource()->resetConnectionCharset();
-        if ($timezone = $importModel->getSession()->getTimezone()) {
-        	$importModel->setTimezone($timezone);
-        }        
+        // Start setting data from sessions
+        if ($connCharset = $importModel->getSession()->getConnectionCharset()) {
+            $importModel->getResource()->setConnectionCharset($connCharset);
+        }
         if ($dataCharset = $importModel->getSession()->getDataCharset()) {
             $importModel->getResource()->setDataCharset($dataCharset);
         }
+        if ($timezone = $importModel->getSession()->getTimezone()) {
+        	$importModel->setTimezone($timezone);
+        }      
+        if ($storeLocales = $importModel->getSession()->getStoreLocales()) {
+            $importModel->getResource()->setStoreLocales($storeLocales);
+        }
+        if ($isPoductWithCategories = $importModel->getSession()->getIsProductWithCategories()) {
+            $importModel->getResource()->setIsProductWithCategories($isPoductWithCategories);
+        }
+        // End setting data from sessions
+        
+        // Resetting connection charset
+        $importModel->getResource()->resetConnectionCharset();
         
        	$importModel->getResource()->setImportModel($importModel); 
         if ($collections =  $importModel->getResource()->importCollection($importModel->getId())) {
@@ -173,21 +184,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             }
         }
         
-//        if ($charset = $importModel->getSession()->getTableCharset()) {
-//        	$importModel->getResource()->setCharset($charset);
-//        }
-
-        //setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
-        
-        // Setting Locale for stores        
-        if ($storeLocales = $importModel->getSession()->getStoreLocales()) {
-            $importModel->getResource()->setStoreLocales($storeLocales);
-        }
-        if ($isPoductWithCategories = $importModel->getSession()->getIsProductWithCategories()) {
-            $importModel->getResource()->setIsProductWithCategories($isPoductWithCategories);
-        }
-        // End setting Locale for stores
-        
         //$isUnderDefaultWebsite = $this->getRequest()->getParam('under_default_website') ? true: false;
         $importType = $this->getRequest()->getParam('import_type');
         $importFrom = $this->getRequest()->getParam('from');
@@ -199,8 +195,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             case 'categories':
                     $importModel->getResource()->importCategories($importFrom, true);
                     if ($isImportDone == 'true') {
-                    	//$categoryIdPair = $importModel->getSession()->getCategoryIdPair();
-                    	//$importModel->getResource()->setCategoryIdPair($categoryIdPair);
                     	$importModel->getResource()->buildCategoryPath();
                     }
                 break;
@@ -220,31 +214,28 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $this->getResponse()->setBody(Zend_Json::encode($result));
     }
     
-    public function batchFinishAction()
-    {
-        if ($importId = $this->getRequest()->getParam('id')) {
-            $importModel = Mage::getModel('oscommerce/oscommerce')->load($importId);
-            /* @var $batchModel Mage_Dataflow_Model_Batch */
-
-            if ($importId = $importModel->getId()) {
-                $importModel->deleteImportedRecords($importId);
-                $importModel->getSession()->unsStoreLocales();
-                $importModel->getSession()->unsIsProductWithCategories();
-                if ($importModel->getSession()->getTablePrefix()) {
-                    $importModel->getSession()->unsTablePrefix();
-                }
-            }
-        }
-    }    
-    
     public function runAction()
     {
         @set_time_limit(0);
+        Mage::app()->cleanCache(); // Clean all cach        
         $this->_initImport();
         $importModel = Mage::registry('oscommerce_adminhtml_import');
         $totalRecords = array();
-        Mage::app()->cleanCache(); // Clean all cache
 
+        // Start handling charsets
+        $connCharset = $this->getRequest()->getParam('connection_charset');
+        if ($connCharset) {
+            $importModel->getSession()->setConnectionCharset($connCharset);
+            $importModel->getResource()->setConnectionCharset($connCharset);
+        } 
+        $dataCharset = $this->getRequest()->getParam('data_charset');
+        if ($dataCharset) {
+            $importModel->getSession()->setDataCharset($dataCharset);
+            $importModel->getResource()->setDataCharset($dataCharset);
+        } // End hanlding charsets
+
+		$timezone = $this->getRequest()->getParam('timezone');
+		$importModel->getSession()->setTimezone($timezone);        
         $importModel->getResource()->resetConnectionCharset();
                  
         if ($tablPrefix = $importModel->getTablePrefix()) {
@@ -253,8 +244,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         
         $importModel->getResource()->setImportModel($importModel); 
         $importModel->getResource()->importCollection($importModel->getId());
-        
-        //setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
         
         // Setting Locale for stores
         $locales = explode("|",$this->getRequest()->getParam('store_locale'));
@@ -267,17 +256,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getSession()->setStoreLocales($storeLocales);
         $importModel->getResource()->setStoreLocales($storeLocales);
         // End setting Locale for stores
-        
-		$timezone = $this->getRequest()->getParam('timezone');
-		$importModel->getSession()->setTimezone($timezone);
-		
-		// Handling dataCharset
-        $dataCharset = $this->getRequest()->getParam('charset');
-        if ($dataCharset) {
-            $importModel->getSession()->setDataCharset($dataCharset);
-            $importModel->getResource()->setDataCharset($dataCharset);
-        } // end hanlding dataCharset
-        
+                
         $websiteId = $this->getRequest()->getParam('website_id');
         $websiteCode = $this->getRequest()->getParam('website_code');
         $options = $this->getRequest()->getParam('import');
@@ -294,10 +273,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $importModel->getResource()->importStores();
         $importModel->getResource()->importTaxClasses();
         $importModel->getResource()->createOrderTables();
-        
-//        if ($charset = $importModel->getResource()->getCharsetCollection()) {
-//        	$importModel->getSession()->setTableCharset($charset);
-//        }
         
         if (isset($options['categories'])) {
             $importModel->getSession()->setIsProductWithCategories(true);
@@ -320,7 +295,23 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $this->getResponse()->setBody($this->getLayout()->createBlock('oscommerce/adminhtml_import_run')->toHtml());
         $this->getResponse()->sendResponse();
     }
+    
+    public function batchFinishAction()
+    {
+        if ($importId = $this->getRequest()->getParam('id')) {
+            $importModel = Mage::getModel('oscommerce/oscommerce')->load($importId);
+            /* @var $batchModel Mage_Dataflow_Model_Batch */
 
+            if ($importId = $importModel->getId()) {
+                $importModel->deleteImportedRecords($importId);
+                $importModel->getSession()->unsStoreLocales();
+                $importModel->getSession()->unsIsProductWithCategories();
+                if ($importModel->getSession()->getTablePrefix()) {
+                    $importModel->getSession()->unsTablePrefix();
+                }
+            }
+        }
+    }
     
     /**
      * Delete osc action

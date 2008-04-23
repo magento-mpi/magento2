@@ -37,15 +37,12 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
      */
     protected function _prepareLayout()
     {
-        //$onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
-        //$onclick = "runOsc()";
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'   => Mage::helper('oscommerce')->__('Start Runing!'),
                     'class'   => 'run',
-                    //'onclick' => $onclick,
-                    'id'        => 'run_import'
+                    'id'      => 'run_import'
                 ))
 
         );
@@ -55,8 +52,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
                 ->setData(array(
                     'label'   => Mage::helper('oscommerce')->__('Check requirements!'),
                     'class'   => 'run',
-                    //'onclick' => $onclick,
-                    'id'        => 'check_import'
+                    'id'      => 'check_import'
                 ))
 
         ); 
@@ -120,7 +116,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     	
     }
     
-    public function getCharsetOptionHtml()
+    public function getCharsetOption()
     {
         $options = '';
         $fileName = Mage::getModuleDir('etc','Mage_Oscommerce').DS.'charsets.xml';
@@ -133,11 +129,24 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
                 $options .= '<option value='. $attributes['name'] . '>' . $charset->family . ' ('. $attributes['name'] .')</option>';
             }
         }
-        $html  = '<select id="charset" name="charset">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a charset'). '</option>';
-        $html .= $options;
+        return $options;
+    }
+    
+    public function getDataCharsetOptionHtml()
+    {
+        $html  = '<select id="data_charset" name="data_charset">';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a data charset'). '</option>';
+        $html .= $this->getCharsetOption();
         $html .= '</select>';
-        return $html;
-    	
+        return $html;    	        
+    }
+    
+    public function getConnectionCharsetOptionHtml()
+    {
+        $html  = '<select id="connection_charset" name="connection_charset">';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a connection charset'). '</option>';
+        $html .= $this->getCharsetOption();
+        $html .= '</select>';
+        return $html;        
     }
 }
