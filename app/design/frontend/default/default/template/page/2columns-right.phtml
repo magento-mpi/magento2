@@ -27,8 +27,8 @@
 <head>
     <?php echo $this->getChildHtml('head') ?>
 </head>
-
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
+<div class="wrapper">
     <!--<p class="demo-notice"><span><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></span></p>-->
         <!-- [start] header -->
         <div class="header">
@@ -73,5 +73,6 @@
         <!-- [end] footer -->
 
 <?php echo $this->getChildHtml('before_body_end') ?>
-    </body>
+</div>
+</body>
 </html>

@@ -357,6 +357,7 @@ table.view-by td {
 /********************** Base Layout */
 
 /* Structure */
+.wrapper { min-width:954px; }
 .header {
     z-index:999;
     text-align:left;
@@ -561,7 +562,8 @@ h1#logo {
 .footer {
     width:930px;
     margin:0 auto;
-    padding:1em 1em 4em 1em;
+    padding:10px 10px 4em;
+    background-color:#618499;
     position:relative;
     }
 .footer .store-switcher { display:inline; padding:0 10px 0 0; vertical-align:middle; }

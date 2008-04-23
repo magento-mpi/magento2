@@ -28,8 +28,8 @@
 <head>
     <?php echo $this->getChildHtml('head') ?>
 </head>
-
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
+<div class="wrapper">
         <!-- [start] header -->
         <div class="header">
             <?php echo $this->getChildHtml('header') ?>
@@ -62,5 +62,6 @@
         </div>
         <!-- [end] footer -->
         <?php echo $this->getChildHtml('before_body_end') ?>
-    </body>
+</div>        
+</body>
 </html>
