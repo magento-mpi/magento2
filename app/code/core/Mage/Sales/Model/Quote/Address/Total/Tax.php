@@ -87,6 +87,9 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $shippingTax    = $store->roundPrice($shippingTax);
                 $shippingBaseTax= $store->roundPrice($shippingBaseTax);
 
+                $address->setShippingTaxAmount($shippingTax);
+                $address->setBaseShippingTaxAmount($shippingBaseTax);
+
                 $address->setTaxAmount($address->getTaxAmount() + $shippingTax);
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $shippingBaseTax);
             }

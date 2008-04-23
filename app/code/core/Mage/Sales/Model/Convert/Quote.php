@@ -112,6 +112,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setTaxAmount($address->getTaxAmount())
             ->setDiscountAmount($address->getDiscountAmount())
             ->setShippingAmount($address->getShippingAmount())
+            ->setShippingTaxAmount($address->getShippingTaxAmount())
             ->setGiftcertAmount($address->getGiftcertAmount())
             ->setCustbalanceAmount($address->getCustbalanceAmount())
             ->setGrandTotal($address->getGrandTotal())
@@ -120,6 +121,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setBaseTaxAmount($address->getBaseTaxAmount())
             ->setBaseDiscountAmount($address->getBaseDiscountAmount())
             ->setBaseShippingAmount($address->getBaseShippingAmount())
+            ->setBaseShippingTaxAmount($address->getBaseShippingTaxAmount())
             ->setBaseGiftcertAmount($address->getBaseGiftcertAmount())
             ->setBaseCustbalanceAmount($address->getBaseCustbalanceAmount())
             ->setBaseGrandTotal($address->getBaseGrandTotal());
