@@ -20,7 +20,7 @@
 ?>
 
 <div class="page-head">
-    <h3>Newsletter Subscription</h3>
+    <h3><?php echo $this->__('Newsletter Subscription') ?></h3>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getAction() ?>" method="post" id="form-validate">
