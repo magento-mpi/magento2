@@ -192,7 +192,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg()?
                     $result->getRespmsg():
-                    Mage::helper('paygate')->__('Error in retreiving the transaction'));
+                    Mage::helper('paygate')->__('Error in retrieving the transaction'));
             }
         }else{
             $payment->setStatus(self::STATUS_ERROR);
