@@ -75,6 +75,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
            $value['images'] = Zend_Json::decode($value['images']);
         }
 
+        if (!is_array($value['images'])) {
+           $value['images'] = array();
+        }
+
 
 
         $clearImages = array();
