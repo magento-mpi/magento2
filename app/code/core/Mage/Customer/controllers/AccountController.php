@@ -344,7 +344,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $confPass  = $this->getRequest()->getPost('confirmation');
 
                 if (empty($currPass) || empty($newPass) || empty($confPass)) {
-                    $errors[] = $this->__('Pasword fields can\'t be empty.');
+                    $errors[] = $this->__('Password fields can\'t be empty.');
                 }
 
                 if ($newPass != $confPass) {
