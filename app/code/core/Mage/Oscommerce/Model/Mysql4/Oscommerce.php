@@ -895,10 +895,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $this->_resetSaveRows();
         $this->_resetErrors();        
         // Get orders
-        $connCharset = $this->getConnectionCharset();
-        if ($connCharset) {
-        	$this->_getWriteAdapter()->query("SET NAMES '{$connCharset}'");
-        }
+        
         $totalOrders = $this->getOrdersCount();
         $maxRows = $this->getMaxRows();
         $pages = floor($totalOrders / $maxRows) + 1;
