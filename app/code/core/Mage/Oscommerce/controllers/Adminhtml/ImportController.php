@@ -367,7 +367,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 if ($stores) {
                     $html .= "<table>\n";
                     foreach ($stores as $store) {
-                        $html .= "<tr><td style='width: 100px'>".iconv($charset?$charset:$defaultOscCharset, $defaultMageCharset, $store['name'])." Store</td><td>";
+                        $html .= "<tr><td style='width: 100px'>" . $importModel->getResource()->convert($store['name']) . " Store</td><td>";
                         $html .= "<select id='store_locale_{$store['code']}' name='store[{$store['code']}'";
                         $html .= ">{$options}</select>";
                         $html .= "</td></tr>\n";

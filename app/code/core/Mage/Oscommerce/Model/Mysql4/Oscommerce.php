@@ -424,7 +424,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $store['code'] = $store['code'].'_'.$websiteId.time(); // for unique store code
                     $locales[$store['code']] = $localeCode;
                 }
-				$store['name'] = $this->_convert($store['name']);
+				$store['name'] = $this->convert($store['name']);
                 $storeModel->unsetData();
                 $storeModel->setOrigData();
                 $storeModel->setData($store);
@@ -533,7 +533,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
             foreach($data as $field => $value) {
             	if (in_array($field, array('firstname', 'lastname'))) {
-                    $value = $this->_convert($value);
+                    $value = $this->convert($value);
             	}
             	$data[$field] = html_entity_decode($value, ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
             	
@@ -559,7 +559,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         }
                         
                         if (in_array($field, array_keys($addressFieldMapping))) {
-                            $value = $this->_convert($value);
+                            $value = $this->convert($value);
                         }
                         
                         if (!in_array($field, array('customers_id'))) {
@@ -672,7 +672,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         	$data['display_mode'] = self::DEFAULT_DISPLAY_MODE;
         	$data['is_anchor']	= self::DEFAULT_IS_ANCHOR;
         	$data['attribute_set_id'] = $categoryModel->getDefaultAttributeSetId();
-            $data['name'] = $this->_convert($data['name']);
+            $data['name'] = $this->convert($data['name']);
         	$data['meta_title'] = html_entity_decode($data['name'], ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
         	$categoryModel->setData($data);
         	$categoryModel->save();
@@ -871,8 +871,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                         $storeCode = $this->getCurrentWebsite()->getDefaultStore()->getCode();
                     }
                     $data['store'] = $storeCode;
-                    $data['name'] = html_entity_decode($this->_convert($store['name']), ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
-                    $data['description'] = html_entity_decode($this->_convert($store['description']), ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
+                    $data['name'] = html_entity_decode($this->convert($store['name']), ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
+                    $data['description'] = html_entity_decode($this->convert($store['description']), ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET);
                     $data['short_description'] = $data['description'];
                     $productAdapterModel->saveRow($data);
                 }
@@ -925,97 +925,98 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $websiteId = $this->getWebsiteModel()->getId();
 
         $tables = array(
-            'orders' => "CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_order')}` (
-              `osc_magento_id` int(11) NOT NULL auto_increment,
-              `orders_id` int(11) NOT NULL,
-              `customers_id` int(11) NOT NULL default '0',
-              `magento_customers_id` int(11) NOT NULL default '0',
-              `import_id` int(11) NOT NULL default '0',
-              `website_id` int(11) NOT NULL default '0',
-              `customers_name` varchar(64) NOT NULL default '',
-              `customers_company` varchar(32) default NULL,
-              `customers_street_address` varchar(64) NOT NULL default '',
-              `customers_suburb` varchar(32) default NULL,
-              `customers_city` varchar(32) NOT NULL default '',
-              `customers_postcode` varchar(10) NOT NULL default '',
-              `customers_state` varchar(32) default NULL,
-              `customers_country` varchar(32) NOT NULL default '',
-              `customers_telephone` varchar(32) NOT NULL default '',
-              `customers_email_address` varchar(96) NOT NULL default '',
-              `customers_address_format_id` int(5) NOT NULL default '0',
-              `delivery_name` varchar(64) NOT NULL default '',
-              `delivery_company` varchar(32) default NULL,
-              `delivery_street_address` varchar(64) NOT NULL default '',
-              `delivery_suburb` varchar(32) default NULL,
-              `delivery_city` varchar(32) NOT NULL default '',
-              `delivery_postcode` varchar(10) NOT NULL default '',
-              `delivery_state` varchar(32) default NULL,
-              `delivery_country` varchar(32) NOT NULL default '',
-              `delivery_address_format_id` int(5) NOT NULL default '0',
-              `billing_name` varchar(64) NOT NULL default '',
-              `billing_company` varchar(32) default NULL,
-              `billing_street_address` varchar(64) NOT NULL default '',
-              `billing_suburb` varchar(32) default NULL,
-              `billing_city` varchar(32) NOT NULL default '',
-              `billing_postcode` varchar(10) NOT NULL default '',
-              `billing_state` varchar(32) default NULL,
-              `billing_country` varchar(32) NOT NULL default '',
-              `billing_address_format_id` int(5) NOT NULL default '0',
-              `payment_method` varchar(255) NOT NULL default '',
-              `cc_type` varchar(20) default NULL,
-              `cc_owner` varchar(64) default NULL,
-              `cc_number` varchar(32) default NULL,
-              `cc_expires` varchar(4) default NULL,
-              `last_modified` datetime default NULL,
-              `date_purchased` datetime default NULL,
-              `orders_status` varchar(32) default NOT NULL,
-              `orders_date_finished` datetime default NULL,
-              `currency` char(3) default NULL,
-              `currency_value` decimal(14,6) default NULL,
-              `currency_symbol` char(3) default NULL,
-              `orders_total`  decimal(14,6) default NULL,
-              PRIMARY KEY  (`osc_magento_id`),
-              KEY `idx_orders_customers_id` (`customers_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            'orders' => "CREATE TABLE `{$this->getTable('oscommerce_order')}` (
+                  `osc_magento_id` int(11) NOT NULL auto_increment,
+                  `orders_id` int(11) NOT NULL default '0',
+                  `customers_id` int(11) NOT NULL default '0',
+                  `magento_customers_id` int(11) NOT NULL default '0',
+                  `import_id` int(11) NOT NULL default '0',
+                  `website_id` int(11) NOT NULL default '0',
+                  `customers_name` varchar(64) NOT NULL default '',
+                  `customers_company` varchar(32) default NULL,
+                  `customers_street_address` varchar(64) NOT NULL default '',
+                  `customers_suburb` varchar(32) default NULL,
+                  `customers_city` varchar(32) NOT NULL default '',
+                  `customers_postcode` varchar(10) NOT NULL default '',
+                  `customers_state` varchar(32) default NULL,
+                  `customers_country` varchar(32) NOT NULL default '',
+                  `customers_telephone` varchar(32) NOT NULL default '',
+                  `customers_email_address` varchar(96) NOT NULL default '',
+                  `customers_address_format_id` int(5) NOT NULL default '0',
+                  `delivery_name` varchar(64) NOT NULL default '',
+                  `delivery_company` varchar(32) default NULL,
+                  `delivery_street_address` varchar(64) NOT NULL default '',
+                  `delivery_suburb` varchar(32) default NULL,
+                  `delivery_city` varchar(32) NOT NULL default '',
+                  `delivery_postcode` varchar(10) NOT NULL default '',
+                  `delivery_state` varchar(32) default NULL,
+                  `delivery_country` varchar(32) NOT NULL default '',
+                  `delivery_address_format_id` int(5) NOT NULL default '0',
+                  `billing_name` varchar(64) NOT NULL default '',
+                  `billing_company` varchar(32) default NULL,
+                  `billing_street_address` varchar(64) NOT NULL default '',
+                  `billing_suburb` varchar(32) default NULL,
+                  `billing_city` varchar(32) NOT NULL default '',
+                  `billing_postcode` varchar(10) NOT NULL default '',
+                  `billing_state` varchar(32) default NULL,
+                  `billing_country` varchar(32) NOT NULL default '',
+                  `billing_address_format_id` int(5) NOT NULL default '0',
+                  `payment_method` varchar(255) NOT NULL default '',
+                  `cc_type` varchar(20) default NULL,
+                  `cc_owner` varchar(64) default NULL,
+                  `cc_number` varchar(32) default NULL,
+                  `cc_expires` varchar(4) default NULL,
+                  `last_modified` datetime default NULL,
+                  `date_purchased` datetime default NULL,
+                  `orders_status` varchar(32) default NULL,
+                  `orders_date_finished` datetime default NULL,
+                  `currency` varchar(3) default NULL,
+                  `currency_value` decimal(14,6) default NULL,
+                  `currency_symbol` varchar(3) default NULL,
+                  `orders_total` decimal(14,6) default NULL,
+                  PRIMARY KEY  (`osc_magento_id`),
+                  KEY `idx_orders_customers_id` (`customers_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
         "
-            , 'orders_products' => "CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_order_products')}` (
-              `orders_products_id` int(11) NOT NULL auto_increment,
-              `osc_magento_id` int(11) NOT NULL default '0',
-              `products_id` int(11) NOT NULL default '0',
-              `products_model` varchar(12) default NULL,
-              `products_name` varchar(64) NOT NULL default '',
-              `products_price` decimal(15,4) NOT NULL default '0.0000',
-              `final_price` decimal(15,4) NOT NULL default '0.0000',
-              `products_tax` decimal(7,4) NOT NULL default '0.0000',
-              `products_quantity` int(2) NOT NULL default '0',
-              PRIMARY KEY  (`orders_products_id`),
-              KEY `idx_orders_products_osc_magento_id` (`osc_magento_id`),
-              KEY `idx_orders_products_products_id` (`products_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
+            , 'orders_products' => "CREATE TABLE `{$this->getTable('oscommerce_order_products')}` (
+                  `orders_products_id` int(11) NOT NULL auto_increment,
+                  `osc_magento_id` int(11) NOT NULL default '0',
+                  `products_id` int(11) NOT NULL default '0',
+                  `products_model` varchar(12) default NULL,
+                  `products_name` varchar(64) NOT NULL default '',
+                  `products_price` decimal(15,4) NOT NULL default '0.0000',
+                  `final_price` decimal(15,4) NOT NULL default '0.0000',
+                  `products_tax` decimal(7,4) NOT NULL default '0.0000',
+                  `products_quantity` int(2) NOT NULL default '0',
+                  PRIMARY KEY  (`orders_products_id`),
+                  KEY `idx_orders_products_osc_magento_id` (`osc_magento_id`),
+                  KEY `idx_orders_products_products_id` (`products_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+                "
 
             , 'orders_total' => "CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_order_total')}` (
-              `orders_total_id` int(10) unsigned NOT NULL auto_increment,
-              `osc_magento_id` int(11) NOT NULL default '0',
-              `title` varchar(255) NOT NULL default '',
-              `text` varchar(255) NOT NULL default '',
-              `value` decimal(15,4) NOT NULL default '0.0000',
-              `class` varchar(32) NOT NULL default '',
-              `sort_order` int(11) NOT NULL default '0',
-              PRIMARY KEY  (`orders_total_id`),
-              KEY `idx_orders_total_osc_magento_id` (`osc_magento_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
+                  `orders_total_id` int(10) unsigned NOT NULL auto_increment,
+                  `osc_magento_id` int(11) NOT NULL default '0',
+                  `title` varchar(255) NOT NULL default '',
+                  `text` varchar(255) NOT NULL default '',
+                  `value` decimal(15,4) NOT NULL default '0.0000',
+                  `class` varchar(32) NOT NULL default '',
+                  `sort_order` int(11) NOT NULL default '0',
+                  PRIMARY KEY  (`orders_total_id`),
+                  KEY `idx_orders_total_osc_magento_id` (`osc_magento_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
 
             , 'orders_status_history'=>"CREATE TABLE IF NOT EXISTS `{$this->getTable('oscommerce_order_history')}` (
-              `orders_status_history_id` int(11) NOT NULL auto_increment,
-              `osc_magento_id` int(11) NOT NULL default '0',
-              `orders_status_id` int(5) NOT NULL default '0',
-              `date_added` datetime NOT NULL default '0000-00-00 00:00:00',
-              `customer_notified` int(1) default '0',
-              `comments` text,
-              `orders_status` varchar(32) default NULL,
-              PRIMARY KEY  (`orders_status_history_id`),
-              KEY `idx_orders_status_history_osc_magento_id` (`osc_magento_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
+                  `orders_status_history_id` int(11) NOT NULL auto_increment,
+                  `osc_magento_id` int(11) NOT NULL default '0',
+                  `orders_status_id` int(5) NOT NULL default '0',
+                  `date_added` datetime NOT NULL default '0000-00-00 00:00:00',
+                  `customer_notified` int(1) default '0',
+                  `comments` text,
+                  `orders_status` varchar(32) default NULL,
+                  PRIMARY KEY  (`orders_status_history_id`),
+                  KEY `idx_orders_status_history_osc_magento_id` (`osc_magento_id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
 
             );
 
@@ -1197,7 +1198,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if ($data['customers_id'] > 0 && isset($this->_customerIdPair[$data['customers_id']])) {
         	foreach($data as $field => $value) {
         		if (!in_array($field, $fieldNoEnc)) {
-        			$data[$field] = $this->_convert($value);
+        			$data[$field] = $this->convert($value);
         		}
         	}
 
@@ -1253,7 +1254,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $orderProduct['osc_magento_id'] = $oscMagentoId;
 					foreach ($orderProduct as $field => $value) {		
 		        		if (!in_array($field, $fieldNoEnc)) {
-		        			$orderProduct[$field] = $this->_convert($value);
+		        			$orderProduct[$field] = $this->convert($value);
 		        		}						
 					}
                     $this->_getWriteAdapter()->insert($this->getTable('oscommerce_order_products'), $orderProduct);
@@ -1270,8 +1271,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     unset($orderTotal['orders_id']);
                     unset($orderTotal['orders_total_id']);
                     $orderTotal['osc_magento_id'] = $oscMagentoId;
-                    $orderTotal['title'] = $this->_convert($orderTotal['title']);
-                    $orderTotal['text'] = $this->_convert($orderTotal['text']);
+                    $orderTotal['title'] = $this->convert($orderTotal['title']);
+                    $orderTotal['text'] = $this->convert($orderTotal['text']);
                     $this->_getWriteAdapter()->insert($this->getTable('oscommerce_order_total'), $orderTotal);					
                 }
             }
@@ -1299,9 +1300,9 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 			        $dateAdded->setTime($prepareAdded[1], 'HH:mm:ss');
 			       	$dateAdded->setTimezone('GMT');
 			        $orderHistory['date_added'] =  $dateAdded->toString($dateFormat);
-                    $orderHistory['orders_status'] = $this->_convert($orderHistory['orders_status']);
-                    $orderHistory['comments'] = $this->_convert($orderHistory['comments']);
-                    $orderHistory['customer_notified'] = $this->_convert($orderHistory['customer_notified']);
+                    $orderHistory['orders_status'] = $this->convert($orderHistory['orders_status']);
+                    $orderHistory['comments'] = $this->convert($orderHistory['comments']);
+                    $orderHistory['customer_notified'] = $this->convert($orderHistory['customer_notified']);
                     
                     $this->_getWriteAdapter()->insert($this->getTable('oscommerce_order_history'), $orderHistory);
                 }
@@ -1397,7 +1398,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 if ($categoriesToStores = $this->getCategoriesToStores($result['id'])) {
                     foreach($categoriesToStores as $store => $categoriesName) {
                         $results[$index]['stores'][$stores[$store]] = array(
-                            'name'=>html_entity_decode($this->_convert($categoriesName), ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET)
+                            'name'=>html_entity_decode($this->convert($categoriesName), ENT_QUOTES, self::DEFAULT_MAGENTO_CHARSET)
                         );
                     }
                 }
@@ -2156,14 +2157,13 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 	 * @param array $notIncludedFields
 	 * @return mixed
 	 */
-	protected function _convert($data, array $notIncludedFields = array())
+	public function convert($data, array $notIncludedFields = array())
 	{
 	    $charset = $this->getDataCharset();
 	    if (!is_null($charset) || $charset != self::DEFAULT_FIELD_CHARSET) {
     	    if (is_array($data)) {
     	        foreach($data as $field => $value) {
     	            if (!in_array($field, $notIncludedFields)) {
-    	                echo "Field: ". $field. " , Data: " . $value . "<br> \n";
     	                $data[$field] = @iconv($charset, self::DEFAULT_FIELD_CHARSET, $value);
     	            }
     	        }
@@ -2173,4 +2173,5 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 	    }
 	    return $data;
 	}
+	
 }
