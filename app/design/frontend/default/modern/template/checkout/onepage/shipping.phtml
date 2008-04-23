@@ -24,8 +24,8 @@
    <p><?php echo $this->getAddressesHtmlSelect('shipping') ?></p>
 <?php endif ?>
 
-<fieldset class="group-select" id="shipping-new-address-form" <?php if ($this->customerHasAddresses()): ?>style="display:none"<?php endif ?>>
-    <input type="hidden" name="shipping[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="shipping:address_id"/>
+<fieldset class="group-select" id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none"<?php endif ?>>
+    <input type="hidden" name="shipping[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="shipping:address_id" />
     <ul>
         <li><div class="input-box">
             <label for="shipping:firstname"><?php echo $this->__('First Name') ?> <span class="required">*</span></label><br/>
@@ -68,7 +68,7 @@
             <label for="shipping:telephone"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><br/>
             <input type="text" name="shipping[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="required-entry input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);"/></div>
             <div class="input-box">
-            <label for="shipping:fax"><?php echo $this->__('Fax') ?></label><br/>
+            <label for="shipping:fax"><?php echo $this->__('Fax') ?></label><br />
             <input type="text" name="shipping[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);"/></div></li>
     </ul>
 </fieldset>
