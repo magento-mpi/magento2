@@ -68,10 +68,12 @@
                     <JCB>
                         <code>JCB</code>
                         <name>JCB</name>
+                        <order>50</order>
                     </JCB>
                     <DICL>
                         <code>DICL</code>
                         <name>Diners Club</name>
+                        <order>60</order>
                     </DICL>
                 </types>
             </cc>
