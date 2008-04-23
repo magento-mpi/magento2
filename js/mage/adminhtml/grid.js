@@ -143,7 +143,7 @@ varienGrid.prototype = {
                 this.containerId,
                 url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
                 {
-                    onComplete:this.initGrid.bind(this),
+                    onComplete:this._processComplete.bind(this),
                     onFailure:this._processFailure.bind(this),
                     evalScripts:true,
                     parameters:this.reloadParams || {},
@@ -160,6 +160,22 @@ varienGrid.prototype = {
             }
             location.href = url;
         }
+    },
+    _processComplete : function(transport){
+        console.log(transport);
+        if (transport && transport.responseText){
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) {
+                response = {};
+            }
+        }
+        if (response.ajaxExpired && response.ajaxRedirect) {
+            location.href = response.ajaxRedirect;
+            return false;
+        }
+        this.initGrid();
     },
     _processFailure : function(transport){
         location.href = BASE_URL;
