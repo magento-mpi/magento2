@@ -86,10 +86,20 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
         try {
             $productIds = array();
-            foreach ($this->_getHelper()->getProducts() as $product) {
+            $product = Mage::getModel('catalog/product');
+
+            foreach ($this->_getHelper()->getProductIds() as $productId) {
+                $product->setData(array());
+                if ($stockItem = $product->getStockItem()) {
+                    $stockItem->setData(array());
+                }
                 $product->setStoreId($this->_getHelper()->getSelectedStoreId())
-                    ->load($product->getId())
+                    ->load($productId)
                     ->addData($data);
+
+                if (!$product->getId()) {
+                    continue;
+                }
 
                 $product->save();
                 $productIds[] = $product->getId();
@@ -107,7 +117,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
             $this->_getSession()->addSuccess(
                 $this->__('Total of %d record(s) were successfully updated',
-                count($this->_getHelper()->getProducts()))
+                count($productIds))
             );
         }
         catch (Mage_Core_Exception $e) {
