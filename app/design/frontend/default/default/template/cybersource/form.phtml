@@ -33,7 +33,7 @@
                 <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]" class="required-entry validate-cybsersource-cc-type-select">
                 <?php $_ccType = $this->getInfoData('cc_type') ?>
                 <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
-                    <option value="<?php echo $_typeCode ?>"<?php if($_typecode==$_cctype): ?> selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
+                    <option value="<?php echo $_typeCode ?>" <?php if($_typeCode==$_ccType): ?>selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
                 <?php endforeach ?>
                 </select>
             </div>
@@ -50,13 +50,13 @@
                 <select id="<?php echo $_code ?>_expiration" style="width:140px;" name="payment[cc_exp_month]" class="required-entry">
                 <?php $_ccExpMonth = $this->getInfoData('cc_exp_month') ?>
                 <?php foreach ($this->getCcMonths() as $k=>$v): ?>
-                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccexpmonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                    <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccExpMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
                 <?php endforeach ?>
                 </select>
                 <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
                 <select id="<?php echo $_code ?>_expiration_yr" style="width:103px;" name="payment[cc_exp_year]" class="required-entry">
                 <?php foreach ($this->getCcYears() as $k=>$v): ?>
-                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccexpyear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                    <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccExpYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
                 <?php endforeach ?>
                 </select>
             </div>
@@ -72,13 +72,13 @@
                  <select id="<?php echo $_code ?>_start_month" style="width:140px;" name="payment[cc_ss_start_month]" class="validate-cybersource-cc-ss">
                  <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
                  <?php foreach ($this->getCcMonths() as $k=>$v): ?>
-                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccstartmonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                    <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
                  <?php endforeach ?>
                  </select>
                  <select id="<?php echo $_code ?>_start_year" style="width:103px;" name="payment[cc_ss_start_year]" class="validate-cybersource-cc-ss">
                  <?php $_ccStartYear = $this->getInfoData('cc_ss_start_year') ?>
                  <?php foreach ($this->getSsStartYears() as $k=>$v): ?>
-                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccstartyear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                    <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
                  <?php endforeach ?>
                  </select>
                 </li>
