@@ -37,7 +37,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_canCapturePartial       = false;
     protected $_canRefund               = false;
     protected $_canVoid                 = false;
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 

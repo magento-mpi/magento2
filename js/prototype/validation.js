@@ -450,7 +450,8 @@ Validation.addAllThese([
     ['validate-cc-number', 'Please enter a valid credit card number.', function(v, elm) {
                 // remove non-numerics
                 var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');
-                if (ccTypeContainer && (ccTypeContainer.value == 'OT' || ccTypeContainer.value == 'SS')) {
+                if (ccTypeContainer && typeof Validation.creditCartTypes[ccTypeContainer.value] != 'undefined'
+                        && Validation.creditCartTypes[ccTypeContainer.value][2] == false) {
                     if (!Validation.get('IsEmpty').test(v) && Validation.get('validate-digits').test(v)) {
                         return true;
                     } else {
@@ -470,26 +471,19 @@ Validation.addAllThese([
                 }
                 var ccType = ccTypeContainer.value;
 
-                if (typeof Validation.creaditCartTypes[ccType] == 'undefined') {
+                if (typeof Validation.creditCartTypes[ccType] == 'undefined') {
                     return false;
                 }
 
                 // Other card type or switch or solo card
-                if (Validation.creaditCartTypes[ccType][0]==false) {
+                if (Validation.creditCartTypes[ccType][0]==false) {
                     return true;
                 }
 
-                // Credit card type detecting regexp
-                var ccTypeRegExp = {
-                    'VI': new RegExp('^4[0-9]{12}([0-9]{3})?$'),
-                    'MC': new RegExp('^5[1-5][0-9]{14}$'),
-                    'AE': new RegExp('^3[47][0-9]{13}$'),
-                    'DI': new RegExp('^6011[0-9]{12}$')
-                };
-
                 // Matched credit card type
                 var ccMatchedType = '';
-                Validation.creaditCartTypes.each(function (pair) {
+
+                Validation.creditCartTypes.each(function (pair) {
                     if (pair.value[0] && v.match(pair.value[0])) {
                         ccMatchedType = pair.key;
                         throw $break;
@@ -513,11 +507,11 @@ Validation.addAllThese([
                 }
                 var ccType = ccTypeContainer.value;
 
-                if (typeof Validation.creaditCartTypes[ccType] == 'undefined') {
+                if (typeof Validation.creditCartTypes[ccType] == 'undefined') {
                     return false;
                 }
 
-                var re = Validation.creaditCartTypes[ccType][1];
+                var re = Validation.creditCartTypes[ccType][1];
 
                 if (v.match(re)) {
                     return true;
@@ -594,11 +588,19 @@ function parseNumber(v)
     return parseFloat(v);
 }
 
-Validation.creaditCartTypes = $H({
-    'VI': [new RegExp('^4[0-9]{12}([0-9]{3})?$'), new RegExp('^[0-9]{3}$')],
-    'MC': [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$')],
-    'AE': [new RegExp('^3[47][0-9]{13}$'), new RegExp('^[0-9]{4}$')],
-    'DI': [new RegExp('^6011[0-9]{12}$'), new RegExp('^[0-9]{3}$')],
-    'OT': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$')],
-    'SS': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$')]
+/**
+ * Hash with credit card types wich can be simply extended in payment modules
+ * 0 - regexp for card number
+ * 1 - regexp for cvn
+ * 2 - check or not credit card number trough Luhn algorithm by
+ *     function validateCreditCard wich you can find above in this file
+ */
+
+Validation.creditCartTypes = $H({
+    'VI': [new RegExp('^4[0-9]{12}([0-9]{3})?$'), new RegExp('^[0-9]{3}$'), true],
+    'MC': [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$'), true],
+    'AE': [new RegExp('^3[47][0-9]{13}$'), new RegExp('^[0-9]{4}$'), true],
+    'DI': [new RegExp('^6011[0-9]{12}$'), new RegExp('^[0-9]{3}$'), true],
+    'OT': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$'), false],
+    'SS': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$'), false]
 });
