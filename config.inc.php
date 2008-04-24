@@ -61,6 +61,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/checkout/',
     ),
 
+    'Mage_Chronopay' => array(
+        'app/code/core/Mage/Chronopay/',
+        'app/design/frontend/default/default/template/chronopay/',
+    ),
+
     'Mage_Cms' => array(
         'app/code/core/Mage/Cms/',
         'app/design/frontend/default/default/template/cms/',
@@ -257,6 +262,7 @@ $CONFIG['helpers']  = array(
     'catalogrule'       => 'Mage_CatalogRule',
     'catalogsearch'     => 'Mage_CatalogSearch',
     'checkout'          => 'Mage_Checkout',
+    'chronopay'         => 'Mage_Chronopay',
     'cms'               => 'Mage_Cms',
     'contacts'          => 'Mage_Contacts',
     'core'              => 'Mage_Core',
