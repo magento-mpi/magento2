@@ -76,7 +76,19 @@
         </template>
    </global>
 
-   <frontend>
+    <adminhtml>
+      <translate>
+        <modules>
+            <Mage_Sendfriend>
+                <files>
+                    <default>Mage_Sendfriend.csv</default>
+                </files>
+            </Mage_Sendfriend>
+        </modules>
+      </translate>
+    </adminhtml>
+    
+    <frontend>
       <events>
           <catalog_controller_product_view>
               <observers>
