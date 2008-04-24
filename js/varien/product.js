@@ -24,8 +24,7 @@ Product.Zoom = Class.create();
 /**
  * Image zoom control
  *
- * @license
- * @author Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 Product.Zoom.prototype = {
     initialize: function(imageEl, trackEl, handleEl, zoomInEl, zoomOutEl){

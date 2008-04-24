@@ -54,7 +54,7 @@ checkMagicQuotes();
 /**
  * Main Mage hub class
  *
- * @author Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 final class Mage {
     /**
@@ -81,7 +81,7 @@ final class Mage {
 
     public static function getVersion()
     {
-        return '1.0.19425';
+        return '1.0.19450';
     }
 
     /**

@@ -14,14 +14,12 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+
 /**
  * JavaScript classes for bundle products
  *
- * @package     Adminhtml
- * @subpackage  Bundle
- * @copyright   Varien (c) 2007 (http://www.varien.com)
- * @license     http://www.opensource.org/licenses/osl-3.0.php
- * @author      Ivan Chepurnyi <mitch@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 if(typeof Bundle == 'undefined') {
     Bundle = {};
@@ -34,17 +32,17 @@ Bundle.Tabs.prototype = {
         this.destElementId  = destElementId;
         this.addTemplate = new Template($(addTemplateId).innerHTML.replace(/_id_/g, "#{id}").replace(/_url_/g, "#{url}"));
         this.activeTab = null;
-        
+
         this.tabOnClick     = this.tabMouseClick.bindAsEventListener(this);
-        
+
         this.tabs = $$('#'+this.containerId+' li a.option-item-link');
-                
+
         this.hideAllTabsContent();
         for(var tab in this.tabs){
         	Event.observe(this.tabs[tab],'click',this.tabOnClick);
             // move tab contents to destination element
             if($(this.destElementId)){
-                var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));               
+                var tabContentElement = $(this.getTabContentElementId(this.tabs[tab]));
                 if(tabContentElement && tabContentElement.parentNode.id != this.destElementId){
                 	$(this.destElementId).appendChild(tabContentElement);
                     tabContentElement.container = this;
@@ -68,11 +66,11 @@ Bundle.Tabs.prototype = {
                 }
             }
         }
-        
+
         this.showTabContent($(activeTabId));
         Event.observe(window,'load',this.moveTabContentInDest.bind(this));
     },
-    
+
     moveTabContentInDest : function(){
         for(var tab in this.tabs){
             if($(this.destElementId) &&  !this.tabs[tab].contentMoved){
@@ -100,24 +98,24 @@ Bundle.Tabs.prototype = {
             }
         }
     },
-    
-    
-    
+
+
+
     getTabContentElementId : function(tab){
         if(tab){
             return tab.id+'_content';
         }
         return false;
     },
-    
+
     tabMouseClick : function(event){
         var tab = Event.findElement(event, 'a');
-        
+
         if(tab.href.indexOf('#') != tab.href.length-1 && !tab.ajaxLoaded){
         	var options = {};
         	if(tab.parameters) {
         		options.parameters = tab.parameters;
-        	}        	
+        	}
         	options.evalScripts = true;
         	new Ajax.Updater(this.getTabContentElementId(tab), tab.href, options);
         	this.showTabContent(tab);
@@ -126,16 +124,16 @@ Bundle.Tabs.prototype = {
         else {
             this.showTabContent(tab);
         }
-        
+
         Event.stop(event);
     },
-    
+
     hideAllTabsContent : function(){
         for(var tab in this.tabs){
             this.hideTabContent(this.tabs[tab]);
         }
     },
-    
+
     showTabContent : function(tab){
         this.hideAllTabsContent();
         var tabContentElement = $(this.getTabContentElementId(tab));
@@ -144,16 +142,16 @@ Bundle.Tabs.prototype = {
             Element.addClassName(tab, 'active');
             this.activeTab = tab;
         }
-        
+
     },
-    
+
     hideTabContent : function(tab){
         var tabContentElement = $(this.getTabContentElementId(tab));
         if($(this.destElementId) && tabContentElement){
            Element.hide(tabContentElement);
            Element.removeClassName(tab, 'active');
         }
-      
+
     },
     addTab		: function(options) {
     	options.id = this.getUniqueId();
@@ -163,12 +161,12 @@ Bundle.Tabs.prototype = {
     	if(!options.content) {
     		options.content = '';
     	}
-    	
+
     	var tabHtml = this.addTemplate.evaluate(options);
     	new Insertion.Bottom(this.containerId, tabHtml);
-    	
+
     	this.tabs.push($(options.id));
-    	
+
     	Event.observe(options.id,'click',this.tabOnClick);
     	this.moveTabContentInDest();
     	return this.tabs[this.tabs.length-1];
@@ -177,8 +175,8 @@ Bundle.Tabs.prototype = {
     	if (!this.uniqueCount) {
     		this.uniqueCount = 1;
     	} else {
-    		this.uniqueCount++;	
-    	}    	
+    		this.uniqueCount++;
+    	}
     	return this.containerId + '_tab_' + this.uniqueCount;
     }
 }
@@ -192,12 +190,12 @@ Bundle.Options.prototype = {
 		this.fieldId = fieldId;
 		this.container = $(this.containerId);
 		this.field = $(this.fieldId);
-		
+
 		this.addTemplate = new Template($(addTemplateHtmlId).innerHTML.replace(/new__id__/g, "#{id}").replace(/ disabled="no-validation"/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"'));
 		this.validItemsField = $(addTemplateHtmlId + '_count_of_items');
         this.gridUrl = gridUrl;
 		this.tabObject = tabObject;
-		this.updateInput();		
+		this.updateInput();
 	},
 	addItem: function(optionId, label, position, products) {
 		if(label.blank()) {
@@ -209,7 +207,7 @@ Bundle.Options.prototype = {
 			position: parseInt(position),
 			index: this.options.length
 		};
-		
+
 		var optionHtml = this.addTemplate.evaluate(templateVars);
 		new Insertion.Bottom(this.containerId, optionHtml);
 		var option = $(templateVars.id);
@@ -237,14 +235,14 @@ Bundle.Options.prototype = {
 	updateGrid: function(option) {
 		option.tab.parameters = {};
 		if(option.optionId) {
-			option.tab.parameters.option = option.optionId;			
+			option.tab.parameters.option = option.optionId;
 		}
-		
+
 		option.tab.parameters['products[]'] = $H(option.products).keys();
 		option.tab.parameters.gridId = 'link_grid_' + this.options.indexOf(option);
 		option.tab.parameters.jsController = this.jsController;
 		option.tab.parameters.index = this.options.indexOf(option);
-		
+
 		if(option.grid) {
 			option.grid.reloadParams = option.tab.parameters;
 		}
@@ -269,17 +267,17 @@ Bundle.Options.prototype = {
 				});
 			}
 		});
-		
+
 		return result.toJSON();
 	},
-	getInputValueByCss: function(css, elem) 
+	getInputValueByCss: function(css, elem)
 	{
 		var inputs = elem.getElementsByClassName(css);
-		
+
 		if(inputs.length == 0) {
 			return '';
 		}
-		
+
 		return inputs[0].value;
 	},
 	deleteItem: function(index) {
@@ -292,8 +290,8 @@ Bundle.Options.prototype = {
     	if (!this.uniqueCount) {
     		this.uniqueCount = 1;
     	} else {
-    		this.uniqueCount++;	
-    	}    	
+    		this.uniqueCount++;
+    	}
     	return this.containerId + '_option_' + this.uniqueCount;
     },
     initGrid:  function(index, grid) {
@@ -330,7 +328,7 @@ Bundle.Options.prototype = {
             grid.option.products.remove(element.value);
         }
         this.updateGrid(grid.option);
-        this.updateInput();        
+        this.updateInput();
 	},
 	rowClick: function(grid, event) {
 		var trElement = Event.findElement(event, 'tr');

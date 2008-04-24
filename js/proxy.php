@@ -25,7 +25,7 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @author      Moshe Gurvich <moshe@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 // no files specified return 404
