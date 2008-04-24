@@ -433,6 +433,7 @@ select optgroup option          { padding-left:10px; }
 /* Form Button */
 .content-buttons.form-buttons,
 .content-header .form-buttons   { text-align:right; white-space:nowrap; margin-bottom:0px; }
+.content-header .content-buttons-placeholder { display:inline!important; }
 .content-header .form-buttons   { float:right; }
 .content-header td.form-buttons   { float:none; }
 .content-header .form-buttons button { margin-bottom:3px; }
@@ -691,8 +692,8 @@ div.autocomplete ul li {
 .content-header h3              { float:left; margin:.3em .5em 0 0; color:#eb5e00; font-size:1.25em; line-height:1.2em; }
 .content-header .head h3        { float:none; }
 .content-header .button-set     { white-space:nowrap; text-align:right; }
-.content-header .content-buttons  {white-space:nowrap!important; margin:0;}
-.content-header td.content-buttons  {width:13%;white-space:nowrap!important; margin:0;}
+.content-header .content-buttons  { white-space:nowrap!important; margin:0; }
+.content-header td.content-buttons  { width:13%;white-space:nowrap!important; margin:0; }
 .content-buttons button,
 .content-header button,
 .filter-actions button          { margin:0 0 0 5px; }
