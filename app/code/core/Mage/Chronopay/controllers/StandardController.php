@@ -53,8 +53,6 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     {
         if ($this->_order == null) {
             $session = Mage::getSingleton('checkout/session');
-            $session->setChronopayStandardQuoteId($session->getQuoteId());
-
             $this->_order = Mage::getModel('sales/order');
             $this->_order->loadByIncrementId($session->getLastRealOrderId());
         }
@@ -95,7 +93,8 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     public function  successAction()
     {
         $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getChronopayStandardQuoteId(true));
+        $session->setQuoteId($session->getChronopayStandardQuoteId());
+        $session->unsChronopayStandardQuoteId();
 
         $order = $this->getOrder();
 
@@ -126,28 +125,28 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId(Mage::helper('core')->decrypt($postData['cs1']));
+        if ($order->getId()) {
+            $result = $order->getPayment()->getMethodInstance()->setOrder($order)->validateResponse($postData);
 
-        $result = $order->getPayment()->getMethodInstance()->setOrder($order)->validateResponse($postData);
-
-        if ($result instanceof Exception) {
-            if ($order->getId()) {
-                $order->addStatusToHistory(
-                    $order->getStatus(),
-                    $result->getMessage()
-                );
-                $order->cancel();
-                $order->save();
+            if ($result instanceof Exception) {
+                if ($order->getId()) {
+                    $order->addStatusToHistory(
+                        $order->getStatus(),
+                        $result->getMessage()
+                    );
+                    $order->cancel();
+                }
+                Mage::throwException($result->getMessage());
+                return;
             }
-            Mage::throwException($result->getMessage());
-            return;
-        }
 
-        $order->sendNewOrderEmail();
+            $order->sendNewOrderEmail();
 
-        $order->getPayment()->getMethodInstance()->setTransactionId($postData['transaction_id']);
+            $order->getPayment()->getMethodInstance()->setTransactionId($postData['transaction_id']);
 
-        if ($this->saveInvoice($order)) {
-            $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+            if ($this->saveInvoice($order)) {
+                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+            }
             $order->save();
         }
     }

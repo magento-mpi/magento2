@@ -28,7 +28,7 @@
             <sort_order>500</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
-            <show_in_store>0</show_in_store>
+            <show_in_store>1</show_in_store>
             <groups>
                 <standard translate="label comment">
                     <label>ChronoPay Standard</label>
@@ -45,7 +45,7 @@
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </site_id>
                         <product_id translate="label">
                             <label>Product ID</label>
@@ -53,7 +53,7 @@
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </product_id>
                         <currency translate="label">
                             <label>Accepted currency</label>
@@ -71,7 +71,7 @@
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </language>
                         <debug_flag translate="label">
                             <label>Debug</label>

@@ -106,7 +106,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getSuccessURL ()
     {
-        return Mage::getUrl('chronopay/standard/success');
+        return Mage::getUrl('chronopay/standard/success', array('_secure' => true));
     }
 
     /**
@@ -116,7 +116,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getNotificationURL ()
     {
-        return Mage::getUrl('chronopay/standard/notify');
+        return Mage::getUrl('chronopay/standard/notify', array('_secure' => true));
     }
 
     /**
@@ -126,7 +126,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getFailureURL ()
     {
-        return Mage::getUrl('chronopay/standard/failure');
+        return Mage::getUrl('chronopay/standard/failure', array('_secure' => true));
     }
 
     /**
@@ -178,20 +178,28 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $transDescription = Mage::helper('chronopay')->__('Order #%s', $order->getRealOrderId());
         }
 
+        if ($order->getCustomerEmail()) {
+            $email = $order->getCustomerEmail();
+        } elseif ($billingAddress->getEmail()) {
+            $email = $billingAddress->getEmail();
+        } else {
+            $email = '';
+        }
+
         $fields = array(
                         'product_id'       => $this->getConfig()->getProductId(),
                         'product_name'     => $transDescription,
                         'product_price'    => $order->getBaseGrandTotal(),
                         'language'         => $this->getConfig()->getLanguage(),
-                        'f_name'           => $order->getCustomerFirstname(),
-                        's_name'           => $order->getCustomerLastname(),
+                        'f_name'           => $billingAddress->getFirstname(),
+                        's_name'           => $billingAddress->getLastname(),
                         'street'           => $street,
                         'city'             => $billingAddress->getCity(),
                         'state'            => $billingAddress->getRegionModel()->getCode(),
                         'zip'              => $billingAddress->getPostcode(),
                         'country'          => $billingAddress->getCountryModel()->getIso3Code(),
                         'phone'            => $billingAddress->getTelephone(),
-                        'email'            => $order->getCustomerEmail(),
+                        'email'            => $email,
                         'cb_url'           => $this->getNotificationURL(),
                         'cb_type'          => 'P', // POST method used (G - GET method)
                         'decline_url'      => $this->getFailureURL(),
@@ -202,7 +210,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
              Mage::getModel('chronopay/api_debug')
                 ->setRequestBody($this->getChronopayUrl()."\n".print_r($fields,1))
                 ->save();
-       }
+        }
 
         return $fields;
     }
@@ -251,6 +259,4 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             return $e;
         }
     }
-
-
 }

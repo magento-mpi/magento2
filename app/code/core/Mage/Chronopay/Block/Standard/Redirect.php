@@ -21,9 +21,9 @@
 /**
  * Redirect to Chronopay
  *
- * @category   Mage
- * @package    Mage_Chronopay
- * @name       Mage_Chronopay_Block_Standard_Redirect
+ * @category    Mage
+ * @package     Mage_Chronopay
+ * @name        Mage_Chronopay_Block_Standard_Redirect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

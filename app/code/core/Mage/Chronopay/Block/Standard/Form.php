@@ -21,9 +21,9 @@
 /**
  * Form Block
  *
- * @category   Mage
- * @package    Mage_Chronopay
- * @name       Mage_Chronopay_Block_Standard_Form
+ * @category    Mage
+ * @package     Mage_Chronopay
+ * @name        Mage_Chronopay_Block_Standard_Form
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
