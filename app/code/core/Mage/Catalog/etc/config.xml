@@ -101,10 +101,6 @@
                     </product_attribute_media_gallery_image>
                 </entities>
             </catalog_resource_eav_mysql4>
-
-            <catalog_mysql4>
-                <class>Mage_Catalog_Model_Mysql4</class>
-            </catalog_mysql4>
         </models>
         <resources>
             <catalog_setup>
