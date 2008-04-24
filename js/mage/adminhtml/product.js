@@ -486,7 +486,7 @@ Product.Configurable.prototype = {
 		return result;
 	},
 	updateGrid: function () {
-		this.grid.reloadParams = {'products[]':this.links.keys(), 'new_products[]':this.newProducts};
+		this.grid.reloadParams = {'products[]':this.links.keys().size() ? this.links.keys() : [0], 'new_products[]':this.newProducts};
 	},
 	updateValues: function () {
 		var uniqueAttributeValues = $H({});
