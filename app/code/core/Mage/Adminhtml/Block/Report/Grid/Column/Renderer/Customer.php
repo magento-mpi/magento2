@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Customer
      */
     public function render(Varien_Object $row)
     {
-        $id   = $row->getId();
+        $id   = $row->getCustomerId();
         $name = $row->getData($this->getColumn()->getIndex());
 
         if (!$id) {
