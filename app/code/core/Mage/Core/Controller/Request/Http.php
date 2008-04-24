@@ -59,7 +59,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
                 $p = explode('/', trim($this->getPathInfo(), '/'));
                 $storeCode = $p[0];
 
-                $stores = Mage::app()->getStores(false, true);
+                $stores = Mage::app()->getStores(true, true);
 
                 if ($storeCode !== '' && isset($stores[$storeCode])) {
                     array_shift($p);
@@ -110,7 +110,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             if (Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
                 $p = explode('/', ltrim($pathInfo, '/'), 2);
                 $storeCode = $p[0];
-                $stores = Mage::app()->getStores(false, true);
+                $stores = Mage::app()->getStores(true, true);
                 if ($storeCode!=='' && isset($stores[$storeCode])) {
                     Mage::app()->setCurrentStore($storeCode);
                     $pathInfo = '/'.(isset($p[1]) ? $p[1] : '');
