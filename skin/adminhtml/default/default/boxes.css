@@ -1061,6 +1061,10 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 *******************************************************************************/
 .template-preview           { width: 100%; height: 200px; background-color: #FFFFFF; }
 
+/* CUSTOMER
+*******************************************************************************/
+.cms-edit-form .form-list { width:100%; }
+.cms-edit-form .form-list td.value { width:auto; }
 
 
 /* SYSTEM
