@@ -385,7 +385,10 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         $fields = $this->_getWriteAdapter()->describeTable($this->getMainTable());
         foreach (array_keys($fields) as $field) {
             $fieldValue = $object->getData($field);
-        	if (!is_null($fieldValue)) {
+            if ($fieldValue instanceof Zend_Db_Expr) {
+                $data[$field] = $fieldValue;
+            }
+        	elseif (!is_null($fieldValue)) {
         	    $data[$field] = $this->_prepareValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
         	}
         }
