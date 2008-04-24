@@ -27,7 +27,13 @@ $installer->updateAttribute('catalog_category', 'is_active', 'backend_type', 'in
 
 $categoryIntTable = $installer->getTable('catalog_category_entity_int');
 $categoryTable = $installer->getTable('catalog_category_entity');
-$installer->run("
-    REPLACE INTO `{$categoryIntTable}` (`entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`)
-    SELECT {$entityTypeId}, {$attributeId}, 0, entity_id, is_active FROM `{$categoryTable}`
-");
+$attributesCount = $installer->getConnection()->fetchOne("SELECT count(*) FROM `{$categoryIntTable}` WHERE attribute_id='{$attributeId}'");
+$valueId = $installer->getConnection()->fetchOne("SELECT MAX(value_id) FROM `{$categoryIntTable}`");
+if (!$attributesCount) {
+    $data = $installer->getConnection()->fetchAll("SELECT {$entityTypeId} as entity_type_id, {$attributeId} as attribute_id, 0 as store_id, entity_id, is_active as value FROM `{$categoryTable}`");
+    foreach ($data as $row) {
+        $row['value_id'] = ++$valueId;
+        $data = $installer->getConnection()->insert($categoryIntTable, $row);
+    }
+}
+
