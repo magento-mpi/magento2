@@ -144,10 +144,10 @@ final class Maged_Controller
     public static function run()
     {
         try {
+            throw new Exception("TESTING");
             self::singleton()->dispatch();
         } catch (Exception $e) {
-            self::singleton()->session()->addMessage('error', $e->getMessage());
-
+            echo self::singleton()->view()->set('exception', $e)->template("exception.phtml");
         }
     }
 
