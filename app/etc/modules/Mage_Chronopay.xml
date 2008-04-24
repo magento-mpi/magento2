@@ -24,6 +24,9 @@
         <Mage_Chronopay>
             <active>true</active>
             <codePool>core</codePool>
+            <depends>
+                <Mage_Payment/>
+            </depends>
         </Mage_Chronopay>
     </modules>
 </config>
