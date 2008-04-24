@@ -78,7 +78,7 @@ Category default layout
                         <action method="addPagerLimit"><mode>list</mode><limit>4</limit></action>
                         <action method="addPagerLimit"><mode>list</mode><limit>6</limit></action>
                         <action method="addPagerLimit"><mode>list</mode><limit>8</limit></action>
-                        <action method="addPagerLimit"><mode>list</mode><limit>all</limit><label>All</label></action>
+                        <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
                     </block>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
                 </block>
@@ -104,7 +104,7 @@ Category layered navigation layout
                         <action method="addPagerLimit"><mode>list</mode><limit>4</limit></action>
                         <action method="addPagerLimit"><mode>list</mode><limit>6</limit></action>
                         <action method="addPagerLimit"><mode>list</mode><limit>8</limit></action>
-                        <action method="addPagerLimit"><mode>list</mode><limit>all</limit><label>All</label></action>
+                        <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
                     </block>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
                 </block>
