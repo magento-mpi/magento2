@@ -214,23 +214,44 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     public function getDefaultPerPageValue()
     {
         if ($this->getCurrentMode() == 'list') {
+            if ($default = $this->getDefaultListPerPage()) {
+                return $default;
+            }
             return Mage::getStoreConfig('catalog/frontend/list_per_page');
         }
         elseif ($this->getCurrentMode() == 'grid') {
+            if ($default = $this->getDefaultGridPerPage()) {
+                return $default;
+            }
             return Mage::getStoreConfig('catalog/frontend/grid_per_page');
         }
         return 0;
     }
 
+    public function addPagerLimit($mode, $value, $label='')
+    {
+        if (!isset($this->_availableLimit[$mode])) {
+            $this->_availableLimit[$mode] = array();
+        }
+        $this->_availableLimit[$mode][$value] = empty($label) ? $value : $label;
+        return $this;
+    }
+
     public function getAvailableLimit()
     {
         if ($this->getCurrentMode() == 'list') {
+            if (isset($this->_availableLimit['list'])) {
+                return $this->_availableLimit['list'];
+            }
             $perPageValues = (string)Mage::getStoreConfig('catalog/frontend/list_per_page_values');
             $perPageValues = explode(',', $perPageValues);
             $perPageValues = array_combine($perPageValues, $perPageValues);
             return ($perPageValues + array('all'=>$this->__('All')));
         }
         elseif ($this->getCurrentMode() == 'grid') {
+            if (isset($this->_availableLimit['grid'])) {
+                return $this->_availableLimit['grid'];
+            }
             $perPageValues = (string)Mage::getStoreConfig('catalog/frontend/grid_per_page_values');
             $perPageValues = explode(',', $perPageValues);
             $perPageValues = array_combine($perPageValues, $perPageValues);
@@ -243,7 +264,9 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         $limits = $this->getAvailableLimit();
         if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
-            return $limit;
+            if (isset($limits[$limit])) {
+                return $limit;
+            }
         }
         if ($limit = $this->getDefaultPerPageValue()) {
             if (isset($limits[$limit])) {
