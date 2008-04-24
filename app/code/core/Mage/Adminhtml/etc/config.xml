@@ -174,7 +174,7 @@
                         </children>
                     </acl>
                     <extensions translate="title" module="adminhtml">
-                        <title>Magento Extensions</title>
+                        <title>Magento Connect</title>
                         <children>
                             <local translate="title" module="adminhtml">
                                 <title>Manage Extensions</title>
@@ -344,16 +344,16 @@
                                     <title>Cache Management</title>
                                 </cache>
                                 <extensions>
-                                    <title>Extensions</title>
+                                    <title>Magento Connect</title>
                                     <children>
                                         <local>
-                                            <title>Locally Installed</title>
+                                            <title>Manage Extensions</title>
                                         </local>
                                         <remote>
                                             <title>Available Remote</title>
                                         </remote>
                                         <custom>
-                                            <title>Custom Local</title>
+                                            <title>Package Extensions</title>
                                         </custom>
                                         <config>
                                             <title>PEAR Configuration</title>
