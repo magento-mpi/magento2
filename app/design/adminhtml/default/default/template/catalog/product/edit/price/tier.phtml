@@ -21,7 +21,7 @@
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
 <?php $_htmlName    = $this->getElement()->getName() ?>
-<?php $_multiWebsite= $this->getWebsiteCount()>1; ?>
+<?php $_multiWebsite= $this->isMultiWebsites(); ?>
 <tr>
     <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
     <td colspan="10" class="grid tier">

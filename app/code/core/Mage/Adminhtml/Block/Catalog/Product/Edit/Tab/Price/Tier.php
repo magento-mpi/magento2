@@ -106,6 +106,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         return count($this->getWebsites());
     }
 
+    public function isMultiWebsites()
+    {
+        return !Mage::app()->isSingleStoreMode();
+    }
+
     public function getWebsites()
     {
         if (!is_null($this->_websites)) {
