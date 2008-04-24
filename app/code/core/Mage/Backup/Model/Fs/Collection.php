@@ -169,10 +169,12 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
                     if ($field == 'time_formated') {
                         $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
                         if (isset($condition['from'])) {
-                            $condition['from'] = Mage::app()->getLocale()->date($condition['from'], $format)->getTimestamp();
+                            $condition['from'] = Mage::app()->getLocale()->date($condition['from'], $format)->getTimestamp()
+                                + Mage::app()->getLocale()->date($condition['from'], $format)->getGmtOffset();
                         }
                         if (isset($condition['to'])) {
-                            $condition['to'] = Mage::app()->getLocale()->date($condition['to'], $format)->getTimestamp();
+                            $condition['to'] = Mage::app()->getLocale()->date($condition['to'], $format)->getTimestamp()
+                                + Mage::app()->getLocale()->date($condition['to'], $format)->getGmtOffset();
                         }
                         $field = 'time';
                     }
