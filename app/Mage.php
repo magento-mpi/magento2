@@ -21,7 +21,6 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
-define('DEVELOPER_MODE', TRUE);
 
 /**
  * Error reporting
@@ -77,6 +76,8 @@ final class Mage {
     static private $_objects;
 
     static private $_isDownloader = false;
+
+    static private $_isDeveloperMode = false;
 
     public static function getVersion()
     {
@@ -439,18 +440,16 @@ final class Mage {
                 exit();
             }
             try {
-                self::dispatchEvent('mage_run_exception', array('exception'=>$e));
+                self::dispatchEvent('mage_run_exception', array('exception' => $e));
                 if (!headers_sent()) {
-                    //header('Location:'.Mage::getBaseUrl().'install/');
                     header('Location:'.self::getUrl('install'));
                 }
                 else {
                     self::printException($e);
                 }
             }
-            catch (Exception $ne){
-                self::printException($e);
-                self::printException($ne);
+            catch (Exception $ne) {
+                self::printException($ne, $e->getMessage());
             }
         }
     }
@@ -521,36 +520,72 @@ final class Mage {
     }
 
     /**
+     * Set enabled developer mode
+     *
+     * @param bool $mode
+     * @return bool
+     */
+    public static function setIsDeveloperMode($mode)
+    {
+        self::$_isDeveloperMode = (bool)$mode;
+        return self::$_isDeveloperMode;
+    }
+
+    /**
+     * Retrieve enabled developer mode
+     *
+     * @return bool
+     */
+    public static function getIsDeveloperMode()
+    {
+        return self::$_isDeveloperMode;
+    }
+
+    /**
      * Display exception
      *
      * @param Exception $e
      */
     public static function printException(Exception $e, $extra = '')
     {
-        ob_start();
-        mageSendErrorHeader();
-        if ($extra != '') {
-            echo $extra."\n";
-        }
-        echo $e->getMessage();
-        mageSendErrorFooter();
-        $trace = ob_get_clean();
-	#exit;
-        if ( DEVELOPER_MODE ) {
-            echo '<pre>'.$e.'</pre>';
-        } else {
-            $file = microtime(true)*100;
-            $traceFile = Mage::getBaseDir('var').DS.$file;
-            file_put_contents($traceFile, $trace);
-            chmod($traceFile, 0777);
-            $url = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'report?id='.$file.'&s='.Mage::app()->getStore()->getCode();
-            if (!headers_sent()) {
-                header('Location: '.$url);
-            } else {
-                echo "<script type='text/javascript'>location.href='".$url."'</script>";
+        if (self::$_isDeveloperMode) {
+            print '<pre>';
+
+            if (!empty($extra)) {
+                print $extra . "\n\n";
             }
-            die;
+
+            print $e->getMessage() . "\n\n";
+            print $e->getTraceAsString();
+            print '</pre>';
         }
+        else {
+            self::getConfig()->createDirIfNotExists(self::getBaseDir('var') . DS . 'report');
+            $reportId   = intval(microtime(true) * rand(100, 1000));
+            $reportFile = self::getBaseDir('var') . DS . 'report' . DS . $reportId;
+            $reportData = array(
+                !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
+                $e->getTraceAsString()
+            );
+            $reportData = serialize($reportData);
+
+            file_put_contents($reportFile, $reportData);
+            chmod($reportFile, 0777);
+
+            $reportUrl = dirname($_SERVER['SCRIPT_NAME']) . '/report/?id='
+                . $reportId . '&s=' . self::app()->getStore()->getCode();
+
+            if (!headers_sent()) {
+                header('Location: ' . $reportUrl);
+            }
+            else {
+                print '<script type="text/javascript">';
+                print "window.location.href = '{$reportUrl}';";
+                print '</script>';
+            }
+        }
+
+        die();
     }
 
 
