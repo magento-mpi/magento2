@@ -111,7 +111,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
         * position is not eav attributes so we cannot use default attributes to sort
         */
         if ($attribute == 'position') {
-            $this->getSelect()->order('links.' . $attribute.' '.$dir);
+            $this->getSelect()->order($attribute.' '.$dir);
         }
         else {
         	parent::addAttributeToSort($attribute, $dir);
