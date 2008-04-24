@@ -316,7 +316,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $this->_commitInsert('catalogindex/minimal_price');
     }
 
-    protected function _getMinimalPrices($products, $store)
+    protected function _getMinimalPrices($productsSql, $store)
     {
         $tierAttribute = $this->_getAttribute('tier_price', true);
         $priceAttribute = $this->_getAttribute('price', true);
@@ -324,13 +324,21 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $fields = array('customer_group_id', 'minimal_value'=>'MIN(value)');
         $priceAttributes = array($tierAttribute->getId(), $priceAttribute->getId());
 
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalogindex/price'), $fields)
-            ->where('entity_id in (?)', $products)
-            ->where('attribute_id in (?)', $priceAttributes)
-            ->where('store_id = ?', $store->getId())
-            ->group('customer_group_id');
-        return $this->_getReadAdapter()->fetchAll($select);
+        $productIds = $this->_getReadAdapter()->fetchAll($productsSql);
+
+        if (!empty($productIds)) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('base'=>$this->getTable('catalogindex/price')), $fields)
+                ->where('base.entity_id in (?)', $productIds)
+                ->where('base.attribute_id in (?)', $priceAttributes)
+                ->where('base.store_id = ?', $store->getId())
+                ->group('base.customer_group_id');
+            $data = $this->_getReadAdapter()->fetchAll($select);
+        }
+        else {
+            $data = array();
+        }
+        return $data;
     }
 
     public function reindexPrices($products, $attributeIds, $store)
