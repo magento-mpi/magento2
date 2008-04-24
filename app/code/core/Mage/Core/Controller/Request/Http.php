@@ -58,11 +58,17 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             if (Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
                 $p = explode('/', trim($this->getPathInfo(), '/'));
                 $storeCode = $p[0];
-                if ($storeCode!=='' && Mage::app()->getStore($storeCode)) {
+
+                $stores = Mage::app()->getStores(false, true);
+
+                if ($storeCode !== '' && isset($stores[$storeCode])) {
                     array_shift($p);
                     $this->setPathInfo(implode('/', $p));
                     $this->_storeCode = $storeCode;
                     Mage::app()->setCurrentStore($storeCode);
+                }
+                else {
+                    $this->_storeCode = Mage::app()->getStore()->getCode();
                 }
             } else {
                 $this->_storeCode = Mage::app()->getStore()->getCode();
@@ -104,9 +110,13 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             if (Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
                 $p = explode('/', ltrim($pathInfo, '/'), 2);
                 $storeCode = $p[0];
-                if ($storeCode!=='' && Mage::app()->getStore($storeCode)) {
+                $stores = Mage::app()->getStores(false, true);
+                if ($storeCode!=='' && isset($stores[$storeCode])) {
                     Mage::app()->setCurrentStore($storeCode);
                     $pathInfo = '/'.(isset($p[1]) ? $p[1] : '');
+                }
+                elseif ($storeCode !== '') {
+                    $this->setActionName('noRoute');
                 }
             }
 
