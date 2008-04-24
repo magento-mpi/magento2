@@ -66,7 +66,7 @@ if(!window.Flex) {
             );
 
             this.flex.onBridgeInit = this.handleBridgeInit.bind(this);
-            if (this.flex.detectFlashVersion(9, 0, 124)) {
+            if (this.flex.detectFlashVersion(9, 0, 28)) {
                 this.flex.apply(this.flexContainerId);
             } else {
                 this.getInnerElement('browse').hide();
