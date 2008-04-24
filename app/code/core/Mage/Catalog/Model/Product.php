@@ -45,6 +45,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_priceModel = null;
     protected $_urlModel = null;
 
+    const CACHE_TAG         = 'catalog_product';
+    protected $_cacheTag    = 'catalog_product';
+
     protected $_eventPrefix = 'catalog_product';
     protected $_eventObject = 'product';
 
