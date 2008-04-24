@@ -117,6 +117,12 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     public function notifyAction ()
     {
         $postData = $this->getRequest()->getPost();
+
+        if (!count($postData)) {
+            $this->norouteAction();
+            return;
+        }
+
         if ($this->getDebug()) {
             $debug = Mage::getModel('chronopay/api_debug');
             if (isset($postData['cs2']) && $postData['cs2'] > 0) {
