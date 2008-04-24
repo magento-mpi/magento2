@@ -146,7 +146,7 @@ final class Maged_Controller
         try {
             self::singleton()->dispatch();
         } catch (Exception $e) {
-            $this->session()->addMessage('error', $e->getMessage());
+            self::singleton()->session()->addMessage('error', $e->getMessage());
 
         }
     }
