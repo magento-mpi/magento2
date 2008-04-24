@@ -834,7 +834,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function jsQuoteEscape($data, $quote = '\'')
     {
-        return $this->helper('core')->jsEscape($data, $quote);
+        return $this->helper('core')->jsQuoteEscape($data, $quote);
     }
 
 }
