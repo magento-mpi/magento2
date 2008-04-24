@@ -72,7 +72,7 @@
     <li id="product_tabs_description" class="active first"><a href="#">Product Description</a></li>
     <?php if ($_upsellHtml!=''): ?><li id="product_tabs_upsell"><a href="#">We Also Recommend</a></li><?php endif ?>
     <li id="product_tabs_tags"><a href="#">Product Tags</a></li>
-    <?php if($_additional = $this->getAdditionalData()): ?><li id="product_tabs_additional"><a href="#">Additional Information</a></li><?endif?>
+    <?php if($_additional = $this->getAdditionalData()): ?><li id="product_tabs_additional"><a href="#">Additional Information</a></li><?php endif?>
 </ul>
 <div class="padder">
     <div id="product_tabs_description_contents" class="product-specs"><?php echo nl2br($_product->getDescription()) ?></div>

@@ -90,10 +90,10 @@
             <?php endif; ?>
             <td class="sort-by">
                 <strong><?php echo $this->__('Sort by') ?>:</strong> 
-                    <? $count = 1; ?>
+                    <?php $count = 1; ?>
                 <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
-                    <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key)): ?> class="active"<?php endif; ?>><?php echo $_order ?></a><?if($count!=sizeof($this->getAvailableOrders())):?><span class="pipe">|</span><?endif?>
-                    <? $count++; ?>
+                    <a href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key)): ?> class="active"<?php endif; ?>><?php echo $_order ?></a><?php if($count!=sizeof($this->getAvailableOrders())):?><span class="pipe">|</span><?php endif; ?>
+                    <?php $count++; ?>
                 <?php endforeach; ?>
             </td>
             <?php if ($this->helper('rss/catalog')->getTagFeedUrl()): ?>

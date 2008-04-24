@@ -31,7 +31,7 @@
     <ul class="generic-product-list">
     <?php $count=1; ?>
     <?php foreach ($this->getItems() as $_item): ?>
-        <li<?php if($count==count($this->getItems())):?> class="last"<?endif?>>
+        <li<?php if($count==count($this->getItems())):?> class="last"<?php endif?>>
             <a href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50); ?>"  alt="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image"/></a>
             <div class="product-shop">
                 <h6><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h6>
