@@ -158,6 +158,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             return $data;
         }
         $result = trim($this->_getCrypt()->decrypt(base64_decode((string)$data)));
+        $result = str_replace("\x0", '', $result);
         return $result;
     }
 
