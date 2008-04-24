@@ -1214,4 +1214,28 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
         return $this->getStore()->getGroup()->getName();
     }
+
+    /**
+     * Resets all data in object
+     * so after another load it will be complete new object
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function reset()
+    {
+        $this->unsetData();
+        $this->_addresses = null;
+        $this->_items = null;
+        $this->_payments = null;
+        $this->_statusHistory = null;
+        $this->_invoices = null;
+        $this->_tracks = null;
+        $this->_shipments = null;
+        $this->_creditmemos = null;
+        $this->_relatedObjects = array();
+        $this->_orderCurrency = null;
+        $this->_storeCurrency = null;
+
+        return $this;
+    }
 }
