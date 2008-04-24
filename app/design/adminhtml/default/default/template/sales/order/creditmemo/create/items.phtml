@@ -26,7 +26,7 @@
         <col width="100"/>
         <col width="100"/>
         <col width="105"/>
-        <col width="60"/>
+        <?php if ($this->canReturnToStock()) : ?><col width="60"/><?php endif; ?>
         <col width="100"/>
         <col width="100"/>
         <col width="100"/>
@@ -36,7 +36,9 @@
                 <th><?php echo $this->helper('sales')->__('Product') ?></th>
                 <th><?php echo $this->helper('sales')->__('Price') ?></th>
                 <th><?php echo $this->helper('sales')->__('Qty') ?></th>
+                <?php if ($this->canReturnToStock()) : ?>
                 <th><?php echo $this->helper('sales')->__('Return to Stock') ?></th>
+                <?php endif; ?>
                 <th><?php echo $this->helper('sales')->__('Qty to Refund') ?></th>
                 <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
                 <th><?php echo $this->helper('sales')->__('Tax Amount') ?></th>
@@ -55,7 +57,9 @@
                     </td>
                     <td class="price"><?php echo $this->displayPriceAttribute('price') ?></td>
                     <td><?php echo $this->getQtyHtml($_item->getOrderItem()) ?></td>
-                    <td class="a-center"><input type="checkbox" name="creditmemo[items][<?php echo $_item->getOrderItemId() ?>][back_to_stock]" value="1"<?php if ($_item->getBackToStock()):?> checked<?php endif;?>/></td>
+                    <?php if ($this->canReturnToStock()) : ?>
+                        <td class="a-center"><input type="checkbox" name="creditmemo[items][<?php echo $_item->getOrderItemId() ?>][back_to_stock]" value="1"<?php if ($_item->getBackToStock()):?> checked<?php endif;?>/></td>
+                    <?php endif; ?>
                     <td class="a-center">
                     <?php if ($this->canEditQty()) : ?>
                         <input type="text" class="input-text qty-input" name="creditmemo[items][<?php echo $_item->getOrderItemId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/>
