@@ -576,7 +576,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             foreach ($this->_shippingFields as $field) {
                 $cleanField = substr($field, 9);
 
-                if (in_array($field, $this->_shippingSteetFields) && isset($importData[$field])) {
+                if (in_array($field, $this->_shippingStreetFields) && isset($importData[$field])) {
                     $shippingStreet[] = $importData[$field];
                     continue;
                 }
