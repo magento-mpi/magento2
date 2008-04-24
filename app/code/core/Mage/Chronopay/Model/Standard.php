@@ -207,9 +207,10 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         );
 
         if ($this->getConfig()->getDebug()) {
-             Mage::getModel('chronopay/api_debug')
+            $debug = Mage::getModel('chronopay/api_debug')
                 ->setRequestBody($this->getChronopayUrl()."\n".print_r($fields,1))
                 ->save();
+            $fields['cs2'] = $debug->getId();
         }
 
         return $fields;

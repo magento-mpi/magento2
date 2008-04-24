@@ -118,9 +118,11 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     {
         $postData = $this->getRequest()->getPost();
         if ($this->getDebug()) {
-            Mage::getModel('chronopay/api_debug')
-                ->setResponseBody(print_r($postData,1))
-                ->save();
+            $debug = Mage::getModel('chronopay/api_debug');
+            if (isset($postData['cs2']) && $postData['cs2'] > 0) {
+                $debug->setId($postData['cs2']);
+            }
+            $debug->setResponseBody(print_r($postData,1))->save();
         }
 
         $order = Mage::getModel('sales/order');
