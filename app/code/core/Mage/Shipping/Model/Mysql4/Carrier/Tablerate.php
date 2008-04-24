@@ -113,7 +113,13 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
             /*
             getting condition name from post instead of the following commented logic
             */
-            $conditionName = $_POST['groups']['tablerate']['fields']['condition_name']['value'];
+
+            if (isset($_POST['groups']['tablerate']['fields']['condition_name']['inherit'])) {
+                $conditionName = (string)Mage::getConfig()->getNode('default/carriers/tablerate/condition_name');
+            } else {
+                $conditionName = $_POST['groups']['tablerate']['fields']['condition_name']['value'];
+            }
+
 //            $conditionName = $object->getValue();
 //            if ($conditionName{0} == '_') {
 //                $conditionName = substr($conditionName, 1, strpos($conditionName, '/')-1);
