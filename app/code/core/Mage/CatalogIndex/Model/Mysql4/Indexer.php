@@ -316,7 +316,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $this->_commitInsert('catalogindex/minimal_price');
     }
 
-    protected function _getMinimalPrices($productsSql, $store)
+    protected function _getMinimalPrices($products, $store)
     {
         $tierAttribute = $this->_getAttribute('tier_price', true);
         $priceAttribute = $this->_getAttribute('price', true);
@@ -324,7 +324,16 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $fields = array('customer_group_id', 'minimal_value'=>'MIN(value)');
         $priceAttributes = array($tierAttribute->getId(), $priceAttribute->getId());
 
-        $productIds = $this->_getReadAdapter()->fetchAll($productsSql);
+        if ($products instanceof Zend_Db_Select) {
+            $productIds = $this->_getReadAdapter()->fetchAll($products);
+        }
+        elseif (!is_array($products)) {
+        	$productIds = array($products);
+        }
+        else {
+            $productIds = $products;
+        }
+
 
         if (!empty($productIds)) {
             $select = $this->_getReadAdapter()->select()
