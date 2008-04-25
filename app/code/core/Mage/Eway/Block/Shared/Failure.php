@@ -34,7 +34,9 @@ class Mage_Eway_Block_Shared_Failure extends Mage_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        return Mage::getSingleton('checkout/session')->getEwayErrorMessage();
+        $msg = Mage::getSingleton('checkout/session')->getEwayErrorMessage();
+        Mage::getSingleton('checkout/session')->unsEwayErrorMessage();
+        return $msg;
     }
 
     /**
