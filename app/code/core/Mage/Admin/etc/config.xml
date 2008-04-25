@@ -63,17 +63,4 @@
             <admin><class>Mage_Admin_Block</class></admin>
         </blocks>
    </global>
-   <adminhtml>
-      <events>
-         <controller_action_predispatch_admin>
-            <observers>
-               <auth>
-                  <type>singleton</type>
-                  <class>admin/observer</class>
-                  <method>actionPreDispatchAdmin</method>
-               </auth>
-            </observers>
-         </controller_action_predispatch_admin>
-      </events>
-   </adminhtml>
 </config>
