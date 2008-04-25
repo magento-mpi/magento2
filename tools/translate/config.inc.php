@@ -90,11 +90,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/customer/',
     ),
 
-    'Mage_CustomerAlert' => array(
-        'app/code/core/Mage/CustomerAlert/',
-        'app/design/frontend/default/default/template/customeralert/',
-    ),
-
     'Mage_Dataflow' => array(
         'app/code/core/Mage/Dataflow/',
     ),
@@ -279,6 +274,7 @@ $CONFIG['helpers']  = array(
     'log'               => 'Mage_Log',
     'media'             => 'Mage_Media',
     'newsletter'        => 'Mage_Newsletter',
+    'oscommerce'        => 'Mage_Oscommerce',
     'page'              => 'Mage_Page',
     'paygate'           => 'Mage_Paygate',
     'payment'           => 'Mage_Payment',

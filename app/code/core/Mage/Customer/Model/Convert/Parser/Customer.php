@@ -662,7 +662,6 @@ class Mage_Customer_Model_Convert_Parser_Customer
             'website_id',
             'group_id',
             'created_in',
-            'is_subscribed',
             'default_billing',
             'default_shipping',
             'country_id'
@@ -679,10 +678,11 @@ class Mage_Customer_Model_Convert_Parser_Customer
             ->load()->getIterator();
 
         $attributes = array(
-            'website'   => 'website',
-            'email'     => 'email',
-            'group'     => 'group',
-            'create_in' => 'create_in'
+            'website'       => 'website',
+            'email'         => 'email',
+            'group'         => 'group',
+            'create_in'     => 'create_in',
+            'is_subscribed' => 'is_subscribed'
         );
 
         foreach ($customerAttributes as $attr) {

@@ -18,11 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 $_order     = $this->getOrder();
 $_products  = $_order->getProducts();
 $_totals     = $_order->getTotal();
-$_comments   = $_order->getComments(); 
+$_comments   = $_order->getComments();
 $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order->getCurrency();
 ?>
 <div class="content-header">
@@ -136,7 +136,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif;?>
-        
+
         </fieldset>
     </div>
 </div>
@@ -144,7 +144,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
 
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-products"><?php echo $this->__('Items Ordered') ?></h4>
+        <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items Ordered') ?></h4>
     </div>
 </div>
 <div>
@@ -168,14 +168,14 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
                     <td class="price"><span class="nobr"><?php echo $currency." ".number_format($_product['products_price'], 2) ?></span></td>
                     <td class="price"><span class="nobr"><?php echo $_product['products_quantity'] ?></span></td>
                     <td class="last price">
-                        <span class="nobr"><?php echo $currency." ".number_format($_product['final_price'], 2) ?></span>                    
+                        <span class="nobr"><?php echo $currency." ".number_format($_product['final_price'], 2) ?></span>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
             <?php endif; ?>
         </table>
-    </div>    
+    </div>
 </div>
 <div class="clear"></div>
 <br />
@@ -220,7 +220,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
                         </td>
                         <td class="emph"><big><strong><span class="nobr"><?php echo $currency." ".number_format($_total['value'], 2) ?></span></strong></big></td>
                 </tr>
-                <?php else: ?>                
+                <?php else: ?>
                 <tr>
                     <td class="label"><?php echo $_total['title'] ?></td>
                     <td><span class="nobr"><?php echo $currency." ".number_format($_total['value'], 2) ?></span></td>

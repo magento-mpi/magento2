@@ -588,39 +588,6 @@ final class Mage {
         die();
     }
 
-
-    /**
-    * Tries to dynamically load an extension if not loaded
-    *
-    * @param string $ext
-    * @return boolean
-    */
-    public static function loadExtension($ext)
-    {
-        if (extension_loaded($ext)) {
-            return true;
-        }
-
-        if (ini_get('enable_dl') !== 1 || ini_get('safe_mode') === 1) {
-            return false;
-        }
-
-        $file = (PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '') . $ext . '.' . PHP_SHLIB_SUFFIX;
-        return @dl($file);
-    }
-
-    public static function loadRequiredExtensions()
-    {
-        $result = true;
-        foreach (array('mcrypt', 'simplexml', 'pdo_mysql', 'curl', 'iconv') as $ext) {
-            if (!self::loadExtension($ext)) {
-                $result = false;
-            }
-        }
-
-        return $result;
-    }
-
     public static function setIsDownloader($flag=true)
     {
         self::$_isDownloader = $flag;
