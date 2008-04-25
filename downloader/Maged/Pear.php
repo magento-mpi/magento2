@@ -51,6 +51,7 @@ require_once "PEAR/Exception.php";
 
 require_once "Maged/Pear/Frontend.php";
 require_once "Maged/Pear/Package.php";
+require_once "Maged/Pear/Registry.php";
 require_once "Maged/Model/Pear/Request.php";
 
 class Maged_Pear

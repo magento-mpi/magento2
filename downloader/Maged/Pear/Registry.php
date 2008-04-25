@@ -1,6 +1,6 @@
 <?php
 
-class Maged_PEAR_Registry extends PEAR_Registry
+class Maged_Pear_Registry extends PEAR_Registry
 {
     function _initializeDepDB()
     {
