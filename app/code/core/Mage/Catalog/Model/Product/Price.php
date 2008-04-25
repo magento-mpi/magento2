@@ -39,8 +39,9 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
     {
         if($value['is_percent']) {
             $ratio = $value['pricing_value']/100;
-            $price = $this->_applyTierPrice($product, $qty, $product->getPrice());
-            $price = $this->_applySpecialPrice($product, $price);
+            /*$price = $this->_applyTierPrice($product, $qty, $product->getPrice());
+            $price = $this->_applySpecialPrice($product, $price);*/
+            $price = $product->getFinalPrice($qty);
             $price = $price * $ratio;
         } else {
             $price = $value['pricing_value'];
