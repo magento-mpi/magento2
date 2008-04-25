@@ -196,6 +196,7 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
                     }
                 }
             }
+            $product->setFinalPrice($finalPrice);
         }
         /**
          * Calculating final price of simple product
@@ -206,10 +207,11 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
             $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
 
             $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+
+            $product->setFinalPrice($finalPrice);
+            Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
         }
 
-        $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
         return max(0, $product->getData('final_price'));
     }
 
