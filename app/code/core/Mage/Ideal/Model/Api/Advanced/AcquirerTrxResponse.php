@@ -19,18 +19,17 @@
  */
 
 /**
- * iDEAL API Debug Resource
+ * iDEAL Advanced Api Acquirer Transaction Response Model
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ideal_Model_Api_Advanced_AcquirerTrxResponse extends Mage_Ideal_Model_Api_Advanced_Response
 {
-    protected function _construct()
-    {
-        $this->_init('ideal/api_debug', 'debug_id');
-    }
+    /*
+    var $acquirerId;
+    var $issuerAuthenticationUrl;
+    var $transactionId;
+    */
 }

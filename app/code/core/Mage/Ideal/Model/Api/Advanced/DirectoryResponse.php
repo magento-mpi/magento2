@@ -19,18 +19,26 @@
  */
 
 /**
- * iDEAL API Debug Resource
+ * iDEAL Advanced Api Directory Response Model
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+class Mage_Ideal_Model_Api_Advanced_DirectoryResponse extends Mage_Ideal_Model_Api_Advanced_Response {
+    /*
+    var $acquirerId
+    var $issuerList - array of Issuer Objects
+    */
 
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
-{
-    protected function _construct()
-    {
-        $this->_init('ideal/api_debug', 'debug_id');
+    /**
+     * adds an Issuer to the IssuerList
+     */
+    function addIssuer($issuer) {
+        if(is_a($issuer, "Mage_Ideal_Api_Advanced_Issuer")) {
+            $this->setIssuerList(array_merge((array)$this->getIssuerList(), (array)$issuer));
+        }
     }
 }
+
+?>

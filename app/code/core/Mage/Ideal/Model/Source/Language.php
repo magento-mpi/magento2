@@ -19,18 +19,23 @@
  */
 
 /**
- * iDEAL API Debug Resource
+ * iDEAL Basic Allowed languages Resource
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ideal_Model_Source_Language
 {
-    protected function _construct()
+    public function toOptionArray()
     {
-        $this->_init('ideal/api_debug', 'debug_id');
+        return array(
+            array('value' => 'en', 'label' => Mage::helper('chronopay')->__('English')),
+            array('value' => 'nl', 'label' => Mage::helper('chronopay')->__('Dutch'))
+        );
     }
 }
+
+
+

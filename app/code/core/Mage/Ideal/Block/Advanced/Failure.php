@@ -17,20 +17,33 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
- * iDEAL API Debug Resource
+ * Failure Response page from iDEAL
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ideal_Block_Advanced_Failure extends Mage_Core_Block_Template
 {
-    protected function _construct()
+    /**
+     *  Returns error from session and clears it
+     *
+     *  @return	  string
+     */
+    public function getErrorMessage ()
     {
-        $this->_init('ideal/api_debug', 'debug_id');
+        $error = Mage::getSingleton('checkout/session')->getIdealErrorMessage();
+        Mage::getSingleton('checkout/session')->unsIdealErrorMessage();
+        return $error;
+    }
+
+    /**
+     * Get continue shopping url
+     */
+    public function getContinueShoppingUrl()
+    {
+        return Mage::getUrl('checkout/cart');
     }
 }

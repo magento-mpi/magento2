@@ -19,18 +19,28 @@
  */
 
 /**
- * iDEAL API Debug Resource
+ * iDEAL Advanced Form Block to show issuer list
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ideal_Block_Advanced_Form extends Mage_Payment_Block_Form
 {
     protected function _construct()
     {
-        $this->_init('ideal/api_debug', 'debug_id');
+        $this->setTemplate('ideal/advanced/form.phtml');
+        parent::_construct();
+    }
+
+    /**
+     * Return array that contains issuer list
+     *
+     * @return array
+     */
+    public function getIssuerList()
+    {
+        return $this->getMethod()->getIssuerList();
     }
 }

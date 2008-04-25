@@ -43,33 +43,13 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping  = false;
 
     /**
-     * Get checkout session namespace
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        return Mage::getSingleton('checkout/session');
-    }
-
-    /**
-     * Get current quote
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return $this->getCheckout()->getQuote();
-    }
-
-    /**
      * Get debug flag
      *
      * @return boolean
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('payment/ideal_basic/debug_flag');
+        return Mage::getStoreConfig('ideal/basic/debug_flag');
     }
 
     public function createFormBlock($name)
@@ -90,8 +70,13 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     public function validate()
     {
         parent::validate();
-        $currency_code = $this->getQuote()->getBaseCurrencyCode();
-        if (!in_array($currency_code,$this->_allowCurrencyCode)) {
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+            $currency_code = $paymentInfo->getOrder()->getBaseCurrencyCode();
+        } else {
+            $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
+        }
+        if (!in_array($currency_code, $this->_allowCurrencyCode)) {
             Mage::throwException(Mage::helper('ideal')->__('Selected currency code ('.$currency_code.') is not compatabile with iDEAL'));
         }
         return $this;
@@ -124,28 +109,57 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
      */
     public function getBasicCheckoutFormFields()
     {
-        $quote = $this->getQuote();
-        $quote->reserveOrderId();
+        $order = $this->getInfoInstance()->getOrder();
 
-        $shippingAddress = $quote->getShippingAddress();
-        $currency_code = $quote->getBaseCurrencyCode();
+        $shippingAddress = $order->getShippingAddress();
+        $currency_code = $order->getBaseCurrencyCode();
 
         $fields = array(
             'merchantID' => Mage::getStoreConfig('ideal/basic/merchant_id'),
             'subID' => '0',
-            'amount' => ($shippingAddress->getBaseSubtotal()-$shippingAddress->getBaseDiscountAmount())*100,
-            'purchaseID' => $quote->getReservedOrderId(),
+            'amount' => $order->getBaseGrandTotal()*100,
+            'purchaseID' => $order->getIncrementId(),
             'paymentType' => 'ideal',
             'validUntil' => gmdate('Y-m-d\TH:i:s.000\Z', time() + 60 * 60) // plus 1 hour gmmktime () ???
         );
 
         $i = 1;
-        foreach ($quote->getItemsCollection() as $item) {
+        foreach ($order->getItemsCollection() as $item) {
             $fields = array_merge($fields, array(
                 "itemNumber".$i => $item->getSku(),
                 "itemDescription".$i => $item->getName(),
-                "itemQuantity".$i => $item->getQty(),
-                "itemPrice".$i => $item->getPrice()*100
+                "itemQuantity".$i => $item->getQtyOrdered()*1,
+                "itemPrice".$i => $item->getBasePrice()*100
+            ));
+            $i++;
+        }
+
+        if ($order->getBaseShippingAmount() > 0) {
+            $fields = array_merge($fields, array(
+                "itemNumber".$i => $order->getShippingMethod(),
+                "itemDescription".$i => $order->getShippingDescription(),
+                "itemQuantity".$i => 1,
+                "itemPrice".$i => $order->getBaseShippingAmount()*100
+            ));
+            $i++;
+        }
+
+        if ($order->getBaseTaxAmount() > 0) {
+            $fields = array_merge($fields, array(
+                "itemNumber".$i => 'Tax',
+                "itemDescription".$i => '',
+                "itemQuantity".$i => 1,
+                "itemPrice".$i => $order->getBaseTaxAmount()*100
+            ));
+            $i++;
+        }
+
+        if ($order->getBaseDiscountAmount() > 0) {
+            $fields = array_merge($fields, array(
+                "itemNumber".$i => 'Discount',
+                "itemDescription".$i => '',
+                "itemQuantity".$i => 1,
+                "itemPrice".$i => -$order->getBaseDiscountAmount()*100
             ));
             $i++;
         }
@@ -158,12 +172,12 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
         }
 
         $fields = array_merge($fields, array(
-            'language' => 'nl',
+            'language' => Mage::getStoreConfig('ideal/basic/language'),
             'currency' => $currency_code,
             'description' => $description,
             'urlCancel' => Mage::getUrl('ideal/basic/cancel', array('_secure' => true)),
             'urlSuccess' => Mage::getUrl('ideal/basic/success', array('_secure' => true)),
-            'urlError' => Mage::getUrl('ideal/basic/error', array('_secure' => true))
+            'urlError' => Mage::getUrl('ideal/basic/failure', array('_secure' => true))
         ));
 
         $requestString = '';
@@ -176,7 +190,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
 
         if ($this->getDebug()) {
             Mage::getModel('ideal/api_debug')
-                ->setRequestBody($this->getApiUrl() . "\n" . $requestString . "\n" . print_r($returnArray,1))
+                ->setRequestBody($this->getApiUrl() . "\n" . $requestString)
                 ->save();
         }
 

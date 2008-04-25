@@ -19,10 +19,10 @@
  */
 
 /**
- * iDEAL Basic Redirect Block, redirects to iDEAL payment page
+ * iDEAL Basic Redirect Block for redirection to iDEAL payment page
  *
- * @category Mage
- * @package  Mage_Ideal
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -30,7 +30,7 @@ class Mage_Ideal_Block_Basic_Redirect extends Mage_Core_Block_Abstract
 {
     protected function _toHtml()
     {
-        $basic = Mage::getModel('ideal/basic');
+        $basic = $this->getOrder()->getPayment()->getMethodInstance();
 
         $form = new Varien_Data_Form();
         $form->setAction($basic->getApiUrl())
@@ -38,9 +38,11 @@ class Mage_Ideal_Block_Basic_Redirect extends Mage_Core_Block_Abstract
             ->setName('ideal_basic_checkout')
             ->setMethod('POST')
             ->setUseContainer(true);
+
         foreach ($basic->getBasicCheckoutFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
+
         $html = '<html><body>';
         $html.= $this->__('You will be redirected to iDEAL in a few seconds.');
         $html.= $form->toHtml();

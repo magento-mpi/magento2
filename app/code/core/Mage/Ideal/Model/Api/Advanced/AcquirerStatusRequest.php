@@ -19,18 +19,37 @@
  */
 
 /**
- * iDEAL API Debug Resource
+ * iDEAL Advanced Api Acquirer Status Request Model
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ideal_Model_Api_Advanced_AcquirerStatusRequest extends Mage_Ideal_Model_Api_Advanced_Request
 {
-    protected function _construct()
+    /**
+     * rests all input data to empty strings
+     */
+    function clear()
     {
-        $this->_init('ideal/api_debug', 'debug_id');
+        parent::clear();
+        $this->unsTransactionId();
     }
+
+    /**
+     * this method checks, wheather all mandatory properties were set.
+     * If done so, true is returned, otherwise false.
+     * @return If done so, true is returned, otherwise false.
+     */
+    function checkMandatory()
+    {
+        if (parent::checkMandatory() && strlen($this->getTransactionId()) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }
+

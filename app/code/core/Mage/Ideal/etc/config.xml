@@ -93,6 +93,17 @@
                 </ideal>
             </updates>
         </layout>
+        <events>
+            <sales_convert_quote_payment_to_order_payment>
+                <observers>
+                    <ideal_advanced_observer>
+                        <type>singleton</type>
+                        <class>ideal/observer</class>
+                        <method>convertPayment</method>
+                    </ideal_advanced_observer>
+                </observers>
+            </sales_convert_quote_payment_to_order_payment>
+        </events>
     </frontend>
     <adminhtml>
         <translate>
@@ -126,8 +137,11 @@
     </adminhtml>
     <default>
         <ideal>
-            <ideal_basic>
-            </ideal_basic>
+            <advanced>
+                <expire_period>10</expire_period>
+                <cron_start>1</cron_start>
+                <cron_end>1</cron_end>
+            </advanced>
         </ideal>
         <payment>
             <ideal_basic>
@@ -144,4 +158,12 @@
             </ideal_advanced>
         </payment>
     </default>
+    <crontab>
+        <jobs>
+            <trasaction_status_check>
+                <schedule><cron_expr>* */1 * * *</cron_expr></schedule>
+                <run><model>ideal/advanced::transactionStatusCheck</model></run>
+            </trasaction_status_check>
+        </jobs>
+    </crontab>
 </config>

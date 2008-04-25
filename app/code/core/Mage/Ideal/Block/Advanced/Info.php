@@ -19,18 +19,39 @@
  */
 
 /**
- * iDEAL API Debug Resource
+ * iDEAL Advanced Info Block
  *
- * @category   Mage
- * @package    Mage_Ideal
- * @name       Mage_Ideal_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Ideal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Ideal_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ideal_Block_Advanced_Info extends Mage_Payment_Block_Info
 {
     protected function _construct()
     {
-        $this->_init('ideal/api_debug', 'debug_id');
+        parent::_construct();
+        $this->setTemplate('ideal/advanced/info.phtml');
     }
+
+    public function toPdf()
+    {
+        $this->setTemplate('ideal/advanced/pdf/info.phtml');
+        return $this->toHtml();
+    }
+
+    /**
+     * Gets Issuer Title from Payment Attribute
+     *
+     * @return string
+     */
+    public function getIssuerTitle()
+    {
+        if ($this->getInfo() instanceof Mage_Sales_Model_Quote_Payment) {
+            $issuerList = unserialize($this->getInfo()->getIdealIssuerList());
+            return $issuerList[$this->getInfo()->getIdealIssuerId()];
+        } else {
+            return $this->getInfo()->getIdealIssuerTitle();
+        }
+    }
+
 }

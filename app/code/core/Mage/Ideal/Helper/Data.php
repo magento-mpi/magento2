@@ -19,7 +19,7 @@
  */
 
 /**
- * Ideal data helper
+ * iDEAL data helper
  *
  * @category    Mage
  * @package     Mage_Ideal
