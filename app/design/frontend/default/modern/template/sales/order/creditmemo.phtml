@@ -50,11 +50,11 @@ function giftMessageToogle(giftMessageIdentifier)
 </script>
 <?php endif; ?>
 <?php  $_order = $this->getOrder() ?>
-<a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Refunds') ?></a>
+<div class="padder">
+<p class="a-right"><strong><a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Refunds') ?></a></strong></p>
 <?php foreach ($_order->getCreditmemosCollection() as $_creditmemo): ?>
-<br />
-<div class="head">
-    <h3><?php echo $this->__('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?></h3>
+<div class="head-alt2">
+    <h3 class="title"><?php echo $this->__('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?></h3>
     <a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>" target="_blank"><?php echo $this->__('Print Refund') ?></a>
 </div>
 <h4><?php echo $this->__('Items Refunded') ?></h4>
@@ -185,4 +185,5 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endforeach; ?>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="f-left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+</div>
 </div>
