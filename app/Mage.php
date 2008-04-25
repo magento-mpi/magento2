@@ -572,7 +572,9 @@ final class Mage {
             file_put_contents($reportFile, $reportData);
             chmod($reportFile, 0777);
 
-            $reportUrl = dirname($_SERVER['SCRIPT_NAME']) . '/report/?id='
+            $dir = dirname($_SERVER['SCRIPT_NAME']);
+            $dir = $dir == '/' ? '' : $dir;
+            $reportUrl = $dir . '/report/?id='
                 . $reportId . '&s=' . self::app()->getStore()->getCode();
 
             if (!headers_sent()) {
