@@ -236,7 +236,7 @@
             <sort_order>350</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
-            <show_in_store>1</show_in_store>
+            <show_in_store>0</show_in_store>
             <groups>
                 <eway_directapi translate="label" module="eway">
                     <label>eWAY Direct Api Settings</label>
@@ -244,7 +244,7 @@
                     <sort_order>201</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <customer_id translate="label">
                             <label>Customer ID</label>
@@ -253,7 +253,7 @@
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </customer_id>
                         <currency translate="label">
                             <label>Accepted currency</label>
@@ -262,7 +262,7 @@
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </currency>
                         <api_url translate="label">
                             <label>API Gateway URL</label>
@@ -289,7 +289,7 @@
                     <sort_order>202</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <customer_id translate="label">
                             <label>Customer ID</label>
@@ -298,7 +298,7 @@
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </customer_id>
                         <currency translate="label">
                             <label>Accepted currency</label>
@@ -307,7 +307,7 @@
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </currency>
                         <api_url translate="label">
                             <label>API Gateway URL</label>
@@ -334,7 +334,7 @@
                     <sort_order>203</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <customer_id translate="label">
                             <label>Customer ID</label>
@@ -343,7 +343,7 @@
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </customer_id>
                         <currency translate="label">
                             <label>Accepted currency</label>
@@ -352,7 +352,7 @@
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </currency>
                         <api_url translate="label">
                             <label>API Gateway URL</label>
