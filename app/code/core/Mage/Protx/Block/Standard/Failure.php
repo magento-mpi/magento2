@@ -35,7 +35,9 @@ class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        return Mage::getSingleton('checkout/session')->getErrorMessage();
+        $error = Mage::getSingleton('checkout/session')->getErrorMessage();
+        Mage::getSingleton('checkout/session')->unsErrorMessage();
+        return $error;
     }
 
     /**
