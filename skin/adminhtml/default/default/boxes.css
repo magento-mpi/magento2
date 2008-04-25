@@ -510,7 +510,9 @@ button.disabled:active          { border-width:1px; border-style:solid; border-c
 .separator, .pipe       { padding:0 6px; font-size:.9em; } /* vertical pipe */
 .divider                { display:block; height:1px; margin:8px 0; background:#ddd; overflow:hidden; }  /* horizontal pipe */
 td.divider              { font-size:1px; line-height:0; }
-.box, .entry-edit fieldset {
+.box,
+.entry-edit fieldset,
+.entry-edit .fieldset {
     border:1px solid #d6d6d6;
     background:#fafafa;
     }
@@ -550,7 +552,6 @@ td.divider              { font-size:1px; line-height:0; }
 
 /* Horizontal scroll */
 .hor-scroll { width:100%; overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
-.hor-scroll .form-list[class] { width:99%; }
 .hor-scroll.grid { padding-bottom:0 !important; }
 .hor-scroll.grid table { margin-bottom:0 !important; padding-bottom:0 !important; }
 
@@ -845,6 +846,9 @@ padding:6px 8px 4px 8px;
 .order-search-items .entry-edit .grid   { height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table {width:99.9%; }
 /* .create-order-totals                    { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
+
+/* Account Information */
+.account-info .form-list td.value { width:auto; }
 
 /* Order Totals */
 .order-totals {
