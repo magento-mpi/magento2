@@ -68,12 +68,18 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return $this;
     }
 
+    /**
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addBreadcrumb($label, $title, $link=null)
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
         return $this;
     }
 
+    /**
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _addContent(Mage_Core_Block_Abstract $block)
     {
         $this->getLayout()->getBlock('content')->append($block);

@@ -64,8 +64,7 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
             ->from("", array(
                         'customer_name' => "CONCAT(_table_customer_firstname.{$firstnameField}, ' ', _table_customer_lastname.{$lastnameField})",
                         'review_cnt' => "COUNT(main_table.review_id)"))
-            ->group('detail.customer_id')
-            ->order('review_cnt desc');
+            ->group('detail.customer_id');
 
         return $this;
     }
