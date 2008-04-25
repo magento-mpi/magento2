@@ -39,9 +39,12 @@
     <col width="75" />
     <col />
     <col width="80" />
-    <col width="140" />
-    <col width="120" />
-    <col width="140" />
+    <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+    <col width="1" />
+    <?php endif ?>
+    <col width="130" />
+    <col width="1" />
+    <col width="130" />
     <thead>
         <tr>
             <th>&nbsp;</th>
