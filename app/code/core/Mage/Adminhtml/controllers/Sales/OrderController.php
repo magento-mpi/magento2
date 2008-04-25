@@ -263,7 +263,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
         }
         if ($countCancelOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) succesfully canceled', $countCancelOrder));
+            $this->_getSession()->addSuccess($this->__('%s order(s) successfully canceled', $countCancelOrder));
         }
         else {
             // selected orders is not available for cancel
@@ -311,7 +311,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
         }
         if ($countUnholdOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) succesfully released from holding status', $countUnholdOrder));
+            $this->_getSession()->addSuccess($this->__('%s order(s) successfully released from holding status', $countUnholdOrder));
         }
         else {
             // selected orders is not available for hold
