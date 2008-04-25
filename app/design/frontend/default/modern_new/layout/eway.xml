@@ -26,7 +26,7 @@ Eway Failure Response Review
 -->
 <eway_shared_failure>
     <reference name="root">
-        <action method="setTemplate"><template>page/2columns.phtml</template></action>
+        <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
     </reference>
     <reference name="content">
         <block type="eway/shared_failure" name="eway_shared_failure" template="eway/shared/failure.phtml">
@@ -36,7 +36,7 @@ Eway Failure Response Review
 
 <eway_secure_failure>
     <reference name="root">
-        <action method="setTemplate"><template>page/2columns.phtml</template></action>
+        <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
     </reference>
     <reference name="content">
         <block type="eway/secure_failure" name="eway_secure_failure" template="eway/secure/failure.phtml">
