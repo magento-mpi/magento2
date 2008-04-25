@@ -136,8 +136,8 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection');
-            //->addCategoryFilter($this->getId());
+        $collection = Mage::getResourceModel('catalog/product_collection')
+            ->addCategoryFilter($this);
         return $collection;
     }
 
