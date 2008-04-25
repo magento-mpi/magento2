@@ -82,7 +82,7 @@
             <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                 <li><input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> /> <label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
             <?php else:?>
-                <li style="padding:0;"><input type="hidden" name="billing[save_in_address_book]" value="1" /></li>
+                <input type="hidden" name="billing[save_in_address_book]" value="1" />
             <?php endif;?>
         </ul>
     </fieldset>
@@ -101,7 +101,7 @@
 </form>
 <div class="button-set">
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-    <span id="billing-buttons-container">
+    <span id="billing-buttons-container" >
         <span id="billing-please-wait" style="display:none;" class="opc-please-wait">
             <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Loading next step...') ?> &nbsp;
         </span>

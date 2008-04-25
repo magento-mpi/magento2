@@ -85,7 +85,7 @@
 <?php $_collectionSize = $_productCollection->count() ?>
     <table cellspacing="0" class="generic-product-grid" id="product-list-table">
     <?php $i=0; foreach ($_productCollection as $_product): ?>
-    <?php if ($i++%3==0): ?>
+    <?php if ($i++%4==0): ?>
     <tr>
     <?php endif ?>
         <td>
@@ -114,14 +114,14 @@
                 <?php endif; ?>
             </ul>
         </td>
-    <?php if ($i%3==0 && $i!=$_collectionSize): ?>
+    <?php if ($i%4==0 && $i!=$_collectionSize): ?>
     </tr>
     <?php endif ?>
     <?php endforeach ?>
-    <?php for($i;$i%3!=0;$i++): ?>
+    <?php for($i;$i%4!=0;$i++): ?>
           <td class="empty-product">&nbsp;</td>
     <?php endfor ?>
-    <?php if ($i%3==0): ?>
+    <?php if ($i%4==0): ?>
     </tr>
     <?php endif ?>
     </table>

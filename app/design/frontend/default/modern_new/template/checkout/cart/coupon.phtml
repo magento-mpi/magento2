@@ -23,10 +23,11 @@
     <h4><?php echo $this->__('Discount Codes') ?></h4>
     <div style="margin-left:240px;">
         <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label><br/>
+    <input type="hidden" name="remove" id="remove-coupone" value="0"/>
+    <?php if(!strlen($this->getCouponCode())): ?>
         <input class="input-text left" id="coupon_code" name="coupon_code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>"/> &nbsp;<input type="image" name="do" src="<?php echo $this->getSkinUrl('images/btn_cart_apply.gif') ?>" alt="<?php echo $this->__('Apply Coupon') ?>"/>
-        <input type="hidden" name="remove" id="remove-coupone" value="0"/>
-        <?php if(strlen($this->getCouponCode())): ?>
-        <button class="form-button-alt" type="button" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel Coupon') ?>"><span><?php echo $this->__('Cancel Coupon') ?></span></button>
+    <?php else: ?>
+        <a href="#" onclick="discountForm.submit(true)"><img src="<?php echo $this->getSkinUrl('images/btn_cart_cancel.gif') ?>" alt="<?php echo $this->__('Cancel Coupon') ?>"/></a>
         <?php endif;?>
     </div>
     <div class="clear"></div>
@@ -45,4 +46,3 @@ discountForm.submit = function (isRemove) {
     return VarienForm.prototype.submit.bind(discountForm)();
 }
 </script>
-</div>
