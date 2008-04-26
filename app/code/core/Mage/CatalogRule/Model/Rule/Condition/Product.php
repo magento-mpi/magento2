@@ -135,9 +135,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         $attributes = $this->getRule()->getCollectedAttributes();
         $attributes[$this->getAttribute()] = true;
         $this->getRule()->setCollectedAttributes($attributes);
-        $isStatic = $productCollection->getEntity()
-            ->getAttribute($this->getAttribute())->getBackend()->isStatic();
-        $productCollection->addAttributeToSelect($this->getAttribute(), !$isStatic);
+        $productCollection->addAttributeToSelect($this->getAttribute(), true);
         return $this;
     }
 
