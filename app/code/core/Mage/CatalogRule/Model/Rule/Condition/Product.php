@@ -135,7 +135,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         $attributes = $this->getRule()->getCollectedAttributes();
         $attributes[$this->getAttribute()] = true;
         $this->getRule()->setCollectedAttributes($attributes);
-        $productCollection->addAttributeToSelect($this->getAttribute());
+        $productCollection->addAttributeToSelect($this->getAttribute(), true);
         return $this;
     }
 
