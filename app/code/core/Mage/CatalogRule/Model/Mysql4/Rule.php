@@ -195,14 +195,14 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
                 $ruleProductCount = count($ruleProducts);
                 for ($time=$fromTime; $time<=$toTime; $time+=86400) {
+                    $rulePrice = null;
+
                     for ($i=0, $l=count($ruleProducts); $i<$l; $i++) {
                         $r = $ruleProducts[$i];
 
                         if (!(($r['from_time']==0 || $r['from_time']<=$time) && ($r['to_time']==0 || $r['to_time']>=$time))) {
                             continue;
                         }
-
-                        $rulePrice = null;
 
                         if (isset($r['price'])) {
                             if (is_null($rulePrice)) {
