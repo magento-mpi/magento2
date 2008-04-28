@@ -430,8 +430,8 @@ final class Mage {
             Varien_Profiler::stop('app');
         }
         catch (Mage_Core_Model_Store_Exception $e) {
-            $baseUrl = dirname($_SERVER['SCRIPT_NAME']).'/';
-            header('Location: ' . $baseUrl.'404/');
+            $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+            header('Location: ' . $baseUrl.'/404/');
             die();
         }
         catch (Exception $e) {
@@ -572,9 +572,8 @@ final class Mage {
             file_put_contents($reportFile, $reportData);
             chmod($reportFile, 0777);
 
-            $dir = dirname($_SERVER['SCRIPT_NAME']);
-            $dir = $dir == '/' ? '' : $dir;
-            $reportUrl = $dir . '/report/?id='
+            $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+            $reportUrl = $baseUrl . '/report/?id='
                 . $reportId . '&s=' . self::app()->getStore()->getCode();
 
             if (!headers_sent()) {
