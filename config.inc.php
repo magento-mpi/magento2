@@ -122,6 +122,12 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/GoogleCheckout/',
     ),
 
+    'Mage_Ideal' => array(
+        'app/code/core/Mage/Ideal/',
+        'app/design/frontend/default/default/template/ideal/',
+        'app/design/adminhtml/default/default/template/ideal/',
+    ),
+
     'Mage_Install' => array(
         'app/code/core/Mage/Install/',
         'app/design/install/default/default/layout/',
@@ -270,6 +276,7 @@ $CONFIG['helpers']  = array(
     'giftmessage'       => 'Mage_GiftMessage',
     'googleanalytics'   => 'Mage_GoogleAnalytics',
     'googlecheckout'    => 'Mage_GoogleCheckout',
+    'ideal'             => 'Mage_Ideal',
     'install'           => 'Mage_Install',
     'log'               => 'Mage_Log',
     'media'             => 'Mage_Media',
