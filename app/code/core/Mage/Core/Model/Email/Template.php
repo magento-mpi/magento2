@@ -148,6 +148,11 @@ class Mage_Core_Model_Email_Template extends Varien_Object
            $templateText = str_replace($matches[0], '', $templateText);
         }
 
+        /**
+         * Remove comment lines
+         */
+        $templateText = preg_replace('#\{\*.*\*\}#suU', '', $templateText);
+
         $this->setTemplateText($templateText);
         $this->setId($templateId);
 

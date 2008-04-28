@@ -73,12 +73,13 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
                 $this->_names[$key],
                 array(
                     'name'          => $this->_names[$key],
+                    'email'         => $email,
                     'product_name'  => $this->_product->getName(),
                     'product_url'   => $this->_product->getProductUrl(),
                     'message'       => $message,
                     'sender_name'   => strip_tags($this->_sender['name']),
                     'sender_email'  => strip_tags($this->_sender['email']),
-                    'product_image' => $this->_product->getSmallImage(),
+                    'product_image' => $this->helper('catalog/image')->init($this->_product, 'small_image')->resize(75),
                 )
             );
         }
