@@ -90,12 +90,10 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
             foreach ($this->_getHelper()->getProductIds() as $productId) {
                 $product->setData(array());
-                if ($stockItem = $product->getStockItem()) {
-                    $stockItem->setData(array());
-                }
                 $product->setStoreId($this->_getHelper()->getSelectedStoreId())
                     ->load($productId)
-                    ->addData($data);
+                    ->addData($data)
+                    ->setIsMassupdate(true);
 
                 if (!$product->getId()) {
                     continue;
@@ -114,6 +112,8 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             if ($addWebsiteIds = $this->getRequest()->getParam('add_website_ids', false)) {
                 $productWebsiteModel->addProducts($addWebsiteIds, $productIds);
             }
+
+            Mage::dispatchEvent('catalog_product_massupdate_after', array('products'=>$productIds));
 
             $this->_getSession()->addSuccess(
                 $this->__('Total of %d record(s) were successfully updated',

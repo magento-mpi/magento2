@@ -529,8 +529,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                         ->setStoreId($storeId)
                         ->load($productId)
                         ->setStatus($this->getRequest()->getParam('status'))
+                        ->setIsMassupdate(true)
                         ->save();
                 }
+                Mage::dispatchEvent('catalog_product_massupdate_after', array('products'=>$productIds));
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully updated', count($productIds))
                 );

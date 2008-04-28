@@ -27,6 +27,7 @@
 class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
 {
     protected $_parentProductIds = array();
+    protected $_productIdsMassupdate = array();
 
     protected function _construct() {}
 
@@ -43,13 +44,28 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
     public function processAfterSaveEvent(Varien_Event_Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
-        Mage::getSingleton('catalogindex/indexer')->plainReindex($eventProduct);
+        if (!$eventProduct->getIsMassupdate()) {
+            Mage::getSingleton('catalogindex/indexer')->plainReindex($eventProduct);
+        } else {
+            $this->_productIdsMassupdate[] = $eventProduct->getId();
+        }
 
         $eventProduct->loadParentProductIds();
         $parentProductIds = $eventProduct->getParentProductIds();
-        if ($parentProductIds) {
+        if ($parentProductIds && !$eventProduct->getIsMassupdate()) {
             Mage::getSingleton('catalogindex/indexer')->plainReindex($parentProductIds);
+        } elseif ($parentProductIds) {
+            $this->_productIdsMassupdate = array_merge($this->_productIdsMassupdate, $parentProductIds);
         }
+    }
+
+    public function processAfterMassupdate(Varien_Event_Observer $observer)
+    {
+        if (count($this->_productIdsMassupdate) == 0) {
+            $this->_productIdsMassupdate = $observer->getEvent()->getProducts();
+        }
+
+        Mage::getSingleton('catalogindex/indexer')->plainReindex($this->_productIdsMassupdate);
     }
 
     public function processPriceScopeChange(Varien_Event_Observer $observer)
