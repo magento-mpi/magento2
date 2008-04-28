@@ -120,7 +120,14 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 
     public function getEmailToFriendUrl($product)
     {
-        return $this->_getUrl('sendfriend/product/send', array('id'=>$product->getId()));
+        $categoryId = null;
+        if ($category = Mage::registry('current_category')) {
+            $categoryId = $category->getId();
+        }
+        return $this->_getUrl('sendfriend/product/send', array(
+            'id' => $product->getId(),
+            'cat_id' => $categoryId
+        ));
     }
 
     /**
