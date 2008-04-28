@@ -890,13 +890,9 @@ class Mage_Core_Model_App
 #echo "TEST:"; print_r($tags);
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
-            $useCache = $this->useCache();
-
             $cacheDir = Mage::getConfig()->getOptions()->getCacheDir();
             mageDelTree($cacheDir);
             mkdir($cacheDir, 0777);
-
-            $this->saveCache(serialize($useCache), 'use_cache', array(), null);
         }
         return $this;
     }
@@ -949,6 +945,7 @@ class Mage_Core_Model_App
         }
         @fwrite($fp, serialize($data));
         @fclose($fp);
+        chmod($filename, 0666);
         return $this;
     }
 
