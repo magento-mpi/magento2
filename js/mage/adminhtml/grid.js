@@ -421,7 +421,7 @@ varienGridMassaction.prototype = {
         }.bind(this));
     },
     selectAll: function() {
-        this.setCheckedValues(this.getGridIds());
+        this.addCheckedValues(this.getGridIds());
         this.checkCheckboxes();
         this.updateCount();
         return false;
