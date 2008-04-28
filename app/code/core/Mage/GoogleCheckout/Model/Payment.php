@@ -39,6 +39,16 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     protected $_canUseForMultishipping  = false;
 
     /**
+     * Can be edit order (renew order)
+     *
+     * @return bool
+     */
+    public function canEdit()
+    {
+        return false;
+    }
+
+    /**
      * Authorize
      *
      * @param   Varien_Object $orderPayment

@@ -271,6 +271,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->getState() === self::STATE_CLOSED) {
             return false;
         }
+
+        if (!$this->getPayment()->getMethodInstance()->canEdit()) {
+            return false;
+        }
         return true;
     }
 
