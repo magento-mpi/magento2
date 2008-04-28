@@ -70,6 +70,11 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order = $this->getOrder();
 
+        if (!$order->getId()) {
+            $this->norouteAction();
+            return;
+        }
+
         $order->addStatusToHistory(
             $order->getStatus(),
             Mage::helper('chronopay')->__('Customer was redirected to Chronopay')
@@ -97,6 +102,11 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
         $session->unsChronopayStandardQuoteId();
 
         $order = $this->getOrder();
+
+        if (!$order->getId()) {
+            $this->norouteAction();
+            return;
+        }
 
         $order->addStatusToHistory(
             $order->getStatus(),
@@ -201,13 +211,21 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order = $this->getOrder();
 
+        if (!$order->getId()) {
+            $this->norouteAction();
+            return;
+        }
+
         if ($order instanceof Mage_Sales_Model_Order && $order->getId()) {
             $order->addStatusToHistory($order->getStatus(), $errorMsg);
             $order->cancel();
             $order->save();
         }
+
         $this->loadLayout();
         $this->renderLayout();
+
+        Mage::getSingleton('checkout/session')->unsLastRealOrderId();
     }
 
 }
