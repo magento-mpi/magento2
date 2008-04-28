@@ -56,7 +56,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
         if ($this->getStockItem()) {
             return $this->getStockItem()->getData($field);
         }
-        return null;
+
+        return Mage::getStoreConfig('cataloginventory/options/'.$field);
     }
 
     public function isNew()
