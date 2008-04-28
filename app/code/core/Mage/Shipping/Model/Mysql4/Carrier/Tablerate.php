@@ -65,7 +65,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
 //            'country'   => $read->quote($request->getDestCountryId())
 //        );
         $select->where(
-            $read->quoteInto("(dest_zip=?)", $request->getDestPostcode()).
+            $read->quoteInto("(dest_country_id=? AND dest_zip=?)", $request->getDestCountryId(), $request->getDestPostcode()).
             $read->quoteInto(" OR (dest_region_id=? AND dest_zip='')", $request->getDestRegionId()).
             $read->quoteInto(" OR (dest_country_id=? AND dest_region_id='0' AND dest_zip='')", $request->getDestCountryId()).
             "OR (dest_country_id='0' AND dest_region_id='0' AND dest_zip='')"
