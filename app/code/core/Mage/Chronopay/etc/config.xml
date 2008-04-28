@@ -103,31 +103,8 @@
                 </Mage_Chronopay>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <chronopay>
-                                            <title>ChronoPay Section</title>
-                                        </chronopay>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
     <default>
-        <chronopay>
-            <chronopay_standard>
-            </chronopay_standard>
-        </chronopay>
         <payment>
             <chronopay_standard>
                   <model>chronopay/standard</model>

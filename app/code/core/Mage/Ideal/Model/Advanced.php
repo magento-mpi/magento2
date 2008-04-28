@@ -220,6 +220,25 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('ideal/advanced/debug_flag');
+        return $this->getConfigData('debug_flag');
+    }
+
+    /**
+     * Getting config parametrs
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getConfigData($key, $default=false)
+    {
+        if (!$this->hasData($key)) {
+             $value = Mage::getStoreConfig('payment/ideal_advanced/'.$key);
+             if (is_null($value) || false===$value) {
+                 $value = $default;
+             }
+            $this->setData($key, $value);
+        }
+        return $this->getData($key);
     }
 }

@@ -66,7 +66,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getCustomerId()
     {
-        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/customer_id');
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/customer_id');
     }
 
     /**
@@ -76,7 +76,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getAccepteCurrency()
     {
-        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/currency');
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
     }
 
     public function validate()
@@ -167,7 +167,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getEwaySharedUrl()
     {
-         if (!$url = Mage::getStoreConfig('eway/eway_sharedapi/api_url')) {
+         if (!$url = Mage::getStoreConfig('payment/eway_shared/api_url')) {
              $url = 'https://www.eway.com.au/gateway/payment.asp';
          }
          return $url;
@@ -180,7 +180,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/debug_flag');
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/debug_flag');
     }
 
     public function capture(Varien_Object $payment, $amount)

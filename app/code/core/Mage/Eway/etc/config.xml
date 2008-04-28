@@ -119,43 +119,12 @@
                 </Mage_Eway>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <eway>
-                                            <title>eWAY Section</title>
-                                        </eway>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
     <default>
-        <eway>
-            <eway_directapi>
-                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
-                <currency>AUD</currency>
-            </eway_directapi>
-            <eway_sharedapi>
-                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
-                <currency>AUD</currency>
-            </eway_sharedapi>
-            <eway_secureapi>
-                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
-                <currency>AUD</currency>
-            </eway_secureapi>
-        </eway>
         <payment>
             <eway_direct>
+                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
+                <currency>AUD</currency>
                 <payment_action>authorize_capture</payment_action>
                 <model>eway/direct</model>
                 <title>eWAY Direct</title>
@@ -164,12 +133,16 @@
                 <allowspecific>0</allowspecific>
             </eway_direct>
             <eway_shared>
+                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
+                <currency>AUD</currency>
                 <model>eway/shared</model>
                 <title>eWAY Shared</title>
                 <order_status>processing</order_status>
                 <allowspecific>0</allowspecific>
             </eway_shared>
             <eway_secure>
+                <customer_id backend_model="adminhtml/system_config_backend_encrypted"/>
+                <currency>AUD</currency>
                 <model>eway/secure</model>
                 <title>eWAY 3D-Secure</title>
                 <order_status>processing</order_status>

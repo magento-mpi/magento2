@@ -50,7 +50,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('eway/eway_directapi/debug_flag');
+        return Mage::getStoreConfig('payment/eway_direct/debug_flag');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getApiGatewayUrl()
     {
-        $value = Mage::getStoreConfig('eway/eway_directapi/api_url');
+        $value = Mage::getStoreConfig('payment/eway_direct/api_url');
         if (!$value || $value === false) {
             return 'https://www.eway.com.au/gateway/xmlpayment.asp';
         }
@@ -84,7 +84,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getCustomerId()
     {
-        return Mage::getStoreConfig('eway/eway_directapi/customer_id');
+        return Mage::getStoreConfig('payment/eway_direct/customer_id');
     }
 
     /**
@@ -94,7 +94,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getAccepteCurrency()
     {
-        return Mage::getStoreConfig('eway/' . $this->getCode() . 'api/currency');
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
     }
 
     public function validate()

@@ -49,7 +49,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('ideal/basic/debug_flag');
+        return $this->getConfigData('debug_flag');
     }
 
     public function createFormBlock($name)
@@ -94,7 +94,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
      */
     public function getApiUrl()
     {
-         if (Mage::getStoreConfig('ideal/basic/test_flag') == 1) {
+         if ($this->getConfigData('test_flag') == 1) {
              $url = "https://idealtest.secure-ing.com/ideal/mpiPayInitIng.do";
          } else {
              $url = "https://ideal.secure-ing.com/ideal/mpiPayInitIng.do";
@@ -115,7 +115,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
         $currency_code = $order->getBaseCurrencyCode();
 
         $fields = array(
-            'merchantID' => Mage::getStoreConfig('ideal/basic/merchant_id'),
+            'merchantID' => $this->getConfigData('merchant_id'),
             'subID' => '0',
             'amount' => $order->getBaseGrandTotal()*100,
             'purchaseID' => $order->getIncrementId(),
@@ -166,13 +166,13 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
 
         $fields = $this->appendHash($fields);
 
-        $description = Mage::getStoreConfig('ideal/basic/description');
+        $description = $this->getConfigData('description');
         if ($description == '') {
             $description = Mage::app()->getStore()->getName() . ' ' . 'payment';
         }
 
         $fields = array_merge($fields, array(
-            'language' => Mage::getStoreConfig('ideal/basic/language'),
+            'language' => $this->getConfigData('language'),
             'currency' => $currency_code,
             'description' => $description,
             'urlCancel' => Mage::getUrl('ideal/basic/cancel', array('_secure' => true)),
@@ -206,7 +206,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
      */
     public function appendHash($returnArray)
     {
-        $merchantKey = Mage::getStoreConfig('ideal/basic/merchant_key');
+        $merchantKey = $this->getConfigData('merchant_key');
         $hashString = $merchantKey.implode('', $returnArray);
         $hashString = str_replace(
             array(" ", "\t", "\n", "&amp;", "&lt;", "&gt;", "&quote;"),
@@ -214,6 +214,25 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             $hashString);
         $hash = sha1($hashString);
         return array_merge($returnArray, array('hash' => $hash));
+    }
+
+    /**
+     * Getting config parametrs
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getConfigData($key, $default=false)
+    {
+        if (!$this->hasData($key)) {
+             $value = Mage::getStoreConfig('payment/ideal_basic/'.$key);
+             if (is_null($value) || false===$value) {
+                 $value = $default;
+             }
+            $this->setData($key, $value);
+        }
+        return $this->getData($key);
     }
 
 }

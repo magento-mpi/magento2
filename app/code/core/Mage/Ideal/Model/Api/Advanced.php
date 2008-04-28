@@ -94,10 +94,17 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         }
     }
 
+    /**
+     * Getting config parametrs
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('ideal/advanced/'.$key);
+             $value = Mage::getStoreConfig('payment/ideal_advanced/'.$key);
              if (is_null($value) || false===$value) {
                  $value = $default;
              }
