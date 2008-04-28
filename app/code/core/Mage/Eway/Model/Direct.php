@@ -248,7 +248,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         if ($parsedResArr['ewayTrxnStatus'] == 'True') {
             $this->unsError();
-            return $response;
+            return $parsedResArr;
         }
 
         if (isset($parsedResArr['ewayTrxnError'])) {
