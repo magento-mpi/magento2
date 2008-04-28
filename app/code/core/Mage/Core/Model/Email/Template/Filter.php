@@ -86,6 +86,15 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             self::$_urlInstance = Mage::getModel('core/url');
         }
 
+        if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+            && !Mage::app()->isSingleStoreMode())
+        {
+            if (!isset($params['_query'])) {
+                $params['_query'] = array();
+            }
+            $params['_query']['store'] = Mage::app()->getStore()->getCode();
+        }
+
     	$url = self::$_urlInstance->getUrl($path, $params);
 
     	return $url;
