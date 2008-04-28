@@ -329,11 +329,12 @@ table.pager, table.view-by {
     font-size:.95em;
     }
 table.pager td {
-    width:33%;
+    width:32%;
     border-top:1px solid #eee;
     padding:4px 8px;
     vertical-align:middle;
     }
+table.pager td.pages { padding:4px 0; white-space:nowrap; }
 table.pager ol, table.pager li {
     display:inline;
     }
