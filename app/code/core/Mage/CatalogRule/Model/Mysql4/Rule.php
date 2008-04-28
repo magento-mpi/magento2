@@ -127,11 +127,13 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             ->from($this->getTable('catalogrule/rule_product'))
             ->where($read->quoteInto('from_time=0 or from_time<=?', strtotime($toDate))
             ." or ".$read->quoteInto('to_time=0 or to_time>=?', strtotime($fromDate)))
-            ->order(array('from_time', 'to_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order'));
+            ->order(array('website_id', 'customer_group_id', 'product_id', 'sort_order'));
+        // crucial for logic sort order: website_id, customer_group_id, product_id, sort_order
+        // had 'from_time', 'to_time' in the beginning before
         if (!is_null($productId)) {
             $select->where('product_id=?', $productId);
         }
-
+//echo (string)$select; exit;
         if (!$ruleProducts = $read->fetchAll($select)) {
             return false;
         }
@@ -234,12 +236,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                         }
 
                         if ($r['action_stop']) {
-                            while ($i+1 == $l && isset($ruleProducts[$i+1]) && !$this->_compareTwo($ruleProducts[$i+1], $r)) {
+                            while (($i+1 < $l) && isset($ruleProducts[$i+1]) && !$this->_isDifferent($ruleProducts[$i+1], $r)) {
                                 $i++;
                             }
                         }
 
-                        if ($i+1 == $l || $this->_compareTwo($ruleProducts[$i+1], $r)) {
+                        if (($i+1 == $l) || !isset($ruleProducts[$i+1]) ||  $this->_isDifferent($ruleProducts[$i+1], $r)) {
                             if (!is_null($rulePrice)) {
                                 $rows[] = "('{$this->formatDate($time)}', '{$r['website_id']}', '{$r['customer_group_id']}', '{$r['product_id']}', '$rulePrice', '{$this->formatDate($latestFromTime)}', '{$this->formatDate($earliestToTime)}')";
                             }
@@ -271,7 +273,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
-    protected function _compareTwo($first, $second)
+    protected function _isDifferent($first, $second)
     {
         return
             $first['product_id']!=$second['product_id'] ||
