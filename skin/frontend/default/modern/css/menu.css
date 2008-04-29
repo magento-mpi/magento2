@@ -22,7 +22,7 @@
 #nav li {
 	list-style:none;
 	position:relative;
-    text-transform:uppercase;
+  text-transform:uppercase;
 	text-align:left;
 	}
 #nav li.over { z-index:99; }
