@@ -18,18 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Cybersource_Model_Source_Cctype
+class Mage_Cybersource_Model_Source_Cctype extends Mage_Payment_Model_Source_Cctype
 {
-    public function toOptionArray()
+    public function getAllowedTypes()
     {
-        $options =  array();       ;
-        foreach (Mage::getSingleton('cybersource/config')->getCcTypes() as $code => $name) {
-            $options[] = array(
-            	   'value' => $code,
-            	   'label' => $name
-            );
-        }
-
-        return $options;
+        return array('VI', 'MC', 'AE', 'DI', 'JCB', 'LASER', 'UATP', 'MCI', 'SS', 'OT');
     }
 }

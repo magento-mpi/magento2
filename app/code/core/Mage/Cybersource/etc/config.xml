@@ -37,11 +37,6 @@
                     <api_debug><table>cybersource_api_debug</table></api_debug>
                 </entities>
             </cybersource_mysql4>
-            <sales>
-                <rewrite>
-                    <order_payment>Mage_Cybersource_Model_Order_Payment</order_payment>
-                </rewrite>
-            </sales>
         </models>
         <resources>
             <cybersource_setup>
@@ -67,6 +62,37 @@
         <blocks>
             <cybersource><class>Mage_Cybersource_Block</class></cybersource>
         </blocks>
+        <payment>
+            <cc>
+                <types>
+                    <JCB>
+                        <code>JCB</code>
+                        <name>JCB</name>
+                        <order>50</order>
+                    </JCB>
+                    <LASER>
+                        <code>LASER</code>
+                        <name>Laser</name>
+                        <order>51</order>
+                    </LASER>
+                    <UATP>
+                        <code>UATP</code>
+                        <name>UATP</name>
+                        <order>52</order>
+                    </UATP>
+                    <MCI>
+                        <code>MCI</code>
+                        <name>Maestro (International)</name>
+                        <order>53</order>
+                    </MCI>
+                    <SS>
+                        <code>SS</code>
+                        <name>Switch/Solo/Maestro(UK Domestic)</name>
+                        <order>53</order>
+                    </SS>
+                </types>
+            </cc>
+        </payment>
     </global>
     <frontend>
         <secure_url>
