@@ -115,46 +115,21 @@
                 </Mage_Ideal>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <ideal>
-                                            <title>iDEAL Section</title>
-                                        </ideal>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
     <default>
-        <ideal>
-            <advanced>
-                <expire_period>10</expire_period>
-                <cron_start>1</cron_start>
-                <cron_end>1</cron_end>
-            </advanced>
-        </ideal>
         <payment>
             <ideal_basic>
                   <model>ideal/basic</model>
                   <title>iDEAL Basic</title>
                   <allowspecific>0</allowspecific>
-                  <transaction_type>O</transaction_type>
             </ideal_basic>
             <ideal_advanced>
                   <model>ideal/advanced</model>
                   <title>iDEAL Advanced</title>
                   <allowspecific>0</allowspecific>
-                  <transaction_type>O</transaction_type>
+                  <expire_period>10</expire_period>
+                  <cron_start>1</cron_start>
+                  <cron_end>1</cron_end>
             </ideal_advanced>
         </payment>
     </default>

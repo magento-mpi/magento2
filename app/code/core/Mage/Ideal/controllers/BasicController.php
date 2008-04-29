@@ -34,10 +34,15 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      *  @param    none
      *  @return	  Mage_Sales_Model_Entity_Order object
      */
-    protected function getOrder ()
+    protected function _getOrder ()
     {
         $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+        $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+
+        if (!$order->getId()) {
+            return false;
+        }
+
         return $order;
     }
 
@@ -48,12 +53,15 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setIdealBasicQuoteId($session->getQuoteId());
-        $order = $this->getOrder();
+        $session->setIdealBasicOrderId($session->getLastOrderId());
+
+        if (!($order = $this->_getOrder())) {
+            $this->norouteAction();
+            return;
+        }
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('ideal')->__('Customer was redirected to iDEAL.' .
-                ' Please, check the status of a transaction via the ' .
-                'ING iDEAL Dashboard before delivery of the goods purchased.')
+            $this->__('Customer was redirected to iDEAL. Please, check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased.')
         );
         $order->save();
 
@@ -63,6 +71,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
                 ->toHtml()
             );
         $session->unsQuoteId();
+        $session->unsLastOrderId();
     }
 
     /**
@@ -72,19 +81,20 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function  successAction()
     {
-        $order = $this->getOrder();
+        $session = Mage::getSingleton('checkout/session');
+        $session->setLastOrderId($session->getIdealBasicOrderId(true));
+
+        $order = $this->_getOrder();
         if (!$order->getId()) {
             $this->norouteAction();
             return false;
         }
 
-        $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getIdealBasicQuoteId());
-        $session->unsIdealBasicQuoteId();
+        $session->setQuoteId($session->getIdealBasicQuoteId(true));
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('ideal')->__('Customer successfully returned from iDEAL')
+            $this->__('Customer successfully returned from iDEAL')
         );
 
         $order->sendNewOrderEmail();
@@ -103,7 +113,10 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $order = $this->getOrder();
+        $session = Mage::getSingleton('checkout/session');
+        $session->setLastOrderId($session->getIdealBasicOrderId(true));
+
+        $order = $this->_getOrder();
         if (!$order->getId()) {
             $this->norouteAction();
             return false;
@@ -111,7 +124,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->cancel();
 
-        $history = Mage::helper('ideal')->__('Payment was canceled by customer');
+        $history = $this->__('Payment was canceled by customer');
 
         $order->addStatusToHistory(
             $order->getStatus(),
@@ -120,8 +133,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->save();
 
-        $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getIdealBasicQuoteId());
+        $session->setQuoteId($session->getIdealBasicQuoteId(true));
 
         $this->_redirect('checkout/cart');
     }
@@ -134,7 +146,10 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function failureAction ()
     {
-        $order = $this->getOrder();
+        $session = Mage::getSingleton('checkout/session');
+        $session->setLastOrderId($session->getIdealBasicOrderId(true));
+
+        $order = $this->_getOrder();
 
         if (!$order->getId()) {
             $this->norouteAction();
@@ -143,8 +158,8 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->cancel();
 
-        $history = Mage::helper('ideal')->__('Error occured with transaction %s.', $order->getIncrementId()) . ' '
-                 . Mage::helper('ideal')->__('Customer was returned from iDEAL.');
+        $history = $this->__('Error occured with transaction %s.', $order->getIncrementId()) . ' '
+                 . $this->__('Customer was returned from iDEAL.');
 
         $order->addStatusToHistory(
             $order->getStatus(),
@@ -153,10 +168,8 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->save();
 
-        $session = Mage::getSingleton('checkout/session');
-        $session->setQuoteId($session->getIdealBasicQuoteId());
-        $session->setIdealErrorMessage(Mage::helper('ideal')->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try
-again later. Transaction number is %s.', $order->getIncrementId()));
+        $session->setQuoteId($session->getIdealBasicQuoteId(true));
+        $session->setIdealErrorMessage($this->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. Transaction number is %s.', $order->getIncrementId()));
 
         $this->loadLayout();
         $this->renderLayout();

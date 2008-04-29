@@ -52,16 +52,6 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
         return $this->getConfigData('debug_flag');
     }
 
-    public function createFormBlock($name)
-    {
-        $block = $this->getLayout()->createBlock('ideal/basic_form', $name)
-            ->setMethod('ideal_basic')
-            ->setPayment($this->getPayment())
-            ->setTemplate('ideal/basic/form.phtml');
-
-        return $block;
-    }
-
     /**
      * validate the currency code is avaialable to use for iDEAL Basic or not
      *
@@ -77,7 +67,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
         if (!in_array($currency_code, $this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('ideal')->__('Selected currency code ('.$currency_code.') is not compatabile with iDEAL'));
+            Mage::throwException(Mage::helper('ideal')->__('Selected currency code (%s) is not compatabile with iDEAL', $currency_code));
         }
         return $this;
     }
@@ -197,7 +187,6 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
         return $returnArray;
     }
 
-
     /**
      * Calculates and appends hash to form fields
      *
@@ -215,24 +204,4 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
         $hash = sha1($hashString);
         return array_merge($returnArray, array('hash' => $hash));
     }
-
-    /**
-     * Getting config parametrs
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getConfigData($key, $default=false)
-    {
-        if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('payment/ideal_basic/'.$key);
-             if (is_null($value) || false===$value) {
-                 $value = $default;
-             }
-            $this->setData($key, $value);
-        }
-        return $this->getData($key);
-    }
-
 }

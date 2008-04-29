@@ -33,7 +33,14 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
     protected $_infoBlockType = 'ideal/advanced_info';
     protected $_allowCurrencyCode = array('EUR');
 
+    protected $_isGateway               = false;
+    protected $_canAuthorize            = false;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = false;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = false;
+    protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 
     protected $_issuersList = null;
@@ -99,7 +106,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
         }
 
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('ideal')->__('Selected currency code ('.$currency_code.') is not compatabile with iDEAL'));
+            Mage::throwException(Mage::helper('ideal')->__('Selected currency code (%s) is not compatabile with iDEAL', $currency_code));
         }
 
         return $this;
@@ -117,7 +124,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
         $request = new Mage_Ideal_Model_Api_Advanced_AcquirerTrxRequest();
         $request->setIssuerId($issuerId);
         $request->setPurchaseId($order->getIncrementId());
-        $request->setEntranceCode(bin2hex(base64_decode(Mage::helper('core')->encrypt($order->getIncrementId()))));
+        $request->setEntranceCode(Mage::helper('ideal')->encrypt($order->getIncrementId()));
         $request->setAmount($order->getBaseGrandTotal()*100);
         $response = $this->getApi()->processRequest($request, $this->getDebug());
         return $response;
@@ -159,10 +166,10 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
     public function transactionStatusCheck($shedule = null)
     {
         $gmtStamp = Mage::getModel('core/date')->gmtTimestamp();
-        $to = $this->getConfigData('cron_start', 1) > 0?$this->getConfigData('cron_start', 1):1;
+        $to = $this->getConfigData('cron_start') > 0?$this->getConfigData('cron_start'):1;
         $to = date('Y-m-d H:i:s', $gmtStamp - $to * 3600);
 
-        $from = $this->getConfigData('cron_end', 1) > 0?$this->getConfigData('cron_end', 1):1;
+        $from = $this->getConfigData('cron_end') > 0?$this->getConfigData('cron_end'):1;
         $from = date('Y-m-d H:i:s', $gmtStamp - $from * 86400);
 
         $paymentCollection = Mage::getModel('sales/order_payment')->getCollection()
@@ -221,24 +228,5 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
     public function getDebug()
     {
         return $this->getConfigData('debug_flag');
-    }
-
-    /**
-     * Getting config parametrs
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getConfigData($key, $default=false)
-    {
-        if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('payment/ideal_advanced/'.$key);
-             if (is_null($value) || false===$value) {
-                 $value = $default;
-             }
-            $this->setData($key, $value);
-        }
-        return $this->getData($key);
     }
 }

@@ -60,26 +60,28 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
 
                 $this->getResponse()->setBody(
                     $this->getLayout()->createBlock('ideal/advanced_redirect')
-                        ->setMessage(Mage::helper('ideal')->__('You will be redirected to bank in a few seconds.'))
+                        ->setMessage($this->__('You will be redirected to bank in a few seconds.'))
                         ->setRedirectUrl($response->getIssuerAuthenticationUrl())
                         ->toHtml()
                 );
 
-                $this->getCheckout()->setIdealAdvancedQuoteId($this->getCheckout()->getQuoteId());
-                $this->getCheckout()->unsQuoteId();
-
                 $order->addStatusToHistory(
                     $order->getStatus(),
-                    Mage::helper('ideal')->__('Customer was redirected to iDEAL')
+                    $this->__('Customer was redirected to iDEAL')
                 );
                 $order->save();
+
+                $this->getCheckout()->setIdealAdvancedQuoteId($this->getCheckout()->getQuoteId(true));
+                $this->getCheckout()->setIdealAdvancedOrderId($this->getCheckout()->getLastOrderId(true));
+
+
                 return;
             }
         }
 
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('ideal/advanced_redirect')
-                ->setMessage(Mage::helper('ideal')->__('Error occured. You will be redirected back to store.'))
+                ->setMessage($this->__('Error occured. You will be redirected back to store.'))
                 ->setRedirectUrl(Mage::getUrl('checkout/cart'))
                 ->toHtml()
         );
@@ -91,10 +93,17 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
     public function cancelAction()
     {
         $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+        $this->getCheckout()->setLastOrderId($this->getCheckout()->getIdealAdvancedOrderId(true));
+        $order->load($this->getCheckout()->getLastOrderId());
+
+        if (!$order->getId()) {
+            $this->norouteAction();
+            return;
+        }
+
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('ideal')->__('Customer canceled payment.')
+            $this->__('Customer canceled payment.')
         );
         $order->cancel();
         $order->save();
@@ -111,7 +120,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
         /**
          * Decrypt Real Order Id that was sent encrypted
          */
-        $orderId = Mage::helper('core')->decrypt(base64_encode(pack('H*', $this->getRequest()->getParam('ec'))));
+        $orderId = Mage::helper('ideal')->decrypt($this->getRequest()->getParam('ec'));
         $transactionId = $this->getRequest()->getParam('trxid');
 
         $order = Mage::getModel('sales/order');
@@ -121,10 +130,11 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
             $advanced = $order->getPayment()->getMethodInstance();
             $advanced->setTransactionId($transactionId);
             $response = $advanced->getTransactionStatus($transactionId);
-            if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_SUCCESS) {
-                $this->getCheckout()->setQuoteId($this->getCheckout()->getIdealAdvancedQuoteId(true));
-                $this->getCheckout()->unsIdealAdvancedQuoteId();
 
+            $this->getCheckout()->setQuoteId($this->getCheckout()->getIdealAdvancedQuoteId(true));
+            $this->getCheckout()->setLastOrderId($this->getCheckout()->getIdealAdvancedOrderId(true));
+
+            if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_SUCCESS) {
                 $this->getCheckout()->getQuote()->setIsActive(false)->save();
 
                 if ($order->canInvoice()) {
@@ -154,17 +164,11 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
 
                 $this->_redirect('checkout/onepage/success');
             } else if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_CANCELLED) {
-                $this->getCheckout()->setQuoteId($this->getCheckout()->getIdealAdvancedQuoteId(true));
-                $this->getCheckout()->unsIdealAdvancedQuoteId();
-
                 $order->cancel();
                 $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer cancelled payment'));
 
                 $this->_redirect('checkout/cart');
             } else {
-                $this->getCheckout()->setQuoteId($this->getCheckout()->getIdealAdvancedQuoteId(true));
-                $this->getCheckout()->unsIdealAdvancedQuoteId();
-
                 $order->cancel();
                 $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer was rejected by iDEAL'));
                 $this->getCheckout()->setIdealErrorMessage(
