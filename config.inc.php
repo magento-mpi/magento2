@@ -90,6 +90,12 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/customer/',
     ),
 
+    'Mage_Cybersource' => array(
+        'app/code/core/Mage/Cybersource/',
+        'app/design/frontend/default/default/template/cybersource/',
+        'app/design/adminhtml/default/default/template/cybersource/',
+    ),
+
     'Mage_Dataflow' => array(
         'app/code/core/Mage/Dataflow/',
     ),
@@ -269,6 +275,7 @@ $CONFIG['helpers']  = array(
     'core'              => 'Mage_Core',
     'cron'              => 'Mage_Cron',
     'customer'          => 'Mage_Customer',
+    'cybersource'       => 'Mage_Cybersource',
     'dataflow'          => 'Mage_Dataflow',
     'directory'         => 'Mage_Directory',
     'eav'               => 'Mage_Eav',
