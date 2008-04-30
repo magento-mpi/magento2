@@ -31,7 +31,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
     protected $_code  = 'ideal_advanced';
     protected $_formBlockType = 'ideal/advanced_form';
     protected $_infoBlockType = 'ideal/advanced_info';
-    protected $_allowCurrencyCode = array('EUR');
+    protected $_allowCurrencyCode = array('EUR', 'GBP', 'USD', 'CAD', 'SHR', 'NOK', 'SEK', 'DKK');
 
     protected $_isGateway               = false;
     protected $_canAuthorize            = false;
@@ -205,14 +205,14 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
                         ->addObject($invoice->getOrder())
                         ->save();
 
-                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer successfully returned from iDEAL'));
+                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: finished successfully'));
                 }
             } else if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_CANCELLED) {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer cancelled payment'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: cancelled by customer'));
             } else {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer was rejected by iDEAL'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: rejected by iDEAL'));
             }
 
             $order->getPayment()->setIdealTransactionChecked(1);

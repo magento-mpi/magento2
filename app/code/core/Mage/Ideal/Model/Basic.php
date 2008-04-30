@@ -30,7 +30,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'ideal_basic';
     protected $_formBlockType = 'ideal/basic_form';
-    protected $_allowCurrencyCode = array('EUR');
+    protected $_allowCurrencyCode = array('EUR', 'GBP', 'USD', 'CAD', 'SHR', 'NOK', 'SEK', 'DKK');
 
     protected $_isGateway               = false;
     protected $_canAuthorize            = false;
@@ -110,7 +110,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             'amount' => $order->getBaseGrandTotal()*100,
             'purchaseID' => $order->getIncrementId(),
             'paymentType' => 'ideal',
-            'validUntil' => gmdate('Y-m-d\TH:i:s.000\Z', time() + 60 * 60) // plus 1 hour gmmktime () ???
+            'validUntil' => date('Y-m-d\TH:i:s.000\Z', strtotime ('+1 week')) // plus 1 week
         );
 
         $i = 1;
