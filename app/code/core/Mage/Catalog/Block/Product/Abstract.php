@@ -28,6 +28,8 @@
  */
 abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Template
 {
+    private $_priceBlock = null;
+    private $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 
     /**
      * Enter description here...
@@ -63,4 +65,40 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
         return $this->helper('catalog/product_compare')->getAddUrl($product);
     }
 
+
+    protected function _getPriceBlock()
+    {
+        if (is_null($this->_priceBlock)) {
+            $className = Mage::getConfig()->getBlockClassName('core/template');
+            $block = new $className();
+            $block->setType('core/template')
+                ->setIsAnonymous(true);
+
+            $this->_priceBlock = $block;
+        }
+        return $this->_priceBlock;
+    }
+
+    protected function _getPriceBlockTemplate()
+    {
+        if (!is_null($this->getPriceBlockTemplate()))
+            return $this->getPriceBlockTemplate();
+
+        return $this->_priceBlockDefaultTemplate;
+    }
+
+    /**
+     * Returns product price block html
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param boolean $displayMinimalPrice
+     */
+    public function getPriceHtml($product, $displayMinimalPrice = false)
+    {
+        return $this->_getPriceBlock()
+            ->setTemplate($this->_getPriceBlockTemplate())
+            ->setProduct($product)
+            ->setDisplayMinimalPrice($displayMinimalPrice)
+            ->toHtml();
+    }
 }

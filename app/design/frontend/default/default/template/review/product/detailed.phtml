@@ -82,7 +82,7 @@
             <?php endif; ?>
 
             <?php if($product->isSaleable()): ?>
-            <?php echo $this->helper('catalog/product')->getPriceHtml($product) ?>
+            <?php echo $this->getPriceHtml($product) ?>
             <fieldset class="add-to-cart-box">
                 <legend><?php echo $this->__('Add Items to Cart') ?></legend>
                 <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label> <input name="qty" type="text" class="input-text qty" id="qty" /></span>

@@ -54,7 +54,7 @@
             <?php if($_product->getRatingSummary()): ?>
             <?php echo $this->helper('review/product')->getSummaryHtml($_product) ?>
             <?php endif; ?>
-            <?php echo $this->helper('catalog/product')->getPriceHtml($_product, true) ?>
+            <?php echo $this->getPriceHtml($_product, true) ?>
             <?php if($_product->isSaleable()): ?>
             <a href="#" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><img src="<?php echo $this->getSkinUrl('images/btn_add_to_cart.gif') ?>" alt="Add to Cart"/></a>
             <?php else: ?>
@@ -98,7 +98,7 @@
             <?php if($_product->getRatingSummary()): ?>
             <?php echo $this->helper('review/product')->getSummaryHtml($_product, 'short') ?>
             <?php endif; ?>
-            <?php echo $this->helper('catalog/product')->getPriceHtml($_product, true) ?>
+            <?php echo $this->getPriceHtml($_product, true) ?>
             <?php if($_product->isSaleable()): ?>
             <a href="#" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><img src="<?php echo $this->getSkinUrl('images/btn_add_to_cart.gif') ?>" alt="Add to Cart"/></a>
             <?php else: ?>

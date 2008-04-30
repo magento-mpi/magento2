@@ -179,6 +179,9 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
      */
     public function getFinalPrice($qty=null, $product)
     {
+        if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
+            return $product->getCalculatedFinalPrice();
+        }
         /**
          * Calculating final price for item of configurable product
          */
@@ -282,10 +285,42 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
      */
     protected function _applyTierPrice($product, $qty, $finalPrice)
     {
+        if (is_null($qty))
+            return $finalPrice;
+
         $tierPrice  = $product->getTierPrice($qty);
         if (is_numeric($tierPrice)) {
             $finalPrice = min($finalPrice, $tierPrice);
         }
+        return $finalPrice;
+    }
+
+    public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
+    {
+        $finalPrice = $basePrice;
+
+        $today = floor(time()/86400)*86400;
+        $from = floor(strtotime($specialPriceFrom)/86400)*86400;
+        $to = floor(strtotime($specialPriceTo)/86400)*86400;
+
+        if ($specialPrice !== null && $specialPrice !== false) {
+            if ($specialPriceFrom && $today < $from) {
+            } elseif ($specialPriceTo && $today > $to) {
+            } else {
+               $finalPrice = min($finalPrice, $specialPrice);
+            }
+        }
+
+
+        if ($rulePrice === false) {
+            $date = mktime(0,0,0);
+            $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId);
+        }
+        if ($rulePrice !== null && $rulePrice !== false) {
+            $finalPrice = min($finalPrice, $rulePrice);
+        }
+        $finalPrice = max($finalPrice, 0);
+
         return $finalPrice;
     }
 }

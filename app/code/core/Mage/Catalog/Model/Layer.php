@@ -64,6 +64,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->addAttributeToSelect('special_to_date')
             //->joinMinimalPrice()
             ->addMinimalPrice()
+            ->addFinalPrice()
 
             ->addAttributeToSelect('description')
             ->addAttributeToSelect('short_description')

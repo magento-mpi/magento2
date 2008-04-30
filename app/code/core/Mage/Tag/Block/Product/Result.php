@@ -26,7 +26,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Block_Product_Result extends Mage_Core_Block_Template
+class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
 {
     protected $_productCollection;
 

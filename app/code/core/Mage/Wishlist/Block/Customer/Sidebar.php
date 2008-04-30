@@ -26,7 +26,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Core_Block_Template
+class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Catalog_Block_Product_Abstract
 {
 	protected  $_wishlist = null;
 

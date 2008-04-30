@@ -35,6 +35,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_urlRewriteCategory = '';
 
     protected $_addMinimalPrice = false;
+    protected $_addFinalPrice = false;
 
     /**
      * Initialize resources
@@ -44,6 +45,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $this->_init('catalog/product');
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
         $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
+    }
+
+    protected function _beforeLoad()
+    {
+        if ($this->_addFinalPrice)
+            $this->_joinPriceRules();
+
+        parent::_beforeLoad();
     }
 
     /**
@@ -58,6 +67,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     	}
     	if ($this->_addMinimalPrice) {
     	   $this->_addMinimalPrice();
+    	}
+    	if ($this->_addFinalPrice) {
+    	   $this->_addFinalPrice();
     	}
         if (count($this)>0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
@@ -435,5 +447,46 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         Mage::getSingleton('catalogindex/price')->addMinimalPrices($this);
         return $this;
+    }
+
+    public function addFinalPrice()
+    {
+        $this->_addFinalPrice = true;
+        $this->addAttributeToSelect('price')
+            ->addAttributeToSelect('special_price')
+            ->addAttributeToSelect('special_from_date')
+            ->addAttributeToSelect('special_to_date');
+
+        return $this;
+    }
+
+    protected function _joinPriceRules()
+    {
+        $wId = Mage::app()->getWebsite()->getId();
+        $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+        $conditions  = "_price_rule.product_id = e.entity_id AND ";
+        $conditions .= "_price_rule.rule_date = '".date('Y-m-d H:i:s', mktime(0, 0, 0))."' AND ";
+        $conditions .= "_price_rule.website_id = '{$wId}' AND ";
+        $conditions .= "_price_rule.customer_group_id = '{$gId}'";
+
+        $productIds = $this->getAllIds();
+        $this->getSelect()
+            ->joinLeft(array('_price_rule'=>$this->getTable('catalogrule/rule_product_price')), $conditions, array('_rule_price'=>'rule_price'));
+    }
+
+    protected function _addFinalPrice()
+    {
+        foreach ($this->_items as &$product) {
+            $basePrice = $product->getPrice();
+            $specialPrice = $product->getSpecialPrice();
+            $specialPriceFrom = $product->getSpecialFromDate();
+            $specialPriceTo = $product->getSpecialToDate();
+            $rulePrice = $product->getData('_rule_price');
+
+            $finalPrice = Mage_Catalog_Model_Product_Price::calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice);
+
+            $product->setCalculatedFinalPrice($finalPrice);
+        }
     }
 }

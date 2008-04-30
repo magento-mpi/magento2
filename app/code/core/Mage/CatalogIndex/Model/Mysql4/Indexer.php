@@ -386,16 +386,15 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
     protected function _processFinalPrice($productId, $store, $group)
     {
-        $priceAttribute = $this->_getAttribute('price', true);
-        $specialPriceAttribute = $this->_getAttribute('special_price', true);
-        $specialPriceFromAttribute = $this->_getAttribute('special_from_date', true);
-        $specialPriceToAttribute = $this->_getAttribute('special_to_date', true);
+        $basePrice = $this->_getAttributeValue($productId, $store, $this->_getAttribute('price', true));
+        $specialPrice = $this->_getAttributeValue($productId, $store, $this->_getAttribute('special_price', true));
+        $specialPriceFrom = $this->_getAttributeValue($productId, $store, $this->_getAttribute('special_from_date', true));
+        $specialPriceTo = $this->_getAttributeValue($productId, $store, $this->_getAttribute('special_to_date', true));
+        $wId = $store->getWebsiteId();
+        $gId = $group->getId();
 
-        $basePrice = $this->_getAttributeValue($productId, $store, $priceAttribute);
-        $specialPrice = $this->_getAttributeValue($productId, $store, $specialPriceAttribute);
-        $specialPriceFrom = $this->_getAttributeValue($productId, $store, $specialPriceFromAttribute);
-        $specialPriceTo = $this->_getAttributeValue($productId, $store, $specialPriceToAttribute);
-
+        return Mage_Catalog_Model_Product_Price::calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, false, $wId, $gId, $productId);
+/*
         $finalPrice = $basePrice;
 
         $today = floor(time()/86400)*86400;
@@ -409,10 +408,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                $finalPrice = min($finalPrice, $specialPrice);
             }
         }
-
         $date = mktime(0,0,0);
-        $wId = $store->getWebsiteId();
-        $gId = $group->getId();
 
         $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId);
         if ($rulePrice !== false) {
@@ -420,6 +416,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         }
         $finalPrice = max($finalPrice, 0);
         return $finalPrice;
+*/
     }
 
     protected function _getAttributeValue($productId, $store, $attribute)

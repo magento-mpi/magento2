@@ -48,7 +48,7 @@
     <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
 <?php endif; ?>
 
-<?php echo $this->helper('catalog/product')->getPriceHtml($_product) ?>
+<?php echo $this->getPriceHtml($_product) ?>
 
 <?php if($_product->isSaleable()): ?>
     <fieldset class="add-to-cart-box">

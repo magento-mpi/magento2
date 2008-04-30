@@ -40,7 +40,7 @@
             </div>
             <div class="product-details">
                     <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
-                    <?php echo $this->helper('catalog/product')->getPriceHtml($_item) ?>
+                    <?php echo $this->getPriceHtml($_item) ?>
                     <?php if($_item->isSuper()): ?>
                         <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a><br/>
                     <?php else: ?>
