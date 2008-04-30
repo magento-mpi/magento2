@@ -19,9 +19,10 @@
  */
 
 /**
- *
  * Chronopay Payment Action Dropdown source
  *
+ * @category    Mage
+ * @package     Mage_Chronopay
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Chronopay_Model_Source_PaymentAction

@@ -13,14 +13,16 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_PackageName
+ * @package    Mage_Chronopay
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /**
  * ChronoPay Gateway Model
  *
- * @name       name
+ * @category   Mage
+ * @package    Mage_Chronopay
+ * @name       Mage_Chronopay_Model_Gateway
  * @author	   Magento Core Team <core@magentocommerce.com>
  */
 
