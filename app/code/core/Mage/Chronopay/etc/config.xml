@@ -62,6 +62,37 @@
         <blocks>
             <chronopay><class>Mage_Chronopay_Block</class></chronopay>
         </blocks>
+        <payment>
+            <cc>
+                <types>
+                    <DI>
+                        <code>DI</code>
+                        <name>Discover</name>
+                        <order>60</order>
+                    </DI>
+                    <JCB>
+                        <code>JCB</code>
+                        <name>JCB</name>
+                        <order>61</order>
+                    </JCB>
+                    <DICL>
+                        <code>DICL</code>
+                        <name>Diners Club</name>
+                        <order>62</order>
+                    </DICL>
+                    <ENR>
+                        <code>ENR</code>
+                        <name>enRoute</name>
+                        <order>63</order>
+                    </ENR>
+                    <SS>
+                        <code>SS</code>
+                        <name>Switch/Solo</name>
+                        <order>64</order>
+                    </SS>
+                </types>
+            </cc>
+        </payment>
     </global>
     <frontend>
         <secure_url>
@@ -112,6 +143,12 @@
                   <allowspecific>0</allowspecific>
                   <transaction_type>O</transaction_type>
             </chronopay_standard>
+            <chronopay_gateway>
+                  <model>chronopay/gateway</model>
+                  <title>ChronoPay Gateway</title>
+                  <allowspecific>0</allowspecific>
+                  <transaction_type>O</transaction_type>
+            </chronopay_gateway>
         </payment>
     </default>
 </config>
