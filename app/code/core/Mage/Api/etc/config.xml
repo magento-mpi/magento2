@@ -34,6 +34,18 @@
             <api_mysql4>
                 <class>Mage_Api_Model_Mysql4</class>
                 <entities>
+                    <assert>
+                        <table>api_assert</table>
+                    </assert>
+                    <role>
+                        <table>api_role</table>
+                    </role>
+                    <rule>
+                        <table>api_rule</table>
+                    </rule>
+                    <user>
+                        <table>api_user</table>
+                    </user>
                 </entities>
             </api_mysql4>
         </models>

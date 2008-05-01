@@ -35,6 +35,7 @@ abstract class Mage_Core_Controller_Varien_Action
     const FLAG_NO_DISPATCH              = 'no-dispatch';
     const FLAG_NO_PRE_DISPATCH          = 'no-preDispatch';
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
+    const FLAG_NO_START_SESSION         = 'no-startSession';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
 
     const PARAM_NAME_SUCCESS_URL        = 'success_url';
@@ -365,7 +366,10 @@ abstract class Mage_Core_Controller_Varien_Action
             }
         }
 
-        Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
+        if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
+            Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
+        }
+
         Mage::app()->loadArea($this->getLayout()->getArea());
 
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {

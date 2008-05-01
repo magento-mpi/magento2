@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Admin
+ * @package    Mage_Api
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -22,18 +22,18 @@
  * ACL user resource
  *
  * @category   Mage
- * @package    Mage_Admin
+ * @package    Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Api_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 {
 
     protected function _construct()
     {
-        $this->_init('admin/user', 'user_id');
+        $this->_init('api/user', 'user_id');
             $this->_uniqueFields = array(
-                 array('field' => 'email', 'title' => Mage::helper('adminhtml')->__('Email')),
-                 array('field' => 'username', 'title' => Mage::helper('adminhtml')->__('User Name')),
+                 array('field' => 'email', 'title' => Mage::helper('api')->__('Email')),
+                 array('field' => 'username', 'title' => Mage::helper('api')->__('User Name')),
             );
     }
 
@@ -44,20 +44,20 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
      * @param string $password
      * @return boolean|Object
      */
-    public function recordLogin(Mage_Admin_Model_User $user)
+    public function recordLogin(Mage_Api_Model_User $user)
     {
         $data = array(
             'logdate' => now(),
             'lognum'  => $user->getLognum()+1
         );
         $condition = $this->_getWriteAdapter()->quoteInto('user_id=?', $user->getUserId());
-        $this->_getWriteAdapter()->update($this->getTable('admin/user'), $data, $condition);
+        $this->_getWriteAdapter()->update($this->getTable('api/user'), $data, $condition);
         return $this;
     }
 
     public function loadByUsername($username)
     {
-        $select = $this->_getReadAdapter()->select()->from($this->getTable('admin/user'))
+        $select = $this->_getReadAdapter()->select()->from($this->getTable('api/user'))
             ->where('username=:username');
         return $this->_getReadAdapter()->fetchRow($select, array('username'=>$username));
     }
@@ -75,17 +75,12 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         if ( $userId > 0 ) {
             $dbh = $this->_getReadAdapter();
             $select = $dbh->select();
-            $select->from($this->getTable('admin/role'))
+            $select->from($this->getTable('api/role'))
                 ->where("parent_id > 0 AND user_id = {$userId}");
             return $dbh->fetchAll($select);
         } else {
             return null;
         }
-    }
-
-    private function _encryptPassword($pwStr)
-    {
-        return Mage::helper('core')->getHash($pwStr, 2);
     }
 
     protected function _beforeSave(Mage_Core_Model_Abstract $user)
@@ -97,36 +92,19 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
-    protected function _afterSave(Mage_Core_Model_Abstract $user)
-    {
-        $user->setExtra(unserialize($user->getExtra()));
-        return $this;
-    }
-
-    protected function _afterLoad(Mage_Core_Model_Abstract $user)
-    {
-        if (is_string($user->getExtra())) {
-            $user->setExtra(unserialize($user->getExtra()));
-        }
-        return parent::_afterLoad($user);
-    }
-
     public function load(Mage_Core_Model_Abstract $user, $value, $field=null)
     {
-//        if (!intval($value) && is_string($value)) {
-//            $field = 'user_id';
-//        }
         return parent::load($user, $value, $field);
     }
 
     public function delete(Mage_Core_Model_Abstract $user)
     {
         $dbh = $this->_getWriteAdapter();
-        $uid = $user->getId();
+        $uid = (int) $user->getId();
         $dbh->beginTransaction();
         try {
-            $dbh->delete($this->getTable('admin/user'), "user_id=$uid");
-            $dbh->delete($this->getTable('admin/role'), "user_id=$uid");
+            $dbh->delete($this->getTable('api/user'), "user_id=$uid");
+            $dbh->delete($this->getTable('api/role'), "user_id=$uid");
         } catch (Mage_Core_Exception $e) {
             throw $e;
             return false;
@@ -149,7 +127,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         $this->_getWriteAdapter()->beginTransaction();
 
         try {
-            $this->_getWriteAdapter()->delete($this->getTable('admin/role'), "user_id = {$user->getId()}");
+            $this->_getWriteAdapter()->delete($this->getTable('api/role'), "user_id = {$user->getId()}");
             foreach ($rolesIds as $rid) {
                 $rid = intval($rid);
                 if ($rid > 0) {
@@ -167,7 +145,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
                     'user_id'       => $user->getId(),
                     'role_name'     => $user->getFirstname()
                 );
-                $this->_getWriteAdapter()->insert($this->getTable('admin/role'), $data);
+                $this->_getWriteAdapter()->insert($this->getTable('api/role'), $data);
             }
             $this->_getWriteAdapter()->commit();
         } catch (Mage_Core_Exception $e) {
@@ -182,7 +160,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         if ( !$user->getId() ) {
             return array();
         }
-        $table  = $this->getTable('admin/role');
+        $table  = $this->getTable('api/role');
         $read   = $this->_getReadAdapter();
         $select = $read->select()->from($table, array())
                     ->joinLeft(array('ar' => $table), "(ar.role_id = `{$table}`.parent_id and ar.role_type = 'G')", array('role_id'))
@@ -198,16 +176,16 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         $aRoles = $this->hasAssigned2Role($user);
         if ( sizeof($aRoles) > 0 ) {
             foreach($aRoles as $idx => $data){
-                $dbh->delete($this->getTable('admin/role'), "role_id = {$data['role_id']}");
+                $dbh->delete($this->getTable('api/role'), "role_id = {$data['role_id']}");
             }
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('admin/role')->load($user->getRoleId());
+            $role = Mage::getModel('api/role')->load($user->getRoleId());
         } else {
             $role = array('tree_level' => 0);
         }
-        $dbh->insert($this->getTable('admin/role'), array(
+        $dbh->insert($this->getTable('api/role'), array(
             'parent_id' => $user->getRoleId(),
             'tree_level'=> ($role->getTreeLevel() + 1),
             'sort_order'=> 0,
@@ -227,15 +205,15 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
             return $this;
         }
         $dbh = $this->_getWriteAdapter();
-        $condition = "`{$this->getTable('admin/role')}`.user_id = ".$dbh->quote($user->getUserId())." AND `{$this->getTable('admin/role')}`.parent_id = ".$dbh->quote($user->getRoleId());
-        $dbh->delete($this->getTable('admin/role'), $condition);
+        $condition = "`{$this->getTable('api/role')}`.user_id = ".$dbh->quote($user->getUserId())." AND `{$this->getTable('api/role')}`.parent_id = ".$dbh->quote($user->getRoleId());
+        $dbh->delete($this->getTable('api/role'), $condition);
         return $this;
     }
 
     public function roleUserExists(Mage_Core_Model_Abstract $user)
     {
         if ( $user->getUserId() > 0 ) {
-            $roleTable = $this->getTable('admin/role');
+            $roleTable = $this->getTable('api/role');
             $dbh    = $this->_getReadAdapter();
             $select = $dbh->select()->from($roleTable)
                 ->where("parent_id = {$user->getRoleId()} AND user_id = {$user->getUserId()}");
@@ -247,7 +225,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 
     public function userExists(Mage_Core_Model_Abstract $user)
     {
-        $usersTable = $this->getTable('admin/user');
+        $usersTable = $this->getTable('api/user');
         $select = $this->_getReadAdapter()->select();
         $select->from($usersTable);
         $select->where("({$usersTable}.username = '{$user->getUsername()}' OR {$usersTable}.email = '{$user->getEmail()}') AND {$usersTable}.user_id != '{$user->getId()}'");

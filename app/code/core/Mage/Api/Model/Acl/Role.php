@@ -18,14 +18,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Webservice api abstract
+ * User acl role
  *
  * @category   Mage
  * @package    Mage_Api
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Server_Abstract extends Varien_Object
+class Mage_Api_Model_Acl_Role extends Mage_Core_Model_Abstract
 {
-
-} // Class Mage_Api_Model_Server_Abstract End
+    protected function _construct()
+    {
+        $this->_init('api/role');
+    }
+}

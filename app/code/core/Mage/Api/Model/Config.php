@@ -70,4 +70,116 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         $this->setXml($config->getNode('api'));
         return $this;
     }
+
+    public function getAdapters()
+    {
+        $adapters = array();
+        foreach ($this->getNode('adapters')->children() as $adapterName => $adapter) {
+            /* @var $adapter Varien_SimpleXml_Element */
+            $adapters[$adapterName] = $adapter->asArray();
+        }
+        return $adapters;
+    }
+
+    public function getActiveAdapters()
+    {
+        $adapters = array();
+        foreach ($this->getAdapters() as $adapterName => $adapter) {
+            if (!isset($adapter['active']) || $adapter['active'] == '0') {
+                continue;
+            }
+
+            if (isset($adapter['required']) && isset($adapter['required']['extensions'])) {
+                foreach ($adapter['required']['extensions'] as $extension=>$data) {
+                    if (!extension_loaded($extension)) {
+                        continue;
+                    }
+                }
+            }
+
+            $adapters[$adapterName] = $adapter;
+        }
+
+        return $adapters;
+    }
+
+    /**
+     * Load Acl resources from config
+     *
+     * @param Mage_Admin_Model_Acl $acl
+     * @param Mage_Core_Model_Config_Element $resource
+     * @param string $parentName
+     * @return Mage_Admin_Model_Config
+     */
+    public function loadAclResources(Mage_Admin_Model_Acl $acl, $resource=null, $parentName=null)
+    {
+        if (is_null($resource)) {
+            $resource = $this->getNode('acl/resources');
+            $resourceName = null;
+        } else {
+            $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
+            $acl->add(Mage::getModel('acl_resource', $resourceName), $parentName);
+        }
+
+        if (isset($resource->all)) {
+            $acl->add(Mage::getModel('acl_resource', 'all'), null);
+        }
+
+        if (isset($resource->admin)) {
+            $children = $resource->admin;
+        } elseif (isset($resource->children)){
+            $children = $resource->children->children();
+        }
+
+
+
+        if (empty($children)) {
+            return $this;
+        }
+
+        foreach ($children as $res) {
+            $this->loadAclResources($acl, $res, $resourceName);
+        }
+        return $this;
+    }
+
+    /**
+     * Get acl assert config
+     *
+     * @param string $name
+     * @return Mage_Core_Model_Config_Element|boolean
+     */
+    public function getAclAssert($name='')
+    {
+        $asserts = $this->getNode('acl/asserts');
+        if (''===$name) {
+            return $asserts;
+        }
+
+        if (isset($asserts->$name)) {
+            return $asserts->$name;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve privilege set by name
+     *
+     * @param string $name
+     * @return Mage_Core_Model_Config_Element|boolean
+     */
+    public function getAclPrivilegeSet($name='')
+    {
+        $sets = $this->getNode('acl/privilegeSets');
+        if (''===$name) {
+            return $sets;
+        }
+
+        if (isset($sets->$name)) {
+            return $sets->$name;
+        }
+
+        return false;
+    }
 } // Class Mage_Api_Model_Config End
