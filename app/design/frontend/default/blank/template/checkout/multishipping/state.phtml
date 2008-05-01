@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento
  *
@@ -11,17 +12,23 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
+ * @category   design_default
+ * @package    Mage
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-.container      { width:940px; margin:20px auto; text-align:left; }
-.middle         { clear:both; }
-.col-left       { float:left; width:250px; }
-.col-main       { margin-left:260px;  }
-.footer         { clear:both; }
-
-.header-links li{ display:inline; }
-#nav li         { display:inline; }
-.breadcrumbs li { display:inline; }
+?>
+<?php 
+/**
+ * Mustishipping state
+ * 
+ * @see Mage_Checkout_Block_Multishipping_State
+ */
+?>
+<table class="checkout-progress">
+<tr>
+<?php foreach ($this->getSteps() as $_step): ?>
+    <td<?php if($_step->getIsActive()): ?> class="active"<?php endif ?>><span><?php echo $_step->getLabel() ?></span></td>
+<?php endforeach; ?>
+</tr>
+</table>
