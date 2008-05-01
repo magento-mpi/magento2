@@ -74,7 +74,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
 
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
-        $order->addStatusToHistory($order->getStatus(), Mage::helper('paybox')->__('Customer was redirected to Paybox'));
+        $order->addStatusToHistory($order->getStatus(), $this->__('Customer was redirected to Paybox'));
         $order->save();
 
         $this->getResponse()->setBody(
@@ -89,10 +89,6 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
 
     public function successAction()
     {
-        if ($this->getRequest()->isPost()) {
-            mail('ruslan.voytenko@varien.com', 'http url fro Paybox', print_r($this->getRequest()->getPost(),1));
-        }
-
         $this->setPayboxResponse($this->getRequest()->getParams());
         if ($this->_checkResponse()) {
 

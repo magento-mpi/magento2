@@ -19,13 +19,32 @@
  */
 
 /**
- * Paybox data helper
+ * Paybox Adminhtml Cart Type select
  *
  * @category   Mage
  * @package    Mage_Paybox
  * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
-class Mage_Paybox_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Paybox_Block_Adminhtml_Cart_Type_Select extends Mage_Adminhtml_Block_Template
 {
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Paybox_Model_System
+     */
+    public function getModel()
+    {
+        return Mage::getModel('paybox/system');
+    }
+
+    public function getParentHtmlId()
+    {
+        return substr($this->getDependHtmlId(), 0, strrpos($this->getDependHtmlId(), 'typecarte')) . 'typepaiement';
+    }
+
+    public function getJsonCartTypes()
+    {
+        return $this->getModel()->getJsonCartTypes();
+    }
 
 }

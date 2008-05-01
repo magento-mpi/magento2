@@ -26,7 +26,7 @@
  * @package    Mage_Paybox
  * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
-class Mage_Paybox_Model_Source_CarteType
+class Mage_Paybox_Model_Source_CartType
 {
     /**
      * Enter description here...
@@ -40,16 +40,16 @@ class Mage_Paybox_Model_Source_CarteType
 
     public function toOptionArray()
     {
-        $carteTypesArr = array();
-        $tmpArr = $this->getModel()->getCarteTypesByPayment($this->getModel()->getPaymentType());
+        $cartTypesArr = array();
+        $tmpArr = $this->getModel()->getCartTypesByPayment($this->getModel()->getPaymentType());
 
         foreach ($tmpArr as $code => $name) {
-            $carteTypesArr[] = array(
+            $cartTypesArr[] = array(
                 'value' => $code,
                 'label' => $name
             );
         }
 
-        return $carteTypesArr;
+        return $cartTypesArr;
     }
 }

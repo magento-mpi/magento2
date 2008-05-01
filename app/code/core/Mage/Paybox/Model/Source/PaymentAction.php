@@ -23,8 +23,6 @@ class Mage_Paybox_Model_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-//            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_ACTION_ATHORIZE , 'label' => Mage::helper('paybox')->__('Authorization')),
-//            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_ACTION_ATHORIZE_CAPTURE, 'label' => Mage::helper('paybox')->__('Payment')),
             array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => Mage::helper('paybox')->__('Authorization')),
             array('value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => Mage::helper('paybox')->__('Payment')),
         );

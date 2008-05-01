@@ -59,7 +59,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         if ($recallNumber) {
             $path = 'pbx_backupurl';
         }
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/' . $path);
+        $this->getConfigData($path);
     }
 
     /**
@@ -69,7 +69,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getPaymentAction()
     {
-        $paymentAction = Mage::getStoreConfig('paybox/' . $this->getCode() . '/payment_action');
+        $paymentAction = $this->getConfigData('payment_action');
         switch ($paymentAction) {
             case self::ACTION_AUTHORIZE:
                 return self::PBX_PAYMENT_ACTION_ATHORIZE;
@@ -85,17 +85,17 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function getSiteNumber()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_site');
+        return $this->getConfigData('pbx_site');
     }
 
     public function getRang()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_rang');
+        return $this->getConfigData('pbx_rang');
     }
 
     public function getCleNumber()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_cle');
+        return $this->getConfigData('pbx_cle');
     }
 
     public function getCurrencyNumb()
@@ -125,7 +125,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function getDebugFlag()
     {
-        return Mage::getStoreConfigFlag('paybox/' . $this->getCode() . 'api/debug_flag');
+        return $this->getConfigData('debug_flag');
     }
 
     public function validate()

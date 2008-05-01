@@ -25,15 +25,12 @@
  * @package    Mage_Paybox
  * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
  */
-class Mage_Paybox_Block_Adminhtml_Carte_Type extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Mage_Paybox_Block_Adminhtml_Cart_Type extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-//        $html = '';
-
-//        $additional = Mage::getSingleton('core/layout')->createBlock('core/template')
-        $additional = Mage::getSingleton('core/layout')->createBlock('paybox/adminhtml_carte_type_select')
-            ->setTemplate('paybox/adminhtml/carte/type/select.phtml')
+        $additional = Mage::getSingleton('core/layout')->createBlock('paybox/adminhtml_cart_type_select')
+            ->setTemplate('paybox/adminhtml/cart/type/select.phtml')
             ->setDependHtmlId($element->getHtmlId())
             ->toHtml();
 

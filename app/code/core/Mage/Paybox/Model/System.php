@@ -72,7 +72,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     protected $_formBlockType = 'paybox/system_form';
 
     protected $_order;
-    protected $_carteTypes;
+    protected $_cartTypes;
     protected $_currenciesNumbers;
 
     /**
@@ -95,10 +95,10 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
         $this->_order = $order;
     }
 
-    protected function _getCarteTypes($paymentType = null)
+    protected function _getCartTypes($paymentType = null)
     {
-        if (!$this->_carteTypes) {
-            $this->_carteTypes = array(
+        if (!$this->_cartTypes) {
+            $this->_cartTypes = array(
                 self::PBX_PAYMENT_TYPE_CARTE => array(
                     'none' => Mage::helper('paybox')->__('Customer Choise'),
                     self::PBX_CARTE_TYPE_CB => Mage::helper('paybox')->__('CB'),
@@ -139,40 +139,40 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
         }
 
         if (!is_null($paymentType)) {
-            if (isset($this->_carteTypes[$paymentType])) {
-                return $this->_carteTypes[$paymentType];
+            if (isset($this->_cartTypes[$paymentType])) {
+                return $this->_cartTypes[$paymentType];
             }
         }
 
-        return $this->_carteTypes;
+        return $this->_cartTypes;
     }
 
-    public function getCarteTypesByPayment($paymentType)
+    public function getCartTypesByPayment($paymentType)
     {
         if ($paymentType == '') {
             return array();
         }
-        return $this->_getCarteTypes($paymentType);
+        return $this->_getCartTypes($paymentType);
     }
 
-    public function getJsonCarteTypes()
+    public function getJsonCartTypes()
     {
-        return Zend_Json::encode($this->_getCarteTypes());
+        return Zend_Json::encode($this->_getCartTypes());
     }
 
     public function getPaymentMethod()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_mode');
+        return $this->getConfigData('pbx_mode');
     }
 
     public function getPayboxFile()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_file');
+        return $this->getConfigData('pbx_file');
     }
 
     public function getPaymentType()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_typepaiement');
+        return $this->getConfigData('pbx_typepaiement');
     }
 
     /**
@@ -182,7 +182,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
      */
     public function getPaymentAction()
     {
-        $paymentAction = Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_autoseule');
+        $paymentAction = $this->getConfigData('pbx_autoseule');
         switch ($paymentAction) {
             case self::ACTION_AUTHORIZE:
                 return self::PBX_PAYMENT_ACTION_ATHORIZE;
@@ -198,22 +198,22 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
 
     public function getCarteType()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_typecarte');
+        return $this->getConfigData('pbx_typecarte');
     }
 
     public function getSiteNumber()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_site');
+        return $this->getConfigData('pbx_site');
     }
 
     public function getRang()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_rang');
+        return $this->getConfigData('pbx_rang');
     }
 
     public function getIdentifiant()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_identifiant');
+        return $this->getConfigData('pbx_identifiant');
     }
 
     public function getCurrencyNumb()
@@ -229,22 +229,22 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
 
     public function getLanguage()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_langue');
+        return $this->getConfigData('pbx_langue');
     }
 
     public function getCodeFamille()
     {
-        return Mage::getStoreConfig('paybox' . $this->getCode() . 'api/pbx_codefamille');
+        return $this->getConfigData('pbx_codefamile');
     }
 
     public function getUneuroCode()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_1euro_codeexterne');
+        return $this->getConfigData('pbx_1euro_codeexterne');
     }
 
     public function getCofidisCode()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_1euro_codecofidis');
+        return $this->getConfigData('pbx_1euro_codecofidis');
     }
 
     public function getUneuroData()
@@ -287,19 +287,19 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     public function getApiUrls()
     {
         $fielldsArr = array();
-        if (($primary = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_paybox'))) != '') {
+        if (($primary = trim($this->getConfigData('pbx_paybox'))) != '') {
             $fielldsArr['PBX_PAYBOX'] = $primary;
         }
 
-        if (($backup1 = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_backup1'))) != '') {
+        if (($backup1 = trim($this->getConfigData('pbx_backup1'))) != '') {
             $fielldsArr['PBX_BACKUP1'] = $backup1;
         }
 
-        if (($backup2 = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_backup2'))) != '') {
+        if (($backup2 = trim($this->getConfigData('pbx_backup2'))) != '') {
             $fielldsArr['PBX_BACKUP2'] = $backup2;
         }
 
-        if (($backup3 = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_backup3'))) != '') {
+        if (($backup3 = trim($this->getConfigData('pbx_backup3'))) != '') {
             $fielldsArr['PBX_BACKUP3'] = $backup3;
         }
 
@@ -309,19 +309,19 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     public function getTimeouts()
     {
         $fielldsArr = array();
-        if (($timeout = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_timeout'))) != '') {
+        if (($timeout = trim($this->getConfigData('pbx_timeout'))) != '') {
             $fielldsArr['PBX_TIMEOUT'] = $timeout;
         }
 
-        if (($timeout1 = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_timeout1'))) != '') {
+        if (($timeout1 = trim($this->getConfigData('pbx_timeout1'))) != '') {
             $fielldsArr['PBX_TIMEOUT1'] = $timeout1;
         }
 
-        if (($timeout2 = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_timeout2'))) != '') {
+        if (($timeout2 = trim($this->getConfigData('pbx_timeout2'))) != '') {
             $fielldsArr['PBX_TIMEOUT2'] = $timeout2;
         }
 
-        if (($timeout3 = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_timeout3'))) != '') {
+        if (($timeout3 = trim($this->getConfigData('pbx_timeout3'))) != '') {
             $fielldsArr['PBX_TIMEOUT3'] = $timeout3;
         }
 
@@ -331,40 +331,40 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     public function getManagementMode()
     {
         $fieldsArr = array();
-        if (($text = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_txt'))) != '') {
+        if (($text = trim($this->getConfigData('pbx_txt'))) != '') {
             $fieldsArr['PBX_TXT'] = $text;
         }
 
-        if (($wait = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_wait'))) != '') {
+        if (($wait = trim($this->getConfigData('pbx_wait'))) != '') {
             $fieldsArr['PBX_WAIT'] = $wait;
         }
 
-        if (($boutpi = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_boutpi')))) {
+        if (($boutpi = trim($this->getConfigData('pbx_boutpi')))) {
             $fieldsArr['PBX_BOUTPI'] = $boutpi;
         }
 
-        if (($bkgd = trim(Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_bkgd'))) != '') {
+        if (($bkgd = trim($this->getConfigData('pbx_bkgd'))) != '') {
             $fieldsArr['PBX_BKGD'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'payment/paybox/bkgd/' . $bkgd;
         }
 
-        $fieldsArr['PBX_OUTPUT'] = Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_output');
+        $fieldsArr['PBX_OUTPUT'] = $this->getConfigData('pbx_output');
 
         return $fieldsArr;
     }
 
     public function getPingFlag()
     {
-        return Mage::getStoreConfigFlag('paybox/' . $this->getCode() . 'api/pbx_ping');
+        return $this->getConfigData('pbx_ping');
     }
 
     public function getPingPort()
     {
-        return Mage::getStoreConfig('paybox/' . $this->getCode() . 'api/pbx_port');
+        return $this->getConfigData('pbx_port');
     }
 
     public function getDebugFlag()
     {
-        return Mage::getStoreConfigFlag('paybox/' . $this->getCode() . 'api/debug_flag');
+        return $this->getConfigData('debug_flag');
     }
 
     public function getOrderPlaceRedirectUrl()
