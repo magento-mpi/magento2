@@ -19,14 +19,17 @@
  */
 
 /**
- * Paybox Api Debug Model
+ * Paybox Question Number Model
  *
  * @category   Mage
  * @package    Mage_Paybox
- * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paybox_Model_Question_Number extends Mage_Core_Model_Abstract
 {
+    /**
+     * Max value of question number
+     */
     const MAX_QUESTION_NUMBER_VALUE = 2147483647;
 
     protected $_accountHash;
@@ -44,6 +47,7 @@ class Mage_Paybox_Model_Question_Number extends Mage_Core_Model_Abstract
 
     protected function _afterLoad()
     {
+        //need to create new record (with default data) if it first time using of paybox direct
         if (!$this->getAccountHash()) {
             $this->setAccountHash($this->_accountHash);
             $this->setIncrementValue(1);
@@ -51,6 +55,7 @@ class Mage_Paybox_Model_Question_Number extends Mage_Core_Model_Abstract
         }
         unset($this->_accountHash);
 
+        //need to set default value of question number if it reach max value
         if ($this->getIncrementValue() >= self::MAX_QUESTION_NUMBER_VALUE) {
             $this->setResetDate('CURRENT_TIMESTAMP')
                 ->setIncrementValue(1);
@@ -59,12 +64,22 @@ class Mage_Paybox_Model_Question_Number extends Mage_Core_Model_Abstract
         return parent::_afterLoad();
     }
 
+    /**
+     * Return next number formated to paybox specification
+     *
+     * @return string
+     */
     public function getNextQuestionNumber()
     {
         $questionNumber = $this->getIncrementValue()+1;
         return sprintf('%010d', $questionNumber);
     }
 
+    /**
+     * Increase question number and save it after successful transaction
+     *
+     * @return Mage_Paybox_Model_Question_Number
+     */
     public function increaseQuestionNumber()
     {
         $this->setIncrementValue($this->getIncrementValue()+1)

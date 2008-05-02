@@ -23,15 +23,27 @@
  *
  * @category   Mage
  * @package    Mage_Paybox
- * @author     Ruslan Voitenko <ruslan@voytenko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
+    /**
+     * Paybox direct payment actions
+     */
     const PBX_PAYMENT_ACTION_ATHORIZE = '00001';
     const PBX_PAYMENT_ACTION_DEBIT = '00002';
     const PBX_PAYMENT_ACTION_ATHORIZE_CAPTURE = '00003';
     const PBX_PAYMENT_ACTION_CANCELLATION = '00005';
     const PBX_PAYMENT_ACTION_REFUND = '00004';
+
+    const PBX_VERSION = '00103';
+
+    /**
+     * ECL(Electronic Commerce Indicator).
+     * Type of ordering items. Need for some banks.
+     * 024 - request by internet
+     */
+    const PBX_ACTIVITE_VALUE = '024';
 
     protected $_code  = 'paybox_direct';
 
@@ -53,6 +65,13 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_currenciesNumbers;
     protected $_questionNumberModel;
 
+    /**
+     * Return paybox gateway url.
+     * If $recallNumber > 0 (primary url is not available) return url of backup gateway
+     *
+     * @param integer $recallNumber
+     * @return string
+     */
     public function getPayboxUrl($recallNumber)
     {
         $path = 'pbx_url';
@@ -63,7 +82,8 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * Get Payment Action of Paybox System changed to Paybox specification
+     * Get Payment Action of Paybox Direct,
+     * changed to Paybox specification
      *
      * @return string
      */
@@ -83,21 +103,41 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
     }
 
+    /**
+     * Return site number of account (TPE)
+     *
+     * @return string
+     */
     public function getSiteNumber()
     {
         return $this->getConfigData('pbx_site');
     }
 
+    /**
+     * Return rang number of account
+     *
+     * @return string
+     */
     public function getRang()
     {
         return $this->getConfigData('pbx_rang');
     }
 
+    /**
+     * Return Cle number of account
+     *
+     * @return string
+     */
     public function getCleNumber()
     {
         return $this->getConfigData('pbx_cle');
     }
 
+    /**
+     * Return currency number in ISO4217 format
+     *
+     * @return string
+     */
     public function getCurrencyNumb()
     {
         $currencyCode = $this->getPayment()->getOrder()->getBaseCurrencyCode();
@@ -110,7 +150,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * Enter description here...
+     * Return model of Question Number
      *
      * @return Mage_Paybox_Model_Question_Number
      */
@@ -123,14 +163,14 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this->_questionNumberModel;
     }
 
+    /**
+     * Return Debug Flag
+     *
+     * @return string
+     */
     public function getDebugFlag()
     {
         return $this->getConfigData('debug_flag');
-    }
-
-    public function validate()
-    {
-        return parent::validate();
     }
 
     public function authorize(Varien_Object $payment, $amount)
@@ -227,32 +267,32 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+    /**
+     * Building array of params for direct payment
+     *
+     * @return bool | array
+     */
     public function callDoDirectPayment()
     {
         $payment = $this->getPayment();
         $requestStr = '';
 
         $tmpArr = array(
-            'VERSION' => '00103',//!!!!????
-            'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),//i.e ddmmyyyyhhmmss
-            'TYPE' => $this->getPaymentAction(),//i.e 0000$t (types:1 = authorization, 2 = debit, 3 = authorization + debit, 4 = credit, 5 = cancellation, 11= Checking of the existence of a transaction, 12 = transaction without request for authorization, 13 = Modification of the amount of a transaction, 14 = Refund)
+            'VERSION' => self::PBX_VERSION,
+            'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
+            'TYPE' => $this->getPaymentAction(),
             'NUMQUESTION' => $this->getQuestionNumberModel()->getNextQuestionNumber(),
-            'SITE' => $this->getSiteNumber(),//for TYPE 2,5,11,13
-            'RANG' => $this->getRang(),//for TYPE 2,5,11,13
+            'SITE' => $this->getSiteNumber(),
+            'RANG' => $this->getRang(),
             'CLE' => $this->getCleNumber(),
-            'IDENTIFIANT' => '',//!!!!!! empty field by doc
-            'MONTANT' => ($this->getAmount()*100),//for TYPE 2,5,11
-            'DEVISE' => $this->getCurrencyNumb(),//currency
-            'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),//for all TYPEs except 13, have to be encoded
-            'PORTEUR' => $payment->getCcNumber(),//for TYPE 1, 3, 4 and 12. Not checked for TYPE 5
-            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),//expiry date for TYPE 1, 3, 4, 5 and 12. i.e MMYY  !!!!!!!!??????????
+            'IDENTIFIANT' => '',
+            'MONTANT' => ($this->getAmount()*100),
+            'DEVISE' => $this->getCurrencyNumb(),
+            'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),
+            'PORTEUR' => $payment->getCcNumber(),
+            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
             'CVV' => $payment->getCcCid(),
-            'ACTIVITE' => '024',//!!!!! request by internet (can be by phone etc.)
-//            'ARCHIVAGE' => 'AXZ130968CT2',//for charge backs
-//            'DIFFERE' => '000',///days before to send transactions to bank
-//            'PAYS' => '',//country code to returne in the response
-//            'PRIV_CODETRAITEMENT' => '',//SOFINCO or COFINOGA :))))
-//            'DATENAISS' => '08031964',//date of birth of the cardholder for the payment with COFINOGA card
+            'ACTIVITE' => self::PBX_ACTIVITE_VALUE,
         );
 
         foreach ($tmpArr as $param=>$value) {
@@ -276,13 +316,18 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $resultArr;
     }
 
+    /**
+     * Building array of params for debit (after authorize)
+     *
+     * @return bool | array
+     */
     public function callDoDebitPayment()
     {
         $payment = $this->getPayment();
         $requestStr = '';
 
         $tmpArr = array(
-            'VERSION' => '00103',
+            'VERSION' => self::PBX_VERSION,
             'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
             'TYPE' => self::PBX_PAYMENT_ACTION_DEBIT,
             'NUMQUESTION' => $payment->getPayboxQuestionNumber(),
@@ -312,52 +357,18 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $resultArr;
     }
 
-    public function callDoVoid($payment)
-    {
-        $requestStr = '';
-
-        $tmpArr = array(
-            'VERSION' => '00103',
-            'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
-            'TYPE' => self::PBX_PAYMENT_ACTION_CANCELLATION,
-            'NUMQUESTION' => $this->getQuestionNumberModel()->getNextQuestionNumber(),//'1000000031'
-            'SITE' => $this->getSiteNumber(),
-            'RANG' => $this->getRang(),
-            'CLE' => $this->getCleNumber(),
-            'MONTANT' => ($this->getAmount()*100),
-            'DEVISE' => (string)$this->getCurrencyNumb(),
-            'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),
-            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
-            'NUMAPPEL' => $payment->getPayboxRequestNumber(),
-            'NUMTRANS' => $payment->getLastTransId(),
-        );
-
-        foreach ($tmpArr as $param=>$value) {
-            $requestStr .= $param . '=' . $value . '&';
-        }
-        $requestStr = substr($requestStr, 0, -1);
-
-        $resultArr = $this->call($requestStr);
-
-        if ($resultArr === false) {
-            return false;
-        }
-
-        $this->getQuestionNumberModel()
-            ->increaseQuestionNumber();
-
-        $this->setTransactionId($resultArr['NUMTRANS']);
-
-        return $resultArr;
-    }
-
+    /**
+     * Building array of params for refund
+     *
+     * @return bool | array
+     */
     public function callDoRefund()
     {
         $payment = $this->getPayment();
         $requestStr = '';
 
         $tmpArr = array(
-            'VERSION' => '00103',
+            'VERSION' => self::PBX_VERSION,
             'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
             'TYPE' => self::PBX_PAYMENT_ACTION_REFUND,
             'NUMQUESTION' => $this->getQuestionNumberModel()->getNextQuestionNumber(),
@@ -392,6 +403,12 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $resultArr;
     }
 
+    /**
+     * Making a call to gateway
+     *
+     * @param string $requestStr
+     * @return bool | array
+     */
     public function call($requestStr)
     {
         if ($this->getDebugFlag()) {
@@ -428,6 +445,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
             $parsedResArr = $this->parseResponseStr($response);
 
+            //primary gateway is down, need to recall to backup gateway
             if ($parsedResArr['CODEREPONSE'] == '00001' ||
                 $parsedResArr['CODEREPONSE'] == '00097' ||
                 $parsedResArr['CODEREPONSE'] == '00098'
@@ -441,6 +459,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             $debug->setResponseBody($response)->save();
         }
 
+        //if backup gateway was down too
         if ($recall) {
             $this->setError(array(
                 'message' => Mage::helper('paybox')->__('Paybox payment gateway is not available right now')
@@ -461,6 +480,12 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         return false;
     }
 
+    /**
+     * Parsing response string
+     *
+     * @param string $str
+     * @return array
+     */
     public function parseResponseStr($str)
     {
         $tmpResponseArr = explode('&', $str);

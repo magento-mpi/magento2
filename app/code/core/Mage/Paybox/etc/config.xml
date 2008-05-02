@@ -94,27 +94,7 @@
                 </Mage_Paybox>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <paybox>
-                                            <title>Paybox Section</title>
-                                        </paybox>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
-
     <default>
         <payment>
             <paybox_direct>

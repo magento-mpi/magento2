@@ -18,13 +18,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Paybox Setup Mysql4 resourcre model
  *
  * @category   Mage
  * @package    Mage_Paybox
- * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paybox_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
 {

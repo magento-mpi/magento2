@@ -18,6 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Paybox Payment Actions Source Model
+ *
+ * @category    Mage
+ * @package     Mage_Paybox
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Paybox_Model_Source_PaymentAction
 {
     public function toOptionArray()
