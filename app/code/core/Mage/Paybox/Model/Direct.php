@@ -59,7 +59,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         if ($recallNumber) {
             $path = 'pbx_backupurl';
         }
-        $this->getConfigData($path);
+        return $this->getConfigData($path);
     }
 
     /**
@@ -148,9 +148,9 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('eway')->__('There has been an error processing your payment. ') . $e['message'];
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
             } else {
-                $message = Mage::helper('eway')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             Mage::throwException($message);
         }
@@ -178,9 +178,9 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('eway')->__('There has been an error processing your payment. ') . $e['message'];
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
             } else {
-                $message = Mage::helper('eway')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             Mage::throwException($message);
         }

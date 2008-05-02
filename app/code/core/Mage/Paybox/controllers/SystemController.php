@@ -31,14 +31,6 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
 
     protected $_responseStatus = false;
 
-    protected function _expireAjax()
-    {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
-            $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
-            exit;
-        }
-    }
-
     protected function setPayboxResponse($response)
     {
         if (count($response)) {
@@ -77,6 +69,11 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $order->addStatusToHistory($order->getStatus(), $this->__('Customer was redirected to Paybox'));
         $order->save();
 
+        $session->setPayboxOrderId(Mage::helper('core')->encrypt($session->getLastRealOrderId()));
+        $session->setPayboxPaymentAction(
+            $order->getPayment()->getMethodInstance()->getPaymentAction()
+        );
+
         $this->getResponse()->setBody(
             $this->getLayout()
                 ->createBlock('paybox/system_redirect')
@@ -99,20 +96,27 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
                 Mage::throwException($this->__('There are no order.'));
             }
 
+            if (Mage::helper('core')->decrypt($this->getCheckout()->getPayboxOrderId()) != $this->_payboxResponse['ref']) {
+                Mage::throwException($this->__('Order is not match.'));
+            }
+            $this->getCheckout()->unsPayboxOrderId();
+
             if (($order->getBaseGrandTotal()*100) != $this->_payboxResponse['amount']) {
-                Mage::throwException($this->__('Amount is not match'));
+                Mage::throwException($this->__('Amount is not match.'));
             }
 
             if ($this->_payboxResponse['error'] == '00000') {
                 $order->addStatusToHistory($order->getStatus(), $this->__('Customer successfully returned from Paybox'));
 
                 $redirectTo = 'checkout/onepage/success';
-                if ($this->getModel()->getPaymentAction() == Mage_Paybox_Model_System::PBX_PAYMENT_ACTION_ATHORIZE_CAPTURE) {
+                if ($this->getCheckout()->getPayboxPaymentAction() == Mage_Paybox_Model_System::PBX_PAYMENT_ACTION_ATHORIZE_CAPTURE) {
+                    $this->getCheckout()->unsPayboxPaymentAction();
+                    $order->getPayment()
+                        ->getMethodInstance()
+                        ->setTransactionId($this->_payboxResponse['trans']);
                     if ($this->_createInvoice($order)) {
-                        $this->getModel()->setTransactionId($this->_payboxResponse['trans']);
-                        $order->addStatusToHistory($this->__('Invoice was create successfully'));
+                        $order->addStatusToHistory($order->getStatus(), $this->__('Invoice was create successfully'));
                     } else {
-                        $this->getModel()->setTransactionId($this->_payboxResponse['trans']);
                         $order->addStatusToHistory($order->getStatus(), $this->__('Cann\'t create invoice'));
                         $redirectTo = '*/*/failure';
                     }
@@ -199,6 +203,11 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         );
         $order->save();
 
+        $session->setPayboxOrderId(Mage::helper('core')->encrypt($session->getLastRealOrderId()));
+        $session->setPayboxPaymentAction(
+            $order->getPayment()->getMethodInstance()->getPaymentAction()
+        );
+
         $session->unsQuoteId();
 
         $payment = $order->getPayment()->getMethodInstance();
@@ -211,7 +220,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $paramStr = str_replace(';', '\;', $paramStr);
         $result = shell_exec(Mage::getBaseDir().'/'.$this->getModel()->getPayboxFile().' '.$paramStr);
 
-        if ($this->getModel()->getPingFlag()) {
+        if ($fieldsArr['PBX_PING'] == '1') {
             $fieldsArr['PBX_PING'] = '0';
             $fieldsArr['PBX_PAYBOX'] = trim(substr($result, strpos($result, 'http')));
             $paramStr = '';
@@ -276,6 +285,16 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
     protected function _checkResponse()
     {
         if (!$this->getCheckout()->getPayboxQuoteId()) {
+            $this->norouteAction();
+            return;
+        }
+
+        if (!$this->getCheckout()->getPayboxOrderId()) {
+            $this->norouteAction();
+            return;
+        }
+
+        if (!$this->getCheckout()->getPayboxPaymentAction()) {
             $this->norouteAction();
             return;
         }
