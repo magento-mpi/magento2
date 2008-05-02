@@ -61,7 +61,8 @@ class Mage_Paybox_Model_Question_Number extends Mage_Core_Model_Abstract
 
     public function getNextQuestionNumber()
     {
-        return $this->getIncrementValue()+1;
+        $questionNumber = $this->getIncrementValue()+1;
+        return sprintf('%010d', $questionNumber);
     }
 
     public function increaseQuestionNumber()
