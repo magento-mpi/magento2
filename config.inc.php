@@ -115,6 +115,12 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/eway/',
     ),
 
+    'Mage_Flo2Cash' => array(
+        'app/code/core/Mage/Flo2Cash/',
+        'app/design/frontend/default/default/template/flo2cash/',
+        'app/design/adminhtml/default/default/template/flo2cash/',
+    ),
+
     'Mage_GiftMessage' => array(
         'app/code/core/Mage/GiftMessage/',
         'app/design/frontend/default/default/template/giftmessage/',
@@ -152,6 +158,12 @@ $CONFIG['translates'] = array(
     'Mage_Page' => array(
         'app/code/core/Mage/Page/',
         'app/design/frontend/default/default/template/page/',
+    ),
+
+    'Mage_Paybox' => array(
+        'app/code/core/Mage/Paybox/',
+        'app/design/frontend/default/default/template/paybox/',
+        'app/design/adminhtml/default/default/template/paybox/',
     ),
 
     'Mage_Paygate' => array(
@@ -280,6 +292,7 @@ $CONFIG['helpers']  = array(
     'directory'         => 'Mage_Directory',
     'eav'               => 'Mage_Eav',
     'eway'              => 'Mage_Eway',
+    'flo2cash'          => 'Mage_Flo2Cash',
     'giftmessage'       => 'Mage_GiftMessage',
     'googleanalytics'   => 'Mage_GoogleAnalytics',
     'googlecheckout'    => 'Mage_GoogleCheckout',
@@ -290,6 +303,7 @@ $CONFIG['helpers']  = array(
     'newsletter'        => 'Mage_Newsletter',
     'oscommerce'        => 'Mage_Oscommerce',
     'page'              => 'Mage_Page',
+    'paybox'            => 'Mage_Paybox',
     'paygate'           => 'Mage_Paygate',
     'payment'           => 'Mage_Payment',
     'paypal'            => 'Mage_Paypal',
