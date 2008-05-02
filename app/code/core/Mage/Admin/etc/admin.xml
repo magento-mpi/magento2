@@ -56,6 +56,10 @@
                     <page title="Manage Pages" />
                     <poll title="Poll Manager" />
                 </cms>
+                <api title="Web Services" >
+                    <users title="Users"/>
+                    <roles title="Roles" />
+                </api>
                 <customer title="Customers" >
                     <group title="Customer Groups" />
                     <manage title="Manage Customers" />

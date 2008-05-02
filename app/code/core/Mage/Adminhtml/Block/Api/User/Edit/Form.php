@@ -13,27 +13,27 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Api
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Webservice main controller
+ * Adminhtml permissions user edit form
  *
  * @category   Mage
- * @package    Mage_Api
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Adminhtml
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_IndexController extends Mage_Api_Controller_Action
+class Mage_Adminhtml_Block_Api_User_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function indexAction()
-    {
-        $server = Mage::getSingleton('api/server');
 
-        /* @var $server Mage_Api_Model_Server */
-        $server->init($this)
-            ->run();
+    protected function _prepareForm()
+    {
+        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form->setUseContainer(true);
+        $this->setForm($form);
+        return parent::_prepareForm();
     }
 
-} // Class Mage_Api_IndexController End
+}

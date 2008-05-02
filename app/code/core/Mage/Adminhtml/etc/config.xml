@@ -123,6 +123,20 @@
                 <sort_order>10</sort_order>
                 <action>adminhtml/dashboard</action>
             </dashboard>
+            <api translate="title" module="adminhtml">
+                <title>Web Services</title>
+                <sort_order>80</sort_order>
+                <children>
+                    <users translate="title" module="adminhtml">
+                        <title>Users</title>
+                        <action>adminhtml/api_user</action>
+                    </users>
+                    <roles translate="title" module="adminhtml">
+                        <title>Roles</title>
+                        <action>adminhtml/api_role</action>
+                    </roles>
+                </children>
+            </api>
             <system translate="title" module="adminhtml">
                 <title>System</title>
                 <sort_order>90</sort_order>

@@ -37,6 +37,26 @@ class Mage_Api_Model_Server_Handler_Abstract
         return Mage::getSingleton('api/session');
     }
 
+    /**
+     * Retrive webservice configuration
+     *
+     * @return Mage_Api_Model_Config
+     */
+    protected function _getConfig()
+    {
+        return Mage::getSingleton('api/config');
+    }
+
+    /**
+     * Retrive webservice server
+     *
+     * @return Mage_Api_Model_Server
+     */
+    protected function _getServer()
+    {
+        return Mage::getSingleton('api/server');
+    }
+
     protected function _startSession($sessionId=null)
     {
         $this->_getSession()->setSessionId($sessionId);

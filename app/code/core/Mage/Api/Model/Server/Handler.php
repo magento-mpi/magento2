@@ -61,8 +61,16 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
      */
     public function login($username, $apiKey)
     {
-        $this->_startSession($sessionId);
-        $this->_getSession()->login($username, $apiKey);
+        $this->_startSession();
+        try {
+            $this->_getSession()->login($username, $apiKey);
+        } catch (Mage_Core_Exception $e) {
+            $this->_getServer()->getAdapter()->fault('Login', $e->getMessage());
+            return $this->_getSession()->getId();
+        } catch (Exception $e) {
+            $this->_getServer()->getAdapter()->fault('Login', Mage::helper('api')->__('Unable to login.'));
+            return $this->_getSession()->getId();
+        }
         return $this->_getSession()->getId();
     }
 
@@ -77,6 +85,33 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
     public function call($apiPath, $sessionId, $args)
     {
         $this->_startSession($sessionId);
-        // implement
+
+        list($resourceName, $methodName) = explode('.', $apiPath);
+
+        if (empty($resourceName) || empty($methodName)) {
+            $this->_getServer()->getAdapter()->fault('Request', Mage::helper('api')->__('Invalid api path.'));
+            return;
+        }
+
+        if (!isset($this->_getConfig()->getResources()->$resourceName)
+            || !isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName)) {
+            $this->_getServer()->getAdapter()->fault('Request', Mage::helper('api')->__('Invalid api path.'));
+            return;
+        }
+
+        if (isset($this->_getConfig()->getResources()->$resourceName->acl)
+            && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->acl)) {
+            $this->_getServer()->getAdapter()->fault('Permissions', Mage::helper('api')->__('Access denied.'));
+            return;
+        }
+
+
+        if (isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)
+            && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)) {
+            $this->_getServer()->getAdapter()->fault('Permissions', Mage::helper('api')->__('Access denied.'));
+            return;
+        }
+
+        return 'called';
     }
 } // Class Mage_Api_Model_Server_Handler End

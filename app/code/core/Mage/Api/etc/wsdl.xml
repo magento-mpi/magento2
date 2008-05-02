@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+  <message name="call">
+    <part name="apiPath" type="xsd:string"/>
+    <part name="sessionId" type="xsd:string"/>
+    <part name="args" type="soapenc:Array" xsd:arrayType="xsd:anyType"/>
+  </message>
+  <message name="callResponse">
+    <part name="callReturn" type="xsd:anyType"/>
+  </message>
+  <message name="endSession">
+    <part name="sessionId" type="xsd:string"/>
+  </message>
+  <message name="endSessionResponse">
+    <part name="endSessionReturn" type="xsd:boolean"/>
+  </message>
+  <message name="login">
+    <part name="username" type="xsd:string"/>
+    <part name="apiKey" type="xsd:string"/>
+  </message>
+  <message name="loginResponse">
+    <part name="loginReturn" type="xsd:string"/>
+  </message>
+  <message name="startSession"/>
+  <message name="startSessionResponse">
+    <part name="startSessionReturn" type="xsd:string"/>
+  </message>
+  <portType name="{{var wsdl.handler}}PortType">
+    <operation name="call">
+      <documentation>Call api functionality</documentation>
+      <input message="typens:call"/>
+      <output message="typens:callResponse"/>
+    </operation>
+    <operation name="endSession">
+      <documentation>End web service session</documentation>
+      <input message="typens:endSession"/>
+      <output message="typens:endSessionResponse"/>
+    </operation>
+    <operation name="login">
+      <documentation>Login user and retrive session id</documentation>
+      <input message="typens:login"/>
+      <output message="typens:loginResponse"/>
+    </operation>
+    <operation name="startSession">
+      <documentation>Start web service session</documentation>
+      <input message="typens:startSession"/>
+      <output message="typens:startSessionResponse"/>
+    </operation>
+  </portType>
+  <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="call">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+    <operation name="endSession">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+    <operation name="login">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+    <operation name="startSession">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+  </binding>
+  <service name="{{var wsdl.name}}Service">
+    <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+      <soap:address location="{{var wsdl.url}}"/>
+    </port>
+  </service>
+</definitions>

@@ -41,5 +41,41 @@
                 <model>api/server_handler</model>
             </default>
         </handlers>
+        <resources>
+            <customer>
+                <model></model>
+                <description></description>
+                <acl>customer</acl>
+                <methods>
+                    <create translate="title" module="customer">
+                        <title>Creates Customer</title>
+                        <acl>customer/create</acl>
+                    </create>
+                </methods>
+            </customer>
+        </resources>
+        <acl>
+            <asserts>
+                <ip><class>Mage_Api_Model_Acl_Assert_Ip</class></ip>
+                <time><class>Mage_Api_Model_Acl_Assert_Time</class></time>
+            </asserts>
+
+            <resources>
+                <all>
+                    <customer translate="title" module="customer">
+                        <title>Customers</title>
+                    </customer>
+                </all>
+            </resources>
+
+            <privilegeSets>
+                <default>
+                    <view descr="View entity"/>
+                    <edit descr="Edit entity"/>
+                    <delete descr=""/>
+                    <create descr=""/>
+                </default>
+            </privilegeSets>
+        </acl>
     </api>
 </config>

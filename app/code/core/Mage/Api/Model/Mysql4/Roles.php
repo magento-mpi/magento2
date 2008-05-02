@@ -53,8 +53,7 @@ class Mage_Api_Model_Mysql4_Roles extends Mage_Core_Model_Mysql4_Abstract
     protected function _afterSave(Mage_Core_Model_Abstract $role)
     {
         $this->_updateRoleUsersAcl($role);
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array(Mage_Apihtml_Block_Page_Menu::CACHE_TAGS));
+        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG);
         return $this;
     }
 

@@ -22,7 +22,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('admin/roles');
+        $this->_init('api/roles');
     }
 
     public function update()
@@ -59,8 +59,9 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
     protected function _buildResourcesArray(Varien_Simplexml_Element $resource=null, $parentName=null, $level=0, $represent2Darray=null, $rawNodes = false)
     {
         static $result;
+
         if (is_null($resource)) {
-            $resource = Mage::getConfig()->getNode('api/acl/resources');
+            $resource = Mage::getSingleton('api/config')->getNode('acl/resources');
             $resourceName = null;
             $level = -1;
         } else {
@@ -72,7 +73,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
                 }
 
                 if ( is_null($represent2Darray) ) {
-                    $result[$resourceName]['name']  = Mage::helper('api')->__((string)$resource->title);
+                    $result[$resourceName]['name']  = (string)$resource->title;
                     $result[$resourceName]['level'] = $level;
                 } else {
                     $result[] = $resourceName;

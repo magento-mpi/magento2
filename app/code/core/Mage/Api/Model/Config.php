@@ -76,7 +76,10 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         $adapters = array();
         foreach ($this->getNode('adapters')->children() as $adapterName => $adapter) {
             /* @var $adapter Varien_SimpleXml_Element */
-            $adapters[$adapterName] = $adapter->asArray();
+            if (isset($adapter->use)) {
+                $adapter = $this->getNode('adapters/' . (string) $adapter->use);
+            }
+            $adapters[$adapterName] = $adapter;
         }
         return $adapters;
     }
@@ -85,12 +88,12 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     {
         $adapters = array();
         foreach ($this->getAdapters() as $adapterName => $adapter) {
-            if (!isset($adapter['active']) || $adapter['active'] == '0') {
+            if (!isset($adapter->active) || $adapter->active == '0') {
                 continue;
             }
 
-            if (isset($adapter['required']) && isset($adapter['required']['extensions'])) {
-                foreach ($adapter['required']['extensions'] as $extension=>$data) {
+            if (isset($adapter->required) && isset($adapter->required->extensions)) {
+                foreach ($adapter->required->extensions->children() as $extension=>$data) {
                     if (!extension_loaded($extension)) {
                         continue;
                     }
@@ -103,30 +106,40 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         return $adapters;
     }
 
+    public function getHandlers()
+    {
+        return $this->getNode('handlers')->children();
+    }
+
+    public function getResources()
+    {
+        return $this->getNode('resources')->children();
+    }
+
     /**
      * Load Acl resources from config
      *
-     * @param Mage_Admin_Model_Acl $acl
+     * @param Mage_Api_Model_Acl $acl
      * @param Mage_Core_Model_Config_Element $resource
      * @param string $parentName
-     * @return Mage_Admin_Model_Config
+     * @return Mage_Api_Model_Config
      */
-    public function loadAclResources(Mage_Admin_Model_Acl $acl, $resource=null, $parentName=null)
+    public function loadAclResources(Mage_Api_Model_Acl $acl, $resource=null, $parentName=null)
     {
         if (is_null($resource)) {
             $resource = $this->getNode('acl/resources');
             $resourceName = null;
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-            $acl->add(Mage::getModel('acl_resource', $resourceName), $parentName);
+            $acl->add(Mage::getModel('api/acl_resource', $resourceName), $parentName);
         }
 
         if (isset($resource->all)) {
-            $acl->add(Mage::getModel('acl_resource', 'all'), null);
+            $acl->add(Mage::getModel('api/acl_resource', 'all'), null);
         }
 
-        if (isset($resource->admin)) {
-            $children = $resource->admin;
+        if (is_null($resourceName)) {
+            $children = $resource->children();
         } elseif (isset($resource->children)){
             $children = $resource->children->children();
         }

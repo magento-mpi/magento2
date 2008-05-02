@@ -13,27 +13,36 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Api
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Webservice main controller
+ * users block
  *
  * @category   Mage
- * @package    Mage_Api
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Adminhtml
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_IndexController extends Mage_Api_Controller_Action
+class Mage_Adminhtml_Block_Api_Users extends Mage_Adminhtml_Block_Template
 {
-    public function indexAction()
-    {
-        $server = Mage::getSingleton('api/server');
 
-        /* @var $server Mage_Api_Model_Server */
-        $server->init($this)
-            ->run();
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTemplate('api/users.phtml');
     }
 
-} // Class Mage_Api_IndexController End
+    public function getAddNewUrl()
+    {
+        return $this->getUrl('*/*/edituser');
+    }
+
+    public function getGridHtml()
+    {
+        return $this->getLayout()->createBlock('adminhtml/api_grid_user')->toHtml();
+    }
+
+}
+
