@@ -19,16 +19,16 @@
  */
 ?>
 <script type="text/javascript">
-    Event.observe('paybox_paybox_systemapi_pbx_typepaiement', 'change', function(){
+    Event.observe('payment_paybox_system_pbx_typepaiement', 'change', function(){
         paymentType = $('<?php echo $this->getParentHtmlId() ?>').value;
-        jsonObj = eval('('+'<?php echo $this->getJsonCarteTypes() ?>'+')');
+        jsonObj = eval('('+'<?php echo $this->getJsonCartTypes() ?>'+')');
         option = '';
-        if (carteTypes = jsonObj[paymentType]) {
-            for (var i in carteTypes) {
+        if (cartTypes = jsonObj[paymentType]) {
+            for (var i in cartTypes) {
                 if (i == 'none') {
-                    option = option+'<option value="">'+carteTypes[i]+'</option>';
+                    option = option+'<option value="">'+cartTypes[i]+'</option>';
                 } else {
-                    option = option+'<option value="'+i+'">'+carteTypes[i]+'</option>';
+                    option = option+'<option value="'+i+'">'+cartTypes[i]+'</option>';
                 }
             }
         } else {
