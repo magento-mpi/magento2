@@ -73,7 +73,6 @@ input.form-radio { margin-right:3px;}
 .form-button, .form-button-alt {
     overflow:visible;
     width:auto;
-    background-color:transparent;
     border:0;
     padding:1px 8px;
     background:#f18200;
@@ -725,7 +724,8 @@ h1#logo {
 .generic-product-grid td.last { border-right:0; }
 .generic-product-grid .product-image { text-align:center; }
 .generic-product-grid td.empty-product{ border-right:0; background:#f5f6f6; }
-.catalog-listing .product-cell-wrapper { width:135px; overflow:hidden; }
+.generic-product-grid .add-to { width:135px; overflow:hidden; }
+
 
 /********************** Layered Navigation */
 .layered-nav .head {
