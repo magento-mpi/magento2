@@ -205,13 +205,4 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
         }
         return false;
     }
-
-    /**
-     * Notification url ... but not implemented, problems with iDEAL support
-     *
-     */
-    public function notifyAction()
-    {
-        $this->norouteAction();
-    }
 }

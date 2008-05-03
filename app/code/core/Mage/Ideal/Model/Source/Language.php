@@ -31,8 +31,8 @@ class Mage_Ideal_Model_Source_Language
     public function toOptionArray()
     {
         return array(
-            array('value' => 'en', 'label' => Mage::helper('chronopay')->__('English')),
-            array('value' => 'nl', 'label' => Mage::helper('chronopay')->__('Dutch'))
+            array('value' => 'en', 'label' => Mage::helper('ideal')->__('English')),
+            array('value' => 'nl', 'label' => Mage::helper('ideal')->__('Dutch'))
         );
     }
 }
