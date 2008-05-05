@@ -211,15 +211,14 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             $response = $client->request();
             $body = $response->getRawBody();
 
-            if (preg_match('/^(T\|([0-9a-zA-Z]+)\|)?([\r\n]+)?([YN])\|(.+)\|$/', $body, $matches)) {
+            if (preg_match('/(T)\|(.+)\|[\r\n]{0,}(Y)\|(.+)\||(N)\|(.+[\r\n]{0,}.+){0,}/', $body, $matches)) {
 
                 $transactionId = $matches[2];
-                $status = $matches[3];
                 $message = $matches[4];
-                Mage::throwException(print_r($matches, true));
-                if ($status == 'N') {
-                    $result->setError($message);
-                    Mage::throwException($message);
+
+                if (isset($matches[5], $matches[6])) {
+                    $result->setError($matches[6]);
+                    Mage::throwException($matches[6]);
                 }
 
                 if ($request->getShowTransactionId()) {
