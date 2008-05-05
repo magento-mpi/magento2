@@ -232,7 +232,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
-            ->setXRelayResponse('False');
+            ->setXRelayResponse('False')
+            ->setXInvoiceNum($order->getId());
 
         $request->setXTestRequest($this->getConfigData('test') ? 'TRUE' : 'FALSE');
 
