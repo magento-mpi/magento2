@@ -32,11 +32,11 @@ class Mage_Flo2Cash_Model_Source_PaymentAction
         return array(
             array(
                 'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => Mage::helper('flo2cash')->__('Authorize Only')
+                'label' => Mage::helper('flo2cash')->__('Authorize')
             ),
             array(
                 'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('flo2cash')->__('Authorize and Capture')
+                'label' => Mage::helper('flo2cash')->__('Purchase')
             ),
         );
     }

@@ -32,7 +32,7 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
 
     protected $_code  = 'flo2cash_web';
 
-    protected $_allowCurrencyCode = array('USD'); // @todo fix this
+    protected $_allowCurrencyCode = array('NZD');
 
     /**
      * Availability options
@@ -135,27 +135,12 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    /**
-     * void
-     *
-     * @author      Magento Core Team <core@magentocommerce.com>
-     * @access public
-     * @param string $payment Varien_Object object
-     * @return Mage_Payment_Model_Abstract
-     */
     public function void(Varien_Object $payment)
     {
         $payment->setStatus(self::STATUS_SUCCESS );
         return $this;
     }
 
-    /**
-     * refund the amount with transaction id
-     *
-     * @access public
-     * @param string $payment Varien_Object object
-     * @return Mage_Payment_Model_Abstract
-     */
     public function refund(Varien_Object $payment, $amount)
     {
         if ($payment->getRefundTransactionId() && $amount>0) {
@@ -187,6 +172,12 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+    /**
+     * Sending SOAP request to gateway
+     *
+     * @param array $txnDetails
+     * @return void
+     */
     protected function _sendRequest($txnDetails)
     {
         if ($this->getConfigData('demo_mode')) {
@@ -231,6 +222,13 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
         }
     }
 
+    /**
+     * Preapare basic paramters for transaction
+     *
+     * @param Varien_Object $payment
+     * @param decimal $amount
+     * @return array
+     */
     protected function _prepareTxnDetails(Varien_Object $payment, $amount)
     {
         if ($payment->getCcTransId()) {
