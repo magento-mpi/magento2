@@ -66,12 +66,12 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
             $this->_getSession()->login($username, $apiKey);
         } catch (Mage_Core_Exception $e) {
             $this->_getServer()->getAdapter()->fault('Login', $e->getMessage());
-            return $this->_getSession()->getId();
+            return;
         } catch (Exception $e) {
-            $this->_getServer()->getAdapter()->fault('Login', Mage::helper('api')->__('Unable to login.'));
-            return $this->_getSession()->getId();
+            $this->_getServer()->getAdapter()->fault('Login', Mage::helper('api')->__('Unable to login: %s %s', $e->getMessage(), $e->getTraceAsString()));
+            return;
         }
-        return $this->_getSession()->getId();
+        return $this->_getSession()->getSessionId();
     }
 
     /**
@@ -112,6 +112,31 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
             return;
         }
 
-        return 'called';
+        $methodInfo = $this->_getConfig()->getResources()->$resourceName->methods->$methodName;
+
+        try {
+            $method = (isset($methodInfo->method) ? (string) $methodInfo->method : $methodName);
+
+            $modelName = (string) $this->_getConfig()->getResources()->$resourceName->model;
+            try {
+                $model = Mage::getSingleton($modelName);
+            } catch (Exception $e) {
+                Mage::throwException(Mage::helper('api')->__('Api path are not callable.'));
+            }
+
+            if (is_callable(array(&$model, $method))) {
+                if (isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array') {
+                    return $model->$method($args);
+                } else {
+                    return call_user_func_array(array(&$model, $method), $args);
+                }
+            } else {
+                Mage::throwException(Mage::helper('api')->__('Api path are not callable.'));
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getServer()->getAdapter()->fault('Call', $e->getMessage());
+        } catch (Exception $e) {
+            $this->_getServer()->getAdapter()->fault('Call', Mage::helper('api')->__('Internal Error.'));
+        }
     }
 } // Class Mage_Api_Model_Server_Handler End

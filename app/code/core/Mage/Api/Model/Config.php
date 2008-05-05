@@ -54,11 +54,19 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
         $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
 
+        $configFile = $config->getModuleDir('etc', 'Mage_Api').DS.'api.xml';
+
+
+        if ($mergeConfig->loadFile($configFile)) {
+            $config->extend($mergeConfig, true);
+        }
+
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
-                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
+                if ($disableLocalModules && ('local' === (string)$module->codePool) && $modName=='Mage_Api') {
                     continue;
                 }
+
                 $configFile = $config->getModuleDir('etc', $modName).DS.'api.xml';
 
                 if ($mergeConfig->loadFile($configFile)) {
@@ -132,10 +140,6 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
             $acl->add(Mage::getModel('api/acl_resource', $resourceName), $parentName);
-        }
-
-        if (isset($resource->all)) {
-            $acl->add(Mage::getModel('api/acl_resource', 'all'), null);
         }
 
         if (is_null($resourceName)) {

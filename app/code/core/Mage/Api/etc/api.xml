@@ -42,17 +42,6 @@
             </default>
         </handlers>
         <resources>
-            <customer>
-                <model></model>
-                <description></description>
-                <acl>customer</acl>
-                <methods>
-                    <create translate="title" module="customer">
-                        <title>Creates Customer</title>
-                        <acl>customer/create</acl>
-                    </create>
-                </methods>
-            </customer>
         </resources>
         <acl>
             <asserts>
@@ -62,9 +51,6 @@
 
             <resources>
                 <all>
-                    <customer translate="title" module="customer">
-                        <title>Customers</title>
-                    </customer>
                 </all>
             </resources>
 

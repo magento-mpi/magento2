@@ -35,7 +35,7 @@ class Mage_Api_Model_Mysql4_Acl extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _construct()
     {
-        $this->_init('api/role');
+        $this->_init('api/role', 'role_id');
     }
 
     /**
