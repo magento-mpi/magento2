@@ -572,9 +572,15 @@ final class Mage {
             file_put_contents($reportFile, $reportData);
             chmod($reportFile, 0777);
 
+            $storeCode = 'default';
+            try {
+                $storeCode = self::app()->getStore()->getCode();
+            }
+            catch (Exception $e) {}
+
             $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
             $reportUrl = $baseUrl . '/report/?id='
-                . $reportId . '&s=' . self::app()->getStore()->getCode();
+                . $reportId . '&s=' . $storeCode;
 
             if (!headers_sent()) {
                 header('Location: ' . $reportUrl);
