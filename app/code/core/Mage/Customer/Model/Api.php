@@ -34,6 +34,6 @@ class Mage_Customer_Model_Api
 
     public function hello($name, $word)
     {
-        return 'Hello ' . $name . '!' . 0x20 . 'You have said: ' . $word;
+        return 'Hello ' . $name . '!' . chr(10) . 'You have said: ' . $word;
     }
 } // Class Mage_Customer_Model_Api End

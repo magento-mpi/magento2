@@ -36,7 +36,7 @@
                     <helloworld>
                         <title>Hello World</title>
                         <method>hello</method>
-                        <acl>customer/create</acl>
+                        <acl>customer/hello</acl>
                     </helloworld>
                 </methods>
             </customer>
