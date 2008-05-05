@@ -40,7 +40,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     protected $_code  = 'chronopay_gateway';
 
     protected $_formBlockType = 'chronopay/form';
-//    protected $_infoBlockType = 'chronopay/info';
+    protected $_infoBlockType = 'chronopay/info';
+
     /**
      * Availability options
      */
@@ -49,86 +50,42 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
     protected $_canRefund               = true;
-    protected $_canVoid                 = true;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
     protected $_canSaveCc               = false;
 
-    public function getConfigData($key, $default=false)
-    {
-        if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('payment/chronopay_gateway/'.$key);
-             if (is_null($value) || false===$value) {
-                 $value = $default;
-             }
-            $this->setData($key, $value);
-        }
-        return $this->getData($key);
-    }
-
     /**
-     *  Description goes here...
+     *  Return ip address of customer
      *
-     *  @param    none
-     *  @return	  void
-     */
-    protected function _getTestResponseBody ($request)
-    {
-        $error = "\nN|Incorrect hash";
-        $success = "\nY|".($request->getOpcode() == 5 || $request->getOpcode() == 6 ? 'Completed' : $request->getTransaction());
-        if ($request->setShowTransactionId()) {
-            $success = "\nT|" . $request->getTransaction() . "|" . $success;
-        }
-        return $success;
-//        return $error;
-    }
-
-    /**
-     *
-     *
-     *  @param    none
      *  @return	  void
      */
     protected function _getIp ()
     {
-//        return '222.244.15.13';
-        return '82.144.205.117';
-        //$order->getRemoteIp()
+        return $_SERVER['REMOTE_ADDR'];
     }
 
     /**
-     *  Description goes here...
+     *  Return shared secret key from config
      *
-     *  @param    none
      *  @return	  void
      */
     protected function _getSharedSecret ()
     {
-        return 'djihwfdu7gebdchb';
-//        return 'chronopay_hgdbjku';
-//        return 'magento123';
+        return $this->getConfigData('shared_secret');
     }
 
-    /**
-     * Send authorize request to gateway
-     *
-     * @param   Varien_Object $payment
-     * @param   decimal $amount
-     * @return  Mage_Paygate_Model_Authorizenet
-     */
     public function authorize(Varien_Object $payment, $amount)
     {
         $payment->setAmount($amount);
         $payment->setOpcode(self::OPCODE_AUTHORIZE);
-        $payment->setTransaction($payment->getOrder()->getRealOrderId());
 
         $request = $this->_buildRequest($payment);
         $result = $this->_postRequest($request);
 
         if (!$result->getError()) {
             $payment->setStatus(self::STATUS_APPROVED);
-            $payment->setLastTransId($payment->getTransaction());
             $payment->setCcTransId($payment->getTransaction());
         } else {
             Mage::throwException($result->getError());
@@ -140,8 +97,12 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     public function capture(Varien_Object $payment, $amount)
     {
         $payment->setAmount($amount);
-        $payment->setOpcode(self::OPCODE_CHARGING);
-        $payment->setTransaction($payment->getOrder()->getRealOrderId());
+        if ($payment->getCcTransId()) {
+            $payment->setOpcode(self::OPCODE_CONFIRM_AUTHORIZE);
+            $payment->setTransaction($payment->getCcTransId());
+        } else {
+            $payment->setOpcode(self::OPCODE_CHARGING);
+        }
 
         $request = $this->_buildRequest($payment);
         $result = $this->_postRequest($request);
@@ -156,54 +117,26 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    /**
-     *  Description goes here...
-     *
-     *  @param    none
-     *  @return	  void
-     */
-    public function void (Varien_Object $payment)
-    {
-        $payment->setOpcode(self::OPCODE_VOID_AUTHORIZE);
-        $payment->setTransaction($payment->getVoidTransactionId());
-
-        $request = $this->_buildRequest($payment);
-        return $this;
-        $result = $this->_postRequest($request);
-
-        $payment->setStatus(self::STATUS_APPROVED);
-        $payment->setLastTransId($result->getTransactionId());
-
-        return $this;
-    }
-
-    /**
-     *  Description goes here...
-     *
-     *  @param    none
-     *  @return	  void
-     */
-    public function refund (Varien_Object $payment, $amount)
+    public function refund(Varien_Object $payment, $amount)
     {
         $payment->setAmount($amount);
         $payment->setOpcode(self::OPCODE_REFUND);
         $payment->setTransaction($payment->getRefundTransactionId());
 
         $request = $this->_buildRequest($payment);
-        return $this;
         $result = $this->_postRequest($request);
 
         $payment->setStatus(self::STATUS_APPROVED);
-        $payment->setLastTransId($result->getTransactionId());
+        $payment->setLastTransId($result->getTransaction());
 
         return $this;
     }
 
     /**
-     *  Description goes here...
+     *  Building request array
      *
-     *  @param    none
-     *  @return	  void
+     *  @param    Varien_Object
+     *  @return	  array
      */
     protected function _buildRequest (Varien_Object $payment)
     {
@@ -218,7 +151,6 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         $request = Mage::getModel('chronopay/gateway_request')
             ->setOpcode($payment->getOpcode())
             ->setProductId($this->getConfigData('product_id'))
-            ->setTransaction($payment->getTransaction())
             ->setCustomer($order->getCustomerId())
             ->setFname($billing->getFirstname())
             ->setLname($billing->getLastname())
@@ -234,10 +166,14 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             ->setCardNo($payment->getCcNumber())
             ->setCvv($payment->getCcCid())
             ->setExpirey($payment->getCcExpYear())
-            ->setExpirem($payment->getCcExpMonth())
-            ->setAmount($payment->getAmount())
+            ->setExpirem(sprintf('%02d', $payment->getCcExpMonth()))
+            ->setAmount(sprintf('%.2f', $payment->getAmount()))
             ->setCurrency($order->getBaseCurrencyCode())
             ->setShowTransactionId(1);
+
+        if ($payment->getTransaction()) {
+            $request->setTransaction($payment->getTransaction());
+        }
 
         $hash = $this->_getHash($request);
         $request->setHash($hash);
@@ -245,10 +181,10 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     *  Description goes here...
+     *  Send request to gateway
      *
-     *  @param    none
-     *  @return	  void
+     *  @param    Mage_Chronopay_Model_Gateway_Request
+     *  @return	  mixed
      */
     protected function _postRequest (Mage_Chronopay_Model_Gateway_Request $request)
     {
@@ -274,31 +210,31 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         try {
             $response = $client->request();
             $body = $response->getRawBody();
-//            $body = $this->_getTestResponseBody($request);
-            if (preg_match('/^[\r\n]+(T\|([^\|]+)\|[\r\n]+)?([YN])\|(.+)$/', $body, $matches)) {
+
+            if (preg_match('/^(T\|([0-9a-zA-Z]+)\|)?([\r\n]+)?([YN])\|(.+)\|$/', $body, $matches)) {
 
                 $transactionId = $matches[2];
                 $status = $matches[3];
                 $message = $matches[4];
-
+                Mage::throwException(print_r($matches, true));
                 if ($status == 'N') {
                     $result->setError($message);
-                    throw new Exception($message);
+                    Mage::throwException($message);
                 }
 
                 if ($request->getShowTransactionId()) {
                     $result->setTransaction($transactionId);
                 } elseif ($message != 'Completed') {
-                    $result->setTransaction($message);
+                    Mage::throwException($message);
                 }
-                if ($result->getTransaction() && $request->getTransaction() != $result->getTransaction()) {
-                    throw new Exception('Transaction ID is invalid');
+                if (!$result->getTransaction()) {
+                    Mage::throwException('Transaction ID is invalid');
                 }
 
                 $result->setCompleted($message == 'Completed');
 
             } else {
-                throw new Exception('Invalid response format');
+                Mage::throwException('Invalid response format');
             }
 
             if ($this->getConfigData('debug_flag')) {
@@ -314,7 +250,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             $exceptionMsg = Mage::helper('chronopay')->__('Gateway request error: %s', $e->getMessage());
 
             if ($this->getConfigData('debug_flag')) {
-                $debug->setResponseBody($exceptionMsg)->save();
+                $debug->setResponseBody($body)->save();
             }
 
             Mage::throwException($exceptionMsg);
@@ -330,7 +266,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
      */
     protected function _getHash (Mage_Chronopay_Model_Gateway_Request $request)
     {
-        $result = sprintf('%s + %s + %s',
+        $hashArray = array(
             $this->_getSharedSecret(),
             $request->getOpcode(),
             $request->getProductId()
@@ -339,28 +275,24 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         switch ($request->getOpcode()) {
             case self::OPCODE_CHARGING :
             case self::OPCODE_AUTHORIZE :
-                $result .= ' + ' . sprintf('%s + %s + %s + %s + %s + %s',
-                    $request->getFname(),
-                    $request->getLname(),
-                    $request->getStreet(),
-                    $this->_getIp(),
-                    $request->getCardNo(),
-                    $request->getAmount()
-                );
+                $hashArray[] = $request->getFname();
+                $hashArray[] = $request->getLname();
+                $hashArray[] = $request->getStreet();
+                $hashArray[] = $this->_getIp();
+                $hashArray[] = $request->getCardNo();
+                $hashArray[] = $request->getAmount();
                 break;
 
             case self::OPCODE_REFUND :
             case self::OPCODE_VOID_AUTHORIZE :
             case self::OPCODE_CONFIRM_AUTHORIZE :
-                $result .= ' + ' . sprintf('%s', $request->getTransaction());
+                $hashArray[] = $request->getTransaction();
                 break;
 
             case self::OPCODE_CUSTOMER_FUND_TRANSFER :
-                $result .= ' + ' . sprintf('%s + %s + %s',
-                    $request->getCustomer(),
-                    $request->getTransaction(),
-                    $request->getAmount()
-                );
+                $hashArray[] = $request->getCustomer();
+                $hashArray[] = $request->getTransaction();
+                $hashArray[] = $request->getAmount();
                 break;
 
             default :
@@ -369,7 +301,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 );
                 break;
         }
-        return md5($result);
+        return md5(implode('', $hashArray));
     }
 
 }
