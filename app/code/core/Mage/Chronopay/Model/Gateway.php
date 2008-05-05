@@ -138,7 +138,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
      *  @param    Varien_Object
      *  @return	  array
      */
-    protected function _buildRequest (Varien_Object $payment)
+    protected function _buildRequest(Varien_Object $payment)
     {
         $order = $payment->getOrder();
         $billing = $order->getBillingAddress();
@@ -186,7 +186,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
      *  @param    Mage_Chronopay_Model_Gateway_Request
      *  @return	  mixed
      */
-    protected function _postRequest (Mage_Chronopay_Model_Gateway_Request $request)
+    protected function _postRequest(Mage_Chronopay_Model_Gateway_Request $request)
     {
         $result = Mage::getModel('chronopay/gateway_result');
 
@@ -263,7 +263,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
      *  @param    Mage_Chronopay_Model_Gateway_Request
      *  @return	  string MD5
      */
-    protected function _getHash (Mage_Chronopay_Model_Gateway_Request $request)
+    protected function _getHash(Mage_Chronopay_Model_Gateway_Request $request)
     {
         $hashArray = array(
             $this->_getSharedSecret(),
