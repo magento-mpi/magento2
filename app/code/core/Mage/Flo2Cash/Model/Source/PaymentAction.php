@@ -31,12 +31,12 @@ class Mage_Flo2Cash_Model_Source_PaymentAction
     {
         return array(
             array(
-                'value' => Mage_Paygate_Model_Payflow_Pro::ACTION_AUTHORIZE,
-                'label' => Mage::helper('paygate')->__('Authorize Only')
+                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
+                'label' => Mage::helper('flo2cash')->__('Authorize Only')
             ),
             array(
-                'value' => Mage_Paygate_Model_Payflow_Pro::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('paypal')->__('Authorize and Capture')
+                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
+                'label' => Mage::helper('flo2cash')->__('Authorize and Capture')
             ),
         );
     }

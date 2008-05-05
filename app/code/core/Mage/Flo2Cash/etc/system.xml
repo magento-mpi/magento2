@@ -66,12 +66,22 @@
                         </password>
                         <payzn_account_id translate="label">
                             <label>Account number</label>
+                            <comment>For Authorize or Capture only</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>31</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </payzn_account_id>
+                        <payzn_purchase_account_id translate="label">
+                            <label>Account number</label>
+                            <comment>For purchase only</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payzn_purchase_account_id>
                         <demo_mode translate="label">
                             <label>Demo mode</label>
                             <frontend_type>select</frontend_type>

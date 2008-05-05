@@ -40,7 +40,7 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
     protected $_isGateway               = true;
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial       = true;
     protected $_canRefund               = true;
     protected $_canVoid                 = false;
     protected $_canUseInternal          = true;
@@ -65,6 +65,21 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
 
     protected $_formBlockType = 'flo2cash/form';
     protected $_infoBlockType = 'flo2cash/info';
+
+    /**
+     * Get Account Id for selected payment action
+     *
+     * @return string
+     */
+    public function getAccountId()
+    {
+        if ($this->getConfigData('payment_action') == self::ACTION_AUTHORIZE_CAPTURE) {
+            $acountId = $this->getConfigData('payzn_purchase_account_id');
+        } else {
+            $acountId = $this->getConfigData('payzn_account_id');
+        }
+        return $acountId;
+    }
 
     /**
      * validate the currency code is avaialable to use for Flo2Cash Basic or not
@@ -98,6 +113,7 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
 
         $payment->setStatus(self::STATUS_APPROVED);
         $payment->setCcTransId($response['transaction_id']);
+        $payment->setFlo2cashAccountId($response['paynz_account_id']);
 
         return $this;
     }
@@ -114,6 +130,7 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
 
         $payment->setStatus(self::STATUS_APPROVED);
         $payment->setLastTransId($response['transaction_id']);
+        $payment->setFlo2cashAccountId($response['paynz_account_id']);
 
         return $this;
     }
@@ -142,10 +159,17 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
     public function refund(Varien_Object $payment, $amount)
     {
         if ($payment->getRefundTransactionId() && $amount>0) {
+
+            $transId = $payment->getCcTransId();
+            //if transaction type was purchase (authorize & capture)
+            if (is_null($transId)) {
+                $transId = $payment->getLastTransId();
+            }
+
             $txnDetails = array(
-                'txn_type' => self::TRANSACTION_TYPE_CAPTURE,
-                'capture_transaction_id' => $payment->getCcTransId(),
-                'paynz_account_id' => $this->getConfigData('payzn_account_id'),
+                'txn_type' => self::TRANSACTION_TYPE_REFUND,
+                'refund_transaction_id' => $transId,
+                'paynz_account_id' => $payment->getFlo2cashAccountId(),
                 'amount' => sprintf('%.2f', $amount)
             );
         } else {
@@ -203,7 +227,7 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
                 $error = $e->getMessage();
             }
 
-            Mage::throwException(serialize($parameters).Mage::helper('flo2cash')->__('Gateway returned an error message: %s', $error));
+            Mage::throwException(Mage::helper('flo2cash')->__('Gateway returned an error message: %s', $error));
         }
     }
 
@@ -241,11 +265,17 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
             }
         }
 
+        $accountId = $payment->getFlo2cashAccountId();
+        //if transaction type is authorize & capture or only authorize
+        if (is_null($accountId)) {
+            $accountId = $this->getAccountId();
+        }
+
         $txnDetails = array_merge($txnDetails, array(
             //'txn_reference' => $payment->getOrder()->getIncrementId(),
             'merchant_reference' => $payment->getOrder()->getIncrementId(),
+            'paynz_account_id' => $accountId,
             'amount' => sprintf('%.2f', $amount),
-            'paynz_account_id' => $this->getConfigData('payzn_account_id')
         ));
 
         return $txnDetails;
