@@ -37,6 +37,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
     protected $_collection;
 
     /**
+     * Id of 'is_active' category attribute
+     *
+     * @var int
+     */
+    protected $_isActiveAttributeId = null;
+
+    /**
      * Enter description here...
      *
      */
@@ -108,13 +115,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
 
     protected function _getDisabledIds($collection)
     {
+        $storeId = Mage::app()->getStore()->getId();
         $allIds = $collection->getAllIds();
         $disabledIds = array();
 
         foreach ($allIds as $id) {
             $parents = $this->getNodeById($id)->getPath();
             foreach ($parents as $parent) {
-                $activity = $this->_getItemIsActive($parent->getId());
+                $activity = $this->_getItemIsActive($parent->getId(), $storeId);
                 if ($activity != 1) {
                     $disabledIds[] = $id;
                     continue;
@@ -124,13 +132,33 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         return $disabledIds;
     }
 
-
-    protected function _getItemIsActive($id)
+    protected function _getIsActiveAttributeId()
     {
+        if (is_null($this->_isActiveAttributeId)) {
+            $select = $this->_conn->select()
+                ->from(array('a'=>Mage::getSingleton('core/resource')->getTableName('eav/attribute')), array('attribute_id'))
+                ->join(array('t'=>Mage::getSingleton('core/resource')->getTableName('eav/entity_type')), 'a.entity_type_id = t.entity_type_id')
+                ->where('entity_type_code = ?', 'catalog_category')
+                ->where('attribute_code = ?', 'is_active');
+
+            $this->_isActiveAttributeId = $this->_conn->fetchOne($select);
+        }
+        return $this->_isActiveAttributeId;
+    }
+
+
+    protected function _getItemIsActive($id, $storeId)
+    {
+        $attributeId = $this->_getIsActiveAttributeId();
+        $table = Mage::getSingleton('core/resource')->getTableName('catalog/category') . '_int';
+
         if (!isset($this->_activityCache[$id])) {
             $select = $this->_conn->select()
-                ->from(Mage::getSingleton('core/resource')->getTableName('catalog/category'), array('is_active'))
-                ->where('entity_id = ?', $id);
+                ->from(array('d'=>$table), array('IFNULL(c.value, d.value)'))
+                ->where('d.attribute_id = ?', $attributeId)
+                ->where('d.store_id = ?', 0)
+                ->where('d.entity_id = ?', $id)
+                ->joinLeft(array('c'=>$table), "c.attribute_id = '{$attributeId}' AND c.store_id = '{$storeId}' AND c.entity_id = '{$id}'");
             $this->_activityCache[$id] = $this->_conn->fetchOne($select);
         }
         return $this->_activityCache[$id];

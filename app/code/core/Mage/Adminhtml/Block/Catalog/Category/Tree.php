@@ -68,14 +68,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Te
 
     public function getCategoryCollection()
     {
+        $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
             $collection = Mage::getModel('catalog/category')->getCollection();
 
             /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
             $collection->addAttributeToSelect('name')
-                ->setProductStoreId($this->getRequest()->getParam('store', $this->_getDefaultStoreId()))
-                ->setLoadProductCount($this->_withProductCount);
+                ->addAttributeToSelect('is_active')
+                ->setProductStoreId($storeId)
+                ->setLoadProductCount($this->_withProductCount)
+                ->setStoreId($storeId);
 
             $this->setData('category_collection', $collection);
         }
