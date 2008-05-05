@@ -52,16 +52,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if ($typeId = $this->getRequest()->getParam('type')) {
             	$product->setTypeId($typeId);
             }
-            $attributes = $this->getRequest()->getParam('attributes');
-            if ($attributes && $product->isConfigurable()) {
-                $product->getTypeInstance()->setUsedProductAttributeIds(
-                    explode(",", base64_decode(urldecode($attributes)))
-                );
-            }
         }
 
         if ($productId) {
             $product->load($productId);
+        }
+
+        $attributes = $this->getRequest()->getParam('attributes');
+        if ($attributes && $product->isConfigurable()) {
+            $product->getTypeInstance()->setUsedProductAttributeIds(
+                explode(",", base64_decode(urldecode($attributes)))
+            );
         }
 
         // Init attribute label names for store selected in dropdown
