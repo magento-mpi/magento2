@@ -65,11 +65,10 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
         try {
             $this->_getSession()->login($username, $apiKey);
         } catch (Mage_Core_Exception $e) {
-            $this->_getServer()->getAdapter()->fault('Login', $e->getMessage());
-            return;
+            return $this->_fault('Login', $e->getMessage());
         } catch (Exception $e) {
-            $this->_getServer()->getAdapter()->fault('Login', Mage::helper('api')->__('Unable to login: %s %s', $e->getMessage(), $e->getTraceAsString()));
-            return;
+            return $this->_fault('Login', Mage::helper('api')->__('Unable to login.'));
+
         }
         return $this->_getSession()->getSessionId();
     }
@@ -89,27 +88,24 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
         list($resourceName, $methodName) = explode('.', $apiPath);
 
         if (empty($resourceName) || empty($methodName)) {
-            $this->_getServer()->getAdapter()->fault('Request', Mage::helper('api')->__('Invalid api path.'));
-            return;
+            return $this->_fault('Request', Mage::helper('api')->__('Invalid api path.'));
         }
 
         if (!isset($this->_getConfig()->getResources()->$resourceName)
             || !isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName)) {
-            $this->_getServer()->getAdapter()->fault('Request', Mage::helper('api')->__('Invalid api path.'));
-            return;
+            return $this->_fault('Request', Mage::helper('api')->__('Invalid api path.'));
         }
 
         if (isset($this->_getConfig()->getResources()->$resourceName->acl)
             && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->acl)) {
-            $this->_getServer()->getAdapter()->fault('Permissions', Mage::helper('api')->__('Access denied.'));
-            return;
+            return $this->_fault('Permissions', Mage::helper('api')->__('Access denied.'));
+
         }
 
 
         if (isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)
             && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)) {
-            $this->_getServer()->getAdapter()->fault('Permissions', Mage::helper('api')->__('Access denied.'));
-            return;
+            return $this->_fault('Permissions', Mage::helper('api')->__('Access denied.'));
         }
 
         $methodInfo = $this->_getConfig()->getResources()->$resourceName->methods->$methodName;
@@ -119,7 +115,7 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
 
             $modelName = (string) $this->_getConfig()->getResources()->$resourceName->model;
             try {
-                $model = Mage::getSingleton($modelName);
+                $model = Mage::getModel($modelName);
             } catch (Exception $e) {
                 Mage::throwException(Mage::helper('api')->__('Api path are not callable.'));
             }
@@ -134,9 +130,10 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
                 Mage::throwException(Mage::helper('api')->__('Api path are not callable.'));
             }
         } catch (Mage_Core_Exception $e) {
-            $this->_getServer()->getAdapter()->fault('Call', $e->getMessage());
+            return $this->_fault('Call', $e->getMessage());
         } catch (Exception $e) {
-            $this->_getServer()->getAdapter()->fault('Call', Mage::helper('api')->__('Internal Error.'));
+            Mage::logException($e);
+            return $this->_fault('Call', Mage::helper('api')->__('Internal Error. Please see log for detail.'));
         }
     }
 } // Class Mage_Api_Model_Server_Handler End

@@ -27,6 +27,30 @@
  */
 class Mage_Api_Model_Server_Handler_Abstract
 {
+    public function __construct()
+    {
+        set_error_handler(array(get_class($this), 'hadlePhpError'), E_ALL);
+    }
+
+    /**
+     * Some
+     *
+     * @access private
+     * @param unknown_type $errorCode
+     * @param unknown_type $errorMessage
+     * @param unknown_type $errorFile
+     * @return unknown
+     */
+    static public function hadlePhpError($errorCode, $errorMessage, $errorFile)
+    {
+        Mage::log($errorMessage, null, $errorFile);
+        if (in_array($errorCode, array(E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR))) {
+            $this->_fault('Server', Mage::helper('api')->__('Internal Error. Please see log for detail.'));
+        }
+        return true;
+    }
+
+
     /**
      * Retrive webservice session
      *
@@ -75,5 +99,16 @@ class Mage_Api_Model_Server_Handler_Abstract
     protected function _isAllowed($resource, $privilege=null)
     {
         return $this->_getSession()->isAllowed($resource, $privilege);
+    }
+
+    /**
+     * Dispatch webservice fault
+     *
+     * @param string $code
+     * @param string $message
+     */
+    protected function _fault($code, $message)
+    {
+        $this->_getServer()->getAdapter()->fault($code, $message);
     }
 } // Class Mage_Api_Model_Server_Handler_Abstract End

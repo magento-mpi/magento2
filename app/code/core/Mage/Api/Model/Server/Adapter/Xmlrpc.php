@@ -19,28 +19,27 @@
  */
 
 /**
- * Webservice soap adapter
+ * Webservice XmlRpc adapter
  *
  * @category   Mage
  * @package    Mage_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Server_Adapter_Soap
+class Mage_Api_Model_Server_Adapter_Xmlrpc
     extends Varien_Object
     implements Mage_Api_Model_Server_Adapter_Interface
 {
-    /**
-     * Soap server
-     *
-     * @var SoapServer
-     */
-    protected $_soap = null;
-
-    /**
+     /**
+      * XmlRpc Server
+      *
+      * @var Zend_XmlRpc_Server
+      */
+     protected $_xmlRpc = null;
+     /**
      * Set handler class name for webservice
      *
      * @param string $handler
-     * @return Mage_Api_Model_Server_Adapter_Soap
+     * @return Mage_Api_Model_Server_Adapter_Xmlrpc
      */
     public function setHandler($handler)
     {
@@ -62,7 +61,7 @@ class Mage_Api_Model_Server_Adapter_Soap
      * Set webservice api controller
      *
      * @param Mage_Api_Controller_Action $controller
-     * @return Mage_Api_Model_Server_Adapter_Soap
+     * @return Mage_Api_Model_Server_Adapter_Xmlrpc
      */
     public function setController(Mage_Api_Controller_Action $controller)
     {
@@ -84,35 +83,15 @@ class Mage_Api_Model_Server_Adapter_Soap
      * Run webservice
      *
      * @param Mage_Api_Controller_Action $controller
-     * @return Mage_Api_Model_Server_Adapter_Soap
+     * @return Mage_Api_Model_Server_Adapter_Xmlrpc
      */
     public function run()
     {
-        if ($this->getController()->getRequest()->getParam('wsdl')) {
-            // Generating wsdl content from template
-            $io   = new Varien_Io_File();
-            $io->open(array('path'=>Mage::getModuleDir('etc', 'Mage_Api')));
-            $wsdlContent = $io->read('wsdl.xml');
-
-            $template = Mage::getModel('core/email_template_filter');
-
-            $wsdlConfig = new Varien_Object();
-            $wsdlConfig->setUrl(Mage::getUrl('*/*/*'));
-            $wsdlConfig->setName('Magento');
-            $wsdlConfig->setHandler($this->getHandler());
-
-            $template->setVariables(array('wsdl'=>$wsdlConfig));
-
-            $this->getController()->getResponse()
-                ->setHeader('Content-Type','text/xml')
-                ->setBody($template->filter($wsdlContent));
-
-        } else {
-            $this->_soap = new SoapServer(Mage::getUrl('*/*/*', array('wsdl'=>1)));
-            use_soap_error_handler(false);
-            $this->_soap->setClass($this->getHandler());
-            $this->_soap->handle();
-        }
+        $this->_xmlRpc = new Zend_XmlRpc_Server();
+        $this->_xmlRpc->setClass($this->getHandler());
+        $this->getController()->getResponse()
+            ->setHeader('Content-Type', 'text/xml')
+            ->setBody($this->_xmlRpc->handle());
         return $this;
     }
 
@@ -124,6 +103,6 @@ class Mage_Api_Model_Server_Adapter_Soap
      */
     public function fault($code, $message)
     {
-        throw new SoapFault($code, $message);
+        throw new Zend_XmlRpc_Exception($message, $code);
     }
-} // Class Mage_Api_Model_Server_Adapter_Soap End
+} // Class Mage_Api_Model_Server_Adapter_Xmlrpc End

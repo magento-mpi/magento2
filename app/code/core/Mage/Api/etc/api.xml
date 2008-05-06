@@ -32,6 +32,11 @@
                     </extensions>
                 </required>
             </soap>
+            <xmlrpc>
+                <model>api/server_adapter_xmlrpc</model>
+                <handler>default</handler>
+                <active>1</active>
+            </xmlrpc>
             <default>
                 <use>soap</use>
             </default>

@@ -13,33 +13,23 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Api
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Base api controller
+ * Xml Rpc webservice controller
  *
  * @category   Mage
  * @package    Mage_Api
-*/
-class Mage_Api_Controller_Action extends Mage_Core_Controller_Front_Action
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Api_XmlrpcController extends Mage_Api_Controller_Action
 {
-    public function preDispatch()
+    public function indexAction()
     {
-        $this->setFlag('', self::FLAG_NO_START_SESSION, 1); // Do not start standart session
-        parent::preDispatch();
-        return $this;
+        $this->_getServer()->init($this, 'xmlrpc')
+            ->run();
     }
-
-    /**
-     * Retrive webservice server
-     *
-     * @return Mage_Api_Model_Server
-     */
-    protected function _getServer()
-    {
-        return Mage::getSingleton('api/server');
-    }
-}
+} // Class Mage_Api_XmlrpcController End
