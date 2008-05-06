@@ -86,7 +86,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
 
         if (!$result->getError()) {
             $payment->setStatus(self::STATUS_APPROVED);
-            $payment->setCcTransId($payment->getTransaction());
+            $payment->setCcTransId($result->getTransaction());
         } else {
             Mage::throwException($result->getError());
         }
@@ -98,8 +98,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     {
         $payment->setAmount($amount);
         if ($payment->getCcTransId()) {
+            $this->setTransactionId($payment->getCcTransId());
             $payment->setOpcode(self::OPCODE_CONFIRM_AUTHORIZE);
-            $payment->setTransaction($payment->getCcTransId());
         } else {
             $payment->setOpcode(self::OPCODE_CHARGING);
         }
@@ -109,7 +109,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
 
         if (!$result->getError()) {
             $payment->setStatus(self::STATUS_APPROVED);
-            $payment->setLastTransId($payment->getTransaction());
+            $payment->setLastTransId($result->getTransaction());
         } else {
             Mage::throwException($result->getError());
         }
@@ -121,7 +121,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     {
         $payment->setAmount($amount);
         $payment->setOpcode(self::OPCODE_REFUND);
-        $payment->setTransaction($payment->getRefundTransactionId());
+
+        $this->setTransactionId($payment->getRefundTransactionId());
 
         $request = $this->_buildRequest($payment);
         $result = $this->_postRequest($request);
@@ -147,33 +148,51 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                   ? $streets[0]
                   : (isset($streets[1]) && $streets[1] != '' ? $streets[1] : '');
 
-
         $request = Mage::getModel('chronopay/gateway_request')
             ->setOpcode($payment->getOpcode())
-            ->setProductId($this->getConfigData('product_id'))
-            ->setCustomer($order->getCustomerId())
-            ->setFname($billing->getFirstname())
-            ->setLname($billing->getLastname())
-            ->setCardholder($payment->getCcOwner())
-            ->setZip($billing->getPostcode())
-            ->setStreet($street)
-            ->setCity($billing->getCity())
-            ->setState($billing->getRegionModel()->getCode())
-            ->setCountry($billing->getCountryModel()->getIso3Code())
-            ->setEmail($order->getCustomerEmail())
-            ->setPhone($billing->getTelephone())
-            ->setIp($this->_getIp())
-            ->setCardNo($payment->getCcNumber())
-            ->setCvv($payment->getCcCid())
-            ->setExpirey($payment->getCcExpYear())
-            ->setExpirem(sprintf('%02d', $payment->getCcExpMonth()))
-            ->setAmount(sprintf('%.2f', $payment->getAmount()))
-            ->setCurrency($order->getBaseCurrencyCode())
-            ->setShowTransactionId(1);
+            ->setProductId($this->getConfigData('product_id'));
 
-        if ($payment->getTransaction()) {
-            $request->setTransaction($payment->getTransaction());
+        switch ($request->getOpcode()) {
+            case self::OPCODE_CUSTOMER_FUND_TRANSFER :
+                $request->setCustomer($order->getCustomerId())
+                    ->setAmount(sprintf('%.2f', $payment->getAmount()))
+                    ->setCurrency($order->getBaseCurrencyCode());
+                break;
+            case self::OPCODE_CHARGING :
+            case self::OPCODE_REFUND :
+            case self::OPCODE_AUTHORIZE :
+            case self::OPCODE_VOID_AUTHORIZE :
+                $request->setFname($billing->getFirstname())
+                    ->setLname($billing->getLastname())
+                    ->setCardholder($payment->getCcOwner())
+                    ->setZip($billing->getPostcode())
+                    ->setStreet($street)
+                    ->setCity($billing->getCity())
+                    ->setState($billing->getRegionModel()->getCode())
+                    ->setCountry($billing->getCountryModel()->getIso3Code())
+                    ->setEmail($order->getCustomerEmail())
+                    ->setPhone($billing->getTelephone())
+                    ->setIp($this->_getIp())
+                    ->setCardNo($payment->getCcNumber())
+                    ->setCvv($payment->getCcCid())
+                    ->setExpirey($payment->getCcExpYear())
+                    ->setExpirem(sprintf('%02d', $payment->getCcExpMonth()))
+                    ->setAmount(sprintf('%.2f', $payment->getAmount()))
+                    ->setCurrency($order->getBaseCurrencyCode());
+                break;
+            default :
+                Mage::throwException(
+                    Mage::helper('chronopay')->__('Invalid operation code')
+                );
+                break;
         }
+
+        $request->setShowTransactionId(1);
+
+        if ($this->getTransactionId()) {
+            $request->setTransaction($this->getTransactionId());
+        }
+
 
         $hash = $this->_getHash($request);
         $request->setHash($hash);
@@ -211,29 +230,29 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             $response = $client->request();
             $body = $response->getRawBody();
 
-            if (preg_match('/(T)\|(.+)\|[\r\n]{0,}(Y)\|(.+)\||(N)\|(.+[\r\n]{0,}.+){0,}/', $body, $matches)) {
+            if (preg_match('/(T\|(.+)\|[\r\n]{0,}){0,1}(Y\|(.+)?|\|)|(N\|(.+[\r\n]{0,}.+){0,})/', $body, $matches)) {
 
                 $transactionId = $matches[2];
-                $message = $matches[4];
+                $message = isset($matches[4])?trim($matches[4], '|'):'';
 
                 if (isset($matches[5], $matches[6])) {
                     $result->setError($matches[6]);
                     Mage::throwException($matches[6]);
                 }
 
-                if ($request->getShowTransactionId()) {
+                if ($message == 'Completed') {
+                    $result->setTransaction($request->getTransaction());
+                }
+
+                if (strlen($transactionId)) {
                     $result->setTransaction($transactionId);
-                } elseif ($message != 'Completed') {
-                    Mage::throwException($message);
                 }
+
                 if (!$result->getTransaction()) {
-                    Mage::throwException('Transaction ID is invalid');
+                    Mage::throwException(Mage::helper('chronopay')->__('Transaction ID is invalid'));
                 }
-
-                $result->setCompleted($message == 'Completed');
-
             } else {
-                Mage::throwException('Invalid response format');
+                Mage::throwException(Mage::helper('chronopay')->__('Invalid response format'));
             }
 
             if ($this->getConfigData('debug_flag')) {
@@ -282,10 +301,14 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 $hashArray[] = $request->getAmount();
                 break;
 
-            case self::OPCODE_REFUND :
             case self::OPCODE_VOID_AUTHORIZE :
             case self::OPCODE_CONFIRM_AUTHORIZE :
                 $hashArray[] = $request->getTransaction();
+                break;
+
+            case self::OPCODE_REFUND :
+                $hashArray[] = $request->getTransaction();
+                $hashArray[] = $request->getAmount();
                 break;
 
             case self::OPCODE_CUSTOMER_FUND_TRANSFER :
@@ -300,6 +323,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 );
                 break;
         }
+
         return md5(implode('', $hashArray));
     }
 
