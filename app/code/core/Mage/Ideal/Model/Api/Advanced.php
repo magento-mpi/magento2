@@ -128,8 +128,15 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         }
 
         if ($debug) {
+
+            if ($response === false) {
+                $responseData = $this->getError();
+            } else {
+                $responseData = $response->getData();
+            }
+
             Mage::getModel('ideal/api_debug')
-                ->setResponseBody(get_class($requestType) . "\n" . print_r($response->getData(), true))
+                ->setResponseBody(get_class($requestType) . "\n" . print_r($responseData, true))
                 ->setRequestBody(get_class($requestType) . "\n" . print_r($requestType->getData(), true))
                 ->save();
         }
