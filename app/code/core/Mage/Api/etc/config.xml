@@ -26,6 +26,13 @@
         </Mage_Api>
     </modules>
     <global>
+        <cache>
+            <types>
+                <config_api translate="label" module="api">
+                    <label>Web Services Configuration</label>
+                </config_api>
+            </types>
+        </cache>
         <models>
             <api>
                 <class>Mage_Api_Model</class>

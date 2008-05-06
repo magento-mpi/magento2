@@ -27,6 +27,8 @@
  */
 class Mage_Api_Model_Config extends Varien_Simplexml_Config
 {
+    const CACHE_TAG         = 'config_api';
+
     /**
      * Constructor
      *
@@ -34,6 +36,9 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
      */
     public function __construct($sourceData=null)
     {
+        $this->setCacheId('config_api');
+        $this->setCacheTags(array(self::CACHE_TAG));
+
         parent::__construct($sourceData);
         $this->_construct();
     }
@@ -45,6 +50,12 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
      */
     protected function _construct()
     {
+        if (Mage::app()->useCache('config_api')) {
+            if ($this->loadCache()) {
+                return $this;
+            }
+        }
+
         $mergeConfig = Mage::getModel('core/config_base');
 
         $config = Mage::getConfig();
@@ -76,6 +87,10 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         }
 
         $this->setXml($config->getNode('api'));
+
+        if (Mage::app()->useCache('config_api')) {
+            $this->saveCache();
+        }
         return $this;
     }
 
@@ -198,5 +213,30 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         }
 
         return false;
+    }
+
+     /**
+     * Retrieve cache object
+     *
+     * @return Zend_Cache_Frontend_File
+     */
+    public function getCache()
+    {
+        return Mage::app()->getCache();
+    }
+
+    protected function _loadCache($id)
+    {
+        return Mage::app()->loadCache($id);
+    }
+
+    protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
+    {
+        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+    }
+
+    protected function _removeCache($id)
+    {
+        return Mage::app()->removeCache($id);
     }
 } // Class Mage_Api_Model_Config End
