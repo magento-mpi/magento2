@@ -27,6 +27,12 @@
  */
 class Mage_Api_Model_Server
 {
+    const FAULT_SERVER          = 1;
+    const FAULT_INTERNAL        = 2;
+    const FAULT_LOGIN           = 3;
+    const FAULT_PERMISSIONS     = 4;
+    const FAULT_CALL            = 5;
+
     /**
      * Web service adapter
      *

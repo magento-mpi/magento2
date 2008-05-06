@@ -67,7 +67,7 @@ interface Mage_Api_Model_Server_Adapter_Interface
     /**
      * Dispatch webservice fault
      *
-     * @param string $code
+     * @param int $code
      * @param string $message
      */
     function fault($code, $message);

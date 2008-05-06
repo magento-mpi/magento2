@@ -119,7 +119,7 @@ class Mage_Api_Model_Server_Adapter_Soap
     /**
      * Dispatch webservice fault
      *
-     * @param string $code
+     * @param int $code
      * @param string $message
      */
     public function fault($code, $message)

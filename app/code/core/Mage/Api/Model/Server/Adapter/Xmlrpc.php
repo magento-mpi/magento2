@@ -35,6 +35,7 @@ class Mage_Api_Model_Server_Adapter_Xmlrpc
       * @var Zend_XmlRpc_Server
       */
      protected $_xmlRpc = null;
+
      /**
      * Set handler class name for webservice
      *
@@ -98,11 +99,11 @@ class Mage_Api_Model_Server_Adapter_Xmlrpc
     /**
      * Dispatch webservice fault
      *
-     * @param string $code
+     * @param int $code
      * @param string $message
      */
     public function fault($code, $message)
     {
-        throw new Zend_XmlRpc_Exception($message, $code);
+        throw new Zend_XmlRpc_Server_Exception($message, $code);
     }
 } // Class Mage_Api_Model_Server_Adapter_Xmlrpc End

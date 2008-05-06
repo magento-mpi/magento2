@@ -27,6 +27,15 @@
  */
 class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
 {
+    public $sessionIds = array();
+
+    public function start($sessionName=null)
+    {
+        parent::start($sessionName=null);
+        $this->sessionIds[] = $this->getSessionId();
+        return $this;
+    }
+
     public function revalidateCookie()
     {
         // In api we don't use cookies

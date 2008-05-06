@@ -26,6 +26,11 @@
         </Mage_Api>
     </modules>
     <global>
+        <ignoredModules>
+            <entities>
+                <api />
+            </entities>
+        </ignoredModules>
         <cache>
             <types>
                 <config_api translate="label" module="api">
