@@ -177,6 +177,54 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * Notification action that calling by iDEAL
+     *
+     */
+    public function notifyAction()
+    {
+        if (isset($HTTP_RAW_POST_DATA)) {
+            $xmlResponse = $HTTP_RAW_POST_DATA;
+        } else {
+            $xmlResponse = file_get_contents("php://input");
+        }
+
+        if (!strlen($xmlResponse)) {
+            $this->norouteAction();
+            return;
+        }
+
+        $xmlObj = simplexml_load_string($xmlResponse);
+        $status = (string)$xmlObj->status;
+
+        $order = Mage::getModel('sales/order')
+            ->loadByIncrementId((int)$xmlObj->purchaseID);
+
+        if (!$order->getId()) {
+            return;
+        }
+
+        if ($status == 'Success') {
+            if (!$order->hasInvoices()) {
+                $this->_saveInvoice($order);
+                $order->addStatusToHistory($order->getStatus(),
+                    $this->__('Notification from iDEAL was recived with status %s. Invoice was created. Please, check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased.', $status)
+                );
+            } else {
+                $order->addStatusToHistory($order->getStatus(),
+                    $this->__('Notification from iDEAL was recived with status %s.', $status)
+                );
+            }
+        } else {
+            $order->addStatusToHistory($order->getStatus(),
+                $this->__('Notification from iDEAL was recived with status %s.', $status)
+            );
+            $order->cancel();
+        }
+
+        $order->save();
+    }
+
+    /**
      *  Save invoice for order
      *
      *  @param    Mage_Sales_Model_Order $order
