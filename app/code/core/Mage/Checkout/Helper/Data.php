@@ -178,4 +178,20 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->getQuote()->getStore()->convertPrice($price, $format);
     }
+
+    protected $_agreements = null;
+
+    public function getRequiredAgreementIds()
+    {
+        if (is_null($this->_agreements)) {
+            if (!Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
+                $this->_agreements = array();
+            } else {
+                $this->_agreements = Mage::getModel('checkout/agreement')->getCollection()
+                    ->addStoreFilter(Mage::app()->getStore()->getId())
+                    ->getAllIds();
+            }
+        }
+        return $this->_agreements;
+    }
 }

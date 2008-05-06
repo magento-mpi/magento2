@@ -116,6 +116,9 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
+
+        <?php echo $this->getChildHtml('agreements') ?>
+
         <table class="place-order-box" cellspacing="0">
             <tr>
                 <td class="v-middle">
@@ -147,6 +150,16 @@
         if (submitted) {
             return false;
         }
+        if ($('checkout-agreements')) {
+            var checkboxes = $$('#checkout-agreements input');
+            for (var i=0, l=checkboxes.length; i<l; i++) {
+                if (!checkboxes[i].checked) {
+                    alert("<?php echo $this->__('Please agree to all Terms and Conditions before placing the orders.')?>");
+                    return false;
+                }
+            }
+        }
+
         submitted = true;
         var step='review';
         Element.show(step+'-please-wait');

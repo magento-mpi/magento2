@@ -283,7 +283,18 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
     {
         $this->_expireAjax();
 
+        $result = array();
         try {
+            if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
+                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
+                if ($diff = array_diff($requiredAgreements, $postedAgreements)) {
+                    $result['success'] = false;
+                    $result['error'] = true;
+                    $result['error_messages'] = $this->__('Please agree to all Terms and Conditions before placing the order.');
+                    $this->getResponse()->setBody(Zend_Json::encode($result));
+                    return;
+                }
+            }
             if ($data = $this->getRequest()->getPost('payment', false)) {
                 $this->getOnepage()->getQuote()->getPayment()->importData($data);
             }

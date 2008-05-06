@@ -385,6 +385,14 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         }
 
         try {
+            if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
+                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
+                if ($diff = array_diff($requiredAgreements, $postedAgreements)) {
+                    Mage::getSingleton('checkout/session')->addError($this->__('Please agree to all Terms and Conditions before placing the order.'));
+                    $this->_redirect('*/*/billing');
+                    return;
+                }
+            }
             $payment = $this->getRequest()->getPost('payment');
             $paymentInstance = $this->_getCheckout()->getQuote()->getPayment();
             if (isset($payment['cc_number'])) {
