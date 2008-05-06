@@ -107,7 +107,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
         try {
             $model->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('checkout')->__('Tax agreement was successfully deleted'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('checkout')->__('Agreement was successfully deleted'));
             $this->_redirect('*/*/');
 
             return;
