@@ -127,7 +127,10 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             // if there is no info about this parameter lets set it for maximum
             $imageInfo['channels'] = 4;
         }
-
+        if (!isset($imageInfo['bits'])) {
+            // if there is no info about this parameter lets set it for maximum
+            $imageInfo['bits'] = 8;
+        }
         return round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $imageInfo['channels'] / 8 + Pow(2, 16)) * 1.65);
     }
 
