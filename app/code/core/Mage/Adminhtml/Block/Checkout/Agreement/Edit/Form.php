@@ -96,20 +96,20 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
             ));
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
+    	
+        $fieldset->addField('checkbox_text', 'editor', array(
+            'name'      => 'checkbox_text',
+            'label'     => Mage::helper('checkout')->__('Checkbox text'),
+            'title'     => Mage::helper('checkout')->__('Checkbox text'),
+            'wysiwyg'   => false,
+            'required'  => true,
+        ));
 
     	$fieldset->addField('content', 'editor', array(
             'name'      => 'content',
             'label'     => Mage::helper('checkout')->__('Content'),
             'title'     => Mage::helper('checkout')->__('Content'),
             'style'     => 'width: 98%; height: 600px;',
-            'wysiwyg'   => false,
-            'required'  => true,
-        ));
-
-    	$fieldset->addField('checkbox_text', 'editor', array(
-            'name'      => 'checkbox_text',
-            'label'     => Mage::helper('checkout')->__('Checkbox text'),
-            'title'     => Mage::helper('checkout')->__('Checkbox text'),
             'wysiwyg'   => false,
             'required'  => true,
         ));

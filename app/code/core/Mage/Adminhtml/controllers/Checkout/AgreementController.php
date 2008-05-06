@@ -76,7 +76,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('checkout')->__('Tax agreement was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('checkout')->__('Agreement was successfully saved'));
                 $this->_redirect('*/*/');
 
                 return;
