@@ -51,7 +51,7 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
 
     public function addMinimalPrices(Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection)
     {
-        $productIds = $collection->getAllIds();
+        $productIds = new Zend_Db_Expr($collection->getAllIdsSql());
 
         if (!count($productIds)) {
             return;
