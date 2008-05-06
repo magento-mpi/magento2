@@ -189,6 +189,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             } else {
                 $this->_agreements = Mage::getModel('checkout/agreement')->getCollection()
                     ->addStoreFilter(Mage::app()->getStore()->getId())
+                    ->addFieldToFilter('is_active', 1)
                     ->getAllIds();
             }
         }
