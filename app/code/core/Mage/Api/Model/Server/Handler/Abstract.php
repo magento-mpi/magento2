@@ -32,15 +32,6 @@ class Mage_Api_Model_Server_Handler_Abstract
         set_error_handler(array(get_class($this), 'hadlePhpError'), E_ALL);
     }
 
-    /**
-     * Some
-     *
-     * @access private
-     * @param unknown_type $errorCode
-     * @param unknown_type $errorMessage
-     * @param unknown_type $errorFile
-     * @return unknown
-     */
     static public function hadlePhpError($errorCode, $errorMessage, $errorFile)
     {
         Mage::log($errorMessage, null, $errorFile);
