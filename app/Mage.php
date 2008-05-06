@@ -392,7 +392,7 @@ final class Mage {
      */
     public static function app($code = '', $type = 'store', $options=array())
     {
-        if (is_null(self::$_app)) {
+        if (null === self::$_app) {
             Varien_Profiler::start('app/init');
 
             self::$_app = new Mage_Core_Model_App();
