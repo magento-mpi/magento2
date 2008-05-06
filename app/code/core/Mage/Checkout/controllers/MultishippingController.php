@@ -81,9 +81,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             return $this;
         }
 
-        if (!$this->_getCheckout()->getQuote()->hasItems()
-            || $this->_getCheckout()->getQuote()->getHasError())
-        {
+        $quote = $this->_getCheckout()->getQuote();
+        if (!$quote->hasItems() || $quote->getHasError()) {
             $this->_redirectUrl($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -159,6 +158,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->_getState()->setActiveStep(
             Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES
         );
+        if (!$this->_getCheckout()->validateMinimumAmount()) {
+            $message = $this->_getCheckout()->getMinimumAmountDescription();
+            $this->_getCheckout()->getCheckoutSession()->addNotice($message);
+        }
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
@@ -222,11 +225,26 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->_redirect('*/*/addresses');
     }
 
+    protected function _validateMinimumAmount()
+    {
+        if (!$this->_getCheckout()->validateMinimumAmount()) {
+            $error = $this->_getCheckout()->getMinimumAmountError();
+            $this->_getCheckout()->getCheckoutSession()->addError($error);
+            $this->_forward('backToAddresses');
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Multishipping checkout shipping information page
      */
     public function shippingAction()
     {
+        if (!$this->_validateMinimumAmount()) {
+            return;
+        }
+
         $this->_getState()->setActiveStep(
             Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING
         );
@@ -269,7 +287,11 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function billingAction()
     {
-        if(!$this->_validateBilling()) {
+        if (!$this->_validateBilling()) {
+            return;
+        }
+
+        if (!$this->_validateMinimumAmount()) {
             return;
         }
 
@@ -330,6 +352,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
      */
     public function overviewAction()
     {
+        if (!$this->_validateMinimumAmount()) {
+            return;
+        }
+
         $this->_getState()->setActiveStep(Mage_Checkout_Model_Type_Multishipping_State::STEP_OVERVIEW);
 
         try {
@@ -354,6 +380,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
 
     public function overviewPostAction()
     {
+        if (!$this->_validateMinimumAmount()) {
+            return;
+        }
+
         try {
             $payment = $this->getRequest()->getPost('payment');
             $paymentInstance = $this->_getCheckout()->getQuote()->getPayment();

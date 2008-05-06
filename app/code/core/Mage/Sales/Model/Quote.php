@@ -944,4 +944,24 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         $this->setReservedOrderId($this->_getResource()->getReservedOrderId($this));
         return $this;
     }
+
+    public function validate()
+    {
+        foreach ($this->getAllAddresses() as $address) {
+            if (!$address->validate()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function validateMinimumAmount()
+    {
+        foreach ($this->getAllAddresses() as $address) {
+            if (!$address->validateMinimumAmount()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -137,6 +137,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				    break;
 
 				case 'by_fixed':
+				    if ($step = $rule->getDiscountStep()) {
+				        $qty = floor($qty/$step)*$step;
+				    }
 				    $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
 					$discountAmount    = $qty*$quoteAmount;
 					$baseDiscountAmount= $qty*$rule->getDiscountAmount();

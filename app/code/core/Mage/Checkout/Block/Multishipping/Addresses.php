@@ -110,4 +110,9 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Checkout_Block_Mu
     {
         return Mage::getUrl('*/cart/');
     }
+
+    public function isContinueDisabled()
+    {
+        return !$this->getCheckout()->validateMinimumAmount();
+    }
 }

@@ -94,7 +94,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        if (!$this->getOnepage()->getQuote()->hasItems() || $this->getOnepage()->getQuote()->getHasError()) {
+        $quote = $this->getOnepage()->getQuote();
+        if (!$quote->hasItems() || $quote->getHasError()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+        if (!$quote->validateMinimumAmount()) {
+            $error = Mage::getStoreConfig('sales/minimum_order/error_message');
+            Mage::getSingleton('checkout/session')->addError($error);
             $this->_redirect('checkout/cart');
             return;
         }

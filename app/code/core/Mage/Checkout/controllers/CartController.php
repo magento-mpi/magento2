@@ -72,6 +72,11 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         Varien_Profiler::stop('TEST4: '.__METHOD__);
         Varien_Profiler::start('TEST5: '.__METHOD__);
 
+        if (!$this->getQuote()->validateMinimumAmount()) {
+            $warning = Mage::getStoreConfig('sales/minimum_order/description');
+            $cart->getCheckoutSession()->addNotice($warning);
+        }
+
         foreach ($cart->getQuote()->getMessages() as $message) {
             if ($message) {
                 $cart->getCheckoutSession()->addMessage($message);

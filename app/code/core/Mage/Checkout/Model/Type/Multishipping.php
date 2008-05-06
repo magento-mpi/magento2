@@ -342,4 +342,29 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->getCheckoutSession()->setCheckoutState(Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN);
         return $this;
     }
+
+    public function validateMinimumAmount()
+    {
+        return !(Mage::getStoreConfigFlag('sales/minimum_order/active')
+            && Mage::getStoreConfigFlag('sales/minimum_order/multi_address')
+            && !$this->getQuote()->validateMinimumAmount());
+    }
+
+    public function getMinimumAmountDescription()
+    {
+        $descr = Mage::getStoreConfig('sales/minimum_order/multi_address_description');
+        if (empty($descr)) {
+            $descr = Mage::getStoreConfig('sales/minimum_order/description');
+        }
+        return $descr;
+    }
+
+    public function getMinimumAmountError()
+    {
+        $error = Mage::getStoreConfig('sales/minimum_order/multi_address_error_message');
+        if (empty($error)) {
+            $error = Mage::getStoreConfig('sales/minimum_order/error_message');
+        }
+        return $error;
+    }
 }
