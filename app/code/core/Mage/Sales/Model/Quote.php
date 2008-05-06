@@ -945,16 +945,6 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         return $this;
     }
 
-    public function validate()
-    {
-        foreach ($this->getAllAddresses() as $address) {
-            if (!$address->validate()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function validateMinimumAmount()
     {
         foreach ($this->getAllAddresses() as $address) {

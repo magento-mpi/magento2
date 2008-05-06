@@ -393,6 +393,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
                     return;
                 }
             }
+
             $payment = $this->getRequest()->getPost('payment');
             $paymentInstance = $this->_getCheckout()->getQuote()->getPayment();
             if (isset($payment['cc_number'])) {

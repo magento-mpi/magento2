@@ -303,6 +303,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->_validate();
         $shippingAddresses = $this->getQuote()->getAllShippingAddresses();
         $orders = array();
+
         foreach ($shippingAddresses as $address) {
             $order = $this->_prepareOrder($address);
 
