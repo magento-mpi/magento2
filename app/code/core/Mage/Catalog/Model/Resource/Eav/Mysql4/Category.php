@@ -92,6 +92,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         if (!$object->getId()) {
             $object->setPosition($this->_getMaxPosition($object->getPath()) + 1);
+            $object->setLevel(count(explode('/', $object->getPath())));
             $object->setPath($object->getPath() . '/');
         }
         return $this;

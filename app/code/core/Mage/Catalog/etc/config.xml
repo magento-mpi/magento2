@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.35</version>
+            <version>0.7.36</version>
         </Mage_Catalog>
     </modules>
     <global>
@@ -362,6 +362,10 @@
 
     <default>
         <catalog>
+            <navigation>
+                <max_depth>0</max_depth>
+            </navigation>
+
             <frontend>
                 <list_mode>grid-list</list_mode>
                 <grid_per_page_values>9,15,30</grid_per_page_values>

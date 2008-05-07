@@ -43,6 +43,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      */
     protected $_isActiveAttributeId = null;
 
+    protected $_joinUrlRewriteIntoCollection = false;
+
     /**
      * Enter description here...
      *
@@ -57,7 +59,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
             array(
                 Varien_Data_Tree_Dbp::ID_FIELD       => 'entity_id',
                 Varien_Data_Tree_Dbp::PATH_FIELD     => 'path',
-                Varien_Data_Tree_Dbp::ORDER_FIELD    => 'position'
+                Varien_Data_Tree_Dbp::ORDER_FIELD    => 'position',
+                Varien_Data_Tree_Dbp::LEVEL_FIELD    => 'level',
             )
         );
     }
@@ -100,6 +103,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
                 $collection->addFieldToFilter('entity_id', array('nin'=>$disabledIds));
             }
             $collection->addAttributeToFilter('is_active', 1);
+        }
+
+        if ($this->_joinUrlRewriteIntoCollection) {
+            $collection->joinUrlRewrite();
+            $this->_joinUrlRewriteIntoCollection = false;
         }
 
         if($toLoad) {
@@ -210,13 +218,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      */
     protected function _getDefaultCollection($sorted=false)
     {
+        $this->_joinUrlRewriteIntoCollection = true;
         $collection = Mage::getModel('catalog/category')->getCollection();
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
 
         $collection->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('is_active')
-            ->joinUrlRewrite();
+            ->addAttributeToSelect('is_active');
 
         if ($sorted) {
             if (is_string($sorted)) {

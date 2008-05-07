@@ -43,7 +43,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $this->_init('catalog/product', 'entity_id');
     }
 
-    public function clear($eav = true, $price = true, $minimal = true, $products = null, $store = null)
+    public function clear($eav = true, $price = true, $minimal = true, $finalPrice = true, $tierPrice = true, $products = null, $store = null)
     {
         $suffix = '';
         $tables = array('eav'=>'catalogindex/eav', 'price'=>'catalogindex/price');
@@ -70,6 +70,18 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
         }
 
+        if ($tierPrice) {
+            $tables['tierPrice'] = 'catalogindex/price';
+            $tierPrice = array($this->_getAttribute('tier_price', true)->getId());
+        }
+        if ($finalPrice) {
+            $tables['finalPrice'] = 'catalogindex/price';
+            $tierPrice = array($this->_getAttribute('price', true)->getId());
+        }
+        if ($minimal) {
+            $tables['minimal'] = 'catalogindex/minimal_price';
+        }
+
 
         foreach ($tables as $variable=>$table) {
             $variable = $$variable;
@@ -90,15 +102,6 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
                 $this->_getWriteAdapter()->query($query);
             }
-        }
-
-        if ($minimal) {
-            $query = "DELETE FROM {$this->getTable('catalogindex/minimal_price')} ";
-            if ($suffix) {
-                $query .= "WHERE {$suffix}";
-            }
-
-            $this->_getWriteAdapter()->query($query);
         }
     }
 
@@ -287,7 +290,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     public function reindexMinimalPrices($products, $store)
     {
         $this->_beginInsert('catalogindex/minimal_price', array('store_id', 'entity_id', 'customer_group_id', 'value'));
-        $this->clear(false, false, true, $products, $store);
+        $this->clear(false, false, true, false, false, $products, $store);
         $withChildren = $this->getNonSimpleProducts($products, Mage_Catalog_Model_Product_Type::TYPE_GROUPED);
         if ($withChildren) {
             foreach ($withChildren as $parent) {

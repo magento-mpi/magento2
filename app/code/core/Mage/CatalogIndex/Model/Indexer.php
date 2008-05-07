@@ -217,9 +217,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     }
 
     public function cleanup($product) {
-        foreach ($this->_indexers as $name=>$indexer) {
-            $indexer->cleanup($product->getId());
-        }
+        $this->_getResource()->clear(true, true, true, true, true, $product);
     }
 
     protected function _addFilterableAttributesToCollection($collection)
@@ -334,7 +332,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             Mage::throwException('Invalid attributes supplied for indexing');
         }
 
-        $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, $products, $stores);
+        $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, $products, $stores);
         foreach ($stores as $store) {
             $collection = Mage::getModel('catalog/product')
                 ->getCollection()
