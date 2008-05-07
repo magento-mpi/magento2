@@ -25,6 +25,8 @@
  */
 class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 {
+    protected $_streetLines;
+
     /**
      * Addresses url
      */
@@ -55,5 +57,14 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
         } else {
             return $renderer;
         }
+    }
+
+    public function getStreetLines($store=null)
+    {
+        if (is_null($this->_streetLines)) {
+            $lines = Mage::getStoreConfig('customer/address/street_lines', $store);
+            $this->_streetLines = min(4, max(1, (int)$lines));
+        }
+        return $this->_streetLines;
     }
 }

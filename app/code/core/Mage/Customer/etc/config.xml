@@ -36,6 +36,8 @@
 {{depend company}}{{var company}}{{/depend}}
 {{var street1}}
 {{depend street2}}{{var street2}}{{/depend}}
+{{depend street3}}{{var street3}}{{/depend}}
+{{depend street4}}{{var street4}}{{/depend}}
 {{depend city}}{{var city}},  {{/depend}}{{depend postcode}}{{var postcode}}, {{/depend}}{{var region}}
 {{var country}}
 T: {{var telephone}}
@@ -57,6 +59,8 @@ T: {{var telephone}}
 {{depend company}}{{var company}}<br />{{/depend}}
 {{var street1}}<br />
 {{depend street2}}{{var street2}}<br />{{/depend}}
+{{depend street3}}{{var street3}}<br />{{/depend}}
+{{depend street4}}{{var street4}}<br />{{/depend}}
 {{depend city}}{{var city}},  {{/depend}}{{depend postcode}}{{var postcode}}, {{/depend}}{{var region}}<br/>
 {{var country}}<br/>
 {{depend telephone}}T: {{var telephone}}{{/depend}}
@@ -70,6 +74,8 @@ T: {{var telephone}}
 {{depend company}}{{var company}}|{{/depend}}
 {{var street1}}|
 {{depend street2}}{{var street2}}|{{/depend}}
+{{depend street3}}{{var street3}}|{{/depend}}
+{{depend street4}}{{var street4}}|{{/depend}}
 {{depend city}}{{var city}},  {{/depend}}{{depend postcode}}{{var postcode}}, {{/depend}}{{var region}}|
 {{var country}}|
 {{depend telephone}}T: {{var telephone}}{{/depend}}|
@@ -271,6 +277,10 @@ T: {{var telephone}}
                 <forgot_email_identity>support</forgot_email_identity>
                 <forgot_email_template>customer_password_forgot_email_template</forgot_email_template>
             </password>
+
+            <address>
+                <street_lines>2</street_lines>
+            </address>
         </customer>
     </default>
 </config>
