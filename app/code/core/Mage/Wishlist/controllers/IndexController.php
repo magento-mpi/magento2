@@ -38,6 +38,10 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                 Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->_getRefererUrl());
             }
         }
+        if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
+            $this->norouteAction();
+            return;
+        }
     }
 
     protected function _getWishlist()
