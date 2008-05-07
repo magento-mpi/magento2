@@ -28,6 +28,8 @@
 "Merchant ID","Merchant ID"
 "Merchant Key","Merchant Key"
 "New order status","New order status"
+"Notification from iDEAL was recived with status %s.","Notification from iDEAL was recived with status %s."
+"Notification from iDEAL was recived with status %s. Invoice was created. Please, check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased.","Notification from iDEAL was recived with status %s. Invoice was created. Please, check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased."
 "Payment from Specific countries","Payment from Specific countries"
 "Payment from applicable countries","Payment from applicable countries"
 "Payment was canceled by customer","Payment was canceled by customer"
