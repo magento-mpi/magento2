@@ -183,4 +183,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setCheckoutState(self::CHECKOUT_STATE_BEGIN);
         return $this;
     }
+
+    public function getQuoteId()
+    {
+        return $this->_getData('quote_id');
+    }
+
 }

@@ -104,6 +104,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->_getData('type_id');
     }
 
+    public function getStatus()
+    {
+        return $this->_getData('status');
+    }
+
     /**
      * Retrieve type instance
      *
@@ -381,6 +386,32 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->_priceModel->getCalculatedPrice($options, $this);
     }
+
+    public function getCalculatedFinalPrice()
+    {
+        return $this->_getData('calculated_final_price');
+    }
+
+    public function getMinimalPrice()
+    {
+        return $this->_getData('minimal_price');
+    }
+
+    public function getSpecialPrice()
+    {
+        return $this->_getData('special_price');
+    }
+
+    public function getSpecialFromDate()
+    {
+        return $this->_getData('special_from_date');
+    }
+
+    public function getSpecialToDate()
+    {
+        return $this->_getData('special_to_date');
+    }
+
 
 /*******************************************************************************
  ** Linked products API
@@ -1073,4 +1104,24 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         Mage::dispatchEvent($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
         return $this;
     }
+
+    public function getRequestPath()
+    {
+        return $this->_getData('request_path');
+    }
+
+    /**
+     * Custom function for other modules
+     */
+
+    public function getGiftMessageAvailable()
+    {
+        return $this->_getData('gift_message_available');
+    }
+
+    public function getRatingSummary()
+    {
+        return $this->_getData('rating_summary');
+    }
+
 }

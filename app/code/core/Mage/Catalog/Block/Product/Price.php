@@ -13,40 +13,29 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Review
+ * @package    Mage_Catalog
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Review summary
+ * Product price block
  *
  * @category   Mage
- * @package    Mage_Review
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Catalog
  */
-
-class Mage_Review_Model_Review_Summary extends Mage_Core_Model_Abstract
+class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
 {
 
-    public function __construct()
+    public function getProduct()
     {
-        $this->_init('review/review_summary');
+        return $this->_getData('product');
     }
 
-    public function getEntityPkValue()
+    public function getDisplayMinimalPrice()
     {
-        return $this->_getData('entity_pk_value');
-    }
-
-    public function getRatingSummary()
-    {
-        return $this->_getData('rating_summary');
-    }
-
-    public function getReviewsCount()
-    {
-        return $this->_getData('reviews_count');
+        return $this->_getData('display_minimal_price');
     }
 
 }

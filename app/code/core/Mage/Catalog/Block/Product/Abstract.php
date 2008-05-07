@@ -69,9 +69,9 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     protected function _getPriceBlock()
     {
         if (is_null($this->_priceBlock)) {
-            $className = Mage::getConfig()->getBlockClassName('core/template');
+            $className = Mage::getConfig()->getBlockClassName('catalog/product_price');
             $block = new $className();
-            $block->setType('core/template')
+            $block->setType('catalog/product_price')
                 ->setIsAnonymous(true);
 
             $this->_priceBlock = $block;

@@ -114,4 +114,10 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->loadStoreIds($this);
     }
+
+    public function getVotesCount()
+    {
+        return $this->_getData('votes_count');
+    }
+
 }

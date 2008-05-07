@@ -176,4 +176,9 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         return true;
     }
 
+    public function getStoreId()
+    {
+        return $this->_getData('store_id');
+    }
+
 }

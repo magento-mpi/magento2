@@ -96,4 +96,10 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         }
         return $this;
     }
+
+    public function getBodyClass()
+    {
+        return $this->_getData('body_class');
+    }
+
 }

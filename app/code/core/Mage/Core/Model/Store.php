@@ -694,4 +694,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             . $parsedUrl['path']
             . ($parsedQuery ? '?'.http_build_query($parsedQuery, '', '&amp;') : '');
     }
+
+    public function getIsActive()
+    {
+        return $this->_getData('is_active');
+    }
+
+    public function getName()
+    {
+        return $this->_getData('name');
+    }
+
 }

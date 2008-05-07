@@ -837,4 +837,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this->helper('core')->jsQuoteEscape($data, $quote);
     }
 
+    public function getNameInLayout()
+    {
+        return $this->_getData('name_in_layout');
+    }
+
 }

@@ -31,41 +31,41 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
 
     protected static $_encryptedSessionId;
 
-	public function init($namespace, $sessionName=null)
-	{
-		parent::init($namespace, $sessionName);
-		if (isset($_SERVER['HTTP_HOST'])) {
-			$hostArr = explode(':', $_SERVER['HTTP_HOST']);
-			$this->addHost($hostArr[0]);
-		}
-		return $this;
-	}
+    public function init($namespace, $sessionName=null)
+    {
+        parent::init($namespace, $sessionName);
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
+            $this->addHost($hostArr[0]);
+        }
+        return $this;
+    }
 
     public function getCookieDomain()
     {
         return Mage::getSingleton('core/cookie')->getCookieDomain();
-    	$domain = Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN);
-    	if (empty($domain) && isset($_SERVER['HTTP_HOST'])) {
-    		$domainArr = explode(':', $_SERVER['HTTP_HOST']);
-    		$domain = $domainArr[0];
-    	}
-    	return $domain;
+        $domain = Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN);
+        if (empty($domain) && isset($_SERVER['HTTP_HOST'])) {
+            $domainArr = explode(':', $_SERVER['HTTP_HOST']);
+            $domain = $domainArr[0];
+        }
+        return $domain;
     }
 
     public function getCookiePath()
     {
         return Mage::getSingleton('core/cookie')->getCookiePath();
-    	$path = Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH);
-    	if (empty($path)) {
-    		$path = '/';
-    	}
-    	return $path;
+        $path = Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH);
+        if (empty($path)) {
+            $path = '/';
+        }
+        return $path;
     }
 
     public function getCookieLifetime()
     {
-    	$lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME);
-    	return $lifetime;
+        $lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME);
+        return $lifetime;
     }
 
 
@@ -187,9 +187,9 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
                 }
             }
         }
-		if (isset($_SERVER['HTTP_HOST'])) {
-	        $this->addHost($_SERVER['HTTP_HOST']);
-		}
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $this->addHost($_SERVER['HTTP_HOST']);
+        }
         parent::setSessionId($id);
     }
 
@@ -244,18 +244,23 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
 
     public function isValidForHost($host)
     {
-    	$hostArr = explode(':', $host);
-    	$hosts = $this->getSessionHosts();
-    	return (!empty($hosts[$hostArr[0]]));
+        $hostArr = explode(':', $host);
+        $hosts = $this->getSessionHosts();
+        return (!empty($hosts[$hostArr[0]]));
     }
 
     public function addHost($host)
     {
-    	$hostArr = explode(':', $host);
-    	$hosts = $this->getSessionHosts();
-    	$hosts[$hostArr[0]] = true;
-    	$this->setSessionHosts($hosts);
-    	return $this;
+        $hostArr = explode(':', $host);
+        $hosts = $this->getSessionHosts();
+        $hosts[$hostArr[0]] = true;
+        $this->setSessionHosts($hosts);
+        return $this;
+    }
+
+    public function getSessionHosts()
+    {
+        return $this->getData('session_hosts');
     }
 
 }

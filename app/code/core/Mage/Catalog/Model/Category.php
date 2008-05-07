@@ -410,4 +410,15 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         return $this->_getResource()->getChildrenAmount($this) > 0;
     }
+
+    public function getRequestPath()
+    {
+        return $this->_getData('request_path');
+    }
+
+    public function getName()
+    {
+        return $this->_getData('name');
+    }
+
 }

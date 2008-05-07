@@ -341,4 +341,10 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item'=>$this));
         return $this;
     }
+
+    public function getIsInStock()
+    {
+        return $this->_getData('is_in_stock');
+    }
+
 }
