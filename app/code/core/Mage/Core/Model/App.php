@@ -690,6 +690,21 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Retrive layout object
+     *
+     * @return Mage_Core_Model_Layout
+     */
+    public function getLayout()
+    {
+        if (!$this->_layout) {
+            $this->_layout = ($this->getFrontController()->getAction()
+                                    ?  $this->getFrontController()->getAction()->getLayout()
+                                    :  Mage::getSingleton('core/layout'));
+        }
+        return $this->_layout;
+    }
+
+    /**
      * Retrieve translate object
      *
      * @return Mage_Core_Model_Translate
