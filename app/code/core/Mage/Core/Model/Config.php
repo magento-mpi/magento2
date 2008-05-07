@@ -106,11 +106,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
              */
             $codeDir = $this->getOptions()->getCodeDir();
             $libDir = $this->getOptions()->getLibDir();
+
             set_include_path(
                 // excluded '/app/code/local'
-                BP . $codeDir . DS .'community' . PS .
+                BP . DS . 'app' . DS . 'code' . DS . 'community' . PS .
+                BP . DS . 'app' . DS . 'code' . DS . 'core' . PS .
+                BP . DS . 'lib' . PS .
+                /**
+                 * Problem with concatenate BP . $codeDir
+                 */
+                /*BP . $codeDir . DS .'community' . PS .
                 BP . $codeDir . DS .'core' . PS .
-                BP . $libDir . PS .
+                BP . $libDir . PS .*/
                 Mage::registry('original_include_path')
             );
         }
