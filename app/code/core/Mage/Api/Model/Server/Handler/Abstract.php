@@ -36,7 +36,7 @@ class Mage_Api_Model_Server_Handler_Abstract
     {
         Mage::log($errorMessage, null, $errorFile);
         if (in_array($errorCode, array(E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR))) {
-            $this->_fault(Mage_Api_Model_Server::FAULT_SERVER, Mage::helper('api')->__('Internal Error. Please see log for detail.'));
+            $this->_fault(Mage_Api_Model_Server::FAULT_SERVER, Mage::helper('api')->__('Internal Error. Please see log for details.'));
         }
         return true;
     }

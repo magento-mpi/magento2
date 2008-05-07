@@ -117,7 +117,7 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
             try {
                 $model = Mage::getModel($modelName);
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('api')->__('Api path are not callable.'));
+                Mage::throwException(Mage::helper('api')->__('Api path is not callable.'));
             }
 
             if (is_callable(array(&$model, $method))) {
@@ -127,13 +127,13 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
                     return call_user_func_array(array(&$model, $method), $args);
                 }
             } else {
-                Mage::throwException(Mage::helper('api')->__('Api path are not callable.'));
+                Mage::throwException(Mage::helper('api')->__('Api path is not callable.'));
             }
         } catch (Mage_Core_Exception $e) {
             return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, $e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
-            return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, Mage::helper('api')->__('Internal Error. Please see log for detail.'));
+            return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, Mage::helper('api')->__('Internal Error. Please see log for details.'));
         }
     }
 } // Class Mage_Api_Model_Server_Handler End

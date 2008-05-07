@@ -74,7 +74,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
 
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
-                if ($disableLocalModules && ('local' === (string)$module->codePool) && $modName=='Mage_Api') {
+                if (($disableLocalModules && ('local' === (string)$module->codePool)) || $modName=='Mage_Api') {
                     continue;
                 }
 
