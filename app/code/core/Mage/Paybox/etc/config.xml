@@ -97,11 +97,23 @@
     </adminhtml>
     <default>
         <payment>
+            <paybox_system>
+                <pbx_mode>1</pbx_mode>
+                <pbx_site backend_model="adminhtml/system_config_backend_encrypted"/>
+                <pbx_rang backend_model="adminhtml/system_config_backend_encrypted"/>
+                <pbx_identifiant backend_model="adminhtml/system_config_backend_encrypted"/>
+                <pbx_autoseule>authorize</pbx_autoseule>
+                <pbx_output>E</pbx_output>
+                <pbx_langue>FRA</pbx_langue>
+                <model>paybox/system</model>
+                <title>Paybox System</title>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
+            </paybox_system>
             <paybox_direct>
                 <pbx_site backend_model="adminhtml/system_config_backend_encrypted"/>
                 <pbx_rang backend_model="adminhtml/system_config_backend_encrypted"/>
                 <pbx_cle backend_model="adminhtml/system_config_backend_encrypted"/>
-                <pbx_codefamille backend_model="adminhtml/system_config_backend_encrypted"/>
                 <payment_action>authorize</payment_action>
                 <model>paybox/direct</model>
                 <title>Paybox Direct</title>
