@@ -1035,6 +1035,8 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
     background-position:0 50%;
     }
 
+fieldset.sitemap .form-list { width:auto; }
+
 
 /* CUSTOMER
 *******************************************************************************/
