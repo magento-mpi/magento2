@@ -46,6 +46,7 @@
             <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);" /></li>
 <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
         <li><input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="shipping[street][]" id="shipping:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" onchange="shipping.setSameAsBilling(false);"/></li>
+<?php endfor ?>
         <li><div class="input-box">
             <label for="shipping:city"><?php echo $this->__('City') ?> <span class="required">*</span></label><br />
             <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);" /></div>
