@@ -31,8 +31,8 @@ class Mage_Reports_Model_Event_Observer
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {
         if (is_null($subjectId)) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-            if ($customer->getId()) {
+            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $customer = Mage::getSingleton('customer/session')->getCustomer();
                 $subjectId = $customer->getId();
             }
             else {
@@ -55,10 +55,10 @@ class Mage_Reports_Model_Event_Observer
     }
 
     public function customerLogin(Varien_Event_Observer $observer) {
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
-        if (!$customer->getId()) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
             return $this;
         }
+        $customer = Mage::getSingleton('customer/session')->getCustomer();
         $visitorId = Mage::getSingleton('log/visitor')->getId();
         $customerId = $customer->getId();
         $eventModel = Mage::getModel('reports/event');

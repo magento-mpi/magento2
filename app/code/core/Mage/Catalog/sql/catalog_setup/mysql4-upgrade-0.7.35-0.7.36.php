@@ -22,11 +22,13 @@ $installer = $this;
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
 $installer->startSetup();
-
-$installer->run("
-ALTER TABLE `{$installer->getTable('catalog_category_entity')}` ADD `level` INT NOT NULL;
-ALTER TABLE `{$installer->getTable('catalog_category_entity')}` ADD INDEX `IDX_LEVEL` ( `level` );
-");
+try {
+    $installer->run("
+        ALTER TABLE `{$installer->getTable('catalog_category_entity')}` ADD `level` INT NOT NULL;
+        ALTER TABLE `{$installer->getTable('catalog_category_entity')}` ADD INDEX `IDX_LEVEL` ( `level` );
+    ");
+} catch (Exception $e) {
+}
 
 $installer->rebuildCategoryLevels();
 

@@ -42,8 +42,8 @@ class Mage_Reports_Block_Product_Compared extends Mage_Catalog_Block_Product_Abs
             $ignore[] = $product->getId();
         }
 
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
-        if ($customer->getId()) {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
             $subjectId = $customer->getId();
             $subtype = 0;
         } else {

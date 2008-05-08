@@ -32,7 +32,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        if (Mage::getSingleton('customer/session')->getCustomer()->getId()) {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
     	    $this->setTemplate('sales/order/history.phtml');
 
             $orders = Mage::getResourceModel('sales/order_collection')
@@ -82,7 +82,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
 //    }
     protected function _toHtml()
     {
-        if (Mage::helper('sales/reorder')->isAllow() && Mage::getSingleton('customer/session')->getCustomer()->getId()) {
+        if (Mage::helper('sales/reorder')->isAllow() && Mage::getSingleton('customer/session')->isLoggedIn()) {
             return parent::_toHtml();
         }
         return '';

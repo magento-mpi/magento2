@@ -41,7 +41,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
         if (count($wishlistIds) && $request->getParam('wishlist_next')){
             $wishlistId = array_shift($wishlistIds);
 
-            if (Mage::getSingleton('customer/session')->getCustomer()->getId()) {
+            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
                 $wishlist = Mage::getModel('wishlist/wishlist')
                         ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer(), true);
             } else if ($sharedWishlist) {
