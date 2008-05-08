@@ -37,7 +37,8 @@ ul.tabs li span,
 ul.tabs li a,
 ul.tabs li,
 .address-list li,
-.entry-edit .entry-edit-head { zoom:1; } /* IE version of clearing */
+.entry-edit .entry-edit-head,
+.notification-global { zoom:1; } /* IE version of clearing */
 
 .clear                          { clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
 
