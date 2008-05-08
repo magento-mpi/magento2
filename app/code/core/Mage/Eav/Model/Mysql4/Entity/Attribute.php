@@ -289,7 +289,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
                     $write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));
                     foreach ($stores as $store) {
-                        if (!empty($values[$store->getId()])) {
+                        if (!empty($values[$store->getId()]) || $values[$store->getId()] == "0") {
                             $data = array(
                                 'option_id' => $intOptionId,
                                 'store_id'  => $store->getId(),
