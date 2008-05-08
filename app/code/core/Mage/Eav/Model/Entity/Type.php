@@ -68,6 +68,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     public function loadByCode($code)
     {
         $this->_getResource()->loadByCode($this, $code);
+        $this->_afterLoad();
         return $this;
     }
 
