@@ -24,7 +24,7 @@
  *
  * @category   Mage
  * @package    Mage_Paybox
- * @author     Ruslan Voitenko <ruslan.voytenko@varien.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paybox_Block_System_Failure extends Mage_Core_Block_Template
 {
