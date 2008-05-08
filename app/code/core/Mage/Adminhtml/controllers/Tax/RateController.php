@@ -269,31 +269,37 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 if ($k == 0) {
                     continue;
                 }
-                if (count($csvFields) != count($v)) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Invalid file upload attempt'));
 
+                //end of file has more then one empty lines
+                if (count($v) <= 1 && !strlen($v[0])) {
+                    continue;
                 }
 
-                if (empty($v[0])) {
-                    Mage::throwException(Mage::helper('tax')->__('One of row has invalid country code.'));
+                if (count($csvFields) != count($v)) {
+                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Invalid file upload attempt'));
+                }
+
+                $country = Mage::getModel('directory/country')->loadByCode($v[0], 'iso2_code');
+                if (!$country->getId()) {
+                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('One of the country has invalid code.'));
+                    continue;
                 }
 
                 if (!isset($regions[$v[0]])) {
+                    $regions[$v[0]]['*'] = '*';
                     $regionCollection = Mage::getModel('directory/region')->getCollection()
                         ->addCountryFilter($v[0]);
                     if ($regionCollection->getSize()) {
                         foreach ($regionCollection as $region) {
                             $regions[$v[0]][$region->getCode()] = $region->getRegionId();
                         }
-                    } else {
-                        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('One of row has invalid country code.'));
                     }
                 }
 
                 if (!empty($regions[$v[0]][$v[1]])) {
                     $rateData  = array(
                         'tax_country_id' => $v[0],
-                        'tax_region_id' => $regions[$v[0]][$v[1]],
+                        'tax_region_id' => ($regions[$v[0]][$v[1]] == '*') ? 0 : $regions[$v[0]][$v[1]],
                         'tax_postcode'  => (empty($v[2]) || $v[2]=='*') ? null : $v[2]
                     );
 
@@ -341,6 +347,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             ->joinCountryTable()
             ->joinRegionTable();
         foreach ($rateCollection as $rate) {
+            if ($rate->getTaxRegionId() == 0) {
+                $rate->setRegionName('*');
+            }
             $content .= $rate->toString($template)."\n";
         }
 
