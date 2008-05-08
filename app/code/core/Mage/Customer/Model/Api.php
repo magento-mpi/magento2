@@ -55,7 +55,7 @@ class Mage_Customer_Model_Api extends Mage_Api_Model_Resource_Abstract
     {
         $customer = Mage::getModel('customer/customer')->load($customerId);
         if (!$customer->getId()) {
-            $this->_fault('customer_not_exists');
+            $this->_fault('not_exists');
         }
         return $customer->toArray();
     }
@@ -101,10 +101,33 @@ class Mage_Customer_Model_Api extends Mage_Api_Model_Resource_Abstract
         $customer = Mage::getModel('customer/customer')->load($customerId);
 
         if (!$customer->getId()) {
-            $this->_fault('customer_not_exists');
+            $this->_fault('not_exists');
         }
 
         $customer->addData($customerData)->save();
+        return true;
+    }
+
+    /**
+     * Delete customer
+     *
+     * @param int $customerId
+     * @return boolean
+     */
+    public function delete($customerId)
+    {
+        $customer = Mage::getModel('customer/customer')->load($customerId);
+
+        if (!$customer->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        try {
+            $customer->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('not_deleted', $e->getMessage());
+        }
+
         return true;
     }
 } // Class Mage_Customer_Model_Api End
