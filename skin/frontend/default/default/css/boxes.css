@@ -547,6 +547,7 @@ h1#logo {
 .mini-cart .actions { border-bottom:1px solid #c2c2c2; padding-top:3px; padding-bottom:1px; }
 .mini-cart .actions .form-button { margin-top:3px; margin-bottom:5px; }
 .mini-wishlist .head h4 { background-image:url(../images/icon_bell.gif); }
+.mini-wishlist .link-cart { display:block; }
 
 .mini-compare-products .head h4 { background-image:url(../images/icon_table.gif); }
 
