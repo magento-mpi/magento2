@@ -48,6 +48,28 @@
         </handlers>
         <resources>
         </resources>
+        <faults>
+            <unknown>
+                <code>0</code>
+                <message>Unknown Error</message>
+            </unknown>
+            <internal>
+                <code>1</code>
+                <message>Internal Error. Please see log for details.</message>
+            </internal>
+            <access_denied>
+                <code>2</code>
+                <message>Access denied.</message>
+            </access_denied>
+            <resource_path_invalid>
+                <code>3</code>
+                <message>Invalid api path.</message>
+            </resource_path_invalid>
+            <resource_path_not_callable>
+                <code>4</code>
+                <message>Api path is not callable.</message>
+            </resource_path_not_callable>
+        </faults>
         <acl>
             <asserts>
                 <ip><class>Mage_Api_Model_Acl_Assert_Ip</class></ip>

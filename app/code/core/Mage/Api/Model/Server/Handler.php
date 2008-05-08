@@ -64,21 +64,18 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
         $this->_startSession();
         try {
             $this->_getSession()->login($username, $apiKey);
-        } catch (Mage_Core_Exception $e) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_LOGIN, $e->getMessage());
         } catch (Exception $e) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_LOGIN, Mage::helper('api')->__('Unable to login.'));
-
+            return $this->_fault('access_denied');
         }
         return $this->_getSession()->getSessionId();
     }
 
     /**
-     * Call registered api functionality
+     * Call resource functionality
      *
-     * @param string $apiPath
+     * @param string $resourcePath
      * @param string $sessionId
-     * @param array $args
+     * @param array  $args
      * @return mixed
      */
     public function call($apiPath, $sessionId, $args)
@@ -88,24 +85,24 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
         list($resourceName, $methodName) = explode('.', $apiPath);
 
         if (empty($resourceName) || empty($methodName)) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, Mage::helper('api')->__('Invalid api path.'));
+            return $this->_fault('resource_path_invalid');
         }
 
         if (!isset($this->_getConfig()->getResources()->$resourceName)
             || !isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName)) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, Mage::helper('api')->__('Invalid api path.'));
+            return $this->_fault('resource_path_invalid');
         }
 
         if (isset($this->_getConfig()->getResources()->$resourceName->acl)
             && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->acl)) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_PERMISSIONS, Mage::helper('api')->__('Access denied.'));
+            return $this->_fault('access_denied');
 
         }
 
 
         if (isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)
             && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_PERMISSIONS, Mage::helper('api')->__('Access denied.'));
+            return $this->_fault('access_denied');
         }
 
         $methodInfo = $this->_getConfig()->getResources()->$resourceName->methods->$methodName;
@@ -117,7 +114,7 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
             try {
                 $model = Mage::getModel($modelName);
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('api')->__('Api path is not callable.'));
+                throw new Mage_Api_Exception('resource_path_not_callable');
             }
 
             if (is_callable(array(&$model, $method))) {
@@ -127,13 +124,87 @@ class Mage_Api_Model_Server_Handler extends Mage_Api_Model_Server_Handler_Abstra
                     return call_user_func_array(array(&$model, $method), $args);
                 }
             } else {
-                Mage::throwException(Mage::helper('api')->__('Api path is not callable.'));
+                throw new Mage_Api_Exception('resource_path_not_callable');
             }
-        } catch (Mage_Core_Exception $e) {
-            return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, $e->getMessage());
+        } catch (Mage_Api_Exception $e) {
+            return $this->_fault($e->getMessage(), $resourceName, $e->getCustomMessage());
         } catch (Exception $e) {
             Mage::logException($e);
-            return $this->_fault(Mage_Api_Model_Server::FAULT_CALL, Mage::helper('api')->__('Internal Error. Please see log for details.'));
+            return $this->_fault('internal');
         }
+    }
+
+    /**
+     * List of available resources
+     *
+     * @param string $sessionId
+     * @return array
+     */
+    public function resources($sessionId)
+    {
+        $this->_startSession($sessionId);
+        $resources = array();
+        foreach ($this->_getConfig()->getResources() as $resourceName => $resource) {
+            if (isset($resource->acl) && !$this->_isAllowed((string) $resource->acl)) {
+                continue;
+            }
+
+            $methods = array();
+            foreach ($resource->methods->children() as $methodName => $method) {
+                if (isset($method->acl) && !$this->_isAllowed((string) $method->acl)) {
+                    continue;
+                }
+                $methods[] = array(
+                    'title' => (string) $method->title,
+                    'path'  => $resourceName . '.' . $methodName
+                );
+            }
+
+            if (count($methods) == 0) {
+                continue;
+            }
+
+            $resources[] = array(
+                'title'   => (string) $resource->title,
+                'name'    => $resourceName,
+                'methods' => $methods
+            );
+        }
+
+        return $resources;
+    }
+
+    /**
+     * List of resource faults
+     *
+     * @param string $resourceName
+     * @return array
+     */
+    public function resourceFaults($resourceName, $sessionId)
+    {
+        $this->_startSession($sessionId);
+        if (empty($resourceName)
+            || !isset($this->_getConfig()->getResources()->$resourceName)) {
+            return $this->_fault('resource_path_invalid');
+        }
+
+        if (isset($this->_getConfig()->getResources()->$resourceName->acl)
+            && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->acl)) {
+            return $this->_fault('access_denied');
+        }
+
+        return array_values($this->_getConfig()->getFaults($resourceName));
+    }
+
+    /**
+     * List of global faults
+     *
+     * @param  string $sessionId
+     * @return array
+     */
+    public function globalFaults($sessionId)
+    {
+        $this->_startSession($sessionId);
+        return array_values($this->_getConfig()->getFaults());
     }
 } // Class Mage_Api_Model_Server_Handler End

@@ -22,23 +22,39 @@
 <config>
     <api>
         <resources>
-            <customer>
+            <customer translate="title" module="customer">
                 <model>customer/api</model>
-                <description></description>
+                <title>Customer Resource</title>
                 <acl>customer</acl>
                 <methods>
+                    <list translate="title" module="customer">
+                        <title>Retrive customers list</title>
+                        <method>items</method>
+                        <acl>customer/list</acl>
+                    </list>
                     <create translate="title" module="customer">
-                        <title>Create Customer</title>
-                        <method>create</method>
-                        <arguments>array</arguments>
+                        <title>Create customer</title>
                         <acl>customer/create</acl>
                     </create>
-                    <helloworld>
-                        <title>Hello World</title>
-                        <method>hello</method>
-                        <acl>customer/hello</acl>
-                    </helloworld>
+                    <info translate="title" module="customer">
+                        <title>Retrive customer info</title>
+                        <acl>customer/info</acl>
+                    </info>
                 </methods>
+                <faults module="customer">
+                    <data_invalid>
+                        <code>10</code>
+                        <message>Invalid customer data. Details in error message.</message>
+                    </data_invalid>
+                    <filters_invalid>
+                        <code>11</code>
+                        <message>Invalid filters specified. Details in error message.</message>
+                    </filters_invalid>
+                    <customer_not_exists>
+                        <code>12</code>
+                        <message>Customer not exists.</message>
+                    </customer_not_exists>
+                </faults>
             </customer>
         </resources>
         <acl>
@@ -46,9 +62,6 @@
                 <all>
                     <customer translate="title" module="customer">
                          <title>Customers</title>
-                         <hello translate="title" module="customer">
-                            <title>Hello World</title>
-                         </hello>
                          <create translate="title" module="customer">
                             <title>Create</title>
                          </create>

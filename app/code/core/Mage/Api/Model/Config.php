@@ -94,6 +94,11 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         return $this;
     }
 
+    /**
+     * Retrive all adapters
+     *
+     * @return array
+     */
     public function getAdapters()
     {
         $adapters = array();
@@ -107,6 +112,11 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         return $adapters;
     }
 
+    /**
+     * Retrive active adapters
+     *
+     * @return array
+     */
     public function getActiveAdapters()
     {
         $adapters = array();
@@ -129,11 +139,21 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         return $adapters;
     }
 
+    /**
+     * Retrive handlers
+     *
+     * @return Varien_Simplexml_Element
+     */
     public function getHandlers()
     {
         return $this->getNode('handlers')->children();
     }
 
+    /**
+     * Retrive resources
+     *
+     * @return Varien_Simplexml_Element
+     */
     public function getResources()
     {
         return $this->getNode('resources')->children();
@@ -162,7 +182,6 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         } elseif (isset($resource->children)){
             $children = $resource->children->children();
         }
-
 
 
         if (empty($children)) {
@@ -215,7 +234,34 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         return false;
     }
 
-     /**
+    public function getFaults($resourceName=null)
+    {
+        if (is_null($resourceName)
+            || !isset($this->getResources()->$resourceName)
+            || !isset($this->getResources()->$resourceName->faults)) {
+            $faultsNode = $this->getNode('faults');
+        } else {
+            $faultsNode = $this->getResources()->$resourceName->faults;
+        }
+        /* @var $faultsNode Varien_Simplexml_Element */
+
+        $translateModule = 'api';
+        if (isset($faultsNode['module'])) {
+           $translateModule = (string) $faultsNode['module'];
+        }
+
+        $faults = array();
+        foreach ($faultsNode->children() as $faultName => $fault) {
+            $faults[$faultName] = array(
+                'code'    => (string) $fault->code,
+                'message' => Mage::helper($translateModule)->__((string)$fault->message)
+            );
+        }
+
+        return $faults;
+    }
+
+    /**
      * Retrieve cache object
      *
      * @return Zend_Cache_Frontend_File

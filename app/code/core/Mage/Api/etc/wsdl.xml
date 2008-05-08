@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
   <message name="call">
-    <part name="apiPath" type="xsd:string"/>
+    <part name="resourcePath" type="xsd:string"/>
     <part name="sessionId" type="xsd:string"/>
     <part name="args" type="soapenc:Array" xsd:arrayType="xsd:anyType"/>
   </message>
@@ -20,6 +20,25 @@
   </message>
   <message name="loginResponse">
     <part name="loginReturn" type="xsd:string"/>
+  </message>
+  <message name="resources">
+    <part name="sessionId" type="xsd:string"/>
+  </message>
+  <message name="resourcesResponse">
+    <part name="resourcesReturn" type="soapenc:Array" xsd:arrayType="xsd:anyType"/>
+  </message>
+  <message name="globalFaults">
+    <part name="sessionId" type="xsd:string"/>
+  </message>
+  <message name="globalFaultsResponse">
+    <part name="globalFaultsReturn" type="soapenc:Array" xsd:arrayType="xsd:anyType"/>
+  </message>
+  <message name="resourceFaults">
+    <part name="resourceName" type="xsd:string"/>
+    <part name="sessionId" type="xsd:string"/>
+  </message>
+  <message name="resourceFaultsResponse">
+    <part name="resourceFaultsReturn" type="soapenc:Array" xsd:arrayType="xsd:anyType"/>
   </message>
   <message name="startSession"/>
   <message name="startSessionResponse">
@@ -45,6 +64,21 @@
       <documentation>Start web service session</documentation>
       <input message="typens:startSession"/>
       <output message="typens:startSessionResponse"/>
+    </operation>
+    <operation name="resources">
+      <documentation>List of available resources</documentation>
+      <input message="typens:resources"/>
+      <output message="typens:resourcesResponse"/>
+    </operation>
+    <operation name="globalFaults">
+      <documentation>List of resource faults</documentation>
+      <input message="typens:globalFaults"/>
+      <output message="typens:globalFaultsResponse"/>
+    </operation>
+    <operation name="resourceFaults">
+      <documentation>List of global faults</documentation>
+      <input message="typens:resourceFaults"/>
+      <output message="typens:resourceFaultsResponse"/>
     </operation>
   </portType>
   <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
@@ -80,6 +114,36 @@
     </operation>
 
     <operation name="startSession">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+    <operation name="resources">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+    <operation name="globalFaults">
+      <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+      <input>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+
+    <operation name="resourceFaults">
       <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
       <input>
         <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
