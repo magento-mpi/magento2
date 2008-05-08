@@ -19,11 +19,11 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Catalog_Model_Entity_Setup */
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
 $installer->startSetup();
 
-if (!$installer->tableExists('catalog_category_entity')) {
+if (!$installer->tableExists($installer->getTable('catalog_category_entity'))) {
 
 $installer->run("
 

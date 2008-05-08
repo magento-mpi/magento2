@@ -413,7 +413,8 @@ class Mage_Core_Model_Resource_Setup
 
     public function tableExists($table)
     {
-        $result = $this->_conn->fetchOne("show tables like '$table'");
+        $select = $this->getConnection()->quoteInto('SHOW TABLES LIKE ?', $table);
+        $result = $this->getConnection()->fetchOne($select);
         return !empty($result);
     }
 
