@@ -21,7 +21,6 @@
 /**
  * Poll model
  *
- * @file        Poll.php
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -36,34 +35,89 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
         $this->_init('poll/poll');
     }
 
-    public function resetVotesCount()
-    {
-        $this->_getResource()->resetVotesCount($this);
-        return $this;
-    }
-
+    /**
+     * Declare poll as voted
+     *
+     * @param   int $pollId
+     * @return  Mage_Poll_Model_Poll
+     */
     public function setVoted($pollId=null)
     {
-        $pollId = ( isset($pollId) ) ? $pollId : $this->getId();
+        $pollId = $pollId === null ? $this->getId() : $pollId;
         Mage::getSingleton('core/cookie')->set($this->_pollCookieDefaultName . $pollId, $pollId);
         return $this;
     }
 
+    /**
+     * Check poll as is voted
+     *
+     * @param   int $pollId
+     * @return  bool
+     */
     public function isVoted($pollId=null)
     {
-        $pollId = ( isset($pollId) ) ? $pollId : $this->getId();
+        $pollId = $pollId === null ? $this->getId() : $pollId;
         $cookie = Mage::getSingleton('core/cookie')->get($this->_pollCookieDefaultName . $pollId);
-        if( $cookie === false ) {
+        if ($cookie === false) {
             return false;
         } else {
             return true;
         }
     }
 
+    /**
+     * Get random active pool identifier
+     *
+     * @return int
+     */
     public function getRandomId()
     {
         return $this->_getResource()->getRandomId($this);
     }
+
+    /**
+     * Add vote to poll
+     *
+     * @return unknown
+     */
+    public function addVote(Mage_Poll_Model_Poll_Vote $vote)
+    {
+        if ($this->hasAnswer($vote->getPollAnswerId())) {
+            $vote->setPollId($this->getId())
+                ->save();
+            $this->setVoted();
+        }
+        return $this;
+    }
+
+    /**
+     * Check answer existing for poll
+     *
+     * @param   mixed $answer
+     * @return  boll
+     */
+    public function hasAnswer($answer)
+    {
+        $answerId = false;
+        if (is_numeric($answer)) {
+            $answerId = $answer;
+        }
+        elseif ($answer instanceof Mage_Poll_Model_Poll_Answer) {
+        	$answerId = $answer->getId();
+        }
+
+        if ($answerId) {
+            return $this->_getResource()->checkAnswerId($this, $answerId);
+        }
+        return false;
+    }
+
+    public function resetVotesCount()
+    {
+        $this->_getResource()->resetVotesCount($this);
+        return $this;
+    }
+
 
     public function getVotedPollsIds()
     {
@@ -102,7 +156,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 
     public function getStoreIds()
     {
-        $ids = $this->getData('store_ids');
+        $ids = $this->_getData('store_ids');
         if (is_null($ids)) {
             $this->loadStoreIds();
             $ids = $this->getData('store_ids');

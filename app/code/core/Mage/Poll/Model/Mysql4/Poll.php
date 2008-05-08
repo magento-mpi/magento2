@@ -19,7 +19,7 @@
  */
 
 /**
- * Poll
+ * Poll Mysql4 resource model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -29,7 +29,59 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
     protected function _construct()
     {
         $this->_init('poll/poll', 'poll_id');
-        $this->_uniqueFields = array( array('field' => 'poll_title', 'title' => Mage::helper('poll')->__('Poll with the same question') ) );
+        $this->_uniqueFields = array(
+            array(
+                'field' => 'poll_title',
+                'title' => Mage::helper('poll')->__('Poll with the same question')
+            )
+        );
+    }
+
+    /**
+     * Get random identifier not closed poll
+     *
+     * @param   Mage_Poll_Model_Poll $object
+     * @return  int
+     */
+    public function getRandomId($object)
+    {
+        $read = $this->_getReadAdapter();
+        $select = $read->select();
+
+        if ($object->getExcludeFilter()) {
+            $select->where('main_table.poll_id NOT IN(?)', $object->getExcludeFilter());
+        }
+
+        $select->from(array('main_table'=>$this->getMainTable()), $this->getIdFieldName())
+            ->where('closed = ?', 0)
+            ->order(new Zend_Db_Expr('RAND()'))
+            ->limit(1);
+
+        if (($storeId = $object->getStoreFilter())) {
+            $select->join(
+                array('store' => $this->getTable('poll/poll_store')),
+                $read->quoteInto('main_table.poll_id=store.poll_id AND store.store_id = ?', $storeId),
+                array()
+            );
+        }
+
+        return $read->fetchOne($select);
+    }
+
+    /**
+     * Check answer id existing for poll
+     *
+     * @param   Mage_Poll_Model_Poll $poll
+     * @param   int $answerId
+     * @return  bool
+     */
+    public function checkAnswerId($poll, $answerId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('poll_answer'), 'answer_id')
+            ->where('poll_id=?', $poll->getId())
+            ->where('answer_id=?', $answerId);
+        return $this->_getReadAdapter()->fetchOne($select);
     }
 
     public function resetVotesCount($object)
@@ -47,31 +99,6 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
         return $object;
     }
 
-    public function getRandomId($object)
-    {
-        $read = $this->_getReadAdapter();
-        $select = $read->select();
-
-        if ($object->getExcludeFilter()) {
-            $select->where('main_table.poll_id NOT IN(?)', $object->getExcludeFilter());
-        }
-
-        $select->from(array('main_table'=>$this->getMainTable()), $this->getIdFieldName())
-            #->where('active = ?', 1)
-            ->where('closed = ?', 0)
-            ->order(new Zend_Db_Expr('RAND()'))
-            ->limit(1);
-
-        if (($storeId = $object->getStoreFilter())) {
-            $select->join(
-                array('store' => $this->getTable('poll/poll_store')),
-                $read->quoteInto('main_table.poll_id=store.poll_id AND store.store_id = ?', $storeId),
-                array()
-            );
-        }
-
-        return $read->fetchOne($select);
-    }
 
     public function loadStoreIds(Mage_Poll_Model_Poll $object)
     {
