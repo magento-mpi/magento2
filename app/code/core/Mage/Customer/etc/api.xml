@@ -28,7 +28,7 @@
                 <acl>customer</acl>
                 <methods>
                     <list translate="title" module="customer">
-                        <title>Retrive customers list</title>
+                        <title>Retrive customers</title>
                         <method>items</method>
                         <acl>customer/list</acl>
                     </list>
