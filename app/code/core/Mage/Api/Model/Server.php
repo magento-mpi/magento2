@@ -61,13 +61,17 @@ class Mage_Api_Model_Server
         return $this;
     }
 
+    /**
+     * Run server
+     *
+     */
     public function run()
     {
         $this->getAdapter()->run();
     }
 
     /**
-     * Retrive web service adapter
+     * Retrieve web service adapter
      *
      * @return Mage_Api_Model_Server_Adaper_Interface
      */

@@ -95,7 +95,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrive all adapters
+     * Retrieve all adapters
      *
      * @return array
      */
@@ -113,7 +113,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrive active adapters
+     * Retrieve active adapters
      *
      * @return array
      */
@@ -140,7 +140,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrive handlers
+     * Retrieve handlers
      *
      * @return Varien_Simplexml_Element
      */
@@ -150,7 +150,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Retrive resources
+     * Retrieve resources
      *
      * @return Varien_Simplexml_Element
      */

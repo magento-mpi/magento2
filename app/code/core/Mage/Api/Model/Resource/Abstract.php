@@ -28,7 +28,7 @@
 class Mage_Api_Model_Resource_Abstract
 {
     /**
-     * Retrive webservice session
+     * Retrieve webservice session
      *
      * @return Mage_Api_Model_Session
      */
@@ -38,7 +38,7 @@ class Mage_Api_Model_Resource_Abstract
     }
 
     /**
-     * Retrive webservice configuration
+     * Retrieve webservice configuration
      *
      * @return Mage_Api_Model_Config
      */
@@ -48,7 +48,7 @@ class Mage_Api_Model_Resource_Abstract
     }
 
     /**
-     * Retrive webservice server
+     * Retrieve webservice server
      *
      * @return Mage_Api_Model_Server
      */

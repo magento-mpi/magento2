@@ -37,7 +37,7 @@
                         <acl>customer/create</acl>
                     </create>
                     <info translate="title" module="customer">
-                        <title>Retrive customer data</title>
+                        <title>Retrieve customer data</title>
                         <acl>customer/info</acl>
                     </info>
                     <update translate="title" module="customer">
@@ -74,9 +74,21 @@
                 <all>
                     <customer translate="title" module="customer">
                          <title>Customers</title>
+                         <list translate="title" module="customer">
+                            <title>View All</title>
+                         </list>
                          <create translate="title" module="customer">
                             <title>Create</title>
                          </create>
+                         <info translate="title" module="customer">
+                            <title>Get Info</title>
+                         </info>
+                         <update translate="title" module="customer">
+                            <title>Update</title>
+                         </update>
+                         <delete translate="title" module="customer">
+                            <title>Delete</title>
+                         </delete>
                     </customer>
                 </all>
             </resources>

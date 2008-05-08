@@ -46,7 +46,7 @@ class Mage_Customer_Model_Api extends Mage_Api_Model_Resource_Abstract
     }
 
     /**
-     * Retrive customer data
+     * Retrieve customer data
      *
      * @param int $customerId
      * @return array
@@ -61,7 +61,7 @@ class Mage_Customer_Model_Api extends Mage_Api_Model_Resource_Abstract
     }
 
     /**
-     * Retrive cutomers data
+     * Retrieve cutomers data
      *
      * @param  array $filters
      * @return array
