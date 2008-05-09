@@ -25,7 +25,7 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Api extends Mage_Api_Model_Resource_Abstract
+class Mage_Customer_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
 {
     /**
      * Create new customer
@@ -130,4 +130,5 @@ class Mage_Customer_Model_Api extends Mage_Api_Model_Resource_Abstract
 
         return true;
     }
-} // Class Mage_Customer_Model_Api End
+
+} // Class Mage_Customer_Model_Customer_Api End

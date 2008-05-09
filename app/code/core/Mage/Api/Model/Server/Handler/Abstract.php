@@ -108,7 +108,10 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     protected function _fault($faultName, $resourceName=null, $customMessage=null)
     {
         $faults = $this->_getConfig()->getFaults($resourceName);
-        if (!isset($faults[$faultName])) {
+        if (!isset($faults[$faultName]) && !is_null($resourceName)) {
+            $this->_fault($faultName);
+            return;
+        } elseif (!isset($faults[$faultName])) {
             $this->_fault('unknown');
             return;
         }

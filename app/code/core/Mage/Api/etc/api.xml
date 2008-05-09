@@ -67,7 +67,7 @@
             </resource_path_invalid>
             <resource_path_not_callable>
                 <code>4</code>
-                <message>Api path is not callable.</message>
+                <message>Resource path is not callable.</message>
             </resource_path_not_callable>
         </faults>
         <acl>
