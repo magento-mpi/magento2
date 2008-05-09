@@ -18,45 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Customer_Block_Name extends Mage_Core_Block_Template
+class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstract
 {
     public function _construct()
     {
         parent::_construct();
 
         // default template location
-        $this->setTemplate('customer/name.phtml');
-    }
-
-    public function getConfig($key)
-    {
-        return $this->helper('customer/address')->getConfig($key);
-    }
-
-    public function getFieldIdFormat()
-    {
-        if (!$this->hasData('field_id_format')) {
-            $this->setData('field_id_format', '%s');
-        }
-        return $this->getData('field_id_format');
-    }
-
-    public function getFieldNameFormat()
-    {
-        if (!$this->hasData('field_name_format')) {
-            $this->setData('field_name_format', '%s');
-        }
-        return $this->getData('field_name_format');
-    }
-
-    public function getFieldId($field)
-    {
-        return sprintf($this->getFieldIdFormat(), $field);
-    }
-
-    public function getFieldName($field)
-    {
-        return sprintf($this->getFieldNameFormat(), $field);
+        $this->setTemplate('customer/widget/name.phtml');
     }
 
     public function showPrefix()

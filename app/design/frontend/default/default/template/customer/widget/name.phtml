@@ -23,13 +23,13 @@ USAGE:
 
 Simple:
 
-<?php echo $this->getLayout()->createBlock('customer/name')
+<?php echo $this->getLayout()->createBlock('customer/widget_name')
    ->setObject($this->getAddress())
    ->toHtml() ?>
 
 For checkout/onepage/shipping.phtml:
 
-<?php echo $this->getLayout()->createBlock('customer/name')
+<?php echo $this->getLayout()->createBlock('customer/widget_name')
    ->setObject($this->getAddress())
    ->setFieldIdFormat('shipping:%s')
    ->setFieldNameFormat('shipping[%s]')
@@ -40,66 +40,6 @@ NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
       Alternatively we could calculate widths automatically using block input parameters.
 */
 ?>
-
-<style type="text/css">
-
-.customer-name-prefix .name-prefix { width:50px !important; }
-.customer-name-prefix .name-prefix input,
-.customer-name-prefix .name-prefix select { width:45px !important; }
-.customer-name-prefix .name-firstname { width:225px !important; }
-.customer-name-prefix .name-firstname input { width:210px !important; }
-
-.customer-name-middlename .name-firstname { width:225px !important; }
-.customer-name-middlename .name-firstname input { width:210px !important; }
-.customer-name-middlename .name-middlename { width:50px !important; }
-.customer-name-middlename .name-middlename input { width:35px !important; }
-
-.customer-name-suffix .name-firstname { width:225px !important; }
-.customer-name-suffix .name-firstname input { width:210px !important; }
-.customer-name-suffix .name-suffix { width:50px !important; }
-.customer-name-suffix .name-suffix input,
-.customer-name-suffix .name-suffix select { width:45px !important; }
-
-.customer-name-prefix-middlename .name-prefix { width:50px !important; }
-.customer-name-prefix-middlename .name-prefix input,
-.customer-name-prefix-middlename .name-prefix select { width:45px !important; }
-.customer-name-prefix-middlename .name-firstname { width:175px !important; }
-.customer-name-prefix-middlename .name-firstname input { width:160px !important; }
-.customer-name-prefix-middlename .name-middlename { width:50px !important; }
-.customer-name-prefix-middlename .name-middlename input { width:35px !important; }
-
-.customer-name-prefix-suffix .name-prefix { width:50px !important; }
-.customer-name-prefix-suffix .name-prefix input,
-.customer-name-prefix-suffix .name-prefix select { width:45px !important; }
-.customer-name-prefix-suffix .name-firstname { width:175px !important; }
-.customer-name-prefix-suffix .name-firstname input { width:160px !important; }
-.customer-name-prefix-suffix .name-suffix { width:50px !important; }
-.customer-name-prefix-suffix .name-suffix input,
-.customer-name-prefix-suffix .name-suffix select { width:45px !important; }
-
-.customer-name-middlename-suffix .name-firstname { width:175px !important; }
-.customer-name-middlename-suffix .name-firstname input { width:160px !important; }
-.customer-name-middlename-suffix .name-middlename { width:50px !important; }
-.customer-name-middlename-suffix .name-middlename input { width:35px !important; }
-.customer-name-middlename-suffix .name-suffix { width:50px !important; }
-.customer-name-middlename-suffix .name-suffix input,
-.customer-name-middlename-suffix .name-suffix select { width:45px !important; }
-
-
-.customer-name-prefix-middlename-suffix .name-prefix { width:50px !important; }
-.customer-name-prefix-middlename-suffix .name-prefix input,
-.customer-name-prefix-middlename-suffix .name-prefix select { width:45px !important; }
-.customer-name-prefix-middlename-suffix .name-firstname { width:175px !important; }
-.customer-name-prefix-middlename-suffix .name-firstname input { width:160px !important; }
-.customer-name-prefix-middlename-suffix .name-middlename { width:50px !important; }
-.customer-name-prefix-middlename-suffix .name-middlename input { width:35px !important; }
-.customer-name-prefix-middlename-suffix .name-lastname { width:175px !important; }
-.customer-name-prefix-middlename-suffix .name-lastname input { width:160px !important; }
-.customer-name-prefix-middlename-suffix .name-suffix { width:50px !important; }
-.customer-name-prefix-middlename-suffix .name-suffix input,
-.customer-name-prefix-middlename-suffix .name-suffix select { width:45px !important; }
-
-</style>
 
 <div class="<?php echo $this->getContainerClassName()?>">
 <?php if ($this->showPrefix()): ?>

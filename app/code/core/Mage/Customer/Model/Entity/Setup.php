@@ -103,11 +103,12 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'source'        => 'customer/customer_attribute_source_group',
                         'sort_order'    => 70,
                     ),
-                    'birthdate' => array(
+                    'dob' => array(
                         'type'          => 'datetime',
-                        'frontend'      => 'date',
+                        'input'         => 'date',
+                        'backend'       => 'eav/entity_attribute_backend_datetime',
                         'required'      => false,
-                        'label'         => 'Birth date',
+                        'label'         => 'Date Of Birth',
                         'sort_order'    => 80,
                     ),
                     'password_hash' => array(

@@ -38,7 +38,7 @@
         <h4 class="legend"><?php echo $this->__('Contact Information') ?></h4>
         <ul>
             <li>
-                <?php echo $this->getLayout()->createBlock('customer/name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getCustomer())->toHtml() ?>
+                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getCustomer())->toHtml() ?>
             </li>
             <li>
                 <label for="company"><?php echo $this->__('Company') ?></label><br />

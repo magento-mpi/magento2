@@ -18,4 +18,23 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$this->installEntities();
+class Mage_Customer_Block_Widget_Dob extends Mage_Customer_Block_Widget_Abstract
+{
+    public function _construct()
+    {
+        parent::_construct();
+
+        // default template location
+        $this->setTemplate('customer/widget/dob.phtml');
+    }
+
+    public function isEnabled()
+    {
+        return (bool)$this->getConfig('dob_show');
+    }
+
+    public function isRequired()
+    {
+        return $this->getConfig('dob_show')=='req';
+    }
+}

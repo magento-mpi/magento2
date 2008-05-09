@@ -125,7 +125,19 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getName()
     {
-        return $this->getFirstname() . ' ' . $this->getLastname();
+        $name = '';
+        if ($this->getPrefix()) {
+            $name .= $this->getPrefix() . ' ';
+        }
+        $name .= $this->getFirstname();
+        if ($this->getMiddlename()) {
+            $name .= ' ' . $this->getMiddlename();
+        }
+        $name .=  ' ' . $this->getLastname();
+        if ($this->getSuffix()) {
+            $name .= ' ' . $this->getSuffix();
+        }
+        return $name;
     }
 
     /**

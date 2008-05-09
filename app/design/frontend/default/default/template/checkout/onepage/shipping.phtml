@@ -27,7 +27,7 @@
 <fieldset class="group-select" id="shipping-new-address-form" <?php if ($this->customerHasAddresses()): ?>style="display:none"<?php endif ?>>
     <input type="hidden" name="shipping[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="shipping:address_id" />
     <ul>
-        <li><?php echo $this->getLayout()->createBlock('customer/name')->setObject($this->getAddress())
+        <li><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress())
                 ->setFieldIdFormat('shipping:%s')->setFieldNameFormat('shipping[%s]')->setFieldParams('onchange="shipping.setSameAsBilling(false)"')->toHtml() ?></li>
         <li><div class="input-box">
             <label for="shipping:company"><?php echo $this->__('Company') ?></label><br/>

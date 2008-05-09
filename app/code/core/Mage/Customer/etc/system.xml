@@ -198,15 +198,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </suffix_options>
-                        <birthdate_show>
-                            <label>Show birth date</label>
+                        <dob_show>
+                            <label>Show date of birth</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_nooptreq</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </birthdate_show>
+                        </dob_show>
                     </fields>
                 </address>
             </groups>
