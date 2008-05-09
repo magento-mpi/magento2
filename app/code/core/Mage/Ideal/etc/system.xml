@@ -64,7 +64,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </merchant_key>
-                        <api_url translate="label">
+                        <api_url translate="label comment">
                             <label>Secure URL (production)</label>
                             <comment>Leave empty for default value</comment>
                             <frontend_type>text</frontend_type>
@@ -73,7 +73,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </api_url>
-                        <api_test_url translate="label">
+                        <api_test_url translate="label comment">
                             <label>Secure URL (test mode)</label>
                             <comment>Leave empty for default value</comment>
                             <frontend_type>text</frontend_type>
