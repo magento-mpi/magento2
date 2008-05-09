@@ -46,6 +46,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_MEDIA                = 'media';
 
     const DEFAULT_CODE                  = 'default';
+    const ADMIN_CODE                    = 'admin';
 
     const CACHE_TAG                     = 'store';
 

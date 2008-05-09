@@ -486,6 +486,25 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $product->setWebsiteIds($websiteIds);
         }
 
+        if (isset($importData['websites'])) {
+            $websiteIds = $product->getWebsiteIds();
+            if (!is_array($websiteIds)) {
+                $websiteIds = array();
+            }
+            $websiteCodes = split(',', $importData['websites']);
+            foreach ($websiteCodes as $websiteCode) {
+                try {
+                    $website = Mage::app()->getWebsite(trim($websiteCode));
+                    if (!in_array($website->getId(), $websiteIds)) {
+                        $websiteIds[] = $website->getId();
+                    }
+                }
+                catch (Exception $e) {}
+            }
+            $product->setWebsiteIds($websiteIds);
+            unset($websiteIds);
+        }
+
         foreach ($importData as $field => $value) {
             if (in_array($field, $this->_inventorySimpleFields)) {
                 continue;
