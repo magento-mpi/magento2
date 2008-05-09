@@ -162,8 +162,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $errors = array();
 
             $customer = Mage::getModel('customer/customer')
-                ->setFirstname($this->getRequest()->getPost('firstname'))
-                ->setLastname($this->getRequest()->getPost('lastname'))
+                ->setPrefix($this->getRequest()->getParam('prefix'))
+                ->setFirstname($this->getRequest()->getParam('firstname'))
+                ->setMiddlename($this->getRequest()->getParam('middlename'))
+                ->setLastname($this->getRequest()->getParam('lastname'))
+                ->setSuffix($this->getRequest()->getParam('suffix'))
                 ->setEmail($this->getRequest()->getPost('email'))
                 ->setPassword($this->getRequest()->getPost('password'))
                 ->setConfirmation($this->getRequest()->getPost('confirmation'))
@@ -324,9 +327,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer = Mage::getModel('customer/customer')
                 ->setId($this->_getSession()->getCustomerId())
                 ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId())
-                ->setData('firstname', $this->getRequest()->getParam('firstname'))
-                ->setData('lastname', $this->getRequest()->getParam('lastname'))
-                ->setData('email', $this->getRequest()->getParam('email'));
+                ->setPrefix($this->getRequest()->getParam('prefix'))
+                ->setFirstname($this->getRequest()->getParam('firstname'))
+                ->setMiddlename($this->getRequest()->getParam('middlename'))
+                ->setLastname($this->getRequest()->getParam('lastname'))
+                ->setSuffix($this->getRequest()->getParam('suffix'))
+                ->setEmail($this->getRequest()->getParam('email'));
 
             $errors = $customer->validate();
             if (!is_array($errors)) {

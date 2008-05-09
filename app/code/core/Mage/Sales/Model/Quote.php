@@ -314,8 +314,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
         $this->setCustomerEmail($customer->getEmail());
+        $this->setCustomerPrefix($customer->getPrefix());
         $this->setCustomerFirstname($customer->getFirstname());
+        $this->setCustomerMiddlename($customer->getMiddlename());
         $this->setCustomerLastname($customer->getLastname());
+        $this->setCustomerSuffix($customer->getSuffix());
         $this->setCustomerGroupId($customer->getGroupId());
         $this->setCustomerTaxClassId($customer->getTaxClassId());
         return $this;

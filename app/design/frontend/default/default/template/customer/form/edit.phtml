@@ -27,14 +27,7 @@
     <h4 class="legend"><?php echo $this->__('Account Information') ?></h4>
     <ul>
         <li>
-            <div class="input-box">
-                <label for="firstname"><?php echo $this->__('First Name') ?> <span class="required">*</span></label><br />
-                <input type="text" name="firstname" id="firstname" value="<?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?>" title="<?php echo $this->__('First Name') ?>"  class="required-entry input-text" />
-            </div>
-            <div class="input-box">
-                <label for="lastname"><?php echo $this->__('Last Name') ?> <span class="required">*</span></label><br />
-                <input type="text" name="lastname" id="lastname" value="<?php echo $this->htmlEscape($this->getCustomer()->getLastname()) ?>" title="<?php echo $this->__('Last Name') ?>"  class="required-entry input-text" />
-            </div>
+            <?php echo $this->getLayout()->createBlock('customer/name')->setObject($this->getCustomer())->toHtml() ?>
         </li>
         <li>
             <div class="input-box">
