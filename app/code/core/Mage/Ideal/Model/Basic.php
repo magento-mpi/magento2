@@ -84,12 +84,16 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
      */
     public function getApiUrl()
     {
-         if ($this->getConfigData('test_flag') == 1) {
-             $url = "https://idealtest.secure-ing.com/ideal/mpiPayInitIng.do";
-         } else {
-             $url = "https://ideal.secure-ing.com/ideal/mpiPayInitIng.do";
-         }
-         return $url;
+        if ($this->getConfigData('test_flag') == 1) {
+            if (($url = trim($this->getConfigData('api_test_url'))) == '') {
+                $url = "https://idealtest.secure-ing.com/ideal/mpiPayInitIng.do";
+            }
+        } else {
+            if (($url = trim($this->getConfigData('api_url'))) == '') {
+                $url = "https://ideal.secure-ing.com/ideal/mpiPayInitIng.do";
+            }
+        }
+        return $url;
     }
 
     /**

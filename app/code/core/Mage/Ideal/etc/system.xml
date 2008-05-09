@@ -64,6 +64,24 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </merchant_key>
+                        <api_url translate="label">
+                            <label>Secure URL (production)</label>
+                            <comment>Leave empty for default value</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </api_url>
+                        <api_test_url translate="label">
+                            <label>Secure URL (test mode)</label>
+                            <comment>Leave empty for default value</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </api_test_url>
                         <test_flag translate="label">
                             <label>Test Mode</label>
                             <frontend_type>select</frontend_type>
