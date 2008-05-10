@@ -777,6 +777,7 @@ padding:6px 8px 4px 8px;
 .head-payment-method            { background-image:url(images/fam_creditcards.gif); }
 .head-order-date                { background-image:url(images/fam/calendar.png); }
 .head-customer-sales-statistics { background-image:url(images/fam/money.png); }
+.head-notification              { background-image:url(images/fam/folder_table.png); }
 
 
 
@@ -1185,6 +1186,31 @@ ul.super-product-attributes {
 .uploader .complete {
     border: 1px solid #90c898;
     background-color: #e5ffed;
+}
+
+.grid tr.read {
+    background:#ffffff !important;
+} .grid tr.unread {
+    background:#fcf6f5 !important;
+} .grid-row-title {
+    color: #444444;
+    font-weight: bold;
+} .grid-severity-critical, .grid-severity-major, .grid-severity-minor {
+    display: block;
+    color: #ffffff;
+    font-family: Arial, Tahoma, Verdana;
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    height: 16px;
+    line-height: 16px;
+} .grid-severity-critical {
+    background-color: #e41101;
+} .grid-severity-major {
+    background-color: #f55600;
+} .grid-severity-minor {
+    background-color: #ff9c00;
 }
 
 

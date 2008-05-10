@@ -44,23 +44,23 @@
         <div class="clear"></div>
             <?php echo $this->getChildHtml('menu') ?>
         </div>
-        <div class="notification-global"><span class="f-right">You have <span class="critical"><strong>4</strong> critical</span>, <strong>3</strong> major and <strong>4</strong> minor unread notices. <a href="#">Go to notices inbox</a>.</span><strong class="label">Latest Notice:</strong> There is a patch for a critical bug in 1.0.19700 release of Magento. <a href="#">Read details</a></div>
+        <?php echo $this->getChildHtml('notification_toolbar'); ?>
         <div class="middle" id="anchor-content">
             <div id="page:main-container">
             <?php if($this->getChildHtml('left')): ?>
-			
-				<div class="columns <?php echo $this->getContainerCssClass() ?>">	
+
+				<div class="columns <?php echo $this->getContainerCssClass() ?>">
 					<div class="side-col" id="page:left">
-						<?php echo $this->getChildHtml('left') ?>						
+						<?php echo $this->getChildHtml('left') ?>
 					</div>
 					<div class="main-col" id="content">
 						<div class="main-col-inner">
 							<div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
-							<?php echo $this->getChildHtml('content') ?>					
-						</div>		
-					</div>				
-				</div>	
-			
+							<?php echo $this->getChildHtml('content') ?>
+						</div>
+					</div>
+				</div>
+
             <?php else: ?>
                 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
                 <?php echo $this->getChildHtml('content') ?>

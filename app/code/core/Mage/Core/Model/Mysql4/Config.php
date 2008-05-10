@@ -188,4 +188,40 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 #echo "<xmp>".$xmlConfig->getNode()->asNiceXml()."</xmp>"; exit;
         return $this;
     }
+
+    /**
+     * Save config value
+     *
+     * @param string $path
+     * @param string $value
+     * @param string $scope
+     * @param int $scopeId
+     * @return Mage_Core_Store_Mysql4_Config
+     */
+    public function saveConfig($path, $value, $scope, $scopeId)
+    {
+        $writeAdapter = $this->_getWriteAdapter();
+        $select = $writeAdapter->select()
+            ->from($this->getMainTable())
+            ->where('path=?', $path)
+            ->where('scope=?', $scope)
+            ->where('scope_id=?', $scopeId);
+        $row = $writeAdapter->fetchRow($select);
+
+        $newData = array(
+            'scope'     => $scope,
+            'scope_id'  => $scopeId,
+            'path'      => $path,
+            'value'     => $value
+        );
+
+        if ($row) {
+            $whereCondition = $writeAdapter->quoteInto($this->getIdFieldName() . '=?', $row[$this->getIdFieldName()]);
+            $writeAdapter->update($this->getMainTable(), $newData, $whereCondition);
+        }
+        else {
+            $writeAdapter->insert($this->getMainTable(), $newData);
+        }
+        return $this;
+    }
 }

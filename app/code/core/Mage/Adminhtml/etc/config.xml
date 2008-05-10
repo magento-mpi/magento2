@@ -145,16 +145,20 @@
                     <myaccount translate="title" module="adminhtml">
                         <title>My Account</title>
                         <action>adminhtml/system_account</action>
+                        <sort_order>10</sort_order>
                     </myaccount>
                     <tools translate="title" module="adminhtml">
                         <title>Tools</title>
+                        <sort_order>20</sort_order>
                     </tools>
                     <design translate="title" module="adminhtml">
                         <title>Design</title>
                         <action>adminhtml/system_design</action>
+                        <sort_order>30</sort_order>
                     </design>
                     <convert translate="title" module="adminhtml">
                         <title>Import/Export</title>
+                        <sort_order>40</sort_order>
                         <children>
                             <gui translate="title" module="adminhtml">
                                 <title>Profiles</title>
@@ -169,13 +173,16 @@
                     <currency translate="title" module="adminhtml">
                         <title>Manage Currency Rates</title>
                         <action>adminhtml/system_currency</action>
+                        <sort_order>50</sort_order>
                     </currency>
                     <email_template translate="title" module="adminhtml">
                         <title>Transactional Emails</title>
                         <action>adminhtml/system_email_template</action>
+                        <sort_order>60</sort_order>
                     </email_template>
                     <acl translate="title" module="adminhtml">
                         <title>Permissions</title>
+                        <sort_order>70</sort_order>
                         <children>
                             <users translate="title" module="adminhtml">
                                 <title>Users</title>
@@ -189,6 +196,7 @@
                     </acl>
                     <extensions translate="title" module="adminhtml">
                         <title>Magento Connect</title>
+                        <sort_order>80</sort_order>
                         <children>
                             <local translate="title" module="adminhtml">
                                 <title>Manage Extensions</title>
@@ -203,14 +211,17 @@
                     <cache translate="title" module="adminhtml">
                         <title>Cache management</title>
                         <action>adminhtml/system_cache</action>
+                        <sort_order>90</sort_order>
                     </cache>
                     <store translate="title" module="core">
                         <title>Manage Stores</title>
                         <action>adminhtml/system_store/</action>
+                        <sort_order>100</sort_order>
                     </store>
                     <config translate="title" module="adminhtml">
                         <title>Configuration</title>
                         <action>adminhtml/system_config</action>
+                        <sort_order>110</sort_order>
                     </config>
                 </children>
             </system>

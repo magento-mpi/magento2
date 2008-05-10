@@ -885,4 +885,21 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         return $this->_xml->{$area}->events->{$eventName};
     }
+
+    /**
+     * Save config value
+     *
+     * @param string $path
+     * @param string $value
+     * @param string $scope
+     * @param int $scopeId
+     * @return Mage_Core_Store_Config
+     */
+    public function saveConfig($path, $value, $scope = 'default', $scopeId = 0)
+    {
+        $resource = Mage::getResourceModel('core/config');
+        $resource->saveConfig(rtrim($path, '/'), $value, $scope, $scopeId);
+
+        return $this;
+    }
 }
