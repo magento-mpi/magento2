@@ -25,8 +25,7 @@
             <a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
         </div>
         <p>
-            <?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?> 
-            <?php echo $this->htmlEscape($this->getCustomer()->getLastname()) ?><br />
+            <?php echo $this->htmlEscape($this->getCustomer()->getName()) ?><br />
             <?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?><br />
             <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo $this->__('Change Password') ?></a>
         </p>
