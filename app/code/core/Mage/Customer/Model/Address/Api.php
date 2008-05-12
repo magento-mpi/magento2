@@ -115,9 +115,9 @@ class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
     /**
      * Update address data
      *
-     * @param unknown_type $addressId
-     * @param unknown_type $addressData
-     * @return unknown
+     * @param int $addressId
+     * @param array $addressData
+     * @return boolean
      */
     public function update($addressId, $addressData)
     {
@@ -139,6 +139,30 @@ class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
             $address->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete address
+     *
+     * @param int $addressId
+     * @return boolean
+     */
+    public function delete($addressId)
+    {
+        $address = Mage::getModel('customer/address')
+            ->load($addressId);
+
+        if (!$address->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        try {
+            $address->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('not_deleted', $e->getMessage());
         }
 
         return true;

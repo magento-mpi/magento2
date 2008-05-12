@@ -44,7 +44,7 @@
                         <title>Update customer data</title>
                         <acl>customer/update</acl>
                     </update>
-                    <delete>
+                    <delete translate="title" module="customer">
                         <title>Delete customer</title>
                         <acl>customer/delete</acl>
                     </delete>
@@ -101,7 +101,7 @@
                         <title>Update customer address data</title>
                         <acl>customer/address/update</acl>
                     </update>
-                    <delete>
+                    <delete translate="title" module="customer">
                         <title>Delete customer address</title>
                         <acl>customer/address/delete</acl>
                     </delete>
