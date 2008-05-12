@@ -29,7 +29,7 @@
 
 class Mage_Cybermut_Model_Source_Language
 {
-    public function toOptionArray()
+    public function toOptionArray ()
     {
         return array(
             array('value' => 'EN', 'label' => Mage::helper('cybermut')->__('English')),

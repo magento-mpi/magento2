@@ -21,10 +21,11 @@
 /**
  * Cybermut Payment Front Controller
  *
+ * @category   Mage
+ * @package    Mage_Cybermut
  * @name       Mage_Cybermut_PaymentController
  * @author	   Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
 {
     /**
@@ -52,7 +53,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      * When a customer chooses Cybermut on Checkout/Payment page
      *
      */
-    public function redirectAction()
+    public function redirectAction ()
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setCybermutPaymentQuoteId($session->getQuoteId());
@@ -168,7 +169,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function successAction ()
     {
-        $session = Mage::getSingleton('cybermut/session');
+        $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getCybermutPaymentQuoteId());
         $session->unsCybermutPaymentQuoteId();
 
@@ -186,7 +187,6 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
 
         $order->save();
         $this->_redirect('checkout/onepage/success');
-
     }
 
     /**
@@ -215,8 +215,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
             $order->save();
         }
 
-        $this->loadLayout();
-        $this->renderLayout();
-        Mage::getSingleton('checkout/session')->unsLastRealOrderId();
+        Mage::getSingleton('checkout/session')->setErrorMessage($errorMsg);
+        $this->_redirect('checkout/onepage/failure');
     }
 }

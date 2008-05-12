@@ -18,17 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Cybermut Payment Model
+ *
+ * @category   Mage
+ * @package    Mage_Cybermut
+ * @name       Mage_Cybermut_Model_Payment
+ * @author	   Magento Core Team <core@magentocommerce.com>
+ */
+
 class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
 {
-    // Cybermut return codes of payment
-    const RETURN_CODE_ACCEPTED = 'paiement';
-    const RETURN_CODE_TEST_ACCEPTED = 'payetest';
-    const RETURN_CODE_ERROR = 'Annulation';
-
-
     protected $_code  = 'cybermut_payment';
     protected $_formBlockType = 'cybermut/form';
 
+    // Cybermut return codes of payment
+    const RETURN_CODE_ACCEPTED      = 'paiement';
+    const RETURN_CODE_TEST_ACCEPTED = 'payetest';
+    const RETURN_CODE_ERROR         = 'Annulation';
+
+    // Payment configuration
     protected $_isGateway               = false;
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
@@ -39,27 +48,8 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
 
+    // Order instance
     protected $_order = null;
-
-
-    /**
-     *  Return config var
-     *
-     *  @param    string Var key
-     *  @param    string Default value for non-existing key
-     *  @return	  mixed
-     */
-    public function getConfigData($key, $default=false)
-    {
-        if (!$this->hasData($key)) {
-            $value = Mage::getStoreConfig('payment/cybermut_payment/'.$key);
-            if (is_null($value) || false===$value) {
-                $value = $default;
-            }
-            $this->setData($key, $value);
-        }
-        return $this->getData($key);
-    }
 
     /**
      *  Return CyberMut protocol version
@@ -151,7 +141,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	 object
      */
-    public function createFormBlock($name)
+    public function createFormBlock ($name)
     {
         $block = $this->getLayout()->createBlock('cybermut/form_payment', $name);
         $block->setMethod($this->_code);
@@ -165,7 +155,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  string Order Redirect URL
      */
-    public function getOrderPlaceRedirectUrl()
+    public function getOrderPlaceRedirectUrl ()
     {
         return Mage::getUrl('cybermut/payment/redirect');
     }
@@ -256,7 +246,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string MAC
      */
-    protected function _CMCIC_hmac($string)
+    protected function _CMCIC_hmac ($string)
     {
         $pass = $this->_getSHAKey();
         $k1 = pack("H*",sha1($this->_getSHAKey()));
