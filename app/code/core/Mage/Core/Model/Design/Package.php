@@ -356,7 +356,7 @@ class Mage_Core_Model_Design_Package
     	if (empty($params['_default'])) {
     		$params['_default'] = false;
     	}
-    	$this->updateParamDefaults($params);//if ($file == 'images/logo_email.gif') {Zend_Debug::dump($params);die('<br>PARAMS');}
+    	$this->updateParamDefaults($params);
     	if (!empty($file)) {
 			$filename = $this->validateFile($file, $params);
 			if (false===$filename) {
