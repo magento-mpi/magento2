@@ -158,6 +158,22 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    public function failureAction()
+    {
+        $lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
+        $lastOrderId = $this->getOnepage()->getCheckout()->getLastOrderId();
+
+        if (!$lastQuoteId || !$lastOrderId) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        $this->loadLayout();
+        Mage::dispatchEvent('checkout_onepage_controller_failure_action');
+        $this->renderLayout();
+    }
+
+
     public function getAdditionalAction()
     {
         $this->getResponse()->setBody($this->_getAdditionalHtml());
