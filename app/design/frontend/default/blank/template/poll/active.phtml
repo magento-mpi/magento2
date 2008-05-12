@@ -34,27 +34,23 @@
     }
 </script>
 
-<div class="box base-mini mini-poll">
-    <div class="head">
-        <h4><span><?php echo $this->__('Community Poll') ?></span></h4>
-    </div>
+<div class="box">
+	<h3><?php echo $this->__('Community Poll') ?></h3>
     <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
         <div class="content">
-            <h5><?php echo $poll->getPollTitle(); ?></h5>
+            <h4><?php echo $poll->getPollTitle(); ?></h4>
             <?php if( $poll_answers ): ?>
-                    <table cellspacing="2">
-                        <tbody>
-                            <?php foreach( $poll_answers as $answer ): ?>
-                            <tr>
-                                <td><input type="radio" name="vote" class="poll_vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" /></td>
-                                <td><label for="vote_<?php echo $answer->getId() ?>"><?php echo $answer->getAnswerTitle() ?></label>&nbsp;</td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+			<ol>
+				<?php foreach( $poll_answers as $answer ): ?>
+				<li>
+					<input type="radio" name="vote" class="poll_vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" />&nbsp;
+					<label for="vote_<?php echo $answer->getId() ?>"><?php echo $answer->getAnswerTitle() ?></label>
+				</li>
+				<?php endforeach; ?>
+			</ol>
             <?php endif; ?>
         </div>
-        <div class="actions"><button class="form-button-alt right" type="submit"><span><?php echo $this->__('Vote') ?></span></button></div>
+        <p class="actions"><button class="form-button-alt right" type="submit"><span><?php echo $this->__('Vote') ?></span></button></p>
     </form>
 </div>
 <?php endif; ?>

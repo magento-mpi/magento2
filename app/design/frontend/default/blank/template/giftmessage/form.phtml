@@ -20,11 +20,11 @@
 ?>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/giftmessage.js') ?>"></script>
 <?php if(!$this->getSaveMode()): ?>
-<div class="page-head button-level">
-    <h3><?php echo $this->__('Gift Message') ?></h3>
+<div class="page-head">
+    <h2><?php echo $this->__('Gift Message') ?></h2>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
-    <ul class="form-list a-left">
+    <ul class="form-list">
         <li>
             <div class="input-box">
                 <label for="sender"><?php echo $this->__('From') ?> <span class="required">*</span></label><br />

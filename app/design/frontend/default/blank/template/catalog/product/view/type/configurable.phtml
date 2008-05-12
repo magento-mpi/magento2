@@ -27,12 +27,12 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()): ?>
-    <div class="product-attributes">
-        <table cellspacing="0">
+    <div>
+        <table cellspacing="0" class="data-table">
         <?php foreach($this->getAllowAttributes() as $_attribute): ?>
             <tr>
                 <td class="label"><?php echo $_attribute->getLabel() ?>:</td>
-                <td>
+                <td class="data">
                     <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute select super-attribute-select">
                         <option><?php echo $this->__('Choose an Option...') ?></option>
                     </select>
@@ -45,8 +45,7 @@
 
     <?php $_tierPrices = $this->getTierPrices() ?>
     <?php if(count($_tierPrices)>0): ?>
-    <div class="product-pricing">
-        <ul class="bare">
+    <ul>
         <?php foreach($_tierPrices as $_price): ?>
             <li><?php echo $this->__('Buy %s for %s each', $_price['price_qty'], $_price['formated_price']) ?>
             <?php if(($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
@@ -55,13 +54,12 @@
             <?php endif ?></strong>
             </li>
         <?php endforeach ?>
-        </ul>
-    </div>
+    </ul>
     <?php endif; ?>
 
-    <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
+    <p><?php echo $this->__('Availability: In stock.') ?></p>
 <?php else: ?>
-    <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
+    <p><?php echo $this->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>
 
 <?php echo $this->getPriceHtml($_product) ?>
@@ -70,7 +68,7 @@
     <fieldset class="add-to-cart-box">
         <legend><?php echo $this->__('Add Items to Cart') ?></legend>
         <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
-        <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+        <input name="qty" type="text" class="input-text" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
         <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
         <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
             <strong><?php echo $this->__('OR') ?></strong>
@@ -78,16 +76,14 @@
     </fieldset>
 <?php endif; ?>
 
-
-<div class="add-to-box">
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
+<p>
+	<?php if ($this->helper('wishlist')->isAllow()) : ?>
     <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a><br/>
-<?php endif; ?>
-
-<?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product) ): ?>
+	<?php endif; ?>
+	<?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product) ): ?>
     <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
-<?php endif; ?>
-</div>
+	<?php endif; ?>
+</p>
 
 <script type="text/javascript">
 var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);

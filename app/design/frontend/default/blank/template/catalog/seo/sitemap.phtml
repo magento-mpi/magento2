@@ -25,15 +25,13 @@
 ?>
 <?php $_items = $this->getCollection(); ?>
 <?php if($_items->getSize()): ?>
-    <div class="content">
-        <ul class="bare-list">
-            <?php foreach ($_items as $_item): ?>
-                <li><a href="<?php echo $this->getItemUrl($_item) ?>"><?php echo $_item->name ?></a></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+	<ul>
+		<?php foreach ($_items as $_item): ?>
+			<li><a href="<?php echo $this->getItemUrl($_item) ?>"><?php echo $_item->name ?></a></li>
+		<?php endforeach; ?>
+	</ul>
 <?php else: ?>
-    <div class="note-msg">
+    <p class="message-note">
         <?php echo $this->__('There are no %s available.', $this->getItemsTitle()); ?>
-    </div>
+    </p>
 <?php endif ?>

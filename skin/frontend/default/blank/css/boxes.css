@@ -15,8 +15,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/****************************************************/
+/***********[ Layout ]***********/
+/****************************************************/ 
 
-.container      { width:940px; margin:20px auto; text-align:left; }
+.container {}
+.middle {}
+
+
+
+
+
+/********************** Columns */ 
+
+/* .container      { width:940px; margin:20px auto; text-align:left; }
 .middle         { clear:both; }
 .col-left       { float:left; width:250px; }
 .col-main       { margin-left:260px;  }
@@ -24,4 +36,104 @@
 
 .header-links li{ display:inline; }
 #nav li         { display:inline; }
-.breadcrumbs li { display:inline; }
+.breadcrumbs li { display:inline; } */
+
+.container      {}
+.middle         { }
+.col-left       {}
+.col-main       {}
+.footer         {}
+
+.header-links li{}
+#nav li         {}
+.breadcrumbs li {}
+
+
+/****************************************************/
+/***********[ Common Elements ]***********/
+/****************************************************/
+
+
+.page-head h2 {}
+
+.messages {}
+.message-note {}
+.message-error {}
+.message-success {}
+
+
+
+/********************** BreadCrumbs */ 
+.breadcrumbs {}
+
+
+/********************** Pager */ 
+.pager {}
+	.pager .items-number {}
+	.pager .items-limiter {}
+	.pager .pages {}
+	.pager .pages .on {} /*current page*/
+
+/********************** Expanded pager */ 
+.sorter {}
+	.sorter .view-mode {}
+	.sorter .sort-by {}
+	.sorter .link-feed {}
+
+
+/********************** Box */
+.box {}
+	.box h3 {}
+	.box h4 {}
+	.box .actions {}
+
+	
+/****************************************************/
+/***********[ Category Page ]***********/
+/****************************************************/	
+
+.category-head h2 {}
+	.category-head .link-feed {}
+.category-image {}
+.category-description {}
+
+/********************** Category Products */ 
+
+.category-products {}
+.product-image {}
+
+/*Type:Grid*/
+	.category-products table.products-grid td {}
+/*Type:List*/
+	.category-products ul.products-list li{}
+	.category-products ul.products-list li .product-shop {}
+
+
+/****************************************************/
+/***********[ Product View Page ]***********/
+/****************************************************/	
+
+.product-info-box {}	
+	
+.product-essential {}
+
+	.product-essential .product-shop {}
+
+	.product-media {}
+		.product-media .product-image {}
+		.product-media .more-views {}
+
+	/*Product image zoom*/	
+		.product-media .image-zoom {}
+			.product-media .image-zoom .btn-zoom-out{}
+			.product-media .image-zoom .btn-zoom-in{}
+
+.product-collateral {}
+	.product-description {}	
+	.additional-data {}
+	.up-sell {}
+	
+	
+	
+	
+	

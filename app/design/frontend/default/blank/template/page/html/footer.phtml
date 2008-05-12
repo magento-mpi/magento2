@@ -19,8 +19,8 @@
  */
 ?>
 <?php echo $this->getChildHtml() ?>
-<p><?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" id="bug_tracking_link"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?><br />
-<?php echo $this->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></p>
+<p><?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" id="bug_tracking_link"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?></p>
+<address><?php echo $this->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></address>
 <script type="text/javascript">
     $('bug_tracking_link').target = "varien_external";
 </script>

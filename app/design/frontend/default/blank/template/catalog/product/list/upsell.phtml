@@ -19,9 +19,9 @@
  */
 ?>
 <?php if($this->getItemCollection()->getSize()): ?>
-<div class="collateral-box up-sell">
-    <div class="head"><h4><?php echo $this->__('You may also be interested in the following product(s)') ?></h4></div>
-    <table cellspacing="0" class="generic-product-grid catalog-listing" id="upsell-product-table">
+<div class="box">
+    <h3><?php echo $this->__('You may also be interested in the following product(s)') ?></h3>
+    <table cellspacing="0" class="products-grid" id="upsell-product-table">
     <?php // $this->setColumnCount(4); // uncomment this line if you want to have another number of columns ?>
     <?php $this->resetItemsIterator() ?>
     <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
@@ -29,13 +29,13 @@
         <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
             <?php if($_link=$this->getIterableItem()): ?>
             <td>
-                <p class="product-image"><a href="<?php echo $_link->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_link->getName()) ?>" /></a></p>
-                <h5><a href="<?php echo $_link->getProductUrl() ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a></h5>
+                <a class="product-image" href="<?php echo $_link->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_link->getName()) ?>" /></a>
+                <h4><a href="<?php echo $_link->getProductUrl() ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_link, true) ?>
                 <?php echo $this->helper('review/product')->getSummaryHtml($_link) ?>
             </td>
             <?php else: ?>
-            <td class="empty-product">&nbsp;</td>
+            <td>&nbsp;</td>
             <?php endif; ?>
         <?php endfor; ?>
         </tr>

@@ -21,14 +21,14 @@
 <?php if($this->getResultCount()): ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="page-head">
-	<h3><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h3>
+	<h2><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
 </div>
     <?php echo $this->getProductListHtml() ?>
 <?php else: ?>
-    <div class="page-head">
-        <h3><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h3>
-    </div>
-    <div class="note-msg">
-        <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>
-    </div>
+<div class="page-head">
+	<h2><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
+</div>
+<p class="message-note">
+	<?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>
+</p>
 <?php endif; ?>
