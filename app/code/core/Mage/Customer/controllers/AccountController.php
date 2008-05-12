@@ -170,6 +170,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 ->setEmail($this->getRequest()->getPost('email'))
                 ->setPassword($this->getRequest()->getPost('password'))
                 ->setConfirmation($this->getRequest()->getPost('confirmation'))
+                ->setDob($this->getRequest()->getPost('dob'))
                 ->setId(null);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
@@ -332,7 +333,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 ->setMiddlename($this->getRequest()->getParam('middlename'))
                 ->setLastname($this->getRequest()->getParam('lastname'))
                 ->setSuffix($this->getRequest()->getParam('suffix'))
-                ->setEmail($this->getRequest()->getParam('email'));
+                ->setEmail($this->getRequest()->getParam('email'))
+                ->setDob($this->getRequest()->getPost('dob'))
+            ;
 
             $errors = $customer->validate();
             if (!is_array($errors)) {

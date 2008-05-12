@@ -69,6 +69,7 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setCustomerNote($quote->getCustomerNote())
             ->setCustomerNoteNotify($quote->getCustomerNoteNotify())
             ->setCustomerIsGuest($quote->getCustomerIsGuest())
+            ->setCustomerDob($quote->getCustomerDob())
 
             /**
              * Currency data

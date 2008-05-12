@@ -37,4 +37,26 @@ class Mage_Customer_Block_Widget_Dob extends Mage_Customer_Block_Widget_Abstract
     {
         return $this->getConfig('dob_show')=='req';
     }
+
+    public function setDate($date)
+    {
+        $this->setTime($date ? strtotime($date) : false);
+        $this->setData('date', $date);
+        return $this;
+    }
+
+    public function getDay()
+    {
+        return $this->getTime() ? date('d', $this->getTime()) : '';
+    }
+
+    public function getMonth()
+    {
+        return $this->getTime() ? date('m', $this->getTime()) : '';
+    }
+
+    public function getYear()
+    {
+        return $this->getTime() ? date('Y', $this->getTime()) : '';
+    }
 }

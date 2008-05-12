@@ -186,6 +186,8 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
         }
 
+        $this->getQuote()->setCustomerDob($address->getDob());
+
         $this->getQuote()->save();
 
         $this->getCheckout()
@@ -340,9 +342,13 @@ class Mage_Checkout_Model_Type_Onepage
                 $customer->addAddress($customerShipping);
             }
 
+            $customer->setPrefix($billing->getPrefix());
             $customer->setFirstname($billing->getFirstname());
+            $customer->setMiddlename($billing->getMiddlename());
             $customer->setLastname($billing->getLastname());
+            $customer->setSuffix($billing->getSuffix());
             $customer->setEmail($billing->getEmail());
+            $customer->setDob($this->getQuote()->getCustomerDob());
             $customer->setPassword($customer->decryptPassword($this->getQuote()->getPasswordHash()));
             $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
             $this->getQuote()->setCustomer($customer);
@@ -416,8 +422,11 @@ class Mage_Checkout_Model_Type_Onepage
 
             $order->setCustomerId($customer->getId())
                 ->setCustomerEmail($customer->getEmail())
+                ->setCustomerPrefix($customer->getPrefix())
                 ->setCustomerFirstname($customer->getFirstname())
+                ->setCustomerMiddlename($customer->getMiddlename())
                 ->setCustomerLastname($customer->getLastname())
+                ->setCustomerSuffix($customer->getSuffix())
                 ->setCustomerGroupId($customer->getGroupId())
                 ->setCustomerTaxClassId($customer->getTaxClassId());
 

@@ -44,10 +44,11 @@
                     <input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" />
                 </div>
             </li>
+
 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
 <?php if ($_dob->isEnabled()): ?>
             <li>
-                <?php echo $_dob->setObject($this->getFormData())->toHtml() ?>
+                <?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?>
             </li>
 <?php endif ?>
 
