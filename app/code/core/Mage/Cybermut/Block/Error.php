@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -13,22 +12,20 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   Mage
  * @package    Mage_Cybermut
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- -->
-<layout version="0.1.0">
-<!--
-Cybermut Failure Response Page
--->
-<cybermut_payment_error>
-    <reference name="root">
-        <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-    </reference>
-    <reference name="content">
-        <block type="cybermut/error" name="cybermut_error" template="cybermut/error.phtml"></block>
-    </reference>
-</cybermut_payment_error>
-</layout>
+
+/**
+ * Failure Response from Cybermut
+ *
+ * @category   Mage
+ * @package    Mage_Cybermut
+ * @name       Mage_Cybermut_Block_Error
+ * @author     Magento Core Team <core@magentocommerce.com>
+*/
+class Mage_Cybermut_Block_Error extends Mage_Core_Block_Template
+{
+}

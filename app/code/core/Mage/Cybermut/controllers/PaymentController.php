@@ -205,17 +205,17 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
             $this->norouteAction();
             return;
         }
-
         if ($order instanceof Mage_Sales_Model_Order && $order->getId()) {
             $order->addStatusToHistory(
                 $order->getStatus(),
-                Mage::helper('cybermut')->__('Customer successfully returned from Cybermut') . $errorMsg
+                Mage::helper('cybermut')->__('Customer returned from Cybermut.') . $errorMsg
             );
             $order->cancel();
             $order->save();
         }
 
-        Mage::getSingleton('checkout/session')->setErrorMessage($errorMsg);
-        $this->_redirect('checkout/onepage/failure');
+        $this->loadLayout();
+        $this->renderLayout();
+        Mage::getSingleton('checkout/session')->unsLastRealOrderId();
     }
 }
