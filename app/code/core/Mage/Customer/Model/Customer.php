@@ -405,8 +405,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function sendNewAccountEmail()
     {
+        $storeId = $this->getStoreId();
+        if ($this->getWebsiteId() != '0' && $storeId == '0') {
+            $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+            reset($storeIds);
+            $storeId = current($storeIds);
+        }
         Mage::getModel('core/email_template')
-            ->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+            ->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_TEMPLATE),
                 Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_IDENTITY),
@@ -423,7 +429,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function sendPasswordReminderEmail()
     {
+        $storeId = $this->getStoreId();
+        if ($this->getWebsiteId() != '0' && $storeId == '0') {
+            $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+            reset($storeIds);
+            $storeId = current($storeIds);
+        }
         Mage::getModel('core/email_template')
+            ->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId))
             ->sendTransactional(
               Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
               Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),

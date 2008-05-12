@@ -170,7 +170,7 @@ class Mage_Core_Model_Design_Package
 	public function getTheme($type)
 	{
 		if (empty($this->_theme[$type])) {
-			$this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type);
+			$this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type, $this->getStore());
 			if ($type!=='default' && empty($this->_theme[$type])) {
 				$this->_theme[$type] = $this->getTheme('default');
 				if (empty($this->_theme[$type])) {
@@ -356,7 +356,7 @@ class Mage_Core_Model_Design_Package
     	if (empty($params['_default'])) {
     		$params['_default'] = false;
     	}
-    	$this->updateParamDefaults($params);
+    	$this->updateParamDefaults($params);//if ($file == 'images/logo_email.gif') {Zend_Debug::dump($params);die('<br>PARAMS');}
     	if (!empty($file)) {
 			$filename = $this->validateFile($file, $params);
 			if (false===$filename) {

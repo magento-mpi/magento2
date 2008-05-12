@@ -256,7 +256,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
 
         $this->_applyDesignConfig();
-        $processedResult = $processor->filter($this->getTemplateText());
+        $processedResult = $processor->filter($this->getTemplateText());//Zend_Debug::dump($this->getTemplateText());die();
         $this->_cancelDesignConfig();
         return $processedResult;
     }
@@ -406,7 +406,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         if ($this->getDesignConfig()) {
             $this->getDesignConfig()
                 ->setOldArea(Mage::getDesign()->getArea())
-                ->setOldStore(Mage::getDesign()->getStore());
+                ->setOldStore(Mage::getDesign()->getStore())
+                ->setOldThemeSkin(Mage::getDesign()->getTheme('skin'));
 
             if ($this->getDesignConfig()->getArea()) {
                 Mage::getDesign()->setArea($this->getDesignConfig()->getArea());
@@ -414,7 +415,9 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
             if ($this->getDesignConfig()->getStore()) {
                 Mage::getDesign()->setStore($this->getDesignConfig()->getStore());
+                Mage::getDesign()->setTheme('skin', '');
             }
+
         }
         return $this;
     }
@@ -428,6 +431,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
             if ($this->getDesignConfig()->getOldStore()) {
                 Mage::getDesign()->setStore($this->getDesignConfig()->getOldStore());
+                Mage::getDesign()->setTheme('skin', $this->getDesignConfig()->getOldThemeSkin());
             }
         }
         return $this;
