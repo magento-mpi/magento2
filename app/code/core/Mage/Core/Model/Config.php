@@ -147,14 +147,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         Varien_Profiler::stop('config/load-base');
 
-        if (!$localConfigLoaded) {
-            Varien_Profiler::start('config/load-distro');
-            $mergeConfig->loadString($this->loadDistroConfig());
-            $this->extend($mergeConfig, true);
-            Varien_Profiler::stop('config/load-distro');
-            $saveCache = false;
-        }
-
         $this->_loadDeclaredModules($mergeConfig);
 
         /**
@@ -333,17 +325,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 //            $dir = (!empty($_ENV['TMP']) ? $_ENV['TMP'] : DS.'tmp').DS.'magento'.DS.'var';
 //        }
 //        return $dir;
-    }
-
-    public function loadDistroConfig()
-    {
-//        $data = $this->getDistroServerVars();
-        $template = file_get_contents($this->getBaseDir('etc').DS.'distro.xml');
-        $template = $this->substDistroServerVars($template);
-//        foreach ($data as $index=>$value) {
-//            $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
-//        }
-        return $template;
     }
 
     public function getDistroServerVars()

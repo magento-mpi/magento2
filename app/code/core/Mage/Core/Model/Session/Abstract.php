@@ -24,6 +24,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
+    const XML_NODE_SESSION_SAVE     = 'global/session_save';
 
     const SESSION_ID_QUERY_PARAM = 'SID';
 
@@ -263,4 +264,16 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         return $this->getData('session_hosts');
     }
 
+    /**
+     * Retrieve session save method
+     *
+     * @return string
+     */
+    public function getSessionSaveMethod()
+    {
+        if (Mage::app()->isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+            return $sessionSave;
+        }
+        return parent::getSessionSaveMethod();
+    }
 }

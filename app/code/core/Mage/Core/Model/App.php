@@ -36,6 +36,21 @@ class Mage_Core_Model_App
 
     const DISTRO_LOCALE_CODE = 'en_US';
 
+    /**
+     * Default store Id (for install)
+     */
+    const DISTRO_STORE_ID       = 1;
+
+    /**
+     * Default store code (for install)
+     *
+     */
+    const DISTRO_STORE_CODE     = 'default';
+
+    /**
+     * Admin store Id
+     *
+     */
     const ADMIN_STORE_ID = 0;
 
     /**
@@ -587,8 +602,9 @@ class Mage_Core_Model_App
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
-            $this->_store = new Mage_Core_Model_Store();
-            $this->_store->setStoreId(1)->setCode('default');
+            $this->_store = Mage::getModel('core/store')
+                ->setId(self::DISTRO_STORE_ID)
+                ->setCode(self::DISTRO_STORE_CODE);
         }
         return $this->_store;
     }

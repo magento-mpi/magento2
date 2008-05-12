@@ -371,7 +371,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
     protected function _updatePathUseStoreView($url)
     {
-        if (
+        if (Mage::app()->isInstalled() &&
 //            !$this->isAdmin() &&
             $this->getConfig(self::XML_PATH_STORE_IN_URL)) {
             $url .= $this->getCode().'/';
