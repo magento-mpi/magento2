@@ -329,7 +329,7 @@ One page checkout order review block
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="checkout/onepage_failure" name="checkout.failure" template="checkout/failure.phtml"/>
+            <block type="checkout/onepage_failure" name="checkout.failure" template="checkout/onepage/failure.phtml"/>
         </reference>
     </checkout_onepage_failure>
 </layout>
