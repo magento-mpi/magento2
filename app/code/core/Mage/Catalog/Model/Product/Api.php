@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         try {
             $storeId = Mage::app()->getStore($store)->getId();
         } catch (Mage_Core_Model_Store_Exception $e) {
-            $this->_fault('unknown_store');
+            $this->_fault('store_not_exists');
         }
 
         return $storeId;
@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
             try {
                 $storeId = Mage::app()->getStore($store)->getId();
             } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_fault('unknown_store');
+                $this->_fault('store_not_exists');
             }
 
             $this->_getSession()->setProductStoreId($storeId);
@@ -235,6 +235,25 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    public function delete($productId)
+    {
+        $product = Mage::getModel('catalog/product');
+        /* @var $product Mage_Catalog_Model_Product */
+        $product->load($productId);
+
+        if (!$product->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        try {
+            $product->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('not_deleted', $e->getMessage());
         }
 
         return true;
