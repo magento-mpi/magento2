@@ -236,6 +236,39 @@ class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
     }
 
     /**
+     * Create new category
+     *
+     * @param int $parentId
+     * @param array $categoryData
+     * @return int
+     */
+    public function create($parentId, $categoryData, $store = null)
+    {
+        $category = Mage::getModel('catalog/category')
+            ->setStoreId($this->_getStoreId($store))
+            ->setParentId($parentId);
+        /* @var $category Mage_Catalog_Model_Category */
+
+        foreach ($category->getAttributes() as $attribute) {
+            if (!in_array($attribute->getAttributeCode(), $this->_ignoredAttributes)
+                && isset($categoryData[$attribute->getAttributeCode()])) {
+                $category->setData(
+                    $attribute->getAttributeCode(),
+                    $categoryData[$attribute->getAttributeCode()]
+                );
+            }
+        }
+
+        try {
+            $category->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('invalid_data', $e->getMessage());
+        }
+
+        return $category->getId();
+    }
+
+    /**
      * Update category data
      *
      * @param int $categoryId
@@ -302,6 +335,26 @@ class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
             $tree->move($node, $newParentNode, $prevNode);
         } catch (Mage_Core_Exception $e) {
             $this->_fault('not_moved', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    public function delete($categoryId)
+    {
+        $category = Mage::getModel('catalog/category')
+            ->setStoreId(Mage_Catalog_Model_Category::DEFAULT_STORE_ID)
+            ->load($categoryId);
+
+        /* @var $category Mage_Catalog_Model_Category */
+        if (!$category->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        try {
+            $category->delete();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('not_deleted', $e->getMessage());
         }
 
         return true;
