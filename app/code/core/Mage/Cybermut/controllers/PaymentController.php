@@ -39,7 +39,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      *  @param    none
      *  @return	  Mage_Sales_Model_Order
      */
-    public function getOrder ()
+    public function getOrder()
     {
         if ($this->_order == null) {
             $session = Mage::getSingleton('checkout/session');
@@ -53,7 +53,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      * When a customer chooses Cybermut on Checkout/Payment page
      *
      */
-    public function redirectAction ()
+    public function redirectAction()
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setCybermutPaymentQuoteId($session->getQuoteId());
@@ -86,7 +86,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      *  @param    none
      *  @return	  void
      */
-    public function notifyAction ()
+    public function notifyAction()
     {
         $model = Mage::getModel('cybermut/payment');
 
@@ -136,7 +136,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      *  @param    Mage_Sales_Model_Order $order
      *  @return	  boolean Can save invoice or not
      */
-    protected function saveInvoice (Mage_Sales_Model_Order $order)
+    protected function saveInvoice(Mage_Sales_Model_Order $order)
     {
         if ($order->canInvoice()) {
             $convertor = Mage::getModel('sales/convert_order');
@@ -167,7 +167,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      *  @param    none
      *  @return	  void
      */
-    public function successAction ()
+    public function successAction()
     {
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getCybermutPaymentQuoteId());
@@ -195,7 +195,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      *  @param    none
      *  @return	  void
      */
-    public function errorAction ()
+    public function errorAction()
     {
         $errorMsg = Mage::helper('cybermut')->__(' There was an error occurred during paying process.');
 

@@ -57,7 +57,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string Protocol version
      */
-    protected function getVersion ()
+    protected function getVersion()
     {
         return '1.2open';
     }
@@ -67,7 +67,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  string Target URL
      */
-    public function getCybermutUrl ()
+    public function getCybermutUrl()
     {
         $url = '';
         switch ($this->getConfigData('bank'))
@@ -97,7 +97,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  string URL
      */
-    protected function getReturnURL ()
+    protected function getReturnURL()
     {
         return $this->getSuccessURL();
     }
@@ -107,7 +107,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  string URL
      */
-    protected function getSuccessURL ()
+    protected function getSuccessURL()
     {
         return Mage::getUrl('cybermut/payment/success', array('_secure' => true));
     }
@@ -117,7 +117,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  string URL
      */
-    protected function getErrorURL ()
+    protected function getErrorURL()
     {
         return Mage::getUrl('cybermut/payment/error', array('_secure' => true));
     }
@@ -128,7 +128,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      * @param   Varien_Object $orderPayment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function capture (Varien_Object $payment, $amount)
+    public function capture(Varien_Object $payment, $amount)
     {
         $payment->setStatus(self::STATUS_APPROVED)
             ->setLastTransId($this->getTransactionId());
@@ -141,7 +141,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	 object
      */
-    public function createFormBlock ($name)
+    public function createFormBlock($name)
     {
         $block = $this->getLayout()->createBlock('cybermut/form_payment', $name);
         $block->setMethod($this->_code);
@@ -155,7 +155,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  string Order Redirect URL
      */
-    public function getOrderPlaceRedirectUrl ()
+    public function getOrderPlaceRedirectUrl()
     {
         return Mage::getUrl('cybermut/payment/redirect');
     }
@@ -165,7 +165,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *
      *  @return	  array Array of hidden form fields
      */
-    public function getStandardCheckoutFormFields ()
+    public function getStandardCheckoutFormFields()
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
@@ -202,7 +202,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string MAC string
      */
-    protected function _getMAC ($data)
+    protected function _getMAC($data)
     {
         $string =  sprintf('%s*%s*%s*%s*%s*%s*%s*%s*',
             $data['TPE'],
@@ -224,7 +224,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string SHA key
      */
-    protected function _getSHAKey ()
+    protected function _getSHAKey()
     {
         return $this->getConfigData('sha_key');
     }
@@ -235,7 +235,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string Merchant key
      */
-    protected function _getKey ()
+    protected function _getKey()
     {
         return $this->getConfigData('key');
     }
@@ -246,7 +246,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string MAC
      */
-    protected function _CMCIC_hmac ($string)
+    protected function _CMCIC_hmac($string)
     {
         $pass = $this->_getSHAKey();
         $k1 = pack("H*",sha1($this->_getSHAKey()));
@@ -267,7 +267,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string MAC
      */
-    protected function _hmacSHA1 ($key, $string)
+    protected function _hmacSHA1($key, $string)
     {
         $length = 64; // block length for SHA1
         if (strlen($key) > $length) {
@@ -288,7 +288,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string MAC
      */
-    public function getResponseMAC ($data)
+    public function getResponseMAC($data)
     {
         $string = sprintf('%s%s+%s+%s+%s+%s+%s+%s+',
              $data['retourPLUS'],
@@ -309,7 +309,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  boolean
      */
-    public function isSuccessfulPayment ($returnCode)
+    public function isSuccessfulPayment($returnCode)
     {
         return in_array($returnCode, array(self::RETURN_CODE_ACCEPTED, self::RETURN_CODE_TEST_ACCEPTED));
     }
@@ -320,7 +320,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  void
      */
-    public function generateSuccessResponse ()
+    public function generateSuccessResponse()
     {
         die($this->getSuccessResponse());
     }
@@ -331,7 +331,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  void
      */
-    public function generateErrorResponse ()
+    public function generateErrorResponse()
     {
         die($this->getErrorResponse());
     }
@@ -342,7 +342,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string Success response string
      */
-    public function getSuccessResponse ()
+    public function getSuccessResponse()
     {
         $response = array(
             'Pragma: no-cache',
@@ -359,7 +359,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      *  @param    none
      *  @return	  string Failure response string
      */
-    public function getErrorResponse ()
+    public function getErrorResponse()
     {
         $response = array(
             'Pragma: no-cache',

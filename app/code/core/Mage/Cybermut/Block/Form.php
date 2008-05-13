@@ -28,7 +28,7 @@
  */
 class Mage_Cybermut_Block_Form extends Mage_Payment_Block_Form
 {
-    protected function _construct ()
+    protected function _construct()
     {
         $this->setTemplate('cybermut/form.phtml');
         parent::_construct();

@@ -29,7 +29,7 @@
 class Mage_Cybermut_Block_Redirect extends Mage_Core_Block_Abstract
 {
 
-    protected function _toHtml ()
+    protected function _toHtml()
     {
         $standard = Mage::getModel('cybermut/payment');
         $form = new Varien_Data_Form();
