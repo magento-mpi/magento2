@@ -36,6 +36,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     protected $_addMinimalPrice = false;
     protected $_addFinalPrice = false;
+    protected $_allIdsCache = null;
 
     /**
      * Initialize resources
@@ -491,8 +492,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
     }
 
-    protected $_allIdsCache = null;
-
     public function getAllIdsCache($resetCache = false){
         $ids = null;
         if (!$resetCache) {
@@ -501,7 +500,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         if (is_null($ids)) {
             $ids = $this->getAllIds();
-            $collection->setAllIdsCache($ids);
+            $this->setAllIdsCache($ids);
         }
 
         return $ids;
