@@ -319,6 +319,13 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         return Mage::getModel('catalog/category')->load($this->getParentId());
     }
 
+    public function getParentId()
+    {
+        $parentPath = explode('/', $this->getPath());
+        array_pop($parentPath);
+        return intval(array_pop($parentPath));
+    }
+
     public function getCustomDesignDate()
     {
         $result = array();
