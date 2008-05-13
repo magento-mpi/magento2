@@ -67,6 +67,7 @@ class Mage_Reports_Model_Event_Observer
 
     public function catalogProductView(Varien_Event_Observer $observer)
     {
+        Mage::getSingleton('reports/session')->setData('viewed_products', true);
         return $this->_event(
             Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW,
             $observer->getEvent()->getProduct()->getId()
@@ -81,8 +82,14 @@ class Mage_Reports_Model_Event_Observer
         );
     }
 
+    public function catalogProductCompareRemoveProduct(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('reports/session')->setData('compared_products', null);
+    }
+
     public function catalogProductCompareAddProduct(Varien_Event_Observer $observer)
     {
+        Mage::getSingleton('reports/session')->setData('compared_products', true);
         return $this->_event(
             Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
             $observer->getEvent()->getProduct()->getId()

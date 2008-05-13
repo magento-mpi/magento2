@@ -66,6 +66,15 @@
         </resources>
 
         <events>
+            <catalog_product_compare_remove_product>
+                <observers>
+                    <reports>
+                        <type>singleton</type>
+                        <class>reports/event_observer</class>
+                        <method>catalogProductCompareRemoveProduct</method>
+                    </reports>
+                </observers>
+            </catalog_product_compare_remove_product>
             <customer_login>
                 <observers>
                     <reports>
@@ -399,7 +408,7 @@
             </updates>
         </layout>
     </frontend>
-    
+
      <default>
         <catalog>
             <recently_products>

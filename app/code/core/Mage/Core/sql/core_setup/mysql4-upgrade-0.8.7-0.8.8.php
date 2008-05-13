@@ -13,32 +13,18 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_CatalogIndex
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-/**
- * Attribute index model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_CatalogIndex_Model_Attribute extends Mage_Core_Model_Abstract
-{
-    protected function _construct()
-    {
-        $this->_init('catalogindex/attribute');
-        $this->_getResource()->setStoreId(Mage::app()->getStore()->getId());
-    }
+$installer->startSetup();
 
-    public function getFilteredEntities($attribute, $filter, $entityFilter)
-    {
-        return $this->_getResource()->getFilteredEntities($attribute, $filter, $entityFilter);
-    }
+$installer->run("
+ALTER TABLE `{$this->getTable('core_url_rewrite')}` ADD INDEX `IDX_ID_PATH` ( `id_path` );
+");
 
-    public function getCount($attribute, $entityFilter)
-    {
-        return $this->_getResource()->getCount($attribute, $entityFilter);
-    }
-}
+$installer->endSetup();

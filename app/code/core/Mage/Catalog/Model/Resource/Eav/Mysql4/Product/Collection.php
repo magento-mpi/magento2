@@ -470,7 +470,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $conditions .= "_price_rule.website_id = '{$wId}' AND ";
         $conditions .= "_price_rule.customer_group_id = '{$gId}'";
 
-        $productIds = $this->getAllIds();
+        //$productIds = $this->getAllIds();
+        $productIds = $this->getAllIdsCache();
         $this->getSelect()
             ->joinLeft(array('_price_rule'=>$this->getTable('catalogrule/rule_product_price')), $conditions, array('_rule_price'=>'rule_price'));
     }
@@ -488,5 +489,26 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
             $product->setCalculatedFinalPrice($finalPrice);
         }
+    }
+
+    protected $_allIdsCache = null;
+
+    public function getAllIdsCache($resetCache = false){
+        $ids = null;
+        if (!$resetCache) {
+            $ids = $this->_allIdsCache;
+        }
+
+        if (is_null($ids)) {
+            $ids = $this->getAllIds();
+            $collection->setAllIdsCache($ids);
+        }
+
+        return $ids;
+    }
+
+    public function setAllIdsCache($value){
+        $this->_allIdsCache = $value;
+        return $this;
     }
 }
