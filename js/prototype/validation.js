@@ -593,21 +593,6 @@ function parseNumber(v)
  * 2 - check or not credit card number trough Luhn algorithm by
  *     function validateCreditCard wich you can find above in this file
  */
-//4903,
-//4905,
-//4911,
-//4936,
-
-
-//564182,
-
-
-//633110,
-
-//6333,
-//6334,
-
-//6759
 Validation.creditCartTypes = $H({
     'VI': [new RegExp('^4[0-9]{12}([0-9]{3})?$'), new RegExp('^[0-9]{3}$'), true],
     'MC': [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$'), true],
