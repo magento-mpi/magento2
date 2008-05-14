@@ -25,50 +25,11 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
+class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 {
-    protected $_ignoredAttributes = array('entity_id', 'attribute_set_id', 'entity_type_id');
-    /**
-     * Retrives store id from store code, if no store id specified,
-     * it use seted session or admin store
-     *
-     * @param string|int $store
-     * @return int
-     */
-    protected function _getStoreId($store = null)
+    public function __construct()
     {
-        if (is_null($store)) {
-            $store = ($this->_getSession()->hasCategoryStoreId() ? $this->_getSession()->getStoreCategoryId() : 0);
-        }
-
-        try {
-            $storeId = Mage::app()->getStore($store)->getId();
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            $this->_fault('store_not_exists');
-        }
-
-        return $storeId;
-    }
-
-    /**
-     * Set current store for products.
-     *
-     * @param unknown_type $store
-     * @return unknown
-     */
-    public function currentStore($store=null)
-    {
-        if (!is_null($store)) {
-            try {
-                $storeId = Mage::app()->getStore($store)->getId();
-            } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_fault('store_not_exists');
-            }
-
-            $this->_getSession()->setCategoryStoreId($storeId);
-        }
-
-        return $this->_getStoreId();
+        $this->_storeIdSessionField = 'category_store_id';
     }
 
     /**
@@ -224,10 +185,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
         $result['level']       = $node->getLevel();
 
         foreach ($category->getAttributes() as $attribute) {
-            if (!in_array($attribute->getAttributeCode(), $this->_ignoredAttributes)
-                || (!is_array($attributes)
-                    || in_array($attribute->getAttributeCode(), $attributes)
-                    || in_array($attribute->getId(), $attributes))) {
+            if ($this->_isAllowedAttribute($attribute, $attributes)) {
                 $result[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
             }
         }
@@ -250,7 +208,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
         /* @var $category Mage_Catalog_Model_Category */
 
         foreach ($category->getAttributes() as $attribute) {
-            if (!in_array($attribute->getAttributeCode(), $this->_ignoredAttributes)
+            if ($this->_isAllowedAttribute($attribute)
                 && isset($categoryData[$attribute->getAttributeCode()])) {
                 $category->setData(
                     $attribute->getAttributeCode(),
@@ -288,7 +246,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
         }
 
         foreach ($category->getAttributes() as $attribute) {
-            if (!in_array($attribute->getAttributeCode(), $this->_ignoredAttributes)
+            if ($this->_isAllowedAttribute($attribute)
                 && isset($categoryData[$attribute->getAttributeCode()])) {
                 $category->setData(
                     $attribute->getAttributeCode(),
@@ -340,6 +298,12 @@ class Mage_Catalog_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
         return true;
     }
 
+    /**
+     * Delete category
+     *
+     * @param int $categoryId
+     * @return boolean
+     */
     public function delete($categoryId)
     {
         $category = Mage::getModel('catalog/category')

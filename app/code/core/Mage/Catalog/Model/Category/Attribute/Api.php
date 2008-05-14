@@ -19,39 +19,27 @@
  */
 
 /**
- * Catalog product attribute api
+ * Catalog category attribute api
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Resource
+class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_Resource
 {
     public function __construct()
     {
-        $this->_storeIdSessionField = 'product_store_id';
-        $this->_ignoredAttributeTypes[] = 'gallery';
-        $this->_ignoredAttributeTypes[] = 'media_image';
+        $this->_storeIdSessionField = 'category_store_id';
     }
 
-    /**
-     * Retrieve attributes from specified attribute set
-     *
-     * @param int $setId
-     * @return array
-     */
-    public function items($setId)
+    public function items()
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
-                ->loadAllAttributes()
-                ->getSortedAttributes($setId);
+        $attributes = Mage::getModel('catalog/category')->getAttributes();
         $result = array();
 
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            if ($attribute->isInSet($setId)
-                && $this->_isAllowedAttribute($attribute)) {
-
+            if ($this->_isAllowedAttribute($attribute)) {
                 if ($attribute->isScopeGlobal()) {
                     $scope = 'global';
                 } elseif ($attribute->isScopeWebsite()) {
@@ -73,7 +61,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         return $result;
     }
 
-    /**
+     /**
      * Retrieve attribute options
      *
      * @param int $attributeId
@@ -82,13 +70,12 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
      */
     public function options($attributeId, $store = null)
     {
-        $attribute = Mage::getModel('catalog/entity_attribute');
-        $attribute
+        $attribute = Mage::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store))
-            ->load($attributeId);
+            ->getResource()
+            ->getAttribute($attributeId);
 
-        /* @var $attribute Mage_Catalog_Model_Entity_Attribute */
-        if (!$attribute->getId()) {
+        if (!$attribute) {
             $this->_fault('not_exists');
         }
 
@@ -105,7 +92,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
                 }
             }
         }
+
         return $result;
     }
-
-} // Class Mage_Catalog_Model_Product_Attribute_Api End
+} // Class Mage_Catalog_Model_Category_Attribute_Api End

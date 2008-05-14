@@ -25,49 +25,13 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
+class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
 {
-    /**
-     * Retrives store id from store code, if no store id specified,
-     * it use seted session or admin store
-     *
-     * @param string|int $store
-     * @return int
-     */
-    protected function _getStoreId($store = null)
+    public function __construct()
     {
-        if (is_null($store)) {
-            $store = ($this->_getSession()->hasProductStoreId() ? $this->_getSession()->getStoreProductId() : 0);
-        }
-
-        try {
-            $storeId = Mage::app()->getStore($store)->getId();
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            $this->_fault('store_not_exists');
-        }
-
-        return $storeId;
-    }
-
-    /**
-     * Set current store for products.
-     *
-     * @param unknown_type $store
-     * @return unknown
-     */
-    public function currentStore($store=null)
-    {
-        if (!is_null($store)) {
-            try {
-                $storeId = Mage::app()->getStore($store)->getId();
-            } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_fault('store_not_exists');
-            }
-
-            $this->_getSession()->setProductStoreId($storeId);
-        }
-
-        return $this->_getStoreId();
+        $this->_storeIdSessionField = 'product_store_id';
+        $this->_ignoredAttributeTypes[] = 'gallery';
+        $this->_ignoredAttributeTypes[] = 'media_image';
     }
 
     /**
@@ -137,10 +101,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         );
 
         foreach ($product->getTypeInstance()->getEditableAttributes() as $attribute) {
-            if (!in_array($attribute->getFrontendInput(), array('media_gallery', 'media_image'))
-                && (!is_array($attributes)
-                    || in_array($attribute->getId(), $attributes)
-                    || in_array($attribute->getAttributeCode(), $attributes))) {
+            if ($this->_isAllowedAttribute($attribute, $attributes)) {
                 $result[$attribute->getAttributeCode()] = $product->getData(
                                                                 $attribute->getAttributeCode());
             }
@@ -166,9 +127,12 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
             ->setTypeId($type);
 
         foreach ($product->getTypeInstance()->getEditableAttributes() as $attribute) {
-            if (!in_array($attribute->getFrontendInput(), array('media_gallery', 'media_image'))
+            if ($this->_isAllowedAttribute($attribute)
                 && isset($productData[$attribute->getAttributeCode()])) {
-                $product->setData($attribute->getAttributeCode(), $productData[$attribute->getAttributeCode()]);
+                $product->setData(
+                    $attribute->getAttributeCode(),
+                    $productData[$attribute->getAttributeCode()]
+                );
             }
         }
 
@@ -213,9 +177,12 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         }
 
         foreach ($product->getTypeInstance()->getEditableAttributes() as $attribute) {
-            if (!in_array($attribute->getFrontendInput(), array('media_gallery', 'media_image'))
+            if ($this->_isAllowedAttribute($attribute)
                 && isset($productData[$attribute->getAttributeCode()])) {
-                $product->setData($attribute->getAttributeCode(), $productData[$attribute->getAttributeCode()]);
+                $product->setData(
+                    $attribute->getAttributeCode(),
+                    $productData[$attribute->getAttributeCode()]
+                );
             }
         }
 
@@ -240,6 +207,12 @@ class Mage_Catalog_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         return true;
     }
 
+    /**
+     * Delete product
+     *
+     * @param int $productId
+     * @return boolean
+     */
     public function delete($productId)
     {
         $product = Mage::getModel('catalog/product');

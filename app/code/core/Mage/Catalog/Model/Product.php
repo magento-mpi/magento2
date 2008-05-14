@@ -569,7 +569,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $mediaAttributes = array();
             foreach ($this->getAttributes() as $attribute) {
                 if($attribute->getFrontend()->getInputType() == 'media_image') {
-                    $mediaAttributes[] = $attribute;
+                    $mediaAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
             $this->setMediaAttributes($mediaAttributes);
