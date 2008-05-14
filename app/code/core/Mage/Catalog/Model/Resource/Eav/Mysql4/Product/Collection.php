@@ -510,4 +510,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $this->_allIdsCache = $value;
         return $this;
     }
+
+    public function addAttributeToFilter($attribute, $condition=null, $joinType='inner'){
+        $this->_allIdsCache = null;
+        return parent::addAttributeToFilter($attribute, $condition, $joinType);
+    }
 }
