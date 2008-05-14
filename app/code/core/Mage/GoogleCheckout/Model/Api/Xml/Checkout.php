@@ -274,8 +274,9 @@ EOT;
         for ($xml='', $i=1; $i<=3; $i++) {
             $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i);
             $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i);
+            $price = number_format($price, 2, '.','');
 
-            if (empty($title) || empty($price) && '0'!==$price) {
+            if (empty($title) || $price <= 0) {
                 continue;
             }
 
