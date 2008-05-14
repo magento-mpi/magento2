@@ -90,10 +90,15 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/customer/',
     ),
 
+    'Mage_Cybermut' => array(
+        'app/code/core/Mage/Cybermut/',
+        'app/design/frontend/default/default/template/cybermut/',
+        'app/design/adminhtml/default/default/template/cybermut/',
+    ),
+
     'Mage_Cybersource' => array(
         'app/code/core/Mage/Cybersource/',
         'app/design/frontend/default/default/template/cybersource/',
-        'app/design/adminhtml/default/default/template/cybersource/',
     ),
 
     'Mage_Dataflow' => array(
@@ -287,6 +292,7 @@ $CONFIG['helpers']  = array(
     'core'              => 'Mage_Core',
     'cron'              => 'Mage_Cron',
     'customer'          => 'Mage_Customer',
+    'cybermut'          => 'Mage_Cybermut',
     'cybersource'       => 'Mage_Cybersource',
     'dataflow'          => 'Mage_Dataflow',
     'directory'         => 'Mage_Directory',
