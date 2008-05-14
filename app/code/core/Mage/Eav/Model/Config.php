@@ -236,9 +236,12 @@ class Mage_Eav_Model_Config
         $this->_initAttributes($entityType);
 
         $entityTypeCode = $this->getEntityType($entityType)->getEntityTypeCode();
-        $entityType = $this->getEntityType($entityType);
-        $attrCodes = $entityType->getAttributeCodes();
+        $entityType     = $this->getEntityType($entityType);
+        $attrCodes      = $entityType->getAttributeCodes();
 
+        /**
+         * Validate attribute code
+         */
         if (is_numeric($code)) {
             if (isset($attrCodes[$code])) {
                 $code = $attrCodes[$code];
@@ -247,31 +250,32 @@ class Mage_Eav_Model_Config
             }
         }
 
+        /**
+         * Try use loaded attribute
+         */
         if ($attribute = $this->_load('EAV_ATTRIBUTE/'.$entityTypeCode.'/'.$code)) {
             Varien_Profiler::stop('EAV: '.__METHOD__);
             return $attribute;
         }
 
+        $attribute = false;
         if (in_array($code, $attrCodes)) {
             if ($cache = Mage::app()->loadCache('EAV_ATTRIBUTE_'.$entityTypeCode.'__'.$code)) {
                 $data = unserialize($cache);
+                if (isset($data['attribute_model'])) {
+                    $attribute = Mage::getModel($data['attribute_model'], $data);
+                }
             }
             else {
-                $data = Mage::getModel('eav/entity_attribute')->loadByCode($entityTypeCode, $code)->getData();
+                $attribute = Mage::getModel($entityType->getAttributeModel())->loadByCode($entityTypeCode, $code);
             }
         }
 
-        if (empty($data)) {
-            Varien_Profiler::stop('EAV: '.__METHOD__);
-            return false;
+        if ($attribute) {
+            $attribute->setEntityType($entityType);
+            $this->_save($attribute, 'EAV_ATTRIBUTE/'.$entityTypeCode.'/'.$code);
         }
-
-        $attribute = Mage::getModel($data['attribute_model'], $data);
-        $attribute->setEntityType($entityType);
-
-        $this->_save($attribute, 'EAV_ATTRIBUTE/'.$entityTypeCode.'/'.$code);
         Varien_Profiler::stop('EAV: '.__METHOD__);
-
         return $attribute;
     }
 

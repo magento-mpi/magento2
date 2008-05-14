@@ -211,7 +211,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Get default attribute set identifier for etity type
      *
      * @return string
      */
@@ -240,9 +240,19 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
         return isset($this->_data['attribute_codes']) ? $this->_data['attribute_codes'] : null;
     }
 
+    /**
+     * Get attribute model code for entity type
+     *
+     * @return string
+     */
     public function getAttributeModel()
     {
-        return isset($this->_data['attribute_model']) ? $this->_data['attribute_model'] : null;
+        if (empty($this->_data['attribute_model'])) {
+            return Mage_Eav_Model_Entity::DEFAULT_ATTRIBUTE_MODEL;
+        }
+        else {
+            return $this->_data['attribute_model'];
+        }
     }
 
     public function getEntity()
