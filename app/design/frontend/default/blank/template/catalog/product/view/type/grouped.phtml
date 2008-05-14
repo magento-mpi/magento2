@@ -63,7 +63,7 @@
             <?php if ($_item->isSaleable()) : ?>
                 <input name="super_group[<?php echo $_item->getId() ?>]" value="<?php echo $_item->getQty()*1 ?>" type="text" class="input-text qty" />
             <?php else: ?>
-                <?php echo $this->__('Out of stock.') ?>
+                <p><small><?php echo $this->__('Out of stock.') ?></small></p>
             <?php endif; ?>
             </td>
             <?php endif; ?>

@@ -38,11 +38,11 @@
             <?php if($_product->isSaleable()): ?>
             <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
             <?php else: ?>
-            <p><?php echo $this->__('Out of stock') ?></p>
+            <p><small><?php echo $this->__('Out of stock') ?></small></p>
             <?php endif; ?>
             <p>
                 <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                <a href="<?php echo $this->getAddToWishlistUrl($_product) ?>" class="link-cart"><?php echo $this->__('Add to Wishlist') ?></a>
+                <a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
                 <?php endif; ?>
                 <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?><br />
                 <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>

@@ -61,7 +61,7 @@
 							<?php $_option=$_bundleOption->getLinkCollection()->getFirstItem() ?>
 							<input type="hidden" name="bundle_option[<?php echo $_bundleOption->getId() ?>]" value="<?php echo $_option->getProductId() ?>" /><?php echo $_option->getName() ?>
 						<?php else: ?>
-							<?php echo $this->__('Out of Stock') ?>
+							<p><small><?php echo $this->__('Out of Stock') ?></small></p>
 						<?php endif; ?>
 						</td>
 					</tr>
@@ -69,7 +69,7 @@
 				</table>
 				<script type="text/javascript">decorateTable('bundle-price-table')</script>
 			<?php else: ?>
-				<p><?php echo $this->__('This bundle is out of stock.') ?></p>
+				<p><small><?php echo $this->__('This bundle is out of stock.') ?></small></p>
 			<?php endif; ?>
 
 
@@ -91,7 +91,7 @@
 
             <?php if(!$_product->isSuperGroup()): ?>
                 <?php if(!$_product->isBundle() || $_product->isAvailableBundle()): ?>
-                    <p><?php echo $this->__('Availability: In stock. Ships within 24 hours.') ?></p>
+                    <p><small><?php echo $this->__('Availability: In stock. Ships within 24 hours.') ?></small></p>
                     <?php echo $this->getPriceHtml($_product) ?>
                     <fieldset class="add-to-cart-box">
                         <legend><?php echo $this->__('Add Items to Cart') ?> </legend>
@@ -116,7 +116,7 @@
                     </p>
                 <?php endif; ?>
             <?php else: ?>
-                <p><?php echo $this->__('Availability: In stock. Ships within 24 hours.') ?></p>
+                <p><small><?php echo $this->__('Availability: In stock. Ships within 24 hours.') ?><small></p>
                 <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button> 
 				<strong><?php echo $this->__('OR') ?></strong>
 				<p>

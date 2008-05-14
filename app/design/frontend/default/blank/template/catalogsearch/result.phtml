@@ -28,7 +28,7 @@
 <div class="page-head">
 	<h2><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
 </div>
-<p class="message-note">
+<p class="note-msg">
 	<?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>
 </p>
 <?php endif; ?>

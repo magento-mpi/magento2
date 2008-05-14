@@ -19,17 +19,15 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('My Wishlist') ?></h3>
+    <h2><?php echo $this->__('My Wishlist') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->getWishlist()->getSize()): ?>
     <?php if($this->helper('wishlist')->isRssAllow()): ?>
-        <p class="a-right">
-        <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-feed"><?php echo $this->__('RSS Feed') ?></a>
-        </p>
+        <p><a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-feed"><?php echo $this->__('RSS Feed') ?></a></p>
     <?php endif; ?>
 <form action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
-    <table cellspacing="0" width="100%" class="data-table box-table" id="wishlist-table">
+    <table cellspacing="0" width="100%" class="data-table" id="wishlist-table">
     <col width="130" />
     <col width="300" />
     <col />
@@ -46,21 +44,21 @@
         <?php foreach($this->getWishlist() as $item): ?>
             <tr>
                 <td>
-                    <div><a href="<?php echo $item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" alt="<?php echo $this->htmlEscape($item->getName()) ?>" width="113" /></a></div>
-                    <div><a href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></div>
+                    <a class="product-image" href="<?php echo $item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" alt="<?php echo $this->htmlEscape($item->getName()) ?>" width="113" /></a>
+                    <h3><a href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></h3>
                     <?php echo $this->getPriceHtml($item) ?>
                 </td>
-                <td align="center">
+                <td>
                     <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="3" style="width:95%;height:160px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?php echo ( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
                 </td>
                 <td>
                     <?php echo $this->getFormatedDate($item->getAddedAt()) ?>
                 </td>
-                <td class="a-center">
+                <td>
                 <?php if($item->isSaleable()): ?>
-                    <a href="#" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>');return false;" class="link-cart"><?php echo $this->__('Add to Cart') ?></a><br />
+                    <a href="#" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>');return false;"><?php echo $this->__('Add to Cart') ?></a><br />
                 <?php endif; ?>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?php echo $this->getItemRemoveUrl($item) ?>');return false;" class="link-remove" ><?php echo $this->__('Remove Item') ?></a>
+                    <a href="#" onclick="confirmRemoveWishlistItem('<?php echo $this->getItemRemoveUrl($item) ?>');return false;"><?php echo $this->__('Remove Item') ?></a>
                 </td>
             </tr>
         <?php endforeach ?>

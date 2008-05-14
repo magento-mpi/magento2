@@ -28,7 +28,7 @@
             ->__('<strong>%d item(s)</strong> were found using the following search criteria', $this->getResultCount()); ?>
     </p>
 <?php else: ?>
-    <p class="message-note">No items were found using the following search criteria. <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a></p>
+    <p class="note-msg">No items were found using the following search criteria. <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a></p>
 <?php endif; ?>
 
 <?php $searchCriterias=$this->getSearchCriterias(); ?>
@@ -44,7 +44,7 @@
     <?php endforeach; ?>
 
     <?php if($this->getResultCount()): ?>
-        <p class="message-note">
+        <p class="note-msg">
             Don't see what you're looking for? 
             <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a>
         </p>
