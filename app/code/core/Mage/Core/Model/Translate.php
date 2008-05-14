@@ -78,7 +78,20 @@ class Mage_Core_Model_Translate
      */
     protected $_dataScope;
 
+    /**
+     * Configuration flag to enable inline translations
+     *
+     * @var boolean
+     */
     protected $_translateInline;
+
+    /**
+     * Allows temporarily disable inline translations
+     * for example in emails and PDFs
+     *
+     * @var boolean
+     */
+    protected $_translateInlineActive = true;
 
     public function __construct()
     {
@@ -389,13 +402,19 @@ class Mage_Core_Model_Translate
             $result = $translated;
         }
 
-        if ($this->_translateInline) {
+        if ($this->_translateInline && $this->_translateInlineActive) {
             if (strpos($result, '{{{')===false || strpos($result, '}}}')===false || strpos($result, '}}{{')===false) {
                 $result = '{{{'.$result.'}}{{'.$translated.'}}{{'.$text.'}}{{'.$module.'}}}';
             }
         }
 
         return $result;
+    }
+
+    public function setTranslateInline($flag=null)
+    {
+        $this->_translateInlineActive = (bool)$flag;
+        return $this;
     }
 
     /**

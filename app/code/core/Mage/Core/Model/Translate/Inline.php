@@ -59,16 +59,26 @@ class Mage_Core_Model_Translate_Inline
         }
     }
 
+    public function stripInlineTranslations(&$body)
+    {
+        if (is_array($body)) {
+            foreach ($body as $i=>&$part) {
+                if (strpos($part,'{{{')!==false) {
+                    $part = preg_replace('#'.$this->_tokenRegex.'#', '$1', $part);
+                }
+            }
+        } elseif (is_string($body)) {
+            $body = preg_replace('#'.$this->_tokenRegex.'#', '$1', $body);
+        }
+        return $this;
+    }
+
     public function processResponseBody(&$bodyArray)
     {
         if (!$this->isAllowed()) {
             // TODO: move translations from exceptions and errors to output
             if (Mage::getDesign()->getArea()==='adminhtml') {
-                foreach ($bodyArray as $i=>&$body) {
-                    if (strpos($body,'{{{')!==false) {
-                        $body = preg_replace('#'.$this->_tokenRegex.'#', '$1', $body);
-                    }
-                }
+                $this->stripInlineTranslations($bodyArray);
             }
             return;
         }
