@@ -27,6 +27,8 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 {
     public function getPdf($invoices = array())
     {
+        $this->_beforeGetPdf();
+
         $pdf = new Zend_Pdf();
         $style = new Zend_Pdf_Style();
         $style->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 10);
@@ -155,6 +157,9 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
             /* Add totals */
             $this->insertTotals($page, $invoice);
         }
+
+        $this->_afterGetPdf();
+
         return $pdf;
     }
 }

@@ -558,6 +558,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         $itemsBlock = Mage::getBlockSingleton('sales/order_email_items')->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment())
             ->setIsSecureMode(true);
@@ -589,6 +593,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     'items_html'    => $itemsBlock->toHtml(),
                 )
             );
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 
@@ -599,6 +606,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendOrderUpdateEmail($notifyCustomer=true, $comment='')
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         $bcc = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         if (!$notifyCustomer && !$bcc) {
             return $this;
@@ -632,6 +643,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     'comment'   => $comment
                 )
             );
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 

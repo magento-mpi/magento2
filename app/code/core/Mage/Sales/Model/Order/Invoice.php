@@ -497,6 +497,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function sendEmail($notifyCustomer=true, $comment='')
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         $order  = $this->getOrder();
         $bcc    = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
 
@@ -539,6 +543,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
                     'payment_html'=> $paymentBlock->toHtml(),
                 )
             );
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 
@@ -549,6 +556,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function sendUpdateEmail($notifyCustomer=true, $comment='')
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         $order  = $this->getOrder();
         $bcc    = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         if (!$notifyCustomer && !$bcc) {
@@ -585,6 +596,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
                     'comment'=> $comment
                 )
             );
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 

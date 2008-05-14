@@ -27,6 +27,8 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 {
     public function getPdf($creditmemos = array())
     {
+        $this->_beforeGetPdf();
+
         $pdf = new Zend_Pdf();
         $style = new Zend_Pdf_Style();
         $style->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 10);
@@ -155,9 +157,9 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
             /* Add totals */
             $this->insertTotals($page, $creditmemo);
         }
+
+        $this->_afterGetPdf();
+
         return $pdf;
     }
-
-
-
 }

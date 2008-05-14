@@ -550,9 +550,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
 
         if (!($html = $this->_loadCache())) {
+            $translate = Mage::getSingleton('core/translate');
+            /* @var $translate Mage_Core_Model_Translate */
+            if ($this->hasData('translate_inline')) {
+                $translate->setTranslateInline($this->getData('translate_inline'));
+            }
+
             $this->_beforeToHtml();
             $html = $this->_toHtml();
             $this->_saveCache($html);
+
+            if ($this->hasData('translate_inline')) {
+                $translate->setTranslateInline(true);
+            }
         }
 
         Mage::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this));

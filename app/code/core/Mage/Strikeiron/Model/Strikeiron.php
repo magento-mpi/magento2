@@ -101,11 +101,15 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                     * when there is no more remaining hits for service
                     * we will send email to email recipient for exception
                     */
-                    /* @var $mailTamplate Mage_Core_Model_Email_Template */
+                    /* @var $mailTemplate Mage_Core_Model_Email_Template */
                     $receipient = $this->getConfigData('email_verification', 'error_email');
                     if ($receipient) {
-                        $mailTamplate = Mage::getModel('core/email_template');
-                        $mailTamplate->setDesignConfig(
+                        $translate = Mage::getSingleton('core/translate');
+                        /* @var $translate Mage_Core_Model_Translate */
+                        $translate->setTranslateInline(false);
+
+                        $mailTemplate = Mage::getModel('core/email_template');
+                        $mailTemplate->setDesignConfig(
                                 array(
                                     'area'  => 'frontend',
                                 )
@@ -120,6 +124,8 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                                   'warnings'    => $e->getMessage(),
                                 )
                             );
+
+                        $translate->setTranslateInline(true);
                     }
 
                 }

@@ -313,7 +313,11 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        try{
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
+        try {
             $customer = Mage::getSingleton('customer/session')->getCustomer();
             $wishlist = $this->_getWishlist();
 
@@ -346,6 +350,8 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
             $wishlist->setShared(1);
             $wishlist->save();
 
+            $translate->setTranslateInline(true);
+
             Mage::dispatchEvent('wishlist_share', array('wishlist'=>$wishlist));
             Mage::getSingleton('customer/session')->addSuccess(
                 $this->__('Your Wishlist was successfully shared')
@@ -353,6 +359,8 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/*');
         }
         catch (Exception $e) {
+            $translate->setTranslateInline(true);
+
             Mage::getSingleton('wishlist/session')->addError($e->getMessage());
             Mage::getSingleton('wishlist/session')->setSharingForm($this->getRequest()->getPost());
             $this->_redirect('*/*/share');

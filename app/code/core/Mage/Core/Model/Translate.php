@@ -86,12 +86,11 @@ class Mage_Core_Model_Translate
     protected $_translateInline;
 
     /**
-     * Allows temporarily disable inline translations
-     * for example in emails and PDFs
+     * Configuration flag to local enable inline translations
      *
      * @var boolean
      */
-    protected $_translateInlineActive = true;
+    protected $_canUseInline = true;
 
     public function __construct()
     {
@@ -402,7 +401,7 @@ class Mage_Core_Model_Translate
             $result = $translated;
         }
 
-        if ($this->_translateInline && $this->_translateInlineActive) {
+        if ($this->_translateInline && $this->getTranslateInline()) {
             if (strpos($result, '{{{')===false || strpos($result, '}}}')===false || strpos($result, '}}{{')===false) {
                 $result = '{{{'.$result.'}}{{'.$translated.'}}{{'.$text.'}}{{'.$module.'}}}';
             }
@@ -411,10 +410,26 @@ class Mage_Core_Model_Translate
         return $result;
     }
 
+    /**
+     * Set Translate inline mode
+     *
+     * @param bool $flag
+     * @return Mage_Core_Model_Translate
+     */
     public function setTranslateInline($flag=null)
     {
-        $this->_translateInlineActive = (bool)$flag;
+        $this->_canUseInline = (bool) $flag;
         return $this;
+    }
+
+    /**
+     * Retrieve active translate mode
+     *
+     * @return bool
+     */
+    public function getTranslateInline()
+    {
+        return $this->_canUseInline;
     }
 
     /**

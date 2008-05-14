@@ -504,6 +504,10 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
      */
     public function sendEmail($notifyCustomer=true, $comment='')
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         $order  = $this->getOrder();
         $bcc    = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
 
@@ -522,7 +526,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         else {
             $customerEmail = $bcc;
         }
-        
+
         if ($order->getCustomerIsGuest()) {
             $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
             $customerName = $order->getBillingAddress()->getName();
@@ -530,7 +534,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId());
             $customerName = $order->getCustomerName();
         }
-        
+
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
             ->sendTransactional(
                 $template,
@@ -545,6 +549,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
                     'payment_html'=> $paymentBlock->toHtml(),
                 )
             );
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 
@@ -555,9 +562,13 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
      */
     public function sendUpdateEmail($notifyCustomer=true, $comment='')
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         $order  = $this->getOrder();
         $bcc    = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        
+
         if (!$notifyCustomer && !$bcc) {
             return $this;
         }
@@ -578,7 +589,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $order->getStoreId());
             $customerName = $order->getCustomerName();
         }
-        
+
         $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
                 $template,
@@ -592,6 +603,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
                     'comment'=> $comment
                 )
             );
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 

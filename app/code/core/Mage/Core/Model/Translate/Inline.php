@@ -44,7 +44,11 @@ class Mage_Core_Model_Translate_Inline
 
             $this->_isAllowed = $active && Mage::helper('core')->isDevAllowed($storeId);
         }
-        return $this->_isAllowed;
+
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+
+        return $translate->getTranslateInline() && $this->_isAllowed;
     }
 
     public function processAjaxPost($translate)

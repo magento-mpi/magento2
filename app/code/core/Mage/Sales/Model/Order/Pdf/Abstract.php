@@ -262,4 +262,16 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         return array($description);
     }
+
+    protected function _beforeGetPdf() {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+    }
+
+    protected function _afterGetPdf() {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(true);
+    }
 }

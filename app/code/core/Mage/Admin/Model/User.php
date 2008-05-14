@@ -115,6 +115,10 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function sendNewPasswordEmail()
     {
+        $translate = Mage::getSingleton('core/translate');
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate->setTranslateInline(false);
+
         Mage::getModel('core/email_template')
             ->setDesignConfig(array('area'=>'adminhtml', 'store'=>$this->getStoreId()))
             ->sendTransactional(
@@ -123,6 +127,9 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
                 $this->getEmail(),
                 $this->getName(),
                 array('user'=>$this, 'password'=>$this->getPlainPassword()));
+
+        $translate->setTranslateInline(true);
+
         return $this;
     }
 
