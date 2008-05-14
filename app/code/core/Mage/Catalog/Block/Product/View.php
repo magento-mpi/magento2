@@ -85,13 +85,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return $data;
     }
 
-    public function getAlertHtml($type)
-    {
-        return $this->getLayout()->createBlock('customeralert/alerts')
-            ->setAlertType($type)
-            ->toHtml();
-    }
-
     public function getMinimalQty($product)
     {
         if ($stockItem = $product->getStockItem()) {
