@@ -64,7 +64,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Format date using current locale options
      *
-     * @param   date $date
+     * @param   date $date in GMT timezone
      * @param   string $format
      * @param   bool $showTime
      * @return  string
@@ -84,7 +84,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             $date = Mage::app()->getLocale()->date(Mage::getSingleton('core/date')->gmtTimestamp(), null, null, true);
         }
         else {
-            $date = Mage::app()->getLocale()->date(Mage::getSingleton('core/date')->gmtTimestamp($date), null, null, true);
+            $date = Mage::app()->getLocale()->date(strtotime($date), null, null, true);
         }
 
         if ($showTime) {
