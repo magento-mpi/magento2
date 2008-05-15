@@ -47,11 +47,6 @@ include_once "Varien/Profiler.php";
 Varien_Profiler::enable();
 
 /**
- * Check magic quotes settings
- */
-checkMagicQuotes();
-
-/**
  * Main Mage hub class
  *
  * @author      Magento Core Team <core@magentocommerce.com>
