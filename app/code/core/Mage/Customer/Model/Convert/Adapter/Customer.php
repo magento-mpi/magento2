@@ -220,29 +220,29 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         //$this->setAddress(Mage::getModel('catalog/'))
 
         foreach (Mage::getConfig()->getFieldset('customer_dataflow') as $code=>$node) {
-            if ((string)$node->billing) {
+            if ($node->is('billing')) {
                 $this->_billingFields[] = 'billing_'.$code;
             }
-            if ((int)$node->shipping) {
+            if ($node->is('shipping')) {
                 $this->_shippingFields[] = 'shipping_'.$code;
             }
-            if ((string)$node->mapped || (string)$node->billing_mapped) {
+            if ($node->is('mapped') || $node->is('billing_mapped')) {
                 $this->_billingMappedFields['billing_'.$code] = $code;
             }
-            if ((string)$node->mapped || (string)$node->shipping_mapped) {
+            if ($node->is('mapped') || $node->is('shipping_mapped')) {
                 $this->_shippingMappedFields['shipping_'.$code] = $code;
             }
-            if ((string)$node->street) {
+            if ($node->is('street')) {
                 $this->_billingStreetFields[] = 'billing_'.$code;
                 $this->_shippingStreetFields[] = 'shipping_'.$code;
             }
-            if ((string)$node->required) {
+            if ($node->is('required')) {
                 $this->_requiredFields[] = $code;
             }
-            if ((string)$node->billing_required) {
+            if ($node->is('billing_required')) {
                 $this->_billingRequiredFields[] = 'billing_'.$code;
             }
-            if ((string)$node->shipping_required) {
+            if ($node->is('shipping_required')) {
                 $this->_shippingRequiredFields[] = 'shipping_'.$code;
             }
         }

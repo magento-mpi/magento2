@@ -279,7 +279,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
             if (!$defaultBillingId) {
                 foreach ($this->getFields() as $code=>$node) {
-                    if ((string)$node->billing) {
+                    if ($node->is('billing')) {
                         $row['billing_'.$code] = null;
                     }
                 }
@@ -289,7 +289,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                 $customerAddress->explodeStreetAddress();
 
                 foreach ($this->getFields() as $code=>$node) {
-                    if ((string)$node->billing) {
+                    if ($node->is('billing')) {
                         $row['billing_'.$code] = $customerAddress->getDataUsingMethod($code);
                     }
                 }
@@ -297,7 +297,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
             if (!$defaultShippingId) {
                 foreach ($this->getFields() as $code=>$node) {
-                    if ((string)$node->shipping) {
+                    if ($node->is('shipping')) {
                         $row['shipping_'.$code] = null;
                     }
                 }
@@ -308,7 +308,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                     $customerAddress->explodeStreetAddress();
                 }
                 foreach ($this->getFields() as $code=>$node) {
-                    if ((string)$node->shipping) {
+                    if ($node->is('shipping')) {
                         $row['shipping_'.$code] = $customerAddress->getDataUsingMethod($code);
                     }
                 }
