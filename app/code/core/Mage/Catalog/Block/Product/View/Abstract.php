@@ -34,7 +34,10 @@ abstract class Mage_Catalog_Block_Product_View_Abstract extends Mage_Catalog_Blo
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        if (!$this->hasData('product')) {
+            $this->setData('product', Mage::registry('current_product'));
+        }
+        return $this->getData('product');
     }
 
     public function getTierPrices()
