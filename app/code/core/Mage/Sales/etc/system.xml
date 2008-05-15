@@ -188,7 +188,7 @@
                     <sort_order>50</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>0</show_in_store>
+                    <show_in_store>1</show_in_store>
                     <fields>
                         <active>
                             <label>Enable</label>
@@ -213,7 +213,7 @@
                             <frontend_type>textarea</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment>This message will be shown in shopping cart when subtotal after discount less than minimum amount</comment>
                         </description>
                         <error_message>
@@ -222,7 +222,7 @@
                             <frontend_type>textarea</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </error_message>
                         <multi_address>
                             <label>Validate each address separately in multi-address checkout</label>
@@ -239,7 +239,7 @@
                             <frontend_type>textarea</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment>If empty, the default description above will be used</comment>
                         </multi_address_description>
                         <multi_address_error_message>
@@ -248,7 +248,7 @@
                             <frontend_type>textarea</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment>If empty, the default error above will be used</comment>
                         </multi_address_error_message>
                     </fields>
