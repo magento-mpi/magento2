@@ -883,4 +883,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         return $this;
     }
+
+    public function getFieldset($name)
+    {
+        $fieldsetsRoot = 'global/fieldsets';
+        $node = $this->getNode($fieldsetsRoot.'/'.$name);
+        return $node ? $node->children() : null;
+    }
 }

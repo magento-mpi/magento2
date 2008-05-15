@@ -38,54 +38,28 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     protected $_billingAddressModel;
     protected $_shippingAddressModel;
 
-    protected $_requiredFields = array(
-        'firstname', 'lastname'
-    );
+    protected $_requiredFields = array();
 
     protected $_ignoreFields = array(
         'entity_id', 'attribute_set', 'attribute_set_id', 'type', 'type_id',
         'increment_id', 'store', 'group_id', 'created_in'
     );
 
-    protected $_billingFields = array(
-        'billing_street1', 'billing_street2', 'billing_city', 'billing_region',
-        'billing_country', 'billing_postcode', 'billing_telephone',
-        'billing_firstname', 'billing_lastname', 'billing_company',
-        'billing_fax'
-    );
+    protected $_billingFields = array();
 
-    protected $_billingMappedFields = array(
-        'billing_firstname' => 'firstname',
-        'billing_lastname'  => 'lastname'
-    );
+    protected $_billingMappedFields = array();
 
-    protected $_billingStreetFields = array(
-        'billing_street1', 'billing_street2'
-    );
+    protected $_billingStreetFields = array();
 
-    protected $_billingRequiredFields = array(
-        'billing_country', 'billing_postcode'
-    );
+    protected $_billingRequiredFields = array();
 
-    protected $_shippingFields = array(
-        'shipping_street1', 'shipping_street2', 'shipping_city', 'shipping_region',
-        'shipping_country', 'shipping_postcode', 'shipping_telephone',
-        'shipping_firstname', 'shipping_lastname', 'shipping_company',
-        'shipping_fax'
-    );
+    protected $_shippingFields = array();
 
-    protected $_shippingMappedFields = array(
-        'shipping_firstname' => 'firstname',
-        'shipping_lastname'  => 'lastname'
-    );
+    protected $_shippingMappedFields = array();
 
-    protected $_shippingStreetFields= array(
-        'shipping_street1', 'shipping_street2'
-    );
+    protected $_shippingStreetFields= array();
 
-    protected $_shippingRequiredFields = array(
-        'shipping_country', 'shipping_postcode'
-    );
+    protected $_shippingRequiredFields = array();
 
     protected $_regions;
     protected $_websites;
@@ -104,9 +78,9 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     {
         if (is_null($this->_customerModel)) {
             $object = Mage::getModel('customer/customer');
-            $this->_customerModel = Varien_Object_Cache::singleton()->save($object);
+            $this->_customerModel = Mage::objects()->save($object);
         }
-        return Varien_Object_Cache::singleton()->load($this->_customerModel);
+        return Mage::objects()->load($this->_customerModel);
     }
 
     /**
@@ -118,9 +92,9 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     {
         if (is_null($this->_billingAddressModel)) {
             $object = Mage::getModel('customer/address');
-            $this->_billingAddressModel = Varien_Object_Cache::singleton()->save($object);
+            $this->_billingAddressModel = Mage::objects()->save($object);
         }
-        return Varien_Object_Cache::singleton()->load($this->_billingAddressModel);
+        return Mage::objects()->load($this->_billingAddressModel);
     }
 
     /**
@@ -132,9 +106,9 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     {
         if (is_null($this->_shippingAddressModel)) {
             $object = Mage::getModel('customer/address');
-            $this->_shippingAddressModel = Varien_Object_Cache::singleton()->save($object);
+            $this->_shippingAddressModel = Mage::objects()->save($object);
         }
-        return Varien_Object_Cache::singleton()->load($this->_shippingAddressModel);
+        return Mage::objects()->load($this->_shippingAddressModel);
     }
 
     /**
@@ -244,6 +218,34 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             $this->setCustomer(Mage::getModel('customer/customer'));
         }
         //$this->setAddress(Mage::getModel('catalog/'))
+
+        foreach (Mage::getConfig()->getFieldset('customer_dataflow') as $code=>$node) {
+            if ((string)$node->billing) {
+                $this->_billingFields[] = 'billing_'.$code;
+            }
+            if ((int)$node->shipping) {
+                $this->_shippingFields[] = 'shipping_'.$code;
+            }
+            if ((string)$node->mapped || (string)$node->billing_mapped) {
+                $this->_billingMappedFields['billing_'.$code] = $code;
+            }
+            if ((string)$node->mapped || (string)$node->shipping_mapped) {
+                $this->_shippingMappedFields['shipping_'.$code] = $code;
+            }
+            if ((string)$node->street) {
+                $this->_billingStreetFields[] = 'billing_'.$code;
+                $this->_shippingStreetFields[] = 'shipping_'.$code;
+            }
+            if ((string)$node->required) {
+                $this->_requiredFields[] = $code;
+            }
+            if ((string)$node->billing_required) {
+                $this->_billingRequiredFields[] = 'billing_'.$code;
+            }
+            if ((string)$node->shipping_required) {
+                $this->_shippingRequiredFields[] = 'shipping_'.$code;
+            }
+        }
     }
 
     public function load()
@@ -316,13 +318,13 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
-        $id = Varien_Object_Cache::singleton()->save($customer);
+        $id = Mage::objects()->save($customer);
         Mage::register('Object_Cache_Customer', $id);
     }
 
     public function getCustomer()
     {
-        return Varien_Object_Cache::singleton()->load(Mage::registry('Object_Cache_Customer'));
+        return Mage::objects()->load(Mage::registry('Object_Cache_Customer'));
     }
 
     public function save()
@@ -629,8 +631,17 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         }
 
         return $this;
+    }
 
-        /* ########### THE CODE BELOW AT THIS METHOD DON'T USED ############# */
+    public function getCustomerId()
+    {
+        return $this->_customerId;
+    }
+
+    /* ########### THE CODE BELOW AT THIS METHOD IS NOT USED ############# */
+
+    public function saveRow__OLD()
+    {
 
         $mem = memory_get_usage(); $origMem = $mem; $memory = $mem;
         $customer = $this->getCustomer();
@@ -656,10 +667,5 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         }
         unset($row);
         return array('memory'=>$memory);
-    }
-
-    public function getCustomerId()
-    {
-        return $this->_customerId;
     }
 }

@@ -26,6 +26,40 @@
         </Mage_Customer>
     </modules>
     <global>
+        <fieldsets>
+            <customer_account>
+                <prefix><create>1</create><update>1</update></prefix>
+                <firstname><create>1</create><update>1</update></firstname>
+                <middlename><create>1</create><update>1</update></middlename>
+                <lastname><create>1</create><update>1</update></lastname>
+                <suffix><create>1</create><update>1</update></suffix>
+                <email><create>1</create><update>1</update></email>
+                <password><create>1</create></password>
+                <confirmation><create>1</create></confirmation>
+                <dob><create>1</create><update>1</update></dob>
+            </customer_account>
+
+            <customer_dataflow>
+                <prefix><billing>1</billing><shipping>1</shipping><mapped>1</mapped></prefix>
+                <firstname><billing>1</billing><shipping>1</shipping><required>1</required><mapped>1</mapped></firstname>
+                <middlename><billing>1</billing><shipping>1</shipping><mapped>1</mapped></middlename>
+                <lastname><billing>1</billing><shipping>1</shipping><required>1</required><mapped>1</mapped></lastname>
+                <suffix><billing>1</billing><shipping>1</shipping><mapped>1</mapped></suffix>
+                <street1><billing>1</billing><shipping>1</shipping><street>1</street></street1>
+                <street2><billing>1</billing><shipping>1</shipping><street>1</street></street2>
+                <street3><billing>1</billing><shipping>1</shipping><street>1</street></street3>
+                <street4><billing>1</billing><shipping>1</shipping><street>1</street></street4>
+                <city><billing>1</billing><shipping>1</shipping></city>
+                <region><billing>1</billing><shipping>1</shipping></region>
+                <country><billing>1</billing><shipping>1</shipping><billing_required>1</billing_required><shipping_required>1</shipping_required></country>
+                <postcode><billing>1</billing><shipping>1</shipping><billing_required>1</billing_required><shipping_required>1</shipping_required></postcode>
+                <telephone><billing>1</billing><shipping>1</shipping></telephone>
+                <company><billing>1</billing><shipping>1</shipping></company>
+                <fax><billing>1</billing><shipping>1</shipping></fax>
+            </customer_dataflow>
+
+        </fieldsets>
+
         <customer>
             <address>
                 <formats>
