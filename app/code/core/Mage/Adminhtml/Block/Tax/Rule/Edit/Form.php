@@ -103,6 +103,16 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
                 'required'  => true,
             )
         );
+        $fieldset->addField('priority', 'text',
+            array(
+                'name'      => 'priority',
+                'label'     => Mage::helper('tax')->__('Priority'),
+                'class'     => 'validate-not-negative-number',
+                'value'     => (int) $model->getPriority(),
+                'required'  => true,
+                'note'      => Mage::helper('tax')->__('Tax rates at the same priority are added, others are compounded.'),
+            )
+        );
 
         if ($model->getId() > 0 ) {
             $fieldset->addField('tax_rule_id', 'hidden',

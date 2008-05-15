@@ -135,7 +135,12 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 
         foreach ($rateTypeCollection as $rateType) {
             if ($rateModel->getId()) {
-                $value = 1*$rateModel->getRateDataCollection()->getItemByRateAndType($rateModel->getId(), $rateType->getTypeId())->getRateValue();
+                $rate = $rateModel->getRateDataCollection()->getItemByRateAndType($rateModel->getId(), $rateType->getTypeId());
+                if ($rate) {
+                    $value = 1*$rate->getRateValue();
+                } else {
+                    $value = '0.0000';
+                }
             }
             else {
                 $value = '0.0000';

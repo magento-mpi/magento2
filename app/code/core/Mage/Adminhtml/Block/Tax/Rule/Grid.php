@@ -41,6 +41,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareColumns()
     {
+        /*
         $this->addColumn('tax_rule_id',
             array(
                 'header'=>Mage::helper('tax')->__('ID'),
@@ -49,6 +50,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'index' => 'tax_rule_id'
             )
         );
+        */
 
         $this->addColumn('customer_class_name',
             array(
@@ -73,6 +75,14 @@ class Mage_Adminhtml_Block_Tax_Rule_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'header'=>Mage::helper('tax')->__('Tax Rate'),
                 'align' =>'left',
                 'index' => 'rate_type_name'
+            )
+        );
+
+        $this->addColumn('priority',
+            array(
+                'header'=>Mage::helper('tax')->__('Priority'),
+                'width' => '50px',
+                'index' => 'priority'
             )
         );
 
