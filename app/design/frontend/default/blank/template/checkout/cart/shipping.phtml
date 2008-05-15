@@ -49,7 +49,7 @@
 			<input  class="input-text" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>" />
 		</p>
 	</fieldset>	
-	<div class="button-set">
+	<div class="buttons-container">
 		<button type="button" onclick="coShippingMethodForm.submit()" class="form-button"><span><?php echo $this->__('Get a Quote') ?></span></button>
 	</div>
 </form>
@@ -60,7 +60,7 @@
 <?php if (($_shippingRateGroups = $this->getEstimateRates())): ?>
 
 <form id="co-shipping-method-form" action="<?php echo $this->getUrl('checkout/cart/estimateUpdatePost') ?>">
-    <dl class="shipment-methods">
+    <dl>
         <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
             <dt><?php echo $this->getCarrierName($code) ?></dt>
             <dd>
@@ -79,7 +79,7 @@
             </dd>
         <?php endforeach; ?>
     </dl>
-	<div class="button-set">
+	<div class="buttons-container">
 		<button type="submit" class="form-button" name="do" value="<?php echo $this->__('Update Total') ?>"><span><?php echo $this->__('Update Total') ?></span></button>
 	</div>
 </form>

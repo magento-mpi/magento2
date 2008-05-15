@@ -19,9 +19,9 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('All Tags') ?></h3>
+    <h2><?php echo $this->__('All Tags') ?></h2>
 </div>
-<div class="box base-mini mini-product-tags">
+<div class="box">
     <div class="content">
         <?php if( sizeof($this->getTags()) > 0 ): ?>
         <ul>
@@ -30,7 +30,7 @@
             <?php endforeach; ?>
         </ul>
         <?php else: ?>
-        <p class="a-center"><small><?php echo $this->__("Tags Aren't Available") ?></small></p>
+        <p><?php echo $this->__("Tags Aren't Available") ?></p>
         <?php endif; ?>
     </div>
 </div>

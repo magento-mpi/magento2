@@ -50,7 +50,134 @@
 
 .page-head h2 {}
 
+/********************** Columns */
 
+/* All */
+.col2-set, .col3-set, .col4-set, .col5-set { clear:both; }
+
+/* Col2 */
+.col2-set .col-1, .col2-set .col-2 { width:48.5%; }
+.col2-set .col-1 { float:left; }
+.col2-set .col-2 { float:right;}
+
+/* Col2-alt */
+.col2-alt-set .col-1 { width:32%; }
+.col2-alt-set .col-2 { width:65%; }
+.col2-alt-set .col-1 { float:left; }
+.col2-alt-set .col-2 { float:right;}
+
+/* Col3 */
+.col3-set .col-1, .col3-set .col-2, .col3-set .col-3 { float:left; width:31.3%; }
+.col3-set .col-1, .col3-set .col-2 { margin-right:3%; }
+
+/* Col4 */
+.col4-set .col-1, .col4-set .col-2, .col4-set .col-3, .col4-set .col-4 { float:left; width:22%; }
+.col4-set .col-1, .col4-set .col-2, .col4-set .col-3 { margin-right:4%; }
+
+/* Table Columns */
+table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; margin:0 !important; }
+.col3-set td.spacer { width:3%; }
+.col4-set td.spacer { width:4%; }
+
+
+/********************** Forms */
+
+/* Form Elements */
+input.input-text, select, textarea { }
+option, optgroup {}
+optgroup {}
+input.input-text, textarea {}
+input.form-radio {}
+.qty { width:2.5em; }
+.group-select label, .form-list label, .payment-methods label {}
+.input-text:focus, select:focus, textarea:focus { background:#edf7fd; outline:0; }
+.buttons-container { /* Container for form buttons*/
+    clear:both;
+    }
+.form-button, .form-button-alt {
+    overflow:visible;
+    width:auto;
+    border:0;
+    padding:1px 8px;
+    background:#f18200;
+    color:#fff;
+    border:1px solid #de5400;
+    font:bold 12px arial, sans-serif !important;
+    cursor:pointer;
+    text-align:center;
+    vertical-align:middle;
+    }
+.form-button span, .form-button-alt span {
+    white-space:nowrap;
+    }
+.form-button-alt {
+    border:1px solid #406a83;
+    background-color:#618499;
+    }
+a.form-button-alt {text-decoration:none; }
+.form-button-alt:hover { text-decoration:none; }
+.btn-checkout {
+    display:block;
+    float:right;
+    background:transparent url(../images/btn_proceed_to_checkout_rad.gif) no-repeat 100% 0;
+    font-size:15px;
+    font-weight:bold;
+    padding-right:8px;
+    }
+.btn-checkout, .btn-checkout:hover {
+    color:#fef5e5;
+    text-decoration:none;
+    }
+.btn-checkout span {
+    display:block;
+    padding:0 17px 0 25px;
+    background:transparent url(../images/btn_proceed_to_checkout_bg.gif) no-repeat;
+    line-height:40px;
+    }
+
+/* Form lists */
+.form-list li { margin-bottom:6px; }
+.form-list li .input-box .input-text, .form-list li .input-box textarea { width:250px; }
+.form-list li .input-box select { width:256px;}
+.form-list li.addElement { border-top:1px solid #DDD; padding-top:10px;}
+
+.group-select {
+    }
+.group-select .legend {
+    }
+.group-select li {}
+.group-select li .input-box { }
+.group-select li .input-text, .group-select li select, .group-select li textarea { }
+.group-select li .input-box .input-text, .group-select li .input-box textarea { }
+.group-select li .input-box select {}
+
+
+/* Form Messages */
+.validation-advice, .required { color:#EB340A; }
+.validation-advice {
+    clear:both;
+    min-height:15px;
+    margin-top:3px;
+    background:url(../images/validation_advice_bg.gif) no-repeat 2px 1px;
+    padding-left:17px;
+    font-size:.95em;
+    font-weight:bold;
+    line-height:1.25em;
+    }
+.validation-failed {
+    border:1px dashed #EB340A !important;
+    background:#faebe7 !important;
+    }
+label.required {
+    font-weight:bold;
+    }
+p.required {
+    font-size:.95em;
+    text-align:right;
+    }
+/*Expiration date and cvv number validation case */
+.input-box .v-fix {position:relative; display:inline; float:left;}
+.input-box .v-fix .validation-advice {position:relative; margin-right:-12em; float:left; display:inline; width:12em;}
 
 /********************** Messages  */
 .success { color:#3d6611; }
@@ -94,7 +221,10 @@
     float:left;
     position:relative;
     width:69px;
+	overflow:hidden;
     height:13px;
+	font-size:1px;
+	line-height:1;
     margin-right:5px;
     background:url(../images/bg_rating.gif) repeat-x 0 0;
     }
@@ -127,7 +257,7 @@
 
 
 /********************** Box */
-.box {}
+.box {border:1px solid red; padding:5px; margin:5px; overflow:hidden;}
 	.box h3 {}
 	.box h4 {}
 	.box .content {}
@@ -179,7 +309,18 @@
 	.additional-data {}
 	.up-sell {}
 	
-	
+
+
+.group-select li:after {
+	content:".";
+	display:block;
+	clear:both;
+	height:0;
+	font-size:0;
+	line-height:0em;
+	visibility:hidden;
+	overflow:hidden;
+	}	
 	
 	
 	

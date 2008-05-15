@@ -20,7 +20,7 @@
 ?>
 <?php  $_results = $this->getTrackingInfo() ?>
 <div class="shipping-tracking">
-<div class="button-set">
+<div class="buttons-container">
 <button class="form-button" onclick="window.close();window.opener.focus();"><span><?php echo $this->__('Close Window') ?></span></button>
 </div>
 <?php if(sizeof($_results)>0): ?>
@@ -111,7 +111,7 @@
                 <?php endif; ?>
                 <?php elseif(isset($track['title']) && isset($track['number']) && $track['number']): ?>
                 <!--if the tracking is custom value-->
-                  <tr>
+                <tr>
                     <td class="first label"><?php echo ($track['title'] ? $track['title'] : $this->__('N/A')); ?>:</td>
                     <td><?php echo (isset($track['number']) ? $track['number'] : ''); ?></td>
                 </tr>
@@ -143,7 +143,6 @@
                  decorateTable('track-history-table-<?php echo $track->getTracking(); ?>');
                 </script>
                 <?php endif; ?>
-
             <?php if($counter!=$rowCount): ?>
             <div class="divider"></div>
             <?php endif; ?>
@@ -159,6 +158,6 @@
     <div><?php echo $this->__('There is no tracking available.'); ?></div>
 <?php endif; ?>
 </div>
-<div class="button-set">
+<div class="buttons-container">
 <button class="form-button" onclick="window.close();window.opener.focus();"><span><?php echo $this->__('Close Window') ?></span></button>
 </div>

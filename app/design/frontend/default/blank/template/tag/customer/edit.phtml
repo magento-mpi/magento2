@@ -19,22 +19,16 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('Edit Tag') ?></h3>
+    <h2><?php echo $this->__('Edit Tag') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="post">
 <fieldset class="group-select">
-    <h4 class="legend"><?php echo $this->__('Tag Information') ?></h4>
-    <ul>
-        <li>
-            <div class="input-box">
-            <input type="text" class="input-text required-entry" style="width:300px;" name="tagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" />
-            </div>
-        </li>
-    </ul>
+    <h3 class="legend"><?php echo $this->__('Tag Information') ?></h3>
+    <p><input type="text" class="input-text required-entry" name="tagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" /></p>
 </fieldset>
-<div class="button-set">
-    <a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="left">&laquo; <?php echo $this->__('Back to view Tag') ?></a>
+<div class="buttons-container">
+    <a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>">&laquo; <?php echo $this->__('Back to view Tag') ?></a>
     <button class="form-button" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
 </div>
 </form>

@@ -30,8 +30,8 @@
     <tfoot>
 <?php $l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++ ?>
         <tr>
-            <td style="<?php echo $total->getStyle() ?>" class="a-right" colspan="3"><?php echo $total->getTitle() ?></td>
-            <td style="<?php echo $total->getStyle() ?>" class="a-right"><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></td>
+            <td style="<?php echo $total->getStyle() ?>" colspan="3"><?php echo $total->getTitle() ?></td>
+            <td style="<?php echo $total->getStyle() ?>"><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></td>
         </tr>
 <?php endforeach ?>
     </tfoot>
@@ -42,9 +42,9 @@
                 <?php echo $this->htmlEscape($item->getName()) ?>
                 <?php echo $this->helper('checkout')->getQuoteItemProductDescription($item) ?>
             </td>
-            <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getCalculationPrice()) ?></td>
-            <td class="a-center"><?php echo $item->getQty()*1 ?></td>
-            <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getRowTotal()) ?></td>
+            <td><?php echo $this->helper('checkout')->formatPrice($item->getCalculationPrice()) ?></td>
+            <td><?php echo $item->getQty()*1 ?></td>
+            <td><?php echo $this->helper('checkout')->formatPrice($item->getRowTotal()) ?></td>
         </tr>
 <?php endforeach ?>
     </tbody>

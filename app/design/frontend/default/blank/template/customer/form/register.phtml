@@ -26,14 +26,14 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('Create an Account') ?></h3>
+    <h2><?php echo $this->__('Create an Account') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate">
     <fieldset class="group-select wide">
     <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
     <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
-        <h4 class="legend"><?php echo $this->__('Personal Information') ?></h4>
+        <h3 class="legend"><?php echo $this->__('Personal Information') ?></h3>
         <ul>
             <li>
                 <div class="input-box">
@@ -60,7 +60,7 @@
 <?php if($this->getShowAddressFields()): ?>
     <input type="hidden" name="create_address" value="1" />
     <fieldset class="group-select wide">
-        <h4 class="legend"><?php echo $this->__('Address Information') ?></h4>
+        <h3 class="legend"><?php echo $this->__('Address Information') ?></h3>
         <ul>
             <li>
                 <div class="input-box">
@@ -111,7 +111,7 @@
     <input type="hidden" name="default_shipping" value="1" />
 <?php endif; ?>
     <fieldset class="group-select wide">
-        <h4 class="legend"><?php echo $this->__('Login Information') ?></h4>
+        <h3 class="legend"><?php echo $this->__('Login Information') ?></h3>
         <ul>
             <li>
                 <div class="input-box">
@@ -125,9 +125,9 @@
             </li>
         </ul>
     </fieldset>
-    <div class="button-set">
+    <div class="buttons-container">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-        <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
+        <a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back') ?></a>
         <button class="form-button" type="submit"><span><?php echo $this->__('Submit') ?></span></button>
     </div>
 </form>

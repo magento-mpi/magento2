@@ -53,10 +53,10 @@
         <li>
             <a class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item->getThumbnailObject(), 'thumbnail')->resize(50, 50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($_item->getProductName()) ?>" width="50" height="50" /></a>
             <div class="product-details">
-                <a href="<?php echo $this->getRemoveItemUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a>
                 <h5><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $_item->getProductName() ?></a></h5>
                 <?php echo $_item->getProductDescription() ?>
                 <p><strong><?php echo 1*$_item->getQty() ?></strong> x <?php echo Mage::helper('core')->currency($_item->getPrice()) ?></p>
+                <a href="<?php echo $this->getRemoveItemUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a>				
             </div>
         </li>
     <?php endforeach; ?>

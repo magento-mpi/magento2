@@ -20,7 +20,7 @@
 ?>
 
 <div class="page-head">
-    <h3><?php echo $this->__('Your order has been received') ?></h3>
+    <h2><?php echo $this->__('Your order has been received') ?></h2>
 </div>
 <p><strong><?php echo $this->__('Thank you for your purchase!') ?></strong></p>
 <p>
@@ -30,6 +30,6 @@
     <?php echo $this->__('Click <a href="%s" target="_blank">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
     <?php endif;?>
 </p>
-<div class="button-set">
+<div class="buttons-container">
     <button class="form-button" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><?php echo $this->__('Continue Shopping') ?></span></button>
 </div>

@@ -58,7 +58,7 @@
     </table>
     <script type="text/javascript">decorateTable('wishlist-table')</script>
     <?php if($this->isSaleable()):?>
-    <div class="button-set">
+    <div class="buttons-container">
         <button onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="form-button"  type="button"><span><?php echo $this->__('Add All to Cart') ?></span></button>&nbsp;
     </div>
     <?php endif;?>

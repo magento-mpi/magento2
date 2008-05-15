@@ -21,7 +21,7 @@
 <div class="col2-set">
     <div class="col-1">
         <div class="inner-head">
-            <h5><?php echo $this->__('Contact Information') ?></h5>
+            <h4><?php echo $this->__('Contact Information') ?></h4>
             <a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
         </div>
         <p>
@@ -31,12 +31,9 @@
             <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo $this->__('Change Password') ?></a>
         </p>
     </div>
-
     <div class="col-2">
-        <div class="inner-head">
-            <h5><?php echo $this->__('Newsletters') ?></h5>
-            <a href="<?php echo $this->getUrl('newsletter/manage') ?>">Edit</a>
-        </div>
+        <h4><?php echo $this->__('Newsletters') ?></h4>
+        <a href="<?php echo $this->getUrl('newsletter/manage') ?>">Edit</a>
         <p>
             <?php if( $this->getIsSubscribed() ): ?>
                 <?php echo $this->__("You are currently subscribed to 'General Subscription'.") ?>
@@ -46,4 +43,4 @@
         </p>
     </div>
 </div>
-<br />
+

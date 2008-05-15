@@ -26,22 +26,24 @@
  */
 ?>
 <?php if($this->getItemCount()): ?>
-<div class="col-1 upsell">
-    <h4><?php echo $this->__('Based on your selection, you may be interested in the following items:') ?></h4>
-    <ul class="generic-product-list">
+<div class="box">
+    <h3><?php echo $this->__('Based on your selection, you may be interested in the following items:') ?></h3>
+    <ul class="product-list">
     <?php foreach ($this->getItems() as $_item): ?>
         <li>
-            <a href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image" /></a>
+            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image" /></a>
             <div class="product-shop">
-                <h5><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                <h4><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_item) ?>
-                <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button><br/>
-                <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                <small><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a></small>
-                <?php endif; ?>
-                <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?><br/>
-                <small><a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></small>
-                <?php endif; ?>
+                <p><button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
+				<p>
+	                <?php if ($this->helper('wishlist')->isAllow()) : ?>
+	                <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+	                <?php endif; ?>
+	                <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?><br/>
+	                <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+	                <?php endif; ?>
+				</p>	
             </div>
         </li>
     <?php endforeach; ?>

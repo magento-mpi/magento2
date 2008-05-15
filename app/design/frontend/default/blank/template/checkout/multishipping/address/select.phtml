@@ -18,17 +18,16 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="page-head button-level">
-    <h3><?php echo $this->__('Change Billing Address') ?></h3>
+<div class="page-head">
+    <h2><?php echo $this->__('Change Billing Address') ?></h2>
     <button class="form-button-alt" onclick="setLocation('<?php echo $this->getAddNewUrl() ?>')"><span><?php echo $this->__('Add New Address') ?></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="content-box">
+<div class="box">
 <?php $_index=0 ?>
 <?php foreach ($this->getAddressCollection() as $_address): ?>
-    <?php if($_index%3==0): ?><div class="col3-set box-set"><?php endif; ?>
+    <?php if($_index%3==0): ?><div class="col3-set"><?php endif; ?>
     <div class="col-<?php echo ($_index%3+1) ?>">
-        <div class="box">
             <p class="actions">
                 <a href="<?php echo $this->getEditAddressUrl($_address) ?>"><?php echo $this->__('Edit Address') ?></a><span class="separator">|</span>
                 <a href="<?php echo $this->getSetAddressUrl($_address) ?>"><strong><?php echo $this->__('Select Address') ?></strong></a>
@@ -42,13 +41,12 @@
                 <br/><strong><?php echo $this->__('Default Shipping') ?></strong>
                 <?php endif; ?>
             </address>
-        </div>
     </div>
     <?php if($_index && $_index%3==0): ?></div><br/><?php endif; ?>
 <?php $_index++ ?>
 <?php endforeach; ?>
 <?php if(!$_index || $_index%3!=0): ?></div><br/><?php endif; ?>
 </div>
-<div class="button-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>
+<div class="buttons-container">
+    <a href="<?php echo $this->getBackUrl() ?>"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>
 </div>

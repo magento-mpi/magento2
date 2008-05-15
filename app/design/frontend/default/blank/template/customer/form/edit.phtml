@@ -19,12 +19,12 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('Edit Account Information') ?></h3>
+    <h2><?php echo $this->__('Edit Account Information') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate">
 <fieldset class="group-select">
-    <h4 class="legend"><?php echo $this->__('Account Information') ?></h4>
+    <h3 class="legend"><?php echo $this->__('Account Information') ?></h3>
     <ul>
         <li>
             <div class="input-box">
@@ -38,16 +38,15 @@
         </li>
         <li>
             <div class="input-box">
-            <label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
-            <input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="required-entry validate-email input-text" />
+				<label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
+				<input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="required-entry validate-email input-text" />
             </div>
         </li>
     </ul>
 </fieldset>
-<p><input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> /> <label for="change_password"><?php echo $this->__('Change Password') ?></label>
-</p>
+<p><input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> /> <label for="change_password"><?php echo $this->__('Change Password') ?></label></p>
 <fieldset class="group-select" style="display:none">
-    <h4 class="legend"><?php echo $this->__('Change Password') ?></h4>
+    <h3 class="legend"><?php echo $this->__('Change Password') ?></h3>
     <ul>
         <li>
             <div class="input-box">
@@ -67,7 +66,7 @@
         </li>
     </ul>
 </fieldset>
-<div class="button-set">
+<div class="buttons-container">
     <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
     <button type="submit" class="form-button"><span><?php echo $this->__('Save') ?></span></button>

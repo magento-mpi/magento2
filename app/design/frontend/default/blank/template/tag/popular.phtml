@@ -18,18 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="box base-mini mini-product-tags">
-    <div class="head">
-        <h4><?php echo $this->__('Popular Tags'); ?></h4>
-    </div>
-    <div class="content">
+<div class="box">
+    <h3><?php echo $this->__('Popular Tags'); ?></h3>
     <ul>
         <?php foreach ($this->getTags() as $_tag): ?>
             <li><a href="<?php echo $_tag->getTaggedProductsUrl() ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
         <?php endforeach; ?>
     </ul>
-    </div>
     <div class="actions">
-        <a href="<?php echo $this->getUrl('tag/list') ?>"><small><?php echo $this->__('View All Tags') ?></small></a>
+        <a href="<?php echo $this->getUrl('tag/list') ?>"><?php echo $this->__('View All Tags') ?></a>
     </div>
 </div>

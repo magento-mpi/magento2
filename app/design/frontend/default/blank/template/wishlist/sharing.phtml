@@ -19,12 +19,12 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('Share Your Wishlist') ?></h3>
+    <h2><?php echo $this->__('Share Your Wishlist') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSendUrl() ?>" id="form-validate" method="post">
 <fieldset class="group-select">
-    <h4 class="legend"><?php echo $this->__('Sharing Information') ?></h4>
+    <h3 class="legend"><?php echo $this->__('Sharing Information') ?></h3>
     <ul class="form-list">
         <li>
             <label for="email_address"><?php echo $this->__('Email addresses, separated by commas') ?> <span class="required">*</span></label><br/>
@@ -42,9 +42,9 @@
         <?php endif; ?>
     </ul>
 </fieldset>
-<div class="button-set">
+<div class="buttons-container">
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-    <a href="<?php echo $this->getUrl('*/')?>" class="left">&laquo; <?php echo $this->__('Back')?></a>
+    <a href="<?php echo $this->getUrl('*/')?>">&laquo; <?php echo $this->__('Back')?></a>
     <button type="submit" class="form-button"><span><?php echo $this->__('Share Wishlist') ?></span></button>
 </div>
 </form>

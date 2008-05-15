@@ -27,7 +27,7 @@
 ?>
 <?php if($this->getTitle()): ?>
 <div class="page-head">
-    <h3><?php echo $this->getTitle() ?></h3>
+    <h2><?php echo $this->getTitle() ?></h2>
 </div>
 <?php endif; ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -35,7 +35,7 @@
     <fieldset class="group-select">
     <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
     <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
-        <h4 class="legend"><?php echo $this->__('Contact Information') ?></h4>
+        <h3 class="legend"><?php echo $this->__('Contact Information') ?></h3>
         <ul>
             <li>
                 <div class="input-box">
@@ -64,7 +64,7 @@
         </ul>
     </fieldset>
     <fieldset class="group-select">
-         <h4 class="legend"><?php echo $this->__('Address') ?></h4>
+        <h3 class="legend"><?php echo $this->__('Address') ?></h3>
         <ul>
             <li>
                 <label for="street_1"><?php echo $this->__('Street Address') ?> <span class="required">*</span></label><br />
@@ -121,7 +121,7 @@
             </li>
         </ul>
     </fieldset>
-    <div class="button-set">
+    <div class="buttons-container">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
         <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
         <button class="form-button" type="submit"><span><?php echo $this->__('Save Address') ?></span></button>

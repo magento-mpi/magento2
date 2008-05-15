@@ -19,23 +19,21 @@
  */
 ?>
 <div class="page-head">
-    <h3><?php echo $this->__('My Tags') ?></h3>
+    <h2><?php echo $this->__('My Tags') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->getTags()): ?>
     <p><?php echo $this->__('Click on a tag to view your corresponding products.') ?></p>
-    <div class="box base-mini mini-product-tags">
-        <div class="content">
-            <ul>
-                <?php foreach ($this->getTags() as $_tag): ?>
-                    <li><a href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+    <div class="box">
+		<ul>
+			<?php foreach ($this->getTags() as $_tag): ?>
+				<li><a href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
+			<?php endforeach; ?>
+		</ul>
     </div>
 <?php else: ?>
     <p><?php echo $this->__('You have not tagged any products yet.') ?></p>
 <?php endif; ?>
-<div class="button-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
+<div class="buttons-container">
+    <a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back') ?></a>
 </div>

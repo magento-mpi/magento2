@@ -22,7 +22,7 @@
     <h3><?php echo $this->__('Discount Codes') ?></h3>
     <form id="discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
 	    <fieldset>
-		    <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label>
+		    <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label><br />
 		    <input type="hidden" name="remove" id="remove-coupone" value="0"/>
 		    <?php if(!strlen($this->getCouponCode())): ?>
 		    <input class="input-text" id="coupon_code" name="coupon_code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>" />
