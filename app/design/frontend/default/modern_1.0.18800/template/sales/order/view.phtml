@@ -98,10 +98,10 @@ function giftMessageToogle(giftMessageIdentifier)
                 <div class="f-left">
                      <ul>
                         <li>
-                            <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
+                            <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
                         </li>
                         <li>
-                            <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
+                            <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
                         </li>
                         <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_item) ?></li>
                      </ul>
