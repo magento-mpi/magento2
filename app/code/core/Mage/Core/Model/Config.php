@@ -886,8 +886,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     public function getFieldset($name)
     {
-        $fieldsetsRoot = 'global/fieldsets';
-        $node = $this->getNode($fieldsetsRoot.'/'.$name);
+        $node = $this->_xml->global->fieldsets->$name;
         return $node ? $node->children() : null;
     }
 }
