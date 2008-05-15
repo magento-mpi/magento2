@@ -18,12 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="account-box ad-orders">
+<div class="box">
 <?php $_orders = $this->getOrders(); ?>
-    <div class="head">
-        <h4><?php echo $this->__('Recent Orders') ?></h4>
-        <?php if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
-    </div>
+    <h3><?php echo $this->__('Recent Orders') ?></h3>
+	<?php if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
 <?php if( sizeof($_orders->getItems()) > 0 ): ?>
     <table cellspacing="0" class="data-table" id="my-orders-table">
         <thead>
@@ -45,7 +43,7 @@
                     <td><?php echo $this->htmlEscape($_order->getShippingAddress()->getName()) ?>&nbsp;</td>
                     <td><?php echo $_order->formatPrice($_order->getGrandTotal()) ?>&nbsp;</td>
                     <td><em><?php echo $_order->getStatusLabel() ?></em>&nbsp;</td>
-                    <td class="last a-center"><a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
+                    <td><a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
                         <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
                         	<span class="separator">|</span>
                         	<a href="<?php echo $this->getReorderUrl($_order) ?>" style="font-weight: bold; color: #FF6600;"><?php echo $this->__('Reorder') ?></a>
