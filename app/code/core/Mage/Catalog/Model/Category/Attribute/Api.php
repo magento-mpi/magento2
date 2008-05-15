@@ -32,6 +32,11 @@ class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_R
         $this->_storeIdSessionField = 'category_store_id';
     }
 
+    /**
+     * Retrieve category attributes
+     *
+     * @return array
+     */
     public function items()
     {
         $attributes = Mage::getModel('catalog/category')->getAttributes();
@@ -62,7 +67,7 @@ class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_R
     }
 
      /**
-     * Retrieve attribute options
+     * Retrieve category attribute options
      *
      * @param int $attributeId
      * @param string|int $store

@@ -165,16 +165,37 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         return $result;
     }
 
-    public function info($categoryId, $store = null, $attributes = null)
+    /**
+     * Initilize and return category model
+     *
+     * @param int $categoryId
+     * @param string|int $store
+     * @return Mage_Catalog_Model_Category
+     */
+    protected function _initCategory($categoryId, $store = null)
     {
         $category = Mage::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store))
             ->load($categoryId);
-        /* @var $category Mage_Catalog_Model_Category */
 
         if (!$category->getId()) {
             $this->_fault('not_exists');
         }
+
+        return $category;
+    }
+
+    /**
+     * Retrieve category data
+     *
+     * @param int $categoryId
+     * @param string|int $store
+     * @param array $attributes
+     * @return array
+     */
+    public function info($categoryId, $store = null, $attributes = null)
+    {
+        $category = $this->_initCategory($categoryId, $store);
 
         // Basic category data
         $result = array();
@@ -236,14 +257,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function update($categoryId, $categoryData, $store = null)
     {
-        $category = Mage::getModel('catalog/category')
-            ->setStoreId($this->_getStoreId($store))
-            ->load($categoryId);
-        /* @var $category Mage_Catalog_Model_Category */
-
-        if (!$category->getId()) {
-            $this->_fault('not_exists');
-        }
+        $category = $this->_initCategory($categoryId, $store);
 
         foreach ($category->getAttributes() as $attribute) {
             if ($this->_isAllowedAttribute($attribute)
@@ -306,14 +320,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function delete($categoryId)
     {
-        $category = Mage::getModel('catalog/category')
-            ->setStoreId(Mage_Catalog_Model_Category::DEFAULT_STORE_ID)
-            ->load($categoryId);
-
-        /* @var $category Mage_Catalog_Model_Category */
-        if (!$category->getId()) {
-            $this->_fault('not_exists');
-        }
+        $category = $this->_initCategory($categoryId);
 
         try {
             $category->delete();
@@ -323,4 +330,104 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         return true;
     }
+
+    /**
+     * Retrieve list of assigned products to category
+     *
+     * @param int $categoryId
+     * @return array
+     */
+    public function assignedProducts($categoryId)
+    {
+        $category = $this->_initCategory($categoryId);
+
+        $collection = $category->getProductCollection();
+
+        $result = array();
+
+        foreach ($collection as $product) {
+            $result[] = array(
+                'product_id' => $product->getId(),
+                'type'       => $product->getTypeId(),
+                'set'        => $product->getAttributeSetId(),
+                'sku'        => $product->getSku(),
+                'position'   => $product->getPosition()
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Assign product to category
+     *
+     * @param int $categoryId
+     * @param int $productId
+     * @param int $position
+     * @return boolean
+     */
+    public function assignProduct($categoryId, $productId, $position)
+    {
+        $category = $this->_initCategory($categoryId);
+        $positions = $category->getProductsPosition();
+        $positions[$productId] = $position;
+        $category->setProductsPosition($positions);
+
+        try {
+            $category->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('invalid_data', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    /**
+     * Update product assignment
+     *
+     * @param int $categoryId
+     * @param int $productId
+     * @param int $position
+     * @return boolean
+     */
+    public function updateProduct($categoryId, $productId, $position)
+    {
+        $category = $this->_initCategory($categoryId);
+        $positions = $category->getProductsPosition();
+        if (!isset($positions[$productId])) {
+            $this->_fault('product_not_assigned');
+        }
+        $positions[$productId] = $position;
+        $category->setProductsPosition($positions);
+
+        try {
+            $category->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('invalid_data', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    /**
+     * Remove product assignment from category
+     *
+     * @param int $categoryId
+     * @param int $productId
+     * @return boolean
+     */
+    public function removeProduct($categoryId, $productId)
+    {
+        $category = $this->_initCategory($categoryId);
+        $positions = $category->getProductsPosition();
+        if (!isset($positions[$productId])) {
+            $this->_fault('product_not_assigned');
+        }
+
+        unset($positions[$productId]);
+        $category->setProductsPosition($positions);
+
+        return true;
+    }
+
 } // Class Mage_Catalog_Model_Category_Api End

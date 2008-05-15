@@ -27,6 +27,12 @@
  */
 class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
 {
+    protected $_filtersMap = array(
+        'product_id' => 'entity_id',
+        'set'        => 'attribute_set_id',
+        'type'       => 'type_id'
+    );
+
     public function __construct()
     {
         $this->_storeIdSessionField = 'product_store_id';
@@ -50,6 +56,10 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         if (is_array($filters)) {
             try {
                 foreach ($filters as $field => $value) {
+                    if (isset($this->_filtersMap[$field])) {
+                        $field = $this->_filtersMap[$field];
+                    }
+
                     $collection->addFieldToFilter($field, $value);
                 }
             } catch (Mage_Core_Exception $e) {
