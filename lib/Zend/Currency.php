@@ -170,11 +170,11 @@ class Zend_Currency
                         $type = 2;
                         $position = $tmp;
                     }
-                    
+
                     if (!is_null($position)) {
                         $number = iconv_substr($symbol, 0, $position);
                         $sign = iconv_substr($symbol, $position+1);
-                        
+
                         if (($type == 1 && $number <= $value) || ($type == 2 && $number < $value)) {
                             $options['symbol'] = $sign;
                         }
