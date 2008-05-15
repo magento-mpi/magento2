@@ -972,7 +972,7 @@ class Mage_Core_Model_App
         }
         @fwrite($fp, serialize($data));
         @fclose($fp);
-        chmod($filename, 0666);
+        @chmod($filename, 0666);
         return $this;
     }
 
