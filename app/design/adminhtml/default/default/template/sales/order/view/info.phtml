@@ -93,6 +93,12 @@
                 <td class="value"><strong><?php echo $_groupName ?></strong></td>
             </tr>
             <?php endif; ?>
+            <?php if ($_dob=$this->getOrder()->getCustomerDob()) : ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Date of Birth') ?></label></td>
+                <td class="value"><strong><?php echo Mage::helper('core')->formatDate($_dob, 'medium') ?></strong></td>
+            </tr>
+            <?php endif; ?>
             </table>
             </div>
         </div>
