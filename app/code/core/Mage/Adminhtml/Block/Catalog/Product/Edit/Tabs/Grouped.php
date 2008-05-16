@@ -13,35 +13,29 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Catalog product bundle option link model
+ * admin edit tabs for grouped product
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
- class Mage_Catalog_Model_Product_Bundle_Option_Link extends Mage_Core_Model_Abstract
- {
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Grouped extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs
+{
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
 
-
-     protected function _construct()
-     {
-         $this->_init('catalog/product_bundle_option_link');
-     }
-
-     public function getDataForSave()
-     {
-         $data = array();
-         $data['product_id'] = $this->getProductId();
-         $data['option_id'] = $this->getOptionId();
-         $data['discount'] = ( $this->getDiscount()=='' ? null : $this->getDiscount() );
-
-         return $data;
-     }
- }
+        $this->addTab('super', array(
+            'label'     => Mage::helper('catalog')->__('Associated Products'),
+            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')
+                ->setProductId($this->getRequest()->getParam('id'))
+                ->toHtml(),
+        ));
+    }
+}

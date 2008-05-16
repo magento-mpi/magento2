@@ -37,18 +37,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
     protected function _prepareLayout()
     {
-        $product = Mage::registry('product');
+        $product = $this->getProduct();
 
         if (!($setId = $product->getAttributeSetId())) {
             $setId = $this->getRequest()->getParam('set', null);
         }
 
-        if ($product->isConfigurable()
-            && !($superAttributes = $product->getTypeInstance()->getUsedProductAttributeIds())) {
-            $superAttributes = false;
-        }
-
-        if ($setId && (!$product->isConfigurable() || $superAttributes !== false ) ) {
+        if ($setId) {
             $groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
                 ->setAttributeSetFilter($setId)
                 ->load();
@@ -150,34 +145,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                             ->toHtml(),
                 ));
             }
-
-            if ($product->isBundle()) {
-
-                $this->addTab('bundle', array(
-                    'label' => Mage::helper('catalog')->__('Bundle'),
-                    'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_bundle')->toHtml(),
-                ));
-            }
-
-            if ($product->isGrouped()) {
-                $this->addTab('super', array(
-                    'label' => Mage::helper('catalog')->__('Associated Products'),
-                    'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')->toHtml()
-                ));
-            }
-            elseif ($product->isConfigurable()) {
-                $this->addTab('configurable', array(
-                    'label' => Mage::helper('catalog')->__('Associated Products'),
-                    'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_config', 'admin.super.config.product')->toHtml()
-                ));
-            }
-        }
-        elseif ($setId) {
-            $this->addTab('super_settings', array(
-                'label'     => Mage::helper('catalog')->__('Configurable Product Settings'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_settings')->toHtml(),
-                'active'    => true
-            ));
         }
         else {
             $this->addTab('set', array(
@@ -187,5 +154,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             ));
         }
         return parent::_prepareLayout();
+    }
+
+    /**
+     * Retrive product object from object if not from registry
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct()
+    {
+        if (!($this->getData('product') instanceof Mage_Catalog_Model_Product)) {
+            $this->setData('product', Mage::registry('product'));
+        }
+        return $this->getData('product');
     }
 }

@@ -40,9 +40,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProduct()
     {
-    	$productId  = (int) $this->getRequest()->getParam('id');
+        $productId  = (int) $this->getRequest()->getParam('id');
         $product    = Mage::getModel('catalog/product')
-        	->setStoreId($this->getRequest()->getParam('store', 0));
+            ->setStoreId($this->getRequest()->getParam('store', 0));
 
         if (!$productId) {
             if ($setId = (int) $this->getRequest()->getParam('set')) {
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
 
             if ($typeId = $this->getRequest()->getParam('type')) {
-            	$product->setTypeId($typeId);
+                $product->setTypeId($typeId);
             }
         }
 
@@ -130,7 +130,20 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function newAction()
     {
-        $this->_forward('edit');
+        $product = $this->_initProduct();
+
+        if ($this->getRequest()->getParam('popup')) {
+            $this->loadLayout('popup');
+        } else {
+            $this->loadLayout(array(
+                'default',
+                'admin_catalog_product_'.$product->getTypeId()
+            ));
+            $this->_setActiveMenu('catalog/products');
+        }
+
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->renderLayout();
     }
 
     /**
@@ -138,28 +151,22 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
-        if ($this->getRequest()->getParam('popup')) {
-            $this->loadLayout('popup');
-        } else {
-            $this->loadLayout();
-            $this->_setActiveMenu('catalog/products');
+        $product = $this->_initProduct();
+
+        $this->loadLayout(array(
+            'default',
+            'admin_catalog_product_'.$product->getTypeId()
+        ));
+
+        $this->_setActiveMenu('catalog/products');
+
+        if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
+            $switchBlock->setDefaultStoreName($this->__('Default Values'))
+                ->setWebsiteIds($product->getWebsiteIds())
+                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)));
         }
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-        $product = $this->_initProduct();
-
-        if ($product->getId() && !Mage::app()->isSingleStoreMode()) {
-            $this->_addLeft(
-                $this->getLayout()->createBlock('adminhtml/store_switcher')
-                    ->setDefaultStoreName($this->__('Default Values'))
-                    ->setWebsiteIds($product->getWebsiteIds())
-                    ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)))
-            );
-        }
-
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_edit'));
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/catalog_product_edit_tabs', 'product_tabs'));
-        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('catalog/product/js.phtml'));
 
         $this->renderLayout();
     }
@@ -397,9 +404,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _decodeInput($encoded)
     {
-    	parse_str($encoded, $data);
+        parse_str($encoded, $data);
         foreach($data as $key=>$value) {
-        	parse_str(base64_decode($value), $data[$key]);
+            parse_str(base64_decode($value), $data[$key]);
         }
 
         return $data;

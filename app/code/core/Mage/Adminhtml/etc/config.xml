@@ -416,6 +416,9 @@
                 <adminhtml>
                     <file>main.xml</file>
                 </adminhtml>
+                <catalog>
+                    <file>catalog.xml</file>
+                </catalog>
             </updates>
         </layout>
     </adminhtml>

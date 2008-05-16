@@ -667,11 +667,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $newProduct;
     }
 
-    public function isBundle()
-    {
-        return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE;
-    }
-
     public function isSuperGroup()
     {
         return $this->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
