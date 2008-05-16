@@ -143,6 +143,10 @@
                         <label>Configurable Product</label>
                         <model>catalog/product_type_configurable</model>
                     </configurable>
+                    <virtual translate="label" module="catalog">
+                        <label>Virtual Product</label>
+                        <model>catalog/product_type_virtual</model>
+                    </virtual>
                 </type>
             </product>
         </catalog>
