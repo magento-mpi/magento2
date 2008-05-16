@@ -199,7 +199,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                         } elseif ($children != self::REINDEX_CHILDREN_ALL && $children != self::REINDEX_CHILDREN_GROUPED && $parent['type_id'] == Mage_Catalog_Model_Product_Type::TYPE_GROUPED) {
                         } else {
                             $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
-                            $this->reindexAttributes($childrenIds, $attributeIds, $store, $parent['entity_id'], $table);
+                            if ($childrenIds !== false) {
+                                $this->reindexAttributes($childrenIds, $attributeIds, $store, $parent['entity_id'], $table);
+                            }
                         }
                     }
                 }
@@ -262,7 +264,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             if ($nonSimple) {
                 foreach ($nonSimple as $parent) {
                     $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
-                    $this->reindexTiers($childrenIds, $store, $parent['entity_id']);
+                    if ($childrenIds !== false) {
+                        $this->reindexTiers($childrenIds, $store, $parent['entity_id']);
+                    }
                 }
             }
         }
@@ -298,7 +302,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                     unset($products[array_search($parent['entity_id'], $products)]);
 
                 $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
-                $minimal = $this->_getMinimalPrices($childrenIds, $store);
+                if ($childrenIds !== false) {
+                    $minimal = $this->_getMinimalPrices($childrenIds, $store);
+                }
                 if (is_array($minimal)) {
                     foreach ($minimal as $price) {
                         $this->_insert('catalogindex/minimal_price', array($store->getId(), $parent['entity_id'], $price['customer_group_id'], $price['minimal_value']));
@@ -365,7 +371,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             if ($nonSimple) {
                 foreach ($nonSimple as $parent) {
                     $childrenIds = $this->getProductChildrenFilter($parent['entity_id'], $parent['type_id'], $store);
-                    $this->reindexFinalPrices($childrenIds, $store, $parent['entity_id']);
+                    if ($childrenIds !== false) {
+                        $this->reindexFinalPrices($childrenIds, $store, $parent['entity_id']);
+                    }
                 }
             }
         }
