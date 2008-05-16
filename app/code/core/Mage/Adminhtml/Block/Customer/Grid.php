@@ -39,11 +39,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('customer/customer_collection')
-            ->addAttributeToSelect('firstname')
-            ->addAttributeToSelect('lastname')
-            ->addExpressionAttributeToSelect('name',
-                'CONCAT({{firstname}}, " ", {{lastname}})',
-                array('firstname', 'lastname'))
+            ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('group_id')

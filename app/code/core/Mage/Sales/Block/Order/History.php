@@ -34,6 +34,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('sales/order/history.phtml');
 
+        //TODO: add full name logic
         $orders = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')

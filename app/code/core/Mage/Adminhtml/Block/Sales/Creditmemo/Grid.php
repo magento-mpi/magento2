@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
+        //TODO: add full name logic
         $collection = Mage::getResourceModel('sales/order_Creditmemo_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')

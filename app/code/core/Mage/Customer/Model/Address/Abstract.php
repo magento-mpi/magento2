@@ -261,10 +261,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
      */
     public function getHtmlFormat()
     {
-        return "{{firstname}} {{lastname}}<br/>
-            {{street}}<br/>
-            {{city}}, {{regionName}} {{postcode}}<br/>
-            T: {{telephone}}";
+        return $this->getConfig()->getFormatByCode('html');
     }
 
     /**

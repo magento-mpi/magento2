@@ -1044,6 +1044,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         if (empty($this->_shipments)) {
             if ($this->getId()) {
+                //TODO: add full name logic
                 $this->_shipments = Mage::getResourceModel('sales/order_shipment_collection')
                     ->addAttributeToSelect('increment_id')
                     ->addAttributeToSelect('created_at')

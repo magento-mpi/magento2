@@ -36,7 +36,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
 
     public function __construct()
     {
-        parent::__construct(Mage::getConfig()->getNode('global/customer/address'));
+        parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
     }
 
     public function getFormats()

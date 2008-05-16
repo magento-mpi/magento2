@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
 
     protected function _prepareCollection()
     {
+        //TODO: add full name logic
         $collection = Mage::getResourceModel('sales/order_invoice_collection')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')

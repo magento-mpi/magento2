@@ -27,6 +27,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 {
     protected $_config;
     protected $_streetLines;
+    protected $_formatTemplate = array();
 
     /**
      * Addresses url
@@ -75,5 +76,11 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
             $this->_streetLines = min(4, max(1, (int)$lines));
         }
         return $this->_streetLines;
+    }
+
+    public function getFormat($code)
+    {
+        $format = Mage::getSingleton('customer/address_config')->getFormatByCode($code);
+        return $format->getRenderer() ? $format->getRenderer()->getFormat() : '';
     }
 }

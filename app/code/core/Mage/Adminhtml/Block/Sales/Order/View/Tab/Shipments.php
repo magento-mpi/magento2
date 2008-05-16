@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
+        //TODO: add full name logic
         $collection = Mage::getResourceModel('sales/order_shipment_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')

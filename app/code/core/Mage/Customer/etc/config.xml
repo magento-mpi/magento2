@@ -28,11 +28,11 @@
     <global>
         <fieldsets>
             <customer_account>
-                <prefix><create>1</create><update>1</update></prefix>
-                <firstname><create>1</create><update>1</update></firstname>
-                <middlename><create>1</create><update>1</update></middlename>
-                <lastname><create>1</create><update>1</update></lastname>
-                <suffix><create>1</create><update>1</update></suffix>
+                <prefix><create>1</create><update>1</update><name>1</name></prefix>
+                <firstname><create>1</create><update>1</update><name>1</name></firstname>
+                <middlename><create>1</create><update>1</update><name>1</name></middlename>
+                <lastname><create>1</create><update>1</update><name>1</name></lastname>
+                <suffix><create>1</create><update>1</update><name>1</name></suffix>
                 <email><create>1</create><update>1</update></email>
                 <password><create>1</create></password>
                 <confirmation><create>1</create></confirmation>
@@ -116,6 +116,10 @@ T: {{var telephone}}
 {{depend fax}}<br/>F: {{var fax}}{{/depend}}|
             ]]></defaultFormat>
                     </pdf>
+                    <js_template template="title" module="customer">
+                        <title>Javascript Template</title>
+                        <defaultFormat><![CDATA[#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}<br/>#{company}<br/>#{street0}<br/>#{street1}<br/>#{street2}<br/>#{street3}<br/>#{city}, #{region}, #{postcode}<br/>#{country_id}<br/>T: #{telephone}<br/>F: #{fax}]]></defaultFormat>
+                    </js_template>
                 </formats>
             </address>
         </customer>

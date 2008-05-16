@@ -314,6 +314,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     public function joinCustomerName()
     {
+        //TODO: add full name logic
         $this->joinAttribute('firstname', 'customer/firstname', 'customer_id');
         $this->joinAttribute('lastname', 'customer/lastname', 'customer_id');
         $this->getSelect()->from("", array('name' => 'CONCAT(_table_firstname.value," ", _table_lastname.value)'));

@@ -36,6 +36,7 @@ class Mage_Reports_Model_Mysql4_Quote_Collection extends Mage_Sales_Model_Entity
 
     public function addCustomerName()
     {
+        //TODO: add full name logic
         $this->joinAttribute('customer_firstname', 'customer/firstname', 'customer_id')
             ->joinAttribute('customer_lastname', 'customer/lastname', 'customer_id')
             ->addExpressionAttributeToSelect(

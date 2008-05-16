@@ -26,8 +26,7 @@
 		<div class="col-1">
 			<h3><?php echo $this->__('Billing Information') ?></h3>
 			<address>
-					<?php echo $order->getAddressByType('billing')->toString('{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
-					{{telephone}}') ?>
+					<?php echo $order->getAddressByType('billing')->format('html') ?>
 			</address>
 		</div>
 		<div class="col-2">
@@ -39,8 +38,7 @@
 		<div class="col-1">
 			<h3><?php echo $this->__('Shipping Information') ?></h3>
 			<address>
-				<?php echo $order->getAddressByType('shipping')->toString('{{firstname}} {{lastname}}<br/>{{street}}<br/>{{city}}, {{regionName}} {{postcode}}<br/>T: 
-				{{telephone}}') ?>
+				<?php echo $order->getAddressByType('shipping')->format('html') ?>
 			</address>
 		</div>
 		<div class="col-2">

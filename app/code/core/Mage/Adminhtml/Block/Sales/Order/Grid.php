@@ -39,6 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareCollection()
     {
+        //TODO: add full name logic
         $collection = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')

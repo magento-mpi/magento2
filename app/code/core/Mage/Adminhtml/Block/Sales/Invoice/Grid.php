@@ -36,6 +36,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareCollection()
     {
+        //TODO: add full name logic
         $collection = Mage::getResourceModel('sales/order_invoice_collection')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')

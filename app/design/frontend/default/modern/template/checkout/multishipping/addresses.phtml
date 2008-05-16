@@ -71,7 +71,7 @@
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="f-left"><?php echo $this->__('&laquo; Back to Shopping Cart') ?></a>
-    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_continue.gif') ?>" alt="<?php echo $this->__('Continue to Shipping Information') ?>" onclick="$('can_continue_flag').value=1"/>
+    <input type="image" src="<?php echo $this->getSkinUrl('images/btn_continue.gif') ?>" alt="<?php echo $this->__('Continue to Shipping Information') ?>" onclick="$('can_continue_flag').value=1" <?php if ($this->isContinueDisabled()):?>disabled="disabled" style="border-color:#999; background-color:#ccc;"<?php endif ?> />
 </div>
 </fieldset>
 </form>
