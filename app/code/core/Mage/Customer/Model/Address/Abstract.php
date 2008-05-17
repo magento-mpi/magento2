@@ -81,6 +81,31 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         }
     }
 
+    public function getStreet1()
+    {
+        return $this->getSteet(1);
+    }
+
+    public function getStreet2()
+    {
+        return $this->getSteet(2);
+    }
+
+    public function getStreet3()
+    {
+        return $this->getStreet(3);
+    }
+
+    public function getStreet4()
+    {
+        return $this->getStreet(4);
+    }
+
+    public function getStreetFull()
+    {
+        return $this->getData('street');
+    }
+
     /**
      * set address street informa
      *
@@ -94,24 +119,6 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
         }
         $this->setData('street', $street);
         return $this;
-    }
-
-    /**
-     * get address data
-     *
-     * @param   string $key
-     * @param   int $index
-     * @return  mixed
-     */
-    public function getData($key='', $index=null)
-    {
-        if (strncmp($key, 'street', 6)===0) {
-            $index = substr($key, 6);
-            if (!is_numeric($index)) {
-                $index = null;
-            }
-        }
-        return parent::getData($key, $index);
     }
 
     /**

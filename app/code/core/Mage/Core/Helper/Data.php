@@ -290,4 +290,25 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $types;
     }
+
+    public function copyFieldset($fieldset, $aspect, Varien_Object $source, Varien_Object $target)
+    {
+        $result = false;
+
+        $fields = Mage::getConfig()->getFieldset($fieldset);
+        if (!$fields) {
+            return $result;
+        }
+
+        foreach ($fields as $code=>$node) {
+            if (empty($node->$aspect)) {
+                continue;
+            }
+            $targetCode = (string)$node->$aspect == '*' ? $code : (string)$node->$aspect;
+            $target->setDataUsingMethod($targetCode, $source->getDataUsingMethod($code));
+            $result = true;
+        }
+
+        return $result;
+    }
 }
