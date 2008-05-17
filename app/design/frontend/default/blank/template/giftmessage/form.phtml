@@ -20,8 +20,8 @@
 ?>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/giftmessage.js') ?>"></script>
 <?php if(!$this->getSaveMode()): ?>
-<div class="page-head">
-    <h2><?php echo $this->__('Gift Message') ?></h2>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('Gift Message') ?></h2>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
     <ul class="form-list">
@@ -54,10 +54,10 @@
     </div>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
-<h2><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
+<h2 class="page-head"><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
 <p><button class="form-button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
 <?php else: ?>
-<h2><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
+<h2 class="page-head"><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
 <p><button class="form-button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
 <?php endif; ?>
 <script type="text/javascript">

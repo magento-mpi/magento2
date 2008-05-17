@@ -19,8 +19,8 @@
  */
 ?>
 <?php $_orders = $this->getOrders(); ?>
-<div class="page-head">
-    <h2><?php echo $this->__('My Orders') ?></h2>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('My Orders') ?></h2>
 </div>
 <?php echo $this->getPagerHtml(); ?>
 <?php if($_orders->getSize()): ?>

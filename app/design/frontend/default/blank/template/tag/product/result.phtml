@@ -19,8 +19,8 @@
  */
 ?>
 <?php if( $this->getTagInfo()->getName() ): ?>
-    <div class="page-head">
-        <h2><?php echo $this->__("Products tagged with '%s'", $this->htmlEscape($this->getTagInfo()->getName())) ?></h2>
+    <div class="page-head-container">
+        <h2 class="page-head"><?php echo $this->__("Products tagged with '%s'", $this->htmlEscape($this->getTagInfo()->getName())) ?></h2>
     </div>
 <?php endif; ?>
 <?php echo $this->getListHtml() ?>

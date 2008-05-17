@@ -18,31 +18,24 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="page-head">
-    <h3><?php echo $this->__('Review Order') ?></h3>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('Review Order') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="multi-address-checkout-box">
-
     <div class="box">
-        <h4 class="legend"><?php echo $this->__('Shipping Information') ?></h4>
-        <div class="clear"></div>
-        <div class="content col2-set">
+        <h3><?php echo $this->__('Shipping Information') ?></h3>
+        <div class="col2-set">
             <div class="col-1">
-                <div class="head">
-                    <h4><?php echo $this->__('Shipping Address') ?><span class="separator">|</span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
-                </div>
+                <h4><?php echo $this->__('Shipping Address') ?><span> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
                 <address>
                     <?php echo $this->getShippingAddress()->getFormated(true) ?>
                 </address>
             </div>
             <div class="col-2">
-                <div class="head">
-                    <h4><?php echo $this->__('Shipping Method') ?></h4>
-                </div>
+				<h4><?php echo $this->__('Shipping Method') ?></h4>
 
                 <?php if (!($_shippingRateGroups = $this->getShippingRates())): ?>
-                    <strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+                    <p><strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong></p>
                 <?php else: ?>
 
                 <form method="post" action="<?php echo $this->getUrl('paypal/express/saveShippingMethod') ?>">
@@ -66,8 +59,7 @@
                         </optgroup>
                     <?php endforeach; ?>
                     </select>
-                    <br /><br />
-                    <button id="update_shipping_method" class="form-button" type="submit"><span><?php echo $this->__('Update Shipping Method') ?></span></button>
+                    <p class="actions"><button id="update_shipping_method" class="form-button" type="submit"><span><?php echo $this->__('Update Shipping Method') ?></span></button></p>
                 </form>
 
                 <?php endif; ?>
@@ -77,22 +69,13 @@
      </div>
 
     <div class="box">
-        <h4 class="legend"><?php echo $this->__('Billing Information') ?></h4>
-        <div class="clear"></div>
-
-        <div class="content">
-            <div class="head">
-                <h4><?php echo $this->__('Payment Method') ?><span class="separator">|</span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
-            </div>
-            <?php echo $this->__('PayPal Account') ?><br />
-            <?php echo $this->getBillingAddress()->getEmail() ?>
-
-        </div>
+        <h3><?php echo $this->__('Billing Information') ?></h3>
+		<h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+		<p><?php echo $this->__('PayPal Account') ?><br />
+		<?php echo $this->getBillingAddress()->getEmail() ?></p>
     </div>
 
-    <div class="head" style="margin-top:-11px">
-        <h4><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator">|</span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h4>
-    </div>
+    <h3><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator">|</span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
 
     <div id='details-reload'>
         <?php echo $this->getChildHtml('details') ?>
@@ -102,7 +85,7 @@
     <br/>
 
     <form method="post" action="<?php echo $this->getUrl('paypal/express/saveOrder') ?>">
-        <p class="a-right">
+        <p>
             <span id="review-please-wait" style="display:none;" class="opc-please-wait">
                 <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
             </span>
@@ -112,9 +95,6 @@
         </p>
     </form>
 
-    <div class="clear"></div>
-
-</div>
 
 <script type="text/javascript">
     $('update_shipping_method') && $('update_shipping_method').hide();

@@ -26,8 +26,8 @@
  */
 ?>
 <?php if($this->getTitle()): ?>
-<div class="page-head">
-    <h2><?php echo $this->getTitle() ?></h2>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->getTitle() ?></h2>
 </div>
 <?php endif; ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>

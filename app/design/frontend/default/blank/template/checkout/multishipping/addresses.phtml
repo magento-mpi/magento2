@@ -26,12 +26,12 @@
  */
 ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
-<div class="page-head button-level">
-    <h2><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
+</div>
     <button class="form-button-alt" type="submit" onclick="$('add_new_address_flag').value=1">
         <span><?php echo $this->__('Enter a New Address') ?></span>
     </button>
-</div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <fieldset>
     <input type="hidden" name="continue" value="0" id="can_continue_flag"/>
@@ -44,7 +44,7 @@
         <thead>
             <tr>
                 <th><?php echo $this->__('Product') ?></th>
-                <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                <th><?php echo $this->__('Qty') ?></th>
                 <th><?php echo $this->__('Send to') ?></th>
                 <th><?php echo $this->__('Remove') ?></th>
             </tr>

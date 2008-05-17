@@ -24,25 +24,25 @@
  * @var $test Mage_Customer_Block_Address_Book
  */
 ?>
-<div class="page-head button-level">
-    <h3><?php echo $this->__('Address Book') ?></h3>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('Address Book') ?></h2>
     <button class="form-button" onclick="window.location='<?php echo $this->getAddAddressUrl() ?>';"><span><?php echo $this->__('Add New Address') ?></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="col2-set">
-    <div class="col-1 primary-address-list">
-        <h4><?php echo $this->__('Default Addresses') ?></h4>
+    <div class="col-1">
+        <h3><?php echo $this->__('Default Addresses') ?></h3>
         <ol>
         <?php if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
             <li>
-                <h5><?php echo $this->__('Default Billing Address') ?></h5>
+                <h4><?php echo $this->__('Default Billing Address') ?></h4>
                 <address>
                 <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
                 <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></strong></address>
            </li>
            <?php elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
            <li>
-                <h5><?php echo $this->__('Default Billing Address') ?></h5>
+                <h4><?php echo $this->__('Default Billing Address') ?></h4>
                 <address>
                     <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
                     <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></strong>
@@ -50,12 +50,12 @@
             </li>
             <?php else: ?>
             <li>
-                <h5><?php echo $this->__('Default Billing Address') ?></h5>
+                <h4><?php echo $this->__('Default Billing Address') ?></h4>
                 <?php echo $this->__('You have no default billing address in your address book.') ?></li>
             <?php endif ?>
             <?php if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
             <li>
-                <h5><?php echo $this->__('Default Shipping Address') ?></h5>
+                <h4><?php echo $this->__('Default Shipping Address') ?></h4>
                 <address>
                     <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
                     <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></strong>
@@ -63,20 +63,20 @@
             </li>
             <?php elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
             <li>
-                <h5><?php echo $this->__('Default Shipping Address') ?></h5><address>
+                <h4><?php echo $this->__('Default Shipping Address') ?></h4><address>
                 <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
                 <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></strong>
                 </address>
             </li>
             <?php else: ?>
             <li>
-                <h5><?php echo $this->__('Default Shipping Address') ?></h5><?php echo $this->__('You have no default shipping address in your address book.') ?>
+                <h4><?php echo $this->__('Default Shipping Address') ?></h4><?php echo $this->__('You have no default shipping address in your address book.') ?>
             </li>
             <?php endif ?>
         </ol>
     </div>
-    <div class="col-2 address-list">
-        <h4><?php echo $this->__('Additional Address Entries') ?></h4>
+    <div class="col-2">
+        <h3><?php echo $this->__('Additional Address Entries') ?></h3>
         <ol>
         <?php if($_pAddsses = $this->getAdditionalAddresses()): ?>
             <?php foreach($_pAddsses as $_address): ?>

@@ -19,8 +19,8 @@
  */
 ?>
 
-<div class="page-head">
-    <h2><?php echo $this->__('Newsletter Subscription') ?></h2>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('Newsletter Subscription') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getAction() ?>" method="post" id="form-validate">

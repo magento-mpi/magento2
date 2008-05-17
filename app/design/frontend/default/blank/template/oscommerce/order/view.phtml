@@ -22,14 +22,14 @@
 <?php  $_order = $_orderSummary['order'] ?>
 <?php $_currency = $_order['currency_symbol'] ? $_order['currency_symbol']: $_order['currency']?>
 
-<div class="page-head button-level">
-    <h3><?php echo $this->__('Order') ?> #<?php echo $_order['orders_id'] ?></h3>
+<div class="page-head-container">
+    <h2 class="page-head"><?php echo $this->__('Order') ?> #<?php echo $_order['orders_id'] ?></h2>
 </div>
 <p><?php echo $this->__('Order Date:')?> <?php echo $this->formatDate($_order['date_purchased'], 'medium', false) ?></p>
 
-<div class="col2-set generic-box">
+<div class="col2-set">
     <div class="col-1">
-        <h4><?php echo $this->__('Shipping Address') ?></h4>
+        <h3><?php echo $this->__('Shipping Address') ?></h3>
         <address>
 <?php echo $_order['delivery_name'] ?><br />
 <?php echo $_order['delivery_street_address'] ?><br />
@@ -50,16 +50,16 @@ T: <?php echo $_order['customers_telephone'] ?>
     ?>
     <?php if (isset($_shippingMethod)) :?>
     <div class="col-2">
-        <h4><?php echo $this->__('Shipping Method') ?></h4>
+        <h3><?php echo $this->__('Shipping Method') ?></h3>
         <?php echo $_shippingMethod?>
     </div>
     <?php endif; ?>
 </div>
 
 
-<div class="col2-set generic-box">
+<div class="col2-set">
     <div class="col-1">
-        <h4><?php echo $this->__('Billing Address') ?></h4>
+        <h3><?php echo $this->__('Billing Address') ?></h3>
         <address>
 <?php echo $_order['billing_name'] ?><br />
 <?php echo $_order['billing_street_address'] ?><br />
@@ -71,12 +71,12 @@ T: <?php echo $_order['customers_telephone'] ?>
         </address>
     </div>
     <div class="col-2">
-        <h4>Payment Method</h4>
+        <h3>Payment Method</h3>
         <?php echo $_order['payment_method'] ?>
     </div>
 </div>
 
-<h4><?php echo $this->__('Items Ordered') ?></h4>
+<h3><?php echo $this->__('Items Ordered') ?></h3>
 
 <table cellspacing="0" id="my-orders-table" class="data-table">
     <thead>
@@ -84,8 +84,8 @@ T: <?php echo $_order['customers_telephone'] ?>
             <th><?php echo $this->__('Product Name') ?></th>
             <th width="5%"><?php echo $this->__('SKU') ?></th>
             <th width="10%"><?php echo $this->__('Price') ?></th>
-            <th width="6%" class="a-center wrap"><?php echo $this->__('Qty Ordered') ?></th>
-            <th width="10%" class="a-right"><?php echo $this->__('Subtotal') ?></th>
+            <th width="6%"><?php echo $this->__('Qty Ordered') ?></th>
+            <th width="10%"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
     <?php if (isset($_orderSummary['products'])): ?>
@@ -93,10 +93,10 @@ T: <?php echo $_order['customers_telephone'] ?>
         <?php foreach($_orderSummary['products'] as $product) :?>
         <tr id="order-item-row-3" class="odd first last">
            <td><?php echo $product['products_name'] ?></td>
-           <td class="nowrap"><?php echo $product['products_model'] ?></td>
-           <td class="nowrap a-right"><span class="nobr"><?php echo  $_currency.' '.number_format($product['products_price'],2) ?></span> </td>
-           <td class="a-center"><?php echo $product['products_quantity'] ?></td>
-           <td class="last a-right nowrap"><span class="nobr"><?php echo  $_currency.' '.number_format($product['final_price'],2) ?></span> </td>
+           <td><?php echo $product['products_model'] ?></td>
+           <td><span class="nobr"><?php echo  $_currency.' '.number_format($product['products_price'],2) ?></span> </td>
+           <td><?php echo $product['products_quantity'] ?></td>
+           <td><span class="nobr"><?php echo  $_currency.' '.number_format($product['final_price'],2) ?></span> </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -106,8 +106,8 @@ T: <?php echo $_order['customers_telephone'] ?>
     <tfoot>
         <?php foreach ($_orderSummary['total'] as $total) :?>
         <tr class="<?php echo ($count == 1? 'first': ($count == $_total ? 'last' :'')) ?>">
-            <td class="a-right" colspan="4"><?php echo $total['title'] ?></td>
-            <td class="last a-right"><span class="nobr"> <?php echo $_currency.' '.number_format($total['value'],2) ?></span></td>
+            <td colspan="4"><?php echo $total['title'] ?></td>
+            <td><span class="nobr"> <?php echo $_currency.' '.number_format($total['value'],2) ?></span></td>
         </tr>
             <?php $count++; ?>
         <?php endforeach; ?>
@@ -116,16 +116,14 @@ T: <?php echo $_order['customers_telephone'] ?>
 </table>
 
 <?php if (isset($_orderSummary['history'])): ?>
-    <div class="clear">&nbsp;</div>
-    <h4><?php echo $this->__('About Your Order') ?></h4>
-    <div>
-        <dl>
-            <?php foreach ($_orderSummary['history'] as $_historyItem): ?>
-                <dt><?php echo $this->formatDate($_historyItem['date_added'], 'medium', true) ?> | <?php echo $_historyItem['orders_status'] ?> </dt>
-                <dd><?php echo $_historyItem['comments'] ?></dd>
-            <?php endforeach; ?>
-        </dl>
-    </div>
+
+    <h3><?php echo $this->__('About Your Order') ?></h3>
+	<dl>
+		<?php foreach ($_orderSummary['history'] as $_historyItem): ?>
+			<dt><?php echo $this->formatDate($_historyItem['date_added'], 'medium', true) ?> | <?php echo $_historyItem['orders_status'] ?> </dt>
+			<dd><?php echo $_historyItem['comments'] ?></dd>
+		<?php endforeach; ?>
+	</dl>
 <?php endif; ?>
 
 <div class="buttons-container">
