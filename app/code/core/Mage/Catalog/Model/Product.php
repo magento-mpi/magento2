@@ -1119,4 +1119,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->_getData('rating_summary');
     }
 
+    /**
+     * Check is product composite
+     *
+     * @return bool
+     */
+    public function isComposite()
+    {
+        return $this->getTypeInstance()->isComposite();
+    }
+
 }

@@ -32,6 +32,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected $_typeId;
     protected $_setAttributes;
     protected $_editableAttributes;
+    protected $_isComposite = false;
 
     /**
      * Specify type instance product
@@ -137,9 +138,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function getAttributeById($attributeId)
     {
         foreach ($this->getSetAttributes() as $attribute) {
-        	if ($attribute->getId() == $attributeId) {
-        	    return $attribute;
-        	}
+            if ($attribute->getId() == $attributeId) {
+                return $attribute;
+            }
         }
         return null;
     }
@@ -178,5 +179,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function save()
     {
         return $this;
+    }
+
+    /**
+     * Check if product is composite (grouped, configurable, etc)
+     *
+     * @return bool
+     */
+    public function isComposite()
+    {
+        return $this->_isComposite;
     }
 }

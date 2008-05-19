@@ -29,6 +29,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
 {
     protected $_associatedProducts  = null;
     protected $_associatedProductIds= null;
+    protected $_isComposite = true;
 
     /**
      * Retrieve array of associated products
@@ -43,7 +44,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                 ->addAttributeToSelect('*')
                 ->setPositionOrder();
             foreach ($collection as $product) {
-            	$this->_associatedProducts[] = $product;
+                $this->_associatedProducts[] = $product;
             }
         }
         return $this->_associatedProducts;
@@ -59,7 +60,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
         if (is_null($this->_associatedProductIds)) {
             $this->_associatedProductIds = array();
             foreach ($this->getAssociatedProducts() as $product) {
-            	$this->_associatedProductIds[] = $product->getId();
+                $this->_associatedProductIds[] = $product->getId();
             }
         }
         return $this->_associatedProductIds;
@@ -91,7 +92,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
 
         $salable = false;
         foreach ($this->getAssociatedProducts() as $product) {
-        	$salable = $salable || $product->isSalable();
+            $salable = $salable || $product->isSalable();
         }
         return $salable;
     }
