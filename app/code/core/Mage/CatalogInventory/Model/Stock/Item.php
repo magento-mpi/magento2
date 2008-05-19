@@ -33,6 +33,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const XML_PATH_BACKORDERS   = 'cataloginventory/options/backorders';
     const XML_PATH_CAN_SUBTRACT = 'cataloginventory/options/can_subtract';
     const XML_PATH_NOTIFY_STOCK_QTY = 'cataloginventory/options/notify_stock_qty';
+    const XML_PATH_MANAGE_STOCK = 'cataloginventory/options/manage_stock';
 
     protected function _construct()
     {
@@ -79,6 +80,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function subtractQty($qty)
     {
+        if (!$this->getManageStock()) {
+            return $this;
+        }
         $config = Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
         if (!$config) {
             return $this;
@@ -90,6 +94,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
     public function addQty($qty)
     {
+        if (!$this->getManageStock()) {
+            return $this;
+        }
         $config = Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
         if (!$config) {
             return $this;
@@ -180,6 +187,14 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return (int) Mage::getStoreConfig(self::XML_PATH_BACKORDERS);
         }
         return $this->getData('backorders');
+    }
+
+    public function getManageStock()
+    {
+        if ($this->getUseConfigManageStock()) {
+            return (int) Mage::getStoreConfigFlag(self::XML_PATH_MANAGE_STOCK);
+        }
+        return $this->getData('manage_stock');
     }
 
     /**
@@ -344,6 +359,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
     public function getIsInStock()
     {
+        if (!$this->getManageStock()) {
+            return true;
+        }
         return $this->_getData('is_in_stock');
     }
 

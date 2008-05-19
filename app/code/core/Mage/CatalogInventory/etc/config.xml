@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.7.1</version>
+            <version>0.7.2</version>
         </Mage_CatalogInventory>
     </modules>
     <global>
@@ -203,6 +203,7 @@
     <default>
         <cataloginventory>
             <options>
+                <manage_stock>1</manage_stock>
                 <backorders>0</backorders>
                 <can_subtract>1</can_subtract>
                 <max_sale_qty>10000</max_sale_qty>
