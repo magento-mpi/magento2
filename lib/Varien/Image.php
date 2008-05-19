@@ -123,9 +123,32 @@ class Varien_Image
      * @access public
      * @return void
      */
-    public function resize($width=null, $height=null)
+    public function resize($width = null, $height = null, $keepProportion = true)
     {
-        $this->_getAdapter()->resize($width, $height);
+        $this->_getAdapter()
+            ->setKeepProportion((bool)$keepProportion)
+            ->resize($width, $height)
+        ;
+    }
+
+    /**
+     * Passthrough to adapter
+     *
+     * @return void
+     */
+    public function setFillOnResize($flag)
+    {
+        $this->_getAdapter()->setFillOnResize($flag);
+    }
+
+    /**
+     * Passthrough to Varien_Image
+     *
+     * @return void
+     */
+    public function setFillColorOnResize($RGBAlphaArray)
+    {
+        $this->_getAdapter()->setFillColorOnResize($RGBAlphaArray);
     }
 
     /**

@@ -141,51 +141,69 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         }
     }
 
-    public function resize($dstWidth=null, $dstHeight=null)
+    public function resize($frameWidth = null, $frameHeight = null)
     {
-        if( !isset($dstWidth) && !isset($dstHeight) ) {
-            throw new Exception("Invalid image dimensions.");
+        if(null === $frameWidth && null === $frameHeight) {
+            throw new Exception('Invalid image dimensions.');
         }
 
-        if( !isset($dstWidth) ) {
-            $width2height = $this->_imageSrcWidth / $this->_imageSrcHeight;
-            $dstWidth = round($dstHeight * $width2height);
-        } elseif( !isset($dstHeight) ) {
-            $height2width = $this->_imageSrcHeight / $this->_imageSrcWidth;
-            $dstHeight = round($dstWidth * $height2width);
-        }
+        // setup initial image properties
+        $srcWidth  = $this->_imageSrcWidth;
+        $srcHeight = $this->_imageSrcHeight;
+        $srcX = 0;
+        $srcY = 0;
+        $dstX = 0;
+        $dstY = 0;
+        $keepAspectRatio = (bool)$this->_keepProportion;
+        $doFill          = (bool)$this->_fillOnResize;
+        $fillColor       = $this->_fillColorOnResize;
 
-        if( $this->keepProportion() ) {
-            if ($this->_imageSrcWidth / $this->_imageSrcHeight >= $dstWidth / $dstHeight) {
-                $width = $dstWidth;
-                $xOffset = 0;
-
-                $height = round(($width / $this->_imageSrcWidth) * $this->_imageSrcHeight);
-                $yOffset = round(($dstHeight - $height) / 2);
+        // get rid of one of dimensions, if filling is disabled (!)
+        if ((!$doFill) && $keepAspectRatio) {
+            if ($frameWidth > $frameHeight) {
+                $frameHeight = null;
             } else {
-                $height = $dstHeight;
-                $yOffset = 0;
-
-                $width = round(($height / $this->_imageSrcHeight) * $this->_imageSrcWidth);
-                $xOffset = round(($dstWidth - $width) / 2);
+                $frameWidth = null;
             }
-        } else {
-            $xOffset = 0;
-            $yOffset = 0;
-            $width = $dstWidth;
-            $height = $dstHeight;
         }
 
-        $imageNewHandler = imagecreatetruecolor($dstWidth, $dstHeight);
-
-        if ($this->_fileType == IMAGETYPE_PNG) {
-            $this->_saveAlpha($imageNewHandler);
+        // calculate lacking dimension (width or height)
+        if (null === $frameWidth) {
+            $frameWidth = round($frameHeight * ($srcWidth / $srcHeight));
+        }
+        elseif (null === $frameHeight) {
+            $frameHeight = round($frameWidth * ($srcHeight / $srcWidth));
         }
 
-        imagecopyresampled($imageNewHandler, $this->_imageHandler, $xOffset, $yOffset, 0, 0, $width, $height, $this->_imageSrcWidth, $this->_imageSrcHeight);
+        // create new image
+        $newImage = imagecreatetruecolor($frameWidth, $frameHeight);
 
-        $this->_imageHandler = $imageNewHandler;
+        // define coordinates of image inside new frame
+        $dstWidth  = $frameWidth;
+        $dstHeight = $frameHeight;
+        if ($doFill && $keepAspectRatio) {
+            if ($srcWidth / $srcHeight >= $frameWidth / $frameHeight) {
+                $dstHeight = round(($dstWidth / $srcWidth) * $srcHeight);
+                $dstY = round(($frameHeight - $dstHeight) / 2);
+            } else {
+                $dstWidth = round(($dstHeight / $srcHeight) * $srcWidth);
+                $dstX = round(($frameWidth - $dstWidth) / 2);
+            }
 
+            // fill new image frame (supports alpha transparency)
+            list($r, $g, $b, $alpha) = $fillColor;
+            if (null !== $alpha) {
+                $backgroundColor = imagecolorallocatealpha($newImage, $r, $g, $b, abs($alpha));
+            } else {
+                $backgroundColor = imagecolorallocate($newImage, $r, $g, $b);
+            }
+            imagefill($newImage, 0, 0, $backgroundColor);
+            // imagefilledrectangle($newImage, 0, 0, $frameWidth, $frameHeight, $backgroundColor);
+        }
+
+        // resize soruce image and copy it to new frame
+        imagecopyresampled($newImage, $this->_imageHandler, $dstX, $dstY, $srcX, $srcY, $dstWidth, $dstHeight, $srcWidth, $srcHeight);
+        $this->_imageHandler = $newImage;
         $this->refreshImageDimensions();
     }
 

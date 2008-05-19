@@ -29,6 +29,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 {
     protected $_width;
     protected $_height;
+    protected $_keepAspectRatio;
+    protected $_fillOnResize;
+    protected $_fillColorOnResize;
     protected $_baseFile;
     protected $_newFile;
     protected $_processor;
@@ -69,17 +72,27 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     /**
      * @return Mage_Catalog_Model_Product_Image
      */
+    public function setKeepAspectRatio($keep = true)
+    {
+        $this->_keepAspectRatio = (bool)$keep;
+        return $this;
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product_Image
+     */
     public function setSize($size)
     {
-        $size = explode('x', strtolower($size));
-        if( sizeof($size) < 2 ) {
-            $this->setWidth(null)
-                ->setHeight(null);
-            return $this;
+        // determine width and height from string
+        list($width, $height) = @explode('x', strtolower($size), 2);
+        foreach (array('width', 'height') as $wh) {
+            $$wh  = @(int)$$wh;
+            if (empty($$wh))
+                $$wh = null;
         }
 
-        $this->setWidth( ($size[0] > 0) ? $size[0] : null )
-            ->setHeight( ($size[1] > 0) ? $size[1] : null );
+        // set sizes
+        $this->setWidth($width)->setHeight($height);
 
         return $this;
     }
@@ -135,49 +148,81 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Convert array of 4 items (decimal r, g, b, alpha) to string of their hex values
+     *
+     * @param array $RGBAlphaArray
+     * @return string
+     */
+    private function _rgbAlphaToString($RGBAlphaArray)
+    {
+        $result = array();
+        foreach ($RGBAlphaArray as $value) {
+            if (null === $value) {
+                $result[] = 'null';
+            }
+            else {
+                $result[] = sprintf('%02s', dechex($value));
+            }
+        }
+        return implode($result);
+    }
+
+    /**
+     * Set filenames for base file and new file
+     *
+     * $file should contain heading slash
+     *
+     * @param string $file
      * @return Mage_Catalog_Model_Product_Image
      */
     public function setBaseFile($file)
     {
+        // build base filename
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
         if ($file && $file != 'no_selection' && !$this->_checkMemory($baseDir . '/' . $file)) {
             $file = null;
         }
-        if( !$file || $file == 'no_selection') {
-            if(Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" ) && file_exists($baseDir . '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" )) ) {
-                $file = '/placeholder/' . Mage::getStoreConfig( "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder" );
+        if (!$file || $file == 'no_selection') {
+            if (Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder") && file_exists($baseDir . '/placeholder/' . Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder"))) {
+                $file = '/placeholder/' . Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
             } else {
                 $baseDir = Mage::getDesign()->getSkinBaseDir();
-                if( file_exists( $baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) ) {
+                if (file_exists($baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg")) {
                     $file = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 }
             }
             $baseFile = $baseDir . $file;
         } else {
             $baseFile = $baseDir . '/' . $file;
-            if( !file_exists($baseFile) ) {
-                if( file_exists( $baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg" ) )
-                {
+            if (!file_exists($baseFile)) {
+                if (file_exists($baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg")) {
                     $baseFile = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 }
             }
         }
 
-        if( !file_exists($baseFile) ) {
+        if (!file_exists($baseFile)) {
             throw new Exception(Mage::helper('catalog')->__('Image file not found'));
         }
-
-        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
-        $destDir = $baseDir . '/cache/' . Mage::app()->getStore()->getId() . '/' . $this->getDestinationSubdir() . '/';
-
-        if( is_null($this->getWidth()) && is_null($this->getHeight()) ) {
-            $this->_newFile = $destDir . $file;
-        } else {
-            $this->_newFile = $destDir . "/{$this->getWidth()}x{$this->getHeight()}" . $file;
-        }
-
         $this->_baseFile = $baseFile;
+
+        // build new filename
+        $path = array(
+             Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath()
+            ,'cache'
+            ,Mage::app()->getStore()->getId()
+            ,$path[] = $this->getDestinationSubdir()
+            ,implode ('_', array(
+                 (false === $this->_fillOnResize ? 'no' : '') . 'frame'
+                 ,(null === $this->_fillColorOnResize ? 'ffffffnull' : $this->_rgbAlphaToString($this->_fillColorOnResize))
+                ,($this->_keepAspectRatio ? '' : 'non') . 'proportional'
+                )
+            )
+        );
+        if((!empty($this->_width)) || (!empty($this->_height)))
+            $path[] = "{$this->_width}x{$this->_height}";
+        $this->_newFile = implode('/', $path) . $file; // the $file contains heading slash
 
         return $this;
     }
@@ -224,7 +269,39 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         if( is_null($this->getWidth()) && is_null($this->getHeight()) ) {
             return $this;
         }
-        $this->getImageProcessor()->resize($this->getWidth(), $this->getHeight());
+
+        // prepare pre-resize params
+        if (null !== $this->_fillOnResize) {
+            $this->getImageProcessor()->setFillOnResize($this->_fillOnResize);
+        }
+        if (null !== $this->_fillColorOnResize) {
+            $this->getImageProcessor()->setFillColorOnResize($this->_fillColorOnResize);
+        }
+
+        // resize the image
+        $this->getImageProcessor()->resize($this->getWidth(), $this->getHeight(), $this->_keepAspectRatio);
+        return $this;
+    }
+
+    /**
+     * Passthrough to Varien_Image
+     *
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setFillOnResize($flag)
+    {
+        $this->_fillOnResize = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Passthrough to Varien_Image
+     *
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setFillColorOnResize($RGBAlphaArray)
+    {
+        $this->_fillColorOnResize = $RGBAlphaArray;
         return $this;
     }
 

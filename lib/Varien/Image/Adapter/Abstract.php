@@ -46,7 +46,9 @@ abstract class Varien_Image_Adapter_Abstract
     protected $_watermarkPosition = null;
     protected $_watermarkWidth = null;
     protected $_watermarkHeigth = null;
-    protected $_keepProportion = false;
+    protected $_keepProportion    = true;
+    protected $_fillOnResize      = true;
+    protected $_fillColorOnResize = array(255, 255, 255, null);
 
     abstract public function open($fileName);
 
@@ -119,6 +121,30 @@ abstract class Varien_Image_Adapter_Abstract
         return $this->_keepProportion;
     }
 
+    public function setFillOnResize($flag)
+    {
+        $this->_fillOnResize = $flag;
+    }
+
+    public function getFillOnResize()
+    {
+        return $this->_fillOnResize;
+    }
+
+    public function setFillColorOnResize($RGBAlphaArray)
+    {
+        if (count($RGBAlphaArray) !== 4) {
+            throw new Exception('Four params must be specified: RGB colors and alpha transparency.');
+        }
+        list($red, $green, $blue, $alpha) = $RGBAlphaArray;
+        foreach (array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127) as $var => $maxValue) {
+            if (((int)$$var < 0) || ((int)$$var > $maxValue)) {
+                throw new Exception(sprintf('The "%s" value must be between 0 and %d', $var, $maxValue));
+            }
+        }
+        $this->_fillColorOnResize = array($red, $green, $blue, $alpha);
+    }
+
     protected function _getFileAttributes()
     {
         $pathinfo = pathinfo($this->_fileName);
@@ -126,5 +152,4 @@ abstract class Varien_Image_Adapter_Abstract
         $this->_fileSrcPath = $pathinfo['dirname'];
         $this->_fileSrcName = $pathinfo['basename'];
     }
-
 }

@@ -67,11 +67,55 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         return $this;
     }
 
-    public function resize($width=null, $heigth=null)
+    public function resize($width = null, $height = null, $keepAspectRatio = true)
     {
+        // $this->_getModel()->setSize("{$width}x{$height}");
         $this->_getModel()
-            ->setSize("{$width}x{$heigth}");
+            ->setWidth($width)
+            ->setHeight($height)
+            ->setKeepAspectRatio($keepAspectRatio)
+        ;
         $this->_scheduleResize = true;
+        return $this;
+    }
+
+    /**
+     * Enable filling with a color on resize.
+     *
+     * The image frame will be as on resize() specified,
+     * and the picture will be constrained into that frame.
+     *
+     * By default it is enabled.
+     *
+     * @see setFillColor() for color to fill
+     * @see resize()
+     * @param bool $flag
+     * @return Mage_Catalog_Helper_Image
+     */
+    public function preserveFrameSize($flag = true)
+    {
+        $this->_getModel()->setFillOnResize($flag);
+        return $this;
+    }
+
+    /**
+     * Set color, that will fill whitespace on resize.
+     *
+     * If $alpha specified, it will try to apply alpha-transparency to the image
+     *
+     * By default it is white (array(255, 255, 255, null))
+     *
+     * @see resize()
+     * @see preserveFrameSize()
+     * @param int $r 0..255
+     * @param int $g 0..255
+     * @param int $b 0..255
+     * @param int $alpha 0..127
+     * @return Mage_Catalog_Helper_Image
+     */
+    public function setFillColor($r, $g, $b, $alpha = null)
+    {
+        $this->_getModel()->setFillColorOnResize(array($r, $g, $b, $alpha));
         return $this;
     }
 
