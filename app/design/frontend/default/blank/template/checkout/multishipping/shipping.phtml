@@ -40,7 +40,7 @@
 				<?php echo $_address->format('html') ?>
 			</address>
 			<div>
-				<img src="<?php echo $this->getSkinUrl('images/shipping_method_pointer.gif') ?>" class="pointer" alt="" />
+				<img src="<?php echo $this->getSkinUrl('images/shipping_method_pointer.gif') ?>" alt="" />
 				<h4><?php echo $this->__('Shipping Method') ?></h4>
 				<?php if (!($_shippingRateGroups = $this->getShippingRates($_address))): ?>
 					<strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong>

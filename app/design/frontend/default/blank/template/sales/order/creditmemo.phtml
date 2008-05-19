@@ -63,7 +63,7 @@ function giftMessageToogle(giftMessageIdentifier)
             <th><?php echo $this->__('Product Name') ?></th>
             <th width="10%"><?php echo $this->__('SKU') ?></th>
             <th width="10%"><?php echo $this->__('Price') ?></th>
-            <th class="a-center" width="5%"><?php echo $this->__('Qty') ?></th>
+            <th width="5%"><?php echo $this->__('Qty') ?></th>
             <th><?php echo $this->__('Subtotal') ?></th>
             <th width="7%"><?php echo $this->__('Tax Amount') ?></th>
             <th width="7%"><?php echo $this->__('Discount Amount') ?></th>
@@ -96,8 +96,8 @@ function giftMessageToogle(giftMessageIdentifier)
     <tfoot>
         <?php if ((float) $_creditmemo->getSubtotal()): ?>
         <tr>
-            <td colspan="7" class="a-right"><?php echo $this->__('Subtotal') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
+            <td colspan="7"><?php echo $this->__('Subtotal') ?></td>
+            <td class="last"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
         </tr>
         <?php endif; ?>
         <?php if ((float) $_creditmemo->getTaxAmount()): ?>
@@ -150,7 +150,7 @@ function giftMessageToogle(giftMessageIdentifier)
         </tr>
         <?php if ($this->getCanDisplayTotalPaid()): ?>
         <tr>
-            <td colspan="7" class="a-right">
+            <td colspan="7">
                 <strong><?php echo $this->__('Total Paid') ?></strong>
             </td>
             <td>
@@ -183,5 +183,5 @@ function giftMessageToogle(giftMessageIdentifier)
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 <?php endforeach; ?>
 <div class="buttons-container">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+    <a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

@@ -30,9 +30,9 @@
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
-            <th class="a-right"><?php echo $this->__('Price') ?></th>
+            <th><?php echo $this->__('Price') ?></th>
             <?php if ($_product->isSaleable()): ?>
-            <th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th><?php echo $this->__('Qty') ?></th>
             <?php endif; ?>
         </tr>
     </thead>
@@ -41,25 +41,25 @@
     <?php foreach ($_associatedProducts as $_item): ?>
         <tr>
             <td><?php echo $this->htmlEscape($_item->getName()) ?></td>
-            <td class="a-right">
+            <td>
                 <?php $_price = $_item->getPrice() ?>
                 <?php $_finalPrice = $_item->getFinalPrice() ?>
                 <?php if ($_finalPrice == $_price): ?>
-                    <span class="nobr"><?php echo Mage::helper('core')->currency($_price) ?></span><br />
+                    <span><?php echo Mage::helper('core')->currency($_price) ?></span>
                 <?php else: ?>
-                    <span class="nobr old-price"><?php echo $this->__('Price') ?>&nbsp;<?php echo Mage::helper('core')->currency($_price) ?></span><br />
-                    <span class="nobr special-price" style="font-size:12px;"><?php echo $this->__('Special Price') ?>&nbsp;<?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
+                    <span class="old-price"><?php echo $this->__('Price') ?>&nbsp;<?php echo Mage::helper('core')->currency($_price) ?></span><br />
+                    <span class="special-price"><?php echo $this->__('Special Price') ?>&nbsp;<?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
                 <?php endif; ?>
                 <?php if($_item->getTierPriceCount()): ?>
                     <?php foreach ($_item->getFormatedTierPrice() as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPrice): ?>
-                            <span class="nobr"><?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?></span>
+                            <span><?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?></span>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </td>
             <?php if ($_product->isSaleable()): ?>
-            <td class="a-center">
+            <td>
             <?php if ($_item->isSaleable()) : ?>
                 <input name="super_group[<?php echo $_item->getId() ?>]" value="<?php echo $_item->getQty()*1 ?>" type="text" class="input-text qty" />
             <?php else: ?>

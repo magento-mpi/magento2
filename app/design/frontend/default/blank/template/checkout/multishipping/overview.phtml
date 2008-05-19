@@ -101,8 +101,8 @@
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</div>
-	<span id="review-please-wait" style="display:none;" class="opc-please-wait f-right">
-		<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
+	<span id="review-please-wait" style="display:none;" class="opc-please-wait">
+		<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
 	</span>
 	<p><big><?php echo $this->__('Grand Total:') ?> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></big></p>
 	<span id="review-buttons-container">
@@ -110,7 +110,7 @@
 	</span>
 
 	<div class="buttons-container">
-		<a href="<?php echo $this->getBackUrl() ?>" class="left"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>
+		<a href="<?php echo $this->getBackUrl() ?>"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>
 	</div>
 </form>
 

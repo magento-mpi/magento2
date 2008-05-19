@@ -25,7 +25,7 @@
             <li><a href="<?php echo $_tag->getTaggedProductsUrl() ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
         <?php endforeach; ?>
     </ul>
-    <div class="actions">
+    <p class="actions">
         <a href="<?php echo $this->getUrl('tag/list') ?>"><?php echo $this->__('View All Tags') ?></a>
-    </div>
+    </p>
 </div>

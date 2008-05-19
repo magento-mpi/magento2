@@ -20,10 +20,8 @@
 ?>
 <div class="col2-set">
     <div class="col-1">
-        <div class="inner-head">
-            <h4><?php echo $this->__('Contact Information') ?></h4>
-            <a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
-        </div>
+		<h4><?php echo $this->__('Contact Information') ?></h4>
+		<a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
         <p>
             <?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?> 
             <?php echo $this->htmlEscape($this->getCustomer()->getLastname()) ?><br />

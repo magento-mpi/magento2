@@ -27,7 +27,7 @@
 	<li<?php if($_item->isSuper() || !$_item->isSaleable()): ?> class="super-products"<?php endif; ?>>
 		<?php if(!$_item->isSuper() && $_item->isSaleable()): ?>
 			<span class="checkbox-container">
-				<input type="checkbox" class="related-checkbox left" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
+				<input type="checkbox" class="related-checkbox" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
 			</span>
 		<?php else: ?>
 			<span class="checkbox-container">&nbsp;</span>

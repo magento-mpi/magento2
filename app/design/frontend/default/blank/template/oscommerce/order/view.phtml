@@ -91,12 +91,12 @@ T: <?php echo $_order['customers_telephone'] ?>
     <?php if (isset($_orderSummary['products'])): ?>
     <tbody>
         <?php foreach($_orderSummary['products'] as $product) :?>
-        <tr id="order-item-row-3" class="odd first last">
+        <tr id="order-item-row-3">
            <td><?php echo $product['products_name'] ?></td>
            <td><?php echo $product['products_model'] ?></td>
-           <td><span class="nobr"><?php echo  $_currency.' '.number_format($product['products_price'],2) ?></span> </td>
+           <td><span><?php echo  $_currency.' '.number_format($product['products_price'],2) ?></span> </td>
            <td><?php echo $product['products_quantity'] ?></td>
-           <td><span class="nobr"><?php echo  $_currency.' '.number_format($product['final_price'],2) ?></span> </td>
+           <td><span><?php echo  $_currency.' '.number_format($product['final_price'],2) ?></span> </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -107,7 +107,7 @@ T: <?php echo $_order['customers_telephone'] ?>
         <?php foreach ($_orderSummary['total'] as $total) :?>
         <tr class="<?php echo ($count == 1? 'first': ($count == $_total ? 'last' :'')) ?>">
             <td colspan="4"><?php echo $total['title'] ?></td>
-            <td><span class="nobr"> <?php echo $_currency.' '.number_format($total['value'],2) ?></span></td>
+            <td><span> <?php echo $_currency.' '.number_format($total['value'],2) ?></span></td>
         </tr>
             <?php $count++; ?>
         <?php endforeach; ?>
@@ -127,5 +127,5 @@ T: <?php echo $_order['customers_telephone'] ?>
 <?php endif; ?>
 
 <div class="buttons-container">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+    <a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

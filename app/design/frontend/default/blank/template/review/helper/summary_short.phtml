@@ -19,12 +19,10 @@
  */
 ?>
 <?php if($this->getProduct()->getRatingSummary()->getReviewsCount()): ?>
-    <div class="ratings">
-        <div class="rating-box">
-            <div class="rating" style="width:<?php echo $this->getProduct()->getRatingSummary()->getRatingSummary() ?>%;"></div>
-        </div>
-        ( <?php echo sprintf('%d', $this->getProduct()->getRatingSummary()->getReviewsCount()) ?> )
-    </div>
+	<div class="rating-box">
+		<div class="rating" style="width:<?php echo $this->getProduct()->getRatingSummary()->getRatingSummary() ?>%;"></div>
+	</div>
+	( <?php echo sprintf('%d', $this->getProduct()->getRatingSummary()->getReviewsCount()) ?> )
 <?php endif; ?>
 
 <?php if( !$this->getProduct()->getRatingSummary()->getReviewsCount() && $this->getDisplayBlock() ): ?>

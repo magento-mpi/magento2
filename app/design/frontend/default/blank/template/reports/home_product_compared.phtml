@@ -39,7 +39,7 @@
 		<?php else: ?>
 		<p><small><?php echo $this->__('Out of stock') ?></small></p>
 		<?php endif; ?>
-		<p class="add-to">
+		<p>
 			<?php if ($this->helper('wishlist')->isAllow()) : ?>
 			<a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
 			<?php endif; ?>

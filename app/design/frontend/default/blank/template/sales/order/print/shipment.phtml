@@ -32,10 +32,7 @@
 <?php endif; ?>
 
 <?php foreach ($_shipments as $_shipment): ?>
-    <div class="divider"></div>
-    <div class="head">
-        <h3><?php echo $this->__('Shipment #%s', $_shipment->getIncrementId()) ?></h3>
-    </div>
+    <h3><?php echo $this->__('Shipment #%s', $_shipment->getIncrementId()) ?></h3>
     <div class="col2-set">
         <div class="col-1">
             <h4><?php echo $this->__('Shipping Address') ?></h4>
@@ -65,8 +62,8 @@
         <thead>
             <tr>
                 <th><?php echo $this->__('Product Name') ?></th>
-                <th class="a-center" width="10%"><?php echo $this->__('SKU') ?></th>
-                <th class="a-center" width="10%"><?php echo $this->__('Qty Shipped') ?></th>
+                <th width="10%"><?php echo $this->__('SKU') ?></th>
+                <th width="10%"><?php echo $this->__('Qty Shipped') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -79,8 +76,8 @@
                     <?php echo $this->htmlEscape($_item->getName()) ?>
                     <?php echo $_item->getDescription() ?>
                 </td>
-                <td class="a-center"><?php echo $_item->getSku() ?></td>
-                <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
+                <td><?php echo $_item->getSku() ?></td>
+                <td><?php echo $_item->getQty()*1 ?></td>
 
             <?php endforeach; ?>
             </tr>

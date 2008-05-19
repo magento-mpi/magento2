@@ -22,9 +22,101 @@
 <?php $product=$_product=$this->getProduct() ?>
 <div class="product-info-box">
     <div class="product-essential">
-        <div class="product-img-box">
+        <div class="product-shop">
+	        <h2 class="product-name"><?php echo $this->htmlEscape($product->getName()) ?></h2>
+	        <?php echo $this->getChildHtml('rating') ?>
+	        <?php if( $reviewCount ): ?>
+	            <p><a href="#customer-reviews"><?php echo $this->__('%s Review(s)', $reviewCount) ?></a></p>
+	        <?php endif; ?>
+
+	        <form action="<?php echo $this->getUrl('checkout/cart/add') ?>" method="post" id="product_addtocart_form">
+		        <fieldset>
+					<input type="hidden" name="product" value="<?php echo $product->getId() ?>" />
+		        </fieldset>
+
+	        <?php if($product->isSuperConfig()): ?>
+	        <?php echo $this->getChildHtml('super_config') ?>
+	        <?php endif; ?>
+	        <?php $_tierPrices = $this->getTierPrices($product) ?>
+	        <?php if(count($_tierPrices)>0): ?>
+	                <ul>
+	                <?php foreach($_tierPrices as $_price): ?>
+	                    <li><?php echo $this->__('Buy %s for %s', $_price['price_qty'], $_price['formated_price']) ?></li>
+	                <?php endforeach ?>
+	                </ul>
+	        <?php endif; ?>
+
+	        <?php if($product->isGrouped()): ?>
+	            <?php echo $this->getChildHtml('super_group') ?>
+	        <?php endif; ?>
+
+	        <?php if(!$product->isGrouped()): ?>
+	            <?php if($product->isSaleable()): ?>
+	            <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
+	            <?php else: ?>
+	            <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
+	            <?php endif; ?>
+
+	            <?php if($product->isSaleable()): ?>
+	            <?php echo $this->getPriceHtml($product) ?>
+	            <fieldset class="add-to-cart-box">
+	                <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+	                <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label> <input name="qty" type="text" class="input-text qty" id="qty" /></span>
+	                <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button> <strong><?php echo $this->__('OR') ?></strong>
+	            </fieldset>
+
+	            <p>
+	                <?php if ($this->helper('wishlist')->isAllow()) : ?>
+	                <a href="<?php echo $wishlistLink ?>"><?php echo $this->__('Add to Wishlist') ?></a><br />
+	                <?php endif; ?>
+
+	                <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)): ?>
+	                <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+	                <?php endif; ?>
+	            </p>
+
+	            <?php else: ?>
+	                <?php if ($this->helper('wishlist')->isAllow()) : ?>
+	                <p><a href="<?php echo $wishlistLink ?>"><?php echo $this->__('Add to Wishlist') ?></a><br />
+	                <?php endif; ?>
+
+	                <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)): ?>
+	                <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+	                <?php endif; ?></p>
+
+	            <?php endif; ?>
+	        <?php else: ?>
+	            <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button> <strong><?php echo $this->__('OR') ?></strong>
+				
+			<p>	
+	        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+	            &nbsp;&nbsp;<a href="<?php echo $wishlistLink ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+	        <?php endif; ?>
+
+	        <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)): ?><br />
+	            <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+	        <?php endif; ?>
+			</p>
+
+	        <?php endif; ?>
+	        </form>
+	        <script type="text/javascript">
+	            var productAddToCartForm = new VarienForm('product_addtocart_form');
+	            productAddToCartForm.submit = function() {
+	                if(this.validator.validate()) {
+	                    this.form.submit();
+	                }
+	            }.bind(productAddToCartForm);
+	        </script>
+
+
+			<p><a href="<?php echo $product->getProductUrl() ?>">&laquo; <?php echo $this->__('Back to Main Product Info') ?></a></p>
+
+        </div>
+		
+        <div class="product-media">
             <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-            <p class="main-product-img">
+            <p class="product-image>
                 <img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
             </p>
             <div class="image-zoom" id="track_outer">
@@ -40,116 +132,22 @@
                 });
             </script>
             <?php else: ?>
-            <img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(265); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+				<p class="product-image"><img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(265); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></p>
             <?php endif; ?>
-        </div>
-
-        <div class="product-shop">
-            <h3 class="product-name"><?php echo $this->htmlEscape($product->getName()) ?></h3>
-        <?php echo $this->getChildHtml('rating') ?>
-        <?php if( $reviewCount ): ?>
-            <a href="#customer-reviews" class="no-wrap"><small><?php echo $this->__('%s Review(s)', $reviewCount) ?></small></a>
-        <?php endif; ?>
-
-        <form action="<?php echo $this->getUrl('checkout/cart/add') ?>" method="post" id="product_addtocart_form">
-        <fieldset>
-        <input type="hidden" name="product" value="<?php echo $product->getId() ?>" />
-        </fieldset>
-
-        <?php if($product->isSuperConfig()): ?>
-        <?php echo $this->getChildHtml('super_config') ?>
-        <?php endif; ?>
-        <?php $_tierPrices = $this->getTierPrices($product) ?>
-        <?php if(count($_tierPrices)>0): ?>
-            <div class="product-pricing">
-                <ul class="bare">
-                <?php foreach($_tierPrices as $_price): ?>
-                    <li><?php echo $this->__('Buy %s for %s', $_price['price_qty'], $_price['formated_price']) ?></li>
-                <?php endforeach ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-
-        <?php if($product->isGrouped()): ?>
-            <?php echo $this->getChildHtml('super_group') ?>
-        <?php endif; ?>
-
-        <?php if(!$product->isGrouped()): ?>
-            <?php if($product->isSaleable()): ?>
-            <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
-            <?php else: ?>
-            <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
-            <?php endif; ?>
-
-            <?php if($product->isSaleable()): ?>
-            <?php echo $this->getPriceHtml($product) ?>
-            <fieldset class="add-to-cart-box">
-                <legend><?php echo $this->__('Add Items to Cart') ?></legend>
-                <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label> <input name="qty" type="text" class="input-text qty" id="qty" /></span>
-                <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button> <strong><?php echo $this->__('OR') ?></strong>
-            </fieldset>
-
-            <div class="add-to-box">
-                <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                <a href="<?php echo $wishlistLink ?>"><?php echo $this->__('Add to Wishlist') ?></a><br />
-                <?php endif; ?>
-
-                <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)): ?>
-                <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
-                <?php endif; ?>
-            </div>
-
-            <?php else: ?>
-                <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                <p><a href="<?php echo $wishlistLink ?>"><?php echo $this->__('Add to Wishlist') ?></a><br />
-                <?php endif; ?>
-
-                <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)): ?>
-                <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
-                <?php endif; ?></p>
-
-            <?php endif; ?>
-        <?php else: ?>
-            <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button> <strong><?php echo $this->__('OR') ?></strong>
-
-        <?php if ($this->helper('wishlist')->isAllow()) : ?>
-            &nbsp;&nbsp;<a href="<?php echo $wishlistLink ?>"><?php echo $this->__('Add to Wishlist') ?></a>
-        <?php endif; ?>
-
-        <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($product)): ?>
-            <span class="pipe">|</span><a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
-        <?php endif; ?>
-
-        <?php endif; ?>
-        </form>
-        <script type="text/javascript">
-            var productAddToCartForm = new VarienForm('product_addtocart_form');
-            productAddToCartForm.submit = function() {
-                if(this.validator.validate()) {
-                    this.form.submit();
-                }
-            }.bind(productAddToCartForm);
-        </script>
-        <div class="clear"></div>
-        <div class="divider"></div>
-
-        <p><a href="<?php echo $product->getProductUrl() ?>">&laquo; <?php echo $this->__('Back to Main Product Info') ?></a></p>
-
-        </div>
+        </div>		
+		
         </div>
 
         <div class="product-collateral">
     <?php if( $this->getCollection() && $this->count()): ?>
-        <div class="collateral-box dedicated-review-box" id="customer-reviews">
-            <div class="head">
-                <h4><?php echo $this->__('Customer Reviews') ?></h4>
-            </div>
+        <div class="box" id="customer-reviews">
+                <h3><?php echo $this->__('Customer Reviews') ?></h3>
         <?php echo $this->getToolbarHtml() ?>
-            <ol style="margin-top:15px;">
+            <ol>
         <?php foreach( $this->getCollection()->getItems() as $_review ): ?>
                 <li>
-                    <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><strong><?php echo $this->htmlEscape($_review->getTitle()) ?></strong></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
-                    <table class="ratings-list" cellspacing="0">
+                    <p><a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><strong><?php echo $this->htmlEscape($_review->getTitle()) ?></strong></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?></p>
+                    <table class="data-table" cellspacing="0">
                         <tbody>
                         <?php foreach( $_review->getRatingVotes() as $_vote ): ?>
                         <tr>
@@ -171,7 +169,6 @@
         <?php echo $this->getToolbarHtml() ?>
     <?php else: ?>
     <?php endif; ?>
-    <br/>
+
     <?php echo $this->getChildHtml('reviewForm') ?>
-    </div>
 </div>

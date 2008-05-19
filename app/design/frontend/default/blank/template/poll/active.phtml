@@ -43,7 +43,7 @@
 			<ol>
 				<?php foreach( $poll_answers as $answer ): ?>
 				<li>
-					<input type="radio" name="vote" class="poll_vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" />&nbsp;
+					<input type="radio" name="vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" />&nbsp;
 					<label for="vote_<?php echo $answer->getId() ?>"><?php echo $answer->getAnswerTitle() ?></label>
 				</li>
 				<?php endforeach; ?>

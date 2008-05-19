@@ -22,18 +22,17 @@
     <div class="page-head-container">
         <h2 class="page-head"><?php echo $this->__('Review Details') ?></h2>
     </div>
-    <div class="my-review-detail">
-        <div class="product-image">
-            <p><a href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="100" width="100" /></a></p>
-            <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-              <small><?php echo $this->__('Average Customer Rating') ?>:</small>
-              <?php echo $this->helper('review/product')->getSummaryHtml($this->getProductData()) ?>
-            <?php endif; ?>
-        </div>
-    <div class="details">
+	<div>
+		<a class="product-image" href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="100" width="100" /></a>
+		<?php if( $this->getRating() && $this->getRating()->getSize()): ?>
+		  <p><small><?php echo $this->__('Average Customer Rating') ?>:</small></p>
+		  <?php echo $this->helper('review/product')->getSummaryHtml($this->getProductData()) ?>
+		<?php endif; ?>
+	</div>
+    <div>
         <h3><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-        <strong><?php echo $this->__('Product Rating:') ?></strong>
+        <p><strong><?php echo $this->__('Product Rating:') ?></strong></p>
             <?php foreach ($this->getRating() as $_rating): ?>
             <?php if($_rating->getPercent()): ?>
                 <div class="ratings">
@@ -45,11 +44,8 @@
             <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
-        <div class="clear"></div>
-        <?php echo $this->__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
-            <div class="description">
-                <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
-            </div>
-    </div></div>
-    <div class="buttons-container"><a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to Product Reviews') ?></a></div><br />
+        <p><?php echo $this->__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
+        <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
+    </div>
+    <div class="buttons-container"><a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to Product Reviews') ?></a></div>
 <?php endif; ?>
