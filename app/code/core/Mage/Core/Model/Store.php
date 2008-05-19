@@ -497,18 +497,36 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Get allowed store currency codes
      *
+     * If base currency is not allowed in current website config scope,
+     * then it can be disabled with $skipBaseNotAllowed
+     *
+     * @param bool $skipBaseNotAllowed
      * @return array
      */
-    public function getAvailableCurrencyCodes()
+    public function getAvailableCurrencyCodes($skipBaseNotAllowed = false)
     {
         $codes = $this->getData('available_currency_codes');
         if (is_null($codes)) {
             $codes = explode(',', $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW));
-            // only if base currency is not in allowed currencies
-            if (!in_array($this->getBaseCurrencyCode(), $codes)) {
-            	$codes[] = $this->getBaseCurrencyCode();
+            // add base currency, if it is not in allowed currencies
+            $baseCurrencyCode = $this->getBaseCurrencyCode();
+            if (!in_array($baseCurrencyCode, $codes)) {
+                $codes[] = $baseCurrencyCode;
+
+                // save base currency code index for further usage
+                $disallowedBaseCodeIndex = array_keys($codes);
+                $disallowedBaseCodeIndex = array_pop($disallowedBaseCodeIndex);
+                $this->setData('disallowed_base_currency_code_index', $disallowedBaseCodeIndex);
             }
             $this->setData('available_currency_codes', $codes);
+        }
+
+        // remove base currency code, if it is not allowed by config (optional)
+        if ($skipBaseNotAllowed) {
+            $disallowedBaseCodeIndex = $this->getData('disallowed_base_currency_code_index');
+            if (null !== $disallowedBaseCodeIndex) {
+                unset($codes[$disallowedBaseCodeIndex]);
+            }
         }
         return $codes;
     }
