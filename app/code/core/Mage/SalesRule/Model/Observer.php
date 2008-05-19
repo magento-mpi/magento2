@@ -46,21 +46,19 @@ class Mage_SalesRule_Model_Observer
             return $this;
         }
 
-        $customerId = $order->getCustomerId();
-
-        /**
-         * If guest checkout for example
-         */
-        if (!$customerId) {
-            return $this;
-        }
-
+        // lookup rule ids
         $ruleIds = explode(',', $order->getAppliedRuleIds());
         $ruleIds = array_unique($ruleIds);
 
+        // create rule and customer rule models
         $rule = Mage::getModel('salesrule/rule');
-        $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+        $ruleCustomer = null;
+        $customerId = $order->getCustomerId();
+        if ($customerId) {
+            $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+        }
 
+        // use each rule (and apply to customer, if applicable)
         foreach ($ruleIds as $ruleId) {
             if (!$ruleId) {
                 continue;
@@ -72,18 +70,20 @@ class Mage_SalesRule_Model_Observer
                 $rule->save();
             }
 
-            $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
+            if ($ruleCustomer) {
+                $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
-            if ($ruleCustomer->getId()) {
-                $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+                if ($ruleCustomer->getId()) {
+                    $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+                }
+                else {
+                    $ruleCustomer
+                    ->setCustomerId($customerId)
+                    ->setRuleId($ruleId)
+                    ->setTimesUsed(1);
+                }
+                $ruleCustomer->save();
             }
-            else {
-                $ruleCustomer
-                ->setCustomerId($customerId)
-                ->setRuleId($ruleId)
-                ->setTimesUsed(1);
-            }
-            $ruleCustomer->save();
         }
     }
 }
