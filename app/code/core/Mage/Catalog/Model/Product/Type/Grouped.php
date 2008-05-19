@@ -107,4 +107,34 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
         $this->getProduct()->getLinkInstance()->saveGroupedLinks($this->getProduct());
         return $this;
     }
+
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param   Varien_Object $buyRequest
+     * @return  array || string || false
+     */
+    public function prepareForCart(Varien_Object $buyRequest)
+    {
+        $productsInfo = $buyRequest->getSuperGroup();
+        if (!empty($productsInfo) && is_array($productsInfo)) {
+            $products = array();
+            if ($associatedProducts = $this->getAssociatedProducts()) {
+                foreach ($associatedProducts as $subProduct) {
+                    if(isset($productsInfo[$subProduct->getId()])) {
+                        $qty = $productsInfo[$subProduct->getId()];
+                        if (!empty($qty)) {
+                            $subProduct->setCartQty($qty);
+                            $subProduct->setSuperProduct($this->getProduct());
+                            $products[] = $subProduct;
+                        }
+                    }
+                }
+            }
+            if (count($products)) {
+                return $products;
+            }
+        }
+        return Mage::helper('catalog')->__('Please specify the product(s) quantity');
+    }
 }

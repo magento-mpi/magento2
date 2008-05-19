@@ -12,23 +12,21 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Checkout
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Checkout
+ * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * Shoping cart model
  *
- * @category   Mage
- * @package    Mage_Checkout
+ * @category    Mage
+ * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Model_Cart extends Varien_Object
 {
-    protected $_cacheKey;
-    protected $_cacheData;
     protected $_summaryQty;
     protected $_productIds;
 
@@ -158,120 +156,95 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Add products
+     * Get product for product information
+     *
+     * @param   mixed $productInfo
+     * @return  Mage_Catalog_Model_Product
+     */
+    protected function _getProduct($productInfo)
+    {
+        if ($productInfo instanceof Mage_Catalog_Model_Product) {
+            $product = $productInfo;
+        }
+        elseif (is_int($productInfo)) {
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($productInfo);
+        }
+        else {
+
+        }
+        return $product;
+    }
+
+    /**
+     * Get request for product add to cart procedure
+     *
+     * @param   mixed $requestInfo
+     * @return  Varien_Object
+     */
+    protected function _getProductRequest($requestInfo)
+    {
+        if ($requestInfo instanceof Varien_Object) {
+            $request = $requestInfo;
+        }
+        else {
+            $request = new Varien_Object($requestInfo);
+        }
+
+        if (!$request->hasQty()) {
+            $request->setQty(1);
+        }
+        return $request;
+    }
+
+    /**
+     * Add product to shopping cart (quote)
      *
      * @param   int $productId
      * @param   int $qty
      * @return  Mage_Checkout_Model_Cart
      */
-    public function addProduct($product, $qty=1)
+    public function addProduct($product, $info=null)
     {
-        $item = false;
-        if ($product->getId() && $product->isVisibleInCatalog()) {
-            switch ($product->getTypeId()) {
-                case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
-                    $item = $this->_addConfigurableProduct($product, $qty);
-                    break;
-                case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
-                    $item = $this->_addGroupedProduct($product, $qty);
-                    break;
-                default:
-                    $item = $this->_addProduct($product, $qty);
-                    break;
+        $product = $this->_getProduct($product);
+        $request = $this->_getProductRequest($info);
+
+
+        if ($product->getId()) {
+            $cartCandidates = $product->getTypeInstance()->prepareForCart($request);
+
+            /**
+             * String we can get if prepare process has error
+             */
+            if (is_string($cartCandidates)) {
+                $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
+                $this->getCheckoutSession()->setUseNotice(true);
+                Mage::throwException($cartCandidates);
+            }
+
+            /**
+             * If prepare process return one object
+             */
+            if (!is_array($cartCandidates)) {
+                $cartCandidates = array($cartCandidates);
+            }
+
+            foreach ($cartCandidates as $candidate) {
+                $item = $this->getQuote()->addCatalogProduct($candidate, $candidate->getCartQty());
+                if ($item->getHasError()) {
+                    $this->setLastQuoteMessage($item->getQuoteMessage());
+                    Mage::throwException($item->getMessage());
+                }
             }
         }
         else {
             Mage::throwException(Mage::helper('checkout')->__('Product does not exist'));
         }
-        /**
-         * $item can be false, array and Mage_Sales_Model_Quote_Item
-         */
+
         Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item'=>$item, 'product'=>$product));
         $this->getCheckoutSession()->setLastAddedProductId($product->getId());
         return $this;
-    }
-
-    /**
-     * Adding simple product to shopping cart
-     *
-     * @param   Mage_Catalog_Model_Product $product
-     * @param   int $qty
-     * @return  Mage_Checkout_Model_Cart
-     */
-    protected function _addProduct(Mage_Catalog_Model_Product $product, $qty)
-    {
-        $item = $this->getQuote()->addCatalogProduct($product, $qty);
-        if ($item->getHasError()) {
-            $this->setLastQuoteMessage($item->getQuoteMessage());
-            Mage::throwException($item->getMessage());
-        }
-        return $item;
-    }
-
-    /**
-     * Adding grouped product to cart
-     *
-     * @param   Mage_Catalog_Model_Product $product
-     * @return  Mage_Checkout_Model_Cart
-     */
-    protected function _addGroupedProduct(Mage_Catalog_Model_Product $product)
-    {
-        $groupedProducts = $product->getGroupedProducts();
-
-        if(!is_array($groupedProducts) || empty($groupedProducts)) {
-            $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-            $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
-        }
-
-        $added = false;
-        $items = array();
-        foreach($product->getTypeInstance()->getAssociatedProducts() as $subProduct) {
-            if(isset($groupedProducts[$subProduct->getId()])) {
-                $qty =  $groupedProducts[$subProduct->getId()];
-                if (!empty($qty)) {
-                    $subProduct->setSuperProduct($product);
-                    $items[] = $this->getQuote()->addCatalogProduct($subProduct, $qty);
-                    $added = true;
-                }
-            }
-        }
-        if (!$added) {
-            Mage::throwException(Mage::helper('checkout')->__('Please specify the product(s) quantity'));
-        }
-        return $items;
-    }
-
-    /**
-     * Adding configurable product
-     *
-     * @param   Mage_Catalog_Model_Product $product
-     * @return  Mage_Checkout_Model_Cart
-     */
-    protected function _addConfigurableProduct(Mage_Catalog_Model_Product $product, $qty=1)
-    {
-        if($product->getConfiguredAttributes()) {
-            $subProduct = $product->getTypeInstance()->getProductByAttributes(
-                $product->getConfiguredAttributes()
-            );
-        } else {
-            $subProduct = false;
-        }
-        $item = false;
-        if($subProduct) {
-            $subProduct->setSuperProduct($product);
-            $item = $this->getQuote()->addCatalogProduct($subProduct, $qty);
-            if ($item->getHasError()) {
-                $this->setLastQuoteMessage($item->getQuoteMessage());
-                Mage::throwException($item->getMessage());
-            }
-        }
-        else {
-            $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-            $this->getCheckoutSession()->setUseNotice(true);
-            Mage::throwException(Mage::helper('checkout')->__('Please specify the product option(s)'));
-        }
-        return $item;
     }
 
     /**

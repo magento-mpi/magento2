@@ -334,4 +334,22 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         }
         return null;
     }
+
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param   Varien_Object $buyRequest
+     * @return  unknown
+     */
+    public function prepareForCart(Varien_Object $buyRequest)
+    {
+        if ($attributes = $buyRequest->getSuperAttribute()) {
+            if ($subProduct = $this->getProductByAttributes($attributes)) {
+                $subProduct->setSuperProduct($this->getProduct());
+                $subProduct->setCartQty($buyRequest->getQty());
+                return array($subProduct);
+            }
+        }
+        return Mage::helper('catalog')->__('Please specify the product option(s)');
+    }
 }

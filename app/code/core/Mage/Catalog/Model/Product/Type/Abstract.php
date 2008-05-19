@@ -33,12 +33,24 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected $_setAttributes;
     protected $_editableAttributes;
 
+    /**
+     * Specify type instance product
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Catalog_Model_Product_Type_Abstract
+     */
     public function setProduct($product)
     {
         $this->_product = $product;
         return $this;
     }
 
+    /**
+     * Specify type identifier
+     *
+     * @param   string $typeId
+     * @return  Mage_Catalog_Model_Product_Type_Abstract
+     */
     public function setTypeId($typeId)
     {
         $this->_typeId = $typeId;
@@ -55,23 +67,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return $this->_product;
     }
 
-    public function attributesCompare($attribute1, $attribute2)
-    {
-        $sortPath      = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/sort';
-        $groupSortPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_sort';
-
-        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
-        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
-
-        if ($sort1 > $sort2) {
-            return 1;
-        } elseif ($sort1 < $sort2) {
-            return -1;
-        }
-
-        return 0;
-    }
-
+    /**
+     * Get array of product set attributes
+     *
+     * @return array
+     */
     public function getSetAttributes()
     {
         if (is_null($this->_setAttributes)) {
@@ -89,6 +89,23 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             uasort($this->_setAttributes, array($this, 'attributesCompare'));
         }
         return $this->_setAttributes;
+    }
+
+    public function attributesCompare($attribute1, $attribute2)
+    {
+        $sortPath      = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/sort';
+        $groupSortPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_sort';
+
+        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
+        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
+
+        if ($sort1 > $sort2) {
+            return 1;
+        } elseif ($sort1 < $sort2) {
+            return -1;
+        }
+
+        return 0;
     }
 
     /**
@@ -139,6 +156,18 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             return $this->getProduct()->getData('is_salable');
         }
         return $salable;
+    }
+
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param   Varien_Object $buyRequest
+     * @return  unknown
+     */
+    public function prepareForCart(Varien_Object $buyRequest)
+    {
+        $this->getProduct()->setCartQty($buyRequest->getQty());
+        return array($this->getProduct());
     }
 
     /**
