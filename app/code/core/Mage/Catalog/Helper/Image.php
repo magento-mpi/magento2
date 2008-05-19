@@ -122,6 +122,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     public function rotate($angle)
     {
         $this->setAngle($angle);
+        $this->_getModel()->setAngle($angle);
         $this->_scheduleRotate = true;
         return $this;
     }

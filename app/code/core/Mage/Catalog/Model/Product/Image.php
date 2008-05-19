@@ -207,21 +207,25 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         }
         $this->_baseFile = $baseFile;
 
-        // build new filename
+        // build new filename (most important params)
         $path = array(
              Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath()
             ,'cache'
             ,Mage::app()->getStore()->getId()
             ,$path[] = $this->getDestinationSubdir()
-            ,implode ('_', array(
-                 (false === $this->_fillOnResize ? 'no' : '') . 'frame'
-                 ,(null === $this->_fillColorOnResize ? 'ffffffnull' : $this->_rgbAlphaToString($this->_fillColorOnResize))
-                ,($this->_keepAspectRatio ? '' : 'non') . 'proportional'
-                )
-            )
         );
         if((!empty($this->_width)) || (!empty($this->_height)))
             $path[] = "{$this->_width}x{$this->_height}";
+        // add misc params as a hash
+        $path[] = md5(
+            implode('_', array(
+                 (false === $this->_fillOnResize ? 'no' : '') . 'frame'
+                ,(null === $this->_fillColorOnResize ? 'ffffffnull' : $this->_rgbAlphaToString($this->_fillColorOnResize))
+                ,($this->_keepAspectRatio ? '' : 'non') . 'proportional'
+                ,'angle' . $this->_angle
+            ))
+        );
+        // append prepared filename
         $this->_newFile = implode('/', $path) . $file; // the $file contains heading slash
 
         return $this;
@@ -312,6 +316,20 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     {
         $angle = intval($angle);
         $this->getImageProcessor()->rotate($angle);
+        return $this;
+    }
+
+    /**
+     * Set angle for rotating
+     *
+     * This func actually affects only the cache filename.
+     *
+     * @param int $angle
+     * @return Mage_Catalog_Model_Product_Image
+     */
+    public function setAngle($angle)
+    {
+        $this->_angle = $angle;
         return $this;
     }
 
