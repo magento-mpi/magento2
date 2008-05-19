@@ -131,7 +131,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
         $r->setWeightPounds(floor($weight));
         $r->setWeightOunces(floor(($weight-floor($weight))*16));
-
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
             $r->setFreeMethodWeight($request->getFreeMethodWeight());
         }
@@ -175,12 +174,18 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $package = $xml->addChild('Package');
                 $package->addAttribute('ID', 0);
                 $package->addChild('Service', $r->getService());
-    //          $package->addChild('FirstClassMailType', $r->getService());
+
+                // no matter Letter, Flat or Parcel, use Parcel
+                if ($r->getService() == 'FIRST CLASS') {
+                    $package->addChild('FirstClassMailType', 'PARCEL');
+                }
                 $package->addChild('ZipOrigination', $r->getOrigPostal());
                 //only 5 chars avaialble
                 $package->addChild('ZipDestination', substr($r->getDestPostal(),0,5));
                 $package->addChild('Pounds', $r->getWeightPounds());
                 $package->addChild('Ounces', $r->getWeightOunces());
+//                $package->addChild('Pounds', '0');
+//                $package->addChild('Ounces', '3');
                 $package->addChild('Container', $r->getContainer());
                 $package->addChild('Size', $r->getSize());
                 $package->addChild('Machinable', $r->getMachinable());
@@ -220,7 +225,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         } catch (Exception $e) {
             $responseBody = '';
         }
-
         return $this->_parseXmlResponse($responseBody);
     }
 
