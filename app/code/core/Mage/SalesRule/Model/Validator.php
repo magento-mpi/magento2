@@ -79,7 +79,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 /**
                  * too many times used for this customer
                  */
-                if ($ruleId = $rule->getId() && $rule->getUsesPerCustomer()) {
+                $ruleId = $rule->getId();
+                if ($ruleId && $rule->getUsesPerCustomer()) {
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
                     if ($ruleCustomer->getId()) {
                         if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
