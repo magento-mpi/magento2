@@ -59,9 +59,9 @@
 
 	            <?php if($product->isSaleable()): ?>
 	            <?php echo $this->getPriceHtml($product) ?>
-	            <fieldset class="add-to-cart-box">
+	            <fieldset>
 	                <legend><?php echo $this->__('Add Items to Cart') ?></legend>
-	                <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label> <input name="qty" type="text" class="input-text qty" id="qty" /></span>
+	                <span><label for="qty"><?php echo $this->__('Qty') ?>:</label> <input name="qty" type="text" class="input-text qty" id="qty" /></span>
 	                <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button> <strong><?php echo $this->__('OR') ?></strong>
 	            </fieldset>
 

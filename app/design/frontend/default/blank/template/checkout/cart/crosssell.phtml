@@ -33,7 +33,7 @@
         <li>
             <a class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
             <div class="product-shop">
-                <h4><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
+                <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_item) ?>
                 <p><button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
 				<p>

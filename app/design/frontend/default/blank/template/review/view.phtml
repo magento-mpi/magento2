@@ -30,7 +30,7 @@
 		<?php endif; ?>
 	</div>
     <div>
-        <h3><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
+        <h3 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
         <p><strong><?php echo $this->__('Product Rating:') ?></strong></p>
             <?php foreach ($this->getRating() as $_rating): ?>

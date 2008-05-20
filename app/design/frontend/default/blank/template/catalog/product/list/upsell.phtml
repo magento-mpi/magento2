@@ -30,7 +30,7 @@
             <?php if($_link=$this->getIterableItem()): ?>
             <td>
                 <a class="product-image" href="<?php echo $_link->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_link->getName()) ?>" /></a>
-                <h4><a href="<?php echo $_link->getProductUrl() ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a></h4>
+                <h4 class="product-name"><a href="<?php echo $_link->getProductUrl() ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_link, true) ?>
                 <?php echo $this->helper('review/product')->getSummaryHtml($_link) ?>
             </td>

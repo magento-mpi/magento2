@@ -31,7 +31,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="product-details">
-			<h3><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
+			<h3 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
 			<?php if( $this->getRating() && $this->getRating()->getSize()): ?>
 			<strong><?php echo $this->__('Your Rating:') ?></strong>
 			<table cellspacing="0">

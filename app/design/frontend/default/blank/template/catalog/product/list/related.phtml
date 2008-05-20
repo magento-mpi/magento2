@@ -34,7 +34,7 @@
 		<?php endif; ?>
 			<a  class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50) ?>" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" width="50" height="50" /></a>
 		<div class="product-details">
-				<h4><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
+				<h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
 				<?php echo $this->getPriceHtml($_item) ?>
 				<?php if($_item->isSuper()): ?>
 					<p><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a></p>

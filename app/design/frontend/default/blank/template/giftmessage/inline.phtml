@@ -133,7 +133,9 @@ billing.onSave = function(evt){
                     <img width="75" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75); ?>"  alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
 				</p>	
                <p><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
-                <h4><?php echo $this->htmlEscape($_product->getName()) ?></h4>
+				
+				<div class="product-details">
+					<h4 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h4>
                     <fieldset class="group-select">
                         <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_item"/>
                         <ul>
@@ -157,6 +159,7 @@ billing.onSave = function(evt){
                                 toogleRequired('gift-message-<?php echo $_item->getId() ?>-message', ['gift-message-<?php echo $_item->getId() ?>-from','gift-message-<?php echo $_item->getId() ?>-to']);
                             </script>
                     </fieldset>
+				</div>	
              </div>
              <?php endforeach; ?>
              <?php endif; ?>
@@ -216,8 +219,8 @@ billing.onSave = function(evt){
                 <img width="75" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(75); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /><br />
 			</p>	
            <p><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
-           <div>
-                <h4><?php echo $this->htmlEscape($_product->getName()) ?></h4>
+           <div class="product-details">
+                <h4 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h4>
                 <fieldset class="group-select">
                     <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_address_item"/>
                     <ul>

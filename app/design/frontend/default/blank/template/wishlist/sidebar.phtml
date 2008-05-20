@@ -38,7 +38,7 @@
                 <a href="<?php echo $this->helper('wishlist')->getRemoveUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the wishlist?') ?>');">
                     <img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Item') ?>" />
                 </a>
-                <h5><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                <h5 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
                 <?php echo $this->getPriceHtml($_item) ?>
                 <?php if($_item->isSaleable()): ?>
                 <a href="<?php echo $this->helper('wishlist')->getAddToCartUrlBase64($_item) ?>"><?php echo $this->__('Add to Cart') ?></a>

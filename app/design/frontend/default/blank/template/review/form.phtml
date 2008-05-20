@@ -21,7 +21,7 @@
 <div class="page-head-container">
     <h2 class="page-head"><?php echo $this->__('Write Your Own Review') ?></h2>
 </div>
-<h3><?php echo $this->__("You're reviewing: %s", $this->htmlEscape($this->getProductInfo()->getName())) ?></h3>
+<h3 class="product-name"><?php echo $this->__("You're reviewing: %s", $this->htmlEscape($this->getProductInfo()->getName())) ?></h3>
 <form action="<?php echo $this->getAction() ?>" method="post" id="review-form">
 <div>
     <?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>

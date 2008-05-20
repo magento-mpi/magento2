@@ -38,17 +38,21 @@
 
 
 /****************************************************/
-/***********[ Header ]***********/
+/***********[ Header ]*******************************/
 /****************************************************/ 
 .header-links li{}
 
 
 /****************************************************/
-/***********[ Common Elements ]***********/
+/***********[ Common Elements ]**********************/
 /****************************************************/
 
 .page-head-container {}
 .page-head {}
+
+/*Back link style*/
+
+.back-link {}
 
 /********************** Columns */
 
@@ -141,10 +145,8 @@ a.form-button-alt {text-decoration:none; }
 .form-list li .input-box select { width:256px;}
 .form-list li.addElement { border-top:1px solid #DDD; padding-top:10px;}
 
-.group-select {
-    }
-.group-select .legend {
-    }
+.group-select {}
+.group-select .legend {}
 .group-select li {}
 .group-select li .input-box { }
 .group-select li .input-text, .group-select li select, .group-select li textarea { }
@@ -262,10 +264,29 @@ p.required {
 	.box h4 {}
 	.box .content {}
 	.box .actions {}
-	
-	
+
+/********************** Prices */
+.price-box {}
+.regular-price {}
+.old-price {}
+.old-price .price {}
+.special-price {}
+.special-price .label {}
+.special-price .price {}
+
+.minimal-price {}
+.minimal-price .label {}
+.minimal-price .price {}
+
+
+/**********************General Product */
+.product-name {}
+.product-image {}
+.product-details {}
+
+
 /****************************************************/
-/***********[ Category Page ]***********/
+/***********[ Category Page ]*************************/
 /****************************************************/	
 
 .category-head h2 {}
@@ -286,7 +307,7 @@ p.required {
 
 
 /****************************************************/
-/***********[ Product View Page ]***********/
+/***********[ Product View Page ]*********************/
 /****************************************************/	
 
 .product-info-box {}	
@@ -294,6 +315,7 @@ p.required {
 .product-essential {}
 
 	.product-essential .product-shop {}
+
 
 	.product-media {}
 		.product-media .product-image {}
@@ -308,9 +330,13 @@ p.required {
 	.product-description {}	
 	.additional-data {}
 	.up-sell {}
+
 	
-
-
+	
+/****************************************************/
+/***********[ Clear Fix ]*****************************/
+/****************************************************/
+	
 .group-select li:after {
 	content:".";
 	display:block;

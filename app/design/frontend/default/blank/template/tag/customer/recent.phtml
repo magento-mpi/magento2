@@ -27,7 +27,7 @@
             <li<?php if($iterator % 2 == 0): ?> class="odd"<?php else: ?> class="even"<?php endif; ?>>
                 <div class="count"><?php echo ++$iterator ?></div>
                 <div class="content">
-                    <h4><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
+                    <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                     <p><strong><?php echo $this->__('Tags:') ?></strong></p>
                         <?php $_i = 0; ?>
                         <?php foreach( $_item->getProductTags() as $_tag ): ?>
