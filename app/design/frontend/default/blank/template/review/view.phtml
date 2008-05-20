@@ -47,5 +47,5 @@
         <p><?php echo $this->__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
         <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
     </div>
-    <div class="buttons-container"><a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to Product Reviews') ?></a></div>
+    <div class="buttons-container"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Product Reviews') ?></a></div>
 <?php endif; ?>

@@ -50,6 +50,6 @@
 			<?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
 			<p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
         </div>
-        <div class="buttons-container"><a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back to My Reviews') ?></a></div>
+        <div class="buttons-container" class="back-link"><a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back to My Reviews') ?></a></div>
     </div>
 <?php endif; ?>

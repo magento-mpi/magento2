@@ -31,7 +31,7 @@ $_misc = $this->getRssMiscFeeds();
         <tbody>
     <?php foreach ($_misc as $_feed): ?>
             <tr>
-                <td><span class="left"><?php echo $_feed->getLabel() ?></span><a href="<?php echo $_feed->getUrl() ?>" class="link-feed"><?php echo $this->__('Get Feed'); ?></a></td>
+                <td><span><?php echo $_feed->getLabel() ?></span><a href="<?php echo $_feed->getUrl() ?>"><?php echo $this->__('Get Feed'); ?></a></td>
             </tr>
     <?php endforeach; ?>
          </tbody>
@@ -44,7 +44,7 @@ $_misc = $this->getRssMiscFeeds();
     <tbody>
     <?php foreach ($_categories as $_category): ?>
     <tr>
-        <td><span class="left"><?php echo $_category->getLabel() ?></span><a href="<?php echo $_category->getUrl() ?>" class="link-feed"><?php echo $this->__('Get Feed'); ?></a></td>
+        <td><span><?php echo $_category->getLabel() ?></span><a href="<?php echo $_category->getUrl() ?>"><?php echo $this->__('Get Feed'); ?></a></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

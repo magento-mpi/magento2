@@ -28,7 +28,7 @@
     <p><input type="text" class="input-text required-entry" name="tagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" /></p>
 </fieldset>
 <div class="buttons-container">
-    <a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>">&laquo; <?php echo $this->__('Back to view Tag') ?></a>
+    <a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="back-link">&laquo; <?php echo $this->__('Back to view Tag') ?></a>
     <button class="form-button" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
 </div>
 </form>

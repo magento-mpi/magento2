@@ -23,7 +23,7 @@
 	<?php if($reviewCount): ?>
 	<p>
 		<?php if( $this->getUseBackLink() ): ?>
-		<small>&laquo; <a href="<?php echo $backLink ?>"><?php echo $this->__('Back') ?></a></small>
+		<small>&laquo; <a href="<?php echo $backLink ?>" class="back-link"><?php echo $this->__('Back') ?></a></small>
 		<?php else: ?>
 		<a href="<?php echo $reviewLink ?>"><small><?php echo $this->__('View All Reviews') ?></small></a>
 		<?php endif; ?>

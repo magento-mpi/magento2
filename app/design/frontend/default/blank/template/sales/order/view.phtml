@@ -153,10 +153,10 @@ function giftMessageToogle(giftMessageIdentifier)
     <strong><?php echo $this->__('Gift Message for this Order') ?></strong>
      <ul>
         <li>
-            <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
+            <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
         </li>
         <li>
-            <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
+            <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
         </li>
         <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></li>
      </ul>
@@ -177,5 +177,5 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 
 <div class="buttons-container">
-    <a href="<?php echo $this->getBackUrl() ?>">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

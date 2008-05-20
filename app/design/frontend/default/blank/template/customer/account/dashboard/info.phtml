@@ -23,8 +23,7 @@
 		<h4><?php echo $this->__('Contact Information') ?></h4>
 		<a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
         <p>
-            <?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?> 
-            <?php echo $this->htmlEscape($this->getCustomer()->getLastname()) ?><br />
+            <?php echo $this->htmlEscape($this->getCustomer()->getName()) ?><br />
             <?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?><br />
             <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo $this->__('Change Password') ?></a>
         </p>
