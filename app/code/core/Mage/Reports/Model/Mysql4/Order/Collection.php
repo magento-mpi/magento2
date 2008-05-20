@@ -245,60 +245,60 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds))
                 ->addExpressionAttributeToSelect(
                     'subtotal',
-                    'SUM({{base_subtotal}})',
+                    'SUM(DISTINCT {{base_subtotal}})',
                     array('base_subtotal'))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'SUM({{base_tax_amount}})',
+                    'SUM(DISTINCT {{base_tax_amount}})',
                     array('base_tax_amount'))
                 ->addExpressionAttributeToSelect(
                     'shipping',
-                    'SUM({{base_shipping_amount}})',
+                    'SUM(DISTINCT {{base_shipping_amount}})',
                     array('base_shipping_amount'))
                 ->addExpressionAttributeToSelect(
                     'discount',
-                    'SUM({{base_discount_amount}})',
+                    'SUM(DISTINCT {{base_discount_amount}})',
                     array('base_discount_amount'))
                 ->addExpressionAttributeToSelect(
                     'total',
-                    'SUM({{base_grand_total}})',
+                    'SUM(DISTINCT {{base_grand_total}})',
                     array('base_grand_total'))
                 ->addExpressionAttributeToSelect(
                     'invoiced',
-                    'SUM({{base_total_paid}})',
+                    'SUM(DISTINCT {{base_total_paid}})',
                     array('base_total_paid'))
                 ->addExpressionAttributeToSelect(
                     'refunded',
-                    'SUM({{base_total_refunded}})',
+                    'SUM(DISTINCT {{base_total_refunded}})',
                     array('base_total_refunded'));
         } else {
             $this->addExpressionAttributeToSelect(
                     'subtotal',
-                    'SUM({{base_subtotal}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_subtotal}}/{{store_to_base_rate}})',
                     array('base_subtotal', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'tax',
-                    'SUM({{base_tax_amount}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_tax_amount}}/{{store_to_base_rate}})',
                     array('base_tax_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'shipping',
-                    'SUM({{base_shipping_amount}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_shipping_amount}}/{{store_to_base_rate}})',
                     array('base_shipping_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'discount',
-                    'SUM({{base_discount_amount}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_discount_amount}}/{{store_to_base_rate}})',
                     array('base_discount_amount', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'total',
-                    'SUM({{base_grand_total}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_grand_total}}/{{store_to_base_rate}})',
                     array('base_grand_total', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'invoiced',
-                    'SUM({{base_total_paid}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_total_paid}}/{{store_to_base_rate}})',
                     array('base_total_paid', 'store_to_base_rate'))
                 ->addExpressionAttributeToSelect(
                     'refunded',
-                    'SUM({{base_total_refunded}}/{{store_to_base_rate}})',
+                    'SUM(DISTINCT {{base_total_refunded}}/{{store_to_base_rate}})',
                     array('base_total_refunded', 'store_to_base_rate'));
         }
 
