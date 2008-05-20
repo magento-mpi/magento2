@@ -487,11 +487,19 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getCurrentCurrencyCode()
     {
+        // try to get currently set code among allowed
         $code = $this->_getSession()->getCurrencyCode();
-        if (in_array($code, $this->getAvailableCurrencyCodes())) {
+        if (in_array($code, $this->getAvailableCurrencyCodes(true))) {
             return $code;
         }
-        return $this->getDefaultCurrencyCode();
+
+        // take first one of allowed codes
+        $codes = array_values($this->getAvailableCurrencyCodes(true));
+        if (empty($codes)) {
+            // return default code, if no codes specified at all
+            return $this->getDefaultCurrencyCode();
+        }
+        return array_shift($codes);
     }
 
     /**
