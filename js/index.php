@@ -31,7 +31,7 @@
 // no files specified return 404
 if (empty($_GET['f'])) {
     header('404 Not found');
-    echo "SYNTAX: proxy.php/x.js?f=dir1/file1.js,dir2/file2.js";
+    echo "SYNTAX: index.php/x.js?f=dir1/file1.js,dir2/file2.js";
     exit;
 }
 
@@ -80,7 +80,7 @@ foreach ($files as $f) {
 // last modified is the max mtime for loaded files
 header('Last-modified: '.gmdate('r', $lastModified));
 
-// optional custom content type, can be emulated by proxy.php/x.js or x.css
+// optional custom content type, can be emulated by index.php/x.js or x.css
 if (is_string($contentType)) {
     header('Content-type: '.$contentType);
 }
