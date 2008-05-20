@@ -48,6 +48,8 @@
         </handlers>
         <resources>
         </resources>
+        <resources_alias>
+        </resources_alias>
         <faults>
             <unknown>
                 <code>0</code>

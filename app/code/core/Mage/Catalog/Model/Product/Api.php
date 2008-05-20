@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
     /**
      * Retrieve product info
      *
-     * @param int $productId
+     * @param int|string $productId
      * @param string|int $store
      * @param array $attributes
      * @return array
@@ -93,9 +93,21 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
     public function info($productId, $store = null, $attributes = null)
     {
         $product = Mage::getModel('catalog/product');
+
         /* @var $product Mage_Catalog_Model_Product */
+
+        if (is_string($productId)) {
+            $idBySku = $product->getIdBySku($productId);
+            if ($idBySku) {
+                $productId = $idBySku;
+            }
+        }
+
+
         $product->setStoreId($this->_getStoreId($store))
             ->load($productId);
+
+
 
         if (!$product->getId()) {
             $this->_fault('not_exists');
@@ -170,7 +182,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
     /**
      * Update product data
      *
-     * @param int $productId
+     * @param int|string $productId
      * @param array $productData
      * @param string|int $store
      * @return boolean
@@ -179,6 +191,15 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
     {
         $product = Mage::getModel('catalog/product');
         /* @var $product Mage_Catalog_Model_Product */
+
+        if (is_string($productId)) {
+            $idBySku = $product->getIdBySku($productId);
+            if ($idBySku) {
+                $productId = $idBySku;
+            }
+        }
+
+
         $product->setStoreId($this->_getStoreId($store))
             ->load($productId);
 
@@ -220,12 +241,20 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
     /**
      * Delete product
      *
-     * @param int $productId
+     * @param int|string $productId
      * @return boolean
      */
     public function delete($productId)
     {
         $product = Mage::getModel('catalog/product');
+
+        if (is_string($productId)) {
+            $idBySku = $product->getIdBySku($productId);
+            if ($idBySku) {
+                $productId = $idBySku;
+            }
+        }
+
         /* @var $product Mage_Catalog_Model_Product */
         $product->load($productId);
 

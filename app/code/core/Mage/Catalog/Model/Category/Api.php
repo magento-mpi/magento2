@@ -199,11 +199,11 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         // Basic category data
         $result = array();
-        $result['category_id'] = $node->getId();
-        $result['parent_id']   = $node->getParentId();
-        $result['is_active']   = $node->getIsActive();
-        $result['position']    = $node->getPosition();
-        $result['level']       = $node->getLevel();
+        $result['category_id'] = $category->getId();
+        $result['parent_id']   = $category->getParentId();
+        $result['is_active']   = $category->getIsActive();
+        $result['position']    = $category->getPosition();
+        $result['level']       = $category->getLevel();
 
         foreach ($category->getAttributes() as $attribute) {
             if ($this->_isAllowedAttribute($attribute, $attributes)) {
@@ -241,7 +241,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         try {
             $category->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_fault('invalid_data', $e->getMessage());
+            $this->_fault('data_invalid', $e->getMessage());
         }
 
         return $category->getId();
@@ -272,7 +272,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         try {
             $category->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_fault('invalid_data', $e->getMessage());
+            $this->_fault('data_invalid', $e->getMessage());
         }
 
         return true;
@@ -332,6 +332,24 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     }
 
     /**
+     * Get prduct Id from sku or from product id
+     *
+     * @param int|string $productId
+     * @return int
+     */
+    protected function _getProductId($productId)
+    {
+        $product = Mage::getModel('catalog/product');
+        $idBySku = $product->getIdBySku($productId);
+        if ($idBySku) {
+            $productId = $idBySku;
+        }
+
+        return $productId;
+    }
+
+
+    /**
      * Retrieve list of assigned products to category
      *
      * @param int $categoryId
@@ -341,7 +359,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
         $category = $this->_initCategory($categoryId);
 
-        $collection = $category->getProductCollection();
+        $collection = $category->getProductCollection()->setOrder('position', 'asc');
 
         $result = array();
 
@@ -370,17 +388,19 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
         $category = $this->_initCategory($categoryId);
         $positions = $category->getProductsPosition();
+        $productId = $this->_getProductId($productId);
         $positions[$productId] = $position;
-        $category->setProductsPosition($positions);
+        $category->setPostedProducts($positions);
 
         try {
             $category->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_fault('invalid_data', $e->getMessage());
+            $this->_fault('data_invalid', $e->getMessage());
         }
 
         return true;
     }
+
 
     /**
      * Update product assignment
@@ -394,16 +414,17 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
         $category = $this->_initCategory($categoryId);
         $positions = $category->getProductsPosition();
+        $productId = $this->_getProductId($productId);
         if (!isset($positions[$productId])) {
             $this->_fault('product_not_assigned');
         }
         $positions[$productId] = $position;
-        $category->setProductsPosition($positions);
+        $category->setPostedProducts($positions);
 
         try {
             $category->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_fault('invalid_data', $e->getMessage());
+            $this->_fault('data_invalid', $e->getMessage());
         }
 
         return true;
@@ -420,12 +441,19 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
         $category = $this->_initCategory($categoryId);
         $positions = $category->getProductsPosition();
+        $productId = $this->_getProductId($productId);
         if (!isset($positions[$productId])) {
             $this->_fault('product_not_assigned');
         }
 
         unset($positions[$productId]);
-        $category->setProductsPosition($positions);
+        $category->setPostedProducts($positions);
+
+        try {
+            $category->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
+        }
 
         return true;
     }

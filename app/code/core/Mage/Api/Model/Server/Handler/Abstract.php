@@ -122,6 +122,30 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     }
 
     /**
+     * Retrive webservice fault as array
+     *
+     * @param string $faultName
+     * @param string $resourceName
+     * @param string $customMessage
+     * @return array
+     */
+    protected function _faultAsArray($faultName, $resourceName=null, $customMessage=null)
+    {
+        $faults = $this->_getConfig()->getFaults($resourceName);
+        if (!isset($faults[$faultName]) && !is_null($resourceName)) {
+            return $this->_faultAsArray($faultName);
+        } elseif (!isset($faults[$faultName])) {
+            return $this->_faultAsArray('unknown');
+        }
+
+        return array(
+            'isFault'      => true,
+            'faultCode'    => $faults[$faultName]['code'],
+            'faultMessage' => (is_null($customMessage) ? $faults[$faultName]['message'] : $customMessage)
+        );
+    }
+
+    /**
      * Start web service session
      *
      * @return string
@@ -167,12 +191,12 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     /**
      * Call resource functionality
      *
-     * @param string $resourcePath
      * @param string $sessionId
+     * @param string $resourcePath
      * @param array  $args
      * @return mixed
      */
-    public function call($apiPath, $sessionId, $args)
+    public function call($sessionId, $apiPath, $args = array())
     {
         $this->_startSession($sessionId);
 
@@ -182,29 +206,38 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
             return $this->_fault('resource_path_invalid');
         }
 
-        if (!isset($this->_getConfig()->getResources()->$resourceName)
-            || !isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName)) {
+        $resourcesAlias = $this->_getConfig()->getResourcesAlias();
+        $resources      = $this->_getConfig()->getResources();
+
+        if (isset($resourcesAlias->$resourceName)) {
+            $resourceName = (string) $resourcesAlias->$resourceName;
+        }
+
+        if (!isset($resources->$resourceName)
+            || !isset($resources->$resourceName->methods->$methodName)) {
             return $this->_fault('resource_path_invalid');
         }
 
-        if (isset($this->_getConfig()->getResources()->$resourceName->acl)
-            && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->acl)) {
+        if (!isset($resources->$resourceName->public)
+            && isset($resources->$resourceName->acl)
+            && !$this->_isAllowed((string)$resources->$resourceName->acl)) {
             return $this->_fault('access_denied');
 
         }
 
 
-        if (isset($this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)
-            && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->methods->$methodName->acl)) {
+        if (!isset($resources->$resourceName->methods->$methodName->public)
+            && isset($resources->$resourceName->methods->$methodName->acl)
+            && !$this->_isAllowed((string)$resources->$resourceName->methods->$methodName->acl)) {
             return $this->_fault('access_denied');
         }
 
-        $methodInfo = $this->_getConfig()->getResources()->$resourceName->methods->$methodName;
+        $methodInfo = $resources->$resourceName->methods->$methodName;
 
         try {
             $method = (isset($methodInfo->method) ? (string) $methodInfo->method : $methodName);
 
-            $modelName = (string) $this->_getConfig()->getResources()->$resourceName->model;
+            $modelName = (string) $resources->$resourceName->model;
             try {
                 $model = Mage::getModel($modelName);
             } catch (Exception $e) {
@@ -212,7 +245,8 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
             }
 
             if (is_callable(array(&$model, $method))) {
-                if (isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array') {
+                if ((isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array')
+                        || !is_array($args)) {
                     return $model->$method($args);
                 } else {
                     return call_user_func_array(array(&$model, $method), $args);
@@ -229,6 +263,126 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     }
 
     /**
+     * Multiple calls of resource functionality
+     *
+     * @param string $sessionId
+     * @param array $calls
+     * @param array $options
+     * @return array
+     */
+    public function multiCall($sessionId, array $calls = array(), $options = array())
+    {
+        $this->_startSession($sessionId);
+        $result = array();
+
+        $resourcesAlias = $this->_getConfig()->getResourcesAlias();
+        $resources      = $this->_getConfig()->getResources();
+
+        foreach ($calls as $call) {
+            if (!isset($call[0])) {
+                $result[] = $this->_faultAsArray('resource_path_invalid');
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            $apiPath = $call[0];
+            $args    =  (isset($call[1]) ? $call[1] : array());
+
+            list($resourceName, $methodName) = explode('.', $apiPath);
+
+            if (empty($resourceName) || empty($methodName)) {
+                $result[] = $this->_faultAsArray('resource_path_invalid');
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            if (isset($resourcesAlias->$resourceName)) {
+                $resourceName = (string) $resourcesAlias->$resourceName;
+            }
+
+            if (!isset($resources->$resourceName)
+                || !isset($resources->$resourceName->methods->$methodName)) {
+                $result[] = $this->_faultAsArray('resource_path_invalid');
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            if (!isset($resources->$resourceName->public)
+                && isset($resources->$resourceName->acl)
+                && !$this->_isAllowed((string)$resources->$resourceName->acl)) {
+                $result[] = $this->_faultAsArray('access_denied');
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+
+            if (!isset($resources->$resourceName->methods->$methodName->public)
+                && isset($resources->$resourceName->methods->$methodName->acl)
+                && !$this->_isAllowed((string)$resources->$resourceName->methods->$methodName->acl)) {
+                $result[] = $this->_faultAsArray('access_denied');
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            $methodInfo = $resources->$resourceName->methods->$methodName;
+
+            try {
+                $method = (isset($methodInfo->method) ? (string) $methodInfo->method : $methodName);
+
+                $modelName = (string) $resources->$resourceName->model;
+                try {
+                    $model = Mage::getModel($modelName);
+                } catch (Exception $e) {
+                    throw new Mage_Api_Exception('resource_path_not_callable');
+                }
+
+                if (is_callable(array(&$model, $method))) {
+                    if ((isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array')
+                            || !is_array($args)) {
+                        $result[] = $model->$method($args);
+                    } else {
+                        $result[] = call_user_func_array(array(&$model, $method), $args);
+                    }
+                } else {
+                    throw new Mage_Api_Exception('resource_path_not_callable');
+                }
+            } catch (Mage_Api_Exception $e) {
+                $result[] = $this->_faultAsArray($e->getMessage(), $resourceName, $e->getCustomMessage());
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            } catch (Exception $e) {
+                Mage::logException($e);
+                $result[] = $this->_faultAsArray('internal');
+                if (isset($options['break']) && $options['break']==1) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * List of available resources
      *
      * @param string $sessionId
@@ -238,6 +392,13 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     {
         $this->_startSession($sessionId);
         $resources = array();
+
+        $resourcesAlias = array();
+        foreach ($this->_getConfig()->getResourcesAlias() as $alias => $resourceName) {
+            $resourcesAlias[(string) $resourceName][] = $alias;
+        }
+
+
         foreach ($this->_getConfig()->getResources() as $resourceName => $resource) {
             if (isset($resource->acl) && !$this->_isAllowed((string) $resource->acl)) {
                 continue;
@@ -248,9 +409,19 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
                 if (isset($method->acl) && !$this->_isAllowed((string) $method->acl)) {
                     continue;
                 }
+                $methodAliases = array();
+                if (isset($resourcesAlias[$resourceName])) {
+                   foreach ($resourcesAlias[$resourceName] as $alias) {
+                       $methodAliases[] =  $alias . '.' . $methodName;
+                   }
+                }
+
                 $methods[] = array(
-                    'title' => (string) $method->title,
-                    'path'  => $resourceName . '.' . $methodName
+                    'title'       => (string) $method->title,
+                    'description' => (isset($method->description) ? (string)$method->description : null),
+                    'path'        => $resourceName . '.' . $methodName,
+                    'name'        => $methodName,
+                    'aliases'     => $methodAliases
                 );
             }
 
@@ -259,9 +430,11 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
             }
 
             $resources[] = array(
-                'title'   => (string) $resource->title,
-                'name'    => $resourceName,
-                'methods' => $methods
+                'title'       => (string) $resource->title,
+                'description' => (isset($resource->description) ? (string)$resource->description : null),
+                'name'        => $resourceName,
+                'aliases'     => (isset($resourcesAlias[$resourceName]) ? $resourcesAlias[$resourceName] : array()),
+                'methods'     => $methods
             );
         }
 
@@ -271,10 +444,11 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     /**
      * List of resource faults
      *
+     * @param string $sessionId
      * @param string $resourceName
      * @return array
      */
-    public function resourceFaults($resourceName, $sessionId)
+    public function resourceFaults($sessionId, $resourceName)
     {
         $this->_startSession($sessionId);
         if (empty($resourceName)

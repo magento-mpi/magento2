@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
      * Retrieve product link associations
      *
      * @param string $type
-     * @param int $productId
+     * @param int|sku $productId
      * @return array
      */
     public function items($type, $productId)
@@ -80,12 +80,12 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
      * Add product link association
      *
      * @param string $type
-     * @param int $productId
-     * @param int $linkedProductId
+     * @param int|string $productId
+     * @param int|string $linkedProductId
      * @param array $data
      * @return boolean
      */
-    public function assign($type, $productId, $linkedProductId, $data)
+    public function assign($type, $productId, $linkedProductId, $data = array())
     {
         $typeId = $this->_getTypeId($type);
 
@@ -95,8 +95,14 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             ->setLinkTypeId($typeId);
 
         $collection = $this->_initCollection($link, $product);
+        $idBySku = $product->getIdBySku($linkedProductId);
+        if ($idBySku) {
+            $linkedProductId = $idBySku;
+        }
 
         $links = $this->_collectionToEditableArray($collection);
+
+        $links[(int)$linkedProductId] = array();
 
         foreach ($collection->getLinkModel()->getAttributes() as $attribute) {
             if (isset($data[$attribute['code']])) {
@@ -107,7 +113,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
         } catch (Exception $e) {
-            $this->_fault('invalid_data', Mage::helper('catalog')->__('Link product not exists.'));
+            $this->_fault('data_invalid', Mage::helper('catalog')->__('Link product not exists.'));
         }
 
         return true;
@@ -117,12 +123,12 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
      * Update product link association info
      *
      * @param string $type
-     * @param int $productId
-     * @param int $linkedProductId
+     * @param int|string $productId
+     * @param int|string $linkedProductId
      * @param array $data
      * @return boolean
      */
-    public function update($type, $productId, $linkedProductId, $data)
+    public function update($type, $productId, $linkedProductId, $data = array())
     {
         $typeId = $this->_getTypeId($type);
 
@@ -135,6 +141,11 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
 
         $links = $this->_collectionToEditableArray($collection);
 
+        $idBySku = $product->getIdBySku($linkedProductId);
+        if ($idBySku) {
+            $linkedProductId = $idBySku;
+        }
+
         foreach ($collection->getLinkModel()->getAttributes() as $attribute) {
             if (isset($data[$attribute['code']])) {
                 $links[(int)$linkedProductId][$attribute['code']] = $data[$attribute['code']];
@@ -144,7 +155,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
         } catch (Exception $e) {
-            $this->_fault('invalid_data', Mage::helper('catalog')->__('Link product not exists.'));
+            $this->_fault('data_invalid', Mage::helper('catalog')->__('Link product not exists.'));
         }
 
         return true;
@@ -154,8 +165,8 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
      * Remove product link association
      *
      * @param string $type
-     * @param int $productId
-     * @param int $linkedProductId
+     * @param int|string $productId
+     * @param int|string $linkedProductId
      * @return boolean
      */
     public function remove($type, $productId, $linkedProductId)
@@ -168,6 +179,11 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
             ->setLinkTypeId($typeId);
 
         $collection = $this->_initCollection($link, $product);
+
+        $idBySku = $product->getIdBySku($linkedProductId);
+        if ($idBySku) {
+            $linkedProductId = $idBySku;
+        }
 
         $links = $this->_collectionToEditableArray($collection);
 
@@ -242,9 +258,17 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
      */
     protected function _initProduct($productId)
     {
+
+
         $product = Mage::getModel('catalog/product')
-            ->setStoreId($this->_getStoreId())
-            ->load($productId);
+            ->setStoreId($this->_getStoreId());
+
+        $idBySku = $product->getIdBySku($productId);
+        if ($idBySku) {
+            $productId = $idBySku;
+        }
+
+        $product->load($productId);
 
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
@@ -264,7 +288,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
     {
         $collection = $link
             ->getProductCollection()
-            ->setIsStrongModel()
+            ->setIsStrongMode()
             ->setProduct($product);
 
         return $collection;

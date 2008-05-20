@@ -36,5 +36,7 @@ if (!file_exists($mageFilename)) {
 
 require_once $mageFilename;
 
+Mage::setIsDeveloperMode(true);
+
 umask(0);
 Mage::run();

@@ -22,7 +22,7 @@
 <config>
     <api>
         <resources>
-            <country translate="title" module="directory">
+            <directory_country translate="title" module="directory">
                 <model>directory/country_api</model>
                 <title>Country Resource</title>
                 <acl>directory/country</acl>
@@ -32,8 +32,8 @@
                         <method>items</method>
                     </list>
                 </methods>
-            </country>
-            <region translate="title" module="directory">
+            </directory_country>
+            <directory_region translate="title" module="directory">
                 <model>directory/region_api</model>
                 <title>Region Resource</title>
                 <acl>directory/region</acl>
@@ -49,8 +49,12 @@
                         <message>Country not exists.</message>
                     </country_not_exists>
                 </faults>
-            </region>
+            </directory_region>
         </resources>
+        <resources_alias>
+            <country>directory_country</country>
+            <region>directory_region</region>
+        </resources_alias>
         <acl>
             <resources>
                 <all>

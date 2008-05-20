@@ -30,7 +30,6 @@
                     <list translate="title" module="customer">
                         <title>Retrieve customers</title>
                         <method>items</method>
-                        <acl>customer/view</acl>
                     </list>
                     <create translate="title" module="customer">
                         <title>Create customer</title>
@@ -38,7 +37,6 @@
                     </create>
                     <info translate="title" module="customer">
                         <title>Retrieve customer data</title>
-                        <acl>customer/view</acl>
                     </info>
                     <update translate="title" module="customer">
                         <title>Update customer data</title>
@@ -87,7 +85,6 @@
                     <list translate="title" module="customer">
                         <title>Retrieve customer addresses</title>
                         <method>items</method>
-                        <acl>customer/address/view</acl>
                     </list>
                     <create translate="title" module="customer">
                         <title>Create customer address</title>
@@ -95,7 +92,6 @@
                     </create>
                     <info translate="title" module="customer">
                         <title>Retrieve customer data</title>
-                        <acl>customer/address/view</acl>
                     </info>
                     <update translate="title" module="customer">
                         <title>Update customer address data</title>
@@ -131,9 +127,6 @@
                 <all>
                     <customer translate="title" module="customer">
                          <title>Customers</title>
-                         <view translate="title" module="customer">
-                            <title>View</title>
-                         </view>
                          <create translate="title" module="customer">
                             <title>Create</title>
                          </create>
@@ -145,9 +138,6 @@
                          </delete>
                          <address translate="title" module="customer">
                              <title>Addresses</title>
-                             <view translate="title" module="customer">
-                                <title>View</title>
-                             </view>
                              <create translate="title" module="customer">
                                 <title>Create</title>
                              </create>

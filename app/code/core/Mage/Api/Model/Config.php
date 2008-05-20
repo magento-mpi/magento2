@@ -160,6 +160,17 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
+     * Retrieve resources alias
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getResourcesAlias()
+    {
+        return $this->getNode('resources_alias')->children();
+    }
+
+
+    /**
      * Load Acl resources from config
      *
      * @param Mage_Api_Model_Acl $acl
