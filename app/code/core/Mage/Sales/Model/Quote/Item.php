@@ -27,6 +27,9 @@
  */
 class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 {
+    protected $_eventPrefix = 'sales_quote_item';
+    protected $_eventObject = 'item';
+
     /**
      * Quote model object
      *

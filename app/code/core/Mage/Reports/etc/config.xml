@@ -111,7 +111,7 @@
                     </reports>
                 </observers>
             </catalog_product_compare_add_product>
-            <checkout_cart_add_product>
+            <sales_quote_item_save_before>
                 <observers>
                     <reports>
                         <type>singleton</type>
@@ -119,7 +119,7 @@
                         <method>checkoutCartAddProduct</method>
                     </reports>
                 </observers>
-            </checkout_cart_add_product>
+            </sales_quote_item_save_before>
             <wishlist_add_product>
                 <observers>
                     <reports>

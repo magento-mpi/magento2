@@ -92,18 +92,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         return $products;
     }
 
-    public function getCustomerWishlist()
-    {
-        $wishlist = $this->getData('customer_wishlist');
-        if (is_null($wishlist)) {
-            $wishlist = false;
-            if ($customer = $this->getCustomerSession()->getCustomer()) {
-                $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($customer, true);
-            }
-            $this->setData('customer_wishlist', $wishlist);
-        }
-        return $wishlist;
-    }
 
     /**
      * Retrieve current quote object
@@ -261,6 +249,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if (!empty($productIds)) {
             foreach ($productIds as $productId) {
                 $product = Mage::getModel('catalog/product')
+                    ->setStoreId(Mage::app()->getStore()->getId())
                     ->load($productId);
                 if ($product->getId() && $product->isVisibleInCatalog()) {
                     try {
@@ -277,12 +266,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
             if (!$allAvailable) {
                 $this->getCheckoutSession()->addError(
-                Mage::helper('checkout')->__('Some of the products you requested are unavailable')
+                    Mage::helper('checkout')->__('Some of the products you requested are unavailable')
                 );
             }
             if (!$allAdded) {
                 $this->getCheckoutSession()->addError(
-                Mage::helper('checkout')->__('Some of the products you requested are not available in the desired quantity')
+                    Mage::helper('checkout')->__('Some of the products you requested are not available in the desired quantity')
                 );
             }
         }
@@ -290,13 +279,15 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Update cart items
+     * Update cart items information
      *
      * @param   array $data
      * @return  Mage_Checkout_Model_Cart
      */
     public function updateItems($data)
     {
+        Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
+
         foreach ($data as $itemId => $itemInfo) {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
@@ -308,16 +299,13 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         	    continue;
         	}
 
-        	if (!empty($itemInfo['wishlist'])) {
-        	    $this->moveItemToWishlist($itemId);
-        	    continue;
-        	}
-
             $qty = isset($itemInfo['qty']) ? (float) $itemInfo['qty'] : false;
         	if ($qty > 0) {
         	    $item->setQty($qty);
         	}
         }
+
+        Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
         return $this;
     }
 
@@ -330,28 +318,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     public function removeItem($itemId)
     {
         $this->getQuote()->removeItem($itemId);
-        return $this;
-    }
-
-    /**
-     * Move cart item to wishlist
-     *
-     * @param   int $itemId
-     * @return  Mage_Checkout_Model_Cart
-     */
-    public function moveItemToWishlist($itemId)
-    {
-        if ($wishlist = $this->getCustomerWishlist()) {
-            if ($item = $this->getQuote()->getItemById($itemId)) {
-                $productId = $item->getProductId();
-                if ($item->getSuperProductId()) {
-                    $productId = $item->getSuperProductId();
-                }
-                $wishlist->addNewItem($productId)
-                    ->save();
-                $this->removeItem($itemId);
-            }
-        }
         return $this;
     }
 
