@@ -122,7 +122,7 @@
                 <description><to_order_item>*</to_order_item></description>
                 <weight><to_order_item>*</to_order_item></weight>
                 <is_qty_decimal><to_order_item>*</to_order_item></is_qty_decimal>
-                <qty_ordered><to_order_item>*</to_order_item></qty_ordered>
+                <qty><to_order_item>qty_ordered</to_order_item></qty>
                 <original_price><to_order_item>*</to_order_item></original_price>
                 <applied_rule_ids><to_order_item>*</to_order_item></applied_rule_ids>
                 <additional_data><to_order_item>*</to_order_item></additional_data>
