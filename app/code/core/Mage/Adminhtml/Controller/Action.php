@@ -152,9 +152,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
         if ($defaultSecure == '{{base_url}}' || $defaultUnsecure == '{{base_url}}') {
             $this->_getSession()->addNotice(
-                $this->__('{{base_url}} is not secure way for declare Base Unsecure Url / Base Secure Url. We recommend change this value in <a href="%s">configuration</a>.', $this->getUrl('*/system_config/edit', array('section'=>'web')))
+                $this->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure Url / Base Secure Url. It is highly recommended to change this value in you Magento <a href="%s">configuration</a>.', $this->getUrl('*/system_config/edit', array('section'=>'web')))
             );
-            $this->_getSession()->setIsUrlNotice(true);
             return $this;
         }
 
@@ -174,9 +173,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
             if ($url) {
                 $this->_getSession()->addNotice(
-                    $this->__('{{base_url}} is not secure way for declare Base Unsecure Url / Base Secure Url. We recommend change this value in <a href="%s">configuration</a>.', $url)
+                    $this->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure Url / Base Secure Url. It is highly recommended to change this value in you Magento <a href="%s">configuration</a>.', $url)
                 );
-                $this->_getSession()->setIsUrlNotice(true);
                 return $this;
             }
         }
@@ -286,8 +284,15 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _redirect($path, $arguments=array())
     {
+        $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
         $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
         return $this;
+    }
+
+    protected function _forward($action, $controller = null, $module = null, array $params = null)
+    {
+        $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
+        return parent::_forward($action, $controller, $module, $params);
     }
 
     /**
