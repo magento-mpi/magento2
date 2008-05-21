@@ -335,7 +335,7 @@ h1#logo                 { float:left; }
 .breadcrumbs            { float:left; }
 .breadcrumbs li         { display:inline; line-height:18px; }
 .breadcrumbs a, 
-.breacrumbs a:hover     { color:#7f7f7f; }
+.breadcrumbs a:hover     { color:#7f7f7f; }
 
 
 /* Mini search */
