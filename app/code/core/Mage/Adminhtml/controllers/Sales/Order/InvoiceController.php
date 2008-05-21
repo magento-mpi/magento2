@@ -184,7 +184,8 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 ->renderLayout();
         }
         else {
-            $this->_forward('noRoute');
+            // $this->_forward('noRoute');
+            $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
     }
 

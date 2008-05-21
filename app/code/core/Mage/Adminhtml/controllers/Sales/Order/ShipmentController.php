@@ -158,7 +158,8 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 ->renderLayout();
         }
         else {
-            $this->_forward('noRoute');
+            // $this->_forward('noRoute');
+            $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -366,7 +367,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $this->_forward('noRoute');
         }
     }
-    
+
     public function addCommentAction()
     {
         try {
