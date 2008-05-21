@@ -384,7 +384,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      * @param int $position
      * @return boolean
      */
-    public function assignProduct($categoryId, $productId, $position)
+    public function assignProduct($categoryId, $productId, $position = null)
     {
         $category = $this->_initCategory($categoryId);
         $positions = $category->getProductsPosition();
@@ -410,7 +410,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      * @param int $position
      * @return boolean
      */
-    public function updateProduct($categoryId, $productId, $position)
+    public function updateProduct($categoryId, $productId, $position = null)
     {
         $category = $this->_initCategory($categoryId);
         $positions = $category->getProductsPosition();

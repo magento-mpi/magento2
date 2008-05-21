@@ -260,6 +260,8 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
                 );
             }
         }
+
+        return $result;
     }
 
     /**

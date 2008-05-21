@@ -24,7 +24,7 @@
         <resources>
             <customer translate="title" module="customer">
                 <model>customer/customer_api</model>
-                <title>Customer Resource</title>
+                <title>Customer Api</title>
                 <acl>customer</acl>
                 <methods>
                     <list translate="title" module="customer">
@@ -68,7 +68,7 @@
             </customer>
             <customer_group>
                 <model>customer/group_api</model>
-                <title>Customer's Groups Resource</title>
+                <title>Customer's Groups Api</title>
                 <acl>customer</acl>
                 <methods>
                     <list translate="title" module="customer">
@@ -79,7 +79,7 @@
             </customer_group>
             <customer_address>
                 <model>customer/address_api</model>
-                <title>Customer Address Resource</title>
+                <title>Customer Address Api</title>
                 <acl>customer/address</acl>
                 <methods>
                     <list translate="title" module="customer">

@@ -25,7 +25,7 @@
  * @package    Mage_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Api extends Mage_Catalog_Model_Api_Resource
+class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_Resource
 {
     public function __construct()
     {
@@ -87,4 +87,4 @@ class Mage_CatalogInventory_Model_Api extends Mage_Catalog_Model_Api_Resource
 
         return true;
     }
-} // Class Mage_CatalogInventory_Model_Api End
+} // Class Mage_CatalogInventory_Model_Stock_Item_Api End

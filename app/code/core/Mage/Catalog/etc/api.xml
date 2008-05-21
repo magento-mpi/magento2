@@ -258,6 +258,34 @@
                         <code>100</code>
                         <message>Requested store view not found.</message>
                     </store_not_exists>
+                    <product_not_exists>
+                        <code>101</code>
+                        <message>Product not exists.</message>
+                    </product_not_exists>
+                    <data_invalid>
+                        <code>102</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <not_exists>
+                        <code>103</code>
+                        <message>Requested image not exists in product images' gallery.</message>
+                    </not_exists>
+                    <not_created>
+                        <code>104</code>
+                        <message>Image creation failed. Details in error message.</message>
+                    </not_created>
+                    <not_updated>
+                        <code>105</code>
+                        <message>Image not updated. Details in error message.</message>
+                    </not_updated>
+                    <not_removed>
+                        <code>106</code>
+                        <message>Image not removed. Details in error message.</message>
+                    </not_removed>
+                    <not_media>
+                        <code>107</code>
+                        <message>Requested product doesn't support images</message>
+                    </not_media>
                 </faults>
             </catalog_product_attribute_media>
             <catalog_product_link translate="title" module="catalog">

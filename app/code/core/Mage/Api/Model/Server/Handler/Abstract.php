@@ -245,8 +245,9 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
             }
 
             if (is_callable(array(&$model, $method))) {
-                if ((isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array')
-                        || !is_array($args)) {
+                if (isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array') {
+                    return $model->$method((is_array($args) ? $args : array($args)));
+                } elseif (!is_array($args)) {
                     return $model->$method($args);
                 } else {
                     return call_user_func_array(array(&$model, $method), $args);
@@ -352,8 +353,9 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
                 }
 
                 if (is_callable(array(&$model, $method))) {
-                    if ((isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array')
-                            || !is_array($args)) {
+                    if (isset($methodInfo->arguments) && ((string)$methodInfo->arguments) == 'array') {
+                        $result[] = $model->$method((is_array($args) ? $args : array($args)));
+                    } elseif (!is_array($args)) {
                         $result[] = $model->$method($args);
                     } else {
                         $result[] = call_user_func_array(array(&$model, $method), $args);
@@ -451,13 +453,22 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     public function resourceFaults($sessionId, $resourceName)
     {
         $this->_startSession($sessionId);
+
+        $resourcesAlias = $this->_getConfig()->getResourcesAlias();
+        $resources      = $this->_getConfig()->getResources();
+
+        if (isset($resourcesAlias->$resourceName)) {
+            $resourceName = (string) $resourcesAlias->$resourceName;
+        }
+
+
         if (empty($resourceName)
-            || !isset($this->_getConfig()->getResources()->$resourceName)) {
+            || !isset($resources->$resourceName)) {
             return $this->_fault('resource_path_invalid');
         }
 
-        if (isset($this->_getConfig()->getResources()->$resourceName->acl)
-            && !$this->_isAllowed((string)$this->_getConfig()->getResources()->$resourceName->acl)) {
+        if (isset($resources->$resourceName->acl)
+            && !$this->_isAllowed((string)$resources->$resourceName->acl)) {
             return $this->_fault('access_denied');
         }
 

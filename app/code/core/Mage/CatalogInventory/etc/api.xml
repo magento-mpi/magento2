@@ -22,17 +22,17 @@
 <config>
     <api>
         <resources>
-            <cataloginventory translate="title" module="cataloginventory">
-                <model>cataloginventory/api</model>
-                <title>Category API</title>
+            <cataloginventory_stock_item translate="title" module="cataloginventory">
+                <model>cataloginventory/stock_item_api</model>
+                <title>Inventory API</title>
                 <acl>cataloginventory</acl>
                 <methods>
                     <list translate="title" module="cataloginventory">
-                        <title>Retrieve inventory data by product ids</title>
+                        <title>Retrieve stock data by product ids</title>
                         <method>items</method>
                     </list>
                     <update translate="title" module="cataloginventory">
-                        <title>Update product inventory data</title>
+                        <title>Update product stock data</title>
                         <acl>cataloginventory/update</acl>
                     </update>
                 </methods>
@@ -46,10 +46,10 @@
                         <message>Product inventory not updated. Details in error message.</message>
                     </not_updated>
                 </faults>
-            </cataloginventory>
+            </cataloginventory_stock_item>
         </resources>
         <resources_alias>
-            <product_inventory>cataloginventory</product_inventory>
+            <product_stock>cataloginventory_stock_item</product_stock>
         </resources_alias>
         <acl>
             <resources>
