@@ -34,6 +34,7 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
         $collection = Mage::registry('product')->getRelatedProductCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
+            ->addAttributeToSelect('special_price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('small_image')
             ->addAttributeToSelect('thumbnail')
