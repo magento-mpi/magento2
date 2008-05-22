@@ -396,6 +396,7 @@ class Mage_Core_Model_Locale
      * @param   mixed $date
      * @param   string $part
      * @return  Zend_Date
+     * @exception Zend_Date_Exception
      */
     public function date($date=null, $part=null, $locale=null, $useTimezone=true)
     {
@@ -403,19 +404,15 @@ class Mage_Core_Model_Locale
             $locale = $this->getLocale();
         }
 
-        try {
-            $date = new Zend_Date($date, $part, $locale);
-            if ($useTimezone) {
-                if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
-                    $date->setTimezone($timezone);
-                }
+        // try-catch block was here
+        $date = new Zend_Date($date, $part, $locale);
+        if ($useTimezone) {
+            if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
+                $date->setTimezone($timezone);
             }
-            //$date->add(-(substr($date->get(Zend_Date::GMT_DIFF), 0,3)), Zend_Date::HOUR);
         }
-        catch (Exception $e){
-            echo $e;
-            return null;
-        }
+        //$date->add(-(substr($date->get(Zend_Date::GMT_DIFF), 0,3)), Zend_Date::HOUR);
+
         return $date;
     }
 
