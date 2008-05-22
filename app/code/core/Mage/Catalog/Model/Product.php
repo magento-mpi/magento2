@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function getPrice()
     {
-        return $this->_getData('price');
+        return $this->getTypeInstance()->getPrice();
     }
 
     public function getTypeId()
@@ -1129,4 +1129,23 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeInstance()->isComposite();
     }
 
+    /**
+     * Retrieve sku through type instance
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->getTypeInstance()->getSku();
+    }
+
+    /**
+     * Retrieve weight throught type instance
+     *
+     * @return unknown
+     */
+    public function getWeight()
+    {
+        return $this->getTypeInstance()->getWeight();
+    }
 }

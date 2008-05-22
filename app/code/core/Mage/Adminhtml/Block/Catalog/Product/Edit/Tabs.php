@@ -27,6 +27,8 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
+    protected $_attributeTabBlock = 'adminhtml/catalog_product_edit_tab_attributes';
+
     public function __construct()
     {
         parent::__construct();
@@ -64,7 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
                 $this->addTab('group_'.$group->getId(), array(
                     'label'     => Mage::helper('catalog')->__($group->getAttributeGroupName()),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_attributes')
+                    'content'   => $this->getLayout()->createBlock($this->getAttributeTabBlock())
                         ->setGroup($group)
                         ->setGroupAttributes($attributes)
                         ->toHtml(),
@@ -167,5 +169,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             $this->setData('product', Mage::registry('product'));
         }
         return $this->getData('product');
+    }
+
+    /**
+     * Getting attribute block name for tabs
+     *
+     * @return string
+     */
+    public function getAttributeTabBlock()
+    {
+        return $this->_attributeTabBlock;
     }
 }

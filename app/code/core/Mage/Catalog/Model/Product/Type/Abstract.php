@@ -190,4 +190,35 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         return $this->_isComposite;
     }
+
+    /**
+     * Default action to get price of product
+     *
+     * @return decimal
+     */
+    public function getPrice()
+    {
+        return $this->getProduct()->getData('price');
+    }
+
+    /**
+     * Default action to get sku of product
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->getProduct()->getData('sku');
+    }
+
+    /**
+     * Default action to get weight of product
+     *
+     * @return decimal
+     */
+    public function getWeight()
+    {
+        return $this->getProduct()->getData('weight');
+    }
+
 }
