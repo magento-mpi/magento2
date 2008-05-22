@@ -96,4 +96,9 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         $text = Mage::helper('tax')->getIncExcText($flag);
         return $text ? ' ('.$text.')' : '';
     }
+
+    public function isPossibleOnepageCheckout()
+    {
+        return !Mage::getSingleton('checkout/type_onepage')->isDisabled();
+    }
 }

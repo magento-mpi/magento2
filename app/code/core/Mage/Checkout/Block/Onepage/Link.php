@@ -36,4 +36,9 @@ class Mage_Checkout_Block_Onepage_Link extends Mage_Core_Block_Template
     {
         return !Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount();
     }
+
+    public function isPossibleOnepageCheckout()
+    {
+        return !Mage::getSingleton('checkout/type_onepage')->isDisabled();
+    }
 }

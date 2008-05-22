@@ -40,7 +40,7 @@
         <?php endif ?>
     </div>
     <?php $_items = $this->getRecentItems() ?>
-    <?php if(count($_items)): ?>
+    <?php if(count($_items) && $this->isPossibleOnepageCheckout()): ?>
         <div class="actions">
             <button class="form-button" type="button" onclick="setLocation('<?php echo $this->getUrl('checkout/onepage') ?>')"><span><?php echo $this->__('Checkout') ?></span></button>
         </div>

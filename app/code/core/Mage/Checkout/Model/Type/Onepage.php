@@ -511,4 +511,22 @@ class Mage_Checkout_Model_Type_Onepage
         $orderId = $order->getIncrementId();
         return $orderId;
     }
+
+    /**
+     *  Is there possible to use onepage checkout
+     *
+     *  @param    none
+     *  @return	  boolean
+     */
+    public function isDisabled()
+    {
+        static $isDisabled = null;
+        if (is_null($isDisabled)) {
+            $store = $this->getQuote() ? $this->getQuote()->getStoreId() : null;
+            $methods = Mage::helper('payment')->getStoreMethods($store, $this->getQuote());
+            $isDisabled =  count($methods) == 0
+                || Mage::getStoreConfig('checkout/options/onepage_checkout_disabled') == 1;
+        }
+        return $isDisabled;
+    }
 }

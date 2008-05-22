@@ -57,6 +57,9 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
      */
     public function addCheckoutLink()
     {
+        if (Mage::getSingleton('checkout/type_onepage')->isDisabled()) {
+            return $this;
+        }
         if ($parentBlock = $this->getParentBlock()) {
             $text = $this->__('Checkout');
             $parentBlock->addLink($text, 'checkout', $text, true, array(), 60, null, 'class="top-link-checkout"');
