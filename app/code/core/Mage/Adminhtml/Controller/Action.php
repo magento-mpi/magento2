@@ -268,6 +268,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream')
     {
+        if (!is_null($this->getRequest()->getQuery('ft'))) {
+            $this->_redirect('*/dashboard');
+            return ;
+        }
         $this->getResponse()
             ->setHttpResponseCode(200)
             ->setHeader('Pragma', 'public', true)

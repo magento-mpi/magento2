@@ -56,7 +56,18 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 $session->setUser($user);
                 $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
                 if ($request) {
-                    header('Location: '.$request->getRequestUri());
+                    /**
+                     * Added hack as $_GET['ft'] param for redirecting to dashboard
+                     * if _prepareDownloadResponse used when user is not logged in
+                     */
+                    $requestUriInfo = parse_url($request->getRequestUri());
+                    if (isset($requestUriInfo['query']) && $requestUriInfo['query'] != '') {
+                        $requestUriPostfix = '&ft';
+                    } else {
+                        $requestUriPostfix = '?ft';
+                    }
+
+                    header('Location: '.$request->getRequestUri() . $requestUriPostfix);
                     exit;
                 }
             } else {
