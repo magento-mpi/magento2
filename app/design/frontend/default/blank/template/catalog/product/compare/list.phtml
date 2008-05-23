@@ -33,7 +33,7 @@
                 <?php if($_i++%10==0): ?>
                 <td>&nbsp;</td>
                 <?php endif; ?>
-                <td><a href="#" onclick="setLocation('<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>');window.opener.location.reload();"><img src="<?php echo $this->getSkinUrl('images/chart_remove.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a></td>
+                <td><a href="#" onclick="setLocation('<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>');window.opener.location.reload();"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a></td>
                 <?php endforeach; ?>
             </tr>
         </tbody>
