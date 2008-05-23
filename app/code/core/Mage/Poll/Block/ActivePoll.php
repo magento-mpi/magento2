@@ -50,6 +50,23 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
             ->load()
             ->countPercent($poll);
 
+        // correct rounded percents to be always equal 100
+        $percentsSorted = array();
+        $answersArr = array();
+        foreach ($pollAnswers as $key => $answer) {
+            $percentsSorted[$key] = $answer->getPercent();
+            $answersArr[$key] = $answer;
+        }
+        asort($percentsSorted);
+        $total = 0;
+        foreach ($percentsSorted as $key => $value) {
+            $total += $value;
+        }
+        // change the max value only
+        if ($total > 0 && $total !== 100) {
+            $answersArr[$key]->setPercent($value + 100 - $total);
+        }
+
         $this->assign('poll', $poll)
              ->assign('poll_answers', $pollAnswers)
              ->assign('action', Mage::getUrl('poll/vote/add', array('poll_id' => $pollId)));
