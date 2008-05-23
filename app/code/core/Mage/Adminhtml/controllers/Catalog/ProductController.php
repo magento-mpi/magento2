@@ -306,6 +306,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setConfigurableAttributesData(Zend_Json::decode($data));
         }
 
+        Mage::dispatchEvent('catalog_product_prepare_save', array('product' => $product, 'request' => $this->getRequest()));
+
         return $product;
     }
 
