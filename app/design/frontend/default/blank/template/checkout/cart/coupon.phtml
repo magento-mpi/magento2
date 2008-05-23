@@ -19,7 +19,7 @@
  */
 ?>
 <div class="box">
-    <h3><?php echo $this->__('Discount Codes') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('Discount Codes') ?></h3>
     <form id="discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
 	    <fieldset>
 		    <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label><br />
@@ -29,7 +29,7 @@
 		    &nbsp;<button class="form-button" onclick="discountForm.submit(false)" type="button" value="<?php echo $this->__('Apply Coupon') ?>"><span><?php echo $this->__('Apply Coupon') ?></span></button>
 		    <?php else: ?>
 		    <input class="input-text" id="coupon_code" name="coupon_code" value="<?php echo $this->htmlEscape($this->getCouponCode()) ?>" />
-		    &nbsp;<button class="form-button" onclick="discountForm.submit(false)" type="button"  value="<?php echo $this->__('Apply Coupon') ?>"><span><?php echo $this->__('Apply Coupon') ?></span></button>&nbsp;<button class="form-button-alt" type="button" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel Coupon') ?>"><span><?php echo $this->__('Cancel Coupon') ?></span></button>
+		    &nbsp;<button class="form-button" onclick="discountForm.submit(false)" type="button"  value="<?php echo $this->__('Apply Coupon') ?>"><span><?php echo $this->__('Apply Coupon') ?></span></button>&nbsp;<button class="form-button" type="button" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel Coupon') ?>"><span><?php echo $this->__('Cancel Coupon') ?></span></button>
 		    <?php endif;?>
 	    </fieldset>
 	</form>

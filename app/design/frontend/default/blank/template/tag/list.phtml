@@ -19,7 +19,7 @@
  */
 ?>
 <div class="box">
-    <h3><?php echo $this->__('Product Tags') ?></h4>
+    <h3 class="box-head"><?php echo $this->__('Product Tags') ?></h3>
     <?php if( $this->getCount() ): ?>
     <h4><?php echo $this->__('Other people marked this product with these tags:') ?></h4>
         <ul>
@@ -35,7 +35,7 @@
 			<input type="text" class="input-text required-entry" name="tagName" />
         </fieldset>
         <div class="buttons-container">
-			<button class="form-button-alt" onclick="submitTagForm()"><span><?php echo $this->__('Add Tags') ?></span></button>
+			<button class="form-button" onclick="submitTagForm()"><span><?php echo $this->__('Add Tags') ?></span></button>
 		</div>	
     </form>
     <script type="text/javascript">

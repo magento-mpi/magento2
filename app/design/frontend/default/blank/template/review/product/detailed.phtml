@@ -116,7 +116,7 @@
 		
         <div class="product-media">
             <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-            <p class="product-image>
+            <p class="product-image">
                 <img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
             </p>
             <div class="image-zoom" id="track_outer">
@@ -140,7 +140,7 @@
 
         <div class="product-collateral">
     <?php if( $this->getCollection() && $this->count()): ?>
-        <div class="box" id="customer-reviews">
+        <div id="customer-reviews">
                 <h3><?php echo $this->__('Customer Reviews') ?></h3>
         <?php echo $this->getToolbarHtml() ?>
             <ol>
@@ -169,6 +169,7 @@
         <?php echo $this->getToolbarHtml() ?>
     <?php else: ?>
     <?php endif; ?>
-
+	</div>
     <?php echo $this->getChildHtml('reviewForm') ?>
-</div>
+
+</div>	

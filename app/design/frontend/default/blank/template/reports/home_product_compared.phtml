@@ -21,7 +21,7 @@
 
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
 <div class="box">
-<h3><?php echo $this->__('Your Recently Compared') ?></h3>
+<h3 class="box-head"><?php echo $this->__('Your Recently Compared') ?></h3>
 <table cellspacing="0" class="recently-list" id="recently-compared-list-table">
 <tr>
 <?php $i=0; foreach ($_products as $_product): ?>

@@ -23,7 +23,7 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <div class="box">
-        <h3><?php echo $this->__('Shipping Information') ?></h3>
+        <h3 class="box-head"><?php echo $this->__('Shipping Information') ?></h3>
         <div class="col2-set">
             <div class="col-1">
                 <h4><?php echo $this->__('Shipping Address') ?><span> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
@@ -69,9 +69,9 @@
     </div>
 
     <div class="box">
-        <h3><?php echo $this->__('Billing Information') ?></h3>
+        <h3 class="box-head"><?php echo $this->__('Billing Information') ?></h3>
         <h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
-        <?php echo $this->__('PayPal Uk Account') ?><br />
+        <p><?php echo $this->__('PayPal Uk Account') ?></p>
         <?php echo $this->getBillingAddress()->getEmail() ?>
     </div>
 
@@ -90,7 +90,7 @@
 				<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
 			</span>
 			<span id="review-buttons-container">
-				<input type="image" id="review-button" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" value="<?php echo $this->__('Place an Order') ?>" onclick="return saveOrder();" />
+				<button class="form-button" type="button" id="review-button" onclick="return saveOrder();"><span><?php echo $this->__('Place an Order') ?></span></button>								
 			</span>
         </p>
     </form>

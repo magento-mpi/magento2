@@ -20,7 +20,7 @@
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="box">
-    <h3><?php echo $this->__('Personal Information') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('Personal Information') ?></h3>
     <p>
         <?php echo $this->getCustomer()->toString('{{firstname}} {{lastname}}<br/>{{email}}') ?>
         <br/>
@@ -31,7 +31,7 @@
     <p><a href="<?php echo $this->getManageNewsletterUrl() ?>"><?php echo $this->__('Edit Newsletter Subscription') ?></a></p>
 </div>
 <div class="box">
-<h3><?php echo $this->__('Addresses') ?></h3>
+<h3 class="box-head"><?php echo $this->__('Addresses') ?></h3>
 <?php if($_addresses = $this->getPrimaryAddresses()): ?>
     <?php foreach ($_addresses as $_address): ?>
     <address>
@@ -45,7 +45,7 @@
 
 
 <div class="box">
-    <h3><?php echo $this->__('Last 5 Orders') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('Last 5 Orders') ?></h3>
     <p>
     <?php echo $this->__('Order List...') ?><br/>
     <a href=""><?php echo $this->__('View Order List') ?></a>
@@ -53,27 +53,27 @@
 </div>
 
 <div class="box">
-    <h3><?php echo $this->__('Personal Information') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('Personal Information') ?></h3>
 </div>
 
 <?php if ($this->helper('wishlist')->isAllow()) : ?>
 <div class="box">
-    <h3><?php echo $this->__('My Wishlist') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('My Wishlist') ?></h3>
 </div>
 <?php endif; ?>
 
 <div class="box">
-    <h3><?php echo $this->__('My Reviews') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('My Reviews') ?></h3>
 </div>
 
 <div class="box">
-    <h3><?php echo $this->__('My Tags') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('My Tags') ?></h3>
 </div>
 
 <div class="box">
-    <h3><?php echo $this->__('Last Viewed Items') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('Last Viewed Items') ?></h3>
 </div>
 
 <div class="box">
-    <h3><?php echo $this->__('Shopping Cart') ?></h3>
+    <h3 class="box-head"><?php echo $this->__('Shopping Cart') ?></h3>
 </div>

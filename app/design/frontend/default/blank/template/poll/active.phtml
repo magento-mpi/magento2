@@ -35,22 +35,20 @@
 </script>
 
 <div class="box">
-	<h3><?php echo $this->__('Community Poll') ?></h3>
+	<h3 class="box-head"><?php echo $this->__('Community Poll') ?></h3>
     <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
-        <div class="content">
-            <h4><?php echo $poll->getPollTitle(); ?></h4>
-            <?php if( $poll_answers ): ?>
-			<ol>
-				<?php foreach( $poll_answers as $answer ): ?>
-				<li>
-					<input type="radio" name="vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" />&nbsp;
-					<label for="vote_<?php echo $answer->getId() ?>"><?php echo $answer->getAnswerTitle() ?></label>
-				</li>
-				<?php endforeach; ?>
-			</ol>
-            <?php endif; ?>
-        </div>
-        <p class="actions"><button class="form-button-alt" type="submit"><span><?php echo $this->__('Vote') ?></span></button></p>
+		<h4><?php echo $poll->getPollTitle(); ?></h4>
+		<?php if( $poll_answers ): ?>
+		<ol>
+			<?php foreach( $poll_answers as $answer ): ?>
+			<li>
+				<input type="radio" name="vote" class="poll_vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" />
+				<label for="vote_<?php echo $answer->getId() ?>"><?php echo $answer->getAnswerTitle() ?></label>
+			</li>
+			<?php endforeach; ?>
+		</ol>
+		<?php endif; ?>
+        <p class="actions"><button class="form-button" type="submit"><span><?php echo $this->__('Vote') ?></span></button></p>
     </form>
 </div>
 <?php endif; ?>

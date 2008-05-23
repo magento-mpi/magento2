@@ -47,7 +47,7 @@
                 <td><a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
                     <?php /*<span> | </span><a href="<?php echo $this->getTrackUrl($_order) ?>"><?php echo $this->__('Track Order') ?></a>&nbsp;*/ ?>
                     <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
-                    	<span> | </span><a href="<?php echo $this->getReorderUrl($_order) ?>" style="font-weight: bold; color: #FF6600;"><?php echo $this->__('Reorder') ?></a>
+                    	<span> | </span><a href="<?php echo $this->getReorderUrl($_order) ?>"><?php echo $this->__('Reorder') ?></a>
                     <?php endif ?>
                 </td>
             </tr>

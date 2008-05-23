@@ -20,9 +20,9 @@
 ?>
 <div class="box">
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
-        <h3><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h3>
+        <h3 class="box-head"><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h3>
     <?php else: ?>
-        <h3><?php echo $this->__('Compare Products') ?></h3>
+        <h3 class="box-head"><?php echo $this->__('Compare Products') ?></h3>
     <?php endif; ?>
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
         <ol id="compare-items">
@@ -40,6 +40,6 @@
             <button class="form-button" onclick="popWin('<?php echo $this->helper('catalog/product_compare')->getListUrl() ?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?php echo $this->__('Compare Items') ?></span></button>
         </p>
     <?php else: ?>
-        <p class="content"><?php echo $this->__('You have no items to compare.') ?></p>
+        <p><?php echo $this->__('You have no items to compare.') ?></p>
     <?php endif; ?>
 </div>

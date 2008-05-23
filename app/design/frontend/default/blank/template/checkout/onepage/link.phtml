@@ -21,9 +21,9 @@
 <?php if ($this->isPossibleOnepageCheckout()):?>
 <li>
 <?php if ($this->isDisabled()):?>
-<img src="<?php echo $this->getSkinUrl('images/btn_proceed_to_checkout_dis.gif');?>" alt="<?php echo Mage::helper('checkout')->__('Proceed to Checkout');?>" />
+	<button class="form-button" disabled="disabled" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
 <?php else: ?>
-<a href="<?php echo $this->getCheckoutUrl()?>"><img src="<?php echo $this->getSkinUrl('images/btn_proceed_to_checkout.gif');?>" alt="<?php echo Mage::helper('checkout')->__('Proceed to Checkout');?>" /></a>
+	<button class="form-button" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
 <?php endif?>
 </li>
 <?php endif?>

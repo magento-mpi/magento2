@@ -20,20 +20,18 @@
 ?>
 <?php if(isset($poll)) : ?>
 <div class="box">
-    <h3><?php echo $this->__('Community Poll') ?></h3>
-    <div class="content">
-	    <h4><?php echo $poll->getPollTitle(); ?></h4>
-	    <?php if( $poll_answers ): ?>
-	    <ol>
-	        <?php foreach( $poll_answers as $answer ): ?>
-				<li>
-	                <?php echo $answer->getAnswerTitle() ?>:
-	                <?php echo $answer->getVotesCount() ?> (<?php echo $answer->getPercent() ?>%)
-				</li>						
-			<?php endforeach; ?>
-	    </ol>
-	    <?php endif; ?>
-    </div>
+    <h3 class="box-head"><?php echo $this->__('Community Poll') ?></h3>
+	<h4><?php echo $poll->getPollTitle(); ?></h4>
+	<?php if( $poll_answers ): ?>
+	<ol>
+		<?php foreach( $poll_answers as $answer ): ?>
+			<li>
+				<?php echo $answer->getAnswerTitle() ?>:
+				<?php echo $answer->getVotesCount() ?> (<?php echo $answer->getPercent() ?>%)
+			</li>						
+		<?php endforeach; ?>
+	</ol>
+	<?php endif; ?>
 </div>
 <?php endif; ?>
 <!-- [ends] .mini-poll-results // -->

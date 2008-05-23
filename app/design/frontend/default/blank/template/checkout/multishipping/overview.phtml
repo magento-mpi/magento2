@@ -24,7 +24,7 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();">
 	<div class="box">
-		<h3><?php echo $this->__('Billing Information') ?></h3>
+		<h3 class="box-head"><?php echo $this->__('Billing Information') ?></h3>
 		<div class="col2-set">
 			<div class="col-1">
 				<?php $_address=$this->getBillingAddress() ?>
@@ -43,7 +43,7 @@
 	</div>
 
 	<div class="box">
-		<h3><?php echo $this->__('Shipping Information') ?></h3>
+		<h3 class="box-head"><?php echo $this->__('Shipping Information') ?></h3>
 		<?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
 			<div class="col2-alt-set">
 				<h4><?php echo $this->__('Address %s of %s', ($_index+1), $this->getShippingAddressCount()) ?></h4>
@@ -106,7 +106,7 @@
 	</span>
 	<p><big><?php echo $this->__('Grand Total:') ?> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></big></p>
 	<span id="review-buttons-container">
-		<input type="image" id="review-button" src="<?php echo $this->getSkinUrl('images/btn_place_order.gif') ?>" value="<?php echo $this->__('Place Order') ?>"/>
+		<button class="form-button" id="review-button" type="submit"><span><?php echo $this->__('Place Order') ?></span></button>
 	</span>
 
 	<div class="buttons-container">

@@ -29,7 +29,7 @@
 <div class="page-head-container">
     <h2 class="page-head"><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
 </div>
-    <button class="form-button-alt" type="submit" onclick="$('add_new_address_flag').value=1">
+    <button class="form-button" type="submit" onclick="$('add_new_address_flag').value=1">
         <span><?php echo $this->__('Enter a New Address') ?></span>
     </button>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -51,7 +51,7 @@
         </thead>
         <tfoot>
             <tr>
-                <td colspan="100"><button class="form-button-alt" type="submit" onclick="$('can_continue_flag').value=0"><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></button></td>
+                <td colspan="100"><button class="form-button" type="submit" onclick="$('can_continue_flag').value=0"><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></button></td>
             </tr>
         </tfoot>
         <tbody>
