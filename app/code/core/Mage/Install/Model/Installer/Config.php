@@ -71,7 +71,9 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         }
         if (isset($data['secure_base_url'])) {
             $data['secure_base_url'] .= substr($data['secure_base_url'],-1) != '/' ? '/' : '';
-            if (!$this->_getInstaller()->getDataModel()->getSkipUrlValidation()) {
+
+            if (!empty($data['use_secure'])
+                && !$this->_getInstaller()->getDataModel()->getSkipUrlValidation()) {
                 $this->_checkUrl($data['secure_base_url']);
             }
         }
