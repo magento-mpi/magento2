@@ -60,6 +60,16 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                 $store = $store->getId();
             } else if ($store instanceof Mage_Core_Model_Mysql4_Store_Collection) {
                 $store = $store->getAllIds();
+            } else if (is_array($store)) {
+                $resultStores = array();
+                foreach ($store as $s) {
+                    if ($s instanceof Mage_Core_Model_Store) {
+                        $resultStores[] = $s->getId();
+                    } elseif (is_numeric($s)) {
+                        $resultStores[] = $s;
+                    }
+                }
+                $store = $resultStores;
             }
 
 

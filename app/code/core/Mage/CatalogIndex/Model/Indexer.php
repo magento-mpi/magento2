@@ -82,10 +82,10 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         if (is_null($stores)) {
             $stores = array();
 
-            $stores = Mage::getModel('core/store')->getCollection()->load();
+            $stores = Mage::getModel('core/store')->getCollection()->setLoadDefault(false)->load();
             /* @var $stores Mage_Core_Model_Mysql4_Store_Collection */
 
-            $stores->removeItemByKey(0);
+            //$stores->removeItemByKey(0);
 
             $this->setData('_stores', $stores);
         }
