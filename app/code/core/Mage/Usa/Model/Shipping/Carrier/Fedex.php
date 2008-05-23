@@ -144,7 +144,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     protected function _getXmlQuotes()
     {
         $r = $this->_rawRequest;
-
         $xml = new SimpleXMLElement('<FDXRateAvailableServicesRequest/>');
 
         $xml->addAttribute('xmlns:api', 'http://www.fedex.com/fsmapi');
@@ -280,7 +279,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         $declaredValue = $xml->addChild('DeclaredValue');
             $declaredValue->addChild('Value', $r->getValue());
-            $declaredValue->addChild('CurrencyCode', 'USD');
+//            $declaredValue->addChild('CurrencyCode', 'USD');
+            $declaredValue->addChild('CurrencyCode', Mage::app()->getBaseCurrencyCode());
 
         if ($this->getConfigData('residence_delivery')) {
             $specialServices = $xml->addChild('SpecialServices');
