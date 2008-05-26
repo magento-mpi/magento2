@@ -239,6 +239,37 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
     }
 
     /**
+     * Update product special price
+     *
+     * @param int|string $productId
+     * @param float $specialPrice
+     * @param string $fromDate
+     * @param string $toDate
+     * @param string|int $store
+     * @return boolean
+     */
+    public function setSpecialPrice($productId, $specialPrice = null, $fromDate = null, $toDate = null, $store = null)
+    {
+        return $this->update($productId, array(
+            'special_price'     => $specialPrice,
+            'special_from_date' => $fromDate,
+            'special_to_date'   => $toDate
+        ), $store);
+    }
+
+    /**
+     * Retrieve product special price
+     *
+     * @param int|string $productId
+     * @param string|int $store
+     * @return array
+     */
+    public function getSpecialPrice($productId, $store = null)
+    {
+        return $this->info($productId, $store, array('special_price', 'special_from_date', 'special_to_date'));
+    }
+
+    /**
      * Delete product
      *
      * @param int|string $productId

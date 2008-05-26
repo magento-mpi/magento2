@@ -225,7 +225,7 @@
             <catalog_product_attribute_media translate="title" module="catalog">
                 <title>Product Images API</title>
                 <model>catalog/product_attribute_media_api</model>
-                <acl>catalog/product</acl>
+                <acl>catalog/product/media</acl>
                 <methods>
                     <currentStore translate="title" module="catalog">
                         <title>Set/Get current store view</title>
@@ -288,6 +288,34 @@
                     </not_media>
                 </faults>
             </catalog_product_attribute_media>
+            <catalog_product_attribute_tier_price translate="title" module="catalog">
+                <title>Product Tier Price API</title>
+                <model>catalog/product_attribute_tierprice_api</model>
+                <acl>catalog/product</acl>
+                <methods>
+                    <info translate="title" module="catalog">
+                        <title>Retrieve product tier prices</title>
+                    </info>
+                    <update translate="title" module="catalog">
+                        <title>Update product tier prices</title>
+                        <acl>catalog/product/update</acl>
+                    </update>
+                </methods>
+                <faults module="catalog">
+                    <product_not_exists>
+                        <code>100</code>
+                        <message>Product not exists.</message>
+                    </product_not_exists>
+                    <data_invalid>
+                        <code>101</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <not_updated>
+                        <code>102</code>
+                        <message>Tier prices not updated. Details in error message.</message>
+                    </not_updated>
+                </faults>
+            </catalog_product_attribute_tier_price>
             <catalog_product_link translate="title" module="catalog">
                 <title>Product links API (related, cross sells, up sells)</title>
                 <model>catalog/product_link_api</model>

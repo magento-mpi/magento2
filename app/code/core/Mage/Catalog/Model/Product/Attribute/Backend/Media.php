@@ -27,6 +27,8 @@
  */
 class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    protected $_renamedImages = array();
+
     /**
      * Load attribute data after product loaded
      *
@@ -90,6 +92,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             } else if (!isset($image['value_id'])) {
                 $newFile                   = $this->_moveImageFromTmp($image['file']);
                 $newImages[$image['file']] = $newFile;
+                $this->_renamedImages[$image['file']] = $newFile;
                 $image['file']             = $newFile;
             }
         }
@@ -110,6 +113,21 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $object->setData($attrCode, $value);
 
         return $this;
+    }
+
+    /**
+     * Retrieve renamed image name
+     *
+     * @param string $file
+     * @return string
+     */
+    public function getRenamedImage($file)
+    {
+        if (isset($this->_renamedImages[$file])) {
+            return $this->_renamedImages[$file];
+        }
+
+        return $file;
     }
 
     public function afterSave($object)

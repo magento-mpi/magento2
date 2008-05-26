@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
             $this->_fault('not_created', Mage::helper('catalog')->__('Can\'t create image.'));
         }
 
-        return $file;
+        return $gallery->getRenamedImage($file);
     }
 
     /**

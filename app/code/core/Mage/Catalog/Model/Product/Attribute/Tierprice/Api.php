@@ -27,11 +27,90 @@
  */
 class Mage_Catalog_Model_Product_Attribute_Tierprice extends Mage_Catalog_Model_Api_Resource
 {
-    const ATTRIBUTE_CODE = '';
+    const ATTRIBUTE_CODE = 'tier_price';
 
     public function __construct()
     {
         $this->_storeIdSessionField = 'product_store_id';
+    }
+
+
+    public function info($productId)
+    {
+        $product = $this->_initProduct($productId);
+        $tierPrices = $product->getData(self::ATTRIBUTE_CODE);
+
+        if (!is_array($tierPrices)) {
+            return array();
+        }
+
+        $result = array();
+
+        foreach ($tierPrices as $tierPrice) {
+            $row = array();
+            $row['customer_group_id'] = (empty($tierPrice['all_groups']) ? $tierPrice['cust_group'] : 'all' );
+            $row['website']           = Mage::app()->getWebsite($tierPrice['website_id'])->getCode();
+            $row['qty']               = $tierPrice['price_qty'];
+            $row['price']             = $tierPrice['price'];
+
+            $result[] = $row;
+        }
+
+        return $result;
+    }
+
+    public function update($productId, $tierPrices)
+    {
+        $product = $this->_initProduct($productId);
+        if (!is_array($tierPrices)) {
+            $this->_fault('invalid_data', Mage::helper('catalog')->__('Invalid Tier Prices'));
+        }
+
+        $updateValue = array();
+
+        foreach ($tierPrices as $tierPrice) {
+            if (!is_array($tierPrice)
+                || !isset($tierPrice['qty'])
+                || !isset($tierPrice['price'])) {
+                $this->_fault('invalid_data', Mage::helper('catalog')->__('Invalid Tier Prices'));
+            }
+
+            if (!isset($tierPrice['website'])) {
+                $tierPrice['website'] = 0;
+            } else {
+                try {
+                    $tierPrice['website'] = Mage::app()->getWebsite($tierPrice['website'])->getId();
+                } catch (Mage_Core_Exception $e) {
+                    $tierPrice['website'] = 0;
+                }
+            }
+
+            if (!isset($tierPrice['customer_group_id'])) {
+                $tierPrice['customer_group_id'] = 'all';
+            }
+
+            if ($tierPrice['customer_group_id'] == 'all') {
+                $tierPrice['customer_group_id'] = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+            }
+
+            $updateValue[] = array(
+                'website_id' => $tierPrice['website'],
+                'cust_group' => $tierPrice['customer_group_id'],
+                'price_qty'  => $tierPrice['qty'],
+                'price'      => $tierPrice['price']
+            );
+
+        }
+
+        $product->setData(self::ATTRIBUTE_CODE, $updateValue);
+
+        try {
+            $product->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('not_updated', $e->getMessage());
+        }
+
+        return true;
     }
 
     /**
@@ -41,10 +120,10 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice extends Mage_Catalog_Model_
      * @param string|int $store
      * @return Mage_Catalog_Model_Product
      */
-    protected function _initProduct($productId, $store = null)
+    protected function _initProduct($productId)
     {
         $product = Mage::getModel('catalog/product')
-                       ->setStoreId($this->_getStoreId($store));
+                       ->setStoreId($this->_getStoreId());
 
         $idBySku = $product->getIdBySku($productId);
         if ($idBySku) {
