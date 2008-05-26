@@ -40,7 +40,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $value = array();
         $value['images'] = array();
         $value['values'] = array();
-        $valueIdToIndex = array();
         $localAttributes = array('label', 'position', 'disabled');
 
         foreach ($this->_getResource()->loadGallery($object, $this) as $image) {
@@ -50,7 +49,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
                 }
             }
             $value['images'][] = $image;
-            $valueIdToIndex[$image['value_id']] = count($value['images'])-1;
         }
 
         $object->setData($attrCode, $value);
@@ -85,16 +83,29 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
 
         $clearImages = array();
         $newImages   = array();
-
-        foreach ($value['images'] as &$image) {
-            if(!empty($image['removed'])) {
-                $clearImages[] = $image['file'];
-            } else if (!isset($image['value_id'])) {
-                $newFile                   = $this->_moveImageFromTmp($image['file']);
-                $newImages[$image['file']] = $newFile;
-                $this->_renamedImages[$image['file']] = $newFile;
-                $image['file']             = $newFile;
+        if ($object->getIsDuplicate()!=true) {
+            foreach ($value['images'] as &$image) {
+                if(!empty($image['removed'])) {
+                    $clearImages[] = $image['file'];
+                } else if (!isset($image['value_id'])) {
+                    $newFile                   = $this->_moveImageFromTmp($image['file']);
+                    $newImages[$image['file']] = $newFile;
+                    $this->_renamedImages[$image['file']] = $newFile;
+                    $image['file']             = $newFile;
+                }
             }
+        } else {
+            // For duplicating we need copy original images.
+            $duplicate = array();
+            foreach ($value['images'] as &$image) {
+                if (!isset($image['value_id'])) {
+                    continue;
+                }
+                $duplicate[$image['value_id']] = $this->_copyImage($image['file']);
+                $newImages[$image['file']] = $duplicate[$image['value_id']];
+            }
+
+            $value['duplicate'] = $duplicate;
         }
 
         foreach ($object->getMediaAttributes() as $mediaAttribute) {
@@ -107,6 +118,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
                     $mediaAttribute->getAttributeCode(),
                     $newImages[$object->getData($mediaAttribute->getAttributeCode())]
                 );
+
             }
         }
 
@@ -132,6 +144,11 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
 
     public function afterSave($object)
     {
+        if ($object->getIsDuplicate() == true) {
+            $this->duplicate($object);
+            return;
+        }
+
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!is_array($value) || !isset($value['images'])) {
@@ -449,5 +466,46 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         );
 
         return str_replace($ioObject->dirsep(), '/', $destFile);
+    }
+
+    /**
+     * Copy image and return new filename.
+     *
+     * @param string $file
+     * @return string
+     */
+    protected function _copyImage($file)
+    {
+        $ioObject = new Varien_Io_File();
+        $destDirectory = dirname($this->_getConfig()->getMediaPath($file));
+        $ioObject->open(array('path'=>$destDirectory));
+        $destFile = dirname($file) . $ioObject->dirsep()
+                  . Varien_File_Uploader::getNewFileName($this->_getConfig()->getMediaPath($file));
+
+        $ioObject->cp(
+            $this->_getConfig()->getMediaPath($file),
+            $this->_getConfig()->getMediaPath($destFile)
+        );
+
+        return str_replace($ioObject->dirsep(), '/', $destFile);
+    }
+
+    public function duplicate($object)
+    {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        $mediaGalleryData = $object->getData($attrCode);
+
+        if (!isset($mediaGalleryData['images']) || !is_array($mediaGalleryData['images'])) {
+            return $this;
+        }
+
+        $this->_getResource()->duplicate(
+            $this,
+            (isset($mediaGalleryData['duplicate']) ? $mediaGalleryData['duplicate'] : array()),
+            $object->getOriginalId(),
+            $object->getId()
+        );
+
+        return $this;
     }
 } // Class Mage_Catalog_Model_Product_Attribute_Backend_Media End

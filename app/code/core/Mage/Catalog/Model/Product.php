@@ -645,6 +645,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         Mage::dispatchEvent('catalog_model_product_duplicate', array($this->_eventObject=>$this));
         $newProduct = Mage::getModel('catalog/product')
             ->setData($this->getData())
+            ->setIsDuplicate(true)
+            ->setOriginalId($this->getId())
             ->setSku(null)
             ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
             ->setId(null)
