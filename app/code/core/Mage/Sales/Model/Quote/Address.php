@@ -112,7 +112,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function exportCustomerAddress()
     {
         $address = Mage::getModel('customer/address');
-        
+
         Mage::helper('core')->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
 
         return $address;
@@ -409,6 +409,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setDestCity($this->getCity());
         $request->setDestPostcode($this->getPostcode());
         $request->setPackageValue($this->getBaseSubtotal());
+        $request->setPackageValueWithDiscount($this->getBaseSubtotalWithDiscount());
         $request->setPackageWeight($this->getWeight());
         $request->setPackageQty($this->getItemQty());
 
