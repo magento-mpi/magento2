@@ -130,7 +130,7 @@ input.input-text, textarea {}
 input.form-radio {}
 .qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label {}
-.input-text:focus, select:focus, textarea:focus { background:#edf7fd; outline:0; }
+.input-text:focus, select:focus, textarea:focus { background:#feffee; outline:0; }
 .buttons-container { /* Container for form buttons*/
     clear:both;
     }
@@ -160,11 +160,12 @@ input.form-radio {}
 .group-select {}
 .group-select .legend {}
 .group-select li {}
-.group-select li .input-box { }
-.group-select li .input-text, .group-select li select, .group-select li textarea { }
-.group-select li .input-box .input-text, .group-select li .input-box textarea { }
-.group-select li .input-box select {}
+.group-select li .input-box {float:left; width:260px; }
+.group-select li .input-text, .group-select li select, .group-select li textarea {width:510px; }
+.group-select li .input-box .input-text, .group-select li .input-box textarea {width:250px; }
+.group-select li .input-box select { width:256px;}
 
+.wide .input-text, .wide textarea {width:510px;}
 
 /* Form Messages */
 .validation-advice, .required { color:#EB340A; }
@@ -315,7 +316,7 @@ p.required {
 
 
 /****************************************************/
-/***********[ HOME Page DEMO ]*************************/
+/***********[ HOME Page SAMPLE DATA ]*************************/
 /****************************************************/	
 .home-spot { float:left; width:474px; margin-left:20px; }
 
