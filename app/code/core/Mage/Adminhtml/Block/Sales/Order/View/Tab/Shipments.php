@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments extends Mage_Adminhtml
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('sales')->__('Ship to First Name'),
+            'header' => Mage::helper('sales')->__('Ship to Name'),
             'index' => 'shipping_name',
         ));
 
