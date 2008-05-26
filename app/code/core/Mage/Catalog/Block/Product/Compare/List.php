@@ -107,7 +107,7 @@
         } else {
             $value = $product->getData($attribute->getAttributeCode());
         }
-        return $value ? $value : '&nbsp';
+        return $value ? $value : '&nbsp;';
     }
 
     public function getPrintUrl()

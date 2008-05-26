@@ -86,12 +86,12 @@
         <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
             <strong><?php echo $this->__('OR') ?></strong>
         <?php endif; ?>
-        &nbsp;&nbsp;
+    </fieldset>
     <?php endif; ?>
 <?php else: ?>
     <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
 <?php endif; ?>
-
+<p>
 <?php if ($this->helper('wishlist')->isAllow()) : ?>
     <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
 <?php endif; ?>
@@ -100,3 +100,4 @@
     <span> | </span>
     <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
 <?php endif; ?>
+&nbsp;</p>

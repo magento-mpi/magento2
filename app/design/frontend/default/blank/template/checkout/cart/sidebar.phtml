@@ -42,7 +42,7 @@
     <?php if(count($_items) && $this->isPossibleOnepageCheckout()): ?>
         <p class="actions">
             <button class="form-button" type="button" onclick="setLocation('<?php echo $this->getUrl('checkout/onepage') ?>')"><span><?php echo $this->__('Checkout') ?></span></button>
-        </div>
+        </p>
     <?php endif ?>
     <?php if(count($_items)): ?>
     <h4><?php echo $this->__('Recently added item(s)') ?></h4>
