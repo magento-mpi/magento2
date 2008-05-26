@@ -59,17 +59,60 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 </h3>
 <table cellspacing="0" class="data-table" id="my-orders-table">
+	<colgroup>
+            <col/>
+            <col width="5%"/>
+            <col width="10%"/>
+            <col width="6%"/>
+            <col width="6%"/>
+            <col width="6%"/>
+            <col width="10%"/>
+	</colgroup>
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
-            <th width="5%"><?php echo $this->__('SKU') ?></th>
-            <th width="10%"><?php echo $this->__('Price') ?></th>
-            <th width="6%"><?php echo $this->__('Qty Ordered') ?></th>
-            <th width="6%"><?php echo $this->__('Qty Shipped') ?></th>
-            <th width="6%"><?php echo $this->__('Qty Canceled') ?></th>
-            <th width="10%"><?php echo $this->__('Subtotal') ?></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            <th><?php echo $this->__('Price') ?></th>
+            <th><?php echo $this->__('Qty Ordered') ?></th>
+            <th><?php echo $this->__('Qty Shipped') ?></th>
+            <th><?php echo $this->__('Qty Canceled') ?></th>
+            <th><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <td colspan="6"><?php echo $this->__('Order Subtotal') ?></td>
+            <td><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
+        </tr>
+        <?php if ($_order->getDiscountAmount() > 0): ?>
+            <tr>
+                <td colspan="6"><?php echo $this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':'')) ?></td>
+                <td><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
+            </tr>
+        <?php endif; ?>
+        <?php if ($_order->getTaxAmount() > 0): ?>
+            <tr>
+                <td colspan="6"><?php echo $this->__('Tax') ?></td>
+                <td><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
+            </tr>
+        <?php endif; ?>
+        <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>
+            <tr>
+                <td colspan="6"><?php echo $this->__('Shipping &amp; Handling') ?></td>
+                <td><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
+            </tr>
+        <?php endif; ?>
+        <tr>
+            <td colspan="6"><?php echo $this->__('Grand Total') ?></td>
+            <td><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
+        </tr>
+        <?php if ($_order->isCurrencyDifferent()): ?>
+        <tr>
+            <td colspan="6"><?php echo $this->__('Grand Total to be charged') ?></td>
+            <td><?php echo $_order->formatBasePrice($_order->getBaseGrandTotal()) ?></td>
+        </tr>
+        <?php endif; ?>
+    </tfoot>	
     <tbody>
         <?php $_items = $_order->getItemsCollection(); ?>
         <?php $_count = $_items->count(); ?>
@@ -110,40 +153,7 @@ function giftMessageToogle(giftMessageIdentifier)
         <?php endforeach; ?>
 
     </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="6"><?php echo $this->__('Order Subtotal') ?></td>
-            <td><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
-        </tr>
-        <?php if ($_order->getDiscountAmount() > 0): ?>
-            <tr>
-                <td colspan="6"><?php echo $this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':'')) ?></td>
-                <td><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
-            </tr>
-        <?php endif; ?>
-        <?php if ($_order->getTaxAmount() > 0): ?>
-            <tr>
-                <td colspan="6"><?php echo $this->__('Tax') ?></td>
-                <td><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
-            </tr>
-        <?php endif; ?>
-        <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>
-            <tr>
-                <td colspan="6"><?php echo $this->__('Shipping & Handling') ?></td>
-                <td><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
-            </tr>
-        <?php endif; ?>
-        <tr>
-            <td colspan="6"><?php echo $this->__('Grand Total') ?></td>
-            <td><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
-        </tr>
-        <?php if ($_order->isCurrencyDifferent()): ?>
-        <tr>
-            <td colspan="6"><?php echo $this->__('Grand Total to be charged') ?></td>
-            <td><?php echo $_order->formatBasePrice($_order->getBaseGrandTotal()) ?></td>
-        </tr>
-        <?php endif; ?>
-    </tfoot>
+
 </table>
 <script type="text/javascript">decorateTable('my-orders-table')</script>
 

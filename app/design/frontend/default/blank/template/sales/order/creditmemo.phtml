@@ -50,11 +50,11 @@ function giftMessageToogle(giftMessageIdentifier)
 </script>
 <?php endif; ?>
 <?php  $_order = $this->getOrder() ?>
-<a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>" target="_blank"><?php echo $this->__('Print All Refunds') ?></a>
+<a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print All Refunds') ?></a>
 <?php foreach ($_order->getCreditmemosCollection() as $_creditmemo): ?>
 <div class="page-head-container">
     <h2 class="page-head"><?php echo $this->__('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?></h2>
-	<a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>" target="_blank"><?php echo $this->__('Print Refund') ?></a>
+	<a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print Refund') ?></a>
 </div>
 <h3><?php echo $this->__('Items Refunded') ?></h3>
 <table cellspacing="0" class="data-table" id="my-orders-table">

@@ -106,7 +106,7 @@
             <?php endif; ?>
             <?php if ($_invoice->getShippingAmount()*1 || $_invoice->getShippingDescription()): ?>
             <tr>
-                <td colspan="4"><?php echo $this->__('Shipping & Handling') ?></td>
+                <td colspan="4"><?php echo $this->__('Shipping &amp; Handling') ?></td>
                 <td class="last"><?php echo $_order->formatPrice($_invoice->getShippingAmount()) ?></td>
             </tr>
             <?php endif; ?>

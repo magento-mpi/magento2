@@ -56,7 +56,7 @@
         <?php endif; ?>
         <?php if ($_invoice->getShippingAmount()): ?>
         <tr>
-            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Shipping & Handling') ?></td>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Shipping &amp; Handling') ?></td>
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_invoice->getShippingAmount()) ?></td>
         </tr>
         <?php endif; ?>

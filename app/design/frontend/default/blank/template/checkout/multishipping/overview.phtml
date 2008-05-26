@@ -28,7 +28,7 @@
 		<div class="col2-set">
 			<div class="col-1">
 				<?php $_address=$this->getBillingAddress() ?>
-				<h4><?php echo $this->__('Billing Address') ?><span> | <span><a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>"><?php echo $this->__('Change Billing Address') ?></a></h4>
+				<h4><?php echo $this->__('Billing Address') ?><span> | </span><a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>"><?php echo $this->__('Change Billing Address') ?></a></h4>
 				<address>
 					<?php echo $_address->format('html') ?>
 				</address>

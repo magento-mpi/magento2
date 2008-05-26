@@ -28,10 +28,8 @@
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-head-container">
     <h2 class="page-head"><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
+    <button class="form-button" type="submit" onclick="$('add_new_address_flag').value=1"><span><?php echo $this->__('Enter a New Address') ?></span></button>
 </div>
-    <button class="form-button" type="submit" onclick="$('add_new_address_flag').value=1">
-        <span><?php echo $this->__('Enter a New Address') ?></span>
-    </button>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <fieldset>
     <input type="hidden" name="continue" value="0" id="can_continue_flag"/>
@@ -61,7 +59,7 @@
                     <h3><a href="<?php echo $this->helper('checkout')->getQuoteItemProductUrl($_item) ?>">
                         <?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
                     </a></h3>
-                    <p><?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?></p>
+                    <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
                 </td>
                 <td><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty" /></td>
                 <td><?php echo $this->getAddressesHtmlSelect($_item, $_index) ?></td>
