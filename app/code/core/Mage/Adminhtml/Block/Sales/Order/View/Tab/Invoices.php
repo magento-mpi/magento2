@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices extends Mage_Adminhtml_
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'header' => Mage::helper('sales')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 
