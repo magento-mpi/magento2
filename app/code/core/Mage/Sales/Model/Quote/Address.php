@@ -97,24 +97,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
-        $this->setCustomerAddressId($address->getId())
-            ->setCustomerId($address->getParentId())
-            ->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail())
-            ->setPrefix($address->getPrefix())
-            ->setFirstname($address->getFirstname())
-            ->setMiddlename($address->getMiddlename())
-            ->setLastname($address->getLastname())
-            ->setSuffix($address->getSuffix())
-            ->setCompany($address->getCompany())
-            ->setStreet($address->getStreet())
-            ->setCity($address->getCity())
-            ->setRegion($address->getRegion())
-            ->setRegionId($address->getRegionId())
-            ->setPostcode($address->getPostcode())
-            ->setCountryId($address->getCountryId())
-            ->setTelephone($address->getTelephone())
-            ->setFax($address->getFax())
-        ;
+        Mage::helper('core')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
+
+        $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
+
         return $this;
     }
 
@@ -125,22 +111,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function exportCustomerAddress()
     {
-        $address = Mage::getModel('customer/address')
-            ->setEmail($this->getEmail())
-            ->setPrefix($this->getPrefix())
-            ->setFirstname($this->getFirstname())
-            ->setMiddlename($this->getMiddlename())
-            ->setLastname($this->getLastname())
-            ->setSuffix($this->getSuffix())
-            ->setCompany($this->getCompany())
-            ->setStreet($this->getStreet())
-            ->setCity($this->getCity())
-            ->setRegion($this->getRegion())
-            ->setRegionId($this->getRegionId())
-            ->setPostcode($this->getPostcode())
-            ->setCountryId($this->getCountryId())
-            ->setTelephone($this->getTelephone())
-            ->setFax($this->getFax());
+        $address = Mage::getModel('customer/address');
+        
+        Mage::helper('core')->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
 
         return $address;
     }
@@ -156,22 +129,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $this->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId())
-            ->setEmail($address->getEmail())
-            ->setPrefix($address->getPrefix())
-            ->setFirstname($address->getFirstname())
-            ->setMiddlename($address->getMiddlename())
-            ->setLastname($address->getLastname())
-            ->setSuffix($address->getSuffix())
-            ->setCompany($address->getCompany())
-            ->setStreet($address->getStreet())
-            ->setCity($address->getCity())
-            ->setRegion($address->getRegion())
-            ->setRegionId($address->getRegionId())
-            ->setPostcode($address->getPostcode())
-            ->setCountryId($address->getCountryId())
-            ->setTelephone($address->getTelephone())
-            ->setFax($address->getFax())
-        ;
+            ->setEmail($address->getEmail());
+
+        Mage::helper('core')->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
+
         return $this;
     }
 

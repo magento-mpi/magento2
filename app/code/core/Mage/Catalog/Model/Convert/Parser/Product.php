@@ -40,16 +40,13 @@ class Mage_Catalog_Model_Convert_Parser_Product
         'virtual'=>'Virtual',
     );
 
-    protected $_inventoryFields = array(
-        'qty', 'min_qty', 'use_config_min_qty',
-        'is_qty_decimal', 'backorders', 'use_config_backorders',
-        'min_sale_qty','use_config_min_sale_qty','max_sale_qty',
-        'use_config_max_sale_qty','is_in_stock','notify_stock_qty','use_config_notify_stock_qty'
-    );
+    protected $_inventoryFields = array();
 
-    protected $_imageFields = array(
-        'image', 'small_image', 'thumbnail'
-    );
+    protected $_imageFields = array();
+
+    protected $_systemFields = array();
+    protected $_internalFields = array();
+    protected $_externalFields = array();
 
     protected $_inventoryItems = array();
 
@@ -60,6 +57,30 @@ class Mage_Catalog_Model_Convert_Parser_Product
     protected $_store;
     protected $_storeId;
     protected $_attributes = array();
+
+    public function __construct()
+    {
+        foreach (Mage::getConfig()->getFieldset('catalog_product_dataflow', 'admin') as $code=>$node) {
+            if ($node->is('inventory')) {
+                $this->_inventoryFields[] = $code;
+                if ($node->is('use_config')) {
+                    $this->_inventoryFields[] = 'use_config_'.$code;
+                }
+            }
+            if ($node->is('internal')) {
+                $this->_internalFields[] = $code;
+            }
+            if ($node->is('system')) {
+                $this->_systemFields[] = $code;
+            }
+            if ($node->is('extenal')) {
+                $this->_externalFields[] = $code;
+            }
+            if ($node->is('img')) {
+                $this->_imageFields[] = $code;
+            }
+        }
+    }
 
     /**
      * @return Mage_Catalog_Model_Mysql4_Convert
@@ -104,9 +125,9 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         if (is_null($this->_productModel)) {
             $productModel = Mage::getModel('catalog/product');
-            $this->_productModel = Varien_Object_Cache::singleton()->save($productModel);
+            $this->_productModel = Mage::objects()->save($productModel);
         }
-        return Varien_Object_Cache::singleton()->load($this->_productModel);
+        return Mage::objects()->load($this->_productModel);
     }
 
     /**
@@ -169,6 +190,9 @@ class Mage_Catalog_Model_Convert_Parser_Product
         return $this->_attributes[$code];
     }
 
+    /**
+     * @deprecated not used anymore
+     */
     public function parse()
     {
         $data = $this->getData();
@@ -298,18 +322,6 @@ class Mage_Catalog_Model_Convert_Parser_Product
      */
     public function unparse()
     {
-        $systemFields = array(
-            'entity_id',
-            'entity_type_id',
-            'attribute_set_id',
-            'type_id',
-            'created_at',
-            'updated_at',
-            'item_id',
-            'product_id',
-            'stock_id',
-        );
-
         $entityIds = $this->getData();
 
         foreach ($entityIds as $i => $entityId) {
@@ -327,7 +339,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 'store'         => $this->getStore()->getCode(),
                 'websites'      => '',
                 'attribute_set' => $this->getAttributeSetName($product->getEntityTypeId(), $product->getAttributeSetId()),
-                'type'          => $this->getProductTypeName($product->getTypeId()),
+                'type'          => $product->getTypeId(),
             );
 
             if ($this->getStore()->getCode() == Mage_Core_Model_Store::ADMIN_CODE) {
@@ -343,7 +355,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
             }
 
             foreach ($product->getData() as $field => $value) {
-                if (in_array($field, $systemFields) || is_object($value)) {
+                if (in_array($field, $this->_systemFields) || is_object($value)) {
                     continue;
                 }
 
@@ -375,7 +387,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
             if ($stockItem = $product->getStockItem()) {
                 foreach ($stockItem->getData() as $field => $value) {
-                    if (in_array($field, $systemFields) || is_object($value)) {
+                    if (in_array($field, $this->_systemFields) || is_object($value)) {
                         continue;
                     }
                     $row[$field] = $value;
@@ -406,34 +418,16 @@ class Mage_Catalog_Model_Convert_Parser_Product
      */
     public function getExternalAttributes()
     {
-        $internal = array(
-            'entity_id',
-            'old_id',
-            'tier_price',
-            'media_gallery'
-        );
-
         $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
         $productAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
             ->setEntityTypeFilter($entityTypeId)
             ->load();
 
-        $attributes = array(
-            'store'             => 'store',
-            'websites'          => 'websites',
-            'sku'               => 'sku',
-            'attribute_set'     => 'attribute_set',
-            'type'              => 'type',
-            'name'              => 'name',
-            'description'       => 'description',
-            'short_description' => 'short_description',
-            'weight'            => 'weight',
-            'price'             => 'price'
-        );
+        $attributes = $this->_externalFields;
 
         foreach ($productAttributes as $attr) {
             $code = $attr->getAttributeCode();
-            if (in_array($code, $internal) || $attr->getFrontendInput() == 'hidden') {
+            if (in_array($code, $this->_internalFields) || $attr->getFrontendInput() == 'hidden') {
                 continue;
             }
             $attributes[$code] = $code;

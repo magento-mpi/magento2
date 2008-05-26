@@ -109,6 +109,11 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     protected function _getMemoryLimit()
     {
         $memoryLimit = ini_get('memory_limit');
+
+        if (!isSet($memoryLimit[0])){
+            $memoryLimit = "128M";
+        }
+
         if (substr($memoryLimit, -1) == 'M') {
             return (int)$memoryLimit * 1024 * 1024;
         }

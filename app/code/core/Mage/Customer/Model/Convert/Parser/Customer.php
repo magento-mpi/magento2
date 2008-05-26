@@ -55,7 +55,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     public function getFields()
     {
         if (!$this->_fields) {
-            $this->_fields = Mage::getConfig()->getFieldset('customer_dataflow');
+            $this->_fields = Mage::getConfig()->getFieldset('customer_dataflow', 'admin');
         }
         return $this->_fields;
     }
@@ -203,21 +203,12 @@ class Mage_Customer_Model_Convert_Parser_Customer
 
     public function unparse()
     {
-        $systemFields = array(
-            'store_id',
-            'entity_id',
-            'attribute_set_id',
-            'entity_type_id',
-            'increment_id',
-            'parent_id',
-            'created_at',
-            'updated_at',
-            'type_id',
-            'created_in',
-            'website_id',
-            'default_billing',
-            'default_shipping',
-        );
+        $systemFields = array();
+        foreach ($this->getFields() as $code=>$node) {
+            if ($node->is('system')) {
+                $systemFields[] = $code;
+            }
+        }
 
         $entityIds = $this->getData();
 

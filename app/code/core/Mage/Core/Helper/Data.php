@@ -291,21 +291,55 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $types;
     }
 
-    public function copyFieldset($fieldset, $aspect, Varien_Object $source, Varien_Object $target)
+    /**
+     * Copy data from object|array to object|array containing fields
+     * from fieldset matching an aspect.
+     *
+     * Contents of $aspect are a field name in target object or array.
+     * If '*' - will be used the same name as in the source object or array.
+     *
+     * @param string $fieldset
+     * @param string $aspect
+     * @param array|Varien_Object $source
+     * @param array|Varien_Object $target
+     * @param string $root
+     * @return boolean
+     */
+    public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
     {
-        $result = false;
+        if (!(is_array($source) || $source instanceof Varien_Object)
+            || !(is_array($target) || $target instanceof Varien_Object)) {
 
-        $fields = Mage::getConfig()->getFieldset($fieldset);
+            return false;
+        }
+        $fields = Mage::getConfig()->getFieldset($fieldset, $root);
         if (!$fields) {
-            return $result;
+            return false;
         }
 
+        $sourceIsArray = is_array($source);
+        $targetIsArray = is_array($target);
+
+        $result = false;
         foreach ($fields as $code=>$node) {
             if (empty($node->$aspect)) {
                 continue;
             }
-            $targetCode = (string)$node->$aspect == '*' ? $code : (string)$node->$aspect;
-            $target->setDataUsingMethod($targetCode, $source->getDataUsingMethod($code));
+
+            if ($sourceIsArray) {
+                $value = isset($source[$code]) ? $source[$code] : null;
+            } else {
+                $value = $source->getDataUsingMethod($code);
+            }
+            
+            $targetCode = (string)$node->$aspect;
+            $targetCode = $targetCode == '*' ? $code : $targetCode;
+
+            if ($targetIsArray) {
+                $target[$targetCode] = $value;
+            } else {
+                $target->setDataUsingMethod($targetCode, $value);
+            }
             $result = true;
         }
 

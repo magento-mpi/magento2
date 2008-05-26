@@ -69,15 +69,6 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             return $this;
         }
 
-        // initialize websites config
-//        $websites = array();
-//        $websiteCollection = Mage::app()->getWebsites(true);
-//        foreach ($websiteCollection as $website) {
-//            $xmlConfig->setNode('websites/' . $website->getCode() . '/system/website/id', $website->getId());
-//            $xmlConfig->setNode('websites/' . $website->getCode() . '/system/website/name', $website->getName());
-//            $websites[$website->getId()] = array('code' => $website->getCode());
-//        }
-
         $websites = array();
         $rows = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
         foreach ($rows as $w) {
@@ -85,18 +76,6 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $xmlConfig->setNode('websites/'.$w['code'].'/system/website/name', $w['name']);
             $websites[$w['website_id']] = array('code'=>$w['code']);
         }
-
-        // initialize stores config
-//        $stores = array();
-//        $storeCollection = Mage::app()->getStores(true);
-//        foreach ($storeCollection as $store) {
-//            $xmlConfig->setNode('stores/' . $store->getCode() . '/system/store/id', $store->getId());
-//            $xmlConfig->setNode('stores/' . $store->getCode() . '/system/store/name', $store->getName());
-//            $xmlConfig->setNode('stores/' . $store->getCode() . '/system/website/id', $store->getWebsiteId());
-//            $xmlConfig->setNode('websites/' . $websites[$store->getWebsiteId()]['code'] . '/system/stores/' . $store->getCode(), $store->getId());
-//            $stores[$store->getId()] = array('code' => $store->getCode());
-//            $websites[$store->getWebsiteId()]['stores'][$store->getId()] = $store->getCode();
-//        }
 
         $stores = array();
         $rows = $read->fetchAssoc("select store_id, code, name, website_id from ".$this->getTable('store')." order by sort_order asc");

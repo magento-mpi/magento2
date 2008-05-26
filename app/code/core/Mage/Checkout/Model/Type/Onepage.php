@@ -342,15 +342,15 @@ class Mage_Checkout_Model_Type_Onepage
                 $customer->addAddress($customerShipping);
             }
 
-            $customer->setPrefix($billing->getPrefix());
-            $customer->setFirstname($billing->getFirstname());
-            $customer->setMiddlename($billing->getMiddlename());
-            $customer->setLastname($billing->getLastname());
-            $customer->setSuffix($billing->getSuffix());
-            $customer->setEmail($billing->getEmail());
-            $customer->setDob($this->getQuote()->getCustomerDob());
+            if ($this->getQuote()->getCustomerDob() && !$billing->getCustomerDob()) {
+                $billing->setCustomerDob($this->getQuote()->getCustomerDob());
+            }
+
+            Mage::helper('core')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+
             $customer->setPassword($customer->decryptPassword($this->getQuote()->getPasswordHash()));
             $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
+
             $this->getQuote()->setCustomer($customer);
             break;
 
@@ -397,7 +397,7 @@ class Mage_Checkout_Model_Type_Onepage
         /* @var $order Mage_Sales_Model_Order */
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
         $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
-        $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
+        $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));        
         foreach ($this->getQuote()->getAllItems() as $item) {
             $item->setDescription(
                 Mage::helper('checkout')->getQuoteItemProductDescription($item)
@@ -413,24 +413,18 @@ class Mage_Checkout_Model_Type_Onepage
 
         if ($this->getQuote()->getCheckoutMethod()=='register') {
             $customer->save();
-            $customer->setDefaultBilling($customerBilling->getId());
-            $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
+            $customerBillingId = $customerBilling->getId();
+            $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBillingId;
+            $customer->setDefaultBilling($customerBillingId);
             $customer->setDefaultShipping($customerShippingId);
             $customer->save();
 
             $this->getQuote()->setCustomerId($customer->getId());
 
-            $order->setCustomerId($customer->getId())
-                ->setCustomerEmail($customer->getEmail())
-                ->setCustomerPrefix($customer->getPrefix())
-                ->setCustomerFirstname($customer->getFirstname())
-                ->setCustomerMiddlename($customer->getMiddlename())
-                ->setCustomerLastname($customer->getLastname())
-                ->setCustomerSuffix($customer->getSuffix())
-                ->setCustomerGroupId($customer->getGroupId())
-                ->setCustomerTaxClassId($customer->getTaxClassId());
+            $order->setCustomerId($customer->getId());
+            Mage::helper('core')->copyFieldset('customer_account', 'to_order', $customer, $order);
 
-            $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
+            $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBillingId);
             $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
 
             $customer->sendNewAccountEmail();

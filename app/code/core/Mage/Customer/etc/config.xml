@@ -25,21 +25,28 @@
             <version>0.8.5</version>
         </Mage_Customer>
     </modules>
-    <global>
-        <fieldsets>
-            <customer_account>
-                <prefix><create>1</create><update>1</update><name>1</name></prefix>
-                <firstname><create>1</create><update>1</update><name>1</name></firstname>
-                <middlename><create>1</create><update>1</update><name>1</name></middlename>
-                <lastname><create>1</create><update>1</update><name>1</name></lastname>
-                <suffix><create>1</create><update>1</update><name>1</name></suffix>
-                <email><create>1</create><update>1</update></email>
-                <password><create>1</create></password>
-                <confirmation><create>1</create></confirmation>
-                <dob><create>1</create><update>1</update></dob>
-            </customer_account>
 
+    <admin>
+        <fieldsets>
             <customer_dataflow>
+                <store_id><system>1</system></store_id>
+                <store><ignore>1</ignore></store>
+                <entity_id><system>1</system><ignore>1</ignore></entity_id>
+                <attribute_set_id><system>1</system><ignore>1</ignore></attribute_set_id>
+                <attribute_set><ignore>1</ignore></attribute_set>
+                <entity_type_id><system>1</system></entity_type_id>
+                <increment_id><system>1</system><ignore>1</ignore></increment_id>
+                <parent_id><system>1</system></parent_id>
+                <created_at><system>1</system></created_at>
+                <updated_at><system>1</system></updated_at>
+                <group_id><ignore>1</ignore></group_id>
+                <type_id><system>1</system><ignore>1</ignore></type_id>
+                <type><ignore>1</ignore></type>
+                <created_in><system>1</system><ignore>1</ignore></created_in>
+                <website_id><system>1</system></website_id>
+                <default_billing><system>1</system></default_billing>
+                <default_shipping><system>1</system></default_shipping>
+
                 <prefix><billing>1</billing><shipping>1</shipping><mapped>1</mapped></prefix>
                 <firstname><billing>1</billing><shipping>1</shipping><required>1</required><mapped>1</mapped></firstname>
                 <middlename><billing>1</billing><shipping>1</shipping><mapped>1</mapped></middlename>
@@ -57,7 +64,22 @@
                 <company><billing>1</billing><shipping>1</shipping></company>
                 <fax><billing>1</billing><shipping>1</shipping></fax>
             </customer_dataflow>
+        </fieldsets>
+    </admin>
 
+    <global>
+        <fieldsets>
+            <customer_account>
+                <prefix><create>1</create><update>1</update><name>1</name></prefix>
+                <firstname><create>1</create><update>1</update><name>1</name></firstname>
+                <middlename><create>1</create><update>1</update><name>1</name></middlename>
+                <lastname><create>1</create><update>1</update><name>1</name></lastname>
+                <suffix><create>1</create><update>1</update><name>1</name></suffix>
+                <email><create>1</create><update>1</update></email>
+                <password><create>1</create></password>
+                <confirmation><create>1</create></confirmation>
+                <dob><create>1</create><update>1</update></dob>
+            </customer_account>
         </fieldsets>
 
         <customer>

@@ -209,6 +209,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $this;
     }
 
+    public function saveCache($tags=array())
+    {
+
+
+        parent::saveCache($tags);
+
+        return $this;
+    }
+
     protected function _loadDeclaredModules($mergeConfig)
     {
         $etcDir = $this->getOptions()->getEtcDir();
@@ -237,6 +246,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             if ($moduleConfig->depends) {
                 foreach ($moduleConfig->depends->children() as $dependName=>$depend) {
                     $unsortedModules[$moduleName]['parents'][$dependName] = true;
+                    if (!isset($unsortedModules[$dependName])) {
+                        $unsortedModules[$dependName] = array();
+                    }
                     $unsortedModules[$dependName]['children'][$moduleName] = true;
                 }
             }
@@ -884,9 +896,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $this;
     }
 
-    public function getFieldset($name)
+    /**
+     * Get fieldset from configuration
+     *
+     * @param string $name fieldset name
+     * @param string $root fieldset area, could be 'admin'
+     * @return null|array
+     */
+    public function getFieldset($name, $root = 'global')
     {
-        $node = $this->_xml->global->fieldsets->$name;
-        return $node ? $node->children() : null;
+        if (!$rootNode = $this->getNode($root.'/fieldsets')) {
+            return null;
+        }
+        return $rootNode->$name ? $rootNode->$name->children() : null;
     }
 }

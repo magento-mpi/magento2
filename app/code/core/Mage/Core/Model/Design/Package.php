@@ -200,6 +200,9 @@ class Mage_Core_Model_Design_Package
 		if (empty($params['_theme'])) {
 			$params['_theme'] = $this->getTheme( (isset($params['_type'])) ? $params['_type'] : '' );
 		}
+    	if (empty($params['_default'])) {
+    		$params['_default'] = false;
+    	}
 		return $this;
 	}
 
@@ -295,9 +298,6 @@ class Mage_Core_Model_Design_Package
     {
     	Varien_Profiler::start(__METHOD__);
     	$this->updateParamDefaults($params);
-    	if (empty($params['_default'])) {
-    		$params['_default'] = false;
-    	}
 		$filename = $this->validateFile($file, $params);
 		if (false===$filename) {
 			$params['_theme'] = $this->getFallbackTheme();

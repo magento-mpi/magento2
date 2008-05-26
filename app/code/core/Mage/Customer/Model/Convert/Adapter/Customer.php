@@ -40,10 +40,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
     protected $_requiredFields = array();
 
-    protected $_ignoreFields = array(
-        'entity_id', 'attribute_set', 'attribute_set_id', 'type', 'type_id',
-        'increment_id', 'store', 'group_id', 'created_in'
-    );
+    protected $_ignoreFields = array();
 
     protected $_billingFields = array();
 
@@ -219,7 +216,10 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         }
         //$this->setAddress(Mage::getModel('catalog/'))
 
-        foreach (Mage::getConfig()->getFieldset('customer_dataflow') as $code=>$node) {
+        foreach (Mage::getConfig()->getFieldset('customer_dataflow', 'admin') as $code=>$node) {
+            if ($node->is('ignore')) {
+                $this->_ignoreFields[] = $code;
+            }
             if ($node->is('billing')) {
                 $this->_billingFields[] = 'billing_'.$code;
             }

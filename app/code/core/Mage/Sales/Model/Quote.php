@@ -312,15 +312,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
-        $this->setCustomerId($customer->getId());
-        $this->setCustomerEmail($customer->getEmail());
-        $this->setCustomerPrefix($customer->getPrefix());
-        $this->setCustomerFirstname($customer->getFirstname());
-        $this->setCustomerMiddlename($customer->getMiddlename());
-        $this->setCustomerLastname($customer->getLastname());
-        $this->setCustomerSuffix($customer->getSuffix());
-        $this->setCustomerGroupId($customer->getGroupId());
-        $this->setCustomerTaxClassId($customer->getTaxClassId());
+        Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 

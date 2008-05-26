@@ -182,7 +182,6 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
         $orderPayment = Mage::getModel('sales/order_payment')
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
-
         Mage::helper('core')->copyFieldset('sales_convert_quote_payment', 'to_order_payment', $payment, $orderPayment);
 //            ->setMethod($payment->getMethod())
 //            ->setAdditionalData($payment->getAdditionalData())

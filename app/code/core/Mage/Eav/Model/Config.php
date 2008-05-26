@@ -74,15 +74,14 @@ class Mage_Eav_Model_Config
             return $this;
         }
 
-        Varien_Profiler::start('EAV: '.__METHOD__);
 
         $useCache = Mage::app()->useCache('eav');
         if ($useCache && $cache = Mage::app()->loadCache('EAV_ENTITY_TYPE_CODES')) {
             $this->_data['entity_type_codes'] = unserialize($cache);
 
-            Varien_Profiler::stop('EAV: '.__METHOD__);
             return $this;
         }
+        Varien_Profiler::start('EAV: '.__METHOD__);
 
         $entityTypes = Mage::getModel('eav/entity_type')->getCollection();
 
@@ -126,14 +125,14 @@ class Mage_Eav_Model_Config
         if ($code instanceof Mage_Eav_Model_Entity_Type) {
             return $code;
         }
-        Varien_Profiler::start('EAV: '.__METHOD__);
 
         $this->_initEntityTypes();
 
         if ($entityType = $this->_load('EAV_ENTITY_TYPE/'.$code)) {
-            Varien_Profiler::stop('EAV: '.__METHOD__);
             return $entityType;
         }
+
+        Varien_Profiler::start('EAV: '.__METHOD__);
 
         if (is_numeric($code)) {
             if (isset($this->_data['entity_type_codes'][$code])) {
@@ -168,15 +167,13 @@ class Mage_Eav_Model_Config
      */
     protected function _initAttributes($entityType)
     {
-        Varien_Profiler::start('EAV: '.__METHOD__);
-
         $entityType     = $this->getEntityType($entityType);
         $entityTypeCode = $entityType->getEntityTypeCode();
 
         if (isset($this->_data['attributes'][$entityTypeCode]) || $entityType->getAttributeCodes()) {
-            Varien_Profiler::stop('EAV: '.__METHOD__);
             return $this;
         }
+        Varien_Profiler::start('EAV: '.__METHOD__);
 
         $useCache = Mage::app()->useCache('eav');
 
