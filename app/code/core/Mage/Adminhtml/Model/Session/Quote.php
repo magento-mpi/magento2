@@ -27,6 +27,8 @@
  */
 class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstract
 {
+    const XML_PATH_DEFAULT_CREATEACCOUNT_GROUP = 'customer/create_account/default_group';
+
     /**
      * Quote model object
      *
@@ -76,6 +78,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
             }
             elseif($this->getStoreId()) {
                 $this->_quote->setStoreId($this->getStoreId())
+                    ->setCustomerGroupId(Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();
