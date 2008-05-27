@@ -89,8 +89,8 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
                 Mage::getModel('adminnotification/inbox')->parse(array_reverse($feedData));
             }
 
-            $this->setLastUpdate();
         }
+        $this->setLastUpdate();
 
         return $this;
     }
@@ -123,7 +123,8 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
      */
     public function getLastUpdate()
     {
-        return Mage::getStoreConfig(self::XML_LAST_UPDATE_PATH);
+        return Mage::app()->loadCache('admin_notifications_lastcheck');
+//        return Mage::getStoreConfig(self::XML_LAST_UPDATE_PATH);
     }
 
     /**
@@ -133,9 +134,10 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
      */
     public function setLastUpdate()
     {
-        $config = Mage::getModel('core/config');
-        /* @var $config Mage_Core_Model_Config */
-        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
+        Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
+//        $config = Mage::getModel('core/config');
+//        /* @var $config Mage_Core_Model_Config */
+//        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;
     }
 

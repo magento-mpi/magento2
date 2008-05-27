@@ -1055,6 +1055,7 @@ class Mage_Core_Model_App
             }
             foreach ($events[$eventName]['observers'] as $obsName=>$obs) {
                 $observer->setData(array('event'=>$event));
+                Varien_Profiler::start('OBSERVER: '.$obsName);
                 switch ($obs['type']) {
                     case 'singleton':
                         $method = $obs['method'];
@@ -1070,6 +1071,7 @@ class Mage_Core_Model_App
                         $object->$method($observer);
                         break;
                 }
+                Varien_Profiler::stop('OBSERVER: '.$obsName);
             }
         }
         return $this;
