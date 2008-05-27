@@ -54,7 +54,12 @@
 # disable user agent verification to not break multiple image upload
 
     php_flag suhosin.session.cryptua off
-
+    
+###########################################
+# turn off compatibility with PHP4 when dealing with objects
+    
+    php_flag zend.ze1_compatibility_mode Off
+    
 </IfModule>
 
 <IfModule mod_security.c>
