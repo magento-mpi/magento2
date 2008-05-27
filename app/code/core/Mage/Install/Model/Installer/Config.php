@@ -136,7 +136,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected function _checkUrl($url, $secure=false)
     {
         $prefix = $secure ? 'install/wizard/checkSecureHost/' : 'install/wizard/checkHost/';
-        $client = new Varien_Http_Client($url.$prefix);
+        $client = new Varien_Http_Client($url.'index.php/'.$prefix);
         try {
             $response = $client->request('GET');
             /* @var $responce Zend_Http_Response */
