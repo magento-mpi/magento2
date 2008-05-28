@@ -235,4 +235,16 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
         return parent::loadArray($arr);
     }
+
+    public function validate(Varien_Object $object)
+    {
+        $attr = $object->getResource()->getAttribute($this->getAttribute());
+        if ($attr && $attr->getBackendType()=='datetime') {
+            $this->setValue(strtotime($this->getValue()));
+            $value = strtotime($object->getData($this->getAttribute()));
+            return $this->validateAttribute($value);
+        }
+
+        return parent::validate($object);
+    }
 }

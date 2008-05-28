@@ -81,10 +81,10 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(Mage::getSingleton('core/date')->gmtTimestamp(), null, null, true);
+            $date = Mage::app()->getLocale()->date(Mage::getSingleton('core/date')->gmtTimestamp(), null, null, $showTime);
         }
         else {
-            $date = Mage::app()->getLocale()->date(strtotime($date), null, null, true);
+            $date = Mage::app()->getLocale()->date(strtotime($date), null, null, $showTime);
         }
 
         if ($showTime) {
@@ -111,7 +111,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             Mage_Core_Model_Locale::FORMAT_TYPE_LONG    !==$format &&
             Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM  !==$format &&
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT   !==$format) {
-            return $date;
+            return $time;
         }
 
         if (is_null($time)) {
@@ -331,7 +331,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             } else {
                 $value = $source->getDataUsingMethod($code);
             }
-            
+
             $targetCode = (string)$node->$aspect;
             $targetCode = $targetCode == '*' ? $code : $targetCode;
 
