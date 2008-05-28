@@ -32,6 +32,8 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     protected $_tableFields = array();
     protected $_customerGroups = null;
 
+    protected $_minimalPriceData = null;
+
     const REINDEX_CHILDREN_NONE = 0;
     const REINDEX_CHILDREN_ALL = 1;
     const REINDEX_CHILDREN_CONFIGURABLE = 2;
@@ -366,7 +368,23 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         else {
             $data = array();
         }
+
+        $this->setMinimalPriceData($data);
+        $eventData = array('indexer'=>$this, 'product_ids'=>$products, 'store'=>$store);
+        Mage::dispatchEvent('catalogindex_get_minimal_price', $eventData);
+        $data = $this->getMinimalPriceData();
+
         return $data;
+    }
+
+    public function getMinimalPriceData()
+    {
+        return $this->_minimalPriceData;
+    }
+
+    public function setMinimalPriceData($value)
+    {
+        $this->_minimalPriceData = $value;
     }
 
     public function reindexPrices($products, $attributeIds, $store)
