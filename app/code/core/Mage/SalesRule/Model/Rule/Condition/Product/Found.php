@@ -62,10 +62,11 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
         foreach ($object->getAllItems() as $item) {
             $found = $all ? true : false;
             foreach ($this->getConditions() as $cond) {
-                if ($all && !$cond->validate($item)) {
+                $validated = $cond->validate($item);
+                if ($all && !$validated) {
                     $found = false;
                     break;
-                } elseif (!$all && $cond->validate($item)) {
+                } elseif (!$all && $validated) {
                     $found = true;
                     break 2;
                 }

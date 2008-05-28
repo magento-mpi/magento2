@@ -239,7 +239,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function validate(Varien_Object $object)
     {
         $attr = $object->getResource()->getAttribute($this->getAttribute());
-        if ($attr && $attr->getBackendType()=='datetime') {
+        if ($attr && $attr->getBackendType()=='datetime' && !is_int($this->getValue())) {
             $this->setValue(strtotime($this->getValue()));
             $value = strtotime($object->getData($this->getAttribute()));
             return $this->validateAttribute($value);
