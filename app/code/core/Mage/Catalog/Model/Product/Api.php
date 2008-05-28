@@ -222,6 +222,13 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         }
 
         if (isset($productData['websites']) && is_array($productData['websites'])) {
+            foreach ($productData['websites'] as &$website) {
+                if (is_string($website)) {
+                    try {
+                        $website = Mage::app()->getWebsite($website)->getId();
+                    } catch (Exception $e) { }
+                }
+            }
             $product->setWebsiteIds($productData['websites']);
         }
 

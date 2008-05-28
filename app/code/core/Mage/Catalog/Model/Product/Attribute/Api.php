@@ -30,6 +30,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
     public function __construct()
     {
         $this->_storeIdSessionField = 'product_store_id';
+        $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
         $this->_ignoredAttributeTypes[] = 'media_image';
     }
@@ -49,10 +50,10 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
 
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            if ($attribute->isInSet($setId)
+            if ( (!$attribute->getId() || $attribute->isInSet($setId))
                 && $this->_isAllowedAttribute($attribute)) {
 
-                if ($attribute->isScopeGlobal()) {
+                if (!$attribute->getId() || $attribute->isScopeGlobal()) {
                     $scope = 'global';
                 } elseif ($attribute->isScopeWebsite()) {
                     $scope = 'website';

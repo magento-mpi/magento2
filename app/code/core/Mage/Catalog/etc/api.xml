@@ -124,6 +124,10 @@
                         <code>100</code>
                         <message>Requested store view not found.</message>
                     </store_not_exists>
+                    <not_exists>
+                        <code>101</code>
+                        <message>Requested attribute not found.</message>
+                    </not_exists>
                 </faults>
             </catalog_category_attribute>
             <catalog_product translate="title" module="catalog">
@@ -194,11 +198,15 @@
                         <code>100</code>
                         <message>Requested store view not found.</message>
                     </store_not_exists>
+                    <not_exists>
+                        <code>101</code>
+                        <message>Requested attribute not found.</message>
+                    </not_exists>
                 </faults>
             </catalog_product_attribute>
             <catalog_product_attribute_set translate="title" module="catalog">
                 <title>Product attribute sets API</title>
-                <model>catalog/porduct_attribute_set</model>
+                <model>catalog/product_attribute_set_api</model>
                 <acl>catalog/product</acl>
                 <methods>
                     <list translate="title" module="catalog">
@@ -211,7 +219,7 @@
             </catalog_product_attribute_set>
             <catalog_product_type translate="title" module="catalog">
                 <title>Product types API</title>
-                <model>catalog/porduct_type</model>
+                <model>catalog/product_type_api</model>
                 <acl>catalog/product</acl>
                 <methods>
                     <list translate="title" module="catalog">

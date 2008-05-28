@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_R
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             if ($this->_isAllowedAttribute($attribute)) {
-                if ($attribute->isScopeGlobal()) {
+                if (!$attribute->getId() || $attribute->isScopeGlobal()) {
                     $scope = 'global';
                 } elseif ($attribute->isScopeWebsite()) {
                     $scope = 'website';
@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Category_Attribute_Api extends Mage_Catalog_Model_Api_R
      /**
      * Retrieve category attribute options
      *
-     * @param int $attributeId
+     * @param int|string $attributeId
      * @param string|int $store
      * @return array
      */
