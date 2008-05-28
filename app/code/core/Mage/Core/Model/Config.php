@@ -275,7 +275,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $sortedConfig->loadString('<config><modules/></config>');
         foreach ($unsortedConfig->getNode()->children() as $nodeName=>$node) {
             if ($nodeName!=='modules') {
-                $sortedConfig->appendChild($node);
+                $sortedConfig->getNode()->appendChild($node);
             }
         }
         $modulesConfig = $sortedConfig->getNode('modules');
