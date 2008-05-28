@@ -137,7 +137,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } else {
             $this->loadLayout(array(
                 'default',
-                'admin_catalog_product_'.$product->getTypeId()
+                'adminhtml_catalog_product_'.$product->getTypeId()
             ));
             $this->_setActiveMenu('catalog/products');
         }
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->loadLayout(array(
             'default',
-            'admin_catalog_product_'.$product->getTypeId()
+            'adminhtml_catalog_product_'.$product->getTypeId()
         ));
 
         $this->_setActiveMenu('catalog/products');
