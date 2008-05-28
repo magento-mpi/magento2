@@ -21,7 +21,7 @@
 -->
 
 <layout>
-    <admin_catalog_product_new>
+    <adminhtml_catalog_product_new>
         <reference name="content">
             <block type="adminhtml/catalog_product_edit" name="product_edit"></block>
         </reference>
@@ -31,9 +31,9 @@
         <reference name="js">
             <block type="adminhtml/template" template="catalog/product/js.phtml"></block>
         </reference>
-    </admin_catalog_product_new>
+    </adminhtml_catalog_product_new>
 
-    <admin_catalog_product_edit>
+    <adminhtml_catalog_product_edit>
         <reference name="content">
             <block type="adminhtml/catalog_product_edit" name="product_edit"></block>
         </reference>
@@ -44,33 +44,33 @@
         <reference name="js">
             <block type="adminhtml/template" template="catalog/product/js.phtml"></block>
         </reference>
-    </admin_catalog_product_edit>
+    </adminhtml_catalog_product_edit>
 
 <!--
 Layout handle for simple products
 -->
 
-    <admin_catalog_product_simple />
+    <adminhtml_catalog_product_simple />
 
 <!--
 Layout handle for grouped products
 -->
 
-    <admin_catalog_product_grouped>
+    <adminhtml_catalog_product_grouped>
         <remove name="product_tabs"/>
         <reference name="left">
             <block type="adminhtml/catalog_product_edit_tabs_grouped" name="grouped_product_tabs"></block>
         </reference>
-    </admin_catalog_product_grouped>
+    </adminhtml_catalog_product_grouped>
 
 <!--
 Layout handle for configurable products
 -->
 
-    <admin_catalog_product_configurable>
+    <adminhtml_catalog_product_configurable>
         <remove name="product_tabs"/>
         <reference name="left">
             <block type="adminhtml/catalog_product_edit_tabs_configurable" name="configurable_product_tabs"></block>
         </reference>
-    </admin_catalog_product_configurable>
+    </adminhtml_catalog_product_configurable>
 </layout>

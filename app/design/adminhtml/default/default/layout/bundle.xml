@@ -26,10 +26,10 @@
 Layout handle for budle products
 -->
 
-    <admin_catalog_product_bundle>
+    <adminhtml_catalog_product_bundle>
         <remove name="product_tabs"/>
         <reference name="left">
             <block type="bundle/adminhtml_catalog_product_edit_tabs" name="bundle_product_tabs"></block>
         </reference>
-    </admin_catalog_product_bundle>
+    </adminhtml_catalog_product_bundle>
 </layout>
