@@ -127,7 +127,6 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
-
         if (!empty($customerAddressId)) {
             $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
             if ($customerAddress->getId()) {
@@ -397,7 +396,7 @@ class Mage_Checkout_Model_Type_Onepage
         /* @var $order Mage_Sales_Model_Order */
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
         $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
-        $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));        
+        $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
         foreach ($this->getQuote()->getAllItems() as $item) {
             $item->setDescription(
                 Mage::helper('checkout')->getQuoteItemProductDescription($item)

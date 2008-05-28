@@ -105,7 +105,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
 
         if( is_array($ignores) && $observer) {
-            $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getModuleName();
+            $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();
             if (isset($ignores[$curModule])) {
                 return true;
             }

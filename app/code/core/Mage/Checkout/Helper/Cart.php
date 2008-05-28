@@ -65,7 +65,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
             'product' => $product->getId()
         );
 
-        if ($this->_getRequest()->getModuleName() == 'checkout'
+        if ($this->_getRequest()->getRouteName() == 'checkout'
             && $this->_getRequest()->getControllerName() == 'cart') {
             $params['in_cart'] = 1;
         }

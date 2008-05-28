@@ -847,7 +847,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param string $path
      * @param string $scope
      * @param string $scopeCode
-     * @return Varien_Simplexml_Element
+     * @return Mage_Core_Model_Config_Element
      */
     public function getNode($path=null, $scope='', $scopeCode=null)
     {

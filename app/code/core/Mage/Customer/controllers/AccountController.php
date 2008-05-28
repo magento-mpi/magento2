@@ -46,6 +46,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
+        if (!$this->getRequest()->isDispatched()) {
+            return;
+        }
+
         $action = $this->getRequest()->getActionName();
         if (!preg_match('/^(create|login|logoutSuccess|forgotpassword|forgotpasswordpost)/i', $action)) {
             if (!$this->_getSession()->authenticate($this)) {

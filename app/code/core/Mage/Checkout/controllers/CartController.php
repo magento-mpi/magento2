@@ -143,8 +143,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $cart->addProduct($product, $params)
-                ->addProductsByIds(explode(',', $related));
+            $cart->addProduct($product, $params);
+            if (!empty($related)) {
+                $cart->addProductsByIds(explode(',', $related));
+            }
             $cart->save();
 
             /**

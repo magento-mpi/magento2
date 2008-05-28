@@ -265,7 +265,7 @@
                 <suffix><to_quote_address>*</to_quote_address></suffix>
                 <!--<email><to_quote_address>*</to_quote_address></email>-->
                 <company><to_quote_address>*</to_quote_address></company>
-                <street><to_quote_address>*</to_quote_address></street>
+                <street_full><to_quote_address>street</to_quote_address></street_full>
                 <city><to_quote_address>*</to_quote_address></city>
                 <region><to_quote_address>*</to_quote_address></region>
                 <region_id><to_quote_address>*</to_quote_address></region_id>

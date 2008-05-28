@@ -259,9 +259,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $route = array_shift($a);
         if ('*'===$route) {
-            $frontName = $this->getRequest()->getModuleName();
-            $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
-            $route = $router->getRouteByFrontName($frontName);
+            $route = $this->getRequest()->getRouteName();
         }
         $this->setRouteName($route);
         $routePath = $route.'/';

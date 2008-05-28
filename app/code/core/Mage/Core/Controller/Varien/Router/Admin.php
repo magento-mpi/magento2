@@ -64,6 +64,8 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
             }
         }
 
+        $request->setRouteName($this->getRouteByFrontName($module));
+
         if (!Mage::app()->isInstalled()) {
             Mage::app()->getFrontController()->getResponse()
                 ->setRedirect(Mage::getUrl('install'))

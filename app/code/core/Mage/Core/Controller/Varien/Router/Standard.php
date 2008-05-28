@@ -81,6 +81,8 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             }
         }
 
+        $request->setRouteName($this->getRouteByFrontName($module));
+
         // get controller name
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();
