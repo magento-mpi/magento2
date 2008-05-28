@@ -65,6 +65,13 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
         return $this->helper('catalog/product_compare')->getAddUrl($product);
     }
 
+    public function getMinimalQty($product)
+    {
+        if ($stockItem = $product->getStockItem()) {
+            return $stockItem->getMinSaleQty()>1 ? $stockItem->getMinSaleQty()*1 : null;
+        }
+        return null;
+    }
 
     protected function _getPriceBlock()
     {

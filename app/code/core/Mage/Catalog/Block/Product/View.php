@@ -85,14 +85,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return $data;
     }
 
-    public function getMinimalQty($product)
-    {
-        if ($stockItem = $product->getStockItem()) {
-            return $stockItem->getMinSaleQty()>1 ? $stockItem->getMinSaleQty()*1 : null;
-        }
-        return null;
-    }
-
     public function canEmailToFriend()
     {
         $sendToFriendModel = Mage::registry('send_to_friend_model');
