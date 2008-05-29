@@ -68,21 +68,21 @@ class Mage_SalesRule_Model_Observer
             if ($rule->getId()) {
                 $rule->setTimesUsed($rule->getTimesUsed() + 1);
                 $rule->save();
-            }
 
-            if ($ruleCustomer) {
-                $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
+                if ($ruleCustomer) {
+                    $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
-                if ($ruleCustomer->getId()) {
-                    $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+                    if ($ruleCustomer->getId()) {
+                        $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+                    }
+                    else {
+                        $ruleCustomer
+                        ->setCustomerId($customerId)
+                        ->setRuleId($ruleId)
+                        ->setTimesUsed(1);
+                    }
+                    $ruleCustomer->save();
                 }
-                else {
-                    $ruleCustomer
-                    ->setCustomerId($customerId)
-                    ->setRuleId($ruleId)
-                    ->setTimesUsed(1);
-                }
-                $ruleCustomer->save();
             }
         }
     }
