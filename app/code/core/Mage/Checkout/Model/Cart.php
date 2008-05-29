@@ -28,7 +28,7 @@
 class Mage_Checkout_Model_Cart extends Varien_Object
 {
     protected $_summaryQty = null;
-    protected $_productIds;
+    protected $_productIds = null;
 
     protected function _getResource()
     {
@@ -448,22 +448,19 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 //        return $cartObj;
 //    }
 
-    public function getProductIds($quoteId=null)
+    public function getProductIds()
     {
-        if (is_null($quoteId)) {
-            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-        }
-
-        if (!isset($this->_productIds[$quoteId])) {
-    	    $productIds = array();
+        $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        if (null === $this->_productIds) {
+    	    $this->_productIds = array();
     	    if ($this->getSummaryQty()>0) {
-    	       foreach ($this->getCartInfo($quoteId)->getItems() as $item) {
-    	           $productIds[] = $item->getProductId();
+    	       foreach ($this->getQuote()->getAllItems() as $item) {
+    	           $this->_productIds[] = $item->getProductId();
     	       }
     	    }
-    	    $this->_productIds[$quoteId] = array_unique($productIds);
+    	    $this->_productIds = array_unique($this->_productIds);
         }
-	    return $this->_productIds[$quoteId];
+	    return $this->_productIds;
     }
 
     /**
