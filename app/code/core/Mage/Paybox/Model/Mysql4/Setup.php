@@ -25,7 +25,7 @@
  * @package    Mage_Paybox
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paybox_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
+class Mage_Paybox_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
 {
 
 }

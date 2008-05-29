@@ -31,30 +31,26 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      *
      * @var Mage_Sales_Model_Quote
      */
-    protected $_items;
-    protected $_quote;
-    protected $_rates;
+    protected $_items = null;
+    protected $_quote = null;
+    protected $_rates = null;
     protected $_totalModels;
     protected $_totals = array();
 
+    /**
+     * Initialize resource
+     */
     protected function _construct()
     {
         $this->_init('sales/quote_address');
     }
 
-    public function __destruct()
-    {
-        unset($this->_quote);
-        unset($this->_rates);
-        unset($this->_totalModels);
-        unset($this->_totals);
-    }
 
     protected function _beforeSave()
     {
         parent::_beforeSave();
         if ($this->getQuote()) {
-            $this->setParentId($this->getQuote()->getId());
+            $this->setQuoteId($this->getQuote()->getId());
         }
         return $this;
     }
@@ -62,8 +58,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     protected function _afterSave()
     {
         parent::_afterSave();
-        $this->getItemsCollection()->save();
-        $this->getShippingRatesCollection()->save();
+        if (null !== $this->_items) {
+            $this->getItemsCollection()->save();
+        }
+        if (null !== $this->_rates) {
+            $this->getShippingRatesCollection()->save();
+        }
         return $this;
     }
 
@@ -76,6 +76,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
+        $this->setQuoteId($quote->getId());
         return $this;
     }
 
@@ -98,8 +99,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
         Mage::helper('core')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
-
-        $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
+/*echo '<pre>';
+print_r($this->getData());
+echo '</pre>';
+*/        $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
 
         return $this;
     }
@@ -153,8 +156,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $arr;
     }
 
-/*********************** ITEMS ***************************/
-
     /**
      * Retrieve address items collection
      *
@@ -163,8 +164,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/quote_address_item_collection')
-                ->addAttributeToSelect('*')
+            $this->_items = Mage::getModel('sales/quote_address_item')->getCollection()
                 ->setAddressFilter($this->getId());
 
             if ($this->getId()) {
@@ -263,9 +263,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $this;
     }
 
-
-/*********************** SHIPPING RATES ***************************/
-
     /**
      * Retrieve collection of quote shipping rates
      *
@@ -274,8 +271,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function getShippingRatesCollection()
     {
         if (is_null($this->_rates)) {
-            $this->_rates = Mage::getResourceModel('sales/quote_address_rate_collection')
-                ->addAttributeToSelect('*')
+            $this->_rates = Mage::getModel('sales/quote_address_rate')->getCollection()
                 ->setAddressFilter($this->getId());
             if ($this->getId()) {
                 foreach ($this->_rates as $rate) {
@@ -515,7 +511,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     public function __clone()
     {
-        $this->setEntityId(null);
+        $this->setId(null);
     }
 
     protected function _beforeDelete()

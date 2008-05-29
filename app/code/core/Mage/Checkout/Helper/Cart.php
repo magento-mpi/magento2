@@ -112,19 +112,33 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         return Mage::getSingleton('checkout/session')->getQuote();
     }
 
+    /**
+     * Get shopping cart items count
+     *
+     * @return int
+     */
     public function getItemsCount()
     {
         return $this->getCart()->getItemsCount();
     }
 
+    /**
+     * Get shopping cart summary qty
+     *
+     * @return decimal
+     */
     public function getItemsQty()
     {
         return $this->getCart()->getItemsQty();
     }
 
+    /**
+     * Get shopping cart items summary (inchlude config settings)
+     *
+     * @return decimal
+     */
     public function getSummaryCount()
     {
         return Mage::getSingleton('checkout/cart')->getSummaryQty();
     }
-
 }

@@ -39,6 +39,6 @@ class Mage_Checkout_Block_Onepage_Link extends Mage_Core_Block_Template
 
     public function isPossibleOnepageCheckout()
     {
-        return !Mage::getSingleton('checkout/type_onepage')->isDisabled();
+        return $this->helper('checkout')->canOnepageCheckout();
     }
 }

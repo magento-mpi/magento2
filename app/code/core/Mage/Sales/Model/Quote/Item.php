@@ -42,16 +42,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $this->_init('sales/quote_item');
     }
 
-    public function __destruct()
-    {
-        unset($this->_quote);
-    }
-
     protected function _beforeSave()
     {
         parent::_beforeSave();
         if ($this->getQuote()) {
-            $this->setParentId($this->getQuote()->getId());
+            $this->setQuoteId($this->getQuote()->getId());
         }
         return $this;
     }
@@ -65,6 +60,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function setQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_quote = $quote;
+        $this->setQuoteId($quote->getId());
         if ($this->getHasError()) {
             $quote->setHasError(true);
         }

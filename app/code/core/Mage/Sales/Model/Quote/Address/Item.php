@@ -33,16 +33,11 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
         $this->_init('sales/quote_address_item');
     }
 
-    public function __destruct()
-    {
-        unset($this->_address);
-    }
-
     protected function _beforeSave()
     {
         parent::_beforeSave();
         if ($this->getAddress()) {
-            $this->setParentId($this->getAddress()->getId());
+            $this->setQuoteAddressId($this->getAddress()->getId());
         }
         return $this;
     }

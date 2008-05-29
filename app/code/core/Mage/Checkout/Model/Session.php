@@ -22,9 +22,7 @@
 class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     const CHECKOUT_STATE_BEGIN = 'begin';
-
     protected $_quote = null;
-    protected $_processedQuote = null;
 
     public function __construct()
     {
@@ -38,20 +36,15 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     }
 
     /**
-     * Retrieve quote instance by current session
+     * Get checkout quote instance by current session
      *
      * @return Mage_Sales_Model_Quote
      */
     public function getQuote()
     {
-        if (empty($this->_quote)) {
-            /**
-             * Prepare quote for load
-             */
+        if ($this->_quote === null) {
             $quote = Mage::getModel('sales/quote')
-                ->setStoreId(Mage::app()->getStore()->getId())
-                ->setCacheKey(true)
-                ;
+                ->setStoreId(Mage::app()->getStore()->getId());
 
             /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
@@ -60,11 +53,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                     $this->setQuoteId(null);
                 }
             }
+
             if (!$this->getQuoteId()) {
-                //$quote->save();
                 $quote->setIsCheckoutCart(true);
                 Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
-                //$this->setQuoteId($quote->getId());
             }
 
             if ($this->getQuoteId()) {
@@ -74,29 +66,21 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
 
+            $quote->setStore(Mage::app()->getStore());
             $this->_quote = $quote;
-            /**
-             * Declare current store for quote data
-             */
-            $this->_quote->setStore(Mage::app()->getStore());
         }
+
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $this->_quote->setRemoteIp($_SERVER['REMOTE_ADDR']);
         }
         return $this->_quote;
     }
 
-    public function createQuote()
-    {
-
-    }
 
     public function loadCustomerQuote()
     {
-        // coment until quote fix
         $customerQuote = Mage::getModel('sales/quote')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->setCacheKey(true)
             ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
 
         if ($this->getQuoteId() != $customerQuote->getId()) {

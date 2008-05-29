@@ -27,7 +27,7 @@
  */
 class Mage_Checkout_Model_Cart extends Varien_Object
 {
-    protected $_summaryQty;
+    protected $_summaryQty = null;
     protected $_productIds;
 
     protected function _getResource()
@@ -61,17 +61,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             return array();
         }
         return $this->getQuote()->getItemsCollection();
-    }
-
-
-    public function getItemsCount()
-    {
-        return $this->getQuote()->getItemsCount();
-    }
-
-    public function getItemsQty()
-    {
-        return $this->getQuote()->getItemsQty();
     }
 
     /**
@@ -248,6 +237,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
         if (!empty($productIds)) {
             foreach ($productIds as $productId) {
+                $productId = (int) $productId;
+                if (!$productId) {
+                    continue;
+                }
                 $product = Mage::getModel('catalog/product')
                     ->setStoreId(Mage::app()->getStore()->getId())
                     ->load($productId);
@@ -347,116 +340,113 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         }
     }
 
-    /**
-     * Retrieve cart information for sidebar
-     *
-     * @param integer $quoteId
-     * @return Varien_Object
-     */
-    public function getCartInfo($quoteId=null)
-    {
-        $store = Mage::app()->getStore();
-        if (is_null($quoteId)) {
-            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-        }
-
-        $cacheKey = 'CHECKOUT_QUOTE'.$quoteId.'_STORE'.$store->getId();
-        if (Mage::app()->useCache('checkout_quote') && $cache = Mage::app()->loadCache($cacheKey)) {
-            return unserialize($cache);
-        }
-
-        $cart = array('items'=>array(), 'subtotal'=>0);
-        $cacheTags = array('checkout_quote', 'catalogrule_product_price', 'checkout_quote_'.$quoteId);
-
-        if ($this->getSummaryQty($quoteId)>0) {
-
-            $itemsArr = $this->_getResource()->fetchItems($quoteId);
-            $productIds = array();
-            foreach ($itemsArr as $item) {
-                $productIds[] = $item['product_id'];
-                if (!empty($item['super_product_id'])) {
-                    $productIds[] = $item['super_product_id'];
-                }
-            }
-
-            $productIds = array_unique($productIds);
-            foreach ($productIds as $id) {
-                $cacheTags[] = 'catalog_product_'.$id;
-            }
-            /* +MK
-            $quoteItems = Mage::getModel('sales/quote_item')
-                ->getCollection()
-                ->setQuote( Mage::getSingleton('checkout/session')->getQuote())
-                ->addAttributeToSelect('*');
-            */
-            $products = Mage::getModel('catalog/product')->getCollection()
-                ->addAttributeToSelect('*')
-                ->addMinimalPrice()
-                ->addStoreFilter()
-                ->addIdFilter($productIds);
-
-
-            foreach ($itemsArr as $it) {
-                $product = $products->getItemById($it['product_id']);
-                if (!$product) {
-                    continue;
-                }
-                $product->setDoNotUseCategoryId(true);
-
-                //-MK:
-                $item = new Varien_Object($it);
-                //+MK $item = $quoteItems->getItemById($it['id']);
-                $item->setProduct($product);
-
-                $superProduct = null;
-                if (!empty($it['super_product_id'])) {
-                    $superProduct = $products->getItemById($it['super_product_id']);
-                    $item->setSuperProduct($superProduct);
-                    $product->setProduct($product);
-                    $product->setSuperProduct($superProduct);
-                    $superProduct->setDoNotUseCategoryId(true);
-                }
-                /* +MK
-                if ($item->getCalculationPrice()) {
-                    $item->setPrice($item->getCalculationPrice());
-                }
-                */
-                $item->setProductName(!empty($superProduct) ? $superProduct->getName() : $product->getName());
-                $item->setProductUrl(!empty($superProduct) ? $superProduct->getProductUrl() : $product->getProductUrl());
-                //-MK:
-                $item->setPrice($product->getFinalPrice($it['qty']));
-
-                $thumbnailObjOrig = Mage::helper('checkout')->getQuoteItemProductThumbnail($item);
-                $thumbnailObj = Mage::getModel('catalog/product');
-                foreach ($thumbnailObjOrig->getData() as $k=>$v) {
-                    if (is_scalar($v)) {
-                        $thumbnailObj->setData($k, $v);
-                    }
-                }
-                $item->setThumbnailObject($thumbnailObj);
-
-                $item->setProductDescription(Mage::helper('catalog/product')->getProductDescription($product));
-
-                Mage::dispatchEvent('checkout_cart_info_item_unset_product_before', array(
-                    'item' => $item
-                ));
-
-                $item->unsProduct()->unsSuperProduct();
-
-                $cart['items'][] = $item;
-
-                $cart['subtotal'] += $item->getPrice()*$item->getQty();
-                //+MK $cart['subtotal'] += $item->getCalculationPrice()*$item->getQty();
-            }
-        }
-
-        $cartObj = new Varien_Object($cart);
-        if (Mage::app()->useCache('checkout_quote')) {
-            Mage::app()->saveCache(serialize($cartObj), $cacheKey, $cacheTags);
-        }
-
-        return $cartObj;
-    }
+//    /**
+//     * Retrieve cart information for sidebar
+//     *
+//     * @return Varien_Object
+//     */
+//    public function getCartInfo()
+//    {
+//        $store = Mage::app()->getStore();
+//        $quoteId = $this->getCheckoutSession()->getQuoteId();
+//
+////        $cacheKey = 'CHECKOUT_QUOTE'.$quoteId.'_STORE'.$store->getId();
+////        if (Mage::app()->useCache('checkout_quote') && $cache = Mage::app()->loadCache($cacheKey)) {
+////            return unserialize($cache);
+////        }
+//
+//        $cart = array('items'=>array(), 'subtotal'=>0);
+////        $cacheTags = array('checkout_quote', 'catalogrule_product_price', 'checkout_quote_'.$quoteId);
+//
+//        if ($this->getSummaryQty($quoteId)>0) {
+//
+//            $itemsArr = $this->_getResource()->fetchItems($quoteId);
+//            $productIds = array();
+//            foreach ($itemsArr as $item) {
+//                $productIds[] = $item['product_id'];
+//                if (!empty($item['super_product_id'])) {
+//                    $productIds[] = $item['super_product_id'];
+//                }
+//            }
+//
+//            $productIds = array_unique($productIds);
+//            foreach ($productIds as $id) {
+//                $cacheTags[] = 'catalog_product_'.$id;
+//            }
+//            /* +MK
+//            $quoteItems = Mage::getModel('sales/quote_item')
+//                ->getCollection()
+//                ->setQuote( Mage::getSingleton('checkout/session')->getQuote())
+//                ->addAttributeToSelect('*');
+//            */
+//            $products = Mage::getModel('catalog/product')->getCollection()
+//                ->addAttributeToSelect('*')
+//                ->addMinimalPrice()
+//                ->addStoreFilter()
+//                ->addIdFilter($productIds);
+//
+//
+//            foreach ($itemsArr as $it) {
+//                $product = $products->getItemById($it['product_id']);
+//                if (!$product) {
+//                    continue;
+//                }
+//                $product->setDoNotUseCategoryId(true);
+//
+//                //-MK:
+//                $item = new Varien_Object($it);
+//                //+MK $item = $quoteItems->getItemById($it['id']);
+//                $item->setProduct($product);
+//
+//                $superProduct = null;
+//                if (!empty($it['super_product_id'])) {
+//                    $superProduct = $products->getItemById($it['super_product_id']);
+//                    $item->setSuperProduct($superProduct);
+//                    $product->setProduct($product);
+//                    $product->setSuperProduct($superProduct);
+//                    $superProduct->setDoNotUseCategoryId(true);
+//                }
+//                /* +MK
+//                if ($item->getCalculationPrice()) {
+//                    $item->setPrice($item->getCalculationPrice());
+//                }
+//                */
+//                $item->setProductName(!empty($superProduct) ? $superProduct->getName() : $product->getName());
+//                $item->setProductUrl(!empty($superProduct) ? $superProduct->getProductUrl() : $product->getProductUrl());
+//                //-MK:
+//                $item->setPrice($product->getFinalPrice($it['qty']));
+//
+//                $thumbnailObjOrig = Mage::helper('checkout')->getQuoteItemProductThumbnail($item);
+//                $thumbnailObj = Mage::getModel('catalog/product');
+//                foreach ($thumbnailObjOrig->getData() as $k=>$v) {
+//                    if (is_scalar($v)) {
+//                        $thumbnailObj->setData($k, $v);
+//                    }
+//                }
+//                $item->setThumbnailObject($thumbnailObj);
+//
+//                $item->setProductDescription(Mage::helper('catalog/product')->getProductDescription($product));
+//
+//                Mage::dispatchEvent('checkout_cart_info_item_unset_product_before', array(
+//                    'item' => $item
+//                ));
+//
+//                $item->unsProduct()->unsSuperProduct();
+//
+//                $cart['items'][] = $item;
+//
+//                $cart['subtotal'] += $item->getPrice()*$item->getQty();
+//                //+MK $cart['subtotal'] += $item->getCalculationPrice()*$item->getQty();
+//            }
+//        }
+//
+//        $cartObj = new Varien_Object($cart);
+////        if (Mage::app()->useCache('checkout_quote')) {
+////            Mage::app()->saveCache(serialize($cartObj), $cacheKey, $cacheTags);
+////        }
+//
+//        return $cartObj;
+//    }
 
     public function getProductIds($quoteId=null)
     {
@@ -476,20 +466,42 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 	    return $this->_productIds[$quoteId];
     }
 
-    public function getSummaryQty($quoteId=null)
+    /**
+     * Get shopping cart items summary (inchlude config settings)
+     *
+     * @return decimal
+     */
+    public function getSummaryQty()
     {
-        if (is_null($quoteId)) {
-            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-        }
-        if (!isset($this->_summaryQty[$quoteId])) {
-            $summary = $this->_getResource()->fetchItemsSummary($quoteId);
+        $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        if ($quoteId && $this->_summaryQty === null) {
             if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
-                $this->_summaryQty[$quoteId] = $summary['items_qty']*1;
+                $this->_summaryQty = $this->getItemsQty();
             }
             else {
-                $this->_summaryQty[$quoteId] = $summary['items_count']*1;
+                $this->_summaryQty = $this->getItemsCount();
             }
         }
-        return $this->_summaryQty[$quoteId];
+        return $this->_summaryQty;
+    }
+
+    /**
+     * Get shopping cart items count
+     *
+     * @return int
+     */
+    public function getItemsCount()
+    {
+        return $this->getQuote()->getItemsCount()*1;
+    }
+
+    /**
+     * Get shopping cart summary qty
+     *
+     * @return decimal
+     */
+    public function getItemsQty()
+    {
+        return $this->getQuote()->getItemsQty()*1;
     }
 }

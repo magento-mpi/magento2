@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.8.29</version>
+            <version>0.9.0</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -279,8 +279,30 @@
         <models>
             <sales>
                 <class>Mage_Sales_Model</class>
-                <resourceModel>sales_entity</resourceModel>
+                <resourceModel>sales_mysql4</resourceModel>
             </sales>
+            <sales_mysql4>
+                <class>Mage_Sales_Model_Mysql4</class>
+                <entities>
+                    <quote><table>sales_flat_quote</table></quote>
+                    <quote_address><table>sales_flat_quote_address</table></quote_address>
+                    <quote_address_item><table>sales_flat_quote_address_item</table></quote_address_item>
+                    <quote_item><table>sales_flat_quote_item</table></quote_item>
+                    <quote_item_option><table>sales_flat_quote_item_option</table></quote_item_option>
+                    <quote_payment><table>sales_flat_quote_payment</table></quote_payment>
+                    <quote_address_shipping_rate><table>sales_flat_quote_shipping_rate</table></quote_address_shipping_rate>
+
+                    <order><table>sales_order</table></order>
+                    <order_entity><table>sales_order_entity</table></order_entity>
+                    <!--order></order>
+
+                    <invoice></invoice>
+
+                    <shipment></shipment>
+
+                    <creditmemo></creditmemo-->
+                </entities>
+            </sales_mysql4>
             <sales_entity>
                 <class>Mage_Sales_Model_Entity</class>
                 <entities>

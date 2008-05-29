@@ -718,18 +718,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $resourceModel = false;
 
-        if ($resourceInfo = $this->_xml->global->models->{$modelClass}->resourceModel) {
+        if ((count($classArr)==2) && ($resourceInfo = $this->_xml->global->models->{$classArr[0]}->$classArr[1]->resourceModel)) {
             $resourceModel = (string) $resourceInfo;
         }
         elseif ($resourceInfo = $this->_xml->global->models->{$classArr[0]}->resourceModel) {
             $resourceModel = (string) $resourceInfo;
         }
-        /*if ($this->getNode('global/models/'.$modelClass.'/resourceModel')) {
-            $resourceModel = (string) $this->getNode('global/models/'.$modelClass.'/resourceModel');
-        }
-        elseif ($this->getNode('global/models/'.$classArr[0].'/resourceModel')) {
-            $resourceModel = (string) $this->getNode('global/models/'.$classArr[0].'/resourceModel');
-        }*/
 
         if (!$resourceModel) {
             return false;

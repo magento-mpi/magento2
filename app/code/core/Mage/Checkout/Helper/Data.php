@@ -28,6 +28,8 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const GROUPED_PRODUCT_IMAGE     = 'checkout/cart/grouped_product_image';
     const CONFIGURABLE_PRODUCT_IMAGE= 'checkout/cart/configurable_product_image';
     const USE_PARENT_IMAGE = 'parent';
+    protected $_agreements = null;
+
     /**
      * Retrieve checkout session model
      *
@@ -179,8 +181,6 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getQuote()->getStore()->convertPrice($price, $format);
     }
 
-    protected $_agreements = null;
-
     public function getRequiredAgreementIds()
     {
         if (is_null($this->_agreements)) {
@@ -194,5 +194,18 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $this->_agreements;
+    }
+
+    /**
+     * Get onepage checkout availability
+     *
+     * @return bool
+     */
+    public function canOnepageCheckout()
+    {
+        if (Mage::getStoreConfig('checkout/options/onepage_checkout_disabled')) {
+            return false;
+        }
+        return true;
     }
 }

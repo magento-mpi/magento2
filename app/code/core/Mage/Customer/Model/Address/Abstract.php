@@ -71,7 +71,7 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             return $street;
         } else {
             $arr = is_array($street) ? $street : explode("\n", $street);
-            if (0===$line) {
+            if (0===$line || $line === null) {
                 return $arr;
             } elseif (isset($arr[$line-1])) {
                 return $arr[$line-1];

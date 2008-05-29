@@ -28,47 +28,35 @@
  */
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 {
-    protected $_items;
-    protected $_subtotal;
-
-    protected function _getCartInfo()
-    {
-        if (!is_null($this->_items)) {
-            return;
-        }
-        $cart = Mage::getSingleton('checkout/cart')->getCartInfo();
-
-        $this->_items = $cart->getItems();
-        $this->_subtotal = $cart->getSubtotal();
-
-        usort($this->_items, array($this, 'sortByCreatedAt'));
-    }
-
+    /**
+     * Get array last added items
+     *
+     * @return array
+     */
     public function getRecentItems()
     {
-        $this->_getCartInfo();
-        if (!$this->_items) {
-            return array();
-        }
+        $items = array();
         $i = 0;
-        foreach ($this->_items as $quoteItem) {
-            $items[] = $quoteItem;
-            if (++$i==3) break;
+        $allItems = array_reverse($this->getItems());
+        foreach ($allItems as $item) {
+        	$items[] = $item;
+        	if (++$i==3) break;
         }
         return $items;
     }
 
-    public function sortByCreatedAt($a, $b)
-    {
-        $a1 = $a->getCreatedAt();
-        $b1 = $b->getCreatedAt();
-        return $a1<$b1 ? 1 : $a1>$b1 ? -1 : 0;
-    }
-
+    /**
+     * Get shopping cart subtotal
+     *
+     * @return decimal
+     */
     public function getSubtotal()
     {
-        $this->_getCartInfo();
-        return $this->_subtotal;
+        $totals = $this->getTotals();
+        if (isset($totals['subtotal'])) {
+            return $totals['subtotal']->getValue();
+        }
+        return 0;
     }
 
     public function getSummaryCount()
@@ -99,6 +87,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 
     public function isPossibleOnepageCheckout()
     {
-        return !Mage::getSingleton('checkout/type_onepage')->isDisabled();
+        return $this->helper('checkout')->canOnepageCheckout();
     }
 }

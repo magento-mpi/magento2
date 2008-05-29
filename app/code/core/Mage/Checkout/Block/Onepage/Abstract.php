@@ -12,18 +12,15 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Checkout
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Checkout
+ * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * One page common functionality block
  *
- * @category   Mage
- * @category   Mage
- * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Template
@@ -144,7 +141,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             ->setTitle(Mage::helper('checkout')->__('Country'))
             ->setClass('validate-select')
             ->setValue($countryId)
-            ->setOptions($this->getCountryCollection()->toOptionArray());
+            ->setOptions($this-> getCountryOptions());
         if ($type==='shipping') {
             $select->setExtraParams('onchange="shipping.setSameAsBilling(false);"');
         }
@@ -165,5 +162,9 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
         return $select->getHtml();
     }
-/* */
+
+    public function getCountryOptions()
+    {
+        return $this->getCountryCollection()->toOptionArray();
+    }
 }

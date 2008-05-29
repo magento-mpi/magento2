@@ -32,8 +32,11 @@
  */
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
-    const CACHE_TAG         = 'sales_quote';
-    protected $_cacheTag    = 'sales_quote';
+    /**
+     * Performance +30% without cache
+     */
+//    const CACHE_TAG         = 'sales_quote';
+//    protected $_cacheTag    = 'sales_quote';
 
     protected $_eventPrefix = 'sales_quote';
     protected $_eventObject = 'quote';
@@ -50,31 +53,21 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      *
      * @var Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected $_addresses;
+    protected $_addresses = null;
 
     /**
      * Quote items collection
      *
      * @var Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected $_items;
+    protected $_items = null;
 
     /**
      * Quote payments
      *
      * @var Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected $_payments;
-
-    /**
-     * Cache key prefix to be used in quote items
-     * If null - cache is disabled
-     *
-     * @var string
-     */
-    protected $_cacheKey;
-
-    protected $_cacheTags = array();
+    protected $_payments = null;
 
     /**
      * Init resource model
@@ -84,61 +77,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_init('sales/quote');
     }
 
-    public function setCacheKey($key)
-    {
-        $this->_cacheKey = $key;
-        return $this;
-    }
-
-    public function getCacheKey($quoteId)
-    {
-        /**
-         * Quote without cache
-         */
-        return false;
-        if (!Mage::app()->useCache('checkout_quote')) {
-            return false;
-        }
-        if ($this->_cacheKey===true) {
-            $this->_cacheKey = 'CHECKOUT_QUOTE'.$quoteId.'_STORE'.$this->getStoreId();
-        }
-        return $this->_cacheKey;
-    }
-
-    public function setCacheTags($tags, $reset=false)
-    {
-        $this->_cacheTags = $tags;
-        return $this;
-    }
-
-    public function getCacheTags()
-    {
-        $tags = (array)$this->_cacheTags;
-        $tags[] = $this->_cacheKey;
-        $tags[] = 'checkout_quote';
-
-        if ($this->getId()) {
-            $tags[] = 'checkout_quote_'.$this->getId();
-        }
-
-        if (!empty($this->_items) && $this->_items->isLoaded()) {
-            foreach ($this->getItemsCollection() as $item) {
-                $tags[] = 'catalog_product_'.$item->getProductId();
-            }
-        }
-
-        if ($this->getCouponCode()) {
-            $tags[] = 'salesrule_coupon_'.md5($this->getCouponCode());
-        }
-
-        return array_unique($tags);
-    }
-
-    public function getCacheLifetime()
-    {
-        return 86400;
-    }
-
+    /**
+     * Get quote store identifier
+     *
+     * @return int
+     */
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
@@ -148,7 +91,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve quote store model object
+     * Get quote store model object
      *
      * @return  Mage_Core_Model_Store
      */
@@ -169,6 +112,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Get all available store ids for quote
+     *
+     * @return array
+     */
     public function getSharedStoreIds()
     {
         $ids = $this->getData('shared_store_ids');
@@ -176,50 +124,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             return $this->getStore()->getWebsite()->getStoreIds();
         }
         return $ids;
-    }
-
-    public function load($id, $field=null)
-    {
-        if (!$key = $this->getCacheKey($id)) {
-            Varien_Profiler::start('TEST1: '.__METHOD__);
-            parent::load($id, $field);
-            Varien_Profiler::stop('TEST1: '.__METHOD__);
-        } elseif ($cache = Mage::app()->loadCache($key)) {
-            Varien_Profiler::start('TEST2: '.__METHOD__);
-            $this->fromArray(unserialize($cache));
-            $this->_afterLoad();
-            $this->setOrigData();
-            Varien_Profiler::stop('TEST2: '.__METHOD__);
-        } else {
-            Varien_Profiler::start('TEST3: '.__METHOD__);
-            parent::load($id, $field);
-            $this->saveCache();
-            Varien_Profiler::stop('TEST3: '.__METHOD__);
-        }
-        return $this;
-    }
-
-    public function saveCache()
-    {
-        $key = $this->getCacheKey($this->getId());
-        if ($key) {
-            $data = $this->toArray();
-            Mage::app()->saveCache(serialize($data), $key,
-                $this->getCacheTags(), $this->getCacheLifetime());
-        }
-        return $this;
-    }
-
-    public function cleanCache()
-    {
-        Mage::app()->cleanCache(array('checkout_quote_'.$this->getId()));
-        return $this;
-    }
-
-    public function fromArray(array $data)
-    {
-        $this->setData($data);
-        return $this;
     }
 
     /**
@@ -242,20 +146,33 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         parent::_beforeSave();
     }
 
+    /**
+     * Save related items
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     protected function _afterSave()
     {
         parent::_afterSave();
-        $this->getAddressesCollection()->save();
-        $this->getItemsCollection()->save();
-        $this->getPaymentsCollection()->save();
-        $this->cleanCache();
+
+        if (null !== $this->_addresses) {
+            $this->getAddressesCollection()->save();
+        }
+
+        if (null !== $this->_items) {
+            $this->getItemsCollection()->save();
+        }
+
+        if (null !== $this->_payments) {
+            $this->getPaymentsCollection()->save();
+        }
         return $this;
     }
 
     /**
      * Loading quote data by customer
      *
-     * @return mixed
+     * @return Mage_Sales_Model_Quote
      */
     public function loadByCustomer($customer)
     {
@@ -285,7 +202,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $defaultBillingAddress = $customer->getDefaultBillingAddress();
             if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
                 $billingAddress = Mage::getModel('sales/quote_address')
-                ->importCustomerAddress($defaultBillingAddress);
+                    ->importCustomerAddress($defaultBillingAddress);
                 $this->setBillingAddress($billingAddress);
             }
 
@@ -357,7 +274,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_addresses)) {
             $this->_addresses = Mage::getModel('sales/quote_address')->getCollection()
-                ->addAttributeToSelect('*')
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -453,7 +369,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getShippingAddressByCustomerAddressId($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {
-            if (!$address->isDeleted() && $address->getAddressType()=='shipping' && $address->getCustomerAddressId()==$addressId) {
+            if (!$address->isDeleted() && $address->getAddressType()=='shipping'
+                && $address->getCustomerAddressId()==$addressId) {
                 return $address;
             }
         }
@@ -481,7 +398,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function addAddress(Mage_Sales_Model_Quote_Address $address)
     {
-        $address->setQuote($this)->setParentId($this->getId());
+        $address->setQuote($this);
         if (!$address->getId()) {
             $this->getAddressesCollection()->addItem($address);
         }
@@ -535,7 +452,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /*********************** ITEMS ***************************/
     /**
      * Retrieve quote items collection
      *
@@ -545,28 +461,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getItemsCollection($useCache = true)
     {
         if (is_null($this->_items)) {
-Varien_Profiler::start('TEST1/1: '.__METHOD__);
-            $this->_items = Mage::getResourceModel('sales/quote_item_collection');
-Varien_Profiler::stop('TEST1/1: '.__METHOD__);
-Varien_Profiler::start('TEST1/2: '.__METHOD__);
-            $this->_items->addAttributeToSelect('*');
-Varien_Profiler::stop('TEST1/2: '.__METHOD__);
+            $this->_items = Mage::getModel('sales/quote_item')->getCollection();
             $this->_items->setQuote($this);
-
-            if ($useCache) {
-                if ($key = $this->getCacheKey($this->getId())) {
-                    $this->_items->initCache(Mage::app()->getCache(), $key.'_ITEMS', $this->getCacheTags());
-                }
-
-                if ($this->getId()) {
-Varien_Profiler::start('TEST3: '.__METHOD__);
-                    $items = $this->_items->getIterator();
-Varien_Profiler::stop('TEST3: '.__METHOD__);
-                    foreach ($items as $item) {
-                        $item->setQuote($this);
-                    }
-                }
-            }
         }
         return $this->_items;
     }
@@ -597,11 +493,6 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         return sizeof($this->getAllItems())>0;
     }
 
-    public function isAllowedGuestCheckout()
-    {
-        return Mage::getStoreConfig('checkout/options/guest_checkout');
-    }
-
     /**
      * Checking availability of items with decimal qty
      *
@@ -626,12 +517,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
      */
     public function getItemById($itemId)
     {
-        foreach ($this->getItemsCollection() as $item) {
-            if ($item->getId()==$itemId) {
-                return $item;
-            }
-        }
-        return false;
+        return $this->getItemsCollection()->getItemById($itemId);
     }
 
     /**
@@ -642,11 +528,8 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
      */
     public function removeItem($itemId)
     {
-        foreach ($this->getItemsCollection() as $item) {
-            if ($item->getId()==$itemId) {
-                $item->isDeleted(true);
-                break;
-            }
+        if ($item = $this->getItemById($itemId)) {
+            $item->isDeleted(true);
         }
         return $this;
     }
@@ -659,8 +542,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
      */
     public function addItem(Mage_Sales_Model_Quote_Item $item)
     {
-        $item->setQuote($this)
-            ->setParentId($this->getId());
+        $item->setQuote($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
@@ -700,7 +582,6 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         if (!$item) {
             $item = Mage::getModel('sales/quote_item');
         }
-        /* @var $item Mage_Sales_Model_Quote_Item */
 
         $item->importCatalogProduct($product)
             ->addQty($qty);
@@ -747,7 +628,6 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
     {
         $qty = $this->getData('all_items_qty');
         if (is_null($qty)) {
-            #            $qty = Mage::getResourceModel('sales_entity/quote')->fetchItemsSummaryQty($this);
             $qty = 0;
             foreach ($this->getAllItems() as $item) {
                 $qty+= $item->getQty();
@@ -757,13 +637,11 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         return $qty;
     }
 
-    /*********************** PAYMENTS ***************************/
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getResourceModel('sales/quote_payment_collection')
-            ->addAttributeToSelect('*')
-            ->setQuoteFilter($this->getId());
+            $this->_payments = Mage::getModel('sales/quote_payment')->getCollection()
+                ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
                 foreach ($this->_payments as $payment) {
@@ -801,7 +679,7 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
 
     public function addPayment(Mage_Sales_Model_Quote_Payment $payment)
     {
-        $payment->setQuote($this)->setParentId($this->getId());
+        $payment->setQuote($this);
         if (!$payment->getId()) {
             $this->getPaymentsCollection()->addItem($payment);
         }
@@ -856,44 +734,6 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         return $this->getShippingAddress()->getTotals();
     }
 
-    /*********************** ORDER ***************************/
-    public function createOrder()
-    {
-        if ($this->getIsVirtual()) {
-            $this->getBillingAddress()->createOrder();
-        } elseif (!$this->getIsMultiShipping()) {
-            $this->getShippingAddress()->createOrder();
-        } else {
-            foreach ($this->getAllShippingAddresses() as $address) {
-                $address->createOrder();
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param Mage_Sales_Model_Order $order
-     * @return Mage_Sales_Model_Quote
-     */
-    public function createFromOrder(Mage_Sales_Model_Order $order)
-    {
-        $this->setStoreId($order->getStoreId());
-        $this->setBillingAddress(Mage::getModel('sales/quote_address')->importOrderAddress($order->getBillingAddress()));
-        $this->setShippingAddress(Mage::getModel('sales/quote_address')->importOrderAddress($order->getShippingAddress()));
-        foreach ($order->getItemsCollection() as $item) {
-            if ($item->getQtyToShip() > 0) {
-                $this->addItem(Mage::getModel('sales/quote_item')->importOrderItem($item));
-            }
-        }
-        $this->getShippingAddress()->setCollectShippingRates(true);
-        $this->getShippingAddress()->setShippingMethod($order->getShippingMethod());
-        $this->getPayment()->importOrderPayment($order->getPayment());
-        $this->setCouponCode($order->getCouponeCode());
-        return $this;
-    }
-
     public function addMessage($message, $index='error')
     {
         $messages = $this->getData('messages');
@@ -924,16 +764,6 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
         return $messages;
     }
 
-    /*********************** QUOTE ***************************/
-    protected function _beforeDelete()
-    {
-        parent::_beforeDelete();
-
-        $this->getAddressesCollection()->walk('delete');
-        $this->getItemsCollection()->walk('delete');
-        $this->getPaymentsCollection()->walk('delete');
-    }
-
     public function reserveOrderId()
     {
         $this->setReservedOrderId($this->_getResource()->getReservedOrderId($this));
@@ -948,5 +778,10 @@ Varien_Profiler::stop('TEST3: '.__METHOD__);
             }
         }
         return true;
+    }
+
+    public function isAllowedGuestCheckout()
+    {
+        return Mage::getStoreConfig('checkout/options/guest_checkout');
     }
 }

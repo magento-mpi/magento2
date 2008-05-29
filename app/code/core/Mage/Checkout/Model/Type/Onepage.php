@@ -170,7 +170,7 @@ class Mage_Checkout_Model_Type_Onepage
                 break;
             case 1:
                 $billing = clone $address;
-                $billing->unsEntityId()->unsAddressType();
+                $billing->unsAddressId()->unsAddressType();
                 $shipping = $this->getQuote()->getShippingAddress();
                 $shipping->addData($billing->getData())
                     ->setSameAsBilling(1)
@@ -503,23 +503,5 @@ class Mage_Checkout_Model_Type_Onepage
         $order->load($this->getCheckout()->getLastOrderId());
         $orderId = $order->getIncrementId();
         return $orderId;
-    }
-
-    /**
-     *  Is there possible to use onepage checkout
-     *
-     *  @param    none
-     *  @return	  boolean
-     */
-    public function isDisabled()
-    {
-        static $isDisabled = null;
-        if (is_null($isDisabled)) {
-            $store = $this->getQuote() ? $this->getQuote()->getStoreId() : null;
-            $methods = Mage::helper('payment')->getStoreMethods($store, $this->getQuote());
-            $isDisabled =  count($methods) == 0
-                || Mage::getStoreConfig('checkout/options/onepage_checkout_disabled') == 1;
-        }
-        return $isDisabled;
     }
 }

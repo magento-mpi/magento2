@@ -94,7 +94,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        if ($this->getOnepage()->isDisabled()) {
+        if (!Mage::helper('checkout')->canOnepageCheckout()) {
             Mage::getSingleton('checkout/session')->addError($this->__('Sorry, Onepage Checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;

@@ -98,14 +98,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        /**
-         * Cache is not used for cart page
-         */
-        $this->_getQuote()->setCacheKey(false);
         $cart = $this->_getCart();
-
+        Varien_Profiler::start(__METHOD__ . 'cart_init');
         $cart->init();
+        Varien_Profiler::stop(__METHOD__ . 'cart_init');
+
+        Varien_Profiler::start(__METHOD__ . 'cart_save');
         $cart->save();
+        Varien_Profiler::stop(__METHOD__ . 'cart_save');
 
         if (!$this->_getQuote()->validateMinimumAmount()) {
             $warning = Mage::getStoreConfig('sales/minimum_order/description');
@@ -118,10 +118,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             }
         }
 
+        Varien_Profiler::start(__METHOD__ . 'cart_display');
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->_initLayoutMessages('catalog/session');
         $this->renderLayout();
+        Varien_Profiler::stop(__METHOD__ . 'cart_display');
     }
 
     /**
