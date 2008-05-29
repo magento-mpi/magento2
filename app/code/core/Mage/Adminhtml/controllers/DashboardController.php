@@ -36,6 +36,51 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
         $this->renderLayout();
     }
 
+    /**
+     * Prepare one of blocks for ajax request
+     *
+     * It would be nice to make this method abstract somewhere in parent
+     *
+     */
+    public function ajaxBlockAction()
+    {
+        $output = '';
+
+        try {
+            // lookup block name from GET
+            $blockName     = $this->getRequest()->getParam('block');
+            $blockFullName = 'adminhtml/dashboard_' . $blockName;
+            if (empty($blockName)) {
+                throw new Exception($this->__('Block name is not specified.'));
+            }
+            if (!in_array($blockName, array(
+                 'tab_products_ordered'
+                ,'tab_products_viewed'
+                ,'tab_customers_newest'
+                ,'tab_customers_most'
+                ,'tab_orders'
+                ,'tab_amounts'
+            ))) {
+                throw new Exception($this->__('Unknown block `%s`.', $blockFullName));
+            }
+
+            // create block object and parse it
+            $output = $this->getLayout()->createBlock($blockFullName)
+                ->toHtml()
+            ;
+
+            // make sure not to return empty string to skip further requests
+            if (empty($output)) {
+                throw new Exception('Block `%s` returned empty contents.', $blockFullName);
+            }
+        }
+        catch (Exception $e) {
+            $output = $e->getMessage();
+        }
+
+        $this->getResponse()->setBody($output);
+    }
+
 /**
     public function configureAction()
     {

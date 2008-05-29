@@ -20,11 +20,16 @@
 ?>
 
 <script type="text/javascript">
-function changePeriod(obj)
-{
-    var periodParam = obj.value ? 'period/'+obj.value + '/' : '';
-    setLocation('<?php echo $this->getSwitchUrl() ?>'+periodParam);
+function changeDiagramsPeriod(periodObj) {
+    periodParam = periodObj.value ? 'period/' + periodObj.value + '/' : '';
+<?php foreach ($this->getChild('diagrams')->getTabsIds() as $tabId): ?>
+    ajaxBlockParam = 'block/tab_<?php echo $tabId ?>/';
+    ajaxBlockUrl = '<?php echo $this->getUrl('*/*/ajaxBlock', array('_current' => true, 'block' => '', 'period' => '')) ?>' + ajaxBlockParam + periodParam;
+    tabContentElementId = '<?php echo $this->getChild('diagrams')->getId() ?>_<?php echo $tabId ?>_content';
+    new Ajax.Updater(tabContentElementId, ajaxBlockUrl);
+<?php endforeach; ?>
 }
+
 function toggleCal(id) {
     $('dashboard_'+id+'_cal_div').toggle();
     $('dashboard_'+id+'_range_div').toggle();

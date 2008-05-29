@@ -146,4 +146,11 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
     {
         return $this->getId() . 'JsTabs';
     }
+
+    public function getTabsIds()
+    {
+        if (empty($this->_tabs))
+            return array();
+        return array_keys($this->_tabs);
+    }
 }
