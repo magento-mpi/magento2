@@ -392,7 +392,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         	    $data[$field] = $this->_prepareValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
         	}
         	else {
-        	    $data[$field] = $fieldValue;
+//        	    $data[$field] = $fieldValue;
         	}
         }
         return $data;
