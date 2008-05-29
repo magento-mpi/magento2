@@ -351,17 +351,24 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             if (!$products)
                 continue;
 
-            if (count($attributeCodes)) {
-                $this->_getResource()->reindexAttributes($products, $attributeCodes, $store);
-            }
+            $step = 1000;
+            $productCount = count($products);
+            for ($i=0;$i<$productCount/$step;$i++) {
+                $stepData = array_slice($products, $i*$step, $step);
 
-            if (count($priceAttributeCodes)) {
-                $this->_getResource()->reindexPrices($products, $priceAttributeCodes, $store);
+                if (count($attributeCodes)) {
+                    $this->_getResource()->reindexAttributes($stepData, $attributeCodes, $store);
+                }
 
-                $this->_getResource()->reindexTiers($products, $store);
-                $this->_getResource()->reindexFinalPrices($products, $store);
-                $this->_getResource()->reindexMinimalPrices($products, $store);
+                if (count($priceAttributeCodes)) {
+                    $this->_getResource()->reindexPrices($stepData, $priceAttributeCodes, $store);
+
+                    $this->_getResource()->reindexTiers($stepData, $store);
+                    $this->_getResource()->reindexFinalPrices($stepData, $store);
+                    $this->_getResource()->reindexMinimalPrices($stepData, $store);
+                }
             }
+            return $this;
         }
     }
 }
