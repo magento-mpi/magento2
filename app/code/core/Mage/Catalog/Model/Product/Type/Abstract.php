@@ -146,6 +146,19 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
+     * Check is virtual product
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        if ($this->getProduct()->hasData('is_virtual')) {
+            return $this->getProduct()->getData('is_virtual');
+        }
+        return false;
+    }
+
+    /**
      * Check is product available for sale
      *
      * @return bool

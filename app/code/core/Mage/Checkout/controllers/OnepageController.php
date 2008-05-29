@@ -218,10 +218,25 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 
-            if (isset($data['pickup_or_use_for_shipping']) && $data['pickup_or_use_for_shipping'] == 1) {
-//                $this->loadLayout('checkout_onepage_shippingMethod');
-//                $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
-                $result['shipping_methods_html'] = $this->_getShippingMethodsHtml();
+            if (!isset($result['error'])) {
+                /* check quote for virtual */
+                if ($this->getOnepage()->getQuote()->isVirtual()) {
+                    $result['goto_section'] = 'payment';
+                    $result['update_section'] = array(
+                        'name' => 'payment-method',
+                        'html' => $this->_getPaymentMethodsHtml()
+                    );
+                }
+                elseif (isset($data['pickup_or_use_for_shipping']) && $data['pickup_or_use_for_shipping'] == 1) {
+                    $result['goto_section'] = 'shipping_method';
+                    $result['update_section'] = array(
+                        'name' => 'shipping-method',
+                        'html' => $this->_getShippingMethodsHtml()
+                    );
+                }
+                else {
+                    $result['goto_section'] = 'shipping';
+                }
             }
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
@@ -236,9 +251,17 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
             $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
 
+            if (!isset($result['error'])) {
+                $result['goto_section'] = 'shipping_method';
+                $result['update_section'] = array(
+                    'name' => 'shipping-method',
+                    'html' => $this->_getShippingMethodsHtml()
+                );
+            }
+
 //            $this->loadLayout('checkout_onepage_shippingMethod');
 //            $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
-            $result['shipping_methods_html'] = $this->_getShippingMethodsHtml();
+//            $result['shipping_methods_html'] = $this->_getShippingMethodsHtml();
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
@@ -257,7 +280,13 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                 Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest()));
                 $this->getResponse()->setBody(Zend_Json::encode($result));
 
-                $result['payment_methods_html'] = $this->_getPaymentMethodsHtml();
+                $result['goto_section'] = 'payment';
+                $result['update_section'] = array(
+                    'name' => 'payment-method',
+                    'html' => $this->_getPaymentMethodsHtml()
+                );
+
+//                $result['payment_methods_html'] = $this->_getPaymentMethodsHtml();
             }
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
@@ -288,7 +317,14 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 
             if (empty($result['error'])) {
                 $this->loadLayout('checkout_onepage_review');
-                $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
+
+                $result['goto_section'] = 'review';
+                $result['update_section'] = array(
+                    'name' => 'review',
+                    'html' => $this->getLayout()->getBlock('root')->toHtml()
+                );
+
+//                $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
             }
 
             if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl()) {

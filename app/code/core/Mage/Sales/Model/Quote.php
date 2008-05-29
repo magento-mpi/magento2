@@ -77,11 +77,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->_init('sales/quote');
     }
 
-    /**
-     * Get quote store identifier
-     *
-     * @return int
-     */
+    public function setCacheKey($key)
+    {
+        $this->_cacheKey = $key;
+        return $this;
+    }
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
@@ -637,6 +637,22 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $qty;
     }
 
+    public function getItemVirtualQty()
+    {
+        $qty = $this->getData('virtual_items_qty');
+        if (is_null($qty)) {
+            $qty = 0;
+            foreach ($this->getAllItems() as $item) {
+                if ($item->getIsVirtual()) {
+                    $qty+= $item->getQty();
+                }
+            }
+            $this->setData('virtual_items_qty', $qty);
+        }
+        return $qty;
+    }
+
+    /*********************** PAYMENTS ***************************/
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
@@ -707,7 +723,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->setGrandTotal(0);
         $this->setBaseGrandTotal(0);
-        foreach ($this->getAllShippingAddresses() as $address) {
+        foreach ($this->getAllAddresses() as $address) {
             $address->setGrandTotal(0);
             $address->setBaseGrandTotal(0);
 
@@ -721,8 +737,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
         $this->setItemsCount(0);
         $this->setItemsQty(0);
+        $this->setVirtualItemsQty(0);
 
         foreach ($this->getAllItems() as $item) {
+            if ($item->getIsVirtual()) {
+                $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
+            }
             $this->setItemsCount($this->getItemsCount()+1);
             $this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
         }
@@ -778,6 +798,49 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
         return true;
+    }
+
+    /**
+     * Check quote for virtual product only
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        $isVirtual = true;
+        foreach ($this->getItemsCollection() as $_item) {
+            /* @var $_item Mage_Sales_Model_Quote_Item */
+            if (!$_item->getProduct()->getTypeInstance()->isVirtual()) {
+                $isVirtual = false;
+            }
+        }
+        return $isVirtual;
+    }
+
+    /**
+     * Check quote for virtual product only
+     *
+     * @return bool
+     */
+    public function getIsVirtual()
+    {
+        return intval($this->isVirtual());
+    }
+
+    /**
+     * Has a virtual products on quote
+     *
+     * @return bool
+     */
+    public function hasVirtualItems()
+    {
+        $hasVirtual = false;
+        foreach ($this->getItemsCollection() as $_item) {
+            if ($_item->getProduct()->getTypeInstance()->isVirtual()) {
+                $hasVirtual = true;
+            }
+        }
+        return $hasVirtual;
     }
 
     public function isAllowedGuestCheckout()

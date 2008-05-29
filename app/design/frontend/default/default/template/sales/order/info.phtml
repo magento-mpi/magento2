@@ -31,6 +31,7 @@
 
 
 <p><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long')) ?></p>
+<?php if (!$_order->getIsVirtual()): ?>
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?php echo $this->__('Shipping Address') ?></h4>
@@ -41,6 +42,7 @@
         <?php echo $_order->getShippingDescription() ?>
     </div>
 </div>
+<?php endif; ?>
 <div class="col2-set generic-box">
     <div class="col-1">
         <h4><?php echo $this->__('Billing Address') ?></h4>

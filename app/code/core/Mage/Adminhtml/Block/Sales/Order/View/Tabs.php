@@ -27,6 +27,25 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
+    /**
+     * Retrieve available order
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        if ($this->hasOrder()) {
+            return $this->getData('order');
+        }
+        if (Mage::registry('current_order')) {
+            return Mage::registry('current_order');
+        }
+        if (Mage::registry('order')) {
+            return Mage::registry('order');
+        }
+        Mage::throwException(Mage::helper('sales')->__('Can\'t get order instance'));
+    }
+
     public function __construct()
     {
         parent::__construct();
@@ -56,11 +75,13 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Wi
             'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml(),
         ));
 
-        $this->addTab('order_shipments', array(
-            'label'     => Mage::helper('catalogrule')->__('Shipments'),
-            'title'     => Mage::helper('catalogrule')->__('Order Shipments'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml(),
-        ));
+        if (!$this->getOrder()->getIsVirtual()) {
+            $this->addTab('order_shipments', array(
+                'label'     => Mage::helper('catalogrule')->__('Shipments'),
+                'title'     => Mage::helper('catalogrule')->__('Order Shipments'),
+                'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml(),
+            ));
+        }
 
         /*$this->addTab('order_giftmessages', array(
             'label'     => Mage::helper('catalogrule')->__('Gift Messages'),

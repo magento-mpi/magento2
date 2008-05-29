@@ -141,4 +141,14 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
     {
         return Mage::getSingleton('checkout/cart')->getSummaryQty();
     }
+
+    /**
+     * Check qoute for virtual products only
+     *
+     * @return bool
+     */
+    public function getIsVirualQuote()
+    {
+        return $this->getQuote()->isVirtual();
+    }
 }

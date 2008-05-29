@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             <?php $_items = $this->getShipment()->getAllItems() ?>
-            <?php $_i=0;foreach ($_items as $_item):$_i++ ?>
+            <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getIsVirtual()): continue; endif; $_i++ ?>
                 <tr class="<?php echo $_i%2?'odd':'even' ?>">
                     <td>
                         <?php echo $_item->getName() ?>

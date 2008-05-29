@@ -119,7 +119,7 @@
                     <set_checkout_quote_id>
                         <type>singleton</type>
                         <class>checkout/observer</class>
-                        <method>sales_quote_save_after</method>
+                        <method>salesQuoteSaveAfter</method>
                     </set_checkout_quote_id>
                 </observers>
             </sales_quote_save_after>

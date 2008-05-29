@@ -48,6 +48,7 @@
                         </tbody>
                     </table>
                     <br/>
+                    {{depend order.getIsNotVirtual()}}
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <thead>
                         <tr>
@@ -69,6 +70,7 @@
                         </tbody>
                     </table>
                     <br/>
+                    {{/depend}}
                     {{block type='core/template' area='frontend' template='email/order/items_invoice.phtml' invoice=$invoice order=$order}}
                     <p>{{var comment}}</p>
                     <p>

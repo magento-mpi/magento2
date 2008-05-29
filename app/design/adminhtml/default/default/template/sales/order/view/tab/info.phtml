@@ -25,7 +25,11 @@
     </div>
     <?php echo $this->getChildHtml('info') ?>
     <input type="hidden" name="order_id" value="<?php echo $_order->getId() ?>"/>
+    <?php if ($_order->getIsVirtual()): ?>
+    <div class="box-right">
+    <?php else: ?>
     <div class="box-left">
+    <?php endif; ?>
         <!--Payment Method-->
         <div class="entry-edit">
             <div class="entry-edit-head">
@@ -37,6 +41,7 @@
             </fieldset>
         </div>
     </div>
+    <?php if (!$_order->getIsVirtual()): ?>
     <div class="box-right">
         <!--Shipping Method-->
         <div class="entry-edit">
@@ -53,6 +58,7 @@
             </fieldset>
         </div>
     </div>
+    <?php endif; ?>
     <div class="clear"></div>
 
     <?php echo $this->getGiftmessageHtml() ?>

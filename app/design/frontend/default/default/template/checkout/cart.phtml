@@ -116,7 +116,7 @@
         <?php echo $this->getChildHtml('crosssell') ?>
         <div class="col-2">
             <?php echo $this->getChildHtml('coupon') ?>
-            <?php echo $this->getChildHtml('shipping') ?>
+            <?php if (!$this->getIsVirual()): echo $this->getChildHtml('shipping'); endif; ?>
         </div>
     </div>
 </div>

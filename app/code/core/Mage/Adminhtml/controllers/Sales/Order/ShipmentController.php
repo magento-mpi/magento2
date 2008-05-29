@@ -84,6 +84,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 if (!$orderItem->getQtyToShip()) {
                     continue;
                 }
+                if ($orderItem->getIsVirtual()) {
+                    continue;
+                }
                 $item = $convertor->itemToShipmentItem($orderItem);
                 if (isset($savedQtys[$orderItem->getId()])) {
                     $qty = $savedQtys[$orderItem->getId()];

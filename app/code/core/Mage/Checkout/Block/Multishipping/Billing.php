@@ -122,4 +122,30 @@ class Mage_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_
     {
         return $this->getUrl('*/*/backtoshipping');
     }
+
+    /**
+     * Retrieve virtual product edit url
+     *
+     * @return string
+     */
+    public function getVirtualProductEditUrl()
+    {
+        return $this->getUrl('*/cart');
+    }
+
+    /**
+     * Retrieve virtual product collection array
+     *
+     * @return array
+     */
+    public function getVirtualItems()
+    {
+        $items = array();
+        foreach ($this->getQuote()->getItemsCollection() as $_item) {
+            if ($_item->getProduct()->getTypeInstance()->isVirtual()) {
+                $items[] = $_item;
+            }
+        }
+        return $items;
+    }
 }

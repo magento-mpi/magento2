@@ -247,8 +247,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             return false;
         }
 
+        if ($this->getIsVirtual()) {
+            return false;
+        }
+
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToShip()>0) {
+            if ($item->getQtyToShip()>0 && !$item->getIsVirtual()) {
                 return true;
             }
         }
@@ -1256,5 +1260,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_storeCurrency = null;
 
         return $this;
+    }
+
+    function getIsNotVirtual()
+    {
+        return !$this->getIsVirtual();
     }
 }

@@ -1150,4 +1150,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->getTypeInstance()->getWeight();
     }
+
+    /**
+     * Retrieve is a virtual product
+     *
+     * @return bool
+     */
+    public function getIsVirtual()
+    {
+        return $this->getTypeInstance()->isVirtual();
+    }
 }

@@ -30,7 +30,11 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
 {
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('billing', array('label'=>Mage::helper('checkout')->__('Billing Information')));
+        $this->getCheckout()->setStepData('billing', array(
+            'label'     => Mage::helper('checkout')->__('Billing Information'),
+            'is_show'   => $this->isShow()
+        ));
+
         if ($this->isCustomerLoggedIn()) {
             $this->getCheckout()->setStepData('billing', 'allow', true);
         }
@@ -89,5 +93,15 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
             return $this->getQuote()->getCustomer()->getLastname();
         }
         return $lastname;
+    }
+
+    public function canShip()
+    {
+        return !$this->getQuote()->isVirtual();
+    }
+
+    public function getSaveUrl()
+    {
+
     }
 }

@@ -153,6 +153,18 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     $this->_addShippingItem($quoteItemId, $data);
                 }
             }
+
+            foreach ($this->getQuote()->getAllItems() as $_item) {
+                if (!$_item->getProduct()->getTypeInstance()->isVirtual()) {
+                    continue;
+                }
+                $billingAddress = $this->getQuote()->getBillingAddress();
+                $quoteAddressItem = Mage::getModel('sales/quote_address_item')
+                    ->importQuoteItem($_item)
+                ->setQty($_item->getQty());
+                $billingAddress->addItem($quoteAddressItem);
+            }
+
             $this->save();
             Mage::dispatchEvent('checkout_type_multishipping_set_shipping_items', array('quote'=>$this->getQuote()));
         }
@@ -250,7 +262,13 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         return $this;
     }
 
-    protected function _prepareOrder($address)
+    /**
+     * Prepare order
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _prepareOrder(Mage_Sales_Model_Quote_Address $address)
     {
         $this->getQuote()->reserveOrderId();
         $convertQuote = Mage::getSingleton('sales/convert_quote');
@@ -258,7 +276,13 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $order->setBillingAddress(
             $convertQuote->addressToOrderAddress($this->getQuote()->getBillingAddress())
         );
-        $order->setShippingAddress($convertQuote->addressToOrderAddress($address));
+
+        if ($address->getAddressType() == 'billing') {
+            $order->setIsVirtual(1);
+        }
+        else {
+            $order->setShippingAddress($convertQuote->addressToOrderAddress($address));
+        }
         $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
 
         foreach ($address->getAllItems() as $item) {
@@ -303,6 +327,10 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $this->_validate();
         $shippingAddresses = $this->getQuote()->getAllShippingAddresses();
         $orders = array();
+
+        if ($this->getQuote()->hasVirtualItems()) {
+            $shippingAddresses[] = $this->getQuote()->getBillingAddress();
+        }
 
         foreach ($shippingAddresses as $address) {
             $order = $this->_prepareOrder($address);

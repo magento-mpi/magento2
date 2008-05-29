@@ -144,7 +144,7 @@
     <default>
         <system>
             <adminnotification>
-                <feed_url>php5.kiev-dev/dev/victor/test/feed.xml</feed_url>
+                <feed_url>www.magentocommerce.com/notifications_feed</feed_url>
                 <use_https>0</use_https>
                 <frequency>1</frequency>
                 <last_update>0</last_update>

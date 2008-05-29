@@ -132,4 +132,46 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Mul
     {
         return $this->getUrl('*/*/backtobilling');
     }
+
+    /**
+     * Retrieve virtual product edit url
+     *
+     * @return string
+     */
+    public function getVirtualProductEditUrl()
+    {
+        return $this->getUrl('*/cart');
+    }
+
+    /**
+     * Retrieve virtual product collection array
+     *
+     * @return array
+     */
+    public function getVirtualItems()
+    {
+        $items = array();
+        foreach ($this->getQuote()->getItemsCollection() as $_item) {
+            if ($_item->getProduct()->getTypeInstance()->isVirtual()) {
+                $items[] = $_item;
+            }
+        }
+        return $items;
+    }
+
+    /**
+     * Retrieve quote
+     *
+     * @return Mage_Sales_Model_Qoute
+     */
+    public function getQuote()
+    {
+        return $this->getCheckout()->getQuote();
+    }
+
+    public function getBillinAddressTotals()
+    {
+        $_address = $this->getQuote()->getBillingAddress();
+        return $this->getShippingAddressTotals($_address);
+    }
 }

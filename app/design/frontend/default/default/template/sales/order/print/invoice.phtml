@@ -38,15 +38,18 @@
     </div>
     <div class="col2-set">
         <div class="col-1">
+        <?php if (!$_order->getIsVirtual()): ?>
             <h4><?php echo $this->__('Shipping Address') ?></h4>
             <?php $_shipping = $_invoice->getShippingAddress() ?>
             <address><?php echo $_shipping->format('html') ?></address>
         </div>
         <div class="col-2">
+        <?php endif; ?>
             <h4><?php echo $this->__('Billing Address') ?></h4>
             <?php $_billing = $_invoice->getbillingAddress() ?>
             <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
         </div>
+        <?php if (!$_order->getIsVirtual()): ?>
     </div>
     <br />
     <div class="col2-set">
@@ -54,6 +57,7 @@
             <h4><?php echo $this->__('Shipping Method') ?></h4>
              <?php echo $_order->getShippingDescription() ?>
         </div>
+        <?php endif; ?>
         <div class="col-2">
             <h4><?php echo $this->__('Payment Method') ?></h4>
             <?php echo $this->getPaymentInfoHtml() ?>
@@ -67,7 +71,7 @@
                 <th><?php echo $this->__('Product Name') ?></th>
                 <th class="a-right" width="15%"><?php echo $this->__('Price') ?></th>
                 <th class="a-center" width="10%"><?php echo $this->__('Qty Ordered') ?></th>
-                <th class="a-center" width="10%"><?php echo $this->__('Qty Shipped') ?></th>
+                <?php if (!$_order->getIsVirtual()): ?><th class="a-center" width="10%"><?php echo $this->__('Qty Shipped') ?></th><?php endif; ?>
                 <th class="a-right last" width="20%"><?php echo $this->__('Subtotal') ?></th>
             </tr>
         </thead>
@@ -83,38 +87,39 @@
                 </td>
                 <td class="a-right nowrap"><?php echo $_order->formatPrice($_item->getPrice()*1) ?></td>
                 <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
-                <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
+                <?php if (!$_order->getIsVirtual()): ?><td class="a-center"><?php echo $_item->getOrderItem()->getQtyShipped()*1 ?></td><?php endif; ?>
                 <td class="last a-right nowrap"><?php echo $_order->formatPrice($_item->getRowTotal()*1) ?></td>
             <?php endforeach; ?>
             </tr>
         </tbody>
+        <?php if ($_order->getIsVirtual()): $colspan = 3; else: $colspan = 4; endif; ?>
         <tfoot>
             <?php if($_invoice->getSubtotal() != $_invoice->getGrandTotal()): ?>
             <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()) ?></td>
             </tr>
             <?php endif; ?>
             <?php if ($_invoice->getDiscountAmount() > 0): ?>
             <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Discount :') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Discount :') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_invoice->getDiscountAmount()) ?></td>
             </tr>
             <?php endif; ?>
             <?php if ($_invoice->getTaxAmount() > 0): ?>
             <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Tax') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Tax') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>
             </tr>
             <?php endif; ?>
             <?php if ($_invoice->getShippingAmount()*1 || $_invoice->getShippingDescription()): ?>
             <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getShippingAmount()) ?></td>
             </tr>
             <?php endif; ?>
             <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Grand Total') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
             </tr>
         </tfoot>

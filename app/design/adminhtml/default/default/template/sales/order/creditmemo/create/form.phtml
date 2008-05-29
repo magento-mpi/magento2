@@ -22,7 +22,11 @@
     <?php  $_order = $this->getCreditmemo()->getOrder() ?>
     <?php echo $this->getChildHtml('order_info') ?>
 
+    <?php if (!$_order->getIsVirtual()): ?>
     <div class="box-left">
+    <?php else: ?>
+    <div class="box-right">
+    <?php endif; ?>
         <!--Billing Address-->
         <div class="entry-edit">
             <div class="entry-edit-head">
@@ -38,6 +42,7 @@
             </fieldset>
         </div>
     </div>
+    <?php if (!$_order->getIsVirtual()): ?>
     <div class="box-right">
         <!--Shipping Address-->
         <div class="entry-edit">
@@ -50,7 +55,7 @@
             </fieldset>
         </div>
     </div>
-
+    <?php endif; ?>
     <div class="clear"></div>
 
     <div class="entry-edit">

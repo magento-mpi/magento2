@@ -197,7 +197,11 @@ Additional block dependant on product type
             <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml"/>
         </reference>
     </PRODUCT_TYPE_grouped>
-
+    <PRODUCT_TYPE_virtual>
+        <reference name="product.info">
+            <block type="catalog/product_view_type_virtual" name="product.info.virtual" as="product_type_data" template="catalog/product/view/type/virtual.phtml"/>
+        </reference>
+    </PRODUCT_TYPE_virtual>
 
 
 

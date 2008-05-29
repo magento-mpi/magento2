@@ -65,7 +65,7 @@ function giftMessageToogle(giftMessageIdentifier)
             <th width="5%"><?php echo $this->__('SKU') ?></th>
             <th width="10%"><?php echo $this->__('Price') ?></th>
             <th class="a-center wrap" width="6%"><?php echo $this->__('Qty Ordered') ?></th>
-            <th class="a-center wrap" width="6%"><?php echo $this->__('Qty Shipped') ?></th>
+            <?php if (!$_order->getIsVirtual()): ?><th class="a-center wrap" width="6%"><?php echo $this->__('Qty Shipped') ?></th><?php endif; ?>
             <th class="a-center wrap" width="6%"><?php echo $this->__('Qty Canceled') ?></th>
             <th class="a-right" width="10%"><?php echo $this->__('Subtotal') ?></th>
         </tr>
@@ -86,7 +86,7 @@ function giftMessageToogle(giftMessageIdentifier)
                 <td class="nowrap"><?php echo $_item->getSku() ?> </td>
                 <td class="nowrap a-right"><?php echo $_order->formatPrice($_item->getPrice()) ?> </td>
                 <td class="a-center"><?php echo $_item->getQtyOrdered()*1 ?> </td>
-                <td class="a-center"><?php echo $_item->getQtyShipped()*1 ?> </td>
+                <?php if (!$_order->getIsVirtual()): ?><td class="a-center"><?php echo $_item->getQtyShipped()*1 ?> </td><?php endif; ?>
                 <td class="a-center"><?php echo $_item->getQtyCanceled()*1 ?> </td>
                 <td class="last a-right nowrap"><?php echo $_order->formatPrice($_item->getRowTotal()) ?> </td>
             </tr>
@@ -111,38 +111,38 @@ function giftMessageToogle(giftMessageIdentifier)
             </tr>
             <?php endif ?>
         <?php endforeach; ?>
-
+    <?php if ($_order->getIsVirtual()): $colspan = 5; else: $colspan = 6; endif; ?>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="6" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
         </tr>
         <?php if ($_order->getDiscountAmount() > 0): ?>
             <tr>
-                <td colspan="6" class="a-right"><?php echo $this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':'')) ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':'')) ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
             </tr>
         <?php endif; ?>
         <?php if ($_order->getTaxAmount() > 0): ?>
             <tr>
-                <td colspan="6" class="a-right"><?php echo $this->__('Tax') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Tax') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
             </tr>
         <?php endif; ?>
         <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>
             <tr>
-                <td colspan="6" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
             </tr>
         <?php endif; ?>
         <tr>
-            <td colspan="6" class="a-right"><?php echo $this->__('Grand Total') ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
         </tr>
         <?php if ($_order->isCurrencyDifferent()): ?>
         <tr>
-            <td colspan="6" class="a-right"><?php echo $this->__('Grand Total to be charged') ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total to be charged') ?></td>
             <td class="last a-right"><?php echo $_order->formatBasePrice($_order->getBaseGrandTotal()) ?></td>
         </tr>
         <?php endif; ?>

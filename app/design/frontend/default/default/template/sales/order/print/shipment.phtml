@@ -24,6 +24,7 @@
     <button class="form-button"><span><?php echo $this->__('Print All Shipments') ?></span></button>
 </div>-->
 <h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
+<?php if (!$_order->getIsVirtual()): ?>
 <?php $_shipment = $this->getShipment() ?>
 <?php if($_shipment): ?>
     <?php $_shipments = array($_shipment); ?>
@@ -88,4 +89,5 @@
     </table>
     <br />
 <?php endforeach; ?>
+<?php endif; ?>
 <script type="text/javascript">window.print();</script>

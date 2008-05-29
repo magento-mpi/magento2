@@ -745,6 +745,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      */
     public function save()
     {
+        var_dump($this->getItems());
         foreach ($this->getItems() as $item) {
             $item->save();
         }

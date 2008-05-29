@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category    Mage
- * @package     Mage_Checkout
- * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Mage
+ * @package    Mage_Checkout
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
@@ -45,6 +45,11 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return $this->_customer;
     }
 
+    /**
+     * Retrieve checkout session model
+     *
+     * @return Mage_Checkout_Model_Session
+     */
     public function getCheckout()
     {
         if (empty($this->_checkout)) {
@@ -53,6 +58,11 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return $this->_checkout;
     }
 
+    /**
+     * Retrieve sales quote model
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function getQuote()
     {
         if (empty($this->_quote)) {
@@ -141,7 +151,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
             ->setTitle(Mage::helper('checkout')->__('Country'))
             ->setClass('validate-select')
             ->setValue($countryId)
-            ->setOptions($this-> getCountryOptions());
+            ->setOptions($this->getCountryCollection()->toOptionArray());
         if ($type==='shipping') {
             $select->setExtraParams('onchange="shipping.setSameAsBilling(false);"');
         }
@@ -167,4 +177,14 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         return $this->getCountryCollection()->toOptionArray();
     }
+    /**
+     * Retrieve is allow and show block
+     *
+     * @return bool
+     */
+    public function isShow()
+    {
+        return true;
+    }
+/* */
 }

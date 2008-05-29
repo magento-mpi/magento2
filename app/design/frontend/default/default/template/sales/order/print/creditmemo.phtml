@@ -38,15 +38,18 @@
     </div>
     <div class="col2-set">
         <div class="col-1">
+        <?php if (!$_order->getIsVirtual()): ?>
             <h4><?php echo $this->__('Shipping Address') ?></h4>
             <?php $_shipping = $_creditmemo->getShippingAddress() ?>
             <address><?php echo $_shipping->format('html') ?></address>
         </div>
         <div class="col-2">
+        <?php endif; ?>
             <h4><?php echo $this->__('Billing Address') ?></h4>
             <?php $_billing = $_creditmemo->getbillingAddress() ?>
             <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
         </div>
+    <?php if (!$_order->getIsVirtual()): ?>
     </div>
     <br />
     <div class="col2-set">
@@ -54,6 +57,7 @@
             <h4><?php echo $this->__('Shipping Method') ?></h4>
              <?php echo $_order->getShippingDescription() ?>
         </div>
+        <?php endif; ?>
         <div class="col-2">
             <h4><?php echo $this->__('Payment Method') ?></h4>
             <?php echo $this->getPaymentInfoHtml() ?>
