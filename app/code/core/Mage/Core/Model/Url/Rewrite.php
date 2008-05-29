@@ -168,7 +168,13 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         }
 
         $request->setAlias('rewrite_request_path', $this->getRequestPath());
-        $targetUrl = $request->getBaseUrl(). '/' . $this->getTargetPath();
+        $external = substr($this->getTargetPath(), 0, 6);
+        if ($external==='http:/' || $external==='https:') {
+            header("Location: ".$this->getTargetPath());
+            exit;
+        } else {
+            $targetUrl = $request->getBaseUrl(). '/' . $this->getTargetPath();
+        }
         if ($this->hasOption('R')) {
             header("Location: ".$targetUrl);
             exit;
