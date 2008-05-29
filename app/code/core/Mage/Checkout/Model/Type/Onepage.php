@@ -189,12 +189,8 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
         }
 
-//        var_dump($this->getQuote()->getBillingAddress()->getData());
-
         $this->getQuote()->setCustomerDob($address->getDob());
         $this->getQuote()->save();
-
-//        var_dump($this->getQuote()->getBillingAddress()->getData());
 
         $this->getCheckout()
             ->setStepData('billing', 'allow', true)
