@@ -172,6 +172,7 @@ class Mage_LoadTest_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function blockStart($path, $useLayout = false)
     {
+$useLayout=0;
         if (isset($this->_blocks[$path])) {
             $this->_blocks[$path] ++;
         }

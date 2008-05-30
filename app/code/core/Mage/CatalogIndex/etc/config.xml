@@ -153,6 +153,15 @@
                     </catalogindex>
                 </observers>
             </catalogrule_after_apply>
+<catalogindex_get_minimal_price>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>test</method>
+                    </catalogindex>
+                </observers>
+</catalogindex_get_minimal_price>
         </events>
     </global>
 

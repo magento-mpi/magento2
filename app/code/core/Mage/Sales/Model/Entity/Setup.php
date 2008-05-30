@@ -110,6 +110,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'row_weight'        => array('type'=>'static'),
                     'applied_rule_ids'  => array('type'=>'static'),
                     'additional_data'   => array('type'=>'static'),
+
+                    'tax_string'   => array('type'=>'text'),
                 ),
             ),
 
@@ -165,6 +167,8 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_grand_total'          => array('type'=>'static'),
 
                     'customer_notes' => array('type'=>'static'),
+
+                    'tax_string'   => array('type'=>'text'),
                 ),
             ),
             'quote_address_item' => array(
@@ -387,7 +391,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'country_id'=> array('type'=>'varchar'),
                     'telephone' => array(),
                     'fax'       => array(),
-
+                    'tax_string'   => array('type'=>'text'),
                 ),
             ),
             'order_item' => array(
@@ -427,6 +431,7 @@ class Mage_Sales_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'tax_percent'       => array('type'=>'decimal'),
                     'tax_amount'        => array('type'=>'decimal'),
                     'tax_invoiced'      => array('type'=>'decimal'),
+                    'tax_string'        => array('type'=>'text'),
 
                     'row_total'         => array('type'=>'decimal'),
                     'row_weight'        => array('type'=>'decimal'),

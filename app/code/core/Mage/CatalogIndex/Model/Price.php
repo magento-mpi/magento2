@@ -32,6 +32,12 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
         $this->_getResource()->setStoreId(Mage::app()->getStore()->getId());
         $this->_getResource()->setRate(Mage::app()->getStore()->getCurrentCurrencyRate());
         $this->_getResource()->setCustomerGroupId(Mage::getSingleton('customer/session')->getCustomerGroupId());
+
+        if (Mage::helper('tax')->needPriceConversion() !== false) {
+            $request = Mage::getModel('tax/calculation')->getRateRequest();
+            $rates = Mage::getModel('tax/calculation')->getRatesForAllProductTaxClasses($request);
+            $this->_getResource()->setTaxRates($rates);
+        }
     }
 
     public function getMaxValue($attribute, $entityIdsFilter)

@@ -356,11 +356,10 @@ EOT;
     protected function _getShippingTaxRate()
     {
         $shippingTaxRate = 0;
-        if ($shippingTaxClass = Mage::getStoreConfig('sales/tax/shipping_tax_class')) {
-            if (Mage::getStoreConfig('sales/tax/based_on')==='origin') {
-                $shippingTaxRate = Mage::helper('tax')->getCatalogTaxRate($shippingTaxClass);
-                $shippingTaxed = 'true';
-            }
+        if ($shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS)) {
+            $request = Mage::getModel('tax/calculation')->getRateRequest();
+            $shippingTaxRate = Mage::getModel('tax/calculation')->getRate($request->setProductClassId($shippingTaxClass));
+            $shippingTaxed = 'true';
         }
         return $shippingTaxRate;
     }

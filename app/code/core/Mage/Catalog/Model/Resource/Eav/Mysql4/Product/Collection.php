@@ -37,6 +37,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_addMinimalPrice = false;
     protected $_addFinalPrice = false;
     protected $_allIdsCache = null;
+    protected $_addTaxPercents = false;
 
     /**
      * Initialize resources
@@ -50,8 +51,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     protected function _beforeLoad()
     {
-        if ($this->_addFinalPrice)
+        if ($this->_addFinalPrice) {
             $this->_joinPriceRules();
+        }
+        $this->addAttributeToSelect('tax_class_id');
 
         parent::_beforeLoad();
     }
@@ -71,6 +74,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     	}
     	if ($this->_addFinalPrice) {
     	   $this->_addFinalPrice();
+    	}
+    	if ($this->_addTaxPercents) {
+    	    $this->_addTaxPercents();
     	}
         if (count($this)>0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
@@ -514,5 +520,25 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addAttributeToFilter($attribute, $condition=null, $joinType='inner'){
         $this->_allIdsCache = null;
         return parent::addAttributeToFilter($attribute, $condition, $joinType);
+    }
+
+    public function addTaxPercents(){
+        $this->_addTaxPercents = true;
+        $this->addAttributeToSelect('tax_class_id');
+
+        return $this;
+    }
+
+    protected function _addTaxPercents(){
+        $classToRate = array();
+
+        $request = Mage::getModel('tax/calculation')->getRateRequest();
+        foreach ($this as &$item) {
+            if (!isset($classToRate[$item->getTaxClassId()])) {
+                $request->setProductClassId($item->getTaxClassId());
+                $classToRate[$item->getTaxClassId()] = Mage::getModel('tax/calculation')->getRate($request);
+            }
+            $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
+        }
     }
 }

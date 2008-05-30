@@ -349,6 +349,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $redirectBack = true;
             }
             catch (Exception $e) {
+                echo $e->getMessage();
+                echo '<pre>' . $e->getTraceAsString() . '</pre>';
+                exit();
                 $this->_getSession()->addException($e, $this->__('Product saving error.'));
                 $redirectBack = true;
             }
@@ -649,6 +652,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             );
 
         } catch (Exception $e) {
+            echo 1;
+                echo $e->getMessage();
+                mageDebugBacktrace(false, true, false, $e->getTrace());
+                exit();
             Mage::logException($e);
             $result['error'] = array(
                 'message'   =>  $this->__('Product saving error.')

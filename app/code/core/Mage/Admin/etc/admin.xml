@@ -115,7 +115,7 @@
                         <classes_customer title="Customer Tax Classes" />
                         <classes_product title="Product Tax Classes" />
                         <import_export title="Import / Export Tax Rates" />
-                        <rates title="Manage Tax Rates" />
+                        <rates title="Manage Tax Zones And Rates" />
                         <rules title="Manage Tax Rules" />
                     </tax>
                 </sales>

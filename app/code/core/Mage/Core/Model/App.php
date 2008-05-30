@@ -194,6 +194,13 @@ class Mage_Core_Model_App
      */
     protected $_events = array();
 
+    /**
+     * Update process run flag
+     *
+     * @var bool
+     */
+    protected $_updateMode = false;
+
     static protected $_isInstalled = NULL;
 
     /**
@@ -538,7 +545,7 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
-        if (!$this->isInstalled()) {
+        if (!$this->isInstalled() || $this->getUpdateMode()) {
             return $this->_getDefaultStore();
         }
 
@@ -1075,6 +1082,16 @@ class Mage_Core_Model_App
             }
         }
         return $this;
+    }
+
+    public function setUpdateMode($value)
+    {
+        $this->_updateMode = $value;
+    }
+
+    public function getUpdateMode()
+    {
+        return $this->_updateMode;
     }
 
     public function throwStoreException()

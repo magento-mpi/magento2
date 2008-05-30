@@ -21,6 +21,8 @@
 
 class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
+    protected $_appliedTaxes = array();
+
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $store = $address->getQuote()->getStore();
@@ -31,57 +33,25 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         if (!count($items)) {
             return $this;
         }
-
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
-        $tax = Mage::getModel('tax/rate_data')->setCustomerClassId($custTaxClassId);
-        /* @var $tax Mage_Tax_Model_Rate_Data */
-        $taxAddress = $address;
 
-        switch (Mage::getStoreConfig('sales/tax/based_on')) {
-            case 'billing':
-                $taxAddress = $address->getQuote()->getBillingAddress();
-                //no break;
-            case 'shipping':
-                $tax
-                    ->setCountryId($taxAddress->getCountryId())
-                	->setRegionId($taxAddress->getRegionId())
-                	->setPostcode($taxAddress->getPostcode());
-                break;
-
-            case 'origin':
-                $tax
-                    ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $store))
-                    ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $store))
-                    ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $store));
-                break;
-        }
+        $taxCalculationModel = Mage::getModel('tax/calculation');
+        /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
+        $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
 
         foreach ($items as $item) {
-        	$tax->setProductClassId($item->getProduct()->getTaxClassId());
-        	$rate = $tax->getRate();
+        	$rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
+        	$this->_appliedTaxes = $taxCalculationModel->getAppliedRates($request);
+//        	$item->setTaxString($tax->getRateCalculationString());
             $item->setTaxPercent($rate);
             $item->calcTaxAmount();
-
             $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
             $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
         }
 
-        /*
-        * need to put this block before shippingtaxclass
-        * otherwise shipping tax will overwrite with catalogprice include tax
-        */
-        if (Mage::helper('tax')->priceIncludesTax($store)) {
-    	    $adj = $address->getTotalPriceIncTax()-($address->getSubtotal()+$address->getTaxAmount());
-    	    $address->setTaxAmount($address->getTaxAmount()+$adj);
-
-    	    $adj = $address->getBaseTotalPriceIncTax()-($address->getBaseSubtotal()+$address->getBaseTaxAmount());
-    	    $address->setBaseTaxAmount($address->getBaseTaxAmount()+$adj);
-    	}
-
-        $shippingTaxClass = Mage::getStoreConfig('sales/tax/shipping_tax_class', $store);
+        $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
         if ($shippingTaxClass) {
-            $tax->setProductClassId($shippingTaxClass);
-            if ($rate = $tax->getRate()) {
+            if ($rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass))) {
                 $shippingTax    = $address->getShippingAmount() * $rate/100;
                 $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
                 $shippingTax    = $store->roundPrice($shippingTax);
@@ -100,15 +70,35 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         return $this;
     }
 
+    protected function _getAppliedTaxes()
+    {
+        return $this->_appliedTaxes;
+    }
+
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
+        $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
         if ($amount!=0) {
-            $address->addTotal(array(
-                'code'=>$this->getCode(),
-                'title'=>Mage::helper('sales')->__('Tax'),
-                'value'=>$amount
-            ));
+            if (Mage::helper('tax')->displayFullSummary($store)) {
+                $calculationTotal = $address->getSubtotal();
+                if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
+                    $calculationTotal -= $address->getDiscountAmount();
+                }
+                foreach ($this->_getAppliedTaxes() as $tax) {
+                    $address->addTotal(array(
+                        'code'=>$tax->getCode(),
+                        'title'=>Mage::helper('sales')->__('Tax: %s - %d%%', $tax->getCode(), $tax->getRate()*1),
+                        'value'=>$calculationTotal*$tax->getRate()/100,
+                    ));
+                }
+            } else {
+                $address->addTotal(array(
+                    'code'=>$this->getCode(),
+                    'title'=>Mage::helper('sales')->__('Tax'),
+                    'value'=>$amount
+                ));
+            }
         }
         return $this;
     }

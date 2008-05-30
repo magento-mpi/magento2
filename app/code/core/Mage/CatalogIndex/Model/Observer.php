@@ -111,4 +111,14 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
         $store = $observer->getEvent()->getStore();
         Mage::getSingleton('catalogindex/indexer')->plainReindex(null, null, $store);
     }
+
+    public function test(Varien_Event_Observer $observer)
+    {
+        $indexer = $observer->getEvent()->getIndexer();
+        $minimalData = $indexer->getMinimalPriceData();
+        foreach ($minimalData as &$dataRow) {
+            $dataRow['minimal_value'] = 1;
+        }
+        $indexer->setMinimalPriceData($minimalData);
+    }
 }

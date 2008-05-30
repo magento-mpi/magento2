@@ -97,4 +97,51 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
             ->toHtml();
         return $html;
     }
+
+    public function displayTaxCalculation($item)
+    {
+        if ($item->getTaxPercent() && $item->getTaxString() == '') {
+            $percents = array($item->getTaxPercent());
+        } else if ($item->getTaxString()) {
+            $percents = explode(Mage_Tax_Model_Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
+        } else {
+            return '0%';
+        }
+
+        foreach ($percents as &$percent) {
+            $percent = sprintf('%.2f%%', $percent);
+        }
+        return implode(' + ', $percents);
+    }
+
+    public function displayTaxPercent($item)
+    {
+        if ($item->getTaxPercent()) {
+            return sprintf('%.2f%%', $item->getTaxPercent());
+        } else {
+            return '0%';
+        }
+    }
+
+    public function displayPriceInclTaxColumn()
+    {
+        if (is_null($this->getData('_displayTaxColumn'))) {
+            $this->setData('_displayTaxColumn', false);
+            foreach ($this->getOrder()->getAllItems() as $item) {
+                if ($item->getTaxAmount()) {
+                    $this->setData('_displayTaxColumn', true);
+                    break;
+                }
+            }
+            if (!Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN)) {
+                $this->setData('_displayTaxColumn', false);
+            }
+        }
+        return $this->getData('_displayTaxColumn');
+    }
+
+    public function displayPriceInclTax($item)
+    {
+        return $this->getOrder()->formatPrice($item->getPrice()+$item->getTaxAmount()/$item->getQtyOrdered());
+    }
 }

@@ -65,6 +65,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             //->joinMinimalPrice()
             ->addMinimalPrice()
             ->addFinalPrice()
+            ->addTaxPercents()
 
             ->addAttributeToSelect('description')
             ->addAttributeToSelect('short_description')

@@ -668,6 +668,13 @@ h1#logo {
 .minimal-price .label { font-weight:normal; }
 .minimal-price .price { white-space:nowrap; }
 
+.price-including-tax .price {
+    color:#c76200;
+    font-size:1.1em;
+    }
+
+.price-including-tax .label { font-weight:bold; }
+
 /********************** Generic Box */
 .generic-box {
     margin-bottom:15px;

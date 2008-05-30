@@ -89,6 +89,7 @@ class Mage_Core_Model_Resource_Setup
      */
     static public function applyAllUpdates()
     {
+        Mage::app()->setUpdateMode(true);
         $res = Mage::getSingleton('core/resource');
         /*
         if ($res->getAutoUpdate() == Mage_Core_Model_Resource::AUTO_UPDATE_NEVER) {
@@ -117,6 +118,7 @@ class Mage_Core_Model_Resource_Setup
             }
         }
 */
+        Mage::app()->setUpdateMode(false);
         return true;
     }
 

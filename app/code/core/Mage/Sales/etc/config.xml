@@ -65,6 +65,7 @@
 
                 <subtotal><to_order>*</to_order></subtotal>
                 <tax_amount><to_order>*</to_order></tax_amount>
+                <tax_string><to_order>*</to_order></tax_string>
                 <discount_amount><to_order>*</to_order></discount_amount>
                 <shipping_amount><to_order>*</to_order></shipping_amount>
                 <shipping_tax_amount><to_order>*</to_order></shipping_tax_amount>
@@ -133,6 +134,7 @@
                 <calculation_price><to_order_item>price</to_order_item></calculation_price>
                 <tax_percent><to_order_item>*</to_order_item></tax_percent>
                 <tax_amount><to_order_item>*</to_order_item></tax_amount>
+                <tax_string><to_order_item>*</to_order_item></tax_string>
                 <row_weight><to_order_item>*</to_order_item></row_weight>
                 <row_total><to_order_item>*</to_order_item></row_total>
 
@@ -176,6 +178,7 @@
 
                 <subtotal><to_quote_address_shipping>*</to_quote_address_shipping></subtotal>
                 <tax_amount><to_quote_address_shipping>*</to_quote_address_shipping></tax_amount>
+                <tax_string><to_quote_address_shipping>*</to_quote_address_shipping></tax_string>
                 <discount_amount><to_quote_address_shipping>*</to_quote_address_shipping></discount_amount>
                 <shipping_amount><to_quote_address_shipping>*</to_quote_address_shipping></shipping_amount>
                 <giftcert_amount><to_quote_address_shipping>*</to_quote_address_shipping></giftcert_amount>
@@ -231,6 +234,7 @@
                 <discount_percent><to_quote_item_discount>*</to_quote_item_discount></discount_percent>
                 <discount_amount><to_quote_item_discount>*</to_quote_item_discount></discount_amount>
                 <tax_percent><to_quote_item>*</to_quote_item></tax_percent>
+                <tax_string><to_quote_item>*</to_quote_item></tax_string>
                 <tax_amount><to_quote_item>*</to_quote_item></tax_amount>
                 <row_weight><to_quote_item>*</to_quote_item></row_weight>
                 <row_total><to_quote_item>*</to_quote_item></row_total>
@@ -669,12 +673,6 @@
             <reorder>
                 <allow>1</allow>
             </reorder>
-            <tax>
-                <apply_after_discount>0</apply_after_discount>
-                <shipping_tax_class></shipping_tax_class>
-                <based_on>shipping</based_on>
-                <price_includes_tax>0</price_includes_tax>
-            </tax>
         </sales>
         <sales_email>
             <order>

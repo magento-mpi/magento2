@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Varien_Data
         if ($attribute = $this->getEntityAttribute()) {
             $store = Mage::app()->getStore($attribute->getStoreId());
             $html.= '<strong>['.(string)$store->getBaseCurrencyCode().']</strong>';
-            if (Mage::getStoreConfigFlag('sales/tax/price_includes_tax', $store)) {
+            if (Mage::getStoreConfigFlag(Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX, $store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $html.= ' <strong>['.Mage::helper('tax')->__('Inc. Tax').']</strong>';
                 }

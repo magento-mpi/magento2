@@ -26,7 +26,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Block_Onepage_Review_Info extends Mage_Checkout_Block_Onepage_Abstract
-{    
+{
     public function getItems()
     {
 		/*$priceFilter = Mage::app()->getStore()->getPriceFilter();
@@ -37,12 +37,29 @@ class Mage_Checkout_Block_Onepage_Review_Info extends Mage_Checkout_Block_Onepag
         return $itemsFilter->filter($this->getQuote()->getAllItems());*/
 		return $this->getQuote()->getAllItems();
     }
-    
+
     public function getTotals()
     {
         /*$totalsFilter = new Varien_Filter_Object_Grid();
         $totalsFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'value');
         return $totalsFilter->filter($this->getQuote()->getTotals());*/
         return $this->getQuote()->getTotals();
+    }
+
+    public function displayTaxColumn()
+    {
+        if (is_null($this->getData('_displayTaxColumn'))) {
+            $this->setData('_displayTaxColumn', false);
+            foreach ($this->getQuote()->getAllItems() as $item) {
+                if ($item->getTaxAmount()) {
+                    $this->setData('_displayTaxColumn', true);
+                    break;
+                }
+            }
+            if (!Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN, $this->getQuote()->getStore()->getId())) {
+                $this->setData('_displayTaxColumn', false);
+            }
+        }
+        return $this->getData('_displayTaxColumn');
     }
 }
