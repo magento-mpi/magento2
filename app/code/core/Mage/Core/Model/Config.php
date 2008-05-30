@@ -605,7 +605,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $groupRootNode = 'global/'.$groupType.'s';
         }
 
-        $classArr = explode('/', $classId);
+        $classArr = explode('/', trim($classId));
         $group = $classArr[0];
         $class = !empty($classArr[1]) ? $classArr[1] : null;
 
@@ -672,6 +672,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getModelClassName($modelClass)
     {
+        $modelClass = trim($modelClass);
         if (strpos($modelClass, '/')===false) {
             return $modelClass;
         }
