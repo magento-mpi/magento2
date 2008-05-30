@@ -674,6 +674,7 @@ h1#logo {
     }
 
 .price-including-tax .label { font-weight:bold; }
+.price-including-tax .price { white-space:nowrap; }
 
 /********************** Generic Box */
 .generic-box {

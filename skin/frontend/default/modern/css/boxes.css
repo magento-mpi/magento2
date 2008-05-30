@@ -525,6 +525,8 @@ h1#logo                 { float:left; }
 .minimal-price .label { font-weight:normal; font-size:10px; text-transform:uppercase; }
 .minimal-price .price { white-space:nowrap; }
 
+.price-including-tax .label { font-weight:normal; font-size:10px; text-transform:uppercase; }
+.price-including-tax .price { white-space:nowrap; }
 
 
 /********************** Catalog Listing */
