@@ -332,22 +332,24 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function sendTransactional($templateId, $sender, $email, $name, $vars=array(), $storeId=null)
     {
     	if (is_null($storeId)) {
-    		$storeId = Mage::app()->getStore()->getId();
+    	    if ($this->getDesignConfig() && $this->getDesignConfig()->getStore()) {
+                $storeId = $this->getDesignConfig()->getStore();
+    	    }
+    	    else {
+    	        $storeId = Mage::app()->getStore();
+    	    }
     	}
-    	/*$templateId = Mage::getStoreConfig("trans_email/trans_{$transCode}/template", $storeId);
-    	$identity = Mage::getStoreConfig("trans_email/trans_{$transCode}/identity", $storeId);*/
-        if (is_numeric($templateId)) {
+
+    	if (is_numeric($templateId)) {
     	   $this->load($templateId);
         } else {
            $this->loadDefault($templateId);
         }
 
     	if (!$this->getId()) {
-//foreach (debug_backtrace() as $i=>$step) {
-//    echo "[$i] {$step['file']}:{$step['line']}\n";
-//}
     		throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
     	}
+
     	if (!is_array($sender)) {
     	    $this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
     	    $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
