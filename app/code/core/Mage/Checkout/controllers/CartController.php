@@ -281,7 +281,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         try {
             $this->_getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            $this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : null)
+            $this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : '')
                 ->collectTotals()
                 ->save();
             if ($couponCode) {
