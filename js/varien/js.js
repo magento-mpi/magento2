@@ -146,6 +146,39 @@ function decorateDataList(list){
     }
 }
 
+/**
+ * Formats currency using patern
+ * format - JSON (pattern, decimal, decimalsDelimeter, groupsDelimeter)
+ * showPlus - true (always show '+'or '-'),
+ *      false (never show '-' even if number is negative)
+ *      null (show '-' if number is negative)
+ */
+
+function formatCurrency(price, format, showPlus){
+    precision = isNaN(format.precision = Math.abs(format.precision)) ? 2 : format.precision;
+    decimal = format.decimal == undefined ? "," : format.decimal;
+    group = format.group == undefined ? "." : format.group;
+    gLength = format.groupLength == undefined ? 3 : format.groupLength;
+
+    if (showPlus == undefined || showPlus == true) {
+        s = price < 0 ? "-" : ( showPlus ? "+" : "");
+    } else if (showPlus == false) {
+        s = '';
+    }
+
+    i = parseInt(price = Math.abs(+price || 0).toFixed(precision)) + "";
+    j = (j = i.length) > gLength ? j % gLength : 0;
+    re = new RegExp("(\\d{" + gLength + "})(?=\\d)", "g");
+    r = (j ? i.substr(0, j) + group : "") + i.substr(j).replace(re, "$1" + group) + (precision ? decimal + Math.abs(price - i).toFixed(precision).slice(2) : "")
+
+    if (format.pattern.indexOf('{sign}') == -1) {
+        pattern = s + format.pattern;
+    } else {
+        pattern = format.pattern.replace('{sign}', s);
+    }
+
+    return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+};
 
 // Version 1.0
 var isIE = navigator.appVersion.match(/MSIE/) == "MSIE";
