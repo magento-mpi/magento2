@@ -156,9 +156,17 @@ function decorateDataList(list){
 
 function formatCurrency(price, format, showPlus){
     precision = isNaN(format.precision = Math.abs(format.precision)) ? 2 : format.precision;
-    decimal = format.decimal == undefined ? "," : format.decimal;
-    group = format.group == undefined ? "." : format.group;
-    gLength = format.groupLength == undefined ? 3 : format.groupLength;
+    requiredPrecision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision;
+
+    //precision = (precision > requiredPrecision) ? precision : requiredPrecision;
+    //for now we don't need this difference so precision is requiredPrecision
+    precision = requiredPrecision;
+
+    integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired;
+
+    decimalSymbol = format.decimalSymbol == undefined ? "," : format.decimalSymbol;
+    groupSymbol = format.groupSymbol == undefined ? "." : format.groupSymbol;
+    groupLength = format.groupLength == undefined ? 3 : format.groupLength;
 
     if (showPlus == undefined || showPlus == true) {
         s = price < 0 ? "-" : ( showPlus ? "+" : "");
@@ -167,9 +175,12 @@ function formatCurrency(price, format, showPlus){
     }
 
     i = parseInt(price = Math.abs(+price || 0).toFixed(precision)) + "";
-    j = (j = i.length) > gLength ? j % gLength : 0;
-    re = new RegExp("(\\d{" + gLength + "})(?=\\d)", "g");
-    r = (j ? i.substr(0, j) + group : "") + i.substr(j).replace(re, "$1" + group) + (precision ? decimal + Math.abs(price - i).toFixed(precision).slice(2) : "")
+    pad = (i.length < integerRequired) ? (integerRequired - i.length) : 0;
+    while (pad) { i = '0' + i; pad--; }
+
+    j = (j = i.length) > groupLength ? j % groupLength : 0;
+    re = new RegExp("(\\d{" + groupLength + "})(?=\\d)", "g");
+    r = (j ? i.substr(0, j) + groupSymbol : "") + i.substr(j).replace(re, "$1" + groupSymbol) + (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).slice(2) : "")
 
     if (format.pattern.indexOf('{sign}') == -1) {
         pattern = s + format.pattern;
