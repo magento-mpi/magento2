@@ -25,8 +25,17 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
+class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
 {
+    protected $_mapAttributes = array(
+        'customer_id' => 'entity_id'
+    );
+
+    public function __construct()
+    {
+        $this->_ignoredAttributeCodes[] = 'parent_id';
+    }
+
     /**
      * Retrive customer addresses list
      *
@@ -45,10 +54,24 @@ class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
 
         $result = array();
         foreach ($customer->getAddresses() as $address) {
-            /* @var $address Mage_Customer_Model_Address */
-            $address->setIsDefaultBilling($customer->getDefaultBillingAddress() == $address->getId());
-            $address->setIsDefaultShipping($customer->getDefaultShippingAddress() == $address->getId());
-            $result[] = $address->toArray();
+            $data = $address->toArray();
+            $row  = array();
+
+            foreach ($this->_mapAttributes as $attributeAlias => $attributeCode) {
+                $row[$attributeAlias] = isset($data[$attributeCode]) ? $data[$attributeCode] : null;
+            }
+
+            foreach ($this->getAllowedAttributes($address) as $attributeCode => $attribute) {
+                if (isset($data[$attributeCode])) {
+                    $row[$attributeCode] = $data[$attributeCode];
+                }
+            }
+
+            $row['is_default_billing'] = $customer->getDefaultBillingAddress() == $address->getId();
+            $row['is_default_shipping'] = $customer->getDefaultShippingAddress() == $address->getId();
+
+            $result[] = $row;
+
         }
 
         return $result;
@@ -71,11 +94,26 @@ class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('customer_not_exists');
         }
 
-        $address = Mage::getModel('customer/address')
-            ->addData($addressData)
-            ->setCustomerId($customer->getId());
+        $address = Mage::getModel('customer/address');
+
+        foreach ($this->getAllowedAttributes($address) as $attributeCode=>$attribute) {
+            if (isset($addressData[$attributeCode])) {
+                $address->setData($attributeCode, $addressData[$attributeCode]);
+            }
+        }
+
+        if (isset($addressData['is_default_billing'])) {
+            $address->setIsDefaultBilling($addressData['is_default_billing']);
+        }
+
+        if (isset($addressData['is_default_shipping'])) {
+            $address->setIsDefaultShipping($addressData['is_default_shipping']);
+        }
+
+        $address->setCustomerId($customer->getId());
 
         $valid = $address->validate();
+
         if (is_array($valid)) {
             $this->_fault('data_invalid', implode("\n", $valid));
         }
@@ -104,12 +142,23 @@ class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('not_exists');
         }
 
-        if ($customer = $address->getCustomer()) {
-            $address->setIsDefaultBilling($customer->getDefaultBillingAddress() == $address->getId());
-            $address->setIsDefaultShipping($customer->getDefaultShippingAddress() == $address->getId());
+        $result = array();
+
+        foreach ($this->_mapAttributes as $attributeAlias => $attributeCode) {
+            $result[$attributeAlias] = $address->getData($attributeCode);
         }
 
-        return $address->toArray();
+        foreach ($this->getAllowedAttributes($address) as $attributeCode => $attribute) {
+            $result[$attributeCode] = $address->getData($attributeCode);
+        }
+
+
+        if ($customer = $address->getCustomer()) {
+            $result['is_default_billing']  = $customer->getDefaultBillingAddress() == $address->getId();
+            $result['is_default_shipping'] = $customer->getDefaultShippingAddress() == $address->getId();
+        }
+
+        return $result;
     }
 
     /**
@@ -128,7 +177,19 @@ class Mage_Customer_Model_Address_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('not_exists');
         }
 
-        $address->addData($addressData);
+        foreach ($this->getAllowedAttributes($address) as $attributeCode=>$attribute) {
+            if (isset($addressData[$attributeCode])) {
+                $address->setData($attributeCode, $addressData[$attributeCode]);
+            }
+        }
+
+        if (isset($addressData['is_default_billing'])) {
+            $address->setIsDefaultBilling($addressData['is_default_billing']);
+        }
+
+        if (isset($addressData['is_default_shipping'])) {
+            $address->setIsDefaultShipping($addressData['is_default_shipping']);
+        }
 
         $valid = $address->validate();
         if (is_array($valid)) {

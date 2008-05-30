@@ -25,8 +25,12 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
+class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
 {
+    protected $_mapAttributes = array(
+        'customer_id' => 'entity_id'
+    );
+
     /**
      * Create new customer
      *
@@ -49,14 +53,31 @@ class Mage_Customer_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
      * Retrieve customer data
      *
      * @param int $customerId
+     * @param array $attributes
      * @return array
      */
-    public function info($customerId)
+    public function info($customerId, $attributes = null)
     {
         $customer = Mage::getModel('customer/customer')->load($customerId);
+
         if (!$customer->getId()) {
             $this->_fault('not_exists');
         }
+
+        if (!is_null($attributes) && !is_array($attributes)) {
+            $attributes = array($attributes);
+        }
+
+        $result = array();
+
+        foreach ($this->_mapAttributes as $attributeAlias=>$attributeCode) {
+            $result[$attributeAlias] = array($attributeCode);
+        }
+
+        foreach ($this->getAllowedAttributes($customer, $attributes) as $attributeCode=>$attribute) {
+            $result[$attributeCode] = $customer->getData($attributeCode);
+        }
+
         return $customer->toArray();
     }
 
@@ -74,6 +95,10 @@ class Mage_Customer_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
         if (is_array($filters)) {
             try {
                 foreach ($filters as $field => $value) {
+                    if (isset($this->_mapAttributes[$field])) {
+                        $field = $this->_mapAttributes[$field];
+                    }
+
                     $collection->addFieldToFilter($field, $value);
                 }
             } catch (Mage_Core_Exception $e) {
@@ -83,7 +108,20 @@ class Mage_Customer_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
 
         $result = array();
         foreach ($collection as $customer) {
-            $result[] = $customer->toArray();
+            $data = $customer->toArray();
+            $row  = array();
+
+            foreach ($this->_mapAttributes as $attributeAlias => $attributeCode) {
+                $row[$attributeAlias] = isset($data[$attributeCode]) ? $data[$attributeCode] : null;
+            }
+
+            foreach ($this->getAllowedAttributes($customer) as $attributeCode => $attribute) {
+                if (isset($data[$attributeCode])) {
+                    $row[$attributeCode] = $data[$attributeCode];
+                }
+            }
+
+            $result[] = $row;
         }
 
         return $result;
@@ -104,7 +142,13 @@ class Mage_Customer_Model_Customer_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('not_exists');
         }
 
-        $customer->addData($customerData)->save();
+        foreach ($this->getAllowedAttributes($customer, $attributes) as $attributeCode=>$attribute) {
+            if (isset($customerData[$attributeCode])) {
+                $customer->setData($attributeCode, $customerData[$attributeCode]);
+            }
+        }
+
+        $customer->save();
         return true;
     }
 

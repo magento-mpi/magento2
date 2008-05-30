@@ -55,7 +55,7 @@ class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Enti
 
         $expr = 'CONCAT('
             .(isset($fields['prefix']) ? 'IF({{prefix}} IS NOT NULL, CONCAT({{prefix}}," "), ""),' : '')
-            .'{{firstname}}'.(isset($fields['middlename']) ?  '," ",{{middlename}}' : '').'," ",{{lastname}}'
+            .'{{firstname}}'.(isset($fields['middlename']) ?  ',IF({{middlename}} IS NOT NULL, CONCAT(" ",{{middlename}}), "")' : '').'," ",{{lastname}}'
             .(isset($fields['suffix']) ? ',IF({{suffix}} IS NOT NULL, CONCAT(" ",{{suffix}}), "")' : '')
         .')';
 
