@@ -24,8 +24,8 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-DROP TABLE IF EXISTS `checkout_agreement`;
-CREATE TABLE `checkout_agreement` (
+DROP TABLE IF EXISTS `{$installer->getTable('checkout_agreement')}`;
+CREATE TABLE `{$installer->getTable('checkout_agreement')}` (
    `agreement_id` int(10) unsigned NOT NULL auto_increment,
    `name` varchar(255) NOT NULL default '',
    `content` text NOT NULL,

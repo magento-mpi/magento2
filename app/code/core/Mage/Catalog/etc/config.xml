@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.36</version>
+            <version>0.7.37</version>
         </Mage_Catalog>
     </modules>
 
