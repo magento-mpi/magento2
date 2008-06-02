@@ -180,8 +180,45 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function prepareForCart(Varien_Object $buyRequest)
     {
+        $options = $this->_prepareOptionsForCart($buyRequest->getOptions());
+        if (is_string($options)) {
+            return $options;
+        }
+        $buyRequest->setData('options', $options);
+        $this->getProduct()->setCartOptions($buyRequest->getOptions());
         $this->getProduct()->setCartQty($buyRequest->getQty());
         return array($this->getProduct());
+    }
+
+    protected function _prepareOptionsForCart($options)
+    {
+        $newOptions = array();
+        $optionsCollection = $this->getProduct()
+            ->getProductOptionsCollection()
+            ->load();
+        foreach ($optionsCollection as $_option) {
+            if (!isset($options[$_option->getId()]) && $_option->getIsRequire()) {
+                return Mage::helper('catalog')->__('Please specify the product required option(s)');
+            }
+            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_TEXT) {
+                $options[$_option->getId()] = trim($options[$_option->getId()]);
+                if (strlen($options[$_option->getId()]) == 0 && $_option->getIsRequire()) {
+                    return Mage::helper('catalog')->__('Please specify the product required option(s)');
+                }
+                if (strlen($options[$_option->getId()]) == 0) continue;
+            }
+            if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                $valuesCollection = $_option->getOptionValuesByOptionId(
+                        $options[$_option->getId()], $this->getProduct()->getStoreId()
+                    )->load();
+                if ($valuesCollection->count() != count($options[$_option->getId()])) {
+                    return Mage::helper('catalog')->__('Please specify the product required option(s)');
+                }
+            }
+            $newOptions[$_option->getId()] = $options[$_option->getId()];
+        }
+
+        return $newOptions;
     }
 
     /**

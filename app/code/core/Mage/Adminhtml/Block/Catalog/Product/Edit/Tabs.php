@@ -147,6 +147,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                             ->toHtml(),
                 ));
             }
+
+            $this->addTab('customer_options', array(
+                'label' => Mage::helper('catalog')->__('Customer Defined Options'),
+                'content' => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_options', 'admin.product.options')->toHtml()
+            ));
+
         }
         else {
             $this->addTab('set', array(

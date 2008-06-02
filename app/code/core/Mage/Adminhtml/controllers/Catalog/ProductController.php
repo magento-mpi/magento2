@@ -306,6 +306,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setConfigurableAttributesData(Zend_Json::decode($data));
         }
 
+        /**
+         * Initialize product options
+         */
+        $productData = $this->getRequest()->getPost('product');
+        if (isset($productData['options'])) {
+            $product->setProductOptions($productData['options']);
+        }
+
         Mage::dispatchEvent('catalog_product_prepare_save', array('product' => $product, 'request' => $this->getRequest()));
 
         return $product;
@@ -349,9 +357,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $redirectBack = true;
             }
             catch (Exception $e) {
-                echo $e->getMessage();
-                echo '<pre>' . $e->getTraceAsString() . '</pre>';
-                exit();
                 $this->_getSession()->addException($e, $this->__('Product saving error.'));
                 $redirectBack = true;
             }

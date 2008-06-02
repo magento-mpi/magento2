@@ -1,0 +1,57 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div class="no-display template" id="option_panel_type_file">
+    <table class="dynamic-grid" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>Price:<input type="text" name="product[options][{{id}}][price]" value=""></td>
+            <td>Price Type:<?php echo $this->getPriceTypeSelectHtml() ?></td>
+            <td>SKU:<input type="text" name="product[options][{{id}}][sku]" value=""></td>
+            <td>File extension:
+                <select name="option_file_ext">
+                    <option value="jpg">JPG</option>
+                    <option value="gif">GIF</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+
+var OptionTemplateFile = '<table class="dynamic-grid" cellpadding="0" cellspacing="0">'+
+        '<input type="hidden" name="product[options][{{option_id}}][selected_type]" value="file" />'+
+        '<tr>'+
+            '<td>Price:<input type="text" name="product[options][{{id}}][price]" value=""></td>'+
+            '<td>Price Type:<?php echo $this->getPriceTypeSelectHtml() ?></td>'+
+            '<td>SKU:<input type="text" name="product[options][{{id}}][sku]" value=""></td>'+
+            '<td>File extension:'+
+                '<select name="option_file_ext">'+
+                    '<option value="jpg">JPG</option>'+
+                    '<option value="gif">GIF</option>'+
+                '</select>'+
+            '</td>'+
+        '</tr>'+
+    '</table>';
+
+if ($('option_panel_type_file')) {
+    $('option_panel_type_file').remove();
+}
+
+</script>

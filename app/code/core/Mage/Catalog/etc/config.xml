@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.37</version>
+            <version>0.7.38</version>
         </Mage_Catalog>
     </modules>
 
@@ -147,6 +147,25 @@
                     <product_attribute_media_gallery_image>
                         <table>catalog_product_entity_media_gallery_image</table>
                     </product_attribute_media_gallery_image>
+
+                    <product_option>
+                        <table>catalog_product_option</table>
+                    </product_option>
+                    <product_option_price>
+                        <table>catalog_product_option_price</table>
+                    </product_option_price>
+                    <product_option_title>
+                        <table>catalog_product_option_title</table>
+                    </product_option_title>
+                    <product_option_type_value>
+                        <table>catalog_product_option_type_value</table>
+                    </product_option_type_value>
+                    <product_option_type_price>
+                        <table>catalog_product_option_type_price</table>
+                    </product_option_type_price>
+                    <product_option_type_title>
+                        <table>catalog_product_option_type_title</table>
+                    </product_option_type_title>
                 </entities>
             </catalog_resource_eav_mysql4>
         </models>

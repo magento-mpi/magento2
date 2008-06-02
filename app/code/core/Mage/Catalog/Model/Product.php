@@ -59,6 +59,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     protected $_errors    = array();
 
+    protected $_productOptions = array();
+
     /**
      * Super product attribute collection
      *
@@ -295,6 +297,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save();
+
+        /**
+         * Product Custom Options
+         */
+        $optionModel = Mage::getSingleton('catalog/product_option')
+            ->setProduct($this)
+            ->setProductId($this->getId());
+//Zend_Debug::dump($this->getProductOptions());die();
+        foreach ($this->getProductOptions() as $option) {
+            $optionModel->saveOption($option, $this->getStoreId());
+        }
+
         parent::_afterSave();
     }
 
@@ -1151,6 +1165,30 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeInstance()->getWeight();
     }
 
+    public function setProductOptions($options)
+    {
+        $this->_productOptions = $options;
+        return $this;
+    }
+
+    public function getProductOptions()
+    {
+        return $this->_productOptions;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     */
+    public function getProductOptionsCollection()
+    {
+        $collection = Mage::getSingleton('catalog/product_option')
+                ->getProductOptionCollection($this->getId(), $this->getStoreId());
+
+        return $collection;
+    }
+
     /**
      * Retrieve is a virtual product
      *
@@ -1160,4 +1198,5 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->getTypeInstance()->isVirtual();
     }
+
 }
