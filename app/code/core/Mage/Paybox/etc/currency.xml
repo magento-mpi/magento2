@@ -58,17 +58,14 @@
 		<CVE>132</CVE>
 		<KYD>136</KYD>
 		<CLP>152</CLP>
-		<CLF>990</CLF>
 		<CNY>156</CNY>
 		<COP>170</COP>
-		<COU>970</COU>
 		<KMF>174</KMF>
 		<CDF>976</CDF>
 		<NZD>554</NZD>
 		<CRC>188</CRC>
 		<HRK>191</HRK>
 		<CUP>192</CUP>
-		<CYP>196</CYP>
 		<CZK>203</CZK>
 		<DKK>208</DKK>
 		<DJF>262</DJF>
@@ -87,7 +84,6 @@
 		<GIP>292</GIP>
 		<GTQ>320</GTQ>
 		<GNF>324</GNF>
-		<GWP>624</GWP>
 		<GYD>328</GYD>
 		<HTG>332</HTG>
 		<HNL>340</HNL>
@@ -123,7 +119,6 @@
 		<MWK>454</MWK>
 		<MYR>458</MYR>
 		<MVR>462</MVR>
-		<MTL>470</MTL>
 		<MRO>478</MRO>
 		<MUR>480</MUR>
 		<MXN>484</MXN>

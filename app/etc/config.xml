@@ -91,14 +91,11 @@
                     <AFN/><!-- Afghani -->
                     <ALL/><!-- Albanian Lek -->
                     <DZD/><!-- Algerian Dinar -->
-                    <ADP/><!-- Andorran Peseta -->
                     <AOA/><!-- Angolan Kwanza -->
-                    <ARA/><!-- Argentine Austral -->
                     <ARS/><!-- Argentine Peso -->
                     <AMD/><!-- Armenian Dram -->
-                    <AWG/><!-- Aruban Guilder -->
+                    <AWG/><!-- Aruban Florin -->
                     <AUD/><!-- Australian Dollar -->
-                    <ATS/><!-- Austrian Schilling -->
                     <BSD/><!-- Bahamian Dollar -->
                     <BHD/><!-- Bahraini Dinar -->
                     <BDT/><!-- Bangladesh Taka -->
@@ -107,15 +104,9 @@
                     <BZD/><!-- Belize Dollar -->
                     <BMD/><!-- Bermudan Dollar -->
                     <BTN/><!-- Bhutan Ngultrum -->
-                    <BOV/><!-- Bolivian Mvdol -->
-                    <BOP/><!-- Bolivian Peso -->
                     <BOB/><!-- Boliviano -->
                     <BAM/><!-- Bosnia-Herzegovina Convertible Mark -->
-                    <BAD/><!-- Bosnia-Herzegovina Dinar -->
                     <BWP/><!-- Botswanan Pula -->
-                    <BRC/><!-- Brazilian Cruzado -->
-                    <BRN/><!-- Brazilian Cruzado Novo -->
-                    <BRR/><!-- Brazilian Cruzeiro -->
                     <BRL/><!-- Brazilian Real -->
                     <GBP/><!-- British Pound Sterling -->
                     <BND/><!-- Brunei Dollar -->
@@ -126,8 +117,8 @@
                     <CAD/><!-- Canadian Dollar -->
                     <CVE/><!-- Cape Verde Escudo -->
                     <KYD/><!-- Cayman Islands Dollar -->
+                    <GQE/><!-- Central African CFA Franc -->
                     <CLP/><!-- Chilean Peso -->
-                    <CLF/><!-- Chilean Unidades de Fomento -->
                     <CNY/><!-- Chinese Yuan Renminbi -->
                     <COP/><!-- Colombian Peso -->
                     <KMF/><!-- Comoro Franc -->
@@ -135,32 +126,24 @@
                     <CRC/><!-- Costa Rican Colon -->
                     <HRK/><!-- Croatian Kuna -->
                     <CUP/><!-- Cuban Peso -->
-                    <CYP/><!-- Cyprus Pound -->
                     <DKK/><!-- Danish Krone -->
-                    <DEM/><!-- Deutsche Mark -->
                     <DJF/><!-- Djibouti Franc -->
                     <DOP/><!-- Dominican Peso -->
                     <XCD/><!-- East Caribbean Dollar -->
-                    <ECS/><!-- Ecuador Sucre -->
                     <EGP/><!-- Egyptian Pound -->
                     <SVC/><!-- El Salvador Colon -->
-                    <GQE/><!-- Equatorial Guinea Ekwele Guineana -->
                     <ERN/><!-- Eritrean Nakfa -->
                     <EEK/><!-- Estonian Kroon -->
                     <ETB/><!-- Ethiopian Birr -->
                     <EUR/><!-- Euro -->
                     <FKP/><!-- Falkland Islands Pound -->
                     <FJD/><!-- Fiji Dollar -->
-                    <FIM/><!-- Finnish Markka -->
                     <GMD/><!-- Gambia Dalasi -->
                     <GEK/><!-- Georgian Kupon Larit -->
                     <GHS/><!-- Ghana Cedi -->
                     <GIP/><!-- Gibraltar Pound -->
-                    <GRD/><!-- Greek Drachma -->
                     <GTQ/><!-- Guatemala Quetzal -->
                     <GNF/><!-- Guinea Franc -->
-                    <GNS/><!-- Guinea Syli -->
-                    <GWP/><!-- Guinea-Bissau Peso -->
                     <GYD/><!-- Guyana Dollar -->
                     <HTG/><!-- Haitian Gourde -->
                     <HNL/><!-- Honduras Lempira -->
@@ -171,9 +154,7 @@
                     <IDR/><!-- Indonesian Rupiah -->
                     <IRR/><!-- Iranian Rial -->
                     <IQD/><!-- Iraqi Dinar -->
-                    <IEP/><!-- Irish Pound -->
                     <ILS/><!-- Israeli New Sheqel -->
-                    <ITL/><!-- Italian Lira -->
                     <JMD/><!-- Jamaican Dollar -->
                     <JPY/><!-- Japanese Yen -->
                     <JOD/><!-- Jordanian Dinar -->
@@ -188,27 +169,19 @@
                     <LRD/><!-- Liberian Dollar -->
                     <LYD/><!-- Libyan Dinar -->
                     <LTL/><!-- Lithuanian Lita -->
-                    <LTT/><!-- Lithuanian Talonas -->
-                    <LUF/><!-- Luxembourg Franc -->
                     <MOP/><!-- Macao Pataca -->
                     <MKD/><!-- Macedonian Denar -->
-                    <MGA/><!-- Madagascar Ariary -->
-                    <MGF/><!-- Madagascar Franc -->
+                    <MGA/><!-- Malagasy Ariary -->
                     <MWK/><!-- Malawi Kwacha -->
                     <MYR/><!-- Malaysian Ringgit -->
                     <MVR/><!-- Maldive Islands Rufiyaa -->
-                    <MLF/><!-- Mali Franc -->
                     <LSM/><!-- Maloti -->
-                    <MTL/><!-- Maltese Lira -->
-                    <MTP/><!-- Maltese Pound -->
                     <MRO/><!-- Mauritania Ouguiya -->
                     <MUR/><!-- Mauritius Rupee -->
                     <MXN/><!-- Mexican Peso -->
                     <MDL/><!-- Moldovan Leu -->
-                    <MNT/><!-- Mongolian Tugrik -->
+                    <MNT/><!-- Mongolian Tögrög -->
                     <MAD/><!-- Moroccan Dirham -->
-                    <MAF/><!-- Moroccan Franc -->
-                    <MZE/><!-- Mozambique Escudo -->
                     <MZN/><!-- Mozambique Metical -->
                     <MMK/><!-- Myanmar Kyat -->
                     <NAD/><!-- Namibia Dollar -->
@@ -225,7 +198,6 @@
                     <PAB/><!-- Panamanian Balboa -->
                     <PGK/><!-- Papua New Guinea Kina -->
                     <PYG/><!-- Paraguay Guarani -->
-                    <PEI/><!-- Peruvian Inti -->
                     <PES/><!-- Peruvian Sol -->
                     <PHP/><!-- Philippine Peso -->
                     <PLN/><!-- Polish Zloty -->
@@ -242,7 +214,6 @@
                     <SLL/><!-- Sierra Leone Leone -->
                     <SGD/><!-- Singapore Dollar -->
                     <SKK/><!-- Slovak Koruna -->
-                    <SIT/><!-- Slovenia Tolar -->
                     <SBD/><!-- Solomon Islands Dollar -->
                     <SOS/><!-- Somali Shilling -->
                     <ZAR/><!-- South African Rand -->
@@ -250,17 +221,14 @@
                     <LKR/><!-- Sri Lanka Rupee -->
                     <SDG/><!-- Sudanese Pound -->
                     <SRD/><!-- Surinam Dollar -->
-                    <SRG/><!-- Suriname Guilder -->
                     <SZL/><!-- Swaziland Lilangeni -->
                     <SEK/><!-- Swedish Krona -->
                     <CHF/><!-- Swiss Franc -->
                     <SYP/><!-- Syrian Pound -->
                     <TWD/><!-- Taiwan New Dollar -->
-                    <TJR/><!-- Tajikistan Ruble -->
                     <TJS/><!-- Tajikistan Somoni -->
                     <TZS/><!-- Tanzanian Shilling -->
                     <THB/><!-- Thai Baht -->
-                    <TPE/><!-- Timor Escudo -->
                     <TOP/><!-- Tonga Pa?anga -->
                     <TTD/><!-- Trinidad and Tobago Dollar -->
                     <TND/><!-- Tunisian Dinar -->
@@ -268,7 +236,6 @@
                     <USD/><!-- US Dollar -->
                     <UGX/><!-- Ugandan Shilling -->
                     <UAH/><!-- Ukrainian Hryvnia -->
-                    <COU/><!-- Unidad de Valor Real -->
                     <AED/><!-- United Arab Emirates Dirham -->
                     <UYU/><!-- Uruguay Peso Uruguayo -->
                     <UZS/><!-- Uzbekistan Sum -->
@@ -277,10 +244,9 @@
                     <VND/><!-- Vietnamese Dong -->
                     <CHE/><!-- WIR Euro -->
                     <CHW/><!-- WIR Franc -->
+                    <XOF/><!-- West African CFA franc -->
                     <WST/><!-- Western Samoa Tala -->
                     <YER/><!-- Yemeni Rial -->
-                    <ZRN/><!-- Zairean New Zaire -->
-                    <ZRZ/><!-- Zairean Zaire -->
                     <ZMK/><!-- Zambian Kwacha -->
                     <ZWD/><!-- Zimbabwe Dollar -->
                 </currencies>
