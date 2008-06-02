@@ -138,6 +138,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
         return $this;
     }
 
+    public function setGroupBy($groupBy)
+    {
+        $this->getSelect()->group($groupBy);
+        return $this;
+    }
+
     protected function _beforeLoad()
     {
         parent::_beforeLoad();
