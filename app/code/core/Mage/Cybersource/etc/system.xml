@@ -23,7 +23,7 @@
    <sections>
         <payment>
             <groups>
-                <cybersource_soap translate="label" module="paypal">
+                <cybersource_soap translate="label" module="cybersource">
                     <label>Cybersource (SOAP Toolkit)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>500</sort_order>
