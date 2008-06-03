@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
             $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid image type.'));
         }
 
-        $fileContent = base64_decode($data['file']['content'], true);
+        $fileContent = @base64_decode($data['file']['content'], true);
         if (!$fileContent) {
             $this->_fault('data_invalid', Mage::helper('catalog')->__('Image content is not valid base64 data.'));
         }
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
         $ioAdapter = new Varien_Io_File();
         try {
             // Create temporary directory for api
-            $ioAdapter->createDestinationDir($tmpDirectory);
+            $ioAdapter->checkAndCreateFolder($tmpDirectory);
             $ioAdapter->open(array('path'=>$tmpDirectory));
             // Write image file
             $ioAdapter->write($fileName, $fileContent, 0666);
@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
             $this->_fault('not_created', Mage::helper('catalog')->__('Can\'t create image.'));
         }
 
-        return $gallery->getRenamedImage($file);
+        return $gallery->getBackend()->getRenamedImage($file);
     }
 
     /**
@@ -186,7 +186,20 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
         $gallery->getBackend()->updateImage($product, $file, $data);
 
-        if (isset($data['types'])) {
+        if (isset($data['types']) && is_array($data['types'])) {
+            $oldTypes = array();
+            foreach ($product->getMediaAttributes() as $attribute) {
+                if ($product->getData($attribute->getAttributeCode()) == $file) {
+                     $oldTypes[] = $attribute->getAttributeCode();
+                }
+            }
+
+            $clear = array_diff($oldTypes, $data['types']);
+
+            if (count($clear) > 0) {
+                $gallery->getBackend()->clearMediaAttribute($product, $clear);
+            }
+
             $gallery->getBackend()->setMediaAttribute($product, $data['types'], $file);
         }
 
