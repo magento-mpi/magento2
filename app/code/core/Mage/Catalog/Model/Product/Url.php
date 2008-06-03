@@ -77,7 +77,8 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
         if ($product->getStoreId()) {
             $rewrite->setStoreId($product->getStoreId());
         }
-        $idPath = 'product/'.$product->getId();
+        
+        $idPath = $idPathProduct = 'product/'.$product->getId();
         if ($product->getCategoryId() && !$product->getDoNotUseCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
             $idPath .= '/'.$product->getCategoryId();
         }
@@ -87,8 +88,15 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
         if ($rewrite->getId()) {
             $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
 
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
+            Varien_Profiler::stop('REWRITE: '.__METHOD__);
             return $url;
+        } else {
+            $rewrite->loadByIdPath($idPathProduct);
+            if ($rewrite->getId()) {
+                $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
+                Varien_Profiler::stop('REWRITE: '.__METHOD__);
+                return $url;
+            }
         }
         Varien_Profiler::stop('REWRITE: '.__METHOD__);
         Varien_Profiler::start('REGULAR: '.__METHOD__);
