@@ -28,6 +28,12 @@
  */
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->addCartItemRender('default', 'checkout/cart_render_default', 'checkout/cart/sidebar/render/default.phtml');
+    }
+
     /**
      * Get array last added items
      *

@@ -73,8 +73,9 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $text ? ' ('.$text.')' : '';
     }
 
-    public function getIsVirual()
+    public function getIsVirtual()
     {
-        return $this->helper('checkout/cart')->getIsVirualQuote();
+        return $this->helper('checkout/cart')->getIsVirtualQuote();
     }
+
 }

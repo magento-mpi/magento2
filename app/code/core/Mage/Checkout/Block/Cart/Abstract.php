@@ -33,6 +33,31 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
 
     protected $_totals;
 
+    protected $_cartItemRenders = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->addCartItemRender('default', 'checkout/cart_render_default', 'checkout/cart/render/default.phtml');
+    }
+
+    public function addCartItemRender($name, $block, $template)
+    {
+        $this->_cartItemRenders[$name] = array(
+            'block' => $block,
+            'template' => $template
+        );
+        return $this;
+    }
+
+    public function getCartItemRender($name)
+    {
+        if (isset($this->_cartItemRenders[$name])) {
+            return $this->_cartItemRenders[$name];
+        }
+        return $this->_cartItemRenders['default'];
+    }
+
     /**
      * Get logged in customer
      *
@@ -95,42 +120,15 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
         return $this->getQuote()->getAllItems();
     }
 
-    public function getItemProduct(Mage_Sales_Model_Quote_Item $item)
+    public function getCartItemHtml(Mage_Sales_Model_Quote_Item $item)
     {
-        return $this->helper('checkout')->getQuoteItemProduct($item);
-    }
-    public function getItemProductForThumbnail(Mage_Sales_Model_Quote_Item $item)
-    {
-        return $this->helper('checkout')->getQuoteItemProductThumbnail($item);
+        $itemRenderInfo = $this->getCartItemRender($item->getProduct()->getTypeId());
+        $itemBlock = $this->getLayout()
+            ->createBlock($itemRenderInfo['block'])
+                ->setTemplate($itemRenderInfo['template'])
+                ->setItem($item);
+
+        return $itemBlock->toHtml();
     }
 
-    public function getItemDeleteUrl(Mage_Sales_Model_Quote_Item $item)
-    {
-        return $this->getUrl('checkout/cart/delete', array('id'=>$item->getId()));
-    }
-
-    public function getItemUrl($item)
-    {
-        return $this->helper('checkout')->getQuoteItemProductUrl($item);
-    }
-
-    public function getItemName($item)
-    {
-        return $this->helper('checkout')->getQuoteItemProductName($item);
-    }
-
-    public function getItemDescription($item)
-    {
-        return $this->helper('checkout')->getQuoteItemProductDescription($item);
-    }
-
-    public function getItemQty($item)
-    {
-        return $this->helper('checkout')->getQuoteItemQty($item);
-    }
-
-    public function getItemIsInStock($item)
-    {
-        return $this->helper('checkout')->getQuoteItemProductIsInStock($item);
-    }
 }

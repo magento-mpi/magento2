@@ -147,7 +147,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      *
      * @return bool
      */
-    public function getIsVirualQuote()
+    public function getIsVirtualQuote()
     {
         return $this->getQuote()->isVirtual();
     }
