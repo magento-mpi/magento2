@@ -147,19 +147,17 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 					break;
 
 		        case 'cart_fixed':
-					$cartRules = $address->getCartFixedRules();
-					if (!$cartRules) {
-					    $cartRules = array();
-					}
-		            if (!empty($cartRules[$rule->getId()])) {
-		                break;
+		            $cartRules = $address->getCartFixedRules();
+		            if (!isset($cartRules[$rule->getId()])) {
+		                $cartRules[$rule->getId()] = $rule->getDiscountAmount();
 		            }
-					$cartRules[$rule->getId()] = true;
-					$address->setCartFixedRules($cartRules);
-
-					$quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
-					$discountAmount    = $quoteAmount;
-					$baseDiscountAmount= $rule->getDiscountAmount();
+		            if ($cartRules[$rule->getId()] > 0) {
+    				    $quoteAmount = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
+    				    $discountAmount = min($item->getRowTotal(), $quoteAmount);
+    				    $baseDiscountAmount = min($item->getBaseRowTotal(), $cartRules[$rule->getId()]);
+    				    $cartRules[$rule->getId()] -= $baseDiscountAmount;
+		            }
+				    $address->setCartFixedRules($cartRules);
 				    break;
 
 		        case 'buy_x_get_y':
@@ -186,7 +184,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
             $discountAmount     = $quote->getStore()->roundPrice($discountAmount);
             $baseDiscountAmount = $quote->getStore()->roundPrice($baseDiscountAmount);
-
             $discountAmount     = min($item->getDiscountAmount()+$discountAmount, $item->getRowTotal());
             $baseDiscountAmount = min($item->getBaseDiscountAmount()+$baseDiscountAmount, $item->getBaseRowTotal());
 
