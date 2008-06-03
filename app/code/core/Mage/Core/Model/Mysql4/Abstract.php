@@ -373,6 +373,11 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         }
     }
 
+    public function resetUniqueField()
+    {
+         $this->_uniqueFields = array();
+    }
+
     /**
      * Prepare data for save
      *
