@@ -23,10 +23,11 @@
 
 var OptionTemplateSelect = '<table class="dynamic-grid" cellpadding="0" cellspacing="0">'+
         '<tr id="select_option_type_row_{{option_id}}">'+
-            '<th>Title</th>'+
-            '<th>Price</th>'+
-            '<th>Price Type</th>'+
-            '<th>SKU</th>'+
+            '<th><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('catalog')->__('Price') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('catalog')->__('Price Type') ?></th>'+
+            '<th><?php echo Mage::helper('catalog')->__('SKU') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>'+
             '<th><?php echo $this->getAddButtonHtml() ?></th>'+
         '</tr>'+
     '</table>';
@@ -38,6 +39,7 @@ var OptionTemplateSelectRow = '<tr id="product_option_{{id}}_select_{{select_id}
             '<td><input type="text" class="required-entry validate-zero-or-greater product-option-price" id="product_option_{{id}}_select_{{select_id}}_price" name="product[options][{{id}}][values][{{select_id}}][price]" value="{{price}}"></td>'+
             '<td><?php echo $this->getPriceTypeSelectHtml() ?>{{checkboxScopePrice}}</td>'+
             '<td><input type="text" class="required-entry" name="product[options][{{id}}][values][{{select_id}}][sku]" value="{{sku}}"></td>'+
+            '<td><input type="text" class="validate-zero-or-greater" name="product[options][{{id}}][values][{{select_id}}][sort_order]" value="{{sort_order}}"></td>'+
             '<td><?php echo $this->getDeleteButtonHtml() ?></td>'+
         '</tr>';
 

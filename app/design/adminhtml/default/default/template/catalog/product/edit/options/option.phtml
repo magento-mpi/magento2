@@ -47,9 +47,9 @@ var firstStepTemplate = '<div class="box" id="option_{{id}}"><table id="<?php ec
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_id" name="<?php echo $this->getFieldName() ?>[{{id}}][id]" value="{{id}}" />'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_option_id" name="<?php echo $this->getFieldName() ?>[{{id}}][option_id]" value="{{option_id}}" />'+
             '<tr>'+
-                '<th><?php echo Mage::helper('catalog')->__('Title') ?></th>'+
-                '<th><?php echo Mage::helper('catalog')->__('Input Type') ?></th>'+
-                '<th><?php echo Mage::helper('catalog')->__('Is Require') ?></th>'+
+                '<th><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
+                '<th><?php echo Mage::helper('catalog')->__('Input Type') ?> <span class="required">*</span></th>'+
+                '<th><?php echo Mage::helper('catalog')->__('Is Required') ?></th>'+
                 '<th><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>'+
                 '<th></th>'+
             '</tr>'+
@@ -128,10 +128,12 @@ var productOption = {
     }
 }
 
+
 var productOptionType = {
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     lastType : '',
     lastGroup : '',
+    htmlGroups : $H(),
     loadStepTwo : function(event){
         var element = $(Event.findElement(event, 'select'));
 
@@ -155,14 +157,26 @@ var productOptionType = {
                 template = OptionTemplateSelect;
                 group = 'select';
                 break;
+            case 'date':
+            case 'date_time':
+            case 'time':
+                template = OptionTemplateDate;
+                group = 'date';
+                break;
             default:
                 //todo Alert or something
-                alert('type');
+                alert('Unknown input type');
                 break;
         }
 
         if (previousGroupElm.getValue() != group) {
             if ($(element.readAttribute('id')+'_'+previousGroupElm.getValue())) {
+                formElm = $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).descendants();
+                formElm.each(function(elm){
+                    if (elm.match('input') || elm.match('select')) {
+                        elm.name = '__delete__'+elm.readAttribute('name');
+                    }
+                });
                 $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).addClassName('no-display');
                 $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).addClassName('ignore-validate');
                 $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).hide();
@@ -171,6 +185,12 @@ var productOptionType = {
             previousGroupElm.value = group;
 
             if ($(element.readAttribute('id')+'_'+group)) {
+                formElm = $(element.readAttribute('id')+'_'+group).descendants();
+                formElm.each(function(elm){
+                    if (elm.match('input') || elm.match('select')) {
+                        elm.name = elm.readAttribute('name').sub('__delete__', '');
+                    }
+                });
                 $(element.readAttribute('id')+'_'+group).removeClassName('no-display');
                 $(element.readAttribute('id')+'_'+group).removeClassName('ignore-validate');
                 $(element.readAttribute('id')+'_'+group).show();
@@ -219,6 +239,12 @@ var productOptionType = {
             case 'multiple':
                 template = OptionTemplateSelect;
                 group = 'select';
+                break;
+            case 'date':
+            case 'date_time':
+            case 'time':
+                template = OptionTemplateDate;
+                group = 'date';
                 break;
         }
 

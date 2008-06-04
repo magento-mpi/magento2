@@ -18,35 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="no-display template" id="option_panel_type_file">
-    <table class="dynamic-grid" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>Price:<input type="text" name="product[options][{{id}}][price]" value=""></td>
-            <td>Price Type:<?php echo $this->getPriceTypeSelectHtml() ?></td>
-            <td>SKU:<input type="text" name="product[options][{{id}}][sku]" value=""></td>
-            <td>File extension:
-                <select name="option_file_ext">
-                    <option value="jpg">JPG</option>
-                    <option value="gif">GIF</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-</div>
 <script type="text/javascript">
 
 var OptionTemplateFile = '<table class="dynamic-grid" cellpadding="0" cellspacing="0">'+
-        '<input type="hidden" name="product[options][{{option_id}}][selected_type]" value="file" />'+
         '<tr>'+
-            '<td>Price:<input type="text" name="product[options][{{id}}][price]" value=""></td>'+
-            '<td>Price Type:<?php echo $this->getPriceTypeSelectHtml() ?></td>'+
-            '<td>SKU:<input type="text" name="product[options][{{id}}][sku]" value=""></td>'+
-            '<td>File extension:'+
-                '<select name="option_file_ext">'+
-                    '<option value="jpg">JPG</option>'+
-                    '<option value="gif">GIF</option>'+
-                '</select>'+
-            '</td>'+
+            '<td><?php echo Mage::helper('catalog')->__('Price') ?> <span class="required">*</span> <input type="text" name="product[options][{{option_id}}][price]" value="{{price}}"></td>'+
+            '<td><?php echo Mage::helper('catalog')->__('Price Type') ?> <?php echo $this->getPriceTypeSelectHtml() ?></td>'+
+            '<td><?php echo Mage::helper('catalog')->__('SKU') ?> <span class="required">*</span> <input type="text" name="product[options][{{option_id}}][sku]" value="{{sku}}"></td>'+
+            '<td><?php echo Mage::helper('catalog')->__('File Extension') ?> <input type="text" name="product[options][{{option_id}}][file_extension]" value="{{file_extension}}"></td>'+
         '</tr>'+
     '</table>';
 

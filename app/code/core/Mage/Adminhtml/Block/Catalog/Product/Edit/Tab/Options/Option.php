@@ -107,9 +107,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                 'adminhtml/catalog_product_edit_tab_options_type_select'
             )
         );
-        /**
-         * @todo create template for each type of selected input type (text|file|select)
-         */
+
+        //date
+        $this->setChild('date_option_type',
+            $this->getLayout()->createBlock(
+                'adminhtml/catalog_product_edit_tab_options_type_date'
+            )
+        );
 
         return parent::_prepareLayout();
     }
@@ -157,7 +161,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
     {
         $templates = $this->getChildHtml('text_option_type') . "\n" .
             $this->getChildHtml('file_option_type') . "\n" .
-            $this->getChildHtml('select_option_type');
+            $this->getChildHtml('select_option_type') . "\n" .
+            $this->getChildHtml('date_option_type');
 
         return $templates;
     }
@@ -167,12 +172,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
         $optionsCollection = $this->getProduct()
             ->getProductOptionsCollection()
             ->setOrder('option_id', 'asc')
+//            ->setOrder('title')
             ->load();
 
         if (!$this->_values) {
             $values = array();
             $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsCollection as $option) {
+                /* @var $option Mage_Catalog_Model_Product_Option */
                 $value = array();
 
                 $value['id'] = $option->getOptionId();
@@ -192,20 +199,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                     || $option->getType() == 'radio'
                     || $option->getType() == 'multiple') {
 
-                    $valueCollection = Mage::getSingleton('catalog/product_option_value')
-                        ->getValuesCollection($option->getOptionId(), $this->getProduct()->getStoreId())
+                    $valueCollection = $option->getValuesCollection()
                         ->setOrder('option_type_id', 'asc')
                         ->load(false);
 
                     $i = 0;
                     foreach ($valueCollection as $_value) {
+                        /* @var $_value Mage_Catalog_Model_Product_Option_Value */
                         $value['optionValues'][$i] = array(
                             'option_id' => $_value->getOptionId(),
                             'option_type_id' => $_value->getOptionTypeId(),
                             'title' => $_value->getTitle(),
-                            'price' => $_value->getPrice(),
+                            'price' => $this->getPriceValue($_value->getPrice(), $_value->getPriceType()),
                             'price_type' => $_value->getPriceType(),
                             'sku' => $_value->getSku(),
+                            'sort_order' => $_value->getSortOrder(),
                         );
 
                         if ($this->getProduct()->getStoreId() != '0') {
@@ -218,19 +226,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                         }
                         $i++;
                     }
-
                 } else {
-
-                    $value['price'] = $option->getPrice();
+                    $value['price'] = $this->getPriceValue($option->getPrice(), $option->getPriceType());
                     $value['price_type'] = $option->getPriceType();
                     $value['sku'] = $option->getSku();
                     $value['max_characters'] = $option->getMaxCharacters();
+                    $value['file_extension'] = $option->getFileExtension();
                     if ($this->getProduct()->getStoreId() != '0' && $scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
                         $value['checkboxScopePrice'] = $this->getCheckboxScopeHtml($option->getOptionId(), 'price', is_null($option->getStorePrice()));
                         $value['scopePriceDisabled'] = is_null($option->getStorePrice())?'disabled':null;
                     }
                 }
-
                 $values[] = new Varien_Object($value);
             }
             $this->_values = $values;
@@ -253,5 +259,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
         }
         $checkbox = '<input type="checkbox" id="'.$this->getFieldId().'_'.$id.'_'.$selectIdHtml.$name.'_use_default" class="checkbox product-option-scope-checkbox" name="'.$this->getFieldName().'['.$id.']'.$selectNameHtml.'[scope]['.$name.']" value="1" '.$checkedHtml.'/>';
         return $checkbox;
+    }
+
+    public function getPriceValue($value, $type)
+    {
+        if ($type == 'percent') {
+            return number_format($value, 0, null, '');
+        } elseif ($type == 'fixed') {
+            return number_format($value, 2, null, '');
+        }
     }
 }
