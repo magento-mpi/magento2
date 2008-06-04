@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
     {
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::ONLINE_MINUTES_INTERVAL*60) {
+            strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
             return Mage::helper('customer')->__('Offline');
         }
         return Mage::helper('customer')->__('Online');

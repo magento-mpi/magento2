@@ -21,7 +21,7 @@
 
 class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
 {
-    const ONLINE_MINUTES_INTERVAL = 15;
+    const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
 
     protected function _construct()
     {
@@ -70,6 +70,19 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         ));
 
         return $this;
+    }
+
+    /**
+     * Return Online Minutes Interval
+     *
+     * @return int Minutes Interval
+     */
+    public static function getOnlineMinutesInterval()
+    {
+        $configValue = Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
+        return intval($configValue) > 0
+            ? intval($configValue)
+            : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
     }
 
     /**
