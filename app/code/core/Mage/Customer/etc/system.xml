@@ -71,6 +71,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Leave empty for default (15 minutes).</comment>
                         </online_minutes_interval>
                     </fields>
                 </online_customers>
