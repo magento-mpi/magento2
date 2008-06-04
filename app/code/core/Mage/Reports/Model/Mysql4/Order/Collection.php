@@ -150,8 +150,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         if ($isFilter == 0) {
             $this->addExpressionAttributeToSelect(
                     'revenue',
-                     'SUM(({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0))/{{store_to_base_rate}})',
-                     array('base_subtotal', 'store_to_base_rate', 'base_subtotal_refunded', 'base_subtotal_canceled'))
+                     'SUM(({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0)-IFNULL({{base_discount_amount}},0))/{{store_to_base_rate}})',
+                     array('base_subtotal', 'store_to_base_rate', 'base_subtotal_refunded', 'base_subtotal_canceled','base_discount_amount'))
                 ->addExpressionAttributeToSelect(
                     'tax',
                     'SUM(({{base_tax_amount}}-IFNULL({{base_tax_refunded}},0)-IFNULL({{base_tax_canceled}},0))/{{store_to_base_rate}})',
@@ -163,8 +163,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         } else {
             $this->addExpressionAttributeToSelect(
                     'revenue',
-                     'SUM({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0))',
-                     array('base_subtotal', 'base_subtotal_refunded', 'base_subtotal_canceled'))
+                     'SUM({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0)-IFNULL({{base_discount_amount}},0))',
+                     array('base_subtotal', 'base_subtotal_refunded', 'base_subtotal_canceled','base_discount_amount'))
                 ->addExpressionAttributeToSelect(
                     'tax',
                     'SUM({{base_tax_amount}}-IFNULL({{base_tax_refunded}},0)-IFNULL({{base_tax_canceled}},0))',
@@ -185,13 +185,13 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
     public function calculateSales($isFilter = 0)
     {
         if ($isFilter == 0) {
-            $expr = "({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0))/{{store_to_base_rate}}";
-            $attrs = array('base_subtotal', 'store_to_base_rate', 'base_subtotal_refunded', 'base_subtotal_canceled');
+            $expr = "({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0)-IFNULL({{base_discount_amount}},0))/{{store_to_base_rate}}";
+            $attrs = array('base_subtotal', 'store_to_base_rate', 'base_subtotal_refunded', 'base_subtotal_canceled','base_discount_amount');
             $this->addExpressionAttributeToSelect('lifetime', "SUM({$expr})", $attrs)
                 ->addExpressionAttributeToSelect('average', "AVG({$expr})", $attrs);
         } else {
-            $expr = "({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0))";
-            $attrs = array('base_subtotal', 'base_subtotal_refunded', 'base_subtotal_canceled');
+            $expr = "({{base_subtotal}}-IFNULL({{base_subtotal_refunded}},0)-IFNULL({{base_subtotal_canceled}},0)-IFNULL({{base_discount_amount}},0))";
+            $attrs = array('base_subtotal', 'base_subtotal_refunded', 'base_subtotal_canceled','base_discount_amount');
             $this->addExpressionAttributeToSelect('lifetime', "SUM($expr)", $attrs)
                 ->addExpressionAttributeToSelect('average', "AVG($expr)", $attrs);
         }
