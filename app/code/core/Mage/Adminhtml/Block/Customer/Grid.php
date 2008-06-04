@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('customer_since', array(
             'header'    => Mage::helper('customer')->__('Customer Since'),
-            'type'      => 'date',
+            'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
             'gmtoffset' => true
