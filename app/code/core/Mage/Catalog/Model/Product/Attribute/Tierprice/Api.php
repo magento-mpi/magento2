@@ -25,7 +25,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Attribute_Tierprice extends Mage_Catalog_Model_Api_Resource
+class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Model_Api_Resource
 {
     const ATTRIBUTE_CODE = 'tier_price';
 
@@ -33,7 +33,6 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice extends Mage_Catalog_Model_
     {
         $this->_storeIdSessionField = 'product_store_id';
     }
-
 
     public function info($productId)
     {

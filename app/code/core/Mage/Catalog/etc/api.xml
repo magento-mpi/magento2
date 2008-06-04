@@ -382,6 +382,8 @@
             <product_link>catalog_product_link</product_link>
             <product_attribute_media>catalog_product_attribute_media</product_attribute_media>
             <product_media>catalog_product_attribute_media</product_media>
+            <product_attribute_tier_price>catalog_product_attribute_tier_price</product_attribute_tier_price>
+            <product_tier_price>catalog_product_attribute_tier_price</product_tier_price>
         </resources_alias>
         <acl>
             <resources>

@@ -405,6 +405,11 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
             if (isset($resource->acl) && !$this->_isAllowed((string) $resource->acl)) {
                 continue;
             }
+            $model = Mage::getModel((string) $resource->model);
+
+
+            $modelReflect = new ReflectionObject($model);
+
 
             $methods = array();
             foreach ($resource->methods->children() as $methodName => $method) {
@@ -418,12 +423,22 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
                    }
                 }
 
+                $methodCall = (isset($method->method) ? (string) $method->method : $methodName);
+                $args = array();
+                if ($methodReflect = $modelReflect->getMethod($methodCall)) {
+                    foreach ($methodReflect->getParameters() as $parameter) {
+                        /* @var $parameter ReflectionParameter */
+                        $args[$parameter->getName()] = $parameter->isArray() ? 'array' : ($parameter->getClass() ? $parameter->getClass()->getName() : 'mixed' );
+                    }
+                }
+
                 $methods[] = array(
                     'title'       => (string) $method->title,
                     'description' => (isset($method->description) ? (string)$method->description : null),
                     'path'        => $resourceName . '.' . $methodName,
                     'name'        => $methodName,
-                    'aliases'     => $methodAliases
+                    'aliases'     => $methodAliases,
+                    'args'        => $args
                 );
             }
 
