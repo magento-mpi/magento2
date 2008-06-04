@@ -33,23 +33,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value extends Mage_C
         $this->_init('catalog/product_option_type_value', 'option_type_id');
     }
 
-    public function getStoreId()
-    {
-        return Mage::app()->getStore()->getId();
-    }
-
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
+        $priceTable = $this->getTable('catalog/product_option_type_price');
+        $titleTable = $this->getTable('catalog/product_option_type_title');
 
         if (!$object->getData('scope', 'price')) {
             //save for store_id = 0
             $statement = $this->_getReadAdapter()->select()
-                ->from($this->getTable('catalog/product_option_type_price'))
+                ->from($priceTable)
                 ->where('option_type_id = '.$object->getId().' AND store_id = ?', 0);
             if ($this->_getReadAdapter()->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
                     $this->_getWriteAdapter()->update(
-                        $this->getTable('catalog/product_option_type_price'),
+                        $priceTable,
                         array(
                             'price' => $object->getPrice(),
                             'price_type' => $object->getPriceType()
@@ -59,7 +56,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value extends Mage_C
                 }
             } else {
                 $this->_getWriteAdapter()->insert(
-                    $this->getTable('catalog/product_option_type_price'),
+                    $priceTable,
                     array(
                         'option_type_id' => $object->getId(),
                         'store_id' => 0,
@@ -91,12 +88,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value extends Mage_C
                         $newPrice = $object->getPrice();
                     }
                     $statement = $this->_getReadAdapter()->select()
-                        ->from($this->getTable('catalog/product_option_type_price'))
+                        ->from($priceTable)
                         ->where('option_type_id = '.$object->getId().' AND store_id = ?', $storeId);
 
                     if ($this->_getReadAdapter()->fetchOne($statement)) {
                         $this->_getWriteAdapter()->update(
-                            $this->getTable('catalog/product_option_type_price'),
+                            $priceTable,
                             array(
                                 'price' => $newPrice,
                                 'price_type' => $object->getPriceType()
@@ -105,7 +102,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value extends Mage_C
                         );
                     } else {
                         $this->_getWriteAdapter()->insert(
-                            $this->getTable('catalog/product_option_type_price'),
+                            $priceTable,
                             array(
                                 'option_type_id' => $object->getId(),
                                 'store_id' => $storeId,
@@ -121,20 +118,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value extends Mage_C
         //title
         if (!$object->getData('scope', 'title')) {
             $statement = $this->_getReadAdapter()->select()
-                ->from($this->getTable('catalog/product_option_type_title'))
+                ->from($titleTable)
                 ->where('option_type_id = '.$object->getId().' and store_id = ?', 0);
 
             if ($this->_getReadAdapter()->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
                     $this->_getWriteAdapter()->update(
-                        $this->getTable('catalog/product_option_type_title'),
+                        $titleTable,
                             array('title' => $object->getTitle()),
                             $this->_getWriteAdapter()->quoteInto('option_type_id='.$object->getId().' AND store_id=?', 0)
                     );
                 }
             } else {
                 $this->_getWriteAdapter()->insert(
-                    $this->getTable('catalog/product_option_type_title'),
+                    $titleTable,
                         array(
                             'option_type_id' => $object->getId(),
                             'store_id' => 0,
@@ -145,18 +142,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value extends Mage_C
 
         if ($object->getStoreId() != '0' && !$object->getData('scope', 'title')) {
             $statement = $this->_getReadAdapter()->select()
-                ->from($this->getTable('catalog/product_option_type_title'))
+                ->from($titleTable)
                 ->where('option_type_id = '.$object->getId().' and store_id = ?', $object->getStoreId());
 
             if ($this->_getReadAdapter()->fetchOne($statement)) {
                 $this->_getWriteAdapter()->update(
-                    $this->getTable('catalog/product_option_type_title'),
+                    $titleTable,
                         array('title' => $object->getTitle()),
                         $this->_getWriteAdapter()
                             ->quoteInto('option_type_id='.$object->getId().' AND store_id=?', $object->getStoreId()));
             } else {
                 $this->_getWriteAdapter()->insert(
-                    $this->getTable('catalog/product_option_type_title'),
+                    $titleTable,
                         array(
                             'option_type_id' => $object->getId(),
                             'store_id' => $object->getStoreId(),

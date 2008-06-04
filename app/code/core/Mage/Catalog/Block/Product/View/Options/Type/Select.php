@@ -36,8 +36,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
      */
     public function getValuesCollection()
     {
-        $collection = Mage::getSingleton('catalog/product_option_value')
-            ->getValuesCollection($this->getOption()->getOptionId(), $this->getStoreId())//!!!!!!!!!!!
+        $collection = $this->getOption()->getValuesCollection()
             ->setOrder('option_type_id', 'asc')
             ->load(false);
 
@@ -48,39 +47,47 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
     {
         $collection = $this->getValuesCollection();
 
-        if ($this->getOption()->getType() == 'drop_down' || $this->getOption()->getType() == 'multiple') {
-            $require = ($this->getOption()->getIsRequire()) ? ' required-entry' : '';
+        $_option = $this->getOption();
+
+        if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
+            || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
+            ) {
+
+            $require = ($_option->getIsRequire()) ? ' required-entry' : '';
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'drop_down',
                     'class' => 'select'.$require
                 ))
-                ->setName('options['.$this->getOption()->getid().']');
+                ->setName('options['.$_option->getid().']');
             $select->addOption('', $this->__('-- Please Select --'));
             foreach ($collection as $_value) {
                 $select->addOption($_value->getOptionTypeId(), $_value->getTitle());
             }
 
-            if ($this->getOption()->getType() == 'multiple') {
+            if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
                 $select->setExtraParams('multiple="multiple"');
             }
 
             return $select->getHtml();
         }
 
-        if ($this->getOption()->getType() == 'radio' || $this->getOption()->getType() == 'checkbox') {
-            $require = ($this->getOption()->getIsRequire()) ? ' validate-one-required' : '';
-            switch ($this->getOption()->getType()) {
-                case 'radio':
+        if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO
+            || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+            ) {
+
+            $require = ($_option->getIsRequire()) ? ' validate-one-required' : '';
+            switch ($_option->getType()) {
+                case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
                     break;
-                case 'checkbox':
+                case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
                     break;
             }
             $selectHtml = '';
             foreach ($collection as $_value) {
-                $selectHtml .= '<input type="'.$type.'" class="'.$require.'" id="" name="options['.$this->getOption()->getId().']" value="'.$_value->getOptionTypeId().'">'.$_value->getTitle().'<br />';
+                $selectHtml .= '<input type="'.$type.'" class="'.$require.'" id="" name="options['.$_option->getId().']" value="'.$_value->getOptionTypeId().'">'.$_value->getTitle().'<br />';
             }
 
             return $selectHtml;

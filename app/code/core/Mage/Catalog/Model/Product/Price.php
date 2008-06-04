@@ -208,6 +208,8 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         else {
             $finalPrice = $product->getPrice();
 
+//            $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+
             $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
 
             $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
@@ -215,6 +217,8 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
             $product->setFinalPrice($finalPrice);
             Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
         }
+
+//        Zend_Debug::dump($product->getData('final_price'));die();
 
         return max(0, $product->getData('final_price'));
     }
@@ -291,6 +295,28 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
         $tierPrice  = $product->getTierPrice($qty);
         if (is_numeric($tierPrice)) {
             $finalPrice = min($finalPrice, $tierPrice);
+        }
+        return $finalPrice;
+    }
+
+    protected function _applyOptionsPrice($product, $qty, $finalPrice)
+    {
+//        Zend_Debug::dump($product);die();
+        $options = $product->getCartOptions();
+        foreach ($options as $optionId => $optionValue) {
+            $optionModel = Mage::getModel('catalo/product_option')
+                ->load($optionId);
+
+            if ($optionModel->getGroupByType($optionModel->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+
+            } else {
+                if ($optionModel->getType() == 'fixed') {
+                    $finalPrice += $finalPrice + $optionModel->getPrice();
+                } elseif ($optionModel->getType() == 'percent') {
+                    $finalPrice += $finalPrice*($optionModel->getPrice()/100);
+                }
+            }
+
         }
         return $finalPrice;
     }

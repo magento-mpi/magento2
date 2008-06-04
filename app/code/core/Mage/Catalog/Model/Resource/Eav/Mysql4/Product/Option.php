@@ -33,26 +33,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
         $this->_init('catalog/product_option', 'option_id');
     }
 
-    public function getStoreId()
-    {
-        return Mage::app()->getStore()->getId();
-    }
-
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-//        Zend_Debug::dump($object);die();
+        $priceTable = $this->getTable('catalog/product_option_price');
+        $titleTable = $this->getTable('catalog/product_option_title');
+
         //better to check param 'price' and 'price_type' for saving. If there is not price scip saving price
-        if ($object->getType() == 'field' || $object->getType() == 'area' || $object->getType() == 'file') {
+        if ($object->getType() == 'field' || $object->getType() == 'area' || $object->getType() == 'file'
+            || $object->getType() == 'date' || $object->getType() == 'date_time' || $object->getType() == 'time') {
 
             //save for store_id = 0
             if (!$object->getData('scope', 'price')) {
                 $statement = $this->_getReadAdapter()->select()
-                    ->from($this->getTable('catalog/product_option_price'))
+                    ->from($priceTable)
                     ->where('option_id = '.$object->getId().' AND store_id = ?', 0);
                 if ($this->_getReadAdapter()->fetchOne($statement)) {
                     if ($object->getStoreId() == '0') {
                         $this->_getWriteAdapter()->update(
-                            $this->getTable('catalog/product_option_price'),
+                            $priceTable,
                             array(
                                 'price' => $object->getPrice(),
                                 'price_type' => $object->getPriceType()
@@ -62,7 +60,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
                     }
                 } else {
                     $this->_getWriteAdapter()->insert(
-                        $this->getTable('catalog/product_option_price'),
+                        $priceTable,
                         array(
                             'option_id' => $object->getId(),
                             'store_id' => 0,
@@ -94,12 +92,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
                             $newPrice = $object->getPrice();
                         }
                         $statement = $this->_getReadAdapter()->select()
-                            ->from($this->getTable('catalog/product_option_price'))
+                            ->from($priceTable)
                             ->where('option_id = '.$object->getId().' AND store_id = ?', $storeId);
 
                         if ($this->_getReadAdapter()->fetchOne($statement)) {
                             $this->_getWriteAdapter()->update(
-                                $this->getTable('catalog/product_option_price'),
+                                $priceTable,
                                 array(
                                     'price' => $newPrice,
                                     'price_type' => $object->getPriceType()
@@ -108,7 +106,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
                             );
                         } else {
                             $this->_getWriteAdapter()->insert(
-                                $this->getTable('catalog/product_option_price'),
+                                $priceTable,
                                 array(
                                     'option_id' => $object->getId(),
                                     'store_id' => $storeId,
@@ -117,29 +115,29 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
                                 )
                             );
                         }
-                    }// end of foreach()
+                    }// end foreach()
                 }
             }
         }
 
-
+//Zend_Debug::dump($object->getTitle());die();
         //title
         if (!$object->getData('scope', 'title')) {
             $statement = $this->_getReadAdapter()->select()
-                ->from($this->getTable('catalog/product_option_title'))
+                ->from($titleTable)
                 ->where('option_id = '.$object->getId().' and store_id = ?', 0);
 
             if ($this->_getReadAdapter()->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
                     $this->_getWriteAdapter()->update(
-                        $this->getTable('catalog/product_option_title'),
+                        $titleTable,
                             array('title' => $object->getTitle()),
                             $this->_getWriteAdapter()->quoteInto('option_id='.$object->getId().' AND store_id=?', 0)
                     );
                 }
-            } else {
+            } else {//Zend_Debug::dump($object->getData());die();
                 $this->_getWriteAdapter()->insert(
-                    $this->getTable('catalog/product_option_title'),
+                    $titleTable,
                         array(
                             'option_id' => $object->getId(),
                             'store_id' => 0,
@@ -147,21 +145,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
                 ));
             }
         }
-
+//Zend_Debug::dump($object->getTitle());die();
         if ($object->getStoreId() != '0' && !$object->getData('scope', 'title')) {
             $statement = $this->_getReadAdapter()->select()
-                ->from($this->getTable('catalog/product_option_title'))
+                ->from($titleTable)
                 ->where('option_id = '.$object->getId().' and store_id = ?', $object->getStoreId());
 
             if ($this->_getReadAdapter()->fetchOne($statement)) {
                 $this->_getWriteAdapter()->update(
-                    $this->getTable('catalog/product_option_title'),
+                    $titleTable,
                         array('title' => $object->getTitle()),
                         $this->_getWriteAdapter()
                             ->quoteInto('option_id='.$object->getId().' AND store_id=?', $object->getStoreId()));
             } else {
                 $this->_getWriteAdapter()->insert(
-                    $this->getTable('catalog/product_option_title'),
+                    $titleTable,
                         array(
                             'option_id' => $object->getId(),
                             'store_id' => $object->getStoreId(),

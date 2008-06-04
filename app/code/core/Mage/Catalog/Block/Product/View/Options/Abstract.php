@@ -26,11 +26,17 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Core_Block_Template
 {
     protected $_option;
 
-    public function setOption($option)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return unknown
+     */
+    public function setOption(Mage_Catalog_Model_Product_Option $option)
     {
         $this->_option = $option;
         return $this;

@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         $this->addOptionRender(
             'default',
             'catalog/product_view_options_type_default',
-            'catalog/product/view/options/type/default.html'
+            'catalog/product/view/options/type/default.phtml'
         );
     }
 
@@ -90,19 +90,16 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
 
     public function getGroupOfOption($type)
     {
-        $optionTypes = array(
-            'field' => 'text',
-            'area' => 'text',
-            'file' => 'file',
-            'drop_down' => 'select',
-            'radio' => 'select',
-            'checkbox' => 'select',
-            'multiple' => 'select',
-        );
+        $group = Mage::getSingleton('catalog/product_option')->getGroupByType($type);
 
-        return isset($optionTypes[$type]) ? $optionTypes[$type] : 'default';
+        return $group == '' ? 'default' : $group;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     */
     public function getOptions()
     {
         $collection = $this->getProduct()
@@ -124,7 +121,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         );
         return $this->getLayout()->createBlock($render['block'])
             ->setOption($option)
-            ->setStoreId($this->getProduct()->getStoreID())
+//            ->setStoreId($this->getProduct()->getStoreId())
             ->setTemplate($render['template'])->toHtml();
 
     }

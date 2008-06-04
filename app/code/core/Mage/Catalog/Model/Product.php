@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     protected $_errors    = array();
 
-    protected $_productOptions = array();
+    protected $_optionInstance;
 
     /**
      * Super product attribute collection
@@ -301,13 +301,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         /**
          * Product Custom Options
          */
-        $optionModel = Mage::getSingleton('catalog/product_option')
-            ->setProduct($this)
-            ->setProductId($this->getId());
-//Zend_Debug::dump($this->getProductOptions());die();
+        /* @var $optionModel Mage_Catalog_Model_Product_Option */
         foreach ($this->getProductOptions() as $option) {
-            $optionModel->saveOption($option, $this->getStoreId());
+            $this->getOptionInstance()->addOption($option);
         }
+        $this->getOptionInstance()->setProduct($this)
+            ->saveOptions();
 
         parent::_afterSave();
     }
@@ -1165,15 +1164,28 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeInstance()->getWeight();
     }
 
-    public function setProductOptions($options)
-    {
-        $this->_productOptions = $options;
-        return $this;
-    }
+//    public function setProductOptions($options)
+//    {
+//        $this->_productOptions = $options;
+//        return $this;
+//    }
+//
+//    public function getProductOptions()
+//    {
+//        return $this->_productOptions;
+//    }
 
-    public function getProductOptions()
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Catalog_Model_Product_Option
+     */
+    public function getOptionInstance()
     {
-        return $this->_productOptions;
+        if (!$this->_optionInstance) {
+            $this->_optionInstance = Mage::getSingleton('catalog/product_option');
+        }
+        return $this->_optionInstance;
     }
 
     /**
@@ -1183,8 +1195,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getProductOptionsCollection()
     {
-        $collection = Mage::getSingleton('catalog/product_option')
-                ->getProductOptionCollection($this->getId(), $this->getStoreId());
+        $collection = $this->getOptionInstance()
+                ->getProductOptionCollection($this);
 
         return $collection;
     }
