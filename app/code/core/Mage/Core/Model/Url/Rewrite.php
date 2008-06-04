@@ -167,6 +167,10 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             return false;
         }
 
+        if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
+            $this->setTargetPath($storeCode . '/' . $this->getTargetPath());
+        }
+
         $request->setAlias('rewrite_request_path', $this->getRequestPath());
         $external = substr($this->getTargetPath(), 0, 6);
         if ($external==='http:/' || $external==='https:') {
