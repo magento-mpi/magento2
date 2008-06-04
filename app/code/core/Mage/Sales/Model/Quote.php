@@ -121,6 +121,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $ids = $this->getData('shared_store_ids');
         if (is_null($ids) || !is_array($ids)) {
+            if ($website = $this->getWebsite()) {
+            	return $website->getStoreIds();
+            }
             return $this->getStore()->getWebsite()->getStoreIds();
         }
         return $ids;

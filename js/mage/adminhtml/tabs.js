@@ -132,7 +132,8 @@ varienTabs.prototype = {
                 new Ajax.Updater(tabContentElement.id, tab.href, {
                      onComplete : function () {
                          this.showTabContentImmediately(tab)
-                     }.bind(this)
+                     }.bind(this),
+                     evalScripts : true
                 });
             }
             else {

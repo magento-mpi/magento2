@@ -71,7 +71,7 @@ class Mage_Review_Block_Customer_List extends Mage_Core_Block_Template
 
     public function getReviewLink()
     {
-        return Mage::getUrl('customer/review/view/');
+        return Mage::getUrl('review/customer/view/');
     }
 
     public function getProductLink()

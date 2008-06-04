@@ -520,11 +520,47 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Retrieve shared store ids
      *
-     * @return array|false
+     * @return array
      */
     public function getSharedStoreIds()
     {
-        return $this->getStore()->getWebsite()->getStoresIds();
+        $ids = $this->_getData('shared_store_ids');
+        if (is_null($ids)) {
+            $ids = array();
+            if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
+            	$ids = $this->getStore()->getWebsite()->getStoresIds();
+            }
+            else {
+                foreach (Mage::app()->getStores() as $store) {
+                    $ids[] = $store->getId();
+                }
+            }
+            $this->setData('shared_store_ids', $ids);
+        }
+        return $ids;
+    }
+
+    /**
+     * Retrive shared website ids
+     *
+     * @return array
+     */
+    public function getSharedWebsiteIds()
+    {
+        $ids = $this->_getData('shared_website_ids');
+        if (is_null($ids)) {
+            $ids = array();
+            if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
+            	$ids[] = $this->getWebsiteId();
+            }
+            else {
+                foreach (Mage::app()->getWebsites() as $website) {
+                    $ids[] = $website->getId();
+                }
+            }
+            $this->setData('shared_website_ids', $ids);
+        }
+        return $ids;
     }
 
     /**

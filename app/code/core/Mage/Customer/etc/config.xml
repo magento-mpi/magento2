@@ -192,12 +192,7 @@ T: {{var telephone}}
                 </connection>
             </customer_read>
         </resources>
-        <rewrite>
-            <review>
-                <from>/customer\/review/</from>
-                <to>review/customer</to>
-            </review>
-        </rewrite>
+
         <template>
             <email>
                 <customer_create_account_email_template translate="label" module="customer">

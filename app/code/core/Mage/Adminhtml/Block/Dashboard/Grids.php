@@ -56,30 +56,25 @@ class Mage_Adminhtml_Block_Dashboard_Grids extends Mage_Adminhtml_Block_Widget_T
         $this->addTab('reviewed_products', array(
             'label'     => $this->__('Bestsellers'),
             'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_products_ordered')->toHtml(),
-//            'url'       => $this->getUrl('*/*/ajaxBlock', array('_current'=>true, 'block'=>'tab_products_ordered')),
-//            'class'     => 'ajax',
             'active'    => true
         ));
 
         // load other tabs with ajax
         $this->addTab('ordered_products', array(
             'label'     => $this->__('Most Viewed Products'),
-//            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_products_viewed')->toHtml(),
-            'url'       => $this->getUrl('*/*/ajaxBlock', array('_current'=>true, 'block'=>'tab_products_viewed')),
+            'url'       => $this->getUrl('*/*/productsViewed', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 
         $this->addTab('new_customers', array(
             'label'     => $this->__('New Customers'),
-//            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_customers_newest')->toHtml(),
-            'url'       => $this->getUrl('*/*/ajaxBlock', array('_current'=>true, 'block'=>'tab_customers_newest')),
+            'url'       => $this->getUrl('*/*/customersNewest', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 
         $this->addTab('customers', array(
             'label'     => $this->__('Customers'),
-//            'content'   => $this->getLayout()->createBlock('adminhtml/dashboard_tab_customers_most')->toHtml(),
-            'url'       => $this->getUrl('*/*/ajaxBlock', array('_current'=>true, 'block'=>'tab_customers_most')),
+            'url'       => $this->getUrl('*/*/customersMost', array('_current'=>true)),
             'class'     => 'ajax'
         ));
 

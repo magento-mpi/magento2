@@ -53,10 +53,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
             'open'      => true
         ));
 
-        $accordion->addItem('shopingCart', array(
-            'title' => Mage::helper('customer')->__('Shopping Cart'),
-            'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart'),
-        ));
+        // add shopping cart block of each website
+        foreach (Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+            $accordion->addItem('shopingCart' . $websiteId, array(
+                'title'   => Mage::helper('customer')->__('Shopping Cart'), // this will be replaced by child block
+                'content' => $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart')
+                    ->setWebsiteId($websiteId),
+            ));
+        }
 
         $accordion->addItem('wishlist', array(
             'title' => Mage::helper('customer')->__('Wishlist'),

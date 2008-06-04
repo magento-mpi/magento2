@@ -32,7 +32,7 @@ class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
-            $navigationBlock->setActive('customer/review');
+            $navigationBlock->setActive('review/customer');
         }
         $this->renderLayout();
     }
@@ -41,7 +41,7 @@ class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
-            $navigationBlock->setActive('customer/review');
+            $navigationBlock->setActive('review/customer');
         }
         $this->renderLayout();
     }

@@ -56,7 +56,7 @@ class Mage_Customer_Block_Account_Dashboard extends Mage_Core_Block_Template
 
     public function getReviewsUrl()
     {
-        return Mage::getUrl('customer/review/index', array('_secure'=>true));
+        return Mage::getUrl('review/customer/index', array('_secure'=>true));
     }
 
     public function getWishlistUrl()
