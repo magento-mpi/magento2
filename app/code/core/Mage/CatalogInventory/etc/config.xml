@@ -206,6 +206,7 @@
                 <manage_stock>1</manage_stock>
                 <backorders>0</backorders>
                 <can_subtract>1</can_subtract>
+                <can_back_in_stock>1</can_back_in_stock>
                 <max_sale_qty>10000</max_sale_qty>
                 <min_sale_qty>1</min_sale_qty>
                 <min_qty>0</min_qty>

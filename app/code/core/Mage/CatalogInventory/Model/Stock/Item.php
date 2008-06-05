@@ -27,13 +27,14 @@
  */
 class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_MIN_QTY      = 'cataloginventory/options/min_qty';
-    const XML_PATH_MIN_SALE_QTY = 'cataloginventory/options/min_sale_qty';
-    const XML_PATH_MAX_SALE_QTY = 'cataloginventory/options/max_sale_qty';
-    const XML_PATH_BACKORDERS   = 'cataloginventory/options/backorders';
-    const XML_PATH_CAN_SUBTRACT = 'cataloginventory/options/can_subtract';
-    const XML_PATH_NOTIFY_STOCK_QTY = 'cataloginventory/options/notify_stock_qty';
-    const XML_PATH_MANAGE_STOCK = 'cataloginventory/options/manage_stock';
+    const XML_PATH_MIN_QTY              = 'cataloginventory/options/min_qty';
+    const XML_PATH_MIN_SALE_QTY         = 'cataloginventory/options/min_sale_qty';
+    const XML_PATH_MAX_SALE_QTY         = 'cataloginventory/options/max_sale_qty';
+    const XML_PATH_BACKORDERS           = 'cataloginventory/options/backorders';
+    const XML_PATH_CAN_SUBTRACT         = 'cataloginventory/options/can_subtract';
+    const XML_PATH_CAN_BACK_IN_STOCK    = 'cataloginventory/options/can_back_in_stock';
+    const XML_PATH_NOTIFY_STOCK_QTY     = 'cataloginventory/options/notify_stock_qty';
+    const XML_PATH_MANAGE_STOCK         = 'cataloginventory/options/manage_stock';
 
     protected function _construct()
     {
@@ -87,7 +88,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!$config) {
             return $this;
         }
-
         $this->setQty($this->getQty()-$qty);
         return $this;
     }
@@ -195,6 +195,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return (int) Mage::getStoreConfigFlag(self::XML_PATH_MANAGE_STOCK);
         }
         return $this->getData('manage_stock');
+    }
+
+    public function getCanBackInStock()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_CAN_BACK_IN_STOCK);
     }
 
     /**
@@ -344,6 +349,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 $this->setIsInStock(false);
             }
         }
+
+        // get back in stock (when order is canceled or whatever else)
+        if ($this->getCanBackInStock() && $this->getQty() > $this->getMinQty()) {
+            $this->setIsInStock(true);
+        }
+
         /**
          * if qty is below notify qty, update the low stock date to today date otherwise set null
          */
