@@ -111,6 +111,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
         * position is not eav attributes so we cannot use default attributes to sort
         */
         if ($attribute == 'position') {
+
+            // dont sort by position, when creating product (#5090)
+            if (!is_object($this->getProduct())) {
+                return $this;
+            }
+            if (!$this->getProduct()->getId()) {
+                return $this;
+            }
+
             $this->getSelect()->order($attribute.' '.$dir);
         }
         else {
