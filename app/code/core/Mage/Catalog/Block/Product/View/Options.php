@@ -121,7 +121,6 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         );
         return $this->getLayout()->createBlock($render['block'])
             ->setOption($option)
-//            ->setStoreId($this->getProduct()->getStoreId())
             ->setTemplate($render['template'])->toHtml();
 
     }

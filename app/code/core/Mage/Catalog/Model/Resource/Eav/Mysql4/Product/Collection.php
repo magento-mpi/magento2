@@ -541,4 +541,30 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
         }
     }
+
+    /**
+     * Adding product options to result collection
+     *
+     * @return Mage_Catalog_Model_Entity_Product_Collection
+     */
+    public function addOptionsToResult()
+    {
+        $productIds = array();
+        foreach ($this as $product) {
+            $productIds[] = $product->getId();
+        }
+        if (!empty($productIds)) {
+            $options = Mage::getModel('catalog/product_option')
+                ->getCollection()
+                ->addProductToFilter($productIds)
+                ->addValuesToResult();
+
+            foreach ($options as $option) {
+                $this->getItemById($option->getProductId())->addOption($option);
+            }
+        }
+
+        return $this;
+    }
+
 }

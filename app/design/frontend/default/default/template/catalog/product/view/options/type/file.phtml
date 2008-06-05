@@ -18,3 +18,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<?php $_option = $this->getOption() ?>
+<tr>
+    <td class="label">
+        <?php echo $_option->getTitle() ?>
+        <?php if ($_option->getIsRequire()): ?>
+            <span class="required">*</span>
+        <?php endif; ?>
+    </td>
+</tr>
+<tr>
+    <td><input type="file" name="options[<?php echo $_option->getId() ?>]" value="" /></td>
+</tr>

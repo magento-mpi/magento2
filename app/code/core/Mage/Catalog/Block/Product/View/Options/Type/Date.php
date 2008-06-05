@@ -29,5 +29,26 @@
 class Mage_Catalog_Block_Product_View_Options_Type_Date
     extends Mage_Catalog_Block_Product_View_Options_Abstract
 {
+    protected function _prepareLayout()
+    {
+        if ($head = $this->getLayout()->getBlock('head')) {
+            $head->setCanLoadCalendarJs(true);
+        }
+        return parent::_prepareLayout();
+    }
+
+    public function getCalendarHtml()
+    {
+        $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
+        $calendar = $this->getLayout()
+            ->createBlock('core/html_date')
+            ->setId('options_'.$this->getOption()->getId().'_date')
+            ->setName('options['.$this->getOption()->getId().']')
+            ->setClass('input-text'.$require)
+            ->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'))
+            ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+
+        return $calendar->getHtml();
+    }
 
 }

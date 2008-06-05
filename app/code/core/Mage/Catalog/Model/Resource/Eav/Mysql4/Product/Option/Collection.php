@@ -73,4 +73,38 @@ WHERE
 
         return $this;
     }
+
+    public function addProductToFilter($product)
+    {
+        if (empty($product)) {
+            $this->addFieldToFilter('product_id', '');
+        } elseif (is_array($product)) {
+            $this->addFieldToFilter('product_id', array('in' => $product));
+        } elseif ($product instanceof Mage_Catalog_Model_Product) {
+            $this->addFieldToFilter('product_id', $product->getId());
+        } else {
+            $this->addFieldToFilter('product_id', $product);
+        }
+
+        return $this;
+    }
+
+    public function addValuesToResult()
+    {
+        $optionIds = array();
+        foreach ($this as $option) {
+            $optionIds[] = $option->getId();
+        }
+        if (!empty($optionIds)) {
+            $values = Mage::getModel('catalog/product_option_value')
+                ->getCollection()
+                ->addOptionToFilter($optionIds);
+
+            foreach ($values as $value) {
+                $this->getItemById($value->getOptionId())->addValue($value);
+            }
+        }
+
+        return $this;
+    }
 }

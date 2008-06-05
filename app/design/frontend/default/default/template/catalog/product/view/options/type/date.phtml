@@ -27,7 +27,15 @@
         <?php endif; ?>
     </td>
 </tr>
-<tr>
-    <td>
-    </td>
-</tr>
+<?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
+        || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
+        <tr>
+            <td>Date <?php echo $this->getCalendarHtml() ?></td>
+        </tr>
+<?php endif; ?>
+<?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
+        || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
+        <tr><td>
+            Time <input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" />
+        </td></tr>
+<?php endif; ?>

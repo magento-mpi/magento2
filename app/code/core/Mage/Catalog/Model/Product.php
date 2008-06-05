@@ -61,6 +61,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     protected $_optionInstance;
 
+    protected $_options = array();
+
     /**
      * Super product attribute collection
      *
@@ -1167,17 +1169,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeInstance()->getWeight();
     }
 
-//    public function setProductOptions($options)
-//    {
-//        $this->_productOptions = $options;
-//        return $this;
-//    }
-//
-//    public function getProductOptions()
-//    {
-//        return $this->_productOptions;
-//    }
-
     /**
      * Enter description here...
      *
@@ -1202,6 +1193,17 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 ->getProductOptionCollection($this);
 
         return $collection;
+    }
+
+    public function addOption(Mage_Catalog_Model_Product_Option $option)
+    {
+        $this->_options[] = $option;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        return $this->_options;
     }
 
     /**

@@ -49,9 +49,17 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
     protected $_product;
 
+    protected $_values = array();
+
     public function __construct()
     {
         $this->_init('catalog/product_option');
+    }
+
+    public function addValue(Mage_Catalog_Model_Product_Option_Value $value)
+    {
+        $this->_values[] = $value;
+        return $this;
     }
 
     /**
@@ -137,17 +145,10 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      */
     public function saveOptions()
     {
-//        Zend_Debug::dump($this->getOptions(), 'Options');die();
         foreach ($this->getOptions() as $option) {
             $this->setData($option)
                 ->setData('product_id', $this->getProduct()->getId())
                 ->setData('store_id', $this->getProduct()->getStoreId());
-
-//            if ($this->getData('title') == 'Date') {
-//                Zend_Debug::dump($this->getId(), 'ID');
-//                Zend_Debug::dump($this->getData(), 'option');
-//                die();
-//            }
 
             if ($this->getData('option_id') == '0') {
                 $this->unsetData('option_id');
@@ -185,7 +186,6 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
                             case self::OPTION_GROUP_DATE:
                                 break;
                         }
-//                        Zend_Debug::dump($this->getData());die();
                         if ($this->getGroupByType($this->getData('type')) == self::OPTION_GROUP_SELECT) {
                             $this->setData('sku', '');
                             $this->unsetData('price');
@@ -194,25 +194,6 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
                                 $this->deletePrices($this->getId());
                             }
                         }
-
-//                        if ($this->getGroupByType($previousType) == self::OPTION_GROUP_SELECT) {
-//                            $this->unsetData('values');
-//                            if ($isEdit) {
-//                                $this->getValueInstance()->deleteValue($this->getId());
-//                            }
-//                        } else {
-//                            if ($previousType == self::OPTION_TYPE_FIELD || $previousType == self::OPTION_TYPE_AREA) {
-//                                $this->setData('max_characters', '0');
-//                            } elseif ($previousType == self::OPTION_TYPE_FILE) {
-//                                $this->setData('file_extension', '');
-//                            }
-//                            $this->setData('sku', '');
-//                            $this->unsetData('price');
-//                            $this->unsetData('price_type');
-//                            if ($isEdit) {
-//                                $this->deletePrices($this->getId());
-//                            }
-//                        }
                     }
                 }
                 $this->save();
@@ -282,6 +263,33 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
             ->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;
+    }
+
+    public function getProductsOptionsCollection($productIds)
+    {
+        $options = Mage::getResourceModel('catalog/product_option_collection')
+            ->addProductToFilter($productIds)
+            ->load();
+
+        return $options;
+
+        $optionsData = array();
+        foreach ($options as $option) {
+            $valuesData = array();
+            if ($this->getGroupByType($option->getType()) == self::OPTION_GROUP_SELECT) {
+                $values = $option->getValuesCollection();
+                foreach ($values as $value) {
+                    $valuesData[] = $value->getId();
+                }
+            }
+            $optionsData[] = array(
+                'id' => $option->getId(),
+                'product_id' => $option->getProductId(),
+                'values' => $valuesData
+            );
+        }
+
+        return $optionsData;
     }
 
 }

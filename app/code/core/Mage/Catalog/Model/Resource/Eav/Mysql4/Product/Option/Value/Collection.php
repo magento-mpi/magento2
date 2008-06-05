@@ -66,4 +66,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value_Collection
 
         return $this;
     }
+
+    public function addOptionToFilter($option)
+    {
+        if (empty($option)) {
+            $this->addFieldToFilter('option_id', '');
+        } elseif (is_array($option)) {
+            $this->addFieldToFilter('option_id', array('in' => $option));
+        } elseif ($option instanceof Mage_Catalog_Model_Product_Option) {
+            $this->addFieldToFilter('option_id', $option->getId());
+        } else {
+            $this->addFieldToFilter('option_id', $option);
+        }
+
+        return $this;
+    }
 }
