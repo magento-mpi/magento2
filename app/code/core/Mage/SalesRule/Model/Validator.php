@@ -122,8 +122,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 				    if ($step = $rule->getDiscountStep()) {
 				        $qty = floor($qty/$step)*$step;
 				    }
-					$discountAmount    = $qty*$item->getCalculationPrice()*$rulePercent/100;
-					$baseDiscountAmount= $qty*$item->getBaseCalculationPrice()*$rulePercent/100;
+					$discountAmount    = ($qty*$item->getCalculationPrice() - $item->getDiscountAmount()) * $rulePercent/100;
+					$baseDiscountAmount= ($qty*$item->getBaseCalculationPrice() - $item->getBaseDiscountAmount()) * $rulePercent/100;
 
 					if (!$rule->getDiscountQty() || $rule->getDiscountQty()>$qty) {
 						$discountPercent = min(100, $item->getDiscountPercent()+$rulePercent);
