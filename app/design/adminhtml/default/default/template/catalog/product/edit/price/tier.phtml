@@ -27,12 +27,12 @@
     <td colspan="10" class="grid tier">
     <table cellspacing="0" class="data border" id="tiers_table">
         <?php if ($_multiWebsite): ?>
-        <col width="120" />
+        <col width="135" />
         <?php endif; ?>
-        <col width="100" />
         <col width="120" />
+        <col width="95" />
         <col />
-        <col width="50" />
+        <col width="75" />
         <thead>
             <tr class="headings">
                 <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
@@ -56,16 +56,13 @@
                     <?php endforeach ?>
                 </select>
                 </td>
-                <td class="no-br">
-                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'"/> <?php echo Mage::helper('catalog')->__('and above')?>
+                <td class="nobr">
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'"/> <small class="nobr"><?php echo Mage::helper('catalog')->__('and above')?></small>
                 </td>
                 <td>
                     <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'"/>
                 </td>
-                <td class="last">
-                    <input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value="">
-                    <a href="#" onclick="tierPriceControl.deleteItem(event);return false"><?php echo $this->__('Delete') ?></a>
-                </td>
+                <td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value=""><button class="scalable delete delete-product-option" onclick="tierPriceControl.deleteItem(event);return false"><span>Delete</span></button></td>
             </tr>
         </thead>
         <tbody id="<?php echo $_htmlId ?>_container">

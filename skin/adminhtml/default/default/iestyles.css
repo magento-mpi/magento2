@@ -68,5 +68,5 @@ div.collapseable a               { width:100%; }
     }
 
 .hor-scroll {overflow-x:auto; overflow-y:hidden; padding-bottom:20px;}
-
+.grid-severity-critical, .grid-severity-major, .grid-severity-minor {margin:3px 0;}
 	

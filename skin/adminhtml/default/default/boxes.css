@@ -1043,6 +1043,41 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 
 fieldset.sitemap .form-list { width:auto; }
 
+/* Product Customer Defined options */
+.custom-options  .box {padding:0 1.5em;}
+.custom-options  .option-box {border:1px solid #cddddd; padding:1em;  background:#e7efef; margin:1.5em 0;}
+
+.custom-options  .option-header {border:0; width:100%; background:#e7efef; border-bottom:1em solid #e7efef;}
+.custom-options  .option-header .input-text,
+.custom-options  .option-header .select {width:95%;}
+.custom-options  .option-header th {padding:2px;}
+.custom-options  .option-header td {padding:5px 2px;}
+
+.custom-options .opt-title {width:150px;}
+.custom-options .opt-type {width:150px;}
+.custom-options .opt-req {width:80px;}
+.custom-options .opt-order {width:60px;}
+
+
+.custom-options  .option-box  .border {width:615px;}
+
+.custom-options th {white-space:nowrap;}
+.custom-options  .type-title  {width:auto;}
+.custom-options  .type-price  {width:60px;}
+.custom-options  .type-type  {width:80px;}
+.custom-options  .type-sku  {width:150px;}
+.custom-options  .type-order  {width:70px;}
+.custom-options  .type-butt  {width:120px;}
+.custom-options  .type-last  {width:auto;}
+
+.custom-options  .border  button {width:100px;}
+.custom-options  .border th  button {width:120px !important;}
+
+.custom-options  .option-box  .border .input-text,
+.custom-options  .option-box  .border .select{width:95%!important;}
+
+.custom-options    .option-box  .border .type-last  .input-text {width:60px!important;}
+.custom-options     .option-box  .border  input.type-sku  {width:150px !important;}
 
 /* CUSTOMER
 *******************************************************************************/
@@ -1204,14 +1239,17 @@ ul.super-product-attributes {
     font-size: 10px;
     text-transform: uppercase;
     text-align: center;
-    height: 16px;
-    line-height: 16px;
+    height: 13px;
+	padding-top:3px;
+	width:61px;
+	margin:1px 0;
+    line-height:1;
 } .grid-severity-critical {
-    background-color: #e41101;
+    background:url(images/bg_severity-critical.gif) no-repeat 0 0;
 } .grid-severity-major {
-    background-color: #f55600;
+    background:url(images/bg_severity-major.gif) no-repeat 0 0;
 } .grid-severity-minor {
-    background-color: #ff9c00;
+    background:url(images/bg_severity-minor.gif) no-repeat 0 0;
 }
 
 
@@ -1264,9 +1302,10 @@ ul.super-product-attributes {
 .preview .cell-image .place-holder span { margin-top:30px;display:block; }
 .preview .cell-position .input-text     { width: 90% !important; }
 
-.tier .data             {width: 480px}
-.tier .data select      {width: 130px}
+.tier .data             {width:480px;}
+.tier .data select      {width:99%;}
 .tier .data input.qty   {width: 20px !important}
+.tier .data .last button {width:75px;}
 
 
 /* Links */
