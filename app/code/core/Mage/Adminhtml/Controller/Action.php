@@ -143,7 +143,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         /**
          * Don't check for data saving actions
          */
-        if ($this->getRequest()->getPost()) {
+        if ($this->getRequest()->getPost() || $this->getRequest()->getQuery('isAjax')) {
             return $this;
         }
 
