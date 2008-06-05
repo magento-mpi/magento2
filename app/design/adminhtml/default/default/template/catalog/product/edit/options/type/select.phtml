@@ -45,24 +45,23 @@ var OptionTemplateSelectRow = '<tr id="product_option_{{id}}_select_{{select_id}
 
 var selectOptionType = {
     div : 'select_option_type_row',
-    countItem : 0,
+    itemCount : 0,
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : OptionTemplateSelectRow,
     add : function(data) {
 
         this.template = new Template(this.templateText, this.templateSyntax);
 
-//        if (data instanceof Event) {
         if (data.target || data.srcElement) {//data is Event (work in IE and Firefox)
             element = $(Event.element(data));
             optionId = element.readAttribute('id').sub('add_select_row_button_', '');
             data = {};
             data.option_type_id = '-1';
-            data.select_id = this.countItem;
+            data.select_id = this.itemCount;
         } else {
             optionId = data.option_id;
             data.select_id = data.option_type_id;
-            this.countItem = data.option_type_id;
+            this.itemCount = data.item_count;
         }
 
         data.id  = optionId;
@@ -92,7 +91,7 @@ var selectOptionType = {
             });
 	    }
 
-	    this.countItem++;
+	    this.itemCount++;
         this.bindRemoveButtons();
     },
     remove : function(event){

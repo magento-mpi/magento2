@@ -18,41 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="no-display template" id="option_panel">
-        <table class="dynamic-grid" cellpadding="0" cellspacing="0">
-            <tr>
-                <th><?php echo Mage::helper('catalog')->__('Title') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Input Type') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Is Require') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td><input type="text" name="product[options][{{id}}][title]" value="{{title}}"></td>
-                <td><?php echo $this->getTypeSelectHtml() ?></td>
-                <td><?php echo $this->getRequireSelectHtml() ?></td>
-                <td><input type="text" name="product[options][{{id}}][sort_order]" value=""></td>
-                <td><?php echo $this->getDeleteButtonHtml() ?></td>
-            </tr>
-        </table>
-    </div>
 <?php echo $this->getTemplatesHtml() ?>
 
 <script type="text/javascript">
 
-var firstStepTemplate = '<div class="box" id="option_{{id}}"><table id="<?php echo $this->getFieldId() ?>_{{id}}" class="dynamic-grid" cellpadding="0" cellspacing="0">'+
+var firstStepTemplate = '<div class="box" id="option_{{id}}">'+
+            '<table id="<?php echo $this->getFieldId() ?>_{{id}}" class="dynamic-grid" cellpadding="0" cellspacing="0">'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_is_delete" name="<?php echo $this->getFieldName() ?>[{{id}}][is_delete]" value="" />'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_previous_type" name="<?php echo $this->getFieldName() ?>[{{id}}][previous_type]" value="{{type}}" />'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_previous_group" name="<?php echo $this->getFieldName() ?>[{{id}}][previous_group]" value="" />'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_id" name="<?php echo $this->getFieldName() ?>[{{id}}][id]" value="{{id}}" />'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_option_id" name="<?php echo $this->getFieldName() ?>[{{id}}][option_id]" value="{{option_id}}" />'+
-            '<tr>'+
-                '<th><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
-                '<th><?php echo Mage::helper('catalog')->__('Input Type') ?> <span class="required">*</span></th>'+
-                '<th><?php echo Mage::helper('catalog')->__('Is Required') ?></th>'+
-                '<th><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>'+
-                '<th></th>'+
-            '</tr>'+
+            '<thead>'+
+                '<tr>'+
+                    '<th><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
+                    '<th><?php echo Mage::helper('catalog')->__('Input Type') ?> <span class="required">*</span></th>'+
+                    '<th><?php echo Mage::helper('catalog')->__('Is Required') ?></th>'+
+                    '<th><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>'+
+                    '<th></th>'+
+                '</tr>'+
+            '</thead>'+
             '<tr>'+
                 '<td><input type="text" class="required-entry" id="<?php echo $this->getFieldId() ?>_{{id}}_title" name="<?php echo $this->getFieldName() ?>[{{id}}][title]" value="{{title}}">{{checkboxScopeTitle}}</td>'+
                 '<td><?php echo $this->getTypeSelectHtml() ?></td>'+
@@ -65,22 +50,23 @@ var productOption = {
     div : $('product_options_container_top'),
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : firstStepTemplate,
-    itemCount : 1,
+    itemCount : <?php echo $this->getItemCount() ?>,
     add : function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);
+
         if(!data.id){
     		data = {};
     		data.id  = this.itemCount;
     		data.type = '';
     		data.option_id = 0;
         } else {
-            this.itemCount = data.option_id;
+            this.itemCount = data.item_count;
         }
 
         new Insertion.After(
-				this.div,
-				this.template.evaluate(data)
-			);
+			this.div,
+			this.template.evaluate(data)
+		);
 
 		//set selected type
 	    if (data.type) {
@@ -131,9 +117,6 @@ var productOption = {
 
 var productOptionType = {
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
-    lastType : '',
-    lastGroup : '',
-    htmlGroups : $H(),
     loadStepTwo : function(event){
         var element = $(Event.findElement(event, 'select'));
 

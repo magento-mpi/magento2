@@ -137,7 +137,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      */
     public function saveOptions()
     {
-        Zend_Debug::dump($this->getOptions(), 'Options');die();
+//        Zend_Debug::dump($this->getOptions(), 'Options');die();
         foreach ($this->getOptions() as $option) {
             $this->setData($option)
                 ->setData('product_id', $this->getProduct()->getId())

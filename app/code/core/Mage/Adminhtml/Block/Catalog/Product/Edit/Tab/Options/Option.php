@@ -37,10 +37,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
     protected $_values;
 
+    protected $_itemCount = 1;
+
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('catalog/product/edit/options/option.phtml');
+    }
+
+    public function getItemCount()
+    {
+        return $this->_itemCount;
+    }
+
+    public function setItemCount($itemCount)
+    {
+        $this->_itemCount = max($this->itemCount, $itemCount);
+        return $this;
     }
 
     /**
@@ -171,18 +184,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
     {
         $optionsCollection = $this->getProduct()
             ->getProductOptionsCollection()
-            ->setOrder('option_id', 'asc')
-//            ->setOrder('title')
-            ->load();
+            ->setOrder('`main_table`.sort_order', 'desc')
+            ->setOrder('title', 'desc')
+            ->load(false);
 
         if (!$this->_values) {
             $values = array();
             $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsCollection as $option) {
                 /* @var $option Mage_Catalog_Model_Product_Option */
+
+                $this->setItemCount($option->getOptionId());
+
                 $value = array();
 
                 $value['id'] = $option->getOptionId();
+                $value['item_count'] = $this->getItemCount();
                 $value['option_id'] = $option->getOptionId();
                 $value['title'] = $option->getTitle();
                 $value['type'] = $option->getType();
@@ -200,13 +217,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                     || $option->getType() == 'multiple') {
 
                     $valueCollection = $option->getValuesCollection()
-                        ->setOrder('option_type_id', 'asc')
+                        ->setOrder('sort_order', 'desc')
+                        ->setOrder('title', 'desc')
                         ->load(false);
 
                     $i = 0;
+                    $itemCount = 0;
                     foreach ($valueCollection as $_value) {
                         /* @var $_value Mage_Catalog_Model_Product_Option_Value */
                         $value['optionValues'][$i] = array(
+                            'item_count' => max($itemCount, $_value->getOptionTypeId()),
                             'option_id' => $_value->getOptionId(),
                             'option_type_id' => $_value->getOptionTypeId(),
                             'title' => $_value->getTitle(),
@@ -257,7 +277,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
             $selectNameHtml = '[values]['.$select_id.']';
             $selectIdHtml = 'select_'.$select_id.'_';
         }
-        $checkbox = '<input type="checkbox" id="'.$this->getFieldId().'_'.$id.'_'.$selectIdHtml.$name.'_use_default" class="checkbox product-option-scope-checkbox" name="'.$this->getFieldName().'['.$id.']'.$selectNameHtml.'[scope]['.$name.']" value="1" '.$checkedHtml.'/>';
+        $checkbox = '<input type="checkbox" id="'.$this->getFieldId().'_'.$id.'_'.$selectIdHtml.$name.'_use_default" class="product-option-scope-checkbox" name="'.$this->getFieldName().'['.$id.']'.$selectNameHtml.'[scope]['.$name.']" value="1" '.$checkedHtml.'/>';
+        $checkbox .= '<label class="normal" for="'.$this->getFieldId().'_'.$id.'_'.$selectIdHtml.$name.'_use_default">Use Default Value</label>';
         return $checkbox;
     }
 
