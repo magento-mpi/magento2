@@ -302,8 +302,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
          * Product Custom Options
          */
         /* @var $optionModel Mage_Catalog_Model_Product_Option */
-        foreach ($this->getProductOptions() as $option) {
-            $this->getOptionInstance()->addOption($option);
+        $options = $this->getProductOptions();
+        if (is_array($options)) {
+            foreach ($this->getProductOptions() as $option) {
+                $this->getOptionInstance()->addOption($option);
+            }
         }
         $this->getOptionInstance()->setProduct($this)
             ->saveOptions();
