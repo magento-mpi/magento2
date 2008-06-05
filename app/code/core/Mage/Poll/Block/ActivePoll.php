@@ -34,15 +34,19 @@ class Mage_Poll_Block_ActivePoll extends Mage_Core_Block_Template
         parent::__construct();
 
         $pollModel = Mage::getModel('poll/poll');
-        $votedIds = $pollModel->getVotedPollsIds();
-        $pollId = ( Mage::getSingleton('core/session')->getJustVotedPoll() )
-            ? Mage::getSingleton('core/session')->getJustVotedPoll()
-            : $pollModel->setExcludeFilter($votedIds)->setStoreFilter(Mage::app()->getStore()->getId())->getRandomId();
-        $poll = $pollModel->load($pollId);
-
-        if( !$pollId || in_array($pollId, $votedIds) ) {
+        // get last voted poll (from session only)
+        $pollId = Mage::getSingleton('core/session')->getJustVotedPoll();
+        if (empty($pollId)) {
+            // get random not voted yet poll
+            $votedIds = $pollModel->getVotedPollsIds();
+            $pollId = $pollModel->setExcludeFilter($votedIds)
+                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->getRandomId();
+        }
+        if (empty($pollId)) {
             return false;
         }
+        $poll = $pollModel->load($pollId);
 
         $pollAnswers = Mage::getModel('poll/poll_answer')
             ->getResourceCollection()

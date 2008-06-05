@@ -26,6 +26,8 @@
 
 class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
 {
+    const XML_PATH_POLL_CHECK_BY_IP = 'web/polls/poll_check_by_ip';
+
     protected $_pollCookieDefaultName = 'poll';
     protected $_answersCollection   = array();
     protected $_storeCollection     = array();
@@ -33,6 +35,16 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('poll/poll');
+    }
+
+    /**
+     * Check if validation by IP option is enabled in config
+     *
+     * @return bool
+     */
+    public function isValidationByIp()
+    {
+        return (1 == Mage::getStoreConfig(self::XML_PATH_POLL_CHECK_BY_IP));
     }
 
     /**
@@ -49,20 +61,27 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check poll as is voted
+     * Check if poll is voted
      *
      * @param   int $pollId
      * @return  bool
      */
-    public function isVoted($pollId=null)
+    public function isVoted($pollId = null)
     {
         $pollId = $pollId === null ? $this->getId() : $pollId;
+
+        // check if it is in cookie
         $cookie = Mage::getSingleton('core/cookie')->get($this->_pollCookieDefaultName . $pollId);
-        if ($cookie === false) {
-            return false;
-        } else {
+        if (false !== $cookie) {
             return true;
         }
+
+        // check by ip
+        if (count($this->_getResource()->getVotedPollIdsByIp($_SERVER['REMOTE_ADDR'], $pollId))) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -122,14 +141,22 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     public function getVotedPollsIds()
     {
         $idsArray = array();
-        foreach( $_COOKIE as $cookieName => $cookieValue ) {
+
+        // load from cookies
+        foreach ($_COOKIE as $cookieName => $cookieValue) {
             $pattern = "/^" . $this->_pollCookieDefaultName . "([0-9]*?)$/";
-            if( preg_match($pattern, $cookieName, $m) ) {
-                if( $m[1] != Mage::getSingleton('core/session')->getJustVotedPoll() ) {
+            if (preg_match($pattern, $cookieName, $m)) {
+                if ($m[1] != Mage::getSingleton('core/session')->getJustVotedPoll()) {
                     $idsArray[$m[1]] = $m[1];
                 }
             }
         }
+
+        // load from db for this ip
+        foreach ($this->_getResource()->getVotedPollIdsByIp($_SERVER['REMOTE_ADDR']) as $pollId) {
+            $idsArray[$pollId] = $pollId;
+        }
+
         return $idsArray;
     }
 

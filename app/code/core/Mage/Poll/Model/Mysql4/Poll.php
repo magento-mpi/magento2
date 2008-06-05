@@ -84,6 +84,38 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
+    /**
+     * Get voted poll ids by specified IP-address
+     *
+     * Will return non-empty only if appropriate option in config is enabled
+     * If poll id is not empty, it will look only for records with specified value
+     *
+     * @param string $ipAddress
+     * @param int $pollId
+     * @return array
+     */
+    public function getVotedPollIdsByIp($ipAddress, $pollId = false)
+    {
+        // check if validation by ip is enabled
+        if (!Mage::getModel('poll/poll')->isValidationByIp()) {
+            return array();
+        }
+
+        // look for ids in database
+        $select = $this->_getReadAdapter()->select()
+            ->distinct()
+            ->from($this->getTable('poll_vote'), 'poll_id')
+            ->where('ip_address=?', ip2long($ipAddress));
+        if (!empty($pollId)) {
+            $select->where('poll_id=?', $pollId);
+        }
+        $result = $this->_getReadAdapter()->fetchCol($select);
+        if (empty($result)) {
+            $result = array();
+        }
+        return $result;
+    }
+
     public function resetVotesCount($object)
     {
         $read = $this->_getReadAdapter();
