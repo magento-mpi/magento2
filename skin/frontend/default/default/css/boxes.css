@@ -975,6 +975,13 @@ table.recently-list td {width:20%;}
 .product-essential .product-shop { width:330px; }
 .product-essential .product-shop .ratings { margin-bottom:4px; }
 
+.custom-options {width:100%;}
+.custom-options .data {background:#f5f2e9; padding:5px 10px;}
+.custom-options .data textarea  {width:92%; height:5em;}
+.custom-options .label {padding-top:10px;}
+
+.bundle-product select{width:95%!important;}
+
 /* Product Collateral */
 .product-collateral { background:url(../images/product_collateral_bg.gif) repeat-x #faf7ee; }
 .product-collateral .head { margin-bottom:1em; border-bottom:1px solid #e5dcc3; padding-bottom:1px; font-size:1.15em; }

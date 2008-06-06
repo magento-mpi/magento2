@@ -28,7 +28,7 @@
     </td>
 </tr>
 <tr>
-    <td>
+    <td class="data">
     <?php if ($_option->getType() == 'field'): ?>
         <input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="">
     <?php elseif ($_option->getType() == 'area'): ?>

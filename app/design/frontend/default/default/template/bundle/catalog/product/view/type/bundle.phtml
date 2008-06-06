@@ -31,7 +31,7 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
 
 <?php if($_product->isSaleable()): ?>
-    <table cellspacing="0" class="data-table" id="super-product-table">
+    <table cellspacing="0" class="data-table bundle-product" id="super-product-table">
         <thead>
             <tr>
                 <th><?php echo $this->__('Option') ?></th>
