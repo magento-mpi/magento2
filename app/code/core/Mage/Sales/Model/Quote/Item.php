@@ -18,7 +18,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Quote item model
  *
@@ -35,7 +34,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      *
      * @var Mage_Sales_Model_Quote
      */
-    protected $_quote;
+    protected $_quote   = null;
+    protected $_options = array();
+    protected $_optionsByCode = array();
 
     function _construct()
     {
@@ -123,16 +124,116 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     }
 
     /**
+     * Setup product for quote item
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  Mage_Sales_Model_Quote_Item
+     */
+    public function setProduct($product)
+    {
+        $this->setData('product', $product)
+            ->setProductId($product->getId())
+            ->setProductType($product->getTypeId())
+            ->setSku($product->getSku())
+            ->setName($product->getName())
+            ->setWeight($product->getWeight())
+            ->setTaxClassId($product->getTaxClassId())
+            ->setCost($product->getCost())
+            ->setIsVirtual($product->getIsVirtual())
+            ->setIsQtyDecimal($product->getIsQtyDecimal());
+
+        if ($options = $product->getCustomOptions()) {
+            foreach ($options as $option) {
+            	$this->addOption($option);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Retrieve product model object associated with item
      *
      * @return Mage_Catalog_Model_Product
      */
     public function getProduct()
     {
-        if (!$this->hasData('product') && $this->getProductId()) {
-            $this->setProduct(Mage::getModel('catalog/product')->load($this->getProductId()));
+        $product = $this->_getData('product');
+        if (($product === null) && $this->getProductId()) {
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId($this->getQuote()->getStoreId())
+                ->load($this->getProductId());
+            $this->setProduct($product);
         }
-        return $this->getData('product');
+        $product->setCustomOptions($this->getOptions());
+        return $product;
+    }
+
+    /**
+     * Check product representation in item
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  bool
+     */
+    public function representProduct($product)
+    {
+        $itemProduct = $this->getProduct();
+        if ($itemProduct->getId() != $product->getId()) {
+            return false;
+        }
+
+        $itemOptions    = $this->getOptions();
+        $productOptions = $product->getCustomOptions();
+        if (count($itemOptions) != count($productOptions)) {
+            return false;
+        }
+
+        foreach ($itemOptions as $option) {
+            $code = $option->getCode();
+        	if (($productOptions[$code]->getValue() === null) || $productOptions[$code]->getValue() != $option->getValue()) {
+        	    return false;
+        	}
+        }
+        return true;
+    }
+
+    /**
+     * Compare item
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  bool
+     */
+    public function compare($item)
+    {
+        if ($this->getProductId() != $item->getProductId()) {
+            return false;
+        }
+        foreach ($this->getOptions() as $option) {
+        	if ($itemOption = $item->getOptionByCode($option->getCode())) {
+                if ($itemOption->getValue() != $option->getValue()) {
+                    return false;
+                }
+        	}
+        	else {
+        	    return false;
+        	}
+        }
+        return true;
+    }
+
+    /**
+     * Get item product type
+     *
+     * @return string
+     */
+    public function getProductType()
+    {
+        if ($option = $this->getOptionByCode('product_type')) {
+            return $option->getValue();
+        }
+        if ($product = $this->getProduct()) {
+            return $product->getTypeId();
+        }
+        return $this->_getData('product_type');
     }
 
     public function toArray(array $arrAttributes=array())
@@ -147,5 +248,130 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         }
 
         return $data;
+    }
+
+    /**
+     * Initialize quote item options
+     *
+     * @param   array $options
+     * @return  Mage_Sales_Model_Quote_Item
+     */
+    public function setOptions($options)
+    {
+        $this->_options = $options;
+        foreach ($options as $option) {
+        	$this->_addOptionCode($option);
+        }
+        return $this;
+    }
+
+    /**
+     * Get all item options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+
+    /**
+     * Add option to item
+     *
+     * @param   Mage_Sales_Model_Quote_Item_Option $option
+     * @return  Mage_Sales_Model_Quote_Item
+     */
+    public function addOption($option)
+    {
+        if (is_array($option)) {
+            $option = Mage::getModel('sales/quote_item_option')->setData($option)
+                ->setItem($this);
+        }
+        elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
+        	$option = Mage::getModel('sales/quote_item_option')->setData($option->getData())
+        	   ->setItem($this);
+        }
+        elseif($option instanceof Mage_Sales_Model_Quote_Item_Option) {
+            $option->setItem($this);
+        }
+        else {
+            Mage::throwException(Mage::helper('sales')->__('Invalid item option format'));
+        }
+
+        if ($exOption = $this->getOptionByCode($option->getCode())) {
+            $exOption->addData($option->getData());
+        }
+        else {
+            $this->_addOptionCode($option);
+            $this->_options[] = $option;
+        }
+        return $this;
+    }
+
+    /**
+     * Register option code
+     *
+     * @param   Mage_Sales_Model_Quote_Item_Option $option
+     * @return  Mage_Sales_Model_Quote_Item
+     */
+    protected function _addOptionCode($option)
+    {
+        if (!isset($this->_optionsByCode[$option->getCode()])) {
+            $this->_optionsByCode[$option->getCode()] = $option;
+        }
+        else {
+            Mage::throwException(Mage::helper('sales')->__('Item option with code %s already exist'), $option->getCode());
+        }
+        return $this;
+    }
+
+    /**
+     * Get item option by code
+     *
+     * @param   string $code
+     * @return  Mage_Sales_Model_Quote_Item_Option || null
+     */
+    public function getOptionByCode($code)
+    {
+        if (isset($this->_optionsByCode[$code])) {
+            return $this->_optionsByCode[$code];
+        }
+        return null;
+    }
+
+    /**
+     * Save item options
+     *
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    protected function _afterSave()
+    {
+        foreach ($this->_options as $option) {
+        	if ($option->isDeleted()) {
+        	    $option->delete();
+        	}
+        	else {
+        	    $option->save();
+        	}
+        }
+        return parent::_afterSave();
+    }
+
+    /**
+     * Clone quote item
+     *
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    public function __clone()
+    {
+        $this->setId(null);
+        $options = $this->getOptions();
+        $this->_quote           = null;
+        $this->_options         = array();
+        $this->_optionsByCode   = array();
+        foreach ($options as $option) {
+        	$this->addOption(clone $option);
+        }
+        return $this;
     }
 }

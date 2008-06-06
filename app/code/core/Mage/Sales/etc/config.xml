@@ -450,6 +450,25 @@
                         <after>subtotal</after>
                     </grand_total>
                 </totals>
+                <item>
+                    <product_attributes>
+                        <sku/>
+                        <type_id/>
+                        <name/>
+                        <status/>
+                        <visibility/>
+                        <price/>
+                        <weight/>
+                        <url_path/>
+                        <url_key/>
+                        <thumbnail/>
+                        <small_image/>
+                        <tax_class_id/>
+                        <special_from_date/>
+                        <special_to_date/>
+                        <special_price/>
+                    </product_attributes>
+                </item>
             </quote>
             <order>
                 <statuses>

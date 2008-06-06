@@ -13,19 +13,24 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category    Mage
- * @package     Mage_Checkout
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Shopping cart item default render block
- *
- * @category    Mage
- * @package     Mage_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Checkout_Block_Cart_Render_Default extends Mage_Checkout_Block_Cart_Render_Abstract
-{
 
+class Mage_Sales_Model_Quote_Config
+{
+    const XML_PATH_QUOTE_PRODUCT_ATTRIBUTES = 'global/sales/quote/item/product_attributes';
+
+    public function getProductAttributes()
+    {
+        $attributes = Mage::getConfig()->getNode(self::XML_PATH_QUOTE_PRODUCT_ATTRIBUTES)->asArray();
+        return array_keys($attributes);
+    }
+
+    public function getTotalModels()
+    {
+
+    }
 }

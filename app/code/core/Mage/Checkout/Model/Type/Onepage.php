@@ -414,9 +414,9 @@ class Mage_Checkout_Model_Type_Onepage
         }
         $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
         foreach ($this->getQuote()->getAllItems() as $item) {
-            $item->setDescription(
+            /*$item->setDescription(
                 Mage::helper('checkout')->getQuoteItemProductDescription($item)
-            );
+            );*/
             $order->addItem($convertQuote->itemToOrderItem($item));
         }
 

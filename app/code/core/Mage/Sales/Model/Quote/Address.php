@@ -45,7 +45,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $this->_init('sales/quote_address');
     }
 
-
+    /**
+     * Initialize quote identifier before save
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     protected function _beforeSave()
     {
         parent::_beforeSave();
@@ -55,6 +59,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $this;
     }
 
+    /**
+     * Save child collections
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
     protected function _afterSave()
     {
         parent::_afterSave();
@@ -99,11 +108,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
         Mage::helper('core')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
-/*echo '<pre>';
-print_r($this->getData());
-echo '</pre>';
-*/        $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
-
+        $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
         return $this;
     }
 
@@ -115,9 +120,7 @@ echo '</pre>';
     public function exportCustomerAddress()
     {
         $address = Mage::getModel('customer/address');
-
         Mage::helper('core')->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
-
         return $address;
     }
 
@@ -255,8 +258,7 @@ echo '</pre>';
 
     public function addItem(Mage_Sales_Model_Quote_Address_Item $item)
     {
-        $item->setAddress($this)
-            ->setParentId($this->getId());
+        $item->setAddress($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }
@@ -455,7 +457,6 @@ echo '</pre>';
         return $this;
     }
 
-/*********************** TOTALS ***************************/
     public function getTotalModels()
     {
         if (!$this->_totalModels) {
@@ -512,14 +513,6 @@ echo '</pre>';
     public function __clone()
     {
         $this->setId(null);
-    }
-
-    protected function _beforeDelete()
-    {
-        parent::_beforeDelete();
-
-        $this->getItemsCollection()->walk('delete');
-        $this->getShippingRatesCollection()->walk('delete');
     }
 
     public function validateMinimumAmount()

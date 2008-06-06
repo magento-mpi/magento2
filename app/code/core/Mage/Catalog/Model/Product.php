@@ -27,7 +27,11 @@
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
-    protected $_attributeUpdates = array();
+    const CACHE_TAG         = 'catalog_product';
+    protected $_cacheTag    = 'catalog_product';
+    protected $_eventPrefix = 'catalog_product';
+    protected $_eventObject = 'product';
+
     /**
      * Product type instance
      *
@@ -42,20 +46,17 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected $_linkInstance;
 
-    protected $_priceModel = null;
+    /**
+     * Product object customization (not stored in DB)
+     *
+     * @var array
+     */
+    protected $_customOptions = array();
+
     protected $_urlModel = null;
-
-    const CACHE_TAG         = 'catalog_product';
-    protected $_cacheTag    = 'catalog_product';
-
-    protected $_eventPrefix = 'catalog_product';
-    protected $_eventObject = 'product';
 
     protected static $_url;
     protected static $_urlRewrite;
-
-    protected $_cachedLinkedProductsByType = array();
-    protected $_linkedProductsForSave = array();
 
     protected $_errors    = array();
 
@@ -64,25 +65,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_options = array();
 
     /**
-     * Super product attribute collection
-     *
-     * @var Mage_Core_Model_Mysql4_Collection_Abstract
-     */
-    protected $_superAttributeCollection = null;
-
-    /**
-     * Super product links collection
-     *
-     * @var Mage_Eav_Model_Mysql4_Entity_Collection_Abstract
-     */
-    protected $_superLinkCollection = null;
-
-    /**
      * Initialize resources
      */
     protected function _construct()
     {
-        $this->_priceModel = Mage::getSingleton('catalog/product_price');
         $this->_urlModel = Mage::getSingleton('catalog/product_url');
         $this->_init('catalog/product');
     }
@@ -100,7 +86,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function getPrice()
     {
-        return $this->getTypeInstance()->getPrice();
+        return $this->_getData('price');
     }
 
     public function getTypeId()
@@ -122,7 +108,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getTypeInstance()
     {
-        $data = $this->getData('_type_instance');
+        $data = $this->_getData('_type_instance');
         if (is_null($data)) {
             $data = Mage::getSingleton('catalog/product_type')->factory($this);
             $this->setData('_type_instance', $data);
@@ -327,9 +313,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         Mage::app()->cleanCache('catalog_product_'.$this->getId());
     }
 
-/*******************************************************************************
- ** Price API
- */
+    public function getPriceModel()
+    {
+        return Mage::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
+    }
     /**
      * Get product pricing value
      *
@@ -338,7 +325,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getPricingValue($value, $qty = null)
     {
-        return $this->_priceModel->getPricingValue($value, $this, $qty);
+        return $this->getPriceModel()->getPricingValue($value, $this, $qty);
     }
 
     /**
@@ -349,7 +336,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getTierPrice($qty=null)
     {
-        return $this->_priceModel->getTierPrice($qty, $this);
+        return $this->getPriceModel()->getTierPrice($qty, $this);
     }
 
     /**
@@ -359,7 +346,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getTierPriceCount()
     {
-        return $this->_priceModel->getTierPriceCount($this);
+        return $this->getPriceModel()->getTierPriceCount($this);
     }
 
     /**
@@ -370,7 +357,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getFormatedTierPrice($qty=null)
     {
-        return $this->_priceModel->getFormatedTierPrice($qty, $this);
+        return $this->getPriceModel()->getFormatedTierPrice($qty, $this);
     }
 
     /**
@@ -380,7 +367,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getFormatedPrice()
     {
-        return $this->_priceModel->getFormatedPrice($this);
+        return $this->getPriceModel()->getFormatedPrice($this);
     }
 
     /**
@@ -391,7 +378,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getFinalPrice($qty=null)
     {
-        return $this->_priceModel->getFinalPrice($qty, $this);
+        return $this->getPriceModel()->getFinalPrice($qty, $this);
     }
 
     /**
@@ -402,7 +389,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getCalculatedPrice(array $options)
     {
-        return $this->_priceModel->getCalculatedPrice($options, $this);
+        return $this->getPriceModel()->getCalculatedPrice($options, $this);
     }
 
     public function getCalculatedFinalPrice()
@@ -1216,4 +1203,45 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getTypeInstance()->isVirtual();
     }
 
+    /**
+     * Add custom option information to product
+     *
+     * @param   string $code
+     * @param   mixed $value
+     * @param   int $productId
+     * @return  Mage_Catalog_Model_Product
+     */
+    public function addCustomOption($code, $value, $productId=null)
+    {
+        $this->_customOptions[$code] = new Varien_Object(array(
+            'product_id'=> $productId ? $productId : $this->getId(),
+            'code'      => $code,
+            'value'     => $value
+        ));
+        return $this;
+    }
+
+    /**
+     * Get all custom options of the product
+     *
+     * @return array
+     */
+    public function getCustomOptions()
+    {
+        return $this->_customOptions;
+    }
+
+    /**
+     * Get product custom option info
+     *
+     * @param   string $code
+     * @return  array
+     */
+    public function getCustomOption($code)
+    {
+        if (isset($this->_customOptions[$code])) {
+            return $this->_customOptions[$code];
+        }
+        return null;
+    }
 }

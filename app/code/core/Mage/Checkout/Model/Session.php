@@ -76,7 +76,11 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         return $this->_quote;
     }
 
-
+    /**
+     * Load data for customer quote and merge with current quote
+     *
+     * @return Mage_Checkout_Model_Session
+     */
     public function loadCustomerQuote()
     {
         $customerQuote = Mage::getModel('sales/quote')
@@ -85,26 +89,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
         if ($this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
-                foreach ($this->getQuote()->getAllItems() as $item) {
-                    $found = false;
-                    foreach ($customerQuote->getAllItems() as $quoteItem) {
-                        if ($quoteItem->getProductId()==$item->getProductId()) {
-                            $quoteItem->setQty($quoteItem->getQty() + $item->getQty());
-                            $found = true;
-                            break;
-                        }
-                    }
-                    if (!$found) {
-                        $quoteItem = clone $item;
-                        $quoteItem->setId(null);
-                        $customerQuote->addItem($quoteItem);
-                    }
-                }
-                if ($this->getQuote()->getCouponCode()) {
-                    $customerQuote->setCouponCode($this->getQuote()->getCouponCode());
-                }
-                $customerQuote->collectTotals();
-                $customerQuote->save();
+                $customerQuote->merge($this->getQuote())
+                    ->collectTotals()
+                    ->save();
             }
 
             $this->setQuoteId($customerQuote->getId());

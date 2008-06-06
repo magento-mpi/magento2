@@ -40,34 +40,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
-     * Import item data from product model object
-     *
-     * @param   Mage_Catalog_Model_Product $product
-     * @return  Mage_Sales_Model_Quote_Item
-     */
-    public function importCatalogProduct(Mage_Catalog_Model_Product $product)
-    {
-        $this->setProductId($product->getId())
-            ->setSku($product->getSku())
-            ->setName($product->getName())
-            ->setWeight($product->getWeight())
-            ->setTaxClassId($product->getTaxClassId())
-            ->setCost($product->getCost())
-            ->setIsVirtual($product->getIsVirtual())
-            ->setIsQtyDecimal($product->getIsQtyDecimal());
-
-        if($product->getSuperProduct()) {
-            $this->setSuperProductId($product->getSuperProduct()->getId());
-            if ($product->getSuperProduct()->isConfigurable()) {
-                $this->setName($product->getSuperProduct()->getName());
-            }
-        }
-        $this->setProduct($product);
-
-        return $this;
-    }
-
-    /**
      * Checking item data
      *
      * @return Mage_Sales_Model_Quote_Item_Abstract

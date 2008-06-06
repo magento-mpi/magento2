@@ -32,30 +32,43 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     protected $_quote    = null;
 
     protected $_totals;
-
-    protected $_cartItemRenders = array();
+    protected $_itemRenders = array();
 
     public function __construct()
     {
         parent::__construct();
-        $this->addCartItemRender('default', 'checkout/cart_render_default', 'checkout/cart/render/default.phtml');
+        $this->addItemRender('default', 'checkout/cart_item_render', 'checkout/cart/item/default.phtml');
     }
 
-    public function addCartItemRender($name, $block, $template)
+    /**
+     * Add renderer for item product type
+     *
+     * @param   string $type
+     * @param   string $block
+     * @param   string $template
+     * @return  Mage_Checkout_Block_Cart_Abstract
+     */
+    public function addItemRender($type, $block, $template)
     {
-        $this->_cartItemRenders[$name] = array(
+        $this->_itemRenders[$type] = array(
             'block' => $block,
             'template' => $template
         );
         return $this;
     }
 
-    public function getCartItemRender($name)
+    /**
+     * Get renderer information by product type code
+     *
+     * @param   string $type
+     * @return  array
+     */
+    public function getItemRender($type)
     {
-        if (isset($this->_cartItemRenders[$name])) {
-            return $this->_cartItemRenders[$name];
+        if (isset($this->_itemRenders[$type])) {
+            return $this->_itemRenders[$type];
         }
-        return $this->_cartItemRenders['default'];
+        return $this->_itemRenders['default'];
     }
 
     /**
@@ -97,6 +110,33 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
         return $this->_quote;
     }
 
+    /**
+     * Get all cart items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->getQuote()->getAllItems();
+    }
+
+    /**
+     * Get item row html
+     *
+     * @param   Mage_Sales_Model_Quote_Item $item
+     * @return  string
+     */
+    public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
+    {
+        $itemRenderInfo = $this->getItemRender($item->getProductType());
+        $itemBlock = $this->getLayout()
+            ->createBlock($itemRenderInfo['block'])
+                ->setTemplate($itemRenderInfo['template'])
+                ->setItem($item);
+
+        return $itemBlock->toHtml();
+    }
+
     public function getTotals()
     {
         return $this->getTotalsCache();
@@ -109,26 +149,4 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
         }
         return $this->_totals;
     }
-
-    /**
-     * Get all cart items
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        return $this->getQuote()->getAllItems();
-    }
-
-    public function getCartItemHtml(Mage_Sales_Model_Quote_Item $item)
-    {
-        $itemRenderInfo = $this->getCartItemRender($item->getProduct()->getTypeId());
-        $itemBlock = $this->getLayout()
-            ->createBlock($itemRenderInfo['block'])
-                ->setTemplate($itemRenderInfo['template'])
-                ->setItem($item);
-
-        return $itemBlock->toHtml();
-    }
-
 }

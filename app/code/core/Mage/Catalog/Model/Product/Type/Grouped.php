@@ -27,6 +27,7 @@
  */
 class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product_Type_Abstract
 {
+    const TYPE_CODE = 'grouped';
     protected $_associatedProducts  = null;
     protected $_associatedProductIds= null;
     protected $_isComposite = true;
@@ -121,12 +122,13 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
         if (!empty($productsInfo) && is_array($productsInfo)) {
             $products = array();
             if ($associatedProducts = $this->getAssociatedProducts()) {
+                $productId = $this->getProduct()->getId();
                 foreach ($associatedProducts as $subProduct) {
                     if(isset($productsInfo[$subProduct->getId()])) {
                         $qty = $productsInfo[$subProduct->getId()];
                         if (!empty($qty)) {
                             $subProduct->setCartQty($qty);
-                            $subProduct->setSuperProduct($this->getProduct());
+                            $subProduct->addCustomOption('product_type', self::TYPE_CODE, $productId);
                             $products[] = $subProduct;
                         }
                     }

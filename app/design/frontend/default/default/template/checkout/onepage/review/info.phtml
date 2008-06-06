@@ -43,7 +43,7 @@
         <tr>
             <td>
                 <?php echo $this->htmlEscape($item->getName()) ?>
-                <?php echo $this->helper('checkout')->getQuoteItemProductDescription($item) ?>
+                <?php //echo $this->helper('checkout')->getQuoteItemProductDescription($item) ?>
             </td>
             <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getCalculationPrice()) ?></td>
             <?php if ($this->displayTaxColumn()): ?>

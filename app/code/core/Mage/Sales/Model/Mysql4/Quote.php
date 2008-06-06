@@ -45,8 +45,14 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Mysql4_Abstract
     protected function _getLoadSelect($field, $value, $object)
     {
 	   	$select = parent::_getLoadSelect($field, $value, $object);
-        if ($object->getSharedStoreIds()) {
-            $select->where('store_id IN (?)', $object->getSharedStoreIds());
+        if ($storeIds = $object->getSharedStoreIds()) {
+            $select->where('store_id IN (?)', $storeIds);
+        }
+        else {
+            /**
+             * For empty result
+             */
+            $select->where('store_id<0');
         }
         return $select;
     }

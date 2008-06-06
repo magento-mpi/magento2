@@ -29,6 +29,7 @@
  */
 class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Product_Type_Abstract
 {
+    const TYPE_CODE = 'configurable';
     /**
      * Attributes which used for configurable product
      *
@@ -145,7 +146,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         if (is_null($this->_usedProductAttributes)) {
             $this->_usedProductAttributes = array();
             foreach ($this->getConfigurableAttributes() as $attribute) {
-                $this->_usedProductAttributes[] = $attribute->getProductAttribute();
+                $this->_usedProductAttributes[$attribute->getProductAttribute()->getId()] = $attribute->getProductAttribute();
             }
         }
         return $this->_usedProductAttributes;
@@ -346,9 +347,13 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function prepareForCart(Varien_Object $buyRequest)
     {
         if ($attributes = $buyRequest->getSuperAttribute()) {
+            /**
+             * $attributes = array($attributeId=>$attributeValue)
+             */
             if ($subProduct = $this->getProductByAttributes($attributes)) {
-                $subProduct->setSuperProduct($this->getProduct());
                 $subProduct->setCartQty($buyRequest->getQty());
+                $subProduct->addCustomOption('product_type', self::TYPE_CODE, $this->getProduct()->getId());
+                $subProduct->addCustomOption('attributes', serialize($attributes));
                 return array($subProduct);
             }
         }

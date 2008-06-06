@@ -12,18 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Checkout
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Checkout
+ * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
  * Wishlist sidebar block
  *
- * @category   Mage
- * @package    Mage_Checkout
+ * @category    Mage
+ * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
@@ -31,7 +31,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     public function __construct()
     {
         parent::__construct();
-        $this->addCartItemRender('default', 'checkout/cart_render_default', 'checkout/cart/sidebar/render/default.phtml');
+        $this->addItemRender('default', 'checkout/cart_item_renderer', 'checkout/cart/sidebar/default.phtml');
     }
 
     /**
@@ -68,21 +68,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     public function getSummaryCount()
     {
         return Mage::getSingleton('checkout/cart')->getSummaryQty();
-    }
-
-    public function getCanDisplayCart()
-    {
-        return true;
-    }
-
-    public function getRemoveItemUrl($item)
-    {
-        return $this->helper('checkout/cart')->getRemoveUrl($item);
-    }
-
-    public function getMoveToWishlistItemUrl($item)
-    {
-        return $this->getUrl('checkout/cart/moveToWishlist',array('id'=>$item->getId()));
     }
 
     public function getIncExcTax($flag)

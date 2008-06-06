@@ -25,7 +25,7 @@
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
-<?php if (!Mage::registery('current_category')) return ?>
+<?php if (!Mage::registry('current_category')) return ?>
 <?php $_categories=$this->getCurrentChildCategories() ?>
 <?php if($_categories->count()): ?>
 <div class="box layered-nav">

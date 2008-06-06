@@ -73,21 +73,21 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct()
-    {#mageDebugBacktrace();
+    {
         $this->_init('sales/quote');
     }
 
-    public function setCacheKey($key)
-    {
-        $this->_cacheKey = $key;
-        return $this;
-    }
+    /**
+     * Get quote store identifier
+     *
+     * @return int
+     */
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
             return Mage::app()->getStore()->getId();
         }
-        return $this->getData('store_id');
+        return $this->_getData('store_id');
     }
 
     /**
@@ -119,7 +119,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function getSharedStoreIds()
     {
-        $ids = $this->getData('shared_store_ids');
+        $ids = $this->_getData('shared_store_ids');
         if (is_null($ids) || !is_array($ids)) {
             if ($website = $this->getWebsite()) {
             	return $website->getStoreIds();
@@ -586,7 +586,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $item = Mage::getModel('sales/quote_item');
         }
 
-        $item->importCatalogProduct($product)
+        //$item->importCatalogProduct($product)
+        $item->setProduct($product)
             ->addQty($qty);
 
         $this->addItem($item);
@@ -602,27 +603,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function getItemByProduct($product, $superProductId = null)
     {
-        if ($product instanceof Mage_Catalog_Model_Product) {
-            $productId      = $product->getId();
-            $superProductId = $product->getSuperProduct() ? $product->getSuperProduct()->getId() : null;
-        }
-        else {
-            $productId = $product;
-        }
-
         foreach ($this->getAllItems() as $item) {
-            if ($item->getSuperProductId()) {
-                if ($superProductId && $item->getSuperProductId() == $superProductId) {
-                    if ($item->getProductId() == $productId) {
-                        return $item;
-                    }
-                }
-            }
-            else {
-                if ($item->getProductId() == $productId && is_null($superProductId)) {
-                    return $item;
-                }
-            }
+        	if ($item->representProduct($product)) {
+        	    return $item;
+        	}
         }
         return false;
     }
@@ -721,7 +705,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /*********************** TOTALS ***************************/
     public function collectTotals()
     {
         $this->setGrandTotal(0);
@@ -849,5 +832,33 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function isAllowedGuestCheckout()
     {
         return Mage::getStoreConfig('checkout/options/guest_checkout');
+    }
+
+    /**
+     * Merge quotes
+     *
+     * @param   Mage_Sales_Model_Quote $quote
+     * @return  Mage_Sales_Model_Quote
+     */
+    public function merge(Mage_Sales_Model_Quote $quote)
+    {
+        foreach ($quote->getAllItems() as $item) {
+            $found = false;
+            foreach ($this->getAllItems() as $quoteItem) {
+                if ($quoteItem->compare($item)) {
+                    $quoteItem->setQty($quoteItem->getQty() + $item->getQty());
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $this->addItem(clone $item);
+            }
+        }
+
+        if ($quote->getCouponCode()) {
+            $this->setCouponCode($quote->getCouponCode());
+        }
+        return $this;
     }
 }

@@ -152,9 +152,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function isVirtual()
     {
-        if ($this->getProduct()->hasData('is_virtual')) {
-            return $this->getProduct()->getData('is_virtual');
-        }
         return false;
     }
 
@@ -184,12 +181,22 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (is_string($options)) {
             return $options;
         }
-        $buyRequest->setData('options', $options);
-        $this->getProduct()->setCartOptions($buyRequest->getOptions());
+
+        $optionIds = array_keys($options);
+        $this->getProduct()->addCustomOption('option_ids', implode(',', $optionIds));
+        foreach ($options as $optionId => $optionValue) {
+        	$this->getProduct()->addCustomOption('option_'.$optionId, $optionValue);
+        }
         $this->getProduct()->setCartQty($buyRequest->getQty());
         return array($this->getProduct());
     }
 
+    /**
+     * Check custom defined options for product
+     *
+     * @param   array $options
+     * @return  array || string
+     */
     protected function _prepareOptionsForCart($options)
     {
         $newOptions = array();
@@ -242,16 +249,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Default action to get price of product
-     *
-     * @return decimal
-     */
-    public function getPrice()
-    {
-        return $this->getProduct()->getData('price');
-    }
-
-    /**
      * Default action to get sku of product
      *
      * @return string
@@ -270,5 +267,4 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         return $this->getProduct()->getData('weight');
     }
-
 }
