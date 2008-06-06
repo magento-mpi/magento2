@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -18,15 +17,23 @@
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<config>
-    <modules>
-        <Mage_Bundle>
-            <active>true</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Catalog />
-            </depends>
-        </Mage_Bundle>
-    </modules>
-</config>
+
+/**
+ * Product option types mode source
+ *
+ * @category   Mage
+ * @package    Mage_Bundle
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Bundle_Model_Source_Option_Type
+{
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => 'select', 'label' => Mage::helper('adminhtml')->__('Drop-down')),
+            array('value' => 'radio', 'label' => Mage::helper('adminhtml')->__('Radio Buttons')),
+            array('value' => 'checkbox', 'label' => Mage::helper('adminhtml')->__('Checkbox')),
+            array('value' => 'multi', 'label' => Mage::helper('adminhtml')->__('Multiple Select'))
+        );
+    }
+}

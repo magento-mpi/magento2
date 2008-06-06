@@ -18,26 +18,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * admin product edit tabs
+ * Catalog bundle product info block
  *
  * @category    Mage
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs
+class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Radio
+    extends Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option
 {
-    protected $_attributeTabBlock = 'bundle/adminhtml_catalog_product_edit_tab_attributes';
-
-    protected function _prepareLayout()
+    public function _construct()
     {
-        parent::_prepareLayout();
-
-        $this->addTab('bundle_items', array(
-            'label'     => Mage::helper('catalog')->__('Bundle Items'),
-            'content'   => $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_bundle', 'admin.product.bundle.items')
-                ->setProductId($this->getRequest()->getParam('id'))
-                ->toHtml(),
-        ));
+        $this->setTemplate('bundle/catalog/product/view/type/bundle/option/radio.phtml');
     }
 }

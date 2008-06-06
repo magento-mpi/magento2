@@ -1,0 +1,151 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div id="<?php echo $this->getFieldId() ?>_template"  class="option-box">
+    <table class="option-header" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th><?php echo Mage::helper('catalog')->__('Title') ?></th>
+                <th><?php echo Mage::helper('catalog')->__('Input Type') ?></th>
+                <th><?php echo Mage::helper('catalog')->__('Is Require') ?></th>
+                <th><?php echo Mage::helper('catalog')->__('Position') ?></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}" name="<?php echo $this->getFieldName() ?>[{{index}}][option_id]" value="{{option_id}}">
+                <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="" class="delete">
+                <td><input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" value="{{title}}"></td>
+                <td><?php echo $this->getTypeSelectHtml() ?></td>
+                <td><?php echo $this->getRequireSelectHtml() ?></td>
+                <td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}"></td>
+                <td><?php echo $this->getOptionDeleteButtonHtml() ?></td>
+                <td><?php echo $this->getAddSelectionButtonHtml() ?></td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="<?php echo $this->getFieldId() ?>_search_{{index}}">
+    </div>
+</div>
+
+<?php echo $this->getSelectionHtml() ?>
+
+<script type="text/javascript">
+Bundle.Option = Class.create();
+Bundle.Option.prototype = {
+    idLabel : '<?php echo $this->getFieldId() ?>',
+    top : $('product_bundle_container_top'),
+    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    templateText : '',
+    itemsCount : 0,
+    initialize : function() {
+        var tText = $(this.idLabel + '_template');
+        this.templateText = '<div id="' + this.idLabel + '_{{index}}" class="' + tText.className + '">' + $(this.idLabel + '_template').innerHTML + '<div>'
+        $(this.idLabel + '_template').remove();
+    },
+
+    add : function(data) {
+        if(!data){
+            data = {};
+        }
+
+        data.index = this.itemsCount++;
+
+        this.template = new Template(this.templateText, this.templateSyntax);
+
+        option = new Insertion.After(
+                this.top,
+                this.template.evaluate(data)
+            );
+
+        //set selected type
+        if (data.type) {
+            $A($(this.idLabel + '_'+data.index+'_type').options).each(function(option){
+                if (option.value==data.type) option.selected = true;
+            });
+        }
+
+        //set selected is_require
+        if (data.required) {
+            $A($(this.idLabel + '_'+data.index+'_required').options).each(function(option){
+                if (option.value==data.required) option.selected = true;
+            });
+        }
+
+        /*
+        if (data.checkboxScopeTitle) {
+            if ($(this.idLabel + '_'+data.index+'_title') && data.scopeTitleDisabled) {
+                $(this.idLabel + '_'+data.index+'_title').disable();
+            }
+        }
+        */
+
+        return data.index;
+    },
+
+    remove : function(event){
+        var element = $(Event.findElement(event, 'div'));
+        if(element){
+            Element.getElementsBySelector(element, '.delete').each(function(elem){elem.value='1'});
+            Element.getElementsBySelector(element, ['input', 'select']).each(function(elem){elem.hide()});
+            Element.hide(element);
+        }
+    },
+
+    changeType : function(event) {
+        var element = Event.element(event);
+        parts = element.id.split('_');
+        i = parts[2];
+        if (element.value == 'multi' || element.value == 'checkbox') {
+            inputs = $A($$('#' + bSelection.idLabel + '_box_' + i + ' tr.selection input.default'));
+            inputs.each(
+                function(elem){
+                    elem.type = "checkbox";
+                }
+            );
+        } else {
+            inputs = $A($$('#' + bSelection.idLabel + '_box_' + i + ' tr.selection input.default'));
+            have = false;
+            for (i=0; i< inputs.length; i++) {
+                inputs[i].type = "radio";
+                if (inputs[i].checked && have) {
+                    inputs[i].checked = false;
+                } else {
+                    have = true;
+                }
+            }
+        }
+    }
+}
+
+var optionIndex = 0;
+var bOption = new Bundle.Option();
+//adding data to templates
+<?php foreach ($this->getOptions() as $_option): ?>
+optionIndex = bOption.add(<?php echo $_option->toJson() ?>);
+<?php if ($_option->getSelections()):?>
+    <?php foreach ($_option->getSelections() as $_selection): ?>
+bSelection.addRow(optionIndex, <?php echo $_selection->toJson() ?>);
+    <?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
+</script>

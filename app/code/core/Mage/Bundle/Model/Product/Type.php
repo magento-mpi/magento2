@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Bundle
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -22,97 +22,179 @@
  * Bundle product type implementation
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abstract
 {
-/*  from product resource model
-    public function _saveBundle($product)
+    protected $_isComposite = true;
+
+    protected $_optionsCollection;
+    protected $_selectionsCollection;
+    protected $_storeFilter = null;
+
+    protected $_usedProductsIds = null;
+    protected $_usedProducts = null;
+
+    /**
+     * Return product price based on price_type attribute
+     *
+     * @return decimal
+     */
+    public function getPrice()
     {
-        if(!$product->isBundle()) {
-            return $this;
-        }
+        /**
+         * @todo Change this to return valid price
+         */
+        return $this->getProduct()->getData('price');
+    }
 
-        $options = $product->getBundleOptions();
+    /**
+     * Return product sku based on sku_type attribute
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        /**
+         * @todo Change this to return valid sku
+         */
+        return $this->getProduct()->getData('sku');
+    }
 
-        if(!is_array($options)) { // If data copied from other store
-            $optionsCollection = $this->getBundleOptionCollection($product, true)
-                ->load();
-            $options = $optionsCollection->toArray();
-        } else {
-            $optionsCollection = $this->getBundleOptionCollection($product)
-                ->load();
-        }
+    /**
+     * Return product weight based on weight_type attribute
+     *
+     * @return decimal
+     */
+    public function getWeight()
+    {
+        /**
+         * @todo Change this to return valid weight
+         */
+        return $this->getProduct()->getData('weight');
+    }
 
-        $optionIds = array();
+    public function save()
+    {
+        parent::save();
 
-        foreach($options as $option) {
-            if($option['id'] && $optionObject = $optionsCollection->getItemById($option['id'])) {
-                $optionObject
-                    ->setStoreId($product->getStoreId());
-                $optionIds[] = $optionObject->getId();
-            } else {
-                $optionObject = $optionsCollection->getItemModel()
-                    ->setProductId($product->getId())
-                    ->setStoreId($product->getStoreId());
+        if ($options = $this->getProduct()->getBundleOptionsData()) {
+            foreach ($options as $key => $option) {
+                if (!$option['option_id']) {
+                    unset($option['option_id']);
+                }
+
+                $optionModel = Mage::getModel('bundle/option')
+                    ->setData($option)
+                    ->setParentId($this->getProduct()->getId())
+                    ->setStoreId($this->getProduct()->getStoreId());
+
+                $optionModel->isDeleted((bool)$option['delete']);
+                $optionModel->save();
+
+                $option['option_id'] = $optionModel->getOptionId();
             }
 
-            $optionObject->setLabel($option['label']);
-            $optionObject->setPosition($option['position']);
+            if ($selections = $this->getProduct()->getBundleSelectionsData()) {
+                foreach ($selections as $index => $group) {
+                    foreach ($group as $key => $selection) {
+                        if (!$selection['selection_id']) {
+                            unset($selection['selection_id']);
+                        }
 
-            $optionObject->save();
+                        $selectionModel = Mage::getModel('bundle/selection')
+                            ->setData($selection)
+                            ->setOptionId($options[$index]['option_id']);
 
-            if(!isset($option['products'])) {
-                $links = array();
-                $linksIds = array();
-                if(isset($option['links']) && is_array($option['links'])) {
-                    $links = $option['links'];
-                    $linksIds = array_keys($option['links']);
-                }
+                        $selectionModel->isDeleted((bool)$selection['delete']);
+                        $selectionModel->save();
 
-                foreach ($links as $productId=>$link) {
-                    if(!$linkObject=$optionObject->getLinkCollection()->getItemByColumnValue('product_id', $productId)) {
-                        $linkObject = clone $optionObject->getLinkCollection()->getObject();
-                    }
-
-                    $linkObject
-                        ->addData($link)
-                        ->setOptionId($optionObject->getId())
-                        ->setProductId($productId);
-                    $linkObject->save();
-                }
-
-                foreach ($optionObject->getLinkCollection() as $linkObject) {
-                    if(!in_array($linkObject->getProductId(),$linksIds)) {
-                        $linkObject->delete();
+                        $selection['selection_id'] = $selectionModel->getSelectionId();
                     }
                 }
-            }
-        }
-
-        foreach ($optionsCollection as $optionObject) {
-            if(!in_array($optionObject->getId(),$optionIds)) {
-                $optionObject->delete();
             }
         }
 
         return $this;
     }
 
-    public function getBundleOptionCollection($product, $useBaseStoreId=false)
+    public function getOptions()
     {
-        $collection = Mage::getModel('catalog/product_bundle_option')->getResourceCollection()
-                ->setProductIdFilter($product->getId());
-
-        if($useBaseStoreId) {
-            $collection->setStoreId($product->getBaseStoreId());
-        } else {
-            $collection->setStoreId($product->getStoreId());
-        }
-
-        return $collection;
+        return $this->getOptionsCollection()->getItems();
     }
 
+    public function getOptionsIds()
+    {
+        return $this->getOptionsCollection()->getAllIds();
+    }
+
+    public function getOptionsCollection()
+    {
+        if (!$this->_optionsCollection) {
+            $this->_optionsCollection = Mage::getModel('bundle/option')->getResourceCollection()
+                ->setProductIdFilter($this->getProduct()->getId())
+                ->setPositionOrder()
+                ->joinValues($this->getStoreFilter());
+        }
+        return $this->_optionsCollection;
+    }
+/*
+    public function getUsedProductsIds()
+    {
+        if (!$this->_usedProductsIds) {
+            $this->_usedProductsIds = $this->getOptionsCollection()->getUsedProductsIds();
+        }
+        return $this->_usedProductsIds;
+    }
 */
+
+    public function getSelectionsCollection($optionIds)
+    {
+        if (!$this->_selectionsCollection) {
+            $this->_selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
+                ->addAttributeToSelect('*')
+                ->setOptionIdsFilter($optionIds);
+        }
+        return $this->_selectionsCollection;
+    }
+
+
+    /**
+     * Checking if we can sale this bundle
+     *
+     * @return bool
+     */
+    public function isSalable()
+    {
+        if (!parent::isSalable()) {
+            return false;
+        }
+        return true;
+        /**
+         * @todo check all selection for available
+         */
+    }
+
+    /**
+     * Retrive store filter for associated products
+     *
+     * @return int|Mage_Core_Model_Store
+     */
+    public function getStoreFilter()
+    {
+        return $this->_storeFilter;
+    }
+
+    /**
+     * Set store filter for associated products
+     *
+     * @param $store int|Mage_Core_Model_Store
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function setStoreFilter($store=null) {
+        $this->_storeFilter = $store;
+        return $this;
+    }
+
 }

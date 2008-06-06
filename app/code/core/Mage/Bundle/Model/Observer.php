@@ -19,25 +19,33 @@
  */
 
 /**
- * admin product edit tabs
+ * Bundle Products Observer
  *
  * @category    Mage
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs
+class Mage_Bundle_Model_Observer
 {
-    protected $_attributeTabBlock = 'bundle/adminhtml_catalog_product_edit_tab_attributes';
-
-    protected function _prepareLayout()
+    /**
+     * Setting Bundle Items Data to product for father processing
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function prepareProductSave($observer)
     {
-        parent::_prepareLayout();
+        $request = $observer->getEvent()->getRequest();
+        $product = $observer->getEvent()->getProduct();
 
-        $this->addTab('bundle_items', array(
-            'label'     => Mage::helper('catalog')->__('Bundle Items'),
-            'content'   => $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_bundle', 'admin.product.bundle.items')
-                ->setProductId($this->getRequest()->getParam('id'))
-                ->toHtml(),
-        ));
+        if ($items = $request->getPost('bundle_options')) {
+            $product->setBundleOptionsData($items);
+        }
+
+        if ($selections = $request->getPost('bundle_selections')) {
+            $product->setBundleSelectionsData($selections);
+        }
+
+        return $this;
     }
 }

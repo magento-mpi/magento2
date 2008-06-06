@@ -27,16 +27,22 @@
     </modules>
     <global>
         <models>
-            <Bundle>
-                <class>Mage_Paybox_Model</class>
-                <resourceModel>paybox_mysql4</resourceModel>
-            </Bundle>
+            <bundle>
+                <class>Mage_Bundle_Model</class>
+                <resourceModel>bundle_mysql4</resourceModel>
+            </bundle>
             <bundle_mysql4>
                 <class>Mage_Bundle_Model_Mysql4</class>
                 <entities>
-                    <product>
-                        <table>catalog_product_entity</table>
-                    </product>
+                    <option>
+                        <table>catalog_product_bundle_option</table>
+                    </option>
+                    <option_value>
+                        <table>catalog_product_bundle_option_value</table>
+                    </option_value>
+                    <selection>
+                        <table>catalog_product_bundle_selection</table>
+                    </selection>
                 </entities>
             </bundle_mysql4>
         </models>
@@ -61,11 +67,9 @@
                 </connection>
             </bundle_read>
         </resources>
-
         <blocks>
             <bundle><class>Mage_Bundle_Block</class></bundle>
         </blocks>
-
         <catalog>
             <product>
                 <type>
@@ -76,9 +80,17 @@
                 </type>
             </product>
         </catalog>
-
     </global>
     <frontend>
+        <routers>
+            <bundle>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Bundle</module>
+                    <frontName>bundle</frontName>
+                </args>
+            </bundle>
+        </routers>
         <translate>
             <modules>
                 <Mage_Bundle>
@@ -88,6 +100,13 @@
                 </Mage_Bundle>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <bundle>
+                    <file>bundle.xml</file>
+                </bundle>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <translate>
@@ -106,5 +125,16 @@
                 </bundle>
             </updates>
         </layout>
+        <events>
+            <catalog_product_prepare_save>
+                <observers>
+                    <bundle_observer>
+                        <type>singleton</type>
+                        <class>bundle/observer</class>
+                        <method>prepareProductSave</method>
+                    </bundle_observer>
+                </observers>
+            </catalog_product_prepare_save>
+        </events>
     </adminhtml>
 </config>
