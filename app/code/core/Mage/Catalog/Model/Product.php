@@ -1221,6 +1221,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this;
     }
 
+    public function setCustomOptions(array $options)
+    {
+        $this->_customOptions = $options;
+    }
+
     /**
      * Get all custom options of the product
      *

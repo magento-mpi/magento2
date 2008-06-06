@@ -112,7 +112,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $oldQty = $this->getQty();
         $this->setData('qty', $qty);
 
-        Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
+        //Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
 
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
@@ -121,6 +121,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $this->setData('qty', $oldQty);
         }
         return $this;
+    }
+
+    public function getStockProductId()
+    {
+
     }
 
     /**
@@ -164,7 +169,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
                 ->load($this->getProductId());
             $this->setProduct($product);
         }
-        $product->setCustomOptions($this->getOptions());
+        $product->setCustomOptions($this->_optionsByCode);
         return $product;
     }
 
