@@ -1061,10 +1061,12 @@ fieldset.sitemap .form-list { width:auto; }
 
 .custom-options  .option-box  .border {width:615px;}
 
+
 .custom-options th {white-space:nowrap;}
 .custom-options  .type-title  {width:auto;}
 .custom-options  .type-price  {width:60px;}
 .custom-options  .type-type  {width:80px;}
+.custom-options  .type-uqty  {width:100px;}
 .custom-options  .type-sku  {width:150px;}
 .custom-options  .type-order  {width:70px;}
 .custom-options  .type-butt  {width:120px;}
@@ -1078,6 +1080,12 @@ fieldset.sitemap .form-list { width:auto; }
 
 .custom-options    .option-box  .border .type-last  .input-text {width:60px!important;}
 .custom-options     .option-box  .border  input.type-sku  {width:150px !important;}
+
+/*bundle product*/
+.bundle  .option-box  .border {width:100%; border-bottom:0;}
+.bundle  .option-box  .border td {border-bottom:1px solid #dce5e6!important;}
+.bundle  .border button {width:75px;}
+.bundle  .border .last {width:80px;}
 
 /* CUSTOMER
 *******************************************************************************/

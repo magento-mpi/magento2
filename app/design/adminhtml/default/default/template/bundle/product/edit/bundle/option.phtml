@@ -26,11 +26,11 @@
                 <?php if (!$this->isDefaultStore()): ?>
                 <th><?php echo Mage::helper('catalog')->__('Store View Title') ?></th>
                 <?php endif; ?>
-                <th><?php echo Mage::helper('catalog')->__('Input Type') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Is Require') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Position') ?></th>
-                <th></th>
-                <th></th>
+                <th class="opt-type"><?php echo Mage::helper('catalog')->__('Input Type') ?></th>
+                <th class="opt-req"><?php echo Mage::helper('catalog')->__('Is Require') ?></th>
+                <th class="opt-order"><?php echo Mage::helper('catalog')->__('Position') ?></th>
+                <th class="opt-title">&nbsp;</th>
+                <th class="a-right"><?php echo $this->getOptionDeleteButtonHtml() ?></th>
             </tr>
         </thead>
         <tbody>
@@ -46,8 +46,8 @@
                 <td><?php echo $this->getTypeSelectHtml() ?></td>
                 <td><?php echo $this->getRequireSelectHtml() ?></td>
                 <td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}"></td>
-                <td><?php echo $this->getOptionDeleteButtonHtml() ?></td>
-                <td><?php echo $this->getAddSelectionButtonHtml() ?></td>
+                <td>&nbsp;<?php echo $this->getAddSelectionButtonHtml() ?></td>
+                <td>&nbsp;</td>
             </tr>
         </tbody>
     </table>

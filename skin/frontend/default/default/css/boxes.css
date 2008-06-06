@@ -1029,6 +1029,7 @@ select.address-select {width:630px}
 /* Shopping Cart */
 .shopping-cart  { margin-bottom:0; }
 .shopping-cart th, .shopping-cart td { padding-left:13px; padding-right:13px; }
+.shopping-cart th .tax-flag {font-size:0.9em; font-weight:normal; display:block;}
 .shopping-cart tr.error { background:#FDE6E0 !important; }
 .shopping-cart .continue-shopping { float: left; }
 .shopping-cart-item-message {margin-bottom:5px;font-size:95%;margin-top:6px;}
@@ -1058,6 +1059,7 @@ td.attributes-col p.pname a{ font-weight:bold;}
 .shopping-cart-totals tfoot td {
 	padding-top:10px;
     font-size:1.3em;
+	border:none!important;
     }
 .shopping-cart-totals .checkout-types { margin:15px; }
 .shopping-cart-totals .checkout-types li { clear:both;  margin:10px 0; }

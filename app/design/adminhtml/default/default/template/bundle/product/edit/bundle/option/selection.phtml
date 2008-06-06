@@ -18,18 +18,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="bundle_selection_box_template" class="grid tier form-list">
+<div id="bundle_selection_box_template" class="grid tier form-list hor-scroll">
     <table class="border" cellpadding="0" cellspacing="0">
         <thead>
-            <tr>
+            <tr class="headings">
                 <th><?php echo Mage::helper('catalog')->__('Name') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Price') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Price Type') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Default Qty') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('User Defined Qty') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Position') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Default') ?></th>
-                <th></th>
+                <th class="type-price"><?php echo Mage::helper('catalog')->__('Price') ?></th>
+                <th class="type-type"><?php echo Mage::helper('catalog')->__('Price Type') ?></th>
+                <th class="type-price"><?php echo Mage::helper('catalog')->__('Default Qty') ?></th>
+                <th class="type-uqty"><?php echo Mage::helper('catalog')->__('User Defined Qty') ?></th>
+                <th class="type-order"><?php echo Mage::helper('catalog')->__('Position') ?></th>
+                <th style="width:1px"><?php echo Mage::helper('catalog')->__('Default') ?></th>
+                <th class="last">&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -46,8 +46,8 @@
                 <td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_qty]" value="{{selection_qty}}"></td>
                 <td><?php echo $this->getQtyTypeSelectHtml() ?></td>
                 <td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][position]" value="{{position}}"></td>
-                <td><input onchange="bSelection.checkGroup(event)" type="{{option_type}}" class="default" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]" value="1" {{checked}}></td>
-                <td><?php echo $this->getSelectionDeleteButtonHtml() ?></td>
+                <td class="a-center"><input onchange="bSelection.checkGroup(event)" type="{{option_type}}" class="default" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]" value="1" {{checked}}></td>
+                <td class="last"><?php echo $this->getSelectionDeleteButtonHtml() ?></td>
             </tr>
         </tbody>
     </table>
