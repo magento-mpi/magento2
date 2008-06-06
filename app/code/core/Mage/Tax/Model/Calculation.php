@@ -97,10 +97,13 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
             if (!$session->isLoggedIn()) {
                 $basedOn = 'default';
             } else {
-                if ($basedOn == 'billing' && $session->getCustomer()->getDefaultBillingAddress()->getCountryId()) {
-                    $billingAddress = $session->getCustomer()->getDefaultBillingAddress();
-                } else if ($basedOn == 'shipping' && $session->getCustomer()->getDefaultShippingAddress()->getCountryId()) {
-                    $shippingAddress = $session->getCustomer()->getDefaultShippingAddress();
+                $defBilling = $session->getCustomer()->getDefaultBillingAddress();
+                $defShipping = $session->getCustomer()->getDefaultShippingAddress();
+
+                if ($basedOn == 'billing' && $defBilling && $defBilling->getCountryId()) {
+                    $billingAddress = $defBilling;
+                } else if ($basedOn == 'shipping' && $defShipping && $defShipping->getCountryId()) {
+                    $shippingAddress = $defShipping;
                 } else {
                     $basedOn = 'default';
                 }
