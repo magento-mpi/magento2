@@ -66,18 +66,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     protected function _afterLoad()
     {
-    	if ($this->_addUrlRewrite) {
-    	   $this->_addUrlRewrite($this->_urlRewriteCategory);
-    	}
-    	if ($this->_addMinimalPrice) {
-    	   $this->_addMinimalPrice();
-    	}
-    	if ($this->_addFinalPrice) {
-    	   $this->_addFinalPrice();
-    	}
-    	if ($this->_addTaxPercents) {
-    	    $this->_addTaxPercents();
-    	}
+        if ($this->_addUrlRewrite) {
+           $this->_addUrlRewrite($this->_urlRewriteCategory);
+        }
+        if ($this->_addMinimalPrice) {
+           $this->_addMinimalPrice();
+        }
+        if ($this->_addFinalPrice) {
+           $this->_addFinalPrice();
+        }
+        if ($this->_addTaxPercents) {
+            $this->_addTaxPercents();
+        }
         if (count($this)>0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         }
@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      * @param   mixed $productId
      * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
-    public function addIdFilter($productId)
+    public function addIdFilter($productId, $exclude = false)
     {
         if (empty($productId)) {
             $this->_setIsLoaded(true);
@@ -98,14 +98,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
         if (is_array($productId)) {
             if (!empty($productId)) {
-                $condition = array('in'=>$productId);
+                if ($exclude) {
+                    $condition = array('nin'=>$productId);
+                } else {
+                    $condition = array('in'=>$productId);
+                }
             }
             else {
                 $condition = '';
             }
         }
         else {
-            $condition = $productId;
+            if ($exclude) {
+                $condition = array('neq'=>$productId);
+            } else {
+                $condition = $productId;
+            }
         }
         $this->addFieldToFilter('entity_id', $condition);
         return $this;
@@ -121,7 +129,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $productStores = array();
         foreach ($this as $product) {
-        	$productWebsites[$product->getId()] = array();
+            $productWebsites[$product->getId()] = array();
         }
 
         if (!empty($productWebsites)) {
@@ -139,7 +147,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
             $data = $this->getConnection()->fetchAll($select);
             foreach ($data as $row) {
-            	$productWebsites[$row['product_id']][] = $row['website_id'];
+                $productWebsites[$row['product_id']][] = $row['website_id'];
             }
         }
 
@@ -273,7 +281,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $res    = array();
 
         foreach ($data as $row) {
-        	$res[$row['range_'.$attributeCode]] = $row['count_'.$attributeCode];
+            $res[$row['range_'.$attributeCode]] = $row['count_'.$attributeCode];
         }
         return $res;
     }
@@ -311,7 +319,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $res    = array();
 
         foreach ($data as $row) {
-        	$res[$row['value_'.$attributeCode]] = $row['count_'.$attributeCode];
+            $res[$row['value_'.$attributeCode]] = $row['count_'.$attributeCode];
         }
         return $res;
     }
@@ -343,10 +351,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addCountToCategories($categoryCollection)
     {
         foreach ($categoryCollection as $category) {
-        	$select     = clone $this->getSelect();
-        	$select->reset(Zend_Db_Select::COLUMNS);
-        	$select->reset(Zend_Db_Select::GROUP);
-        	$select->distinct(false);
+            $select     = clone $this->getSelect();
+            $select->reset(Zend_Db_Select::COLUMNS);
+            $select->reset(Zend_Db_Select::GROUP);
+            $select->distinct(false);
             $select->join(
                     array('category_count_table' => $this->_productCategoryTable),
                     'category_count_table.product_id=e.entity_id',
@@ -360,7 +368,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $select->where($this->getConnection()->quoteInto('category_count_table.category_id=?', $category->getId()));
             }
 
-        	$category->setProductCount((int) $this->getConnection()->fetchOne($select));
+            $category->setProductCount((int) $this->getConnection()->fetchOne($select));
         }
         return $this;
     }
