@@ -26,6 +26,8 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     const PRICE_CONVERSION_PLUS = 1;
     const PRICE_CONVERSION_MINUS = 2;
 
+
+    protected $_displayTaxColumn;
     protected $_taxData;
     protected $_priceIncludesTax;
     protected $_applyTaxAfterDiscount;
@@ -135,5 +137,84 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     public function displayFullSummary($store = null)
     {
         return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY, $store) == 1);
+    }
+
+    public function displayTaxColumn($store = null)
+    {
+        if (is_null($this->_displayTaxColumn)) {
+            $this->_displayTaxColumn = true;
+
+            if (!Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN, $store)) {
+                $this->_displayTaxColumn = false;
+            }
+        }
+        return $this->_displayTaxColumn;
+    }
+
+    public function getPriceFormat($store = null)
+    {
+        return Zend_Json::encode(Mage::app()->getLocale()->getJsPriceFormat());
+    }
+
+    public function getTaxRatesByProductClass()
+    {
+        $result = array();
+        $calc = Mage::getModel('tax/calculation');
+        $rates = $calc->getRatesForAllProductTaxClasses($calc->getRateRequest());
+
+        foreach ($rates as $class=>$rate) {
+            $result["value_{$class}"] = $rate;
+        }
+
+        return Zend_Json::encode($result);
+    }
+
+    public function getPrice($product, $price, $includingTax = null)
+    {
+        $store = Mage::app()->getStore();
+        $percent = $product->getTaxPercent();
+
+        if (is_null($percent)) {
+            $taxClassId = $product->getTaxClassId();
+            if ($taxClassId) {
+                $request = Mage::getModel('tax/calculation')->getRateRequest();
+                $percent = Mage::getModel('tax/calculation')->getRate($request->setProductClassId($taxClassId));
+            }
+        }
+
+        if (!$percent) {
+            return $price;
+        }
+
+        $product->setTaxPercent($percent);
+
+        if (is_null($includingTax)) {
+            switch ($this->needPriceConversion()) {
+                case self::PRICE_CONVERSION_MINUS:
+                    return $this->_calculatePrice($price, $percent, false);
+                case self::PRICE_CONVERSION_PLUS:
+                    return $this->_calculatePrice($price, $percent, true);
+                default:
+                    return $price;
+            }
+        }
+
+        if ($this->priceIncludesTax() && !$includingTax) {
+            return $this->_calculatePrice($price, $percent, false);
+        } else if (!$this->priceIncludesTax() && $includingTax) {
+            return $this->_calculatePrice($price, $percent, true);
+        }
+        return $price;
+
+    }
+
+    protected function _calculatePrice($price, $percent, $type)
+    {
+        $store = Mage::app()->getStore();
+        if ($type) {
+            return $store->roundPrice($price * (1+($percent/100)));
+        } else {
+            return $store->roundPrice($price - ($price/(100+$percent)*$percent));
+        }
     }
 }

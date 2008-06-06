@@ -23,6 +23,10 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
 {
     protected $_appliedTaxes = array();
 
+    public function __construct(){
+        $this->setCode('tax');
+    }
+
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $store = $address->getQuote()->getStore();
@@ -41,12 +45,13 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
 
         foreach ($items as $item) {
         	$rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
-        	$this->_appliedTaxes = $taxCalculationModel->getAppliedRates($request);
-//        	$item->setTaxString($tax->getRateCalculationString());
+
             $item->setTaxPercent($rate);
             $item->calcTaxAmount();
             $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
             $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
+
+        	$this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $item->getTaxAmount(), $rate);
         }
 
         $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
@@ -62,6 +67,8 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
 
                 $address->setTaxAmount($address->getTaxAmount() + $shippingTax);
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $shippingBaseTax);
+
+            	$this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $shippingTax, $rate);
             }
         }
 
@@ -70,35 +77,37 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         return $this;
     }
 
-    protected function _getAppliedTaxes()
+    protected function _saveAppliedTaxes(Mage_Sales_Model_Quote_Address $address, $applied, $amount, $rate)
     {
-        return $this->_appliedTaxes;
+        $previouslyAppliedTaxes = $address->getAppliedTaxes();
+    	foreach ($applied as $row) {
+            if (!isset($previouslyAppliedTaxes[$row['id']])) {
+                $row['amount'] = 0;
+                $previouslyAppliedTaxes[$row['id']] = $row;
+            }
+            $appliedAmount = $amount/$rate*$row['percent'];
+
+            if ($appliedAmount || $previouslyAppliedTaxes[$row['id']]['amount']) {
+                $previouslyAppliedTaxes[$row['id']]['amount'] += $appliedAmount;
+            } else {
+                unset($previouslyAppliedTaxes[$row['id']]);
+            }
+    	}
+        $address->setAppliedTaxes($previouslyAppliedTaxes);
     }
 
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
+        $applied = $address->getAppliedTaxes();
         $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
         if ($amount!=0) {
-            if (Mage::helper('tax')->displayFullSummary($store)) {
-                $calculationTotal = $address->getSubtotal();
-                if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
-                    $calculationTotal -= $address->getDiscountAmount();
-                }
-                foreach ($this->_getAppliedTaxes() as $tax) {
-                    $address->addTotal(array(
-                        'code'=>$tax->getCode(),
-                        'title'=>Mage::helper('sales')->__('Tax: %s - %d%%', $tax->getCode(), $tax->getRate()*1),
-                        'value'=>$calculationTotal*$tax->getRate()/100,
-                    ));
-                }
-            } else {
-                $address->addTotal(array(
-                    'code'=>$this->getCode(),
-                    'title'=>Mage::helper('sales')->__('Tax'),
-                    'value'=>$amount
-                ));
-            }
+            $address->addTotal(array(
+                'code'=>$this->getCode(),
+                'title'=>Mage::helper('sales')->__('Tax'),
+                'full_info'=>$applied ? $applied : array(),
+                'value'=>$amount
+            ));
         }
         return $this;
     }

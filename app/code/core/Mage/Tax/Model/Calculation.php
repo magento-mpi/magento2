@@ -30,6 +30,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     protected $_ptc = array();
 
     protected $_rateCache = array();
+    protected $_rateCalculationProcess = array();
 
     protected function _construct()
     {
@@ -75,23 +76,37 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         $cacheKey = "{$request->getProductClassId()}|{$request->getCustomerClassId()}|{$request->getCountryId()}|{$request->getRegionId()}|{$request->getPostcode()}";
         if (!isset($this->_rateCache[$cacheKey])) {
             $this->unsRateValue();
+            $this->unsCalculationProcess();
             Mage::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
             if (!$this->hasRateValue()) {
+                $this->setCalculationProcess($this->_getResource()->getCalculationProcess($request));
                 $this->setRateValue($this->_getResource()->getRate($request));
             }
             $this->_rateCache[$cacheKey] = $this->getRateValue();
+            $this->_rateCalculationProcess[$cacheKey] = $this->getCalculationProcess();
         }
         return $this->_rateCache[$cacheKey];
     }
 
     public function getRateRequest($shippingAddress = null, $billingAddress = null, $customerTaxClass = null, $store = null)
     {
+        $address = new Varien_Object();
+        $session = Mage::getSingleton('customer/session');
         $basedOn = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
         if (((is_null($billingAddress) || !$billingAddress->getCountryId()) && $basedOn == 'billing') || ((is_null($shippingAddress) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping')){
-            $basedOn = 'default';
+            if (!$session->isLoggedIn()) {
+                $basedOn = 'default';
+            } else {
+                if ($basedOn == 'billing' && $session->getCustomer()->getDefaultBillingAddress()->getCountryId()) {
+                    $billingAddress = $session->getCustomer()->getDefaultBillingAddress();
+                } else if ($basedOn == 'shipping' && $session->getCustomer()->getDefaultShippingAddress()->getCountryId()) {
+                    $shippingAddress = $session->getCustomer()->getDefaultShippingAddress();
+                } else {
+                    $basedOn = 'default';
+                }
+            }
         }
 
-        $address = new Varien_Object();
         switch ($basedOn) {
             case 'billing':
                 $address = $billingAddress;
@@ -155,10 +170,17 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
 
     public function getAppliedRates($request)
     {
+        $cacheKey = "{$request->getProductClassId()}|{$request->getCustomerClassId()}|{$request->getCountryId()}|{$request->getRegionId()}|{$request->getPostcode()}";
+        if (!isset($this->_rateCalculationProcess[$cacheKey])) {
+            $this->_rateCalculationProcess[$cacheKey] = $this->_getResource()->getCalculationProcess($request);
+        }
+        return $this->_rateCalculationProcess[$cacheKey];
+        /*
         $rateIds = $this->_getResource()->getRateIds($request);
         if ($rateIds) {
             return Mage::getModel('tax/calculation_rate')->getCollection()->addFieldToFilter('tax_calculation_rate_id', $rateIds);
         }
         return array();
+        */
     }
 }

@@ -54,6 +54,9 @@
             <th class="a-center"><?php echo $this->__('Move to Wishlist') ?></th>
             <?php endif ?>
             <th class="a-right"><?php echo $this->__('Unit Price') ?><?php echo $this->getIncExcTax(false) ?></th>
+            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
+            <th class="a-right"><?php echo $this->__('Unit Price') ?><?php echo $this->getIncExcTax(true) ?></th>
+            <?php endif; ?>
             <th class="a-center"><?php echo $this->__('Qty') ?></th>
             <th class="a-right"><?php echo $this->__('Subtotal') ?><?php echo $this->getIncExcTax(false) ?></th>
         </tr>
@@ -88,28 +91,8 @@
 </div>
 
 <div class="shopping-cart-totals">
-    <table cellspacing="0" id="shoping-cart-totals-table">
-        <tfoot>
-        <?php foreach($this->getTotals() as $total): ?>
-            <?php if($total->getArea()=='footer'): ?>
-            <tr>
-                <td><strong><?php echo $total->getTitle() ?></strong></td>
-                <td class="nowrap"><strong><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></strong></td>
-            </tr>
-            <?php endif ?>
-        <?php endforeach ?>
-        </tfoot>
-        <tbody>
-        <?php foreach($this->getTotals() as $total): ?>
-            <?php if(!$total->getArea()): ?>
-            <tr>
-                <td style="<?php echo $total->getStyle() ?>"><?php echo $total->getTitle() ?></td>
-                <td style="<?php echo $total->getStyle() ?>"><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></td>
-            </tr>
-            <?php endif ?>
-        <?php endforeach ?>
-        </tbody>
-    </table>
+    <?php echo $this->getChildHtml('totals'); ?>
+
     <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
     <?php if(!$this->hasError()): ?>
     <ul class="checkout-types">

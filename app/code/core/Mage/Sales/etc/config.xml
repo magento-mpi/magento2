@@ -444,6 +444,7 @@
                         <class>sales/quote_address_total_tax</class>
                         <after>subtotal,shipping</after>
                         <before>grand_total</before>
+                        <renderer>checkout/total_tax</renderer>
                     </tax>
                     <grand_total>
                         <class>sales/quote_address_total_grand</class>

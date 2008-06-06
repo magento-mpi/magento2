@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * Template for Mage_Adminhtml_Block_Catalog_Product_Edit
  */
@@ -40,7 +40,7 @@
 			<?php echo $this->getSaveButtonHtml() ?>
 			<?php echo $this->getSaveAndEditButtonHtml() ?>
 		<?php endif; ?>
-	</p>   
+	</p>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product_edit_form" enctype="multipart/form-data">
 <input type="hidden" name="links[related]" id="_related_products" value="" />
@@ -85,7 +85,6 @@
         }
         return 1;
     }
-
 
 <?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
     var productLinksController = Class.create();

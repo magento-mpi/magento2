@@ -23,21 +23,14 @@
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
             <th class="a-right"><?php echo $this->__('Price') ?></th>
-            <?php if ($this->displayTaxColumn()): ?>
+            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
             <th class="a-right"><?php echo $this->__('Price incl. Tax') ?></th>
             <?php endif; ?>
             <th class="a-center"><?php echo $this->__('Qty') ?></th>
             <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
-    <tfoot>
-<?php $l=sizeof($this->getTotals()); $i=0; foreach($this->getTotals() as $total): $i++ ?>
-        <tr>
-            <td style="<?php echo $total->getStyle() ?>" class="a-right" colspan="<?php echo ($this->displayTaxColumn() ? 4 : 3) ?>"><?php echo $total->getTitle() ?></td>
-            <td style="<?php echo $total->getStyle() ?>" class="a-right"><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></td>
-        </tr>
-<?php endforeach ?>
-    </tfoot>
+    <?php echo $this->getChildHtml('totals'); ?>
     <tbody>
 <?php $l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++ ?>
         <tr>
@@ -46,7 +39,7 @@
                 <?php //echo $this->helper('checkout')->getQuoteItemProductDescription($item) ?>
             </td>
             <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getCalculationPrice()) ?></td>
-            <?php if ($this->displayTaxColumn()): ?>
+            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
             <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getCalculationPrice()+$item->getTaxAmount()/$item->getQty()) ?></td>
             <?php endif; ?>
             <td class="a-center"><?php echo $item->getQty()*1 ?></td>

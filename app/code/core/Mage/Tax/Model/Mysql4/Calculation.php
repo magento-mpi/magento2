@@ -49,6 +49,45 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         return $this->_calculateRate($this->_getRates($request));
     }
 
+    public function getCalculationProcess($request)
+    {
+        $rates = $this->_getRates($request);
+
+        $result = array();
+        $row = array();
+        $ids = array();
+        $currentRate = 0;
+        $totalPercent = 0;
+        for ($i=0; $i<count($rates); $i++) {
+            $rate = $rates[$i];
+            $row['rates'][] = array('title'=>$rate['code'], 'percent'=>$rate['value']*1);
+
+            $rule = $rate['tax_calculation_rule_id'];
+            $value = $rate['value'];
+            $priority = $rate['priority'];
+            $ids[] = $rate['code'];
+
+            while(isset($rates[$i+1]) && $rates[$i+1]['tax_calculation_rule_id'] == $rule) {
+                $i++;
+            }
+
+            $currentRate += $value;
+
+            if (!isset($rates[$i+1]) || $rates[$i+1]['priority'] != $priority) {
+                $row['percent'] = (100+$totalPercent)*($currentRate/100);
+                $row['id'] = implode($ids);
+                $result[] = $row;
+                $row = array();
+                $ids = array();
+
+                $totalPercent += (100+$totalPercent)*($currentRate/100);
+                $currentRate = 0;
+            }
+        }
+
+        return $result;
+    }
+
     protected function _getRates($request)
     {
         $select = $this->_getReadAdapter()->select();
@@ -58,7 +97,7 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
             ->where('product_tax_class_id = ?', $request->getProductClassId());
 
         $select->join(array('rule'=>$this->getTable('tax/tax_calculation_rule')), 'rule.tax_calculation_rule_id = main_table.tax_calculation_rule_id', array('rule.priority'));
-        $select->join(array('rate'=>$this->getTable('tax/tax_calculation_rate')), 'rate.tax_calculation_rate_id = main_table.tax_calculation_rate_id', array('value'=>'rate.rate', 'rate.tax_country_id', 'rate.tax_region_id', 'rate.tax_postcode', 'rate.tax_calculation_rate_id'));
+        $select->join(array('rate'=>$this->getTable('tax/tax_calculation_rate')), 'rate.tax_calculation_rate_id = main_table.tax_calculation_rate_id', array('value'=>'rate.rate', 'rate.tax_country_id', 'rate.tax_region_id', 'rate.tax_postcode', 'rate.tax_calculation_rate_id', 'rate.code'));
 
         $select
             ->where("rate.tax_country_id = ?", $request->getCountryId())

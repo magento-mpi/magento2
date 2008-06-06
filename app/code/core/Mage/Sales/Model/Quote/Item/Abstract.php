@@ -182,7 +182,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $priceExcludingTax = $value - $taxAmount;
 
             $totalTax = $this->getStore()->convertPrice($taxAmount)*$this->getQty();
-            if (Mage::helper('tax')->priceIncludesTax($store)) {
+            if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
                 $totalTax -= $this->getDiscountAmount()*($rate/100);
             }
             $this->setTaxAmount($totalTax);
