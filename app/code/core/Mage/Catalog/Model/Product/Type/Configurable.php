@@ -159,12 +159,14 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getConfigurableAttributes()
     {
+        Varien_Profiler::start('CONFIGURABLE:'.__METHOD__);
         if (is_null($this->_configurableAttributes)) {
             $this->_configurableAttributes = $this->getConfigurableAttributeCollection()
                 ->orderByPosition()
                 ->load();
 
         }
+        Varien_Profiler::stop('CONFIGURABLE:'.__METHOD__);
         return $this->_configurableAttributes;
     }
 
@@ -354,8 +356,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             if ($subProduct = $this->getProductByAttributes($attributes)) {
                 $product->setCartQty($buyRequest->getQty());
                 $product->addCustomOption('attributes', serialize($attributes));
-                $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct->getId());
-                $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct->getId());
+                $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
+                $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
                 return array($product);
             }
         }

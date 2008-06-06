@@ -294,6 +294,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         }
         elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
         	$option = Mage::getModel('sales/quote_item_option')->setData($option->getData())
+        	   ->setProduct($option->getProduct())
         	   ->setItem($this);
         }
         elseif($option instanceof Mage_Sales_Model_Quote_Item_Option) {

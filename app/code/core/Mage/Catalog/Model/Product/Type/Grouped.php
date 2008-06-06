@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                         $qty = $productsInfo[$subProduct->getId()];
                         if (!empty($qty)) {
                             $subProduct->setCartQty($qty);
-                            $subProduct->addCustomOption('product_type', self::TYPE_CODE, $productId);
+                            $subProduct->addCustomOption('product_type', self::TYPE_CODE, $this->getProduct());
                             $products[] = $subProduct;
                         }
                     }

@@ -1211,12 +1211,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * @param   int $productId
      * @return  Mage_Catalog_Model_Product
      */
-    public function addCustomOption($code, $value, $productId=null)
+    public function addCustomOption($code, $value, $product=null)
     {
+        $product = $product ? $product : $this;
         $this->_customOptions[$code] = new Varien_Object(array(
-            'product_id'=> $productId ? $productId : $this->getId(),
+            'product_id'=> $product->getId(),
+            'product'   => $product,
             'code'      => $code,
-            'value'     => $value
+            'value'     => $value,
         ));
         return $this;
     }
