@@ -57,10 +57,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $quoteShippingAddress->importCustomerAddress($defaultShipping);
 
                 foreach ($this->getQuoteItems() as $item) {
-                    $addressItem = Mage::getModel('sales/quote_address_item')
-                        ->importQuoteItem($item);
-
+                    $addressItem = Mage::getModel('sales/quote_address_item');
                     $quoteShippingAddress->addItem($addressItem);
+                    $addressItem->importQuoteItem($item);
                 }
                 /**
                  * Collect rates before display shipping methods
