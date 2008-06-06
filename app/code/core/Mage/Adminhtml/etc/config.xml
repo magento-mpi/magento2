@@ -283,10 +283,26 @@
                                             <title>Customers Section</title>
                                             <sort_order>50</sort_order>
                                         </customer>
-                                            <sales>
+                                        <tax>
+                                            <title>Tax Section</title>
+                                            <sort_order>55</sort_order>
+                                        </tax>
+                                        <sales>
                                             <title>Sales Section</title>
                                             <sort_order>60</sort_order>
                                         </sales>
+                                        <sales_email>
+                                            <title>Sales Emails Section</title>
+                                            <sort_order>65</sort_order>
+                                        </sales_email>
+                                        <checkout>
+                                            <title>Checkout Section</title>
+                                            <sort_order>70</sort_order>
+                                        </checkout>
+                                        <strikeiron>
+                                            <title>Strikeiron Section</title>
+                                            <sort_order>75</sort_order>
+                                        </strikeiron>
                                         <system>
                                             <title>System Section</title>
                                             <sort_order>80</sort_order>
@@ -311,6 +327,10 @@
                                             <title>Allowed Settings</title>
                                             <sort_order>130</sort_order>
                                         </allow>
+                                        <rss>
+                                            <title>Rss Feeds Section</title>
+                                            <sort_order>135</sort_order>
+                                        </rss>
                                         <sendfriend>
                                             <title>Email to a Friend</title>
                                             <sort_order>140</sort_order>
