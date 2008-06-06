@@ -76,6 +76,11 @@
                     <bundle translate="label" module="bundle">
                         <label>Bundle Product</label>
                         <model>bundle/product_type</model>
+                        <allowed_selection_types>
+                            <simple />
+                            <virtual />
+                            <downloadable />
+                        </allowed_selection_types>
                     </bundle>
                 </type>
             </product>

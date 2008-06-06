@@ -52,7 +52,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->addAttributeToFilter('type_id', array('in' => $this->getAllowedSelectionTypes()))
             ->addStoreFilter();
 
         if ($products = $this->_getProducts()) {
@@ -139,6 +139,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     {
         return Mage::app()->getStore();
     }
+
+    public function getAllowedSelectionTypes()
+    {
+        $config = Mage::getConfig()->getNode('global/catalog/product/type/bundle')->asArray();
+        return array_keys($config['allowed_selection_types']);
+    }
+
 
 }
 

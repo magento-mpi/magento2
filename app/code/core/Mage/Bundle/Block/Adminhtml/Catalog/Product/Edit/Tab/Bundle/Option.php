@@ -190,4 +190,9 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
 
         return $select->getHtml();
     }
+
+    public function isDefaultStore()
+    {
+        return ($this->getProduct()->getStoreId() == '0');
+    }
 }
