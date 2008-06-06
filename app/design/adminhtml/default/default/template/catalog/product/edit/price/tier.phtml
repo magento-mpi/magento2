@@ -38,7 +38,7 @@
                 <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
                 <th><?php echo Mage::helper('catalog')->__('Customer Group') ?></th>
                 <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Price') ?></th>
+                <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
                 <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
             </tr>
             <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
