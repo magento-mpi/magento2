@@ -105,7 +105,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770, 'UTF-8');
         $page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760, 'UTF-8');
 
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, 755, 275, 730);
@@ -144,7 +144,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         }
 
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineWidth(0.5);
         $page->drawRectangle(25, $this->y, 275, $this->y-25);
         $page->drawRectangle(275, $this->y, 570, $this->y-25);
@@ -189,7 +189,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->drawText(Mage::helper('sales')->__('(Total Shipping Charges %s)', $order->formatPriceTxt($order->getBaseShippingAmount())), 285, $yShipments-7, 'UTF-8');
         $yShipments -=10;
-        $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+        $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineWidth(0.5);
         $page->drawRectangle(285, $yShipments, 565, $yShipments - 10);
         $page->drawLine(380, $yShipments, 380, $yShipments - 10);
