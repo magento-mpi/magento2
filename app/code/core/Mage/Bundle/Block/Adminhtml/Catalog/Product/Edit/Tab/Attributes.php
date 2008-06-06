@@ -51,5 +51,12 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes extends Ma
                     ->setDisableChild(true)
             );
         }
+
+        if ($weight = $this->getForm()->getElement('tier_price')) {
+            $weight->setRenderer(
+                $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_tier')
+                    ->setPriceColumnHeader(Mage::helper('bundle')->__('Percent Discount'))
+            );
+        }
     }
 }

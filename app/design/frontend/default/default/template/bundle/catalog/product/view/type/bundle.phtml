@@ -29,13 +29,7 @@
 <script type="text/javascript">
 var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
-<style>
-<!--
-    table#super-product-table select.bundle-option-select{
-        width: 100%;
-    }
--->
-</style>
+
 <?php if($_product->isSaleable()): ?>
     <table cellspacing="0" class="data-table" id="super-product-table">
         <thead>
@@ -60,6 +54,23 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
         <?php endif; ?>
         </tbody>
     </table>
+
+    <?php $_tierPrices = $this->getTierPrices() ?>
+    <?php if(count($_tierPrices)>0): ?>
+    <div class="product-pricing">
+        <ul class="bare">
+        <?php foreach($_tierPrices as $_price): ?>
+            <li><?php echo $this->__('Buy %s for %s each', $_price['price_qty'], $_price['formated_price']) ?>
+            <?php if(($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
+            || ($_product->getPrice() != $_product->getFinalPrice() &&  $_product->getFinalPrice() > $_price['price'])): ?>
+                <?php echo $this->__('and') ?> <strong><?php echo $this->__('save %s%%', $_price['savePercent']) ?>
+            <?php endif ?></strong>
+            </li>
+        <?php endforeach ?>
+        </ul>
+    </div>
+    <?php endif; ?>
+
     <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
 
     <span class="regular-price" id="bundle-price-<?php echo $_product->getId() ?>">

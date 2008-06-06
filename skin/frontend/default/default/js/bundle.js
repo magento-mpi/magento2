@@ -5,7 +5,7 @@ if(typeof Product=='undefined') {
 Product.Bundle = Class.create();
 Product.Bundle.prototype = {
     initialize: function(config){
-        this.config = new Hash(config);
+        this.config = config;
     },
     changeSelection: function(selection){
         parts = selection.id.split('-');
@@ -39,11 +39,12 @@ Product.Bundle.prototype = {
     },
 
     reloadPrice: function() {
-        calculatedPrice = this.config.basePrice;
-        console.log(this.config.selected);
+        var calculatedPrice = this.config.basePrice;
         for (var option in this.config.selected) {
-            for (i=0; i < this.config.selected[option].length; i++) {
-                calculatedPrice += Number(this.selectionPrice(option, this.config.selected[option][i]));
+            if (this.config.options[option]) {
+                for (var i=0; i < this.config.selected[option].length; i++) {
+                    calculatedPrice += Number(this.selectionPrice(option, this.config.selected[option][i]));
+                }
             }
         }
         $('bundle-price-' + this.config.bundleId).innerHTML = formatCurrency(calculatedPrice, this.config.priceFormat);
@@ -55,7 +56,6 @@ Product.Bundle.prototype = {
             return 0;
         }
         if (this.config.priceType == '0') {
-            console.log(optionId + ':' + selectionId);
             price = this.config.options[optionId].selections[selectionId].price;
             tierPrice = this.config.options[optionId].selections[selectionId].tierPrice;
             if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
@@ -63,7 +63,7 @@ Product.Bundle.prototype = {
             } else {
                 qty = this.config.options[optionId].selections[selectionId].qty;
             }
-            for (i=0; i < tierPrice.length; i++) {
+            for (var i=0; i < tierPrice.length; i++) {
                 if (Number(tierPrice[i].price_qty) <= qty && Number(tierPrice[i].price) <= price) {
                     price = tierPrice[i].price;
                 }

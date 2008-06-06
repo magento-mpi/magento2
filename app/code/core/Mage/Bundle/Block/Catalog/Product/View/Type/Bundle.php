@@ -99,8 +99,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             'basePrice' => $this->getProduct()->getPrice(),
             'priceType' => $this->getProduct()->getPriceType()
         );
-        //print_r($config);
-        //die();
+
         return Zend_Json::encode($config);
     }
 

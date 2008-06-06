@@ -103,6 +103,10 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                             unset($selection['selection_id']);
                         }
 
+                        if (!isset($selection['is_default'])) {
+                            $selection['is_default'] = 0;
+                        }
+
                         $selectionModel = Mage::getModel('bundle/selection')
                             ->setData($selection)
                             ->setOptionId($options[$index]['option_id']);

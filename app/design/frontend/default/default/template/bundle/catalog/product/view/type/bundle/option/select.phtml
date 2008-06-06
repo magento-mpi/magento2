@@ -40,10 +40,12 @@
     <td valign="top" align="center">
         <?php if ($_default = $_option->getDefaultSelection()): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
+            <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
         <?php else: ?>
             <?php $_defaultQty = '' ?>
+            <?php $_canChangeQty = false ?>
         <?php endif; ?>
-        <input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_default->getSelectionCanChangeQty()?'block':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
-        <span style="display:<?php echo $_default->getSelectionCanChangeQty()?'none':'block' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-label"><?php echo $_defaultQty ?>
+        <input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_canChangeQty?'block':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
+        <span style="display:<?php echo $_canChangeQty?'none':'block' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-label"><?php echo $_defaultQty ?>
     </td>
 </tr>
