@@ -67,7 +67,9 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
         if (!$this->_selectionsAppended) {
             foreach ($selectionsCollection as $_selection) {
                 if ($this->getShowAllSelections() || $_selection->isSaleable()) {
-                    $this->getItemById($_selection->getOptionId())->addSelection($_selection);
+                    if ($_option = $this->getItemById($_selection->getOptionId())) {
+                        $_option->addSelection($_selection);
+                    }
                 }
             }
             $this->_selectionsAppended = true;

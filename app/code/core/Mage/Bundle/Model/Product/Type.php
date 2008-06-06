@@ -93,7 +93,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 $optionModel->isDeleted((bool)$option['delete']);
                 $optionModel->save();
 
-                $option['option_id'] = $optionModel->getOptionId();
+                $options[$key]['option_id'] = $optionModel->getOptionId();
             }
 
             if ($selections = $this->getProduct()->getBundleSelectionsData()) {

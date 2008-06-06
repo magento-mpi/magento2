@@ -48,7 +48,9 @@ class Mage_Bundle_Model_Mysql4_Selection_Collection
 
     public function setOptionIdsFilter($optionIds)
     {
-        $this->getSelect()->where('`selection`.`option_id` in (' . join(',', (array)$optionIds) . ')');
+        if (!empty($optionIds)) {
+            $this->getSelect()->where('`selection`.`option_id` in (' . join(',', (array)$optionIds) . ')');
+        }
         return $this;
     }
 
