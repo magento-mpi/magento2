@@ -1054,12 +1054,21 @@ td.attributes-col p.pname a{ font-weight:bold;}
     }
 .shopping-cart-totals table { width:100%; margin-top:7px; }
 .shopping-cart-totals td { padding:0 15px; }
-.shopping-cart-totals tr.last td { padding-bottom:5px; }
+.shopping-cart-totals tr.last td {}
 .shopping-cart-totals tfoot td {
+	padding-top:10px;
     font-size:1.3em;
     }
 .shopping-cart-totals .checkout-types { margin:15px; }
 .shopping-cart-totals .checkout-types li { clear:both;  margin:10px 0; }
+
+/*tax details */
+.tax-total td{ border-bottom:1px solid #d2d8db; padding-top:5px; /* background:#e4eaec; */}
+.tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }
+.tax-details.last td{ border-bottom:1px solid #d2d8db;}
+
+
+
 .shopping-cart-collaterals {
     float:left;
     width:605px;

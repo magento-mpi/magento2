@@ -8,18 +8,16 @@
     </td>
 </tr>
 -->
-<tr>
+<tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total"<?php endif;?>>
     <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php echo $this->getTotal()->getTitle() ?>
+        <?php if ($this->helper('tax')->displayFullSummary()): echo $this->__('Total '); endif;?><?php echo $this->getTotal()->getTitle() ?><?php if ($this->helper('tax')->displayFullSummary()): echo $this->__(' *'); endif;?>
     </td>
     <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
 <?php if ($this->helper('tax')->displayFullSummary()): ?>
-<tr>
-    <td colspan="2" style="padding: 0px">
-        <table cellspacing="0" cellpadding="0" width="100%" class="data-table">
+
             <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
                 <?php $percent = $info['percent']; ?>
                 <?php $amount = $info['amount']; ?>
@@ -27,13 +25,13 @@
                 <?php $isFirst = 1; ?>
 
                 <?php foreach ($rates as $rate): ?>
-                <tr>
-                    <td>
-                        <?php echo $rate['title']; ?><br />
+                <tr class="tax-details">
+                    <td style="<?php echo $this->getTotal()->getStyle() ?>">
+                        * <?php echo $rate['title']; ?><br />
                     </td>
 
                     <?php if ($isFirst): ?>
-                        <td style="text-align: center; vertical-align: middle;" rowspan="<?php echo count($rates); ?>">
+                        <td style="<?php echo $this->getTotal()->getStyle() ?>"  class="a-right"  rowspan="<?php echo count($rates); ?>">
                             <?php echo $this->helper('checkout')->formatPrice($amount); ?>
                         </td>
                     <?php endif; ?>
@@ -41,7 +39,5 @@
                 <?php $isFirst = 0; ?>
                 <?php endforeach; ?>
             <?php endforeach; ?>
-        </table>
-    </td>
-</tr>
+
 <?php endif;?>
