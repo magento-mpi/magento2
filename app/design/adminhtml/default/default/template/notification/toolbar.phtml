@@ -20,12 +20,43 @@
 ?>
 <?php if ($this->isShow()): ?>
 <div class="notification-global">
-    <span class="f-right"><?php echo $this->__('You have %s, %s and %s unread notices. <a href="%s">Go to notices inbox</a>.',
+	<?php
+		if ($this->getCriticalCount()):
+			$sCrit = '<span class="critical"><strong>'.$this->getCriticalCount().'</strong> '.$this->__('critical,').'</span>';
+		else:
+			$sCrit = '';
+		endif;
+		if ($this->getMajorCount()):
+			$sMajor = '<strong>'.$this->getMajorCount().'</strong> '.$this->__('major');
+		else:
+			$sMajor = '';
+		endif;
+		if ($this->getMinorCount()):
+			$sMinor = '<strong>'.$this->getMinorCount().'</strong> '.$this->__('minor');
+		else:
+			$sMinor = '';
+		endif;
+		if ($this->getMinorCount() && $this->getMajorCount()):
+			$sAnd = 'and';
+		else:
+			$sAnd = '';
+		endif;			
+	?>	
+    <span class="f-right"><?php echo $this->__('You have %s %s %s %s unread notice(s). <a href="%s">Go to notices inbox</a>.',
+        $sCrit,
+		$sMajor,
+		$sAnd,
+		$sMinor,
+        $this->getNoticesInboxUrl()
+    );?></span>
+<?php /* ********** temporary commented    	
+	<span class="f-right"><?php echo $this->__('You have %s, %s and %s unread notices. <a href="%s">Go to notices inbox</a>.',
         '<span class="critical"><strong>'.$this->getCriticalCount().'</strong> '.$this->__('critical').'</span>',
         '<strong>'.$this->getMajorCount().'</strong> '.$this->__('major'),
         '<strong>'.$this->getMinorCount().'</strong> '.$this->__('minor'),
         $this->getNoticesInboxUrl()
     );?></span>
+******** */?>	
     <strong class="label"><?php echo $this->__('Latest Notice:') ?></strong> <?php echo $this->getLatestNotice() ?> <a target="_blank" href="<?php echo $this->getLatestNoticeUrl() ?>"><?php echo $this->__('Read details') ?></a>
 </div>
 <?php endif; ?>
