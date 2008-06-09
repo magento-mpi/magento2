@@ -59,7 +59,7 @@ class Mage_Core_Model_Translate_Inline
 
         $resource = Mage::getResourceModel('core/translate_string');
         foreach ($translate as $t) {
-            $resource->saveTranslate($t['original'], $t['custom']);
+            $resource->saveTranslate($t['original'], $t['custom'], null, Mage::getDesign()->getArea() == 'adminhtml' ? 0 : null);
         }
     }
 
