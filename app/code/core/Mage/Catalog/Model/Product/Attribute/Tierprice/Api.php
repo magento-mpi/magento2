@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
         foreach ($tierPrices as $tierPrice) {
             $row = array();
             $row['customer_group_id'] = (empty($tierPrice['all_groups']) ? $tierPrice['cust_group'] : 'all' );
-            $row['website']           = Mage::app()->getWebsite($tierPrice['website_id'])->getCode();
+            $row['website']           = ($tierPrice['website_id'] ? Mage::app()->getWebsite($tierPrice['website_id'])->getCode() : 'all');
             $row['qty']               = $tierPrice['price_qty'];
             $row['price']             = $tierPrice['price'];
 
@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
     {
         $product = $this->_initProduct($productId);
         if (!is_array($tierPrices)) {
-            $this->_fault('invalid_data', Mage::helper('catalog')->__('Invalid Tier Prices'));
+            $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
         }
 
         $updateValue = array();
@@ -71,10 +71,10 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             if (!is_array($tierPrice)
                 || !isset($tierPrice['qty'])
                 || !isset($tierPrice['price'])) {
-                $this->_fault('invalid_data', Mage::helper('catalog')->__('Invalid Tier Prices'));
+                $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
             }
 
-            if (!isset($tierPrice['website'])) {
+            if (!isset($tierPrice['website']) || $tierPrice['website'] == 'all') {
                 $tierPrice['website'] = 0;
             } else {
                 try {
@@ -101,9 +101,17 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
 
         }
 
-        $product->setData(self::ATTRIBUTE_CODE, $updateValue);
 
         try {
+            if (is_array($errors = $product->validate())) {
+                $this->_fault('data_invalid', implode("\n", $errors));
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
+        }
+
+        try {
+            $product->validate();
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('not_updated', $e->getMessage());

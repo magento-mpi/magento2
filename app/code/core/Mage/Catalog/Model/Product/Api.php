@@ -232,8 +232,12 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             $product->setWebsiteIds($productData['websites']);
         }
 
-        if (is_array($errors = $product->validate())) {
-            $this->_fault('data_invalid', implode("\n", $errors));
+        try {
+            if (is_array($errors = $product->validate())) {
+                $this->_fault('data_invalid', implode("\n", $errors));
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
         }
 
         try {
