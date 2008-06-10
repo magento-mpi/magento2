@@ -496,6 +496,9 @@ button.disabled,
 button.disabled:hover,
 button.disabled:active          { border-width:1px; border-style:solid; border-color:#4b6e7c #344d56 #344d56 #4b6e7c; background:#6f8992; color:#ededed; cursor:default; }
 
+button.icon-btn {width:32px!important;}
+button.icon-btn span {text-indent:-999em; display:block; width:16px; padding:0px; overflow:hidden;}
+
 
 /* SWITCHER
 *******************************************************************************/
@@ -1053,14 +1056,12 @@ fieldset.sitemap .form-list { width:auto; }
 .custom-options  .option-header th {padding:2px;}
 .custom-options  .option-header td {padding:5px 2px;}
 
-.custom-options .opt-title {width:150px;}
+.custom-options .opt-title {width:175px;}
 .custom-options .opt-type {width:150px;}
 .custom-options .opt-req {width:80px;}
 .custom-options .opt-order {width:60px;}
 
-
 .custom-options  .option-box  .border {width:615px;}
-
 
 .custom-options th {white-space:nowrap;}
 .custom-options  .type-title  {width:auto;}
@@ -1068,12 +1069,11 @@ fieldset.sitemap .form-list { width:auto; }
 .custom-options  .type-type  {width:80px;}
 .custom-options  .type-uqty  {width:100px;}
 .custom-options  .type-sku  {width:150px;}
-.custom-options  .type-order  {width:70px;}
-.custom-options  .type-butt  {width:120px;}
+.custom-options  .type-order  {width:60px;}
+.custom-options  .type-butt  {width:33px;}
 .custom-options  .type-last  {width:auto;}
 
-.custom-options  .border  button {width:100px;}
-.custom-options  .border th  button {width:120px !important;}
+
 
 .custom-options  .option-box  .border .input-text,
 .custom-options  .option-box  .border .select{width:95%!important;}
@@ -1082,10 +1082,16 @@ fieldset.sitemap .form-list { width:auto; }
 .custom-options     .option-box  .border  input.type-sku  {width:150px !important;}
 
 /*bundle product*/
+.bundle  .option-box  {padding-bottom:2em;}
 .bundle  .option-box  .border {width:100%; border-bottom:0;}
 .bundle  .option-box  .border td {border-bottom:1px solid #dce5e6!important;}
-.bundle  .border button {width:75px;}
-.bundle  .border .last {width:80px;}
+.bundle .option-title {padding:0 0 10px; border-bottom:1px solid #cddddd;}
+.bundle .option-title button {float:right;}
+.bundle .option-title label {font-weight:bold; line-height:21px; padding-right:1em; float:left;}
+.bundle .option-title .input-text {float:left; width:260px; vertical-align:middle;}
+.bundle .option-header {clear:both; margin-top:5px;}
+
+.bundle  .border .last {width:33px;}
 
 /* CUSTOMER
 *******************************************************************************/
@@ -1313,7 +1319,7 @@ ul.super-product-attributes {
 .tier .data             {width:480px;}
 .tier .data select      {width:99%;}
 .tier .data input.qty   {width: 20px !important}
-.tier .data .last button {width:75px;}
+.tier .data .last {width:33px;}
 
 
 /* Links */
@@ -1360,6 +1366,7 @@ ul.super-product-attributes {
 .bold               { font-weight:bold !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.bundle .option-title:after,
 .columns:after,
 .main-col:after,
 .content-header-floating:after,

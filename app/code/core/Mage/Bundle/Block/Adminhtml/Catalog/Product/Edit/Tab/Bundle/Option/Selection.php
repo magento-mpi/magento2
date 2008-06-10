@@ -48,7 +48,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label' => Mage::helper('catalog')->__('Delete'),
-                    'class' => 'delete',
+                    'class' => 'delete icon-btn',
                     'on_click' => 'bSelection.remove(event)'
                 ))
         );

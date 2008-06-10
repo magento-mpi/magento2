@@ -15,6 +15,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /* Clearing */
+.bundle .option-title,
 .columns,
 .main-col,
 .field-row,
@@ -50,6 +51,7 @@ button, .form-button            { width:auto; margin-left:5px; overflow:visible;
 .grid tr.filter th              { padding-top:3px; padding-bottom:3px; }
 .grid tr.filter th input        { margin-right: -10px; }
 .grid tr.filter th .range input { margin-right: 2px; }
+button.icon-btn {width:31px;}
 
 .nested-content .content-header { position:relative; zoom:1; }
 dl.accordion dt a, 

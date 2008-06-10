@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options extends Mage_Adminht
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Add New'),
+                    'label' => Mage::helper('catalog')->__('Add New Option'),
                     'class' => 'add',
                     'id'    => 'add_new_defined_option'
                 ))
