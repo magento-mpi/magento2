@@ -33,9 +33,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Grouped extends Mage_Adminh
 
         $this->addTab('super', array(
             'label'     => Mage::helper('catalog')->__('Associated Products'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group', 'admin.super.group.product')
-                ->setProductId($this->getRequest()->getParam('id'))
-                ->toHtml(),
+            'url'       => $this->getUrl('*/*/superGroup', array('_current'=>true)),
+            'class'     => 'ajax',
         ));
     }
 }

@@ -111,6 +111,36 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
+     * Create serializer block for a grid
+     *
+     * @param string $inputName
+     * @param Mage_Adminhtml_Block_Widget_Grid $gridBlock
+     * @param array $productsArray
+     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer
+     */
+    protected function _createSerializerBlock($inputName, Mage_Adminhtml_Block_Widget_Grid $gridBlock, $productsArray)
+    {
+        return $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_ajax_serializer')
+            ->setGridBlock($gridBlock)
+            ->setProducts($productsArray)
+            ->setInputElementName($inputName)
+        ;
+    }
+
+    /**
+     * Output specified blocks as a text list
+     */
+    protected function _outputBlocks()
+    {
+        $blocks = func_get_args();
+        $output = $this->getLayout()->createBlock('adminhtml/text_list');
+        foreach ($blocks as $block) {
+            $output->insert($block, '', true);
+        }
+        $this->getResponse()->setBody($output->toHtml());
+    }
+
+    /**
      * Product list page
      */
     public function indexAction()
@@ -182,43 +212,109 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Related products grid for AJAX request
+     * Get specified tab grid
+     */
+    public function gridOnlyAction()
+    {
+        $this->_initProduct();
+
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_' . $this->getRequest()->getParam('gridOnlyBlock'))
+                ->toHtml()
+        );
+    }
+
+    /**
+     * Get related products grid and serializer block
      */
     public function relatedAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related')->toHtml()
-        );
+
+        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related')
+            ->setGridUrl($this->getUrl('*/*/gridOnly', array('_current' => true, 'gridOnlyBlock' => 'related')))
+        ;
+        $serializerBlock = $this->_createSerializerBlock('links[related]', $gridBlock, Mage::registry('product')->getRelatedProducts());
+
+        $this->_outputBlocks($gridBlock, $serializerBlock);
     }
 
     /**
-     * Upsell products grid for AJAX request
+     * Get upsell products grid and serializer block
      */
     public function upsellAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell')->toHtml()
-        );
+
+        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell')
+            ->setGridUrl($this->getUrl('*/*/gridOnly', array('_current' => true, 'gridOnlyBlock' => 'upsell')))
+        ;
+        $serializerBlock = $this->_createSerializerBlock('links[upsell]', $gridBlock, Mage::registry('product')->getUpsellProducts());
+
+        $this->_outputBlocks($gridBlock, $serializerBlock);
     }
 
     /**
-     * Creosssell products grid for AJAX request
+     * Get crosssell products grid and serializer block
      */
     public function crosssellAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell')->toHtml()
-        );
+
+        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell')
+            ->setGridUrl($this->getUrl('*/*/gridOnly', array('_current' => true, 'gridOnlyBlock' => 'crosssell')))
+        ;
+        $serializerBlock = $this->_createSerializerBlock('links[crosssell]', $gridBlock, Mage::registry('product')->getCrossSellProducts());
+
+        $this->_outputBlocks($gridBlock, $serializerBlock);
     }
 
+    /**
+     * Get associated grouped products grid and serializer block
+     */
     public function superGroupAction()
     {
         $this->_initProduct();
+
+        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group')
+            ->setProductId(Mage::registry('product')->getId())
+            ->setGridUrl($this->getUrl('*/*/superGroupGridOnly', array('_current' => true)))
+        ;
+        $serializerBlock = $this->_createSerializerBlock('links[grouped]', $gridBlock, Mage::registry('product')->getTypeInstance()->getAssociatedProducts())
+            ->setIsEntityId(true)
+        ;
+
+        $this->_outputBlocks($gridBlock, $serializerBlock);
+    }
+
+    /**
+     * Get associated grouped products grid
+     *
+     */
+    public function superGroupGridOnlyAction()
+    {
+        $this->_initProduct();
+
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group')->toHtml()
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group')
+                ->setProductId(Mage::registry('product')->getId())
+                ->toHtml()
+        );
+    }
+
+    /**
+     * Get product reviews grid
+     *
+     */
+    public function reviewsAction()
+    {
+        $this->_initProduct();
+
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.product.reviews')
+                ->setProductId(Mage::registry('product')->getId())
+                ->setUseAjax(true)
+                ->toHtml()
         );
     }
 

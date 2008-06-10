@@ -96,17 +96,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
             $this->addTab('related', array(
                 'label'     => Mage::helper('catalog')->__('Related Products'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related', 'admin.related.products')->toHtml(),
+                'url'       => $this->getUrl('*/*/related', array('_current' => true)),
+                'class'     => 'ajax',
             ));
 
             $this->addTab('upsell', array(
                 'label'     => Mage::helper('catalog')->__('Up-sells'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell', 'admin.upsell.products')->toHtml(),
+                'url'       => $this->getUrl('*/*/upsell', array('_current' => true)),
+                'class'     => 'ajax',
             ));
 
             $this->addTab('crosssell', array(
                 'label'     => Mage::helper('catalog')->__('Cross-sells'),
-                'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell', 'admin.crosssell.products')->toHtml(),
+                'url'       => $this->getUrl('*/*/crosssell', array('_current' => true)),
+                'class'     => 'ajax',
             ));
 
             $storeId = 0;
@@ -126,25 +129,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
             if( $this->getRequest()->getParam('id', false) ) {
                 $this->addTab('reviews', array(
-                    'label'     => Mage::helper('catalog')->__('Product Reviews'),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.product.reviews')
-                            ->setProductId($this->getRequest()->getParam('id'))
-                            ->setUseAjax(true)
-                            ->toHtml(),
+                    'label' => Mage::helper('catalog')->__('Product Reviews'),
+                    'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),
+                    'class' => 'ajax',
                 ));
 
                 $this->addTab('tags', array(
                     'label'     => Mage::helper('catalog')->__('Product Tags'),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag', 'admin.product.tags')
-                            ->setProductId($this->getRequest()->getParam('id'))
-                            ->toHtml(),
+                    'url'   => $this->getUrl('*/*/tagGrid', array('_current' => true)),
+                    'class' => 'ajax',
                 ));
 
                 $this->addTab('customers_tags', array(
                     'label'     => Mage::helper('catalog')->__('Customers Tagged Product'),
-                    'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_tag_customer', 'admin.product.tags.customers')
-                            ->setProductId($this->getRequest()->getParam('id'))
-                            ->toHtml(),
+                    'url'   => $this->getUrl('*/*/tagCustomerGrid', array('_current' => true)),
+                    'class' => 'ajax',
                 ));
             }
 

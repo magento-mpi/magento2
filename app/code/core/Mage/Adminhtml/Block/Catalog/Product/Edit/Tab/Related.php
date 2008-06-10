@@ -184,7 +184,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/related', array('_current'=>true));
+        return $this->getData('grid_url') ? $this->getData('grid_url') : $this->getUrl('*/*/related', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()
