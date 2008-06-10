@@ -585,6 +585,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             catch (Exception $e) {}
         }
 
+        $product->setIsMassupdate(true);
+        $product->setExcludeUrlRewrite(true);
+
         $product->save();
 
         return true;

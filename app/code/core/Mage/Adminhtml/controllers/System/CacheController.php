@@ -27,6 +27,16 @@
  */
 class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Retrieve session model
+     *
+     * @return Mage_Adminhtml_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('adminhtml/session');
+    }
+
     public function indexAction()
     {
         $this->loadLayout();
@@ -61,18 +71,55 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
         Mage::app()->saveUseCache($enable);
 
-        if ($this->getRequest()->getPost('refresh_catalog_rewrites')) {
-            Mage::getSingleton('catalog/url')->refreshRewrites();
-        }
-
-        if( $this->getRequest()->getPost('clear_images_cache') ) {
-            Mage::getModel('catalog/product_image')->clearCache();
-        }
-
-        if ($this->getRequest()->getPost('refresh_layered_navigation')) {
-            Mage::getSingleton('catalogindex/indexer')->plainReindex();
-        }
         #Mage::getSingleton('core/resource')->setAutoUpdate($this->getRequest()->getPost('db_auto_update'));
+
+        $this->_redirect('*/*');
+    }
+
+    public function refreshCatalogRewritesAction()
+    {
+        try {
+            Mage::getSingleton('catalog/url')->refreshRewrites();
+            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Catalog Rewrites was refreshed succesfuly'));
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while refreshed Catalog Rewrites. Please try again later'));
+        }
+
+        $this->_redirect('*/*');
+    }
+
+    public function clearImagesCacheAction()
+    {
+        try {
+            Mage::getModel('catalog/product_image')->clearCache();
+            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Image cache was cleared succesfuly'));
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while cleared Image cache. Please try again later'));
+        }
+
+        $this->_redirect('*/*');
+    }
+
+    public function refreshLayeredNavigationAction()
+    {
+        try {
+            Mage::getSingleton('catalogindex/indexer')->plainReindex();
+            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Layered Navigation Indices was refreshed succesfuly'));
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while refreshed Layered Navigation Indices. Please try again later'));
+        }
 
         $this->_redirect('*/*');
     }

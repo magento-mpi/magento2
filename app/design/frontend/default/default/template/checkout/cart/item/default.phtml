@@ -34,10 +34,12 @@
             <?endforeach;?>
         </ul>
         <?endif;?>
-        <?php if($_item->getMessage()): ?>
-        <div class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-            * <?php echo $_item->getMessage() ?>
+        <?php if ($messages = $this->getMessages()): ?>
+        <?php foreach ($messages as $message): ?>
+        <div class="shopping-cart-item-message <?php echo $message['type'] ?>">
+            * <?php echo $message['text'] ?>
         </div>
+        <?php endforeach; ?>
         <?php endif; ?>
     </td>
     <td class="a-center">
@@ -57,7 +59,7 @@
     <td class="a-right">
         <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getTaxAmount()/$_item->getQty()) ?>
     </td>
-    <?php endif; ?>	
+    <?php endif; ?>
     <td class="a-center">
         <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" class="input-text qty" maxlength="8" />
     </td>

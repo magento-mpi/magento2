@@ -65,4 +65,25 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
         );
         return $this;
     }
+
+    public function getCatalogData()
+    {
+        return array(
+            'refresh_catalog_rewrites'   => array(
+                'name'      => 'refresh_catalog_rewrites',
+                'label'     => Mage::helper('adminhtml')->__('Refresh Catalog Rewrites'),
+                'url'       => $this->getUrl('*/*/refreshCatalogRewrites')
+            ),
+            'clear_images_cache'         => array(
+                'name'      => 'clear_images_cache',
+                'label'     => Mage::helper('adminhtml')->__('Clear Images Cache'),
+                'url'       => $this->getUrl('*/*/clearImagesCache')
+            ),
+            'refresh_layered_navigation' => array(
+                'name'      => 'refresh_layered_navigation',
+                'label'     => Mage::helper('adminhtml')->__('Refresh Layered Navigation Indices'),
+                'url'       => $this->getUrl('*/*/refreshLayeredNavigation')
+            )
+        );
+    }
 }

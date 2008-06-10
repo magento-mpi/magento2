@@ -98,9 +98,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         if ($order = $this->_initOrder()) {
             $this->_initAction()
-                ->_addBreadcrumb($this->__('View Order'), $this->__('View Order'))
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_view'))
-                ->_addLeft($this->getLayout()->createBlock('adminhtml/sales_order_view_tabs'))
                 ->renderLayout();
         }
     }

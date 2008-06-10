@@ -163,6 +163,11 @@ Checkout.prototype = {
         if (response.update_section) {
             $('checkout-'+response.update_section.name+'-load').innerHTML = response.update_section.html;
         }
+        if (response.allow_sections) {
+            response.allow_sections.each(function(e){
+                $('opc-'+e).addClassName('allow');
+            });
+        }
         if (response.goto_section) {
             this.reloadProgressBlock();
             this.gotoSection(response.goto_section);

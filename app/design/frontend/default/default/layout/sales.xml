@@ -155,5 +155,4 @@ Customer account home dashboard layout
             <block type="sales/order_print_creditmemo" name="sales.order.print.creditmemo" template="sales/order/print/creditmemo.phtml"/>
         </reference>
     </sales_order_printcreditmemo>
-
 </layout>

@@ -71,6 +71,7 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
      */
     public function getQuote()
     {
+//        mageDebugBacktrace();
         return $this->getAddress()->getQuote();
     }
 

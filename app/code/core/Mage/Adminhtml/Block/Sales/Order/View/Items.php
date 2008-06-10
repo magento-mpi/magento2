@@ -27,21 +27,25 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
+    protected $_renderer  = null;
+    protected $_renderers = array();
+
     /**
      * Initialize template
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sales/order/view/items.phtml');
+//        $this->setTemplate('sales/order/view/items.phtml');
     }
 
-    protected function _getInfoBlock()
+    protected function _getInfoBlock($type)
     {
-        $block = $this->getData('_info_block');
+        $blockType = isset($this->_renderers[$type]) ? $this->_renderers[$type] : $this->_renderer;
+        $block = $this->getData('_' . $blockType);
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('adminhtml/sales_order_view_items_info');
-            $this->setData('_info_block', $block);
+            $block = $this->getLayout()->createBlock($blockType);
+            $this->setData('_' . $blockType, $block);
         }
         return $block;
     }
@@ -74,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
      */
     public function renderInfoColumn($item)
     {
-        $html = $this->_getInfoBlock()
+        $html = $this->_getInfoBlock($item->getProductType())
             ->setEntity($item)
             ->toHtml();
         return $html;
@@ -143,5 +147,32 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
     public function displayPriceInclTax($item)
     {
         return $this->getOrder()->formatPrice($item->getPrice()+$item->getTaxAmount()/$item->getQtyOrdered());
+    }
+
+    /**
+     * Set default item renderer (call required)
+     *
+     * @param string $block
+     * @return Mage_Adminhtml_Block_Sales_Order_View_Items
+     */
+    public function setDefaultRenderer($block)
+    {
+        $this->_renderer = $block;
+
+        return $this;
+    }
+
+    /**
+     * Add item type custom renderer
+     *
+     * @param string $type
+     * @param string $block
+     * @return Mage_Adminhtml_Block_Sales_Order_View_Items
+     */
+    public function addItemRenderer($type, $block)
+    {
+        $this->_renderers[$type] = $block;
+
+        return $this;
     }
 }

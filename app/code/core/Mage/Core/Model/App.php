@@ -582,6 +582,28 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Retrieve application store object without Store_Exception
+     *
+     * @param string|int|Mage_Core_Model_Store $id
+     * @return Mage_Core_Model_Store
+     */
+    public function getSafeStore($id = null)
+    {
+        try {
+            return $this->getStore($id);
+        }
+        catch (Exception $e) {
+            if ($this->_currentStore) {
+                $this->getRequest()->setActionName('noRoute');
+                return new Varien_Object();
+            }
+            else {
+                Mage::throwException(Mage::helper('core')->__('Requested invalid store "%s"', $id));
+            }
+        }
+    }
+
+    /**
      * Retrieve stores array
      *
      * @param bool $withDefault

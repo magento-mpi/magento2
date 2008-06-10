@@ -233,6 +233,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                         'name' => 'shipping-method',
                         'html' => $this->_getShippingMethodsHtml()
                     );
+                    $result['allow_sections'] = array('shipping');
                 }
                 else {
                     $result['goto_section'] = 'shipping';

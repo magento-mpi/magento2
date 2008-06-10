@@ -671,6 +671,13 @@
                 </Mage_Sales>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <sales>
+                    <file>sales.xml</file>
+                </sales>
+            </updates>
+        </layout>
     </adminhtml>
 
     <default>

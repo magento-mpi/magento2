@@ -25,7 +25,9 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Adminhtml_Block_Sales_Order_Abstract
+class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
+    extends Mage_Adminhtml_Block_Sales_Order_Abstract
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     protected function _construct()
     {
@@ -45,55 +47,42 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Adminhtml_Bloc
 
     protected function _prepareLayout()
     {
-        $this->setChild(
-            'messages',
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_messages')
-        );
+        if ($this->getChild('order_info_info')) {
+            $this->getChild('order_info_info')
+                ->setOrder($this->getOrder())
+                ->setNoUseOrderLink(true);
+        }
 
-        $infoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_view_info')
-            ->setOrder($this->getOrder())
-            ->setNoUseOrderLink(true);
-        $this->setChild('info', $infoBlock);
+        if ($this->getChild('sales_order_payment')) {
+            $this->getChild('sales_order_payment')
+                ->setPayment($this->getOrder()->getPayment());
+        }
 
-        $this->setChild(
-            'items',
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_items')
-        );
+        if ($this->getChild('order_info_giftmessage')) {
+            $this->getChild('order_info_giftmessage')
+                ->setEntity($this->getOrder());
+        }
 
-        $paymentInfoBlock = $this->getLayout()->createBlock('adminhtml/sales_order_payment')
-            ->setPayment($this->getOrder()->getPayment());
-        $this->setChild('payment_info', $paymentInfoBlock);
+        if ($this->getChild('order_totals')) {
+            $this->getChild('order_totals')
+                ->setSource($this->getOrder())
+                ->setCurrency($this->getOrder()->getOrderCurrency())
+                ->setCanDisplayTotalDue(true)
+                ->setCanDisplayTotalPaid(true)
+                ->setCanDisplayTotalRefunded(true);
+        }
 
-        $this->setChild(
-            'history',
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_history')
-        );
-
-        $this->setChild(
-            'giftmessage',
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_giftmessage')
-                ->setEntity($this->getOrder())
-        );
-
-        $totalsBlock = $this->getLayout()->createBlock('adminhtml/sales_order_totals')
-            ->setSource($this->getOrder())
-            ->setCurrency($this->getOrder()->getOrderCurrency())
-            ->setCanDisplayTotalDue(true)
-            ->setCanDisplayTotalPaid(true)
-            ->setCanDisplayTotalRefunded(true);
-
-        $this->setChild('totals', $totalsBlock);
         return parent::_prepareLayout();
     }
 
     public function getTrackingHtml()
     {
-        return $this->getChildHtml('tracking');
+        return $this->getChildHtml('order_info_tracking');
     }
 
     public function getItemsHtml()
     {
-        return $this->getChildHtml('items');
+        return $this->getChildHtml('order_info_items');
     }
 
     /**
@@ -103,16 +92,39 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info extends Mage_Adminhtml_Bloc
      */
     public function getGiftmessageHtml()
     {
-        return $this->getChildHtml('giftmessage');
+        return $this->getChildHtml('order_info_giftmessage');
     }
 
     public function getPaymentHtml()
     {
-        return $this->getChildHtml('payment_info');
+        return $this->getChildHtml('order_info_payment');
     }
 
     public function getViewUrl($orderId)
     {
         return $this->getUrl('*/*/*', array('order_id'=>$orderId));
+    }
+
+    /**
+     * ######################## TAB settings #################################
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('sales')->__('Information');
+    }
+
+    public function getTabTitle()
+    {
+        return Mage::helper('sales')->__('Order Information');
+    }
+
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    public function isHidden()
+    {
+        return false;
     }
 }

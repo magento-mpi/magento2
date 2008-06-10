@@ -56,7 +56,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
         catch (Exception $e){
             $this->setHasError(true);
-            $item->setMessage(Mage::helper('sales')->__('Item qty declare error'));
+            $this->setMessage(Mage::helper('sales')->__('Item qty declare error'));
         }
         return $this;
     }
@@ -172,7 +172,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
     public function setPrice($value)
     {
-        $store = $this->getQuote()->getStore();
+        /*$store = $this->getQuote()->getStore();
         if (Mage::helper('tax')->priceIncludesTax($store)) {
             $taxCalculationModel = Mage::getModel('tax/calculation');
             $request = $taxCalculationModel->getRateRequest(null, null, $this->getQuote()->getCustomerTaxClassId(), $store);
@@ -188,7 +188,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setTaxAmount($totalTax);
 
             $value = $priceExcludingTax;
-        }
+        }*/
         $this->setData('price', $value);
         return $this;
     }

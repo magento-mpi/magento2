@@ -151,4 +151,25 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
         }
         return false;
     }
+
+    /**
+     * Retrieve item messages
+     * Return array with keys
+     *
+     * type     => type of a message
+     * text     => the message text
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        $messages = array();
+        if ($this->getItem()->getMessage()) {
+            $messages[] = array(
+                'text'  => $this->getItem()->getMessage(),
+                'type'  => $this->getItem()->getHasError() ? 'error' : 'notice'
+            );
+        }
+        return $messages;
+    }
 }

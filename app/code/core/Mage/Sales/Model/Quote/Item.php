@@ -62,10 +62,10 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         $this->_quote = $quote;
         $this->setQuoteId($quote->getId());
-        if ($this->getHasError()) {
-            $quote->setHasError(true);
-        }
-        $quote->addMessage($this->getQuoteMessage(), $this->getQuoteMessageIndex());
+//        if ($this->getHasError()) {
+//            $quote->setHasError(true);
+//        }
+//        $quote->addMessage($this->getQuoteMessage(), $this->getQuoteMessageIndex());
         return $this;
     }
 
@@ -112,7 +112,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $oldQty = $this->getQty();
         $this->setData('qty', $qty);
 
-        //Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
+        Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
 
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
@@ -126,6 +126,36 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function getStockProductId()
     {
 
+    }
+
+    /**
+     * Retrieve option product with Qty
+     *
+     * Return array
+     * 'qty'        => the qty
+     * 'product'    => the product model
+     *
+     * @return array
+     */
+    public function getQtyOptions()
+    {
+        $productIds = array();
+        $return     = array();
+        foreach ($this->getOptions() as $option) {
+            /* @var $option Mage_Sales_Model_Quote_Item_Option */
+            if ($option->getProduct()->getId() != $this->getProduct()->getId()
+                && !isset($productIds[$option->getProduct()->getId()])) {
+                $productIds[$option->getProduct()->getId()] = $option->getProduct()->getId();
+            }
+        }
+
+        foreach ($productIds as $productId) {
+            if ($option = $this->getOptionByCode('product_qty_' . $productId)) {
+                $return[$productId] = $option;
+            }
+        }
+
+        return $return;
     }
 
     /**

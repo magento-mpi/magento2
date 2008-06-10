@@ -1262,7 +1262,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    function getIsNotVirtual()
+    public function getIsNotVirtual()
     {
         return !$this->getIsVirtual();
     }

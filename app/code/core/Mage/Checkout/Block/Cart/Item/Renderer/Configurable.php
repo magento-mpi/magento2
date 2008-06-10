@@ -110,4 +110,30 @@ class Mage_Checkout_Block_Cart_Item_Renderer_Configurable extends Mage_Checkout_
         Varien_Profiler::stop('CART:'.__METHOD__);
         return $attributes;
     }
+
+    /**
+     * Retrieve item messages
+     * Return array with keys
+     *
+     * type     => type of a message
+     * text     => the message text
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        $messages = array();
+        if ($options = $this->getItem()->getQtyOptions()) {
+            foreach ($options as $option) {
+                /* @var $option Mage_Sales_Model_Quote_Item_Option */
+                if ($option->getMessage()) {
+                    $messages[] = array(
+                        'text'  => $option->getMessage(),
+                        'type'  => $option->getHasError() ? 'error' : 'notice'
+                    );
+                }
+            }
+        }
+        return $messages;
+    }
 }

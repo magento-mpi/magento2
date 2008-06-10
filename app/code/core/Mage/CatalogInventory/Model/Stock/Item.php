@@ -233,91 +233,123 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Check quantity for options
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @param int $qty
+     * @return bool
+     */
+    public function checkOptionQty(Mage_Sales_Model_Quote_Item $item, $qty)
+    {
+        if ($options = $item->getQtyOptions()) {
+            foreach ($options as $option) {
+                /* @var $option Mage_Sales_Model_Quote_Item_Option */
+                $optionQty = $option->getData('value');
+                var_dump($optionQty, $qty, $option->getProduct()->getStockItem()->getQty());
+                $option->getProduct()->getQty();
+                die();
+//This option is not available in the requested quantity.
+            }
+//            $optionQty =
+        }
+
+        return true;
+    }
+
+    /**
      * Checking quote item quantity
      *
-     * @param   Mage_Sales_Model_Quote_Item $item
-     * @return  Mage_CatalogInventory_Model_Stock_Item
+     * @param   mixed $qty
+     * @return  Varien_Object
      */
-    public function checkQuoteItemQty(Mage_Sales_Model_Quote_Item $item)
+    public function checkQuoteItemQty($qty)
     {
-        $qty    = $item->getQty();
+        $result = new Varien_Object();
+        $result->setHasError(false);
+
         $helper = Mage::helper('cataloginventory');
+
         if (!is_numeric($qty)) {
             $qty = Mage::app()->getLocale()->getNumber($qty);
         }
 
-        if (!$this->getIsInStock()) {
-            $this->_addQuoteItemError(
-                $item,
-                $helper->__('This product is currently out of stock.'),
-                $helper->__('Some of the products are currently out of stock'),
-                'stock'
-            );
-            $item->setUseOldQty(true);
-            return $this;
+        if (!$this->getManageStock()) {
+            /**
+             * Check quantity type
+             */
+            $result->setItemIsQtyDecimal($this->getIsQtyDecimal());
+
+            if (!$this->getIsQtyDecimal()) {
+                $qty = intval($qty);
+            }
+
+            /**
+             * Adding stock data to quote item
+             */
+            $result->setItemQty($qty);
+
+            return $result;
         }
 
-        if ($this->getMinSaleQty() && $qty<$this->getMinSaleQty()) {
-            $this->_addQuoteItemError(
-                $item,
-                $helper->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty()*1),
-                $helper->__('Some of the products cannot be ordered in the requested quantity'),
-                'qty'
-            );
-            return $this;
+        if (!$this->getIsInStock()) {
+            $result->setHasError(true)
+                ->setMessage($helper->__('This product is currently out of stock.'))
+                ->setQuoteMessage($helper->__('Some of the products are currently out of stock'))
+                ->setQuoteMessageIndex('stock');
+            $result->setItemUseOldQty(true);
+            return $result;
+        }
+
+        if ($this->getMinSaleQty() && $qty < $this->getMinSaleQty()) {
+            $result->setHasError(true)
+                ->setMessage($helper->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1))
+                ->setQuoteMessage($helper->__('Some of the products cannot be ordered in the requested quantity'))
+                ->setQuoteMessageIndex('qty');
+            return $result;
         }
 
         if ($this->getMaxSaleQty() && $qty>$this->getMaxSaleQty()) {
-            $this->_addQuoteItemError(
-                $item,
-                $helper->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty()*1),
-                $helper->__('Some of the products can not be ordered in requested quantity'),
-                'qty'
-            );
-            return $this;
+            $result->setHasError(true)
+                ->setMessage($helper->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1))
+                ->setQuoteMessage($helper->__('Some of the products can not be ordered in requested quantity'))
+                ->setQuoteMessageIndex('qty');
+            return $result;
         }
 
-
         if ($this->checkQty($qty)) {
-            if (($this->getQty() - $qty < 0) &&
-                ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES)) {
+            if (($this->getQty() - $qty < 0) && ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES)) {
                 if ($this->getProduct()) {
-                    $item->setMessage(
-                        $helper->__('This product is not available in the requested quantity. %s of the items will be backordered.',
-                            ($this->getQty()>0) ? ($qty - $this->getQty())*1 : $qty*1,
-                            $this->getProduct()->getName())
-                    );
+                    $result->setMessage('set_data', $helper->__('This product is not available in the requested quantity. %s of the items will be backordered.',
+                        ($this->getQty() > 0) ? ($qty - $this->getQty()) * 1 : $qty * 1,
+                        $this->getProduct()->getName()));
                 }
             }
         }
         else {
-            $this->_addQuoteItemError(
-                $item,
-                $helper->__('The requested quantity is not available.'),
-                $helper->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName()),
-                'qty'
-            );
-            return $this;
+            $result->setHasError(true)
+                ->setMessage($helper->__('The requested quantity is not available'))
+                ->setQuoteMessage($helper->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName()))
+                ->setQuoteMessageIndex('qty');
+            return $result;
         }
 
         /**
          * Check quantity type
          */
-        $item->setIsQtyDecimal($this->getIsQtyDecimal());
+
+        $result->setItemIsQtyDecimal($this->getIsQtyDecimal());
+
         if (!$this->getIsQtyDecimal()) {
             $qty = intval($qty);
         }
 
-        $item->setHasError(false);
         /**
          * Adding stock data to quote item
          */
-        $item->addData(array(
-            'qty'       => $qty,
-            'backorders'=> $this->getBackorders(),
-        ));
+        $result->setItemQty($qty);
+        $result->setItemBackorders($qty);
 
-        return $this;
+        return $result;
     }
 
     /**

@@ -498,7 +498,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Get all blocks marked for output
      *
-     * @return array
+     * @return string
      */
     public function getOutput()
     {

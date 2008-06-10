@@ -56,6 +56,44 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         return $block->$method();
 	}
 
+	public function layoutDirective($construction)
+	{
+	    $skipParams = array('handle', 'output', 'area');
+	    $setArea    = null;
+
+	    $params = $this->_getIncludeParameters($construction[2]);
+	    $layout = Mage::getModel('core/layout');
+	    /* @var $layout Mage_Core_Model_Layout */
+	    if (isset($params['area'])) {
+	        $layout->setArea($params['area']);
+	    }
+	    else {
+	        $layout->setArea(Mage::app()->getLayout()->getArea());
+	    }
+	    $layout->getUpdate()->addHandle('default');
+	    $layout->getUpdate()->addHandle($params['handle']);
+	    $layout->getUpdate()->load();
+
+	    $layout->generateXml();
+	    $layout->generateBlocks();
+
+	    foreach ($layout->getAllBlocks() as $block) {
+	        foreach ($params as $k => $v) {
+	            if (in_array($k, $skipParams)) {
+	                continue;
+	            }
+	            $block->addData($k, $v);
+	        }
+	    }
+
+        if (isset($params['output'])) {
+	        $layout->addOutputBlock($params['output']);
+	    }
+
+	    $layout->setDirectOutput(false);
+	    return $layout->getOutput();
+	}
+
 	protected function _getBlockParameters($value)
 	{
         $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
