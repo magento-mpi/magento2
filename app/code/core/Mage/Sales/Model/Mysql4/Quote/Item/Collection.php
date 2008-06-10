@@ -119,6 +119,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
                 $item->isDeleted(true);
                 $recollectQuote = true;
             }
+            $item->checkData();
         }
 
         if ($recollectQuote && $this->_quote) {
