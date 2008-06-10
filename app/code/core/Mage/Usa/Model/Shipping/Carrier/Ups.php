@@ -583,7 +583,6 @@ XMLRequest;
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0][0];
-            $result = Mage::getModel('shipping/rate_result');
             if($success===1){
                 $arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
                 $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
@@ -606,7 +605,7 @@ XMLRequest;
             }
         }
 
-
+        $result = Mage::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
             $error = Mage::getModel('shipping/rate_result_error');
