@@ -20,6 +20,8 @@
 
 /**
  * Resource setup model
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Resource_Setup
 {
@@ -151,10 +153,8 @@ class Mage_Core_Model_Resource_Setup
      * Install resource
      *
      * @param     string $version
-     * @return    boll
- * @author      Magento Core Team <core@magentocommerce.com>
+     * @return    boolean
      */
-
     protected function _installResourceDb($newVersion)
     {
         $oldVersion = $this->_modifyResourceDb('install', '', $newVersion);

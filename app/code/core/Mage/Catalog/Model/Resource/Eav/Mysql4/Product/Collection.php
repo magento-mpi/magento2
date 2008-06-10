@@ -399,7 +399,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        $this->_urlRewriteCategory = $categoryId;
+        //~ $this->_urlRewriteCategory = $categoryId;
+        $this->_urlRewriteCategory = Mage::getStoreConfig('catalog/seo/product_use_categories') ? $categoryId : 0;
         return $this;
     }
 
