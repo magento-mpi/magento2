@@ -32,6 +32,7 @@
     </td>
     <td class="attributes-col">
         <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
+
         <?php if ($_attributes = $this->getProductAttributes()) :?>
         <ul class="super-product-attributes">
             <?php foreach ($_attributes as $_attribute):?>
@@ -40,7 +41,16 @@
             </li>
             <?php endforeach;?>
         </ul>
-        <?endif;?>
+        <?php endif;?>
+
+        <?php if ($_options = $this->getProductOptions()):?>
+        <ul class="super-product-options">
+            <?php foreach ($_options as $_option):?>
+            <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong> <?php echo $this->htmlEscape($_option['value']) ?></li>
+            <?php endforeach;?>
+        </ul>
+        <?php endif;?>
+
         <?php if ($messages = $this->getMessages()): ?>
         <?php foreach ($messages as $message): ?>
         <div class="shopping-cart-item-message <?php echo $message['type'] ?>">

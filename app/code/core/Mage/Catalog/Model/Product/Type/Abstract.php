@@ -177,18 +177,23 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function prepareForCart(Varien_Object $buyRequest)
     {
+        $product = $this->getProduct();
+
+        // try to add custom options
         $options = $this->_prepareOptionsForCart($buyRequest->getOptions());
         if (is_string($options)) {
             return $options;
         }
-
         $optionIds = array_keys($options);
-        $this->getProduct()->addCustomOption('option_ids', implode(',', $optionIds));
+        $product->addCustomOption('option_ids', implode(',', $optionIds));
         foreach ($options as $optionId => $optionValue) {
-        	$this->getProduct()->addCustomOption('option_'.$optionId, $optionValue);
+        	$product->addCustomOption('option_'.$optionId, $optionValue);
         }
-        $this->getProduct()->setCartQty($buyRequest->getQty());
-        return array($this->getProduct());
+
+        // set quantity in cart
+        $product->setCartQty($buyRequest->getQty());
+
+        return array($product);
     }
 
     /**
