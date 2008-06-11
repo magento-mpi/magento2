@@ -39,7 +39,11 @@ Product.Bundle.prototype = {
     },
 
     reloadPrice: function() {
-        var calculatedPrice = this.config.basePrice;
+        if (this.config.priceType == '1') {
+            var calculatedPrice = Number(this.config.basePrice);
+        } else {
+            var calculatedPrice = Number(0);
+        }
         for (var option in this.config.selected) {
             if (this.config.options[option]) {
                 for (var i=0; i < this.config.selected[option].length; i++) {
@@ -47,6 +51,11 @@ Product.Bundle.prototype = {
                 }
             }
         }
+
+        if (this.config.specialPrice) {
+            calculatedPrice = (calculatedPrice*this.config.specialPrice)/100;
+        }
+
         $('bundle-price-' + this.config.bundleId).innerHTML = formatCurrency(calculatedPrice, this.config.priceFormat);
 
     },
@@ -55,14 +64,17 @@ Product.Bundle.prototype = {
         if (selectionId == '' || selectionId == 'none') {
             return 0;
         }
+
+        if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
+            qty = $('bundle-option-' + optionId + '-qty-input').value;
+        } else {
+            qty = this.config.options[optionId].selections[selectionId].qty;
+        }
+
         if (this.config.priceType == '0') {
             price = this.config.options[optionId].selections[selectionId].price;
             tierPrice = this.config.options[optionId].selections[selectionId].tierPrice;
-            if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
-                qty = $('bundle-option-' + optionId + '-qty-input').value;
-            } else {
-                qty = this.config.options[optionId].selections[selectionId].qty;
-            }
+
             for (var i=0; i < tierPrice.length; i++) {
                 if (Number(tierPrice[i].price_qty) <= qty && Number(tierPrice[i].price) <= price) {
                     price = tierPrice[i].price;
@@ -93,12 +105,14 @@ Product.Bundle.prototype = {
 
     showQtyInput: function(optionId, value) {
         $('bundle-option-' + optionId + '-qty-input').value = value;
+        $('bundle-option-' + optionId + '-qty-input').disabled = false;
         $('bundle-option-' + optionId + '-qty-input').show();
         $('bundle-option-' + optionId + '-qty-label').hide();
     },
 
     showQtyLabel: function(optionId, value) {
         $('bundle-option-' + optionId + '-qty-label').innerHTML = value;
+        $('bundle-option-' + optionId + '-qty-input').disabled = false;
         $('bundle-option-' + optionId + '-qty-label').show();
         $('bundle-option-' + optionId + '-qty-input').hide();
     },

@@ -113,6 +113,8 @@ Bundle.Selection.prototype = {
             var data = {};
         }
 
+        data.selection_price_value = Number(data.selection_price_value).toFixed(2);
+
         data.index = this.itemsCount++;
         data.parentIndex = parentIndex;
 
@@ -192,7 +194,7 @@ Bundle.Selection.prototype = {
         var parts = element.id.split('_');
         $(bOption.idLabel + '_search_' + parts[2]).innerHTML = '';
         $(bOption.idLabel + '_' + parts[2] + '_add_button').show();
-        //console.log(this.gridSelection);
+
         this.gridSelection[parts[2]].each(
             function(pair) {
                 var data = {

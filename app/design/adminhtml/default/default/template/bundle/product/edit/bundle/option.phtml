@@ -20,11 +20,11 @@
 ?>
 <div id="<?php echo $this->getFieldId() ?>_template"  class="option-box">
 <div class="option-title">
-	<label for="<?php echo $this->getFieldName() ?>[{{index}}][title]"><?php echo Mage::helper('catalog')->__('Default Title') ?></label>
+    <label for="<?php echo $this->getFieldName() ?>[{{index}}][title]"><?php echo Mage::helper('catalog')->__('Default Title') ?></label>
     <?php if ($this->isDefaultStore()): ?>
     <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" value="{{title}}">
     <?php else: ?>
-    <input class="input-text required-entry" disabled="disabled" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" value="{{default_title}}">
+    <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" value="{{default_title}}">
     <?php endif; ?>
 <?php echo $this->getOptionDeleteButtonHtml() ?>
 </div>

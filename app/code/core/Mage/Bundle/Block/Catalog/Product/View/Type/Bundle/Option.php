@@ -20,7 +20,7 @@
 
 
 /**
- * Catalog bundle product info block
+ * Bundle option renderer
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -28,12 +28,24 @@
  */
 class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Core_Block_Template
 {
+    public function getProduct()
+    {
+        if (!$this->hasData('product')) {
+            $this->setData('product', Mage::registry('current_product'));
+        }
+        return $this->getData('product');
+    }
+
     public function getSelectionQtyTitlePrice($_selection)
     {
-        return $_selection->getSelectionQty()*1 . ' x ' .
-            $_selection->getName() . '&nbsp;&nbsp;' .
-            Mage::helper('core')->currency(
-                $_selection->getFinalPrice($_selection->getSelectionQty())*$_selection->getSelectionQty()
-            );
+        $price = $this->getProduct()->getPriceModel()->getSelectionFinalPrice($this->getProduct(), $_selection);
+        return $_selection->getSelectionQty()*1 . ' x ' . $_selection->getName() . '&nbsp;&nbsp;' .
+            Mage::helper('core')->currency($price);
+    }
+
+    public function getSelectionTitlePrice($_selection)
+    {
+        $price = $this->getProduct()->getPriceModel()->getSelectionFinalPrice($this->getProduct(), $_selection, 1);
+        return $_selection->getName() . '&nbsp;&nbsp;' . Mage::helper('core')->currency($price);
     }
 }

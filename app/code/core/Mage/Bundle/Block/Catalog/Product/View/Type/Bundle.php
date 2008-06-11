@@ -28,8 +28,6 @@
  */
 class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Block_Product_View_Abstract
 {
-    protected $_priceBlockDefaultTemplate = 'bundle/catalog/product/price.phtml';
-
     protected $_optionRenderers = array();
     protected $_options = null;
 
@@ -48,11 +46,6 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             $this->_options = $optionCollection->appendSelections($selectionCollection);
         }
         return $this->_options;
-    }
-
-    protected function _getPriceBlockTemplate()
-    {
-        return $this->_priceBlockDefaultTemplate;
     }
 
     public function getJsonConfig()
@@ -97,7 +90,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             'bundleId' => $this->getProduct()->getId(),
             'priceFormat' => Mage::app()->getLocale()->getJsPriceFormat(),
             'basePrice' => $this->getProduct()->getPrice(),
-            'priceType' => $this->getProduct()->getPriceType()
+            'priceType' => $this->getProduct()->getPriceType(),
+            'specialPrice' => $this->getProduct()->getSpecialPrice()
         );
 
         return Zend_Json::encode($config);

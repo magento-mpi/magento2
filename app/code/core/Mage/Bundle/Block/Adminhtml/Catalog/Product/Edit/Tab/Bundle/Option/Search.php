@@ -19,10 +19,10 @@
  */
 
 /**
- * Adminhtml sales order create search block
+ * Bundle selection product block
  *
- * @category   Mage
- * @package    Mage_Bundle
+ * @category    Mage
+ * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

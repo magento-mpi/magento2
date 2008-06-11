@@ -19,6 +19,13 @@
  */
 
 
+/**
+ * Bundle Price View Attribute Renderer
+ *
+ * @category    Mage
+ * @package     Mage_Bundle
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     public function getAllOptions()

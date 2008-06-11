@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle item renderer
+ * Bundle Extended Attribures Block
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -39,8 +39,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend ext
 
         $html = '<select name="product[' . $switchAttributeCode . ']" id="' . $switchAttributeCode . '" type="select" class="required-entry select">
             <option value="">' . $this->__('-- Please Select --') . '</option>
-            <option ' . ($this->getElement()->getValue() == self::DYNAMIC ? 'selected' : '') . ' value="' . self::DYNAMIC . '">' . $this->__('Dynamic') . '</option>
-            <option ' . ($this->getElement()->getValue() == self::FIXED ? 'selected' : '') . ' value="' . self::FIXED . '">' . $this->__('Fixed') . '</option>
+            <option ' . ($switchAttributeValue == self::DYNAMIC ? 'selected' : '') . ' value="' . self::DYNAMIC . '">' . $this->__('Dynamic') . '</option>
+            <option ' . ($switchAttributeValue == self::FIXED ? 'selected' : '') . ' value="' . self::FIXED . '">' . $this->__('Fixed') . '</option>
         </select>';
 
         $html .= $elementHtml;

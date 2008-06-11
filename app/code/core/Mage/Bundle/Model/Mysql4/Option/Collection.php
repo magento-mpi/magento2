@@ -39,15 +39,15 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
         $this->getSelect()->joinLeft(array('option_value_default' => $this->getTable('bundle/option_value')),
                 '`main_table`.`option_id` = `option_value_default`.`option_id` and `option_value_default`.`store_id` = "0"',
                 array())
-            ->from('', array('title' => 'IFNULL(`option_value`.`title`, `option_value_default`.`title`)'))
             ->from('', array('default_title' => 'option_value_default.title'));
 
         if ($storeId !== null) {
-            $this->getSelect()->joinLeft(array('option_value' => $this->getTable('bundle/option_value')),
-                '`main_table`.`option_id` = `option_value`.`option_id` and `option_value`.`store_id` = "' . $storeId . '"',
-                array());
+            $this->getSelect()
+                ->from('', array('title' => 'IFNULL(`option_value`.`title`, `option_value_default`.`title`)'))
+                ->joinLeft(array('option_value' => $this->getTable('bundle/option_value')),
+                    '`main_table`.`option_id` = `option_value`.`option_id` and `option_value`.`store_id` = "' . $storeId . '"',
+                    array());
         }
-
         return $this;
     }
 
@@ -85,6 +85,21 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
 
     public function getShowAllSelections()
     {
-        return $this->_showAllSelections;
+        return false;
+        /*return $this->_showAllSelections;*/
+        /**
+         * @todo look on system configuration
+         */
     }
+
+    public function setIdFilter($ids)
+    {
+        if (is_array($ids)) {
+            $this->addFieldToFilter('option_id', array('in' => $ids));
+        } else if ($ids != '') {
+            $this->addFieldToFilter('option_id', $ids);
+        }
+        return $this;
+    }
+
 }

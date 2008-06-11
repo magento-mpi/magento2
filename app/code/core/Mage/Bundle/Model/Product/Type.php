@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle product type implementation
+ * Bundle Type Model
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -35,19 +35,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
     protected $_usedProductsIds = null;
     protected $_usedProducts = null;
-
-    /**
-     * Return product price based on price_type attribute
-     *
-     * @return decimal
-     */
-    public function getPrice()
-    {
-        /**
-         * @todo Change this to return valid price
-         */
-        return $this->getProduct()->getData('price');
-    }
 
     /**
      * Return product sku based on sku_type attribute
@@ -143,15 +130,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         }
         return $this->_optionsCollection;
     }
-/*
-    public function getUsedProductsIds()
+
+    public function getRequiredOptions()
     {
-        if (!$this->_usedProductsIds) {
-            $this->_usedProductsIds = $this->getOptionsCollection()->getUsedProductsIds();
-        }
-        return $this->_usedProductsIds;
+
     }
-*/
 
     public function getSelectionsCollection($optionIds)
     {
@@ -162,7 +145,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         }
         return $this->_selectionsCollection;
     }
-
 
     /**
      * Checking if we can sale this bundle
@@ -201,4 +183,75 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return $this;
     }
 
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param   Varien_Object $buyRequest
+     * @return  unknown
+     */
+    public function prepareForCart(Varien_Object $buyRequest)
+    {
+        $result = parent::prepareForCart($buyRequest);
+        if (is_string($result)) {
+            return $result;
+        }
+
+        if ($options = $buyRequest->getBundleOption()) {
+            $qtys = $buyRequest->getBundleOptionQty();
+
+            $optionIds = array_keys($options);
+
+            $optionsCollection = $this->getOptionsByIds($optionIds);
+            foreach ($optionsCollection->getItems() as $option) {
+                if ($option->getRequired() && !isset($options[$option->getId()])) {
+                    return Mage::helper('bundle')->__('Required options not selected.');
+                }
+            }
+
+            $selectionIds = array();
+            foreach ($options as $optionId => $selectionId) {
+                if (!is_array($selectionId)) {
+                    if ($selectionId != 'none' && $selectionId != '') {
+                        $selectionIds[] = $selectionId;
+                    }
+                } else {
+                    $selectionIds = array_merge($selectionIds, $selectionId);
+                    foreach ($selectionId as $id) {
+                        $selectionIds[$id] = $optionId;
+                    }
+                }
+            }
+
+            $selectionsCollection = $this->getSelectionsByIds($selectionIds);
+
+            foreach ($selectionsCollection->getItems() as $selection) {
+                if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
+                    $qty = $qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
+                } else {
+                    $qty = $selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
+                }
+                $result[0]->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
+            }
+
+            $result[0]->addCustomOption('bundle_option_ids', serialize($optionIds));
+            $result[0]->addCustomOption('bundle_selection_ids', serialize($selectionIds));
+
+            return $result;
+        }
+        return Mage::helper('catalog')->__('Please specify the bundle option(s)');
+    }
+
+    public function getSelectionsByIds($selectionIds)
+    {
+            return Mage::getResourceModel('bundle/selection_collection')
+                ->addAttributeToSelect('*')
+                ->setSelectionIdsFilter($selectionIds);
+    }
+
+    public function getOptionsByIds($optionIds)
+    {
+            return Mage::getModel('bundle/option')->getResourceCollection()
+                ->setProductIdFilter($this->getProduct()->getId())
+                ->setIdFilter($optionIds);
+    }
 }

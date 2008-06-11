@@ -19,7 +19,7 @@
  */
 
 /**
- * admin product edit tabs
+ * Adminhtml product edit tabs
  *
  * @category    Mage
  * @package     Mage_Bundle

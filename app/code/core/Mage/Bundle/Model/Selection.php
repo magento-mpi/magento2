@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle product type implementation
+ * Bundle Selection Model
  *
  * @category    Mage
  * @package     Mage_Bundle

@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle product type implementation
+ * Bundle Option Resource Model
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -37,7 +37,8 @@ class Mage_Bundle_Model_Mysql4_Option extends Mage_Core_Model_Mysql4_Abstract
         parent::_afterSave($object);
 
         $condition = $this->_getWriteAdapter()->quoteInto('option_id = ?', $object->getId());
-        $condition .= ' and ' . $this->_getWriteAdapter()->quoteInto('store_id = ?', $object->getStoreId());
+        $condition .= ' and (' . $this->_getWriteAdapter()->quoteInto('store_id = ?', $object->getStoreId());
+        $condition .= ' or store_id = 0)';
 
         $this->_getWriteAdapter()->delete($this->getTable('option_value'), $condition);
 
@@ -47,6 +48,16 @@ class Mage_Bundle_Model_Mysql4_Option extends Mage_Core_Model_Mysql4_Abstract
             ->setTitle($object->getTitle());
 
         $this->_getWriteAdapter()->insert($this->getTable('option_value'), $data->getData());
+
+        /**
+         * also saving default value if this store view scope
+         */
+
+        if ($object->getStoreId()) {
+            $data->setStoreId('0');
+            $data->setTitle($object->getDefaultTitle());
+            $this->_getWriteAdapter()->insert($this->getTable('option_value'), $data->getData());
+        }
 
         return $this;
     }

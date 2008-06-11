@@ -19,7 +19,7 @@
  */
 
 /**
- * Product option types mode source
+ * Bundle Option Type Source Model
  *
  * @category   Mage
  * @package    Mage_Bundle

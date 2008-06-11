@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle Product attributes tab
+ * Bundle product attributes tab
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -30,6 +30,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes extends Ma
     protected function _prepareForm()
     {
         parent::_prepareForm();
+
+        if ($special_price = $this->getForm()->getElement('special_price')) {
+            $special_price->setRenderer(
+                $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_attributes_special')
+                    ->setDisableChild(false)
+            );
+        }
 
         if ($sku = $this->getForm()->getElement('sku')) {
             $sku->setRenderer(

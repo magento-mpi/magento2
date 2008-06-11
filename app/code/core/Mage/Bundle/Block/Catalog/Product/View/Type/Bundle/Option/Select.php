@@ -20,7 +20,7 @@
 
 
 /**
- * Catalog bundle product info block
+ * Bundle option dropdown type renderer
  *
  * @category    Mage
  * @package     Mage_Bundle

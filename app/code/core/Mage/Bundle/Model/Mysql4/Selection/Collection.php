@@ -20,7 +20,7 @@
 
 
 /**
- * Catalog bundle product link collection
+ * Bundle Selections Resource Collection
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -50,6 +50,14 @@ class Mage_Bundle_Model_Mysql4_Selection_Collection
     {
         if (!empty($optionIds)) {
             $this->getSelect()->where('`selection`.`option_id` in (' . join(',', (array)$optionIds) . ')');
+        }
+        return $this;
+    }
+
+    public function setSelectionIdsFilter($selectionIds)
+    {
+        if (!empty($selectionIds)) {
+            $this->getSelect()->where('`selection`.`selection_id` in (' . join(',', (array)$selectionIds) . ')');
         }
         return $this;
     }

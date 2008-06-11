@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle item renderer
+ * Bundle selection renderer
  *
  * @category    Mage
  * @package     Mage_Bundle

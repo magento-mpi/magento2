@@ -19,7 +19,7 @@
  */
 
 /**
- * Bundle product type implementation
+ * Bundle Option Model
  *
  * @category    Mage
  * @package     Mage_Bundle
@@ -74,5 +74,14 @@ class Mage_Bundle_Model_Option extends Mage_Core_Model_Abstract
             }
         }
         return $this->_defaultSelection;
+    }
+
+    public function isMultiSelection()
+    {
+        if ($this->getType() == 'checkbox' || $this->getType() == 'multi') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

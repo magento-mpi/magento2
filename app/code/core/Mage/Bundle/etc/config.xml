@@ -81,10 +81,21 @@
                             <virtual />
                             <downloadable />
                         </allowed_selection_types>
+                        <price_model>bundle/product_price</price_model>
                     </bundle>
                 </type>
             </product>
         </catalog>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <price_view />
+                        <price_type />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
     </global>
     <frontend>
         <routers>
