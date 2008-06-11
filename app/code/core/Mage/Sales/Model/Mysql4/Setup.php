@@ -26,7 +26,7 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
         'quote_item'        => 'sales_flat_quote_item',
         'quote_address'     => 'sales_flat_quote_address',
         'quote_address_item'=> 'sales_flat_quote_address_item',
-        'quote_address_rate'=> 'sales_flat_quote_address_rate',
+        'quote_address_rate'=> 'sales_flat_quote_shipping_rate',
         'quote_payment'     => 'sales_flat_quote_payment',
     );
 
