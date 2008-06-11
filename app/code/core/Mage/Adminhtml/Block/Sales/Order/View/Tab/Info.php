@@ -45,26 +45,16 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
         return Mage::registry('current_order');
     }
 
-    protected function _prepareLayout()
+    protected function _beforeToHtml()
     {
-        if ($this->getChild('order_info_info')) {
-            $this->getChild('order_info_info')
+        if ($this->getLayout()->getBlock('order_info_info')) {
+            $this->getLayout()->getBlock('order_info_info')
                 ->setOrder($this->getOrder())
                 ->setNoUseOrderLink(true);
         }
 
-        if ($this->getChild('sales_order_payment')) {
-            $this->getChild('sales_order_payment')
-                ->setPayment($this->getOrder()->getPayment());
-        }
-
-        if ($this->getChild('order_info_giftmessage')) {
-            $this->getChild('order_info_giftmessage')
-                ->setEntity($this->getOrder());
-        }
-
-        if ($this->getChild('order_totals')) {
-            $this->getChild('order_totals')
+        if ($this->getLayout()->getBlock('order_totals')) {
+            $this->getLayout()->getBlock('order_totals')
                 ->setSource($this->getOrder())
                 ->setCurrency($this->getOrder()->getOrderCurrency())
                 ->setCanDisplayTotalDue(true)
@@ -72,7 +62,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
                 ->setCanDisplayTotalRefunded(true);
         }
 
-        return parent::_prepareLayout();
+        return parent::_beforeToHtml();
     }
 
     public function getTrackingHtml()
