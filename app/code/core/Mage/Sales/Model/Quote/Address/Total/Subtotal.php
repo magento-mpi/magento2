@@ -31,9 +31,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     {
         $address->setSubtotal(0);
         $address->setBaseSubtotal(0);
-
         $address->setTotalQty(0);
-
         $address->setBaseTotalPriceIncTax(0);
 
         $items = $address->getAllItems();
@@ -127,7 +125,6 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
             'title'=>Mage::helper('sales')->__('Subtotal'),
             'value'=>$address->getSubtotal()
         ));
-
         return $this;
     }
 }

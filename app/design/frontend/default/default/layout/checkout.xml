@@ -165,7 +165,11 @@ Multi address shipping checkout address page
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
         <reference name="content">
-            <block type="checkout/multishipping_addresses" name="checkout_addresses" template="checkout/multishipping/addresses.phtml"/>
+            <block type="checkout/multishipping_addresses" name="checkout_addresses" template="checkout/multishipping/addresses.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/multishipping/item/configurable.phtml</template></action>
+            </block>
         </reference>
     </checkout_multishipping_addresses>
 
@@ -177,7 +181,11 @@ Multi address shipping checkout shipping information
         <update handle="checkout_multishipping"/>
         <!-- Mage_Checkout -->
         <reference name="content">
-            <block type="checkout/multishipping_shipping" name="checkout_shipping" template="checkout/multishipping/shipping.phtml"/>
+            <block type="checkout/multishipping_shipping" name="checkout_shipping" template="checkout/multishipping/shipping.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/multishipping/item/configurable.phtml</template></action>
+            </block>
         </reference>
     </checkout_multishipping_shipping>
 
@@ -204,6 +212,9 @@ Multi address shipping checkout overview
         <!-- Mage_Checkout -->
         <reference name="content">
             <block type="checkout/multishipping_overview" name="checkout_overview" template="checkout/multishipping/overview.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/multishipping/item/configurable.phtml</template></action>
                 <block type="checkout/multishipping_payment_info" name="payment_info">
                     <action method="setInfoTemplate"><method></method><template></template></action>
                 </block>
@@ -255,9 +266,6 @@ One page checkout main layout
                     </block>
                 </block>
                 <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml">
-                    <block type="checkout/onepage_review_info" name="checkout.onepage.review.info" as="info" template="checkout/onepage/review/info.phtml">
-		                <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
-					</block>
                     <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
                 </block>
             </block>
@@ -325,6 +333,9 @@ One page checkout order review block
         <remove name="left"/>
 
         <block type="checkout/onepage_review_info" name="root" output="toHtml" template="checkout/onepage/review/info.phtml">
+            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/configurable.phtml</template></action>
             <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
         </block>
     </checkout_onepage_review>

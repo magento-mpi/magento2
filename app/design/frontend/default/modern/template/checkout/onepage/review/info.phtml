@@ -36,17 +36,9 @@
 <?php endforeach ?>
     </tfoot>
     <tbody>
-<?php $l=sizeof($this->getItems()); $i=0; foreach($this->getItems() as $item): $i++ ?>
-        <tr>
-            <td>
-                <?php echo $this->htmlEscape($item->getName()) ?>
-                <?php echo $this->helper('checkout')->getQuoteItemProductDescription($item) ?>
-            </td>
-            <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getCalculationPrice()) ?></td>
-            <td class="a-center"><?php echo $item->getQty()*1 ?></td>
-            <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($item->getRowTotal()) ?></td>
-        </tr>
-<?php endforeach ?>
+    <?php foreach($this->getItems() as $_item): ?>
+        <?php echo $this->getItemHtml($_item)?>
+    <?php endforeach ?>
     </tbody>
 </table>
 <script type="text/javascript">decorateTable('checkout-review-table')</script>

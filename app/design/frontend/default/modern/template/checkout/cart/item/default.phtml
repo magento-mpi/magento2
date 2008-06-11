@@ -27,16 +27,18 @@
     </td>
     <td class="attributes-col">
         <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
+        <?php if ($_options = $this->getProductOptions()):?>
+        <ul>
+            <?php foreach ($_options as $_option):?>
+            <li><strong><?php echo $_option?></strong></li>
+            <?endforeach;?>
+        </ul>
+        <?endif;?>
         <?php if($_item->getMessage()): ?>
         <div class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
             * <?php echo $_item->getMessage() ?>
         </div>
         <?php endif; ?>
-    </td>
-    <td class="a-center">
-        <a href="<?php echo $this->getDeleteUrl() ?>">
-            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
-        </a>
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
@@ -51,5 +53,10 @@
     </td>
     <td class="a-right">
         <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?>
+    </td>
+    <td class="a-center">
+        <a href="<?php echo $this->getDeleteUrl() ?>">
+            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
+        </a>
     </td>
 </tr>

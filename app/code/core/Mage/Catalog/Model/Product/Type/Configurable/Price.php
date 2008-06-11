@@ -39,23 +39,29 @@ class Mage_Catalog_Model_Product_Type_Configurable_Price extends Mage_Catalog_Mo
         if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
             return $product->getCalculatedFinalPrice();
         }
-        return $product->getPrice();
-        $finalPrice = $product->getSuperProduct()->getFinalPrice($qty);
-        $product->getSuperProduct()->getTypeInstance()->setStoreFilter($product->getStore());
-        $attributes = $product->getSuperProduct()->getTypeInstance()->getConfigurableAttributes();
+
+        $finalPrice = parent::getFinalPrice($qty, $product);
+        $product->getTypeInstance()->setStoreFilter($product->getStore());
+        $attributes = $product->getTypeInstance()->getConfigurableAttributes();
+
+        $selectedAttributes = array();
+        if ($product->getCustomOption('attributes')) {
+            $selectedAttributes = unserialize($product->getCustomOption('attributes')->getValue());
+        }
+
         foreach ($attributes as $attribute) {
+            $attributeId = $attribute->getProductAttribute()->getId();
             $value = $this->getValueByIndex(
                 $attribute->getPrices() ? $attribute->getPrices() : array(),
-                $product->getData($attribute->getProductAttribute()->getAttributeCode())
+                isset($selectedAttributes[$attributeId]) ? $selectedAttributes[$attributeId] : null
             );
             if($value) {
                 if($value['pricing_value'] != 0) {
-                    $finalPrice += $product->getSuperProduct()->getPricingValue($value, $qty);
+                    $finalPrice += $this->getPricingValue($value, $qty);
                 }
             }
         }
         $product->setFinalPrice($finalPrice);
-
         return max(0, $product->getData('final_price'));
     }
 }

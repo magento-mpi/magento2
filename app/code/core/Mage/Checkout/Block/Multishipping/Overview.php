@@ -25,8 +25,18 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Block_Multishipping_Overview extends Mage_Checkout_Block_Multishipping_Abstract
+class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_Abstract
 {
+    /**
+     * Get multishipping checkout model
+     *
+     * @return Mage_Checkout_Model_Type_Multishipping
+     */
+    public function getCheckout()
+    {
+        return Mage::getSingleton('checkout/type_multishipping');
+    }
+
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {

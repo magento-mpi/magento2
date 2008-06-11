@@ -22,22 +22,25 @@
 <tr>
     <td>
         <a href="<?php echo $this->getProductUrl() ?>">
-            <img src="<?php echo $this->helper('catalog/image')->init($this->getProductForThumbnail(), 'thumbnail')->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" />
+            <img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" />
         </a>
     </td>
     <td class="attributes-col">
-        <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><strong><?php echo $this->getProductName() ?></strong></a></p>
-        <?php echo $this->getDescription() ?>
+        <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
+        <?php if ($_attributes = $this->getProductAttributes()) :?>
+        <ul class="super-product-attributes">
+            <?php foreach ($_attributes as $_attribute):?>
+            <li>
+                <strong><?php echo $_attribute['label']?>:</strong> <?php echo $_attribute['value']?>
+            </li>
+            <?php endforeach;?>
+        </ul>
+        <?endif;?>
         <?php if($_item->getMessage()): ?>
-        <div style="font-size:95%;margin-top:6px;" class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
+        <div class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
             * <?php echo $_item->getMessage() ?>
         </div>
         <?php endif; ?>
-    </td>
-    <td class="a-center">
-        <a href="<?php echo $this->getDeleteUrl() ?>">
-            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="Remove item" />
-        </a>
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
@@ -52,5 +55,10 @@
     </td>
     <td class="a-right">
         <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?>
+    </td>
+    <td class="a-center">
+        <a href="<?php echo $this->getDeleteUrl() ?>">
+            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
+        </a>
     </td>
 </tr>

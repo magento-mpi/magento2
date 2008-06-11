@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.2</version>
+            <version>0.9.3</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -298,6 +298,8 @@
                     <quote_address_shipping_rate><table>sales_flat_quote_shipping_rate</table></quote_address_shipping_rate>
 
                     <order><table>sales_order</table></order>
+                    <order_item><table>sales_flat_order_item</table></order_item>
+                    <order_item_option><table>sales_flat_order_item_option</table></order_item_option>
                     <order_entity><table>sales_order_entity</table></order_entity>
                     <!--order></order>
 

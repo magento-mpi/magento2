@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *
      * @var Mage_Catalog_Model_Product_Type_Abstract
      */
-    protected $_typeInstance;
+    protected $_typeInstance = null;
 
     /**
      * Product link instance
@@ -108,17 +108,15 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getTypeInstance()
     {
-        $data = $this->_getData('_type_instance');
-        if (is_null($data)) {
-            $data = Mage::getSingleton('catalog/product_type')->factory($this);
-            $this->setData('_type_instance', $data);
+        if ($this->_typeInstance === null) {
+            $this->_typeInstance = Mage::getSingleton('catalog/product_type')->factory($this);
         }
-        return $data;
+        return $this->_typeInstance;
     }
 
     public function setTypeInstance($instance)
     {
-        $this->setData('_type_instance', $instance);
+        $this->_typeInstance = $instance;
         return $this;
     }
 

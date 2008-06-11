@@ -27,6 +27,7 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
      * @var Mage_Sales_Model_Quote_Address
      */
     protected $_address;
+    protected $_quote;
 
     protected function _construct()
     {
@@ -51,6 +52,7 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
     public function setAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $this->_address = $address;
+        $this->_quote   = $address->getQuote();
         return $this;
     }
 
@@ -71,14 +73,15 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
      */
     public function getQuote()
     {
-//        mageDebugBacktrace();
-        return $this->getAddress()->getQuote();
+        return $this->_quote;
     }
 
 
     public function importQuoteItem(Mage_Sales_Model_Quote_Item $quoteItem)
     {
-        $this->setQuoteItemId($quoteItem->getId())
+        $this->_quote = $quoteItem->getQuote();
+        $this->setQuoteItem($quoteItem)
+            ->setQuoteItemId($quoteItem->getId())
             ->setProductId($quoteItem->getProductId())
             ->setProduct($quoteItem->getProduct())
             ->setSuperProductId($quoteItem->getSuperProductId())

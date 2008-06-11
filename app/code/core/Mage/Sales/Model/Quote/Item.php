@@ -123,11 +123,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         return $this;
     }
 
-    public function getStockProductId()
-    {
-
-    }
-
     /**
      * Retrieve option product with Qty
      *
