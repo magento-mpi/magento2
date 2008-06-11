@@ -150,17 +150,10 @@ $installer->addAttribute('catalog_product', 'price_view', array(
         'is_configurable'   => false
     ));
 
-$installer->run("UPDATE {$this->getTable('eav_attribute')}
-SET `apply_to` = CONCAT(`apply_to`, ',', 'bundle')
-WHERE `attribute_code` in (
-    'price',
-    'special_price',
-    'special_from_date',
-    'special_to_date',
-    'minimal_price',
-    'cost',
-    'tier_price',
-    'weight') AND `entity_type_id` = 4
-");
+$priceApplyTo = split(',', $installer->getAttribute('catalog_product', 'price', 'apply_to'));
+if (!in_array('bundle', $priceApplyTo)) {
+    $priceApplyTo[] = 'bundle';
+    $installer->updateAttribute('catalog_product', 'price', 'apply_to', join(',', $priceApplyTo));
+}
 
 $installer->endSetup();

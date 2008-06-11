@@ -600,7 +600,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'visible_on_front'  => false,
                         'visible_in_advanced_search' => true,
                         'unique'            => false,
-                        'apply_to'          => 'simple,configurable',
+                        'apply_to'          => 'simple,configurable,virtual',
                     ),
                     'special_price' => array(
                         'group'             => 'Prices',
