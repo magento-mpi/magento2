@@ -27,6 +27,17 @@
  */
 class Mage_Catalog_Model_Product_Type_Price
 {
+
+    /**
+     * Default action to get price of product
+     *
+     * @return decimal
+     */
+    public function getPrice($product)
+    {
+        return $product->getData('price');
+    }
+
     /**
      * Get product final price
      *

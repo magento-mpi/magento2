@@ -84,9 +84,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->_getData('name');
     }
 
+    /**
+     * Get product price throught type instance
+     *
+     * @return unknown
+     */
     public function getPrice()
     {
-        return $this->_getData('price');
+        return $this->getPriceModel()->getPrice($this);
     }
 
     public function getTypeId()
@@ -1274,5 +1279,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             return $this->_customOptions[$code];
         }
         return null;
+    }
+
+    /**
+     * Checks if there custom option for this product
+     *
+     * @return bool
+     */
+    public function hasCustomOptions()
+    {
+        if (count($this->_customOptions)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
