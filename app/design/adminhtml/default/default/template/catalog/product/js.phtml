@@ -24,7 +24,7 @@ Event.observe(window, 'load', registerTaxRecalcs);
 
 function registerTaxRecalcs()
 {
-    if (dynamicTaxes == undefined) {
+    if (typeof dynamicTaxes == 'undefined') {
         return;
     }
 
@@ -39,7 +39,7 @@ var taxRates = <?php echo $this->helper('tax')->getTaxRatesByProductClass(); ?>;
 
 function recalculateTax()
 {
-    if (dynamicTaxes == undefined) {
+    if (typeof dynamicTaxes == 'undefined') {
         return;
     }
 

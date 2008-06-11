@@ -186,4 +186,9 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         return array();
         */
     }
+
+    public function reproduceProcess($rates)
+    {
+        return $this->getResource()->getCalculationProcess(null, $rates);
+    }
 }

@@ -184,4 +184,11 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
         $_address = $this->getQuote()->getBillingAddress();
         return $this->getShippingAddressTotals($_address);
     }
+
+
+    public function renderTotals($totals)
+    {
+        $colspan = $this->helper('tax')->displayCartBothPrices() ? 5 : 3;
+        return $this->getChild('totals')->setTotals($totals)->renderTotals(-1, $colspan);
+    }
 }

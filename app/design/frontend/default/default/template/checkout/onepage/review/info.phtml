@@ -22,12 +22,19 @@
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
             <th class="a-right"><?php echo $this->__('Price') ?></th>
-            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
+            <?php endif; ?>
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
             <th class="a-right"><?php echo $this->__('Price incl. Tax') ?></th>
             <?php endif; ?>
             <th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
             <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
+            <?php endif; ?>
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <th class="a-right"><?php echo $this->__('Subtotal incl. Tax') ?></th>
+            <?php endif; ?>
         </tr>
     </thead>
     <?php echo $this->getChildHtml('totals'); ?>

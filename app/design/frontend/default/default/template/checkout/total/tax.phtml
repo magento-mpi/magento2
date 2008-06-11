@@ -1,4 +1,3 @@
-
 <!--
 <tr>
     <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
@@ -19,8 +18,8 @@
 
                 <?php foreach ($rates as $rate): ?>
                 <tr class="tax-details<?php if ($isTop): echo ' first'; endif; ?>" style="display:none">
-                    <td style="<?php echo $this->getTotal()->getStyle() ?>">
-                        * <?php echo $rate['title']; ?><br />
+                    <td class="a-right" style="<?php echo $this->getTotal()->getStyle() ?>" colspan="<?php echo $this->getColspan(); ?>">
+                        * <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br />
                     </td>
 
                     <?php if ($isFirst): ?>
@@ -35,8 +34,7 @@
             <?php endforeach; ?>
 
 <?php endif;?>
-
-<tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total" onclick="expandDetails(this)"<?php endif; ?>>
+<tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total" onclick="expandDetails(this, '.tax-details')"<?php endif; ?>>
     <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <?php if ($this->helper('tax')->displayFullSummary()): ?><div><?php echo $this->__('Total '); endif; ?><?php echo $this->getTotal()->getTitle() ?><?php if ($this->helper('tax')->displayFullSummary()):?></div><?php endif;?>
     </td>
@@ -44,5 +42,3 @@
         <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
-
-

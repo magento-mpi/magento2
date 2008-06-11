@@ -191,6 +191,17 @@ function formatCurrency(price, format, showPlus){
     return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 };
 
+function expandDetails(el, childClass) {
+	if (el.hasClassName('show-details')) {
+		$$(childClass).each(function(item){item.hide()});
+		el.removeClassName('show-details');
+	}
+	else {
+		$$(childClass).each(function(item){item.show()});
+		el.addClassName('show-details');
+	}
+}
+
 // Version 1.0
 var isIE = navigator.appVersion.match(/MSIE/) == "MSIE";
 

@@ -32,10 +32,17 @@
         </ul>
         <?endif;?>
     </td>
+    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>
-    <?php if ($this->helper('tax')->displayTaxColumn()): ?>
-    <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getTaxAmount()/$this->getQty()) ?></td>
     <?php endif; ?>
-    <td class="a-center"><?php echo $this->getQty() ?></td>
+    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+    <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getTaxAmount()/$_item->getQty()) ?></td>
+    <?php endif; ?>
+    <td class="a-center"><?php echo $_item->getQty() ?></td>
+    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?></td>
+    <?php endif; ?>
+    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+    <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()+$_item->getTaxAmount()) ?></td>
+    <?php endif; ?>
 </tr>

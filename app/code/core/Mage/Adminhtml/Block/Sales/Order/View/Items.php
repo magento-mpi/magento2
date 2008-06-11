@@ -127,21 +127,9 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
         }
     }
 
-    public function displayPriceInclTaxColumn()
+    public function displaySubtotalInclTax($item)
     {
-        if (is_null($this->getData('_displayTaxColumn'))) {
-            $this->setData('_displayTaxColumn', false);
-            foreach ($this->getOrder()->getAllItems() as $item) {
-                if ($item->getTaxAmount()) {
-                    $this->setData('_displayTaxColumn', true);
-                    break;
-                }
-            }
-            if (!Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN)) {
-                $this->setData('_displayTaxColumn', false);
-            }
-        }
-        return $this->getData('_displayTaxColumn');
+        return $this->getOrder()->formatPrice($item->getRowTotal()+$item->getTaxAmount());
     }
 
     public function displayPriceInclTax($item)

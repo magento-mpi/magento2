@@ -13,29 +13,15 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Sales
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-/**
- * Product price block
- *
- * @category   Mage
- * @package    Mage_Catalog
- */
-class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
+class Mage_Sales_Model_Order_Tax extends Mage_Core_Model_Abstract
 {
-    protected $_priceDisplayType = null;
-
-    public function getProduct()
+    protected function _construct()
     {
-        return $this->_getData('product');
-    }
-
-    public function getDisplayMinimalPrice()
-    {
-        return $this->_getData('display_minimal_price');
+        $this->_init('sales/order_tax');
     }
 }

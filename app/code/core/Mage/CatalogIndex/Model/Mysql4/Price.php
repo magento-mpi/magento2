@@ -166,7 +166,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
     public function getMinimalPrices($productIds)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from(array('main_table'=>$this->getTable('catalogindex/minimal_price')), array('main_table.entity_id', 'value'=>"(main_table.value{$this->_getTaxRateConditions()})"))
+            ->from(array('main_table'=>$this->getTable('catalogindex/minimal_price')), array('main_table.entity_id', 'value'=>"(main_table.value)"))
             ->where('main_table.store_id = ?', $this->getStoreId())
             ->where('main_table.customer_group_id = ?', $this->getCustomerGroupId())
             ->where('main_table.entity_id IN(?)', $productIds);

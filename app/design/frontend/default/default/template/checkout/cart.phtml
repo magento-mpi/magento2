@@ -42,46 +42,53 @@
 <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
 	<col width="1" />
 <?php endif ?>
+<?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <col width="80" />
-<?php if ($this->helper('tax')->displayTaxColumn()): ?>
-	<col width="80" />	
+<?php endif; ?>
+<?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+    <col width="80" />
 <?php endif; ?>
     <col width="1" />
+<?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <col width="80" />
+<?php endif; ?>
+<?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+    <col width="80" />
+<?php endif; ?>
+
+
+<?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
     <thead>
-<?php if ($this->helper('tax')->displayTaxColumn()): ?>	
         <tr>
-            <th rowspan="2" class="a-center"><?php echo $this->__('Remove') ?></th>
-            <th rowspan="2">&nbsp;</th>
-            <th rowspan="2"><?php echo $this->__('Product Name') ?></th>
+            <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Remove') ?></th>
+            <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+            <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Product Name') ?></th>
             <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
-            <th rowspan="2" class="a-center"><?php echo $this->__('Move to Wishlist') ?></th>
+            <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Move to Wishlist') ?></th>
             <?php endif ?>
-            <th class="a-center" colspan="2"><?php echo $this->__('Unit Price') ?></th>
-            <th rowspan="2" class="a-center"><?php echo $this->__('Qty') ?></th>
-            <th rowspan="2" class="a-right"><?php echo $this->__('Subtotal') ?><?php echo $this->getIncExcTax(false) ?></th>
+            <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Unit Price') ?></th>
+            <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
         </tr>
+        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
         <tr>
-            <th class="a-right"><?php echo $this->getIncExcTax(false) ?></th>
-            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
-            <th class="a-right"><?php echo $this->getIncExcTax(true) ?></th>
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+            <?php endif; ?>
+
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+            <?php endif; ?>
+
+            <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+            <?php endif; ?>
+
+            <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
             <?php endif; ?>
         </tr>
-<?php else: ?>
-        <tr>
-            <th class="a-center"><?php echo $this->__('Remove') ?></th>
-            <th>&nbsp;</th>
-            <th><?php echo $this->__('Product Name') ?></th>
-            <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
-            <th class="a-center"><?php echo $this->__('Move to Wishlist') ?></th>
-            <?php endif ?>
-			<th><?php echo $this->__('Unit Price') ?><?php echo $this->getIncExcTax(false) ?></th>
-            <th class="a-center"><?php echo $this->__('Qty') ?></th>
-            <th class="a-right"><?php echo $this->__('Subtotal') ?><?php echo $this->getIncExcTax(false) ?></th>
-        </tr>
-<?php endif; ?>		
-		
-		
+        <?php endif; ?>
     </thead>
     <tfoot>
         <tr>
@@ -114,20 +121,6 @@
 
 <div class="shopping-cart-totals">
     <?php echo $this->getChildHtml('totals'); ?>
-
-
-	<script type="text/javascript">
-	function expandDetails(el) {
-		if (el.hasClassName('show-details')) {
-			$$('.tax-details').each(function(item){item.hide()});
-			el.removeClassName('show-details');
-		}
-		else {
-			$$('.tax-details').each(function(item){item.show()});			
-			el.addClassName('show-details');
-		}
-	}
-	</script>	
     <?php if(!$this->hasError()): ?>
     <ul class="checkout-types">
         <?php echo $this->getChildHtml('methods') ?>

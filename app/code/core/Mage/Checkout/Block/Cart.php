@@ -67,12 +67,6 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $url;
     }
 
-    public function getIncExcTax($flag)
-    {
-        $text = Mage::helper('tax')->getIncExcText($flag);
-        return $text ? ' <span class="tax-flag">('.$text.')</span>' : '';
-    }
-
     public function getIsVirtual()
     {
         return $this->helper('checkout/cart')->getIsVirtualQuote();

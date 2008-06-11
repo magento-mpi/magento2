@@ -13,29 +13,29 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Product price block
+ * Adminhtml order totals block
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Adminhtml
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Adminhtml_Block_Sales_Order_Totals
 {
-    protected $_priceDisplayType = null;
-
-    public function getProduct()
+    protected function _construct()
     {
-        return $this->_getData('product');
+        parent::_construct();
+        $this->setTemplate('sales/order/totals/tax.phtml');
     }
 
-    public function getDisplayMinimalPrice()
+    public function getFullTaxInfo()
     {
-        return $this->_getData('display_minimal_price');
+        $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($this->getOrder())->toArray();
+        return Mage::getModel('tax/calculation')->reproduceProcess($rates['items']);
     }
 }

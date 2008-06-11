@@ -55,4 +55,9 @@ class Mage_Adminhtml_Block_Sales_Order_Totals extends Mage_Adminhtml_Block_Sales
     {
         return $this->getData('currency');
     }
+
+    public function renderTaxTotal($source)
+    {
+        return $this->getLayout()->createBlock('adminhtml/sales_order_totals_tax')->setOrder($source)->toHtml();
+    }
 }

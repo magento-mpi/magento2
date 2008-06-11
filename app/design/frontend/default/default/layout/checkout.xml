@@ -226,6 +226,7 @@ Multi address shipping checkout overview
                     <action method="setInfoTemplate"><method></method><template></template></action>
                 </block>
                 <block type="checkout/agreements" name="checkout.multishipping.agreements" as="agreements" template="checkout/multishipping/agreements.phtml"/>
+                <block type="checkout/cart_totals" name="totals" />
             </block>
         </reference>
     </checkout_multishipping_overview>

@@ -298,6 +298,7 @@
                     <quote_address_shipping_rate><table>sales_flat_quote_shipping_rate</table></quote_address_shipping_rate>
 
                     <order><table>sales_order</table></order>
+                    <order_tax><table>sales_order_tax</table></order_tax>
                     <order_item><table>sales_flat_order_item</table></order_item>
                     <order_item_option><table>sales_flat_order_item_option</table></order_item_option>
                     <order_entity><table>sales_order_entity</table></order_entity>

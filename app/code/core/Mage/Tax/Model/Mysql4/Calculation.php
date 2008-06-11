@@ -49,9 +49,11 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         return $this->_calculateRate($this->_getRates($request));
     }
 
-    public function getCalculationProcess($request)
+    public function getCalculationProcess($request, $rates = null)
     {
-        $rates = $this->_getRates($request);
+        if (is_null($rates)) {
+            $rates = $this->_getRates($request);
+        }
 
         $result = array();
         $row = array();
@@ -60,15 +62,31 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         $totalPercent = 0;
         for ($i=0; $i<count($rates); $i++) {
             $rate = $rates[$i];
-            $row['rates'][] = array('title'=>$rate['code'], 'percent'=>$rate['value']*1);
+            $value = (isset($rate['value']) ? $rate['value'] : $rate['percent'])*1;
 
-            $rule = $rate['tax_calculation_rule_id'];
-            $value = $rate['value'];
+            $oneRate = array(
+                            'code'=>$rate['code'],
+                            'title'=>$rate['code'],
+                            'percent'=>$value,
+                            'position'=>$rate['position'],
+                            'priority'=>$rate['priority'],
+                            );
+
+            if (isset($rate['amount'])) {
+                $row['amount'] = $rate['amount'];
+            }
+            $row['rates'][] = $oneRate;
+
+            if (isset($rates[$i+1]['tax_calculation_rule_id'])) {
+                $rule = $rate['tax_calculation_rule_id'];
+            }
             $priority = $rate['priority'];
             $ids[] = $rate['code'];
 
-            while(isset($rates[$i+1]) && $rates[$i+1]['tax_calculation_rule_id'] == $rule) {
-                $i++;
+            if (isset($rates[$i+1]['tax_calculation_rule_id'])) {
+                while(isset($rates[$i+1]) && $rates[$i+1]['tax_calculation_rule_id'] == $rule) {
+                    $i++;
+                }
             }
 
             $currentRate += $value;
@@ -96,7 +114,7 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
             ->where('customer_tax_class_id = ?', $request->getCustomerClassId())
             ->where('product_tax_class_id = ?', $request->getProductClassId());
 
-        $select->join(array('rule'=>$this->getTable('tax/tax_calculation_rule')), 'rule.tax_calculation_rule_id = main_table.tax_calculation_rule_id', array('rule.priority'));
+        $select->join(array('rule'=>$this->getTable('tax/tax_calculation_rule')), 'rule.tax_calculation_rule_id = main_table.tax_calculation_rule_id', array('rule.priority', 'rule.position'));
         $select->join(array('rate'=>$this->getTable('tax/tax_calculation_rate')), 'rate.tax_calculation_rate_id = main_table.tax_calculation_rate_id', array('value'=>'rate.rate', 'rate.tax_country_id', 'rate.tax_region_id', 'rate.tax_postcode', 'rate.tax_calculation_rate_id', 'rate.code'));
 
         $select

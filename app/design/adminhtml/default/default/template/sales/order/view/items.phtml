@@ -35,12 +35,19 @@
                 <th><?php echo $this->helper('sales')->__('Product') ?></th>
                 <th><?php echo $this->helper('sales')->__('Item Status') ?></th>
                 <th><?php echo $this->helper('sales')->__('Original Price') ?></th>
+                <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                 <th><?php echo $this->helper('sales')->__('Price') ?></th>
-                <?php if ($this->displayPriceInclTaxColumn()): ?>
+                <?php endif; ?>
+                <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                 <th><?php echo $this->helper('sales')->__('Price Incl. Tax') ?></th>
                 <?php endif; ?>
                 <th><?php echo $this->helper('sales')->__('Qty') ?></th>
+                <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                 <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
+                <?php endif; ?>
+                <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                <th><?php echo $this->helper('sales')->__('Subtotal Incl. Tax') ?></th>
+                <?php endif; ?>
                 <th><?php echo $this->helper('sales')->__('Tax Amount') ?></th>
                 <th><?php echo $this->helper('sales')->__('Tax Percent') ?></th>
                 <th><?php echo $this->helper('sales')->__('Discount Amount') ?></th>
@@ -55,12 +62,19 @@
                     <td class="giftmessage-single-item"><?php echo $this->renderInfoColumn($_item) ?></td>
                     <td><?php echo $_item->getStatus() ?></td>
                     <td class="price"><?php echo $this->displayPriceAttribute('original_price') ?></td>
+                    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                     <td class="price"><?php echo $this->displayPriceAttribute('price') ?></td>
-                    <?php if ($this->displayPriceInclTaxColumn()): ?>
+                    <?php endif; ?>
+                    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                     <td class="price"><?php echo $this->displayPriceInclTax($_item); ?></td>
                     <?php endif; ?>
                     <td><?php echo $this->getQtyHtml($_item) ?></td>
+                    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                     <td class="price"><?php echo $this->displayPriceAttribute('row_total') ?></td>
+                    <?php endif; ?>
+                    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <td class="price"><?php echo $this->displaySubtotalInclTax($_item) ?></td>
+                    <?php endif; ?>
                     <td class="price"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
                     <td class="price"><?php echo $this->displayTaxPercent($_item) ?></td>
                     <td class="price"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>

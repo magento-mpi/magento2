@@ -72,9 +72,6 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getIncExcText($flag, $store=null)
     {
-        if (!$this->priceIncludesTax($store)) {
-            return null;
-        }
         if ($flag) {
             $s = $this->__('Incl. Tax');
         } else {
@@ -139,14 +136,25 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY, $store) == 1);
     }
 
+    public function displayCartPriceInclTax($store = null)
+    {
+        return $this->displayTaxColumn($store) == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
+    }
+
+    public function displayCartPriceExclTax($store = null)
+    {
+        return $this->displayTaxColumn($store) == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+    }
+
+    public function displayCartBothPrices($store = null)
+    {
+        return $this->displayTaxColumn($store) == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+    }
+
     public function displayTaxColumn($store = null)
     {
         if (is_null($this->_displayTaxColumn)) {
-            $this->_displayTaxColumn = true;
-
-            if (!Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN, $store)) {
-                $this->_displayTaxColumn = false;
-            }
+            $this->_displayTaxColumn = (int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_TAX_COLUMN, $store);
         }
         return $this->_displayTaxColumn;
     }
@@ -208,6 +216,21 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 
     }
 
+    public function displayPriceIncludingTax()
+    {
+        return $this->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
+    }
+
+    public function displayPriceExcludingTax()
+    {
+        return $this->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+    }
+
+    public function displayBothPrices()
+    {
+        return $this->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+    }
+
     protected function _calculatePrice($price, $percent, $type)
     {
         $store = Mage::app()->getStore();
@@ -216,5 +239,11 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             return $store->roundPrice($price - ($price/(100+$percent)*$percent));
         }
+    }
+
+    public function getIncExcTaxLabel($flag)
+    {
+        $text = $this->getIncExcText($flag);
+        return $text ? ' <span class="tax-flag">('.$text.')</span>' : '';
     }
 }

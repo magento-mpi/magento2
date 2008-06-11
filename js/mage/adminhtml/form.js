@@ -241,6 +241,7 @@ RegionUpdater.prototype = {
                 this.regionSelectEl.options.length = 1;
                 this.regionSelectEl.value = '';
                 this.regionSelectEl.selectedIndex = 0;
+                this.lastCountryId = '';
             }
             this.setMarkDisplay(this.regionSelectEl, false);
         }
