@@ -210,6 +210,10 @@
                         <label>Configurable Product</label>
                         <model>catalog/product_type_configurable</model>
                         <price_model>catalog/product_type_configurable_price</price_model>
+                        <allow_product_types>
+                            <simple/>
+                            <virtual/>
+                        </allow_product_types>
                     </configurable>
                     <virtual translate="label" module="catalog">
                         <label>Virtual Product</label>

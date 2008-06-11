@@ -364,4 +364,20 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         }
         return Mage::helper('catalog')->__('Please specify the product option(s)');
     }
+
+    /**
+     * Check is virtual product
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        if ($productOption = $this->getProduct()->getCustomOption('simple_product')) {
+            if ($product = $productOption->getProduct()) {
+                /* @var $product Mage_Catalog_Model_Product */
+                return $product->getTypeInstance()->isVirtual();
+            }
+        }
+        return parent::isVirtual();
+    }
 }

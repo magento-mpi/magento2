@@ -46,6 +46,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
+        $this->setIsVirtual($this->getProduct()->getIsVirtual());
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
         }
@@ -169,7 +170,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             ->setWeight($product->getWeight())
             ->setTaxClassId($product->getTaxClassId())
             ->setCost($product->getCost())
-            ->setIsVirtual($product->getIsVirtual())
             ->setIsQtyDecimal($product->getIsQtyDecimal());
 
         if ($options = $product->getCustomOptions()) {

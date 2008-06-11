@@ -630,7 +630,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (is_null($qty)) {
             $qty = 0;
             foreach ($this->getAllItems() as $item) {
-                if ($item->getIsVirtual()) {
+                if ($item->getProduct()->getIsVirtual()) {
                     $qty+= $item->getQty();
                 }
             }
@@ -726,7 +726,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setVirtualItemsQty(0);
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getIsVirtual()) {
+            if ($item->getProduct()->getIsVirtual()) {
                 $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
             }
             $this->setItemsCount($this->getItemsCount()+1);
@@ -796,7 +796,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $isVirtual = true;
         foreach ($this->getItemsCollection() as $_item) {
             /* @var $_item Mage_Sales_Model_Quote_Item */
-            if (!$_item->getProduct()->getTypeInstance()->isVirtual()) {
+            if (!$_item->getProduct()->getIsVirtual()) {
                 $isVirtual = false;
             }
         }
