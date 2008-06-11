@@ -531,4 +531,14 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         }
         return true;
     }
+
+    public function getAppliedTaxes()
+    {
+        return unserialize($this->getData('applied_taxes'));
+    }
+
+    public function setAppliedTaxes($data)
+    {
+        return $this->setData('applied_taxes', serialize($data));
+    }
 }

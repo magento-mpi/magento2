@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.0</version>
+            <version>0.9.2</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -409,7 +409,7 @@
             <sales_setup>
                 <setup>
                     <module>Mage_Sales</module>
-                    <class>Mage_Sales_Model_Entity_Setup</class>
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
                 </setup>
                 <connection><use>core_setup</use></connection>
             </sales_setup>

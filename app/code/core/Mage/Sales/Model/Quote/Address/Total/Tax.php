@@ -32,6 +32,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $store = $address->getQuote()->getStore();
         $address->setTaxAmount(0);
         $address->setBaseTaxAmount(0);
+        $address->setAppliedTaxes(array());
 
         $items = $address->getAllItems();
         if (!count($items)) {

@@ -43,7 +43,7 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
 
     protected function _addFlatAttribute($table, $attribute, $data)
     {
-        $tableInfo = $this->getConnection()->describeTable($table);
+        $tableInfo = $this->getConnection()->describeTable($this->getTable($table));
         if (isset($tableInfo[$attribute])) {
             return $this;
         }
@@ -73,7 +73,7 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
             $columnDefinition.= ' NOT NULL';
         }
 
-        $this->getConnection()->addColumn($table, $attribute, $columnDefinition);
+        $this->getConnection()->addColumn($this->getTable($table), $attribute, $columnDefinition);
         return $this;
     }
 
@@ -223,6 +223,7 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_grand_total'          => array('type'=>'static'),
 
                     'customer_notes' => array('type'=>'static'),
+                    'applied_taxes' => array('type'=>'text'),
                 ),
             ),
             'quote_address_item' => array(

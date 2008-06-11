@@ -19,10 +19,6 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Entity_Setup */
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
 
-$conn = $installer->getConnection();
-
-/* @var $conn Varien_Db_Adapter_Pdo_Mysql */
-$installer->addAttribute('quote_item', 'product_type', array());
-$installer->addAttribute('order_item', 'product_type', array());
+$installer->addAttribute('quote_address', 'applied_taxes', array('type'=>'text'));
