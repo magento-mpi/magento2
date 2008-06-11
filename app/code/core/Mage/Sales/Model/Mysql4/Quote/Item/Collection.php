@@ -73,7 +73,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
         $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
-        	$item->setOptions($optionCollection->getOptionsByItem($item));
+            $item->setOptions($optionCollection->getOptionsByItem($item));
         }
         $productIds = $optionCollection->getProductIds();
         $this->_productIds = array_merge($this->_productIds, $productIds);
@@ -90,7 +90,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
         Varien_Profiler::start('QUOTE:'.__METHOD__);
         $productIds = array();
         foreach ($this as $item) {
-        	$productIds[] = $item->getProductId();
+            $productIds[] = $item->getProductId();
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
@@ -109,11 +109,12 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
             }
 
             if ($product = $productCollection->getItemById($item->getProductId())) {
+                $product->setCustomOptions(array());
                 $item->setProduct($product);
                 foreach ($item->getOptions() as $option) {
-                	if ($product = $productCollection->getItemById($option->getProductId())) {
-                	    $option->setProduct($product);
-                	}
+                    if ($product = $productCollection->getItemById($option->getProductId())) {
+                        $option->setProduct($product);
+                    }
                 }
             }
             else {

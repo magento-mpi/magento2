@@ -174,7 +174,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 
         if ($options = $product->getCustomOptions()) {
             foreach ($options as $option) {
-            	$this->addOption($option);
+                $this->addOption($option);
             }
         }
         return $this;
@@ -219,9 +219,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 
         foreach ($itemOptions as $option) {
             $code = $option->getCode();
-        	if (($productOptions[$code]->getValue() === null) || $productOptions[$code]->getValue() != $option->getValue()) {
-        	    return false;
-        	}
+            if ( !isset($productOptions[$code])
+                || ($productOptions[$code]->getValue() === null)
+                || $productOptions[$code]->getValue() != $option->getValue()) {
+                return false;
+            }
         }
         return true;
     }
@@ -238,14 +240,14 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             return false;
         }
         foreach ($this->getOptions() as $option) {
-        	if ($itemOption = $item->getOptionByCode($option->getCode())) {
+            if ($itemOption = $item->getOptionByCode($option->getCode())) {
                 if ($itemOption->getValue() != $option->getValue()) {
                     return false;
                 }
-        	}
-        	else {
-        	    return false;
-        	}
+            }
+            else {
+                return false;
+            }
         }
         return true;
     }
@@ -288,9 +290,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     public function setOptions($options)
     {
-        $this->_options = $options;
         foreach ($options as $option) {
-        	$this->_addOptionCode($option);
+            $this->addOption($option);
         }
         return $this;
     }
@@ -318,9 +319,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
                 ->setItem($this);
         }
         elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
-        	$option = Mage::getModel('sales/quote_item_option')->setData($option->getData())
-        	   ->setProduct($option->getProduct())
-        	   ->setItem($this);
+            $option = Mage::getModel('sales/quote_item_option')->setData($option->getData())
+               ->setProduct($option->getProduct())
+               ->setItem($this);
         }
         elseif($option instanceof Mage_Sales_Model_Quote_Item_Option) {
             $option->setItem($this);
@@ -351,7 +352,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('sales')->__('Item option with code %s already exist'), $option->getCode());
+            Mage::throwException(Mage::helper('sales')->__('Item option with code %s already exist', $option->getCode()));
         }
         return $this;
     }
@@ -378,12 +379,12 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     protected function _afterSave()
     {
         foreach ($this->_options as $option) {
-        	if ($option->isDeleted()) {
-        	    $option->delete();
-        	}
-        	else {
-        	    $option->save();
-        	}
+            if ($option->isDeleted()) {
+                $option->delete();
+            }
+            else {
+                $option->save();
+            }
         }
         return parent::_afterSave();
     }
@@ -401,7 +402,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $this->_options         = array();
         $this->_optionsByCode   = array();
         foreach ($options as $option) {
-        	$this->addOption(clone $option);
+            $this->addOption(clone $option);
         }
         return $this;
     }
