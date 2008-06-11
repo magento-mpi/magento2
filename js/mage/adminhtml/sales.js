@@ -431,7 +431,7 @@ AdminOrder.prototype = {
     },
 
     itemsUpdate : function(){
-        var info = $('order:items_grid').getElementsBySelector('input', 'select');
+        var info = $('order:items_grid').getElementsBySelector('input', 'select', 'textarea');
         var data = $H({});
         for(var i=0; i<info.length; i++){
             if(!info[i].disabled && (info[i].type != 'checkbox' || info[i].checked)) {
@@ -445,7 +445,7 @@ AdminOrder.prototype = {
     },
 
     itemsOnchangeBind : function(){
-        var elems = $('order:items_grid').getElementsBySelector('input', 'select');
+        var elems = $('order:items_grid').getElementsBySelector('input', 'select', 'textarea');
         for(var i=0; i<elems.length; i++){
             if(!elems[i].bindOnchange){
                 elems[i].bindOnchange = true;

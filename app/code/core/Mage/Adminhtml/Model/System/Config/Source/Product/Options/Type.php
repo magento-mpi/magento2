@@ -38,12 +38,12 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type
                     array('value' => 'area', 'label' => Mage::helper('adminhtml')->__('Area')),
                 )
             ),
-            array(
-                'label' => Mage::helper('adminhtml')->__('File'),
-                'value' => array(
-                    array('value' => 'file', 'label' => Mage::helper('adminhtml')->__('File')),
-                )
-            ),
+//            array(
+//                'label' => Mage::helper('adminhtml')->__('File'),
+//                'value' => array(
+//                    array('value' => 'file', 'label' => Mage::helper('adminhtml')->__('File')),
+//                )
+//            ),
             array(
                 'label' => Mage::helper('adminhtml')->__('Select'),
                 'value' => array(
@@ -53,14 +53,14 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type
                     array('value' => 'multiple', 'label' => Mage::helper('adminhtml')->__('Multiple Select')),
                 )
             ),
-            array(
-                'label' => Mage::helper('adminhtml')->__('Date'),
-                'value' => array(
-                    array('value' => 'date', 'label' => Mage::helper('adminhtml')->__('Date')),
-                    array('value' => 'date_time', 'label' => Mage::helper('adminhtml')->__('Date & Time')),
-                    array('value' => 'time', 'label' => Mage::helper('adminhtml')->__('Time'))
-                )
-            )
+//            array(
+//                'label' => Mage::helper('adminhtml')->__('Date'),
+//                'value' => array(
+//                    array('value' => 'date', 'label' => Mage::helper('adminhtml')->__('Date')),
+//                    array('value' => 'date_time', 'label' => Mage::helper('adminhtml')->__('Date & Time')),
+//                    array('value' => 'time', 'label' => Mage::helper('adminhtml')->__('Time'))
+//                )
+//            )
         );
     }
 }
