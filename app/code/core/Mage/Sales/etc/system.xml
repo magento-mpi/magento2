@@ -260,6 +260,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </order>
 
@@ -307,6 +316,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </order_comment>
 
@@ -354,6 +372,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </invoice>
                 <invoice_comment translate="label">
@@ -400,6 +427,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </invoice_comment>
 
@@ -447,6 +483,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </shipment>
                 <shipment_comment translate="label">
@@ -493,6 +538,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </shipment_comment>
 
@@ -540,6 +594,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </creditmemo>
                 <creditmemo_comment translate="label">
@@ -586,6 +649,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>separate by ","</comment>
                         </copy_to>
+                        <copy_method>
+                            <label>Send Order Email Copy Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_method</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </copy_method>
                     </fields>
                 </creditmemo_comment>
             </groups>

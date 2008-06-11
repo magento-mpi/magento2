@@ -446,7 +446,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             	$this->getMail()->addBcc($email);
             }
         }
-        elseif($bcc) {
+        elseif ($bcc) {
             $this->getMail()->addBcc($bcc);
         }
         return $this;

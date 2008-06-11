@@ -35,24 +35,27 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     /**
      * XML configuration paths
      */
-    const XML_PATH_EMAIL_TEMPLATE       = 'sales_email/order/template';
-    const XML_PATH_EMAIL_GUEST_TEMPLATE = 'sales_email/order/guest_template';
-    const XML_PATH_EMAIL_IDENTITY       = 'sales_email/order/identity';
-    const XML_PATH_EMAIL_COPY_TO        = 'sales_email/order/copy_to';
+    const XML_PATH_EMAIL_TEMPLATE               = 'sales_email/order/template';
+    const XML_PATH_EMAIL_GUEST_TEMPLATE         = 'sales_email/order/guest_template';
+    const XML_PATH_EMAIL_IDENTITY               = 'sales_email/order/identity';
+    const XML_PATH_EMAIL_COPY_TO                = 'sales_email/order/copy_to';
+    const XML_PATH_EMAIL_COPY_METHOD            = 'sales_email/order/copy_method';
+
     const XML_PATH_UPDATE_EMAIL_TEMPLATE        = 'sales_email/order_comment/template';
     const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE  = 'sales_email/order_comment/guest_template';
     const XML_PATH_UPDATE_EMAIL_IDENTITY        = 'sales_email/order_comment/identity';
     const XML_PATH_UPDATE_EMAIL_COPY_TO         = 'sales_email/order_comment/copy_to';
+    const XML_PATH_UPDATE_EMAIL_COPY_METHOD     = 'sales_email/order_comment/copy_method';
 
     /**
      * Order states
      */
-    const STATE_NEW        = 'new';
-    const STATE_PROCESSING = 'processing';
-    const STATE_COMPLETE   = 'complete';
-    const STATE_CLOSED     = 'closed';
-    const STATE_CANCELED   = 'canceled';
-    const STATE_HOLDED     = 'holded';
+    const STATE_NEW         = 'new';
+    const STATE_PROCESSING  = 'processing';
+    const STATE_COMPLETE    = 'complete';
+    const STATE_CLOSED      = 'closed';
+    const STATE_CANCELED    = 'canceled';
+    const STATE_HOLDED      = 'holded';
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
@@ -572,8 +575,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
         $mailTemplate = Mage::getModel('core/email_template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
-        if ($bcc = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO)) {
-            $mailTemplate->addBcc($bcc);
+        $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
+        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStoreId());
+        if ($copyTo && $copyMethod == 'bcc') {
+            $mailTemplate->addBcc($copyTo);
         }
 
         if ($this->getCustomerIsGuest()) {
@@ -584,19 +589,36 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $customerName = $this->getCustomerName();
         }
 
-        $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
-            ->sendTransactional(
-                $template,
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $this->getStoreId()),
-                $this->getCustomerEmail(),
-                $customerName,
-                array(
-                    'order'         => $this,
-                    'billing'       => $this->getBillingAddress(),
-                    'payment_html'  => $paymentBlock->toHtml(),
-                    'items_html'    => $itemsBlock->toHtml(),
-                )
-            );
+        $sendTo = array(
+            array(
+                'email' => $this->getCustomerEmail(),
+                'name'  => $customerName
+            )
+        );
+        if ($copyTo && $copyMethod == 'copy') {
+            foreach ($copyTo as $email) {
+                $sendTo[] = array(
+                    'email' => $email,
+                    'name'  => null
+                );
+            }
+        }
+
+        foreach ($sendTo as $recipient) {
+            $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+                ->sendTransactional(
+                    $template,
+                    Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $this->getStoreId()),
+                    $recipient['email'],
+                    $recipient['name'],
+                    array(
+                        'order'         => $this,
+                        'billing'       => $this->getBillingAddress(),
+                        'payment_html'  => $paymentBlock->toHtml(),
+                        'items_html'    => $itemsBlock->toHtml(),
+                    )
+                );
+        }
 
         $translate->setTranslateInline(true);
 
@@ -614,18 +636,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $bcc = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        if (!$notifyCustomer && !$bcc) {
+        $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
+        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
+        if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
 
+        $sendTo = array();
+
         $mailTemplate = Mage::getModel('core/email_template');
-        if ($notifyCustomer) {
-            $customerEmail = $this->getCustomerEmail();
-            $mailTemplate->addBcc($bcc);
-        } else {
-            $customerEmail = $bcc;
-        }
 
         if ($this->getCustomerIsGuest()) {
             $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $this->getStoreId());
@@ -635,18 +654,40 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $customerName = $this->getCustomerName();
         }
 
-        $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
-            ->sendTransactional(
-                $template,
-                Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
-                $customerEmail,
-                $customerName,
-                array(
-                    'order'     => $this,
-                    'billing'   => $this->getBillingAddress(),
-                    'comment'   => $comment
-                )
+        if ($notifyCustomer) {
+            $sendTo[] = array(
+                'name'  => $customerName,
+                'email' => $this->getCustomerEmail()
             );
+            if ($copyTo && $copyMethod == 'bcc') {
+                $mailTemplate->addBcc($copyTo);
+            }
+
+        }
+
+        if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
+            foreach ($copyTo as $email) {
+                $sendTo[] = array(
+                    'name'  => null,
+                    'email' => $email
+                );
+            }
+        }
+
+        foreach ($sendTo as $recipient) {
+            $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
+                ->sendTransactional(
+                    $template,
+                    Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
+                    $recipient['email'],
+                    $recipient['name'],
+                    array(
+                        'order'     => $this,
+                        'billing'   => $this->getBillingAddress(),
+                        'comment'   => $comment
+                    )
+                );
+        }
 
         $translate->setTranslateInline(true);
 
