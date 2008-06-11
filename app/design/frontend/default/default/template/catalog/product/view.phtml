@@ -42,6 +42,12 @@
 
             <?php echo $this->helper('review/product')->getSummaryHtml($_product, null, 1) ?>
 
+
+            <h4><?php echo $this->__('Quick Overview') ?></h4>
+            <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
+			
+            <div class="divider"></div>
+			
             <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
             <fieldset>
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
@@ -66,10 +72,6 @@
             </script>
 
             <div class="clear"></div>
-            <div class="divider"></div>
-
-            <h4><?php echo $this->__('Quick Overview') ?></h4>
-            <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
         </div>
     </div>

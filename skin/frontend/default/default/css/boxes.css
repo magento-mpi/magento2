@@ -266,7 +266,7 @@ td.label        { font-weight:bold; }
 .data-table th.wrap {white-space:normal;}
 .data-table th a, .data-table th a:hover { color:#fff;}
 .data-table td { padding:3px 8px; }
-.data-table thead tr { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
+.data-table thead tr th { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
 .data-table tfoot { border-bottom:1px solid #d9dde3;}
 .data-table tfoot tr.first { background:url(../images/base_mini_actions_bg.gif) repeat-x; }
 .data-table tfoot tr { background-color:#DEE5E8 !important; }
@@ -635,46 +635,60 @@ h1#logo {
 
 /********************** Prices */
 .price-box {
-    margin:4px 0;
+    padding:5px 0 10px;
     }
 .regular-price {
     color:#c76200;
-    font-size:1.1em;
+    font-size:13px;
     font-weight:bold;
     }
 .old-price {
     color:#999;
-    font-size:.95em;
+    font-size:12px;
+	display:block;
     }
 .old-price .price {
     text-decoration:line-through;
     white-space:nowrap;
     }
+	
+/*Special price*/	
 .special-price {
     color:#cd5033;
-    font-size:1.2em;
     font-weight:bold;
-    line-height:1em;
+	display:block;	
     }
-.special-price .label { font-weight:normal; }
-.special-price .price { white-space:nowrap; }
+.special-price .label { font-weight:bold;  font-size:13px;}
+.special-price .price { white-space:nowrap; font-weight:bold; font-size:13px; }
 
+/*minimal price (as low as) */
 .minimal-price {
-    color:#cd5033;
-    font-size:1.2em;
-    font-weight:bold;
-    line-height:1em;
+    font-size:12px;
+    font-weight:normal;
+	display:block; padding:5px 0 0;
     }
 .minimal-price .label { font-weight:normal; }
 .minimal-price .price { white-space:nowrap; }
 
+/*including tax*/
+.price-including-tax {display:block;}
 .price-including-tax .price {
     color:#c76200;
-    font-size:1.1em;
+    font-size:13px;
     }
 
-.price-including-tax .label { font-weight:bold; }
-.price-including-tax .price { white-space:nowrap; }
+.price-including-tax .label {  font-weight:normal; font-size:12px; color:#999;}
+.price-including-tax .price { white-space:nowrap; font-weight:bold; }
+
+/*excluding tax*/
+.price-excluding-tax  {display:block;}
+.price-excluding-tax .price {
+    color:#c76200;
+    font-size:13px;
+    }
+
+.price-excluding-tax .label { font-weight:normal; font-size:12px; color:#999; }
+.price-excluding-tax .price { white-space:nowrap; font-weight:normal; }
 
 /********************** Generic Box */
 .generic-box {
@@ -973,9 +987,11 @@ table.recently-list td {width:20%;}
 .product-essential, .product-collateral { padding:25px; }
 .product-essential { padding:25px; background:url(../images/product_essential_bg.gif) no-repeat 100% 0 #fff; }
 .product-essential .product-shop { width:330px; }
-.product-essential .product-shop .ratings { margin-bottom:4px; }
+.product-essential .product-shop .ratings { margin-bottom:10px; }
 
-.custom-options {width:100%;}
+
+.custom-options {padding:0px 10px 0;}
+.custom-options table {width:100%;}
 .custom-options .data {background:#f5f2e9; padding:5px 10px;}
 .custom-options .data textarea  {width:92%; height:5em;}
 .custom-options .label {padding-top:10px;}
@@ -1073,9 +1089,13 @@ td.attributes-col p.pname a{ font-weight:bold;}
 .shopping-cart-totals .checkout-types li { clear:both;  margin:10px 0; }
 
 /*tax details */
-.tax-total td{ border-bottom:1px solid #d2d8db; padding-top:5px; /* background:#e4eaec; */}
+.tax-total td{padding-bottom:5px; /* background:#e4eaec; */}
+.tax-total div {float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 6px; cursor:default;}
+.show-details div {background-position:0 -51px;}
+.show-details td{border-top:1px solid #d2d8db;}
 .tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }
-.tax-details.last td{ border-bottom:1px solid #d2d8db;}
+.tax-details.first td{ border-top:1px solid #d2d8db;padding-top:2px;}
+
 
 
 

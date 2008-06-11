@@ -35,10 +35,10 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
-<table cellspacing="0" id="shopping-cart-table" class="data-table box-table shopping-cart">
+<table cellspacing="0" border="0" id="shopping-cart-table" class="data-table box-table shopping-cart">
+    <col width="40" />
     <col width="75" />
     <col />
-    <col width="80" />
 <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
 	<col width="1" />
 <?php endif ?>
@@ -49,20 +49,39 @@
     <col width="1" />
     <col width="80" />
     <thead>
+<?php if ($this->helper('tax')->displayTaxColumn()): ?>	
         <tr>
+            <th rowspan="2" class="a-center"><?php echo $this->__('Remove') ?></th>
+            <th rowspan="2">&nbsp;</th>
+            <th rowspan="2"><?php echo $this->__('Product Name') ?></th>
+            <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+            <th rowspan="2" class="a-center"><?php echo $this->__('Move to Wishlist') ?></th>
+            <?php endif ?>
+            <th class="a-center" colspan="2"><?php echo $this->__('Unit Price') ?></th>
+            <th rowspan="2" class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th rowspan="2" class="a-right"><?php echo $this->__('Subtotal') ?><?php echo $this->getIncExcTax(false) ?></th>
+        </tr>
+        <tr>
+            <th class="a-right"><?php echo $this->getIncExcTax(false) ?></th>
+            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
+            <th class="a-right"><?php echo $this->getIncExcTax(true) ?></th>
+            <?php endif; ?>
+        </tr>
+<?php else: ?>
+        <tr>
+            <th class="a-center"><?php echo $this->__('Remove') ?></th>
             <th>&nbsp;</th>
             <th><?php echo $this->__('Product Name') ?></th>
-            <th class="a-center"><?php echo $this->__('Remove Product') ?></th>
             <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
             <th class="a-center"><?php echo $this->__('Move to Wishlist') ?></th>
             <?php endif ?>
-            <th class="a-right"><?php echo $this->__('Unit Price') ?><?php echo $this->getIncExcTax(false) ?></th>
-            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
-            <th class="a-right"><?php echo $this->__('Unit Price') ?><?php echo $this->getIncExcTax(true) ?></th>
-            <?php endif; ?>
+			<th><?php echo $this->__('Unit Price') ?><?php echo $this->getIncExcTax(false) ?></th>
             <th class="a-center"><?php echo $this->__('Qty') ?></th>
             <th class="a-right"><?php echo $this->__('Subtotal') ?><?php echo $this->getIncExcTax(false) ?></th>
         </tr>
+<?php endif; ?>		
+		
+		
     </thead>
     <tfoot>
         <tr>
@@ -96,7 +115,19 @@
 <div class="shopping-cart-totals">
     <?php echo $this->getChildHtml('totals'); ?>
 
-    <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
+
+	<script type="text/javascript">
+	function expandDetails(el) {
+		if (el.hasClassName('show-details')) {
+			$$('.tax-details').each(function(item){item.hide()});
+			el.removeClassName('show-details');
+		}
+		else {
+			$$('.tax-details').each(function(item){item.show()});			
+			el.addClassName('show-details');
+		}
+	}
+	</script>	
     <?php if(!$this->hasError()): ?>
     <ul class="checkout-types">
         <?php echo $this->getChildHtml('methods') ?>

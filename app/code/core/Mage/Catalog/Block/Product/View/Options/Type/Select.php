@@ -80,14 +80,18 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             switch ($_option->getType()) {
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
+                    $class = 'form-radio';
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
+                    $class = 'form-radio';
                     break;
             }
             $selectHtml = '';
+				$count = 1;
             foreach ($collection as $_value) {
-                $selectHtml .= '<input type="'.$type.'" class="'.$require.'" id="" name="options['.$_option->getId().']" value="'.$_value->getOptionTypeId().'">'.$_value->getTitle().'<br />';
+				$count++;
+                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.'" id="options_'.$_option->getId().'_'.$count.'" name="options['.$_option->getId().']" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().'</label><br />';
             }
 
             return $selectHtml;

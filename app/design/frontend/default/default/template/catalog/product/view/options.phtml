@@ -22,14 +22,14 @@
 <?php if ($_optionsCollection->getSize()): ?>
 <div class="clear"></div>
 <fieldset>
-    <div class="product-attributes">
-        <table cellspacing="0" class="custom-options" border="0" cellpadding="0" id="custom-options-table">
+    <div class="product-attributes custom-options">
+        <table cellspacing="0" border="0" cellpadding="0" id="custom-options-table">
         <?php foreach($_optionsCollection as $_option): ?>
             <?php echo $this->getOptionHtml($_option) ?>
         <?php endforeach; ?>
         </table>
+    <p class="required">* Required Fields</p>
     </div>
 	<script type="text/javascript">decorateTable('custom-options-table')</script>	
-    <p class="required">* Required Fields</p>
 </fieldset>
 <?php endif; ?>

@@ -20,6 +20,11 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
+    <td class="a-center">
+        <a href="<?php echo $this->getDeleteUrl() ?>">
+            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
+        </a>
+    </td>
     <td>
         <a href="<?php echo $this->getProductUrl() ?>">
             <img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" />
@@ -41,11 +46,6 @@
         </div>
         <?php endforeach; ?>
         <?php endif; ?>
-    </td>
-    <td class="a-center">
-        <a href="<?php echo $this->getDeleteUrl() ?>">
-            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
-        </a>
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">

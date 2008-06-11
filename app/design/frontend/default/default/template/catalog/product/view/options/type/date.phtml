@@ -21,7 +21,7 @@
 <?php $_option = $this->getOption() ?>
 <tr>
     <td class="label">
-        <?php echo $_option->getTitle() ?>
+        <?php echo $this->htmlEscape($_option->getTitle()) ?>
         <?php if ($_option->getIsRequire()): ?>
             <span class="required">*</span>
         <?php endif; ?>
@@ -30,12 +30,12 @@
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
         || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
         <tr>
-            <td class="data">Date <?php echo $this->getCalendarHtml() ?></td>
+            <td class="data"><?php echo $this->__('Date&nbsp;') ?> <?php echo $this->getCalendarHtml() ?></td>
         </tr>
 <?php endif; ?>
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
         || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
         <tr><td class="data">
-            Time <input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" />
+            <?php echo $this->__('Time') ?> <input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" />
         </td></tr>
 <?php endif; ?>

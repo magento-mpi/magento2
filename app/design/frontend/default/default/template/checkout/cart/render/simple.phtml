@@ -20,6 +20,11 @@
 ?>
 <?php $_item = $this->getItem() ?>
 <tr>
+    <td class="a-center">
+        <a href="<?php echo $this->getItemDeleteUrl($_item) ?>">
+            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="Remove item" />
+        </a>
+    </td>
     <td>
         <a href="<?php echo $this->getItemUrl($_item) ?>">
             <img src="<?php echo $this->helper('catalog/image')->init($this->getItemProductForThumbnail($_item), 'thumbnail')->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getItemName($_item)) ?>" width="75" />
@@ -33,11 +38,6 @@
             * <?php echo $_item->getMessage() ?>
         </div>
         <?php endif; ?>
-    </td>
-    <td class="a-center">
-        <a href="<?php echo $this->getItemDeleteUrl($_item) ?>">
-            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="Remove item" />
-        </a>
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">

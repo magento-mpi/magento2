@@ -21,7 +21,7 @@
 <?php $_option = $this->getOption() ?>
 <tr>
     <td class="label">
-        <?php echo $_option->getTitle() ?>
+        <?php echo  $this->htmlEscape($_option->getTitle()) ?>
         <?php if ($_option->getIsRequire()): ?>
             <span class="required">*</span>
         <?php endif; ?>

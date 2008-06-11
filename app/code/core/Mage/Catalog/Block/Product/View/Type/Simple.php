@@ -27,5 +27,8 @@
  */
 class Mage_Catalog_Block_Product_View_Type_Simple extends Mage_Catalog_Block_Product_View_Abstract
 {
-
+    public function displayBothPrices()
+    {
+        return Mage::helper('tax')->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+    }
 }
