@@ -23,7 +23,7 @@
  *
  * @category   Mage
  * @package    Mage_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_Abstract
 {

@@ -83,38 +83,7 @@
             </div>
         </div>
       </div>
-    <?php if ($this->getQuote()->hasVirtualItems()): ?>
-    <div class="box">
-        <div class="count-head">
-            <h4><?php echo $this->__('Unavailable for shipping items') ?></h4>
-        </div>
-        <div class="content">
-            <div class="head">
-                <h5><?php echo $this->__('Items') ?><span class="pipe">|</span><a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h5>
-            </div>
-            <table cellspacing="0" id="unavailable-shipping-table" class="data-table nested-table">
-                <col />
-                <col width="30" />
-                <thead>
-                    <tr>
-                        <th><?php echo $this->__('Product Name') ?></th>
-                        <th class="a-center"><?php echo $this->__('Qty') ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($this->getVirtualItems() as $_item): ?>
-                    <tr>
-                        <td><?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?></td>
-                        <td class="a-center"><?php echo $_item->getQty() ?></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-            <script type="text/javascript">decorateTable('unavailable-shipping-table')</script>
-        </div>
-        </div>
-    </div>
-    <?php endif; ?>
+    <?php echo $this->getChildHtml('checkout_billing_items') ?>
 </div>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo;<?php echo $this->__('Back to Shipping Information') ?></a>
