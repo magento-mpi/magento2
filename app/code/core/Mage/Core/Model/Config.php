@@ -242,7 +242,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         // prepare unsorted modules with links
         foreach ($unsortedConfig->getNode('modules')->children() as $moduleName=>$moduleConfig) {
-            $unsortedModules[$moduleName] = array();
+            if (!isset($unsortedModules[$moduleName])) {
+                $unsortedModules[$moduleName] = array();
+            }
             if ($moduleConfig->depends) {
                 foreach ($moduleConfig->depends->children() as $dependName=>$depend) {
                     $unsortedModules[$moduleName]['parents'][$dependName] = true;
