@@ -1155,7 +1155,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve option instance
      *
      * @return Mage_Catalog_Model_Product_Option
      */
@@ -1168,7 +1168,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve options collection of product
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
      */
@@ -1180,12 +1180,38 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $collection;
     }
 
+    /**
+     * Add option to array of product options
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return Mage_Catalog_Model_Product
+     */
     public function addOption(Mage_Catalog_Model_Product_Option $option)
     {
-        $this->_options[] = $option;
+        $this->_options[$option->getId()] = $option;
         return $this;
     }
 
+    /**
+     * Get option from options array of product by given option id
+     *
+     * @param int $optionId
+     * @return Mage_Catalog_Model_Product_Option | null
+     */
+    public function getOptionById($optionId)
+    {
+        if (isset($this->_options[$optionId])) {
+            return $this->_options[$optionId];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get all options of product
+     *
+     * @return array
+     */
     public function getOptions()
     {
         return $this->_options;

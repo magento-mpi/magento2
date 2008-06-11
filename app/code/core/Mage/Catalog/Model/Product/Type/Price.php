@@ -41,9 +41,9 @@ class Mage_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = $product->getPrice();
-        //$finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
         $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
         $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
         $product->setFinalPrice($finalPrice);
         Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
         return max(0, $product->getData('final_price'));
@@ -289,25 +289,42 @@ class Mage_Catalog_Model_Product_Type_Price
     }
 
 
+    /**
+     * Apply options price
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param int $qty
+     * @param double $finalPrice
+     * @return double
+     */
     protected function _applyOptionsPrice($product, $qty, $finalPrice)
     {
-//        Zend_Debug::dump($product);die();
-        $options = $product->getCartOptions();
-        foreach ($options as $optionId => $optionValue) {
-            $optionModel = Mage::getModel('catalo/product_option')
-                ->load($optionId);
-
-            if ($optionModel->getGroupByType($optionModel->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-
-            } else {
-                if ($optionModel->getType() == 'fixed') {
-                    $finalPrice += $finalPrice + $optionModel->getPrice();
-                } elseif ($optionModel->getType() == 'percent') {
-                    $finalPrice += $finalPrice*($optionModel->getPrice()/100);
+        $basePrice = $finalPrice;
+        if ($optionIds = $product->getCustomOption('option_ids')) {
+            $optionIds = explode(',', $optionIds->getValue());
+            foreach ($optionIds as $optionId) {
+                if ($optionId) {
+                    if ($option = $product->getOptionById($optionId)) {
+                        if ($option->getGroupByType($option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                            if ($valueId = $product->getCustomOption('option_'.$option->getId())->getValue()) {
+                                $values = $option->getValueById($valueId);
+                                $price = $values->getPrice();
+                                $priceType = $values->getPriceType();
+                            }
+                        } else {
+                            $price = $option->getPrice();
+                            $priceType = $option->getPriceType();
+                        }
+                        if ($priceType == 'percent') {
+                            $finalPrice += $basePrice*($price/100);
+                        } else {
+                            $finalPrice += $price;
+                        }
+                    }
                 }
             }
-
         }
+
         return $finalPrice;
     }
 

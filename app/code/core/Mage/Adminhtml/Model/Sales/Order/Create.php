@@ -444,6 +444,23 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                        $item->setQty($itemQty);
                        $item->setCustomPrice($itemPrice);
                        $item->setNoDiscount($noDiscount);
+
+                       //options
+//                       $options = explode("\n", $info['options']);
+//                       foreach ($options as $option) {
+                            $option = $info['options'];
+                            $item->addOption(
+                                new Varien_Object(
+                                    array(
+                                        'item_id' => $item->getId(),
+                                        'product_id' => $item->getProduct()->getId(),
+                                        'product' => $item->getProduct(),
+                                        'code' => 'option_admin',
+                                        'value' => $option
+                                    )
+                            ));
+//                       }
+
                     }
                 }
                 else {

@@ -74,17 +74,32 @@ WHERE
         return $this;
     }
 
-    public function addProductToFilter($product)
+    public function addTitleToResult($store_id)
     {
-        if (empty($product)) {
-            $this->addFieldToFilter('product_id', '');
-        } elseif (is_array($product)) {
-            $this->addFieldToFilter('product_id', array('in' => $product));
-        } elseif ($product instanceof Mage_Catalog_Model_Product) {
-            $this->addFieldToFilter('product_id', $product->getId());
-        } else {
-            $this->addFieldToFilter('product_id', $product);
-        }
+        $this->getSelect()
+            ->join(array('default_option_title'=>$this->getTable('catalog/product_option_title')),
+                '`default_option_title`.option_id=`main_table`.option_id',
+                array('default_title'=>'title'))
+            ->joinLeft(array('store_option_title'=>$this->getTable('catalog/product_option_title')),
+                '`store_option_title`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`store_option_title`.store_id=?', $store_id),
+                array('store_title'=>'title',
+                'title'=>new Zend_Db_Expr('IFNULL(`store_option_title`.title,`default_option_title`.title)')))
+            ->where('`default_option_title`.store_id=?', 0);
+
+        return $this;
+    }
+
+    public function addPriceToResult($store_id)
+    {
+        $this->getSelect()
+            ->joinLeft(array('default_option_price'=>$this->getTable('catalog/product_option_price')),
+                '`default_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`default_option_price`.store_id=?',0),
+                array('default_price'=>'price','default_price_type'=>'price_type'))
+            ->joinLeft(array('store_option_price'=>$this->getTable('catalog/product_option_price')),
+                '`store_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`store_option_price`.store_id=?', $store_id),
+                array('store_price'=>'price','store_price_type'=>'price_type',
+                'price'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price,`default_option_price`.price)'),
+                'price_type'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price_type,`default_option_price`.price_type)')));
 
         return $this;
     }
@@ -98,11 +113,28 @@ WHERE
         if (!empty($optionIds)) {
             $values = Mage::getModel('catalog/product_option_value')
                 ->getCollection()
+                ->addTitleToResult(Mage::app()->getStore()->getId())
+                ->addPriceToResult(Mage::app()->getStore()->getId())
                 ->addOptionToFilter($optionIds);
 
             foreach ($values as $value) {
                 $this->getItemById($value->getOptionId())->addValue($value);
             }
+        }
+
+        return $this;
+    }
+
+    public function addProductToFilter($product)
+    {
+        if (empty($product)) {
+            $this->addFieldToFilter('product_id', '');
+        } elseif (is_array($product)) {
+            $this->addFieldToFilter('product_id', array('in' => $product));
+        } elseif ($product instanceof Mage_Catalog_Model_Product) {
+            $this->addFieldToFilter('product_id', $product->getId());
+        } else {
+            $this->addFieldToFilter('product_id', $product);
         }
 
         return $this;

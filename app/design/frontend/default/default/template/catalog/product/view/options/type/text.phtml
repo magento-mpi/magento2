@@ -25,6 +25,13 @@
         <?php if ($_option->getIsRequire()): ?>
             <span class="required">*</span>
         <?php endif; ?>
+        (
+        <?php if ($_option->getPriceType() == 'fixed'): ?>
+            <?php echo $this->helper('core')->currency($_option->getPrice()) ?>
+        <?php else: ?>
+            <?php echo '%' . number_format($_option->getPrice(), 0, null, '') ?>
+        <?php endif; ?>
+        )
     </td>
 </tr>
 <tr>
@@ -35,4 +42,7 @@
         <textarea class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]"></textarea>
     <?php endif; ?>
     </td>
+</tr>
+<tr>
+    <td>Maximum number of characters: <strong><?php echo (!$_option->getMaxCharacters())?Mage::helper('catalog')->__('Unlimeted') : $_option->getMaxCharacters() ?></strong></td>
 </tr>

@@ -104,7 +104,20 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             $options = array();
             foreach ($optionIds as $optionId) {
                 if ($optionId) {
-                    $options[] = $this->getItem()->getOptionByCode('option_'.$optionId)->getValue();
+                    if ($option = $this->getProduct()->getOptionById($optionId)) {
+                        $optionValue = '';
+                        $optionGroup = $option->getGroupByType($option->getType());
+                        if ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                            $optionValue = $option->getValueById(
+                                $this->getItem()->getOptionByCode('option_'.$optionId)->getValue())->getTitle();
+                        } else {
+                            $optionValue =  $this->getItem()->getOptionByCode('option_'.$optionId)->getValue();
+                        }
+                        $options[] = array(
+                            'label' => $option->getTitle(),
+                            'value' => $optionValue
+                        );
+                    }
                 }
             }
         }

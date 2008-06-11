@@ -62,7 +62,12 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 ->setName('options['.$_option->getid().']');
             $select->addOption('', $this->__('-- Please Select --'));
             foreach ($collection as $_value) {
-                $select->addOption($_value->getOptionTypeId(), $_value->getTitle());
+                if ($_value->getPriceType() == 'fixed') {
+                    $price = $this->helper('core')->currency($_value->getPrice());
+                } else {
+                    $price = '%' . number_format($_value->getPrice(), 0, null, '');
+                }
+                $select->addOption($_value->getOptionTypeId(), $_value->getTitle() . ' (' . $price . ')');
             }
 
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {

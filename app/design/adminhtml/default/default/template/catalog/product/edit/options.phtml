@@ -20,10 +20,10 @@
 ?>
 <div class="entry-edit custom-options">
     <div class="entry-edit-head">
-	    <h4>Customer Defined Options</h4>
+	    <h4><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
 	    <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
 	</div>
-	
+
 	<div id="product_options_container" class="box">
 		<div id="product_options_container_top"></div>
 	    <?php echo $this->getOptionsBoxHtml() ?>

@@ -43,11 +43,11 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     const OPTION_TYPE_DATE_TIME = 'date_time';
     const OPTION_TYPE_TIME      = 'time';
 
+    protected $_product;
+
     protected $_options = array();
 
     protected $_valueInstance;
-
-    protected $_product;
 
     protected $_values = array();
 
@@ -58,12 +58,26 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
     public function addValue(Mage_Catalog_Model_Product_Option_Value $value)
     {
-        $this->_values[] = $value;
+        $this->_values[$value->getId()] = $value;
         return $this;
     }
 
+    public function getValueById($valueId)
+    {
+        if (isset($this->_values[$valueId])) {
+            return $this->_values[$valueId];
+        }
+
+        return null;
+    }
+
+    public function getValues()
+    {
+        return $this->_values;
+    }
+
     /**
-     * Enter description here...
+     * Retrieve value instance
      *
      * @return Mage_Catalog_Model_Product_Option_Value
      */
@@ -75,6 +89,12 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return $this->_valueInstance;
     }
 
+    /**
+     * Add option for save it
+     *
+     * @param array $option
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function addOption($option)
     {
         $this->_options[] = $option;
@@ -82,7 +102,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Get all options
      *
      * @return array
      */
@@ -91,12 +111,23 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return $this->_options;
     }
 
+    /**
+     * Set options for array
+     *
+     * @param array $options
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function setOptions($options)
     {
         $this->_options = $options;
         return $this;
     }
 
+    /**
+     * Set options to empty array
+     *
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function unsetOptions()
     {
         $this->_options = array();
@@ -104,7 +135,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve product instance
      *
      * @return Mage_Catalog_Model_Product
      */
@@ -113,12 +144,24 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return $this->_product;
     }
 
+    /**
+     * Set product instance
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function setProduct(Mage_Catalog_Model_Product $product)
     {
         $this->_product = $product;
         return $this;
     }
 
+    /**
+     * Get group name of option by given option type
+     *
+     * @param string $type
+     * @return array
+     */
     public function getGroupByType($type)
     {
         $optionGroupsToTypes = array(
@@ -138,10 +181,9 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Save options
      *
-     * @param array $option
-     * @return unknown
+     * @return Mage_Catalog_Model_Product_Option
      */
     public function saveOptions()
     {
@@ -223,18 +265,36 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return parent::_afterSave();
     }
 
+    /**
+     * Delete prices of option
+     *
+     * @param int $option_id
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function deletePrices($option_id)
     {
         $this->getResource()->deletePrices($option_id);
         return $this;
     }
 
+    /**
+     * Delete titles of option
+     *
+     * @param int $option_id
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function deleteTitles($option_id)
     {
         $this->getResource()->deleteTitles($option_id);
         return $this;
     }
 
+    /**
+     * get Product Option Collection
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return unknown
+     */
     public function getProductOptionCollection(Mage_Catalog_Model_Product $product)
     {
         $collection = Mage::getResourceModel('catalog/product_option_collection')
@@ -245,7 +305,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Get collection of values for current option
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Value_Collection
      */
@@ -257,39 +317,19 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return $collection;
     }
 
+    /**
+     * Get collection of values by given option ids
+     *
+     * @param array $optionIds
+     * @param int $store_id
+     * @return unknown
+     */
     public function getOptionValuesByOptionId($optionIds, $store_id)
     {
         $collection = Mage::getModel('catalog/product_option_value')
             ->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;
-    }
-
-    public function getProductsOptionsCollection($productIds)
-    {
-        $options = Mage::getResourceModel('catalog/product_option_collection')
-            ->addProductToFilter($productIds)
-            ->load();
-
-        return $options;
-
-        $optionsData = array();
-        foreach ($options as $option) {
-            $valuesData = array();
-            if ($this->getGroupByType($option->getType()) == self::OPTION_GROUP_SELECT) {
-                $values = $option->getValuesCollection();
-                foreach ($values as $value) {
-                    $valuesData[] = $value->getId();
-                }
-            }
-            $optionsData[] = array(
-                'id' => $option->getId(),
-                'product_id' => $option->getProductId(),
-                'values' => $valuesData
-            );
-        }
-
-        return $optionsData;
     }
 
 }

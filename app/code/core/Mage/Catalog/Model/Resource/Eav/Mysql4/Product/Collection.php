@@ -552,7 +552,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
-     * Adding product options to result collection
+     * Adding product custom options to result collection
      *
      * @return Mage_Catalog_Model_Entity_Product_Collection
      */
@@ -565,6 +565,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if (!empty($productIds)) {
             $options = Mage::getModel('catalog/product_option')
                 ->getCollection()
+                ->addTitleToResult(Mage::app()->getStore()->getId())
+                ->addPriceToResult(Mage::app()->getStore()->getId())
                 ->addProductToFilter($productIds)
                 ->addValuesToResult();
 

@@ -35,7 +35,7 @@
         <?php if ($_options = $this->getProductOptions()):?>
         <ul>
             <?php foreach ($_options as $_option):?>
-            <li><strong><?php echo $_option?></strong></li>
+            <li><strong><?php echo $_option['label'] ?> : <?php echo $_option['value'] ?></strong></li>
             <?endforeach;?>
         </ul>
         <?endif;?>

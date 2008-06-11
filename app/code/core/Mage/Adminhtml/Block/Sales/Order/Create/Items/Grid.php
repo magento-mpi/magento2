@@ -135,4 +135,19 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         }
         return $html;
     }
+
+    /**
+     * Get Custom Options of item
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return string | null
+     */
+    public function getCustomOptions(Mage_Sales_Model_Quote_Item $item)
+    {
+        if ($options = $item->getOptionByCode('option_admin')) {
+            return $options->getValue();
+        }
+
+        return null;
+    }
 }

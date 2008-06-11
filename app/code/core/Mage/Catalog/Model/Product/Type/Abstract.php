@@ -212,7 +212,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 if (strlen($options[$_option->getId()]) == 0 && $_option->getIsRequire()) {
                     return Mage::helper('catalog')->__('Please specify the product required option(s)');
                 }
+                if (strlen($options[$_option->getId()]) > $_option->getMaxCharacters() && $_option->getMaxCharacters() > 0) {
+                    return Mage::helper('catalog')->__('Length of text is too long');
+                }
                 if (strlen($options[$_option->getId()]) == 0) continue;
+            }
+            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_FILE) {
+
+            }
+            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE) {
+
             }
             if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                 $valuesCollection = $_option->getOptionValuesByOptionId(
