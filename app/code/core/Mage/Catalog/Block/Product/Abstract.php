@@ -30,6 +30,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
 {
     private $_priceBlock = null;
     private $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
+    private $_priceBlockTypes = array();
 
     /**
      * Enter description here...
@@ -73,24 +74,28 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
         return null;
     }
 
-    protected function _getPriceBlock()
+    protected function _getPriceBlock($productTypeId)
     {
         if (is_null($this->_priceBlock)) {
-            $className = Mage::getConfig()->getBlockClassName('catalog/product_price');
-            $block = new $className();
-            $block->setType('catalog/product_price')
-                ->setIsAnonymous(true);
+            $block = 'catalog/product_price';
+            if (isset($this->_priceBlockTypes[$productTypeId])) {
+                if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
+                    $block = $this->_priceBlockTypes[$productTypeId]['block'];
+                }
+            }
 
-            $this->_priceBlock = $block;
+            $this->_priceBlock = $this->getLayout()->createBlock($block);
         }
         return $this->_priceBlock;
     }
 
-    protected function _getPriceBlockTemplate()
+    protected function _getPriceBlockTemplate($productTypeId)
     {
-        if (!is_null($this->getPriceBlockTemplate()))
-            return $this->getPriceBlockTemplate();
-
+        if (isset($this->_priceBlockTypes[$productTypeId])) {
+            if ($this->_priceBlockTypes[$productTypeId]['template'] != '') {
+                return $this->_priceBlockTypes[$productTypeId]['template'];
+            }
+        }
         return $this->_priceBlockDefaultTemplate;
     }
 
@@ -102,10 +107,27 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function getPriceHtml($product, $displayMinimalPrice = false)
     {
-        return $this->_getPriceBlock()
-            ->setTemplate($this->_getPriceBlockTemplate())
+        return $this->_getPriceBlock($product->getTypeId())
+            ->setTemplate($this->_getPriceBlockTemplate($product->getTypeId()))
             ->setProduct($product)
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->toHtml();
+    }
+
+    /**
+     * Adding customized price template for product type
+     *
+     * @param string $type
+     * @param string $block
+     * @param string $template
+     */
+    public function addPriceBlockType($type, $block = '', $template = '')
+    {
+        if ($type) {
+            $this->_priceBlockTypes[$type] = array(
+                'block' => $block,
+                'template' => $template
+            );
+        }
     }
 }
