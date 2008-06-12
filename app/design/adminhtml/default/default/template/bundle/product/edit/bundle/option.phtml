@@ -114,7 +114,7 @@ Bundle.Option.prototype = {
     },
 
     remove : function(event){
-        var element = $(Event.findElement(event, 'div'));
+        var element = $(Event.findElement(event, 'div')).parentNode;
         if(element){
             Element.getElementsBySelector(element, '.delete').each(function(elem){elem.value='1'});
             Element.getElementsBySelector(element, ['input', 'select']).each(function(elem){elem.hide()});
