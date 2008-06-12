@@ -184,10 +184,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (is_string($options)) {
             return $options;
         }
-        $optionIds = array_keys($options);
-        $product->addCustomOption('option_ids', implode(',', $optionIds));
-        foreach ($options as $optionId => $optionValue) {
-        	$product->addCustomOption('option_'.$optionId, $optionValue);
+        if ($options) {
+            $optionIds = array_keys($options);
+            $product->addCustomOption('option_ids', implode(',', $optionIds));
+            foreach ($options as $optionId => $optionValue) {
+            	$product->addCustomOption('option_'.$optionId, $optionValue);
+            }
         }
 
         // set quantity in cart
@@ -283,7 +285,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 $productOption = $this->getProduct()->getOptionById($optionId);
                 $optionValue   = $this->getProduct()->getCustomOption('option_' . $optionId)->getValue();
 
-                if ($productOption->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                if ($productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                    || $productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                    foreach(split(',', $optionValue) as $value) {
+                        if ($optionSku = $productOption->getValueById($optionValue)->getSku()) {
+                            $sku .= $skuDelimiter . $optionSku;
+                        }
+                    }
+                    $optionSku = null;
+                }
+                elseif ($productOption->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                     $optionSku = $productOption->getValueById($optionValue)->getSku();
                 }
                 else {
