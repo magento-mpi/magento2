@@ -256,6 +256,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     {
             return Mage::getModel('bundle/option')->getResourceCollection()
                 ->setProductIdFilter($this->getProduct()->getId())
+                ->joinValues(Mage::app()->getStore()->getId())
                 ->setIdFilter($optionIds);
     }
 }
