@@ -18,45 +18,47 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="<?php echo $this->getFieldId() ?>_template"  class="option-box">
-<div class="option-title">
-    <label for="<?php echo $this->getFieldName() ?>[{{index}}][title]"><?php echo Mage::helper('catalog')->__('Default Title') ?></label>
+<script type="text/javascript">
+var optionTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{index}}"  class="option-box"> ' +
+'<div class="option-title"> ' +
+    '<label for="<?php echo $this->getFieldName() ?>[{{index}}][title]"><?php echo Mage::helper('catalog')->__('Default Title') ?></label>' +
     <?php if ($this->isDefaultStore()): ?>
-    <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" value="{{title}}">
+    '<input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" value="{{title}}">' +
     <?php else: ?>
-    <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" value="{{default_title}}">
+    '<input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" value="{{default_title}}">' +
     <?php endif; ?>
-<?php echo $this->getOptionDeleteButtonHtml() ?>
-</div>
-    <table class="option-header" cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
+'<?php echo $this->getOptionDeleteButtonHtml() ?>' +
+'</div>' +
+    '<table class="option-header" cellpadding="0" cellspacing="0">' +
+        '<thead>' +
+            '<tr>' +
                 <?php if (!$this->isDefaultStore()): ?>
-                <th class="opt-title"><?php echo Mage::helper('catalog')->__('Store View Title') ?></th>
+                '<th class="opt-title"><?php echo Mage::helper('catalog')->__('Store View Title') ?></th>' +
                 <?php endif; ?>
-                <th class="opt-type"><?php echo Mage::helper('catalog')->__('Input Type') ?></th>
-                <th class="opt-req"><?php echo Mage::helper('catalog')->__('Is Require') ?></th>
-                <th class="opt-order"><?php echo Mage::helper('catalog')->__('Position') ?></th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}" name="<?php echo $this->getFieldName() ?>[{{index}}][option_id]" value="{{option_id}}">
-                <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="" class="delete">
+                '<th class="opt-type"><?php echo Mage::helper('catalog')->__('Input Type') ?></th>' +
+                '<th class="opt-req"><?php echo Mage::helper('catalog')->__('Is Require') ?></th>' +
+                '<th class="opt-order"><?php echo Mage::helper('catalog')->__('Position') ?></th>' +
+                '<th>&nbsp;</th>' +
+            '</tr>' +
+        '</thead>' +
+        '<tbody>' +
+            '<tr>' +
+                '<input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}" name="<?php echo $this->getFieldName() ?>[{{index}}][option_id]" value="{{option_id}}">' +
+                '<input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="" class="delete">' +
                 <?php if (!$this->isDefaultStore()): ?>
-                <td><input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" value="{{title}}"></td>
+                '<td><input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" value="{{title}}"></td>' +
                 <?php endif; ?>
-                <td><?php echo $this->getTypeSelectHtml() ?></td>
-                <td><?php echo $this->getRequireSelectHtml() ?></td>
-                <td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}"></td>
-                <td>&nbsp;<?php echo $this->getAddSelectionButtonHtml() ?></td>
-            </tr>
-        </tbody>
-    </table>
-    <div id="<?php echo $this->getFieldId() ?>_search_{{index}}">
-    </div>
-</div>
+                '<td><?php echo $this->getTypeSelectHtml() ?></td>' +
+                '<td><?php echo $this->getRequireSelectHtml() ?></td>' +
+                '<td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}"></td>' +
+                '<td>&nbsp;<?php echo $this->getAddSelectionButtonHtml() ?></td>' +
+            '</tr>' +
+        '</tbody>' +
+    '</table>' +
+    '<div id="<?php echo $this->getFieldId() ?>_search_{{index}}">' +
+    '</div>' +
+'</div>';
+</script>
 
 <?php echo $this->getSelectionHtml() ?>
 
@@ -64,14 +66,13 @@
 Bundle.Option = Class.create();
 Bundle.Option.prototype = {
     idLabel : '<?php echo $this->getFieldId() ?>',
-    top : $('product_bundle_container_top'),
+    top : '',
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : '',
     itemsCount : 0,
-    initialize : function() {
-        var tText = $(this.idLabel + '_template');
-        this.templateText = '<div id="' + this.idLabel + '_{{index}}" class="' + tText.className + '">' + $(this.idLabel + '_template').innerHTML + '<div>'
-        $(this.idLabel + '_template').remove();
+    initialize : function(template) {
+        this.templateText = template;
+        this.top = $('product_bundle_container_top');
     },
 
     add : function(data) {
@@ -101,15 +102,6 @@ Bundle.Option.prototype = {
                 if (option.value==data.required) option.selected = true;
             });
         }
-
-        /*
-        if (data.checkboxScopeTitle) {
-            if ($(this.idLabel + '_'+data.index+'_title') && data.scopeTitleDisabled) {
-                $(this.idLabel + '_'+data.index+'_title').disable();
-            }
-        }
-        */
-
         return data.index;
     },
 
@@ -149,7 +141,7 @@ Bundle.Option.prototype = {
 }
 
 var optionIndex = 0;
-var bOption = new Bundle.Option();
+var bOption = new Bundle.Option(optionTemplate);
 //adding data to templates
 <?php foreach ($this->getOptions() as $_option): ?>
 optionIndex = bOption.add(<?php echo $_option->toJson() ?>);
