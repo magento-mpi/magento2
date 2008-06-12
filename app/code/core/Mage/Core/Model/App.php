@@ -268,12 +268,11 @@ class Mage_Core_Model_App
             return $this;
         }
 
-        $storeKey = '___store';
-        if (!isset($_GET[$storeKey])) {
+        if (!isset($_GET['___store'])) {
             return $this;
         }
 
-        $store = $_GET[$storeKey];
+        $store = $_GET['___store'];
         if (!isset($this->_stores[$store])) {
             return $this;
         }
@@ -297,7 +296,7 @@ class Mage_Core_Model_App
         if ($this->_currentStore == $store) {
             $cookie = Mage::getSingleton('core/cookie');
             /* @var $cookie Mage_Core_Model_Cookie */
-            $cookie->set($storeKey, $this->_currentStore);
+            $cookie->set('store', $this->_currentStore);
         }
         return $this;
     }
