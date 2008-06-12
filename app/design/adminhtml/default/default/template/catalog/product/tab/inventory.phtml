@@ -41,7 +41,7 @@
             <td class="value scope-label"><?php echo Mage::helper('catalog')->__('[GLOBAL]') ?></td>
         </tr>
 
-<?php if(!$this->getProduct()->isConfigurable() && !$this->getProduct()->isGrouped()): ?>
+<?php if(!$this->getProduct()->isComposite()): ?>
         <tr>
             <td class="label"><label for="inventory_qty"><?php echo Mage::helper('catalog')->__('Qty') ?><span class="required">*</span></label></td>
             <td class="value"><input type="text" class="input-text required-entry validate-number" id="inventory_qty" name="<?php echo $this->getFieldSuffix() ?>[stock_data][qty]" value="<?php echo $this->getFieldValue('qty')*1 ?>"/>
