@@ -12,17 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Sales
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Sales
+ * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * Order Item Model
  *
- * @category   Mage
- * @package    Mage_Sales
+ * @category    Mage
+ * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
@@ -54,6 +54,20 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_item');
+    }
+
+    /**
+     * Prepare data before save
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if (!$this->getOrderId()) {
+            $this->setOrderId($this->getOrder()->getId());
+        }
+        return $this;
     }
 
     /**
@@ -143,6 +157,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function setOrder(Mage_Sales_Model_Order $order)
     {
         $this->_order = $order;
+        $this->setOrderId($order->getId());
         return $this;
     }
 
@@ -153,7 +168,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      */
     public function getOrder()
     {
-        if (is_null($this->_order) && ($orderId = $this->getParentId())) {
+        if (is_null($this->_order) && ($orderId = $this->getOrderId())) {
             $order = Mage::getModel('sales/order');
             $order->load($orderId);
             $this->setOrder($order);
@@ -270,5 +285,30 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
             return $this->getPrice();
         }
         return $price;
+    }
+
+    /**
+     * Set product options
+     *
+     * @param   array $options
+     * @return  Mage_Sales_Model_Order_Item
+     */
+    public function setProductOptions(array $options)
+    {
+        $this->setData('product_options', serialize($options));
+        return $this;
+    }
+
+    /**
+     * Get product options array
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        if ($options = $this->_getData('product_options')) {
+            return unserialize($options);
+        }
+        return array();
     }
 }

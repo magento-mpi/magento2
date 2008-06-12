@@ -365,6 +365,16 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         return Mage::helper('catalog')->__('Please specify the product option(s)');
     }
 
+    public function getOrderOptions()
+    {
+        $options = parent::getOrderOptions();
+        if ($simpleOption = $this->getProduct()->getCustomOption('simple_product')) {
+            $options['simple_name'] = $simpleOption->getProduct()->getName();
+            $options['simple_sku']  = $simpleOption->getProduct()->getSku();
+        }
+        return $options;
+    }
+
     /**
      * Check is virtual product
      *

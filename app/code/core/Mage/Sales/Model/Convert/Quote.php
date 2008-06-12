@@ -219,8 +219,9 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setStoreId($item->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setProductId($item->getProductId())
-            ->setSuperProductId($item->getSuperProductId())
-            ->setParentProductId($item->getParentProductId());
+//            ->setSuperProductId($item->getSuperProductId())
+//            ->setParentProductId($item->getParentProductId())
+            ;
 
         Mage::helper('core')->copyFieldset('sales_convert_quote_item', 'to_order_item', $item, $orderItem);
 //            ->setSku($item->getSku())

@@ -741,13 +741,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-/*********************** ITEMS ***************************/
-
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_item_collection')
-                ->addAttributeToSelect('*')
                 ->setOrderFilter($this->getId());
 
             if ($this->getId()) {
@@ -762,11 +759,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     public function getItemsRandomCollection($limit=1)
     {
         $collection = Mage::getModel('sales/order_item')->getCollection()
-            ->addAttributeToSelect('*')
             ->setOrderFilter($this->getId())
-            ->setOrder('RAND()')
-            ->setPageSize($limit)
-            ->load();
+            ->setRandomOrder()
+            ->setPageSize($limit);
 
         $products = array();
         foreach ($collection as $item) {
@@ -806,7 +801,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
 
     public function addItem(Mage_Sales_Model_Order_Item $item)
     {
-        $item->setOrder($this)->setParentId($this->getId());
+        $item->setOrder($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
         }

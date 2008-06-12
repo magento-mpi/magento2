@@ -242,6 +242,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return $newOptions;
     }
 
+    public function getOrderOptions()
+    {
+        return array();
+    }
+
     /**
      * Save type related data
      *

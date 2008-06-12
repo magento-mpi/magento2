@@ -12,30 +12,27 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Sales
- * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Sales
+ * @copyright   Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Order item entity resource model
+ * Order item mysql4 resource model
  *
- * @category   Mage
- * @package    Mage_Sales
+ * @category    Mage
+ * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Sales_Model_Mysql4_Order_Item extends Mage_Eav_Model_Entity_Abstract
+class Mage_Sales_Model_Mysql4_Order_Item extends Mage_Sales_Model_Mysql4_Abstract
 {
-
-    public function __construct()
+    /**
+     * Initialize table and PK name
+     */
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        $this->setType('order_item')->setConnection(
-            $resource->getConnection('sales_read'),
-            $resource->getConnection('sales_write')
-        );
+        $this->_init('sales/order_item', 'item_id');
     }
-
 }

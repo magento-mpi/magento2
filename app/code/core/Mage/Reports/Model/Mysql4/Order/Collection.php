@@ -135,11 +135,17 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     public function addItemCountExpr()
     {
-        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
+//        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
+//        $this->getSelect()->join(
+//                array('items'=>Mage::getResourceSingleton('sales/order_item')->getEntityTable()),
+//                'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,
+//                array('items_count'=>new Zend_Db_Expr('COUNT(items.entity_id)'))
+//            )
+//            ->group('e.entity_id');
         $this->getSelect()->join(
-                array('items'=>Mage::getResourceSingleton('sales/order_item')->getEntityTable()),
-                'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,
-                array('items_count'=>new Zend_Db_Expr('COUNT(items.entity_id)'))
+                array('items'=>$this->getTable('sales/order_item')),
+                'items.order_id=e.entity_id',
+                array('items_count'=>new Zend_Db_Expr('COUNT(items.item_id)'))
             )
             ->group('e.entity_id');
         return $this;
@@ -213,27 +219,34 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
          * getting qty count for each order
          */
 
-        $orderItem = Mage::getResourceSingleton('sales/order_item');
-        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
-        $attr = $orderItem->getAttribute('parent_id');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackend()->getTable();
+//        $orderItem = Mage::getResourceSingleton('sales/order_item');
+//        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
+//        $attr = $orderItem->getAttribute('parent_id');
+//        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+//        $attrId = $attr->getAttributeId();
+//        $tableName = $attr->getBackend()->getTable();
+//
+//        $this->getSelect()
+//            ->joinLeft(array("order_items" => $tableName),
+//                "order_items.parent_id = e.entity_id and order_items.entity_type_id=".$orderItem->getTypeId(), array());
+//
+//        $attr = $orderItem->getAttribute('qty_ordered');
+//        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
+//        $attrId = $attr->getAttributeId();
+//        $tableName = $attr->getBackend()->getTable();
+//        $fieldName = $attr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
+//
+//        $this->getSelect()
+//            ->joinLeft(array("order_items2" => $tableName),
+//                "order_items2.entity_id = `order_items`.entity_id and order_items2.attribute_id = {$attrId}", array())
+//            ->from("", array("items" => "sum(order_items2.{$fieldName})"));
 
         $this->getSelect()
-            ->joinLeft(array("order_items" => $tableName),
-                "order_items.parent_id = e.entity_id and order_items.entity_type_id=".$orderItem->getTypeId(), array());
-
-        $attr = $orderItem->getAttribute('qty_ordered');
-        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-        $attrId = $attr->getAttributeId();
-        $tableName = $attr->getBackend()->getTable();
-        $fieldName = $attr->getBackend()->isStatic() ? 'qty_ordered' : 'value';
-
-        $this->getSelect()
-            ->joinLeft(array("order_items2" => $tableName),
-                "order_items2.entity_id = `order_items`.entity_id and order_items2.attribute_id = {$attrId}", array())
-            ->from("", array("items" => "sum(order_items2.{$fieldName})"));
+            ->joinLeft(array("order_items" => $this->getTable('sales/order_item')),
+                'order_items.order_id = e.entity_id', array())
+            ->joinLeft(array("order_items2" => $this->getTable('sales/order_item')),
+                "order_items2.item_id = `order_items`.item_id", array())
+            ->from("", array("items" => "sum(order_items2.qty_ordered)"));
 
         return $this;
     }
