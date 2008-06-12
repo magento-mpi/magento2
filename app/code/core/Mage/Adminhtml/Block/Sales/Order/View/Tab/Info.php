@@ -29,12 +29,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
     extends Mage_Adminhtml_Block_Sales_Order_Abstract
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('sales/order/view/tab/info.phtml');
-    }
-
     /**
      * Retrieve order model instance
      *
@@ -45,34 +39,45 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
         return Mage::registry('current_order');
     }
 
-    protected function _beforeToHtml()
+    /**
+     * Retrieve source model instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getSource()
     {
-        if ($this->getLayout()->getBlock('order_info_info')) {
-            $this->getLayout()->getBlock('order_info_info')
-                ->setOrder($this->getOrder())
-                ->setNoUseOrderLink(true);
-        }
+        return $this->getOrder();
+    }
 
-        if ($this->getLayout()->getBlock('order_totals')) {
-            $this->getLayout()->getBlock('order_totals')
-                ->setSource($this->getOrder())
-                ->setCurrency($this->getOrder()->getOrderCurrency())
-                ->setCanDisplayTotalDue(true)
-                ->setCanDisplayTotalPaid(true)
-                ->setCanDisplayTotalRefunded(true);
-        }
+    /**
+     * Retrieve order totals block settings
+     *
+     * @return array
+     */
+    public function getOrderTotalData()
+    {
+        return array(
+            'can_display_total_due'      => true,
+            'can_display_total_paid'     => true,
+            'can_display_total_refunded' => true,
+        );
+    }
 
-        return parent::_beforeToHtml();
+    public function getOrderInfoData()
+    {
+        return array(
+            'no_use_order_link' => true,
+        );
     }
 
     public function getTrackingHtml()
     {
-        return $this->getChildHtml('order_info_tracking');
+        return $this->getChildHtml('order_tracking');
     }
 
     public function getItemsHtml()
     {
-        return $this->getChildHtml('order_info_items');
+        return $this->getChildHtml('order_items');
     }
 
     /**
@@ -82,12 +87,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
      */
     public function getGiftmessageHtml()
     {
-        return $this->getChildHtml('order_info_giftmessage');
+        return $this->getChildHtml('order_giftmessage');
     }
 
     public function getPaymentHtml()
     {
-        return $this->getChildHtml('order_info_payment');
+        return $this->getChildHtml('order_payment');
     }
 
     public function getViewUrl($orderId)

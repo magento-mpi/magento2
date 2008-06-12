@@ -28,7 +28,7 @@
             <h4 class="icon-head head-payment-method"><?php echo $this->helper('sales')->__('Payment Information') ?></h4>
         </div>
         <fieldset>
-            <div><?php echo $this->getChildHtml('payment_info') ?></div>
+            <div><?php echo $this->getChildHtml('order_payment') ?></div>
             <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
         </fieldset>
     </div>
@@ -48,7 +48,7 @@
                 <strong><?php echo $_order->getShippingDescription() ?></strong>
                 (<?php echo $this->helper('sales')->__('Total Shipping Charges %s', $this->displayPriceAttribute('shipping_amount', false, ' ')) ?>)
             </div>
-            <div><?php echo $this->getChildHtml('tracking') ?></div>
+            <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
         </fieldset>
     </div>
 </div>
@@ -88,6 +88,6 @@
 </div>
 <div class="box-left entry-edit">
     <div class="entry-edit-head"><h4><?php echo $this->__('Shipment History') ?></h4></div>
-    <fieldset><?php echo $this->getChildHtml('comments') ?></fieldset>
+    <fieldset><?php echo $this->getChildHtml('order_comments') ?></fieldset>
 </div>
 <div class="clear"></div>

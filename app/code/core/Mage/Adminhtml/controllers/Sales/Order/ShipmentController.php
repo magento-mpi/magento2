@@ -128,9 +128,10 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     public function viewAction()
     {
         if ($shipment = $this->_initShipment()) {
-            $this->loadLayout()
-                ->_setActiveMenu('sales/order')
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_shipment_view')->updateBackButtonUrl($this->getRequest()->getParam('come_from')))
+            $this->loadLayout();
+            $this->getLayout()->getBlock('sales_shipment_view')
+                ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
+            $this->_setActiveMenu('sales/order')
                 ->renderLayout();
         }
         else {

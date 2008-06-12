@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php $_order=$this->getOrder() ?>
+<?php $_order = $this->getOrder() ?>
 <div class="grid hor-scroll">
     <table cellspacing="0" class="data">
         <col />
@@ -58,8 +58,8 @@
             <?php $_items = $this->getItemsCollection() ?>
             <?php $i=0;foreach ($_items as $_item):$i++ ?>
                 <?php $this->setPriceDataObject($_item) ?>
-                <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
-                    <td class="giftmessage-single-item"><?php echo $this->renderInfoColumn($_item) ?></td>
+                <tr class="<?php echo ($i%2==0) ? 'even' : 'odd' ?>">
+                    <td class="giftmessage-single-item"><?php echo $this->getItemHtml($_item) ?></td>
                     <td><?php echo $_item->getStatus() ?></td>
                     <td class="price"><?php echo $this->displayPriceAttribute('original_price') ?></td>
                     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
@@ -68,7 +68,7 @@
                     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                     <td class="price"><?php echo $this->displayPriceInclTax($_item); ?></td>
                     <?php endif; ?>
-                    <td><?php echo $this->getQtyHtml($_item) ?></td>
+                    <td><?php echo $this->getColumnHtml($_item, 'qty') ?></td>
                     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                     <td class="price"><?php echo $this->displayPriceAttribute('row_total') ?></td>
                     <?php endif; ?>
@@ -80,9 +80,9 @@
                     <td class="price"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
                     <td class="last price">
                         <?php echo $this->displayPrices(
-                            $_item->getBaseRowTotal()-$_item->getBaseDiscountAmount()+$_item->getBaseTaxAmount(),
-                            $_item->getRowTotal()-$_item->getDiscountAmount()+$_item->getTaxAmount()
-                        ) ?>
+                            $_item->getBaseRowTotal() - $_item->getBaseDiscountAmount() + $_item->getBaseTaxAmount(),
+                            $_item->getRowTotal() - $_item->getDiscountAmount() + $_item->getTaxAmount()
+                        ); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

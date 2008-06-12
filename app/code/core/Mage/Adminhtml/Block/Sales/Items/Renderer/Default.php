@@ -18,60 +18,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Order edit per item giftmessage
+ * Adminhtml sales order item renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Items_Renderer_Default extends Mage_Adminhtml_Block_Widget
 {
-    /**
-     * Entity for editing of gift message
-     *
-     * @var Mage_Eav_Model_Entity_Abstract
-     */
-    protected $_entity;
-
     /**
      * Giftmessage object
      *
      * @var Mage_GiftMessage_Model_Message
      */
     protected $_giftMessage = array();
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('sales/order/view/items/info.phtml');
-    }
-
-    /**
-     * Set entity for form
-     *
-     * @param Varien_Object $entity
-     * @return Mage_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Name_Giftmessage
-     */
-    public function setEntity(Varien_Object $entity)
-    {
-        $this->_entity  = $entity;
-        return $this;
-    }
-
-    /**
-     * Retrive entity for form
-     *
-     * @return Varien_Object
-     */
-    public function getEntity()
-    {
-        if(is_null($this->_entity)) {
-            $this->setEntity(Mage::getModel('giftmessage/message')->getEntityModelByType('order_item'));
-            $this->getEntity()->load($this->getRequest()->getParam('entity'));
-        }
-        return $this->_entity;
-    }
 
     /**
      * Retrive default value for giftmessage sender
@@ -80,15 +42,15 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
      */
     public function getDefaultSender()
     {
-        if(!$this->getEntity()) {
+        if(!$this->getItem()) {
             return '';
         }
 
-        if($this->getEntity()->getOrder()) {
-            return $this->getEntity()->getOrder()->getBillingAddress()->getName();
+        if($this->getItem()->getOrder()) {
+            return $this->getItem()->getOrder()->getBillingAddress()->getName();
         }
 
-        return $this->getEntity()->getBillingAddress()->getName();
+        return $this->getItem()->getBillingAddress()->getName();
     }
 
     /**
@@ -98,15 +60,15 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
      */
     public function getDefaultRecipient()
     {
-        if(!$this->getEntity()) {
+        if(!$this->getItem()) {
             return '';
         }
 
-        if($this->getEntity()->getOrder()) {
-            return $this->getEntity()->getOrder()->getShippingAddress()->getName();
+        if($this->getItem()->getOrder()) {
+            return $this->getItem()->getOrder()->getShippingAddress()->getName();
         }
 
-        return $this->getEntity()->getShippingAddress()->getName();
+        return $this->getItem()->getShippingAddress()->getName();
     }
 
     /**
@@ -117,7 +79,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
      */
     public function getFieldName($name)
     {
-        return 'giftmessage[' . $this->getEntity()->getId() . '][' . $name . ']';
+        return 'giftmessage[' . $this->getItem()->getId() . '][' . $name . ']';
     }
 
     /**
@@ -138,7 +100,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
      */
     public function getFieldIdPrefix()
     {
-        return 'giftmessage_' . $this->getEntity()->getId() . '_';
+        return 'giftmessage_' . $this->getItem()->getId() . '_';
     }
 
     /**
@@ -148,9 +110,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
      */
     protected function _initMessage()
     {
-        $this->_giftMessage[$this->getEntity()->getGiftMessageId()] = $this->helper('giftmessage/message')->getGiftMessage(
-                                   $this->getEntity()->getGiftMessageId()
-                              );
+        $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
+            $this->helper('giftmessage/message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {
@@ -170,22 +131,25 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
      */
     public function getMessage()
     {
-        if(!isset($this->_giftMessage[$this->getEntity()->getGiftMessageId()])) {
+        if(!isset($this->_giftMessage[$this->getItem()->getGiftMessageId()])) {
             $this->_initMessage();
         }
 
-        return $this->_giftMessage[$this->getEntity()->getGiftMessageId()];
+        return $this->_giftMessage[$this->getItem()->getGiftMessageId()];
     }
 
+    /**
+     * Retrieve save url
+     *
+     * @return array
+     */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/sales_order_view_giftmessage/save',
-            array(
-                'entity'=>$this->getEntity()->getId(),
-                'type'  =>'order_item',
-                'reload' => 1
-            )
-        );
+        return $this->getUrl('*/sales_order_view_giftmessage/save', array(
+            'entity'    => $this->getItem()->getId(),
+            'type'      => 'order_item',
+            'reload'    => true
+        ));
     }
 
     /**
@@ -216,7 +180,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Info extends Mage_Adminhtml_Bl
     public function canDisplayGiftmessage()
     {
         return $this->helper('giftmessage/message')->getIsMessagesAvailable(
-            'order_item', $this->getEntity(), $this->getEntity()->getOrder()->getStoreId()
+            'order_item', $this->getItem(), $this->getItem()->getOrder()->getStoreId()
         );
     }
 }

@@ -81,4 +81,24 @@ class Mage_Adminhtml_Block_Sales_Order_Abstract extends Mage_Adminhtml_Block_Wid
         }
         return $res;
     }
+
+    /**
+     * Retrieve order totals block settings
+     *
+     * @return array
+     */
+    public function getOrderTotalData()
+    {
+        return array();
+    }
+
+    /**
+     * Retrieve order info block settings
+     *
+     * @return array
+     */
+    public function getOrderInfoData()
+    {
+        return array();
+    }
 }

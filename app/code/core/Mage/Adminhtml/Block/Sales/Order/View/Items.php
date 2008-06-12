@@ -25,41 +25,20 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_Sales_Order_Abstract
+class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_Sales_Items_Abstract
 {
-    protected $_renderer  = null;
-    protected $_renderers = array();
-
     /**
-     * Initialize template
+     * Retrieve required options from parent
      */
-    protected function _construct()
+    protected function _beforeToHtml()
     {
-        parent::_construct();
-//        $this->setTemplate('sales/order/view/items.phtml');
-    }
-
-    protected function _getInfoBlock($type)
-    {
-        $blockType = isset($this->_renderers[$type]) ? $this->_renderers[$type] : $this->_renderer;
-        $block = $this->getData('_' . $blockType);
-        if (is_null($block)) {
-            $block = $this->getLayout()->createBlock($blockType);
-            $this->setData('_' . $blockType, $block);
+        if (!$this->getParentBlock()) {
+            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
         }
-        return $block;
+        $this->setOrder($this->getParentBlock()->getOrder());
+        parent::_beforeToHtml();
     }
-
-    /**
-     * REtrieve order instance
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function getOrder()
-    {
-        return Mage::registry('sales_order');
-    }
-
+    
     /**
      * Retrieve order items collection
      *
@@ -71,38 +50,34 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
     }
 
     /**
-     * Retrieve HTML for information column
+     * Retrieve include tax html formated content
      *
-     * @param   Mage_Sales_Model_Order_Item $item
-     * @return  string
+     * @param Varien_Object $item
+     * @return string
      */
-    public function renderInfoColumn($item)
+    public function displayPriceInclTax(Varien_Object $item)
     {
-        $html = $this->_getInfoBlock($item->getProductType())
-            ->setEntity($item)
-            ->toHtml();
-        return $html;
+        return $this->getOrder()->formatPrice($item->getPrice()+$item->getTaxAmount()/$item->getQtyOrdered());
     }
 
-    protected function _getQtyBlock()
+    /**
+     * Retrieve subtotal price include tax html formated content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displaySubtotalInclTax($item)
     {
-        $block = $this->getData('_qty_block');
-        if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('adminhtml/sales_order_item_qty');
-            $this->setData('_qty_block', $block);
-        }
-        return $block;
+        return $this->getOrder()->formatPrice($item->getRowTotal()+$item->getTaxAmount());
     }
 
-    public function getQtyHtml($item)
-    {
-        $html = $this->_getQtyBlock()
-            ->setItem($item)
-            ->toHtml();
-        return $html;
-    }
-
-    public function displayTaxCalculation($item)
+    /**
+     * Retrieve tax calculation html content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displayTaxCalculation(Varien_Object $item)
     {
         if ($item->getTaxPercent() && $item->getTaxString() == '') {
             $percents = array($item->getTaxPercent());
@@ -118,49 +93,18 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
         return implode(' + ', $percents);
     }
 
-    public function displayTaxPercent($item)
+    /**
+     * Retrieve tax with persent html content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displayTaxPercent(Varien_Object $item)
     {
         if ($item->getTaxPercent()) {
             return sprintf('%.2f%%', $item->getTaxPercent());
         } else {
             return '0%';
         }
-    }
-
-    public function displaySubtotalInclTax($item)
-    {
-        return $this->getOrder()->formatPrice($item->getRowTotal()+$item->getTaxAmount());
-    }
-
-    public function displayPriceInclTax($item)
-    {
-        return $this->getOrder()->formatPrice($item->getPrice()+$item->getTaxAmount()/$item->getQtyOrdered());
-    }
-
-    /**
-     * Set default item renderer (call required)
-     *
-     * @param string $block
-     * @return Mage_Adminhtml_Block_Sales_Order_View_Items
-     */
-    public function setDefaultRenderer($block)
-    {
-        $this->_renderer = $block;
-
-        return $this;
-    }
-
-    /**
-     * Add item type custom renderer
-     *
-     * @param string $type
-     * @param string $block
-     * @return Mage_Adminhtml_Block_Sales_Order_View_Items
-     */
-    public function addItemRenderer($type, $block)
-    {
-        $this->_renderers[$type] = $block;
-
-        return $this;
     }
 }

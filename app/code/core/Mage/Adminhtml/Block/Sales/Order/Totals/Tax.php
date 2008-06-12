@@ -25,12 +25,18 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Adminhtml_Block_Sales_Order_Totals
+class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
-    protected function _construct()
+    /**
+     * Retrieve required options from parent
+     */
+    protected function _beforeToHtml()
     {
-        parent::_construct();
-        $this->setTemplate('sales/order/totals/tax.phtml');
+        if (!$this->getParentBlock()) {
+            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
+        }
+        $this->setOrder($this->getParentBlock()->getOrder());
+        parent::_beforeToHtml();
     }
 
     public function getFullTaxInfo()

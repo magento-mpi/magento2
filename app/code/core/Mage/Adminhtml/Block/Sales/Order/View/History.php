@@ -27,11 +27,6 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Adminhtml_Block_Template
 {
-    protected function _construct()
-    {
-        $this->setTemplate('sales/order/view/history.phtml');
-    }
-
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";

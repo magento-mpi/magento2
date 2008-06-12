@@ -64,7 +64,7 @@
         </tr>
         <?php endif; ?>
         <?php if ((float) $_source->getTaxAmount()): ?>
-            <?php echo $this->renderTaxTotal($_source); ?>
+            <?php echo $this->getChildHtml('order_totals_tax'); ?>
         <?php endif; ?>
 
         <?php if ((float) $_source->getShippingAmount() || $_source->getShippingDescription()): ?>

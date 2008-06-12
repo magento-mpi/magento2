@@ -27,6 +27,14 @@
  */
 class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
 {
+    /**
+     * Renderers with render type key
+     * block    => the block name
+     * template => the template file
+     * renderer => the block object
+     *
+     * @var array
+     */
     protected $_itemRenders = array();
 
     /**
@@ -49,24 +57,30 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
     public function addItemRender($type, $block, $template)
     {
         $this->_itemRenders[$type] = array(
-            'block' => $block,
-            'template' => $template
+            'block'     => $block,
+            'template'  => $template,
+            'renderer'  => null
         );
         return $this;
     }
 
     /**
-     * Get renderer information by product type code
+     * Retrieve item renderer block
      *
-     * @param   string $type
-     * @return  array
+     * @param string $type
+     * @return Mage_Core_Block_Abstract
      */
-    public function getItemRender($type)
+    public function getItemRenderer($type)
     {
-        if (isset($this->_itemRenders[$type])) {
-            return $this->_itemRenders[$type];
+        if (!isset($this->_itemRenders[$type])) {
+            $type = 'default';
         }
-        return $this->_itemRenders['default'];
+        if (is_null($this->_itemRenders[$type]['renderer'])) {
+            $this->_itemRenders[$type]['renderer'] = $this->getLayout()
+                ->createBlock($this->_itemRenders[$type]['block'])
+                ->setTemplate($this->_itemRenders[$type]['template']);
+        }
+        return $this->_itemRenders[$type]['renderer'];
     }
 
     /**
@@ -77,12 +91,8 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
      */
     public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
     {
-        $itemRenderInfo = $this->getItemRender($item->getProductType());
-        $itemBlock = $this->getLayout()
-            ->createBlock($itemRenderInfo['block'])
-                ->setTemplate($itemRenderInfo['template'])
-                ->setItem($item);
-
-        return $itemBlock->toHtml();
+        return $this->getItemRenderer($item->getProductType())
+            ->setItem($item)
+            ->toHtml();
     }
 }

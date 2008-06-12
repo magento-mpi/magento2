@@ -18,21 +18,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Block for order item qty generation
+ * Sales Order items qty column renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Item_Qty extends Mage_Adminhtml_Block_Template
-{
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('sales/order/item/qty.phtml');
-    }
-
-}
-
+class Mage_Adminhtml_Block_Sales_Items_Column_Qty extends Mage_Adminhtml_Block_Template
+{}
+?>
