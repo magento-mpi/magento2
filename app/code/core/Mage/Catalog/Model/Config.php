@@ -29,6 +29,8 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
 
     protected $_productTypesById;
 
+    const XML_PATH_LAYER_PRODUCT_ATTRIBUTES = 'global/catalog/layer/view/product_attributes';
+
     public function loadAttributeSets()
     {
         if ($this->_attributeSetsById) {
@@ -180,5 +182,16 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             }
         }
         return null;
+    }
+
+    /**
+     * Load product attrinutes from config file
+     *
+     * @return array
+     */
+    public function getProductAttributes()
+    {
+        $attributes = Mage::getConfig()->getNode(self::XML_PATH_LAYER_PRODUCT_ATTRIBUTES)->asArray();
+        return array_keys($attributes);
     }
 }
