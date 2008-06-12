@@ -44,5 +44,5 @@
     </td>
 </tr>
 <tr>
-    <td>Maximum number of characters: <strong><?php echo (!$_option->getMaxCharacters())?Mage::helper('catalog')->__('Unlimeted') : $_option->getMaxCharacters() ?></strong></td>
+    <td><?php echo Mage::helper('catalog')->__('Maximum number of characters')?>: <strong><?php echo (!$_option->getMaxCharacters()) ? Mage::helper('catalog')->__('Unlimited') : $_option->getMaxCharacters() ?></strong></td>
 </tr>

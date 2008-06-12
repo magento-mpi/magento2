@@ -33,6 +33,19 @@
     <td class="attributes-col">
         <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
 
+        <?php if ($_bundles = $this->getBundleOptions()):?>
+        <dl class="product-bundle-options">
+        <?php foreach ($_bundles as $_option): ?>
+            <?php if ($_option->getSelections()):?>
+                <dt><?php echo $_option->getTitle()?>:</dt>
+                <?php foreach ($_option->getSelections() as $_selection): ?>
+                    <dd><span><?php printf('%d', $this->getSelectionQty($_selection->getSelectionId())) ?> x </span><?php echo $_selection->getName()?><span> (<?php echo Mage::helper('core')->currency($this->getSelectionFinalPrice($_selection)) ?>)</span></dd>
+                <?php endforeach;?>
+            <?php endif;?>
+        <?php endforeach;?>
+        </dl>
+        <?php endif;?>
+
         <?php if ($_options = $this->getProductOptions()):?>
         <ul class="product-options">
             <?php foreach ($_options as $_option):?>
