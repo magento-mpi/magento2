@@ -27,7 +27,7 @@
     <td>
         <?php if (count($_selections) == 1 && $_selections[0]->getDefault()): ?>
             <?php echo $_selections[0]->getName() ?>
-            <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
+            <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>][]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
         <?php else:?>
             <select onchange="bundle.changeSelection(this)" multiple="multiple" id="bundle-option-<?php echo $_option->getId() ?>" name="bundle_option[<?php echo $_option->getId() ?>]" class="<?php if ($_option->getRequired()) echo 'required-entry ' ?>select bundle-option-select">
                 <option value=""><?php echo $this->__('None') ?></option>

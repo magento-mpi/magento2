@@ -216,12 +216,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     }
                 } else {
                     $selectionIds = array_merge($selectionIds, $selectionId);
-                    foreach ($selectionId as $id) {
-                        $selectionIds[$id] = $optionId;
-                    }
                 }
             }
-
             $selectionsCollection = $this->getSelectionsByIds($selectionIds);
 
             foreach ($selectionsCollection->getItems() as $selection) {
@@ -229,6 +225,10 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     $qty = $qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
                 } else {
                     $qty = $selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
+                }
+                $result[0]->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
+                if ($customOption = $result[0]->getCustomOption('product_qty_' . $selection->getId())) {
+                    $customOption->setValue($customOption->getValue() + $qty);
                 }
                 $result[0]->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
             }

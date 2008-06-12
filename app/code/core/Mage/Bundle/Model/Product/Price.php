@@ -62,7 +62,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $selectionIds = unserialize($customOption->getValue());
             $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds);
             foreach ($selections->getItems() as $selection) {
-                $selectionQty = $product->getCustomOption('product_qty_' . $selection->getId());
+                $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
                 $finalPrice = $finalPrice + $this->getSelectionFinalPrice($product, $selection, $selectionQty->getValue());
             }
         } else {
@@ -82,6 +82,12 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return max(0, $product->getData('final_price'));
     }
 
+    /**
+     * Calculate Minimal price of bundle (counting all required options)
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return decimal
+     */
     public function getMinimalPrice($product)
     {
         $price = $product->getPrice();
@@ -103,6 +109,12 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return $this->_applySpecialPrice($product, $price);
     }
 
+    /**
+     * Calculate maximal price of bundle
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return decimal
+     */
     public function getMaximalPrice($product)
     {
         $price = $product->getPrice();
@@ -121,6 +133,12 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return $this->_applySpecialPrice($product, $price);
     }
 
+    /**
+     * Get Options with attached Selections collection
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Bundle_Model_Mysql4_Option_Collection
+     */
     public function getOptions($product)
     {
         $product->getTypeInstance()->setStoreFilter($product->getStoreId());
@@ -134,6 +152,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return $optionCollection->appendSelections($selectionCollection);
     }
 
+    /**
+     * Calculate final price of selection
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Catalog_Model_Product $selection
+     * @param decimal $qty
+     * @return decimal
+     */
     public function getSelectionFinalPrice($product, $selection, $qty = null)
     {
         if (is_null($qty)) {
