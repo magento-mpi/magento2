@@ -151,6 +151,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $shippingWeight = round(max(1, $weight),0);
 
         $r->setValue(round($request->getPackageValue(),2));
+        $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setDestStreet(substr($request->getDestStreet(), 0, 35));
         $r->setDestCity($request->getDestCity());
 
