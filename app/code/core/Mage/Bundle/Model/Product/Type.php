@@ -215,7 +215,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                         $selectionIds[] = $selectionId;
                     }
                 } else {
-                    $selectionIds = array_merge($selectionIds, $selectionId);
+                    foreach ($selectionId as $id) {
+                        if ($id != 'none' && $id != '') {
+                            $selectionIds[] = $id;
+                        }
+                    }
                 }
             }
             $selectionsCollection = $this->getSelectionsByIds($selectionIds);
