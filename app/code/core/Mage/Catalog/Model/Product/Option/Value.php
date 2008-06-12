@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Product_Option_Value extends Mage_Core_Model_Abstract
 
     protected $_option;
 
-    public function __construct()
+    protected function _construct()
     {
         $this->_init('catalog/product_option_value');
     }

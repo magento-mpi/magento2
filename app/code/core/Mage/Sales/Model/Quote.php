@@ -587,7 +587,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         //$item->importCatalogProduct($product)
-        $item->setProduct($product)
+        $item->setOptions($product->getCustomOptions())
+            ->setProduct($product)
             ->addQty($qty);
 
         $this->addItem($item);

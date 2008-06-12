@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
     protected $_values = array();
 
-    public function __construct()
+    protected function _construct()
     {
         $this->_init('catalog/product_option');
     }
@@ -162,8 +162,11 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      * @param string $type
      * @return array
      */
-    public function getGroupByType($type)
+    public function getGroupByType($type = null)
     {
+        if (is_null($type)) {
+            $type = $this->getType();
+        }
         $optionGroupsToTypes = array(
             self::OPTION_TYPE_FIELD => self::OPTION_GROUP_TEXT,
             self::OPTION_TYPE_AREA => self::OPTION_GROUP_TEXT,

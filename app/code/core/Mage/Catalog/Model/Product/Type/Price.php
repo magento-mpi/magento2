@@ -316,7 +316,7 @@ class Mage_Catalog_Model_Product_Type_Price
             foreach ($optionIds as $optionId) {
                 if ($optionId) {
                     if ($option = $product->getOptionById($optionId)) {
-                        if ($option->getGroupByType($option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        if ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                             if ($valueId = $product->getCustomOption('option_'.$option->getId())->getValue()) {
                                 $values = $option->getValueById($valueId);
                                 $price = $values->getPrice();

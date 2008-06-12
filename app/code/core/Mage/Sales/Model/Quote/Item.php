@@ -165,18 +165,20 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $this->setData('product', $product)
             ->setProductId($product->getId())
             ->setProductType($product->getTypeId())
-            ->setSku($product->getSku())
+            //->setSku($product->getSku())
+            ->setSku($this->getProduct()->getSku())
             ->setName($product->getName())
-            ->setWeight($product->getWeight())
+            //->setWeight($product->getWeight())
+            ->setWeight($this->getProduct()->getWeight())
             ->setTaxClassId($product->getTaxClassId())
             ->setCost($product->getCost())
             ->setIsQtyDecimal($product->getIsQtyDecimal());
 
-        if ($options = $product->getCustomOptions()) {
-            foreach ($options as $option) {
-                $this->addOption($option);
-            }
-        }
+//        if ($options = $product->getCustomOptions()) {
+//            foreach ($options as $option) {
+//                $this->addOption($option);
+//            }
+//        }
         return $this;
     }
 

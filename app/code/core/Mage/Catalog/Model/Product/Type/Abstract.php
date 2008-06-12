@@ -274,7 +274,28 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSku()
     {
-        return $this->getProduct()->getData('sku');
+        $skuDelimiter = '-';
+        $sku = $this->getProduct()->getData('sku');
+        if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
+            $optionIds = split(',', $optionIds->getValue());
+
+            foreach ($optionIds as $optionId) {
+                $productOption = $this->getProduct()->getOptionById($optionId);
+                $optionValue   = $this->getProduct()->getCustomOption('option_' . $optionId)->getValue();
+
+                if ($productOption->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                    $optionSku = $productOption->getValueById($optionValue)->getSku();
+                }
+                else {
+                    $optionSku = $productOption->getSku();
+                }
+
+                if (!empty($optionSku)) {
+                    $sku .= $skuDelimiter . $optionSku;
+                }
+            }
+        }
+        return $sku;
     }
 
     /**

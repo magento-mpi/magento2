@@ -311,6 +311,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         parent::_beforeDelete();
     }
 
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        foreach ($this->getProductOptionsCollection() as $option) {
+            $this->addOption($option);
+        }
+
+        return $this;
+    }
+
     public function cleanCache()
     {
         Mage::app()->cleanCache('catalog_product_'.$this->getId());
@@ -1180,7 +1190,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getProductOptionsCollection()
     {
         $collection = $this->getOptionInstance()
-                ->getProductOptionCollection($this);
+            ->getProductOptionCollection($this)
+            ->addValuesToResult();
 
         return $collection;
     }
