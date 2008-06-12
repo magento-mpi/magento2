@@ -43,10 +43,22 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getSku()
     {
-        /**
-         * @todo Change this to return valid sku
-         */
-        return $this->getProduct()->getData('sku');
+        if ($this->getProduct()->getData('sku_type')) {
+            return $this->getProduct()->getData('sku');
+        } else {
+            $skuParts = array($this->getProduct()->getData('sku'));
+
+            if ($this->getProduct()->hasCustomOptions()) {
+                $customOption = $this->getProduct()->getCustomOption('bundle_selection_ids');
+                $selectionIds = unserialize($customOption->getValue());
+                $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds);
+                foreach ($selections->getItems() as $selection) {
+                    $skuParts[] = $selection->getSku();
+                }
+            }
+
+            return implode('-', $skuParts);
+        }
     }
 
     /**
@@ -56,10 +68,22 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getWeight()
     {
-        /**
-         * @todo Change this to return valid weight
-         */
-        return $this->getProduct()->getData('weight');
+        if ($this->getProduct()->getData('weight_type')) {
+            return $this->getProduct()->getData('weight');
+        } else {
+            $weight = 0;
+
+            if ($this->getProduct()->hasCustomOptions()) {
+                $customOption = $this->getProduct()->getCustomOption('bundle_selection_ids');
+                $selectionIds = unserialize($customOption->getValue());
+                $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds);
+                foreach ($selections->getItems() as $selection) {
+                    $weight += $selection->getWeight();
+                }
+            }
+
+            return $weight;
+        }
     }
 
     public function save()
@@ -110,16 +134,31 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return $this;
     }
 
+    /**
+     * Retrieve bundle options items
+     *
+     * @return array
+     */
     public function getOptions()
     {
         return $this->getOptionsCollection()->getItems();
     }
 
+    /**
+     * Retrieve bundle options ids
+     *
+     * @return array
+     */
     public function getOptionsIds()
     {
         return $this->getOptionsCollection()->getAllIds();
     }
 
+    /**
+     * Retrieve bundle option collection
+     *
+     * @return Mage_Bundle_Model_Mysql4_Option_Collection
+     */
     public function getOptionsCollection()
     {
         if (!$this->_optionsCollection) {
@@ -131,11 +170,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return $this->_optionsCollection;
     }
 
-    public function getRequiredOptions()
-    {
-
-    }
-
+    /**
+     * Retrive bundle selections collection based on used options
+     *
+     * @param array $optionIds
+     * @return Mage_Bundle_Model_Mysql4_Selection_Collection
+     */
     public function getSelectionsCollection($optionIds)
     {
         if (!$this->_selectionsCollection) {
@@ -245,6 +285,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return Mage::helper('catalog')->__('Please specify the bundle option(s)');
     }
 
+    /**
+     * Retrieve bundle selections collection based on ids
+     *
+     * @param array $selectionIds
+     * @return Mage_Bundle_Model_Mysql4_Selection_Collection
+     */
     public function getSelectionsByIds($selectionIds)
     {
             return Mage::getResourceModel('bundle/selection_collection')
@@ -252,6 +298,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->setSelectionIdsFilter($selectionIds);
     }
 
+    /**
+     * Retrieve bundle options collection based on ids
+     *
+     * @param array $optionIds
+     * @return Mage_Bundle_Model_Mysql4_Option_Collection
+     */
     public function getOptionsByIds($optionIds)
     {
             return Mage::getModel('bundle/option')->getResourceCollection()
