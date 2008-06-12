@@ -95,9 +95,9 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
     public function setIdFilter($ids)
     {
         if (is_array($ids)) {
-            $this->addFieldToFilter('option_id', array('in' => $ids));
+            $this->addFieldToFilter('`main_table`.`option_id`', array('in' => $ids));
         } else if ($ids != '') {
-            $this->addFieldToFilter('option_id', $ids);
+            $this->addFieldToFilter('`main_table`.`option_id`', $ids);
         }
         return $this;
     }
