@@ -60,6 +60,20 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         return $this->_urls['current'];
     }
 
+    /**
+     *  Print Logo URL (Conf -> Sales -> Invoice and Packing Slip Design)
+     *
+     *  @param    none
+     *  @return	  void
+     */
+    public function getPrintLogoUrl ()
+    {
+        $logo = Mage::getStoreConfig('sales/identity/logo');
+        return $logo
+            ? Mage::getStoreConfig('web/unsecure/base_media_url') . 'sales/store/logo/' . $logo
+            : '';
+    }
+
     public function setHeaderTitle($title)
     {
         $this->_title = $title;
@@ -101,5 +115,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     {
         return $this->_getData('body_class');
     }
+
+
 
 }
