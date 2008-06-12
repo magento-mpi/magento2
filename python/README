@@ -1,5 +1,0 @@
-USAGE:
-    $ python magento-util.py /path/to/magento/with/slash/
-
-NOTICE:
-    use '-f' flag to search files missed 'NOTICE OF LICENSE'
