@@ -996,7 +996,22 @@ table.recently-list td {width:20%;}
 .custom-options .data textarea  {width:92%; height:5em;}
 .custom-options .label {padding-top:10px;}
 
-.bundle-product select{width:95%!important;}
+/*Bundle product*/
+.bundle-product {background:#f8f7f5; padding:0 0 0; border:1px solid #bebcb7; border-top:0;}
+.bundle-product dt {border-top:1px solid #bebcb7; background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; line-height:21px; padding:3px 10px;}
+.bundle-product dt .qty-holder {float:right;line-height:21px;}
+.bundle-product dt .qty-holder input {display:inline !important;}
+.bundle-product dt .qty-holder span,
+.bundle-product dt .qty-holder label{display:inline;}
+.bundle-product dt .bundle-option {float:left;}
+.bundle-product dd { padding:10px 10px 15px;}
+.bundle-product dd .select {width:99%;}
+.bundle-product dd .multiselect {line-height:1.4em; height:9.8em;}
+.bundle-product dd .multiselect option {white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px;}
+.bundle-product dd label .form-radio  {position:absolute; top:0.3em; left:0; height:1em; }
+.bundle-product dd label  {display:block; font-weight:normal; line-height:1.4; padding:2px 0 2px 22px; position:relative;  zoom:1;}
+
+
 
 
 /* Product Collateral */
@@ -1090,7 +1105,7 @@ td.attributes-col p.pname a{ font-weight:bold;}
 
 /*tax details */
 .tax-total td{padding-bottom:5px; /* background:#e4eaec; */}
-.tax-total div {float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 6px; cursor:default;}
+.tax-total div {float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 6px; cursor:pointer;}
 .show-details div {background-position:0 -51px;}
 .show-details td{border-top:1px solid #d2d8db;}
 .tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }

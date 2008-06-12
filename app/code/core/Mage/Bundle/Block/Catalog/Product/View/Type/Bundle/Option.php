@@ -39,13 +39,13 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Cor
     public function getSelectionQtyTitlePrice($_selection)
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPrice($this->getProduct(), $_selection);
-        return $_selection->getSelectionQty()*1 . ' x ' . $_selection->getName() . '&nbsp;&nbsp;' .
+        return $_selection->getSelectionQty()*1 . ' x ' . $_selection->getName() . ' &nbsp;' .
             Mage::helper('core')->currency($price);
     }
 
     public function getSelectionTitlePrice($_selection)
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPrice($this->getProduct(), $_selection, 1);
-        return $_selection->getName() . '&nbsp;&nbsp;' . Mage::helper('core')->currency($price);
+        return $_selection->getName() . ' &nbsp;' . Mage::helper('core')->currency($price);
     }
 }

@@ -31,6 +31,22 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
 
 <?php if($_product->isSaleable()): ?>
+<div class="bundle-product">
+	<?php if (count($_options)): ?>
+	<dl>
+	<?php foreach ($_options as $_option): ?>
+		<?php if (!$_option->getSelections()): ?>
+			<?php continue; ?>
+		<?php endif; ?>
+		<?php echo $this->getOptionHtml($_option) ?>
+	<?php endforeach; ?>
+	</dl>
+	<?php else: ?>
+		<p><?php echo $this->__('No options of this product are available.') ?></p>
+	<?php endif; ?>	
+</div>
+<p class="required">* Required Fields</p>	
+<?php /*
     <table cellspacing="0" class="data-table bundle-product" id="super-product-table">
         <thead>
             <tr>
@@ -54,7 +70,8 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
         <?php endif; ?>
         </tbody>
     </table>
-
+*/ ?>
+	
     <?php $_tierPrices = $this->getTierPrices() ?>
     <?php if(count($_tierPrices)>0): ?>
     <div class="product-pricing">

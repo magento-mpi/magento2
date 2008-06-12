@@ -22,22 +22,10 @@
 
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
-<tr>
-    <td class="label"><?php echo $this->htmlEscape($_option->getTitle()) ?></td>
-    <td>
-        <?php if (count($_selections) == 1 && $_selections[0]->getDefault()): ?>
-            <?php echo $_selections[0]->getName() ?>
-            <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
-        <?php else:?>
-            <?php if(!$_option->getRequired()): ?>
-            <input onclick="bundle.changeSelection(this)" class="validate-one-required" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_option->getDefaultSelection())?'':' checked="checked" ' ?> value="none" /><?php echo $this->__('None') ?><br />
-            <?php endif; ?>
-            <?php foreach($_selections as $_selection): ?>
-            <input onclick="bundle.changeSelection(this)" class="validate-one-required" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_selection->getIsDefault() && $_selection->isSaleable())?' checked="checked" ':'' ?><?php echo !$_selection->isSaleable()?' disabled="disabled" ':'' ?>value="<?php echo $_selection->getSelectionId() ?>" /><?php echo $this->getSelectionTitlePrice($_selection) ?><br />
-            <?php endforeach;?>
-        <?php endif; ?>
-    </td>
-    <td valign="top" align="center">
+
+<dt>
+	<span class="bundle-option"><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></span>
+	<span class="qty-holder">
         <?php if ($_default = $_option->getDefaultSelection()): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
             <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
@@ -45,7 +33,20 @@
             <?php $_defaultQty = '' ?>
             <?php $_canChangeQty = false ?>
         <?php endif; ?>
-        <input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_canChangeQty?'block':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
-        <span style="display:<?php echo $_canChangeQty?'none':'block' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-label"><?php echo $_defaultQty ?></span>
-    </td>
-</tr>
+        <label><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_canChangeQty?'block':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
+		<span style="display:<?php echo $_canChangeQty?'none':'block' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-label"><?php echo $_defaultQty ?></span>	
+	</span>
+</dt>
+<dd>
+	<?php if (count($_selections) == 1 && $_selections[0]->getDefault()): ?>
+		<?php echo $_selections[0]->getName() ?>
+		<input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
+	<?php else:?>
+		<?php if(!$_option->getRequired()): ?>
+		<label><input onclick="bundle.changeSelection(this)" class="validate-one-required form-radio" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_option->getDefaultSelection())?'':' checked="checked" ' ?> value="none" /><?php echo $this->__('None') ?></label>
+		<?php endif; ?>
+		<?php foreach($_selections as $_selection): ?>
+		<label><input onclick="bundle.changeSelection(this)" class="validate-one-required form-radio" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_selection->getIsDefault() && $_selection->isSaleable())?' checked="checked" ':'' ?><?php echo !$_selection->isSaleable()?' disabled="disabled" ':'' ?> value="<?php echo $_selection->getSelectionId() ?>" /><?php echo $this->getSelectionTitlePrice($_selection) ?></label>
+		<?php endforeach;?>
+	<?php endif; ?>
+</dd>

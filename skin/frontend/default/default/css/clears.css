@@ -18,7 +18,9 @@
 /****************************************************/
 /****************[ Mage_CSS_B Clears ]***************/
 /****************************************************/
-
+.bundle-product dd label:after,
+.bundle-product dt:after,
+.bundle-product dd:after,
 .page-head:after,
 .page-head-alt:after,
 .clear:after,
