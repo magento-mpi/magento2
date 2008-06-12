@@ -130,7 +130,10 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             if (isset($website['stores'])) {
                 foreach ($website['stores'] as $sId=>$sCode) {
                     $storeNode = $xmlConfig->getNode('stores/'.$sCode);
-                    $storeNode->extend($extendSource);
+                    /**
+                     * $extendSource need overwrite source
+                     */
+                    $storeNode->extend($extendSource, true);
                 }
             }
         }

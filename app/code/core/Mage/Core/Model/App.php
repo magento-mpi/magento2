@@ -268,7 +268,7 @@ class Mage_Core_Model_App
             return $this;
         }
 
-        $storeKey = 'store';
+        $storeKey = '___store';
         if (!isset($_GET[$storeKey])) {
             return $this;
         }

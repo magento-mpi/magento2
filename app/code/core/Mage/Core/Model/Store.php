@@ -710,10 +710,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $parsedQuery = isset($parsedUrl['query']) ? parse_str($parsedUrl['query']) : array();
 
         if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getCode())) {
-            $parsedQuery['store'] = $this->getCode();
+            $parsedQuery['___store'] = $this->getCode();
         }
         if ($fromStore !== false) {
-            $parsedQuery['from_store'] = $fromStore === true ? Mage::app()->getStore()->getCode() : $fromStore;
+            $parsedQuery['___from_store'] = $fromStore === true ? Mage::app()->getStore()->getCode() : $fromStore;
         }
 
         return $parsedUrl['scheme'] . '://' . $parsedUrl['host']

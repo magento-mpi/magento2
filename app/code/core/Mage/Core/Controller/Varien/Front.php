@@ -135,8 +135,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $request = $this->getRequest();
         $request->setPathInfo()->setDispatched(false);
 
-        $this->rewrite();
         Mage::getModel('core/url_rewrite')->rewrite();
+        $this->rewrite();
 
         Varien_Profiler::stop('app/init');
 
