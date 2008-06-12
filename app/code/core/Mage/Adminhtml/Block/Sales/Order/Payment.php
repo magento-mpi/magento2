@@ -27,6 +27,13 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Adminhtml_Block_Template
 {
+    protected function _beforeToHtml()
+    {
+        if ($this->getParentBlock() && ($order = $this->getParentBlock()->getOrder())) {
+            $this->setPayment($order->getPayment());
+        }
+        parent::_beforeToHtml();
+    }
 
     public function setPayment($payment)
     {

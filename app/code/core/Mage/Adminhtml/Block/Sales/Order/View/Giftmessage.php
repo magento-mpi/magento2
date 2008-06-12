@@ -47,6 +47,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Giftmessage extends Mage_Adminhtml_B
         $this->setTemplate('sales/order/view/giftmessage.phtml');
     }
 
+    protected function _beforeToHtml()
+    {
+        if ($this->getParentBlock() && ($order = $this->getParentBlock()->getOrder())) {
+            $this->setEntity($order);
+        }
+        parent::_beforeToHtml();
+    }
+
     /**
      * Prepares layout of block
      *
