@@ -998,18 +998,16 @@ table.recently-list td {width:20%;}
 
 /*Bundle product*/
 .bundle-product {background:#f8f7f5; padding:0 0 0; border:1px solid #bebcb7; border-top:0;}
-.bundle-product dt {border-top:1px solid #bebcb7; background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; line-height:21px; padding:3px 10px;}
-.bundle-product dt .qty-holder {float:right;line-height:21px;}
-.bundle-product dt .qty-holder input {display:inline !important;}
-.bundle-product dt .qty-holder span,
-.bundle-product dt .qty-holder label{display:inline;}
+.bundle-product dt {border-top:1px solid #bebcb7; background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; line-height:23px; padding:3px 10px;}
+.bundle-product dt .qty-holder {float:right; /* width:5.1em; */ line-height:23px;}
+.bundle-product dt .qty-holder span {}
 .bundle-product dt .bundle-option {float:left;}
 .bundle-product dd { padding:10px 10px 15px;}
 .bundle-product dd .select {width:99%;}
 .bundle-product dd .multiselect {line-height:1.4em; height:9.8em;}
 .bundle-product dd .multiselect option {white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px;}
-.bundle-product dd label .form-radio  {position:absolute; top:0.3em; left:0; height:1em; }
-.bundle-product dd label  {display:block; font-weight:normal; line-height:1.4; padding:2px 0 2px 22px; position:relative;  zoom:1;}
+.bundle-product dd label input  {position:absolute; top:0.3em; left:0; height:1em; }
+.bundle-product dd label  {display:block; font-weight:normal; line-height:1.4; padding:2px 0 2px 18px; position:relative;  zoom:1;}
 
 
 
