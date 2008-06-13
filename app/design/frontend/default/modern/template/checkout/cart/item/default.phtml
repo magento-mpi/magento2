@@ -28,13 +28,31 @@
     <td class="attributes-col">
         <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
 
+        <!-- item custom options -->
         <?php if ($_options = $this->getProductOptions()):?>
-        <ul class="product-options">
+        <ul class="shopping-cart-item-options">
             <?php foreach ($_options as $_option):?>
-            <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong> <?php echo $this->htmlEscape($_option['value']) ?></li>
+            <?php
+            $_isTruncated = false;
+            $_escapedTruncatedValue = $this->helper('checkout/string')->truncateOptionValueByType($_option['value'], $_option['type'], 100, '...', $_isTruncated)
+            ?>
+            <li><strong><?php echo $_option['label'] ?>:</strong>
+            <?php if (!$_isTruncated):?>
+                <?php echo $_escapedTruncatedValue ?>
+            <?php else:?>
+                <?php $_htmlId = 'option' . $_option['id'] ?>
+                <div id="<?php echo $_htmlId?>" class="shopping-cart-item-option-value-<?php echo $_option['type']?>"><?php echo $_escapedTruncatedValue ?></div>
+                <div id="<?php echo $_htmlId?>_full" class="shopping-cart-item-option-value-<?php echo $_option['type']?>" style="display:none"><?php echo $this->helper('checkout/string')->escapeOptionValueByType($_option['value'], $_option['type'])?></div>
+                <script type="text/javascript">
+                    Event.observe($('<?php echo $_htmlId?>'), 'mouseover', function(){switchDisplay($('<?php echo $_htmlId?>'), $('<?php echo $_htmlId?>_full'))});
+                    Event.observe($('<?php echo $_htmlId?>_full'), 'mouseout', function(){switchDisplay($('<?php echo $_htmlId?>_full'), $('<?php echo $_htmlId?>'))});
+                </script>
+            <?php endif;?>
+            </li>
             <?php endforeach;?>
         </ul>
         <?php endif;?>
+        <!-- / -->
 
         <?php if($_item->getMessage()): ?>
         <div class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
