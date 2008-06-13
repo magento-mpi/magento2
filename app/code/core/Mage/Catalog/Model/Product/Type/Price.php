@@ -310,33 +310,54 @@ class Mage_Catalog_Model_Product_Type_Price
      */
     protected function _applyOptionsPrice($product, $qty, $finalPrice)
     {
-        $basePrice = $finalPrice;
         if ($optionIds = $product->getCustomOption('option_ids')) {
-            $optionIds = explode(',', $optionIds->getValue());
-            foreach ($optionIds as $optionId) {
-                if ($optionId) {
-                    if ($option = $product->getOptionById($optionId)) {
-                        if ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                            if ($valueId = $product->getCustomOption('option_'.$option->getId())->getValue()) {
-                                $values = $option->getValueById($valueId);
-                                $price = $values->getPrice();
-                                $priceType = $values->getPriceType();
-                            }
-                        } else {
-                            $price = $option->getPrice();
-                            $priceType = $option->getPriceType();
+            $basePrice = $finalPrice;
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                if ($option = $product->getOptionById($optionId)) {
+                    $optionValue = $product->getCustomOption('option_'.$option->getId())->getValue();
+                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                        || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                        foreach(split(',', $optionValue) as $value) {
+                            $finalPrice += $this->_getPricingOptionValue(array(
+                                'is_percent' => ($option->getValueById($value)->getPriceType() == 'percent')? true:false,
+                                'pricing_value' => $option->getValueById($value)->getPrice()
+                            ), $basePrice);
                         }
-                        if ($priceType == 'percent') {
-                            $finalPrice += $basePrice*($price/100);
-                        } else {
-                            $finalPrice += $price;
-                        }
+                    } elseif ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        $finalPrice += $this->_getPricingOptionValue(array(
+                            'is_percent' => ($option->getValueById($optionValue)->getPriceType() == 'percent')? true:false,
+                            'pricing_value' => $option->getValueById($optionValue)->getPrice()
+                        ), $basePrice);
+                    } else {
+                        $finalPrice += $this->_getPricingOptionValue(array(
+                            'is_percent' => ($option->getPriceType() == 'percent')? true:false,
+                            'pricing_value' => $option->getPrice()
+                        ), $basePrice);
                     }
                 }
             }
         }
 
         return $finalPrice;
+    }
+
+    /**
+     * Get product pricing option value
+     *
+     * @param array $value
+     * @param double $basePrice
+     * @return double
+     */
+    protected function _getPricingOptionValue($value, $basePrice)
+    {
+        if($value['is_percent']) {
+            $ratio = $value['pricing_value']/100;
+            $price = $basePrice * $ratio;
+        } else {
+            $price = $value['pricing_value'];
+        }
+
+        return $price;
     }
 
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)

@@ -300,9 +300,12 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      */
     public function getProductOptionCollection(Mage_Catalog_Model_Product $product)
     {
-        $collection = Mage::getResourceModel('catalog/product_option_collection')
+        $collection = $this->getCollection()
             ->addFieldToFilter('product_id', $product->getId())
-            ->getOptions($product->getStoreId());
+            ->getOptions($product->getStoreId())
+            ->setOrder('sort_order', 'asc')
+            ->setOrder('title', 'asc')
+            ->addValuesToResult();
 
         return $collection;
     }

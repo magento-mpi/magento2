@@ -62,12 +62,11 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 ->setName('options['.$_option->getid().']');
             $select->addOption('', $this->__('-- Please Select --'));
             foreach ($collection as $_value) {
-                if ($_value->getPriceType() == 'fixed') {
-                    $price = $this->helper('core')->currency($_value->getPrice());
-                } else {
-                    $price = '%' . number_format($_value->getPrice(), 0, null, '');
-                }
-                $select->addOption($_value->getOptionTypeId(), $_value->getTitle() . ' (' . $price . ')');
+                $priceStr = $this->getFormatedPrice(array(
+                    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
+                    'pricing_value' => $_value->getPrice()
+                ));
+                $select->addOption($_value->getOptionTypeId(), $_value->getTitle() . ' (' . $priceStr . ')');
             }
 
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
@@ -96,11 +95,26 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 				$count = 1;
             foreach ($collection as $_value) {
 				$count++;
-                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.'" id="options_'.$_option->getId().'_'.$count.'" name="options['.$_option->getId().']" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().'</label><br />';
+				$priceStr = $this->getFormatedPrice(array(
+				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
+				    'pricing_value' => $_value->getPrice()
+				));
+                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.'" name="options['.$_option->getId().'][]" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' ('.$priceStr.')</label><br />';
             }
 
             return $selectHtml;
         }
+    }
+
+    public function getFormatedPrice($value)
+    {
+        if ($value['is_percent']) {
+            $priceStr = '%' . number_format($value['pricing_value'], 0, null, '');
+        } else {
+            $priceStr = $this->helper('core')->currency($value['pricing_value']);
+        }
+
+        return $priceStr;
     }
 
 }

@@ -210,7 +210,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $optionsCollection = $this->getProduct()
             ->getProductOptionsCollection()
             ->load();
+
         foreach ($optionsCollection as $_option) {
+            /* @var $_option Mage_Catalog_Model_Product_Option */
             if (!isset($options[$_option->getId()]) && $_option->getIsRequire()) {
                 return Mage::helper('catalog')->__('Please specify the product required option(s)');
             }
@@ -230,13 +232,21 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE) {
 
             }
+
             if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                if (!isset($options[$_option->getId()])) {
+                    continue;
+                }
                 $valuesCollection = $_option->getOptionValuesByOptionId(
                         $options[$_option->getId()], $this->getProduct()->getStoreId()
                     )->load();
+
                 if ($valuesCollection->count() != count($options[$_option->getId()])) {
                     return Mage::helper('catalog')->__('Please specify the product required option(s)');
                 }
+            }
+            if (is_array($options[$_option->getId()])) {
+                $options[$_option->getId()] = implode(',', $options[$_option->getId()]);
             }
             $newOptions[$_option->getId()] = $options[$_option->getId()];
         }
@@ -246,7 +256,43 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
     public function getOrderOptions()
     {
-        return array();
+        $optionArr = array();
+        if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                if ($option = $this->getProduct()->getOptionById($optionId)) {
+                    $formatedValue = '';
+                    $optionGroup = $option->getGroupByType($option->getType());
+                    $optionValue = $this->getProduct()->getCustomOption('option_'.$option->getId())->getValue();
+                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                        || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                        foreach (explode(',', $optionValue) as $value) {
+                            $formatedValue .= $option->getValueById($value)->getTitle() . ', ';
+                        }
+                        $formatedValue = substr($formatedValue, 0, -2);
+                    } elseif ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        $formatedValue = $option->getValueById($optionValue)->getTitle();
+                    } else {
+                        $formatedValue = $optionValue;
+                    }
+                    $optionArr['options'][] = array(
+                        'label' => $option->getTitle(),
+                        'value' => $formatedValue,
+                        'option_id' => $option->getId(),
+                        'option_value' => $optionValue
+                    );
+                }
+            }
+        }
+        return $optionArr;
+    }
+
+    /**
+     * prepare options for reorder
+     *
+     */
+    public function prepareOptionsForReorder()
+    {
+
     }
 
     /**
@@ -288,7 +334,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 if ($productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
                     || $productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
                     foreach(split(',', $optionValue) as $value) {
-                        if ($optionSku = $productOption->getValueById($optionValue)->getSku()) {
+                        if ($optionSku = $productOption->getValueById($value)->getSku()) {
                             $sku .= $skuDelimiter . $optionSku;
                         }
                     }

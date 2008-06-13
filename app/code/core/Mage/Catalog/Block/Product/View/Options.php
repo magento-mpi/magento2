@@ -43,7 +43,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Retrieve product object
      *
      * @return Mage_Catalog_Model_Product
      */
@@ -59,12 +59,26 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         return $this->_product;
     }
 
+    /**
+     * Set product object
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Block_Product_View_Options
+     */
     public function setProduct($product)
     {
         $this->_product = $product;
         return $this;
     }
 
+    /**
+     * Add option render to renders array
+     *
+     * @param string $type
+     * @param string $block
+     * @param string $template
+     * @return Mage_Catalog_Block_Product_View_Options
+     */
     public function addOptionRender($type, $block, $template)
     {
         $this->_optionRenders[$type] = array(
@@ -75,9 +89,10 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Get option render by given type
      *
      * @param string $type
+     * @return array
      */
     public function getOptionRender($type)
     {
@@ -96,21 +111,17 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Get product options
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     * @return array
      */
     public function getOptions()
     {
-        $collection = $this->getProduct()
-            ->getProductOptionsCollection()
-            ->setOrder('sort_order', 'asc')
-            ->load(false);
-        return $collection;
+        return $this->getProduct()->getOptions();
     }
 
     /**
-     * Enter description here...
+     * Get option html block
      *
      * @param Mage_Catalog_Model_Product_Option $option
      */

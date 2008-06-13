@@ -100,24 +100,27 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     {
         $options = false;
         if ($optionIds = $this->getItem()->getOptionByCode('option_ids')) {
-            $optionIds = explode(',', $optionIds->getValue());
             $options = array();
-            foreach ($optionIds as $optionId) {
-                if ($optionId) {
-                    if ($option = $this->getProduct()->getOptionById($optionId)) {
-                        $optionValue = '';
-                        $optionGroup = $option->getGroupByType($option->getType());
-                        if ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                            $optionValue = $option->getValueById(
-                                $this->getItem()->getOptionByCode('option_'.$optionId)->getValue())->getTitle();
-                        } else {
-                            $optionValue =  $this->getItem()->getOptionByCode('option_'.$optionId)->getValue();
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                if ($option = $this->getProduct()->getOptionById($optionId)) {
+                    $formatedValue = '';
+                    $optionGroup = $option->getGroupByType();
+                    $optionValue = $this->getItem()->getOptionByCode('option_' . $option->getId())->getValue();
+                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                        || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                        foreach(split(',', $optionValue) as $value) {
+                            $formatedValue .= $option->getValueById($value)->getTitle() . ', ';
                         }
-                        $options[] = array(
-                            'label' => $option->getTitle(),
-                            'value' => $optionValue
-                        );
+                        $formatedValue = substr($formatedValue, 0, -2);
+                    } elseif ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        $formatedValue = $option->getValueById($optionValue)->getTitle();
+                    } else {
+                        $formatedValue = $optionValue;
                     }
+                    $options[] = array(
+                        'label' => $option->getTitle(),
+                        'value' => $formatedValue
+                    );
                 }
             }
         }

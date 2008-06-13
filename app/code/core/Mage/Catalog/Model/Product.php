@@ -1190,8 +1190,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getProductOptionsCollection()
     {
         $collection = $this->getOptionInstance()
-            ->getProductOptionCollection($this)
-            ->addValuesToResult();
+            ->getProductOptionCollection($this);
 
         return $collection;
     }

@@ -18,13 +18,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php $_optionsCollection = $this->getOptions() ?>
-<?php if ($_optionsCollection->getSize()): ?>
+<?php $_options = $this->getOptions() ?>
+<?php if ($_options): ?>
 <div class="clear"></div>
 <fieldset>
     <div class="product-attributes custom-options">
         <table cellspacing="0" border="0" cellpadding="0" id="custom-options-table">
-        <?php foreach($_optionsCollection as $_option): ?>
+        <?php foreach($_options as $_option): ?>
             <?php echo $this->getOptionHtml($_option) ?>
         <?php endforeach; ?>
         </table>
@@ -80,7 +80,6 @@
                 $('option_'+data.optionId+'_file').value = '';
                 $('option_'+data.optionId+'_file').hide();
                 $('option_'+data.optionId+'').hide();
-//popWin('http://192.168.0.191/dev/ruslan.voitenko/magento/index.php/catalog/product/gallery/id/16/image/126/', 'gallery', 'scrollbars=yes,width=300,height=300,resizable=yes');return false;
                 template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="http://192.168.0.191/dev/ruslan.voitenko/magento/var/options/'+data.fileName+'"></a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file</a>';
 
                 new Insertion.After(
@@ -96,6 +95,15 @@
             $('option_'+optionId+'').show();
 
             $('option_'+optionId+'_file_box').remove();
+        }
+    }
+    var optionTextCounter = {
+        count : function(field,cntfield,maxlimit){
+            if (field.value.length > maxlimit){
+                field.value = field.value.substring(0, maxlimit);
+            } else {
+                cntfield.innerHTML = maxlimit - field.value.length;
+            }
         }
     }
 /* ]]> */

@@ -37,9 +37,9 @@
 <tr>
     <td class="data">
     <?php if ($_option->getType() == 'field'): ?>
-        <input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="">
+        <input type="text" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="">
     <?php elseif ($_option->getType() == 'area'): ?>
-        <textarea class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]"></textarea>
+        <textarea id="options_<?php echo $_option->getId() ?>_text" class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]"></textarea>
     <?php endif; ?>
     </td>
 </tr>
