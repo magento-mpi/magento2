@@ -209,7 +209,7 @@
                         </children>
                     </extensions>
                     <cache translate="title" module="adminhtml">
-                        <title>Cache management</title>
+                        <title>Cache Management</title>
                         <action>adminhtml/system_cache</action>
                         <sort_order>90</sort_order>
                     </cache>
