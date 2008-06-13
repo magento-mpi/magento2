@@ -22,6 +22,7 @@
 
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
+<?php $_default = $_option->getDefaultSelection() ?>
 <tr>
     <td class="label"><?php echo $this->htmlEscape($_option->getTitle()) ?></td>
     <td>
@@ -30,15 +31,15 @@
             <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
         <?php else:?>
             <?php if(!$_option->getRequired()): ?>
-            <input onclick="bundle.changeSelection(this)" class="validate-one-required" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_option->getDefaultSelection())?'':' checked="checked" ' ?> value="none" /><?php echo $this->__('None') ?><br />
+            <input onclick="bundle.changeSelection(this)" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_default && $_default->isSalable())?'':' checked="checked" ' ?> value="" /><?php echo $this->__('None') ?><br />
             <?php endif; ?>
             <?php foreach($_selections as $_selection): ?>
-            <input onclick="bundle.changeSelection(this)" class="validate-one-required" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_selection->getIsDefault() && $_selection->isSaleable())?' checked="checked" ':'' ?><?php echo !$_selection->isSaleable()?' disabled="disabled" ':'' ?>value="<?php echo $_selection->getSelectionId() ?>" /><?php echo $this->getSelectionTitlePrice($_selection) ?><br />
+            <input onclick="bundle.changeSelection(this)" class="<?php echo $_option->getRequired()?'validate-one-required-by-name':'' ?>" id="bundle-option-<?php echo $_option->getId() ?>" type="radio" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_selection->getIsDefault() && $_selection->isSaleable())?' checked="checked" ':'' ?><?php echo !$_selection->isSaleable()?' disabled="disabled" ':'' ?>value="<?php echo $_selection->getSelectionId() ?>" /><?php echo $this->getSelectionTitlePrice($_selection) ?><br />
             <?php endforeach;?>
         <?php endif; ?>
     </td>
     <td valign="top" align="center">
-        <?php if ($_default = $_option->getDefaultSelection()): ?>
+        <?php if ($_default): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
             <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
         <?php else: ?>

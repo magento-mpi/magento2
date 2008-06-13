@@ -62,13 +62,15 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $selectionIds = unserialize($customOption->getValue());
             $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds);
             foreach ($selections->getItems() as $selection) {
-                $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
-                $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection, $selectionQty->getValue());
+                if ($selection->isSalable()) {
+                    $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
+                    $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection, $selectionQty->getValue());
+                }
             }
         } else {
             foreach ($this->getOptions($product) as $option) {
                 foreach ($option->getSelections() as $selection) {
-                    if ($selection->getIsDefault()) {
+                    if ($selection->getIsDefault() && $selection->isSalable()) {
                         $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection);
                     }
                 }
@@ -179,6 +181,20 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     }
 
     /**
+     * Calculate selection price for front view (with applied special of bundle)
+     *
+     * @param Mage_Catalog_Model_Product $bundleProduct
+     * @param Mage_Catalog_Model_Product $selectionProduct
+     * @param decimal
+     * @return decimal
+     */
+    public function getSelectionPreFinalPrice($bundleProduct, $selectionProduct, $qty = null)
+    {
+        return $this->_applySpecialPrice($bundleProduct, $this->getSelectionPrice($bundleProduct, $selectionProduct, $qty));
+    }
+
+
+    /**
      * Calculate final price of selection
      *
      * @param Mage_Catalog_Model_Product $bundleProduct
@@ -189,11 +205,11 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getSelectionFinalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty = null)
     {
-        // apply bundle special price
-        $finalPrice = $this->_applySpecialPrice($bundleProduct, $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty));
-
         // apply bundle tier price
-        $finalPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $finalPrice);
+        $finalPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty));
+
+        // apply bundle special price
+        $finalPrice = $this->_applySpecialPrice($bundleProduct, $finalPrice);
 
         return $finalPrice;
     }
@@ -202,9 +218,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * Apply tier price for bundle
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @param   double $qty
-     * @param   double $finalPrice
-     * @return  double
+     * @param   decimal $qty
+     * @param   decimal $finalPrice
+     * @return  decimal
      */
     protected function _applyTierPrice($product, $qty, $finalPrice)
     {
@@ -223,9 +239,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Get product tier price by qty
      *
-     * @param   double $qty
+     * @param   decimal $qty
      * @param   Mage_Catalog_Model_Product $product
-     * @return  double
+     * @return  decimal
      */
     public function getTierPrice($qty=null, $product)
     {
@@ -294,8 +310,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * Apply special price for bundle
      *
      * @param   Mage_Catalog_Model_Product $product
-     * @param   double $finalPrice
-     * @return  double
+     * @param   decimal $finalPrice
+     * @return  decimal
      */
     protected function _applySpecialPrice($product, $finalPrice)
     {

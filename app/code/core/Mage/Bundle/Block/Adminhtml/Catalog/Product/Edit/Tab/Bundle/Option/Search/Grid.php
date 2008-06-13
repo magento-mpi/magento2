@@ -82,7 +82,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         $this->addColumn('sku', array(
             'header'    => Mage::helper('sales')->__('SKU'),
             'width'     => '80px',
-            'index'     => 'sku'
+            'index'     => 'sku',
+            'column_css_class'=> 'sku'
         ));
         $this->addColumn('price', array(
             'header'    => Mage::helper('sales')->__('Price'),

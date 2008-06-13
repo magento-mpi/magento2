@@ -18,17 +18,16 @@ Product.Bundle.prototype = {
                     }
                 }
             } else if (selection.tagName == 'INPUT') {
-                selections = $A(selection.parentNode.getElementsByTagName('INPUT'));
+                selections = $$('#'+selection.id);
                 for (var i = 0; i < selections.length; i++) {
-
-                    if (selections[i].checked && selections[i].value != 'none') {
+                    if (selections[i].checked && selections[i].value != '') {
                         selected.push(selections[i].value);
                     }
                 }
             }
             this.config.selected[parts[2]] = selected;
         } else {
-            if (selection.value != '' && selection.value != 'none') {
+            if (selection.value != '') {
                 this.config.selected[parts[2]] = new Array(selection.value);
             } else {
                 this.config.selected[parts[2]] = new Array();

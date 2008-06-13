@@ -27,7 +27,6 @@
  */
 class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_showAllSelections = false;
     protected $_selectionsAppended = false;
     protected function _construct()
     {
@@ -59,7 +58,7 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
 
     public function setPositionOrder()
     {
-        $this->setOrder('`main_table`.`position`', 'asc');
+        $this->getSelect()->order('main_table.position asc');
         return $this;
     }
 
@@ -67,29 +66,13 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
     {
         if (!$this->_selectionsAppended) {
             foreach ($selectionsCollection as $_selection) {
-                if ($this->getShowAllSelections() || $_selection->isSaleable()) {
-                    if ($_option = $this->getItemById($_selection->getOptionId())) {
-                        $_option->addSelection($_selection);
-                    }
+                if ($_option = $this->getItemById($_selection->getOptionId())) {
+                    $_option->addSelection($_selection);
                 }
             }
             $this->_selectionsAppended = true;
         }
         return $this->getItems();
-    }
-
-    public function setShowAllSelections($status)
-    {
-        $this->_showAllSelections = $status;
-    }
-
-    public function getShowAllSelections()
-    {
-        return false;
-        /*return $this->_showAllSelections;*/
-        /**
-         * @todo look on system configuration
-         */
     }
 
     public function setIdFilter($ids)
