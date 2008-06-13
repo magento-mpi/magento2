@@ -179,6 +179,11 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $this->_items;
     }
 
+    /**
+     * Get all available address items
+     *
+     * @return array
+     */
     public function getAllItems()
     {
         $quoteItems = $this->getQuote()->getItemsCollection();
@@ -210,7 +215,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $items;
     }
 
-    public function getItemQty($itemId=0) {
+    public function getAllVisibleItems()
+    {
+        return array();
+    }
+
+    public function getItemQty($itemId=0)
+    {
         $qty = 0;
         if ($itemId == 0) {
             foreach ($this->getAllItems() as $item) {
@@ -325,7 +336,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     protected function _sortRates($a, $b)
     {
-        return (int)$a[0]->carrier_sort_order < (int)$b[0]->carrier_sort_order ? -1 : ((int)$a[0]->carrier_sort_order > (int)$b[0]->carrier_sort_order ? 1 : 0);
+        if ((int)$a[0]->carrier_sort_order < (int)$b[0]->carrier_sort_order) {
+            return -1;
+        }
+        elseif ((int)$a[0]->carrier_sort_order > (int)$b[0]->carrier_sort_order) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 
     /**

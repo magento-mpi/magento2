@@ -45,14 +45,46 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
 
         foreach ($items as $item) {
-        	$rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
+            /**
+             * Child item's tax we calculate for parent
+             */
+            if ($item->getParentItemId()) {
+                continue;
+            }
+            /**
+             * We calculate parent tax amount as sum of children's tax amounts
+             */
+            if ($item->getHasChildren()) {
+                foreach ($item->getChildren() as $child) {
+                	$rate = $taxCalculationModel->getRate($request->setProductClassId($child->getProduct()->getTaxClassId()));
+                    $child->setTaxPercent($rate);
+                    $child->calcTaxAmount();
 
-            $item->setTaxPercent($rate);
-            $item->calcTaxAmount();
-            $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
-            $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
+                    $this->_saveAppliedTaxes(
+                	   $address,
+                	   $taxCalculationModel->getAppliedRates($request),
+                	   $child->getTaxAmount()*$item->getQty(),
+                	   $rate
+                    );
+                }
+                $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
+                $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
+            }
+            else {
+            	$rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
 
-        	$this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $item->getTaxAmount(), $rate);
+                $item->setTaxPercent($rate);
+                $item->calcTaxAmount();
+                $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
+                $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
+
+            	$this->_saveAppliedTaxes(
+            	   $address,
+            	   $taxCalculationModel->getAppliedRates($request),
+            	   $item->getTaxAmount(),
+            	   $rate
+                );
+            }
         }
 
         $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);

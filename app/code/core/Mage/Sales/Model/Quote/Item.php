@@ -34,7 +34,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      *
      * @var Mage_Sales_Model_Quote
      */
-    protected $_quote   = null;
+    protected $_quote       = null;
     protected $_options = array();
     protected $_optionsByCode = array();
 
@@ -50,6 +50,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
         }
+        if ($this->getParentItem()) {
+            $this->setParentItemId($this->getParentItem()->getId());
+        }
         return $this;
     }
 
@@ -63,10 +66,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         $this->_quote = $quote;
         $this->setQuoteId($quote->getId());
-//        if ($this->getHasError()) {
-//            $quote->setHasError(true);
-//        }
-//        $quote->addMessage($this->getQuoteMessage(), $this->getQuoteMessageIndex());
         return $this;
     }
 

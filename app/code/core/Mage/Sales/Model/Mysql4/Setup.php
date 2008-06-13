@@ -30,9 +30,14 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
         'quote_payment'     => 'sales_flat_quote_payment',
     );
 
+    protected function _flatTableExist($table)
+    {
+        return $this->getConnection()->fetchOne("show tables like '{$this->getTable($table)}'");
+    }
+
     public function addAttribute($entityTypeId, $code, array $attr)
     {
-        if (isset($this->_flatEntityTables[$entityTypeId])) {
+        if (isset($this->_flatEntityTables[$entityTypeId]) && $this->_flatTableExist($this->_flatEntityTables[$entityTypeId])) {
             $this->_addFlatAttribute($this->_flatEntityTables[$entityTypeId], $code, $attr);
         }
         else {

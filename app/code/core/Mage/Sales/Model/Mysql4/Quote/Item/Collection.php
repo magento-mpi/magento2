@@ -57,6 +57,18 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
     protected function _afterLoad()
     {
         parent::_afterLoad();
+        /**
+         * Assign parent items
+         */
+        foreach ($this as $item) {
+        	if ($item->getParentItemId()) {
+        	    $item->setParentItem($this->getItemById($item->getParentItemId()));
+        	}
+        }
+
+        /**
+         * Assign options and products
+         */
         $this->_assignOptions()
             ->_assignProducts();
         return $this;

@@ -207,8 +207,18 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 $cartCandidates = array($cartCandidates);
             }
 
+            $parentItem = null;
             foreach ($cartCandidates as $candidate) {
                 $item = $this->getQuote()->addCatalogProduct($candidate, $candidate->getCartQty());
+                /**
+                 * As parent item we should always use the item of first added product
+                 */
+                if (!$parentItem) {
+                    $parentItem = $item;
+                }
+                if ($parentItem && $candidate->getParentProductId()) {
+                    $item->setParentItem($parentItem);
+                }
                 if ($item->getHasError()) {
                     $this->setLastQuoteMessage($item->getQuoteMessage());
                     Mage::throwException($item->getMessage());

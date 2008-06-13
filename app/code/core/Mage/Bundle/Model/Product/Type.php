@@ -258,7 +258,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $optionIds = array_keys($options);
 
             $optionsCollection = $this->getOptionsByIds($optionIds);
-            foreach ($optionsCollection->getItems() as $option) {
+            foreach ($optionsCollection as $option) {
                 if ($option->getRequired() && !isset($options[$option->getId()])) {
                     return Mage::helper('bundle')->__('Required options not selected.');
                 }
@@ -279,22 +279,27 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
             }
             $selectionsCollection = $this->getSelectionsByIds($selectionIds);
-
-            foreach ($selectionsCollection->getItems() as $selection) {
+            $product = $this->getProduct();
+            foreach ($selectionsCollection as $selection) {
                 if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
                     $qty = $qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
                 } else {
                     $qty = $selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
                 }
-                $result[0]->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
-                if ($customOption = $result[0]->getCustomOption('product_qty_' . $selection->getId())) {
+                $product->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
+                if ($customOption = $product->getCustomOption('product_qty_' . $selection->getId())) {
                     $customOption->setValue($customOption->getValue() + $qty);
                 }
-                $result[0]->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
+                $product->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
+                $result[] = $selection->setParentProductId($product->getId())
+                    ->addCustomOption('bundle_option_ids', serialize($optionIds))
+                    ->setCartQty($qty);
             }
-
-            $result[0]->addCustomOption('bundle_option_ids', serialize($optionIds));
-            $result[0]->addCustomOption('bundle_selection_ids', serialize($selectionIds));
+            /**
+             * @todo need generate "unique" key for bundle selection and add it to selections and bundle for selections
+             */
+            $product->addCustomOption('bundle_option_ids', serialize($optionIds));
+            $product->addCustomOption('bundle_selection_ids', serialize($selectionIds));
 
             return $result;
         }

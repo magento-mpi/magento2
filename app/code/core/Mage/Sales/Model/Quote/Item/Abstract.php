@@ -27,6 +27,46 @@
  */
 abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abstract
 {
+    protected $_parentItem  = null;
+    protected $_children    = array();
+
+    /**
+     * Set parent item
+     *
+     * @param  Mage_Sales_Model_Quote_Item $parentItem
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    public function setParentItem($parentItem)
+    {
+        if ($parentItem) {
+            $this->_parentItem = $parentItem;
+            $parentItem->addChild($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Get parent item
+     *
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    public function getParentItem()
+    {
+        return $this->_parentItem;
+    }
+
+    public function getChildren()
+    {
+        return $this->_children;
+    }
+
+    public function addChild($child)
+    {
+        $this->setHasChildren(true);
+        $this->_children[] = $child;
+        return $this;
+    }
+
     abstract function getQuote();
 
     /**
@@ -68,8 +108,16 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function calcRowTotal()
     {
-        $total      = $this->getCalculationPrice()*$this->getQty();
-        $baseTotal  = $this->getBaseCalculationPrice()*$this->getQty();
+        $qty = $this->getQty();
+
+        /**
+         * Child item include to quote without parent item qty applying
+         */
+        if ($this->getParentItem()) {
+            $qty = $qty*$this->getParentItem()->getQty();
+        }
+        $total      = $this->getCalculationPrice()*$qty;
+        $baseTotal  = $this->getBaseCalculationPrice()*$qty;
 
         $this->setRowTotal($this->getStore()->roundPrice($total));
         $this->setBaseRowTotal($this->getStore()->roundPrice($baseTotal));
@@ -168,6 +216,44 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setData('original_price', $price);
         }
         return $price;
+    }
+
+    /**
+     * Get item price (item price always exclude price)
+     *
+     * @return decimal
+     */
+    public function getPrice()
+    {
+        if ($this->getHasChildren()) {
+            $price = 0;
+            foreach ($this->getChildren() as $child) {
+            	$price+= $child->getPrice()*$child->getQty();
+            }
+            return $price;
+        }
+        else {
+            return $this->_getData('price');
+        }
+    }
+
+    /**
+     * Get item tax amount
+     *
+     * @return decimal
+     */
+    public function getTaxAmount()
+    {
+        if ($this->getHasChildren()) {
+            $amount = 0;
+            foreach ($this->getChildren() as $child) {
+            	$amount+= $child->getTaxAmount();
+            }
+            return $amount*$this->getQty();
+        }
+        else {
+            return $this->_getData('tax_amount');
+        }
     }
 
     public function setPrice($value)

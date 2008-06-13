@@ -350,16 +350,18 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function prepareForCart(Varien_Object $buyRequest)
     {
         if ($attributes = $buyRequest->getSuperAttribute()) {
-            $product = $this->getProduct();
-            /**
-             * $attributes = array($attributeId=>$attributeValue)
-             */
-            if ($subProduct = $this->getProductByAttributes($attributes)) {
-                $product->addCustomOption('attributes', serialize($attributes));
-                $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
-                $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
-
-                return parent::prepareForCart($buyRequest);
+            $result = parent::prepareForCart($buyRequest);
+            if (is_array($result)) {
+                $product = $this->getProduct();
+                /**
+                 * $attributes = array($attributeId=>$attributeValue)
+                 */
+                if ($subProduct = $this->getProductByAttributes($attributes)) {
+                    $product->addCustomOption('attributes', serialize($attributes));
+                    $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
+                    $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
+                    return $result;
+                }
             }
         }
         return Mage::helper('catalog')->__('Please specify the product option(s)');

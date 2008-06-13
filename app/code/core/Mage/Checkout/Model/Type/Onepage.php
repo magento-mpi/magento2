@@ -412,12 +412,11 @@ class Mage_Checkout_Model_Type_Onepage
         if (!$this->getQuote()->isVirtual()) {
             $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
         }
+
         $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
+
         foreach ($this->getQuote()->getAllItems() as $item) {
-            $orderItem = $convertQuote->itemToOrderItem($item)
-                ->setProductType($item->getProductType())
-                ->setProductOptions($item->getProduct()->getTypeInstance()->getOrderOptions());
-            $order->addItem($orderItem);
+            $order->addItem($convertQuote->itemToOrderItem($item));
         }
 
         /**

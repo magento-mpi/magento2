@@ -32,6 +32,20 @@ class Mage_Sales_Model_Mysql4_Order_Item_Collection extends Mage_Core_Model_Mysq
         $this->_init('sales/order_item');
     }
 
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        /**
+         * Assign parent items
+         */
+        foreach ($this as $item) {
+        	if ($item->getParentItemId()) {
+        	    $item->setParentItem($this->getItemById($item->getParentItemId()));
+        	}
+        }
+        return $this;
+    }
+
     /**
      * Set filter by order id
      *

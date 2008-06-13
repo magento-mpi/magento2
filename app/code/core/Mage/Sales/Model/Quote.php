@@ -487,6 +487,22 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get array of all items what can be display directly
+     *
+     * @return array
+     */
+    public function getAllVisibleItems()
+    {
+        $items = array();
+        foreach ($this->getItemsCollection() as $item) {
+            if (!$item->isDeleted() && !$item->getParentItemId()) {
+                $items[] =  $item;
+            }
+        }
+        return $items;
+    }
+
+    /**
      * Checking items availability
      *
      * @return bool
@@ -586,7 +602,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $item = Mage::getModel('sales/quote_item');
         }
 
-        //$item->importCatalogProduct($product)
+        /**
+         * We can't modify existing child items
+         */
+        if ($item->getId() && $product->getParentProductId()) {
+            return $item;
+        }
+
         $item->setOptions($product->getCustomOptions())
             ->setProduct($product)
             ->addQty($qty);
@@ -726,7 +748,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setItemsQty(0);
         $this->setVirtualItemsQty(0);
 
-        foreach ($this->getAllItems() as $item) {
+        foreach ($this->getAllVisibleItems() as $item) {
             if ($item->getProduct()->getIsVirtual()) {
                 $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
             }

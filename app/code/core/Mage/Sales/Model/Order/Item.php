@@ -46,7 +46,8 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      *
      * @var Mage_Sales_Model_Order
      */
-    protected $_order;
+    protected $_order       = null;
+    protected $_parentItem  = null;
 
     /**
      * Init resource model
@@ -67,7 +68,35 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if (!$this->getOrderId()) {
             $this->setOrderId($this->getOrder()->getId());
         }
+        if ($this->getParentItem()) {
+            $this->setParentItemId($this->getParentItem()->getId());
+        }
         return $this;
+    }
+
+    /**
+     * Set parent item
+     *
+     * @param   Mage_Sales_Model_Order_Item $item
+     * @return  Mage_Sales_Model_Order_Item
+     */
+    public function setParentItem($item)
+    {
+        if ($item) {
+            $this->_parentItem = $item;
+            $item->setHasChildren(true);
+        }
+        return $this;
+    }
+
+    /**
+     * Get parent item
+     *
+     * @return Mage_Sales_Model_Order_Item || null
+     */
+    public function getParentItem()
+    {
+        return $this->_parentItem;
     }
 
     /**

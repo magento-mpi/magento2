@@ -29,19 +29,27 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
      */
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
+        /**
+         * Reset subtotal information
+         */
         $address->setSubtotal(0);
         $address->setBaseSubtotal(0);
         $address->setTotalQty(0);
         $address->setBaseTotalPriceIncTax(0);
 
+        /**
+         * Process address items
+         */
         $items = $address->getAllItems();
-
         foreach ($items as $item) {
         	if (!$this->_initItem($address, $item) || $item->getQty()<=0) {
         	    $this->_removeItem($address, $item);
         	}
         }
 
+        /**
+         * Initialize grand totals
+         */
         $address->setGrandTotal($address->getSubtotal());
         $address->setBaseGrandTotal($address->getBaseSubtotal());
         Mage::helper('sales')->checkQuoteAmount($address->getQuote(), $address->getSubtotal());
@@ -65,11 +73,9 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     	}
     	$product = $quoteItem->getProduct();
     	$product->setCustomerGroupId($quoteItem->getQuote()->getCustomerGroupId());
-    	$superProduct = $quoteItem->getSuperProduct();
 
     	/**
-    	 * Quote super mode flag meen whot we work with quote
-    	 * without restriction
+    	 * Quote super mode flag meen whot we work with quote without restriction
     	 */
     	if ($item->getQuote()->getIsSuperMode()) {
             if (!$product) {
@@ -77,19 +83,24 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
             }
     	}
     	else {
-        	if (!$product || !$product->isVisibleInCatalog() || ($superProduct && !$superProduct->isVisibleInCatalog())) {
+        	if (!$product || !$product->isVisibleInCatalog()) {
                 return false;
             }
     	}
 
     	$finalPrice = $product->getFinalPrice($quoteItem->getQty());
-
         $item->setPrice($finalPrice);
     	$item->calcRowTotal();
 
-        $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
-        $address->setBaseSubtotal($address->getBaseSubtotal() + $item->getBaseRowTotal());
-        $address->setTotalQty($address->getTotalQty() + $item->getQty());
+    	/**
+    	 * We can't include parent item row total to subtotal because we add subitems already
+    	 */
+    	if (!$item->getHasChildren()) {
+            $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
+            $address->setBaseSubtotal($address->getBaseSubtotal() + $item->getBaseRowTotal());
+    	}
+        //???
+    	$address->setTotalQty($address->getTotalQty() + $item->getQty());
         return true;
     }
 
