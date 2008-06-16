@@ -152,7 +152,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
         $r->setValue(round($request->getPackageValue(),2));
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
-        $r->setDestStreet(substr($request->getDestStreet(), 0, 35));
+        $r->setDestStreet(Mage::helper('core/string')->substr($request->getDestStreet(), 0, 35));
         $r->setDestCity($request->getDestCity());
 
         if ($request->getDestCountryId()) {

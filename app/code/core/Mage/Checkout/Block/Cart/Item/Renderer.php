@@ -111,7 +111,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
                         foreach(split(',', $optionValue) as $value) {
                             $formatedValue .= $option->getValueById($value)->getTitle() . ', ';
                         }
-                        $formatedValue = substr($formatedValue, 0, -2);
+                        $formatedValue = Mage::helper('core/string')->substr($formatedValue, 0, -2);
                     } elseif ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                         $formatedValue = $option->getValueById($optionValue)->getTitle();
                     } else {

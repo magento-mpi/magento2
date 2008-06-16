@@ -40,7 +40,7 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
      * @param bool $middle
      * @return string
      */
-    public function truncate($string, $length = 80, $etc = '...', &$wasTruncated = false, $breakWords = false, $middle = false)
+    public function truncate($string, $length = 80, $etc = '...', &$wasTruncated = false, $breakWords = true, $middle = false)
     {
         $wasTruncated = false;
         if (0 == $length) {
@@ -48,11 +48,11 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
         }
 
         if (iconv_strlen($string, self::ICONV_CHARSET) > $length) {
+            $wasTruncated = true;
             $length -= iconv_strlen($etc, self::ICONV_CHARSET);
             if (!$breakWords && !$middle) {
                 $string = preg_replace('/\s+?(\S+)?$/', '', iconv_substr($string, 0, $length + 1, self::ICONV_CHARSET));
             }
-            $wasTruncated = true;
             if (!$middle) {
                 return iconv_substr($string, 0, $length, self::ICONV_CHARSET) . $etc;
             }
@@ -62,5 +62,29 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
         }
 
         return $string;
+    }
+
+    /**
+     * Passthrough to iconv_strlen()
+     *
+     * @param string $str
+     * @return int
+     */
+    public function strlen($str)
+    {
+        return iconv_strlen($str, self::ICONV_CHARSET);
+    }
+
+    /**
+     * Passthrough to iconv_substr()
+     *
+     * @param string $str
+     * @param int $offset
+     * @param int $length
+     * @return string
+     */
+    public function substr($str, $offset, $length = null)
+    {
+        return iconv_substr($str, $offset, $length, self::ICONV_CHARSET);
     }
 }

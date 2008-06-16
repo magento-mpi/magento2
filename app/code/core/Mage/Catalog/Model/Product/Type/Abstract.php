@@ -268,7 +268,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         foreach (explode(',', $optionValue) as $value) {
                             $formatedValue .= $option->getValueById($value)->getTitle() . ', ';
                         }
-                        $formatedValue = substr($formatedValue, 0, -2);
+                        $formatedValue = Mage::helper('core/string')->substr($formatedValue, 0, -2);
                     } elseif ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                         $formatedValue = $option->getValueById($optionValue)->getTitle();
                     } else {
