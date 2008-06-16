@@ -224,6 +224,10 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
             ->setProductOptions($item->getProduct()->getTypeInstance()->getOrderOptions());
 
         Mage::helper('core')->copyFieldset('sales_convert_quote_item', 'to_order_item', $item, $orderItem);
+
+        if ($item->getParentItem()) {
+            $orderItem->setQtyOrdered($orderItem->getQtyOrdered()*$item->getParentItem()->getQty());
+        }
 //            ->setSku($item->getSku())
 //            ->setName($item->getName())
 //            ->setDescription($item->getDescription())

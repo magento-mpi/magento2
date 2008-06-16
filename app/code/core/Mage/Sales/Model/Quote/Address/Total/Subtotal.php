@@ -93,14 +93,13 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
     	$item->calcRowTotal();
 
     	/**
-    	 * We can't include parent item row total to subtotal because we add subitems already
+    	 * We can't include subitem item row total to subtotal because we add parent already
     	 */
-    	if (!$item->getHasChildren()) {
+    	if (!$item->getParentItemId()) {
             $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
             $address->setBaseSubtotal($address->getBaseSubtotal() + $item->getBaseRowTotal());
     	}
-        //???
-    	$address->setTotalQty($address->getTotalQty() + $item->getQty());
+
         return true;
     }
 

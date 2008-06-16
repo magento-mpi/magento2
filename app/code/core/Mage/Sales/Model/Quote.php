@@ -865,7 +865,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function merge(Mage_Sales_Model_Quote $quote)
     {
-        foreach ($quote->getAllItems() as $item) {
+        foreach ($quote->getAllVisibleItems() as $item) {
             $found = false;
             foreach ($this->getAllItems() as $quoteItem) {
                 if ($quoteItem->compare($item)) {
@@ -874,8 +874,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     break;
                 }
             }
+
             if (!$found) {
-                $this->addItem(clone $item);
+                $newItem = clone $item;
+                $this->addItem($newItem);
+                if ($item->getHasChildren()) {
+                    foreach ($item->getChildren() as $child) {
+                        $newChild = clone $child;
+                        $newChild->setParentItem($newItem);
+                        $this->addItem($newChild);
+                    }
+                }
             }
         }
 

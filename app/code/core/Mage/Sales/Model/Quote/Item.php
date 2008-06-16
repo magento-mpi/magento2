@@ -109,7 +109,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function setQty($qty)
     {
         $qty    = $this->_prepareQty($qty);
-        $oldQty = $this->getQty();
+        $oldQty = $this->_getData('qty');
         $this->setData('qty', $qty);
 
         Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
@@ -397,7 +397,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     public function __clone()
     {
-        $this->setId(null);
+        parent::__clone();
         $options = $this->getOptions();
         $this->_quote           = null;
         $this->_options         = array();

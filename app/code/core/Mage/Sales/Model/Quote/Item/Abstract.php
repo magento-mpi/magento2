@@ -30,6 +30,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     protected $_parentItem  = null;
     protected $_children    = array();
 
+    abstract function getQuote();
+
     /**
      * Set parent item
      *
@@ -55,19 +57,28 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         return $this->_parentItem;
     }
 
+    /**
+     * Get chil items
+     *
+     * @return array
+     */
     public function getChildren()
     {
         return $this->_children;
     }
 
+    /**
+     * Add child item
+     *
+     * @param  Mage_Sales_Model_Quote_Item_Abstract $child
+     * @return Mage_Sales_Model_Quote_Item_Abstract
+     */
     public function addChild($child)
     {
         $this->setHasChildren(true);
         $this->_children[] = $child;
         return $this;
     }
-
-    abstract function getQuote();
 
     /**
      * Retrieve store model object
@@ -110,29 +121,16 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $qty = $this->getQty();
 
-        /**
-         * Child item include to quote without parent item qty applying
-         */
         if ($this->getParentItem()) {
             $qty = $qty*$this->getParentItem()->getQty();
         }
+
         $total      = $this->getCalculationPrice()*$qty;
         $baseTotal  = $this->getBaseCalculationPrice()*$qty;
 
         $this->setRowTotal($this->getStore()->roundPrice($total));
         $this->setBaseRowTotal($this->getStore()->roundPrice($baseTotal));
 
-        return $this;
-    }
-
-    /**
-     * Calculate item row total weight
-     *
-     * @return Mage_Sales_Model_Quote_Item
-     */
-    public function calcRowWeight()
-    {
-        $this->setRowWeight($this->getWeight()*$this->getQty());
         return $this;
     }
 
@@ -219,6 +217,25 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
+     * Get item tax amount
+     *
+     * @return decimal
+     */
+    public function getTaxAmount()
+    {
+        if ($this->getHasChildren()) {
+            $amount = 0;
+            foreach ($this->getChildren() as $child) {
+            	$amount+= $child->getTaxAmount();
+            }
+            return $amount;
+        }
+        else {
+            return $this->_getData('tax_amount');
+        }
+    }
+
+    /**
      * Get item price (item price always exclude price)
      *
      * @return decimal
@@ -237,25 +254,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
     }
 
-    /**
-     * Get item tax amount
-     *
-     * @return decimal
-     */
-    public function getTaxAmount()
-    {
-        if ($this->getHasChildren()) {
-            $amount = 0;
-            foreach ($this->getChildren() as $child) {
-            	$amount+= $child->getTaxAmount();
-            }
-            return $amount*$this->getQty();
-        }
-        else {
-            return $this->_getData('tax_amount');
-        }
-    }
-
     public function setPrice($value)
     {
         $store = $this->getQuote()->getStore();
@@ -267,7 +265,11 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $taxAmount = $store->roundPrice($value/(100+$rate)*$rate);
             $priceExcludingTax = $value - $taxAmount;
 
-            $totalTax = $this->getStore()->convertPrice($taxAmount)*$this->getQty();
+            $qty = $this->getQty();
+            if ($this->getParentItem()) {
+                $qty = $qty*$this->getParentItem()->getQty();
+            }
+            $totalTax = $this->getStore()->convertPrice($taxAmount)*$qty;
             if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
                 $totalTax -= $this->getDiscountAmount()*($rate/100);
             }
@@ -276,6 +278,19 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $value = $priceExcludingTax;
         }
         $this->setData('price', $value);
+        return $this;
+    }
+
+    /**
+     * Clone quote item
+     *
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    public function __clone()
+    {
+        $this->setId(null);
+        $this->_parentItem  = null;
+        $this->_children    = array();
         return $this;
     }
 }
