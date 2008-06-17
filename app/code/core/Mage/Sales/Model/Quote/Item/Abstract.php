@@ -32,6 +32,16 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
     abstract function getQuote();
 
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if ($this->getParentItem()) {
+            $this->setParentItemId($this->getParentItem()->getId());
+        }
+        return $this;
+    }
+
+
     /**
      * Set parent item
      *

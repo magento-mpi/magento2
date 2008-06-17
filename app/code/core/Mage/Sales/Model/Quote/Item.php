@@ -50,9 +50,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
         }
-        if ($this->getParentItem()) {
-            $this->setParentItemId($this->getParentItem()->getId());
-        }
         return $this;
     }
 

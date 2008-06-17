@@ -217,7 +217,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     public function getAllVisibleItems()
     {
-        return array();
+        $items = array();
+        foreach ($this->getAllItems() as $item) {
+        	if (!$item->getParentItemId()) {
+        	    $items[] = $item;
+        	}
+        }
+        return $items;
     }
 
     public function getItemQty($itemId=0)
@@ -268,11 +274,44 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $this;
     }
 
-    public function addItem(Mage_Sales_Model_Quote_Address_Item $item)
+    /**
+     * Add item to address
+     *
+     * @param   Mage_Sales_Model_Quote_Item_Abstract $item
+     * @param   int $qty
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function addItem(Mage_Sales_Model_Quote_Item_Abstract $item, $qty=null)
     {
-        $item->setAddress($this);
-        if (!$item->getId()) {
-            $this->getItemsCollection()->addItem($item);
+        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+            if ($item->getParentItemId()) {
+                return $this;
+            }
+            $addressItem = Mage::getModel('sales/quote_address_item')
+                ->setAddress($this)
+                ->importQuoteItem($item);
+            $this->getItemsCollection()->addItem($addressItem);
+
+            if ($item->getHasChildren()) {
+                foreach ($item->getChildren() as $child) {
+                    $addressChildItem = Mage::getModel('sales/quote_address_item')
+                        ->setAddress($this)
+                        ->importQuoteItem($child)
+                        ->setParentItem($addressItem);
+                    $this->getItemsCollection()->addItem($addressChildItem);
+                }
+            }
+        }
+        else {
+            $addressItem = $item;
+            $addressItem->setAddress($this);
+            if (!$addressItem->getId()) {
+                $this->getItemsCollection()->addItem($addressItem);
+            }
+        }
+
+        if ($qty) {
+            $addressItem->setQty($qty);
         }
         return $this;
     }
@@ -389,8 +428,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     public function addShippingRate(Mage_Sales_Model_Quote_Address_Rate $rate)
     {
-        $rate->setAddress($this)
-            ->setParentId($this->getId());
+        $rate->setAddress($this);
         $this->getShippingRatesCollection()->addItem($rate);
         return $this;
     }

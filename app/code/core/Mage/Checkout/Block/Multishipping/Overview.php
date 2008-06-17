@@ -89,7 +89,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
 
     public function getShippingAddressItems($address)
     {
-        return $address->getAllItems();
+        return $address->getAllVisibleItems();
     }
 
     public function getShippingAddressTotals($address)
@@ -162,7 +162,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
     {
         $items = array();
         foreach ($this->getQuote()->getItemsCollection() as $_item) {
-            if ($_item->getProduct()->getIsVirtual()) {
+            if ($_item->getProduct()->getIsVirtual() && !$_item->getParentItemId()) {
                 $items[] = $_item;
             }
         }

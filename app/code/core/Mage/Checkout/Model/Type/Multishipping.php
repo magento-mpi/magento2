@@ -57,9 +57,13 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $quoteShippingAddress->importCustomerAddress($defaultShipping);
 
                 foreach ($this->getQuoteItems() as $item) {
-                    $addressItem = Mage::getModel('sales/quote_address_item');
-                    $quoteShippingAddress->addItem($addressItem);
-                    $addressItem->importQuoteItem($item);
+                    /**
+                     * Items with parent id we add in importQuoteItem method
+                     */
+                    if ($item->getParentItemId()) {
+                        continue;
+                    }
+                    $quoteShippingAddress->addItem($item);
                 }
                 /**
                  * Collect rates before display shipping methods
@@ -84,6 +88,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $addresses  = $this->getQuote()->getAllShippingAddresses();
         foreach ($addresses as $address) {
             foreach ($address->getAllItems() as $item) {
+                if ($item->getParentItemId()) {
+                    continue;
+                }
                 for ($i=0;$i<$item->getQty();$i++){
                     $addressItem = clone $item;
                     $addressItem->setQty(1)
@@ -153,15 +160,12 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
             }
 
+            $billingAddress = $this->getQuote()->getBillingAddress();
             foreach ($this->getQuote()->getAllItems() as $_item) {
                 if (!$_item->getProduct()->getTypeInstance()->isVirtual()) {
                     continue;
                 }
-                $billingAddress = $this->getQuote()->getBillingAddress();
-                $quoteAddressItem = Mage::getModel('sales/quote_address_item')
-                    ->importQuoteItem($_item)
-                ->setQty($_item->getQty());
-                $billingAddress->addItem($quoteAddressItem);
+                $billingAddress->addItem($_item);
             }
 
             $this->save();
@@ -192,13 +196,10 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId());
 
                 if ($quoteAddressItem = $quoteAddress->getItemByQuoteItemId($quoteItemId)) {
-                    $quoteAddressItem->setQty((int)$quoteAddressItem->getQty()+$qty);
+                    $quoteAddressItem->setQty((int)($quoteAddressItem->getQty()+$qty));
                 }
                 else {
-                    $quoteAddressItem = Mage::getModel('sales/quote_address_item')
-                        ->importQuoteItem($quoteItem)
-                        ->setQty($qty);
-                    $quoteAddress->addItem($quoteAddressItem);
+                    $quoteAddress->addItem($quoteItem, $qty);
                 }
                 /**
                  * Collect rates for shipping method page only

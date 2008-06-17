@@ -32,7 +32,9 @@ Customer account pages, rendered for all tabs in dashboard
             <block type="sales/reorder_sidebar" name="sale.reorder.sidebar" as="reorder" template="sales/reorder/sidebar.phtml"/>
         </reference>
     </customer_logged_in>
-
+    <checkout_onepage_index>
+        <remove name="sale.reorder.sidebar"/>
+    </checkout_onepage_index>
     <checkout_onepage_reorder>
         <reference name="right">
             <action method="unsetChild"><name>reorder</name></action>

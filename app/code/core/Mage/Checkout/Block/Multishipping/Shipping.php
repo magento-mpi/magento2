@@ -62,9 +62,13 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_
 
     public function getAddressItems($address)
     {
-        $items = $address->getAllItems();
-        foreach ($items as $item) {
+        $items = array();
+        foreach ($address->getAllItems() as $item) {
+            if ($item->getParentItemId()) {
+                continue;
+            }
             $item->setQuoteItem($this->getCheckout()->getQuote()->getItemById($item->getQuoteItemId()));
+            $items[] = $item;
         }
         $itemsFilter = new Varien_Filter_Object_Grid();
         $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
