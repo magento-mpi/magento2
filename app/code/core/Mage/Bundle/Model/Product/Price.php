@@ -64,7 +64,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             foreach ($selections->getItems() as $selection) {
                 if ($selection->isSalable()) {
                     $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
-                    $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection, $selectionQty->getValue());
+                    if ($selectionQty) {
+                        $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection, $selectionQty->getValue());
+                    }
                 }
             }
         } else {

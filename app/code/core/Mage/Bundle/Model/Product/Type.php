@@ -34,7 +34,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     protected $_storeFilter = null;
 
     protected $_usedSelections = null;
+    protected $_usedSelectionsIds = null;
     protected $_usedOptions = null;
+    protected $_usedOptionsIds = null;
 
     /**
      * Return product sku based on sku_type attribute
@@ -280,24 +282,42 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
             $selectionsCollection = $this->getSelectionsByIds($selectionIds);
             $product = $this->getProduct();
+
+            $uniqueKey = array($product->getId());
+
             foreach ($selectionsCollection as $selection) {
+
                 if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
                     $qty = $qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
                 } else {
                     $qty = $selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
                 }
+
                 $product->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
+
                 if ($customOption = $product->getCustomOption('product_qty_' . $selection->getId())) {
                     $customOption->setValue($customOption->getValue() + $qty);
+                } else {
+                    $product->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
                 }
-                $product->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
-                $result[] = $selection->setParentProductId($product->getId())
-                    ->addCustomOption('bundle_option_ids', serialize($optionIds))
-                    ->setCartQty($qty);
+
+                if (!$product->getPriceType()) {
+                    $result[] = $selection->setParentProductId($product->getId())
+                        ->addCustomOption('bundle_option_ids', serialize($optionIds))
+                        ->setCartQty($qty);
+                }
+                $uniqueKey[] = $selection->getSelectionId();
+                $uniqueKey[] = $qty;
             }
+
             /**
-             * @todo need generate "unique" key for bundle selection and add it to selections and bundle for selections
+             * "unique" key for bundle selection and add it to selections and bundle for selections
              */
+            $uniqueKey = implode('_', $uniqueKey);
+            foreach ($result as $item) {
+                $item->addCustomOption('bundle_identity', $uniqueKey);
+            }
+
             $product->addCustomOption('bundle_option_ids', serialize($optionIds));
             $product->addCustomOption('bundle_selection_ids', serialize($selectionIds));
 
@@ -314,10 +334,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getSelectionsByIds($selectionIds)
     {
-        if (!$this->_usedSelections) {
+        sort($selectionIds);
+        if (!$this->_usedSelections || serialize($this->_usedSelectionsIds) != serialize($selectionIds)) {
             $this->_usedSelections = Mage::getResourceModel('bundle/selection_collection')
                     ->addAttributeToSelect('*')
                     ->setSelectionIdsFilter($selectionIds);
+            $this->_usedSelectionsIds = $selectionIds;
         }
         return $this->_usedSelections;
     }
@@ -330,11 +352,13 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getOptionsByIds($optionIds)
     {
-        if (!$this->_usedOptions) {
+        sort($optionIds);
+        if (!$this->_usedOptions || serialize($this->_usedOptionsIds) != serialize($optionIds)) {
             $this->_usedOptions = Mage::getModel('bundle/option')->getResourceCollection()
                     ->setProductIdFilter($this->getProduct()->getId())
                     ->joinValues(Mage::app()->getStore()->getId())
                     ->setIdFilter($optionIds);
+            $this->_usedOptionsIds = $optionIds;
         }
         return $this->_usedOptions;
     }

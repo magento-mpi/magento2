@@ -188,7 +188,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $optionIds = array_keys($options);
             $product->addCustomOption('option_ids', implode(',', $optionIds));
             foreach ($options as $optionId => $optionValue) {
-            	$product->addCustomOption('option_'.$optionId, $optionValue);
+                $product->addCustomOption('option_'.$optionId, $optionValue);
             }
         }
 
@@ -326,29 +326,30 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $sku = $this->getProduct()->getData('sku');
         if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
             $optionIds = split(',', $optionIds->getValue());
-
             foreach ($optionIds as $optionId) {
                 $productOption = $this->getProduct()->getOptionById($optionId);
-                $optionValue   = $this->getProduct()->getCustomOption('option_' . $optionId)->getValue();
+                if ($productOption = $this->getProduct()->getOptionById($optionId)) {
+                    $optionValue   = $this->getProduct()->getCustomOption('option_' . $optionId)->getValue();
 
-                if ($productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
-                    || $productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
-                    foreach(split(',', $optionValue) as $value) {
-                        if ($optionSku = $productOption->getValueById($value)->getSku()) {
-                            $sku .= $skuDelimiter . $optionSku;
+                    if ($productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                        || $productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                        foreach(split(',', $optionValue) as $value) {
+                            if ($optionSku = $productOption->getValueById($value)->getSku()) {
+                                $sku .= $skuDelimiter . $optionSku;
+                            }
                         }
+                        $optionSku = null;
                     }
-                    $optionSku = null;
-                }
-                elseif ($productOption->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                    $optionSku = $productOption->getValueById($optionValue)->getSku();
-                }
-                else {
-                    $optionSku = $productOption->getSku();
-                }
+                    elseif ($productOption->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        $optionSku = $productOption->getValueById($optionValue)->getSku();
+                    }
+                    else {
+                        $optionSku = $productOption->getSku();
+                    }
 
-                if (!empty($optionSku)) {
-                    $sku .= $skuDelimiter . $optionSku;
+                    if (!empty($optionSku)) {
+                        $sku .= $skuDelimiter . $optionSku;
+                    }
                 }
             }
         }

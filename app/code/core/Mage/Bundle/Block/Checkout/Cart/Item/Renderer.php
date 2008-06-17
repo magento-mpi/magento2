@@ -62,13 +62,14 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
 
             // get and add bundle selections collection
             $selectionsQuoteItemOption = $this->getItem()->getOptionByCode('bundle_selection_ids');
+
             $selectionsCollection = $typeInstance->getSelectionsByIds(
                 $this->_unserialize($selectionsQuoteItemOption->getValue(), array())
             );
             /**
              * @var array
              */
-            $bundleOptions = $optionsCollection->appendSelections($selectionsCollection);
+            $bundleOptions = $optionsCollection->appendSelections($selectionsCollection, true);
             $this->_getBundleOptionsCache = $bundleOptions;
         }
 
@@ -100,7 +101,10 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      */
     public function getSelectionQty($selectionId)
     {
-        return $this->getProduct()->getCustomOption('selection_qty_' . $selectionId)->getValue();
+        if ($selectionQty = $this->getProduct()->getCustomOption('selection_qty_' . $selectionId)) {
+            return $selectionQty->getValue();
+        }
+        return 0;
     }
 
     /**

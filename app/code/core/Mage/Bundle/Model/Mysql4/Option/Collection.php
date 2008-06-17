@@ -62,8 +62,12 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
         return $this;
     }
 
-    public function appendSelections($selectionsCollection)
+    public function appendSelections($selectionsCollection, $stripBefore = false)
     {
+        if ($stripBefore) {
+            $this->_stripSelections();
+        }
+
         if (!$this->_selectionsAppended) {
             foreach ($selectionsCollection as $_selection) {
                 if ($_option = $this->getItemById($_selection->getOptionId())) {
@@ -74,6 +78,16 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
         }
         return $this->getItems();
     }
+
+    protected function _stripSelections()
+    {
+        foreach ($this->getItems() as $option) {
+            $option->setSelections(array());
+        }
+        $this->_selectionsAppended = false;
+        return $this;
+    }
+
 
     public function setIdFilter($ids)
     {
