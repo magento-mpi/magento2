@@ -107,8 +107,14 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     {
         $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
         if ($stockItem->getId()) {
-            $stockItem->addQty($qty)
-                ->save();
+            $stockItem->addQty($qty);
+            /**
+             * get back in stock (when order is canceled or whatever else)
+             */
+            if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {
+                $stockItem->setIsInStock(true);
+            }
+            $stockItem->save();
         }
         return $this;
     }
