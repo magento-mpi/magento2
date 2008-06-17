@@ -34,6 +34,22 @@
                     <info translate="title" module="sales">
                         <title>Retrieve order information</title>
                     </info>
+                    <addComment translate="title" module="sales">
+                        <title>Add comment to order</title>
+                        <acl>sales/order/change</acl>
+                    </addComment>
+                    <hold translate="title" module="sales">
+                        <title>Hold order</title>
+                        <acl>sales/order/change</acl>
+                    </hold>
+                    <unhold translate="title" module="sales">
+                        <title>Unhold order</title>
+                        <acl>sales/order/change</acl>
+                    </unhold>
+                    <cancel translate="title" module="sales">
+                        <title>Cancel order</title>
+                        <acl>sales/order/change</acl>
+                    </cancel>
                 </methods>
             </sales_order>
         </resources>
@@ -43,6 +59,9 @@
                     <title>Sales</title>
                     <order translate="title" module="sales">
                         <title>Order</title>
+                        <change translate="title" module="sales">
+                            <title>Change status, add comments</title>
+                        </change>
                     </order>
                 </sales>
             </all>

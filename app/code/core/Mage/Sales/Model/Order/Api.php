@@ -33,9 +33,28 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         $this->_attributesMap['order_item']    = array('item_id'  => 'entity_id');
         $this->_attributesMap['order_address'] = array('address_id' => 'entity_id');
         $this->_attributesMap['order_payment'] = array('payment_id' => 'entity_id');
-        $this->_attributesMap['order_status_history']  = array('history_id' => 'entity_id');
 
+    }
 
+    /**
+     * Initialize basic order model
+     *
+     * @param mixed $orderIncrementId
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _initOrder($orderIncrementId)
+    {
+        $order = Mage::getModel('sales/order');
+
+        /* @var $order Mage_Sales_Model_Order */
+
+        $order->loadByIncrementId($orderIncrementId);
+
+        if (!$order->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        return $order;
     }
 
     public function items($filters = null)
@@ -80,15 +99,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
     public function info($orderIncrementId)
     {
-        $order = Mage::getModel('sales/order');
-
-        /* @var $order Mage_Sales_Model_Order */
-
-        $order->loadByIncrementId($orderIncrementId);
-
-        if (!$order->getId()) {
-            $this->_fault('not_exists');
-        }
+        $order = $this->_initOrder($orderIncrementId);
 
         $result = $this->_getAttributes($order, 'order');
 
@@ -104,29 +115,80 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
         $result['status_history'] = array();
 
-        foreach ($order->getStatusHistoryCollection() as $history) {
+        foreach ($order->getAllStatusHistory() as $history) {
             $result['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
 
         return $result;
     }
 
-    public function addStatus($orderIncrementId, $status, $comment = null, $notify = false)
+    public function addComment($orderIncrementId, $status, $comment = null, $notify = false)
     {
-        $order = Mage::getModel('sales/order');
-        /* @var $order Mage_Sales_Model_Order */
-        $order->loadByIncrementId($orderIncrementId);
-
-        if (!$order->getId()) {
-            $this->_fault('not_exists');
-        }
+        $order = $this->_initOrder($orderIncrementId);
 
         $order->addStatusToHistory($status, $comment, $notify);
 
+
         try {
+            if ($notify && $comment) {
+                $oldStore = Mage::getDesign()->getStore();
+                $oldArea = Mage::getDesign()->getArea();
+                Mage::getDesign()->setStore($order->getStoreId());
+                Mage::getDesign()->setArea('frontend');
+
+            }
+
+            $order->sendOrderUpdateEmail($notify, $comment);
+            $order->save();
+            if ($notify && $comment) {
+                Mage::getDesign()->setStore($oldStore);
+                Mage::getDesign()->setArea($oldArea);
+            }
+
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('status_not_changed', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    public function hold($orderIncrementId)
+    {
+        $order = $this->_initOrder($orderIncrementId);
+
+        try {
+            $order->hold();
             $order->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_fault('status_not_added');
+            $this->_fault('status_not_changed', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    public function unhold($orderIncrementId)
+    {
+        $order = $this->_initOrder($orderIncrementId);
+
+        try {
+            $order->unhold();
+            $order->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('status_not_changed', $e->getMessage());
+        }
+
+        return true;
+    }
+
+    public function cancel($orderIncrementId)
+    {
+        $order = $this->_initOrder($orderIncrementId);
+
+        try {
+            $order->cancel();
+            $order->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('status_not_changed', $e->getMessage());
         }
 
         return true;
