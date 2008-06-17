@@ -92,8 +92,11 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
                 $stockItem->setStoreId($item->getStoreId());
             }
             if ($stockItem->checkQty($item->getQtyOrdered())) {
-                $stockItem->subtractQty($item->getQtyOrdered())
-                          ->save();
+                $stockItem->subtractQty($item->getQtyOrdered());
+                if ($this->getBackorders() == self::BACKORDERS_NO && $stockItem->getQty() <= $stockItem->getMinQty()) {
+                    $this->setIsInStock(false);
+                }
+                $stockItem->save();
             }
         }
         else {
