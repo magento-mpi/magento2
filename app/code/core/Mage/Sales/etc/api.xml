@@ -27,11 +27,13 @@
                 <title>Order API</title>
                 <acl>sales/order</acl>
                 <methods>
-                    <list translate="title" module="catalog">
+                    <list translate="title" module="sales">
                         <title>Retrieve list of orders by filters</title>
                         <method>items</method>
                     </list>
-
+                    <info translate="title" module="sales">
+                        <title>Retrieve order information</title>
+                    </info>
                 </methods>
             </sales_order>
         </resources>

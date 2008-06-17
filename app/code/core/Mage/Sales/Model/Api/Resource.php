@@ -37,15 +37,6 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     );
 
     /**
-     * Default ignored attribute types per entity type
-     *
-     * @var array
-     */
-    protected $_ignoredAttributeTypes = array(
-        'global'    =>  array()
-    );
-
-    /**
      * Attributes map array per entity type
      *
      * @var google
@@ -62,15 +53,12 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * @param array $attributes
      * @return Mage_Sales_Model_Api_Resource
      */
-    protected function _updateAttributes($data, $object, array $attributes = null)
+    protected function _updateAttributes($data, $object, $type,  array $attributes = null)
     {
-        $entityType = $object->getResource()->getType();
-        $attributesList = $object->getResource()->loadAllAttributes()->getAttributesByCode();
 
-        foreach ($attributesList as $attributeCode=>$attribute) {
-            if ($this->_isAllowedAttribute($attribute, $entityType, $attributes)
-                && isset($data[$attributeCode])) {
-                $object->setData($attributeCode, $data[$attributeCode]);
+        foreach ($data as $attribute=>$value) {
+            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+                $object->setData($attribute, $value);
             }
         }
 
@@ -84,15 +72,13 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * @param array $attributes
      * @return Mage_Sales_Model_Api_Resource
      */
-    protected function _getAttributes($object, array $attributes = null)
+    protected function _getAttributes($object, $type, array $attributes = null)
     {
-        $entityType = $object->getResource()->getType();
-        $attributesList = $object->getResource()->loadAllAttributes()->getAttributesByCode();
         $result = array();
 
-        foreach ($attributesList as $attributeCode=>$attribute) {
-            if ($this->_isAllowedAttribute($attribute, $entityType, $attributes)) {
-                $result[$attributeCode] = $object->getData($attributeCode);
+        foreach ($object->getData() as $attribute=>$value) {
+            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+                $result[$attribute] = $value;
             }
         }
 
@@ -117,26 +103,19 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * @param array $attributes
      * @return boolean
      */
-    protected function _isAllowedAttribute($attribute, $entityType, array $attributes = null)
+    protected function _isAllowedAttribute($attributeCode, $type, array $attributes = null)
     {
         if (!empty($attributes)
-            && !( in_array($attribute->getAttributeCode(), $attributes)
-                  || in_array($attribute->getAttributeId(), $attributes))) {
+            && !(in_array($attributeCode, $attributes))) {
             return false;
         }
 
-        if (in_array($attribute->getFrontendInput(), $this->_ignoredAttributeTypes['global'])
-               || in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes['global'])) {
+        if (in_array($attributeCode, $this->_ignoredAttributeCodes['global'])) {
             return false;
         }
 
-        if (isset($this->_ignoredAttributeTypes[$entityType])
-            && in_array($attribute->getFrontendInput(), $this->_ignoredAttributeTypes[$entityType])) {
-            return false;
-        }
-
-        if (isset($this->_ignoredAttributeCodes[$entityType])
-            && in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes[$entityType])) {
+        if (isset($this->_ignoredAttributeCodes[$type])
+            && in_array($attributeCode, $this->_ignoredAttributeCodes[$type])) {
             return false;
         }
 

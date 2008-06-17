@@ -72,11 +72,64 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         $result = array();
 
         foreach ($collection as $order) {
-            $result[] = $this->_getAttributes($order);
+            $result[] = $this->_getAttributes($order, 'order');
         }
 
         return $result;
     }
 
+    public function info($orderIncrementId)
+    {
+        $order = Mage::getModel('sales/order');
+
+        /* @var $order Mage_Sales_Model_Order */
+
+        $order->loadByIncrementId($orderIncrementId);
+
+        if (!$order->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        $result = $this->_getAttributes($order, 'order');
+
+        $result['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
+        $result['billing_address']  = $this->_getAttributes($order->getBillingAddress(), 'order_address');
+        $result['items'] = array();
+
+        foreach ($order->getAllItems() as $item) {
+            $result['items'][] = $this->_getAttributes($item, 'order_item');
+        }
+
+        $result['payment'] = $this->_getAttributes($order->getPayment(), 'order_payment');
+
+        $result['status_history'] = array();
+
+        foreach ($order->getStatusHistoryCollection() as $history) {
+            $result['status_history'][] = $this->_getAttributes($history, 'order_status_history');
+        }
+
+        return $result;
+    }
+
+    public function addStatus($orderIncrementId, $status, $comment = null, $notify = false)
+    {
+        $order = Mage::getModel('sales/order');
+        /* @var $order Mage_Sales_Model_Order */
+        $order->loadByIncrementId($orderIncrementId);
+
+        if (!$order->getId()) {
+            $this->_fault('not_exists');
+        }
+
+        $order->addStatusToHistory($status, $comment, $notify);
+
+        try {
+            $order->save();
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('status_not_added');
+        }
+
+        return true;
+    }
 
 } // Class Mage_Sales_Model_Order_Api End
