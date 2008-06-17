@@ -69,7 +69,7 @@
     <div class="cart-collateral">
     <?php echo $this->getChildHtml('coupon') ?>
     <div class="divider"></div>
-    <?php echo $this->getChildHtml('shipping') ?>
+    <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     </div>
     <div class="cart-totals">
         <table cellspacing="0" id="shoping-cart-totals-table">

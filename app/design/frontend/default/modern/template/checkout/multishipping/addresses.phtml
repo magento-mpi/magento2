@@ -54,6 +54,7 @@
         </tfoot>
         <tbody>
         <?php foreach ($this->getItems() as $_index => $_item): ?>
+        <?php if ($_item->getProduct()->getTypeInstance()->isVirtual()): continue; endif; ?>
             <tr>
                 <td class="attributes-col">
                     <a href="<?php echo $this->helper('checkout')->getQuoteItemProductUrl($_item) ?>">
