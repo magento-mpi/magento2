@@ -51,6 +51,24 @@
                         <acl>sales/order/change</acl>
                     </cancel>
                 </methods>
+                <faults module="sales">
+                    <not_exists>
+                        <code>100</code>
+                        <message>Requested order not exists.</message>
+                    </not_exists>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters given. Details in error message.</message>
+                    </filters_invalid>
+                    <data_invalid>
+                        <code>102</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <status_not_changed>
+                        <code>104</code>
+                        <message>Order status not changed. Details in error message.</message>
+                    </status_not_changed>
+                </faults>
             </sales_order>
         </resources>
         <acl>

@@ -57,6 +57,12 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         return $order;
     }
 
+    /**
+     * Retrieve list of orders by filters
+     *
+     * @param array $filters
+     * @return array
+     */
     public function items($filters = null)
     {
         //TODO: add full name logic
@@ -97,6 +103,12 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         return $result;
     }
 
+    /**
+     * Retrieve full order information
+     *
+     * @param string $orderIncrementId
+     * @return array
+     */
     public function info($orderIncrementId)
     {
         $order = $this->_initOrder($orderIncrementId);
@@ -122,6 +134,15 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         return $result;
     }
 
+    /**
+     * Add comment to order
+     *
+     * @param string $orderIncrementId
+     * @param string $status
+     * @param string $comment
+     * @param boolean $notify
+     * @return boolean
+     */
     public function addComment($orderIncrementId, $status, $comment = null, $notify = false)
     {
         $order = $this->_initOrder($orderIncrementId);
@@ -135,7 +156,6 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
                 $oldArea = Mage::getDesign()->getArea();
                 Mage::getDesign()->setStore($order->getStoreId());
                 Mage::getDesign()->setArea('frontend');
-
             }
 
             $order->sendOrderUpdateEmail($notify, $comment);
@@ -152,6 +172,12 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         return true;
     }
 
+    /**
+     * Hold order
+     *
+     * @param string $orderIncrementId
+     * @return boolean
+     */
     public function hold($orderIncrementId)
     {
         $order = $this->_initOrder($orderIncrementId);
@@ -166,6 +192,12 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         return true;
     }
 
+    /**
+     * Unhold order
+     *
+     * @param string $orderIncrementId
+     * @return boolean
+     */
     public function unhold($orderIncrementId)
     {
         $order = $this->_initOrder($orderIncrementId);
@@ -180,6 +212,12 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         return true;
     }
 
+    /**
+     * Cancel order
+     *
+     * @param string $orderIncrementId
+     * @return boolean
+     */
     public function cancel($orderIncrementId)
     {
         $order = $this->_initOrder($orderIncrementId);
