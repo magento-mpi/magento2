@@ -25,7 +25,7 @@
     </td>
     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>
     <?php if ($this->helper('tax')->displayTaxColumn()): ?>
-    <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getTaxAmount()/$this->getQty()) ?></td>
+    <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getTaxAmount()/$this->getQty()) ?></td>
     <?php endif; ?>
     <td class="a-center"><?php echo $this->getQty() ?></td>
     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?></td>

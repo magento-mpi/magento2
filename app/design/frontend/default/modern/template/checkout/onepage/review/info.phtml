@@ -23,6 +23,9 @@
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
             <th class="a-right"><?php echo $this->__('Price') ?></th>
+            <?php if ($this->helper('tax')->displayTaxColumn()): ?>
+            <th class="a-right"><?php echo $this->__('Tax') ?></th>
+            <?php endif; ?>
             <th class="a-center"><?php echo $this->__('Qty') ?></th>
             <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
         </tr>
