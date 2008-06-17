@@ -86,10 +86,10 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
     /**
      * Get item row html
      *
-     * @param   Mage_Sales_Model_Quote_Item $item
+     * @param   Varien_Object $item
      * @return  string
      */
-    public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
+    public function getItemHtml(Varien_Object $item)
     {
         return $this->getItemRenderer($item->getProductType())
             ->setItem($item)
