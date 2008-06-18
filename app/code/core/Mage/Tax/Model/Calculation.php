@@ -67,6 +67,22 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         return $this->_ptc[$ruleId];
     }
 
+    protected function _formCalculationProcess()
+    {
+        $title = $this->getRateTitle();
+        $value = $this->getRateValue();
+        $id = $this->getRateId();
+
+        $rate = array('code'=>$title, 'title'=>$title, 'percent'=>$value, 'position'=>1, 'priority'=>1);
+
+        $process = array();
+        $process['percent'] = $value;
+        $process['id'] = "{$id}-{$value}";
+        $process['rates'][] = $rate;
+
+        return $process;
+    }
+
     public function getRate($request)
     {
         if (!$request->getCountryId() || !$request->getCustomerClassId() || !$request->getProductClassId()) {
@@ -77,10 +93,13 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         if (!isset($this->_rateCache[$cacheKey])) {
             $this->unsRateValue();
             $this->unsCalculationProcess();
+            $this->unsEventModuleId();
             Mage::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
             if (!$this->hasRateValue()) {
                 $this->setCalculationProcess($this->_getResource()->getCalculationProcess($request));
                 $this->setRateValue($this->_getResource()->getRate($request));
+            } else {
+                $this->setCalculationProcess($this->_formCalculationProcess());
             }
             $this->_rateCache[$cacheKey] = $this->getRateValue();
             $this->_rateCalculationProcess[$cacheKey] = $this->getCalculationProcess();
@@ -178,17 +197,15 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
             $this->_rateCalculationProcess[$cacheKey] = $this->_getResource()->getCalculationProcess($request);
         }
         return $this->_rateCalculationProcess[$cacheKey];
-        /*
-        $rateIds = $this->_getResource()->getRateIds($request);
-        if ($rateIds) {
-            return Mage::getModel('tax/calculation_rate')->getCollection()->addFieldToFilter('tax_calculation_rate_id', $rateIds);
-        }
-        return array();
-        */
     }
 
     public function reproduceProcess($rates)
     {
         return $this->getResource()->getCalculationProcess(null, $rates);
+    }
+
+    public function getRatesByCustomerTaxClass($customerTaxClass)
+    {
+        return $this->getResource()->getRatesByCustomerTaxClass($customerTaxClass);
     }
 }

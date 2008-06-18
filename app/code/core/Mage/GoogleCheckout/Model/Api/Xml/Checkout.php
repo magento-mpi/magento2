@@ -357,8 +357,8 @@ EOT;
     {
         $shippingTaxRate = 0;
         if ($shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS)) {
-            $request = Mage::getModel('tax/calculation')->getRateRequest();
-            $shippingTaxRate = Mage::getModel('tax/calculation')->getRate($request->setProductClassId($shippingTaxClass));
+            $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+            $shippingTaxRate = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($shippingTaxClass));
             $shippingTaxed = 'true';
         }
         return $shippingTaxRate;
@@ -480,12 +480,10 @@ EOT;
         }
         $customerTaxClass = Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
 
-        $rulesArr = Mage::getResourceModel('googlecheckout/tax')
-            ->fetchRuleRatesForCustomerTaxClass($customerTaxClass);
-
+        $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerTaxClass($customerTaxClass);
         $rules = array();
-        foreach ($rulesArr as $rule) {
-            $rules[$rule['tax_product_class_id']][] = $rule;
+        foreach ($customerRules as $rule) {
+            $rules[$rule['product_class']][] = $rule;
         }
 
         return $rules;

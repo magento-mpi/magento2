@@ -42,6 +42,6 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Adminhtml_Block_S
     public function getFullTaxInfo()
     {
         $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($this->getOrder())->toArray();
-        return Mage::getModel('tax/calculation')->reproduceProcess($rates['items']);
+        return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
     }
 }

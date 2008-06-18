@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
         $this->setOrder($this->getParentBlock()->getOrder());
         parent::_beforeToHtml();
     }
-    
+
     /**
      * Retrieve order items collection
      *
@@ -57,7 +57,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
      */
     public function displayPriceInclTax(Varien_Object $item)
     {
-        return $this->getOrder()->formatPrice($item->getPrice()+$item->getTaxAmount()/$item->getQtyOrdered());
+        return $this->displayPrices(
+            $item->getBasePrice()+$item->getBaseTaxBeforeDiscount()/$item->getQtyOrdered(),
+            $item->getPrice()+$item->getTaxBeforeDiscount()/$item->getQtyOrdered()
+        );
     }
 
     /**
@@ -68,7 +71,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
      */
     public function displaySubtotalInclTax($item)
     {
-        return $this->getOrder()->formatPrice($item->getRowTotal()+$item->getTaxAmount());
+        return $this->displayPrices(
+            $item->getBaseRowTotal()+$item->getBaseTaxBeforeDiscount(),
+            $item->getRowTotal()+$item->getTaxBeforeDiscount()
+        );
     }
 
     /**

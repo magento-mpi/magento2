@@ -167,7 +167,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     public function getTaxRatesByProductClass()
     {
         $result = array();
-        $calc = Mage::getModel('tax/calculation');
+        $calc = Mage::getSingleton('tax/calculation');
         $rates = $calc->getRatesForAllProductTaxClasses($calc->getRateRequest());
 
         foreach ($rates as $class=>$rate) {
@@ -185,8 +185,8 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_null($percent)) {
             $taxClassId = $product->getTaxClassId();
             if ($taxClassId) {
-                $request = Mage::getModel('tax/calculation')->getRateRequest();
-                $percent = Mage::getModel('tax/calculation')->getRate($request->setProductClassId($taxClassId));
+                $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+                $percent = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($taxClassId));
             }
         }
 

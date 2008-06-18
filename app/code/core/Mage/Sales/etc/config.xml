@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.6</version>
+            <version>0.9.7</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -130,19 +130,18 @@
                 <original_price><to_order_item>*</to_order_item></original_price>
                 <applied_rule_ids><to_order_item>*</to_order_item></applied_rule_ids>
                 <additional_data><to_order_item>*</to_order_item></additional_data>
-
                 <calculation_price><to_order_item>price</to_order_item></calculation_price>
+                <base_calculation_price><to_order_item>base_price</to_order_item></base_calculation_price>
                 <tax_percent><to_order_item>*</to_order_item></tax_percent>
                 <tax_amount><to_order_item>*</to_order_item></tax_amount>
+                <tax_before_discount><to_order_item>*</to_order_item></tax_before_discount>
+                <base_tax_before_discount><to_order_item>*</to_order_item></base_tax_before_discount>
                 <tax_string><to_order_item>*</to_order_item></tax_string>
                 <row_weight><to_order_item>*</to_order_item></row_weight>
                 <row_total><to_order_item>*</to_order_item></row_total>
-
-                <base_price><to_order_item>*</to_order_item></base_price>
                 <price><to_order_item>base_original_price</to_order_item></price>
                 <base_tax_amount><to_order_item>*</to_order_item></base_tax_amount>
                 <base_row_total><to_order_item>*</to_order_item></base_row_total>
-
                 <discount_percent><to_order_item_discount>*</to_order_item_discount></discount_percent>
                 <discount_amount><to_order_item_discount>*</to_order_item_discount></discount_amount>
                 <base_discount_amount><to_order_item_discount>*</to_order_item_discount></base_discount_amount>

@@ -171,4 +171,48 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         }
         return $result;
     }
+
+    public function getRatesByCustomerTaxClass($customerTaxClass)
+    {
+        $selectCSP = $this->_getReadAdapter()->select();
+        $selectCSP->from(array('main_table'=>$this->getTable('tax/tax_calculation_rate')), array('country'=>'tax_country_id', 'region_id'=>'tax_region_id', 'postcode'=>'tax_postcode'))
+            ->joinInner(
+                    array('calc_table'=>$this->getTable('tax/tax_calculation')),
+                    "calc_table.tax_calculation_rate_id = main_table.tax_calculation_rate_id AND calc_table.customer_tax_class_id = '{$customerTaxClass}'",
+                    array('product_class'=>'calc_table.product_tax_class_id'))
+
+            ->joinLeft(
+                    array('state_table'=>$this->getTable('directory/country_region')),
+                    'state_table.region_id = main_table.tax_region_id',
+                    array('region_code'=>'state_table.code'))
+
+            ->distinct(true);
+
+        $CSP = $this->_getReadAdapter()->fetchAll($selectCSP);
+
+        $result = array();
+        foreach ($CSP as $one) {
+            $request = new Varien_Object();
+            $request->setCountryId($one['country'])
+                ->setRegionId($one['region_id'])
+                ->setPostcode($one['postcode'])
+                ->setCustomerClassId($customerTaxClass)
+                ->setProductClassId($one['product_class']);
+
+            $rate = $this->getRate($request);
+            if ($rate) {
+                $row = array(
+                            'value'         => $rate/100,
+                            'country'       => $one['country'],
+                            'state'         => $one['region_code'],
+                            'postcode'      => $one['postcode'],
+                            'product_class' => $one['product_class'],
+                            );
+
+                $result[] = $row;
+            }
+        }
+
+        return $result;
+    }
 }
