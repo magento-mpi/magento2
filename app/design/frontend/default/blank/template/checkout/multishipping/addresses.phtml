@@ -54,12 +54,10 @@
         </tfoot>
         <tbody>
         <?php foreach ($this->getItems() as $_index => $_item): ?>
+        <?php if ($_item->getProduct()->getTypeInstance()->isVirtual()): continue; endif; ?>
             <tr>
-                <td>
-                    <h3><a href="<?php echo $this->helper('checkout')->getQuoteItemProductUrl($_item) ?>">
-                        <?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
-                    </a></h3>
-                    <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
+                <td class="attributes-col">
+                    <?php echo $this->getItemHtml($_item->getQuoteItem())?>
                 </td>
                 <td><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty" /></td>
                 <td><?php echo $this->getAddressesHtmlSelect($_item, $_index) ?></td>

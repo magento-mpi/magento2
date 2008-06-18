@@ -75,6 +75,8 @@ Default layout, loads most of the pages
                 <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon" template="checkout/cart/coupon.phtml"/>
                 <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping" template="checkout/cart/shipping.phtml"/>
                 <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml"/>
+
+                <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml"/>
             </block>
         </reference>
     </checkout_cart_index>
@@ -225,6 +227,7 @@ Multi address shipping checkout overview
                     <action method="setInfoTemplate"><method></method><template></template></action>
                 </block>
                 <block type="checkout/agreements" name="checkout.multishipping.agreements" as="agreements" template="checkout/multishipping/agreements.phtml"/>
+                <block type="checkout/cart_totals" name="totals" />
             </block>
         </reference>
     </checkout_multishipping_overview>

@@ -60,6 +60,11 @@
         </div>
         <?php endif; ?>
     </td>
+    <td class="a-center">
+        <a href="<?php echo $this->getDeleteUrl() ?>">
+            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
+        </a>
+    </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
         <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" />
@@ -73,10 +78,5 @@
     </td>
     <td class="a-right">
         <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?>
-    </td>
-    <td class="a-center">
-        <a href="<?php echo $this->getDeleteUrl() ?>">
-            <img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" />
-        </a>
     </td>
 </tr>

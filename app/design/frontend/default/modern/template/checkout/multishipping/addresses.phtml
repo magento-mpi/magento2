@@ -57,10 +57,7 @@
         <?php if ($_item->getProduct()->getTypeInstance()->isVirtual()): continue; endif; ?>
             <tr>
                 <td class="attributes-col">
-                    <a href="<?php echo $this->helper('checkout')->getQuoteItemProductUrl($_item) ?>">
-                        <strong><?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?></strong>
-                    </a>
-                    <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
+                    <?php echo $this->getItemHtml($_item->getQuoteItem())?>
                 </td>
                 <td class="a-center"><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty"/></td>
                 <td><?php echo $this->getAddressesHtmlSelect($_item, $_index) ?></td>
