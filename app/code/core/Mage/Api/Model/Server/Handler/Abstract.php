@@ -29,10 +29,10 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
 {
     public function __construct()
     {
-        set_error_handler(array(get_class($this), 'hadlePhpError'), E_ALL);
+        set_error_handler(array(get_class($this), 'handlePhpError'), E_ALL);
     }
 
-    static public function hadlePhpError($errorCode, $errorMessage, $errorFile)
+    static public function handlePhpError($errorCode, $errorMessage, $errorFile)
     {
         Mage::log($errorMessage, null, $errorFile);
         if (in_array($errorCode, array(E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR))) {
