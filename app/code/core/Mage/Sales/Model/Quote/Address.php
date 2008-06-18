@@ -23,6 +23,8 @@
  */
 class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstract
 {
+    const TYPE_BILLING  = 'billing';
+    const TYPE_SHIPPING = 'shipping';
     const RATES_FETCH = 1;
     const RATES_RECALCULATE = 2;
 
@@ -209,7 +211,12 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 if ($qItem->isDeleted()) {
                     continue;
                 }
-                $items[] = $qItem;
+                if ($this->getAddressType() == self::TYPE_BILLING && $qItem->getIsVirtual()) {
+                    $items[] = $qItem;
+                }
+                elseif ($this->getAddressType() == self::TYPE_SHIPPING && !$qItem->getIsVirtual()) {
+                    $items[] = $qItem;
+                }
             }
         }
         return $items;
@@ -575,7 +582,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     public function validateMinimumAmount()
     {
-        if ($this->getAddressType()!='shipping') {
+        if ($this->getAddressType()!=self::TYPE_SHIPPING) {
             return true;
         }
         $storeId = $this->getQuote()->getStoreId();
