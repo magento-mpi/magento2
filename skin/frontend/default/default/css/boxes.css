@@ -431,7 +431,7 @@ h1#logo {
 .shop-access li.last { padding-right:0; background:none; }
 .language-switcher { float: right; margin-top: 5px; margin-left: 60px; }
 .language-switcher label { color:#A7C6DD; padding-right: 5px; }
-
+.language-switcher .flag option { background-repeat:no-repeat; background-position: left center; padding-left: 20px;margin-left: 2px; }
 
 /* Breadcrumbs */
 .breadcrumbs {  margin-bottom:13px; font-size:.95em; line-height:1.25em; }
@@ -651,12 +651,12 @@ h1#logo {
     text-decoration:line-through;
     white-space:nowrap;
     }
-	
-/*Special price*/	
+
+/*Special price*/
 .special-price {
     color:#cd5033;
     font-weight:bold;
-	display:block;	
+	display:block;
     }
 .special-price .label { font-weight:bold;  font-size:13px;}
 .special-price .price { white-space:nowrap; font-weight:bold; font-size:13px; }
