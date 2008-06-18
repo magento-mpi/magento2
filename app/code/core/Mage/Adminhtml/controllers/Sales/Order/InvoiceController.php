@@ -180,7 +180,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         if ($invoice = $this->_initInvoice()) {
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_create'))
+                //->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_create'))
                 ->renderLayout();
         }
         else {
@@ -196,8 +196,8 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     {
         try {
             $invoice = $this->_initInvoice();
-            $response = $this->getLayout()->createBlock('adminhtml/sales_order_invoice_create_items')
-                ->toHtml();
+            $this->loadLayout();
+            $response = $this->getLayout()->getBlock('order_items')->toHtml();
         }
         catch (Mage_Core_Exception $e) {
             $response = array(
