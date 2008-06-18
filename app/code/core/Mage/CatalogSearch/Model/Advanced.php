@@ -47,7 +47,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 ->setOrder('attribute_id', 'asc')
                 ->load();
             foreach ($attributes as $attribute) {
-            	$attribute->setEntity($product->getResource());
+                $attribute->setEntity($product->getResource());
             }
             $this->setData('attributes', $attributes);
         }
@@ -158,15 +158,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
     public function getProductCollection(){
         if (is_null($this->_productCollection)) {
             $this->_productCollection = Mage::getResourceModel('catalogsearch/advanced_collection')
-                ->addAttributeToSelect('url_key')
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('special_price')
-                ->addAttributeToSelect('special_from_date')
-                ->addAttributeToSelect('special_to_date')
-                ->addAttributeToSelect('description')
-                ->addAttributeToSelect('image')
-                ->addAttributeToSelect('small_image')
+                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addStoreFilter();
                 Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
                 Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);

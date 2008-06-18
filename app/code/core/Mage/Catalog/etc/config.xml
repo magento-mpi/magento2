@@ -221,26 +221,6 @@
                     </virtual>
                 </type>
             </product>
-
-            <layer>
-                <view>
-                    <product_attributes>
-                        <name />
-                        <url_key />
-                        <price />
-                        <special_price />
-                        <special_from_date />
-                        <special_to_date />
-                        <description />
-                        <short_description />
-                        <image />
-                        <thumbnail />
-                        <small_image />
-                        <tax_class_id />
-                    </product_attributes>
-                </view>
-            </layer>
-
         </catalog>
     </global>
     <adminhtml>
@@ -463,6 +443,24 @@
                 <list>5,10,15,20,25</list>
             </per_page_values>
         </catalog>
+        <product>
+            <collection>
+                <attributes>
+                    <name />
+                    <url_key />
+                    <price />
+                    <special_price />
+                    <special_from_date />
+                    <special_to_date />
+                    <description />
+                    <short_description />
+                    <image />
+                    <thumbnail />
+                    <small_image />
+                    <tax_class_id />
+                </attributes>
+            </collection>
+        </product>
     </frontend>
 
     <default>

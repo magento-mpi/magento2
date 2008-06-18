@@ -96,16 +96,6 @@
                 </item>
             </quote>
         </sales>
-        <catalog>
-            <layer>
-                <view>
-                    <product_attributes>
-                        <price_view />
-                        <price_type />
-                    </product_attributes>
-                </view>
-            </layer>
-        </catalog>
     </global>
     <frontend>
         <routers>
@@ -133,6 +123,14 @@
                 </bundle>
             </updates>
         </layout>
+        <product>
+            <collection>
+                <attributes>
+                    <price_view />
+                    <price_type />
+                </attributes>
+            </collection>
+        </product>
     </frontend>
     <adminhtml>
         <translate>
