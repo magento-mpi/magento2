@@ -45,6 +45,14 @@
             <input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="required-entry validate-email input-text"/>
             </div>
         </li>
+
+<?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+<?php if ($_taxvat->isEnabled()): ?>
+        <li>
+            <?php echo $_taxvat->toHtml() ?>
+        </li>
+<?php endif ?>
+
     </ul>
 </fieldset>
 <p><input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>" <?php if($this->getcustomer()->getchangepassword()==1): ?>checked="checked" <?php endif; ?>/> <label for="change_password"><?php echo $this->__('Change Password') ?></label></p>
