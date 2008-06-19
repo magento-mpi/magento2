@@ -45,7 +45,13 @@ AdminOrder.prototype = {
         $('back_order_top_button').hide();
         $('reset_order_top_button').show();
         this.customerSelectorHide();
-        this.storeSelectorShow();
+        if (this.storeId) {
+            this.dataShow();
+            this.loadArea(['header', 'data'], true);
+        }
+        else {
+            this.storeSelectorShow();
+        }
     },
 
     setStoreId : function(id){
