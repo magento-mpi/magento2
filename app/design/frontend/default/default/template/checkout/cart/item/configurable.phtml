@@ -48,21 +48,23 @@
         <ul class="shopping-cart-item-options">
             <?php foreach ($_options as $_option):?>
             <?php
-            $_isTruncated = false;
-            $_escapedTruncatedValue = $this->helper('checkout/string')->truncateOptionValueByType($_option['value'], $_option['type'], 100, '...', $_isTruncated)
+            $_randomId = str_replace('.', '_', '_' . microtime(true));
+            $_truncatedRemainder = '';
+            $_truncatedValue = Mage::helper('core/string')->truncate($_option['value'], 100, '', $_truncatedRemainder);
+            $_truncatedValue     = nl2br($this->htmlEscape($_truncatedValue));
+            $_truncatedRemainder = nl2br($this->htmlEscape($_truncatedRemainder));
             ?>
-            <li><strong><?php echo $_option['label'] ?>:</strong>
-            <?php if (!$_isTruncated):?>
-                <?php echo $_escapedTruncatedValue ?>
-            <?php else:?>
-                <?php $_htmlId = 'option' . $_option['id'] ?>
-                <div id="<?php echo $_htmlId?>" class="shopping-cart-item-option-value-<?php echo $_option['type']?>"><?php echo $_escapedTruncatedValue ?></div>
-                <div id="<?php echo $_htmlId?>_full" class="shopping-cart-item-option-value-<?php echo $_option['type']?>" style="display:none"><?php echo $this->helper('checkout/string')->escapeOptionValueByType($_option['value'], $_option['type'])?></div>
-                <script type="text/javascript">
-                    Event.observe($('<?php echo $_htmlId?>'), 'mouseover', function(){switchDisplay($('<?php echo $_htmlId?>'), $('<?php echo $_htmlId?>_full'))});
-                    Event.observe($('<?php echo $_htmlId?>_full'), 'mouseout', function(){switchDisplay($('<?php echo $_htmlId?>_full'), $('<?php echo $_htmlId?>'))});
-                </script>
-            <?php endif;?>
+            <li id="<?php echo $_randomId?>" class="<?php if ($_truncatedRemainder):?>truncated<?php endif;?>">
+                <strong><?php echo $_option['label'] ?>:</strong>
+                <?php if ($_truncatedRemainder):?>
+                    <?php echo $_truncatedValue?><span class="truncated-etc" id="<?php echo $_randomId?>_etc">...</span><span class="truncated-remainder" id="<?php echo $_randomId?>_remainder" style="display:none"><?php echo $_truncatedRemainder ?></span>
+                    <script type="text/javascript">
+                        Event.observe($('<?php echo $_randomId?>'), 'mouseover', function(){switchDisplay($('<?php echo $_randomId?>_etc'), $('<?php echo $_randomId?>_remainder'))});
+                        Event.observe($('<?php echo $_randomId?>'), 'mouseout',  function(){switchDisplay($('<?php echo $_randomId?>_remainder'), $('<?php echo $_randomId?>_etc'))});
+                    </script>
+                <?php else:?>
+                <?php echo $_truncatedValue?>
+                <?php endif;?>
             </li>
             <?php endforeach;?>
         </ul>

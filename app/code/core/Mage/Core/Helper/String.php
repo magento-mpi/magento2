@@ -28,37 +28,37 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
     const ICONV_CHARSET = 'UTF-8';
 
     /**
-     * Truncate a string to a certain length if necessary,
-     * optionally splitting in the middle of a word,
-     * and appending the $etc string or inserting $etc into the middle.
+     * Truncate a string to a certain length if necessary, appending the $etc string.
+     * $remainder will contain the string that has been replaced with $etc.
      *
      * @param string $string
      * @param int $length
      * @param string $etc
-     * @param bool &$wasTruncated
+     * @param string &$remainder
      * @param bool $breakWords
-     * @param bool $middle
      * @return string
      */
-    public function truncate($string, $length = 80, $etc = '...', &$wasTruncated = false, $breakWords = true, $middle = false)
+    public function truncate($string, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        $wasTruncated = false;
+        $remainder = '';
         if (0 == $length) {
             return '';
         }
 
-        if (iconv_strlen($string, self::ICONV_CHARSET) > $length) {
-            $wasTruncated = true;
+        $originalLength = iconv_strlen($string, self::ICONV_CHARSET);
+        if ($originalLength > $length) {
             $length -= iconv_strlen($etc, self::ICONV_CHARSET);
-            if (!$breakWords && !$middle) {
-                $string = preg_replace('/\s+?(\S+)?$/', '', iconv_substr($string, 0, $length + 1, self::ICONV_CHARSET));
+            if ($length <= 0) {
+                return '';
             }
-            if (!$middle) {
-                return iconv_substr($string, 0, $length, self::ICONV_CHARSET) . $etc;
+            $preparedString = $string;
+            $preparedlength = $length;
+            if (!$breakWords) {
+                $preparedString = preg_replace('/\s+?(\S+)?$/', '', iconv_substr($string, 0, $length + 1, self::ICONV_CHARSET));
+                $preparedlength = iconv_strlen($preparedString, self::ICONV_CHARSET);
             }
-            else {
-                return iconv_substr($string, 0, $length/2, self::ICONV_CHARSET) . $etc . iconv_substr($string, -$length/2, null, self::ICONV_CHARSET);
-            }
+            $remainder = iconv_substr($string, $preparedlength, $originalLength, self::ICONV_CHARSET);
+            return iconv_substr($preparedString, 0, $length, self::ICONV_CHARSET) . $etc;
         }
 
         return $string;
