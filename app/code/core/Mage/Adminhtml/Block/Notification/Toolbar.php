@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
 
     public function getNoticesInboxUrl()
     {
-        return $this->getUrl('admin/notification');
+        return $this->getUrl('adminhtml/notification');
     }
 
     public function getLatestNotice()
