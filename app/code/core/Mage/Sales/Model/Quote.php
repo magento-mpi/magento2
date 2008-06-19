@@ -794,9 +794,23 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Get all quote totals
+     *
+     * @return array
+     */
     public function getTotals()
     {
-        return $this->getShippingAddress()->getTotals();
+        $totals = $this->getShippingAddress()->getTotals();
+        foreach ($this->getBillingAddress()->getTotals() as $code => $total) {
+        	if (isset($totals[$code])) {
+        	    $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
+        	}
+        	else {
+        	    $totals[$code] = $total;
+        	}
+        }
+        return $totals;
     }
 
     public function addMessage($message, $index='error')

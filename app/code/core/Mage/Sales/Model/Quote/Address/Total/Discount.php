@@ -31,16 +31,19 @@ class Mage_Sales_Model_Quote_Address_Total_Discount extends Mage_Sales_Model_Quo
         );
 
         $address->setFreeShipping(0);
-
-        $items = $address->getAllItems();
-        if (!count($items)) {
-            return $this;
-        }
-
         $totalDiscountAmount = 0;
         $subtotalWithDiscount= 0;
         $baseTotalDiscountAmount = 0;
         $baseSubtotalWithDiscount= 0;
+
+        $items = $address->getAllItems();
+        if (!count($items)) {
+            $address->setDiscountAmount($totalDiscountAmount);
+            $address->setSubtotalWithDiscount($subtotalWithDiscount);
+            $address->setBaseDiscountAmount($baseTotalDiscountAmount);
+            $address->setBaseSubtotalWithDiscount($baseSubtotalWithDiscount);
+            return $this;
+        }
 
         $hasDiscount = false;
         foreach ($items as $item) {
