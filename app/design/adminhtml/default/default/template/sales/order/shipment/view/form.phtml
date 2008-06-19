@@ -60,31 +60,7 @@
         </div>
 </div>
 <div>
-    <div class="grid">
-        <table cellspacing="0" class="data">
-            <col/>
-            <col width="100"/>
-            <thead>
-                <tr class="headings">
-                    <th><?php echo $this->helper('sales')->__('Product') ?></th>
-                    <th class="last"><?php echo $this->helper('sales')->__('Qty Shipped') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $_items = $this->getShipment()->getAllItems() ?>
-                <?php $i=0;foreach ($_items as $_item):$i++ ?>
-                    <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
-                        <td>
-                            <?php echo $_item->getName() ?>
-                            <div class="nobr"><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $_item->getSku() ?></div>
-                            <?php echo $_item->getDescription() ?>
-                        </td>
-                        <td class="last"><?php echo $_item->getQty()*1 ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <?php echo $this->getChildHtml('shipment_items') ?>
 </div>
 <div class="box-left entry-edit">
     <div class="entry-edit-head"><h4><?php echo $this->__('Shipment History') ?></h4></div>

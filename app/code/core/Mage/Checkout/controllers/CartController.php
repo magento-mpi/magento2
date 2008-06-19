@@ -183,10 +183,17 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
     public function addgroupAction()
     {
-        $productIds = $this->getRequest()->getParam('products');
-        if (is_array($productIds)) {
+        $orderItemIds = $this->getRequest()->getParam('order_items', array());
+        if (is_array($orderItemIds)) {
+            $itemsCollection = Mage::getModel('sales/order_item')
+                ->getCollection()
+                ->addIdFilter($orderItemIds)
+                ->load();
+            /* @var $itemsCollection Mage_Sales_Model_Mysql4_Order_Item_Collection */
             $cart = $this->_getCart();
-            $cart->addProductsByIds($productIds);
+            foreach ($itemsCollection as $item) {
+                $cart->addOrderItem($item, 1);
+            }
             $cart->save();
         }
         $this->_goBack();

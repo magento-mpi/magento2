@@ -22,6 +22,13 @@
 <tr>
     <td>
         <?php echo $this->htmlEscape($this->getProductName()) ?>
+        <?php if ($_options = $this->getProductOptions()): ?>
+        <ul class="super-product-attributes">
+            <?php foreach ($_options as $_option): ?>
+            <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong> <?php echo $this->htmlEscape($_option['value']) ?>
+            <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
     </td>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>

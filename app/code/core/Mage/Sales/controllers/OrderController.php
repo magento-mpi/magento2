@@ -224,7 +224,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
 
             $cart = Mage::getSingleton('checkout/cart');
             $cartTruncated = false;
-
+            /* @var $cart Mage_Checkout_Model_Cart */
 
             $items = $order->getItemsCollection();
             foreach ($items as $item){

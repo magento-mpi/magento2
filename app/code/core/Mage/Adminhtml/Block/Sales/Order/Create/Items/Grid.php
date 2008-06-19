@@ -140,14 +140,40 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
      * Get Custom Options of item
      *
      * @param Mage_Sales_Model_Quote_Item $item
-     * @return string | null
+     * @return array
      */
     public function getCustomOptions(Mage_Sales_Model_Quote_Item $item)
     {
+        $optionStr = '';
+
         if ($options = $item->getOptionByCode('option_admin')) {
-            return $options->getValue();
+            foreach (unserialize($options->getValue()) as $option) {
+                $optionStr .= $option['label'] . ':' . $option['value'] . "\n";
+            }
+            $optionStr = Mage::helper('core/string')->substr($optionStr, 0, -2);
         }
 
-        return null;
+        if ($optionIds = $item->getOptionByCode('option_ids')) {
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                if ($option = $item->getProduct()->getOptionById($optionId)) {
+                    $optionValue = $item->getOptionByCode('option_' . $option->getId());
+                    $optionStr .= $option->getTitle() . ':';
+                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                        || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                        foreach (explode(',', $optionValue) as $_value) {
+                            $optionStr .= $option->getValueById($_value)->getTitle() . ', ';
+                        }
+                        $optionStr = Mage::helper('core/string')->substr($optionStr, 0, -2);
+                    } elseif ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        $optionStr .= $option->getValueById($optionValue)->getTitle();
+                    } else {
+                        $optionStr .= $optionValue;
+                    }
+                    $optionStr .= "\n";
+                }
+            }
+        }
+
+        return $optionStr;
     }
 }

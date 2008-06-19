@@ -199,7 +199,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     public function itemToQuoteItem(Mage_Sales_Model_Order_Item $item)
     {
         $quoteItem = Mage::getModel('sales/quote_item')
-            ->setStoreId($item->getStoreId())
+            ->setStoreId($item->getOrder()->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setProductId($item->getProductId())
             ->setSuperProductId($item->getSuperProductId())

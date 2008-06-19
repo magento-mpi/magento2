@@ -26,6 +26,13 @@
 <div class="item-text">
     <div><?php echo $this->htmlEscape($this->getItem()->getName()) ?></div>
     <div class="nobr"><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $this->getItem()->getSku() ?></div>
+    <?php if ($this->getOrderOptions()): ?>
+        <ul>
+        <?php foreach ($this->getOrderOptions() as $option): ?>
+            <li><strong><?php echo $option['label'] ?>:</strong> <?php echo $option['value'] ?></li>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
     <?php echo $this->getItem()->getDescription() ?>
     <div>
         <a class="action-link" href="#" onclick="return giftMessagesController.toogleGiftMessage('<?php echo $this->getHtmlId() ?>')">
@@ -68,6 +75,13 @@
 <div class="item-text">
     <?php echo $this->htmlEscape($this->getItem()->getName()) ?>
     <div class="nobr"><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $this->getItem()->getSku() ?></div>
+    <?php if ($this->getOrderOptions()): ?>
+        <ul>
+        <?php foreach ($this->getOrderOptions() as $option): ?>
+            <li><strong><?php echo $option['label'] ?>:</strong> <?php echo $option['value'] ?></li>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
         <?php echo $this->getItem()->getDescription() ?>
     </div>
 <?php endif; ?>

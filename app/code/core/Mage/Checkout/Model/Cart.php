@@ -115,20 +115,33 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         return $this;
     }
 
-    public function addOrderItem($orderItem)
+    /**
+     * Convert order item to quote item
+     *
+     * @param Mage_Sales_Model_Order_Item $orderItem
+     * @param mixed $qtyFlag if is null set product qty like in order
+     * @return Mage_Checkout_Model_Cart
+     */
+    public function addOrderItem($orderItem, $qtyFlag=null)
     {
-        $product = Mage::getModel('catalog/product')->load($orderItem->getProductId());
+        /* @var $orderItem Mage_Sales_Model_Order_Item */
+        $product = Mage::getModel('catalog/product')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->load($orderItem->getProductId());
         if (!$product->getId()) {
             return $this;
         }
-        if ($orderItem->getSuperProductId()) {
-            $superProduct = Mage::getModel('catalog/product')->load($orderItem->getSuperProductId());
-            if (!$superProduct->getId()) {
-                return $this;
-            }
-            $product->setSuperProduct($superProduct);
+
+        $info = $orderItem->getProductOptionByCode('info_buyRequest');
+        $info = new Varien_Object($info);
+        if (is_null($qtyFlag)) {
+            $info->setQty($orderItem->getQtyOrdered());
+        } else {
+            $info->setQty(1);
         }
-        $this->getQuote()->addProduct($product, $orderItem->getQtyOrdered());
+
+        $this->addProduct($product, $info);
+//        $this->getQuote()->addProduct($product, $orderItem->getQtyOrdered());
         return $this;
     }
 

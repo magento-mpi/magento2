@@ -340,4 +340,25 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         }
         return array();
     }
+
+    /**
+     * Get product options array by code.
+     * If code is null return all options
+     *
+     * @param string $code
+     * @return array
+     */
+    public function getProductOptionByCode($code=null)
+    {
+        if ($options = $this->_getData('product_options')) {
+            $options = unserialize($options);
+            if (is_null($code)) {
+                return $options;
+            }
+            if (isset($options[$code])) {
+                return $options[$code];
+            }
+        }
+        return array();
+    }
 }

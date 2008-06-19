@@ -186,6 +186,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         }
         if ($options) {
             $optionIds = array_keys($options);
+            $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
             $product->addCustomOption('option_ids', implode(',', $optionIds));
             foreach ($options as $optionId => $optionValue) {
                 $product->addCustomOption('option_'.$optionId, $optionValue);
@@ -258,6 +259,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         $optionArr = array();
         if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
+            if ($info = $this->getProduct()->getCustomOption('info_buyRequest')) {
+                $optionArr['info_buyRequest'] = unserialize($info->getValue());
+            }
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $this->getProduct()->getOptionById($optionId)) {
                     $formatedValue = '';

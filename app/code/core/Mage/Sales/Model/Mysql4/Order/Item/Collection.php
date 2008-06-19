@@ -69,4 +69,22 @@ class Mage_Sales_Model_Mysql4_Order_Item_Collection extends Mage_Core_Model_Mysq
         $this->setOrder('RAND()');
         return $this;
     }
+
+    /**
+     * Set filter by item id
+     *
+     * @param mixed $item
+     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     */
+    public function addIdFilter($item)
+    {
+        if (is_array($item)) {
+            $this->addFieldToFilter('item_id', array('in'=>$item));
+        } elseif ($item instanceof Mage_Sales_Model_Order_Item) {
+            $this->addFieldToFilter('item_id', $item->getId());
+        } else {
+            $this->addFieldToFilter('item_id', $item);
+        }
+        return $this;
+    }
 }

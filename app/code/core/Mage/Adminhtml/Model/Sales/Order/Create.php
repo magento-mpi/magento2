@@ -146,7 +146,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->getSession()->setCurrencyId($order->getOrderCurrencyCode());
         $this->getSession()->setCustomerId($order->getCustomerId());
         $this->getSession()->setStoreId($order->getStoreId());
-
         $convertModel = Mage::getModel('sales/convert_order');
         /*@var $quote Mage_Sales_Model_Quote*/
         $quote = $convertModel->toQuote($order, $this->getQuote());
@@ -160,6 +159,32 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
         }
 
+        $productsArr = array();
+        foreach ($order->getItemsCollection() as $item) {
+//            if ($order->getReordered()) {
+//                $qty = $item->getQtyOrdered();
+//            }
+//            else {
+//                $qty = min($item->getQtyToInvoice(), $item->getQtyToShip());
+//            }
+//            if ($qty) {
+//                $quoteItem = $convertModel->itemToQuoteItem($item)
+//                    ->setQuote($quote)
+//                    ->setQty($qty);
+//                $product = $quoteItem->getProduct();
+
+                /*if ($product->getId()) {
+                    $quote->addItem($quoteItem);
+                }*/
+                $productsArr[] = $item->getProductId();
+//            }
+        }
+
+        $productsCollection = Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addIdFilter($productsArr)
+            ->load();
+
         foreach ($order->getItemsCollection() as $item) {
             if ($order->getReordered()) {
                 $qty = $item->getQtyOrdered();
@@ -169,14 +194,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
             if ($qty) {
                 $quoteItem = $convertModel->itemToQuoteItem($item)
+                    ->setProduct($productsCollection->getItemById($item->getProductId()))
                     ->setQty($qty);
-                $product = $quoteItem->getProduct();
 
-                if ($product->getId()) {
-                    $quote->addItem($quoteItem);
-                }
+                $quote->addItem($quoteItem);
             }
         }
+
 
         if ($quote->getCouponCode()) {
             $quote->collectTotals();
@@ -445,21 +469,24 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                        $item->setNoDiscount($noDiscount);
 
                        //options
-//                       $options = explode("\n", $info['options']);
-//                       foreach ($options as $option) {
-                            $option = $info['options'];
-                            $item->addOption(
-                                new Varien_Object(
-                                    array(
-                                        'item_id' => $item->getId(),
-                                        'product_id' => $item->getProduct()->getId(),
-                                        'product' => $item->getProduct(),
-                                        'code' => 'option_admin',
-                                        'value' => $option
-                                    )
-                            ));
-//                       }
+                       $options = array();
+                       foreach (explode("\n", $info['options']) as $option) {
+                            list($label,$value) = explode(':', $option);
+                            $options[] = array(
+                                'label' => $label,
+                                'value' => $value
+                            );
+                       }
 
+                       $item->addOption(new Varien_Object(
+                            array(
+                                'item_id' => $item->getId(),
+                                'product_id' => $item->getProduct()->getId(),
+                                'product' => $item->getProduct(),
+                                'code' => 'option_admin',
+                                'value' => serialize($options)
+                            )
+                        ));
                     }
                 }
                 else {
@@ -676,7 +703,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()));
 
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
-            $order->addItem($quoteConvert->itemToOrderItem($item));
+            /* @var $item Mage_Sales_Model_Quote_Item */
+            $orderItem = $quoteConvert->itemToOrderItem($item)
+                ->setProductOptions(array(
+                    'options' => unserialize($item->getOptionByCode('option_admin')->getValue())
+                ));
+            $order->addItem($orderItem);
         }
 
         if ($this->getSendConfirmation()) {

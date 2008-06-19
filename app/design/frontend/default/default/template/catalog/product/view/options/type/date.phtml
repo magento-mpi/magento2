@@ -36,6 +36,7 @@
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
         || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
         <tr><td class="data">
-            <?php echo $this->__('Time') ?> <input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" />
+            <?php echo $this->__('Time') ?> <?php echo $this->getTimeHtml() ?>
+            <?php //echo $this->__('Time') ?> <!--<input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" />-->
         </td></tr>
 <?php endif; ?>

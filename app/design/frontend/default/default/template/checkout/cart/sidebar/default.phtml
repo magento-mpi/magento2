@@ -26,6 +26,14 @@
     <div class="product-details">
         <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" class="widget-btn"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a>
         <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a>
-        <br /><strong><?php echo $this->getQty() ?></strong> x <?php echo $this->helper('core')->currency($_item->getPrice()) ?>
+        <?php if ($this->getProductOptions()): ?>
+            <ul class="super-product-attributes">
+            <?php foreach ($this->getProductOptions() as $_option): ?>
+                <li><strong><?php echo $_option['label'] ?>:</strong> <?php echo $_option['value'] ?></li>
+            <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <br />
+        <strong><?php echo $this->getQty() ?></strong> x <?php echo $this->helper('core')->currency($_item->getPrice()) ?>
     </div>
 </li>

@@ -123,6 +123,23 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                 }
 
                 $shift{1} = 10;
+                $options = $item->getOrderItem()->getProductOptions();
+                if (isset($options['options'])) {
+                    foreach ($options['options'] as $option) {
+                        $optionTxt = strip_tags($option['label']).':'.strip_tags($option['value']);
+                        if (strlen($optionTxt) > 80) {
+                            $optionTxt = str_split($optionTxt, 80);
+                            foreach ($optionTxt as $_option) {
+                                $page->drawText($_option, 60, $this->y-$shift{1}, 'UTF-8');
+                                $shift{1} += 10;
+                            }
+                        } else {
+                            $page->drawText($optionTxt, 60, $this->y-$shift{1}, 'UTF-8');
+                            $shift{1} += 10;
+                        }
+                    }
+                }
+
                 foreach ($this->_parseItemDescription($item) as $description){
                     $page->drawText(strip_tags($description), 65, $this->y-$shift{1}, 'UTF-8');
                     $shift{1} += 10;
