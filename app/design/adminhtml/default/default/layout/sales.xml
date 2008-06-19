@@ -79,6 +79,12 @@
         </block>
     </adminhtml_sales_order_invoice_updateqty>
 
+    <adminhtml_sales_order_invoice_addcomment>
+        <block type="adminhtml/sales_order_invoice_view_comments" name="invoice_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
+        </block>
+    </adminhtml_sales_order_invoice_addcomment>
+
     <adminhtml_sales_order_invoice_view>
         <reference name="content">
             <block type="adminhtml/sales_order_invoice_view" name="sales_invoice_view">
@@ -113,6 +119,20 @@
         </reference>
     </adminhtml_sales_order_shipment_new>
 
+    <adminhtml_sales_order_shipment_addtrack>
+        <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
+    </adminhtml_sales_order_shipment_addtrack>
+
+    <adminhtml_sales_order_shipment_removetrack>
+        <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
+    </adminhtml_sales_order_shipment_removetrack>
+
+    <adminhtml_sales_order_shipment_addcomment>
+        <block type="adminhtml/sales_order_shipment_view_comments" name="shipment_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
+        </block>
+    </adminhtml_sales_order_shipment_addcomment>
+
     <adminhtml_sales_order_shipment_view>
         <reference name="content">
             <block type="adminhtml/sales_order_shipment_view" name="sales_shipment_view">
@@ -125,6 +145,7 @@
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/items/renderer/default.phtml</template></action>
                     </block>
                     <block type="adminhtml/sales_order_invoice_create_tracking" name="invoice_tracking" template="sales/order/shipment/create/tracking.phtml"></block>
+                    <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
                 </block>
             </block>
         </reference>
@@ -159,6 +180,12 @@
                         <block type="adminhtml/sales_order_totals_tax" name="order_totals_tax" template="sales/order/totals/tax.phtml"></block>
                     </block>
     </adminhtml_sales_order_creditmemo_updateqty>
+
+    <adminhtml_sales_order_creditmemo_addcomment>
+        <block type="adminhtml/sales_order_creditmemo_view_comments" name="creditmemo_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
+        </block>
+    </adminhtml_sales_order_creditmemo_addcomment>
 
     <adminhtml_sales_order_creditmemo_view>
         <reference name="content">

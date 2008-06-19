@@ -158,11 +158,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         if ($shipment = $this->_initShipment()) {
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
-//                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_shipment_create'))
                 ->renderLayout();
         }
         else {
-            // $this->_forward('noRoute');
             $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
     }
@@ -250,8 +248,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     ->setTitle($title);
                 $shipment->addTrack($track)
                     ->save();
-                $block = $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking');
-                $response = $block->toHtml();
+
+                $this->loadLayout();
+                $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
             }
             else {
                 $response = array(
@@ -287,8 +286,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             try {
                 if ($shipmentId = $this->_initShipment()) {
                     $track->delete();
-                    $block = $this->getLayout()->createBlock('adminhtml/sales_order_shipment_view_tracking');
-                    $response = $block->toHtml();
+
+                    $this->loadLayout();
+                    $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
                 }
                 else {
                     $response = array(
@@ -388,9 +388,8 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $shipment->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $shipment->save();
 
-            $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
-                ->setEntity($shipment)
-                ->toHtml();
+            $this->loadLayout();
+            $response = $this->getLayout()->getBlock('shipment_comments')->toHtml();
         }
         catch (Mage_Core_Exception $e) {
             $response = array(

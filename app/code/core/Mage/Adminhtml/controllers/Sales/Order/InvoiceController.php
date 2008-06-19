@@ -151,9 +151,10 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     {
         if ($invoice = $this->_initInvoice()) {
             $this->loadLayout()
-                ->_setActiveMenu('sales/order')
-                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_view')->updateBackButtonUrl($this->getRequest()->getParam('come_from')))
-                ->renderLayout();
+                ->_setActiveMenu('sales/order');
+            $this->getLayout()->getBlock('sales_invoice_view')
+                ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
+            $this->renderLayout();
         }
         else {
             $this->_forward('noRoute');
@@ -180,7 +181,6 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         if ($invoice = $this->_initInvoice()) {
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
-                //->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_invoice_create'))
                 ->renderLayout();
         }
         else {
@@ -375,9 +375,8 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $invoice->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $invoice->save();
 
-            $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
-                ->setEntity($invoice)
-                ->toHtml();
+            $this->loadLayout();
+            $response = $this->getLayout()->getBlock('invoice_comments')->toHtml();
         }
         catch (Mage_Core_Exception $e) {
             $response = array(

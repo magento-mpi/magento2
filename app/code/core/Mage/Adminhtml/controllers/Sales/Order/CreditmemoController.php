@@ -204,7 +204,6 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         if ($creditmemo = $this->_initCreditmemo()) {
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
-//                ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order_creditmemo_create'))
                 ->renderLayout();
         }
         else {
@@ -368,9 +367,8 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $creditmemo->save();
             $creditmemo->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
 
-            $response = $this->getLayout()->createBlock('adminhtml/sales_order_comments_view')
-                ->setEntity($creditmemo)
-                ->toHtml();
+            $this->loadLayout();
+            $response = $this->getLayout()->getBlock('creditmemo_comments')->toHtml();
         }
         catch (Mage_Core_Exception $e) {
             $response = array(
