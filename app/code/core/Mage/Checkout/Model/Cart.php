@@ -141,7 +141,6 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         }
 
         $this->addProduct($product, $info);
-//        $this->getQuote()->addProduct($product, $orderItem->getQtyOrdered());
         return $this;
     }
 
