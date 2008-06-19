@@ -261,6 +261,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </name>
+                        <ua_regexp translate="label">
+                            <label>Exceptions</label>
+                            <frontend_model>adminhtml/system_config_form_field_array</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Client user-agent will be checked against the regular expressions. If matched any, the specified design package will be set.</comment>
+                        </ua_regexp>
                     </fields>
                 </package>
                 <theme translate="label">

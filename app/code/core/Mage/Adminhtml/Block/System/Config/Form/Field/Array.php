@@ -18,19 +18,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Adminhtml_Model_System_Config_Backend_Serialized extends Mage_Core_Model_Config_Data
+/**
+ * Adminhtml system config array field renderer
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Adminhtml_Block_System_Config_Form_Field_Array extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
 {
-    protected function _afterLoad()
+    public function __construct()
     {
-        if (!is_array($this->getValue())) {
-            $this->setValue(unserialize($this->getValue()));
-        }
-    }
-
-    protected function _beforeSave()
-    {
-        if (is_array($this->getValue())) {
-            $this->setValue(serialize($this->getValue()));
-        }
+        $this->addColumn('regexp', array(
+            'label' => Mage::helper('adminhtml')->__('Regular expression (PCRE)'),
+            'size'  => 30,
+        ));
+        $this->addColumn('package', array(
+            'label' => Mage::helper('adminhtml')->__('Package name'),
+            'size'  => 20
+        ));
+        $this->_addAfter = false;
+        parent::__construct();
     }
 }
