@@ -570,24 +570,59 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Adding product to quote
+     * Add product to quote
+     *
+     * return error message if product type instance can't prepare product
      *
      * @param   mixed $product
-     * @return  Mage_Sales_Model_Quote
+     * @return  Mage_Sales_Model_Quote_Item || string
      */
-    public function addProduct($product, $qty=1)
+    public function addProduct(Mage_Catalog_Model_Product $product, $request=null)
     {
-        if (is_int($product)) {
-            $product = Mage::getModel('catalog/product')
-                ->setStore($this->getStore())
-                ->load($product);
+        if ($request === null) {
+            $request = 1;
+        }
+        if (is_numeric($request)) {
+            $request = new Varien_Object(array('qty'=>$request));
+        }
+        if (!($request instanceof Varien_Object)) {
+            Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote'));
         }
 
-        if ($product instanceof Mage_Catalog_Model_Product) {
-            $this->addCatalogProduct($product, $qty);
+        $cartCandidates = $product->getTypeInstance()->prepareForCart($request);
+
+        /**
+         * Error message
+         */
+        if (is_string($cartCandidates)) {
+            return $cartCandidates;
         }
 
-        return $this;
+        /**
+         * If prepare process return one object
+         */
+        if (!is_array($cartCandidates)) {
+            $cartCandidates = array($cartCandidates);
+        }
+
+        $parentItem = null;
+        foreach ($cartCandidates as $candidate) {
+            $item = $this->_addCatalogProduct($candidate, $candidate->getCartQty());
+
+            /**
+             * As parent item we should always use the item of first added product
+             */
+            if (!$parentItem) {
+                $parentItem = $item;
+            }
+            if ($parentItem && $candidate->getParentProductId()) {
+                $item->setParentItem($parentItem);
+            }
+            if ($item->getHasError()) {
+                Mage::throwException($item->getMessage());
+            }
+        }
+        return $item;
     }
 
     /**
@@ -596,7 +631,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_Sales_Model_Quote_Item
      */
-    public function addCatalogProduct(Mage_Catalog_Model_Product $product, $qty=1)
+    protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty=1)
     {
         $item = $this->getItemByProduct($product);
         if (!$item) {

@@ -280,7 +280,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             switch ($moveTo) {
                 case 'cart':
                     if ($cart = $this->getCustomerCart()) {
-                        $cartItem = $cart->addCatalogProduct($item->getProduct());
+                        $cartItem = $cart->addProduct($item->getProduct());
                         $cartItem->setQty($qty);
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $cart->collectTotals()
@@ -387,8 +387,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $item->setQty($item->getQty()+$qty);
         }
         else {
-            $item = $this->getQuote()->addCatalogProduct($product);
-            $item->setQty($qty);
+            $item = $this->getQuote()->addProduct($product, $qty);
         }
 
         $this->setRecollect(true);
