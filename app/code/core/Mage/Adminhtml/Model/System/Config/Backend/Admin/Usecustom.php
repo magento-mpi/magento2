@@ -19,15 +19,26 @@
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Backend_Baseurl extends Mage_Core_Model_Config_Data
+/**
+ * Adminhtml backend model for "Use Secure URLs in Admin" option
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Victor Tihonchuk <victor@varien.com>
+ */
+class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom extends Mage_Core_Model_Config_Data
 {
     protected function _beforeSave()
     {
+
         $value = $this->getValue();
-        if (substr($value, -2)!=='}}') {
-            $value = rtrim($value, '/').'/';
+        if ($value == 1) {
+            $customUrl = $this->getData('groups/url/fields/custom/value');
+            if (empty($customUrl)) {
+                Mage::throwException(Mage::helper('adminhtml')->__('Please specify admin custom URL'));
+            }
         }
-        $this->setValue($value);
+
         return $this;
     }
 }

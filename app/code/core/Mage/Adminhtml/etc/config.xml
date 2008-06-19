@@ -335,6 +335,10 @@
                                             <title>Email to a Friend</title>
                                             <sort_order>140</sort_order>
                                         </sendfriend>
+                                        <admin>
+                                            <title>Advanced Admin Section</title>
+                                            <sort_order>100</sort_order>
+                                        </admin>
                                     </children>
                                 </config>
                                 <currency>
