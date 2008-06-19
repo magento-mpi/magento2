@@ -29,7 +29,7 @@ if (!$this->_addAfter) {
 $_colspan = $_colspan > 1 ? 'colspan="' . $_colspan . '"' : '';
 ?>
 
-<div class="grid">
+<div class="grid" id="grid<?php echo $_htmlId ?>">
     <table cellpadding="0" cellspacing="0" class="border">
         <tbody>
 
@@ -44,7 +44,7 @@ $_colspan = $_colspan > 1 ? 'colspan="' . $_colspan . '"' : '';
                 <td colspan="<?php echo count($this->_columns) ?>"></td>
                 <td <?php echo $_colspan?>>
                     <button style="" onclick="" class="scalable add" type="button" id="addToEndBtn<?php echo $_htmlId ?>">
-                        <span><?php echo Mage::helper('adminhtml')->__('Add') ?></span>
+                        <span><?php echo $this->_addButtonLabel ?></span>
                     </button>
                 </td>
             </tr>
@@ -52,6 +52,11 @@ $_colspan = $_colspan > 1 ? 'colspan="' . $_colspan . '"' : '';
         </tbody>
     </table>
     <input type="hidden" name="<?php echo $this->getElement()->getName() ?>[__empty]" value="" />
+</div>
+<div id="empty<?php echo $_htmlId ?>">
+    <button style="" onclick="" class="scalable add" type="button" id="emptyAddBtn<?php echo $_htmlId ?>">
+        <span><?php echo $this->_addButtonLabel ?></span>
+    </button>
 </div>
 
 <script type="text/javascript">
@@ -69,9 +74,11 @@ var arrayRow<?php echo $_htmlId ?> = {
 <?php if ($this->_addAfter):?>
             +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><?php echo Mage::helper('adminhtml')->__('Add after') ?></span></button></td>'
 <?php endif;?>
-            +'<td><button onclick="$(\'#{_id}\').remove();" class="scalable delete" type="button"><span><?php echo Mage::helper('adminhtml')->__('Delete') ?></span></button></td>'
+            +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><?php echo Mage::helper('adminhtml')->__('Delete') ?></span></button></td>'
         +'</tr>'
     ),
+
+    rowsCount : 0,
 
     add : function(templateData, insertAfterId)
     {
@@ -104,6 +111,23 @@ var arrayRow<?php echo $_htmlId ?> = {
 <?php if ($this->_addAfter):?>
         Event.observe('addAfterBtn' + templateData._id, 'click', this.add.bind(this, '', templateData._id));
 <?php endif;?>
+
+        this.rowsCount += 1;
+    },
+
+    del : function(rowId)
+    {
+        $(rowId).remove();
+        this.rowsCount -= 1;
+        if (0 == this.rowsCount) {
+            this.showButtonOnly();
+        }
+    },
+
+    showButtonOnly : function()
+    {
+        $('grid<?php echo $_htmlId ?>').hide();
+        $('empty<?php echo $_htmlId ?>').show();
     }
 }
 
@@ -118,5 +142,18 @@ foreach ($this->getArrayRows() as $_rowId => $_row) {
     $_addAfterId = $_rowId;
 }
 ?>
+
+// initialize standalone button
+$('empty<?php echo $_htmlId ?>').hide();
+Event.observe('emptyAddBtn<?php echo $_htmlId ?>', 'click', function () {
+    $('grid<?php echo $_htmlId ?>').show();
+    $('empty<?php echo $_htmlId ?>').hide();
+    arrayRow<?php echo $_htmlId ?>.add('', '');
+});
+
+// if no rows, hide grid and show button only
+<?php if (!$this->getArrayRows()):?>
+arrayRow<?php echo $_htmlId ?>.showButtonOnly();
+<?php endif;?>
 // -->
 </script>

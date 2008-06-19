@@ -42,6 +42,15 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
     protected $_addAfter = true;
 
     /**
+     * Label of add button
+     *
+     * @var unknown_type
+     */
+    protected $_addButtonLabel;
+
+    private $_arrayRowsCache;
+
+    /**
      * Check if columns are defined, set template
      *
      */
@@ -49,6 +58,9 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
     {
         if (empty($this->_columns)) {
             throw new Exception('At least one column must be defined.');
+        }
+        if (!$this->_addButtonLabel) {
+            $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add');
         }
         parent::__construct();
         if (!$this->getTemplate()) {
@@ -83,7 +95,9 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
-        return $this->_toHtml();
+        $html = $this->_toHtml();
+        $this->_arrayRowsCache = null; // doh, the object is used as singleton!
+        return $html;
     }
 
     /**
@@ -95,6 +109,9 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
      */
     public function getArrayRows()
     {
+        if (null !== $this->_arrayRowsCache) {
+            return $this->_arrayRowsCache;
+        }
         $result = array();
         /** @var Varien_Data_Form_Element_Abstract */
         $element = $this->getElement();
@@ -107,7 +124,8 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
                 $result[$rowId] = new Varien_Object($row);
             }
         }
-        return $result;
+        $this->_arrayRowsCache = $result;
+        return $this->_arrayRowsCache;
     }
 
     /**

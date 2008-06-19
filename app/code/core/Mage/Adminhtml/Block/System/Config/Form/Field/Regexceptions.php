@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Array extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
+class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
 {
     public function __construct()
     {
@@ -33,11 +33,12 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Array extends Mage_Adminhtml
             'label' => Mage::helper('adminhtml')->__('Regular expression (PCRE)'),
             'size'  => 30,
         ));
-        $this->addColumn('package', array(
-            'label' => Mage::helper('adminhtml')->__('Package name'),
+        $this->addColumn('value', array(
+            'label' => Mage::helper('adminhtml')->__('Value'),
             'size'  => 20
         ));
         $this->_addAfter = false;
+        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Exception');
         parent::__construct();
     }
 }
