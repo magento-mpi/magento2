@@ -71,6 +71,25 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Load invoice by increment id
+     *
+     * @param string $incrementId
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function loadByIncrementId($incrementId)
+    {
+        $ids = $this->getCollection()
+            ->addAttributeToFilter('increment_id', $incrementId)
+            ->getAllIds();
+
+        if (!empty($ids)) {
+            reset($ids);
+            $this->load(current($ids));
+        }
+        return $this;
+    }
+
+    /**
      * Retrieve invoice configuration model
      *
      * @return Mage_Sales_Model_Order_Invoice_Config

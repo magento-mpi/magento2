@@ -48,10 +48,30 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Declare order for creditmemo
+     * Load shipment by increment id
+     *
+     * @param string $incrementId
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    public function loadByIncrementId($incrementId)
+    {
+        $ids = $this->getCollection()
+            ->addAttributeToFilter('increment_id', $incrementId)
+            ->getAllIds();
+
+        if (!empty($ids)) {
+            reset($ids);
+            $this->load(current($ids));
+        }
+        return $this;
+    }
+
+
+    /**
+     * Declare order for shipment
      *
      * @param   Mage_Sales_Model_Order $order
-     * @return  Mage_Sales_Model_Order_Creditmemo
+     * @return  Mage_Sales_Model_Order_Shipment
      */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
@@ -171,6 +191,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
 
     public function getTracksCollection()
     {

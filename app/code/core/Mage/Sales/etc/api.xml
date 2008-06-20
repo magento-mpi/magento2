@@ -70,6 +70,26 @@
                     </status_not_changed>
                 </faults>
             </sales_order>
+            <sales_order_shipment>
+                <faults module="sales">
+                    <not_exists>
+                        <code>100</code>
+                        <message>Requested shipment not exists.</message>
+                    </not_exists>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters given. Details in error message.</message>
+                    </filters_invalid>
+                    <data_invalid>
+                        <code>102</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <order_not_exists>
+                        <code>103</code>
+                        <message>Requested order not exists.</message>
+                    </order_not_exists>
+                </faults>
+            </sales_order_shipment>
         </resources>
         <acl>
             <all>
