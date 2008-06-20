@@ -323,6 +323,12 @@ class Mage_Catalog_Model_Product_Price extends Varien_Object
 
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
+        if ($wId instanceof Mage_Core_Model_Store) {
+            $wId = $wId->getWebsiteId();
+        }
+        if ($gId instanceof Mage_Customer_Model_Group) {
+            $gId = $gId->getId();
+        }
         $finalPrice = $basePrice;
 
         $today = floor(time()/86400)*86400;

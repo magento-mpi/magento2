@@ -159,7 +159,7 @@ class Mage_CatalogIndex_Model_Data_Abstract extends Mage_Core_Model_Abstract
 
         $finalPrice = Mage::getSingleton('catalog/product_type')
             ->priceFactory($this->getTypeCode())
-            ->calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, false, $store->getWebsiteId(), $group->getId(), $product);
+            ->calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, false, $store, $group, $product);
 
         return $finalPrice;
     }
