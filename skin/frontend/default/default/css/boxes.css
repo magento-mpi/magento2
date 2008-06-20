@@ -1222,6 +1222,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     }
 
 /* Multiple Addresses checkout */
+.multi-address-checkout-description {
+    margin-top: -15px;
+    margin-bottom: 15px;
+    }
 .multi-address-checkout-box .box {
     position:relative;
     margin-top:15px;

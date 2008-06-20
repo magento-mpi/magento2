@@ -107,6 +107,7 @@
     </div>
     </div>
 <?php endforeach; ?>
+<?php echo $this->getChildHtml('checkout_billing_items') ?>
 </div>
 <div class="button-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="f-left"><?php echo $this->__('&laquo; Back to Select Addresses') ?></a>

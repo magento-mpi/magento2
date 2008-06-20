@@ -894,6 +894,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     border-top-color:#e96200;
     color:#e96200;
     }
+.multi-address-checkout-description {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    }
 .multi-address-checkout-box .box {
     position:relative;
     margin-top:15px;

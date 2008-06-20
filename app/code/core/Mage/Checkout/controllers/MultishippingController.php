@@ -82,7 +82,7 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         }
 
         $quote = $this->_getCheckout()->getQuote();
-        if (!$quote->hasItems() || $quote->getHasError()) {
+        if (!$quote->hasItems() || $quote->getHasError() || $quote->isVirtual()) {
             $this->_redirectUrl($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;

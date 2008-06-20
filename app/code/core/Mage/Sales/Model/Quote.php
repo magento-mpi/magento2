@@ -350,6 +350,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $addresses;
     }
 
+    /**
+     *
+     * @param int $addressId
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getAddressById($addressId)
     {
         foreach ($this->getAddressesCollection() as $address) {

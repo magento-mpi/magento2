@@ -192,7 +192,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $addressItems = $this->getItemsCollection();
 
         $items = array();
-        if ($this->getQuote()->getIsMultiShipping() && $addressItems->count()>0) {
+        if ($this->getQuote()->getIsMultiShipping() && $addressItems->count() > 0) {
             foreach ($addressItems as $aItem) {
                 if ($aItem->isDeleted()) {
                     continue;
@@ -211,14 +211,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 if ($qItem->isDeleted()) {
                     continue;
                 }
-                if ($this->getAddressType() == self::TYPE_BILLING && $qItem->getIsVirtual()) {
+                if ($this->getAddressType() == self::TYPE_BILLING && $qItem->getProduct()->getIsVirtual()) {
                     $items[] = $qItem;
                 }
-                elseif ($this->getAddressType() == self::TYPE_SHIPPING && !$qItem->getIsVirtual()) {
+                elseif ($this->getAddressType() == self::TYPE_SHIPPING && !$qItem->getProduct()->getIsVirtual()) {
                     $items[] = $qItem;
                 }
             }
         }
+
         return $items;
     }
 
