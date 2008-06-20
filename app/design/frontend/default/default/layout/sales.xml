@@ -78,7 +78,6 @@ Customer account home dashboard layout
             <block type="sales/order_view" name="sales.order.view">
                 <block type="sales/order_items" name="order_items" template="sales/order/items.phtml">
                     <action method="addItemRender"><type>default</type><block>sales/order_items_default</block><template>sales/order/item/default.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>sales/items_renderer_configurable</block><template>sales/order/item/configurable.phtml</template></action>
                 </block>
             </block>
         </reference>
