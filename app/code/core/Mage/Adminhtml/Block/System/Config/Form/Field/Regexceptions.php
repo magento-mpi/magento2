@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_A
     public function __construct()
     {
         $this->addColumn('regexp', array(
-            'label' => Mage::helper('adminhtml')->__('Regular expression (PCRE)'),
+            'label' => Mage::helper('adminhtml')->__('Matched expression'),
             'size'  => 30,
         ));
         $this->addColumn('value', array(
