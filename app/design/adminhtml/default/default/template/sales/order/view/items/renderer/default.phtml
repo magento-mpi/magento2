@@ -76,7 +76,7 @@
     <?php echo $this->htmlEscape($this->getItem()->getName()) ?>
     <div class="nobr"><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $this->getItem()->getSku() ?></div>
     <?php if ($this->getOrderOptions()): ?>
-        <ul>
+        <ul class="item-options">
         <?php foreach ($this->getOrderOptions() as $option): ?>
             <li><strong><?php echo $option['label'] ?>:</strong> <?php echo $option['value'] ?></li>
         <?php endforeach; ?>

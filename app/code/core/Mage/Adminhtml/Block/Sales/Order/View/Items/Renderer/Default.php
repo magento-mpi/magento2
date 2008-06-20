@@ -24,7 +24,6 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author     Victor Tihonchuk <victor@varien.com>
  */
 class Mage_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Mage_Adminhtml_Block_Sales_Items_Renderer_Default
 {

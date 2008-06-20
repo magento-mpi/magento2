@@ -35,13 +35,17 @@ class Mage_Adminhtml_Block_Sales_Items_Renderer_Default extends Mage_Adminhtml_B
 
     public function getOrderOptions()
     {
+        $result = array();
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['options'])) {
-                return $options['options'];
+                $result = $options['options'];
             } elseif (isset($options['admin_options'])) {
-                return $options['admin_options'];
+                $result = $options['admin_options'];
+            }
+            if (!empty($options['attributes_info'])) {
+                $result = array_merge($options['attributes_info'], $result);
             }
         }
-        return array();
+        return $result;
     }
 }

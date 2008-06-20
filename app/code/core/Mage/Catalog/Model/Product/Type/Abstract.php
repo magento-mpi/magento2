@@ -255,13 +255,20 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return $newOptions;
     }
 
+    /**
+     * Prepare additional options/information for order item which will be
+     * created from this product
+     *
+     * @return attay
+     */
     public function getOrderOptions()
     {
         $optionArr = array();
+        if ($info = $this->getProduct()->getCustomOption('info_buyRequest')) {
+            $optionArr['info_buyRequest'] = unserialize($info->getValue());
+        }
+
         if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
-            if ($info = $this->getProduct()->getCustomOption('info_buyRequest')) {
-                $optionArr['info_buyRequest'] = unserialize($info->getValue());
-            }
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $this->getProduct()->getOptionById($optionId)) {
                     $formatedValue = '';
@@ -288,15 +295,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             }
         }
         return $optionArr;
-    }
-
-    /**
-     * prepare options for reorder
-     *
-     */
-    public function prepareOptionsForReorder()
-    {
-
     }
 
     /**

@@ -873,6 +873,12 @@ padding:6px 8px 4px 8px;
 .order-totals table td.last             { padding:2px 6px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
 
+ul.item-options li {
+    list-style-type:none;
+    padding-left:.7em;
+    }
+
+
 /* Order Constants */
 .payment-methods dt                     { margin-bottom:3px; }
 .payment-methods dd                     { outline-color: none !important;margin-left: 20px; }
@@ -1254,9 +1260,9 @@ ul.super-product-attributes {
     text-transform: uppercase;
     text-align: center;
     height: 13px;
-	padding-top:3px;
-	width:61px;
-	margin:1px 0;
+    padding-top:3px;
+    width:61px;
+    margin:1px 0;
     line-height:1;
 } .grid-severity-critical {
     background:url(images/bg_severity-critical.gif) no-repeat 0 0;
