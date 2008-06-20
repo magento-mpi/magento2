@@ -19,9 +19,9 @@
  */
 ?>
 <a href="<?php echo $this->getProductUrl() ?>"><strong><?php echo $this->getProductName() ?></strong></a>
-<?php if ($options = $this->getProductOptions()): ?>
+<?php if ($_options = $this->getOptionList()): ?>
     <ul>
-    <?php foreach ($options as $option): ?>
+    <?php foreach ($_options as $option): ?>
         <li><strong><?php echo $this->htmlEscape($option['label']) ?>:</strong><?php echo $this->htmlEscape($option['value']) ?></li>
     <?php endforeach; ?>
     </ul>

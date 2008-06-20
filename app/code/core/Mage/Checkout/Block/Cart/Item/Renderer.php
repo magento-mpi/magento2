@@ -98,7 +98,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      */
     public function getProductOptions()
     {
-        $options = false;
+        $options = array();
         if ($optionIds = $this->getItem()->getOptionByCode('option_ids')) {
             $options = array();
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
@@ -125,6 +125,16 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             }
         }
         return $options;
+    }
+
+    /**
+     * Get list of all otions for product
+     *
+     * @return array
+     */
+    public function getOptionList()
+    {
+        return $this->getProductOptions();
     }
 
     /**

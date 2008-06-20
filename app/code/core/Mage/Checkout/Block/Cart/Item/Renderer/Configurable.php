@@ -112,6 +112,17 @@ class Mage_Checkout_Block_Cart_Item_Renderer_Configurable extends Mage_Checkout_
     }
 
     /**
+     * Get list of all otions for product
+     *
+     * @return array
+     */
+    public function getOptionList()
+    {
+        $options = array_merge($this->getProductAttributes(), $this->getProductOptions());
+        return $options;
+    }
+
+    /**
      * Retrieve item messages
      * Return array with keys
      *

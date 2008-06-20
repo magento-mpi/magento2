@@ -34,7 +34,7 @@
         <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
 
         <!-- item custom options -->
-        <?php if ($_options = $this->getProductOptions()):?>
+        <?php if ($_options = $this->getOptionList()):?>
         <ul class="shopping-cart-item-options">
             <?php foreach ($_options as $_option):?>
             <?php

@@ -54,10 +54,13 @@ class Mage_Catalog_Model_Product_Type_Price
         $finalPrice = $product->getPrice();
         $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
         $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
-        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
         $product->setFinalPrice($finalPrice);
+
         Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
-        return max(0, $product->getData('final_price'));
+
+        $finalPrice = $product->getData('final_price');
+        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+        return max(0, $finalPrice);
     }
 
     /**
