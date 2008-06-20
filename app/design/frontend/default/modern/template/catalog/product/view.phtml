@@ -38,7 +38,7 @@
                 <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />
             <?php endif; ?>
 
-            <?php echo $this->helper('review/product')->getSummaryHtml($_product, null, 1) ?>
+            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
             <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
                 <fieldset>
@@ -78,7 +78,7 @@
     <div id="product_tabs_description_contents" class="product-specs"><?php echo nl2br($_product->getDescription()) ?></div>
     <?php if ($_upsellHtml): ?><div id="product_tabs_upsell_contents"><?php echo $_upsellHtml ?></div><?php endif ?>
     <div id="product_tabs_tags_contents"><?php echo $this->getChildHtml('product_tag_list') ?></div>
-    
+
     <?php if($_additional = $this->getAdditionalData()): ?>
     <div id="product_tabs_additional_contents" class="collateral-box attribute-specs">
         <table cellspacing="0" class="data-table" id="product-attribute-specs-table">

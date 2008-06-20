@@ -36,7 +36,7 @@
                 <p><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
             <?php endif; ?>
 
-            <?php echo $this->helper('review/product')->getSummaryHtml($_product, null, 1) ?>
+            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
             <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
 				<fieldset>
@@ -61,11 +61,11 @@
             <p><?php echo nl2br($_product->getShortDescription()) ?></p>
 
         </div>
-		
+
         <div class="product-media">
             <?php echo $this->getChildHtml('media') ?>
-        </div>		
-		
+        </div>
+
     </div>
 
     <div class="product-collateral">

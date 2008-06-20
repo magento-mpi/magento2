@@ -32,6 +32,8 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     private $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
     private $_priceBlockTypes = array();
 
+    private $_reviewsHelperBlock;
+
     /**
      * Enter description here...
      *
@@ -113,6 +115,23 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->toHtml();
     }
+
+    /**
+     * Get product reviews summary
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param bool $isShort
+     * @param bool $displayIfNoReviews
+     * @return string
+     */
+    public function getReviewsSummaryHtml(Mage_Catalog_Model_Product $product, $isShort = false, $displayIfNoReviews = false)
+    {
+        if (!$this->_reviewsHelperBlock) {
+            $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
+        }
+        return $this->_reviewsHelperBlock->getSummaryHtml($product, $isShort, $displayIfNoReviews);
+    }
+
 
     /**
      * Adding customized price template for product type

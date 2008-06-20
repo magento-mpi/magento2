@@ -28,37 +28,39 @@
 
 class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 {
-	public function getSummaryHtml($product, $type=null, $displayBlock=0)
+	public function getSummaryHtml($product, $isDisplayShort, $displayIfNoReviews)
 	{
-	    $this->setDisplayBlock($displayBlock);
-        $this->setProduct($product);
+	    $this->setTemplate('review/helper/summary.phtml');
+	    if ($isDisplayShort) {
+	        $this->setTemplate('review/helper/summary_short.phtml');
+	    }
 
-	    if( !$product->getRatingSummary() ) {
+	    $this->setDisplayIfEmpty($displayIfNoReviews);
+
+	    if (!$product->getRatingSummary()) {
 	        Mage::getModel('review/review')
 	           ->getEntitySummary($product, Mage::app()->getStore()->getId());
 	    }
+	    $this->setProduct($product);
 
-	    switch ($type) {
-	    	case 'short':
-	    		$this->setTemplate('review/helper/summary_short.phtml');
-	    		break;
-
-	    	default:
-	    		$this->setTemplate('review/helper/summary.phtml');
-	    		break;
-	    }
-
-		$this->setProduct($product);
 		return $this->toHtml();
 	}
 
-	public function getAddLink()
+	public function getRatingSummary()
 	{
-	    $params = array(
+	    return $this->getProduct()->getRatingSummary()->getRatingSummary();
+	}
+
+	public function getReviewsCount()
+	{
+	    return $this->getProduct()->getRatingSummary()->getReviewsCount();
+	}
+
+	public function getReviewsUrl()
+	{
+	    return Mage::getUrl('review/product/list', array(
 	       'id'        => $this->getProduct()->getId(),
 	       'category'  => $this->getProduct()->getCategoryId()
-        );
-
-	    return Mage::getUrl('review/product/list', $params);
+	    ));
 	}
 }

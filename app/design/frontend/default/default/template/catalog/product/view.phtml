@@ -40,14 +40,13 @@
                 <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />
             <?php endif; ?>
 
-            <?php echo $this->helper('review/product')->getSummaryHtml($_product, null, 1) ?>
-
+            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
             <h4><?php echo $this->__('Quick Overview') ?></h4>
             <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
-			
+
             <div class="divider"></div>
-			
+
             <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
             <fieldset>
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
