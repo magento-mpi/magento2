@@ -50,6 +50,9 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
     public function historyAction()
     {
         $this->loadLayout();
+        if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
+            $block->setRefererUrl($this->_getRefererUrl());
+        }
         $this->renderLayout();
     }
 
