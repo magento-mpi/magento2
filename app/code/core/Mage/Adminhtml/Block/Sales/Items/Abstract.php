@@ -26,7 +26,7 @@
  * @package    Mage_Adminhtml
  * @author     Victor Tihonchuk <victor@varien.com>
  */
-class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Core_Block_Template
+class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Template
 {
     /**
      * Renderers with render type key
