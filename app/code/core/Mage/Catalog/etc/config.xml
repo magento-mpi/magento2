@@ -458,6 +458,7 @@
                     <thumbnail />
                     <small_image />
                     <tax_class_id />
+                    <status />
                 </attributes>
             </collection>
         </product>
