@@ -74,7 +74,7 @@
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
         <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-row-<?php echo $_item->getId() ?>">
-            <td><?php echo $this->getItemHtml($_item) ?></td>
+            <td><?php echo $this->getItemHtml($_item->getOrderItem()) ?></td>
             <td><?php echo $_item->getSku() ?></td>
             <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
         </tr>
