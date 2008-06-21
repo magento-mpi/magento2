@@ -18,7 +18,8 @@ Product.Bundle.prototype = {
                     }
                 }
             } else if (selection.tagName == 'INPUT') {
-                selections = $$('#'+selection.id);
+                selector = parts[0]+'-'+parts[1]+'-'+parts[2];
+                selections = $$('.'+selector);
                 for (var i = 0; i < selections.length; i++) {
                     if (selections[i].checked && selections[i].value != '') {
                         selected.push(selections[i].value);
