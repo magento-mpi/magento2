@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Bundle>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </Mage_Bundle>
     </modules>
     <global>
@@ -82,6 +82,7 @@
                             <downloadable />
                         </allowed_selection_types>
                         <price_model>bundle/product_price</price_model>
+                        <index_data_retreiver>bundle/catalogIndex_data_bundle</index_data_retreiver>
                     </bundle>
                 </type>
             </product>

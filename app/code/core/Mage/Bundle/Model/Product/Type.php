@@ -124,7 +124,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
                         $selectionModel = Mage::getModel('bundle/selection')
                             ->setData($selection)
-                            ->setOptionId($options[$index]['option_id']);
+                            ->setOptionId($options[$index]['option_id'])
+                            ->setParentProductId($this->getProduct()->getId());
 
                         $selectionModel->isDeleted((bool)$selection['delete']);
                         $selectionModel->save();

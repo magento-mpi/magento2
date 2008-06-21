@@ -50,9 +50,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getFinalPrice($qty=null, $product)
     {
-        //if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
-        //    return $product->getCalculatedFinalPrice();
-        //}
+        if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
+            return $product->getCalculatedFinalPrice();
+        }
 
         $finalPrice = $product->getPrice();
         if ($product->hasCustomOptions()) {
@@ -95,18 +95,22 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getMinimalPrice($product)
     {
+        if ($product->getData('minimal_price')) {
+            return $product->getData('minimal_price');
+        }
+
         $price = $product->getPrice();
 
         foreach ($this->getOptions($product) as $option) {
             if ($option->getRequired()) {
                 $selectionPrices = array();
                 foreach ($option->getSelections() as $selection) {
-                    if ($selection->getSelectionCanChangeQty()) {
+                    if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
                         $qty = 1;
                     } else {
                         $qty = $selection->getSelectionQty();
                     }
-                    $selectionPrices[] = $this->getSelectionPrice($product, $selection);
+                    $selectionPrices[] = $this->getSelectionPrice($product, $selection, $qty);
                 }
                 $price += min($selectionPrices);
             }
@@ -326,10 +330,143 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             if ($product->getSpecialFromDate() && $today < $from) {
             } elseif ($product->getSpecialToDate() && $today > $to) {
             } else {
+                // special price in percents
                 $specialPrice = ($finalPrice*$specialPrice)/100;
                 $finalPrice = min($finalPrice, $specialPrice);
             }
         }
+        return $finalPrice;
+    }
+
+    public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
+    {
+        $resource = Mage::getResourceModel('bundle/bundle');
+        $productPriceTypeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price_type');
+        $attributes = $resource->getAttributeData($productId, $productPriceTypeId, 0);
+
+        $options = array();
+
+        $results = $resource->getSelectionsData($productId);
+
+        if (!$attributes[0]['value']) { //dynamic
+            $dataRetreiver = Mage::getModel('catalogindex/data_simple');
+            $childIds = array();
+
+            foreach ($results as $key => $result) {
+                $results[$key]['final_price'] = $dataRetreiver->getFinalPrice($result['product_id'], $wId, $gId);
+                $tiers = $resource->getTierPrices($result['product_id'], $wId->getWebsiteId());
+
+                if ($result['selection_can_change_qty'] && $result['type'] != 'multi' && $result['type'] != 'checkbox') {
+                    $qty = 1;
+                } else {
+                    $qty = $result['selection_qty'];
+                }
+
+                $allGroups = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+
+                $prevQty = 1;
+                $prevPrice = $results[$key]['final_price'];
+                $prevGroup = $allGroups;
+
+                foreach ($tiers as $tier) {
+                    if ($tier['customer_group_id'] != $gId->getId() && $tier['all_groups']!=1) {
+                        // tier not for current customer group nor is for all groups
+                        continue;
+                    }
+
+                    if ($qty < $tier['qty']) {
+                        // tier is higher than product qty
+                        continue;
+                    }
+
+                    if ($tier['qty'] < $prevQty) {
+                        // higher tier qty already found
+                        continue;
+                    }
+
+                    if ($tier['qty'] == $prevQty && $prevGroup != $allGroups && $tier['all_groups'] == 1) {
+                        // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
+                        continue;
+                    }
+
+                    $prevPrice  = $tier['value'];
+                    $prevQty    = $tier['qty'];
+                    $prevGroup  = $tier['customer_group_id'];
+                }
+                $results[$key]['final_price'] = $prevPrice;
+            }
+
+            foreach ($results as $result) {
+                if ($result['selection_can_change_qty'] && $result['type'] != 'multi' && $result['type'] != 'checkbox') {
+                    $qty = 1;
+                } else {
+                    $qty = $result['selection_qty'];
+                }
+
+                $selectionPrice = $result['final_price']*$qty;
+
+                if (isset($options[$result['option_id']])) {
+                    $options[$result['option_id']] = min($options[$result['option_id']], $selectionPrice);
+                } else {
+                    $options[$result['option_id']] = $selectionPrice;
+                }
+            }
+
+            $basePrice = array_sum($options);
+
+        } else { //fixed
+            foreach ($results as $result) {
+                if ($result['selection_price_type']) {
+                    $selectionPrice = $basePrice*$result['selection_price_value']/100;
+                } else {
+                    $selectionPrice = $result['selection_price_value'];
+                }
+
+                if ($result['selection_can_change_qty'] && $result['type'] != 'multi' && $result['type'] != 'checkbox') {
+                    $qty = 1;
+                } else {
+                    $qty = $result['selection_qty'];
+                }
+
+                $selectionPrice = $selectionPrice*$qty;
+
+                if (isset($options[$result['option_id']])) {
+                    $options[$result['option_id']] = min($options[$result['option_id']], $selectionPrice);
+                } else {
+                    $options[$result['option_id']] = $selectionPrice;
+                }
+            }
+
+            $basePrice = $basePrice + array_sum($options);
+        }
+
+        $finalPrice = $basePrice;
+
+        $today = floor(time()/86400)*86400;
+        $from = floor(strtotime($specialPriceFrom)/86400)*86400;
+        $to = floor(strtotime($specialPriceTo)/86400)*86400;
+
+        if ($specialPrice !== null && $specialPrice !== false) {
+            if ($specialPriceFrom && $today < $from) {
+            } elseif ($specialPriceTo && $today > $to) {
+            } else {
+                // special price in percents
+                $specialPrice = ($finalPrice*$specialPrice)/100;
+                $finalPrice = min($finalPrice, $specialPrice);
+            }
+        }
+
+        if ($rulePrice === false) {
+            $date = mktime(0,0,0);
+            $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId);
+        }
+
+        if ($rulePrice !== null && $rulePrice !== false) {
+            $finalPrice = min($finalPrice, $rulePrice);
+        }
+
+        $finalPrice = max($finalPrice, 0);
+
         return $finalPrice;
     }
 }
