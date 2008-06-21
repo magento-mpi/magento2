@@ -122,7 +122,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $ids = $this->_getData('shared_store_ids');
         if (is_null($ids) || !is_array($ids)) {
             if ($website = $this->getWebsite()) {
-            	return $website->getStoreIds();
+                return $website->getStoreIds();
             }
             return $this->getStore()->getWebsite()->getStoreIds();
         }
@@ -665,12 +665,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param   int $productId
      * @return  Mage_Sales_Model_Quote_Item || false
      */
-    public function getItemByProduct($product, $superProductId = null)
+    public function getItemByProduct($product)
     {
         foreach ($this->getAllItems() as $item) {
-        	if ($item->representProduct($product)) {
-        	    return $item;
-        	}
+            if ($item->representProduct($product)) {
+                return $item;
+            }
         }
         return false;
     }
@@ -808,12 +808,12 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $totals = $this->getShippingAddress()->getTotals();
         foreach ($this->getBillingAddress()->getTotals() as $code => $total) {
-        	if (isset($totals[$code])) {
-        	    $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
-        	}
-        	else {
-        	    $totals[$code] = $total;
-        	}
+            if (isset($totals[$code])) {
+                $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
+            }
+            else {
+                $totals[$code] = $total;
+            }
         }
         return $totals;
     }

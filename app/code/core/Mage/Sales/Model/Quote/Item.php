@@ -273,10 +273,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         if ($product = $this->getProduct()) {
             $data['product'] = $product->toArray();
         }
-        if ($superProduct = $this->getSuperProduct()) {
-            $data['super_product'] = $superProduct->toArray();
-        }
-
         return $data;
     }
 
