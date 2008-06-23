@@ -79,10 +79,11 @@ Bundle.Option.prototype = {
         if(!data){
             data = {};
             this.top = $('product_bundle_container_top');
+        } else {
+            data.title = data.title.replace('"', "&quot;");
         }
 
         data.index = this.itemsCount++;
-        data.title = data.title.replace('"', "&quot;");
 
         this.template = new Template(this.templateText, this.templateSyntax);
 
