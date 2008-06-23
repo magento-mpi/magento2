@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('sales')->__('Add Product'),
+            'label' => Mage::helper('sales')->__('Add Products'),
             'onclick' => "order.productGridShow(this)",
             'class' => 'add',
         );

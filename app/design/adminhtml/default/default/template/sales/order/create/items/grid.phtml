@@ -68,7 +68,7 @@
                             </div>
                             <div class="nobr">
                                 <strong><?php echo Mage::helper('sales')->__('Custom Options') ?></strong><br/>
-                                <textarea name="item[<?php echo $_item->getId() ?>][options]" style="align:center; width: 95%; height: 8em;"><?php if ($this->getCustomOptions($_item)): ?><?php echo $this->htmlEscape($this->getCustomOptions($_item)) ?><?php endif; ?></textarea>
+                                <textarea name="item[<?php echo $_item->getId() ?>][options]" style="align:center; width: 95%; height: 4em;"><?php if ($this->getCustomOptions($_item)): ?><?php echo $this->htmlEscape($this->getCustomOptions($_item)) ?><?php endif; ?></textarea>
                             </div>
                             <?php if($_item->getMessage()): ?>
                             <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">

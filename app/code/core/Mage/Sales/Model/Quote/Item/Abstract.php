@@ -191,7 +191,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $price = $this->getData('calculation_price');
         if (is_null($price)) {
-            if ($this->getCustomPrice()) {
+            if ($this->hasCustomPrice()) {
                 $price = $this->getCustomPrice();
             }
             else {

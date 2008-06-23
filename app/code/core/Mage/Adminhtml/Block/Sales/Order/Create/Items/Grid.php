@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function usedCustomPriceForItem($item)
     {
-        return $item->getCustomPrice();
+        return $item->hasCustomPrice();
     }
 
     public function getQtyTitle($item)
