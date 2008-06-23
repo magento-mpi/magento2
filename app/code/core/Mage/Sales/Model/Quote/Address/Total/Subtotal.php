@@ -88,14 +88,20 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
             }
     	}
 
-    	$finalPrice = $product->getFinalPrice($quoteItem->getQty());
-        $item->setPrice($finalPrice);
-    	$item->calcRowTotal();
-
-    	/**
-    	 * We can't include subitem item row total to subtotal because we add parent already
-    	 */
-    	if (!$item->getParentItemId()) {
+    	if ($quoteItem->getParentItem()) {
+    	    $finalPrice = $quoteItem->getParentItem()->getProduct()->getPriceModel()->getChildFinalPrice(
+    	       $quoteItem->getParentItem()->getProduct(),
+    	       $quoteItem->getParentItem()->getQty(),
+    	       $quoteItem->getProduct(),
+    	       $quoteItem->getQty()
+    	    );
+            $item->setPrice($finalPrice);
+        	$item->calcRowTotal();
+    	}
+    	else {
+        	$finalPrice = $product->getFinalPrice($quoteItem->getQty());
+            $item->setPrice($finalPrice);
+        	$item->calcRowTotal();
             $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
             $address->setBaseSubtotal($address->getBaseSubtotal() + $item->getBaseRowTotal());
     	}

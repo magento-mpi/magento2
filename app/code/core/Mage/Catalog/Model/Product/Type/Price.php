@@ -63,6 +63,11 @@ class Mage_Catalog_Model_Product_Type_Price
         return max(0, $finalPrice);
     }
 
+    public function getChildFinalPrice($product, $productQty, $childProduct, $childProductQty)
+    {
+        return $this->getFinalPrice($childProductQty, $childProduct);
+    }
+
     /**
      * Apply tier price for product if not return price that was before
      *

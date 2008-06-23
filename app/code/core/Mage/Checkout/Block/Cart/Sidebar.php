@@ -80,4 +80,9 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     {
         return $this->helper('checkout')->canOnepageCheckout();
     }
+
+    public function getCheckoutUrl()
+    {
+        return $this->helper('checkout/url')->getCheckoutUrl();
+    }
 }

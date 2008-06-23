@@ -87,6 +87,11 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return max(0, $product->getData('final_price'));
     }
 
+    public function getChildFinalPrice($product, $productQty, $childProduct, $childProductQty)
+    {
+        return $this->getSelectionFinalPrice($product, $childProduct, $productQty, $childProductQty);
+    }
+
     /**
      * Calculate Minimal price of bundle (counting all required options)
      *
