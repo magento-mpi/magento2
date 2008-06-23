@@ -85,4 +85,18 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     {
         return $this->helper('checkout/url')->getCheckoutUrl();
     }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $html = '';
+        if ((bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display')) {
+            $html = parent::_toHtml();
+        }
+        return $html;
+    }
 }
