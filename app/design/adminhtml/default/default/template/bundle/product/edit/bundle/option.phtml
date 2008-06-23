@@ -82,6 +82,7 @@ Bundle.Option.prototype = {
         }
 
         data.index = this.itemsCount++;
+        data.title = data.title.replace('"', "&quot;");
 
         this.template = new Template(this.templateText, this.templateSyntax);
 
