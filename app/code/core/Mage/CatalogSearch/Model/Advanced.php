@@ -91,7 +91,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 }
             }
 
-            if ($condition) {
+            if (false !== $condition) {
                 $this->addSearchCriteria($attribute, $value);
 
                 if (in_array($code, $filteredAttributes))
@@ -145,6 +145,10 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             $value = $attribute->getSource()->getOptionText($value);
             if (is_array($value))
                 $value = $value['label'];
+        } else if ($attribute->getFrontendInput() == 'boolean') {
+            $value = $value == 1
+                ? Mage::helper('catalogsearch')->__('Yes')
+                : Mage::helper('catalogsearch')->__('No');
         }
 
         $this->_searchCriterias[] = array('name'=>$name, 'value'=>$value);
