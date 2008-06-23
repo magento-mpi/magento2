@@ -32,7 +32,7 @@
                 <p class="product-image"><a href="<?php echo $_bundle->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_bundle, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_bundle->getName()) ?>"/></a></p>
                 <h5><a href="<?php echo $_bundle->getProductUrl() ?>"><?php echo $this->htmlEscape($_bundle->getName()) ?></a></h5>
                 <?php echo $this->getPriceHtml($_bundle, true) ?>
-                <?php echo $this->helper('review/product')->getSummaryHtml($_bundle) ?>
+                <?php echo $this->getReviewsSummaryHtml($_bundle) ?>
             </td>
             <?php else: ?>
             <td class="empty-product">&nbsp;</td>

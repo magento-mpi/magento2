@@ -23,17 +23,22 @@
  *
  * @category   Mage
  * @package    Mage_Review
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 {
-	public function getSummaryHtml($product, $isDisplayShort, $displayIfNoReviews)
+    private $_availableTemplates = array(
+        'default' => 'review/helper/summary.phtml',
+	    'short'   => 'review/helper/summary_short.phtml'
+    );
+
+	public function getSummaryHtml($product, $templateType, $displayIfNoReviews)
 	{
-	    $this->setTemplate('review/helper/summary.phtml');
-	    if ($isDisplayShort) {
-	        $this->setTemplate('review/helper/summary_short.phtml');
+	    // pick template among available
+	    if (empty($this->_availableTemplates[$templateType])) {
+	        $templateType = 'default';
 	    }
+	    $this->setTemplate($this->_availableTemplates[$templateType]);
 
 	    $this->setDisplayIfEmpty($displayIfNoReviews);
 
@@ -62,5 +67,18 @@ class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 	       'id'        => $this->getProduct()->getId(),
 	       'category'  => $this->getProduct()->getCategoryId()
 	    ));
+	}
+
+	/**
+	 * Add an available template by type
+	 *
+	 * It should be called before getSummaryHtml()
+	 *
+	 * @param string $type
+	 * @param string $template
+	 */
+	public function addTemplate($type, $template)
+	{
+        $this->_availableTemplates[$type] = $template;
 	}
 }

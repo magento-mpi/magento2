@@ -117,23 +117,6 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     }
 
     /**
-     * Get product reviews summary
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param bool $isShort
-     * @param bool $displayIfNoReviews
-     * @return string
-     */
-    public function getReviewsSummaryHtml(Mage_Catalog_Model_Product $product, $isShort = false, $displayIfNoReviews = false)
-    {
-        if (!$this->_reviewsHelperBlock) {
-            $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
-        }
-        return $this->_reviewsHelperBlock->getSummaryHtml($product, $isShort, $displayIfNoReviews);
-    }
-
-
-    /**
      * Adding customized price template for product type
      *
      * @param string $type
@@ -147,6 +130,43 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
                 'block' => $block,
                 'template' => $template
             );
+        }
+    }
+
+    /**
+     * Get product reviews summary
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param bool $templateType
+     * @param bool $displayIfNoReviews
+     * @return string
+     */
+    public function getReviewsSummaryHtml(Mage_Catalog_Model_Product $product, $templateType = false, $displayIfNoReviews = false)
+    {
+        $this->_initReviewsHelperBlock();
+        return $this->_reviewsHelperBlock->getSummaryHtml($product, $templateType, $displayIfNoReviews);
+    }
+
+    /**
+     * Add/replace reviews summary template by type
+     *
+     * @param string $type
+     * @param string $template
+     */
+    public function addReviewSummaryTemplate($type, $template)
+    {
+        $this->_initReviewsHelperBlock();
+        $this->_reviewsHelperBlock->addTemplate($type, $template);
+    }
+
+    /**
+     * Create reviews summary helper block once
+     *
+     */
+    protected function _initReviewsHelperBlock()
+    {
+        if (!$this->_reviewsHelperBlock) {
+            $this->_reviewsHelperBlock = $this->getLayout()->createBlock('review/helper');
         }
     }
 }

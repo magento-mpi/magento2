@@ -95,7 +95,7 @@
             </p>
             <h5><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h5>
             <?php if($_product->getRatingSummary()): ?>
-            <?php echo $this->getReviewsSummaryHtml($_product, true) ?>
+            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
             <?php endif; ?>
             <?php echo $this->getPriceHtml($_product, true) ?>
             <?php if($_product->isSaleable()): ?>
