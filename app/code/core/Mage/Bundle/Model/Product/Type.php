@@ -134,6 +134,10 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     }
                 }
             }
+
+            if ($this->getProduct()->getData('price_type') != $this->getProduct()->getOrigData('price_type')) {
+                Mage::getResourceModel('bundle/bundle')->dropAllQuoteChildItems($this->getProduct()->getId());
+            }
         }
 
         return $this;
@@ -362,5 +366,60 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $this->_usedOptionsIds = $optionIds;
         }
         return $this->_usedOptions;
+    }
+
+    /**
+     * Prepare additional options/information for order item which will be
+     * created from this product
+     *
+     * @return attay
+     */
+
+    public function getOrderOptions()
+    {
+        $optionArr = parent::getOrderOptions();
+
+        $bundleOptions = array();
+
+        $product = $this->getProduct();
+
+        if ($product->hasCustomOptions() && $product->getPriceType()) {
+            $customOption = $product->getCustomOption('bundle_option_ids');
+            $optionIds = unserialize($customOption->getValue());
+            $options = $this->getOptionsByIds($optionIds);
+            $customOption = $product->getCustomOption('bundle_selection_ids');
+            $selectionIds = unserialize($customOption->getValue());
+            $selections = $this->getSelectionsByIds($selectionIds);
+            foreach ($selections->getItems() as $selection) {
+                if ($selection->isSalable()) {
+                    $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
+                    if ($selectionQty) {
+                        $price = $product->getPriceModel()->getSelectionPrice($product, $selection, $selectionQty->getValue());
+                        $option = $options->getItemById($selection->getOptionId());
+                        if (!isset($bundleOptions[$option->getId()])) {
+                            $bundleOptions[$option->getId()] = array(
+                                'label' => $option->getTitle(),
+                                'value' => array()
+                            );
+                        }
+
+                        $bundleOptions[$option->getId()]['value'][] = array(
+                            'title' => $selection->getName(),
+                            'qty'   => $selectionQty->getValue(),
+                            'price' => $price
+                        );
+
+                    }
+                }
+            }
+        }
+
+        if (isset($optionArr['options'])) {
+            $optionArr['options'] = array_merge($bundleOptions, $optionArr['options']);
+        } else {
+            $optionArr['options'] = $bundleOptions;
+        }
+
+        return $optionArr;
     }
 }

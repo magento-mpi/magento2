@@ -48,4 +48,13 @@ class Mage_Adminhtml_Block_Sales_Items_Renderer_Default extends Mage_Adminhtml_B
         }
         return $result;
     }
+
+    public function getValueHtml($value)
+    {
+        if (is_array($value)) {
+            return sprintf('%d', $value['qty']) . ' x ' . $this->htmlEscape($value['title']) . " " . Mage::helper('core')->currency($value['price']);
+        } else {
+            return $this->htmlEscape($value);
+        }
+    }
 }

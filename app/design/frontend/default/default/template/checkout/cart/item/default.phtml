@@ -40,9 +40,13 @@
             <?php
             $_randomId = str_replace('.', '_', '_' . microtime(true));
             $_truncatedRemainder = '';
-            $_truncatedValue = Mage::helper('core/string')->truncate($_option['value'], 100, '', $_truncatedRemainder);
-            $_truncatedValue     = nl2br($this->htmlEscape($_truncatedValue));
-            $_truncatedRemainder = nl2br($this->htmlEscape($_truncatedRemainder));
+            if (is_array($_option['value'])) {
+                $_truncatedValue = "<br />".implode('<br />', $_option['value']);
+            } else {
+                $_truncatedValue = Mage::helper('core/string')->truncate($_option['value'], 100, '', $_truncatedRemainder);
+                $_truncatedValue     = nl2br($this->htmlEscape($_truncatedValue));
+                $_truncatedRemainder = nl2br($this->htmlEscape($_truncatedRemainder));
+            }
             ?>
             <li id="<?php echo $_randomId?>" class="<?php if ($_truncatedRemainder):?>truncated<?php endif;?>">
                 <strong><?php echo $_option['label'] ?>:</strong>

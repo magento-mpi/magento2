@@ -27,8 +27,6 @@
  */
 class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
 {
-    private $_getBundleOptionsCache = null;
-
     /**
      * Get bundled selections (slections-products collection)
      *
@@ -37,14 +35,9 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      *
      * @return array
      */
-    public function getBundleOptions($useCache = true)
+    protected function _getBundleOptions($useCache = true)
     {
-        if ($useCache && (null !== $this->_getBundleOptionsCache)) {
-            return $this->_getBundleOptionsCache;
-        }
-
-        $bundleOptions = array();
-        Varien_Profiler::start('CART:' . __METHOD__);
+        $options = array();
 
         /**
          * @var Mage_Bundle_Model_Product_Type
@@ -53,7 +46,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
 
         // get bundle options
         $optionsQuoteItemOption =  $this->getItem()->getOptionByCode('bundle_option_ids');
-        $bundleOptionsIds = $this->_unserialize($optionsQuoteItemOption->getValue(), array());
+        $bundleOptionsIds = unserialize($optionsQuoteItemOption->getValue());
         if ($bundleOptionsIds) {
             /**
             * @var Mage_Bundle_Model_Mysql4_Option_Collection
@@ -64,17 +57,21 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
             $selectionsQuoteItemOption = $this->getItem()->getOptionByCode('bundle_selection_ids');
 
             $selectionsCollection = $typeInstance->getSelectionsByIds(
-                $this->_unserialize($selectionsQuoteItemOption->getValue(), array())
+                unserialize($selectionsQuoteItemOption->getValue())
             );
-            /**
-             * @var array
-             */
-            $bundleOptions = $optionsCollection->appendSelections($selectionsCollection, true);
-            $this->_getBundleOptionsCache = $bundleOptions;
-        }
 
-        Varien_Profiler::stop('CART:' . __METHOD__);
-        return $bundleOptions;
+            $bundleOptions = $optionsCollection->appendSelections($selectionsCollection, true);
+            foreach ($bundleOptions as $bundleOption) {
+                if ($bundleOption->getSelections()) {
+                    $option = array('label' => $bundleOption->getTitle(), "value" => array());
+                    foreach ($bundleOption->getSelections() as $bundleSelection) {
+                        $option['value'][] = sprintf('%d', $this->_getSelectionQty($bundleSelection->getSelectionId())).' x '. $this->htmlEscape($bundleSelection->getName()). ' ' .Mage::helper('core')->currency($this->_getSelectionFinalPrice($bundleSelection));
+                    }
+                }
+                $options[] = $option;
+            }
+        }
+        return $options;
     }
 
     /**
@@ -83,7 +80,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      * @param Mage_Catalog_Model_Product $selectionProduct
      * @return decimal
      */
-    public function getSelectionFinalPrice($selectionProduct)
+    protected function _getSelectionFinalPrice($selectionProduct)
     {
         $bundleProduct = $this->getProduct();
         return $bundleProduct->getPriceModel()->getSelectionFinalPrice(
@@ -99,7 +96,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
      * @param int $selectionId
      * @return decimal
      */
-    public function getSelectionQty($selectionId)
+    protected function _getSelectionQty($selectionId)
     {
         if ($selectionQty = $this->getProduct()->getCustomOption('selection_qty_' . $selectionId)) {
             return $selectionQty->getValue();
@@ -107,24 +104,8 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
         return 0;
     }
 
-    /**
-     * Unserialize string
-     *
-     * Will return default, if unserialized value will be empty
-     *
-     * @param string $serializedValue
-     * @param mixed $defaultReturn
-     * @return mixed
-     */
-    protected function _unserialize($serializedValue, $defaultReturn = false)
+    public function getOptionList()
     {
-        if (empty($serializedValue)) {
-            return $defaultReturn;
-        }
-        $value = unserialize($serializedValue);
-        if (empty($value)) {
-            return $defaultReturn;
-        }
-        return $value;
+        return array_merge($this->_getBundleOptions(), parent::getOptionList());
     }
 }

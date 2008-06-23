@@ -314,4 +314,14 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(true);
     }
+
+    protected function _formatOptionValue($value)
+    {
+        if (is_array($value)) {
+            return sprintf('%d', $value['qty']) . ' x ' . $value['title'] . " " . Mage::helper('core')->currency($value['price']);
+        } else {
+            return $value;
+        }
+    }
+
 }

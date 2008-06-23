@@ -32,6 +32,18 @@ Adding custom product price block
         </reference>
     </catalog_category_default>
 
+    <catalog_category_layered>
+        <reference name="product_list">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_compare_index>
+        <reference name="catalog.compare.list">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
+        </reference>
+    </catalog_product_compare_index>
+
     <catalogsearch_result_index>
         <reference name="search_result_list">
             <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
@@ -63,14 +75,61 @@ Partof block for simple broducts
     </PRODUCT_TYPE_simple>
 
 <!--
+Shopping cart item renderer (sidebar)
+-->
+
+    <default>
+        <reference name="cart_sidebar">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+        </reference>
+    </default>
+
+    <customer_account>
+        <reference name="cart_sidebar">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+        </reference>
+    </customer_account>
+
+<!--
 Shopping cart item renderer
 -->
 
     <checkout_cart_index>
         <reference name="checkout.cart">
-            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>bundle/checkout/cart/item.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
         </reference>
     </checkout_cart_index>
+
+<!--
+Onepage Checkout Review Page
+-->
+
+    <checkout_onepage_review>
+        <reference name="root">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+        </reference>
+    </checkout_onepage_review>
+
+    <checkout_multishipping_addresses>
+        <reference name="checkout_addresses">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+        </reference>
+    </checkout_multishipping_addresses>
+
+    <checkout_multishipping_shipping>
+        <reference name="checkout_shipping">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+        </reference>
+        <reference name="checkout_billing_items">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+        </reference>
+    </checkout_multishipping_shipping>
+
+    <checkout_multishipping_overview>
+        <reference name="checkout_overview">
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+        </reference>
+    </checkout_multishipping_overview>
 
 <!--
 Additional block for bundle product type
@@ -92,4 +151,3 @@ Additional block for bundle product type
     </PRODUCT_TYPE_bundle>
 
 </layout>
-

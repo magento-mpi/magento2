@@ -24,7 +24,15 @@
 <?php if ($this->getOrderOptions()): ?>
     <ul class="item-options">
     <?php foreach ($this->getOrderOptions() as $option): ?>
-        <li><strong><?php echo $option['label'] ?>:</strong> <?php echo $option['value'] ?></li>
+        <li><strong><?php echo $option['label'] ?>:</strong>
+        <?php if (is_array($option['value'])): ?>
+        <?php foreach ($option['value'] as $item): ?>
+            <br /><?php echo $this->getValueHtml($item) ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <?php echo $this->htmlEscape($option['value']); ?>
+        <?php endif; ?>
+        </li>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>

@@ -131,7 +131,12 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                 $options = $item->getOrderItem()->getProductOptions();
                 if (isset($options['options'])) {
                     foreach ($options['options'] as $option) {
-                        $optionTxt = strip_tags($option['label']).':'.strip_tags($option['value']);
+                        if (!is_array($option['value'])) {
+                            $optionTxt = strip_tags($option['label']).':'.strip_tags($option['value']);
+                        } else {
+                            $optionTxt = strip_tags($option['label']).':';
+                        }
+
                         if (strlen($optionTxt) > 80) {
                             $optionTxt = str_split($optionTxt, 80);
                             foreach ($optionTxt as $_option) {
@@ -141,6 +146,22 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                         } else {
                             $page->drawText($optionTxt, 65, $this->y-$shift{1}, 'UTF-8');
                             $shift{1} += 10;
+                        }
+
+                        if (is_array($option['value'])) {
+                            foreach ($option['value'] as $_item) {
+                                $optionTxt = strip_tags($this->_formatOptionValue($_item));
+                                if (strlen($optionTxt) > 80) {
+                                    $optionTxt = str_split($optionTxt, 80);
+                                    foreach ($optionTxt as $_option) {
+                                        $page->drawText($_option, 65, $this->y-$shift{1}, 'UTF-8');
+                                        $shift{1} += 10;
+                                    }
+                                } else {
+                                    $page->drawText($optionTxt, 65, $this->y-$shift{1}, 'UTF-8');
+                                    $shift{1} += 10;
+                                }
+                            }
                         }
                     }
                 }

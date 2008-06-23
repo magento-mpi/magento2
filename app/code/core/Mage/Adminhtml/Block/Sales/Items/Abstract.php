@@ -141,7 +141,13 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
      */
     public function getItemHtml(Varien_Object $item)
     {
-        return $this->getItemRenderer($item->getProductType())
+        if ($item->getOrderItem()) {
+            $type = $item->getOrderItem()->getProductType();
+        } else {
+            $type = $item->getProductType();
+        }
+
+        return $this->getItemRenderer($type)
             ->setItem($item)
             ->toHtml();
     }

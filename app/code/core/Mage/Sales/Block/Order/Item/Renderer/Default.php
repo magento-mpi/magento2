@@ -48,4 +48,13 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
 
         return array();
     }
+
+    public function getValueHtml($value)
+    {
+        if (is_array($value)) {
+            return sprintf('%d', $value['qty']) . ' x ' . $this->htmlEscape($value['title']) . " " . Mage::helper('core')->currency($value['price']);
+        } else {
+            return $this->htmlEscape($value);
+        }
+    }
 }

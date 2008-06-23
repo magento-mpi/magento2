@@ -118,8 +118,8 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
                         $formatedValue = $optionValue;
                     }
                     $options[] = array(
-                        'label' => $option->getTitle(),
-                        'value' => $formatedValue,
+                        'label' => $this->htmlEscape($option->getTitle()),
+                        'value' => $this->htmlEscape($formatedValue),
                     );
                 }
             }

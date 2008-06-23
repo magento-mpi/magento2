@@ -23,7 +23,15 @@
 <?php if($_options = $this->getItemOptions()): ?>
 <ul>
 <?php foreach ($_options as $_option): ?>
-    <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong> <?php echo $this->htmlEscape($_option['value']) ?></li>
+    <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong>
+    <?php if (is_array($_option['value'])): ?>
+        <?php foreach ($_option['value'] as $item): ?>
+        <br /><?php echo $this->getValueHtml($item) ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <?php echo $this->htmlEscape($_option['value']); ?>
+    <?php endif; ?>
+    </li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
