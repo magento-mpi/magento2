@@ -501,11 +501,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $specialPriceTo = $product->getSpecialToDate();
             $rulePrice = $product->getData('_rule_price');
 
-            //$finalPrice = Mage_Catalog_Model_Product_Price::calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice);
+            $finalPrice = $product->getPriceModel()->calculatePrice(
+                $basePrice,
+                $specialPrice,
+                $specialPriceFrom,
+                $specialPriceTo,
+                $rulePrice
+            );
 
-            //$finalPrice = $product->getPriceModel()->calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice);
-
-            //$product->setCalculatedFinalPrice($finalPrice);
+            $product->setCalculatedFinalPrice($finalPrice);
         }
     }
 
