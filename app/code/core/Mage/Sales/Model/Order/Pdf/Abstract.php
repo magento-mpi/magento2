@@ -317,8 +317,18 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function _formatOptionValue($value)
     {
+        $resultValue = '';
         if (is_array($value)) {
-            return sprintf('%d', $value['qty']) . ' x ' . $value['title'] . " " . Mage::helper('core')->currency($value['price']);
+            if (isset($value['qty'])) {
+                $resultValue .= sprintf('%d', $value['qty']) . ' x ';
+            }
+
+            $resultValue .= $value['title'];
+
+            if (isset($value['price'])) {
+                $resultValue .= " " . Mage::helper('core')->currency($value['price']);
+            }
+            return  $resultValue;
         } else {
             return $value;
         }
