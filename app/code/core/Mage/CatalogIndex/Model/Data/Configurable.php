@@ -23,7 +23,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogIndex_Model_Data_Configurable extends Mage_CatalogIndex_Model_Data_Simple
+class Mage_CatalogIndex_Model_Data_Configurable extends Mage_CatalogIndex_Model_Data_Abstract
 {
     /**
      * Defines when product type has children

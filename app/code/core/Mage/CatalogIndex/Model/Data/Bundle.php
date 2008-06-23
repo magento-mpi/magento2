@@ -23,7 +23,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogIndex_Model_Data_Bundle extends Mage_CatalogIndex_Model_Data_Simple
+class Mage_CatalogIndex_Model_Data_Bundle extends Mage_CatalogIndex_Model_Data_Abstract
 {
     protected $_haveParents = false;
 
