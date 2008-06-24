@@ -53,7 +53,8 @@
 .account-nav a,
 .account-box,
 .my-review-detail,
-.generic-product-list li { zoom:1; }
+.generic-product-list li,
+li.truncated { zoom:1; }
 
 .clear {
     display:block;
