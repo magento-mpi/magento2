@@ -25,7 +25,7 @@
 
                     <?php if ($isFirst): ?>
                         <td style="<?php echo $this->getTotal()->getStyle() ?>"  class="a-right"  rowspan="<?php echo count($rates); ?>">
-                            <?php echo $_order->formatPrice($amount); ?>
+                            <?php echo $this->helper('checkout')->formatPrice($amount); ?>
                         </td>
                     <?php endif; ?>
                 </tr>
@@ -44,6 +44,6 @@
         <?php endif;?>
     </td>
     <td style="<?php echo $this->getTotal()->getStyle() ?>" class="a-right">
-        <strong><?php echo $_order->formatPrice($this->getTotal()->getValue()) ?></strong>
+        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
     </td>
 </tr>
