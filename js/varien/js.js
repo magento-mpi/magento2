@@ -192,13 +192,13 @@ function formatCurrency(price, format, showPlus){
 };
 
 function expandDetails(el, childClass) {
-	if (el.hasClassName('show-details')) {
+	if (Element.hasClassName(el,'show-details')) {
 		$$(childClass).each(function(item){item.hide()});
-		el.removeClassName('show-details');
+		Element.removeClassName(el,'show-details');
 	}
 	else {
 		$$(childClass).each(function(item){item.show()});
-		el.addClassName('show-details');
+		Element.addClassName(el,'show-details');
 	}
 }
 

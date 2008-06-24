@@ -495,7 +495,7 @@ h1#logo                 { float:left; }
 
 
 /********************** Prices */
-.price-box {
+/* .price-box {
     margin:6px 0;
     }
 .regular-price {
@@ -527,7 +527,69 @@ h1#logo                 { float:left; }
 .minimal-price .price { white-space:nowrap; }
 
 .price-including-tax .label { font-weight:normal; font-size:10px; text-transform:uppercase; }
-.price-including-tax .price { white-space:nowrap; }
+.price-including-tax .price { white-space:nowrap; } */
+
+
+/********************** Prices */
+.price-box {
+    padding:5px 0 10px;
+    }
+.regular-price {
+    color:#396f00;
+    font-size:12px;
+    font-weight:bold;
+    }
+.old-price {
+	color:#888;
+    font-size:12px;
+	display:block;
+    }
+.old-price .price {
+    text-decoration:line-through;
+    white-space:nowrap;
+    }
+
+/*Special price*/
+.special-price {
+    color:#396f00;
+    font-weight:bold;
+	display:block;
+    }
+.special-price .label { font-weight:bold; text-transform:uppercase;  font-size:12px;}
+.special-price .price { white-space:nowrap; font-weight:bold; font-size:13px; }
+
+/*minimal price (as low as) */
+.minimal-price {
+    font-size:12px;
+    font-weight:normal;
+	color:#444;
+	text-decoration:underline;
+	display:block; padding:5px 0 0;
+    }
+.minimal-price:hover {color:#444;}	
+.minimal-price .label { font-weight:normal; }
+.minimal-price .price { white-space:nowrap; }
+
+/*including tax*/
+.price-including-tax {display:block;}
+.price-including-tax .price {
+    color:#396f00;
+    font-size:12px;
+    }
+
+.price-including-tax .label {  font-weight:normal; text-transform:uppercase; font-size:10px; color:#888;}
+.price-including-tax .price { white-space:nowrap; font-weight:bold; }
+
+/*excluding tax*/
+.price-excluding-tax  {display:block;}
+.price-excluding-tax .price {
+    color:#396f00;
+    font-size:12px;
+    }
+
+.price-excluding-tax .label { font-weight:normal;  text-transform:uppercase; font-size:10px; color:#888; }
+.price-excluding-tax .price { white-space:nowrap; font-weight:normal; }
+
 
 
 /********************** Catalog Listing */
@@ -803,6 +865,7 @@ select.address-select {width:630px}
 .shopping-cart                      { margin-bottom:0; }
 .shopping-cart th, .shopping-cart td{ padding-left:13px; padding-right:13px; }
 .shopping-cart tr.error             { background:#FDE6E0 !important; }
+.shopping-cart .tax-flag {font-size:0.9em; text-transform:lowercase; font-weight:normal; display:block;}
 .shopping-cart .continue-shopping   { float: left; }
 .shopping-cart-item-message         { margin-bottom:5px}
 td.attributes-col                   { line-height:1.4em; }
@@ -831,6 +894,15 @@ td.attributes-col p.pname a         {font-weight:bold}
     text-align:right;
     }
 tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
+
+
+/*tax details */
+.tax-total td{padding-bottom:5px; /* background:#e4eaec; */}
+.tax-total div {float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 4px; cursor:pointer;}
+.show-details div {background-position:0 -53px;}
+.show-details td{}
+.tax-details td { font-size:1em;color:#626465;}
+.toptd td{ padding-top:2px;}
 
 
 /* One-Page checkout */

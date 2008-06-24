@@ -915,7 +915,8 @@ table.recently-list td {width:20%;}
 .listing-type-list .product-image { float:left; width:135px; }
 .listing-type-list .product-shop { width:305px; }
 .listing-type-list .product-shop .description { margin:.5em 0 1.2em 0; }
-.listing-type-list .product-shop .price-box { float:left;text-align:left; margin:3px 13px 5px 0;}
+.listing-type-list .product-shop .price-box { float:left;text-align:left; white-space:nowrap; margin:3px 13px 5px 0;}
+.listing-type-list .product-shop .form-button {margin:0.5em 0 0;}
 .listing-type-list .product-shop .product-reviews { margin:15px 0; font-size:.95em; }
 .listing-type-list .product-shop .product-reviews a, .listing-type-list .product-shop .product-reviews a:hover { color:#6e6969; }
 .listing-type-list .listing-item .rating-box { margin-bottom:6px; }
@@ -990,6 +991,14 @@ table.recently-list td {width:20%;}
 .product-essential .product-shop .ratings { margin-bottom:10px; }
 
 
+/* 
+.custom-options {padding:0px 10px 0;}
+.custom-options table {width:100%;}
+.custom-options .data {background:#f5f2e9; padding:5px 10px;}
+.custom-options .data textarea  {width:92%; height:5em;}
+.custom-options .data .input-text  {width:92%;}
+.custom-options .label {padding-top:10px;}
+ */
 .custom-options { padding:0px 10px 0; }
 .custom-options table { width:100%; }
 .custom-options .data { background:#f5f2e9; padding:5px 10px; }
@@ -997,6 +1006,7 @@ table.recently-list td {width:20%;}
 /*.custom-options .data textarea  { width:219px; height:5em; }
 .custom-options .data select { width:225px; }*/
 .custom-options .label { padding-top:10px; }
+
 
 /*Bundle product*/
 .bundle-product {background:#f8f7f5; padding:0 0 0; border:1px solid #bebcb7; border-top:0;}
@@ -1213,6 +1223,10 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .payment-methods dd { padding:0; }
 .one-page-checkout .button-set { margin-top:0; padding-top:2em; }
 .one-page-checkout ul.super-product-attributes { padding-left:15px; }
+
+.one-page-checkout  .tax-total div {float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 4px; cursor:pointer;}
+.one-page-checkout  .show-details div {background-position:0 -53px;}
+
 
 .checkout-progress { margin:0 auto 1.5em auto;}
 .checkout-progress td {
