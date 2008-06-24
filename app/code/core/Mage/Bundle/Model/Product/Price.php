@@ -343,7 +343,18 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     {
         $resource = Mage::getResourceSingleton('bundle/bundle');
         $productPriceTypeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price_type');
-        $attributes = $resource->getAttributeData($productId, $productPriceTypeId, 0);
+        if ($wId instanceof Mage_Core_Model_Store) {
+            $store = $wId->getId();
+        } else {
+            $wId = Mage::app()->getStore();
+            $store = Mage::app()->getStore()->getId();
+        }
+
+        if (!$gId) {
+            $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        }
+
+        $attributes = $resource->getAttributeData($productId, $productPriceTypeId, $store);
 
         $options = array();
 
@@ -370,7 +381,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 $prevGroup = $allGroups;
 
                 foreach ($tiers as $tier) {
-                    if ($tier['customer_group_id'] != $gId->getId() && $tier['all_groups']!=1) {
+
+                    if (!is_numeric($gId)) {
+                        $_gId = $gId->getId();
+                    } else {
+                        $_gId = $gId;
+                    }
+
+                    if ($tier['customer_group_id'] != $_gId && $tier['all_groups']!=1) {
                         // tier not for current customer group nor is for all groups
                         continue;
                     }

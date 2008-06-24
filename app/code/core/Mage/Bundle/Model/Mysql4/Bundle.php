@@ -54,8 +54,10 @@ class Mage_Bundle_Model_Mysql4_Bundle extends Mage_CatalogIndex_Model_Mysql4_Dat
                 ->from($this->getTable('sales/quote_item'), "GROUP_CONCAT(`item_id`) as items")
                 ->where("product_id = ?", $productId));
 
-        $this->_getWriteAdapter()
-            ->query("DELETE FROM ".$this->getTable('sales/quote_item')."
-                    WHERE `parent_item_id` in (". $result['items'] .")");
+        if ($result['items'] != '') {
+            $this->_getWriteAdapter()
+                ->query("DELETE FROM ".$this->getTable('sales/quote_item')."
+                        WHERE `parent_item_id` in (". $result['items'] .")");
+        }
     }
 }
