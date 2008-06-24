@@ -145,7 +145,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 
 
         /**
-         * Applu mass changes from sidebar
+         * Apply mass changes from sidebar
          */
         if ($data = $this->getRequest()->getPost('sidebar')) {
             $this->_getOrderCreateModel()->applySidebarData($data);
@@ -182,7 +182,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         /**
-         * Moove quote item
+         * Move quote item
          */
         if ( ($itemId = (int) $this->getRequest()->getPost('move_item'))
             && ($moveTo = (string) $this->getRequest()->getPost('to')) ) {
@@ -297,7 +297,8 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
         catch (Exception $e){
             $this->_reloadQuote();
-            $this->_getSession()->addException($e, $this->__('Processing data problem'));
+//            $this->_getSession()->addException($e, $this->__('Processing data problem'));
+            $this->_getSession()->addException($e, $e->getMessage());
         }
 
 

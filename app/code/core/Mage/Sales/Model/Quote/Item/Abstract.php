@@ -119,6 +119,19 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setHasError(true);
             $this->setMessage(Mage::helper('sales')->__('Item qty declare error'));
         }
+
+        if (!$this->getProduct()->getSkipCheckRequiredOption()) {
+            $reuiredOptions = array();
+            foreach ($this->getProduct()->getOptions() as $option) {
+                if ($option->getIsRequire() && !$this->getOptionByCode('option_'.$option->getId())) {
+                    $reuiredOptions[] = $option->getTitle();
+                }
+            }
+            if (count($reuiredOptions)) {
+                $this->setHasError(true);
+                $this->setMessage(Mage::helper('sales')->__('Please add required options') . ' (' . implode(', ', $reuiredOptions) . ')');
+            }
+        }
         return $this;
     }
 

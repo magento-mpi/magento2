@@ -23,10 +23,10 @@
 <?php if($_options = $this->getItemOptions()): ?>
 <ul>
 <?php foreach ($_options as $_option): ?>
-    <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong>
+    <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong><br />
     <?php if (is_array($_option['value'])): ?>
         <?php foreach ($_option['value'] as $item): ?>
-        <br /><?php echo $this->getValueHtml($item) ?>
+        <?php echo $this->getValueHtml($item) ?><br />
         <?php endforeach; ?>
     <?php else: ?>
         <?php echo $this->htmlEscape($_option['value']); ?>

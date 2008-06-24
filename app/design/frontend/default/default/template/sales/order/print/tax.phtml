@@ -12,7 +12,7 @@
 
         <?php foreach ($rates as $rate): ?>
         <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' first'; endif; ?>">
-            <td class="a-right" colspan="3">
+            <td class="a-right" colspan="4">
                 <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br />
             </td>
 
@@ -28,7 +28,7 @@
     <?php endforeach; ?>
 <?php endif;?>
 <tr>
-    <td class="a-right" colspan="3">
+    <td class="a-right" colspan="4">
         <?php if ($this->helper('tax')->displayFullSummary()): ?>
             <div><?php echo $this->__('Tax'); ?></div>
         <?php else: ?>

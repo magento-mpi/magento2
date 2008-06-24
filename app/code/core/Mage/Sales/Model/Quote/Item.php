@@ -134,6 +134,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $productIds = array();
         $return     = array();
         foreach ($this->getOptions() as $option) {
+//            mageDebugBacktrace();
             /* @var $option Mage_Sales_Model_Quote_Item_Option */
             if ($option->getProduct()->getId() != $this->getProduct()->getId()
                 && !isset($productIds[$option->getProduct()->getId()])) {
@@ -335,6 +336,20 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     }
 
     /**
+     *Remove option from item options
+     *
+     * @param string $code
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    public function removeOption($code)
+    {
+        if ($option = $this->getOptionByCode($code)) {
+            $option->isDeleted(true);
+        }
+        return $this;
+    }
+
+    /**
      * Register option code
      *
      * @param   Mage_Sales_Model_Quote_Item_Option $option
@@ -359,7 +374,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     public function getOptionByCode($code)
     {
-        if (isset($this->_optionsByCode[$code])) {
+        if (isset($this->_optionsByCode[$code]) && !$this->_optionsByCode[$code]->isDeleted()) {
             return $this->_optionsByCode[$code];
         }
         return null;
@@ -372,9 +387,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     protected function _afterSave()
     {
-        foreach ($this->_options as $option) {
+        foreach ($this->_options as $index => $option) {
             if ($option->isDeleted()) {
                 $option->delete();
+                unset($this->_options[$index]);
+                unset($this->_optionsByCode[$option->getCode()]);
             }
             else {
                 $option->save();

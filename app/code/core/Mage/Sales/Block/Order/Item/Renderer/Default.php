@@ -40,13 +40,17 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
 
     public function getItemOptions()
     {
+        $result = array();
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['options'])) {
-                return $options['options'];
+                $result = array_merge($result, $options['options']);
+            }
+            if (isset($options['additional_options'])) {
+                $result = array_merge($result, $options['additional_options']);
             }
         }
 
-        return array();
+        return $result;
     }
 
     public function getValueHtml($value)

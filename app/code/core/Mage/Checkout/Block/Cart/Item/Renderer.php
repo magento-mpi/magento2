@@ -124,6 +124,9 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
                 }
             }
         }
+        if ($addOptions = $this->getItem()->getOptionByCode('additional_options')) {
+        	$options = array_merge($options, unserialize($addOptions->getValue()));
+        }
         return $options;
     }
 

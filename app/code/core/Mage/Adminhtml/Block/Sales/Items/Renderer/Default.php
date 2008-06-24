@@ -38,9 +38,10 @@ class Mage_Adminhtml_Block_Sales_Items_Renderer_Default extends Mage_Adminhtml_B
         $result = array();
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['options'])) {
-                $result = $options['options'];
-            } elseif (isset($options['admin_options'])) {
-                $result = $options['admin_options'];
+                $result = array_merge($result, $options['options']);
+            }
+            if (isset($options['additional_options'])) {
+                $result = array_merge($result, $options['additional_options']);
             }
             if (!empty($options['attributes_info'])) {
                 $result = array_merge($options['attributes_info'], $result);

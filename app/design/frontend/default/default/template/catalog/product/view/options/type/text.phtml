@@ -25,13 +25,7 @@
         <?php if ($_option->getIsRequire()): ?>
             <span class="required">*</span>
         <?php endif; ?>
-        (
-        <?php if ($_option->getPriceType() == 'fixed'): ?>
-            <?php echo $this->helper('core')->currency($_option->getPrice()) ?>
-        <?php else: ?>
-            <?php echo '%' . number_format($_option->getPrice(), 0, null, '') ?>
-        <?php endif; ?>
-        )
+        <?php echo $this->getFormatedPrice() ?>
     </td>
 </tr>
 <tr>

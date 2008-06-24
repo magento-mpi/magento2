@@ -125,22 +125,24 @@ class Mage_Checkout_Model_Cart extends Varien_Object
     public function addOrderItem($orderItem, $qtyFlag=null)
     {
         /* @var $orderItem Mage_Sales_Model_Order_Item */
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($orderItem->getProductId());
-        if (!$product->getId()) {
-            return $this;
-        }
+        if (is_null($orderItem->getParentItem())) {
+            $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($orderItem->getProductId());
+            if (!$product->getId()) {
+                return $this;
+            }
 
-        $info = $orderItem->getProductOptionByCode('info_buyRequest');
-        $info = new Varien_Object($info);
-        if (is_null($qtyFlag)) {
-            $info->setQty($orderItem->getQtyOrdered());
-        } else {
-            $info->setQty(1);
-        }
+            $info = $orderItem->getProductOptionByCode('info_buyRequest');
+            $info = new Varien_Object($info);
+            if (is_null($qtyFlag)) {
+                $info->setQty($orderItem->getQtyOrdered());
+            } else {
+                $info->setQty(1);
+            }
 
-        $this->addProduct($product, $info);
+            $this->addProduct($product, $info);
+        }
         return $this;
     }
 

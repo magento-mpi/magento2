@@ -248,6 +248,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
                     $this->_redirect('checkout/cart');
                 }
             }
+
             $cart->save();
             $this->_redirect('checkout/cart');
         }

@@ -37,7 +37,7 @@
 
 	 <?php $_showAddButtonFlag = false ?>
      <?php foreach($_order->getItemsRandomCollection(5) as $_item): ?>
-     <?php if ($_item->getProduct() && is_null($_item->getParentItemId())): ?>
+     <?php if ($_item->getProduct() && is_null($_item->getParentItem())): ?>
         <li>
         		<?php if ($_item->getProduct()->getStockItem()->getIsInStock()): ?>
         		<?php $_showAddButtonFlag = true ?>

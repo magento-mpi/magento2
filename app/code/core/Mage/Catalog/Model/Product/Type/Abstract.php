@@ -179,7 +179,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         $product = $this->getProduct();
 
-        // try to add custom options
+            // try to add custom options
         $options = $this->_prepareOptionsForCart($buyRequest->getOptions());
         if (is_string($options)) {
             return $options;
@@ -208,49 +208,49 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected function _prepareOptionsForCart($options)
     {
         $newOptions = array();
-        $optionsCollection = $this->getProduct()
-            ->getProductOptionsCollection()
-            ->load();
+            $optionsCollection = $this->getProduct()
+                ->getProductOptionsCollection()
+                ->load();
 
-        foreach ($optionsCollection as $_option) {
-            /* @var $_option Mage_Catalog_Model_Product_Option */
-            if (!isset($options[$_option->getId()]) && $_option->getIsRequire()) {
-                return Mage::helper('catalog')->__('Please specify the product required option(s)');
-            }
-            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_TEXT) {
-                $options[$_option->getId()] = trim($options[$_option->getId()]);
-                if (strlen($options[$_option->getId()]) == 0 && $_option->getIsRequire()) {
+            foreach ($optionsCollection as $_option) {
+                /* @var $_option Mage_Catalog_Model_Product_Option */
+                if (!isset($options[$_option->getId()]) && $_option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
                     return Mage::helper('catalog')->__('Please specify the product required option(s)');
                 }
-                if (strlen($options[$_option->getId()]) > $_option->getMaxCharacters() && $_option->getMaxCharacters() > 0) {
-                    return Mage::helper('catalog')->__('Length of text is too long');
-                }
-                if (strlen($options[$_option->getId()]) == 0) continue;
-            }
-            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_FILE) {
-
-            }
-            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE) {
-
-            }
-
-            if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                 if (!isset($options[$_option->getId()])) {
                     continue;
                 }
-                $valuesCollection = $_option->getOptionValuesByOptionId(
-                        $options[$_option->getId()], $this->getProduct()->getStoreId()
-                    )->load();
-
-                if ($valuesCollection->count() != count($options[$_option->getId()])) {
-                    return Mage::helper('catalog')->__('Please specify the product required option(s)');
+                if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_TEXT) {
+                    $options[$_option->getId()] = trim($options[$_option->getId()]);
+                    if (strlen($options[$_option->getId()]) == 0 && $_option->getIsRequire()) {
+                        return Mage::helper('catalog')->__('Please specify the product required option(s)');
+                    }
+                    if (strlen($options[$_option->getId()]) > $_option->getMaxCharacters() && $_option->getMaxCharacters() > 0) {
+                        return Mage::helper('catalog')->__('Length of text is too long');
+                    }
+                    if (strlen($options[$_option->getId()]) == 0) continue;
                 }
+                if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_FILE) {
+
+                }
+                if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE) {
+
+                }
+
+                if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                    $valuesCollection = $_option->getOptionValuesByOptionId(
+                            $options[$_option->getId()], $this->getProduct()->getStoreId()
+                        )->load();
+
+                    if ($valuesCollection->count() != count($options[$_option->getId()])) {
+                        return Mage::helper('catalog')->__('Please specify the product required option(s)');
+                    }
+                }
+                if (is_array($options[$_option->getId()])) {
+                    $options[$_option->getId()] = implode(',', $options[$_option->getId()]);
+                }
+                $newOptions[$_option->getId()] = $options[$_option->getId()];
             }
-            if (is_array($options[$_option->getId()])) {
-                $options[$_option->getId()] = implode(',', $options[$_option->getId()]);
-            }
-            $newOptions[$_option->getId()] = $options[$_option->getId()];
-        }
 
         return $newOptions;
     }
@@ -294,6 +294,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 }
             }
         }
+
         return $optionArr;
     }
 

@@ -55,6 +55,7 @@
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
+            <th class="a-center" width="15%"><?php echo $this->__('SKU') ?></th>
             <th class="a-right" width="15%"><?php echo $this->__('Price') ?></th>
             <th class="a-center" width="15%"><?php echo $this->__('Qty') ?></th>
             <th class="a-right last" width="20%"><?php echo $this->__('Subtotal') ?></th>
@@ -67,6 +68,7 @@
         <?php foreach ($_items as $_item): ?>
             <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?>>
                 <td><?php echo $this->getItemHtml($_item) ?></td>
+                <td><?php echo $_item->getSku() ?></td>
 
                 <td class="a-right">
                     <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
@@ -113,7 +115,7 @@
             </tr>
         <?php endforeach; ?>
     </tbody>
-    <?php $colspan = 3; ?>
+    <?php $colspan = 4; ?>
     <tfoot>
         <tr>
             <td colspan="<?php echo $colspan; ?> " class="a-right"><?php echo $this->__('Order Subtotal') ?></td>

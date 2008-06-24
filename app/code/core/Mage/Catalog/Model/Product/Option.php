@@ -62,6 +62,12 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $valueId
+     * @return Mage_Catalog_Model_Product_Option_Value
+     */
     public function getValueById($valueId)
     {
         if (isset($this->_values[$valueId])) {
@@ -242,11 +248,6 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
                     }
                 }
                 $this->save();
-//                if ($this->getData('title') == 'test') {
-//                    Zend_Debug::dump($this->getId(), 'ID');
-//                    Zend_Debug::dump($this->getData(), 'option');
-//                    die();
-//                }
             }
         }//eof foreach()
 
@@ -266,6 +267,11 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         }
 
         return parent::_afterSave();
+    }
+
+    public function loadByTitle($title)
+    {
+
     }
 
     /**

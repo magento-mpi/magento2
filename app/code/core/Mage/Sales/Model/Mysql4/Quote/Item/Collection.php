@@ -127,6 +127,9 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
                     if ($product = $productCollection->getItemById($option->getProductId())) {
                         $option->setProduct($product);
                     }
+                    else {
+                    	$option->setProduct($item->getProduct());
+                    }
                 }
             }
             else {

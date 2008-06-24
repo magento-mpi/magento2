@@ -69,6 +69,7 @@
         <thead>
             <tr>
                 <th><?php echo $this->__('Product Name') ?></th>
+                <th class="a-center" width="15%"><?php echo $this->__('SKU') ?></th>
                 <th class="a-right" width="15%"><?php echo $this->__('Price') ?></th>
                 <th class="a-center" width="10%"><?php echo $this->__('Qty Ordered') ?></th>
                 <?php if (!$_order->getIsVirtual()): ?><th class="a-center" width="10%"><?php echo $this->__('Qty Shipped') ?></th><?php endif; ?>
@@ -82,6 +83,7 @@
             <?php foreach ($_items as $_item): ?>
                 <tr<?php echo ($_index++ > $_count ? ' class="last"' : '') ?>>
                 <td><?php echo $this->getItemHtml($_item->getOrderItem()) ?></td>
+                <td><?php echo $_item->getSku() ?></td>
                 <td class="a-right">
                     <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                         <?php if ($this->helper('tax')->displayCartBothPrices()): ?>

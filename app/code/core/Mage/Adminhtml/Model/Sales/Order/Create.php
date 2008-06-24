@@ -43,6 +43,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     protected $_needCollect;
 
+    protected  $_productOptions = array();
+
     public function __construct()
     {
         $this->_session = Mage::getSingleton('adminhtml/session_quote');
@@ -157,11 +159,20 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             if ($product->getId()) {
                 $info = $orderItem->getProductOptionByCode('info_buyRequest');
                 $info = new Varien_Object($info);
-                $info->setQty($orderItem->getQtyOrdered());
-
+                $product->setSkipCheckRequiredOption(true);
                 $item = $this->getQuote()->addProduct($product,$info);
                 if (is_string($item)) {
-                    Mage::throwException(Mage::helper('adminhtml')->__('Can\'t create order.'));
+                    Mage::throwException($item);
+                }
+                $item->setQty($orderItem->getQtyOrdered());
+                if ($addOptions = $orderItem->getProductOptionByCode('additional_options')) {
+                    $item->addOption(new Varien_Object(
+                        array(
+                            'product' => $item->getProduct(),
+                            'code' => 'additional_options',
+                            'value' => serialize($addOptions)
+                        )
+                    ));
                 }
             }
         }
@@ -301,10 +312,57 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
+                case 'order':
+                    $info = array();
+                    if ($info = $item->getOptionByCode('info_buyRequest')) {
+                        $info = new Varien_Object(
+                            unserialize($info->getValue())
+                        );
+                        $info->setOptions($this->_prepareOptionsForRequest($item));
+                    }
+
+                    $product = Mage::getModel('catalog/product')
+                        ->setStoreId($this->getQuote()->getStoreId())
+                        ->load($item->getProduct()->getId());
+
+                    $product->setSkipCheckRequiredOption(true);
+
+                    $newItem = $this->getQuote()->addProduct($product, $info);
+                    if (is_string($newItem)) {
+                        Mage::throwException($newItem);
+                    }
+                    $product->unsSkipCheckRequiredOption(true);
+                    $newItem->setQty($qty);
+                    $this->getQuote()->collectTotals()
+                        ->save();
+                    break;
                 case 'cart':
-                    if ($cart = $this->getCustomerCart()) {
-//                        $item->getProduct()->addCustomOption('additional_options', 'additional_option');
-                        $cartItem = $cart->addProduct($item->getProduct());
+                    if (($cart = $this->getCustomerCart()) && is_null($item->getOptionByCode('additional_options'))) {
+                        //options and info buy request
+                        $product = Mage::getModel('catalog/product')
+                            ->setStoreId($this->getQuote()->getStoreId())
+                            ->load($item->getProduct()->getId());
+                        $product->setSkipCheckRequiredOption(true);
+
+                        $info = array();
+                        if ($info = $item->getOptionByCode('info_buyRequest')) {
+                            $info = new Varien_Object(
+                                unserialize($info->getValue())
+                            );
+                            $info->setOptions($this->_prepareOptionsForRequest($item));
+                        } else {
+                            $info = new Varien_Object(array(
+                                'product_id' => $product->getId(),
+                                'qty' => $qty,
+                                'options' => $this->_prepareOptionsForRequest($item)
+                            ));
+                        }
+
+                        $cartItem = $cart->addProduct($product, $info);
+                        if (is_string($cartItem)) {
+                            Mage::throwException($cartItem);
+                        }
+                        $product->unsSkipCheckRequiredOption();
                         $cartItem->setQty($qty);
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $cart->collectTotals()
@@ -331,8 +389,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function applySidebarData($data)
     {
         if (isset($data['add'])) {
-            foreach ($data['add'] as $productId=>$qty) {
-                $this->addProduct($productId, $qty);
+            foreach ($data['add'] as $itemId=>$qty) {
+                $item = $this->getCustomerCart()->getItemById($itemId);
+                $this->moveQuoteItem($item, 'order', $qty);
+                $this->removeItem($itemId, 'cart');
             }
         }
         if (isset($data['remove'])) {
@@ -411,6 +471,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $item->setQty($item->getQty()+$qty);
         }
         else {
+            $product->setSkipCheckRequiredOption(true);
             $item = $this->getQuote()->addProduct($product, $qty);
         }
 
@@ -454,13 +515,27 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $itemQty    = (int) $info['qty'];
                 $itemQty    = $itemQty>0 ? $itemQty : 1;
                 if (isset($info['custom_price'])) {
-                    $itemPrice  = $this->_parseCustomPrice($info['custom_price']);;
+                    $itemPrice  = $this->_parseCustomPrice($info['custom_price']);
                 }
                 else {
                     $itemPrice = null;
                 }
                 $noDiscount = !isset($info['use_discount']);
 
+//                if ($item = $this->getQuote()->getItemById($itemId)) {
+//                    $this->_assignOptionsToItem(
+//                        $item,
+//                        $this->_parseOptions($item, $info['options'])
+//                    );
+//                    if (empty($info['action'])) {
+//                        $item->setQty($itemQty);
+//                        $item->setCustomPrice($itemPrice);
+//                        $item->setNoDiscount($noDiscount);
+//                    }
+//                    else {
+//                        $this->moveQuoteItem($item, $info['action'], $itemQty);
+//                    }
+//                }
                 if (empty($info['action'])) {
                     if ($item = $this->getQuote()->getItemById($itemId)) {
                         $item->setQty($itemQty);
@@ -468,26 +543,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         $item->setNoDiscount($noDiscount);
 
                         //options
-                        $options = array();
-                        foreach (explode("\n", $info['options']) as $option) {
-                            if (strlen(trim($option))) {
-                                list($label,$value) = explode(':', $option);
-                                $options[] = array(
-                                'label' => $label,
-                                'value' => $value
-                                );
-                            }
-                        }
-
-                        $item->addOption(new Varien_Object(
-                            array(
-                                'item_id' => $item->getId(),
-                                'product_id' => $item->getProduct()->getId(),
-                                'product' => $item->getProduct(),
-                                'code' => 'option_admin',
-                                'value' => serialize($options)
-                            )
-                        ));
+                        $this->_assignOptionsToItem(
+                            $item,
+                            $this->_parseOptions($item, $info['options'])
+                        );
                     }
                 }
                 else {
@@ -497,6 +556,169 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->setRecollect(true);
         }
         return $this;
+    }
+
+    /**
+     * Parse additional options and sync them with product options
+     *
+     * @param Mage_Sales_Model_Quote_Item $product
+     * @param array $options
+     */
+    protected function _parseOptions(Mage_Sales_Model_Quote_Item $item, $additionalOptions)
+    {
+        if (!isset($this->_productOptions[$item->getProduct()->getId()])) {
+            foreach ($item->getProduct()->getOptions() as $_option) {
+                /* @var $option Mage_Catalog_Model_Product_Option */
+                $this->_productOptions[$item->getProduct()->getId()][$_option->getTitle()] = array('option_id' => $_option->getId());
+                if ($_option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                    $optionValues = array();
+                    foreach ($_option->getValues() as $_value) {
+                        /* @var $value Mage_Catalog_Model_Product_Option_Value */
+                        $optionValues[$_value->getTitle()] = $_value->getId();
+                    }
+                    $this->_productOptions[$item->getProduct()->getId()][$_option->getTitle()]['values'] = $optionValues;
+                } else {
+                    $this->_productOptions[$item->getProduct()->getId()][$_option->getTitle()]['values'] = array();
+                }
+            }
+        }
+
+        $newOptions = array();
+        $newAdditionalOptions = array();
+        foreach (explode("\n", $additionalOptions) as $_additionalOption) {
+            if (strlen(trim($_additionalOption))) {
+                try {
+                    list($label,$value) = explode(':', $_additionalOption);
+                } catch (Exception $e) {
+                    Mage::throwException('One of options row has error.');
+                }
+                $label = trim($label);
+                $value = trim($value);
+                if (array_key_exists($label, $this->_productOptions[$item->getProduct()->getId()])) {
+                    $optionId = $this->_productOptions[$item->getProduct()->getId()][$label]['option_id'];
+                    $group = $item->getProduct()
+                            ->getOptionById($optionId)
+                            ->getGroupByType();
+                    $type = $item->getProduct()
+                            ->getOptionById($optionId)
+                            ->getType();
+                    if (($type == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                        || $type == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE)) {
+                        $_values = array();
+                        foreach (explode(',', $value) as $_value) {
+                            $_value = trim($_value);
+                            if (array_key_exists($_value, $this->_productOptions[$item->getProduct()->getId()][$label]['values'])) {
+                                $_values[] = $this->_productOptions[$item->getProduct()->getId()][$label]['values'][$_value];
+                            } else {
+                                $_values = array();
+                                $newAdditionalOptions[] = array(
+                                    'label' => $label,
+                                    'value' => $value
+                                );
+                                break;
+                            }
+                        }
+                        if (count($_values)) {
+                            $newOptions[$optionId] = implode(',',$_values);
+                        }
+                    } elseif ($group == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        if (array_key_exists($value, $this->_productOptions[$item->getProduct()->getId()][$label]['values'])) {
+                            $newOptions[$optionId] = $this->_productOptions[$item->getProduct()->getId()][$label]['values'][$value];
+                        } else {
+                            $newAdditionalOptions[] = array(
+                                'label' => $label,
+                                'value' => $value
+                            );
+                        }
+                    } else {
+                        $newOptions[$optionId] = $value;
+                    }
+                } else {
+                    $newAdditionalOptions[] = array(
+                        'label' => $label,
+                        'value' => $value
+                    );
+                }
+            }
+        }
+
+        return array(
+            'options' => $newOptions,
+            'additional_options' => $newAdditionalOptions
+        );
+    }
+
+    /**
+     * Assign options to item
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @param array $options
+     */
+    protected function _assignOptionsToItem(Mage_Sales_Model_Quote_Item $item, $options)
+    {
+        if ($optionIds = $item->getOptionByCode('option_ids')) {
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                $item->removeOption('option_'.$optionId);
+            }
+            $item->removeOption('option_ids');
+        }
+        if ($item->getOptionByCode('additional_options')) {
+            $item->removeOption('additional_options');
+        }
+        $item->save();
+        if (!empty($options['options'])) {
+            $item->addOption(new Varien_Object(
+                array(
+                    'product' => $item->getProduct(),
+                    'code' => 'option_ids',
+                    'value' => implode(',', array_keys($options['options']))
+                )
+            ));
+
+            foreach ($options['options'] as $optionId => $optionValue) {
+                $item->addOption(new Varien_Object(
+                    array(
+                        'product' => $item->getProduct(),
+                        'code' => 'option_'.$optionId,
+                        'value' => $optionValue
+                    )
+                ));
+            }
+        }
+        if (!empty($options['additional_options'])) {
+            $item->addOption(new Varien_Object(
+                array(
+                    'product' => $item->getProduct(),
+                    'code' => 'additional_options',
+                    'value' => serialize($options['additional_options'])
+                )
+            ));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Prepare options array for info buy request
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return array
+     */
+    protected function _prepareOptionsForRequest($item)
+    {
+        $newInfoOptions = array();
+        if ($optionIds = $item->getOptionByCode('option_ids')) {
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                $optionType = $item->getProduct()->getOptionById($optionId)->getType();
+                $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
+                if ($optionType == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                    || $optionType == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
+                    $optionValue = explode(',', $optionValue);
+                }
+                $newInfoOptions[$optionId] = $optionValue;
+            }
+        }
+        return $newInfoOptions;
     }
 
     protected function _parseCustomPrice($price)
@@ -706,10 +928,16 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
             /* @var $item Mage_Sales_Model_Quote_Item */
             $orderItem = $quoteConvert->itemToOrderItem($item);
-            if ($options = $item->getOptionByCode('option_admin')) {
-                $orderItem->setProductOptions(array(
-                    unserialize($options->getValue())
-                ));
+            $options = array();
+            if ($productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions()) {
+                $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
+                $options = $productOptions;
+            }
+            if ($addOptions = $item->getOptionByCode('additional_options')) {
+                $options['additional_options'] = unserialize($addOptions->getValue());
+            }
+            if ($options) {
+                $orderItem->setProductOptions($options);
             }
             $order->addItem($orderItem);
         }

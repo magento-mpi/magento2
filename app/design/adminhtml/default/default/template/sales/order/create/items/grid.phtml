@@ -67,8 +67,17 @@
                                 <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $_item->getSku() ?>
                             </div>
                             <div class="nobr">
-                                <strong><?php echo Mage::helper('sales')->__('Custom Options') ?></strong><br/>
-                                <textarea name="item[<?php echo $_item->getId() ?>][options]" style="align:center; width: 95%; height: 4em;"><?php if ($this->getCustomOptions($_item)): ?><?php echo $this->htmlEscape($this->getCustomOptions($_item)) ?><?php endif; ?></textarea>
+                                <?php $_displayFlag = '' ?>
+                                <?php if (!strlen($this->getCustomOptions($_item))): ?>
+                                    <?php $_displayFlag = 'display:none;' ?>
+                                <?php endif; ?>
+                                <strong><a href="#" id="custom_defined_options_link_<?php echo $_item->getId() ?>"><?php echo Mage::helper('sales')->__('Custom Options') ?></a></strong><br/>
+                                <textarea id="custom_defined_options_area_<?php echo $_item->getId() ?>" name="item[<?php echo $_item->getId() ?>][options]" style="align:center; width: 95%; height: 4em;<?php echo $_displayFlag ?>"><?php if ($this->getCustomOptions($_item)): ?><?php echo $this->htmlEscape($this->getCustomOptions($_item)) ?><?php endif; ?></textarea>
+                                <script type="text/javascript">
+                                    Event.observe($('custom_defined_options_link_<?php echo $_item->getId() ?>'), 'click', function(){
+                                        $('custom_defined_options_area_<?php echo $_item->getId() ?>').toggle();
+                                    });
+                                </script>
                             </div>
                             <?php if($_item->getMessage()): ?>
                             <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
@@ -110,7 +119,7 @@
                             <select name="item[<?php echo $_item->getId() ?>][action]" style="width:100px">
                                 <option value=""></option>
                                 <option value="remove"><?php echo $this->helper('sales')->__('Remove') ?></option>
-                                <?php if($this->getCustomerId()): ?>
+                                <?php if($this->getCustomerId() && $this->getMoveToCustomerStorage()): ?>
                                 <option value="cart"><?php echo $this->helper('sales')->__('Move to Shopping Cart') ?></option>
                                 <option value="wishlist"><?php echo $this->helper('sales')->__('Move to Wishlist') ?></option>
                                 <?php endif; ?>

@@ -56,7 +56,7 @@ var productOption = {
 
         if(!data.id){
     		data = {};
-    		data.id  = this.itemCount;
+    		data.id  = ++this.itemCount;
     		data.type = '';
     		data.option_id = 0;
         } else {
