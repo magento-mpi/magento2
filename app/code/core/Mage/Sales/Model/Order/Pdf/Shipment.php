@@ -145,7 +145,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
                         if (is_array($option['value'])) {
                             foreach ($option['value'] as $_item) {
-                                $optionTxt = strip_tags($this->_formatOptionValue($_item));
+                                $optionTxt = strip_tags($this->_formatOptionValue($_item, $order));
                                 if (strlen($optionTxt) > 80) {
                                     $optionTxt = str_split($optionTxt, 80);
                                     foreach ($optionTxt as $_option) {

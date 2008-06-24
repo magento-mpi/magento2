@@ -147,7 +147,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
                         if (is_array($option['value'])) {
                             foreach ($option['value'] as $_item) {
-                                $optionTxt = strip_tags($this->_formatOptionValue($_item));
+                                $optionTxt = strip_tags($this->_formatOptionValue($_item, $order));
                                 if (strlen($optionTxt) > 60) {
                                     $optionTxt = str_split($optionTxt, 60);
                                     foreach ($optionTxt as $_option) {

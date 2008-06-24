@@ -315,7 +315,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $translate->setTranslateInline(true);
     }
 
-    protected function _formatOptionValue($value)
+    protected function _formatOptionValue($value, $order)
     {
         $resultValue = '';
         if (is_array($value)) {
@@ -326,7 +326,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $resultValue .= $value['title'];
 
             if (isset($value['price'])) {
-                $resultValue .= " " . Mage::helper('core')->currency($value['price']);
+                $resultValue .= " " . $order->formatPrice($value['price']);
             }
             return  $resultValue;
         } else {
