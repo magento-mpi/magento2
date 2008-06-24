@@ -340,9 +340,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
 
     public function printAction()
     {
-        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = Mage::getModel('sales/order_creditmemo')->load($invoiceId)) {
-                $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf(array($invoice));
+        /** @see Mage_Adminhtml_Sales_Order_InvoiceController */
+        if ($creditMemoId = $this->getRequest()->getParam('invoice_id')) { // invoice_id?!
+            if ($creditMemo = Mage::getModel('sales/order_creditmemo')->load($creditMemoId)) {
+                if ($creditMemo->getStoreId()) {
+                    Mage::app()->setCurrentStore($creditMemo->getStoreId());
+                }
+                $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf(array($creditMemo));
                 $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             }
         }

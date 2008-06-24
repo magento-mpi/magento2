@@ -638,6 +638,7 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_shipping_amount'   => array('type'=>'decimal'),
                     'base_grand_total'       => array('type'=>'decimal'),
                     'email_sent' => array('type'=>'int'),
+                    'store_id'   => array('type'=>'static'),
                 ),
             ),
 
@@ -708,6 +709,7 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'total_qty'         => array('type'=>'decimal'),
                     'total_weight'      => array('type'=>'decimal'),
                     'email_sent'        => array('type'=>'int'),
+                    'store_id'          => array('type' => 'static'),
                 ),
             ),
 
@@ -808,8 +810,9 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'base_adjustment'        => array('type'=>'decimal'),
                     'base_adjustment_positive' => array('type'=>'decimal'),
                     'base_adjustment_negative' => array('type'=>'decimal'),
-                    'base_grand_total'       => array('type'=>'decimal'),
-                    'email_sent' => array('type'=>'int'),
+                    'base_grand_total'         => array('type'=>'decimal'),
+                    'email_sent'               => array('type' => 'int'),
+                    'store_id'                 => array('type' => 'static'),
                 ),
             ),
 
