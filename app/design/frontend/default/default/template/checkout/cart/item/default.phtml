@@ -48,7 +48,7 @@
                 $_truncatedRemainder = nl2br($this->htmlEscape($_truncatedRemainder));
             }
             ?>
-            <li<?php if ($_truncatedRemainder):?> id="<?php echo $_randomId?>" class="truncated"<?php endif; ?>><strong><?php echo $_option['label'] ?>:</strong>
+            <li<?php if ($_truncatedRemainder):?> id="<?php echo $_randomId?>" class="truncated"<?php endif; ?>><strong><?php echo $_option['label'] ?>:</strong><br />
                 <?php if ($_truncatedRemainder):?>
                     <? /* <?php echo $_truncatedValue?><span class="truncated-etc" id="<?php echo $_randomId?>_etc">...</span><span class="truncated-remainder" id="<?php echo $_randomId?>_remainder" style="display:none"><?php echo $_truncatedRemainder ?></span>
                     <script type="text/javascript">

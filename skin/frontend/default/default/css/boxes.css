@@ -1085,9 +1085,9 @@ td.attributes-col p.pname  { width:100%; overflow:hidden; padding:0; margin:0; }
 td.attributes-col p.pname a{ font-weight:bold;}
 
 li.truncated { position:relative; }
-li.truncated .truncated_value { display:none; position:absolute; top:20px; left:50%; z-index:999; width:250px; padding:10px; border:1px solid #cec3b6; background-color:#fafaec; }
-.col-left ul.super-product-attributes li.truncated .truncated_value { right:-115px; top:15px; }
-.col-right ul.super-product-attributes li.truncated .truncated_value { left:-220px; top:15px; }
+li.truncated .truncated_value { display:none; position:absolute; top:30px; left:50%; z-index:999; width:250px; padding:10px; border:1px solid #cec3b6; background-color:#fafaec; }
+.col-left ul.super-product-attributes li.truncated .truncated_value { right:-115px; top:30px; }
+.col-right ul.super-product-attributes li.truncated .truncated_value { left:-220px; top:30px; }
 
 .shopping-cart-totals {
     width:248px;
