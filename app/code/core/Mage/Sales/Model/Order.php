@@ -1330,4 +1330,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     {
         return !$this->getIsVirtual();
     }
+
+    public function getFullTaxInfo()
+    {
+        $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($this)->toArray();
+        return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
+    }
 }

@@ -79,6 +79,7 @@ Customer account home dashboard layout
                 <block type="sales/order_items" name="order_items" template="sales/order/items.phtml">
                     <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/item/default.phtml</template></action>
                     <action method="addItemRender"><type>configurable</type><block>sales/order_item_renderer_configurable</block><template>sales/order/item/default.phtml</template></action>
+                    <block type="sales/order_tax" name="tax" template="sales/order/tax.phtml" />
                 </block>
             </block>
         </reference>
@@ -159,6 +160,7 @@ Customer account home dashboard layout
             <block type="sales/order_print" name="sales.order.print" template="sales/order/print.phtml">
                 <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/item/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>sales/order_item_renderer_configurable</block><template>sales/order/item/default.phtml</template></action>
+                <block type="sales/order_tax" name="tax" template="sales/order/print/tax.phtml" />
             </block>
         </reference>
     </sales_order_print>

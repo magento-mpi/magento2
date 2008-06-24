@@ -50,34 +50,6 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
     }
 
     /**
-     * Retrieve include tax html formated content
-     *
-     * @param Varien_Object $item
-     * @return string
-     */
-    public function displayPriceInclTax(Varien_Object $item)
-    {
-        return $this->displayPrices(
-            $item->getBasePrice()+$item->getBaseTaxBeforeDiscount()/$item->getQtyOrdered(),
-            $item->getPrice()+$item->getTaxBeforeDiscount()/$item->getQtyOrdered()
-        );
-    }
-
-    /**
-     * Retrieve subtotal price include tax html formated content
-     *
-     * @param Varien_Object $item
-     * @return string
-     */
-    public function displaySubtotalInclTax($item)
-    {
-        return $this->displayPrices(
-            $item->getBaseRowTotal()+$item->getBaseTaxBeforeDiscount(),
-            $item->getRowTotal()+$item->getTaxBeforeDiscount()
-        );
-    }
-
-    /**
      * Retrieve tax calculation html content
      *
      * @param Varien_Object $item

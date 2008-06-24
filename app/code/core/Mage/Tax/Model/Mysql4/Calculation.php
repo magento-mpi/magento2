@@ -75,6 +75,9 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
             if (isset($rate['amount'])) {
                 $row['amount'] = $rate['amount'];
             }
+            if (isset($rate['base_amount'])) {
+                $row['base_amount'] = $rate['base_amount'];
+            }
             $row['rates'][] = $oneRate;
 
             if (isset($rates[$i+1]['tax_calculation_rule_id'])) {
@@ -91,7 +94,7 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
 
             $currentRate += $value;
 
-            if (!isset($rates[$i+1]) || $rates[$i+1]['priority'] != $priority) {
+            if (!isset($rates[$i+1]) || $rates[$i+1]['priority'] != $priority || (isset($rates[$i+1]['process']) && $rates[$i+1]['process'] != $rate['process'])) {
                 $row['percent'] = (100+$totalPercent)*($currentRate/100);
                 $row['id'] = implode($ids);
                 $result[] = $row;

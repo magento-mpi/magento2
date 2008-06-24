@@ -86,9 +86,35 @@
             <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-row-<?php echo $_item->getId() ?>">
                 <td><?php echo $this->getItemHtml($_item->getOrderItem()) ?></td>
                 <td><?php echo $_item->getSku() ?></td>
-                <td class="a-right nowrap"><?php echo $_order->formatPrice($_item->getPrice()) ?> </td>
+                <td class="a-right nowrap">
+                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <?php echo $this->__('Excl. Tax'); ?>:
+                        <?php endif; ?>
+                        <strong><?php echo $_order->formatPrice($_item->getPrice()) ?></strong>
+                    <?php endif; ?>
+                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <br /><?php echo $this->__('Incl. Tax'); ?>:
+                        <?php endif; ?>
+                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></strong>
+                    <?php endif; ?>
+                </td>
                 <td><?php echo $_item->getQty()*1 ?></td>
-                <td class="a-right"><?php echo $_order->formatPrice($_item->getRowTotal()) ?></td>
+                <td class="a-right">
+                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <?php echo $this->__('Excl. Tax'); ?>:
+                        <?php endif; ?>
+                        <strong><?php echo $_order->formatPrice($_item->getRowTotal()) ?></strong>
+                    <?php endif; ?>
+                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <br /><?php echo $this->__('Incl. Tax'); ?>:
+                        <?php endif; ?>
+                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></strong>
+                    <?php endif; ?>
+                </td>
                 <td class="a-right"><?php echo $_order->formatPrice($_item->getTaxAmount()) ?></td>
                 <td class="a-right"><?php echo $_order->formatPrice(-$_item->getDiscountAmount()) ?></td>
                 <td class="last a-right nowrap">

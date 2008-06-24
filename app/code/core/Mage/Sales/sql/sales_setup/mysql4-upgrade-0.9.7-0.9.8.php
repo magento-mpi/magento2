@@ -18,25 +18,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
 
-/**
- * Order Tax Collection
- *
- * @author Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Sales_Model_Mysql4_Order_Tax_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-    protected function _construct()
-    {
-        $this->_init('sales/order_tax', 'sales/order_tax');
-    }
-
-    public function loadByOrder($order)
-    {
-        $orderId = $order->getId();
-        $this->getSelect()
-            ->where('main_table.order_id = ?', $orderId)
-            ->order('process');
-        return $this->load();
-    }
-}
+$installer->run("
+ALTER TABLE `{$installer->getTable('sales_order_tax')}` ADD `base_amount` DECIMAL( 12, 4 ) NOT NULL, ADD `process` SMALLINT NOT NULL;
+");

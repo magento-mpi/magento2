@@ -33,20 +33,26 @@
     <td class="attributes-col">
         <p class="pname"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></p>
 
+        <?php if ($_attributes = $this->getProductAttributes()) :?>
+        <ul class="super-product-attributes">
+            <?php foreach ($_attributes as $_attribute):?>
+            <li>
+                <strong><?php echo $_attribute['label']?>:</strong> <?php echo $_attribute['value']?>
+            </li>
+            <?php endforeach;?>
+        </ul>
+        <?php endif;?>
+
         <!-- item custom options -->
-        <?php if ($_options = $this->getOptionList()):?>
+        <?php if ($_options = $this->getProductOptions()):?>
         <ul class="shopping-cart-item-options">
             <?php foreach ($_options as $_option):?>
             <?php
             $_randomId = str_replace('.', '_', '_' . microtime(true));
             $_truncatedRemainder = '';
-            if (is_array($_option['value'])) {
-                $_truncatedValue = "<br />".implode('<br />', $_option['value']);
-            } else {
-                $_truncatedValue = Mage::helper('core/string')->truncate($_option['value'], 100, '', $_truncatedRemainder);
-                $_truncatedValue     = nl2br($this->htmlEscape($_truncatedValue));
-                $_truncatedRemainder = nl2br($this->htmlEscape($_truncatedRemainder));
-            }
+            $_truncatedValue = Mage::helper('core/string')->truncate($_option['value'], 100, '', $_truncatedRemainder);
+            $_truncatedValue     = nl2br($this->htmlEscape($_truncatedValue));
+            $_truncatedRemainder = nl2br($this->htmlEscape($_truncatedRemainder));
             ?>
             <li id="<?php echo $_randomId?>" class="<?php if ($_truncatedRemainder):?>truncated<?php endif;?>">
                 <strong><?php echo $_option['label'] ?>:</strong>

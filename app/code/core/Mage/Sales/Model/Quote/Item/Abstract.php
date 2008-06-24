@@ -166,6 +166,11 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
             $this->setTaxAmount($store->roundPrice($rowTotal * $taxPercent));
             $this->setBaseTaxAmount($store->roundPrice($rowBaseTotal * $taxPercent));
+
+            $rowTotal       = $this->getRowTotal();
+            $rowBaseTotal   = $this->getBaseRowTotal();
+            $this->setTaxBeforeDiscount($store->roundPrice($rowTotal * $taxPercent));
+            $this->setBaseTaxBeforeDiscount($store->roundPrice($rowBaseTotal * $taxPercent));
         } else {
             if (Mage::helper('tax')->applyTaxAfterDiscount($store)) {
                 $totalBaseTax = $this->getBaseTaxAmount();
@@ -285,12 +290,32 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         $store = $this->getQuote()->getStore();
 
         if (Mage::helper('tax')->priceIncludesTax($store)) {
-            $taxCalculationModel = Mage::getSingleton('tax/calculation');
-            $request = $taxCalculationModel->getRateRequest(null, null, $this->getQuote()->getCustomerTaxClassId(), $store);
-            $rate = $taxCalculationModel->getRate($request->setProductClassId($this->getProduct()->getTaxClassId()));
+            $bAddress = $this->getQuote()->getBillingAddress();
+            $sAddress = $this->getQuote()->getShippingAddress();
 
-            $taxAmount = $store->roundPrice($value/(100+$rate)*$rate);
-            $priceExcludingTax = $value - $taxAmount;
+            if ($this->getIsVirtual()) {
+                $sAddress = $bAddress;
+            } else {
+                $sAddress = $this->getQuote()->getShippingAddress();
+            }
+
+            $address = $this->getAddress();
+            if ($address) {
+                switch ($address->getAddressType()) {
+                    case Mage_Sales_Model_Quote_Address::TYPE_BILLING:
+                        $sAddress = $bAddress = $address;
+                        break;
+                    case Mage_Sales_Model_Quote_Address::TYPE_SHIPPING:
+                        $sAddress = $address;
+                        break;
+                }
+            }
+
+            $priceExcludingTax = Mage::helper('tax')->getPrice($this->getProduct(), $value, false, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
+            $priceIncludingTax = Mage::helper('tax')->getPrice($this->getProduct(), $value, true, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
+
+            $taxAmount = $priceIncludingTax - $priceExcludingTax;
+            $this->setTaxPercent($this->getProduct()->getTaxPercent());
 
             $qty = $this->getQty();
             if ($this->getParentItem()) {
@@ -303,8 +328,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
             $this->setTaxAmount($totalTax);
             $this->setBaseTaxAmount($totalBaseTax);
-
-            $this->setTaxPercent($rate);
 
             $value = $priceExcludingTax;
         }

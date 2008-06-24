@@ -252,4 +252,39 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
         }
         return $res;
     }
+
+    /**
+     * Retrieve include tax html formated content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displayPriceInclTax(Varien_Object $item)
+    {
+        $qty = ($item->getQtyOrdered() ? $item->getQtyOrdered() : ($item->getQty() ? $item->getQty() : 1));
+        $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
+        $tax = ($item->getBaseTaxBeforeDiscount() ? $item->getBaseTaxBeforeDiscount() : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0));
+
+        return $this->displayPrices(
+            $item->getBasePrice()+$baseTax/$qty,
+            $item->getPrice()+$tax/$qty
+        );
+    }
+
+    /**
+     * Retrieve subtotal price include tax html formated content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displaySubtotalInclTax($item)
+    {
+        $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
+        $tax = ($item->getBaseTaxBeforeDiscount() ? $item->getBaseTaxBeforeDiscount() : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0));
+
+        return $this->displayPrices(
+            $item->getBaseRowTotal()+$baseTax,
+            $item->getRowTotal()+$tax
+        );
+    }
 }

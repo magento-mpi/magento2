@@ -30,8 +30,10 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_displayTaxColumn;
     protected $_taxData;
     protected $_priceIncludesTax;
+    protected $_shippingPriceIncludesTax;
     protected $_applyTaxAfterDiscount;
     protected $_priceDisplayType;
+    protected $_shippingPriceDisplayType;
 
     public function getProductPrice($product, $format=null)
     {
@@ -177,43 +179,75 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return Zend_Json::encode($result);
     }
 
-    public function getPrice($product, $price, $includingTax = null)
+    public function getPrice($product, $price, $includingTax = null, $shippingAddress = null, $billingAddress = null, $ctc = null, $store = null, $priceIncludesTax = null)
     {
-        $store = Mage::app()->getStore();
+        if (is_null($priceIncludesTax)) {
+            $priceIncludesTax = $this->priceIncludesTax();
+        }
+        $store = Mage::app()->getStore($store);
         $percent = $product->getTaxPercent();
+        $includingPercent = null;
 
+        $taxClassId = $product->getTaxClassId();
         if (is_null($percent)) {
-            $taxClassId = $product->getTaxClassId();
             if ($taxClassId) {
-                $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+                $request = Mage::getSingleton('tax/calculation')->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
                 $percent = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($taxClassId));
             }
         }
+        if ($taxClassId && $priceIncludesTax) {
+            $request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+            $includingPercent = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($taxClassId));
+        }
 
-        if (!$percent) {
-            return $price;
+        if ($percent === false || is_null($percent)) {
+            if ($priceIncludesTax && !$includingPercent) {
+                return $price;
+            }
         }
 
         $product->setTaxPercent($percent);
 
-        if (is_null($includingTax)) {
-            switch ($this->needPriceConversion()) {
-                case self::PRICE_CONVERSION_MINUS:
-                    return $this->_calculatePrice($price, $percent, false);
-                case self::PRICE_CONVERSION_PLUS:
-                    return $this->_calculatePrice($price, $percent, true);
-                default:
-                    return $price;
+        if (!is_null($includingTax)) {
+            if ($priceIncludesTax) {
+                if ($includingTax) {
+                    $price = $this->_calculatePrice($price, $includingPercent, false);
+                    $price = $this->_calculatePrice($price, $percent, true);
+                } else {
+                    $price = $this->_calculatePrice($price, $includingPercent, false);
+                }
+            } else {
+                if ($includingTax) {
+                    $price = $this->_calculatePrice($price, $percent, true);
+                }
+            }
+        } else {
+            if ($priceIncludesTax) {
+                switch ($this->getPriceDisplayType($store)) {
+                    case Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                    case Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH:
+                        $price = $this->_calculatePrice($price, $includingPercent, false);
+                        break;
+
+                    case Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
+                        $price = $this->_calculatePrice($price, $includingPercent, false);
+                        $price = $this->_calculatePrice($price, $percent, true);
+                        break;
+                }
+            } else {
+                switch ($this->getPriceDisplayType($store)) {
+                    case Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
+                        $price = $this->_calculatePrice($price, $percent, true);
+                        break;
+
+                    case Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH:
+                    case Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                        break;
+                }
             }
         }
 
-        if ($this->priceIncludesTax() && !$includingTax) {
-            return $this->_calculatePrice($price, $percent, false);
-        } else if (!$this->priceIncludesTax() && $includingTax) {
-            return $this->_calculatePrice($price, $percent, true);
-        }
-        return $price;
-
+        return $store->roundPrice($price);
     }
 
     public function displayPriceIncludingTax()
@@ -235,9 +269,9 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $store = Mage::app()->getStore();
         if ($type) {
-            return $store->roundPrice($price * (1+($percent/100)));
+            return $price * (1+($percent/100));
         } else {
-            return $store->roundPrice($price - ($price/(100+$percent)*$percent));
+            return $price - ($price/(100+$percent)*$percent);
         }
     }
 
@@ -245,5 +279,53 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $text = $this->getIncExcText($flag);
         return $text ? ' <span class="tax-flag">('.$text.')</span>' : '';
+    }
+
+    public function shippingPriceIncludesTax($store = null)
+    {
+        $storeId = Mage::app()->getStore($store)->getId();
+        if (!isset($this->_shippingPriceIncludesTax[$storeId])) {
+            $this->_shippingPriceIncludesTax[$storeId] =
+                (int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_INCLUDES_TAX, $store);
+        }
+        return $this->_shippingPriceIncludesTax[$storeId];
+    }
+
+    public function getShippingPriceDisplayType($store = null)
+    {
+
+        $storeId = Mage::app()->getStore($store)->getId();
+        if (!isset($this->_shippingPriceDisplayType[$storeId])) {
+            $this->_shippingPriceDisplayType[$storeId] =
+                (int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_SHIPPING, $store);
+        }
+        return $this->_shippingPriceDisplayType[$storeId];
+    }
+
+    public function displayShippingPriceIncludingTax()
+    {
+        return $this->getShippingPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
+    }
+
+    public function displayShippingPriceExcludingTax()
+    {
+        return $this->getShippingPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+    }
+
+    public function displayShippingBothPrices()
+    {
+        return $this->getShippingPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+    }
+
+    public function getShippingTaxClass($store)
+    {
+        return (int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+    }
+
+    public function getShippingPrice($price, $includingTax = null, $shippingAddress = null, $ctc = null, $store = null){
+        $pseudoProduct = new Varien_Object();
+        $pseudoProduct->setTaxClassId($this->getShippingTaxClass($store));
+
+        return $this->getPrice($pseudoProduct, $price, $includingTax, $shippingAddress, false, $ctc, $store, $this->shippingPriceIncludesTax($store));
     }
 }

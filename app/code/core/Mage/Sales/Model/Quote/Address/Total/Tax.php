@@ -32,6 +32,8 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $store = $address->getQuote()->getStore();
         $address->setTaxAmount(0);
         $address->setBaseTaxAmount(0);
+        $address->setShippingTaxAmount(0);
+        $address->setBaseShippingTaxAmount(0);
         $address->setAppliedTaxes(array());
 
         $items = $address->getAllItems();
@@ -82,6 +84,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
             	   $address,
             	   $taxCalculationModel->getAppliedRates($request),
             	   $item->getTaxAmount(),
+            	   $item->getBaseTaxAmount(),
             	   $rate
                 );
             }
@@ -101,7 +104,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $address->setTaxAmount($address->getTaxAmount() + $shippingTax);
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $shippingBaseTax);
 
-            	$this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $shippingTax, $rate);
+            	$this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $shippingTax, $shippingBaseTax, $rate);
             }
         }
 
@@ -110,18 +113,24 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         return $this;
     }
 
-    protected function _saveAppliedTaxes(Mage_Sales_Model_Quote_Address $address, $applied, $amount, $rate)
+    protected function _saveAppliedTaxes(Mage_Sales_Model_Quote_Address $address, $applied, $amount, $baseAmount, $rate)
     {
         $previouslyAppliedTaxes = $address->getAppliedTaxes();
+        $process = count($previouslyAppliedTaxes);
+
     	foreach ($applied as $row) {
             if (!isset($previouslyAppliedTaxes[$row['id']])) {
+                $row['process'] = $process;
                 $row['amount'] = 0;
+                $row['base_amount'] = 0;
                 $previouslyAppliedTaxes[$row['id']] = $row;
             }
             $appliedAmount = $amount/$rate*$row['percent'];
+            $baseAppliedAmount = $baseAmount/$rate*$row['percent'];
 
             if ($appliedAmount || $previouslyAppliedTaxes[$row['id']]['amount']) {
                 $previouslyAppliedTaxes[$row['id']]['amount'] += $appliedAmount;
+                $previouslyAppliedTaxes[$row['id']]['base_amount'] += $baseAppliedAmount;
             } else {
                 unset($previouslyAppliedTaxes[$row['id']]);
             }

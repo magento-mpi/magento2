@@ -18,25 +18,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Order Tax Collection
+ * Sales order view tax block
  *
- * @author Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Mysql4_Order_Tax_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Sales_Block_Order_Tax extends Mage_Core_Block_Template
 {
-    protected function _construct()
+    /**
+     * Retrieve current order model instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
     {
-        $this->_init('sales/order_tax', 'sales/order_tax');
-    }
-
-    public function loadByOrder($order)
-    {
-        $orderId = $order->getId();
-        $this->getSelect()
-            ->where('main_table.order_id = ?', $orderId)
-            ->order('process');
-        return $this->load();
+        return Mage::registry('current_order');
     }
 }

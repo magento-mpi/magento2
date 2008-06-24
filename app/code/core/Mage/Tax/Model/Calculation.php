@@ -112,19 +112,23 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         $address = new Varien_Object();
         $session = Mage::getSingleton('customer/session');
         $basedOn = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
-        if (((is_null($billingAddress) || !$billingAddress->getCountryId()) && $basedOn == 'billing') || ((is_null($shippingAddress) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping')){
-            if (!$session->isLoggedIn()) {
-                $basedOn = 'default';
-            } else {
-                $defBilling = $session->getCustomer()->getDefaultBillingAddress();
-                $defShipping = $session->getCustomer()->getDefaultShippingAddress();
-
-                if ($basedOn == 'billing' && $defBilling && $defBilling->getCountryId()) {
-                    $billingAddress = $defBilling;
-                } else if ($basedOn == 'shipping' && $defShipping && $defShipping->getCountryId()) {
-                    $shippingAddress = $defShipping;
-                } else {
+        if (($shippingAddress === false && $basedOn == 'shipping') || ($billingAddress === false && $basedOn == 'billing')) {
+            $basedOn = 'default';
+        } else {
+            if ((($billingAddress === false || is_null($billingAddress) || !$billingAddress->getCountryId()) && $basedOn == 'billing') || (($shippingAddress === false || is_null($shippingAddress) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping')){
+                if (!$session->isLoggedIn()) {
                     $basedOn = 'default';
+                } else {
+                    $defBilling = $session->getCustomer()->getDefaultBillingAddress();
+                    $defShipping = $session->getCustomer()->getDefaultShippingAddress();
+
+                    if ($basedOn == 'billing' && $defBilling && $defBilling->getCountryId()) {
+                        $billingAddress = $defBilling;
+                    } else if ($basedOn == 'shipping' && $defShipping && $defShipping->getCountryId()) {
+                        $shippingAddress = $defShipping;
+                    } else {
+                        $basedOn = 'default';
+                    }
                 }
             }
         }
@@ -155,6 +159,9 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
 
         if (is_null($customerTaxClass)) {
             $customerTaxClass = Mage::getSingleton('customer/session')->getCustomer()->getTaxClassId();
+        } elseif ($customerTaxClass === false) {
+            $defaultCustomerGroup = Mage::getStoreConfig('customer/create_account/default_group', $store);
+            $customerTaxClass = Mage::getModel('customer/group')->getTaxClassId($defaultCustomerGroup);
         }
 
         $request = new Varien_Object();

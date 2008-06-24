@@ -66,7 +66,17 @@
                             <h4><?php echo $this->__('Shipping Method') ?><span class="separator">|</span><a href="<?php echo $this->getEditShippingUrl() ?>"><?php echo $this->__('Change Shipping Method') ?></a></h4>
                         </div>
                         <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
-                        <p><?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodDescription() ?>) - <?php echo $_rate->getPrice() ?></p>
+                        <p>
+                        <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodDescription() ?>)
+                        -
+                        <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
+                        <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
+
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <?php endif; ?>
+                        </p>
                         <?php endif; ?>
                     </div>
                     <div class="col-2">

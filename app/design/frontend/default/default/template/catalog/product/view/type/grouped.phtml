@@ -51,9 +51,9 @@
                     <span class="nobr special-price" style="font-size:12px;"><?php echo $this->__('Special Price') ?>&nbsp;<?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
                 <?php endif; ?>
                 <?php if($_item->getTierPriceCount()): ?>
-                    <?php foreach ($_item->getFormatedTierPrice() as $_tierPrice): ?>
+                    <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPrice): ?>
-                            <?php if ($this->helper('tax')->displayBothPrices()): ?>
+                            <?php if ($this->helper('tax')->displayBothPrices() && $_tierPrice['formated_price'] != $_tierPrice['formated_price_incl_tax']): ?>
                                 <span class="nobr"><?php echo $this->__('Buy %s for %s (%s incl. tax) each', $_tierPrice['price_qty'], $_tierPrice['formated_price'], $_tierPrice['formated_price_incl_tax']) ?></span>
                             <?php else: ?>
                                 <span class="nobr"><?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?></span>

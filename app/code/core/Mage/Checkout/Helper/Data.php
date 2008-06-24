@@ -87,11 +87,15 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getPriceInclTax($item)
     {
-        return $this->formatPrice($item->getCalculationPrice()+$item->getTaxBeforeDiscount()/$item->getQty());
+        $price = ($item->getCalculationPrice() ? $item->getCalculationPrice() : $item->getPrice());
+        $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
+        $tax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : $item->getTaxAmount());
+        return $price+($tax/$qty);
     }
 
     public function getSubtotalInclTax($item)
     {
-        return $this->formatPrice($item->getCalculationPrice()+$item->getTaxBeforeDiscount());
+        $tax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : $item->getTaxAmount());
+        return $item->getRowTotal()+$tax;
     }
 }

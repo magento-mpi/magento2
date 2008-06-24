@@ -80,11 +80,26 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
     public function getShippingAddressRate($address)
     {
         if ($rate = $address->getShippingRateByCode($address->getShippingMethod())) {
-            $filter = Mage::app()->getStore()->getPriceFilter();
-            $rate->setPrice($filter->filter($rate->getPrice()));
             return $rate;
         }
         return false;
+    }
+
+    public function getShippingPriceInclTax($address)
+    {
+        $exclTax = $address->getShippingAmount();
+        $taxAmount = $address->getShippingTaxAmount();
+        return $this->formatPrice($exclTax + $taxAmount);
+    }
+
+    public function getShippingPriceExclTax($address)
+    {
+        return $this->formatPrice($address->getShippingAmount());
+    }
+
+    public function formatPrice($price)
+    {
+        return $this->getQuote()->getStore()->formatPrice($price);
     }
 
     public function getShippingAddressItems($address)

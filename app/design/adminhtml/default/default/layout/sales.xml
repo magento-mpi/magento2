@@ -37,8 +37,9 @@
                     <block type="adminhtml/sales_order_payment" name="order_payment"></block>
                     <block type="adminhtml/sales_order_view_history" name="order_history" template="sales/order/view/history.phtml"></block>
                     <block type="adminhtml/sales_order_view_giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"></block>
-                    <block type="adminhtml/sales_order_totals" name="order_totals" template="sales/order/totals.phtml"></block>
-                    <block type="adminhtml/sales_order_totals_tax" name="order_totals_tax" template="sales/order/totals/tax.phtml"></block>
+                    <block type="adminhtml/sales_order_totals" name="order_totals" template="sales/order/totals.phtml">
+                        <block type="adminhtml/sales_order_totals_tax" name="order_totals_tax" template="sales/order/totals/tax.phtml" />
+                    </block>
                 </block>
                 <action method="addTab"><name>order_info</name><block>order_tab_info</block></action>
                 <action method="addTab"><name>order_invoices</name><block>adminhtml/sales_order_view_tab_invoices</block></action>

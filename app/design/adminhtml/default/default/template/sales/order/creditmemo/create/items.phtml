@@ -53,7 +53,21 @@
                     <td>
                         <?php echo $this->getItemHtml($_item) ?>
                     </td>
-                    <td class="price"><?php echo $this->displayPriceAttribute('price') ?></td>
+                    <td class="price">
+                    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <?php echo $this->helper('tax')->__('Excl. Tax'); ?>
+                        <?php endif; ?>
+                        <?php echo $this->displayPriceAttribute('price') ?>
+                    <?php endif; ?>
+                    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <br />
+                            <?php echo $this->helper('tax')->__('Incl. Tax'); ?>
+                        <?php endif; ?>
+                        <?php echo $this->displayPriceInclTax($_item); ?>
+                    <?php endif; ?>
+                    </td>
                     <td><?php echo $this->getColumnHtml($_item, 'qty') ?></td>
                     <?php if ($this->canReturnToStock()) : ?>
                         <td class="a-center"><input type="checkbox" name="creditmemo[items][<?php echo $_item->getOrderItemId() ?>][back_to_stock]" value="1"<?php if ($_item->getBackToStock()):?> checked<?php endif;?>/></td>
@@ -65,7 +79,21 @@
                         <?php echo $_item->getQty()*1 ?>
                     <?php endif; ?>
                     </td>
-                    <td class="price"><?php echo $this->displayPriceAttribute('row_total') ?></td>
+                    <td class="price">
+                    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <?php echo $this->helper('tax')->__('Excl. Tax'); ?>
+                        <?php endif; ?>
+                        <?php echo $this->displayPriceAttribute('row_total') ?>
+                    <?php endif; ?>
+                    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <br />
+                            <?php echo $this->helper('tax')->__('Incl. Tax'); ?>
+                        <?php endif; ?>
+                        <?php echo $this->displaySubtotalInclTax($_item); ?>
+                    <?php endif; ?>
+                    </td>
                     <td class="price"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
                     <td class="price"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
                     <td class="last price">
