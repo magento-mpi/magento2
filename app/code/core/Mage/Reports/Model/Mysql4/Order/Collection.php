@@ -249,7 +249,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                 "order_items2.item_id = `order_items`.item_id", array())
             ->where("`order_items`.`order_id` = `e`.`entity_id`");
 
-        $this->getSelect()->from("", array("items" => "(".$countSql.")"));
+        $this->getSelect()->from("", array("items" => "SUM((".$countSql."))"));
 
         return $this;
     }
