@@ -259,6 +259,10 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             return $result;
         }
 
+        $selections = array();
+
+        $product = $this->getProduct();
+
         if ($options = $buyRequest->getBundleOption()) {
             $qtys = $buyRequest->getBundleOptionQty();
 
@@ -272,6 +276,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
 
             $selectionIds = array();
+
             foreach ($options as $optionId => $selectionId) {
                 if (!is_array($selectionId)) {
                     if ($selectionId != '') {
@@ -285,13 +290,39 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     }
                 }
             }
-            $selectionsCollection = $this->getSelectionsByIds($selectionIds);
-            $product = $this->getProduct();
+
+            $selections = $this->getSelectionsByIds($selectionIds)->getItems();
+
+        } else {
+            $product->getTypeInstance()->setStoreFilter($product->getStoreId());
+
+            $optionCollection = $product->getTypeInstance()->getOptionsCollection();
+
+            $optionIds = $product->getTypeInstance()->getOptionsIds();
+            $selectionIds = array();
+
+            $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
+                    $product->getTypeInstance()->getOptionsIds()
+                );
+
+            $options = $optionCollection->appendSelections($selectionCollection);
+
+            foreach ($options as $option) {
+                if ($option->getRequired() && count($option->getSelections()) == 1) {
+                    $selections = array_merge($selections, $option->getSelections());
+                } else {
+                    $selections = array();
+                    break;
+                }
+            }
+        }
+
+        if (count($selections) > 0) {
 
             $uniqueKey = array($product->getId());
+            $selectionIds = array();
 
-            foreach ($selectionsCollection as $selection) {
-
+            foreach ($selections as $selection) {
                 if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
                     $qty = $qtys[$selection->getOptionId()] > 0 ? $qtys[$selection->getOptionId()] : 1;
                 } else {
@@ -311,10 +342,10 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                         ->addCustomOption('bundle_option_ids', serialize($optionIds))
                         ->setCartQty($qty);
                 }
+                $selectionIds[] = $selection->getSelectionId();
                 $uniqueKey[] = $selection->getSelectionId();
                 $uniqueKey[] = $qty;
             }
-
             /**
              * "unique" key for bundle selection and add it to selections and bundle for selections
              */
@@ -322,12 +353,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             foreach ($result as $item) {
                 $item->addCustomOption('bundle_identity', $uniqueKey);
             }
-
             $product->addCustomOption('bundle_option_ids', serialize($optionIds));
             $product->addCustomOption('bundle_selection_ids', serialize($selectionIds));
 
             return $result;
         }
+
         return Mage::helper('bundle')->__('Please specify the bundle option(s)');
     }
 

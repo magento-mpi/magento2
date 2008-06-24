@@ -100,10 +100,6 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getMinimalPrice($product)
     {
-        if ($product->getData('minimal_price')) {
-            return $product->getData('minimal_price');
-        }
-
         $price = $product->getPrice();
 
         foreach ($this->getOptions($product) as $option) {
@@ -345,7 +341,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
-        $resource = Mage::getResourceModel('bundle/bundle');
+        $resource = Mage::getResourceSingleton('bundle/bundle');
         $productPriceTypeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price_type');
         $attributes = $resource->getAttributeData($productId, $productPriceTypeId, 0);
 
@@ -354,7 +350,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         $results = $resource->getSelectionsData($productId);
 
         if (!$attributes[0]['value']) { //dynamic
-            $dataRetreiver = Mage::getModel('catalogindex/data_simple');
+            $dataRetreiver = Mage::getSingleton('catalogindex/data_simple');
             $childIds = array();
 
             foreach ($results as $key => $result) {
