@@ -328,4 +328,57 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $this->getPrice($pseudoProduct, $price, $includingTax, $shippingAddress, false, $ctc, $store, $this->shippingPriceIncludesTax($store));
     }
+
+    public function getPriceTaxSql($priceField, $taxClassField)
+    {
+        $request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $defaultTaxes = Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses($request);
+
+        $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $currentTaxes = Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses($request);
+
+        $defaultTaxString = $currentTaxString = '';
+
+        $rateToVariable = array(
+                            'defaultTaxString'=>'defaultTaxes',
+                            'currentTaxString'=>'currentTaxes',
+                            );
+        foreach ($rateToVariable as $rateVariable=>$rateArray) {
+            if ($$rateArray && is_array($$rateArray)) {
+                $$rateVariable = '';
+                foreach ($$rateArray as $classId=>$rate) {
+                    if ($rate) {
+                        $$rateVariable .= "WHEN '{$classId}' THEN '".($rate/100)."'";
+                    }
+                }
+                if ($$rateVariable) {
+                    $$rateVariable = "CASE {$taxClassField} {$$rateVariable} ELSE 1 END";
+                }
+            }
+        }
+
+        $result = '';
+
+        if ($this->priceIncludesTax()) {
+            if ($this->displayPriceExcludingTax() || $this->displayBothPrices()) {
+                if ($defaultTaxString) {
+                    $result = "-({$priceField}/(1+({$defaultTaxString}))*{$defaultTaxString})";
+                }
+            } else {
+                if ($defaultTaxString) {
+                    $result  = "-({$priceField}/(1+({$defaultTaxString}))*{$defaultTaxString})";
+                }
+                if ($currentTaxString) {
+                    $result .= "+(({$priceField}{$result})*{$currentTaxString})";
+                }
+            }
+        } else {
+            if ($this->displayPriceIncludingTax()) {
+                if ($currentTaxString) {
+                    $result .= "+({$priceField}*{$currentTaxString})";
+                }
+            }
+        }
+        return $result;
+    }
 }
