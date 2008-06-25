@@ -19,7 +19,7 @@
  */
 ?>
 <?php $_item = $this->getItem() ?>
-<li class="item">
+<li>
     <div class="product-images">
         <a href="<?php echo $this->getProductUrl()?>"><img src="<?php echo $this->getProductThumbnail()->resize(50, 50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="50" height="50" /></a>
     </div>
