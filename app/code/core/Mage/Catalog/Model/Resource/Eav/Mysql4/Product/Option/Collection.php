@@ -115,7 +115,9 @@ WHERE
                 ->getCollection()
                 ->addTitleToResult(Mage::app()->getStore()->getId())
                 ->addPriceToResult(Mage::app()->getStore()->getId())
-                ->addOptionToFilter($optionIds);
+                ->addOptionToFilter($optionIds)
+                ->setOrder('sort_order', 'asc')
+                ->setOrder('title', 'asc');
 
             foreach ($values as $value) {
                 $this->getItemById($value->getOptionId())->addValue($value);

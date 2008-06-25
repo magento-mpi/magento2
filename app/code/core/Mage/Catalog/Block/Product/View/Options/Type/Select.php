@@ -45,28 +45,32 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 
     public function getValuesHtml()
     {
-        $collection = $this->getValuesCollection();
-
         $_option = $this->getOption();
 
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
-            || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
-            ) {
+            || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
 
             $require = ($_option->getIsRequire()) ? ' required-entry' : '';
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'drop_down',
                     'class' => 'select'.$require
-                ))
-                ->setName('options['.$_option->getid().']');
-            $select->addOption('', $this->__('-- Please Select --'));
-            foreach ($collection as $_value) {
+                ));
+            if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
+                $select->setName('options['.$_option->getid().']')
+                    ->addOption('', $this->__('-- Please Select --'));
+            } else {
+                $select->setName('options['.$_option->getid().'][]');
+            }
+            foreach ($_option->getValues() as $_value) {
                 $priceStr = $this->_formatPrice(array(
                     'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
                     'pricing_value' => $_value->getPrice()
                 ));
-                $select->addOption($_value->getOptionTypeId(), $_value->getTitle() . ' ' . $priceStr . '');
+                $select->addOption(
+                    $_value->getOptionTypeId(),
+                    $_value->getTitle() . ' ' . $priceStr . ''
+                );
             }
 
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
@@ -81,6 +85,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             ) {
 
             $require = ($_option->getIsRequire()) ? ' validate-one-required' : '';
+            $arraySign = '';
             switch ($_option->getType()) {
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
@@ -89,17 +94,18 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
                     $class = 'form-radio';
+                    $arraySign = '[]';
                     break;
             }
             $selectHtml = '';
 				$count = 1;
-            foreach ($collection as $_value) {
+            foreach ($_option->getValues() as $_value) {
 				$count++;
 				$priceStr = $this->_formatPrice(array(
 				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
 				    'pricing_value' => $_value->getPrice()
 				));
-                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.'" name="options['.$_option->getId().'][]" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label><br />';
+                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.'" name="options['.$_option->getId().']'.$arraySign.'" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label><br />';
             }
 
             return $selectHtml;

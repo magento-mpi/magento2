@@ -35,7 +35,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->addOptionRender(
+        $this->addOptionRenderer(
             'default',
             'catalog/product_view_options_type_default',
             'catalog/product/view/options/type/default.phtml'
@@ -72,18 +72,19 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     }
 
     /**
-     * Add option render to renders array
+     * Add option renderer to renderers array
      *
      * @param string $type
      * @param string $block
      * @param string $template
      * @return Mage_Catalog_Block_Product_View_Options
      */
-    public function addOptionRender($type, $block, $template)
+    public function addOptionRenderer($type, $block, $template)
     {
         $this->_optionRenders[$type] = array(
             'block' => $block,
             'template' => $template,
+            'renderer' => null
         );
         return $this;
     }
@@ -127,12 +128,13 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
      */
     public function getOptionHtml(Mage_Catalog_Model_Product_Option $option)
     {
-        $render = $this->getOptionRender(
+        $renderer = $this->getOptionRender(
             $this->getGroupOfOption($option->getType())
         );
-        return $this->getLayout()->createBlock($render['block'])
-            ->setOption($option)
-            ->setTemplate($render['template'])->toHtml();
-
+        if (is_null($renderer['renderer'])) {
+            $renderer['renderer'] = $this->getLayout()->createBlock($renderer['block'])
+                ->setTemplate($renderer['template']);
+        }
+        return $renderer['renderer']->setOption($option)->toHtml();
     }
 }

@@ -208,11 +208,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected function _prepareOptionsForCart($options)
     {
         $newOptions = array();
-            $optionsCollection = $this->getProduct()
-                ->getProductOptionsCollection()
-                ->load();
 
-            foreach ($optionsCollection as $_option) {
+            foreach ($this->getProduct()->getOptions() as $_option) {
                 /* @var $_option Mage_Catalog_Model_Product_Option */
                 if (!isset($options[$_option->getId()]) && $_option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
                     return Mage::helper('catalog')->__('Please specify the product required option(s)');

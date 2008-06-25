@@ -213,7 +213,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
                     $i = 0;
                     $itemCount = 0;
-                    foreach ($valuesArr as $_value) {
+                    foreach ($option->getValues() as $_value) {
                         /* @var $_value Mage_Catalog_Model_Product_Option_Value */
                         $value['optionValues'][$i] = array(
                             'item_count' => max($itemCount, $_value->getOptionTypeId()),
