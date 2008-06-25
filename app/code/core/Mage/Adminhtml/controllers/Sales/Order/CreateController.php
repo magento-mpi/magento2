@@ -124,22 +124,24 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         /**
          * Flag for using billing address for shipping
          */
-        $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
-        if (!is_null($syncFlag)) {
-            $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()) {
+            $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
+            if (!is_null($syncFlag)) {
+                $this->_getOrderCreateModel()->setShippingAsBilling((int)$syncFlag);
+            }
         }
 
         /**
          * Change shipping address flag
          */
-        if ($this->getRequest()->getPost('reset_shipping')) {
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual() && $this->getRequest()->getPost('reset_shipping')) {
             $this->_getOrderCreateModel()->resetShippingMethod(true);
         }
 
         /**
          * Collecting shipping rates
          */
-        if ($this->getRequest()->getPost('collect_shipping_rates')) {
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual() && $this->getRequest()->getPost('collect_shipping_rates')) {
             $this->_getOrderCreateModel()->collectShippingRates();
         }
 

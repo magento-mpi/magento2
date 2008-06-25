@@ -160,6 +160,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $info = $orderItem->getProductOptionByCode('info_buyRequest');
                 $info = new Varien_Object($info);
                 $product->setSkipCheckRequiredOption(true);
+                $product->setIsSuperMode(true);
                 $item = $this->getQuote()->addProduct($product,$info);
                 if (is_string($item)) {
                     Mage::throwException($item);
@@ -815,10 +816,15 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     public function collectShippingRates()
     {
-        $this->getQuote()->collectTotals();
+        $this->collectRates();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->getShippingAddress()->collectShippingRates();
         return $this;
+    }
+
+    public function collectRates()
+    {
+        $this->getQuote()->collectTotals();
     }
 
     public function setPaymentMethod($method)
@@ -920,26 +926,53 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         $quote = $this->getQuote();
 
-        $order = $quoteConvert->addressToOrder($quote->getShippingAddress());
+        if ($this->getQuote()->getIsVirtual()) {
+            $order = $quoteConvert->addressToOrder($quote->getBillingAddress());
+        }
+        else {
+            $order = $quoteConvert->addressToOrder($quote->getShippingAddress());
+        }
         $order->setBillingAddress($quoteConvert->addressToOrderAddress($quote->getBillingAddress()))
-            ->setShippingAddress($quoteConvert->addressToOrderAddress($quote->getShippingAddress()))
             ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()));
+        if (!$this->getQuote()->getIsVirtual()) {
+            $order->setShippingAddress($quoteConvert->addressToOrderAddress($quote->getShippingAddress()));
+        }
 
-        foreach ($quote->getShippingAddress()->getAllItems() as $item) {
-            /* @var $item Mage_Sales_Model_Quote_Item */
-            $orderItem = $quoteConvert->itemToOrderItem($item);
-            $options = array();
-            if ($productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions()) {
-                $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
-                $options = $productOptions;
+        if (!$this->getQuote()->getIsVirtual()) {
+            foreach ($quote->getShippingAddress()->getAllItems() as $item) {
+                /* @var $item Mage_Sales_Model_Quote_Item */
+                $orderItem = $quoteConvert->itemToOrderItem($item);
+                $options = array();
+                if ($productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions()) {
+                    $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
+                    $options = $productOptions;
+                }
+                if ($addOptions = $item->getOptionByCode('additional_options')) {
+                    $options['additional_options'] = unserialize($addOptions->getValue());
+                }
+                if ($options) {
+                    $orderItem->setProductOptions($options);
+                }
+                $order->addItem($orderItem);
             }
-            if ($addOptions = $item->getOptionByCode('additional_options')) {
-                $options['additional_options'] = unserialize($addOptions->getValue());
+        }
+        if ($this->getQuote()->hasVirtualItems()) {
+            foreach ($quote->getBillingAddress()->getAllItems() as $item) {
+                /* @var $item Mage_Sales_Model_Quote_Item */
+                $orderItem = $quoteConvert->itemToOrderItem($item);
+                $options = array();
+                if ($productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions()) {
+                    $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
+                    $options = $productOptions;
+                }
+                if ($addOptions = $item->getOptionByCode('additional_options')) {
+                    $options['additional_options'] = unserialize($addOptions->getValue());
+                }
+                if ($options) {
+                    $orderItem->setProductOptions($options);
+                }
+                $order->addItem($orderItem);
             }
-            if ($options) {
-                $orderItem->setProductOptions($options);
-            }
-            $order->addItem($orderItem);
         }
 
         if ($this->getSendConfirmation()) {
@@ -994,12 +1027,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $errors[] = Mage::helper('adminhtml')->__('You need specify order items');
         }
 
-        if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
-            $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified');
-        }
+        if (!$this->getQuote()->isVirtual()) {
+            if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
+                $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified');
+            }
 
-        if (!$this->getQuote()->getPayment()->getMethod()) {
-            $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
+            if (!$this->getQuote()->getPayment()->getMethod()) {
+                $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
+            }
         }
 
         if (!empty($errors)) {

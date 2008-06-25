@@ -641,6 +641,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $item = $this->getItemByProduct($product);
         if (!$item) {
             $item = Mage::getModel('sales/quote_item');
+            $item->setQuote($this);
         }
 
         /**
@@ -874,6 +875,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $isVirtual = true;
         foreach ($this->getItemsCollection() as $_item) {
             /* @var $_item Mage_Sales_Model_Quote_Item */
+            if ($_item->isDeleted()) {
+                continue;
+            }
             if (!$_item->getProduct()->getIsVirtual()) {
                 $isVirtual = false;
             }
