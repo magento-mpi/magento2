@@ -60,6 +60,7 @@ class Mage_Catalog_Model_Product_Type_Price
 
         $finalPrice = $product->getData('final_price');
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+
         return max(0, $finalPrice);
     }
 
@@ -190,18 +191,6 @@ class Mage_Catalog_Model_Product_Type_Price
         }
         return $finalPrice;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Get product pricing value
@@ -371,6 +360,7 @@ class Mage_Catalog_Model_Product_Type_Price
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
         if ($wId instanceof Mage_Core_Model_Store) {
+            $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         }
         if ($gId instanceof Mage_Customer_Model_Group) {
@@ -390,6 +380,9 @@ class Mage_Catalog_Model_Product_Type_Price
             }
         }
 
+        if(!isset($sId)) {
+            $sId = 0;
+        }
 
         if ($rulePrice === false) {
             $date = mktime(0,0,0);
@@ -398,6 +391,7 @@ class Mage_Catalog_Model_Product_Type_Price
         if ($rulePrice !== null && $rulePrice !== false) {
             $finalPrice = min($finalPrice, $rulePrice);
         }
+
         $finalPrice = max($finalPrice, 0);
 
         return $finalPrice;
