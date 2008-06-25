@@ -506,7 +506,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $specialPrice,
                 $specialPriceFrom,
                 $specialPriceTo,
-                $rulePrice
+                $rulePrice,
+                null,
+                null,
+                $product->getId()
             );
 
             $product->setCalculatedFinalPrice($finalPrice);
@@ -577,7 +580,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 ->addValuesToResult();
 
             foreach ($options as $option) {
-                $this->getItemById($option->getProductId())->addOption($option);
+                if($this->getItemById($option->getProductId())) {
+                    $this->getItemById($option->getProductId())->addOption($option);
+                }
             }
         }
 
