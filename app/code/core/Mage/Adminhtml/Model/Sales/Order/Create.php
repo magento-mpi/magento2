@@ -178,6 +178,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
 
+        $this->getQuote()->collectTotals();
         $this->getQuote()->save();
 
 //        $convertModel = Mage::getModel('sales/convert_order');

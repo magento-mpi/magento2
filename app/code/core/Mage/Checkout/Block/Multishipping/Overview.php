@@ -112,7 +112,12 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
         $totals = $address->getTotals();
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
-                $total->setTitle($this->__('Total for this address'));
+                if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_BILLING) {
+                    $total->setTitle($this->__('Total for this address'));
+                }
+                else {
+                    $total->setTitle($this->__('Total'));
+                }
             }
         }
         return $totals;
