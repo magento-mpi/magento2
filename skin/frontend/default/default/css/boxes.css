@@ -359,11 +359,11 @@ table.view-by td {
 /* Structure */
 .wrapper { min-width:954px; }
 .header {
-    z-index:999;
     text-align:left;
     }
 .header-top {
     position:relative;
+    z-index:999;
     width:930px;
     margin:0 auto;
     }
@@ -376,7 +376,7 @@ table.view-by td {
     width:900px;
     margin:0 auto;
     text-align:left;
-    position:relative;
+    /*position:relative;*/
     }
 .side-col { width:195px; }
 .col-left { float:left; }
@@ -501,27 +501,16 @@ h1#logo {
 /* Base Mini */
 .base-mini { border:1px solid #c4c1bc; background:#fff; line-height:1.3em;  font-size:.95em;  }
 .base-mini .head { margin:0 1px; border-bottom:1px solid #ddd; background:url(../images/base_mini_head_bg.gif) repeat-x #fff; padding:2px 8px; }
-.base-mini .head h4 {
-    min-height:16px;
-    color:#e26703;
-    background-repeat:no-repeat;
-    background-position:0 0;
-    padding:1px 0 1px 21px;
-    text-transform:uppercase;
-    }
+.base-mini .head h4 { min-height:16px; color:#e26703; background-repeat:no-repeat; background-position:0 0; padding:1px 0 1px 21px; text-transform:uppercase; }
 .base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; font-size:.95em;}
 .base-mini h5 { font-size:1em; }
 .base-mini .content, .base-mini ol { background:#f8f7f5;}
-.base-mini ol li { padding:7px 4px 7px 8px; position:relative; }
-.base-mini ol li li { position:static; }
+.base-mini ol li { padding:7px 4px 7px 8px; /*position:relative;*/ }
 .base-mini ol li.odd { background:#f4f3f3; }
 .base-mini ol li.even { background:#fafafa;}
 .base-mini ul.super-product-attributes li { padding:0px; background-color:transparent !important; }
-.base-mini .actions {
-    background:url(../images/base_mini_actions_bg.gif) repeat-x #dee5e8;
-    padding:6px;
-    }
-.base-mini .product-images { position:absolute; z-index:1; float:left; left:8px; width:52px; height:52px; }
+.base-mini .actions { background:url(../images/base_mini_actions_bg.gif) repeat-x #dee5e8; padding:6px; }
+.base-mini .product-images { /*position:absolute; z-index:1; left:8px;*/ float:left; width:52px; height:52px; }
 .base-mini .product-images a img { border:1px solid #a9a9a9; vertical-align:top; }
 .base-mini .product-checkbox { float: left; width:10px; }
 .base-mini .product-names { margin-left:18px; }
@@ -530,8 +519,7 @@ h1#logo {
 .base-mini .regular-price { color:#2f2f2f; font-size:11px; }
 .base-mini .special-price { font-size:11px; }
 .base-mini .minimal-price { font-size:11px; }
-.base-mini .price-box{ margin:1px 0; }
-
+.base-mini .price-box { margin:1px 0; }
 
 /* Sidebar Blocks */
 .mini-product-tags .head h4 { background-image:url(../images/icon_tag_green.gif); }
@@ -567,7 +555,7 @@ h1#logo {
     margin:0 auto;
     padding:10px 10px 4em;
     background-color:#618499;
-    position:relative;
+    /*position:relative;*/
     }
 .footer .store-switcher { display:inline; padding:0 10px 0 0; vertical-align:middle; }
 .footer .informational label { color:#fff; font-weight:bold; padding-right:3px; }
@@ -811,12 +799,10 @@ h1#logo {
 
 
 /********************* Tool Tips */
-.tool-tip { border:1px solid #7ba7c9;  background:#eaf6ff; position:absolute; }
+.tool-tip { border:1px solid #7ba7c9; background:#eaf6ff; position:absolute; }
 .tool-tip .inline-content { padding:8px; }
 .tool-tip .block-content { padding:15px 20px; }
 .tool-tip .btn-close { display:block; position:absolute; right:6px; text-align:right; top:6px;}
-
-
 
 
 /************************************************************/
@@ -1061,11 +1047,11 @@ table.recently-list td {width:20%;}
 
 /* Product Detail sidebar */
 .mini-related-items .head h4 { background-image:url(../images/icon_clip.gif); }
-.mini-related-items .product-images { width:70px; }
-.mini-related-items .product-images a { display:block; margin-left:15px; }
-.mini-related-items .product-images input { float:left; margin-right:4px; margin-left:-6px; }
+.mini-related-items .product-images { width:72px; }
+.mini-related-items .product-images a { display:block; margin-left:20px; }
+.mini-related-items .product-images input { float:left; /*margin-right:4px; margin-left:-6px;*/ }
 .mini-related-items .product-images .checkbox-container { float:left; width:15px; }
-.mini-related-items .product-details { margin-left:78px; padding-left: 5px; }
+.mini-related-items .product-details { margin-left:80px; padding-left:5px; }
 .mini-related-items ol li { padding-left:0 ; padding-right:0; }
 /********************** Checkout */
 
@@ -1095,10 +1081,10 @@ td.attributes-col dd ul li { margin-left:15px; list-style:disc; }
 td.attributes-col p.pname  { width:100%; overflow:hidden; padding:0; margin:0; }
 td.attributes-col p.pname a{ font-weight:bold;}
 
-li.truncated { position:relative!important; }
-li.truncated .truncated_value { display:none; position:absolute; top:30px; left:50%; z-index:999; width:250px; padding:10px; border:1px solid #cec3b6; background-color:#fafaec; }
-.col-left ul.super-product-attributes li.truncated .truncated_value { right:-115px; top:30px; }
-.col-right ul.super-product-attributes li.truncated .truncated_value { left:-220px; top:30px; }
+.truncated { position:relative!important; }
+.truncated .truncated_value { display:none; position:absolute; top:30px; left:50%; z-index:999; width:250px; padding:8px; border:1px solid #7ba7c9; background-color:#eaf6ff; /*border:1px solid #cec3b6; background-color:#fafaec;*/ }
+.col-left .truncated .truncated_value { left:35px; top:20px; }
+.col-right .truncated .truncated_value { left:-240px; top:20px; }
 
 .shopping-cart-totals {
     width:248px;
@@ -1435,7 +1421,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .customer-name-prefix-middlename-suffix .name-suffix input,
 .customer-name-prefix-middlename-suffix .name-suffix select { width:45px !important; }
 
-
 /* My Account navigation */
 .account-nav { border:1px solid #bbb; }
 .account-nav .head {
@@ -1507,7 +1492,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     font-weight:bold;
     }
 .account-box .product-images { width:65px; }
-.account-box .product-images img { border:1px solid #ccc;}
+.account-box .product-images img { border:1px solid #ccc; }
 .account-box .product-details { margin:0 0 10px 70px; }
 .account-box .content { padding:0; }
 .account-side .actions { border-top:1px solid #ccc; padding-top:4px; }
