@@ -124,7 +124,7 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Abstract extends Mage_Core_Model_Mysql
 
         $this->_setLinkSelect($select);
         $this->_prepareLinkFetchSelect($store, $table, $idField, $whereField, $id, $additionalWheres);
-        return $this->_getLinkSelect();
+        return $this->_getWriteAdapter()->fetchCol($this->_getLinkSelect());
     }
 
     /**
