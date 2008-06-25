@@ -80,8 +80,8 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
 
         $result = array();
 
-        foreach ($collection as $order) {
-            $result[] = $this->_getAttributes($order, 'shipment');
+        foreach ($collection as $shipment) {
+            $result[] = $this->_getAttributes($shipment, 'shipment');
         }
 
         return $result;
@@ -116,8 +116,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         }
 
         $result['comments'] = array();
-        foreach ($shipment->getCommentsCollection() as $comment)
-        {
+        foreach ($shipment->getCommentsCollection() as $comment) {
             $result['comments'][] = $this->_getAttributes($comment, 'shipment_comment');
         }
 
@@ -188,7 +187,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
                 ->addObject($shipment->getOrder())
                 ->save();
 
-            $shipment->sendEmail($email, $comment);
+            $shipment->sendEmail($email, ($includeComment ? $comment : ''));
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
@@ -323,8 +322,8 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
 
 
         try {
-            $shipment->addComment($comment, $email && $includeInEmail);
-            $shipment->sendUpdateEmail($email, $comment);
+            $shipment->addComment($comment, $email);
+            $shipment->sendUpdateEmail($email, ($includeInEmail ? $comment : ''));
             $shipment->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
