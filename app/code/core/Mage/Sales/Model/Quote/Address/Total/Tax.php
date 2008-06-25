@@ -66,6 +66,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 	   $address,
                 	   $taxCalculationModel->getAppliedRates($request),
                 	   $child->getTaxAmount(),
+                	   $child->getBaseTaxAmount(),
                 	   $rate
                     );
                 }
