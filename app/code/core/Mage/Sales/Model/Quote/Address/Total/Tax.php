@@ -56,40 +56,46 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
             /**
              * We calculate parent tax amount as sum of children's tax amounts
              */
-            if ($item->getHasChildren()) {
+
+            if ($_option = $item->getOptionByCode('product_calculations')) {
+                $calculations = $_option->getValue();
+            }
+
+            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
-                	$rate = $taxCalculationModel->getRate($request->setProductClassId($child->getProduct()->getTaxClassId()));
+                    $rate = $taxCalculationModel->getRate($request->setProductClassId($child->getProduct()->getTaxClassId()));
                     $child->setTaxPercent($rate);
                     $child->calcTaxAmount();
 
                     $this->_saveAppliedTaxes(
-                	   $address,
-                	   $taxCalculationModel->getAppliedRates($request),
-                	   $child->getTaxAmount(),
-                	   $child->getBaseTaxAmount(),
-                	   $rate
+                       $address,
+                       $taxCalculationModel->getAppliedRates($request),
+                       $child->getTaxAmount(),
+                       $child->getBaseTaxAmount(),
+                       $rate
                     );
                 }
                 $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
             }
             else {
-            	$rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
+                $rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
 
                 $item->setTaxPercent($rate);
                 $item->calcTaxAmount();
                 $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
 
-            	$this->_saveAppliedTaxes(
-            	   $address,
-            	   $taxCalculationModel->getAppliedRates($request),
-            	   $item->getTaxAmount(),
-            	   $item->getBaseTaxAmount(),
-            	   $rate
+                $this->_saveAppliedTaxes(
+                   $address,
+                   $taxCalculationModel->getAppliedRates($request),
+                   $item->getTaxAmount(),
+                   $item->getBaseTaxAmount(),
+                   $rate
                 );
             }
         }
+
 
         $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
         if ($shippingTaxClass) {
@@ -105,7 +111,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $address->setTaxAmount($address->getTaxAmount() + $shippingTax);
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $shippingBaseTax);
 
-            	$this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $shippingTax, $shippingBaseTax, $rate);
+                $this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $shippingTax, $shippingBaseTax, $rate);
             }
         }
 
@@ -119,7 +125,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $previouslyAppliedTaxes = $address->getAppliedTaxes();
         $process = count($previouslyAppliedTaxes);
 
-    	foreach ($applied as $row) {
+        foreach ($applied as $row) {
             if (!isset($previouslyAppliedTaxes[$row['id']])) {
                 $row['process'] = $process;
                 $row['amount'] = 0;
@@ -135,7 +141,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
             } else {
                 unset($previouslyAppliedTaxes[$row['id']]);
             }
-    	}
+        }
         $address->setAppliedTaxes($previouslyAppliedTaxes);
     }
 

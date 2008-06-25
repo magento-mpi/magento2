@@ -34,6 +34,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected $_editableAttributes;
     protected $_isComposite = false;
 
+    const CALCULATE_CHILD = 'child';
+    const CALCULATE_PARENT = 'parent';
+
     /**
      * Specify type instance product
      *

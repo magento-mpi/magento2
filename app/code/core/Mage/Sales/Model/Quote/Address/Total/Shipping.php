@@ -47,7 +47,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                 continue;
             }
 
-            if ($item->getHasChildren()) {
+            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
                     $itemWeight = $child->getWeight();
                     $itemQty    = $item->getQty()*$child->getQty();

@@ -41,10 +41,11 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
          * Process address items
          */
         $items = $address->getAllItems();
+
         foreach ($items as $item) {
-        	if (!$this->_initItem($address, $item) || $item->getQty()<=0) {
-        	    $this->_removeItem($address, $item);
-        	}
+            if (!$this->_initItem($address, $item) || $item->getQty()<=0) {
+                $this->_removeItem($address, $item);
+            }
         }
 
         /**
@@ -65,46 +66,46 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
      */
     protected function _initItem($address, $item)
     {
-    	if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
-    	    $quoteItem = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId());
-    	}
-    	else {
-    	    $quoteItem = $item;
-    	}
-    	$product = $quoteItem->getProduct();
-    	$product->setCustomerGroupId($quoteItem->getQuote()->getCustomerGroupId());
+        if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
+            $quoteItem = $item->getAddress()->getQuote()->getItemById($item->getQuoteItemId());
+        }
+        else {
+            $quoteItem = $item;
+        }
+        $product = $quoteItem->getProduct();
+        $product->setCustomerGroupId($quoteItem->getQuote()->getCustomerGroupId());
 
-    	/**
-    	 * Quote super mode flag meen whot we work with quote without restriction
-    	 */
-    	if ($item->getQuote()->getIsSuperMode()) {
+        /**
+         * Quote super mode flag meen whot we work with quote without restriction
+         */
+        if ($item->getQuote()->getIsSuperMode()) {
             if (!$product) {
                 return false;
             }
-    	}
-    	else {
-        	if (!$product || !$product->isVisibleInCatalog()) {
+        }
+        else {
+            if (!$product || !$product->isVisibleInCatalog()) {
                 return false;
             }
-    	}
+        }
 
-    	if ($quoteItem->getParentItem()) {
-    	    $finalPrice = $quoteItem->getParentItem()->getProduct()->getPriceModel()->getChildFinalPrice(
-    	       $quoteItem->getParentItem()->getProduct(),
-    	       $quoteItem->getParentItem()->getQty(),
-    	       $quoteItem->getProduct(),
-    	       $quoteItem->getQty()
-    	    );
+        if ($quoteItem->getParentItem() && $quoteItem->isChildrenCalculated()) {
+            $finalPrice = $quoteItem->getParentItem()->getProduct()->getPriceModel()->getChildFinalPrice(
+               $quoteItem->getParentItem()->getProduct(),
+               $quoteItem->getParentItem()->getQty(),
+               $quoteItem->getProduct(),
+               $quoteItem->getQty()
+            );
             $item->setPrice($finalPrice);
-        	$item->calcRowTotal();
-    	}
-    	else {
-        	$finalPrice = $product->getFinalPrice($quoteItem->getQty());
+            $item->calcRowTotal();
+        }
+        else if (!$quoteItem->getParentItem()) {
+            $finalPrice = $product->getFinalPrice($quoteItem->getQty());
             $item->setPrice($finalPrice);
-        	$item->calcRowTotal();
+            $item->calcRowTotal();
             $address->setSubtotal($address->getSubtotal() + $item->getRowTotal());
             $address->setBaseSubtotal($address->getBaseSubtotal() + $item->getBaseRowTotal());
-    	}
+        }
 
         return true;
     }
@@ -118,20 +119,20 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
      */
     protected function _removeItem($address, $item)
     {
-	    if ($item instanceof Mage_Sales_Model_Quote_Item) {
-	        $address->removeItem($item->getId());
+        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+            $address->removeItem($item->getId());
             if ($address->getQuote()) {
                 $address->getQuote()->removeItem($item->getId());
             }
-	    }
-	    elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
-	        $address->removeItem($item->getId());
+        }
+        elseif ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
+            $address->removeItem($item->getId());
             if ($address->getQuote()) {
                 $address->getQuote()->removeItem($item->getQuoteItemId());
             }
-	    }
+        }
 
-	    return $this;
+        return $this;
     }
 
     public function fetch(Mage_Sales_Model_Quote_Address $address)

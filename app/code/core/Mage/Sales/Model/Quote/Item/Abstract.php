@@ -262,10 +262,10 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getTaxAmount()
     {
-        if ($this->getHasChildren()) {
+        if ($this->getHasChildren() && $this->getOptionBycode('product_calculations')->getValue() == 'child') {
             $amount = 0;
             foreach ($this->getChildren() as $child) {
-            	$amount+= $child->getTaxAmount();
+                $amount+= $child->getTaxAmount();
             }
             return $amount;
         }
@@ -281,10 +281,10 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getPrice()
     {
-        if ($this->getHasChildren()) {
+        if ($this->getHasChildren() && $this->getOptionBycode('product_calculations')->getValue() == 'child') {
             $price = 0;
             foreach ($this->getChildren() as $child) {
-            	$price+= $child->getPrice()*$child->getQty();
+                $price+= $child->getPrice()*$child->getQty();
             }
             return $price;
         }
@@ -359,5 +359,26 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         $this->_parentItem  = null;
         $this->_children    = array();
         return $this;
+    }
+
+    public function isChildrenCalculated() {
+        if ($this->getParentItem()) {
+            if ($option = $this->getParentItem()->getoptionByCode('product_calculations')) {
+                $calculate = $option->getValue();
+            } else {
+                return true;
+            }
+        } else {
+            if ($option = $this->getoptionByCode('product_calculations')) {
+                $calculate = $option->getValue();
+            } else {
+                return true;
+            }
+        }
+
+        if ($calculate == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+            return true;
+        }
+        return false;
     }
 }

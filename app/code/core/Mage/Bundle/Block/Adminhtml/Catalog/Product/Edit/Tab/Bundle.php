@@ -28,6 +28,7 @@
 
 class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_Adminhtml_Block_Widget
 {
+    protected $_product = null;
     public function __construct()
     {
         parent::__construct();
@@ -62,4 +63,16 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle extends Mage_A
     {
         return $this->getChildHtml('options_box');
     }
+
+    public function getFieldSuffix()
+    {
+        return 'product';
+    }
+
+    public function getProduct()
+    {
+        return Mage::registry('product');
+    }
+
+
 }
