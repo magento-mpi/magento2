@@ -57,7 +57,8 @@
 
                 <?php echo $this->getChildHtml('product_type_data') ?>
 
-                <?php //echo $this->getChildHtml('product_options') ?>
+                <?php echo $this->getChildHtml('container1') ?>
+
                 <div class="clear"></div>
 
             <script type="text/javascript">
@@ -69,14 +70,21 @@
                 }.bind(productAddToCartForm);
             </script>
         </div>
-      <?php echo $this->getChildHtml('product_options') ?>
-      </form>
+
+    <div class="clear"></div>
+
+    <?php echo $this->getChildHtml('container2') ?>
+
+    </form>
+
     </div>
 
     <div class="product-collateral">
+
+
         <?php if($_additional = $this->getAdditionalData()): ?>
         <div class="collateral-box" style="margin:2em 0;">
-            <div class="head">  
+            <div class="head">
               <h4><?php echo $this->__('Product Description') ?></h4>
             </div>
             <div class="product-specs"><?php echo nl2br($_product->getDescription()) ?></div>
@@ -101,4 +109,5 @@
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
+
 </div>

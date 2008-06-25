@@ -394,7 +394,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             if ($sorted) {
                 $children = array();
                 foreach ($this->getSortedChildren() as $childName) {
-                    $children[] = $this->getChild($childName);
+                    $children[$childName] = $this->getLayout()->getBlock($childName);
                 }
             } else {
                 $children = $this->getChild();
@@ -852,4 +852,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         return $this->_getData('name_in_layout');
     }
 
+    public function countChildren()
+    {
+        return count($this->_children);
+    }
 }
