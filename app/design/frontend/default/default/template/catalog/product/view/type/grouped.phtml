@@ -102,7 +102,7 @@
                 <?php endif; ?>
                 <?php if($_item->getTierPriceCount()): ?>
                     <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
-                        <?php if($_tierPrice['price'] <= $_finalPrice): ?>
+                        <?php if($_tierPrice['price'] <= $_finalPriceInclTax): ?>
                             <?php if ($this->helper('tax')->displayBothPrices() && $_tierPrice['formated_price'] != $_tierPrice['formated_price_incl_tax']): ?>
                                 <span class="nobr"><?php echo $this->__('Buy %s for %s (%s incl. tax) each', $_tierPrice['price_qty'], $_tierPrice['formated_price'], $_tierPrice['formated_price_incl_tax']) ?></span>
                             <?php else: ?>
