@@ -117,7 +117,7 @@
             <?php endforeach; ?>
             </tr>
         </tbody>
-        <?php if ($_order->getIsVirtual()): $colspan = 3; else: $colspan = 4; endif; ?>
+        <?php if ($_order->getIsVirtual()): $colspan = 4; else: $colspan = 5; endif; ?>
         <tfoot>
             <?php if($_invoice->getSubtotal() != $_invoice->getGrandTotal()): ?>
             <tr>

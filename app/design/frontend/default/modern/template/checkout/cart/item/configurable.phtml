@@ -66,10 +66,12 @@
         <?php endif;?>
         <!-- / -->
 
-        <?php if($_item->getMessage()): ?>
-        <div class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-            * <?php echo $_item->getMessage() ?>
+        <?php if ($messages = $this->getMessages()): ?>
+        <?php foreach ($messages as $message): ?>
+        <div class="shopping-cart-item-message <?php echo $message['type'] ?>">
+            * <?php echo $message['text'] ?>
         </div>
+        <?php endforeach; ?>
         <?php endif; ?>
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
@@ -84,7 +86,7 @@
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right">
-        <?php echo $this->helper('checkout')->getPriceInclTax($_item); ?>
+        <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
     </td>
     <?php endif; ?>
     <td class="a-center">
@@ -97,7 +99,7 @@
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right">
-        <?php echo $this->helper('checkout')->getSubtotalInclTax($_item); ?>
+        <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
     </td>
     <?php endif; ?>
     <td class="a-center">

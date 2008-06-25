@@ -29,6 +29,7 @@
 
 
 <p><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long')) ?></p>
+<?php if (!$_order->getIsVirtual()): ?>
 <div class="col2-set">
     <div class="col-1">
         <div class="head-alt3">
@@ -44,6 +45,7 @@
         <?php echo $_order->getShippingDescription() ?>
     </div>
 </div><br/>
+<?php endif; ?>
 <div class="col2-set">
     <div class="col-1">
 
