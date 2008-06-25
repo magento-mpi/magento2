@@ -168,6 +168,9 @@ class Mage_Sales_Model_Convert_Quote extends Varien_Object
 //            ->setTelephone($address->getTelephone())
 //            ->setFax($address->getFax());
 
+        Mage::dispatchEvent('sales_convert_quote_address_to_order_address',
+            array('address' => $address, 'order_address' => $orderAddress));
+
         return $orderAddress;
     }
 
