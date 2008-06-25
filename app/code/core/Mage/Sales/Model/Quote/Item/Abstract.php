@@ -107,6 +107,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function checkData()
     {
+        $this->setHasError(false);
+        $this->unsMessage();
+
         $qty = $this->getData('qty');
         try {
             $this->setQty($qty);
@@ -119,17 +122,17 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setHasError(true);
             $this->setMessage(Mage::helper('sales')->__('Item qty declare error'));
         }
-
         if (!$this->getProduct()->getSkipCheckRequiredOption()) {
-            $reuiredOptions = array();
             foreach ($this->getProduct()->getOptions() as $option) {
-                if ($option->getIsRequire() && !$this->getOptionByCode('option_'.$option->getId())) {
-                    $reuiredOptions[] = $option->getTitle();
+                if ($option->getIsRequire() && (!$this->getOptionByCode('option_'.$option->getId())
+                || strlen($this->getOptionByCode('option_'.$option->getId())->getValue()) == 0)) {
+                    $this->setHasError(true);
+                    $this->setMessage(
+                        $this->getMessage() . "\n" . Mage::helper('sales')->__('Please add required options')
+                    );
+                    $this->getQuote()->setHasError(true);
+                    break;
                 }
-            }
-            if (count($reuiredOptions)) {
-                $this->setHasError(true);
-                $this->setMessage(Mage::helper('sales')->__('Please add required options') . ' (' . implode(', ', $reuiredOptions) . ')');
             }
         }
         return $this;

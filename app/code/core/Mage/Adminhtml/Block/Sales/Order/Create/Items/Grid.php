@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function getItemOrigPrice($item)
     {
-        //return $this->convertPrice($item->getProduct()->getPrice());
+//        return $this->convertPrice($item->getProduct()->getPrice());
         return $this->convertPrice($item->getPrice());
     }
 
@@ -172,13 +172,18 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
                 }
             }
         }
-
-        if ($options = $item->getOptionByCode('additional_options')) {
-            $this->_moveToCustomerStorage = false;
-            foreach (unserialize($options->getValue()) as $addOption) {
-                $optionStr .= $addOption['label'] . ':' . $addOption['value'] . "\n";
+        foreach ($item->getProduct()->getOptions() as $option) {
+            if ($option->getIsRequire() && !$item->getOptionByCode('option_'.$option->getId())) {
+                $optionStr .= $option->getTitle() . ':' . "\n";
             }
         }
+        if ($additionalOptions = $item->getOptionByCode('additional_options')) {
+            $this->_moveToCustomerStorage = false;
+            foreach (unserialize($additionalOptions->getValue()) as $additionalOption) {
+                $optionStr .= $additionalOption['label'] . ':' . $additionalOption['value'] . "\n";
+            }
+        }
+        $optionStr = $this->helper('core/string')->substr($optionStr, 0, -1);
 
         return $optionStr;
     }
