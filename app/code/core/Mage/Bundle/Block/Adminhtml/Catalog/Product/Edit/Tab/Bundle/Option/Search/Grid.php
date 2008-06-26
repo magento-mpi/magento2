@@ -129,7 +129,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
 
     public function getGridUrl()
     {
-        return $this->getUrl('bundle/selection/grid', array('index' => $this->getIndex()));
+        return $this->getUrl('bundle/selection/grid', array('index' => $this->getIndex(), 'productss' => implode(',', $this->_getProducts())));
     }
 
     protected function _getSelectedProducts()
@@ -140,8 +140,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
 
     protected function _getProducts()
     {
-        $products = $this->getRequest()->getPost('products', null);
-        return $products;
+        if ($products = $this->getRequest()->getPost('products', null)) {
+            return $products;
+        } else if ($productss = $this->getRequest()->getParam('productss', null)) {
+            return explode(',', $productss);
+        } else {
+            return array();
+        }
     }
 
     public function getStore()
