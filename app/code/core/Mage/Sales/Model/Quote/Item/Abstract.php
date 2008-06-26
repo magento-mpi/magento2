@@ -122,19 +122,21 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setHasError(true);
             $this->setMessage(Mage::helper('sales')->__('Item qty declare error'));
         }
-        if (!$this->getProduct()->getSkipCheckRequiredOption()) {
-            foreach ($this->getProduct()->getOptions() as $option) {
-                if ($option->getIsRequire() && (!$this->getOptionByCode('option_'.$option->getId())
-                || strlen($this->getOptionByCode('option_'.$option->getId())->getValue()) == 0)) {
-                    $this->setHasError(true);
-                    $this->setMessage(
-                        $this->getMessage() . "\n" . Mage::helper('sales')->__('Please add required options')
-                    );
-                    $this->getQuote()->setHasError(true);
-                    break;
-                }
-            }
+
+        try {
+            $this->getProduct()->getTypeInstance()->checkProductBuyState();
+        } catch (Mage_Core_Exception $e) {
+            $this->setHasError(true);
+            $this->setMessage($e->getMessage());
+            $this->getQuote()->setHasError(true);
+            $this->getQuote()->addMessage($e->getMessage());
+        } catch (Exception $e) {
+            $this->setHasError(true);
+            $this->setMessage(Mage::helper('sales')->__('Item options declare error'));
+            $this->getQuote()->setHasError(true);
+            $this->getQuote()->addMessage($e->getMessage());
         }
+
         return $this;
     }
 

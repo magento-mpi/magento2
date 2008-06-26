@@ -259,6 +259,23 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return $newOptions;
     }
 
+    public function checkProductBuyState()
+    {
+        if (!$this->getProduct()->getSkipCheckRequiredOption()) {
+            foreach ($this->getProduct()->getOptions() as $option) {
+                if ($option->getIsRequire() && (!$this->getProduct()->getCustomOption('option_'.$option->getId())
+                || strlen($this->getProduct()->getCustomOption('option_'.$option->getId())->getValue()) == 0)) {
+                    Mage::throwException(
+                        Mage::helper('catalog')->__('Product has required options')
+                    );
+                    break;
+                }
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * Prepare additional options/information for order item which will be
      * created from this product
