@@ -165,7 +165,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
                 $qty = $orderItem->getQtyToInvoice();
             }
             $item->setQty($qty);
-        	$shipment->addItem($item);
+        	$invoice->addItem($item);
         }
         $invoice->collectTotals();
 
@@ -192,7 +192,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
             $this->_fault('data_invalid', $e->getMessage());
         }
 
-        return $shipment->getIncrementId();
+        return $invoice->getIncrementId();
     }
 
     /**

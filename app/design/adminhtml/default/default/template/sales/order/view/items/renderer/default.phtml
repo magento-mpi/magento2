@@ -44,11 +44,8 @@
     <div>
         <a class="action-link" href="#" onclick="return giftMessagesController.toogleGiftMessage('<?php echo $this->getHtmlId() ?>')">
         <span class="default-text">
-            <?php if(!$this->getMessage()->getId()): ?>
-                <?php echo $this->helper('sales')->__('Add Gift Messsage') ?>
-            <?php else: ?>
-                <?php echo $this->helper('sales')->__('Edit Gift Messsage') ?>
-            <?php endif ?>
+            <span class="add" <?php if($this->getMessage()->getId()): ?> style="display:none;"<?php endif;?>><?php echo $this->helper('sales')->__('Add Gift Messsage') ?></span>
+            <span class="edit" <?php if(!$this->getMessage()->getId()): ?> style="display:none;"<?php endif;?>><?php echo $this->helper('sales')->__('Edit Gift Messsage') ?></span>
         </span>
         <span class="close-text" style="display:none">
             <?php echo $this->helper('sales')->__('Save and Close Message') ?>
