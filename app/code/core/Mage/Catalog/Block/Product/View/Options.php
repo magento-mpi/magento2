@@ -121,6 +121,44 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
         return $this->getProduct()->getOptions();
     }
 
+    public function getJsonConfig()
+    {
+        $config = array();
+
+//        $config = array(
+//            'baseProductPrice' => $this->getProduct()->getFinalPrice()
+//        );
+
+        foreach ($this->getOptions() as $option) {
+            /* @var $option Mage_Catalog_Model_Product_Option */
+            /**
+             * @todo generate price for percent type
+             */
+            $priceValue = 0;
+            if ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                $_tmpPriceValues = array();
+                foreach ($option->getValues() as $value) {
+                    /* @var $value Mage_Catalog_Model_Product_Option_Value */
+                    if ($value->getPriceType() == 'fixed') {
+                	   $_tmpPriceValues[$value->getId()] = $value->getPrice();
+                    } else {
+                        $_tmpPriceValues[$value->getId()] = $this->getProduct()->getFinalPrice()*($value->getPrice()/100);
+                    }
+                }
+                $priceValue = $_tmpPriceValues;
+            } else {
+                if ($option->getPriceType() == 'fixed') {
+                    $priceValue = $option->getPrice();
+                } else {
+                    $priceValue = $this->getProduct()->getFinalPrice()*($option->getPrice()/100);
+                }
+            }
+            $config[$option->getId()] = $priceValue;
+        }
+
+        return Zend_Json::encode($config);
+    }
+
     /**
      * Get option html block
      *

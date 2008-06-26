@@ -75,7 +75,7 @@
                 $('option_'+data.optionId+'_file').value = '';
                 $('option_'+data.optionId+'_file').hide();
                 $('option_'+data.optionId+'').hide();
-                template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="http://192.168.0.191/dev/ruslan.voitenko/magento/var/options/'+data.fileName+'"></a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file</a>';
+                template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"></a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file</a>';
 
                 new Insertion.After(
         			$('option_'+data.optionId+'_uploaded_file'),
@@ -101,6 +101,54 @@
             }
         }
     }
+
+    Product.Options = Class.create();
+    Product.Options.prototype = {
+        initialize : function(config){
+            this.config     = config;
+            this.elements   = $$('.product-custom-option');
+            this.elements.each(function(element){
+                Event.observe(element, 'change', this.reloadPrice.bind(this));
+            }.bind(this));
+            //try to add itself to calculator stack
+            this.reloadPrice();
+        },
+        reloadPrice : function(){
+            price = new Number();
+            config = this.config;
+            this.elements.each(function(element){
+                var optionId = 0;
+                element.name.sub(/[0-9]+/, function(match){
+                    optionId = match[0];
+                });
+                if (this.config[optionId]) {
+                    if (element.type == 'checkbox' || element.type == 'radio') {
+                        if (element.checked) {
+                            if (config[optionId][element.getValue()]) {
+                                price += parseFloat(config[optionId][element.getValue()]);
+                            }
+                        }
+                    } else if(element.type == 'select-one' || element.type == 'select-multiple') {
+                        if (element.options) {
+                            $A(element.options).each(function(selectOption){
+                                if (selectOption.selected) {
+                                    if (this.config[optionId][selectOption.value]) {
+                                        price += parseFloat(this.config[optionId][selectOption.value]);
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        if (element.getValue().strip() != '') {
+                            price += parseFloat(this.config[optionId]);
+                        }
+                    }
+                }
+            });
+            return price.toFixed(4);
+        }
+    }
 /* ]]> */
+    var opConfig = new Product.Options(<?php echo $this->getJsonConfig() ?>);
 </script>
 <?php endif; ?>

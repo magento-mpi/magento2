@@ -41,7 +41,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'drop_down',
-                    'class' => 'select'.$require
+                    'class' => 'select'.$require.' product-custom-option'
                 ));
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options['.$_option->getid().']')
@@ -92,7 +92,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
 				    'pricing_value' => $_value->getPrice()
 				));
-                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.'" name="options['.$_option->getId().']'.$arraySign.'" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label><br />';
+                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label><br />';
             }
 
             return $selectHtml;
