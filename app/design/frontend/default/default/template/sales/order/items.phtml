@@ -46,12 +46,12 @@
             <?php endif; ?>
         </tr -->
     </thead>
-    <tbody>
         <?php $_items = $_order->getItemsCollection(); ?>
         <?php $_count = $_items->count(); ?>
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
             <?php if ($_item->getParentItem()) continue; ?>
+        <tbody class="<?php echo $_index%2 ? 'even' : 'odd' ?>">
             <?php if ($_index++ > $_count) $_item->setLastRow('true'); ?>
 
             <?php echo $this->getItemHtml($_item) ?>
@@ -70,15 +70,14 @@
                         </li>
                         <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_item) ?></li>
                      </ul>
-
                 </div>
                 <div class="right"><a href="#" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>')"><img src="<?php echo $this->getSkinUrl('images/gift-message-close.gif') ?>" /></a></div>
                 </td>
             </tr>
             <?php endif ?>
+            </tbody>
         <?php endforeach; ?>
     <?php $colspan = 4; ?>
-    </tbody>
     <tfoot>
         <tr>
             <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
