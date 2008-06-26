@@ -156,7 +156,7 @@
                     <void translate="title" module="sales">
                         <title>Void invoice</title>
                         <acl>sales/order/invoice/void</acl>
-                    <void>
+                    </void>
                     <cancel translate="title" module="sales">
                         <title>Cancel invoice</title>
                         <acl>sales/order/invoice/cancel</acl>
@@ -186,6 +186,11 @@
                 </faults>
             </sales_order_invoice>
         </resources>
+        <resources_alias>
+            <order>sales_order</order>
+            <order_shipment>sales_order_shipment</order_shipment>
+            <order_invoice>sales_order_invoice</order_invoice>
+        </resources_alias>
         <acl>
             <all>
                 <sales translate="title" module="sales">
@@ -204,7 +209,7 @@
                                 <title>Comments</title>
                             </comment>
                             <track translate="title" module="sales">
-                                <title>Tracking<title>
+                                <title>Tracking</title>
                             </track>
                         </shipment>
                         <invoice translate="title" module="sales">
@@ -223,7 +228,7 @@
                             </void>
                             <cancel translate="title" module="sales">
                                 <title>Cancel</title>
-                            <cancel>
+                            </cancel>
                         </invoice>
                     </order>
                 </sales>

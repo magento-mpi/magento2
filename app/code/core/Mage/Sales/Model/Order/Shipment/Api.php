@@ -30,7 +30,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     public function __construct()
     {
         $this->_attributesMap['shipment'] = array(
-            'shippment_id' => 'entity_id'
+            'shipment_id' => 'entity_id'
         );
 
         $this->_attributesMap['shipment_item'] = array(
@@ -133,7 +133,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      * @param boolean $includeComment
      * @return string
      */
-    public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
+    public function create($orderIncrementId, $itemsQty = array(), $comment = null, $email = false, $includeComment = false)
     {
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
 
@@ -202,7 +202,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
      * @param string $carrier
      * @param string $title
      * @param string $trackNumber
-     * @return boolean
+     * @return int
      */
     public function addTrack($shipmentIncrementId, $carrier, $title, $trackNumber)
     {
@@ -220,14 +220,10 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             $this->_fault('data_invalid', Mage::helper('sales')->__('Invalid carrier specified.'));
         }
 
-        $data = array(
-            'carrier' => $carrier,
-            'title'   => $title,
-            'number'  => $trackNumber
-        );
-
         $track = Mage::getModel('sales/order_shipment_track')
-                	   ->addData($data);
+                	->setNumber($trackNumber)
+                    ->setCarrierCode($carrier)
+                    ->setTitle($title);
 
         $shipment->addTrack($track);
 
@@ -237,7 +233,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             $this->_fault('data_invalid', $e->getMessage());
         }
 
-        return true;
+        return $track->getId();
     }
 
     /**
@@ -346,7 +342,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
           * Check order existing
           */
         if (!$order->getId()) {
-             $this->_fault('order_not_exists');
+            $this->_fault('order_not_exists');
         }
 
         return $this->_getCarriers($order);
