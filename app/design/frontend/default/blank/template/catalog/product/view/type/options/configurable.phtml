@@ -19,26 +19,25 @@
  */
 ?>
 
+
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()):?>
 
-<div>
-    <table cellspacing="0">
-    <?php foreach($this->getAllowAttributes() as $_attribute): ?>
-        <tr>
-            <td class="label"><?php echo $_attribute->getLabel() ?>:</td>
-        </tr>
-        <tr>
-            <td class="data">
-                <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute select super-attribute-select">
-                    <option><?php echo $this->__('Choose an Option...') ?></option>
-                </select>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-    </table>
-    <input type="hidden" name="" id=""/><!-- what for? -->
-</div>
+    <div>
+        <table cellspacing="0" class="data-table">
+        <?php foreach($this->getAllowAttributes() as $_attribute): ?>
+            <tr>
+                <td class="label"><?php echo $_attribute->getLabel() ?>:</td>
+                <td class="data">
+                    <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute select super-attribute-select">
+                        <option><?php echo $this->__('Choose an Option...') ?></option>
+                    </select>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </table>
+        <input type="hidden" name="name" id="id" />
+    </div>
 
 <script type="text/javascript">
 var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);

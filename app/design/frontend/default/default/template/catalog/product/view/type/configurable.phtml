@@ -28,6 +28,8 @@
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()): ?>
 
+<?php /* @see options/configurable.phtml */ ?>
+
     <?php $_tierPrices = $this->getTierPrices() ?>
     <?php if(count($_tierPrices)>0): ?>
     <div class="product-pricing">
@@ -77,7 +79,3 @@
     <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
 <?php endif; ?>
 </div>
-
-<script type="text/javascript">
-var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
-</script>

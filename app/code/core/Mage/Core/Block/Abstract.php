@@ -465,7 +465,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Insert child block
      *
-     * @param   Mage_Core_Block_Abstract $block
+     * @param   Mage_Core_Block_Abstract|string $block
      * @param   string $siblingName
      * @param   boolean $after
      * @param   string $alias
@@ -473,6 +473,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function insert($block, $siblingName='', $after=false, $alias='')
     {
+        if (is_string($block)) {
+            $block = $this->getLayout()->getBlock($block);
+            if (!$block) {
+                Mage::throwException(Mage::helper('core')->__('Invalid block name to set child %s: %s', $alias, $block));
+            }
+        }
         if ($block->getIsAnonymous()) {
             $this->setChild('', $block);
             $name = $block->getNameInLayout();
