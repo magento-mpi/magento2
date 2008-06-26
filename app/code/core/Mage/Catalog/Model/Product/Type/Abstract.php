@@ -238,6 +238,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 }
 
                 if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                    if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
+                        && $options[$_option->getId()] == 0) {
+                        continue;
+                    }
                     $valuesCollection = $_option->getOptionValuesByOptionId(
                             $options[$_option->getId()], $this->getProduct()->getStoreId()
                         )->load();

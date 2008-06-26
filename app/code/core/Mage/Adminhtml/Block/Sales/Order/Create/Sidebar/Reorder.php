@@ -66,7 +66,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
     public function getItemCollection()
     {
         if ($order = $this->getLastOrder()) {
-            return $order->getItemsCollection();
+            $items = array();
+            foreach ($order->getItemsCollection() as $item) {
+                if (!$item->getParentItem()) {
+                    $items[] = $item;
+                }
+            }
+            return $items;
         }
         return false;
     }

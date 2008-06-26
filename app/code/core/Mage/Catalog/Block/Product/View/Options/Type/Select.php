@@ -29,19 +29,6 @@
 class Mage_Catalog_Block_Product_View_Options_Type_Select
     extends Mage_Catalog_Block_Product_View_Options_Abstract
 {
-    /**
-     * Enter description here...
-     *
-     * @return Mage_Catalog_Model_Product_Option_Value
-     */
-    public function getValuesCollection()
-    {
-        $collection = $this->getOption()->getValuesCollection()
-            ->setOrder('option_type_id', 'asc')
-            ->load(false);
-
-        return $collection;
-    }
 
     public function getValuesHtml()
     {
@@ -58,7 +45,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 ));
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options['.$_option->getid().']')
-                    ->addOption('', $this->__('-- Please Select --'));
+                    ->addOption('0', $this->__('-- Please Select --'));
             } else {
                 $select->setName('options['.$_option->getid().'][]');
             }

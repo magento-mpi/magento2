@@ -106,7 +106,8 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             ->addAttributeToSelect('thumbnail')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addStoreFilter()
-            ->setPageSize($this->_maxItemCount);
+            ->setPageSize($this->_maxItemCount)
+            ->addFilterByRequiredOptions();
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
