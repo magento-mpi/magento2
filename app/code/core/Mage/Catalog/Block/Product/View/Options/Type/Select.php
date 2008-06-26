@@ -92,7 +92,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
 				    'pricing_value' => $_value->getPrice()
 				));
-                $selectHtml .= '<input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" value="'.$_value->getOptionTypeId().'" /><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label><br />';
+                $selectHtml .= '<label for="options_'.$_option->getId().'_'.$count.'"><input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />'.$_value->getTitle().' '.$priceStr.'</label>';
             }
 
             return $selectHtml;
