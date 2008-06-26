@@ -796,6 +796,13 @@ h1#logo                 { float:left; }
 .attribute-specs-block .data    { border-right:0; }
 .attribute-specs-block td       { padding-top:3px; padding-bottom:3px; line-height:1.25em; }
 
+.custom-options { padding:0px 10px 0; }
+.custom-options table { width:100%; }
+.custom-options .data { background-color:#eaefe1; padding:5px 10px; }
+.custom-options .data input.input-text { width:98%; }
+.custom-options .data textarea  { width:98%; height:8em; }
+.custom-options .data select { width:99%; }
+.custom-options .label { padding-top:10px; }
 
 /* Upsell */
 .up-sell-block .generic-product-grid td { width:20%; padding-bottom:8px; }

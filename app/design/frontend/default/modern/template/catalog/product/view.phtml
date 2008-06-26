@@ -27,6 +27,7 @@
 <div class="padder">
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php $_product=$this->getProduct() ?>
+<form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
         <div class="product-img-box">
             <?php echo $this->getChildHtml('media') ?>
         </div>
@@ -40,14 +41,14 @@
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
-            <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
                 <fieldset>
-                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>"/>
-                <input type="hidden" name="related_product" id="related-products-field" value=""/>
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+                <input type="hidden" name="related_product" id="related-products-field" value="" />
                 </fieldset>
                 <?php echo $this->getChildHtml('alert_urls') ?>
                 <?php echo $this->getChildHtml('product_type_data') ?>
-            </form>
+                <?php echo $this->getChildHtml('container1') ?>
+                <div class="clear"></div>
 
             <script type="text/javascript">
                 var productAddToCartForm = new VarienForm('product_addtocart_form');
@@ -57,16 +58,16 @@
                     }
                 }.bind(productAddToCartForm);
             </script>
-
-            <div class="clear"></div>
-            <br/>
+            <br />
             <h4 class="border-head"><?php echo $this->__('Quick Overview') ?></h4>
             <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
         </div>
         <div class="clear"></div>
+        <?php echo $this->getChildHtml('container2') ?>
+</form>
 </div>
-<br/><br/>
+<br /><br />
 <?php $_upsellHtml = $this->getChildHtml('upsell_products') ?>
 <ul class="tabs">
     <li id="product_tabs_description" class="active first"><a href="#">Product Description</a></li>

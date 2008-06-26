@@ -70,18 +70,12 @@
                 }.bind(productAddToCartForm);
             </script>
         </div>
-
     <div class="clear"></div>
-
     <?php echo $this->getChildHtml('container2') ?>
-
     </form>
-
     </div>
 
     <div class="product-collateral">
-
-
         <?php if($_additional = $this->getAdditionalData()): ?>
         <div class="collateral-box">
             <div class="head">
@@ -105,9 +99,7 @@
             <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
         </div>
         <?php endif; ?>
-
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
-
 </div>

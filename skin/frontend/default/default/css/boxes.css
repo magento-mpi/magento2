@@ -976,20 +976,10 @@ table.recently-list td {width:20%;}
 .product-essential { padding:25px; background:url(../images/product_essential_bg.gif) no-repeat 100% 0 #fff; }
 .product-essential .product-shop { width:330px; }
 .product-essential .product-shop .ratings { margin-bottom:10px; }
-/* 
-.custom-options {padding:0px 10px 0;}
-.custom-options table {width:100%;}
-.custom-options .data {background:#f5f2e9; padding:5px 10px;}
-.custom-options .data textarea  {width:92%; height:5em;}
-.custom-options .data .input-text  {width:92%;}
-.custom-options .label {padding-top:10px;}
- */
+
 .custom-options { padding:0px 10px 0; }
 .custom-options table { width:100%; }
-.custom-options .data { background:#f5f2e9; padding:5px 10px; }
-/*.custom-options .data textarea  { width:92%; height:5em; }
-.custom-options .data textarea  { width:219px; height:5em; }
-.custom-options .data select { width:225px; }*/
+.custom-options .data { background-color:#f5f2e9; padding:5px 10px; }
 .custom-options .data input.input-text { width:98%; }
 .custom-options .data textarea  { width:98%; height:8em; }
 .custom-options .data select { width:99%; }
