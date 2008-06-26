@@ -70,7 +70,8 @@
         <?php endif; ?>
     </td>
     <td class="a-right">
-        <?php if (!$_item->getParentItem() || $this->isShipmentSeparately()): ?>
+        <?php if (($_item->getParentItem() && !$this->isShipmentSeparately())
+            || (!$_item->getParentItem() && $this->isShipmentSeparately())): ?>
             <?php if ($_item->getQtyOrdered() > 0): ?>
                 <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong>
             <?php endif; ?>
