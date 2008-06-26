@@ -43,13 +43,16 @@
     <?php endif; ?>
 <?php endif; ?>
 <tr class="<?php if ($_item->getLastRow()) echo 'last';?>" id="order-item-row-<?php echo $_item->getId() ?>">
-    <td>
+
     <?php if (!$_item->getParentItem()): ?>
+    <td>
         <?php echo $this->htmlEscape($_item->getName()) ?>
-    <?php else: ?>
-        <?php echo $this->getValueHtml(array_shift($_option['value']))?>
-    <?php endif; ?>
     </td>
+    <?php else: ?>
+    <td class="indent">
+        <?php echo $this->getValueHtml(array_shift($_option['value']))?>
+    </td>
+    <?php endif; ?>
     <td class="nowrap"><?php echo $_item->getSku() ?></td>
     <td class="a-right">
         <?php if (!$_item->getParentItem()): ?>
@@ -112,7 +115,7 @@
 <?php endforeach; ?>
 
 <?php if($this->getItemOptions() || $_item->getDescription() || $this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
-<tr class="<?php if ($_item->getLastRow()) echo 'last';?>" id="order-item-row-<?php echo $_item->getId() ?>">
+<tr class="<?php if ($_item->getLastRow()) echo 'last';?>">
     <td class="indent">
         <?php if($_options = $this->getItemOptions()): ?>
         <ul>
