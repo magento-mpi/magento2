@@ -977,20 +977,21 @@ table.recently-list td {width:20%;}
 .product-essential .product-shop { width:330px; }
 .product-essential .product-shop .ratings { margin-bottom:10px; }
 
-.product-options { padding:0 10px; }
+.product-options { padding:0 5px 10px; }
 .product-options dt { padding:10px 0 0; }
-.product-options dt .qty-holder { float:right; /* width:5.1em; */ line-height:23px; }
+.product-options dt .qty-holder { float:right; /*width:5.1em; line-height:23px;*/ }
 .product-options dt .bundle-option { float:left; }
 .product-options dd { background-color:#f5f2e9; padding:5px 10px; }
 .product-options dd .select { width:99%; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd input.input-text { width:98%; }
+.product-options dd .multiselect { line-height:1.4em; height:9.8em; }
+.product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
+.product-options dd label { display:block; font-weight:normal; line-height:1.4; padding:2px 0; }
+.product-options dd label input { margin-right:5px; }
 
 /*Bundle produc/
-.bundle-product dd .multiselect {line-height:1.4em; height:9.8em;}
-.bundle-product dd .multiselect option {white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px;}
-.bundle-product dd label input  {position:absolute; top:0.3em; left:0; height:1em; }
-.bundle-product dd label  {display:block; font-weight:normal; line-height:1.4; padding:2px 0 2px 18px; position:relative;  zoom:1;}*/
+.bundle-product dd label input  {position:absolute; top:0.3em; left:0; height:1em; }*/
 
 /* Product Collateral */
 .product-collateral { background:url(../images/product_collateral_bg.gif) repeat-x #faf7ee; }

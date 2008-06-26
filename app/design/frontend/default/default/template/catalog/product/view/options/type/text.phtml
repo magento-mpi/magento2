@@ -19,13 +19,8 @@
  */
 ?>
 <?php $_option = $this->getOption() ?>
-<dt>
-	<label><?php echo  $this->htmlEscape($_option->getTitle()) ?></label>
-  <?php if ($_option->getIsRequire()): ?>
-      <span class="required">*</span>
-  <?php endif; ?>
-  <?php echo $this->getFormatedPrice() ?>
-</dt>
+<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">*</span><?php endif; ?></label>
+  <?php echo $this->getFormatedPrice() ?></dt>
 <dd>
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
 		<input type="text" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" value="">

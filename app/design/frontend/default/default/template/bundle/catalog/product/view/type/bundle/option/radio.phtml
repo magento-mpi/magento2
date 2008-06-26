@@ -24,7 +24,7 @@
 <?php $_selections = $_option->getSelections() ?>
 <?php $_default = $_option->getDefaultSelection() ?>
 <dt>
-    <label><?php echo $this->htmlEscape($_option->getTitle()) ?></label><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></span>
+    <label class="left"><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></label>
     <span class="qty-holder">
         <?php if ($_default): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
