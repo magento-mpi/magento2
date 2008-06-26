@@ -19,8 +19,11 @@
  */
 ?>
 
-<?php if ($this->countChildren()):?>
+<?php
+$_contents = $this->getChildHtml('', true, true);
+?>
+<?php if ('' !== trim($_contents)):?>
 <div class="product-attributes">
-  <?php echo $this->getChildHtml('', true, true) ?>
+    <?php echo $_contents ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
