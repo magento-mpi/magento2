@@ -13,7 +13,7 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   design_default
- * @package    Mage
+ * @package    Mage_Bundle
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -57,13 +57,13 @@
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo $this->__('Excl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong>
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <br /><?php echo $this->__('Incl. Tax'); ?>:
+                    <br /><?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($this->getItem())); ?></strong>
             <?php endif; ?>
@@ -72,16 +72,16 @@
     <td class="a-right">
         <?php if (!$_item->getParentItem() || $this->isShipmentSeparately()): ?>
             <?php if ($_item->getQtyOrdered() > 0): ?>
-                <?php echo $this->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong>
+                <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong>
             <?php endif; ?>
             <?php if ($_item->getQtyShipped() > 0): ?>
-                <br /><?php echo $this->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong>
+                <br /><?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong>
             <?php endif; ?>
             <?php if ($_item->getQtyCanceled() > 0): ?>
-                <br /><?php echo $this->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong>
+                <br /><?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong>
             <?php endif; ?>
             <?php if ($_item->getQtyRefunded() > 0): ?>
-                <br /><?php echo $this->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
+                <br /><?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
             <?php endif; ?>
         <?php endif; ?>
     </td>
@@ -89,13 +89,13 @@
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo $this->__('Excl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong>
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <br /><?php echo $this->__('Incl. Tax'); ?>:
+                    <br /><?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></strong>
             <?php endif; ?>
@@ -132,7 +132,7 @@
         <?php endif; ?>
         <?php echo $_item->getDescription() ?>
         <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
-            <br /><a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>')"><?php echo $this->__('Gift Message') ?></a>
+            <br /><a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
         <?php endif; ?>
     </td>
     <td></td>
