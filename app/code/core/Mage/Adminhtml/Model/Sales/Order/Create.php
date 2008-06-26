@@ -151,28 +151,29 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         foreach ($order->getItemsCollection() as $orderItem) {
             /* @var $orderItem Mage_Sales_Model_Order_Item */
+            if (!$orderItem->getParentItem()) {
+                $product = Mage::getModel('catalog/product')
+                    ->setStoreId($this->getSession()->getStoreId())
+                    ->load($orderItem->getProductId());
 
-            $product = Mage::getModel('catalog/product')
-                ->setStoreId($this->getSession()->getStoreId())
-                ->load($orderItem->getProductId());
-
-            if ($product->getId()) {
-                $info = $orderItem->getProductOptionByCode('info_buyRequest');
-                $info = new Varien_Object($info);
-                $product->setSkipCheckRequiredOption(true);
-                $item = $this->getQuote()->addProduct($product,$info);
-                if (is_string($item)) {
-                    Mage::throwException($item);
-                }
-                $item->setQty($orderItem->getQtyOrdered());
-                if ($addOptions = $orderItem->getProductOptionByCode('additional_options')) {
-                    $item->addOption(new Varien_Object(
-                        array(
-                            'product' => $item->getProduct(),
-                            'code' => 'additional_options',
-                            'value' => serialize($addOptions)
-                        )
-                    ));
+                if ($product->getId()) {
+                    $info = $orderItem->getProductOptionByCode('info_buyRequest');
+                    $info = new Varien_Object($info);
+                    $product->setSkipCheckRequiredOption(true);
+                    $item = $this->getQuote()->addProduct($product,$info);
+                    if (is_string($item)) {
+                        Mage::throwException($item);
+                    }
+                    $item->setQty($orderItem->getQtyOrdered());
+                    if ($addOptions = $orderItem->getProductOptionByCode('additional_options')) {
+                        $item->addOption(new Varien_Object(
+                            array(
+                                'product' => $item->getProduct(),
+                                'code' => 'additional_options',
+                                'value' => serialize($addOptions)
+                            )
+                        ));
+                    }
                 }
             }
         }
