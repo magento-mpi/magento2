@@ -33,13 +33,11 @@
 <?php if ($_item->getParentItem()): ?>
     <?php if ($_prevOptionLabel != $_option['label']): ?>
     <tr class="<?php if ($_item->getLastRow()) echo 'last';?>" id="order-item-row-<?php echo $parentItem->getId() ?>">
-        <td>
-            <strong><?php echo $_option['label'] ?></strong>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><strong><?php echo $_option['label'] ?></strong></td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
     </tr>
     <?php $_prevOptionLabel = $_option['label'] ?>
     <?php endif; ?>

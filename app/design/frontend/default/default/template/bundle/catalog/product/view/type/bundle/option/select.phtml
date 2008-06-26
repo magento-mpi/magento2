@@ -32,7 +32,7 @@
             <?php $_defaultQty = '' ?>
             <?php $_canChangeQty = false ?>
         <?php endif; ?>
-        <label><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_canChangeQty?'inline':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
+        <label for="bundle-option-<?php echo $_option->getId() ?>-qty-input"><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_canChangeQty?'inline':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
         <span style="display:<?php echo $_canChangeQty?'none':'inline' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-label"><?php echo $_defaultQty ?></span>
     </span>
     <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
