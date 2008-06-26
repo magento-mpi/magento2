@@ -243,7 +243,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 $this->_usedProducts[] = $product;
             }
         }
-        Varien_Profiler::start('CONFIGURABLE:'.__METHOD__);
+        Varien_Profiler::stop('CONFIGURABLE:'.__METHOD__);
         return $this->_usedProducts;
     }
 
