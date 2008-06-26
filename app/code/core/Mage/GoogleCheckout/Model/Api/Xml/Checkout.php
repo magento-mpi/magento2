@@ -117,7 +117,7 @@ EOT;
     {
         $xml = <<<EOT
             <merchant-private-item-data>
-                <quote-item-id>{$item->getEntityId()}</quote-item-id>
+                <quote-item-id>{$item->getId()}</quote-item-id>
             </merchant-private-item-data>
 EOT;
         return $xml;
