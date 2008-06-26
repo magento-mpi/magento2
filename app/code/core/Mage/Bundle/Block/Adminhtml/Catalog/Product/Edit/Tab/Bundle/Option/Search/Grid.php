@@ -56,6 +56,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addAttributeToFilter('type_id', array('in' => $this->getAllowedSelectionTypes()))
+            ->addFilterByRequiredOptions()
             ->addStoreFilter();
 
         if ($products = $this->_getProducts()) {
