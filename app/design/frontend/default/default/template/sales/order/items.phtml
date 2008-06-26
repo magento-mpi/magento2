@@ -51,62 +51,11 @@
         <?php $_count = $_items->count(); ?>
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
-            <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-row-<?php echo $_item->getId() ?>">
-                <td><?php echo $this->getItemHtml($_item) ?></td>
-                <td class="nowrap"><?php echo $_item->getSku() ?> </td>
+            <?php if ($_item->getParentItem()) continue; ?>
+            <?php if ($_index++ > $_count) $_item->setLastRow('true'); ?>
 
+            <?php echo $this->getItemHtml($_item) ?>
 
-                <td class="a-right">
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->__('Excl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($_item->getPrice()) ?></strong>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br /><?php echo $this->__('Incl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></strong>
-                    <?php endif; ?>
-                </td>
-                <td class="a-right">
-                    <?php if ($_item->getQtyOrdered() > 0): ?>
-                        <?php echo $this->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong>
-                    <?php endif; ?>
-                    <?php if ($_item->getQtyShipped() > 0): ?>
-                        <br /><?php echo $this->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong>
-                    <?php endif; ?>
-                    <?php if ($_item->getQtyCanceled() > 0): ?>
-                        <br /><?php echo $this->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong>
-                    <?php endif; ?>
-                    <?php if ($_item->getQtyRefunded() > 0): ?>
-                        <br /><?php echo $this->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
-                    <?php endif; ?>
-                </td>
-                <td class="a-right">
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->__('Excl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($_item->getRowTotal()) ?></strong>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br /><?php echo $this->__('Incl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></strong>
-                    <?php endif; ?>
-                </td>
-                <!--
-                <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                <th class="nowrap a-right" width="5%"><?php echo $_order->formatPrice($_item->getRowTotal()) ?></th>
-                <?php endif; ?>
-                <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                <th class="nowrap a-right" width="5%"><?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></th>
-                <?php endif; ?>
-                -->
-            </tr>
             <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
             <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
                 <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item); ?>

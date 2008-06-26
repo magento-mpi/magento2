@@ -48,6 +48,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      */
     protected $_order       = null;
     protected $_parentItem  = null;
+    protected $_children    = array();
 
     /**
      * Init resource model
@@ -85,6 +86,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if ($item) {
             $this->_parentItem = $item;
             $item->setHasChildren(true);
+            $item->addChildItem($this);
         }
         return $this;
     }
@@ -359,4 +361,28 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         }
         return null;
     }
+
+    /**
+     * Adds child item to this item
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     */
+    public function addChildItem($item)
+    {
+        if ($item instanceof Mage_Sales_Model_Order_Item) {
+            $this->_children[] = $item;
+        } else if (is_array($item)) {
+            $this->_children = array_merge($this->_children, $item);
+        }
+    }
+
+    /**
+     * Return chilgren items of this item
+     *
+     * @return array
+     */
+    public function getChildrenItems() {
+        return $this->_children;
+    }
+
 }

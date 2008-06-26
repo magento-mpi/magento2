@@ -93,6 +93,7 @@
                     <product_attributes>
                         <price_view />
                         <price_type />
+                        <shipment_type />
                     </product_attributes>
                 </item>
             </quote>

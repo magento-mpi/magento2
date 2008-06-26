@@ -38,6 +38,16 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
         return $this->_getData('item');
     }
 
+    /**
+     * Retrieve current order model instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        return $this->getItem()->getOrder();
+    }
+
     public function getItemOptions()
     {
         $result = array();

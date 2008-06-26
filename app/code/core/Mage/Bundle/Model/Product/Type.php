@@ -434,7 +434,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         $product = $this->getProduct();
 
-        if ($product->hasCustomOptions() && $product->getPriceType()) {
+        if ($product->hasCustomOptions()) {
             $customOption = $product->getCustomOption('bundle_option_ids');
             $optionIds = unserialize($customOption->getValue());
             $options = $this->getOptionsByIds($optionIds);
@@ -465,11 +465,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
         }
 
-        if (isset($optionArr['options'])) {
-            $optionArr['options'] = array_merge($bundleOptions, $optionArr['options']);
-        } else {
-            $optionArr['options'] = $bundleOptions;
-        }
+        $optionArr['bundle_options'] = $bundleOptions;
 
         /**
          * Product Prices calculations save

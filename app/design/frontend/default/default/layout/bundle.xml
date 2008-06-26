@@ -161,4 +161,10 @@ Additional block for bundle product type
         </reference>
     </PRODUCT_TYPE_bundle>
 
+    <sales_order_view>
+        <reference name="order_items">
+            <action method="addItemRender"><type>bundle</type><block>bundle/sales_order_item_renderer_bundle</block><template>bundle/sales/order/item/bundle.phtml</template></action>
+        </reference>
+    </sales_order_view>
+
 </layout>
