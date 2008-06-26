@@ -887,7 +887,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     public function importPostData($data)
     {
-        $this->addData($data);
+    	if (is_array($data)) {
+    		$this->addData($data);
+    	}
+    	else {
+    		return $this;
+    	}
 
         if (isset($data['account'])) {
             $this->setAccountData($data['account']);

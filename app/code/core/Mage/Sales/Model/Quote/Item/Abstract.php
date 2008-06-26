@@ -368,13 +368,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
     public function isChildrenCalculated() {
         if ($this->getParentItem()) {
-            if ($option = $this->getParentItem()->getoptionByCode('product_calculations')) {
+            if ($option = $this->getParentItem()->getOptionByCode('product_calculations')) {
                 $calculate = $option->getValue();
             } else {
                 return true;
             }
         } else {
-            if ($option = $this->getoptionByCode('product_calculations')) {
+            if ($option = $this->getOptionByCode('product_calculations')) {
                 $calculate = $option->getValue();
             } else {
                 return true;
