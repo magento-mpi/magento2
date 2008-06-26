@@ -20,14 +20,10 @@
 ?>
 <?php /* @var $this Mage_Catalog_Block_Product_View_Options_Type_Select */ ?>
 <?php $_option = $this->getOption() ?>
-<tr>
-    <td class="label">
-        <?php echo  $this->htmlEscape($_option->getTitle()) ?>
-        <?php if ($_option->getIsRequire()): ?>
-            <span class="required">*</span>
-        <?php endif; ?>
-    </td>
-</tr>
-<tr>
-    <td class="data"><?php echo $this->getValuesHtml() ?></td>
-</tr>
+<dt>
+  <label><?php echo  $this->htmlEscape($_option->getTitle()) ?></label>
+    <?php if ($_option->getIsRequire()): ?>
+      <span class="required">*</span>
+    <?php endif; ?>
+</dt>
+<dd><?php echo $this->getValuesHtml() ?></dd>

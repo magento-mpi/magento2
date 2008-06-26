@@ -20,12 +20,11 @@
 ?>
 <?php $_options = $this->getOptions() ?>
 <?php if ($_options): ?>
-<fieldset>
-      <table cellspacing="0" border="0" cellpadding="0" id="custom-options-table">
+      <dl id="custom-options-table">
       <?php foreach($_options as $_option): ?>
           <?php echo $this->getOptionHtml($_option) ?>
       <?php endforeach; ?>
-      </table>
+      </dl>
       <p class="required">* Required Fields</p>
 	<script type="text/javascript">
 /* <![CDATA[ */
@@ -104,5 +103,4 @@
     }
 /* ]]> */
 </script>
-</fieldset>
 <?php endif; ?>

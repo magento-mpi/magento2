@@ -22,10 +22,8 @@
 
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
-
-
 <dt>
-    <span class="bundle-option"><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></span>
+    <label><?php echo $this->htmlEscape($_option->getTitle()) ?></label><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?>
     <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
 </dt>
 <dd>

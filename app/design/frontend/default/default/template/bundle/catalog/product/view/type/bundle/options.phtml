@@ -25,21 +25,18 @@ $_options = $this->getOptions();
 ?>
 
 <?php if($_product->isSaleable()):?>
-
-<div class="bundle-product">
+<dl>
     <?php if (count($_options)): ?>
-    <dl>
     <?php foreach ($_options as $_option): ?>
         <?php if (!$_option->getSelections()): ?>
             <?php continue; ?>
         <?php endif; ?>
         <?php echo $this->getOptionHtml($_option) ?>
     <?php endforeach; ?>
-    </dl>
     <?php else: ?>
         <p><?php echo $this->__('No options of this product are available.') ?></p>
+</dl>
     <?php endif; ?>
-</div>
 
 <?php /*
     <table cellspacing="0" class="data-table bundle-product" id="super-product-table">

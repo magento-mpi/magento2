@@ -977,29 +977,20 @@ table.recently-list td {width:20%;}
 .product-essential .product-shop { width:330px; }
 .product-essential .product-shop .ratings { margin-bottom:10px; }
 
-.custom-options { padding:0px 10px 10px; }
-.custom-options table { width:100%; }
-.custom-options .data { background-color:#f5f2e9; padding:5px 10px; }
-.custom-options .data input.input-text { width:98%; }
-.custom-options .data textarea  { width:98%; height:8em; }
-.custom-options .data select { width:99%; }
-.custom-options .label { padding-top:10px; }
+.product-options { padding:0 10px; }
+.product-options dt { padding:10px 0 0; }
+.product-options dt .qty-holder { float:right; /* width:5.1em; */ line-height:23px; }
+.product-options dt .bundle-option { float:left; }
+.product-options dd { background-color:#f5f2e9; padding:5px 10px; }
+.product-options dd .select { width:99%; }
+.product-options dd textarea { width:98%; height:8em; }
+.product-options dd input.input-text { width:98%; }
 
-/*Bundle product*/
-.bundle-product {background:#f8f7f5; padding:0 0 0; border:1px solid #bebcb7; border-top:0;}
-.bundle-product dt {border-top:1px solid #bebcb7; background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; line-height:23px; padding:3px 10px;}
-.bundle-product dt .qty-holder {float:right; /* width:5.1em; */ line-height:23px;}
-.bundle-product dt .qty-holder span {}
-.bundle-product dt .bundle-option {float:left;}
-.bundle-product dd { padding:10px 10px 15px;}
-.bundle-product dd .select {width:99%;}
+/*Bundle produc/
 .bundle-product dd .multiselect {line-height:1.4em; height:9.8em;}
 .bundle-product dd .multiselect option {white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px;}
 .bundle-product dd label input  {position:absolute; top:0.3em; left:0; height:1em; }
-.bundle-product dd label  {display:block; font-weight:normal; line-height:1.4; padding:2px 0 2px 18px; position:relative;  zoom:1;}
-
-
-
+.bundle-product dd label  {display:block; font-weight:normal; line-height:1.4; padding:2px 0 2px 18px; position:relative;  zoom:1;}*/
 
 /* Product Collateral */
 .product-collateral { background:url(../images/product_collateral_bg.gif) repeat-x #faf7ee; }
@@ -1330,9 +1321,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     border-bottom: none;
 }
 
-.no-padding {
-    padding: 0 0 0 0;
-}
+.no-padding { padding:0 !important; }
+.no-margin { margin:0 !important; }
 
 .giftmessages .giftmessage-product-info {
     padding-left: 10px;
