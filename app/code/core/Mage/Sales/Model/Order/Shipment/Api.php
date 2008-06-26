@@ -29,21 +29,13 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
 {
     public function __construct()
     {
-        $this->_attributesMap['shipment'] = array(
-            'shipment_id' => 'entity_id'
-        );
+        $this->_attributesMap['shipment'] = array('shipment_id' => 'entity_id');
 
-        $this->_attributesMap['shipment_item'] = array(
-            'item_id'    => 'entity_id'
-        );
+        $this->_attributesMap['shipment_item'] = array('item_id'    => 'entity_id');
 
-        $this->_attributesMap['shipment_comment'] = array(
-            'comment_id' => 'entity_id'
-        );
+        $this->_attributesMap['shipment_comment'] = array('comment_id' => 'entity_id');
 
-        $this->_attributesMap['shipment_track'] = array(
-            'track_id'   => 'entity_id'
-        );
+        $this->_attributesMap['shipment_track'] = array('track_id'   => 'entity_id');
     }
 
     /**
