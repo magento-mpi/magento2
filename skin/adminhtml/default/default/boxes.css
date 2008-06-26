@@ -417,6 +417,9 @@ select optgroup option          { padding-left:10px; }
 .columns .form-list td.value select      { width:267px; }
 .columns .form-list td.use-default       { padding-left:15px; }
 
+.columns .form-list td.value .next-toinput {width:75px; display:inline; margin-right:5px;}
+.columns .form-list td.value .next-toselect .input-text {width:180px; display:inline;}
+
 .columns .form-list td.value             { width:270px; padding-right:5px; }
 .columns .form-list td.value input.input-text,
 .columns .form-list td.value textarea    { width:260px; }
