@@ -598,7 +598,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $this->getSelect()
             ->where(
-                new Zend_Db_Expr('(SELECT COUNT(*) FROM catalog_product_option WHERE (product_id = `e`.`entity_id`) AND (is_require = 1)) = 0')
+                new Zend_Db_Expr('(SELECT COUNT(*) FROM '.$this->getTable('catalog/product_option').' WHERE (product_id = `e`.`entity_id`) AND (is_require = 1)) = 0')
             );
         return $this;
     }
