@@ -189,7 +189,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     public function query($sql, $bind = array())
     {
         $this->_debugTimer();
-        $result = parent::query($sql, $bind);
+        try {
+            $result = parent::query($sql, $bind);
+        }
+        catch (Exception $e) {
+            $this->_debugStat(self::DEBUG_QUERY, $sql, $bind);
+            $this->_debugException($e);
+        }
         $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
         return $result;
     }
@@ -425,6 +431,22 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->_debugWriteToFile($code);
 
         return $this;
+    }
+
+    /**
+     * Write exception and thow
+     *
+     * @param Exception $e
+     * @throws Exception
+     */
+    protected function _debugException(Exception $e)
+    {
+        $nl   = "\n";
+        $code = 'EXCEPTION ' . $e->getMessage() . $nl
+            . 'E TRACE: ' . print_r($e->getTrace(), true) . $nl . $nl;
+        $this->_debugWriteToFile($code);
+
+        throw $e;
     }
 
     protected function _debugWriteToFile($str)

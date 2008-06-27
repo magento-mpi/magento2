@@ -770,6 +770,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Collect totals
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     public function collectTotals()
     {
         $this->setGrandTotal(0);
