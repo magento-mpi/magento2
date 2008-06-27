@@ -91,6 +91,12 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         return $this;
     }
 
+    /**
+     * Set masseges for quote item
+     *
+     * @param mixed $messages
+     * @return Mage_Sales_Model_Quote_Item_Abstract
+     */
     public function setMessage($messages) {
         if (!is_array($messages)) {
             $messages = array($messages);
@@ -101,12 +107,23 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         return $this;
     }
 
+    /**
+     * Add message of quote item to array of messages
+     *
+     * @param string $message
+     * @return Mage_Sales_Model_Quote_Item_Abstract
+     */
     public function addMessage($message)
     {
         $this->_messages[] = $message;
         return $this;
     }
 
+    /**
+     * Get messages array of quote item
+     *
+     * @return array
+     */
     public function getMessage()
     {
         return $this->_messages;
@@ -151,12 +168,12 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setHasError(true);
             $this->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true);
-            $this->getQuote()->addMessage($e->getMessage());
+            $this->getQuote()->addMessage(Mage::helper('sales')->__('Some of products below have required options.'));
         } catch (Exception $e) {
             $this->setHasError(true);
             $this->setMessage(Mage::helper('sales')->__('Item options declare error'));
             $this->getQuote()->setHasError(true);
-            $this->getQuote()->addMessage($e->getMessage());
+            $this->getQuote()->addMessage(Mage::helper('sales')->__('Items options declare error.'));
         }
 
         return $this;
