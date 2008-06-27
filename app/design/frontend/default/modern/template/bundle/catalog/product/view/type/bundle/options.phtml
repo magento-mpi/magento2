@@ -25,30 +25,16 @@ $_options = $this->getOptions();
 ?>
 
 <?php if($_product->isSaleable()):?>
-
-
-    <table cellspacing="0" class="data-table bundle-product" id="super-product-table">
-        <thead>
-            <tr>
-                <th><?php echo $this->__('Option') ?></th>
-                <th><?php echo $this->__('Selection') ?></th>
-                <th class="a-center"><?php echo $this->__('Qty') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php if (count($_options)): ?>
-        <?php foreach ($_options as $_option): ?>
-            <?php if (!$_option->getSelections()): ?>
-                <?php continue; ?>
-            <?php endif; ?>
-            <?php echo $this->getOptionHtml($_option) ?>
-        <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="<?php if ($_product->isSaleable()): ?>3<?php else: ?>2<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
-            </tr>
+<dl>
+		<?php if (count($_options)): ?>
+    <?php foreach ($_options as $_option): ?>
+        <?php if (!$_option->getSelections()): ?>
+            <?php continue; ?>
         <?php endif; ?>
-        </tbody>
-    </table>
-
+        <?php echo $this->getOptionHtml($_option) ?>
+    <?php endforeach; ?>
+    <?php else: ?>
+        <?php echo $this->__('No options of this product are available.') ?>
+    <?php endif; ?>
+</dl>
 <?php endif;?>

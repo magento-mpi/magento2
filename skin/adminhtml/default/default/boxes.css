@@ -118,6 +118,15 @@
 .grid table td.empty-text       { padding:15px; }
 .grid table td .action-select   { width: 100%; }
 .grid .separator                { padding:0 4px; color:#b9b9b9; }
+/* For Bundle product rows */
+.grid tbody.odd tr              { background:#fff !important; }
+.grid tbody.even tr             { background:#f6f6f6 !important; }
+.grid tbody.odd tr td,
+.grid tbody.even tr td          { border-bottom:0; }
+.grid tbody.odd tr.border td,
+.grid tbody.even tr.border td   { border-bottom:1px solid #dadfe0; }
+.grid td.indent                 { padding-left:20px; }
+
 
 /* Grid - Pager and Buttons row */
 table.actions                   { width:100%; margin:.5em 0; }
@@ -196,7 +205,7 @@ table.actions td                { vertical-align:top; }
     padding:0px 5px 0px 0px;
     }
 
-.massaction .entry-edit .outer-span {float:left;}
+.massaction .entry-edit .outer-span { float:left; }
 
 /* Grid - Filter */
 .grid tr.filter                 { background:url(images/filter_row_bg.gif) repeat-x #e3eff1; cursor: default; }
@@ -877,10 +886,7 @@ padding:6px 8px 4px 8px;
 .order-totals table td.last             { padding:2px 6px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
 
-ul.item-options li {
-    list-style-type:none;
-    padding-left:.7em;
-    }
+ul.item-options li { list-style-type:none; padding-left:.7em; }
 
 
 /* Order Constants */
@@ -983,14 +989,6 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 .bundle-option-row input.option-label   { width: 50% !important; }
 .bundle-option-row input.option-position{ width: 70px !important; }
 .catalog-categories .side-col           { width:240px; }
-
-.data-bundle tbody.even tr { background:#f6f6f6 !important; }
-.data-bundle tbody.odd tr td,
-.data-bundle tbody.even tr td { border-bottom:0; }
-.data-bundle tbody.odd tr.border td,
-.data-bundle tbody.even tr.border td { border-bottom:1px solid #dadfe0; }
-.data-bundle td.indent { padding-left:20px; }
-.data-bundle ul.item-options li { padding-left:10px; }
 
 /* Products - Tier Price */
 .tier-price-input                       { margin-bottom:8px; }

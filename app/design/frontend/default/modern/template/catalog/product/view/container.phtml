@@ -24,6 +24,8 @@ $_contents = $this->getChildHtml('', true, true);
 ?>
 <?php if ('' !== trim($_contents)):?>
 <div class="product-attributes">
+  <fieldset class="product-options">
     <?php echo $_contents ?>
+  </fieldset>
 </div>
 <?php endif; ?>

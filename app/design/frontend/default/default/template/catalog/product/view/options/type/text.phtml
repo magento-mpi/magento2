@@ -19,7 +19,7 @@
  */
 ?>
 <?php $_option = $this->getOption() ?>
-<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">*</span><?php endif; ?></label>
+<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label>
   <?php echo $this->getFormatedPrice() ?></dt>
 <dd>
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>

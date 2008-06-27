@@ -48,7 +48,8 @@
 .account-nav li,
 .listing-type-list .listing-item,
 #nav li,
-.truncated { zoom:1; }
+.truncated,
+.product-options dt { zoom:1; }
 
 .clear {
 	display:block;

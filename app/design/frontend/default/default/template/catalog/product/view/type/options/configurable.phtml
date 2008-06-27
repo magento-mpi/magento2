@@ -23,7 +23,7 @@
 <?php if($_product->isSaleable()):?>
     <dl>
     <?php foreach($this->getAllowAttributes() as $_attribute): ?>
-        <dt><?php echo $_attribute->getLabel() ?>:</dt>
+        <dt><label><?php echo $_attribute->getLabel() ?>:</label></dt>
         <dd>
           <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute select super-attribute-select">
             <option><?php echo $this->__('Choose an Option...') ?></option>
@@ -31,7 +31,6 @@
         </dd>
     <?php endforeach; ?>
     </dl>
-    <!--<input type="hidden" name="" id=""/> what for? -->
 <script type="text/javascript">
 var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
 </script>
