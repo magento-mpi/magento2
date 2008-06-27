@@ -344,7 +344,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         if ($this->getHasChildren() && $this->getOptionBycode('product_calculations')->getValue() == 'child') {
             $price = 0;
             foreach ($this->getChildren() as $child) {
-                $price+= $child->getPrice()*$child->getQty();
+                $price+= $child->getPrice();
             }
             return $price;
         }
