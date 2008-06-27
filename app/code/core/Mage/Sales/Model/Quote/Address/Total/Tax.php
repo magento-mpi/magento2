@@ -63,9 +63,21 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
 
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
+                    $discountBefore = $item->getDiscountAmount();
+                    $baseDiscountBefore = $item->getBaseDiscountAmount();
+
                     $rate = $taxCalculationModel->getRate($request->setProductClassId($child->getProduct()->getTaxClassId()));
+
                     $child->setTaxPercent($rate);
                     $child->calcTaxAmount();
+
+                    if ($discountBefore != $item->getDiscountAmount()) {
+                        $address->setDiscountAmount($address->getDiscountAmount()+($item->getDiscountAmount()-$discountBefore));
+                        $address->setBaseDiscountAmount($address->getBaseDiscountAmount()+($item->getBaseDiscountAmount()-$baseDiscountBefore));
+
+                        $address->setGrandTotal($address->getGrandTotal() - ($item->getDiscountAmount()-$discountBefore));
+                        $address->setBaseGrandTotal($address->getBaseGrandTotal() - ($item->getBaseDiscountAmount()-$baseDiscountBefore));
+                    }
 
                     $this->_saveAppliedTaxes(
                        $address,
@@ -79,10 +91,22 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
             }
             else {
+                $discountBefore = $item->getDiscountAmount();
+                $baseDiscountBefore = $item->getBaseDiscountAmount();
+
                 $rate = $taxCalculationModel->getRate($request->setProductClassId($item->getProduct()->getTaxClassId()));
 
                 $item->setTaxPercent($rate);
                 $item->calcTaxAmount();
+
+                if ($discountBefore != $item->getDiscountAmount()) {
+                    $address->setDiscountAmount($address->getDiscountAmount()+($item->getDiscountAmount()-$discountBefore));
+                    $address->setBaseDiscountAmount($address->getBaseDiscountAmount()+($item->getBaseDiscountAmount()-$baseDiscountBefore));
+
+                    $address->setGrandTotal($address->getGrandTotal() - ($item->getDiscountAmount()-$discountBefore));
+                    $address->setBaseGrandTotal($address->getBaseGrandTotal() - ($item->getBaseDiscountAmount()-$baseDiscountBefore));
+                }
+
                 $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
 

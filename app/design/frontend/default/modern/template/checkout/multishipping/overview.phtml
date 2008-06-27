@@ -123,7 +123,7 @@
                                     <?php endif; ?>
                                     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                                     <td class="a-right">
-                                        <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getTaxAmount()/$_item->getQty()) ?>
+                                        <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)) ?>
                                     </td>
                                     <?php endif; ?>
                                     <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
@@ -134,7 +134,7 @@
                                     <?php endif; ?>
                                     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                                     <td class="a-right">
-                                        <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()+$_item->getTaxAmount()) ?>
+                                        <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)) ?>
                                     </td>
                                     <?php endif; ?>
                                 </tr>
@@ -205,7 +205,7 @@
                                 <?php endif; ?>
                                 <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                                 <td class="a-right">
-                                    <?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()+$_item->getTaxAmount()/$_item->getQty()) ?>
+                                    <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)) ?>
                                 </td>
                                 <?php endif; ?>
                                 <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
@@ -216,7 +216,7 @@
                                 <?php endif; ?>
                                 <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                                 <td class="a-right">
-                                    <?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()+$_item->getTaxAmount()) ?>
+                                    <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)) ?>
                                 </td>
                                 <?php endif; ?>
                             </tr>

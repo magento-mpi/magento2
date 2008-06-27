@@ -381,4 +381,9 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $result;
     }
+
+    public function discountTax($store=null)
+    {
+        return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISCOUNT_TAX, $store) == 1);
+    }
 }
