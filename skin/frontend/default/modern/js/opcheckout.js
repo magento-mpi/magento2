@@ -49,16 +49,38 @@ Checkout.prototype = {
         var updater = new Ajax.Updater('checkout-review-load', this.reviewUrl, {method: 'get', onFailure: this.ajaxFailure.bind(this)});
     },
 
+    /**
+     * Warning! It is different from default theme.
+     **/
+    _disableEnableAll: function(element, isDisabled) {
+        var onclick = function() {billing.save();};
+        if (isDisabled) {
+            onclick = function() {return false;};
+        }
+        var descendants = element.descendants();
+        for (var k in descendants) {
+            if (typeof(descendants[k].onclick) != 'undefined') {
+                descendants[k].onclick = onclick;
+            }
+        }
+    },
+
     setLoadWaiting: function(step) {
         if (step) {
             if (this.loadWaiting) {
                 this.setLoadWaiting(false);
             }
-            $(step+'-buttons-container').setStyle({opacity:.5});
+            var container = $(step+'-buttons-container');
+            container.setStyle({opacity:.5});
+            this._disableEnableAll(container, true);
             Element.show(step+'-please-wait');
         } else {
             if (this.loadWaiting) {
-                $(this.loadWaiting+'-buttons-container').setStyle({opacity:1});
+                if (this.loadWaiting != 'review') {
+                    var container = $(this.loadWaiting+'-buttons-container');
+                    container.setStyle({opacity:1});
+                    this._disableEnableAll(container, false);
+                }
                 Element.hide(this.loadWaiting+'-please-wait');
             }
         }
