@@ -873,16 +873,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function isVirtual()
     {
         $isVirtual = true;
+        $countItems = 0;
         foreach ($this->getItemsCollection() as $_item) {
             /* @var $_item Mage_Sales_Model_Quote_Item */
             if ($_item->isDeleted()) {
                 continue;
             }
+            $countItems ++;
             if (!$_item->getProduct()->getIsVirtual()) {
                 $isVirtual = false;
             }
         }
-        return $isVirtual;
+        return $countItems == 0 ? false : $isVirtual;
     }
 
     /**
