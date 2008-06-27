@@ -36,14 +36,16 @@ Product.Bundle.prototype = {
             this.populateQty(parts[2], selection.value);
         }
         this.reloadPrice();
+//        Calculator.updatePrice();
     },
 
     reloadPrice: function() {
-        if (this.config.priceType == '1') {
-            var calculatedPrice = Number(this.config.basePrice);
-        } else {
-            var calculatedPrice = Number(0);
-        }
+//        if (this.config.priceType == '1') {
+//            var calculatedPrice = Number(this.config.basePrice);
+//        } else {
+//            var calculatedPrice = Number(0);
+//        }
+        var calculatedPrice = 0;
         for (var option in this.config.selected) {
             if (this.config.options[option]) {
                 for (var i=0; i < this.config.selected[option].length; i++) {
@@ -55,6 +57,11 @@ Product.Bundle.prototype = {
         if (this.config.specialPrice) {
             calculatedPrice = (calculatedPrice*this.config.specialPrice)/100;
         }
+
+        optionsPrice.changePrice('bundle', calculatedPrice);
+        optionsPrice.reload();
+
+        return calculatedPrice;
 
         $('bundle-price-' + this.config.bundleId).innerHTML = formatCurrency(calculatedPrice, this.config.priceFormat);
 
@@ -127,6 +134,7 @@ Product.Bundle.prototype = {
             selectionId = this.config.selected[optionId][0];
             this.config.options[optionId].selections[selectionId].qty = element.value*1;
             this.reloadPrice();
+//            Calculator.updatePrice();
         }
-    },
+    }
 }
