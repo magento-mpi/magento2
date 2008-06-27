@@ -191,4 +191,31 @@ Customer account home dashboard layout
             </block>
         </reference>
     </sales_order_printcreditmemo>
+
+<!--
+Email layouts section
+-->
+    <sales_email_order_items>
+        <block type="sales/order_email_items" name="items" template="email/order/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>email/order/items/order/default.phtml</template></action>
+        </block>
+    </sales_email_order_items>
+
+    <sales_email_order_invoice_items>
+        <block type="sales/order_email_invoice_items" name="items" template="email/order/invoice/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>email/order/items/invoice/default.phtml</template></action>
+        </block>
+    </sales_email_order_invoice_items>
+
+    <sales_email_order_shipment_items>
+        <block type="sales/order_email_shipment_items" name="items" template="email/order/shipment/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>email/order/items/shipment/default.phtml</template></action>
+        </block>
+    </sales_email_order_shipment_items>
+
+    <sales_email_order_creditmemo_items>
+        <block type="sales/order_email_creditmemo_items" name="items" template="email/order/creditmemo/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_default</block><template>email/order/items/creditmemo/default.phtml</template></action>
+        </block>
+    </sales_email_order_creditmemo_items>
 </layout>

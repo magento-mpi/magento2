@@ -84,6 +84,17 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
     }
 
     /**
+     * Prepare item before output
+     *
+     * @param Mage_Core_Block_Abstract $renderer
+     * @return Mage_Sales_Block_Items_Abstract
+     */
+    protected function _prepareItem(Mage_Core_Block_Abstract $renderer)
+    {
+        return $this;
+    }
+
+    /**
      * Get item row html
      *
      * @param   Varien_Object $item
@@ -91,8 +102,9 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
      */
     public function getItemHtml(Varien_Object $item)
     {
-        return $this->getItemRenderer($item->getProductType())
-            ->setItem($item)
-            ->toHtml();
+        $block = $this->getItemRenderer($item->getProductType())
+            ->setItem($item);
+        $this->_prepareItem($block);
+        return $block->toHtml();
     }
 }

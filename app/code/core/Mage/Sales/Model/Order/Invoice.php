@@ -550,7 +550,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         if ($notifyCustomer) {
             $sendTo[] = array(
                 'name'  => $customerName,
-                'email' => $this->getCustomerEmail()
+                'email' => $order->getCustomerEmail()
             );
             if ($copyTo && $copyMethod == 'bcc') {
                 $mailTemplate->addBcc($copyTo);
@@ -630,7 +630,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         if ($notifyCustomer) {
             $sendTo[] = array(
                 'name'  => $customerName,
-                'email' => $this->getCustomerEmail()
+                'email' => $order->getCustomerEmail()
             );
             if ($copyTo && $copyMethod == 'bcc') {
                 $mailTemplate->addBcc($copyTo);

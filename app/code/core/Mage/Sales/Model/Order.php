@@ -569,7 +569,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $itemsBlock = Mage::getBlockSingleton('sales/order_email_items')->setOrder($this);
         $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment())
             ->setIsSecureMode(true);
 
@@ -615,7 +614,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                         'order'         => $this,
                         'billing'       => $this->getBillingAddress(),
                         'payment_html'  => $paymentBlock->toHtml(),
-                        'items_html'    => $itemsBlock->toHtml(),
                     )
                 );
         }
