@@ -218,6 +218,8 @@ EOT;
 
         $addressCategory = Mage::getStoreConfig('google/checkout_shipping_carrier/address_category');
 
+        $defPrice = Mage::helper('tax')->getShippingPrice($defPrice, false, false);
+
 //      $taxRate = $this->_getShippingTaxRate();
 //      <additional-variable-charge-percent>{$taxRate}</additional-variable-charge-percent>
 
@@ -276,6 +278,7 @@ EOT;
             $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i);
             $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i);
             $price = number_format($price, 2, '.','');
+            $price = Mage::helper('tax')->getShippingPrice($price, false, false);
 
             if (empty($title) || $price <= 0) {
                 continue;
@@ -325,6 +328,7 @@ EOT;
                 }
 
                 $defaultPrice = $methods['price'][$i];
+                $defaultPrice = Mage::helper('tax')->getShippingPrice($defaultPrice, false, false);
 
                 $xml .= <<<EOT
                     <merchant-calculated-shipping name="{$method}">
@@ -345,6 +349,7 @@ EOT;
 
         $title = Mage::getStoreConfig('google/checkout_shipping_pickup/title');
         $price = Mage::getStoreConfig('google/checkout_shipping_pickup/price');
+        $price = Mage::helper('tax')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">

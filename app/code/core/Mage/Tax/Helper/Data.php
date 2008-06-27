@@ -327,7 +327,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         $pseudoProduct->setTaxClassId($this->getShippingTaxClass($store));
 
         $billingAddress = false;
-        if ($shippingAddress->getQuote() && $shippingAddress->getQuote()->getBillingAddress()) {
+        if ($shippingAddress && $shippingAddress->getQuote() && $shippingAddress->getQuote()->getBillingAddress()) {
             $billingAddress = $shippingAddress->getQuote()->getBillingAddress();
         }
 

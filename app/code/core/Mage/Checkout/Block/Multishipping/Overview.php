@@ -181,8 +181,10 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
     public function getVirtualItems()
     {
         $items = array();
-        //foreach ($this->getQuote()->getItemsCollection() as $_item) {
         foreach ($this->getBillingAddress()->getItemsCollection() as $_item) {
+            if ($_item->isDeleted()) {
+                continue;
+            }
             if ($_item->getProduct()->getIsVirtual() && !$_item->getParentItemId()) {
                 $items[] = $_item;
             }
