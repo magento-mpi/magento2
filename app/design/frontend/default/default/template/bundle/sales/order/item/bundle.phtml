@@ -20,7 +20,8 @@
 ?>
 <?php $parentItem = $this->getItem() ?>
 <?php $items = array_merge(array($parentItem), $parentItem->getChildrenItems()); ?>
-
+<?php $_count = count ($items) ?>
+<?php $_index = 0 ?>
 <?php $bundleOptions = $this->getBundleOptions() ?>
 
 <?php $_prevOptionLabel = '' ?>
@@ -30,6 +31,13 @@
 <?php if (empty($_option['value'])): ?>
     <?php $_option = array_shift($bundleOptions); ?>
 <?php endif; ?>
+
+<?php if($this->getItemOptions() || $parentItem->getDescription() || $this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+    <?php $_showlastRow = true ?>
+<?php else: ?>
+    <?php $_showlastRow = false ?>
+<?php endif; ?>
+
 <?php if ($_item->getParentItem()): ?>
     <?php if ($_prevOptionLabel != $_option['label']): ?>
     <tr class="<?php if ($_item->getLastRow()) echo 'last';?>">
@@ -42,7 +50,7 @@
     <?php $_prevOptionLabel = $_option['label'] ?>
     <?php endif; ?>
 <?php endif; ?>
-<tr class="<?php if ($_item->getLastRow()) echo 'last';?>" id="order-item-row-<?php echo $_item->getId() ?>">
+<tr class="<?php if ($_item->getLastRow()) echo 'last';?> <?php echo (++$_index==$_count && !$_showlastRow)?'border':'' ?>" id="order-item-row-<?php echo $_item->getId() ?>">
 
     <?php if (!$_item->getParentItem()): ?>
     <td>
@@ -50,7 +58,9 @@
     </td>
     <?php else: ?>
     <td class="indent">
-        <?php echo $this->getValueHtml(array_shift($_option['value']))?>
+        <?php if (is_array($_option['value'])): ?>
+            <?php echo $this->getValueHtml(array_shift($_option['value']))?>
+        <?php endif; ?>
     </td>
     <?php endif; ?>
     <td class="nowrap"><?php echo $_item->getSku() ?></td>
@@ -114,27 +124,21 @@
 </tr>
 <?php endforeach; ?>
 
-<?php if($this->getItemOptions() || $_item->getDescription() || $this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
-<tr class="<?php if ($_item->getLastRow()) echo 'last';?>">
+<?php if ($_showlastRow): ?>
+<tr class="border">
     <td class="indent">
         <?php if($_options = $this->getItemOptions()): ?>
         <ul>
         <?php foreach ($_options as $_option): ?>
             <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong><br />
-            <?php if (is_array($_option['value'])): ?>
-                <?php foreach ($_option['value'] as $item): ?>
-                <?php echo $this->getValueHtml($item) ?><br />
-                <?php endforeach; ?>
-            <?php else: ?>
                 <?php echo $this->htmlEscape($_option['value']); ?>
-            <?php endif; ?>
             </li>
         <?php endforeach; ?>
         </ul>
         <?php endif; ?>
         <?php echo $_item->getDescription() ?>
-        <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
-            <br /><a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
+        <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+            <br /><a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $parentItem->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
         <?php endif; ?>
     </td>
     <td>&nbsp;</td>
