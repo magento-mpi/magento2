@@ -557,6 +557,17 @@
                 </totals>
             </order_creditmemo>
         </sales>
+        <pdf>
+            <invoice>
+                <default>sales/order_pdf_items_invoice_default</default>
+            </invoice>
+            <shipment>
+                <default>sales/order_pdf_items_shipment_default</default>
+            </shipment>
+            <creditmemo>
+                <default>sales/order_pdf_items_creditmemo_default</default>
+            </creditmemo>
+        </pdf>
     </global>
 
     <frontend>

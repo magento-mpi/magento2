@@ -18,16 +18,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Payment method abstract model
+ * Sales Order Shipment PDF model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abstract
 {
     public function getPdf($shipments = array())
     {
         $this->_beforeGetPdf();
+        $this->_initRenderer('shipment');
 
         $pdf = new Zend_Pdf();
         $style = new Zend_Pdf_Style();
@@ -94,91 +98,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $this->y -=20;
                 }
-                /* Add products */
-                $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
 
-                $page->drawText($item->getQty()*1, 35, $this->y, 'UTF-8');
-
-                if (strlen($item->getName()) > 80) {
-                    $drawTextValue = explode(" ", $item->getName());
-                    $drawTextParts = array();
-                    $i = 0;
-                    foreach ($drawTextValue as $drawTextPart) {
-                        if (!empty($drawTextParts{$i}) &&
-                            (strlen($drawTextParts{$i}) + strlen($drawTextPart)) < 80 ) {
-                            $drawTextParts{$i} .= ' '. $drawTextPart;
-                        } else {
-                            $i++;
-                            $drawTextParts{$i} = $drawTextPart;
-                        }
-                    }
-                    $shift{0} = 0;
-                    foreach ($drawTextParts as $drawTextPart) {
-                        $page->drawText($drawTextPart, 60, $this->y-$shift{0}, 'UTF-8');
-                        $shift{0} += 10;
-                    }
-
-                } else {
-                    $page->drawText($item->getName(), 60, $this->y, 'UTF-8');
-                }
-
-                $shift{1} = 10;
-                $options = $item->getOrderItem()->getProductOptions();
-                if (isset($options['options'])) {
-                    foreach ($options['options'] as $option) {
-                        if (!is_array($option['value'])) {
-                            $optionTxt = strip_tags($option['label']).':'.strip_tags($option['value']);
-                        } else {
-                            $optionTxt = strip_tags($option['label']).':';
-                        }
-
-                        if (strlen($optionTxt) > 80) {
-                            $optionTxt = str_split($optionTxt, 80);
-                            foreach ($optionTxt as $_option) {
-                                $page->drawText($_option, 60, $this->y-$shift{1}, 'UTF-8');
-                                $shift{1} += 10;
-                            }
-                        } else {
-                            $page->drawText($optionTxt, 60, $this->y-$shift{1}, 'UTF-8');
-                            $shift{1} += 10;
-                        }
-
-                        if (is_array($option['value'])) {
-                            foreach ($option['value'] as $_item) {
-                                $optionTxt = strip_tags($this->_formatOptionValue($_item, $order));
-                                if (strlen($optionTxt) > 80) {
-                                    $optionTxt = str_split($optionTxt, 80);
-                                    foreach ($optionTxt as $_option) {
-                                        $page->drawText($_option, 60, $this->y-$shift{1}, 'UTF-8');
-                                        $shift{1} += 10;
-                                    }
-                                } else {
-                                    $page->drawText($optionTxt, 60, $this->y-$shift{1}, 'UTF-8');
-                                    $shift{1} += 10;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                foreach ($this->_parseItemDescription($item) as $description){
-                    $page->drawText(strip_tags($description), 65, $this->y-$shift{1}, 'UTF-8');
-                    $shift{1} += 10;
-                }
-
-                if (strlen($item->getSku()) > 36) {
-                    $drawTextValue = str_split($item->getSku(), 36);
-                    $shift{2} = 0;
-                    foreach ($drawTextValue as $drawTextPart) {
-                        $page->drawText($drawTextPart, 440, $this->y-$shift{2}, 'UTF-8');
-                        $shift{2} += 10;
-                    }
-
-                } else {
-                    $page->drawText($item->getSku(), 440, $this->y, 'UTF-8');
-                }
-
-                $this->y -=max($shift)+10;
+                /* Draw item */
+                $this->_drawItem($item, $page, $order);
             }
         }
 
