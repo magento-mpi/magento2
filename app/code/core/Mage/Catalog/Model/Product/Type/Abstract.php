@@ -187,15 +187,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (is_string($options)) {
             return $options;
         }
+        $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
         if ($options) {
             $optionIds = array_keys($options);
-            $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
             $product->addCustomOption('option_ids', implode(',', $optionIds));
             foreach ($options as $optionId => $optionValue) {
                 $product->addCustomOption('option_'.$optionId, $optionValue);
             }
         }
-
         // set quantity in cart
         $product->setCartQty($buyRequest->getQty());
 
