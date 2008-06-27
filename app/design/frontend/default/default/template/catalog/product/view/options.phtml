@@ -145,7 +145,8 @@
                     }
                 }
             });
-            return price.toFixed(4);
+            optionsPrice.changePrice('bundle',price.toFixed(4));
+            optionsPrice.reload();
         }
     }
 /* ]]> */
