@@ -48,14 +48,17 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         if ($this->getCheckoutSession()->getCheckoutState() === Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $this->getCheckoutSession()->setCheckoutState(true);
 
-            $addresses  = $this->getQuote()->getAllShippingAddresses();
+            /**
+             * Remove all addresses
+             */
+            $addresses  = $this->getQuote()->getAllAddresses();
             foreach ($addresses as $address) {
                 $this->getQuote()->removeAddress($address->getId());
             }
 
             if ($defaultShipping = $this->getCustomerDefaultShippingAddress()) {
-                $quoteShippingAddress = $this->getQuote()->getShippingAddress();
-                $quoteShippingAddress->importCustomerAddress($defaultShipping);
+                $this->getQuote()->getShippingAddress()
+                    ->importCustomerAddress($defaultShipping);
 
                 foreach ($this->getQuoteItems() as $item) {
                     /**
@@ -67,19 +70,12 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     if ($item->getProduct()->getIsVirtual()) {
                         continue;
                     }
-                    $quoteShippingAddress->addItem($item);
+                    $this->getQuote()->getShippingAddress()
+                        ->addItem($item);
                 }
-                /**
-                 * Collect rates before display shipping methods
-                 */
-                //$quoteShippingAddress->setCollectShippingRates(true);
             }
 
             if ($this->getCustomerDefaultBillingAddress()) {
-                if ($billingAddress = $this->getQuote()->getBillingAddress()) {
-                    $this->getQuote()->removeAddress($billingAddress->getId());
-                }
-
                 $this->getQuote()->getBillingAddress()
                     ->importCustomerAddress($this->getCustomerDefaultBillingAddress());
                 foreach ($this->getQuoteItems() as $item) {
