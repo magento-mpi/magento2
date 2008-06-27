@@ -250,7 +250,7 @@ class Mage_Core_Model_App
                     $this->throwStoreException();
             }
 
-            if (empty($this->_currentStore)) {
+            if (!empty($this->_currentStore)) {
                 $this->_checkCookieStore($type);
                 $this->_checkGetStore($type);
             }
