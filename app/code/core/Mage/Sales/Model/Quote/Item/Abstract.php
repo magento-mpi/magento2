@@ -185,6 +185,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setTaxAmount($store->roundPrice($rowTotal * $taxPercent));
             $this->setBaseTaxAmount($store->roundPrice($rowBaseTotal * $taxPercent));
 
+
             $rowTotal       = $this->getRowTotal();
             $rowBaseTotal   = $this->getBaseRowTotal();
             $this->setTaxBeforeDiscount($store->roundPrice($rowTotal * $taxPercent));
@@ -194,11 +195,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 $totalBaseTax = $this->getBaseTaxAmount();
                 $totalTax = $this->getTaxAmount();
 
-                $totalBaseTax -= $this->getBaseDiscountAmount()*($this->getTaxPercent()/100);
-                $totalTax -= $this->getDiscountAmount()*($this->getTaxPercent()/100);
+                if ($totalTax && $totalBaseTax) {
+                    $totalTax -= $this->getDiscountAmount()*($this->getTaxPercent()/100);
+                    $totalBaseTax -= $this->getBaseDiscountAmount()*($this->getTaxPercent()/100);
 
-                $this->setBaseTaxAmount($totalBaseTax);
-                $this->setTaxAmount($totalTax);
+                    $this->setBaseTaxAmount($totalBaseTax);
+                    $this->setTaxAmount($totalTax);
+                }
             }
         }
 
@@ -311,17 +314,12 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $bAddress = $this->getQuote()->getBillingAddress();
             $sAddress = $this->getQuote()->getShippingAddress();
 
-            if ($this->getIsVirtual()) {
-                $sAddress = $bAddress;
-            } else {
-                $sAddress = $this->getQuote()->getShippingAddress();
-            }
-
             $address = $this->getAddress();
+
             if ($address) {
                 switch ($address->getAddressType()) {
                     case Mage_Sales_Model_Quote_Address::TYPE_BILLING:
-                        $sAddress = $bAddress = $address;
+                        $bAddress = $address;
                         break;
                     case Mage_Sales_Model_Quote_Address::TYPE_SHIPPING:
                         $sAddress = $address;
@@ -329,8 +327,12 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 }
             }
 
-            $priceExcludingTax = Mage::helper('tax')->getPrice($this->getProduct(), $value, false, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
-            $priceIncludingTax = Mage::helper('tax')->getPrice($this->getProduct(), $value, true, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
+            if ($this->getProduct()->getIsVirtual()) {
+                $sAddress = $bAddress;
+            }
+
+            $priceExcludingTax = Mage::helper('tax')->getPrice($this->getProduct()->setTaxPercent(null), $value, false, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
+            $priceIncludingTax = Mage::helper('tax')->getPrice($this->getProduct()->setTaxPercent(null), $value, true, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
 
             $taxAmount = $priceIncludingTax - $priceExcludingTax;
             $this->setTaxPercent($this->getProduct()->getTaxPercent());

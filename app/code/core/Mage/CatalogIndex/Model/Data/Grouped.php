@@ -32,6 +32,24 @@ class Mage_CatalogIndex_Model_Data_Grouped extends Mage_CatalogIndex_Model_Data_
      */
     protected $_haveParents = false;
 
+    protected function _construct()
+    {
+        $this->_init('catalogindex/data_grouped');
+    }
+
+    /**
+     * Fetch final price for product
+     *
+     * @param int $product
+     * @param Mage_Core_Model_Store $store
+     * @param Mage_Customer_Model_Group $group
+     * @return float
+     */
+    public function getFinalPrice($product, $store, $group)
+    {
+        return false;
+    }
+
     /**
      * Retreive product type code
      *

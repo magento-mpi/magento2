@@ -204,7 +204,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                 if ($retreiver->areChildrenIndexable(Mage_CatalogIndex_Model_Retreiver::CHILDREN_FOR_PRICES)) {
                     $children = $retreiver->getChildProductIds($store, $id);
                     if ($children) {
-                        $minimal = $this->getMinimalPrice(Mage::getSingleton('catalogindex/retreiver')->assignProductTypes($children), $store);
+                        $minimal = $this->getMinimalPrice(array($type=>$children), $store);
                     }
                 } else {
                     $minimal = $this->getMinimalPrice(array($type=>array($id)), $store);

@@ -274,7 +274,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             $this->getQuote()->getBillingAddress($addressId)
                 ->importCustomerAddress($address)
                 ->collectTotals();
-            $this->getQuote()->save();
+            $this->getQuote()->collectTotals()->save();
         }
         return $this;
     }

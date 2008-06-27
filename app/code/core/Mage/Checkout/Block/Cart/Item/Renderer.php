@@ -35,7 +35,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
      * @param   Mage_Sales_Model_Quote_Item $item
      * @return  Mage_Checkout_Block_Cart_Item_Renderer
      */
-    public function setItem(Mage_Sales_Model_Quote_Item $item)
+    public function setItem(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
         $this->_item = $item;
         return $this;

@@ -352,7 +352,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
                     }
                 }
                 if ($$rateVariable) {
-                    $$rateVariable = "CASE {$taxClassField} {$$rateVariable} ELSE 1 END";
+                    $$rateVariable = "CASE {$taxClassField} {$$rateVariable} ELSE 0 END";
                 }
             }
         }
