@@ -193,28 +193,6 @@ class Mage_Catalog_Model_Product_Type_Price
     }
 
     /**
-     * Get product pricing value
-     *
-     * @param   array $value
-     * @param   Mage_Catalog_Model_Product $product
-     * @return  double
-     */
-    public function getPricingValue($value, $product, $qty = null)
-    {
-        if($value['is_percent']) {
-            $ratio = $value['pricing_value']/100;
-            /*$price = $this->_applyTierPrice($product, $qty, $product->getPrice());
-            $price = $this->_applySpecialPrice($product, $price);*/
-            $price = $product->getFinalPrice($qty);
-            $price = $price * $ratio;
-        } else {
-            $price = $value['pricing_value'];
-        }
-
-        return $price;
-    }
-
-    /**
      * Count how many tier prices we have for the product
      *
      * @param   Mage_Catalog_Model_Product $product
@@ -258,44 +236,6 @@ class Mage_Catalog_Model_Product_Type_Price
     {
         return Mage::app()->getStore()->formatPrice($product->getFinalPrice());
     }
-
-    /**
-     * Get calculated product price
-     *
-     * @param array $options
-     * @param Mage_Catalog_Model_Product $product
-     * @return double
-     */
-    public function getCalculatedPrice(array $options, $product)
-    {
-        $price = $product->getPrice();
-        foreach ($product->getSuperAttributes() as $attribute) {
-            if(isset($options[$attribute['attribute_id']])) {
-                if($value = $this->getValueByIndex($attribute['values'], $options[$attribute['attribute_id']])) {
-                    if($value['pricing_value'] != 0) {
-                        $price += $product->getPricingValue($value);
-                    }
-                }
-            }
-        }
-
-        return max(0, $price);
-    }
-
-    public function getValueByIndex($values, $index)
-    {
-        return $this->_getValueByIndex($values, $index);
-    }
-
-    protected function _getValueByIndex($values, $index) {
-        foreach ($values as $value) {
-            if($value['value_index'] == $index) {
-                return $value;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * Apply options price

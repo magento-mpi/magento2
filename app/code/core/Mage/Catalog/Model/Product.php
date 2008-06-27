@@ -330,16 +330,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return Mage::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
     }
-    /**
-     * Get product pricing value
-     *
-     * @param   array $value
-     * @return  double
-     */
-    public function getPricingValue($value, $qty = null)
-    {
-        return $this->getPriceModel()->getPricingValue($value, $this, $qty);
-    }
 
     /**
      * Get product tier price by qty
@@ -392,17 +382,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getFinalPrice($qty=null)
     {
         return $this->getPriceModel()->getFinalPrice($qty, $this);
-    }
-
-    /**
-     * Get calculated product price
-     *
-     * @param array $options
-     * @return double
-     */
-    public function getCalculatedPrice(array $options)
-    {
-        return $this->getPriceModel()->getCalculatedPrice($options, $this);
     }
 
     public function getCalculatedFinalPrice()
