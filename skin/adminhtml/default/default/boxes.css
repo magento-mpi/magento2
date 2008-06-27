@@ -984,6 +984,14 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 .bundle-option-row input.option-position{ width: 70px !important; }
 .catalog-categories .side-col           { width:240px; }
 
+.data-bundle tbody.even tr { background:#f6f6f6 !important; }
+.data-bundle tbody.odd tr td,
+.data-bundle tbody.even tr td { border-bottom:0; }
+.data-bundle tbody.odd tr.border td,
+.data-bundle tbody.even tr.border td { border-bottom:1px solid #dadfe0; }
+.data-bundle td.indent { padding-left:20px; }
+.data-bundle ul.item-options li { padding-left:10px; }
+
 /* Products - Tier Price */
 .tier-price-input                       { margin-bottom:8px; }
 .tier-price-input INPUT.price           { width: 80px; margin-right:10px; }
@@ -1083,25 +1091,23 @@ fieldset.sitemap .form-list { width:auto; }
 .custom-options  .type-butt  {width:33px;}
 .custom-options  .type-last  {width:auto;}
 
+.custom-options .option-box  .border .input-text,
+.custom-options .option-box  .border .select{width:95%!important;}
 
-
-.custom-options  .option-box  .border .input-text,
-.custom-options  .option-box  .border .select{width:95%!important;}
-
-.custom-options    .option-box  .border .type-last  .input-text {width:60px!important;}
-.custom-options     .option-box  .border  input.type-sku  {width:150px !important;}
+.custom-options .option-box  .border .type-last  .input-text {width:60px!important;}
+.custom-options .option-box  .border  input.type-sku  {width:150px !important;}
 
 /*bundle product*/
-.bundle  .option-box  {padding-bottom:2em;}
-.bundle  .option-box  .border {width:100%; border-bottom:0;}
-.bundle  .option-box  .border td {border-bottom:1px solid #dce5e6!important;}
+.bundle .option-box  {padding-bottom:2em;}
+.bundle .option-box .border {width:100%; border-bottom:0;}
+.bundle .option-box .border td {border-bottom:1px solid #dce5e6!important;}
 .bundle .option-title {padding:0 0 10px; border-bottom:1px solid #cddddd;}
 .bundle .option-title button {float:right;}
 .bundle .option-title label {font-weight:bold; line-height:21px; padding-right:1em; float:left;}
 .bundle .option-title .input-text {float:left; width:260px; vertical-align:middle;}
 .bundle .option-header {clear:both; margin-top:5px;}
 
-.bundle  .border .last {width:33px;}
+.bundle .border .last {width:33px;}
 
 /* CUSTOMER
 *******************************************************************************/

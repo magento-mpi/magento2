@@ -128,7 +128,7 @@
 <tr class="border">
     <td class="indent">
         <?php if($_options = $this->getItemOptions()): ?>
-        <ul>
+        <ul class="item-options">
         <?php foreach ($_options as $_option): ?>
             <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong><br />
                 <?php echo $this->htmlEscape($_option['value']); ?>
