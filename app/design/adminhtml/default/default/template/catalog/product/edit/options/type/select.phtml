@@ -21,9 +21,9 @@
 
 <script type="text/javascript">
 
-var OptionTemplateSelect = '<table id="select_option_type_row_{{option_id}}" class="border" cellpadding="0" cellspacing="0">'+
+var OptionTemplateSelect = '<table class="border" cellpadding="0" cellspacing="0">'+
         '<thead>'+
-        '<tr class="headings" id="dselect_option_type_row_{{option_id}}">'+
+        '<tr class="headings" id="select_option_type_row_{{option_id}}">'+
             '<th class="type-title"><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
             '<th class="type-price"><?php echo Mage::helper('catalog')->__('Price') ?></th>'+
             '<th class="type-type"><?php echo Mage::helper('catalog')->__('Price Type') ?></th>'+
@@ -73,17 +73,13 @@ var selectOptionType = {
 
         data.id  = optionId;
 
-//        new Insertion.After(
-//			$(this.div+'_'+data.id),
-//			this.template.evaluate(data)
-//		);
-//        afterElm = this.div+'_'+data.id;
-//        if (this.itemCount > 0) {
-//            afterElm = 'product_option_'+data.id+'_select_'+data.select_id;
-//            alert(afterElm);
-//        }
-		new Insertion.Bottom(
-			this.div+'_'+data.id,
+        afterElm = this.div+'_'+data.id;
+        lastSelectId = this.itemCount-1;
+        if ($('product_option_'+data.id+'_select_'+lastSelectId)) {
+            afterElm = 'product_option_'+data.id+'_select_'+lastSelectId;
+        }
+		new Insertion.After(
+			$(afterElm),
 			this.template.evaluate(data)
 		);
 
