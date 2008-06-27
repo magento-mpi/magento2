@@ -610,7 +610,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function setShippingAmount($value)
     {
         if (Mage::helper('tax')->shippingPriceIncludesTax()) {
-            $value = Mage::helper('tax')->getShippingPrice($value, false);
+            $includingTax = Mage::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
+            $value = Mage::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
+            $this->setShippingTaxAmount($includingTax - $value);
         }
         return $this->setData('shipping_amount', $value);
     }
@@ -618,7 +620,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function setBaseShippingAmount($value)
     {
         if (Mage::helper('tax')->shippingPriceIncludesTax()) {
-            $value = Mage::helper('tax')->getShippingPrice($value, false);
+            $includingTax = Mage::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
+            $value = Mage::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
+            $this->setBaseShippingTaxAmount($includingTax - $value);
         }
         return $this->setData('base_shipping_amount', $value);
     }

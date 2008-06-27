@@ -326,7 +326,12 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         $pseudoProduct = new Varien_Object();
         $pseudoProduct->setTaxClassId($this->getShippingTaxClass($store));
 
-        return $this->getPrice($pseudoProduct, $price, $includingTax, $shippingAddress, false, $ctc, $store, $this->shippingPriceIncludesTax($store));
+        $billingAddress = false;
+        if ($shippingAddress->getQuote() && $shippingAddress->getQuote()->getBillingAddress()) {
+            $billingAddress = $shippingAddress->getQuote()->getBillingAddress();
+        }
+
+        return $this->getPrice($pseudoProduct, $price, $includingTax, $shippingAddress, $billingAddress, $ctc, $store, $this->shippingPriceIncludesTax($store));
     }
 
     public function getPriceTaxSql($priceField, $taxClassField)

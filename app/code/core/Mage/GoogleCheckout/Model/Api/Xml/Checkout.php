@@ -68,6 +68,7 @@ EOT;
 EOT;
         $weightUnit = 'LB';
         foreach ($this->getQuote()->getAllItems() as $item) {
+            $weight = (float) $item->getWeight();
             $digital = $item->getIsVirtual() ? 'true' : 'false';
             $xml .= <<<EOT
             <item>
@@ -76,7 +77,7 @@ EOT;
                 <item-description><![CDATA[{$item->getDescription()}]]></item-description>
                 <unit-price currency="{$this->getCurrency()}">{$item->getBaseCalculationPrice()}</unit-price>
                 <quantity>{$item->getQty()}</quantity>
-                <item-weight unit="{$weightUnit}" value="{$item->getWeight()}" />
+                <item-weight unit="{$weightUnit}" value="{$weight}" />
                 <tax-table-selector>{$item->getTaxClassId()}</tax-table-selector>
                 {$this->_getDigitalContentXml($item)}
                 {$this->_getMerchantPrivateItemDataXml($item)}

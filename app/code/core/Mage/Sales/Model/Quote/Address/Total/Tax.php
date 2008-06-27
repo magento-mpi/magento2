@@ -32,8 +32,8 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $store = $address->getQuote()->getStore();
         $address->setTaxAmount(0);
         $address->setBaseTaxAmount(0);
-        $address->setShippingTaxAmount(0);
-        $address->setBaseShippingTaxAmount(0);
+        //$address->setShippingTaxAmount(0);
+        //$address->setBaseShippingTaxAmount(0);
         $address->setAppliedTaxes(array());
 
         $items = $address->getAllItems();
@@ -124,18 +124,30 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
         if ($shippingTaxClass) {
             if ($rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass))) {
-                $shippingTax    = $address->getShippingAmount() * $rate/100;
-                $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
+                if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
+                    $shippingTax    = $address->getShippingAmount() * $rate/100;
+                    $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
+
+                    $address->setShippingTaxAmount($shippingTax);
+                    $address->setBaseShippingTaxAmount($shippingBaseTax);
+                } else {
+                    $shippingTax    = $address->getShippingTaxAmount();
+                    $shippingBaseTax= $address->getBaseShippingTaxAmount();
+                }
+
                 $shippingTax    = $store->roundPrice($shippingTax);
                 $shippingBaseTax= $store->roundPrice($shippingBaseTax);
-
-                $address->setShippingTaxAmount($shippingTax);
-                $address->setBaseShippingTaxAmount($shippingBaseTax);
 
                 $address->setTaxAmount($address->getTaxAmount() + $shippingTax);
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $shippingBaseTax);
 
-                $this->_saveAppliedTaxes($address, $taxCalculationModel->getAppliedRates($request), $shippingTax, $shippingBaseTax, $rate);
+                $this->_saveAppliedTaxes(
+                    $address,
+                    $taxCalculationModel->getAppliedRates($request),
+                    $shippingTax,
+                    $shippingBaseTax,
+                    $rate
+                );
             }
         }
 
