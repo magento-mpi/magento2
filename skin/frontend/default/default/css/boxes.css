@@ -376,7 +376,7 @@ table.view-by td {
     width:900px;
     margin:0 auto;
     text-align:left;
-    /*position:relative;*/
+    position:relative;
     }
 .side-col { width:195px; }
 .col-left { float:left; }
@@ -981,7 +981,7 @@ table.recently-list td {width:20%;}
 .product-options dt { padding:10px 0 0; }
 .product-options dt .qty-holder { float:right; /*width:5.1em; line-height:23px;*/ }
 .product-options dt .bundle-option { float:left; }
-.product-options dd { background-color:#f5f2e9; padding:5px 10px; }
+.product-options dd { /*background-color:#f5f2e9;*/ padding:5px 10px; }
 .product-options dd .select { width:99%; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd input.input-text { width:98%; }
@@ -1089,7 +1089,7 @@ td.attributes-col p.pname a{ font-weight:bold;}
 
 /*tax details */
 .tax-total td { padding-bottom:5px; /* background:#e4eaec; */ }
-.tax-total div { float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 4px; cursor:pointer; }
+.tax-total div { float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 5px; cursor:pointer; }
 .show-details div {background-position:0 -51px;}
 .show-details td{border-top:1px solid #d2d8db;}
 .tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }
