@@ -131,6 +131,33 @@ class Mage_Core_Model_Design_Package
 	}
 
 	/**
+	 * Set store/package/area at once, and get respective values, that were before
+	 *
+	 * $storePackageArea must be assoc array. The keys may be:
+	 * 'store', 'package', 'area'
+	 *
+	 * @param array $storePackageArea
+	 * @return array
+	 */
+	public function setAllGetOld($storePackageArea)
+	{
+	    $oldValues = array();
+	    if (array_key_exists('store', $storePackageArea)) {
+	        $oldValues['store'] = $this->getStore();
+	        $this->setStore($storePackageArea['store']);
+	    }
+	    if (array_key_exists('package', $storePackageArea)) {
+	        $oldValues['package'] = $this->getPackageName();
+	        $this->setPackageName($storePackageArea['package']);
+	    }
+	    if (array_key_exists('area', $storePackageArea)) {
+	        $oldValues['area'] = $this->getArea();
+	        $this->setArea($storePackageArea['area']);
+	    }
+	    return $oldValues;
+	}
+
+	/**
 	 * Retrieve package name
 	 *
 	 * @return string

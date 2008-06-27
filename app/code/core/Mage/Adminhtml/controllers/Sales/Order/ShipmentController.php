@@ -25,16 +25,8 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Sales_ShipmentController
 {
-    /**
-     * Additional initialization
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
     protected function _getItemQtys()
     {
         $data = $this->getRequest()->getParam('shipment');
@@ -356,23 +348,6 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             }
 
             $this->getResponse()->setBody($response);
-        }
-    }
-
-    public function printAction()
-    {
-        /** @see Mage_Adminhtml_Sales_Order_InvoiceController */
-        if ($shipmentId = $this->getRequest()->getParam('invoice_id')) { // invoice_id o_0
-            if ($shipment = Mage::getModel('sales/order_shipment')->load($shipmentId)) {
-                if ($shipment->getStoreId()) {
-                    Mage::app()->setCurrentStore($shipment->getStoreId());
-                }
-                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf(array($shipment));
-                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
-            }
-        }
-        else {
-            $this->_forward('noRoute');
         }
     }
 

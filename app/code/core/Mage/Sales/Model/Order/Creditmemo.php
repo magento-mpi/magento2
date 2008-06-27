@@ -507,6 +507,10 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
      */
     public function sendEmail($notifyCustomer=true, $comment='')
     {
+        $currentDesign = Mage::getDesign()->setAllGetOld(array(
+            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+        ));
+
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -571,6 +575,8 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
 
         $translate->setTranslateInline(true);
 
+        Mage::getDesign()->setAllGetOld($currentDesign);
+
         return $this;
     }
 
@@ -581,6 +587,10 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
      */
     public function sendUpdateEmail($notifyCustomer=true, $comment='')
     {
+        $currentDesign = Mage::getDesign()->setAllGetOld(array(
+            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+        ));
+
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -641,6 +651,8 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
         }
 
         $translate->setTranslateInline(true);
+
+        Mage::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }

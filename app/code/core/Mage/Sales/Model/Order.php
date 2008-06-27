@@ -632,6 +632,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendOrderUpdateEmail($notifyCustomer=true, $comment='')
     {
+        // set design parameters, required for email (remember current)
+        $currentDesign = Mage::getDesign()->setAllGetOld(array(
+            'store'   => $this->getStoreId(),
+            'area'    => 'frontend',
+            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+        ));
+
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -690,6 +697,9 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
 
         $translate->setTranslateInline(true);
+
+        // revert current design
+        Mage::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }
