@@ -152,78 +152,62 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach ($order->getItemsCollection() as $orderItem) {
             /* @var $orderItem Mage_Sales_Model_Order_Item */
             if (!$orderItem->getParentItem()) {
-                $product = Mage::getModel('catalog/product')
-                    ->setStoreId($this->getSession()->getStoreId())
-                    ->load($orderItem->getProductId());
-
-                if ($product->getId()) {
-                    $info = $orderItem->getProductOptionByCode('info_buyRequest');
-                    $info = new Varien_Object($info);
-                    $product->setSkipCheckRequiredOption(true);
-                    $item = $this->getQuote()->addProduct($product,$info);
-                    if (is_string($item)) {
-                        Mage::throwException($item);
-                    }
-                    $item->setQty($orderItem->getQtyOrdered());
-                    if ($addOptions = $orderItem->getProductOptionByCode('additional_options')) {
-                        $item->addOption(new Varien_Object(
-                            array(
-                                'product' => $item->getProduct(),
-                                'code' => 'additional_options',
-                                'value' => serialize($addOptions)
-                            )
-                        ));
-                    }
+                $item = $this->initFromOrderItem($orderItem, $orderItem->getQtyOrdered());
+                if (is_string($item)) {
+                    Mage::throwException($item);
                 }
             }
         }
 
+        if ($this->getQuote()->getCouponCode()) {
+            $this->getQuote()->collectTotals();
+        }
+
+        $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+        $this->getQuote()->getShippingAddress()->collectShippingRates();
         $this->getQuote()->collectTotals()
             ->save();
 
-//        $convertModel = Mage::getModel('sales/convert_order');
-//        /*@var $quote Mage_Sales_Model_Quote*/
-//        $quote = $convertModel->toQuote($order, $this->getQuote());
-//        $quote->setShippingAddress($convertModel->toQuoteShippingAddress($order));
-//        $quote->setBillingAddress($convertModel->addressToQuoteAddress($order->getBillingAddress()));
-//
-//        if ($order->getReordered()) {
-//            $quote->getPayment()->setMethod($order->getPayment()->getMethod());
-//        }
-//        else {
-//            $convertModel->paymentToQuotePayment($order->getPayment(), $quote->getPayment());
-//        }
-//
-//        foreach ($order->getItemsCollection() as $item) {
-//            if ($order->getReordered()) {
-//                $qty = $item->getQtyOrdered();
-//            }
-//            else {
-//                $qty = min($item->getQtyToInvoice(), $item->getQtyToShip());
-//            }
-//            if ($qty) {
-//                $quoteItem = $convertModel->itemToQuoteItem($item)
-//                    ->setQuote($quote)
-//                    ->setQty($qty);
-//                $product = $quoteItem->getProduct();
-//
-//                if ($product->getId()) {
-//                    $quote->addItem($quoteItem);
-//                }
-//            }
-//        }
-
-
-//        if ($quote->getCouponCode()) {
-//            $quote->collectTotals();
-//        }
-//
-//        $quote->getShippingAddress()->setCollectShippingRates(true);
-//        $quote->getShippingAddress()->collectShippingRates();
-//        $quote->collectTotals();
-//        $quote->save();
-
         return $this;
+    }
+
+    /**
+     * Initialize creation data from existing order Item
+     *
+     * @param Mage_Sales_Model_Order_Item $orderItem
+     * @return Mage_Sales_Model_Quote_Item | string
+     */
+    public function initFromOrderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
+    {
+        if (!$orderItem->getId()) {
+            return $this;
+        }
+
+        $product = Mage::getModel('catalog/product')
+            ->setStoreId($this->getSession()->getStoreId())
+            ->load($orderItem->getProductId());
+
+        if ($product->getId()) {
+            $info = $orderItem->getProductOptionByCode('info_buyRequest');
+            $info = new Varien_Object($info);
+            $product->setSkipCheckRequiredOption(true);
+            $item = $this->getQuote()->addProduct($product,$info);
+            if (is_string($item)) {
+                return $item;
+            }
+            $item->setQty($qty);
+            if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
+                $item->addOption(new Varien_Object(
+                    array(
+                        'product' => $item->getProduct(),
+                        'code' => 'additional_options',
+                        'value' => serialize($additionalOptions)
+                    )
+                ));
+            }
+        }
+
+        return $item;
     }
 
     /**
@@ -246,6 +230,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         else {
             $this->_wishlist = false;
         }
+
         return $this->_wishlist;
     }
 
@@ -392,10 +377,25 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function applySidebarData($data)
     {
         if (isset($data['add'])) {
-            foreach ($data['add'] as $itemId=>$qty) {
-                $item = $this->getCustomerCart()->getItemById($itemId);
-                $this->moveQuoteItem($item, 'order', $qty);
-                $this->removeItem($itemId, 'cart');
+            foreach ($data['add'] as $productId => $qty) {
+                $this->addProduct($productId, $qty);
+            }
+        }
+        if (isset($data['reorder'])) {
+            foreach ($data['reorder'] as $orderItemId=>$value) {
+                $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
+                $item = $this->initFromOrderItem($orderItem);
+                if (is_string($item)) {
+                    Mage::throwException($item);
+                }
+            }
+        }
+        if (isset($data['cartItem'])) {
+            foreach ($data['cartItem'] as $itemId => $qty) {
+                if ($item = $this->getCustomerCart()->getItemById($itemId)) {
+                    $this->moveQuoteItem($item, 'order', $qty);
+//                    $this->removeItem($itemId, 'cart');
+                }
             }
         }
         if (isset($data['remove'])) {

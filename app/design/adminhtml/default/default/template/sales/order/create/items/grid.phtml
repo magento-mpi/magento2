@@ -80,9 +80,11 @@
                                 </script>
                             </div>
                             <?php if($_item->getMessage()): ?>
+                            <?php foreach ($_item->getMessage() as $message): ?>
                             <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-                                <div style="font-size:95%"><?php echo $_item->getMessage() ?></div>
+                                <div style="font-size:95%"><?php echo $message ?></div>
                             </div>
+                            <?php endforeach; ?>
                             <?php endif; ?>
                         </td>
                         <td class="price">

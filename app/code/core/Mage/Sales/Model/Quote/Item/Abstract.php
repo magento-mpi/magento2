@@ -29,6 +29,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 {
     protected $_parentItem  = null;
     protected $_children    = array();
+    protected $_messages    = array();
 
     abstract function getQuote();
 
@@ -88,6 +89,27 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         $this->setHasChildren(true);
         $this->_children[] = $child;
         return $this;
+    }
+
+    public function setMessage($messages) {
+        if (!is_array($messages)) {
+            $messages = array($messages);
+        }
+        foreach ($messages as $message) {
+            $this->addMessage($message);
+        }
+        return $this;
+    }
+
+    public function addMessage($message)
+    {
+        $this->_messages[] = $message;
+        return $this;
+    }
+
+    public function getMessage()
+    {
+        return $this->_messages;
     }
 
     /**

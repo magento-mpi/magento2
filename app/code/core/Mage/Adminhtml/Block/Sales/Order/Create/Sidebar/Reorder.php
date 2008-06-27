@@ -28,6 +28,8 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
 
+    protected $_sidebarStorageAction = 'reorder';
+
     public function __construct()
     {
         parent::__construct();
@@ -90,5 +92,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
     public function canDisplayPrice()
     {
         return false;
+    }
+
+    /**
+     * Retrieve identifier of block item
+     *
+     * @param Varien_Object $item
+     * @return int
+     */
+    public function getIdentifierId($item)
+    {
+        return $item->getId();
     }
 }

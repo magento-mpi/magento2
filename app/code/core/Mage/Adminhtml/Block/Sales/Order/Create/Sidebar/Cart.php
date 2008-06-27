@@ -27,6 +27,7 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
+    protected $_sidebarStorageAction = 'cartItem';
 
     public function __construct()
     {
@@ -58,5 +59,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart extends Mage_Adminhtm
     public function canDisplayItemQty()
     {
         return true;
+    }
+
+    /**
+     * Retrieve identifier of block item
+     *
+     * @param Varien_Object $item
+     * @return int
+     */
+    public function getIdentifierId($item)
+    {
+        return $item->getId();
     }
 }

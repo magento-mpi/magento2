@@ -125,15 +125,8 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     {
         $config = array();
 
-//        $config = array(
-//            'baseProductPrice' => $this->getProduct()->getFinalPrice()
-//        );
-
         foreach ($this->getOptions() as $option) {
             /* @var $option Mage_Catalog_Model_Product_Option */
-            /**
-             * @todo generate price for percent type
-             */
             $priceValue = 0;
             if ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                 $_tmpPriceValues = array();

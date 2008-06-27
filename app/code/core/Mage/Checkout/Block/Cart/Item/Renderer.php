@@ -194,10 +194,12 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     {
         $messages = array();
         if ($this->getItem()->getMessage()) {
-            $messages[] = array(
-                'text'  => $this->getItem()->getMessage(),
-                'type'  => $this->getItem()->getHasError() ? 'error' : 'notice'
-            );
+            foreach ($this->getItem()->getMessage() as $message) {
+                $messages[] = array(
+                    'text'  => $message,
+                    'type'  => $this->getItem()->getHasError() ? 'error' : 'notice'
+                );
+            }
         }
         return $messages;
     }
