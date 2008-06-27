@@ -100,7 +100,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if ($options = $this->getProduct()->getBundleOptionsData()) {
 
             foreach ($options as $key => $option) {
-                if (!$option['option_id']) {
+                if (isset($option['option_id']) && $option['option_id'] == '') {
                     unset($option['option_id']);
                 }
 
@@ -220,7 +220,16 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
         }
 
+        if (empty($optionIds)) {
+            return false;
+        }
+
         $selectionCollection = $this->getSelectionsCollection(array_keys($optionIds));
+
+        if (!count($selectionCollection->getItems())) {
+            return false;
+        }
+
         foreach ($selectionCollection as $selection) {
             if ($selection->isSalable()) {
                 $optionIds[$selection->getOptionId()] = 1;

@@ -102,18 +102,22 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     {
         $price = $product->getPrice();
 
-        foreach ($this->getOptions($product) as $option) {
-            if ($option->getRequired()) {
-                $selectionPrices = array();
-                foreach ($option->getSelections() as $selection) {
-                    if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
-                        $qty = 1;
-                    } else {
-                        $qty = $selection->getSelectionQty();
+        if ($options = $this->getOptions($product)) {
+            foreach ($options as $option) {
+                if ($option->getRequired()) {
+                    $selectionPrices = array();
+                    if ($option->getSelections()) {
+                        foreach ($option->getSelections() as $selection) {
+                            if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
+                                $qty = 1;
+                            } else {
+                                $qty = $selection->getSelectionQty();
+                            }
+                            $selectionPrices[] = $this->getSelectionPrice($product, $selection, $qty);
+                        }
+                        $price += min($selectionPrices);
                     }
-                    $selectionPrices[] = $this->getSelectionPrice($product, $selection, $qty);
                 }
-                $price += min($selectionPrices);
             }
         }
         return $this->_applySpecialPrice($product, $price);
@@ -129,15 +133,19 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     {
         $price = $product->getPrice();
 
-        foreach ($this->getOptions($product) as $option) {
-            $selectionPrices = array();
-            foreach ($option->getSelections() as $selection) {
-                $selectionPrices[] = $this->getSelectionPrice($product, $selection);
-            }
-            if ($option->isMultiSelection()) {
-                $price += array_sum($selectionPrices);
-            } else {
-                $price += max($selectionPrices);
+        if ($options = $this->getOptions($product)) {
+            foreach ($options as $option) {
+                $selectionPrices = array(0);
+                if ($option->getSelections()) {
+                    foreach ($option->getSelections() as $selection) {
+                        $selectionPrices[] = $this->getSelectionPrice($product, $selection);
+                    }
+                    if ($option->isMultiSelection()) {
+                        $price += array_sum($selectionPrices);
+                    } else {
+                        $price += max($selectionPrices);
+                    }
+                }
             }
         }
         return $this->_applySpecialPrice($product, $price);
@@ -356,7 +364,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         $attributes = $resource->getAttributeData($productId, $productPriceTypeId, $store);
 
-        $options = array();
+        $options = array(0);
 
         $results = $resource->getSelectionsData($productId);
 
@@ -365,6 +373,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $childIds = array();
 
             foreach ($results as $key => $result) {
+                if (!$result['product_id']) {
+                    continue;
+                }
                 $results[$key]['final_price'] = $dataRetreiver->getFinalPrice($result['product_id'], $wId, $gId);
                 $tiers = $resource->getTierPrices($result['product_id'], $wId->getWebsiteId());
 
@@ -416,6 +427,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
 
             foreach ($results as $result) {
+                if (!$result['product_id']) {
+                    continue;
+                }
                 if ($result['selection_can_change_qty'] && $result['type'] != 'multi' && $result['type'] != 'checkbox') {
                     $qty = 1;
                 } else {
@@ -435,6 +449,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         } else { //fixed
             foreach ($results as $result) {
+                if (!$result['product_id']) {
+                    continue;
+                }
                 if ($result['selection_price_type']) {
                     $selectionPrice = $basePrice*$result['selection_price_value']/100;
                 } else {
