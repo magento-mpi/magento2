@@ -267,8 +267,8 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <comment>Match expresions in the same order as displayed in the configuration.</comment>
                         </ua_regexp>
                     </fields>
@@ -303,8 +303,8 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <comment>Match expresions in the same order as displayed in the configuration.</comment>
                         </template_ua_regexp>
                         <skin translate="label">
@@ -321,8 +321,8 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </skin_ua_regexp>
                         <default translate="label">
                             <label>Default</label>
@@ -338,8 +338,8 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </default_ua_regexp>
                         <layout translate="label">
                             <label>Layout</label>
@@ -355,8 +355,8 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </layout_ua_regexp>
                     </fields>
                 </theme>
