@@ -886,8 +886,11 @@ padding:6px 8px 4px 8px;
 .order-totals table td.last             { padding:2px 6px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
 
-ul.item-options li { list-style-type:none; padding-left:.7em; }
+ul.item-options { list-style:none; }
+ul.item-options li { padding-left:.7em; }
 
+ul.item-options-bundle { list-style:none; }
+ul.item-options-bundle li { padding:0 0 0 0; }
 
 /* Order Constants */
 .payment-methods dt                     { margin-bottom:3px; }
@@ -1116,14 +1119,7 @@ fieldset.sitemap .form-list { width:auto; }
 .address-list .btn-remove-address       { position:absolute; top:8px; }
 .address-list .btn-edit-address         { right:8px; }
 .address-list .btn-remove-address       { right:27px; }
-.address-list li {
-    position:relative;
-    list-style:none;
-    padding:12px 14px;
-    cursor:pointer;
-    border-top:1px solid #e6e6e6;
-    background:url(images/address_list_li.gif) repeat;
-    }
+.address-list li                        { position:relative; list-style:none; padding:12px 14px; cursor:pointer; border-top:1px solid #e6e6e6; background:url(images/address_list_li.gif) repeat; }
 .address-list li.on                     { background:#e7efef; }
 .address-list li.over                   { background-color:#fcf5dd; }
 .address-list li table                  { width:100%;}
