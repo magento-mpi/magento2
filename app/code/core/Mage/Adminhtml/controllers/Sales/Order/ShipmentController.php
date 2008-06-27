@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Sales_ShipmentController
+class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Controller_Sales_Shipment
 {
     protected function _getItemQtys()
     {

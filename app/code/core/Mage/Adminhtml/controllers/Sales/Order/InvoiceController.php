@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Sales_InvoiceController
+class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Controller_Sales_Invoice
 {
     protected function _getItemQtys()
     {
