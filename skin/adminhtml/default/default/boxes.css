@@ -917,6 +917,7 @@ ul.item-options-bundle li { padding:0 0 0 0; }
 .giftmessage-order-create .entry-edit .textarea     { width:220px; }
 td.giftmessage-single-item                          { padding: 0 0 0 0; }
 .giftmessage-single-item .item-text                 { padding:2px 5px; }
+.data-bundle .giftmessage-single-item .item-text    { padding:2px 0; }
 .giftmessage-single-item .item-container { cursor: auto; }
 .giftmessage-single-item .gift-form {
     display:block;
