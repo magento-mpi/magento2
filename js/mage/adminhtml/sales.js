@@ -47,7 +47,7 @@ AdminOrder.prototype = {
         $('reset_order_top_button').show();
         this.customerSelectorHide();
         if (this.storeId) {
-            this.dataShow();
+            $(this.getAreaId('data')).callback = 'dataShow';
             this.loadArea(['header', 'data'], true);
         }
         else {
@@ -536,6 +536,9 @@ AdminOrder.prototype = {
                         var id = this.loadingAreas[i];
                         if($(this.getAreaId(id))){
                             $(this.getAreaId(id)).update(response[id] ? response[id] : '');
+                            if ($(this.getAreaId(id)).callback) {
+                                this[$(this.getAreaId(id)).callback]();
+                            }
                         }
                     }
                 }.bind(this)
