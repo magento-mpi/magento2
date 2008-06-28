@@ -106,3 +106,40 @@
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
+<?php $_product = $this->getProduct() ?>
+<?php $_id = $_product->getId() ?>
+
+<?php $simplePricesTax = ($this->helper('tax')->displayPriceIncludingTax() || $this->helper('tax')->displayBothPrices()); ?>
+
+<?php $_minimalPriceValue = $_product->getMinimalPrice() ?>
+<?php $_minimalPrice = $this->helper('tax')->getPrice($_product, $_minimalPriceValue, $simplePricesTax) ?>
+
+<?php $_price = $this->helper('tax')->getPrice($_product, $_product->getPrice()) ?>
+<?php $_regularPrice = $this->helper('tax')->getPrice($_product, $_product->getPrice(), $simplePricesTax) ?>
+<?php $_finalPrice = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice()) ?>
+<?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice(), true) ?>
+
+<?php
+    $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+    $_request->setProductClassId($_product->getTaxClassId());
+    $_tax1 = Mage::getSingleton('tax/calculation')->getRate($_request);
+
+    $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+    $_request->setProductClassId($_product->getTaxClassId());
+    $_tax2 = Mage::getSingleton('tax/calculation')->getRate($_request);
+?>
+<script type="text/javascript">
+var optionsPrice = new Product.OptionsPrice(
+    {
+     'productId':<?php echo (isset($_id) ? $_id : '0') ?>,
+     'price':<?php echo (isset($_price) ? $_price : '0') ?>,
+     'regularPrice':<?php echo (isset($_regularPrice) ? $_regularPrice : '0') ?>,
+     'minimalPrice':<?php echo (isset($_minimalPrice) ? $_minimalPrice : '0') ?>,
+     'finalPrice':<?php echo (isset($_finalPrice) ? $_finalPrice : '0') ?>,
+     'finalPriceInclTax':<?php echo (isset($_finalPriceInclTax) ? $_finalPriceInclTax : '0') ?>,
+     'priceFormat':<?php echo Mage::helper('tax')->getPriceFormat() ?>,
+     'includeTax':<?php echo ($this->helper('tax')->displayPriceIncludingTax() ? 'true' : 'false') ?>,
+     'tax1':<?php echo $_tax1 ?>,
+     'tax2':<?php echo $_tax2 ?>
+    });
+</script>

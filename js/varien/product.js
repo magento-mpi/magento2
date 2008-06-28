@@ -526,6 +526,7 @@ Product.OptionsPrice.prototype = {
                 } else {
                     price += optionPrices;
                 }
+                if (price < 0) price = 0;
                 formattedPrice = this.formatPrice(price);
                 $(pair.key).innerHTML = formattedPrice;
             };

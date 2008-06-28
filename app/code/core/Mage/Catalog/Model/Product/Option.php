@@ -56,6 +56,12 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         $this->_init('catalog/product_option');
     }
 
+    /**
+     * Add value of option to values array
+     *
+     * @param Mage_Catalog_Model_Product_Option_Value $value
+     * @return Mage_Catalog_Model_Product_Option
+     */
     public function addValue(Mage_Catalog_Model_Product_Option_Value $value)
     {
         $this->_values[$value->getId()] = $value;
@@ -63,9 +69,9 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Get value by given id
      *
-     * @param unknown_type $valueId
+     * @param int $valueId
      * @return Mage_Catalog_Model_Product_Option_Value
      */
     public function getValueById($valueId)
@@ -269,9 +275,59 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return parent::_afterSave();
     }
 
-    public function loadByTitle($title)
+    public function getPriceIncludingTax()
     {
+        if (!$this->getId()) {
+            return null;
+        }
+        $price = $this->getPrice(true);
+        if (!Mage::helper('tax')->priceIncludesTax()) {
+            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
+            $rateRequest->setProductClassId($this->getProduct()->getTaxClassId());
+            $price += $price*(Mage::getModel('tax/calculation')->getRate($rateRequest)/100);
+        }
 
+        if ($price < 0) {
+            $price = 0 - $price;
+        }
+
+        return $price;
+    }
+
+    public function getPriceExcludingTax()
+    {
+        if (!$this->getId()) {
+            return null;
+        }
+        $price = $this->getPrice(true);
+        if (Mage::helper('tax')->priceIncludesTax()) {
+            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
+            $rateRequest->setProductClassId($this->getProduct()->getTaxClassId());
+
+            $_rateRequest = Mage::getModel('tax/calculation')->getRateRequest(false, false, false);
+            $_rateRequest->setProductClassId($this->getProduct()->getTaxClassId());
+
+            $defaultTax = Mage::getModel('tax/calculation')->getRate($_rateRequest);
+            $currentTax = Mage::getModel('tax/calculation')->getRate($rateRequest);
+
+            $price = (($price-($price/(1+($defaultTax))*$defaultTax))*$currentTax);
+        }
+
+        if ($price < 0) {
+            $price = 0 - $price;
+        }
+
+        return $price;
+    }
+
+    public function getPrice($flag=false)
+    {
+        if ($flag && $this->getPriceType() == 'percent') {
+            $basePrice = $this->getProduct()->getFinalPrice();
+            $price = $basePrice*($this->_getData('price')/100);
+            return $price;
+        }
+        return $this->_getData('price');
     }
 
     /**

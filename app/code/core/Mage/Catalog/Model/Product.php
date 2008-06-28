@@ -315,6 +315,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         parent::_afterLoad();
         foreach ($this->getProductOptionsCollection() as $option) {
+            $option->setProduct($this);
             $this->addOption($option);
         }
 

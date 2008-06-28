@@ -79,8 +79,8 @@
                                     });
                                 </script>
                             </div>
-                            <?php if($_item->getMessage()): ?>
-                            <?php foreach ($_item->getMessage() as $message): ?>
+                            <?php if($_item->getMessage(false)): ?>
+                            <?php foreach ($_item->getMessage(false) as $message): ?>
                             <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
                                 <div style="font-size:95%"><?php echo $message ?></div>
                             </div>

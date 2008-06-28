@@ -122,6 +122,7 @@ WHERE
             foreach ($values as $value) {
                 if($this->getItemById($value->getOptionId())) {
                     $this->getItemById($value->getOptionId())->addValue($value);
+                    $value->setOption($this->getItemById($value->getOptionId()));
                 }
             }
         }

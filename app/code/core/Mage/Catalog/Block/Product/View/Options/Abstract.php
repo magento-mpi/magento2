@@ -30,6 +30,9 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
 {
     protected $_option;
 
+    protected $_priceIncludingTax;
+    protected $_priceExcludingTax;
+
     /**
      * Set option
      *
@@ -55,12 +58,25 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
     public function getFormatedPrice()
     {
         if ($option = $this->getOption()) {
+            $this->_priceIncludingTax = $option->getPriceIncludingTax();
+            $this->_priceExcludingTax = $option->getPriceExcludingTax();
             return $this->_formatPrice(array(
                 'is_percent' => ($option->getPriceType() == 'percent') ? true : false,
                 'pricing_value' => $option->getPrice()
             ));
         }
         return '';
+    }
+
+    public function getPriceIncludingTax()
+    {
+        return $this->_priceIncludingTax;
+        return $this->getOption()->getPriceIncludingTax();
+    }
+
+    public function getPriceExcludingTax()
+    {
+        return $this->_priceExcludingTax;
     }
 
     /**
@@ -79,11 +95,19 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
             $sign = '-';
             $value['pricing_value'] = 0 - $value['pricing_value'];
         }
-        if ($value['is_percent']) {
-            $priceStr = $sign . '%' . number_format($value['pricing_value'], 0, null, '');
-        } else {
-            $priceStr = $sign . $this->helper('core')->currency($value['pricing_value']);
-        }
+//        if ($value['is_percent']) {
+//            $priceStr = $sign . '%' . number_format($value['pricing_value'], 0, null, '');
+//        } else {
+            $priceStr = $sign;
+            if (Mage::helper('tax')->displayPriceIncludingTax()) {
+                $priceStr .= $this->helper('core')->currency($this->getPriceIncludingTax());
+            } elseif (Mage::helper('tax')->displayPriceExcludingTax()) {
+                $priceStr .= $this->helper('core')->currency($this->getPriceExcludingTax());
+            } elseif (Mage::helper('tax')->displayBothPrices()) {
+                $priceStr .= $this->helper('core')->currency($this->getPriceExcludingTax());
+                $priceStr .= ' ('.$sign.$this->helper('core')->currency($this->getPriceIncludingTax()).' '.$this->__('Incl. Tax').')';
+            }
+//        }
 
         return '(' . $priceStr . ')';
     }

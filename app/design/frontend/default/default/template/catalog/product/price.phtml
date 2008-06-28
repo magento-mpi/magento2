@@ -126,17 +126,17 @@
     $_tax2 = Mage::getSingleton('tax/calculation')->getRate($_request);
 ?>
 <script type="text/javascript">
-var optionsPrice = new Product.OptionsPrice(
-    {
-     'productId':<?php echo (isset($_id) ? $_id : '0') ?>,
-     'price':<?php echo (isset($_price) ? $_price : '0') ?>,
-     'regularPrice':<?php echo (isset($_regularPrice) ? $_regularPrice : '0') ?>,
-     'minimalPrice':<?php echo (isset($_minimalPrice) ? $_minimalPrice : '0') ?>,
-     'finalPrice':<?php echo (isset($_finalPrice) ? $_finalPrice : '0') ?>,
-     'finalPriceInclTax':<?php echo (isset($_finalPriceInclTax) ? $_finalPriceInclTax : '0') ?>,
-     'priceFormat':<?php echo Mage::helper('tax')->getPriceFormat() ?>,
-     'includeTax':<?php echo ($this->helper('tax')->displayPriceIncludingTax() ? 'true' : 'false') ?>,
-     'tax1':<?php echo $_tax1 ?>,
-     'tax2':<?php echo $_tax2 ?>
-    });
+//var optionsPrice = new Product.OptionsPrice(
+//    {
+//     'productId':<?php echo (isset($_id) ? $_id : '0') ?>,
+//     'price':<?php echo (isset($_price) ? $_price : '0') ?>,
+//     'regularPrice':<?php echo (isset($_regularPrice) ? $_regularPrice : '0') ?>,
+//     'minimalPrice':<?php echo (isset($_minimalPrice) ? $_minimalPrice : '0') ?>,
+//     'finalPrice':<?php echo (isset($_finalPrice) ? $_finalPrice : '0') ?>,
+//     'finalPriceInclTax':<?php echo (isset($_finalPriceInclTax) ? $_finalPriceInclTax : '0') ?>,
+//     'priceFormat':<?php echo Mage::helper('tax')->getPriceFormat() ?>,
+//     'includeTax':<?php echo ($this->helper('tax')->displayPriceIncludingTax() ? 'true' : 'false') ?>,
+//     'tax1':<?php echo $_tax1 ?>,
+//     'tax2':<?php echo $_tax2 ?>
+//    });
 </script>

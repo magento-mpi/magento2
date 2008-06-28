@@ -50,6 +50,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 $select->setName('options['.$_option->getid().'][]');
             }
             foreach ($_option->getValues() as $_value) {
+                $this->_priceIncludingTax = $_value->getPriceIncludingTax();
+                $this->_priceExcludingTax = $_value->getPriceExcludingTax();
                 $priceStr = $this->_formatPrice(array(
                     'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
                     'pricing_value' => $_value->getPrice()
@@ -88,6 +90,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 				$count = 1;
             foreach ($_option->getValues() as $_value) {
 				$count++;
+				$this->_priceIncludingTax = $_value->getPriceIncludingTax();
+				$this->_priceExcludingTax = $_value->getPriceExcludingTax();
 				$priceStr = $this->_formatPrice(array(
 				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
 				    'pricing_value' => $_value->getPrice()
