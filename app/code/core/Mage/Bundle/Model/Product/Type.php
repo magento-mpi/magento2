@@ -210,29 +210,33 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         $optionCollection = $this->getOptionsCollection();
 
-        $optionIds = array();
-        foreach ($optionCollection->getItems() as $option) {
-            if ($option->getRequired()) {
-                $optionIds[$option->getId()] = 0;
-            }
-        }
-
-        if (empty($optionIds)) {
+        if (!count($optionCollection->getItems())) {
             return false;
         }
 
-        $selectionCollection = $this->getSelectionsCollection(array_keys($optionIds));
+        $requiredOptionIds = array();
+
+        foreach ($optionCollection->getItems() as $option) {
+            if ($option->getRequired()) {
+                $requiredOptionIds[$option->getId()] = 0;
+            }
+        }
+
+        $selectionCollection = $this->getSelectionsCollection($optionCollection->getAllIds());
 
         if (!count($selectionCollection->getItems())) {
             return false;
         }
-
+        $salableSelectionCount = 0;
         foreach ($selectionCollection as $selection) {
             if ($selection->isSalable()) {
-                $optionIds[$selection->getOptionId()] = 1;
+                $requiredOptionIds[$selection->getOptionId()] = 1;
+                $salableSelectionCount++;
             }
+
         }
-        return (array_sum($optionIds) == count($optionIds));
+
+        return (array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount);
     }
 
     /**
