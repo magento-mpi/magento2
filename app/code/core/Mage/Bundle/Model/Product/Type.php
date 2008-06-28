@@ -38,9 +38,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     protected $_usedOptions = null;
     protected $_usedOptionsIds = null;
 
-    const SHIPMENT_SEPARATELY = 1;
-    const SHIPMENT_TOGETHER = 0;
-
     /**
      * Return product sku based on sku_type attribute
      *

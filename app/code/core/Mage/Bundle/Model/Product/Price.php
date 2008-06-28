@@ -71,8 +71,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
         } else {
             foreach ($this->getOptions($product) as $option) {
+                $selectionCount = count($option->getSelections());
                 foreach ($option->getSelections() as $selection) {
-                    if ($selection->getIsDefault() && $selection->isSalable()) {
+                    if (($selection->getIsDefault() || ($selectionCount == 1 && $option->getDefault())) && $selection->isSalable()) {
                         $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection);
                     }
                 }

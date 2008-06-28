@@ -38,6 +38,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     const CALCULATE_PARENT = 'parent';
 
     /**
+     * values for shipment type (invoice etc)
+     *
+     */
+    const SHIPMENT_SEPARATELY = 1;
+    const SHIPMENT_TOGETHER = 0;
+
+    /**
      * Specify type instance product
      *
      * @param   Mage_Catalog_Model_Product $product

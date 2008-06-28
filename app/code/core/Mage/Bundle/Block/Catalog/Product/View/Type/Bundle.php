@@ -65,6 +65,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 'isMulti' => ($_option->getType() == 'multi' || $_option->getType() == 'checkbox')
             );
 
+            $selectionCount = count($_option->getSelections());
+
             foreach ($_option->getSelections() as $_selection) {
                 $_qty = !($_selection->getSelectionQty()*1)?'1':$_selection->getSelectionQty()*1;
                 $selection = array (
@@ -77,7 +79,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 );
                 $option['selections'][$_selection->getSelectionId()] = $selection;
 
-                if ($_selection->getIsDefault() && $_selection->isSalable()) {
+                if (($_selection->getIsDefault() || ($selectionCount == 1 && $_option->getDefault())) && $_selection->isSalable()) {
                     $selected[$_option->getId()][] = $_selection->getSelectionId();
                 }
             }
