@@ -38,27 +38,3 @@
         <?php endif; ?>
     </span>
 </div>
-<?php
-    $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
-    $_request->setProductClassId($_product->getTaxClassId());
-    $_tax1 = Mage::getSingleton('tax/calculation')->getRate($_request);
-
-    $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
-    $_request->setProductClassId($_product->getTaxClassId());
-    $_tax2 = Mage::getSingleton('tax/calculation')->getRate($_request);
-?>
-<script type="text/javascript">
-var optionsPrice = new Product.OptionsPrice(
-    {
-     'productId':<?php echo (isset($_id) ? $_id : '') ?>,
-     'price':<?php echo$_minimalPrice ?>,
-     'regularPrice':<?php echo $_minimalPrice ?>,
-     'minimalPrice':<?php echo $_minimalPrice ?>,
-     'finalPrice':<?php echo $_minimalPrice ?>,
-     'finalPriceInclTax':<?php echo $_minimalPrice ?>,
-     'priceFormat':<?php echo Mage::helper('tax')->getPriceFormat() ?>,
-     'includeTax':<?php echo ($this->helper('tax')->displayPriceIncludingTax() ? 'true' : 'false') ?>,
-     'tax1':<?php echo $_tax1 ?>,
-     'tax2':<?php echo $_tax2 ?>
-    });
-</script>
