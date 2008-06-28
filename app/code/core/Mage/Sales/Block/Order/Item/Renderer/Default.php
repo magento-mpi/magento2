@@ -27,7 +27,7 @@
  */
 class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Template
 {
-    public function setItem(Mage_Sales_Model_Order_Item $item)
+    public function setItem(Varien_Object $item)
     {
         $this->setData('item', $item);
         return $this;
@@ -45,13 +45,24 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
      */
     public function getOrder()
     {
-        return $this->getItem()->getOrder();
+        return $this->getOrderItem()->getOrder();
+    }
+
+
+    public function getOrderItem()
+    {
+        if ($this->getItem() instanceof Mage_Sales_Model_Order_Item) {
+            return $this->getItem();
+        } else {
+            return $this->getItem()->getOrderItem();
+        }
     }
 
     public function getItemOptions()
     {
         $result = array();
-        if ($options = $this->getItem()->getProductOptions()) {
+
+        if ($options = $this->getOrderItem()->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
             }
@@ -61,14 +72,5 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
         }
 
         return $result;
-    }
-
-    public function getValueHtml($value)
-    {
-        if (is_array($value)) {
-            return sprintf('%d', $value['qty']) . ' x ' . $this->htmlEscape($value['title']) . " " . $this->getItem()->getOrder()->formatPrice($value['price']);
-        } else {
-            return $this->htmlEscape($value);
-        }
     }
 }

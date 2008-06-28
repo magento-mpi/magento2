@@ -50,7 +50,7 @@
     <?php $_prevOptionLabel = $_option['label'] ?>
     <?php endif; ?>
 <?php endif; ?>
-<tr class="<?php if ($_item->getLastRow()) echo 'last';?> <?php echo (++$_index==$_count && !$_showlastRow)?'border':'' ?>" id="order-item-row-<?php echo $_item->getId() ?>">
+<tr class="<?php echo (++$_index==$_count && !$_showlastRow)?'border':'' ?>" id="order-item-row-<?php echo $_item->getId() ?>">
 
     <?php if (!$_item->getParentItem()): ?>
     <td>
@@ -128,7 +128,7 @@
 <tr class="border">
     <td class="indent">
         <?php if($_options = $this->getItemOptions()): ?>
-        <ul class="item-options">
+        <ul class="item-options-bundle">
         <?php foreach ($_options as $_option): ?>
             <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong><br />
                 <?php echo $this->htmlEscape($_option['value']); ?>

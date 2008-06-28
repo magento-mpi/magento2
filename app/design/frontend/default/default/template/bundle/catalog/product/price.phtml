@@ -30,7 +30,8 @@
             <?php echo $this->__('As low as: %s', Mage::helper('core')->currency($_minimalPrice)) ?>
         <?php else: ?>
             <?php if ($_minimalPrice <> $_maximumPrice): ?>
-                <?php echo Mage::helper('core')->currency($_minimalPrice) ?> .. <?php echo Mage::helper('core')->currency($_maximumPrice) ?>
+                <?php echo $this->__('From: %s', Mage::helper('core')->currency($_minimalPrice)) ?><br />
+                <?php echo $this->__('To: %s', Mage::helper('core')->currency($_maximumPrice)) ?>
             <?php else: ?>
                 <?php echo Mage::helper('core')->currency($_minimalPrice) ?>
             <?php endif; ?>
@@ -50,7 +51,7 @@
 var optionsPrice = new Product.OptionsPrice(
     {
      'productId':<?php echo (isset($_id) ? $_id : '') ?>,
-     'price':<?php echo $_minimalPrice ?>,
+     'price':<?php echo$_minimalPrice ?>,
      'regularPrice':<?php echo $_minimalPrice ?>,
      'minimalPrice':<?php echo $_minimalPrice ?>,
      'finalPrice':<?php echo $_minimalPrice ?>,

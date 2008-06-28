@@ -27,10 +27,15 @@
  */
 class Mage_Sales_Block_Order_Item_Renderer_Configurable extends Mage_Sales_Block_Order_Item_Renderer_Default
 {
-    public function getItemOptions()
+    public function getItemOptions($item = null)
     {
-        $result = parent::getItemOptions();
-        if ($options = $this->getItem()->getProductOptionByCode('attributes_info')) {
+        $result = parent::getItemOptions($item);
+
+        if (!$item) {
+            $item = $this->getItem();
+        }
+
+        if ($options = $item->getProductOptionByCode('attributes_info')) {
             $result = array_merge($options, $result);
         }
 

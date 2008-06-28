@@ -19,7 +19,7 @@
  */
 ?>
 <?php  $_order = $this->getOrder() ?>
-<table cellspacing="0" class="data-table" id="my-orders-table">
+<table cellspacing="0" class="data-table data-bundle" id="my-orders-table">
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
@@ -50,12 +50,9 @@
         <?php $_count = $_items->count(); ?>
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
-            <?php if ($_item->getParentItem()) continue; ?>
+        <?php if ($_item->getParentItem()) continue; else $_index++ ?>
         <tbody class="<?php echo $_index%2 ? 'even' : 'odd' ?>">
-            <?php if ($_index++ > $_count) $_item->setLastRow('true'); ?>
-
             <?php echo $this->getItemHtml($_item) ?>
-
             <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
             <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
                 <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item); ?>
@@ -75,7 +72,7 @@
                 </td>
             </tr>
             <?php endif ?>
-            </tbody>
+        </tbody>
         <?php endforeach; ?>
     <?php $colspan = 4; ?>
     <tfoot>
