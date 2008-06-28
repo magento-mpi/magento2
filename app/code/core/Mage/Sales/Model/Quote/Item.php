@@ -159,6 +159,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      */
     public function setProduct($product)
     {
+        if ($this->getQuote()) {
+        	$product->setStoreId($this->getQuote()->getStoreId());
+        }
         $this->setData('product', $product)
             ->setProductId($product->getId())
             ->setProductType($product->getTypeId())
