@@ -62,6 +62,24 @@ Adding custom product price block
         </reference>
     </tag_product_list>
 
+    <default>
+        <reference name="wishlist_sidebar">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
+        </reference>
+    </default>
+
+    <wishlist_index_index>
+        <reference name="customer.wishlist">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
+        </reference>
+    </wishlist_index_index>
+
+    <wishlist_shared_index>
+        <reference name="customer.wishlist">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
+        </reference>
+    </wishlist_shared_index>
+
 <!--
 Partof block for simple broducts
 -->
