@@ -19,7 +19,7 @@
  */
 ?>
 <div class="grid">
-    <table cellspacing="0" class="data">
+    <table cellspacing="0" class="data data-bundle">
         <col/>
         <col width="100"/>
         <thead>
@@ -28,14 +28,11 @@
                 <th class="last"><?php echo $this->helper('sales')->__('Qty Shipped') ?></th>
             </tr>
         </thead>
-        <tbody>
-            <?php $_items = $this->getShipment()->getAllItems() ?>
-            <?php $i=0;foreach ($_items as $_item):$i++ ?>
-                <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
-                    <td><?php echo $this->getItemHtml($_item) ?></td>
-                    <td class="last"><?php echo $_item->getQty()*1 ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+        <?php $_items = $this->getShipment()->getAllItems() ?>
+        <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getIsVirtual() || $_item->getOrderItem()->getPrentItem()): continue; endif; $_i++ ?>
+            <tbody class="<?php echo $_i%2?'odd':'even' ?>">
+                <?php echo $this->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
     </table>
 </div>

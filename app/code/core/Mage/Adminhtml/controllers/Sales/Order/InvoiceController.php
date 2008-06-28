@@ -35,7 +35,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             //$this->_getSession()->setInvoiceItemQtys($qtys);
         }
         /*elseif ($this->_getSession()->getInvoiceItemQtys()) {
-        	$qtys = $this->_getSession()->getInvoiceItemQtys();
+            $qtys = $this->_getSession()->getInvoiceItemQtys();
         }*/
         else {
             $qtys = array();
@@ -76,18 +76,25 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
             $savedQtys = $this->_getItemQtys();
             foreach ($order->getAllItems() as $orderItem) {
+                if ($orderItem->getParentItem()) {
+                    continue;
+                }
                 if (!$orderItem->getQtyToInvoice()) {
                     continue;
                 }
-                $item = $convertor->itemToInvoiceItem($orderItem);
-                if (isset($savedQtys[$orderItem->getId()])) {
-                    $qty = $savedQtys[$orderItem->getId()];
+
+                $items = $convertor->itemToInvoiceItem($orderItem);
+
+                foreach ($items as $item) {
+                    if (isset($savedQtys[$item->getOrderItemId()])) {
+                        $qty = $savedQtys[$item->getOrderItemId()];
+                    }
+                    else {
+                        $qty = $item->getOrderItem()->getQtyToInvoice();
+                    }
+                    $item->setQty($qty);
+                    $invoice->addItem($item);
                 }
-                else {
-                    $qty = $orderItem->getQtyToInvoice();
-                }
-                $item->setQty($qty);
-            	$invoice->addItem($item);
             }
             $invoice->collectTotals();
         }

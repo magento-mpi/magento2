@@ -19,7 +19,7 @@
  */
 ?>
 <div class="grid">
-    <table cellspacing="0" class="data" id="invoice_items_grid_table">
+    <table cellspacing="0" class="data data-bundle" id="invoice_items_grid_table">
         <col/>
         <col width="100"/>
         <col width="70"/>
@@ -38,53 +38,12 @@
                 <th class="last"><?php echo $this->helper('sales')->__('Row Total') ?></th>
             </tr>
         </thead>
-        <tbody>
-            <?php $_items = $this->getInvoice()->getAllItems() ?>
-            <?php $i=0;foreach ($_items as $_item):$i++ ?>
-            <?php $this->setPriceDataObject($_item) ?>
-                <tr class="<?php echo ($i%2==0)?'even':'odd' ?>">
-                    <td><?php echo $this->getItemHtml($_item) ?></td>
-                    <td class="price">
-                    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->helper('tax')->__('Excl. Tax'); ?>
-                        <?php endif; ?>
-                        <?php echo $this->displayPriceAttribute('price') ?>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br />
-                            <?php echo $this->helper('tax')->__('Incl. Tax'); ?>
-                        <?php endif; ?>
-                        <?php echo $this->displayPriceInclTax($_item); ?>
-                    <?php endif; ?>
-                    </td>
-                    <td><?php echo $_item->getQty()*1 ?></td>
-                    <td class="price">
-                    <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->helper('tax')->__('Excl. Tax'); ?>
-                        <?php endif; ?>
-                        <?php echo $this->displayPriceAttribute('row_total') ?>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br />
-                            <?php echo $this->helper('tax')->__('Incl. Tax'); ?>
-                        <?php endif; ?>
-                        <?php echo $this->displaySubtotalInclTax($_item); ?>
-                    <?php endif; ?>
-                    </td>
-                    <td class="price"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
-                    <td class="price"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
-                    <td class="price last">
-                        <?php echo $this->displayPrices(
-                            $_item->getBaseRowTotal()+$_item->getBaseTaxAmount()-$_item->getBaseDiscountAmount(),
-                            $_item->getRowTotal()+$_item->getTaxAmount()-$_item->getDiscountAmount()
-                        ) ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+        <?php $_items = $this->getInvoice()->getAllItems() ?>
+        <?php $i=0;foreach ($_items as $_item): ?>
+            <?php if ($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
+            <tbody class="<?php echo $i%2?'even':'odd' ?>">
+                <?php echo $this->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
     </table>
 </div>

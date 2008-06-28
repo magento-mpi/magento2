@@ -22,9 +22,9 @@
 /**
  * Abstract items renderer
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Victor Tihonchuk <victor@varien.com>
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Template
 {
@@ -54,8 +54,8 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
      */
     protected function _construct()
     {
-        $this->addItemRender('default', 'adminhtml/sales_items_renderer_default', 'sales/items/renderer/default.phtml');
         $this->addColumnRender('qty', 'adminhtml/sales_items_column_qty', 'sales/items/column/qty.phtml');
+        $this->addColumnRender('name', 'adminhtml/sales_items_column_name', 'sales/items/column/name.phtml');
         parent::_construct();
     }
 
@@ -172,6 +172,11 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
         return '&nbsp;';
     }
 
+    public function getCreditmemo()
+    {
+        return Mage::registry('current_creditmemo');
+    }
+
     /**
      * ######################### SALES ##################################
      */
@@ -192,6 +197,19 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
         if (Mage::registry('order')) {
             return Mage::registry('order');
         }
+        if ($this->getInvoice())
+        {
+            return $this->getInvoice()->getOrder();
+        }
+        if ($this->getCreditmemo())
+        {
+            return $this->getCreditmemo()->getOrder();
+        }
+        if ($this->getItem()->getOrder())
+        {
+            return $this->getItem()->getOrder();
+        }
+
         Mage::throwException(Mage::helper('sales')->__('Can\'t get order instance'));
     }
 
@@ -286,5 +304,116 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
             $item->getBaseRowTotal()+$baseTax,
             $item->getRowTotal()+$tax
         );
+    }
+
+    /**
+     * Retrieve tax calculation html content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displayTaxCalculation(Varien_Object $item)
+    {
+        if ($item->getTaxPercent() && $item->getTaxString() == '') {
+            $percents = array($item->getTaxPercent());
+        } else if ($item->getTaxString()) {
+            $percents = explode(Mage_Tax_Model_Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
+        } else {
+            return '0%';
+        }
+
+        foreach ($percents as &$percent) {
+            $percent = sprintf('%.2f%%', $percent);
+        }
+        return implode(' + ', $percents);
+    }
+
+    /**
+     * Retrieve tax with persent html content
+     *
+     * @param Varien_Object $item
+     * @return string
+     */
+    public function displayTaxPercent(Varien_Object $item)
+    {
+        if ($item->getTaxPercent()) {
+            return sprintf('%.2f%%', $item->getTaxPercent());
+        } else {
+            return '0%';
+        }
+    }
+
+    /**
+     *  INVOICES
+     */
+
+    /**
+     * Check shipment availability for current invoice
+     *
+     * @return bool
+     */
+    public function canCreateShipment()
+    {
+        foreach ($this->getInvoice()->getAllItems() as $item) {
+            if ($item->getOrderItem()->getQtyToShip()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function canEditQty()
+    {
+        if ($this->getOrder()->getPayment()->canCapture()) {
+            return $this->getOrder()->getPayment()->canCapturePartial();
+        }
+        return true;
+    }
+
+    public function canCapture()
+    {
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')) {
+            return $this->getInvoice()->canCapture();
+        }
+        return false;
+    }
+
+    public function formatPrice($price)
+    {
+        return $this->getOrder()->formatPrice($price);
+    }
+
+    /**
+     * Retrieve source
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function getSource()
+    {
+        return $this->getInvoice();
+    }
+
+    /**
+     * Retrieve invoice model instance
+     *
+     * @return Mage_Sales_Model_Invoice
+     */
+    public function getInvoice()
+    {
+        return Mage::registry('current_invoice');
+    }
+
+    /**
+     * CREDITMEMO
+     */
+
+    public function canReturnToStock() {
+
+        $canReturnToStock = Mage::getStoreConfig('cataloginventory/options/can_subtract');
+        if (Mage::getStoreConfig('cataloginventory/options/can_subtract')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
