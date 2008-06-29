@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select extends
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label' => Mage::helper('catalog')->__('Delete Row'),
-                    'class' => 'delete delete-select-row',
+                    'class' => 'delete delete-select-row icon-btn',
                 ))
         );
 
