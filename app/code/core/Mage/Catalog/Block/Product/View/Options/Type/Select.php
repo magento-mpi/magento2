@@ -68,12 +68,14 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
             ) {
+            $selectHtml = '';
             $require = ($_option->getIsRequire()) ? ' validate-one-required-by-name' : '';
             $arraySign = '';
             switch ($_option->getType()) {
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
                     $class = 'form-radio';
+                    $selectHtml .= '<label for="options_'.$_option->getId().'"><input type="radio" class="form-radio" name="__none__options['.$_option->getId().']" value="" />' . $this->__('None') . '</label>';
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
@@ -81,7 +83,6 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     $arraySign = '[]';
                     break;
             }
-            $selectHtml = '';
 			$count = 1;
             foreach ($_option->getValues() as $_value) {
 				$count++;
