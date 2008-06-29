@@ -275,51 +275,13 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return parent::_afterSave();
     }
 
-    public function getPriceIncludingTax()
-    {
-        if (!$this->getId()) {
-            return null;
-        }
-        $price = $this->getPrice(true);
-        if (!Mage::helper('tax')->priceIncludesTax()) {
-            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
-            $rateRequest->setProductClassId($this->getProduct()->getTaxClassId());
-            $price += $price*(Mage::getModel('tax/calculation')->getRate($rateRequest)/100);
-        }
-
-        if ($price < 0) {
-            $price = 0 - $price;
-        }
-
-        return $price;
-    }
-
-    public function getPriceExcludingTax()
-    {
-        if (!$this->getId()) {
-            return null;
-        }
-        $price = $this->getPrice(true);
-        if (Mage::helper('tax')->priceIncludesTax()) {
-            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
-            $rateRequest->setProductClassId($this->getProduct()->getTaxClassId());
-
-            $_rateRequest = Mage::getModel('tax/calculation')->getRateRequest(false, false, false);
-            $_rateRequest->setProductClassId($this->getProduct()->getTaxClassId());
-
-            $defaultTax = Mage::getModel('tax/calculation')->getRate($_rateRequest);
-            $currentTax = Mage::getModel('tax/calculation')->getRate($rateRequest);
-
-            $price = (($price-($price/(1+($defaultTax))*$defaultTax))*$currentTax);
-        }
-
-        if ($price < 0) {
-            $price = 0 - $price;
-        }
-
-        return $price;
-    }
-
+    /**
+     * Return price. If $flag is true and price is percent
+     *  return converted percent to price
+     *
+     * @param bool $flag
+     * @return decimal
+     */
     public function getPrice($flag=false)
     {
         if ($flag && $this->getPriceType() == 'percent') {

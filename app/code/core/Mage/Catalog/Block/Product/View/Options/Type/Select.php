@@ -36,7 +36,6 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
-
             $require = ($_option->getIsRequire()) ? ' required-entry' : '';
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setData(array(
@@ -50,18 +49,15 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 $select->setName('options['.$_option->getid().'][]');
             }
             foreach ($_option->getValues() as $_value) {
-                $this->_priceIncludingTax = $_value->getPriceIncludingTax();
-                $this->_priceExcludingTax = $_value->getPriceExcludingTax();
                 $priceStr = $this->_formatPrice(array(
                     'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
-                    'pricing_value' => $_value->getPrice()
+                    'pricing_value' => $_value->getPrice(true)
                 ));
                 $select->addOption(
                     $_value->getOptionTypeId(),
                     $_value->getTitle() . ' ' . $priceStr . ''
                 );
             }
-
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
                 $select->setExtraParams('multiple="multiple"');
             }
@@ -72,7 +68,6 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
             ) {
-
             $require = ($_option->getIsRequire()) ? ' validate-one-required-by-name' : '';
             $arraySign = '';
             switch ($_option->getType()) {
@@ -90,11 +85,9 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 			$count = 1;
             foreach ($_option->getValues() as $_value) {
 				$count++;
-				$this->_priceIncludingTax = $_value->getPriceIncludingTax();
-				$this->_priceExcludingTax = $_value->getPriceExcludingTax();
 				$priceStr = $this->_formatPrice(array(
 				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
-				    'pricing_value' => $_value->getPrice()
+				    'pricing_value' => $_value->getPrice(true)
 				));
                 $selectHtml .= '<label for="options_'.$_option->getId().'_'.$count.'"><input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />'.$_value->getTitle().' '.$priceStr.'</label>';
                 $selectHtml .= '<script type="text/javascript">$(\'options_'.$_option->getId().'_'.$count.'\').advaiceContainer = $(\'options-'.$_option->getId().'-container\');</script>';

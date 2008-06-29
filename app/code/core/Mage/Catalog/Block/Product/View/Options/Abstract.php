@@ -30,9 +30,6 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
 {
     protected $_option;
 
-    protected $_priceIncludingTax;
-    protected $_priceExcludingTax;
-
     /**
      * Set option
      *
@@ -58,24 +55,12 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
     public function getFormatedPrice()
     {
         if ($option = $this->getOption()) {
-            $this->_priceIncludingTax = $option->getPriceIncludingTax();
-            $this->_priceExcludingTax = $option->getPriceExcludingTax();
             return $this->_formatPrice(array(
                 'is_percent' => ($option->getPriceType() == 'percent') ? true : false,
-                'pricing_value' => $option->getPrice()
+                'pricing_value' => $option->getPrice(true)
             ));
         }
         return '';
-    }
-
-    public function getPriceIncludingTax()
-    {
-        return $this->_priceIncludingTax;
-    }
-
-    public function getPriceExcludingTax()
-    {
-        return $this->_priceExcludingTax;
     }
 
     /**
@@ -96,14 +81,32 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
         }
         $priceStr = $sign;
         if (Mage::helper('tax')->displayPriceIncludingTax()) {
-            $priceStr .= $this->helper('core')->currency($this->getPriceIncludingTax());
+            $priceStr .= $this->helper('core')->currency($this->getPrice($value['pricing_value'], true));
         } elseif (Mage::helper('tax')->displayPriceExcludingTax()) {
-            $priceStr .= $this->helper('core')->currency($this->getPriceExcludingTax());
+            $priceStr .= $this->helper('core')->currency($this->getPrice($value['pricing_value']));
         } elseif (Mage::helper('tax')->displayBothPrices()) {
-            $priceStr .= $this->helper('core')->currency($this->getPriceExcludingTax());
-            $priceStr .= ' ('.$sign.$this->helper('core')->currency($this->getPriceIncludingTax()).' '.$this->__('Incl. Tax').')';
+            $priceStr .= $this->helper('core')->currency($this->getPrice($value['pricing_value']));
+            $priceStr .= ' ('.$sign.$this->helper('core')
+                ->currency($this->getPrice($value['pricing_value'], true)).' '.$this->__('Incl. Tax').')';
         }
 
         return '(' . $priceStr . ')';
+    }
+
+    /**
+     * Get price with including/excluding tax
+     *
+     * @param decimal $price
+     * @param bool $includingTax
+     * @return decimal
+     */
+    public function getPrice($price, $includingTax = null)
+    {
+        if (!is_null($includingTax)) {
+            $price = Mage::helper('tax')->getPrice($this->getOption()->getProduct(), $price, true);
+        } else {
+            $price = Mage::helper('tax')->getPrice($this->getOption()->getProduct(), $price);
+        }
+        return $price;
     }
 }
