@@ -39,7 +39,6 @@ class Mage_Catalog_Block_Product_Link_Crosssell extends Mage_Catalog_Block_Produ
             ->addAttributeToSelect('tax_class_id')
 			->addAttributeToSort('position', 'asc')
 			->addStoreFilter()
-			->addFilterByRequiredOptions()
 			->load();
 	}
 

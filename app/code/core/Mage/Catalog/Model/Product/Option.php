@@ -196,7 +196,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Save options
+     * Save options.
      *
      * @return Mage_Catalog_Model_Product_Option
      */
@@ -253,10 +253,8 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
                         }
                     }
                 }
-                $this->save();
-            }
+                $this->save();            }
         }//eof foreach()
-
         return $this;
     }
 

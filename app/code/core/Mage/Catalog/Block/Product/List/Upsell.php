@@ -47,8 +47,7 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
             ->addMinimalPrice()
-            ->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds())
-            ->addFilterByRequiredOptions();
+            ->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds());
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);

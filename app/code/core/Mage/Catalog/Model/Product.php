@@ -276,6 +276,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected function _beforeSave()
     {
         $this->cleanCache();
+
+        $options = $this->getProductOptions();
+        if (is_array($options)) {
+            foreach ($this->getProductOptions() as $option) {
+                $this->getOptionInstance()->addOption($option);
+            }
+        }
+        $this->setRequiredOptions(false);
+        foreach ($this->getOptionInstance()->getOptions() as $option) {
+            if ($option['is_require'] == '1') {
+                $this->setRequiredOptions(true);
+                break;
+            }
+        }
+
         parent::_beforeSave();
     }
 
@@ -293,12 +308,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
          * Product Custom Options
          */
         /* @var $optionModel Mage_Catalog_Model_Product_Option */
-        $options = $this->getProductOptions();
-        if (is_array($options)) {
-            foreach ($this->getProductOptions() as $option) {
-                $this->getOptionInstance()->addOption($option);
-            }
-        }
+//        $options = $this->getProductOptions();
+//        if (is_array($options)) {
+//            foreach ($this->getProductOptions() as $option) {
+//                $this->getOptionInstance()->addOption($option);
+//            }
+//        }
         $this->getOptionInstance()->setProduct($this)
             ->saveOptions();
 
