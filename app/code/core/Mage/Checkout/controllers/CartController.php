@@ -134,7 +134,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         $cart   = $this->_getCart();
         $params = $this->getRequest()->getParams();
         $product= $this->_initProduct();
-        $related= $this->getRequest()->getParam('related_products');
+        $related= $this->getRequest()->getParam('related_product');
 
         /**
          * Check product availability
