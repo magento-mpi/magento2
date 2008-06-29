@@ -26,7 +26,7 @@
       <?php endforeach; ?>
       </dl>
       <p class="required">* Required Fields</p>
-	<script type="text/javascript">
+    <script type="text/javascript">
 /* <![CDATA[ */
     var optionFileUpload = {
         productForm : $('product_addtocart_form'),
@@ -39,9 +39,9 @@
             template = '<iframe id="upload_target" name="upload_target" style="width:0;height:0;border:0px solid #fff;"></iframe>';
 
             new Insertion.After(
-    			$('option_'+element.readAttribute('id').sub('option_', '')+'_uploaded_file'),
-    			template
-    		);
+                $('option_'+element.readAttribute('id').sub('option_', '')+'_uploaded_file'),
+                template
+            );
 
             this.formAction = this.productForm.action;
             this.productForm.action = '<?php echo $this->getUrl('*/product/upload') ?>option_id/'+element.readAttribute('id').sub('option_', '');
@@ -78,9 +78,9 @@
                 template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"></a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file</a>';
 
                 new Insertion.After(
-        			$('option_'+data.optionId+'_uploaded_file'),
-        			template
-        		);
+                    $('option_'+data.optionId+'_uploaded_file'),
+                    template
+                );
             }
         },
         removeFile : function(optionId)
@@ -146,7 +146,7 @@
                 }
             });
             try {
-                optionsPrice.changePrice('bundle',price.toFixed(4));
+                optionsPrice.changePrice('options', price);
                 optionsPrice.reload();
             } catch (e) {
 

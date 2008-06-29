@@ -93,6 +93,59 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return $this->getSelectionFinalPrice($product, $childProduct, $productQty, $childProductQty);
     }
 
+    public function getPrices($product, $which = null)
+    {
+        $minimalPrice = $maximalPrice = $product->getPrice();
+        if ($options = $this->getOptions($product)) {
+            foreach ($options as $option) {
+                if ($option->getSelections()) {
+
+                    $selectionMinimalPrices = array();
+                    $selectionMaximalPrices = array();
+
+                    foreach ($option->getSelections() as $selection) {
+                        if (!$selection->isSalable()) {
+                            continue;
+                        }
+
+                        if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
+                            $qty = 1;
+                        } else {
+                            $qty = $selection->getSelectionQty();
+                        }
+
+                        $selectionMinimalPrices[] = $this->getSelectionPrice($product, $selection, $qty);
+                        $selectionMaximalPrices[] = $this->getSelectionPrice($product, $selection);
+                    }
+
+                    if (count($selectionMinimalPrices)) {
+                        if ($option->getRequired()) {
+                            $minimalPrice += min($selectionMinimalPrices);
+                        }
+
+                        if ($option->isMultiSelection()) {
+                            $maximalPrice += array_sum($selectionMaximalPrices);
+                        } else {
+                            $maximalPrice += max($selectionMaximalPrices);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (is_null($which)) {
+            return array(
+                $this->_applySpecialPrice($product, $minimalPrice),
+                $this->_applySpecialPrice($product, $maximalPrice)
+                );
+        } else if ($which = 'max') {
+            return $this->_applySpecialPrice($product, $maximalPrice);
+        } else if ($which = 'min') {
+            return $this->_applySpecialPrice($product, $minimalPrice);
+        }
+        return 0;
+    }
+
     /**
      * Calculate Minimal price of bundle (counting all required options)
      *
@@ -101,27 +154,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getMinimalPrice($product)
     {
-        $price = $product->getPrice();
-
-        if ($options = $this->getOptions($product)) {
-            foreach ($options as $option) {
-                if ($option->getRequired()) {
-                    $selectionPrices = array();
-                    if ($option->getSelections()) {
-                        foreach ($option->getSelections() as $selection) {
-                            if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
-                                $qty = 1;
-                            } else {
-                                $qty = $selection->getSelectionQty();
-                            }
-                            $selectionPrices[] = $this->getSelectionPrice($product, $selection, $qty);
-                        }
-                        $price += min($selectionPrices);
-                    }
-                }
-            }
-        }
-        return $this->_applySpecialPrice($product, $price);
+        return $this->getPrices($product, 'min');
     }
 
     /**
@@ -132,24 +165,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getMaximalPrice($product)
     {
-        $price = $product->getPrice();
-
-        if ($options = $this->getOptions($product)) {
-            foreach ($options as $option) {
-                $selectionPrices = array(0);
-                if ($option->getSelections()) {
-                    foreach ($option->getSelections() as $selection) {
-                        $selectionPrices[] = $this->getSelectionPrice($product, $selection);
-                    }
-                    if ($option->isMultiSelection()) {
-                        $price += array_sum($selectionPrices);
-                    } else {
-                        $price += max($selectionPrices);
-                    }
-                }
-            }
-        }
-        return $this->_applySpecialPrice($product, $price);
+        return $this->getPrice($product, 'max');
     }
 
     /**

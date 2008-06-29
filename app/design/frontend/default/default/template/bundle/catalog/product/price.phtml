@@ -20,20 +20,51 @@
 ?>
 
 <?php $_product = $this->getProduct() ?>
-<?php $_minimalPrice = $_product->getPriceModel()->getMinimalPrice($_product) ?>
-<?php $_maximumPrice = $_product->getPriceModel()->getMaximalPrice($_product) ?>
+<?php list($_minimalPrice, $_maximalPrice) = $_product->getPriceModel()->getPrices($_product) ?>
 <?php $_id = $_product->getId() ?>
+
+<?php $_minimalPriceTax = Mage::helper('tax')->getPrice($_product, $_minimalPrice); ?>
+<?php $_minimalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_minimalPrice, true); ?>
 
 <div class="price-box">
     <span class="regular-price" id="product-price-bundle-<?php echo $_id ?>">
         <?php if ($_product->getPriceView()): ?>
-            <?php echo $this->__('As low as: %s', Mage::helper('core')->currency($_minimalPrice)) ?>
-        <?php else: ?>
-            <?php if ($_minimalPrice <> $_maximumPrice): ?>
-                <?php echo $this->__('From: %s', Mage::helper('core')->currency($_minimalPrice)) ?><br />
-                <?php echo $this->__('To: %s', Mage::helper('core')->currency($_maximumPrice)) ?>
+            <?php echo $this->__('As low as:') ?>
+            <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
+                <span><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span>&nbsp;
+                (<span><?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?></span>&nbsp;<span><?php echo Mage::helper('tax')->__('Incl. Tax') ?></span>)
             <?php else: ?>
-                <?php echo Mage::helper('core')->currency($_minimalPrice) ?>
+            <span class="regular-price" id="-product-price-<?php echo $_id ?>">
+                <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
+            </span>
+            <?php endif; ?>
+        <?php else: ?>
+            <?php if ($_minimalPrice <> $_maximalPrice): ?>
+                <?php echo $this->__('From:') ?>
+                <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
+                    <span><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span>&nbsp;
+                    (<span><?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?></span>&nbsp;<span><?php echo Mage::helper('tax')->__('Incl. Tax') ?></span>)
+                <?php else: ?>
+                    <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
+                <?php endif; ?>
+                <br />
+                <?php $_maximalPriceTax = Mage::helper('tax')->getPrice($_product, $_maximalPrice); ?>
+                <?php $_maximalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_maximalPrice, true); ?>
+
+                <?php echo $this->__('To:') ?>
+                <?php if ($this->helper('tax')->displayBothPrices() && ($_maximalPriceTax != $_maximalPriceInclTax)): ?>
+                    <span><?php echo Mage::helper('core')->currency($_maximalPriceTax) ?></span>&nbsp;
+                    (<span><?php echo Mage::helper('core')->currency($_maximalPriceInclTax) ?></span>&nbsp;<span><?php echo Mage::helper('tax')->__('Incl. Tax') ?></span>)
+                <?php else: ?>
+                    <?php echo Mage::helper('core')->currency($_maximalPriceTax) ?>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
+                    <span><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span>&nbsp;
+                    (<span><?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?></span>&nbsp;<span><?php echo Mage::helper('tax')->__('Incl. Tax') ?></span>)
+                <?php else: ?>
+                    <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
+                <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
     </span>

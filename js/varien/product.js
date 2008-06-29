@@ -531,17 +531,19 @@ Product.OptionsPrice.prototype = {
     },
 
     getPriceWithoutTax: function(price) {
-        if (this.includeTax) {
+        if (this.includeTax == 'true') {
             price = ((price-(price/(1+(this.defaultTax))*this.defaultTax))*this.currentTax);
         }
         return price;
     },
+
     getPriceWithTax: function(price) {
-        if (!this.includeTax) {
+        if (this.includeTax == 'false') {
             price += price*(this.currentTax/100);
         }
         return price;
     },
+
     formatPrice: function(price) {
         return formatCurrency(price, this.priceFormat);
     }

@@ -79,7 +79,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 );
                 $option['selections'][$_selection->getSelectionId()] = $selection;
 
-                if (($_selection->getIsDefault() || ($selectionCount == 1 && $_option->getDefault())) && $_selection->isSalable()) {
+                if (($_selection->getIsDefault() || ($selectionCount == 1 && $_option->getRequired())) && $_selection->isSalable()) {
                     $selected[$_option->getId()][] = $_selection->getSelectionId();
                 }
             }

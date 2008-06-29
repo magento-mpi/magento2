@@ -6,6 +6,7 @@ Product.Bundle = Class.create();
 Product.Bundle.prototype = {
     initialize: function(config){
         this.config = config;
+        this.reloadPrice();
     },
     changeSelection: function(selection){
         parts = selection.id.split('-');
@@ -36,15 +37,10 @@ Product.Bundle.prototype = {
             this.populateQty(parts[2], selection.value);
         }
         this.reloadPrice();
-//        Calculator.updatePrice();
+
     },
 
     reloadPrice: function() {
-//        if (this.config.priceType == '1') {
-//            var calculatedPrice = Number(this.config.basePrice);
-//        } else {
-//            var calculatedPrice = Number(0);
-//        }
         var calculatedPrice = 0;
         for (var option in this.config.selected) {
             if (this.config.options[option]) {
@@ -62,9 +58,6 @@ Product.Bundle.prototype = {
         optionsPrice.reload();
 
         return calculatedPrice;
-
-        $('bundle-price-' + this.config.bundleId).innerHTML = formatCurrency(calculatedPrice, this.config.priceFormat);
-
     },
 
     selectionPrice: function(optionId, selectionId) {
@@ -134,7 +127,6 @@ Product.Bundle.prototype = {
             selectionId = this.config.selected[optionId][0];
             this.config.options[optionId].selections[selectionId].qty = element.value*1;
             this.reloadPrice();
-//            Calculator.updatePrice();
         }
     }
 }
