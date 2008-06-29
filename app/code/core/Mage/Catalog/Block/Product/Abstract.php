@@ -28,7 +28,7 @@
  */
 abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Template
 {
-    private $_priceBlock = null;
+    private $_priceBlock = array();
     private $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
     private $_priceBlockTypes = array();
 
@@ -78,17 +78,16 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
 
     protected function _getPriceBlock($productTypeId)
     {
-        if (is_null($this->_priceBlock)) {
+        if (!isset($this->_priceBlock[$productTypeId])) {
             $block = 'catalog/product_price';
             if (isset($this->_priceBlockTypes[$productTypeId])) {
                 if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
                     $block = $this->_priceBlockTypes[$productTypeId]['block'];
                 }
             }
-
-            $this->_priceBlock = $this->getLayout()->createBlock($block);
+            $this->_priceBlock[$productTypeId] = $this->getLayout()->createBlock($block);
         }
-        return $this->_priceBlock;
+        return $this->_priceBlock[$productTypeId];
     }
 
     protected function _getPriceBlockTemplate($productTypeId)
