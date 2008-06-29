@@ -73,15 +73,12 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
             ) {
 
-            $require = ($_option->getIsRequire()) ? ' validate-one-required' : '';
+            $require = ($_option->getIsRequire()) ? ' validate-one-required-by-name' : '';
             $arraySign = '';
             switch ($_option->getType()) {
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
                     $class = 'form-radio';
-                    if (strlen($require)) {
-                        $require = 'validate-one-required-by-name';
-                    }
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
@@ -100,10 +97,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 				    'pricing_value' => $_value->getPrice()
 				));
                 $selectHtml .= '<label for="options_'.$_option->getId().'_'.$count.'"><input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />'.$_value->getTitle().' '.$priceStr.'</label>';
-
-                if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO) {
-                    $selectHtml .= '<script type="text/javascript">$(\'options_'.$_option->getId().'_'.$count.'\').advaiceContainer = $(\'options-'.$_option->getId().'-container\');</script>';
-                }
+                $selectHtml .= '<script type="text/javascript">$(\'options_'.$_option->getId().'_'.$count.'\').advaiceContainer = $(\'options-'.$_option->getId().'-container\');</script>';
             }
 
             return $selectHtml;
