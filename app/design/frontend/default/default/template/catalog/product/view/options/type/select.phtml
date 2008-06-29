@@ -20,5 +20,13 @@
 ?>
 <?php /* @var $this Mage_Catalog_Block_Product_View_Options_Type_Select */ ?>
 <?php $_option = $this->getOption() ?>
-<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?></label><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></dt>
+<dt>
+    <label><?php echo  $this->htmlEscape($_option->getTitle()) ?></label>
+    <?php if ($_option->getIsRequire()): ?>
+        <span class="required">&nbsp;*</span>
+        <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO): ?>
+            <span id="options-<?php echo $_option->getId() ?>-container"></span>
+		<?php endif; ?>
+    <?php endif; ?>
+</dt>
 <dd><?php echo $this->getValuesHtml() ?></dd>

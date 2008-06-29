@@ -45,7 +45,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 ));
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options['.$_option->getid().']')
-                    ->addOption('0', $this->__('-- Please Select --'));
+                    ->addOption('', $this->__('-- Please Select --'));
             } else {
                 $select->setName('options['.$_option->getid().'][]');
             }
@@ -79,6 +79,9 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
                     $class = 'form-radio';
+                    if (strlen($require)) {
+                        $require = 'validate-one-required-by-name';
+                    }
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
@@ -87,7 +90,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     break;
             }
             $selectHtml = '';
-				$count = 1;
+			$count = 1;
             foreach ($_option->getValues() as $_value) {
 				$count++;
 				$this->_priceIncludingTax = $_value->getPriceIncludingTax();
@@ -97,6 +100,10 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
 				    'pricing_value' => $_value->getPrice()
 				));
                 $selectHtml .= '<label for="options_'.$_option->getId().'_'.$count.'"><input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />'.$_value->getTitle().' '.$priceStr.'</label>';
+
+                if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO) {
+                    $selectHtml .= '<script type="text/javascript">$(\'options_'.$_option->getId().'_'.$count.'\').advaiceContainer = $(\'options-'.$_option->getId().'-container\');</script>';
+                }
             }
 
             return $selectHtml;
