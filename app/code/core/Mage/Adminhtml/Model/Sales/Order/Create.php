@@ -604,47 +604,53 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $value = trim($value);
                 if (empty($value)) {
                     continue;
-//                    Mage::throwException(Mage::helper('adminhtml')->__('Please add values for options'));
                 }
 
-                if (array_key_exists($label, $this->_productOptions[$item->getProduct()->getId()])) {
-                    $optionId = $this->_productOptions[$item->getProduct()->getId()][$label]['option_id'];
-                    $group = $item->getProduct()
-                            ->getOptionById($optionId)
-                            ->getGroupByType();
-                    $type = $item->getProduct()
-                            ->getOptionById($optionId)
-                            ->getType();
-                    if (($type == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
-                        || $type == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE)) {
-                        $_values = array();
-                        foreach (explode(',', $value) as $_value) {
-                            $_value = trim($_value);
-                            if (array_key_exists($_value, $this->_productOptions[$item->getProduct()->getId()][$label]['values'])) {
-                                $_values[] = $this->_productOptions[$item->getProduct()->getId()][$label]['values'][$_value];
+                if (isset($this->_productOptions[$item->getProduct()->getId()])) {
+                    if (array_key_exists($label, $this->_productOptions[$item->getProduct()->getId()])) {
+                        $optionId = $this->_productOptions[$item->getProduct()->getId()][$label]['option_id'];
+                        $group = $item->getProduct()
+                                ->getOptionById($optionId)
+                                ->getGroupByType();
+                        $type = $item->getProduct()
+                                ->getOptionById($optionId)
+                                ->getType();
+                        if (($type == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
+                            || $type == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE)) {
+                            $_values = array();
+                            foreach (explode(',', $value) as $_value) {
+                                $_value = trim($_value);
+                                if (array_key_exists($_value, $this->_productOptions[$item->getProduct()->getId()][$label]['values'])) {
+                                    $_values[] = $this->_productOptions[$item->getProduct()->getId()][$label]['values'][$_value];
+                                } else {
+                                    $_values = array();
+                                    $newAdditionalOptions[] = array(
+                                        'label' => $label,
+                                        'value' => $value
+                                    );
+                                    break;
+                                }
+                            }
+                            if (count($_values)) {
+                                $newOptions[$optionId] = implode(',',$_values);
+                            }
+                        } elseif ($group == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                            if (array_key_exists($value, $this->_productOptions[$item->getProduct()->getId()][$label]['values'])) {
+                                $newOptions[$optionId] = $this->_productOptions[$item->getProduct()->getId()][$label]['values'][$value];
                             } else {
-                                $_values = array();
                                 $newAdditionalOptions[] = array(
                                     'label' => $label,
                                     'value' => $value
                                 );
-                                break;
                             }
-                        }
-                        if (count($_values)) {
-                            $newOptions[$optionId] = implode(',',$_values);
-                        }
-                    } elseif ($group == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                        if (array_key_exists($value, $this->_productOptions[$item->getProduct()->getId()][$label]['values'])) {
-                            $newOptions[$optionId] = $this->_productOptions[$item->getProduct()->getId()][$label]['values'][$value];
                         } else {
-                            $newAdditionalOptions[] = array(
-                                'label' => $label,
-                                'value' => $value
-                            );
+                            $newOptions[$optionId] = $value;
                         }
                     } else {
-                        $newOptions[$optionId] = $value;
+                        $newAdditionalOptions[] = array(
+                            'label' => $label,
+                            'value' => $value
+                        );
                     }
                 } else {
                     $newAdditionalOptions[] = array(
