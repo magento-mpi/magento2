@@ -475,15 +475,13 @@ Product.OptionsPrice = Class.create();
 Product.OptionsPrice.prototype = {
     initialize: function(config) {
         this.productId          = config.productId;
-        this.price              = config.price;
-        this.regularPrice       = config.regularPrice;
-        this.minimalPrice       = config.minimalPrice;
-        this.finalPrice         = config.finalPrice;
-        this.finalPriceInclTax  = config.finalPriceInclTax;
         this.priceFormat        = config.priceFormat;
         this.includeTax         = config.includeTax;
-        this.tax1               = config.tax1;
-        this.tax2               = config.tax2;
+        this.defaultTax         = config.defaultTax;
+        this.currentTax         = config.currentTax;
+        this.productPrice       = config.productPrice;
+        this.showIncludeTax     = config.showIncludeTax;
+        this.productPrice       = config.productPrice;
 
         this.optionPrices = {};
         this.containers = {};
@@ -492,14 +490,10 @@ Product.OptionsPrice.prototype = {
     },
 
     initPrices: function() {
-        this.containers['old-price-' + this.productId] = this.regularPrice;
-        this.containers['product-minimal-price-' + this.productId] = this.minimalPrice;
-        this.containers['price-including-tax-' + this.productId] = this.finalPriceInclTax;
-        this.containers['bundle-price-' + this.productId] = this.price;
-
-        var priceOrFinal = (this.finalPrice == this.price ? this.price : this.finalPrice);
-        this.containers['product-price-' + this.productId] = priceOrFinal;
-        this.containers['price-excluding-tax-' + this.productId] = priceOrFinal;
+        this.containers[0] = 'product-price-' + this.productId;
+        this.containers[1] = 'bundle-price-' + this.productId;
+        this.containers[2] = 'price-including-tax-' + this.productId;
+        this.containers[3] = 'price-excluding-tax-' + this.productId;
     },
 
     changePrice: function(key, price) {
@@ -519,30 +513,36 @@ Product.OptionsPrice.prototype = {
         var formattedPrice;
         var optionPrices = this.getOptionPrices();
         $H(this.containers).each(function(pair) {
-            if ($(pair.key)) {
-                price = parseFloat(pair.value)
-                if(!this.includeTax && pair.key.indexOf('including-tax') == -1) {
-                    price += this.getPriceWithoutTax(optionPrices);
+            if ($(pair.value)) {
+                if (pair.value == 'price-including-tax-'+this.productId) {
+                    price = this.getPriceWithTax(optionPrices+parseFloat(this.productPrice));
                 } else {
-                    price += optionPrices;
+                    if (this.showIncludeTax) {
+                        price = this.getPriceWithTax(optionPrices+parseFloat(this.productPrice));
+                    } else {
+                        price = this.getPriceWithoutTax(optionPrices+parseFloat(this.productPrice));
+                    }
                 }
                 if (price < 0) price = 0;
                 formattedPrice = this.formatPrice(price);
-                $(pair.key).innerHTML = formattedPrice;
+                $(pair.value).innerHTML = formattedPrice;
             };
         }.bind(this));
     },
 
     getPriceWithoutTax: function(price) {
         if (this.includeTax) {
-            price = price - price * (this.tax1 + this.tax2) / 100;
-        } else {
-            price = price - price * this.tax2 / 100;
+            price = ((price-(price/(1+(this.defaultTax))*this.defaultTax))*this.currentTax);
         }
         return price;
     },
-
+    getPriceWithTax: function(price) {
+        if (!this.includeTax) {
+            price += price*(this.currentTax/100);
+        }
+        return price;
+    },
     formatPrice: function(price) {
-        return formatCurrency(price, this.priceFormat)
+        return formatCurrency(price, this.priceFormat);
     }
 }
