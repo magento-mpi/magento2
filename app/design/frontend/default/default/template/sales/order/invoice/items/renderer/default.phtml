@@ -43,11 +43,11 @@
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                 <?php echo $this->__('Excl. Tax'); ?>:
             <?php endif; ?>
-            <strong><?php echo $_order->formatPrice($_item->getPrice()) ?></strong>
+            <strong><?php echo $_order->formatPrice($_item->getPrice()) ?></strong><br />
         <?php endif; ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                <br /><?php echo $this->__('Incl. Tax'); ?>:
+                <?php echo $this->__('Incl. Tax'); ?>:
             <?php endif; ?>
             <strong><?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></strong>
         <?php endif; ?>
@@ -58,11 +58,11 @@
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                 <?php echo $this->__('Excl. Tax'); ?>:
             <?php endif; ?>
-            <strong><?php echo $_order->formatPrice($_item->getRowTotal()) ?></strong>
+            <strong><?php echo $_order->formatPrice($_item->getRowTotal()) ?></strong><br />
         <?php endif; ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                <br /><?php echo $this->__('Incl. Tax'); ?>:
+                <?php echo $this->__('Incl. Tax'); ?>:
             <?php endif; ?>
             <strong><?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></strong>
         <?php endif; ?>
