@@ -54,7 +54,6 @@
                 <th class="first">Package Name</th>
                 <th>Installed</th>
                 <th>Available</th>
-                <th>State</th>
                 <th>Actions</th>
                 <th class="last">Summary</th>
             </tr>
@@ -64,16 +63,17 @@
             <tr class="<?php echo $pkg['status']?>">
                 <td class="first"><?php echo $pkgName?></td>
                 <td><?php echo $pkg['local_version']?>&nbsp;</td>
-                <td><?php echo $pkg['remote_version']?>&nbsp;</td>
-                <td><?php echo $pkg['state']?>&nbsp;</td>
-                <td><select name="actions[<?php echo $channel.'|'.$pkgName.'|'.$pkg['remote_version'] ?>]" style="width:100%">
+                <td><?php echo $pkg['upgrade_version']?>&nbsp;</td>
+                <td><select name="actions[<?php echo $channel.'|'.$pkgName ?>]" style="width:100%">
                     <option selected="selected"></option>
                     <?php foreach ($pkg['actions'] as $k=>$v): ?>
                     <option value="<?php echo $k ?>"><?php echo $v ?></option>
                     <?php endforeach; ?>
                 </select>
                 </td>
-                <td class="last"><?php echo $pkg['summary']?>&nbsp;</td>
+                <td class="last"><strong>Latest: <?php echo $pkg['latest_version'] ?></strong>
+                    <br/><?php echo $pkg['summary']?>
+                </td>
             </tr>
         <?php endforeach; /*channel*/ ?>
         </tbody>
@@ -100,8 +100,8 @@ function upgradeAll(formId)
 
     $$('#pear_packages_'+formId+' select').each(function(el) {
         for (i=0; i<el.options.length; i++) {
-            if (el.options[i].value=='upgrade') {
-                el.value = 'upgrade';
+            if (el.options[i].value.match(/^upgrade[|]/)) {
+                el.value = el.options[i].value;
                 upgrade = true;
             }
         }
