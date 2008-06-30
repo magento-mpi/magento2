@@ -22,6 +22,7 @@
 
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
+<?php $_showSingle = (count($_selections) == 1 && $_option->getRequired()) ?>
 <dt>
     <label class="f-left"><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></label>
     <span class="qty-holder">
@@ -29,16 +30,20 @@
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
             <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
         <?php else: ?>
-            <?php $_defaultQty = '' ?>
-            <?php $_canChangeQty = false ?>
+            <?php if (!$_showSingle): ?>
+                <?php $_defaultQty = '' ?>
+                <?php $_canChangeQty = false ?>
+            <?php else: ?>
+                <?php $_defaultQty = $_selections[0]->getSelectionQty()*1 ?>
+                <?php $_canChangeQty = true ?>
+            <?php endif; ?>
         <?php endif; ?>
-        <label for="bundle-option-<?php echo $_option->getId() ?>-qty-input"><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" style="display:<?php echo $_canChangeQty?'inline':'none' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
-        <span style="display:<?php echo $_canChangeQty?'none':'inline' ?>" id="bundle-option-<?php echo $_option->getId() ?>-qty-label"><?php echo $_defaultQty ?></span>
+        <label for="bundle-option-<?php echo $_option->getId() ?>-qty-input"><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" <?php echo $_canChangeQty?'':'disabled="disabled"' ?> id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
     </span>
     <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
 </dt>
 <dd>
-    <?php if (count($_selections) == 1 && $_option->getRequired()): ?>
+    <?php if ($_showSingle): ?>
         <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
         <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
     <?php else:?>

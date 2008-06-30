@@ -93,28 +93,19 @@ Product.Bundle.prototype = {
 
     populateQty: function(optionId, selectionId){
         if (selectionId == '' || selectionId == 'none') {
-            this.showQtyLabel(optionId, '');
+            this.showQtyInput(optionId, '', false);
             return;
         }
         if (this.config.options[optionId].selections[selectionId].customQty == 1) {
-            this.showQtyInput(optionId, this.config.options[optionId].selections[selectionId].qty);
+            this.showQtyInput(optionId, this.config.options[optionId].selections[selectionId].qty, true);
         } else {
-            this.showQtyLabel(optionId, this.config.options[optionId].selections[selectionId].qty);
+            this.showQtyInput(optionId, this.config.options[optionId].selections[selectionId].qty, false);
         }
     },
 
-    showQtyInput: function(optionId, value) {
+    showQtyInput: function(optionId, value, canEdit) {
         $('bundle-option-' + optionId + '-qty-input').value = value;
-        $('bundle-option-' + optionId + '-qty-input').disabled = false;
-        $('bundle-option-' + optionId + '-qty-input').show();
-        $('bundle-option-' + optionId + '-qty-label').hide();
-    },
-
-    showQtyLabel: function(optionId, value) {
-        $('bundle-option-' + optionId + '-qty-label').innerHTML = value;
-        $('bundle-option-' + optionId + '-qty-input').disabled = false;
-        $('bundle-option-' + optionId + '-qty-label').show();
-        $('bundle-option-' + optionId + '-qty-input').hide();
+        $('bundle-option-' + optionId + '-qty-input').disabled = !canEdit;
     },
 
     changeOptionQty: function (element) {
