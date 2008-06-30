@@ -62,6 +62,8 @@ class Maged_Model_Pear extends Maged_Model
 
         $packages = array();
 
+        $reg = $pear->getRegistry();
+        
         foreach ($this->pear()->getMagentoChannels() as $channel=>$channelName) {
             $pear->run('list', array('channel'=>$channel));
             $output = $pear->getOutput();
@@ -76,62 +78,38 @@ class Maged_Model_Pear extends Maged_Model
                 }
                 foreach ($channelData['data'] as $pkg) {
                     $packages[$channel][$pkg[0]] = array(
-                        'local_version' => $pkg[1].' ('.$pkg[2].')',
-                        'upgrade_version'=>'',
-                        'latest_version'=>'',
-                        'summary'=>'',
+                        'local_version' => $pkg[1],
+                        'local_state' => $pkg[2],
+                        'upgrade_versions'=>array(),
+                        'upgrade_latest'=>'',
+                        'summary'=>$reg->packageInfo($pkg[0], 'summary', $channel),
                     );
                 }
             }
         }
 
-        foreach ($this->pear()->getMagentoChannels() as $channel=>$channelName) {
-            $pear->getFrontend()->clear();
-            $result = $pear->run('list-all', array('channel'=>$channel));
-            $output = $pear->getOutput();
-            if (empty($output)) {
-                continue;
-            }
-
-            foreach ($output as $channelData) {
-                $channelData = $channelData['output'];
-                $channel = $channelData['channel'];
-                if (!isset($channelData['headline'])) {
+        if (!empty($_GET['updates'])) {
+            foreach ($this->pear()->getMagentoChannels() as $channel=>$channelName) {
+                $pear->getFrontend()->clear();
+                $result = $pear->run('list-upgrades', array('channel'=>$channel));
+                $output = $pear->getOutput();
+    
+                if (empty($output) || empty($output[0]['output']['data']) || !is_array($output[0]['output']['data'])) {
                     continue;
                 }
-                if (empty($channelData['data'])) {
-                    continue;
-                }
-
-                foreach ($channelData['data'] as $category=>$pkglist) {
-                    foreach ($pkglist as $pkg) {
-                        $pkgNameArr = explode('/', $pkg[0]);
-                        $pkgName = isset($pkgNameArr[1]) ? $pkgNameArr[1] : $pkgNameArr[0];
-                        if (!isset($packages[$channel][$pkgName])) {
-                            continue;
-                        }
-                        $packages[$channel][$pkgName]['latest_version'] = isset($pkg[1]) ? $pkg[1] : '';
-                        $packages[$channel][$pkgName]['summary'] = isset($pkg[3]) ? $pkg[3] : '';
+    
+                foreach ($output[0]['output']['data'] as $pkg) {
+                    $pkgName = $pkg[1];
+                    if (!isset($packages[$channel][$pkgName])) {
+                        continue;
                     }
+                    $packages[$channel][$pkgName]['upgrade_latest'] = $pkg[3].' ('.$pkg[4].')';
                 }
-            }
-
-            $pear->getFrontend()->clear();
-            $result = $pear->run('list-upgrades', array('channel'=>$channel));
-            $output = $pear->getOutput();
-
-            if (empty($output) || empty($output[0]['output']['data']) || !is_array($output[0]['output']['data'])) {
-                continue;
-            }
-
-            foreach ($output[0]['output']['data'] as $pkg) {
-                $pkgName = $pkg[1];
-                if (!isset($packages[$channel][$pkgName])) {
-                    continue;
-                }
-                $packages[$channel][$pkgName]['upgrade_version'] = (isset($pkg[3]) ? $pkg[3] : '').(isset($pkg[4]) ? ' ('.$pkg[4].')' : '');
             }
         }
+        $states = array('snapshot'=>0, 'devel'=>1, 'alpha'=>2, 'beta'=>3, 'stable'=>4);
+        $preferredState = $states[$this->getPreferredState()];
+        
         foreach ($packages as $channel=>&$pkgs) {
             foreach ($pkgs as $pkgName=>&$pkg) {
                 if ($pkgName=='Mage_Pear_Helpers') {
@@ -140,10 +118,35 @@ class Maged_Model_Pear extends Maged_Model
                 }
                 $actions = array();
                 $systemPkg = $channel==='connect.magentocommerce.com/core' && $pkgName==='Mage_Downloader';
-                if (!empty($pkg['upgrade_version'])) {
+                
+                if (!empty($pkg['upgrade_latest'])) {
                     $status = 'upgrade-available';
-                    $a = explode(' ', $pkg['upgrade_version'], 2);
-                    $actions['upgrade|'.$a[0]] = 'Upgrade';
+                    
+                    $releases = array();
+                    $pear->getFrontend()->clear();
+                    if ($pear->run('remote-info', array(), array($channel.'/'.$pkgName))) {
+                        $output = $pear->getOutput();
+                        if (!empty($output[0]['output']['releases'])) {
+                            foreach ($output[0]['output']['releases'] as $version=>$release) {
+                                if ($states[$release['state']]<min($preferredState, $states[$packages[$channel][$pkgName]['local_state']])) {
+                                    continue;
+                                }
+                                if (version_compare($version, $packages[$channel][$pkgName]['local_version'])<1) {
+                                    continue;
+                                }
+                                $releases[$version] = $version.' ('.$release['state'].')';
+                            }
+                        }
+                    }
+                    if ($releases) {
+                        uksort($releases, 'version_compare');
+                        foreach ($releases as $v=>$l) {
+                            $actions['upgrade|'.$v] = 'Upgrade to '.$l;
+                        }
+                    } else {
+                        $a = explode(' ', $pkg['upgrade_latest'], 2);
+                        $actions['upgrade|'.$a[0]] = 'Upgrade';
+                    }
                     if (!$systemPkg) {
                         $actions['uninstall'] = 'Uninstall';
                     }
