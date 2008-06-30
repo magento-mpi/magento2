@@ -347,6 +347,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
 
                 $product->addCustomOption('selection_qty_' . $selection->getSelectionId(), $qty, $selection);
+                $selection->addCustomOption('selection_id', $selection->getSelectionId());
 
                 if ($customOption = $product->getCustomOption('product_qty_' . $selection->getId())) {
                     $customOption->setValue($customOption->getValue() + $qty);
@@ -363,6 +364,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 $uniqueKey[] = $selection->getSelectionId();
                 $uniqueKey[] = $qty;
             }
+
             /**
              * "unique" key for bundle selection and add it to selections and bundle for selections
              */
