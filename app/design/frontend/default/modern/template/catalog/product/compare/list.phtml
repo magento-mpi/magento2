@@ -96,7 +96,7 @@
                  <td class="label">&nbsp;</td>
                 <?php endif; ?>
                 <td>
-                    <?php echo $this->helper('catalog/product')->getPriceHtml($_item) ?>
+                    <?php echo $this->getPriceHtml($_item) ?>
                     <?php if($_item->isSaleable()): ?>
                     <a href="#" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToCartUrl($_item) ?>', true)"><img src="<?php echo $this->getSkinUrl('images/btn_add_to_cart.gif') ?>" alt="<?php echo $this->__('Add to Cart') ?>"/></a><br/>
                     <?php else: ?>
