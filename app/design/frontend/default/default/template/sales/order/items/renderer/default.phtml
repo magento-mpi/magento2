@@ -42,27 +42,27 @@
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                 <?php echo $this->__('Excl. Tax'); ?>:
             <?php endif; ?>
-            <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong>
+            <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong><br />
         <?php endif; ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                <br /><?php echo $this->__('Incl. Tax'); ?>:
+                <?php echo $this->__('Incl. Tax'); ?>:
             <?php endif; ?>
             <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($this->getItem())); ?></strong>
         <?php endif; ?>
     </td>
     <td class="a-right nowrap">
         <?php if ($this->getItem()->getQtyOrdered() > 0): ?>
-            <?php echo $this->__('Ordered'); ?>: <strong><?php echo $this->getItem()->getQtyOrdered()*1 ?></strong>
+            <?php echo $this->__('Ordered'); ?>: <strong><?php echo $this->getItem()->getQtyOrdered()*1 ?></strong><br />
         <?php endif; ?>
         <?php if ($this->getItem()->getQtyShipped() > 0): ?>
-            <br /><?php echo $this->__('Shipped'); ?>: <strong><?php echo $this->getItem()->getQtyShipped()*1 ?></strong>
+            <?php echo $this->__('Shipped'); ?>: <strong><?php echo $this->getItem()->getQtyShipped()*1 ?></strong>
         <?php endif; ?>
         <?php if ($this->getItem()->getQtyCanceled() > 0): ?>
-            <br /><?php echo $this->__('Canceled'); ?>: <strong><?php echo $this->getItem()->getQtyCanceled()*1 ?></strong>
+            <?php echo $this->__('Canceled'); ?>: <strong><?php echo $this->getItem()->getQtyCanceled()*1 ?></strong><br />
         <?php endif; ?>
         <?php if ($this->getItem()->getQtyRefunded() > 0): ?>
-            <br /><?php echo $this->__('Refunded'); ?>: <strong><?php echo $this->getItem()->getQtyRefunded()*1 ?></strong>
+            <?php echo $this->__('Refunded'); ?>: <strong><?php echo $this->getItem()->getQtyRefunded()*1 ?></strong><br />
         <?php endif; ?>
     </td>
     <td class="a-right">
@@ -70,11 +70,11 @@
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                 <?php echo $this->__('Excl. Tax'); ?>:
             <?php endif; ?>
-            <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong>
+            <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong><br />
         <?php endif; ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                <br /><?php echo $this->__('Incl. Tax'); ?>:
+                <?php echo $this->__('Incl. Tax'); ?>:
             <?php endif; ?>
             <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></strong>
         <?php endif; ?>

@@ -72,3 +72,6 @@
 .mini-related-items .product-images img { float:left; }
 .header-top-container { position:relative; }
 #nav ul li.parent { margin-bottom:-3px; }
+
+/* Fix for IE menu bug */
+#nav iframe { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter: progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }

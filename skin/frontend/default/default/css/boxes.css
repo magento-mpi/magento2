@@ -628,8 +628,12 @@ h1#logo {
 
 /* Minimal price (as low as) */
 .minimal-price { display:block; }
-.minimal-price .label { font-size:12px; /*font-weight:bold; color:#222;*/ }
+.minimal-price .label { font-size:12px; }
 .minimal-price .price { font-size:13px; font-weight:bold; color:#c76200; }
+
+a.minimal-price-link {}
+a.minimal-price-link .label {}
+a.minimal-price-link .price {}
 
 /* Including tax */
 .price-including-tax { display:block; color:#999; }
@@ -1057,14 +1061,14 @@ td.attributes-col p.pname a{ font-weight:bold;}
 .shopping-cart-totals .checkout-types { padding:8px 15px 15px; }
 .shopping-cart-totals .checkout-types li { clear:both;  margin:10px 0; }
 
-/*tax details */
-.tax-total td { padding-bottom:5px; /* background:#e4eaec; */ }
-.tax-total div { float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 5px; cursor:pointer; }
-.show-details div {background-position:0 -51px;}
-.show-details td{border-top:1px solid #d2d8db;}
+/* Tax details */
+.tax-total { cursor:pointer; }
+.tax-total td { padding-top:3px !important; padding-bottom:3px !important; line-height:13px; /* background:#e4eaec; */ }
+.tax-total div { float:right; padding-left:20px; background:url(../images/bg_collapse.gif) no-repeat 0 2px; cursor:pointer; }
+.show-details div { background-position:0 -55px; }
+.show-details td{ border-top:1px solid #d2d8db; }
 .tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }
-.tax-details.first td{ border-top:1px solid #d2d8db;padding-top:2px;}
-
+.tax-details.first td { border-top:1px solid #d2d8db; padding-top:2px; }
 
 
 
@@ -1162,9 +1166,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .payment-methods dd { padding:0; }
 .one-page-checkout .button-set { margin-top:0; padding-top:2em; }
 .one-page-checkout ul.super-product-attributes { padding-left:15px; }
-
-.one-page-checkout  .tax-total div {float:right; padding-left: 20px; background:url(../images/bg_collapse.gif) no-repeat 0 4px; cursor:pointer;}
-.one-page-checkout  .show-details div {background-position:0 -53px;}
 
 
 .checkout-progress { margin:0 auto 1.5em auto;}
@@ -1535,7 +1536,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 
 /********************** Pop up pages */
-.page-popup { background:#fff; margin:25px 30px; text-align:left;}
+.page-popup { background:#fff; margin:25px 30px; text-align:left; }
 .product-gallery-nav { padding:0 5px; }
 
 

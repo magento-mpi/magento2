@@ -70,11 +70,11 @@
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                     <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:
                 <?php endif; ?>
-                <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong>
+                <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong><br />
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <br /><?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($this->getItem())); ?></strong>
             <?php endif; ?>
@@ -84,16 +84,16 @@
         <?php if (($_item->getParentItem() && $this->isShipmentSeparately())
             || (!$_item->getParentItem() && !$this->isShipmentSeparately())): ?>
             <?php if ($_item->getQtyOrdered() > 0): ?>
-                <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong>
+                <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyShipped() > 0): ?>
-                <br /><?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong>
+                <?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyCanceled() > 0): ?>
-                <br /><?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong>
+                <?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyRefunded() > 0): ?>
-                <br /><?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
+                <?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
             <?php endif; ?>
         <?php endif; ?>
     </td>
@@ -103,11 +103,11 @@
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                     <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:
                 <?php endif; ?>
-                <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong>
+                <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong><br />
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <br /><?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></strong>
             <?php endif; ?>
