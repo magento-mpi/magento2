@@ -60,7 +60,7 @@
 <?php  endif; ?>
 </table>
 <h4><?php echo $this->__('Items Shipped') ?></h4>
-<table cellspacing="0" class="data-table" id="my-orders-table-<?php echo $_shipment->getId(); ?>">
+<table cellspacing="0" class="data-table data-bundle" id="my-orders-table-<?php echo $_shipment->getId(); ?>">
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
@@ -68,18 +68,15 @@
             <th class="a-center" width="15%"><?php echo $this->__('Qty Shipped') ?></th>
         </tr>
     </thead>
-    <tbody>
         <?php $_items = $_shipment->getAllItems(); ?>
         <?php $_count = count($_items) ?>
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
-        <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-row-<?php echo $_item->getId() ?>">
-            <td><?php echo $this->getItemHtml($_item->getOrderItem()) ?></td>
-            <td><?php echo $_item->getSku() ?></td>
-            <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
-        </tr>
-        <?php endforeach; ?>
+    <?php if ($_item->getOrderItem()->getParentItem()) continue; else $_index++ ?>
+    <tbody class="<?php echo ($_index%2 ? 'even' : 'odd') ?>">
+        <?php echo $this->getItemHtml($_item) ?>
     </tbody>
+        <?php endforeach; ?>
 </table>
 <script type="text/javascript">decorateTable('my-orders-table-<?php echo $_shipment->getId(); ?>')</script>
 <?php endforeach; ?>

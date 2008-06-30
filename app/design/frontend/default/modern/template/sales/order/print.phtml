@@ -50,7 +50,7 @@
 </div>
 <br />
 <h4><?php echo $this->__('Items Ordered') ?></h4>
-<table cellspacing="0" class="data-table">
+<table cellspacing="0" class="data-table print">
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
@@ -60,68 +60,25 @@
             <th class="a-right last" width="20%"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
-    <tbody>
         <?php $_items = $_order->getItemsCollection(); ?>
         <?php $_count = $_items->count(); ?>
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
-            <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?>>
-                <td><?php echo $this->getItemHtml($_item) ?></td>
-                <td><?php echo $_item->getSku() ?></td>
+    <?php if ($_item->getParentItem()) continue; else $_index++ ?>
+    <tbody class="<?php echo $_index%2 ? 'even' : 'odd' ?>">
+        <?php echo $this->getItemHtml($_item) ?>
 
-                <td class="a-right">
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->__('Excl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($_item->getPrice()) ?></strong>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br /><?php echo $this->__('Incl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></strong>
-                    <?php endif; ?>
-                </td>
-                        <td class="a-right">
-                            <?php if ($_item->getQtyOrdered() > 0): ?>
-                                <?php echo $this->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong>
-                            <?php endif; ?>
-                            <?php if ($_item->getQtyShipped() > 0): ?>
-                                <br /><?php echo $this->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong>
-                            <?php endif; ?>
-                            <?php if ($_item->getQtyCanceled() > 0): ?>
-                                <br /><?php echo $this->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong>
-                            <?php endif; ?>
-                            <?php if ($_item->getQtyRefunded() > 0): ?>
-                                <br /><?php echo $this->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
-                            <?php endif; ?>
-                        </td>
-                <td class="a-right">
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->__('Excl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($_item->getRowTotal()) ?></strong>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br /><?php echo $this->__('Incl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></strong>
-                    <?php endif; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
     </tbody>
+        <?php endforeach; ?>
+    <?php $colspan = 4; ?>
     <tfoot>
         <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
+            <td colspan="<?php echo $colspan; ?> " class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
         </tr>
         <?php if ($_order->getDiscountAmount() > 0): ?>
         <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Discount :') ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Discount :') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
         </tr>
         <?php endif; ?>
@@ -130,12 +87,12 @@
         <?php endif; ?>
         <?php if (!$_order->getIsVirtual() && ($_order->getShippingAmount()*1 || $_order->getShippingDescription())): ?>
         <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
         </tr>
         <?php endif; ?>
         <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Grand Total') ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
         </tr>
     </tfoot>

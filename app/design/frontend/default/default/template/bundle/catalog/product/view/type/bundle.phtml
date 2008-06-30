@@ -50,7 +50,7 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
 
-    <?php if ($this->helper('tax')->displayBothPrices() && $_finalPriceInclTax != $_finalPrice): ?>
+    <?php if ($this->helper('tax')->displayBothPrices()): ?>
         <span class="price-excluding-tax">
             <span class="label"><?php echo $this->__('Excl. Tax:') ?></span>
             <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>">

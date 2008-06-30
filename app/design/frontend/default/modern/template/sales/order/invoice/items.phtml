@@ -26,7 +26,7 @@
     <h3><?php echo $this->__('Invoice #') ?><?php echo $_invoice->getIncrementId(); ?></h3>
     <a href="<?php echo $this->getPrintInvoiceUrl($_invoice) ?>" target="_blank"><?php echo $this->__('Print Invoice') ?></a>
 </div>
-<h4><?php echo $this->__('Items Invoiced') ?></h4><table cellspacing="0" class="data-table" id="my-orders-table-<?php echo $_invoice->getId(); ?>">
+<h4><?php echo $this->__('Items Invoiced') ?></h4><table cellspacing="0" class="data-table data-bundle" id="my-orders-table-<?php echo $_invoice->getId(); ?>">
     <col />
     <col width="15%" />
     <col width="10%" />
@@ -40,46 +40,15 @@
             <th class="a-center" width="15%"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
-    <tbody>
         <?php $_items = $_invoice->getAllItems(); ?>
         <?php $_count = count($_items) ?>
         <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
-            <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-row-<?php echo $_item->getId() ?>">
-                <td><?php echo $this->getItemHtml($_item->getOrderItem()) ?></td>
-                <td><?php echo $_item->getSku() ?></td>
-                <td class="a-right">
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->__('Excl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($_item->getPrice()) ?></strong>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br /><?php echo $this->__('Incl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></strong>
-                    <?php endif; ?>
-                </td>
-                <td class="a-center"><?php echo $_item->getQty()*1 ?> </td>
-                <td class="a-right">
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <?php echo $this->__('Excl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($_item->getRowTotal()) ?></strong>
-                    <?php endif; ?>
-                    <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                            <br /><?php echo $this->__('Incl. Tax'); ?>:
-                        <?php endif; ?>
-                        <strong><?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></strong>
-                    <?php endif; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
+    <?php if ($_item->getOrderItem()->getParentItem()) continue; else $_index++ ?>
+    <tbody class="<?php echo ($_index%2 ? 'even' : 'odd') ?>">
+        <?php echo $this->getItemHtml($_item) ?>
     </tbody>
+        <?php endforeach; ?>
     <tfoot>
         <tr>
             <td colspan="4" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
