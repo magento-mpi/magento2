@@ -579,7 +579,8 @@ ShippingMethod.prototype = {
         }
 
         if (response.update_section) {
-            $('checkout-'+response.update_section.name+'-load').innerHTML = response.update_section.html;
+            $('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
+            response.update_section.html.evalScripts();
         }
         if (response.goto_section) {
             checkout.gotoSection(response.goto_section);
