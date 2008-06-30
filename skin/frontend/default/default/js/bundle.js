@@ -65,8 +65,12 @@ Product.Bundle.prototype = {
             return 0;
         }
 
-        if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
-            qty = $('bundle-option-' + optionId + '-qty-input').value;
+        if (this.config.options[optionId].selections[selectionId].customQty == 1 && this.config['options'][optionId].isMulti) {
+            if ($('bundle-option-' + optionId + '-qty-input')) {
+                qty = $('bundle-option-' + optionId + '-qty-input').value;
+            } else {
+                qty = 1;
+            }
         } else {
             qty = this.config.options[optionId].selections[selectionId].qty;
         }

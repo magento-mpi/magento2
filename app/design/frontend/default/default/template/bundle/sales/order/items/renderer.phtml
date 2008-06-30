@@ -85,7 +85,8 @@
         <?php endif; ?>
     </td>
     <td class="a-right nowrap">
-        <?php if (!$_item->getParentItem()): ?>
+        <?php if (($_item->getParentItem() && $this->isChildCalculated()) ||
+                (!$_item->getParentItem() && !$this->isChildCalculated())): ?>
             <?php if ($_item->getQtyOrdered() > 0): ?>
                 <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong><br />
             <?php endif; ?>
