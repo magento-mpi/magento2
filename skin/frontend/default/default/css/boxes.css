@@ -329,7 +329,7 @@ table.pager td {
     padding:4px 8px;
     vertical-align:middle;
     }
-table.pager td.pages { padding:4px 0; white-space:nowrap; }
+table.pager td.pages { padding:4px 0; white-space:nowrap; text-align:center; }
 table.pager ol, table.pager li {
     display:inline;
     }
@@ -615,62 +615,42 @@ h1#logo {
 
 
 
-/********************** Prices */
-.price-box {
-    padding:5px 0 10px;
-    }
-.regular-price {
-    color:#c76200;
-    font-size:13px;
-    font-weight:bold;
-    }
-.old-price {
-    color:#999;
-    font-size:12px;
-    display:block;
-    }
-.old-price .price {
-    text-decoration:line-through;
-    white-space:nowrap;
-    }
+/************************** Prices */
+.price-box { padding:5px 0 10px; }
+.regular-price { font-size:13px; font-weight:bold; color:#c76200; }
+.old-price { display:block; font-size:12px; color:#999; }
+.old-price .price { text-decoration:line-through; white-space:nowrap; }
 
-/*Special price*/
-.special-price {
-    color:#cd5033;
-    font-weight:bold;
-    display:block;
-    }
-.special-price .label { font-weight:bold;  font-size:13px;}
-.special-price .price { white-space:nowrap; font-weight:bold; font-size:13px; }
+/* Special price */
+.special-price { display:block; font-weight:bold; color:#cd5033; }
+.special-price .label { font-size:13px; font-weight:bold; }
+.special-price .price { font-size:13px; font-weight:bold; white-space:nowrap; }
 
-/*minimal price (as low as) */
-.minimal-price {
-    font-size:12px;
-    font-weight:normal;
-    display:block; padding:5px 0 0;
-    }
-.minimal-price .label { font-weight:normal; }
-.minimal-price .price { white-space:nowrap; }
+/* Minimal price (as low as) */
+.minimal-price { display:block; }
+.minimal-price .label { font-size:12px; /*font-weight:bold; color:#222;*/ }
+.minimal-price .price { font-size:13px; font-weight:bold; color:#c76200; }
 
-/*including tax*/
-.price-including-tax {display:block;}
-.price-including-tax .price {
-    color:#c76200;
-    font-size:13px;
-    }
+/* Including tax */
+.price-including-tax { display:block; color:#999; }
+.price-including-tax .label { font-size:12px; color:#999; }
+.price-including-tax .price { font-size:13px; font-weight:bold; color:#c76200; }
 
-.price-including-tax .label {  font-weight:normal; font-size:12px; color:#999;}
-.price-including-tax .price { white-space:nowrap; font-weight:bold; }
+/* Excluding tax */
+.price-excluding-tax  { display:block; color:#999; }
+.price-excluding-tax .label { font-size:12px; color:#999; }
+.price-excluding-tax .price { font-size:13px; font-weight:normal; color:#c76200; }
 
-/*excluding tax*/
-.price-excluding-tax  {display:block;}
-.price-excluding-tax .price {
-    color:#c76200;
-    font-size:13px;
-    }
+/* Price range */
+.price-from { display:block; }
+.price-from .label { font-size:12px; font-weight:bold; color:#222; }
+.price-from .price { font-size:13px; font-weight:bold; color:#c76200; }
 
-.price-excluding-tax .label { font-weight:normal; font-size:12px; color:#999; }
-.price-excluding-tax .price { white-space:nowrap; font-weight:normal; }
+.price-to { display:block; }
+.price-to .label { font-size:12px; font-weight:bold; color:#222; }
+.price-to .price { font-size:13px; font-weight:bold; color:#c76200; }
+
+
 
 /********************** Generic Box */
 .generic-box {
@@ -1066,7 +1046,7 @@ td.attributes-col p.pname a{ font-weight:bold;}
     background:#DEE5E8;
     text-align:right;
     }
-.shopping-cart-totals table { width:100%; margin-top:7px; }
+.shopping-cart-totals table { width:100%; margin:7px 0; }
 .shopping-cart-totals td { padding:0 15px; }
 .shopping-cart-totals tr.last td {}
 .shopping-cart-totals tfoot td {
@@ -1074,7 +1054,7 @@ td.attributes-col p.pname a{ font-weight:bold;}
     font-size:1.3em;
     border:none!important;
     }
-.shopping-cart-totals .checkout-types { margin:15px; }
+.shopping-cart-totals .checkout-types { padding:8px 15px 15px; }
 .shopping-cart-totals .checkout-types li { clear:both;  margin:10px 0; }
 
 /*tax details */

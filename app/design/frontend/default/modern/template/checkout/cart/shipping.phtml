@@ -39,7 +39,7 @@
     <li><label for="postcode"><?php echo $this->__('Zip/Postal Code') ?></label><br/>
     <input  class="input-text" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>" /></li>
   </ul>
-    <p><a href="#" onclick="coShippingMethodForm.submit()"><img src="<?php echo $this->getSkinUrl('images/btn_cart_get_a_quote.gif') ?>" alt="<?php echo $this->__('Get a Quote') ?>"/></a></p>
+    <p><a href="#" onclick="coShippingMethodForm.submit(); return false;"><img src="<?php echo $this->getSkinUrl('images/btn_cart_get_a_quote.gif') ?>" alt="<?php echo $this->__('Get a Quote') ?>"/></a></p>
        <script type="text/javascript">
            $('region_id').setAttribute('defaultValue', "<?php echo $this->getEstimateRegionId() ?>");
        </script>
