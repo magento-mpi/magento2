@@ -60,7 +60,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Catalog_Block_Product_A
 
     public function getEscapedDescription(Varien_Object $item)
     {
-        return $this->htmlEscape($item->getDescription());
+        return $this->htmlEscape($item->getWishlistItemDescription());
     }
 
     public function getFormatedDate($date)
