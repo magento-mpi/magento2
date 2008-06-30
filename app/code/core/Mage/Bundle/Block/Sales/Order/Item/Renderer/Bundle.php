@@ -46,4 +46,12 @@ class Mage_Bundle_Block_Sales_Order_Item_Renderer_Bundle extends Mage_Sales_Bloc
         return array();
     }
 
+    public function getValueHtml($value)
+    {
+        if (is_array($value)) {
+            return sprintf('%d', $value['qty']) . ' x ' . $this->htmlEscape($value['title']) . " " . $this->getItem()->getOrder()->formatPrice($value['price']);
+        } else {
+            return $this->htmlEscape($value);
+        }
+    }
 }

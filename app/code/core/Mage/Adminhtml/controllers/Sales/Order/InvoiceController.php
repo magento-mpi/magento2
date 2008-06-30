@@ -48,7 +48,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
      *
      * @return Mage_Sales_Model_Order_Invoice
      */
-    protected function _initInvoice()
+    protected function _initInvoice($update = false)
     {
         $invoice = false;
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
@@ -76,25 +76,28 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
             $savedQtys = $this->_getItemQtys();
             foreach ($order->getAllItems() as $orderItem) {
-                if ($orderItem->getParentItem()) {
-                    continue;
-                }
-                if (!$orderItem->getQtyToInvoice()) {
+
+                if (!$orderItem->isDummy() && !$orderItem->getQtyToInvoice()) {
                     continue;
                 }
 
-                $items = $convertor->itemToInvoiceItem($orderItem);
-
-                foreach ($items as $item) {
-                    if (isset($savedQtys[$item->getOrderItemId()])) {
-                        $qty = $savedQtys[$item->getOrderItemId()];
-                    }
-                    else {
-                        $qty = $item->getOrderItem()->getQtyToInvoice();
-                    }
-                    $item->setQty($qty);
-                    $invoice->addItem($item);
+                if (!$update && $orderItem->isDummy() && !empty($savedQtys) && !$this->_needToAddDummy($orderItem, $savedQtys)) {
+                    continue;
                 }
+                $item = $convertor->itemToInvoiceItem($orderItem);
+
+                if (isset($savedQtys[$orderItem->getId()])) {
+                    $qty = $savedQtys[$orderItem->getId()];
+                }
+                else {
+                    if ($orderItem->isDummy()) {
+                        $qty = 1;
+                    } else {
+                        $qty = $orderItem->getQtyToInvoice();
+                    }
+                }
+                $item->setQty($qty);
+                $invoice->addItem($item);
             }
             $invoice->collectTotals();
         }
@@ -194,7 +197,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     public function updateQtyAction()
     {
         try {
-            $invoice = $this->_initInvoice();
+            $invoice = $this->_initInvoice(true);
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('order_items')->toHtml();
         }
@@ -393,4 +396,30 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
         }
         $this->getResponse()->setBody($response);
     }
+
+    /**
+     * Decides if we need to create dummy invoice item or not
+     * for eaxample we don't need create dummy parent if all
+     * children are not in process
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @param array $qtys
+     * @return bool
+     */
+    protected function _needToAddDummy($item, $qtys) {
+        if ($item->getHasChildren()) {
+            foreach ($item->getChildrenItems() as $child) {
+                if (isset($qtys[$child->getId()]) && $qtys[$child->getId()] > 0) {
+                    return true;
+                }
+            }
+            return false;
+        } else if($item->getParentItem()) {
+            if (isset($qtys[$item->getParentItem()->getId()]) && $qtys[$item->getParentItem()->getId()] > 0) {
+                return true;
+            }
+            return false;
+        }
+    }
+
 }

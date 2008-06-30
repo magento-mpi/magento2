@@ -70,30 +70,39 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
 
             $convertor  = Mage::getModel('sales/convert_order');
             $shipment    = $convertor->toShipment($order);
-
             $savedQtys = $this->_getItemQtys();
             foreach ($order->getAllItems() as $orderItem) {
-                if (!$orderItem->getQtyToShip()) {
+                if (!$orderItem->isDummy(true) && !$orderItem->getQtyToShip()) {
                     continue;
                 }
+
+                if ($orderItem->isDummy(true) && !$this->_needToAddDummy($orderItem, $savedQtys)) {
+                    continue;
+                }
+
                 if ($orderItem->getIsVirtual()) {
                     continue;
                 }
+
                 $item = $convertor->itemToShipmentItem($orderItem);
                 if (isset($savedQtys[$orderItem->getId()])) {
                     $qty = $savedQtys[$orderItem->getId()];
                 }
                 else {
-                    $qty = $orderItem->getQtyToShip();
+                    if ($orderItem->isDummy(true)) {
+                        $qty = 1;
+                    } else {
+                        $qty = $orderItem->getQtyToShip();
+                    }
                 }
                 $item->setQty($qty);
-            	$shipment->addItem($item);
+                $shipment->addItem($item);
             }
 
             if ($tracks = $this->getRequest()->getPost('tracking')) {
                 foreach ($tracks as $data) {
-                	$track = Mage::getModel('sales/order_shipment_track')
-                	   ->addData($data);
+                    $track = Mage::getModel('sales/order_shipment_track')
+                    ->addData($data);
                     $shipment->addTrack($track);
                 }
             }
@@ -387,4 +396,29 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         $this->getResponse()->setBody($response);
     }
 
+    /**
+     * Decides if we need to create dummy invoice item or not
+     * for eaxample we don't need create dummy parent if all
+     * children are not in process
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @param array $qtys
+     * @return bool
+     */
+    protected function _needToAddDummy($item, $qtys) {
+        if ($item->getHasChildren()) {
+            foreach ($item->getChildrenItems() as $child) {
+                if ((isset($qtys[$child->getId()]) && $qtys[$child->getId()] > 0) || $child->getQtyToShip()) {
+                    return true;
+                }
+            }
+            return false;
+        } else if($item->getParentItem()) {
+            if ((isset($qtys[$item->getParentItem()->getId()]) && $qtys[$item->getParentItem()->getId()] > 0)
+                || $item->getParentItem()->getQtyToShip()) {
+                return true;
+            }
+            return false;
+        }
+    }
 }

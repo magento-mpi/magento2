@@ -133,7 +133,9 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
         foreach ($this->getAllItems() as $item) {
             if ($item->getQty()>0) {
                 $item->register();
-                $totalQty+= $item->getQty();
+                if (!$item->getOrderItem()->isDummy(true)) {
+                    $totalQty+= $item->getQty();
+                }
             }
             else {
                 $item->isDeleted(true);

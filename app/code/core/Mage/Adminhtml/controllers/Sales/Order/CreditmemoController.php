@@ -64,7 +64,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
      *
      * @return Mage_Sales_Model_Order_Creditmemo
      */
-    protected function _initCreditmemo()
+    protected function _initCreditmemo($update = false)
     {
         $creditmemo = false;
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
@@ -95,15 +95,35 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             if ($invoice && $invoice->getId()) {
                 foreach ($invoice->getAllItems() as $invoiceItem) {
                     $orderItem = $invoiceItem->getOrderItem();
-                    if (!$orderItem->getQtyToRefund()) {
+
+                    if (!$orderItem->isDummy() && !$orderItem->getQtyToRefund()) {
                         continue;
                     }
+
+                    if (!$update && $orderItem->isDummy() && !empty($savedData) && !$this->_needToAddDummy($orderItem, $savedData)) {
+                        continue;
+                    }
+
                     $item = $convertor->itemToCreditmemoItem($orderItem);
                     if (isset($savedData[$orderItem->getId()]['qty'])) {
                         $qty = $savedData[$orderItem->getId()]['qty'];
                     }
                     else {
-                        $qty = min($orderItem->getQtyToRefund(), $invoiceItem->getQty());
+                        if ($orderItem->isDummy()) {
+                            if ($orderItem->getParentItem() && isset($savedData[$orderItem->getParentItem()->getId()]['qty'])) {
+                                $parentItemNewQty = $savedData[$orderItem->getParentItem()->getId()]['qty'];
+                                $parentItemOrigQty = $orderItem->getParentItem()->getQtyOrdered();
+                                $itemOrigQty = $orderItem->getQtyOrdered()/$parentItemOrigQty;
+                                $qty = $itemOrigQty*$parentItemNewQty;
+                                if (isset($savedData[$orderItem->getParentItem()->getId()]['back_to_stock'])) {
+                                    $savedData[$orderItem->getId()]['back_to_stock'] = 1;
+                                }
+                            } else {
+                                $qty = 1;
+                            }
+                        } else {
+                            $qty = min($orderItem->getQtyToRefund(), $invoiceItem->getQty());
+                        }
                     }
                     $item->setQty($qty);
                     $item->setBackToStock(isset($savedData[$orderItem->getId()]['back_to_stock']));
@@ -111,15 +131,35 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 }
             } else {
                 foreach ($order->getAllItems() as $orderItem) {
-                    if (!$orderItem->getQtyToRefund()) {
+
+                    if (!$orderItem->isDummy() && !$orderItem->getQtyToRefund()) {
                         continue;
                     }
+
+                    if (!$update && $orderItem->isDummy() && !empty($savedData) && !$this->_needToAddDummy($orderItem, $savedData)) {
+                        continue;
+                    }
+
                     $item = $convertor->itemToCreditmemoItem($orderItem);
                     if (isset($savedData[$orderItem->getId()]['qty'])) {
                         $qty = $savedData[$orderItem->getId()]['qty'];
                     }
                     else {
-                        $qty = $orderItem->getQtyToRefund();
+                        if ($orderItem->isDummy()) {
+                            if ($orderItem->getParentItem() && isset($savedData[$orderItem->getParentItem()->getId()]['qty'])) {
+                                $parentItemNewQty = $savedData[$orderItem->getParentItem()->getId()]['qty'];
+                                $parentItemOrigQty = $orderItem->getParentItem()->getQtyOrdered();
+                                $itemOrigQty = $orderItem->getQtyOrdered()/$parentItemOrigQty;
+                                $qty = $itemOrigQty*$parentItemNewQty;
+                                if (isset($savedData[$orderItem->getParentItem()->getId()]['back_to_stock'])) {
+                                    $savedData[$orderItem->getId()]['back_to_stock'] = 1;
+                                }
+                            } else {
+                                $qty = 1;
+                            }
+                        } else {
+                            $qty = $orderItem->getQtyToRefund();
+                        }
                     }
                     $item->setQty($qty);
                     $item->setBackToStock(isset($savedData[$orderItem->getId()]['back_to_stock']));
@@ -209,7 +249,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     public function updateQtyAction()
     {
         try {
-            $creditmemo = $this->_initCreditmemo();
+            $creditmemo = $this->_initCreditmemo(true);
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('order_items')->toHtml();
         }
@@ -364,5 +404,30 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $response = Zend_Json::encode($response);
         }
         $this->getResponse()->setBody($response);
+    }
+
+    /**
+     * Decides if we need to create dummy invoice item or not
+     * for eaxample we don't need create dummy parent if all
+     * children are not in process
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @param array $qtys
+     * @return bool
+     */
+    protected function _needToAddDummy($item, $qtys) {
+        if ($item->getHasChildren()) {
+            foreach ($item->getChildrenItems() as $child) {
+                if (isset($qtys[$child->getId()]) && $qtys[$child->getId()]['qty'] > 0) {
+                    return true;
+                }
+            }
+            return false;
+        } else if($item->getParentItem()) {
+            if (isset($qtys[$item->getParentItem()->getId()]) && $qtys[$item->getParentItem()->getId()]['qty'] > 0) {
+                return true;
+            }
+            return false;
+        }
     }
 }
