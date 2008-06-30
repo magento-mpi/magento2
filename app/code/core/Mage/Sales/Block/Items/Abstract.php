@@ -61,6 +61,7 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
             'template'  => $template,
             'renderer'  => null
         );
+
         return $this;
     }
 
@@ -75,6 +76,7 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
         if (!isset($this->_itemRenders[$type])) {
             $type = 'default';
         }
+
         if (is_null($this->_itemRenders[$type]['renderer'])) {
             $this->_itemRenders[$type]['renderer'] = $this->getLayout()
                 ->createBlock($this->_itemRenders[$type]['block'])
@@ -102,7 +104,13 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
      */
     public function getItemHtml(Varien_Object $item)
     {
-        $block = $this->getItemRenderer($item->getProductType())
+        if ($item->getOrderItem()) {
+            $type = $item->getOrderItem()->getProductType();
+        } else {
+            $type = $item->getProductType();
+        }
+
+        $block = $this->getItemRenderer($type)
             ->setItem($item);
         $this->_prepareItem($block);
         return $block->toHtml();
