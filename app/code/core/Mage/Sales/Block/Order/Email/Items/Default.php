@@ -41,7 +41,7 @@ class Mage_Sales_Block_Order_Email_Items_Default extends Mage_Core_Block_Templat
     public function getItemOptions()
     {
         $result = array();
-        if ($options = $this->getItem()->getProductOptions()) {
+        if ($options = $this->getItem()->getOrderItem()->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
             }
