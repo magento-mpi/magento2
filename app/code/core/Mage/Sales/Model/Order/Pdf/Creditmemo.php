@@ -74,6 +74,10 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
             /* Add body */
             foreach ($creditmemo->getAllItems() as $item){
+                if ($item->getOrderItem()->getParentItem()) {
+                    continue;
+                }
+
                 $shift = array();
                 if ($this->y<20) {
                     /* Add new table head */

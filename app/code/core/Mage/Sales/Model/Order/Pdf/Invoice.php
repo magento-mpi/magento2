@@ -78,6 +78,10 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
             /* Add body */
             foreach ($invoice->getAllItems() as $item){
+                if ($item->getOrderItem()->getParentItem()) {
+                    continue;
+                }
+
                 $shift = array();
                 if ($this->y<15) {
                     /* Add new table head */

@@ -75,6 +75,10 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
 
             /* Add body */
             foreach ($shipment->getAllItems() as $item){
+                if ($item->getOrderItem()->getParentItem()) {
+                    continue;
+                }
+
                 $shift = 10;
                 $shift = array();
                 if ($this->y<15) {

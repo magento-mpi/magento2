@@ -98,6 +98,17 @@
                 </item>
             </quote>
         </sales>
+        <pdf>
+            <invoice>
+                <bundle>bundle/sales_order_pdf_items_invoice</bundle>
+            </invoice>
+            <shipment>
+                <bundle>bundle/sales_order_pdf_items_shipment</bundle>
+            </shipment>
+            <creditmemo>
+                <bundle>bundle/sales_order_pdf_items_creditmemo</bundle>
+            </creditmemo>
+        </pdf>
     </global>
     <frontend>
         <routers>

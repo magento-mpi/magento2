@@ -413,7 +413,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function _drawItem(Varien_Object $item, Zend_Pdf_Page $page, Mage_Sales_Model_Order $order)
     {
-        $type = $item->getProductType();
+        $type = $item->getOrderItem()->getProductType();
         $renderer = $this->_getRenderer($type);
         $renderer->setOrder($order);
         $renderer->setItem($item);
