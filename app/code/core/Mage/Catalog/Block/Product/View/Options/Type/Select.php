@@ -75,7 +75,9 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
                     $class = 'form-radio';
-                    $selectHtml .= '<label for="options_'.$_option->getId().'"><input type="radio" class="form-radio" name="__none__options['.$_option->getId().']" value="" />' . $this->__('None') . '</label>';
+                    if (!$_option->getIsRequire()) {
+                        $selectHtml .= '<label for="options_'.$_option->getId().'"><input type="radio" class="form-radio" name="options['.$_option->getId().']" value="" checked="checked" />' . $this->__('None') . '</label>';
+                    }
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
