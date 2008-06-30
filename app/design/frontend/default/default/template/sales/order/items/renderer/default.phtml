@@ -56,7 +56,7 @@
             <?php echo $this->__('Ordered'); ?>: <strong><?php echo $this->getItem()->getQtyOrdered()*1 ?></strong><br />
         <?php endif; ?>
         <?php if ($this->getItem()->getQtyShipped() > 0): ?>
-            <?php echo $this->__('Shipped'); ?>: <strong><?php echo $this->getItem()->getQtyShipped()*1 ?></strong>
+            <?php echo $this->__('Shipped'); ?>: <strong><?php echo $this->getItem()->getQtyShipped()*1 ?></strong><br />
         <?php endif; ?>
         <?php if ($this->getItem()->getQtyCanceled() > 0): ?>
             <?php echo $this->__('Canceled'); ?>: <strong><?php echo $this->getItem()->getQtyCanceled()*1 ?></strong><br />

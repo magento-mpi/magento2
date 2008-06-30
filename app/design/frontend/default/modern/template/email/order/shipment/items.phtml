@@ -29,11 +29,13 @@
             <th align="center" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo $this->__('Qty') ?></th>
         </tr>
     </thead>
-    <tbody>
-    <?php $i=0; foreach ($_shipment->getAllItems() as $_item): $i++ ?>
-        <?php $_item->setRowIndex($i%2); ?>
+
+    <?php $i=0; foreach ($_shipment->getAllItems() as $_item): ?>
+    <?php if($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
+    <tbody <?php echo $i%2 ? 'bgcolor="#eeeded"' : '' ?>>
         <?php echo $this->getItemHtml($_item) ?>
-    <?php endforeach ?>
     </tbody>
+    <?php endforeach; ?>
+
 </table>
 <?php endif; ?>
