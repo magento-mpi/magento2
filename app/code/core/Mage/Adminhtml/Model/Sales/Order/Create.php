@@ -778,7 +778,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if ($flag) {
             $tmpAddress = clone $this->getBillingAddress();
-            $tmpAddress->unsEntityId()
+            $tmpAddress->unsAddressId()
                 ->unsAddressType();
             $this->getShippingAddress()->addData($tmpAddress->getData());
         }
