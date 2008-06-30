@@ -97,4 +97,12 @@ class Mage_Sales_Model_Quote_Address_Item extends Mage_Sales_Model_Quote_Item_Ab
         $this->setQuoteItemImported(true);
         return $this;
     }
+    
+    public function getOptionBycode($code)
+    {
+        if ($this->getQuoteItem()) {
+        	return $this->getQuoteItem()->getOptionBycode($code);
+        }
+        return null;
+    }
 }
