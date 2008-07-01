@@ -423,6 +423,12 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         return $this;
     }
 
+    /**
+     * Checking if there children calculated or parent item
+     * when we have parent quote item and its children
+     *
+     * @return bool
+     */
     public function isChildrenCalculated() {
         if ($this->getParentItem()) {
             if ($option = $this->getParentItem()->getOptionByCode('product_calculations')) {
@@ -444,6 +450,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         return false;
     }
 
+
+    /**
+     * Checking can we ship product separatelly (each child separately)
+     * or each parent product item can be shipped only like one item
+     *
+     * @return bool
+     */
     public function isShipSeparately() {
         if ($this->getParentItem()) {
             if ($option = $this->getParentItem()->getOptionByCode('shipment_type')) {
