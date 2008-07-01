@@ -112,7 +112,7 @@
                 <div class="product-pricing">
                     <ul class="bare">
                     <?php foreach($_prices=$_product->getFormatedTierPrice() as $_price): ?>
-                        <li><?php echo $this->__('Buy %s for %s each', $_price['price_qty'], $_price['price']) ?></li>
+                        <li><?php echo $this->__('Buy %s for %s each', '<span style="font-weight:bold">'.$_price['price_qty'].'</span>', $_price['price']) ?></li>
                     <?php endforeach ?>
                     </ul>
                 </div>
