@@ -104,9 +104,9 @@
                     <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPriceInclTax): ?>
                             <?php if ($this->helper('tax')->displayBothPrices() && $_tierPrice['formated_price'] != $_tierPrice['formated_price_incl_tax']): ?>
-                                <span class="nobr"><?php echo $this->__('Buy %s for %s (%s incl. tax) each', $_tierPrice['price_qty'], $_tierPrice['formated_price'], $_tierPrice['formated_price_incl_tax']) ?></span>
+                                <?php echo $this->__('Buy %s for %s each', $_tierPrice['price_qty'], $_tierPrice['formated_price']) ?><br /><?php echo $this->__('(%s incl. tax)', $_tierPrice['formated_price_incl_tax']) ?>
                             <?php else: ?>
-                                <span class="nobr"><?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?></span>
+                                <?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>

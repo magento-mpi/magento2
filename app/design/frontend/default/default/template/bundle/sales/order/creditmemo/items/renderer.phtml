@@ -132,7 +132,7 @@
         <?php if($_options = $this->getItemOptions()): ?>
         <ul class="item-options-bundle">
         <?php foreach ($_options as $_option): ?>
-            <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong><br />
+            <li><strong><?php echo $this->htmlEscape($_option['label']) ?></strong><br />
                 <?php echo $this->htmlEscape($_option['value']); ?>
             </li>
         <?php endforeach; ?>

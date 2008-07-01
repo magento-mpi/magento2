@@ -19,14 +19,14 @@
  */
 ?>
 <?php  $_order = $this->getOrder() ?>
-<table cellspacing="0" class="data-table data-bundle" id="my-orders-table">
+<table cellspacing="0" class="data-table" id="my-orders-table">
     <thead>
         <tr>
             <th ><?php echo $this->__('Product Name') ?></th>
-            <th width="5%" class="a-center"><?php echo $this->__('SKU') ?></th>
-            <th class="a-center" width="10%"><?php echo $this->__('Price') ?></th>
+            <th width="5%"><?php echo $this->__('SKU') ?></th>
+            <th class="a-right" width="10%"><?php echo $this->__('Price') ?></th>
             <th class="a-center" width="10%"><?php echo $this->__('Qty') ?></th>
-            <th class="a-center" width="10%"><?php echo $this->__('Subtotal') ?></th>
+            <th class="a-right" width="10%"><?php echo $this->__('Subtotal') ?></th>
         </tr>
         <!-- tr>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>

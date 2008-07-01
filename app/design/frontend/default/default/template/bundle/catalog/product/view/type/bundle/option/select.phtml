@@ -23,8 +23,7 @@
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
 <?php $_showSingle = (count($_selections) == 1 && $_option->getRequired()) ?>
-<dt>
-    <label class="left"><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></label>
+<dt><label class="left"><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></label>
     <span class="qty-holder">
         <?php if ($_default = $_option->getDefaultSelection()): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>

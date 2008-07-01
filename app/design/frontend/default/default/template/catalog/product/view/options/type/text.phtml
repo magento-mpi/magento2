@@ -23,7 +23,7 @@
   <?php echo $this->getFormatedPrice() ?></dt>
 <dd>
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
-		<input type="text" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" value="">
+		<input type="text" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" value="" />
 <?php elseif ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA): ?>
 		<textarea id="options_<?php echo $_option->getId() ?>_text" class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]"></textarea>
 <?php endif; ?>

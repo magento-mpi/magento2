@@ -34,7 +34,7 @@
         <?php echo $this->getChildHtml('content') ?>
         <div class="clear"></div>
         <div class="button-set">
-            <button onclick="window.close();" class="form-button"><span><?php echo $this->__('Close Window') ?></span></button>
+          <a href="#" onclick="window.close(); return false;"><img src="<?php echo $this->getSkinUrl('images/btn_close_window.gif') ?>" alt="<?php echo $this->__('Close Window') ?>"/></a>
         </div>
     </body>
 </html>

@@ -26,18 +26,20 @@
     <h3><?php echo $this->__('Invoice #') ?><?php echo $_invoice->getIncrementId(); ?></h3>
     <a href="<?php echo $this->getPrintInvoiceUrl($_invoice) ?>" target="_blank"><?php echo $this->__('Print Invoice') ?></a>
 </div>
-<h4><?php echo $this->__('Items Invoiced') ?></h4><table cellspacing="0" class="data-table data-bundle" id="my-orders-table-<?php echo $_invoice->getId(); ?>">
+<h4><?php echo $this->__('Items Invoiced') ?></h4>
+<table cellspacing="0" class="data-table" id="my-orders-table-<?php echo $_invoice->getId(); ?>">
     <col />
     <col width="15%" />
     <col width="10%" />
-    <col width="20%" />
+    <col width="1" />
+    <col width="10%" />
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
-            <th width="10%" class="a-center"><?php echo $this->__('SKU') ?></th>
-            <th width="10%" class="a-center"><?php echo $this->__('Price') ?></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            <th class="a-right"><?php echo $this->__('Price') ?></th>
             <th class="a-center" width="10%"><?php echo $this->__('Qty Invoiced') ?></th>
-            <th class="a-center" width="15%"><?php echo $this->__('Subtotal') ?></th>
+            <th class="a-right" width="15%"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
     <?php $_items = $_invoice->getAllItems(); ?>
