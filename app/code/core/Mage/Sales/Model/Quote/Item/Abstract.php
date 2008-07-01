@@ -443,4 +443,25 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
         return false;
     }
+
+    public function isShipSeparately() {
+        if ($this->getParentItem()) {
+            if ($option = $this->getParentItem()->getOptionByCode('shipment_type')) {
+                $shipmentType = $option->getValue();
+            } else {
+                return true;
+            }
+        } else {
+            if ($option = $this->getOptionByCode('shipment_type')) {
+                $shipmentType = $option->getValue();
+            } else {
+                return true;
+            }
+        }
+
+        if ($shipmentType == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+            return true;
+        }
+        return false;
+    }
 }

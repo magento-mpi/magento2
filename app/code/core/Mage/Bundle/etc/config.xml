@@ -94,6 +94,7 @@
                         <price_view />
                         <price_type />
                         <shipment_type />
+                        <weight_type />
                     </product_attributes>
                 </item>
             </quote>

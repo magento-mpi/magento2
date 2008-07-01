@@ -85,7 +85,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     $weight += $selection->getWeight();
                 }
             }
-
             return $weight;
         }
     }
@@ -381,7 +380,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             /**
              * Saving Bundle Shipment Type
              */
-            $product->addCustomOption('bundle_shipment_type', $product->getShipmentType());
+            $product->addCustomOption('shipment_type', $product->getShipmentType());
 
             /**
              * Product Prices calculations

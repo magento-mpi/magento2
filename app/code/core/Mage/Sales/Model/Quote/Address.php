@@ -227,15 +227,19 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     {
         $items = array();
         foreach ($this->getAllItems() as $item) {
-        	if (!$item->getParentItemId()) {
-        	    $items[] = $item;
-        	}
+            if (!$item->getParentItemId()) {
+                $items[] = $item;
+            }
         }
         return $items;
     }
 
     public function getItemQty($itemId=0)
     {
+        if ($this->hasData('item_qty')) {
+            return $this->getData('item_qty');
+        }
+
         $qty = 0;
         if ($itemId == 0) {
             foreach ($this->getAllItems() as $item) {
