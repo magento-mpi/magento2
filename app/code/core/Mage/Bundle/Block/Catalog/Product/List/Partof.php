@@ -52,7 +52,7 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
 
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-
+        $collection->getSelect()->group('entity_id');
 
         $collection->load();
         $this->_itemCollection = $collection;
