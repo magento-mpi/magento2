@@ -63,18 +63,18 @@
         <?php endif; ?>
     </td>
     <?php endif; ?>
-    <td class="nowrap"><?php echo $_item->getSku() ?></td>
-    <td class="a-right">
+    <td><?php echo $_item->getSku() ?></td>
+    <td class="a-right nowrap">
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong><br />
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($this->getItem())); ?></strong>
             <?php endif; ?>
@@ -97,17 +97,17 @@
             <?php endif; ?>
         <?php endif; ?>
     </td>
-    <td class="a-right">
+    <td class="a-right nowrap">
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong><br />
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:
+                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></strong>
             <?php endif; ?>

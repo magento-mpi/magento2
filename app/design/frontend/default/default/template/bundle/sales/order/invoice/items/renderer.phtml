@@ -70,13 +70,13 @@
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo $this->__('Excl. Tax'); ?>:
+                    <?php echo $this->__('Excl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($_item->getPrice()) ?></strong><br />
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo $this->__('Incl. Tax'); ?>:
+                    <?php echo $this->__('Incl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></strong>
             <?php endif; ?>
@@ -95,13 +95,13 @@
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo $this->__('Excl. Tax'); ?>:
+                    <?php echo $this->__('Excl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($_item->getRowTotal()) ?></strong><br />
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo $this->__('Incl. Tax'); ?>:
+                    <?php echo $this->__('Incl. Tax'); ?>:<br />
                 <?php endif; ?>
                 <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?></strong>
             <?php endif; ?>

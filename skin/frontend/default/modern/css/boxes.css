@@ -128,7 +128,6 @@ p.required {
     border-width:1px !important;
     padding:4px 12px !important;
     font-weight:bold !important;
-    zoom:1;
     }
 .error-msg li, .success-msg li, .notice-msg li { margin-bottom:.2em; }
 .error-msg {
@@ -1152,7 +1151,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .product-gallery-nav { padding:0 5px; }
 
 
-.cms-home .middle { margin-top:-7px; padding:0 8px 8px 8px; position:relative; zoom:1; }
+.cms-home .middle { margin-top:-7px; padding:0 8px 8px 8px; position:relative; }
 
 
 /************************************************************/

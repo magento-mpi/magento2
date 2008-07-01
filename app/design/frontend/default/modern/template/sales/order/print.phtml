@@ -52,8 +52,8 @@
 <h4><?php echo $this->__('Items Ordered') ?></h4>
 <table cellspacing="0" class="data-table print">
     <col />
-    <col />
-    <col width="10%" />
+    <col width="35%" />
+    <col width="1" />
     <col width="1" />
     <col width="1" />
     <thead>
@@ -65,16 +65,6 @@
             <th class="a-right last"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
-        <?php $_items = $_order->getItemsCollection(); ?>
-        <?php $_count = $_items->count(); ?>
-        <?php $_index = 0; ?>
-        <?php foreach ($_items as $_item): ?>
-    <?php if ($_item->getParentItem()) continue; else $_index++ ?>
-    <tbody class="<?php echo $_index%2 ? 'even' : 'odd' ?>">
-        <?php echo $this->getItemHtml($_item) ?>
-
-    </tbody>
-        <?php endforeach; ?>
     <?php $colspan = 4; ?>
     <tfoot>
         <tr>
@@ -101,5 +91,14 @@
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
         </tr>
     </tfoot>
+        <?php $_items = $_order->getItemsCollection(); ?>
+        <?php $_count = $_items->count(); ?>
+        <?php $_index = 0; ?>
+        <?php foreach ($_items as $_item): ?>
+    <?php if ($_item->getParentItem()) continue; else $_index++ ?>
+    <tbody class="<?php echo $_index%2 ? 'even' : 'odd' ?>">
+        <?php echo $this->getItemHtml($_item) ?>
+    </tbody>
+        <?php endforeach; ?>
 </table>
 <script type="text/javascript">window.print();</script>

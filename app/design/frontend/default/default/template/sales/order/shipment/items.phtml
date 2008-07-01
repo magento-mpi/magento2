@@ -34,7 +34,7 @@
 </div>
 <?php $tracks = $_shipment->getTracksCollection(); ?>
 <?php  if ($tracks->count()): ?>
-<table class="data">
+<table cellspacing="0" class="data">
     <tr>
         <td colspan="2">
             <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByShipId($_shipment->getId()) ?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track this shipment') ?>"><?php echo $this->__('Track this shipment') ?></a>
