@@ -269,6 +269,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     public function prepareForCart(Varien_Object $buyRequest)
     {
         $result = parent::prepareForCart($buyRequest);
+
         if (is_string($result)) {
             return $result;
         }
@@ -286,13 +287,17 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
             $optionIds = array_keys($options);
 
+            if (empty($optionIds)) {
+                return Mage::helper('bundle')->__('Please select options for product.');
+            }
+
             $optionsCollection = $this->getOptionsByIds($optionIds);
-            foreach ($optionsCollection as $option) {
+
+            foreach ($optionsCollection->getItems() as $option) {
                 if ($option->getRequired() && !isset($options[$option->getId()])) {
                     return Mage::helper('bundle')->__('Required options not selected.');
                 }
             }
-
             $selectionIds = array();
 
             foreach ($options as $optionId => $selectionId) {
@@ -308,7 +313,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     }
                 }
             }
-
             $selections = $this->getSelectionsByIds($selectionIds)->getItems();
         } else {
             $product->getTypeInstance()->setStoreFilter($product->getStoreId());
@@ -333,7 +337,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
             }
         }
-
         if (count($selections) > 0) {
 
             $uniqueKey = array($product->getId());
@@ -388,10 +391,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             } else {
                 $product->addCustomOption('product_calculations', self::CALCULATE_CHILD);
             }
-
             return $result;
         }
-
         return Mage::helper('bundle')->__('Please specify the bundle option(s)');
     }
 
