@@ -20,7 +20,7 @@
                 <?php foreach ($rates as $rate): ?>
                 <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' first'; endif; ?>" style="display:none">
                     <td class="a-right" style="<?php echo $this->getTotal()->getStyle() ?>" colspan="<?php echo $this->getColspan(); ?>">
-                        * <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br />
+                        <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br />
                     </td>
 
                     <?php if ($isFirst): ?>

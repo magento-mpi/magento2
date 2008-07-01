@@ -76,6 +76,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         Mage::register('rule_data', new Varien_Object(array(
             'store_id'  => $this->_session->getStore()->getId(),
+            'website_id'  => $this->_session->getStore()->getWebsiteId(),
             'customer_group_id' => $this->getCustomerGroupId(),
         )));
         return $this;
