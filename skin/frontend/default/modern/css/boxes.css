@@ -497,102 +497,40 @@ h1#logo                 { float:left; }
 .ratings small { font-size:11px; }
 
 
-/********************** Prices */
-/* .price-box {
-    margin:6px 0;
-    }
-.regular-price {
-    color:#396f00;
-    font-size:1.2em;
-    font-weight:bold;
-    }
-.old-price {
-    color:#888;
-    text-decoration:line-through;
-    white-space:nowrap;
-    }
-.special-price {
-    color:#c22c0f;
-    font-size:1.2em;
-    font-weight:bold;
-    line-height:1em;
-    }
-.special-price .label { font-weight:normal; }
-.special-price .price { white-space:nowrap; }
+/************************* Prices */
+.price-box { padding:5px 0 10px; }
+.price { white-space:nowrap; }
 
-.minimal-price {
-    color:#e63c00;
-    font-size:1.2em;
-    font-weight:bold;
-    line-height:1em;
-    }
-.minimal-price .label { font-weight:normal; font-size:10px; text-transform:uppercase; }
-.minimal-price .price { white-space:nowrap; }
+.regular-price { color:#396f00; font-size:12px; font-weight:bold; }
 
-.price-including-tax .label { font-weight:normal; font-size:10px; text-transform:uppercase; }
-.price-including-tax .price { white-space:nowrap; } */
+/* Old price */
+.old-price { display:block; color:#888; font-size:12px; }
+.old-price .price { text-decoration:line-through; }
 
+/* Special price */
+.special-price { display:block; color:#396f00; font-weight:bold; }
+.special-price .label { font-size:12px; font-weight:bold; text-transform:uppercase; }
+.special-price .price { font-size:13px; font-weight:bold; }
 
-/********************** Prices */
-.price-box {
-    padding:5px 0 10px;
-    }
-.regular-price {
-    color:#396f00;
-    font-size:12px;
-    font-weight:bold;
-    }
-.old-price {
-	color:#888;
-    font-size:12px;
-	display:block;
-    }
-.old-price .price {
-    text-decoration:line-through;
-    white-space:nowrap;
-    }
+/* Minimal price (as low as) */
+.minimal-price { display:block; font-size:12px; text-decoration:underline; color:#444; }
+.minimal-price:hover { color:#444; }	
+.minimal-price .label {}
+.minimal-price .price {}
 
-/*Special price*/
-.special-price {
-    color:#396f00;
-    font-weight:bold;
-	display:block;
-    }
-.special-price .label { font-weight:bold; text-transform:uppercase;  font-size:12px;}
-.special-price .price { white-space:nowrap; font-weight:bold; font-size:13px; }
+a.minimal-price-link { color:#444; }
+a.minimal-price-link .label {}
+a.minimal-price-link .price {}
 
-/*minimal price (as low as) */
-.minimal-price {
-    font-size:12px;
-    font-weight:normal;
-	color:#444;
-	text-decoration:underline;
-	display:block; padding:5px 0 0;
-    }
-.minimal-price:hover {color:#444;}	
-.minimal-price .label { font-weight:normal; }
-.minimal-price .price { white-space:nowrap; }
+/* Including tax */
+.price-including-tax { display:block; }
+.price-including-tax .label {  font-size:10px; text-transform:uppercase; color:#888; }
+.price-including-tax .price { font-size:12px; font-weight:bold; color:#396f00; }
 
-/*including tax*/
-.price-including-tax {display:block;}
-.price-including-tax .price {
-    color:#396f00;
-    font-size:12px;
-    }
-
-.price-including-tax .label {  font-weight:normal; text-transform:uppercase; font-size:10px; color:#888;}
-.price-including-tax .price { white-space:nowrap; font-weight:bold; }
-
-/*excluding tax*/
-.price-excluding-tax  {display:block;}
-.price-excluding-tax .price {
-    color:#396f00;
-    font-size:12px;
-    }
-
-.price-excluding-tax .label { font-weight:normal;  text-transform:uppercase; font-size:10px; color:#888; }
-.price-excluding-tax .price { white-space:nowrap; font-weight:normal; }
-
+/* Excluding tax */
+.price-excluding-tax { display:block; }
+.price-excluding-tax .label { font-size:10px; text-transform:uppercase; color:#888; }
+.price-excluding-tax .price { font-size:12px; color:#396f00; }
 
 
 /********************** Catalog Listing */
@@ -812,10 +750,10 @@ h1#logo                 { float:left; }
 .product-options dt .qty-holder { float:right; margin-right:15px; }
 .product-options dt .bundle-option { float:left; }
 .product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px solid #ddd; }
-.product-options dd .select { width:99%; }
-.product-options dd textarea { width:98%; height:8em; }
 .product-options dd input.input-text { width:98%; }
-.product-options dd .multiselect { line-height:1.4em; height:9.8em; }
+.product-options dd textarea { width:98%; height:8em; }
+.product-options dd .select { width:99%; }
+.product-options dd .multiselect { width:99%; line-height:1.4em; height:9.8em; }
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
 .product-options dd label { font-weight:normal; }
 .product-options dd label input { margin-right:5px; }
