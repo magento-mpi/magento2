@@ -63,11 +63,14 @@
     <br />
     <h4><?php echo $this->__('Items Shipped') ?></h4>
     <table cellspacing="0" class="data-table">
+        <col />
+        <col width="35%" />
+        <col width="1" />
         <thead>
             <tr>
                 <th><?php echo $this->__('Product Name') ?></th>
-                <th class="a-center" width="10%"><?php echo $this->__('SKU') ?></th>
-                <th class="a-center" width="10%"><?php echo $this->__('Qty Shipped') ?></th>
+                <th class="a-center"><?php echo $this->__('SKU') ?></th>
+                <th class="a-center"><?php echo $this->__('Qty Shipped') ?></th>
             </tr>
         </thead>
         <?php $_items = $_shipment->getItemsCollection(); ?>

@@ -28,7 +28,6 @@
         <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a>
         <?php $_randomId = str_replace('.', '_', 'truncated_' . microtime(true)); ?>
         <?php if ($_options = $this->getOptionList()): ?>
-        <ul class="super-product-attributes">
             <li class="truncated">
                 <div class="truncated_value" id="<?php echo $_randomId?>_full_value">
                     <ul class="super-product-attributes">
@@ -40,14 +39,13 @@
                         $_truncatedValue = nl2br($this->htmlEscape($_option['value']));
                     }
                     ?>
-                        <li><strong><?php echo $this->htmlEscape($_option['label']) ?>:</strong><br />
+                        <li><strong><?php echo $this->htmlEscape($_option['label']) ?></strong><br />
                             <?php echo $_truncatedValue; ?>
                         </li>
                     <?php endforeach; ?>
                     </ul>
                 </div>
             </li>
-        </ul>
         <?php else: ?>
         <br />
         <?php endif; ?>

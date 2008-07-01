@@ -81,10 +81,10 @@
     </td>
     <!--
     <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-    <th class="nowrap a-right" width="5%"><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></th>
+    <th class="nowrap a-right"><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></th>
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-    <th class="nowrap a-right" width="5%"><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></th>
+    <th class="nowrap a-right"><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></th>
     <?php endif; ?>
     -->
 </tr>
