@@ -50,7 +50,7 @@
                 <td><?php echo $this->getQtyTypeSelectHtml() ?></td>
                 <td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][position]" value="{{position}}"></td>
                 <td class="a-center"><input onchange="bSelection.checkGroup(event)" type="{{option_type}}" class="default" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]" value="1" {{checked}}></td>
-                <td class="last"><?php echo $this->getSelectionDeleteButtonHtml() ?></td>
+                <td class="last"><span title="Delete Row"><?php echo $this->getSelectionDeleteButtonHtml() ?></span></td>
             </tr>
         </tbody>
     </table>
