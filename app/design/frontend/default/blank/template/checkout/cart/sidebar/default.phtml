@@ -52,6 +52,10 @@
         <br />
         <?php endif; ?>
             <strong><?php echo $this->getQty() ?></strong> x <?php echo $this->helper('core')->currency($_item->getPrice()) ?>
+        <?php if ($this->helper('tax')->displayCartBothPrices()):?>
+        <br />
+        (<span><?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?></span> <?php echo Mage::helper('tax')->__('Incl. Tax') ?>)
+        <?php endif;?>
         <br />
         <?php if ($_options = $this->getOptionList()): ?>
         <a href="#" id="<?php echo $_randomId?>"><?php echo $this->__('Details') ?></a>
