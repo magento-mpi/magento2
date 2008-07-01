@@ -111,15 +111,6 @@
         </pdf>
     </global>
     <frontend>
-        <routers>
-            <bundle>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Bundle</module>
-                    <frontName>bundle</frontName>
-                </args>
-            </bundle>
-        </routers>
         <translate>
             <modules>
                 <Mage_Bundle>
@@ -145,6 +136,17 @@
             </collection>
         </product>
     </frontend>
+    <admin>
+        <routers>
+            <bundle>
+                <use>admin</use>
+                <args>
+                    <module>Mage_Bundle</module>
+                    <frontName>bundle</frontName>
+                </args>
+            </bundle>
+        </routers>
+    </admin>
     <adminhtml>
         <translate>
             <modules>
