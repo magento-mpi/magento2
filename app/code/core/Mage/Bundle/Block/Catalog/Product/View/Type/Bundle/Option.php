@@ -54,16 +54,16 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
         return '<script type="text/javascript">$(\'' . $elementId . '\').advaiceContainer = $(\'' . $containerId . '\');</script>';
     }
 
-    public function formatPriceString($price)
+    public function formatPriceString($price, $includeContainer = true)
     {
         $priceTax = Mage::helper('tax')->getPrice($this->getProduct(), $price);
         $priceIncTax = Mage::helper('tax')->getPrice($this->getProduct(), $price, true);
 
         if (Mage::helper('tax')->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formated = Mage::helper('core')->currency($priceTax);
-            $formated .= ' (+'.Mage::helper('core')->currency($priceIncTax).' '.Mage::helper('tax')->__('Incl. Tax').')';
+            $formated = Mage::helper('core')->currency($priceTax, true, $includeContainer);
+            $formated .= ' (+'.Mage::helper('core')->currency($priceIncTax, true, $includeContainer).' '.Mage::helper('tax')->__('Incl. Tax').')';
         } else {
-            $formated = $this->helper('core')->currency($priceTax);
+            $formated = $this->helper('core')->currency($priceTax, true, $includeContainer);
         }
 
         return $formated;

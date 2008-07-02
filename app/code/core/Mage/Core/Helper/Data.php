@@ -32,33 +32,42 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param   float $value
      * @param   bool $format
+     * @param   bool $includeContainer
      * @return  mixed
      */
-    public static function currency($value, $format=true)
+    public static function currency($value, $format=true, $includeContainer = true)
     {
         try {
-            $value = Mage::app()->getStore()->convertPrice($value, $format);
+            $value = Mage::app()->getStore()->convertPrice($value, $format, $includeContainer);
         }
         catch (Exception $e){
             $value = $e->getMessage();
         }
-    	return $value;
+        return $value;
     }
 
     /**
      * Format and convert currency using current store option
      *
      * @param   float $value
+     * @param   bool $includeContainer
      * @return  string
      */
-    public function formatCurrency($value)
+    public function formatCurrency($value, $includeContainer = true)
     {
-        return $this->currency($value, true);
+        return $this->currency($value, true, $includeContainer);
     }
 
-    public function formatPrice($price)
+    /**
+     * Formats price
+     *
+     * @param float $price
+     * @param bool $includeContainer
+     * @return string
+     */
+    public function formatPrice($price, $includeContainer = true)
     {
-        return Mage::app()->getStore()->formatPrice($price);
+        return Mage::app()->getStore()->formatPrice($price, $includeContainer);
     }
 
     /**
@@ -183,11 +192,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_null($chars)) {
             $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         }
-		mt_srand(10000000*(double)microtime());
-		for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $len; $i++) {
-			$str .= $chars[mt_rand(0, $lc)];
-		}
-		return $str;
+        mt_srand(10000000*(double)microtime());
+        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $len; $i++) {
+            $str .= $chars[mt_rand(0, $lc)];
+        }
+        return $str;
     }
 
     /**
