@@ -565,7 +565,7 @@ a.minimal-price-link .price {}
 .add-to a,
 .add-to a:hover { color:#444; }
 
-.add-to-2 { text-align:right; }
+.add-to-2 { text-align:right; padding:10px 0 0; }
 .add-to-2 li { display:inline; background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; margin-left:12px; line-height:1.25em; }
 .add-to-2 a,
 .add-to-2 a:hover { color:#444; }
