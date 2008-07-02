@@ -31,6 +31,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     protected $_routers = array();
 
     protected $_urlCache = array();
+    
+    const XML_STORE_ROUTERS_PATH = 'web/routers';
 
     public function setDefault($key, $value=null)
     {
@@ -105,23 +107,38 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
         Varien_Profiler::start('ctrl/init');
-
-        // init admin modules router
-        $admin = new Mage_Core_Controller_Varien_Router_Admin();
-        $admin->collectRoutes('admin', 'admin');
-        $this->addRouter('admin', $admin);
-
-        // init standard frontend modules router
-        $standard = new Mage_Core_Controller_Varien_Router_Standard();
-        $standard->collectRoutes('frontend', 'standard');
-        $this->addRouter('standard', $standard);
-
-        // init custom routers
+        
+        $routersInfo = Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH);
+        
+        foreach ($routersInfo as $routerCode => $routerInfo) {
+            if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
+            	continue;
+            }
+            if (isset($routerInfo['class'])) {
+            	$router = new $routerInfo['class'];
+            	if (isset($routerInfo['area'])) {
+            		$router->collectRoutes($routerInfo['area'], $routerCode);
+            	}
+            	$this->addRouter($routerCode, $router);
+            }
+        }
         Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
-
-        // init default router (articles and 404)
-        $default = new Mage_Core_Controller_Varien_Router_Default();
-        $this->addRouter('default', $default);
+//         init admin modules router
+//        $admin = new Mage_Core_Controller_Varien_Router_Admin();
+//        $admin->collectRoutes('admin', 'admin');
+//        $this->addRouter('admin', $admin);
+//
+//         init standard frontend modules router
+//        $standard = new Mage_Core_Controller_Varien_Router_Standard();
+//        $standard->collectRoutes('frontend', 'standard');
+//        $this->addRouter('standard', $standard);
+//
+//         init custom routers
+//        Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
+//
+//         init default router (articles and 404)
+//        $default = new Mage_Core_Controller_Varien_Router_Default();
+//        $this->addRouter('default', $default);
 
         Varien_Profiler::stop('ctrl/init');
 
