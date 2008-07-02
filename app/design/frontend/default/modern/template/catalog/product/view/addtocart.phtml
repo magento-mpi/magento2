@@ -19,27 +19,13 @@
  */
 ?>
 
-<?php echo $this->getBlockBefore()->getChildHtml('', true, true); ?>
+<?php $_product = $this->getProduct() ?>
 
-<?php
-$_children = $this->getSortedChildBlocks();
-foreach ($_children as $_key => $_child) {
-    if (!$_child->hasOptions()) {
-        unset($_children[$_key]);
-    }
-}
-$_children = Mage::helper('core')->decorateArray($_children);
-?>
-<?php if ($_children):?>
-<div class="product-attributes">
-  <fieldset class="product-options">
-    <?php foreach ($_children as $_child):?>
-        <?php echo $_child->toHtml()?>
-    <?php endforeach;?>
-  </fieldset>
-</div>
-<?php else: ?>
-<!-- container is empty -->
-<?php endif;?>
-
-<?php echo $this->getBlockAfter()->getChildHtml('', true, true); ?>
+<fieldset class="add-to-cart-box">
+    <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+    <div class="f-left">
+        <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+        <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>"/></span>
+        <a href="#" onclick="productAddToCartForm.submit()"><img src="<?php echo $this->getSkinUrl('images/btn_add_to_cart.gif');?>" alt="<?php echo $this->__('Add to Cart') ?>" class="v-middle" style="margin:0 10px 0 5px;" /></a>
+    </div>
+</fieldset>
