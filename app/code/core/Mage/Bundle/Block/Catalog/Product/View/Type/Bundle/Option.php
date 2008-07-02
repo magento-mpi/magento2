@@ -36,17 +36,17 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
         return $this->getData('product');
     }
 
-    public function getSelectionQtyTitlePrice($_selection)
+    public function getSelectionQtyTitlePrice($_selection, $includeContainer = true)
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection);
         return $_selection->getSelectionQty()*1 . ' x ' . $_selection->getName() . ' &nbsp; (+' .
-            $this->formatPriceString($price) . ')';
+            $this->formatPriceString($price, $includeContainer) . ')';
     }
 
-    public function getSelectionTitlePrice($_selection)
+    public function getSelectionTitlePrice($_selection, $includeContainer = true)
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
-        return $_selection->getName() . ' &nbsp; (+' . $this->formatPriceString($price) . ')';
+        return $_selection->getName() . ' &nbsp; (+' . $this->formatPriceString($price, $includeContainer) . ')';
     }
 
     public function setValidationContainer($elementId, $containerId)
