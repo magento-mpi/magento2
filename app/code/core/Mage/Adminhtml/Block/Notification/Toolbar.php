@@ -67,6 +67,11 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
         return $this->_getHelper()->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR);
     }
 
+    public function getNoticeCount()
+    {
+        return $this->_getHelper()->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE);
+    }
+
     public function getNoticesInboxUrl()
     {
         return $this->getUrl('adminhtml/notification');
