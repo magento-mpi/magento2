@@ -401,6 +401,8 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
                 if ($forceSetAll || $isEven) {
                     $array[$key][$keyIsEven] = $isEven;
                 }
+                $isEven = !$isEven;
+                $i++;
                 if ($forceSetAll || ($i === $count)) {
                     $array[$key][$keyIsLast] = ($i === $count);
                 }
