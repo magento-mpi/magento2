@@ -30,10 +30,10 @@
         <?php if ($_product->getPriceView()): ?>
             <span class="minimal-price"><span class="label"><?php echo $this->__('As low as:') ?></span>
             <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
-                <span class="price" id="product-price-bundle-<?php echo $_id ?>"><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span></span>
+                <span class="price"><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span></span>
                 <span class="price-including-tax">(<span class="price"><?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?></span> <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax') ?></span>)</span>
             <?php else: ?>
-            <span class="regular-price" id="product-price-<?php echo $_id ?>"><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span></span>
+            <span class="regular-price"><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span></span>
             <?php endif; ?>
         <?php else: ?>
             <?php if ($_minimalPrice <> $_maximalPrice): ?>
