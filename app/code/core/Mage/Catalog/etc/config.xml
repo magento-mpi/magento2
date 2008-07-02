@@ -29,12 +29,12 @@
     <admin>
         <fieldsets>
             <catalog_product_dataflow>
-                <qty><inventory>1</inventory></qty>
-                <min_qty><inventory>1</inventory><use_config>1</use_config></min_qty>
+                <qty><inventory>1</inventory><to_number>1</to_number></qty>
+                <min_qty><inventory>1</inventory><to_number>1</to_number><use_config>1</use_config></min_qty>
                 <is_qty_decimal><inventory>1</inventory></is_qty_decimal>
                 <backorders><inventory>1</inventory><use_config>1</use_config></backorders>
-                <min_sale_qty><inventory>1</inventory><use_config>1</use_config></min_sale_qty>
-                <max_sale_qty><inventory>1</inventory><use_config>1</use_config></max_sale_qty>
+                <min_sale_qty><inventory>1</inventory><to_number>1</to_number><use_config>1</use_config></min_sale_qty>
+                <max_sale_qty><inventory>1</inventory><to_number>1</to_number><use_config>1</use_config></max_sale_qty>
                 <is_in_stock><inventory>1</inventory><inventory_other>1</inventory_other></is_in_stock>
                 <notify_stock_qty><inventory>1</inventory><use_config>1</use_config></notify_stock_qty>
 
@@ -44,7 +44,7 @@
 
                 <store><external>1</external></store>
                 <websites><external>1</external></websites>
-                <sku><external>1</external></sku>
+                <sku><external>1</external><ignore>1</ignore></sku>
                 <attribute_set><external>1</external><ignore>1</ignore></attribute_set>
                 <type><external>1</external><ignore>1</ignore></type>
                 <name><external>1</external><required>1</required></name>
