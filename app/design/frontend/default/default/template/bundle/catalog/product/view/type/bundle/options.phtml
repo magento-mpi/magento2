@@ -21,12 +21,12 @@
 
 <?php
 $_product = $this->getProduct();
-$_options = $this->getOptions();
+$_options = Mage::helper('core')->decorateArray($this->getOptions());
 ?>
 
 <?php if($_product->isSaleable()):?>
     <?php if (count($_options)): ?>
-    <dl>
+    <dl<?php if ($this->decoratedIsLast){?> class="last"<?php }?>>
     <?php foreach ($_options as $_option): ?>
         <?php if (!$_option->getSelections()): ?>
             <?php continue; ?>

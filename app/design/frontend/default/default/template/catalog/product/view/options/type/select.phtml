@@ -27,4 +27,4 @@
 		<?php endif; ?>
     <?php endif; ?>
 </dt>
-<dd><?php echo $this->getValuesHtml() ?></dd>
+<dd <?php if ($_option->decoratedIsLast){?> class="last"<?php }?>><?php echo $this->getValuesHtml() ?></dd>

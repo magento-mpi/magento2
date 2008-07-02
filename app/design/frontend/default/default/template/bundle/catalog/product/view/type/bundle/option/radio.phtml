@@ -42,7 +42,7 @@
     </span>
     <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
 </dt>
-<dd>
+<dd <?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
     <?php if (count($_selections) == 1 && $_option->getRequired()): ?>
         <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
         <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />

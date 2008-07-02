@@ -19,13 +19,11 @@
  */
 ?>
 
-<?php
-$_contents = $this->getChildHtml('', true, true);
-?>
-<?php if ('' !== trim($_contents)):?>
+<?php $_children = Mage::helper('core')->decorateArray($this->getSortedChildBlocks());?>
+<?php if ($_children):?>
 <div class="product-attributes">
   <fieldset class="product-options">
-    <?php echo $_contents ?>
+    <?php echo $this->getChildHtml('', true, true) ?>
   </fieldset>
 </div>
-<?php endif; ?>
+<?php endif;?>

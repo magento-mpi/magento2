@@ -18,9 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php $_options = $this->getOptions() ?>
+
+<?php $_options = Mage::helper('core')->decorateArray($this->getOptions()) ?>
 <?php if ($_options): ?>
-      <dl>
+      <dl<?php if ($this->decoratedIsLast){?> class="last"<?php }?>>
       <?php foreach($_options as $_option): ?>
           <?php echo $this->getOptionHtml($_option) ?>
       <?php endforeach; ?>
