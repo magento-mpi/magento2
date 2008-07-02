@@ -135,23 +135,6 @@
 
 <?php if($_product->isSaleable() && count($_associatedProducts)): ?>
     <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
-    <?php /*if($_product->isSaleable()): ?>
-        <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
-        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-            <strong><?php echo $this->__('OR') ?></strong>
-        <?php endif; ?>
-        &nbsp;&nbsp;
-    <?php endif; */?>
 <?php else: ?>
     <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
 <?php endif; ?>
-
-<?php /*
-<?php if ($this->helper('wishlist')->isAllow()) : ?>
-    <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
-<?php endif; ?>
-
-<?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-    <span class="pipe">|</span>
-    <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
-<?php endif; ?>*/?>

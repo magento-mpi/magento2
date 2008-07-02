@@ -54,7 +54,6 @@
 .generic-product-list li,
 .truncated { zoom:1; }
 
-.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
 .form-button, .form-button-alt { padding:1px 10px 0; }
 .multi-address-checkout-box .box { zoom:1; }
 .multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px; }

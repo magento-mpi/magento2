@@ -575,7 +575,6 @@ h1#logo {
 /************************************************************/
 
 .product-shop { float:right; }
-.product-shop .form-button, .product-shop .form-button-alt { margin-right:10px; }
 .out-of-stock {height:18px; padding-top:3px;color:#D83820;font-weight:bold;}
 .product-shop .short-description { width:100%; overflow:hidden; }
 
@@ -944,7 +943,7 @@ table.recently-list td {width:20%;}
 .product-info-box .qty-box { float:left; margin-right:5px; }
 .product-info-box .price-box { margin:10px 0;}
 .add-to-cart-box { float:right; padding:5px 0 0; /*float:left; width:195px;  margin-right:5px;*/ }
-.add-to-box { padding:10px 0 5px; font-size:.95em; line-height:1.25em; text-align:right; }
+.add-to-box { padding:10px 0 5px; /*font-size:.95em;*/ line-height:1.25em; text-align:right; }
 .add-to-box a { border-right:1px solid #a59e89; padding-right:10px; margin-left:10px; }
 .add-to-box a.last { border-right:0; padding-right:0; }
 .product-info-box .ratings { margin-bottom:1em;}
@@ -1559,7 +1558,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /************************************************************/
 /******************[ Mage_CSS_F Overrides]*******************/
 /************************************************************/
-.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
 
 .nowrap, nobr, .nobr{ white-space:nowrap; }
 
@@ -1597,3 +1595,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .input-box .v-fix {position:relative; float:left;}
 .input-box .v-fix .validation-advice {position:relative; margin-right:-12em; float:left; display:inline; width:12em;}
 table.print .giftmessage-preview-link { display:none !important; }
+
+/* Clearer */
+.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden;	}

@@ -562,10 +562,16 @@ a.minimal-price-link .price {}
 .catalog-listing .ratings a { display:block; }
 
 .add-to li { background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; line-height:1.25em; }
-.add-to a, .add-to a:hover { color:#444; }
-.catalog-listing .ratings {
-    margin-bottom:.6em;
-    }
+.add-to a,
+.add-to a:hover { color:#444; }
+
+.add-to-2 { text-align:right; }
+.add-to-2 li { display:inline; background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; margin-left:12px; line-height:1.25em; }
+.add-to-2 a,
+.add-to-2 a:hover { color:#444; }
+
+
+.catalog-listing .ratings { margin-bottom:.6em; }
 
 /* Generic Product Grid */
 .generic-product-grid           { width:100%;}
@@ -724,13 +730,12 @@ a.minimal-price-link .price {}
 /* Main Product Info Box */
 .product-info-box               { float:right; width:363px; }
 .product-info-box .product-name { margin-bottom:.3em; color:#0a263c; font-size:1.2em; }
-.product-info-box .qty-box      { float:left; margin-right:5px; }
 .product-info-box .price-box    { margin:10px 0; }
 .product-info-box .ratings      { margin-bottom:1em;}
-.add-to-cart-box                { margin-bottom:10px; border:1px solid #eee; background:#f8f8f8; padding:10px; }
+.add-to-cart-box                { margin:10px 0; border:1px solid #eee; background-color:#f8f8f8; padding:10px; text-align:right; }
 
 .product-attributes,
-.product-pricing                { margin:10px 0; background:#f4f9ea; padding:10px; }
+.product-pricing                { margin:10px 0 0; background:#f4f9ea; padding:10px; }
 .product-attributes td          { padding:2px 0; }
 .product-attributes td.label    { padding-right:10px; font-weight:bold; }
 .product-attributes select      { width:200px; }
@@ -1171,7 +1176,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .a-left         { text-align:left !important; }
 .a-center       { text-align:center !important; }
 .a-right        { text-align:right !important; }
-.f-left         { float:left !important; }
+.f-left,
+.left           { float:left !important; }
 .f-right        { float:right !important; }
 .accent         { color:#E76200 !important; font-weight:bold !important; }
 
@@ -1190,3 +1196,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 /* For Demo store only */
 .demo-notice    { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
+
+/* Clearer */
+.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden;	}

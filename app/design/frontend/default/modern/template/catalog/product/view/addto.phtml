@@ -22,7 +22,7 @@
 <?php $_product = $this->getProduct() ?>
 
 <?php if ($this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product) ) : ?>
-    <ul class="add-to f-left">
+    <ul class="add-to-2">
     <?php if ($this->helper('wishlist')->isAllow()) : ?>
         <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
     <?php endif; ?>
