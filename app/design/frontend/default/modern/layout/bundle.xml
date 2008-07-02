@@ -86,6 +86,12 @@ Adding custom product price block
         </reference>
     </wishlist_shared_index>
 
+    <catalog_product_view>
+        <reference name="catalog.product.related">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
+        </reference>
+    </catalog_product_view>
+
 <!--
 Partof block for simple broducts
 -->
