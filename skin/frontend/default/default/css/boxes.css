@@ -650,12 +650,15 @@ a.minimal-price-link .price {}
 
 /* Price range */
 .price-from { display:block; }
-.price-from .label { font-size:12px; font-weight:bold; color:#222; }
+.price-from .label { font-size:12px; font-weight:bold; }
 .price-from .price { font-size:13px; font-weight:bold; color:#c76200; }
 
 .price-to { display:block; }
-.price-to .label { font-size:12px; font-weight:bold; color:#222; }
+.price-to .label { font-size:12px; font-weight:bold; }
 .price-to .price { font-size:13px; font-weight:bold; color:#c76200; }
+
+.price-notice { padding-left:10px; color:#999; }
+.price-notice .price { font-weight:bold; color:#2f2f2f; }
 
 
 
@@ -940,8 +943,10 @@ table.recently-list td {width:20%;}
 .product-info-box .product-name { margin-bottom:.3em; color:#0a263c; font-size:1.2em; }
 .product-info-box .qty-box { float:left; margin-right:5px; }
 .product-info-box .price-box { margin:10px 0;}
-.add-to-cart-box { float:left; width:195px;  margin-right:5px;}
-.add-to-box { float:left; font-size:.95em; line-height:1.25em; }
+.add-to-cart-box { float:right; padding:5px 0 0; /*float:left; width:195px;  margin-right:5px;*/ }
+.add-to-box { padding:10px 0 5px; font-size:.95em; line-height:1.25em; text-align:right; }
+.add-to-box a { border-right:1px solid #a59e89; padding-right:10px; margin-left:10px; }
+.add-to-box a.last { border-right:0; padding-right:0; }
 .product-info-box .ratings { margin-bottom:1em;}
 
 .product-attributes, .product-pricing { margin:10px 0; background:#faf7ee; padding:10px; border:1px dashed #a59e89; }
@@ -963,16 +968,17 @@ table.recently-list td {width:20%;}
 .product-options dt .qty-holder { float:right; margin-right:15px; }
 .product-options dt .bundle-option { float:left; }
 .product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px dashed #a59e89; }
+.product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
 .product-options dd input.input-text { width:98%; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd .select { width:99%; }
 .product-options dd .multiselect { width:99%; line-height:1.4em; height:9.8em; }
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
-.product-options dd label { font-weight:normal; display:block; }
+.product-options dd label { font-weight:normal; } /* DO NOT ADD display:block here !!! */
 .product-options dd label input { margin-right:5px; }
 .product-options dd ul.options-list { list-style:none; }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
-.product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
+.product-options p.required { margin-bottom:0; }
 
 
 /* Product Collateral */
@@ -1553,6 +1559,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /************************************************************/
 /******************[ Mage_CSS_F Overrides]*******************/
 /************************************************************/
+.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
 
 .nowrap, nobr, .nobr{ white-space:nowrap; }
 
@@ -1586,7 +1593,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .order-info li {display:inline;padding-right:7px;padding-left:3px;}
 .order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}
 
-/*Expiration date and cvv number validation case */
+/* Expiration date and cvv number validation case */
 .input-box .v-fix {position:relative; float:left;}
 .input-box .v-fix .validation-advice {position:relative; margin-right:-12em; float:left; display:inline; width:12em;}
 table.print .giftmessage-preview-link { display:none !important; }
