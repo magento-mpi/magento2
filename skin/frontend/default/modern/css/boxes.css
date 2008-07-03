@@ -497,7 +497,9 @@ h1#logo                 { float:left; }
 .price-box { padding:5px 0 10px; }
 .price { white-space:nowrap !important; }
 
-.regular-price { color:#396f00; font-size:12px; font-weight:bold; }
+/* Regular price */
+.regular-price { font-size:12px; }
+.regular-price .price { font-weight:bold; color:#396f00; }
 
 /* Old price */
 .old-price { display:block; color:#888; font-size:12px; }
@@ -519,12 +521,12 @@ a.minimal-price-link .label {}
 a.minimal-price-link .price { font-weight:bold; }
 
 /* Including tax */
-.price-including-tax { display:block; }
+.price-including-tax { display:block; color:#888; }
 .price-including-tax .label {  font-size:10px; text-transform:uppercase; color:#888; }
 .price-including-tax .price { font-size:12px; font-weight:bold; color:#396f00; }
 
 /* Excluding tax */
-.price-excluding-tax { display:block; }
+.price-excluding-tax { display:block; color:#888; }
 .price-excluding-tax .label { font-size:10px; text-transform:uppercase; color:#888; }
 .price-excluding-tax .price { font-size:12px; color:#396f00; }
 
