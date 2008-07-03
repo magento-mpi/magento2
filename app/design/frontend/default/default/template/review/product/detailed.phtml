@@ -49,7 +49,7 @@
             <h3 class="product-name"><?php echo $this->htmlEscape($product->getName()) ?></h3>
         <?php echo $this->getChildHtml('rating') ?>
         <?php if( $reviewCount ): ?>
-            <a href="#customer-reviews" class="no-wrap"><small><?php echo $this->__('%s Review(s)', $reviewCount) ?></small></a>
+            <a href="#customer-reviews" class="nobr"><small><?php echo $this->__('%s Review(s)', $reviewCount) ?></small></a>
         <?php endif; ?>
 
         <fieldset>

@@ -236,7 +236,11 @@ td.label        { font-weight:bold; }
 .data-table tbody.even tr.border td { border-bottom:1px solid #d9dde3; }
 .data-table tbody td.indent { padding-left:18px; }
 
-.data-table ul.item-options { list-style:none; padding-left:10px; }
+.data-table dl.item-options { /*border:1px solid black;*/ }
+.data-table dl.item-options dt { font-weight:bold; font-style:italic; }
+.data-table dl.item-options dd { padding-left:10px; }
+/*.data-table .nobr { border:1px solid blue; }*/
+.data-table h6.title { margin:0; padding:0; font-weight:bold; /*border:1px solid orange;*/ }
 
 .box-table td { padding:10px; }
 .box-table tfoot td { padding-top:5px; padding-bottom:5px; }
@@ -261,7 +265,6 @@ td.label        { font-weight:bold; }
 /********************** Space Creators */
 
 .no-display { display:none; }
-.no-wrap    { white-space:nowrap; }
 .content    { padding:12px 12px 12px 15px; } /* Sets default padding */
 .actions    { line-height:1.3em; }
 .pipe,
@@ -529,6 +532,16 @@ a.minimal-price-link .price { font-weight:bold; }
 .price-excluding-tax { display:block; color:#888; }
 .price-excluding-tax .label { font-size:10px; text-transform:uppercase; color:#888; }
 .price-excluding-tax .price { font-size:12px; color:#396f00; }
+
+/* Incl tax (for order tables) */
+.price-incl-tax { display:block; /*border:1px solid red;*/ }
+.price-incl-tax .label { display:block; white-space:nowrap; }
+.price-incl-tax .price { display:block; font-weight:bold; }
+
+/* Excl tax (for order tables) */
+.price-excl-tax  { display:block; /*border:1px solid green;*/ }
+.price-excl-tax .label { display:block; white-space:nowrap; }
+.price-excl-tax .price { display:block; font-weight:bold; }
 
 /* Price range */
 .price-from { display:block; font-size:12px; }

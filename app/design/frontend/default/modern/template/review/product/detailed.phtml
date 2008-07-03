@@ -48,7 +48,7 @@
             <h3 class="product-name"><?php echo $this->htmlEscape($product->getName()) ?></h3>
         <?php echo $this->getChildHtml('rating') ?>
         <?php if( $reviewCount ): ?>
-            <a href="#customer-reviews" class="no-wrap"><?php echo $this->__('%s Review(s)', $reviewCount) ?></a>
+            <a href="#customer-reviews" class="nobr"><?php echo $this->__('%s Review(s)', $reviewCount) ?></a>
         <?php endif; ?>
 
         <form action="<?php echo $this->getUrl('checkout/cart/add') ?>" method="post" id="product_addtocart_form">

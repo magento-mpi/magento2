@@ -53,9 +53,7 @@
 <tr class="<?php echo (++$_index==$_count && !$_showlastRow)?'border':'' ?>" id="order-item-row-<?php echo $_item->getId() ?>">
 
     <?php if (!$_item->getParentItem()): ?>
-    <td>
-        <?php echo $this->htmlEscape($_item->getName()) ?>
-    </td>
+    <td><h6 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h6></td>
     <?php else: ?>
     <td class="indent">
         <?php if (is_array($_option['value'])): ?>
@@ -69,16 +67,20 @@
     <td class="a-right nowrap">
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:<br />
-                <?php endif; ?>
-                <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?></strong><br />
+                <span class="price-excl-tax">
+									<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                      <span class="label"><?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:</span>
+                  <?php endif; ?>
+                  <?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?>
+                </span>
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:<br />
-                <?php endif; ?>
-                <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($this->getItem())); ?></strong>
+                <span class="price-incl-tax">
+									<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                      <span class="label"><?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:</span>
+                  <?php endif; ?>
+                  <?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getPriceInclTax($this->getItem())); ?>
+                </span>
             <?php endif; ?>
         <?php else: ?>
             &nbsp;
@@ -88,19 +90,19 @@
         <?php if (($_item->getParentItem() && $this->isChildCalculated()) ||
                 (!$_item->getParentItem() && !$this->isChildCalculated())): ?>
             <?php if ($_item->getQtyOrdered() > 0): ?>
-                <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong><br />
+                <span class="nobr"><?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong></span><br />
             <?php endif; ?>
             <?php if ($_item->getQtyShipped() > 0 && !$this->isShipmentSeparately()): ?>
-                <?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong><br />
+                <span class="nobr"><?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong></span><br />
             <?php endif; ?>
             <?php if ($_item->getQtyCanceled() > 0): ?>
-                <?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong><br />
+                <span class="nobr"><?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong></span><br />
             <?php endif; ?>
             <?php if ($_item->getQtyRefunded() > 0): ?>
-                <?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
+                <span class="nobr"><?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong></span>
             <?php endif; ?>
         <?php elseif ($_item->getQtyShipped() > 0 && $_item->getParentItem() && $this->isShipmentSeparately()): ?>
-            <?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong>
+            <span class="nobr"><?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong></span>
         <?php else: ?>
             &nbsp;
         <?php endif; ?>
@@ -108,16 +110,20 @@
     <td class="a-right nowrap">
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
-                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:<br />
-                <?php endif; ?>
-                <strong><?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?></strong><br />
+                <span class="price-excl-tax">
+									<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                      <span class="label"><?php echo Mage::helper('sales')->__('Excl. Tax'); ?>:</span>
+                  <?php endif; ?>
+                  <?php echo $this->getOrder()->formatPrice($this->getItem()->getRowTotal()) ?>
+                </span>
             <?php endif; ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
-                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:<br />
-                <?php endif; ?>
-                <strong><?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?></strong>
+                <span class="price-incl-tax">
+									<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                      <span class="label"><?php echo Mage::helper('sales')->__('Incl. Tax'); ?>:</span>
+                  <?php endif; ?>
+                  <?php echo $this->getOrder()->formatPrice($this->helper('checkout')->getSubtotalInclTax($this->getItem())); ?>
+                </span>
             <?php endif; ?>
         <?php else: ?>
             &nbsp;

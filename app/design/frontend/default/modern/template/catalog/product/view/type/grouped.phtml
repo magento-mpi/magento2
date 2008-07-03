@@ -110,9 +110,10 @@
                     <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPriceInclTax): ?>
                             <?php if ($this->helper('tax')->displayBothPrices() && $_tierPrice['formated_price'] != $_tierPrice['formated_price_incl_tax']): ?>
-                                <?php echo $this->__('Buy %s for %s each', $_tierPrice['price_qty'], '<strong>'.$_tierPrice['formated_price'].'</strong>') ?><br /><?php echo $this->__('(%s incl. tax)', '<strong>'.$_tierPrice['formated_price_incl_tax'].'</strong>') ?>
+                                <?php echo $this->__('Buy %s for %s each', $_tierPrice['price_qty'], '<span class="regular-price">'.$_tierPrice['formated_price'].'</span>') ?>
+                                <span class="price-including-tax">(<? echo $_tierPrice['formated_price_incl_tax'] ?> <span class="label"><?php echo $this->__('Incl. Tax') ?></span>)</span>
                             <?php else: ?>
-                                <?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, '<strong>'.$_tierPrice['formated_price'].'</strong>') ?>
+                                <?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, '<span class="regular-price">'.$_tierPrice['formated_price'].'</span>') ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>

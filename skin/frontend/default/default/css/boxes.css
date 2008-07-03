@@ -303,7 +303,6 @@ td.label        { font-weight:bold; }
 
 /********************** Space Creators */
 .no-display { display:none; }
-.no-wrap { white-space:nowrap; }
 .content-box { min-height:250px; } /* Set minimum height for visual presentation */
 .content { padding:12px 12px 12px 15px; } /* Sets default padding */
 .actions { line-height:1.3em; }
@@ -508,7 +507,8 @@ h1#logo {
 .base-mini .product-names { margin-left:18px; }
 .base-mini .product-details { margin:0 0 0 60px; height:50px; }
 .base-mini .product-details[class] { height:auto; min-height:50px; }
-.base-mini .regular-price { color:#2f2f2f; font-size:11px; }
+.base-mini .regular-price { font-size:11px; }
+.base-mini .regular-price .price { color:#2f2f2f; }
 .base-mini .special-price { font-size:11px; }
 .base-mini .minimal-price { font-size:11px; }
 .base-mini .price-box { margin:1px 0; }
@@ -648,6 +648,16 @@ a.minimal-price-link .price {}
 .price-excluding-tax  { display:block; color:#999; }
 .price-excluding-tax .label { font-size:12px; color:#999; }
 .price-excluding-tax .price { font-size:13px; color:#c76200; }
+
+/* Incl tax (for order tables) */
+.price-incl-tax { display:block; border:1px solid red; }
+.price-incl-tax .label { display:block; white-space:nowrap; }
+.price-incl-tax .price { display:block; font-weight:bold; }
+
+/* Excl tax (for order tables) */
+.price-excl-tax  { display:block; border:1px solid green; }
+.price-excl-tax .label { display:block; white-space:nowrap; }
+.price-excl-tax .price { display:block; font-weight:bold; }
 
 /* Price range */
 .price-from { display:block; }
@@ -1560,7 +1570,8 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /******************[ Mage_CSS_F Overrides]*******************/
 /************************************************************/
 
-.nowrap, nobr, .nobr{ white-space:nowrap; }
+.nowrap,
+.nobr { white-space:nowrap !important; }
 
 /* Alignment */
 .v-top { vertical-align:top; }
@@ -1576,7 +1587,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .auto-width { width:auto;}
 
 /* Link highlights */
-.link-cart { color:#DC6809 !important; font-weight:bold !important;}
+.link-cart { color:#DC6809 !important; font-weight:bold !important; }
 .link-remove { color:#646464 !important;}
 .link-print { background:url(../images/icon_printer.gif) no-repeat 0 2px; padding-left:23px; }
 .link-feed { background:url(../images/icon_feed.png) no-repeat left center; padding-left:18px; line-height:1.15; }
