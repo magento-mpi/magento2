@@ -78,13 +78,6 @@ class Mage_Catalog_Model_Url
     protected $_productUrlSuffix = array();
 
     /**
-     * Cache of 'Use categories path for product URLs' configuration value
-     *
-     * @var array
-     */
-    protected $_prependCategoryPathesConfiguration = array();
-
-    /**
      * Retrieve stores array or store model
      *
      * @param int $storeId
@@ -236,16 +229,12 @@ class Mage_Catalog_Model_Url
         else {
             $urlKey = $this->getProductModel()->formatUrlKey($product->getUrlKey());
         }
-        $prependCategoryPathes = $this->_getPrependCategoryPathesConfiguration($category->getStoreId());
 
         $productUrlSuffix = $this->getProductUrlSuffix($category->getStoreId());
         if ($category->getUrlPath()) {
             $idPath = 'product/'.$product->getId().'/'.$category->getId();
             $targetPath = 'catalog/product/view/id/'.$product->getId().'/category/'.$category->getId();
-            if ($prependCategoryPathes)
-                $requestPath = $category->getUrlPath() . '/' . $urlKey . $productUrlSuffix;
-            else
-                $requestPath = $urlKey . $productUrlSuffix;
+            $requestPath = $category->getUrlPath() . '/' . $urlKey . $productUrlSuffix;
 
             $requestPath = $this->getUnusedPath($category->getStoreId(), $requestPath, $idPath);
             $categoryId = $category->getId();
@@ -502,15 +491,5 @@ class Mage_Catalog_Model_Url
             $this->_productUrlSuffix[$storeId] = (string)Mage::app()->getStore($storeId)->getConfig('catalog/seo/product_url_suffix');
         }
         return $this->_productUrlSuffix[$storeId];
-    }
-
-    protected function _getPrependCategoryPathesConfiguration($store)
-    {
-        if (!isset($this->_prependCategoryPathesConfiguration[$store])) {
-            $this->_prependCategoryPathesConfiguration[$store] =
-                (bool) Mage::app()->getStore($store)->getConfig('catalog/seo/product_use_categories');
-        }
-
-        return $this->_prependCategoryPathesConfiguration[$store];
     }
 }

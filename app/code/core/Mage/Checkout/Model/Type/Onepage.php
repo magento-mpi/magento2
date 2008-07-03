@@ -217,6 +217,7 @@ class Mage_Checkout_Model_Type_Onepage
                 $address->importCustomerAddress($customerAddress);
             }
         } else {
+            unset($data['address_id']);
             $address->addData($data);
         }
         $address->implodeStreetAddress();

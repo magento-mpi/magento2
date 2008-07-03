@@ -42,6 +42,11 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->load();
         $this->_itemCollection = $collection;
+
+        foreach ($this->_itemCollection as $product) {
+            $product->setDoNotUseCategoryId(true);
+        }
+
         return $this;
     }
 
