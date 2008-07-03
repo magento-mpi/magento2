@@ -108,7 +108,9 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
             }
         }
 
-        $address->setItemQty($addressQty);
+        if (isset($addressQty)) {
+            $address->setItemQty($addressQty);
+        }
 
         $address->setWeight($addressWeight);
         $address->setFreeMethodWeight($freeMethodWeight);
