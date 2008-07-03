@@ -566,14 +566,14 @@ a.minimal-price-link .price { font-weight:bold; }
 .catalog-listing .ratings .pipe { display:none; }
 .catalog-listing .ratings a { display:block; }
 
-.add-to li { background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; line-height:1.25em; }
+.add-to li { background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; line-height:1.25em; text-align:left; }
 .add-to a,
 .add-to a:hover { color:#444; }
 
-.add-to-2 { text-align:right; padding:20px 0 0; }
-.add-to-2 li { display:inline; background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; margin-left:12px; line-height:1.25em; }
-.add-to-2 a,
-.add-to-2 a:hover { color:#444; }
+.add-to-inline { text-align:right; padding:20px 0 0; }
+.add-to-inline li { display:inline; background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; margin-left:12px; line-height:1.25em; }
+.add-to-inline a,
+.add-to-inline a:hover { color:#444; }
 
 
 .catalog-listing .ratings { margin-bottom:.6em; }

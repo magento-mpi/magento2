@@ -944,9 +944,8 @@ table.recently-list td {width:20%;}
 .product-info-box .product-name { margin-bottom:.3em; color:#0a263c; font-size:1.2em; }
 .product-info-box .qty-box { float:left; margin-right:5px; }
 .product-info-box .price-box { margin:10px 0;}
-.add-to-cart-box { float:right; padding:5px 0 0; /*float:left; width:195px;  margin-right:5px;*/ }
-.add-to-box { padding:10px 0 5px; /*font-size:.95em;*/ line-height:1.25em; text-align:right; }
-.add-to-box a { border-right:1px solid #a59e89; padding-right:10px; margin-left:10px; }
+.add-to-cart-box { float:right; padding:5px 0 0; }
+.add-to-box { padding:10px 0 5px; line-height:1.25em; text-align:right; }
 .add-to-box a.last { border-right:0; padding-right:0; }
 .product-info-box .ratings { margin-bottom:1em;}
 
