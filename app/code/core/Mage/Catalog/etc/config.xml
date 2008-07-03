@@ -44,7 +44,7 @@
 
                 <store><external>1</external></store>
                 <websites><external>1</external></websites>
-                <sku><external>1</external><ignore>1</ignore></sku>
+                <sku><external>1</external></sku>
                 <attribute_set><external>1</external><ignore>1</ignore></attribute_set>
                 <type><external>1</external><ignore>1</ignore></type>
                 <name><external>1</external><required>1</required></name>
