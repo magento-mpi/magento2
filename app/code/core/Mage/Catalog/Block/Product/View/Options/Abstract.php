@@ -71,6 +71,7 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
      */
     protected function _formatPrice($value, $flag=true)
     {
+//        return Mage::helper('core')->currency($this->getOption()->getProduct()->getFinalPrice());
         if ($value['pricing_value'] == 0) {
             return '';
         }

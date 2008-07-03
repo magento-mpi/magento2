@@ -123,12 +123,12 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             'priceFormat' => Mage::app()->getLocale()->getJsPriceFormat(),
             'includeTax' => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax' => $this->helper('tax')->displayPriceIncludingTax(),
-            'productPrice' => $_finalPrice,
+            'productPrice' => Mage::helper('core')->currency($_finalPrice, false, false),
             'skipCalculate' => ($_priceExclTax != $_priceInclTax ? 0 : 1),
             'defaultTax' => $defaultTax,
             'currentTax' => $currentTax
         );
-//Zend_Debug::dump($config, 'config');die();
+
         return Zend_Json::encode($config);
     }
 
