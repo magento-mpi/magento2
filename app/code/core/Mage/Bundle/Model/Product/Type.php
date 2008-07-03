@@ -377,19 +377,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $product->addCustomOption('bundle_option_ids', serialize($optionIds));
             $product->addCustomOption('bundle_selection_ids', serialize($selectionIds));
 
-            /**
-             * Saving Bundle Shipment Type
-             */
-            $product->addCustomOption('shipment_type', $product->getShipmentType());
-
-            /**
-             * Product Prices calculations
-             */
-            if ($product->getPriceType()) {
-                $product->addCustomOption('product_calculations', self::CALCULATE_PARENT);
-            } else {
-                $product->addCustomOption('product_calculations', self::CALCULATE_CHILD);
-            }
             return $result;
         }
         return Mage::helper('bundle')->__('Please specify the bundle option(s)');

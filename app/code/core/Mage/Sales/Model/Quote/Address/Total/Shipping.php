@@ -39,6 +39,8 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
         $addressWeight      = $address->getWeight();
         $freeMethodWeight   = $address->getFreeMethodWeight();
 
+        $addressQty = 0;
+
         foreach ($items as $item) {
             /**
              * Children weight we calculate for parent
@@ -48,7 +50,6 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
             }
 
             if ($item->getHasChildren() && $item->isShipSeparately()) {
-                $addressQty = 0;
                 foreach ($item->getChildren() as $child) {
                     $addressQty += $item->getQty()*$child->getQty();
                     if (!$item->getProduct()->getWeightType()) {
@@ -89,7 +90,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                 }
             }
             else {
-                $addressQty = $item->getQty();
+                $addressQty += $item->getQty();
                 $itemWeight = $item->getWeight();
                 $rowWeight  = $itemWeight*$item->getQty();
                 $addressWeight+= $rowWeight;

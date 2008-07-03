@@ -325,7 +325,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getTaxAmount()
     {
-        if ($this->getHasChildren() && $this->getOptionBycode('product_calculations')->getValue() == 'child') {
+        if ($this->getHasChildren() && $this->getProduct()->getPriceType() == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
             $amount = 0;
             foreach ($this->getChildren() as $child) {
                 $amount+= $child->getTaxAmount();
@@ -344,7 +344,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getPrice()
     {
-        if ($this->getHasChildren() && $this->getOptionBycode('product_calculations')->getValue() == 'child') {
+        if ($this->getHasChildren() && $this->getProduct()->getPriceType() == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
             $price = 0;
             foreach ($this->getChildren() as $child) {
                 $price+= $child->getPrice();
@@ -431,17 +431,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function isChildrenCalculated() {
         if ($this->getParentItem()) {
-            if ($option = $this->getParentItem()->getOptionByCode('product_calculations')) {
-                $calculate = $option->getValue();
-            } else {
-                return true;
-            }
+            $calculate = $this->getParentItem()->getProduct()->getPriceType();
         } else {
-            if ($option = $this->getOptionByCode('product_calculations')) {
-                $calculate = $option->getValue();
-            } else {
-                return true;
-            }
+            $calculate = $this->getProduct()->getPriceType();
         }
 
         if ($calculate == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
@@ -459,17 +451,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function isShipSeparately() {
         if ($this->getParentItem()) {
-            if ($option = $this->getParentItem()->getOptionByCode('shipment_type')) {
-                $shipmentType = $option->getValue();
-            } else {
-                return true;
-            }
+            $shipmentType = $this->getParentItem()->getProduct()->getShipmentType();
         } else {
-            if ($option = $this->getOptionByCode('shipment_type')) {
-                $shipmentType = $option->getValue();
-            } else {
-                return true;
-            }
+            $shipmentType = $this->getProduct()->getShipmentType();
         }
 
         if ($shipmentType == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
