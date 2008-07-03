@@ -455,11 +455,11 @@ h1#logo                 { float:left; }
 /****************[ Mage_CSS_D Shop Elements]*****************/
 /************************************************************/
 
-.product-shop                   { float:right; }
+.product-shop                    { float:right; }
 .product-shop .form-button,
-.product-shop .form-button-alt  { margin-right:10px; }
-.out-of-stock                   { height:18px; padding-top:3px;color:#D83820;font-weight:bold;}
-.product-shop .short-description{ width:100%; overflow:hidden; }
+.product-shop .form-button-alt   { margin-right:10px; }
+.out-of-stock                    { padding:0 0 5px; color:#D83820; font-weight:bold; }
+.product-shop .short-description { width:100%; overflow:hidden; }
 
 
 /********************** Rating */
@@ -671,7 +671,7 @@ a.minimal-price-link .price { font-weight:bold; }
 .listing-type-list .product-image { float:left; width:135px; }
 .listing-type-list .product-shop { width:317px; }
 .listing-type-list .product-shop .description { margin:.5em 0 1.2em 0; }
-.listing-type-list .product-shop .price-box { float:left;text-align:left; margin:3px 13px 5px 0;}
+.listing-type-list .product-shop .price-box { float:left; text-align:left; margin:0 13px 5px 0; padding-top:0; }
 .listing-type-list .product-shop .product-reviews { margin:15px 0; font-size:.95em; }
 .listing-type-list .product-shop .product-reviews a, .listing-type-list .product-shop .product-reviews a:hover { color:#6e6969; }
 .listing-type-list .listing-item .rating-box { margin-bottom:6px; }
@@ -763,10 +763,11 @@ a.minimal-price-link .price { font-weight:bold; }
 .product-options dd .select { width:99%; }
 .product-options dd .multiselect { width:99%; line-height:1.4em; height:9.8em; }
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
-.product-options dd label { font-weight:normal; } /* DO NOT ADD display:block here !!! */
+.product-options dd label { font-weight:normal; }
 .product-options dd label input { margin-right:5px; }
 .product-options dd ul.options-list { list-style:none; /*border:1px solid #eb340a;*/ }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
+.product-options p.required { margin-bottom:0; }
 
 /* Upsell */
 .up-sell-block .generic-product-grid td { width:20%; padding-bottom:8px; }

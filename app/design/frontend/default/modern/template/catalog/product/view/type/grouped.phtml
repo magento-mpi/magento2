@@ -30,6 +30,9 @@
 <p><?php echo $this->__($_product->isSaleable() && count($_associatedProducts) ? 'Availability: In stock' : 'Availability: Out of stock') ?></p>
 
 <table cellspacing="0" class="data-table" id="super-product-table">
+    <col />
+    <col />
+    <col width="1" />
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
@@ -107,9 +110,9 @@
                     <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPriceInclTax): ?>
                             <?php if ($this->helper('tax')->displayBothPrices() && $_tierPrice['formated_price'] != $_tierPrice['formated_price_incl_tax']): ?>
-                                <?php echo $this->__('Buy %s for %s each', $_tierPrice['price_qty'], $_tierPrice['formated_price']) ?><br /><?php echo $this->__('(%s incl. tax)', $_tierPrice['formated_price_incl_tax']) ?>
+                                <?php echo $this->__('Buy %s for %s each', $_tierPrice['price_qty'], '<strong>'.$_tierPrice['formated_price'].'</strong>') ?><br /><?php echo $this->__('(%s incl. tax)', '<strong>'.$_tierPrice['formated_price_incl_tax'].'</strong>') ?>
                             <?php else: ?>
-                                <?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, $_tierPrice['formated_price']) ?>
+                                <?php echo $this->__('Buy %s for %s', $_tierPrice['price_qty']*1, '<strong>'.$_tierPrice['formated_price'].'</strong>') ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>

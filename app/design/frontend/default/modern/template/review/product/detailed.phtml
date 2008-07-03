@@ -135,14 +135,13 @@
         </div>
         <div class="clear"></div>
     </div>
-
-<br/>
-
+<div class="padder">
     <?php if( $this->getCollection() && $this->count()): ?>
+            <br />
             <div class="head head-alt2" id="customer-reviews">
                 <h4 class="title"><?php echo $this->__('Customer Reviews') ?></h4>
             </div>
-            <div class="padder">
+            
             <ol>
         <?php foreach( $this->getCollection()->getItems() as $_review ): ?>
                 <li>
@@ -165,10 +164,9 @@
                 </li>
         <?php endforeach; ?>
             </ol>
-            </div>
+
         <?php echo $this->getToolbarHtml() ?>
     <?php else: ?>
     <?php endif; ?>
-    <div class="padder"><br/>
     <?php echo $this->getChildHtml('reviewForm') ?>
-    </div>
+</div>

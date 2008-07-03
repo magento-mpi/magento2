@@ -43,7 +43,7 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     </div>
     <?php endif; ?>
 
-    <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
+    <p><?php echo $this->__('Availability: In stock.') ?></p>
 
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
@@ -61,6 +61,6 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
     <?php endif; ?>
 <?php else: ?>
-    <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
+    <p><?php echo $this->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>
 <script type="text/javascript">decorateTable('super-product-table')</script>
