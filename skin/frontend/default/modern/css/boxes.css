@@ -495,7 +495,7 @@ h1#logo                 { float:left; }
 
 /************************* Prices */
 .price-box { padding:5px 0 10px; }
-.price { white-space:nowrap; }
+.price { white-space:nowrap !important; }
 
 .regular-price { color:#396f00; font-size:12px; font-weight:bold; }
 
@@ -512,11 +512,11 @@ h1#logo                 { float:left; }
 .minimal-price { display:block; font-size:12px; color:#444; }
 .minimal-price:hover { color:#444; }	
 .minimal-price .label {}
-.minimal-price .price {}
+.minimal-price .price { font-weight:bold; color:#396f00; }
 
 a.minimal-price-link { display:block; font-size:12px; text-decoration:underline; color:#444; }
 a.minimal-price-link .label {}
-a.minimal-price-link .price {}
+a.minimal-price-link .price { font-weight:bold; }
 
 /* Including tax */
 .price-including-tax { display:block; }
@@ -536,6 +536,9 @@ a.minimal-price-link .price {}
 .price-to { display:block; font-size:12px; }
 .price-to .label { font-weight:bold; }
 .price-to .price { font-weight:bold; color:#396f00; }
+
+.price-notice { padding-left:10px; }
+.price-notice .price { font-weight:bold; }
 
 
 /********************** Catalog Listing */
@@ -565,7 +568,7 @@ a.minimal-price-link .price {}
 .add-to a,
 .add-to a:hover { color:#444; }
 
-.add-to-2 { text-align:right; padding:10px 0 0; }
+.add-to-2 { text-align:right; padding:20px 0 0; }
 .add-to-2 li { display:inline; background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; margin-left:12px; line-height:1.25em; }
 .add-to-2 a,
 .add-to-2 a:hover { color:#444; }
@@ -734,8 +737,8 @@ a.minimal-price-link .price {}
 .product-info-box .ratings      { margin-bottom:1em;}
 .add-to-cart-box                { margin:10px 0; border:1px solid #eee; background-color:#f8f8f8; padding:10px; text-align:right; }
 
-.product-attributes,
-.product-pricing                { margin:10px 0 0; background:#f4f9ea; padding:10px; }
+.product-attributes             { margin:10px 0 0; background-color:#f4f9ea; padding:10px; }
+.product-pricing                { margin:10px 0; background-color:#f4f9ea; padding:10px; }
 .product-attributes td          { padding:2px 0; }
 .product-attributes td.label    { padding-right:10px; font-weight:bold; }
 .product-attributes select      { width:200px; }
@@ -746,14 +749,6 @@ a.minimal-price-link .price {}
 .attribute-specs-block .label   { font-weight:bold; }
 .attribute-specs-block .data    { border-right:0; }
 .attribute-specs-block td       { padding-top:3px; padding-bottom:3px; line-height:1.25em; }
-
-.custom-options { padding:0px 10px 10px; }
-.custom-options table { width:100%; }
-.custom-options .data { background-color:#eaefe1; padding:5px 10px; }
-.custom-options .data input.input-text { width:98%; }
-.custom-options .data textarea  { width:98%; height:8em; }
-.custom-options .data select { width:99%; }
-.custom-options .label { padding-top:10px; }
 
 .product-options { padding:0 5px 10px; }
 .product-options dt { padding:10px 0 0; font-weight:normal; }
@@ -768,7 +763,7 @@ a.minimal-price-link .price {}
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
 .product-options dd label { font-weight:normal; } /* DO NOT ADD display:block here !!! */
 .product-options dd label input { margin-right:5px; }
-.product-options dd ul.options-list { list-style:none; }
+.product-options dd ul.options-list { list-style:none; /*border:1px solid #eb340a;*/ }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
 
 /* Upsell */
