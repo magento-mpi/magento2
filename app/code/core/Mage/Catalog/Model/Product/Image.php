@@ -225,27 +225,36 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         // build base filename
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
-        if ($file && $file != 'no_selection' && !$this->_checkMemory($baseDir . '/' . $file)) {
+        if ('no_selection' == $file) {
             $file = null;
         }
-        if (!$file || $file == 'no_selection') {
-            if (Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder") && file_exists($baseDir . '/placeholder/' . Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder"))) {
-                $file = '/placeholder/' . Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
-            } else {
-                $baseDir = Mage::getDesign()->getSkinBaseDir();
-                if (file_exists($baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg")) {
-                    $file = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
-                }
+        if ($file) {
+            if ((!file_exists($baseDir . '/' . $file)) || !$this->_checkMemory($baseDir . '/' . $file)) {
+                $file = null;
             }
-            $baseFile = $baseDir . $file;
-        } else {
-            $baseFile = $baseDir . '/' . $file;
-            if (!file_exists($baseFile)) {
-                if (file_exists($baseDir . "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg")) {
-                    $baseFile = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+        }
+        if (!$file) {
+            // check if placeholder defined in config
+            $isConfigPlaceholder = Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
+            $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
+            if ($isConfigPlaceholder && file_exists($baseDir . $configPlaceholder)) {
+                $file = $configPlaceholder;
+            }
+            else {
+                // replace file with skin or default skin placeholder
+                $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
+                $skinPlaceholder = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
+                $file = $skinPlaceholder;
+                if (file_exists($skinBaseDir . $file)) {
+                    $baseDir = $skinBaseDir;
+                }
+                else {
+                    $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
                 }
             }
         }
+
+        $baseFile = $baseDir . $file;
 
         if (!file_exists($baseFile)) {
             throw new Exception(Mage::helper('catalog')->__('Image file not found'));
