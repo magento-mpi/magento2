@@ -194,6 +194,11 @@ Object.extend(Validation, {
     hideAdvice : function(elm, advice){
         if(advice != null) advice.hide();
     },
+    updateCallback : function(elm, status) {
+        if (elm.callbackFuncktion) {
+            eval(elm.callbackFuncktion+'(\''+elm.id+'\',\''+status+'\')');
+        }
+    },
     ajaxError : function(elm, errorMsg) {
         var name = 'validate-ajax';
         var advice = Validation.getAdvice(name, elm);
@@ -215,6 +220,7 @@ Object.extend(Validation, {
                     advice = this.createAdvice(name, elm, useTitle);
                 }
                 this.showAdvice(elm, advice, name);
+                this.updateCallback(elm, 'failed');
             //}
             elm[prop] = 1;
             elm.removeClassName('validation-passed');
@@ -223,6 +229,7 @@ Object.extend(Validation, {
         } else {
             var advice = Validation.getAdvice(name, elm);
             this.hideAdvice(elm, advice);
+            this.updateCallback(elm, 'passed');
             elm[prop] = '';
             elm.removeClassName('validation-failed');
             elm.addClassName('validation-passed');

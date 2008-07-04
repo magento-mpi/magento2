@@ -154,6 +154,16 @@
             }
         }
     }
+    function validateOptionsCallback(elmId, result){
+        var container = $(elmId).up('ul.options-list');
+        if (result == 'failed') {
+            container.removeClassName('validation-passed');
+            container.addClassName('validation-failed');
+        } else {
+            container.removeClassName('validation-failed');
+            container.addClassName('validation-passed');
+        }
+    }
 /* ]]> */
     var opConfig = new Product.Options(<?php echo $this->getJsonConfig() ?>);
 </script>
