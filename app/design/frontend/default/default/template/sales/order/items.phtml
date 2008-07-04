@@ -85,10 +85,9 @@
     </tfoot>
         <?php $_items = $_order->getItemsCollection(); ?>
         <?php $_count = $_items->count(); ?>
-        <?php $_index = 0; ?>
         <?php foreach ($_items as $_item): ?>
-        <?php if ($_item->getParentItem()) continue; else $_index++ ?>
-        <tbody class="<?php echo $_index%2 ? 'even' : 'odd' ?>">
+        <?php if ($_item->getParentItem()) continue; ?>
+        <tbody>
             <?php echo $this->getItemHtml($_item) ?>
             <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
             <tr <?php echo ($_index++ > $_count ? ' class="last"' : '') ?> id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
@@ -112,4 +111,4 @@
         </tbody>
         <?php endforeach; ?>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table')</script>
+<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>

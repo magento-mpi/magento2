@@ -69,15 +69,14 @@
             <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
         </tr>
     </tfoot>
-        <?php $_items = $_invoice->getAllItems(); ?>
-        <?php $_count = count($_items) ?>
-        <?php $_index = 0; ?>
-        <?php foreach ($_items as $_item): ?>
-    <?php if ($_item->getOrderItem()->getParentItem()) continue; else $_index++ ?>
-    <tbody class="<?php echo ($_index%2 ? 'even' : 'odd') ?>">
+		<?php $_items = $_invoice->getAllItems(); ?>
+    <?php $_count = count($_items) ?>
+    <?php foreach ($_items as $_item): ?>
+    <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+    <tbody>
         <?php echo $this->getItemHtml($_item) ?>
     </tbody>
         <?php endforeach; ?>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table-<?php echo $_invoice->getId(); ?>')</script>
+<script type="text/javascript">decorateTable('my-orders-table-<?php echo $_invoice->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
 <?php endforeach; ?>

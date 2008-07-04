@@ -28,7 +28,7 @@
 <h4><?php echo $this->__('Items Refunded') ?></h4>
 <table cellspacing="0" class="data-table" id="my-orders-table">
     <col />
-    <col width="15%" />
+    <col width="20%" />
     <col width="1" />
     <col width="1" />
     <col width="1" />
@@ -116,14 +116,13 @@
         <?php endif; ?>
     </tfoot>
         <?php $_items = $_creditmemo->getAllItems(); ?>
-    <?php $_count = count($_items) ?>
-        <?php $_index = 0; ?>
+        <?php $_count = count($_items) ?>
         <?php foreach ($_items as $_item): ?>
-    <?php if ($_item->getOrderItem()->getParentItem()) continue; else $_index++ ?>
-    <tbody class="<?php echo ($_index%2 ? 'even' : 'odd') ?>">
+    <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+    <tbody>
         <?php echo $this->getItemHtml($_item) ?>
     </tbody>
         <?php endforeach; ?>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table')</script>
+<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
 <?php endforeach; ?>

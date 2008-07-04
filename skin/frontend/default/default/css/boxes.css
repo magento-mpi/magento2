@@ -255,8 +255,8 @@ td.label        { font-weight:bold; }
 .data-table .odd  { background:#f8f7f5 }
 .data-table .even { background:#eeeded !important; }
 .data-table td.last, .data-table th.last { border-right:0; }
-.data-table tr.last td,
-.data-table tr.last th { border-bottom:0; }
+.data-table tr.last th,
+.data-table tr.last td { border-bottom:0 !important; }
 .data-table th { border-right:1px solid #c2d3e0; padding:2px 8px; color:#0a263c; white-space:nowrap; }
 .data-table th.wrap { white-space:normal; }
 .data-table th a,
@@ -275,9 +275,12 @@ td.label        { font-weight:bold; }
 .data-table tbody.even tr td { border-bottom:0; }
 .data-table tbody.odd tr.border td,
 .data-table tbody.even tr.border td { border-bottom:1px solid #d9dde3; }
-.data-table tbody td.indent { padding-left:18px; }
 
-.data-table ul.item-options { list-style:none; padding-left:10px; }
+.data-table dl.item-options dt { font-weight:bold; font-style:italic; }
+.data-table dl.item-options dd { padding-left:10px; }
+.data-table td h6.title { margin:0; padding:0; font-weight:bold; color:#2f2f2f; }
+.data-table td .option-label { font-weight:bold; font-style:italic; }
+.data-table td .option-value { padding-left:10px; }
 
 .box-table td { padding:10px; }
 .box-table tfoot td { padding-top:5px; padding-bottom:5px; }
@@ -650,12 +653,12 @@ a.minimal-price-link .price {}
 .price-excluding-tax .price { font-size:13px; color:#c76200; }
 
 /* Incl tax (for order tables) */
-.price-incl-tax { display:block; border:1px solid red; }
+.price-incl-tax { display:block; }
 .price-incl-tax .label { display:block; white-space:nowrap; }
 .price-incl-tax .price { display:block; font-weight:bold; }
 
 /* Excl tax (for order tables) */
-.price-excl-tax  { display:block; border:1px solid green; }
+.price-excl-tax  { display:block; }
 .price-excl-tax .label { display:block; white-space:nowrap; }
 .price-excl-tax .price { display:block; font-weight:bold; }
 
