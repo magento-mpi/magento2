@@ -530,7 +530,11 @@ Product.OptionsPrice.prototype = {
                 }
                 if (price < 0) price = 0;
                 formattedPrice = this.formatPrice(price);
-                $(pair.value).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
+                if ($(pair.value).getElementsBySelector('.price')[0]) {
+                    $(pair.value).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
+                } else {
+                    $(pair.value).innerHTML = formattedPrice;
+                }
             };
         }.bind(this));
     },
