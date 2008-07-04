@@ -50,7 +50,7 @@ class Mage_Catalog_Block_Product_View_Tabs extends Mage_Core_Block_Template
         );
 
         $this->setChild($alias,
-            $this->getLayout()->createBlock($block)
+            $this->getLayout()->createBlock($block, $alias)
                 ->setTemplate($template)
             );
     }

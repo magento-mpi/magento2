@@ -136,6 +136,17 @@
                 </attributes>
             </collection>
         </product>
+        <events>
+            <catalog_product_upsell>
+                <observers>
+                    <bundle_observer>
+                        <type>singleton</type>
+                        <class>bundle/observer</class>
+                        <method>appendUpsellProducts</method>
+                    </bundle_observer>
+                </observers>
+            </catalog_product_upsell>
+        </events>
     </frontend>
     <admin>
         <routers>

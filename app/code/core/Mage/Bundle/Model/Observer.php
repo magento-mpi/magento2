@@ -48,4 +48,54 @@ class Mage_Bundle_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Append bundles in upsell list for current product
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function appendUpsellProducts($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+
+        if ($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_SIMPLE) {
+            return $this;
+        }
+
+        $collection = $observer->getEvent()->getCollection();
+        $limit = $observer->getEvent()->getLimit();
+
+        $bundles = Mage::getModel('catalog/product')->getResourceCollection()
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSort('position', 'asc')
+            ->addStoreFilter()
+            ->addMinimalPrice()
+
+            ->joinTable('bundle/option', 'parent_id=entity_id', array('option_id' => 'option_id'))
+            ->joinTable('bundle/selection', 'option_id=option_id', array('product_id' => 'product_id'), '{{table}}.product_id='.$product->getId());
+
+        $ids = Mage::getSingleton('checkout/cart')->getProductIds();
+        $ids = array_merge($ids, $collection->getAllIds());
+
+        if (count($ids)) {
+            $bundles->addIdFilter($ids, true);
+        }
+
+        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($bundles);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($bundles);
+
+        $bundles->getSelect()->group('entity_id');
+
+        if (isset($limit['bundle'])) {
+            $bundles->setPageSize($limit['bundle']);
+        }
+        $bundles->load();
+
+        foreach ($bundles->getItems() as $item) {
+            $collection->addItem($item);
+        }
+
+        return $this;
+    }
 }
