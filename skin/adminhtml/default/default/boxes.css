@@ -118,14 +118,13 @@
 .grid table td.empty-text       { padding:15px; }
 .grid table td .action-select   { width: 100%; }
 .grid .separator                { padding:0 4px; color:#b9b9b9; }
-/* For Bundle product rows */
+
 .grid tbody.odd tr              { background:#fff !important; }
 .grid tbody.even tr             { background:#f6f6f6 !important; }
 .grid tbody.odd tr td,
 .grid tbody.even tr td          { border-bottom:0; }
 .grid tbody.odd tr.border td,
 .grid tbody.even tr.border td   { border-bottom:1px solid #dadfe0; }
-.grid td.indent                 { padding-left:20px; }
 
 
 /* Grid - Pager and Buttons row */
@@ -571,9 +570,9 @@ td.divider              { font-size:1px; line-height:0; }
 .scrollContent              { position: absolute; left: 0px; top: 0px;}
 
 /* Horizontal scroll */
-.hor-scroll { width:100%; overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
-.hor-scroll.grid { padding-bottom:0 !important; }
-.hor-scroll.grid table { margin-bottom:0 !important; padding-bottom:0 !important; }
+.hor-scroll                 { width:100%; overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
+.hor-scroll.grid            { padding-bottom:0 !important; }
+.hor-scroll.grid table      { margin-bottom:0 !important; padding-bottom:0 !important; }
 
 /**/
 .note-list { width:100%; overflow:hidden; }
@@ -622,10 +621,7 @@ div.main-col {
     min-height:450px;
     padding:0 0 25px 25px;
     }
-div.main-col-inner {
-    float:left; /* Fixes some inner clears in the liquid main-col */
-    width:100%;
-}
+div.main-col-inner { float:left; /* Fixes some inner clears in the liquid main-col */ width:100%; }
 .footer {
     clear:both;
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -843,7 +839,26 @@ padding:6px 8px 4px 8px;
 
 /* SALES
 *******************************************************************************/
+.price { white-space:nowrap !important; }
+
+/* Disabled block */
 .overlay span { display:block; width:100%; text-align:center; position:absolute; top:50%; margin:-5px 0 0; color:#000; }
+
+/* Orders / Invoices / Shipments / Credit Memos Table */
+.order-tables td h5.title { font-size:1em; font-weight:bold; }
+
+.grid td.indent { padding-left:20px; }
+
+ul.item-options { list-style:none; }
+ul.item-options li { padding-left:.7em; }
+
+ul.item-options-bundle { list-style:none; }
+ul.item-options-bundle li { padding:0 0 0 0; }
+
+dl.item-options {}
+dl.item-options dt { font-weight:bold; font-style:italic; }
+dl.item-options dd { padding-left:10px; }
+
 
 /* Create Order */
 .page-create-order .side-col            { width:260px; background:none; padding:0; }
@@ -867,30 +882,18 @@ padding:6px 8px 4px 8px;
 .entry-edit .order-address .select      { width:97.5%; }
 .order-search-items .entry-edit .grid   { height:610px;overflow: auto;}
 .order-search-items .entry-edit .grid table {width:99.9%; }
-/* .create-order-totals                    { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
+/* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
 /* Account Information */
 .account-info .form-list td.value { width:auto; }
 
 /* Order Totals */
-.order-totals {
-    margin-left:auto;
-    border:1px solid #d7c699 !important;
-    padding: 12px 10px;
-    background:#fcfac9;
-    text-align:right;
-    }
+.order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding: 12px 10px; background:#fcfac9; text-align:right; }
 .order-totals table                     { border: none; background: none; margin-left: auto; }
 .order-totals table td                  { padding:3px 10px;}
 .order-totals table td.label            { white-space:normal; }
 .order-totals table td.last             { padding:2px 6px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important;}
-
-ul.item-options { list-style:none; }
-ul.item-options li { padding-left:.7em; }
-
-ul.item-options-bundle { list-style:none; }
-ul.item-options-bundle li { padding:0 0 0 0; }
 
 /* Order Constants */
 .payment-methods dt                     { margin-bottom:3px; }
@@ -904,18 +907,12 @@ ul.item-options-bundle li { padding:0 0 0 0; }
 .giftmessage-order-create .each-order-item .scroll  { overflow: auto; height: 250px; }
 .giftmessage-order-create .single                   { width:100%; float:left; padding:1.2em 1.5em; }
 .giftmessage-order-create .section-head             { margin-bottom: 10px; }
-.giftmessage-order-create .item-head {
-    background-color: #cfcfcf;
-    margin-bottom: 10px;
-    width: 400px;
-    padding: 2px 6px;
-    font-size: 11px;
-    }
-.giftmessage-order-create .entire-order             { background-color: #EEE; height: 275px; }
+.giftmessage-order-create .item-head                { background-color:#cfcfcf; margin-bottom:10px; width:400px; padding:2px 6px; font-size:11px; }
+.giftmessage-order-create .entire-order             { background-color:#eee; height: 275px; }
 .giftmessage-order-create fieldset                  { padding: 0 0 0 0; }
 .giftmessage-order-create .entry-edit .input-text,
 .giftmessage-order-create .entry-edit .textarea     { width:220px; }
-td.giftmessage-single-item                          { padding: 0 0 0 0; }
+.giftmessage-single-item                            { padding: 0 0 0 0; }
 .giftmessage-single-item .item-text                 { padding:2px 5px; }
 .giftmessage-single-item .item-text2                { padding:2px 0; }
 .giftmessage-single-item .item-container { cursor: auto; }
@@ -996,8 +993,8 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 
 /* Products - Tier Price */
 .tier-price-input                       { margin-bottom:8px; }
-.tier-price-input INPUT.price           { width: 80px; margin-right:10px; }
-.tier-price-input INPUT.qty             { width: 80px; }
+.tier-price-input input.price           { width: 80px; margin-right:10px; }
+.tier-price-input input.qty             { width: 80px; }
 .tier-price-input .tier-container       { position:relative; clear:both; }
 .tier-price-input .tier-container div   { float:left; }
 .tier-price-input .tier-container label { width:30px; margin:0; padding:0; }
@@ -1057,12 +1054,7 @@ td.giftmessage-single-item                          { padding: 0 0 0 0; }
 .rule-param-remove              { font-weight:normal; color:red; text-decoration:none; }
 .rule-param-remove:hover        { font-weight:normal; color:blue; text-decoration:none; }
 .rule-chooser                   { border:solid 1px #CCC; margin:5px; padding:5px; display:none; }
-.rule-param-wait {
-    padding-left:20px;
-    background-image:url('images/rule-ajax-loader.gif');
-    background-repeat:no-repeat;
-    background-position:0 50%;
-    }
+.rule-param-wait                { padding-left:20px; background-image:url(images/rule-ajax-loader.gif); background-repeat:no-repeat; background-position:0 50%; }
 
 fieldset.sitemap .form-list { width:auto; }
 
@@ -1099,7 +1091,7 @@ fieldset.sitemap .form-list { width:auto; }
 .custom-options .option-box  .border .type-last  .input-text {width:60px!important;}
 .custom-options .option-box  .border  input.type-sku  {width:150px !important;}
 
-/*bundle product*/
+/* Bundle product */
 .bundle .option-box  {padding-bottom:2em;}
 .bundle .option-box .border {width:100%; border-bottom:0;}
 .bundle .option-box .border td {border-bottom:1px solid #dce5e6!important;}
@@ -1189,14 +1181,9 @@ ul.config-tabs a.last span  { background-image:none; }
 
 
 /** Order view **/
-.order-history {
-    width: 70%;
-    margin-right: 27px;
-}
+.order-history { width: 70%; margin-right: 27px; }
 
-ul.super-product-attributes {
-    padding-left:15px;
-}
+ul.super-product-attributes { padding-left:15px; }
 
 /** Media Library **/
 .uploader .file-row {
@@ -1311,10 +1298,10 @@ ul.super-product-attributes {
 .preview .cell-image .place-holder span { margin-top:30px;display:block; }
 .preview .cell-position .input-text     { width: 90% !important; }
 
-.tier .data             {width:480px;}
-.tier .data select      {width:99%;}
-.tier .data input.qty   {width: 20px !important}
-.tier .data .last {width:33px;}
+.tier .data             { width:480px; }
+.tier .data select      { width:99%; }
+.tier .data input.qty   { width: 20px !important; }
+.tier .data .last { width:33px; }
 
 
 /* Links */
@@ -1384,12 +1371,4 @@ dl.accordion dt:after,
 div.actions:after,
 .tier-container:after,
 .clear:after,
-.notification-global:after {
-    clear:both;
-    content:".";
-    display:block;
-    height:0;
-    font-size:0;
-    line-height:0;
-    visibility:hidden;
-    }
+.notification-global:after { display:block; clear:both; content:"."; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
