@@ -264,11 +264,11 @@ td.label        { font-weight:bold; }
 .data-table td { padding:3px 8px; }
 .data-table thead tr th { background:url(../images/data_table_th_bg.gif) repeat-x 0 100% #d9e5ee; }
 .data-table tfoot { border-bottom:1px solid #d9dde3;}
-.data-table tfoot tr.first { background:url(../images/base_mini_actions_bg.gif) repeat-x; }
+.data-table tfoot tr.first { background:url(../images/base_mini_actions_bg.gif) 0 0 repeat-x; }
 .data-table tfoot tr { background-color:#DEE5E8 !important; }
 .data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
 .data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
-/* Bundle Product row */
+/* Bundle Products */
 .data-table tbody.odd tr { background:#f8f7f5 !important; }
 .data-table tbody.even tr { background:#f6f6f6 !important; }
 .data-table tbody.odd tr td,
@@ -276,11 +276,9 @@ td.label        { font-weight:bold; }
 .data-table tbody.odd tr.border td,
 .data-table tbody.even tr.border td { border-bottom:1px solid #d9dde3; }
 
-.data-table dl.item-options dt { font-weight:bold; font-style:italic; }
-.data-table dl.item-options dd { padding-left:10px; }
-.data-table td h6.title { margin:0; padding:0; font-weight:bold; color:#2f2f2f; }
-.data-table td .option-label { font-weight:bold; font-style:italic; }
-.data-table td .option-value { padding-left:10px; }
+.data-table tbody td h6.title { margin:0; padding:0; font-size:1em; font-weight:bold; color:#2f2f2f; }
+.data-table tbody td .option-label { font-weight:bold; font-style:italic; }
+.data-table tbody td .option-value { padding-left:10px; }
 
 .box-table td { padding:10px; }
 .box-table tfoot td { padding-top:5px; padding-bottom:5px; }
@@ -993,6 +991,9 @@ table.recently-list td {width:20%;}
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
 .product-options p.required { margin-bottom:0; }
 
+dl.item-options dt { font-weight:bold; font-style:italic; }
+dl.item-options dd { padding-left:10px; }
+
 
 /* Product Collateral */
 .product-collateral { background:url(../images/product_collateral_bg.gif) repeat-x #faf7ee; }
@@ -1090,13 +1091,12 @@ td.attributes-col p.pname a{ font-weight:bold;}
 
 /* Tax details */
 .tax-total { cursor:pointer; }
-.tax-total td { padding-top:3px !important; padding-bottom:3px !important; line-height:13px; /* background:#e4eaec; */ }
-.tax-total div { float:right; padding-left:20px; background:url(../images/bg_collapse.gif) no-repeat 0 2px; cursor:pointer; }
-.show-details div { background-position:0 -55px; }
+.tax-total td { line-height:13px; padding-top:5px !important; padding-bottom:5px !important; }
+.tax-total .tax-collapse { float:right; padding-left:20px; background:url(../images/bg_collapse.gif) 0 2px no-repeat; text-align:right; cursor:pointer; }
+.show-details .tax-collapse { background-position:0 -55px; }
 .show-details td { border-top:1px solid #d2d8db; }
 .tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }
-.tax-details.first td { border-top:1px solid #d2d8db; padding-top:2px; }
-
+.tax-details-first td { border-top:1px solid #d2d8db; }
 
 
 .shopping-cart-collaterals {

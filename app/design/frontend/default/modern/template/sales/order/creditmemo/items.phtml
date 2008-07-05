@@ -26,7 +26,7 @@
     <a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print Refund') ?></a>
 </div>
 <h4><?php echo $this->__('Items Refunded') ?></h4>
-<table cellspacing="0" class="data-table" id="my-orders-table">
+<table cellspacing="0" class="data-table" id="my-refund-table-<?php echo $_creditmemo->getId(); ?>">
     <col />
     <col width="20%" />
     <col width="1" />
@@ -115,14 +115,14 @@
         </tr>
         <?php endif; ?>
     </tfoot>
-        <?php $_items = $_creditmemo->getAllItems(); ?>
-        <?php $_count = count($_items) ?>
-        <?php foreach ($_items as $_item): ?>
+		<?php $_items = $_creditmemo->getAllItems(); ?>
+    <?php $_count = count($_items) ?>
+    <?php foreach ($_items as $_item): ?>
     <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
     <tbody>
         <?php echo $this->getItemHtml($_item) ?>
     </tbody>
-        <?php endforeach; ?>
+    <?php endforeach; ?>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
+<script type="text/javascript">decorateTable('my-refund-table-<?php echo $_creditmemo->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
 <?php endforeach; ?>

@@ -65,7 +65,7 @@
     </div>
     <br />
     <h4><?php echo $this->__('Items Refunded') ?></h4>
-    <table cellspacing="0" class="data-table">
+    <table cellspacing="0" class="data-table" id="my-refund-table-<?php echo $_creditmemo->getId(); ?>">
       <col />
       <col width="25%" />
       <col width="1" />
@@ -77,9 +77,9 @@
           <tr>
             <th><?php echo $this->__('Product Name') ?></th>
             <th><?php echo $this->__('SKU') ?></th>
-            <th><?php echo $this->__('Price') ?></th>
+            <th class="a-right"><?php echo $this->__('Price') ?></th>
             <th class="a-center"><?php echo $this->__('Qty') ?></th>
-            <th><?php echo $this->__('Subtotal') ?></th>
+            <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
             <th class="a-center wrap"><?php echo $this->__('Discount Amount') ?></th>
             <th class="a-center wrap"><?php echo $this->__('Row Total') ?></th>
           </tr>
@@ -156,14 +156,13 @@
     </tfoot>
     <?php $_items = $_creditmemo->getAllItems(); ?>
     <?php $_count = count($_items); ?>
-    <?php $_index = 0; ?>
     <?php foreach ($_items as $_item): ?>
-    <?php if ($_item->getOrderItem()->getParentItem()) continue; else $_index++ ?>
-    <tbody class="<?php echo ($_index%2 ? 'even' : 'odd') ?>">
+    <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+    <tbody>
         <?php echo $this->getItemHtml($_item) ?>
     </tbody>
     <?php endforeach; ?>
 </table>
-    <br/>
+<script type="text/javascript">decorateTable('my-refund-table-<?php echo $_creditmemo->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
 <?php endforeach; ?>
 <script type="text/javascript">window.print();</script>

@@ -58,7 +58,7 @@
 </table>
 <?php  endif; ?>
 <h4><?php echo $this->__('Items Shipped') ?></h4>
-<table cellspacing="0" class="data-table" id="my-orders-table-<?php echo $_shipment->getId(); ?>">
+<table cellspacing="0" class="data-table" id="my-shipment-table-<?php echo $_shipment->getId(); ?>">
     <col />
     <col width="35%" />
     <col width="1" />
@@ -66,7 +66,7 @@
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
             <th><?php echo $this->__('SKU') ?></th>
-            <th class="a-center"><?php echo $this->__('Qty Shipped') ?></th>
+            <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Shipped') ?></span></th>
         </tr>
     </thead>
 		<?php $_items = $_shipment->getAllItems(); ?>
@@ -78,5 +78,5 @@
     </tbody>
         <?php endforeach; ?>
 </table>
-<script type="text/javascript">decorateTable('my-orders-table-<?php echo $_shipment->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
+<script type="text/javascript">decorateTable('my-shipment-table-<?php echo $_shipment->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
 <?php endforeach; ?>

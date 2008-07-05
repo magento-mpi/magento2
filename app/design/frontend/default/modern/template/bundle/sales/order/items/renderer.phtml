@@ -89,18 +89,20 @@
     <td class="a-right nowrap">
         <?php if (($_item->getParentItem() && $this->isChildCalculated()) ||
                 (!$_item->getParentItem() && !$this->isChildCalculated())): ?>
-            <?php if ($_item->getQtyOrdered() > 0): ?>
-                <span class="nobr"><?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong></span><br />
+            <span class="nobr">
+						<?php if ($_item->getQtyOrdered() > 0): ?>
+                <?php echo Mage::helper('sales')->__('Ordered'); ?>: <strong><?php echo $_item->getQtyOrdered()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyShipped() > 0 && !$this->isShipmentSeparately()): ?>
-                <span class="nobr"><?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong></span><br />
+                <?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyCanceled() > 0): ?>
-                <span class="nobr"><?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong></span><br />
+                <?php echo Mage::helper('sales')->__('Canceled'); ?>: <strong><?php echo $_item->getQtyCanceled()*1 ?></strong><br />
             <?php endif; ?>
             <?php if ($_item->getQtyRefunded() > 0): ?>
-                <span class="nobr"><?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong></span>
+                <?php echo Mage::helper('sales')->__('Refunded'); ?>: <strong><?php echo $_item->getQtyRefunded()*1 ?></strong>
             <?php endif; ?>
+            </span>
         <?php elseif ($_item->getQtyShipped() > 0 && $_item->getParentItem() && $this->isShipmentSeparately()): ?>
             <span class="nobr"><?php echo Mage::helper('sales')->__('Shipped'); ?>: <strong><?php echo $_item->getQtyShipped()*1 ?></strong></span>
         <?php else: ?>

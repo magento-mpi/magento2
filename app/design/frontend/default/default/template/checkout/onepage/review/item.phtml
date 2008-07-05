@@ -25,7 +25,7 @@
         <?php if ($_options = $this->getOptionList()): ?>
         <ul class="super-product-attributes">
             <?php foreach ($_options as $_option): ?>
-            <li><strong><?php echo $_option['label'] ?>:</strong><br />
+            <li><strong><?php echo $_option['label'] ?></strong><br />
             <? if (is_array($_option['value'])): ?>
                 <?php echo implode('<br />', $_option['value']) ?>
             <? else: ?>
