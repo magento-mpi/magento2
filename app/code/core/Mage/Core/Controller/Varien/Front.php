@@ -31,7 +31,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     protected $_routers = array();
 
     protected $_urlCache = array();
-    
+
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
     public function setDefault($key, $value=null)
@@ -107,9 +107,9 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
         Varien_Profiler::start('ctrl/init');
-        
+
         $routersInfo = Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH);
-        
+
         foreach ($routersInfo as $routerCode => $routerInfo) {
             if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
             	continue;
@@ -123,6 +123,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             }
         }
         Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
+
+        // Add default router at the last
+        $default = new Mage_Core_Controller_Varien_Router_Default();
+        $this->addRouter('default', $default);
+
 //         init admin modules router
 //        $admin = new Mage_Core_Controller_Varien_Router_Admin();
 //        $admin->collectRoutes('admin', 'admin');
