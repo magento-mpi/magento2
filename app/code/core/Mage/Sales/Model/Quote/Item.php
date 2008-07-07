@@ -106,6 +106,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function setQty($qty)
     {
         $qty    = $this->_prepareQty($qty);
+        
+       
         $oldQty = $this->_getData('qty');
         $this->setData('qty', $qty);
 
