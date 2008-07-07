@@ -215,21 +215,21 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     /**
      * Set filenames for base file and new file
      *
-     * $file should contain heading slash
-     *
      * @param string $file
      * @return Mage_Catalog_Model_Product_Image
      */
     public function setBaseFile($file)
     {
-        // build base filename
+        if (0 !== strpos($file, '/', 0)) {
+            $file = '/' . $file;
+        }
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
-        if ('no_selection' == $file) {
+        if ('/no_selection' == $file) {
             $file = null;
         }
         if ($file) {
-            if ((!file_exists($baseDir . '/' . $file)) || !$this->_checkMemory($baseDir . '/' . $file)) {
+            if ((!file_exists($baseDir . $file)) || !$this->_checkMemory($baseDir . $file)) {
                 $file = null;
             }
         }
