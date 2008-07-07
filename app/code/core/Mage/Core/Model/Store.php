@@ -652,7 +652,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      *
      * @param Mage_Core_Model_Store_Group $group
      */
-    public function setGroup(Mage_Core_Model_Store_Group $group)
+    public function setGroup($group)
     {
         $this->_group = $group;
     }
