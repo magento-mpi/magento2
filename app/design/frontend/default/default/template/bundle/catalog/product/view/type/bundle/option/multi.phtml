@@ -22,8 +22,8 @@
 
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
-<dt><label><?php echo $this->htmlEscape($_option->getTitle()) ?></label><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?>
-    <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
+<dt>
+    <label><?php echo $this->htmlEscape($_option->getTitle()) ?></label><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?>
 </dt>
 <dd <?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
     <?php if (count($_selections) == 1 && $_option->getRequired()): ?>
@@ -39,6 +39,7 @@
             <?php endforeach;?>
         </select>
         <?php if($_option->getRequired()): ?>
+            <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
             <?php echo $this->setValidationContainer('bundle-option-'.$_option->getId(), 'bundle-option-'.$_option->getId().'-container') ?>
         <?php endif; ?>
     <?php endif; ?>

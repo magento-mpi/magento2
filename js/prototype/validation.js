@@ -195,8 +195,8 @@ Object.extend(Validation, {
         if(advice != null) advice.hide();
     },
     updateCallback : function(elm, status) {
-        if (elm.callbackFuncktion) {
-            eval(elm.callbackFuncktion+'(\''+elm.id+'\',\''+status+'\')');
+        if (typeof elm.callbackFunction != 'undefined') {
+            eval(elm.callbackFunction+'(\''+elm.id+'\',\''+status+'\')');
         }
     },
     ajaxError : function(elm, errorMsg) {

@@ -39,7 +39,6 @@
         <?php endif; ?>
         <label for="bundle-option-<?php echo $_option->getId() ?>-qty-input"><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" <?php echo $_canChangeQty?'':'disabled="disabled"' ?> id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
     </span>
-    <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
 </dt>
 <dd <?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
     <?php if ($_showSingle): ?>
@@ -53,6 +52,7 @@
             <?php endforeach;?>
         </select>
         <?php if($_option->getRequired()): ?>
+            <span id="bundle-option-<?php echo $_option->getId() ?>-container"></span>
             <?php echo $this->setValidationContainer('bundle-option-'.$_option->getId(), 'bundle-option-'.$_option->getId().'-container') ?>
         <?php endif; ?>
     <?php endif; ?>

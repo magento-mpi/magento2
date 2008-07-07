@@ -86,19 +86,19 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     $arraySign = '[]';
                     break;
             }
-			$count = 1;
+            $count = 1;
             foreach ($_option->getValues() as $_value) {
-				$count++;
-				$priceStr = $this->_formatPrice(array(
-				    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
-				    'pricing_value' => $_value->getPrice(true)
-				));
+                $count++;
+                $priceStr = $this->_formatPrice(array(
+                    'is_percent' => ($_value->getPriceType() == 'percent') ? true : false,
+                    'pricing_value' => $_value->getPrice(true)
+                ));
                 $selectHtml .= '<li>' .
                             '<label for="options_'.$_option->getId().'_'.$count.'"><input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />'.$_value->getTitle().' '.$priceStr.'</label>';
                 if ($_option->getIsRequire()) {
                     $selectHtml .= '<script type="text/javascript">' .
                                     '$(\'options_'.$_option->getId().'_'.$count.'\').advaiceContainer = \'options-'.$_option->getId().'-container\';' .
-                                    '$(\'options_'.$_option->getId().'_'.$count.'\').callbackFuncktion = \'validateOptionsCallback\';' .
+                                    '$(\'options_'.$_option->getId().'_'.$count.'\').callbackFunction = \'validateOptionsCallback\';' .
                                 '</script>';
                 }
                 $selectHtml .= '</li>';
