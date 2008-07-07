@@ -136,7 +136,7 @@ table.actions td                { vertical-align:top; }
 
 
 /* Grid - Headings */
-.grid tr.headings               { background:url(images/sort_row_bg.gif) repeat-x 0 50%; zoom:1; }
+.grid tr.headings               { background:url(images/sort_row_bg.gif) 0 50% repeat-x; }
 .grid tr.headings th {
     border-width:1px;
     border-color:#f9f9f9 #d1cfcf #f9f9f9 #f9f9f9;
@@ -839,13 +839,27 @@ padding:6px 8px 4px 8px;
 
 /* SALES
 *******************************************************************************/
-.price { white-space:nowrap !important; }
 
 /* Disabled block */
 .overlay span { display:block; width:100%; text-align:center; position:absolute; top:50%; margin:-5px 0 0; color:#000; }
 
+/* Prices */
+.price { white-space:nowrap !important; }
+
+/* Incl tax (for order tables) */
+.price-incl-tax { display:block; text-align:right; }
+.price-incl-tax .label { display:block; white-space:nowrap; }
+.price-incl-tax .price { display:block; font-weight:bold; }
+
+/* Excl tax (for order tables) */
+.price-excl-tax  { display:block; text-align:right; }
+.price-excl-tax .label { display:block; white-space:nowrap; }
+.price-excl-tax .price { display:block; font-weight:bold; }
+
 /* Orders / Invoices / Shipments / Credit Memos Table */
-.order-tables td h5.title { font-size:1em; font-weight:bold; }
+.order-tables tbody td h5.title { font-size:1em; font-weight:bold; }
+.order-tables tbody td .option-label { font-weight:bold; font-style:italic; }
+.order-tables tbody td .option-value { padding-left:10px; }
 
 .grid td.indent { padding-left:20px; }
 
@@ -855,7 +869,6 @@ ul.item-options li { padding-left:.7em; }
 ul.item-options-bundle { list-style:none; }
 ul.item-options-bundle li { padding:0 0 0 0; }
 
-dl.item-options {}
 dl.item-options dt { font-weight:bold; font-style:italic; }
 dl.item-options dd { padding-left:10px; }
 
@@ -912,61 +925,21 @@ dl.item-options dd { padding-left:10px; }
 .giftmessage-order-create fieldset                  { padding: 0 0 0 0; }
 .giftmessage-order-create .entry-edit .input-text,
 .giftmessage-order-create .entry-edit .textarea     { width:220px; }
-.giftmessage-single-item                            { padding: 0 0 0 0; }
-.giftmessage-single-item .item-text                 { padding:2px 5px; }
-.giftmessage-single-item .item-text2                { padding:2px 0; }
-.giftmessage-single-item .item-container { cursor: auto; }
-.giftmessage-single-item .gift-form {
-    display:block;
-    margin-top: 3px;
-    background-image: url(images/gift-message-grid-column-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top left;
-    background-color: #f7f6f4;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset {
-    border: none !important;
-    margin-bottom:0px;
-    background: none !important;
-    padding: 15px 15px;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset .field-row {
-    margin-bottom:0;
-    margin-top:0px;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset .left {
-    margin-right: 20px;
-    margin-bottom:5px;
-    }
-.giftmessage-single-item .gift-form .entry-edit fieldset .last {
-    margin-right: 0px;
-    }
-.giftmessage-single-item .gift-form .entry-edit .left .input-text {
-    width: 50% !important;
-    }
-.giftmessage-single-item .gift-form .entry-edit textarea.input-text {
-    width: 99% !important;
-    }
-.giftmessage-single-item .action-link {
-    padding-right: 10px;
-    background-image: url(images/gift-message-expand.gif);
-    background-position: center right;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    }
-.giftmessage-single-item .open {
-    background-image: url(images/gift-message-collapse.gif);
-    background-repeat: no-repeat;
-    }
-.giftmessage-whole-order-container .entry-edit input.input-text {
-    width: 280px !important;
-    }
-.giftmessage-whole-order-container .entry-edit textarea.input-text {
-    width: 100% !important;
-    }
-.giftmessage-whole-order-container .entry-edit label {
-    width: 121px;
-    }
+
+.giftmessage-single-item                            { padding:0 !important; }
+.giftmessage-single-item .item-container            { cursor:auto; }
+.giftmessage-single-item .item-text                 { padding:2px 4px; }
+.giftmessage-single-item .gift-form                 { margin-top:3px; background:#f7f6f4 url(images/gift-message-grid-column-bg.gif) 0 0 repeat-x; zoom:1; }
+.giftmessage-single-item .gift-form .entry-edit fieldset { border:none !important; margin-bottom:0; background:none !important; padding:15px; }
+.giftmessage-single-item .gift-form .entry-edit fieldset .last { margin-bottom:0; }
+.giftmessage-single-item .gift-form .entry-edit input.input-text { width:75% !important; }
+.giftmessage-single-item .gift-form .entry-edit textarea { width:96% !important; }
+.giftmessage-single-item .action-link { padding-right:10px; background:url(images/gift-message-expand.gif) 100% 50% no-repeat; cursor:pointer; }
+.giftmessage-single-item .open { background:url(images/gift-message-collapse.gif) 100% 50% no-repeat; }
+
+.giftmessage-whole-order-container .entry-edit input.input-text { width:280px !important; }
+.giftmessage-whole-order-container .entry-edit textarea.input-text { width:100% !important; }
+.giftmessage-whole-order-container .entry-edit label { width:121px; }
 
 
 /* CATALOG
@@ -1158,8 +1131,8 @@ ul.config-tabs dt {
 ul.config-tabs dl           { margin-bottom:16px; }
 ul.config-tabs a.last span  { background-image:none; }
 
-.inline-table {border:0px !important}
-.inline-table td {border:0px !important;padding:0px 5px 5px 5px !important;}
+.inline-table { border:0 !important; }
+.inline-table td { border:0 !important; padding:0 5px 5px 5px !important; }
 
 /* Import/export */
 
@@ -1248,7 +1221,6 @@ ul.super-product-attributes { padding-left:15px; }
 .grid-severity-major    { background:url(images/bg_severity-major.gif) no-repeat 0 0; }
 .grid-severity-minor    { background:url(images/bg_severity-minor.gif) no-repeat 0 0; }
 .grid-severity-notice   { background:url(images/bg_severity-notice.gif) no-repeat 0 0; }
-
 
 
 .super-attributes                       { list-style-type:none; margin:0; padding:0; }
