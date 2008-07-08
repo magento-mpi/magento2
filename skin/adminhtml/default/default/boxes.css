@@ -570,9 +570,8 @@ td.divider              { font-size:1px; line-height:0; }
 .scrollContent              { position: absolute; left: 0px; top: 0px;}
 
 /* Horizontal scroll */
-.hor-scroll                 { width:100%; overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
-.hor-scroll.grid            { padding-bottom:0 !important; }
-.hor-scroll.grid table      { margin-bottom:0 !important; padding-bottom:0 !important; }
+.hor-scroll                 { width:100%; overflow:auto; margin-bottom:-.5em; padding-bottom:.5em; }
+.hor-scroll .grid            { padding-bottom:0 !important; }
 
 /**/
 .note-list { width:100%; overflow:hidden; }
@@ -805,7 +804,7 @@ padding:6px 8px 4px 8px;
 .login-container                        { width:581px; padding-left:32px; background:url(images/login_logo.gif) no-repeat; margin:170px auto; text-align:center; }
 .login-box                              { position:relative; }
 .login-form                             { padding:27px 57px 35px 57px; background:url(images/login_box_bg.jpg) no-repeat; text-align:left; }
-.login-form #messages                   { margin:0 17px 0 0; }
+.login-form #messages                   { margin:0 8px 0 0; }
 .login-form .input-left                 { float:left; width:50%; }
 .login-form .input-right                { float:right; width:50%; }
 .login-form .input-box input.input-text { width:94%; }
