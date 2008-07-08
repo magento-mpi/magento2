@@ -20,19 +20,18 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td>
-        <?php echo $this->htmlEscape($this->getProductName()) ?>
+    <td><h5 class="title"><?php echo $this->htmlEscape($this->getProductName()) ?></h5>
         <?php if ($_options = $this->getOptionList()): ?>
-        <ul class="super-product-attributes">
+        <dl class="item-options">
             <?php foreach ($_options as $_option): ?>
-            <li><strong><?php echo $_option['label'] ?></strong><br />
+            <dt><?php echo $_option['label'] ?></dt>
             <? if (is_array($_option['value'])): ?>
-                <?php echo implode('<br />', $_option['value']) ?>
+            <dd><?php echo implode('<br />', $_option['value']) ?></dd>
             <? else: ?>
-                <?php echo $this->htmlEscape($_option['value']) ?>
+            <dd><?php echo $this->htmlEscape($_option['value']) ?></dd>
             <? endif; ?>
             <?php endforeach; ?>
-        </ul>
+        </dl>
         <?php endif; ?>
     </td>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>

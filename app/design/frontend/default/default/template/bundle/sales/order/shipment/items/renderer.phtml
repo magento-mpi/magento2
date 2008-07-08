@@ -51,7 +51,7 @@
 <?php endif; ?>
 <tr <?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?> id="order-item-row-<?php echo $_item->getId() ?>">
     <?php if (!$_item->getParentItem()): ?>
-    <td><h6 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h6></td>
+    <td><h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5></td>
     <?php else: ?>
     <td>
         <?php if (is_array($_option['value'])): ?>

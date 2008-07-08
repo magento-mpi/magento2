@@ -862,6 +862,7 @@ padding:6px 8px 4px 8px;
 .order-tables td .option-value { padding-left:10px; }
 .order-tables td .qty-table { border:0 !important; width:100% }
 .order-tables td .qty-table td { border:0 !important; padding:0 4px !important; }
+.order-tables td span.price { display:block; }
 
 dl.item-options dt { font-weight:bold; font-style:italic; }
 dl.item-options dd { padding-left:10px; }
