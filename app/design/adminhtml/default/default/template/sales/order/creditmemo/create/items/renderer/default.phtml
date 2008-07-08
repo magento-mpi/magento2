@@ -21,7 +21,7 @@
 <?php $_item = $this->getItem() ?>
 <?php $this->setPriceDataObject($_item); ?>
 <tr class="border">
-    <td><h5 class="title"><?php echo $this->getColumnHtml($_item, 'name') ?></h5></td>
+    <td><?php echo $this->getColumnHtml($_item, 'name') ?></td>
     <td class="a-right">
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
         <span class="price-excl-tax">
@@ -51,7 +51,7 @@
         <?php echo $this->getQty()*1 ?>
     <?php endif; ?>
     </td>
-    <td class="price">
+    <td class="a-right">
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
         <span class="price-excl-tax">
 					<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
@@ -69,9 +69,9 @@
         </span>
     <?php endif; ?>
     </td>
-    <td class="price"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
-    <td class="price"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
-    <td class="last price">
+    <td class="a-right"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
+    <td class="a-right"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
+    <td class="a-right last">
         <?php echo $this->displayPrices(
             $_item->getBaseRowTotal()+$_item->getBaseTaxAmount()-$_item->getBaseDiscountAmount(),
             $_item->getRowTotal()+$_item->getTaxAmount()-$_item->getDiscountAmount()

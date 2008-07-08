@@ -84,7 +84,7 @@
         </td>
         <td>
             <?php if ($this->canShowPriceInfo($_item)): ?>
-                <table cellspacing="0" width="100%" class="inline-table">
+                <table cellspacing="0" class="qty-table">
                     <tr>
                         <td><?php echo Mage::helper('sales')->__('Ordered') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyOrdered()*1 ?></strong></td>
@@ -115,7 +115,7 @@
                     <?php endif; ?>
                 </table>
             <?php elseif ($this->isShipmentSeparately($_item)): ?>
-                <table cellspacing="0" width="100%" class="inline-table">
+                <table cellspacing="0" class="qty-table">
                     <tr>
                         <td><?php echo Mage::helper('sales')->__('Ordered') ?></td>
                         <td><strong><?php echo $_item->getOrderItem()->getQtyOrdered()*1 ?></strong></td>
@@ -209,7 +209,9 @@
                     <dd><?php echo $this->htmlEscape($option['value']); ?></dd>
                 <?php endforeach; ?>
                 </dl>
-            <?php endif; ?>
+            <?php else: ?>
+                &nbsp;
+						<?php endif; ?>
             <?php echo $_item->getDescription() ?>
         </td>
         <td>&nbsp;</td>

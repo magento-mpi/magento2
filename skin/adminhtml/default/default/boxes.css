@@ -857,9 +857,11 @@ padding:6px 8px 4px 8px;
 .price-excl-tax .price { display:block; font-weight:bold; }
 
 /* Orders / Invoices / Shipments / Credit Memos Table */
-.order-tables tbody td h5.title { font-size:1em; font-weight:bold; }
-.order-tables tbody td .option-label { font-weight:bold; font-style:italic; }
-.order-tables tbody td .option-value { padding-left:10px; }
+.order-tables td h5.title { font-size:1em; font-weight:bold; }
+.order-tables td .option-label { font-weight:bold; font-style:italic; }
+.order-tables td .option-value { padding-left:10px; }
+.order-tables td .qty-table { border:0 !important; width:100% }
+.order-tables td .qty-table td { border:0 !important; padding:0 4px !important; }
 
 dl.item-options dt { font-weight:bold; font-style:italic; }
 dl.item-options dd { padding-left:10px; }
@@ -934,7 +936,7 @@ ul.item-options li { padding-left:.7em; }
 .giftmessage-single-item .open { background:url(images/gift-message-collapse.gif) 100% 50% no-repeat; }
 
 .giftmessage-whole-order-container .entry-edit input.input-text { width:280px !important; }
-.giftmessage-whole-order-container .entry-edit textarea { width:100% !important; padding-left:0; padding-right:0; }
+.giftmessage-whole-order-container .entry-edit textarea { width:99% !important; padding:2px 3px; }
 .giftmessage-whole-order-container .entry-edit label { width:121px; }
 
 
@@ -1128,7 +1130,7 @@ ul.config-tabs dl           { margin-bottom:16px; }
 ul.config-tabs a.last span  { background-image:none; }
 
 .inline-table { border:0 !important; }
-.inline-table td { border:0 !important; padding:0 5px 5px 5px !important; }
+.inline-table td { border:0 !important; padding:0 5px 5px !important; }
 
 /* Import/export */
 
