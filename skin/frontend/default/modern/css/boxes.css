@@ -779,7 +779,7 @@ a.minimal-price-link .price { font-weight:bold; }
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
 .product-options dd label { font-weight:normal; }
 .product-options dd label input { margin-right:5px; }
-.product-options dd ul.options-list { list-style:none; }
+.product-options dd ul.options-list { list-style:none; margin-right:5px; }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
 .product-options dd ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; }

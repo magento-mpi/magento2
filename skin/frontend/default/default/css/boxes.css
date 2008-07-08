@@ -636,7 +636,7 @@ h1#logo {
 .minimal-price .label { font-size:12px; }
 .minimal-price .price { font-size:13px; font-weight:bold; color:#c76200; }
 
-a.minimal-price-link {}
+a.minimal-price-link { display:block; }
 a.minimal-price-link .label {}
 a.minimal-price-link .price {}
 
@@ -987,7 +987,7 @@ table.recently-list td {width:20%;}
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
 .product-options dd label { font-weight:normal; }
 .product-options dd label input { margin-right:5px; }
-.product-options dd ul.options-list { list-style:none; }
+.product-options dd ul.options-list { list-style:none; margin-right:5px; }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
 .product-options dd ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; }

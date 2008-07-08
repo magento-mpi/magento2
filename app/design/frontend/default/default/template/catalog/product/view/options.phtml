@@ -28,7 +28,7 @@
       </dl>
       <p class="required">* Required Fields</p>
     <script type="text/javascript">
-/* <![CDATA[ */
+    //<![CDATA[
     var optionFileUpload = {
         productForm : $('product_addtocart_form'),
         formAction : '',
@@ -37,7 +37,7 @@
             this.formElements = this.productForm.getElementsBySelector('input', 'select', 'textarea', 'button');
             this.removeRequire(element.readAttribute('id').sub('option_', ''));
 
-            template = '<iframe id="upload_target" name="upload_target" style="width:0;height:0;border:0px solid #fff;"></iframe>';
+            template = '<iframe id="upload_target" name="upload_target" style="width:0; height:0; border:0 solid #fff;"><\/iframe>';
 
             new Insertion.After(
                 $('option_'+element.readAttribute('id').sub('option_', '')+'_uploaded_file'),
@@ -76,7 +76,7 @@
                 $('option_'+data.optionId+'_file').value = '';
                 $('option_'+data.optionId+'_file').hide();
                 $('option_'+data.optionId+'').hide();
-                template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"></a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file</a>';
+                template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"><\/a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file<\/a>';
 
                 new Insertion.After(
                     $('option_'+data.optionId+'_uploaded_file'),
@@ -164,7 +164,7 @@
             container.addClassName('validation-passed');
         }
     }
-/* ]]> */
+		//]]>
     var opConfig = new Product.Options(<?php echo $this->getJsonConfig() ?>);
 </script>
 <?php endif; ?>
