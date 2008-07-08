@@ -189,7 +189,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 $product->getTypeInstance()->getOptionsIds()
             );
 
-        return $optionCollection->appendSelections($selectionCollection);
+        return $optionCollection->appendSelections($selectionCollection, false, false);
     }
 
     /**

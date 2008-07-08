@@ -325,7 +325,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     $product->getTypeInstance()->getOptionsIds()
                 );
 
-            $options = $optionCollection->appendSelections($selectionCollection);
+            $options = $optionCollection->appendSelections($selectionCollection, false, false);
 
             foreach ($options as $option) {
                 if ($option->getRequired() && count($option->getSelections()) == 1) {
