@@ -235,7 +235,7 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
      * @param string $separator
      * @return string
      */
-    public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
+    public function displayPriceAttribute($code, $strong = false, $separator = '')
     {
         return $this->displayPrices(
             $this->getPriceDataObject()->getData('base_'.$code),
@@ -254,13 +254,14 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
      * @param string $separator
      * @return string
      */
-    public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
+    public function displayPrices($basePrice, $price, $strong = false, $separator = '')
     {
         if ($this->getOrder()->isCurrencyDifferent()) {
-            $res = '<strong>';
+            //$res = '<strong>';
+            $res = '';
             $res.= $this->getOrder()->formatBasePrice($basePrice);
-            $res.= '</strong>'.$separator;
-            $res.= '['.$this->getOrder()->formatPrice($price).']';
+            $res.= /*'</strong>'.*/$separator;
+            $res.= $this->getOrder()->formatPrice($price, true);
         }
         else {
             $res = $this->getOrder()->formatPrice($price);
