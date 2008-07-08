@@ -990,7 +990,6 @@ table.recently-list td {width:20%;}
 .product-options dd ul.options-list { list-style:none; margin-right:5px; }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
 .product-options dd ul.validation-failed { padding:0 7px; }
-.product-options dd ul.validation-failed input { border:0 !important; background:0 !important; }
 .product-options p.required { margin-bottom:0; }
 
 dl.item-options dt { font-weight:bold; font-style:italic; }
