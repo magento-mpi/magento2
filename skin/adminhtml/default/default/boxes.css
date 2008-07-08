@@ -849,12 +849,12 @@ padding:6px 8px 4px 8px;
 /* Incl tax (for order tables) */
 .price-incl-tax { display:block; }
 .price-incl-tax .label { display:block; white-space:nowrap; }
-.price-incl-tax .price { display:block; font-weight:bold; }
+.price-incl-tax .price { /*display:block;*/ font-weight:bold; }
 
 /* Excl tax (for order tables) */
 .price-excl-tax  { display:block; }
 .price-excl-tax .label { display:block; white-space:nowrap; }
-.price-excl-tax .price { display:block; font-weight:bold; }
+.price-excl-tax .price { /*display:block;*/ font-weight:bold; }
 
 /* Orders / Invoices / Shipments / Credit Memos Table */
 .order-tables td h5.title { font-size:1em; font-weight:bold; }
@@ -862,7 +862,6 @@ padding:6px 8px 4px 8px;
 .order-tables td .option-value { padding-left:10px; }
 .order-tables td .qty-table { border:0 !important; width:100% }
 .order-tables td .qty-table td { border:0 !important; padding:0 4px !important; }
-.order-tables td span.price { display:block; }
 
 dl.item-options dt { font-weight:bold; font-style:italic; }
 dl.item-options dd { padding-left:10px; }
