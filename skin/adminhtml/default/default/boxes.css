@@ -847,12 +847,12 @@ padding:6px 8px 4px 8px;
 .price { white-space:nowrap !important; }
 
 /* Incl tax (for order tables) */
-.price-incl-tax { display:block; text-align:right; }
+.price-incl-tax { display:block; }
 .price-incl-tax .label { display:block; white-space:nowrap; }
 .price-incl-tax .price { display:block; font-weight:bold; }
 
 /* Excl tax (for order tables) */
-.price-excl-tax  { display:block; text-align:right; }
+.price-excl-tax  { display:block; }
 .price-excl-tax .label { display:block; white-space:nowrap; }
 .price-excl-tax .price { display:block; font-weight:bold; }
 
@@ -861,16 +861,11 @@ padding:6px 8px 4px 8px;
 .order-tables tbody td .option-label { font-weight:bold; font-style:italic; }
 .order-tables tbody td .option-value { padding-left:10px; }
 
-.grid td.indent { padding-left:20px; }
+dl.item-options dt { font-weight:bold; font-style:italic; }
+dl.item-options dd { padding-left:10px; }
 
 ul.item-options { list-style:none; }
 ul.item-options li { padding-left:.7em; }
-
-ul.item-options-bundle { list-style:none; }
-ul.item-options-bundle li { padding:0 0 0 0; }
-
-dl.item-options dt { font-weight:bold; font-style:italic; }
-dl.item-options dd { padding-left:10px; }
 
 
 /* Create Order */
@@ -934,11 +929,12 @@ dl.item-options dd { padding-left:10px; }
 .giftmessage-single-item .gift-form .entry-edit fieldset .last { margin-bottom:0; }
 .giftmessage-single-item .gift-form .entry-edit input.input-text { width:75% !important; }
 .giftmessage-single-item .gift-form .entry-edit textarea { width:96% !important; }
+.giftmessage-single-item .action-link-holder        {}
 .giftmessage-single-item .action-link { padding-right:10px; background:url(images/gift-message-expand.gif) 100% 50% no-repeat; cursor:pointer; }
 .giftmessage-single-item .open { background:url(images/gift-message-collapse.gif) 100% 50% no-repeat; }
 
 .giftmessage-whole-order-container .entry-edit input.input-text { width:280px !important; }
-.giftmessage-whole-order-container .entry-edit textarea.input-text { width:100% !important; }
+.giftmessage-whole-order-container .entry-edit textarea { width:100% !important; padding-left:0; padding-right:0; }
 .giftmessage-whole-order-container .entry-edit label { width:121px; }
 
 

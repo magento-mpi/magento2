@@ -1539,27 +1539,15 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .my-review-detail .ratings a { display:block; }
 
 
-
 /* Gift Messages */
-.giftmessage {
-    padding: 10px 0 0 0;
-}
-.giftmessage-preview-link {
-    font-size: 11px;
-    color: #1b7cca;
-    padding-right: 7px;
-    background-repeat: no-repeat;
-    background-position: right  5px;
-}
-
-.giftmessage-row {
-    background-color:#f2efe9;
-}
-
-.expand {  background-image: url(../images/gift-message-expand.gif); }
-
-.collapse { background-image: url(../images/gift-message-collapse.gif); }
-
+.giftmessage { padding: 10px 0 0 0; }
+.giftmessage-preview-link { font-size:11px; padding-right:7px; background-repeat:no-repeat; background-position:right 5px; }
+.giftmessage-row { background-color:#f2efe9; }
+.giftmessage-content { float:left; }
+.giftmessage-close { float:right; }
+.expand { background-image:url(../images/gift-message-expand.gif); }
+.collapse { background-image:url(../images/gift-message-collapse.gif); }
+table.print .giftmessage-preview-link { display:none !important; }
 
 
 /********************** Pop up pages */
@@ -1584,7 +1572,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .a-center { text-align:center; }
 .a-right { text-align:right; }
 .left { float:left; }
-.right { float:right !important; }
+.right { float:right; }
 
 .normal-weight { font-weight:normal; }
 .auto-width { width:auto;}
@@ -1599,17 +1587,16 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /* For Demo store only */
 .demo-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
 
-.order-access {padding-bottom:8px;}
+.order-access {padding-bottom:8px; }
 .order-info {border: solid 1px #D0CBC1; background:#DEE5E8; padding:4px 8px;}
-.order-info span {display:block;float:left;}
-.order-info ul {display:inline;}
-.order-info li {display:inline;padding-right:7px;padding-left:3px;}
-.order-info li.selected {font-weight: bold;background: url(../images/point-con.gif) no-repeat fixed center bottom;}
+.order-info span { display:block; float:left; }
+.order-info ul { display:inline; }
+.order-info li { display:inline; padding-right:7px; padding-left:3px; }
+.order-info li.selected {font-weight:bold; background: url(../images/point-con.gif) no-repeat fixed center bottom; }
 
 /* Expiration date and cvv number validation case */
 .input-box .v-fix {position:relative; float:left;}
 .input-box .v-fix .validation-advice {position:relative; margin-right:-12em; float:left; display:inline; width:12em;}
-table.print .giftmessage-preview-link { display:none !important; }
 
 /* Clearer */
 .clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden;	}

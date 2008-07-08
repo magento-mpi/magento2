@@ -31,7 +31,7 @@
     </p>
     <?php endif; ?>
     <div class="grid" id="order:items_grid">
-        <table cellspacing="0" class="data">
+        <table cellspacing="0" class="data order-tables">
             <col />
             <col width="100" />
             <col width="40" />
@@ -61,8 +61,7 @@
                 <?php $i=0 ?>
                 <?php foreach ($_items as $_item):$i++ ?>
                     <tr class="<?php echo ($i%2)?'even':'odd' ?>">
-                        <td>
-                            <?php echo $_item->getName() ?>
+                        <td><h5 class="title"><?php echo $_item->getName() ?></h5>
                             <div  class="nobr">
                                 <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $_item->getSku() ?>
                             </div>
@@ -77,7 +76,7 @@
                             <?php if($_item->getMessage(false)): ?>
                             <?php foreach ($_item->getMessage(false) as $message): ?>
                             <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-                                <div style="font-size:95%"><?php echo $message ?></div>
+                                <div style="font-size:95%"><?php echo $message; ?></div>
                             </div>
                             <?php endforeach; ?>
                             <?php endif; ?>
@@ -102,7 +101,7 @@
                         </td>
                         <td class="price"><?php echo $this->formatPrice($_item->getRowTotal()) ?></td>
                         <td class="price">
-                            <?php echo $this->formatPrice(-$_item->getDiscountAmount()) ?><br/>
+                            <?php echo $this->formatPrice(-$_item->getDiscountAmount()) ?><br />
                             <input id="item_use_discount_<?php echo $_item->getId() ?>" name="item[<?php echo $_item->getId() ?>][use_discount]"<?php if (!$_item->getNoDiscount()): ?>checked<?php endif; ?> value="1" type="checkbox"/>
                             <label for="item_use_discount_<?php echo $_item->getId() ?>" class="normal"><?php echo $this->helper('sales')->__('Apply') ?></label>
                         </td>
@@ -127,26 +126,20 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td class="a-left">
-                        <?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?>
-                    </td>
+                    <td class="a-left"><?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?></td>
                     <td colspan="2" class="a-right"><?php echo $this->helper('sales')->__('Subtotal:') ?></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice(-$this->getDiscountAmount()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotalWithDiscount()) ?></strong></td>
-                    <td <?php if($this->isGiftMessagesAvailable()): ?>colspan="2"<?php endif; ?>></td>
+                    <td <?php if($this->isGiftMessagesAvailable()): ?>colspan="2"<?php endif; ?>>&nbsp;</td>
                 </tr>
             </tfoot>
         </table>
     </div>
     <table cellspacing="0" cellpadding="0" width="100%">
         <tr>
-            <td width="50%">
-                <div id="order:coupons"><?php echo $this->getChildHtml('coupons') ?></div>
-            </td>
-            <td class="a-right">
-                <?php echo $this->getButtonHtml($this->helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?>
-            </td>
+            <td width="50%"><div id="order:coupons"><?php echo $this->getChildHtml('coupons') ?></div></td>
+            <td class="a-right"><?php echo $this->getButtonHtml($this->helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?></td>
         </tr>
     </table>
     <br/>
