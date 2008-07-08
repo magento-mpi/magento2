@@ -629,6 +629,10 @@ class Mage_Core_Model_Url extends Varien_Object
             }
             unset($routeParams['_query']);
         }
+        else {
+            $this->unsetData('query');
+            $this->unsetData('query_params');
+        }
 
         if (isset($routeParams['_fragment'])) {
             $this->setFragment($routeParams['_fragment']);
