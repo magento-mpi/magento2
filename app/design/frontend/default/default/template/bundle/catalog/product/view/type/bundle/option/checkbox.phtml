@@ -22,10 +22,8 @@
 
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
-<dt>
-    <label><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></label>
-</dt>
-<dd <?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+<dt><label><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></label></dt>
+<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
 <?php if (count($_selections) == 1 && $_option->getRequired()): ?>
     <?php echo $this->getSelectionQtyTitlePrice($_selections[0]) ?>
     <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />

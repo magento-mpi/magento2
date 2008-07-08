@@ -774,7 +774,7 @@ a.minimal-price-link .price { font-weight:bold; }
 .product-options dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
 .product-options dd input.input-text { width:98%; }
 .product-options dd textarea { width:98%; height:8em; }
-.product-options dd .select { width:99%; }
+.product-options dd select { width:99%; }
 .product-options dd .multiselect { width:99%; line-height:1.4em; height:9.8em; }
 .product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
 .product-options dd label { font-weight:normal; }

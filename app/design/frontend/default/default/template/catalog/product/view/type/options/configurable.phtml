@@ -21,12 +21,12 @@
 
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()):?>
-    <dl <?php if ($this->decoratedIsLast){?> class="last"<?php }?>>
+    <dl<?php if ($this->decoratedIsLast){?> class="last"<?php }?>>
     <?php $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());?>
     <?php foreach($_attributes as $_attribute): ?>
-        <dt><label><?php echo $_attribute->getLabel() ?>:</label></dt>
-        <dd <?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
-          <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute select super-attribute-select">
+        <dt><label><?php echo $_attribute->getLabel() ?></label><?php if ($_attribute->getRequired()) echo '<span class="required">&nbsp;*</span>' ?></dt>
+        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+          <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry">
             <option><?php echo $this->__('Choose an Option...') ?></option>
           </select>
         </dd>
