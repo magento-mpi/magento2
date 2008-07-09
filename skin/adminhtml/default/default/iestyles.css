@@ -72,5 +72,4 @@ div.collapseable a               { width:100%; }
 .hor-scroll { overflow-x:auto; overflow-y:hidden; padding-bottom:20px; }
 .grid-severity-critical, .grid-severity-major, .grid-severity-minor { margin:3px 0; }
 
-#category_info_tabs_general_content .checkbox {display:none; float:left; margin:0px 0px 0 21px; display:inline;}
-	
+#category_info_tabs_general_content .checkbox { display:inline; margin:0px 0px 0 21px; }

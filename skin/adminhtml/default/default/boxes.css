@@ -951,7 +951,7 @@ ul.item-options li { padding-left:.7em; }
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
 
-#category_info_tabs_general_content .checkbox {display:none; float:left; margin:3px 3px 0 25px; display:inline;}
+#category_info_tabs_general_content .checkbox { float:left; margin:3px 3px 0 25px; }
 
 
 /* Product - Websites */
@@ -976,7 +976,7 @@ ul.item-options li { padding-left:.7em; }
 .tier-price-input .custgroup-div select { width:auto; padding:0; }
 .tier-price-input .qty-div              { padding-left:20px;}
 .tier-price-input .price-div            { padding-left:20px; }
-.tier-price-input .price-div .validation-advice {  margin:0; }
+.tier-price-input .price-div .validation-advice { margin:0; }
 .btn-remove-tier-group                  { float:right; right:24px; top:5px; }
 
 /* Product - Gallery */

@@ -27,7 +27,7 @@
 
 <tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total" onclick="expandDetails(this, '.tax-details')"<?php endif; ?>>
     <td class="a-right">
-        <div>
+        <div class="tax-collapse">
         <?php if ($this->helper('tax')->displayFullSummary()): ?>
             <?php echo Mage::helper('sales')->__('Total Tax') ?>
         <?php else: ?>
