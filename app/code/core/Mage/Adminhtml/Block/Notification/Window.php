@@ -30,24 +30,27 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
         $this->setHeaderText(addslashes($this->__('Incoming Message')));
         $this->setCloseText(addslashes($this->__('close')));
         $this->setReadDetailsText(addslashes($this->__('Read details')));
-        $this->setMajorText(addslashes($this->__('MAJOR')));
+        $this->setNoticeText(addslashes($this->__('NOTICE')));
         $this->setMinorText(addslashes($this->__('MINOR')));
+        $this->setMajorText(addslashes($this->__('MAJOR')));
         $this->setCriticalText(addslashes($this->__('CRITICAL')));
 
 
-        $this->setNoticeText($this->getLastNotice()->getTitle());
-        $this->setNoticeUrl($this->getLastNotice()->getUrl());
+        $this->setNoticeMessageText($this->getLastNotice()->getTitle());
+        $this->setNoticeMessageUrl($this->getLastNotice()->getUrl());
 
-        $severity = 'SEVERITY_MINOR';
         switch ($this->getLastNotice()->getSeverity()) {
             default:
-            case 3:
+            case Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE:
+                $severity = 'SEVERITY_NOTICE';
+                break;
+            case Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR:
                 $severity = 'SEVERITY_MINOR';
                 break;
-            case 2:
+            case Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR:
                 $severity = 'SEVERITY_MAJOR';
                 break;
-            case 1:
+            case Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL:
                 $severity = 'SEVERITY_CRITICAL';
                 break;
         }

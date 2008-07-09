@@ -96,6 +96,26 @@
     }
 
 
+#message-popup-window-mask {
+    position:absolute;
+    color:#d85909;
+    font-size:1.1em;
+    font-weight:bold;
+    text-align:center;
+    filter:alpha(opacity=80);
+    -moz-opacity: 0.80;
+    opacity: 0.80;
+    z-index:500;
+    }
+
+#message-popup-window-mask .flash-window {
+    position:fixed;
+    top:45%;
+    left:50%;
+    z-index:1000;
+    margin-left:-207px;
+    margin-top:-70px;
+    }
 
 /* TABLES
 *******************************************************************************/

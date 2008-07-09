@@ -78,6 +78,9 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
             if (isset($rate['base_amount'])) {
                 $row['base_amount'] = $rate['base_amount'];
             }
+            if (isset($rate['base_real_amount'])) {
+                $row['base_real_amount'] = $rate['base_real_amount'];
+            }
             $row['rates'][] = $oneRate;
 
             if (isset($rates[$i+1]['tax_calculation_rule_id'])) {

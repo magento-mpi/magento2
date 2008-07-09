@@ -42,7 +42,7 @@ class Mage_Reports_Model_Mysql4_Tax_Collection extends Mage_Core_Model_Mysql4_Co
             ->where('e.created_at >= ?', $from)
             ->where('e.created_at <= ?', $to);
 
-        $this->getSelect()->from('', array('tax'=>'SUM(base_amount)', 'orders'=>'COUNT(DISTINCT order_id)', 'tax_rate'=>'main_table.percent', 'tax_title'=>'main_table.code'))
+        $this->getSelect()->from('', array('tax'=>'SUM(base_real_amount)', 'orders'=>'COUNT(DISTINCT order_id)', 'tax_rate'=>'main_table.percent', 'tax_title'=>'main_table.code'))
             ->group('main_table.code')
             ->order(array('process', 'priority'));
         /*
