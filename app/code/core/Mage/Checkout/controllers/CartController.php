@@ -133,10 +133,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $cart   = $this->_getCart();
         $params = $this->getRequest()->getParams();
-       
+
         $product= $this->_initProduct();
         $related= $this->getRequest()->getParam('related_product');
-		
+
         /**
          * Check product availability
          */
@@ -144,14 +144,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_goBack();
             return;
         }
-       
+
 
         try {
             $cart->addProduct($product, $params);
             if (!empty($related)) {
                 $cart->addProductsByIds(explode(',', $related));
             }
-           
+
             $cart->save();
 
             /**
@@ -195,7 +195,20 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             /* @var $itemsCollection Mage_Sales_Model_Mysql4_Order_Item_Collection */
             $cart = $this->_getCart();
             foreach ($itemsCollection as $item) {
-                $cart->addOrderItem($item, 1);
+                try {
+                    $cart->addOrderItem($item, 1);
+                }
+                catch (Mage_Core_Exception $e) {
+                    if ($this->_getSession()->getUseNotice(true)) {
+                        $this->_getSession()->addNotice($e->getMessage());
+                    } else {
+                        $this->_getSession()->addError($e->getMessage());
+                    }
+                }
+                catch (Exception $e) {
+                    $this->_getSession()->addException($e, $this->__('Can not add item to shopping cart'));
+                    $this->_goBack();
+                }
             }
             $cart->save();
         }

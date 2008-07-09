@@ -80,11 +80,13 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
         }
 
         if (!$this->_selectionsAppended) {
-            foreach ($selectionsCollection as $_selection) {
+            foreach ($selectionsCollection->getItems() as $key=>$_selection) {
                 if ($_option = $this->getItemById($_selection->getOptionId())) {
                     if ((!$appendAll && $_selection->isSalable() && !$_selection->getRequiredOptions()) || $appendAll) {
                         $_selection->setOption($_option);
                         $_option->addSelection($_selection);
+                    } else {
+                        $selectionsCollection->removeItemByKey($key);
                     }
                 }
             }

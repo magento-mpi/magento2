@@ -312,8 +312,29 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     }
                 }
             }
-            $selections = $this->getSelectionsByIds($selectionIds)->getItems();
+
+            $selections = $this->getSelectionsByIds($selectionIds);
+
+            /**
+             * checking if selections that where added are still on sale
+             */
+            foreach ($selections->getItems() as $key => $selection) {
+                if (!$selection->isSalable()) {
+                    $_option = $optionsCollection->getItemById($selection->getOptionId());
+                    if (is_array($options[$_option->getId()]) && count($options[$_option->getId()]) > 1){
+                        $moreSelections = true;
+                    } else {
+                        $moreSelections = false;
+                    }
+                    if ($_option->getRequired() && (!$_option->isMultiSelection() || ($_option->isMultiSelection() && !$moreSelections))) {
+                        return Mage::helper('bundle')->__('Selected required options not available.');
+                    }
+                }
+            }
+
             $optionsCollection->appendSelections($selections, false, false);
+
+            $selections = $selections->getItems();
         } else {
             $product->getTypeInstance()->setStoreFilter($product->getStoreId());
 
