@@ -57,7 +57,7 @@ Checkout.prototype = {
         element.disabled = isDisabled;
     },
 
-    setLoadWaiting: function(step) {
+    setLoadWaiting: function(step, keepDisabled) {
         if (step) {
             if (this.loadWaiting) {
                 this.setLoadWaiting(false);
@@ -68,11 +68,12 @@ Checkout.prototype = {
             Element.show(step+'-please-wait');
         } else {
             if (this.loadWaiting) {
-                if (this.loadWaiting != 'review') {
-                    var container = $(this.loadWaiting+'-buttons-container');
+                var container = $(this.loadWaiting+'-buttons-container');
+                var isDisabled = (keepDisabled ? true : false);
+                if (!isDisabled) {
                     container.setStyle({opacity:1});
-                    this._disableEnableAll(container, false);
                 }
+                this._disableEnableAll(container, isDisabled);
                 Element.hide(this.loadWaiting+'-please-wait');
             }
         }
@@ -724,7 +725,7 @@ Review.prototype = {
     },
 
     resetLoadWaiting: function(transport){
-        checkout.setLoadWaiting(false);
+        checkout.setLoadWaiting(false, this.isSuccess);
     },
 
     nextStep: function(transport){
@@ -740,6 +741,7 @@ Review.prototype = {
                 return;
             }
             if (response.success) {
+                this.isSuccess = true;
                 window.location=this.successUrl;
             }
             else{
@@ -750,5 +752,7 @@ Review.prototype = {
                 alert(msg);
             }
         }
-    }
+    },
+
+    isSuccess: false
 }
