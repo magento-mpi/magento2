@@ -86,4 +86,13 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
     {
         return $this->_getHelper()->getLatestNotice()->getUrl();
     }
+
+    public function isMessageWindowAvailable()
+    {
+        $block = $this->getLayout()->getBlock('notification_window');
+        if ($block) {
+            return $block->canShow();
+        }
+        return false;
+    }
 }

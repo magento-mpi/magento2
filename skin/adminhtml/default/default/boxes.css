@@ -329,6 +329,7 @@ ul.tabs-horiz li a.active   { border-bottom:1px solid #fff; background:#fff; }
 *******************************************************************************/
 .notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
 .notification-global .label { color:#eb5e00; }
+.notification-global .clickable { cursor:pointer; }
 .notification-global span.critical { color:#d20000; }
 .notification-global a:hover { text-decoration:none; }
 

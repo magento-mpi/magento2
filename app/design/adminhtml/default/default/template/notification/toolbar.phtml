@@ -58,6 +58,12 @@
         $this->getNoticesInboxUrl()
     );?></span>
 ******** */?>
-    <strong class="label"><?php echo $this->__('Latest Message:') ?></strong> <?php echo $this->getLatestNotice() ?> <a href="<?php echo $this->getLatestNoticeUrl() ?>" onclick="this.target='_blank';"><?php echo $this->__('Read details') ?></a>
+    <?php if ($this->isMessageWindowAvailable()): ?>
+        <strong class="label clickable" onclick="openMessagePopupWindow()">
+    <?php else: ?>
+        <strong class="label">
+    <?php endif; ?>
+
+    <?php echo $this->__('Latest Message:') ?></strong> <?php echo $this->getLatestNotice() ?> <a href="<?php echo $this->getLatestNoticeUrl() ?>" onclick="this.target='_blank';"><?php echo $this->__('Read details') ?></a>
 </div>
 <?php endif; ?>
