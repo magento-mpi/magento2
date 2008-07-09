@@ -91,21 +91,22 @@ function decorateGeneric(elements, decorateParams)
         }
 
         // decorate elements
+        // elements[0].addClassName('first'); // will cause bug in IE (#5587)
         if (_decorateParams.first) {
-            elements[0].addClassName('first');
+            Element.addClassName(elements[0], 'first');
         }
         if (_decorateParams.last) {
-            elements[total-1].addClassName('last');
+            Element.addClassName(elements[total-1], 'last');
         }
         for (var i = 0; i < total; i++) {
             if ((i + 1) % 2 == 0) {
                 if (_decorateParams.even) {
-                    elements[i].addClassName('even');
+                    Element.addClassName(elements[i], 'even');
                 }
             }
             else {
                 if (_decorateParams.odd) {
-                    elements[i].addClassName('odd');
+                    Element.addClassName(elements[i], 'odd');
                 }
             }
         }
