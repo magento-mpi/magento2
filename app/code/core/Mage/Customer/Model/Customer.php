@@ -30,16 +30,20 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'customer/password/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'customer/password/forgot_email_identity';
     const XML_PATH_DEFAULT_EMAIL_DOMAIN     = 'customer/create_account/email_domain';
+    const XML_PATH_IS_CONFIRM               = 'customer/create_account/confirm';
+    const XML_PATH_CONFIRM_EMAIL_TEMPLATE   = 'customer/create_account/email_confirmation_template';
+    const XML_PATH_CONFIRMED_EMAIL_TEMPLATE = 'customer/create_account/email_confirmed_template';
 
     const SUBSCRIBED_YES = 'yes';
     const SUBSCRIBED_NO = 'no';
 
     protected $_eventPrefix = 'customer';
     protected $_eventObject = 'customer';
-
     protected $_addresses = null;
-
     protected $_errors    = array();
+    protected $_attributes;
+
+    private static $_isConfirmationRequired;
 
     function _construct()
     {
@@ -60,13 +64,21 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Authenticate customer
      *
-     * @param   string $login
-     * @param   string $password
-     * @return  Mage_Customer_Model_Customer || false
+     * @param  string $login
+     * @param  string $password
+     * @return true
+     * @throws Exception
      */
     public function authenticate($login, $password)
     {
-        return $this->loadByEmail($login)->validatePassword($password);
+        $this->loadByEmail($login);
+        if ($this->getConfirmation() && $this->isConfirmationRequired()) {
+            throw new Exception(Mage::helper('customer')->__('This account is not confirmed.'));
+        }
+        if (!$this->validatePassword($password)) {
+            throw new Exception(Mage::helper('customer')->__('Invalid login or password.'));
+        }
+        return true;
     }
 
     /**
@@ -203,9 +215,21 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getAttributes()
     {
-        return $this->_getResource()
+        if (null === $this->_attributes) {
+            $this->_attributes = $this->_getResource()
             ->loadAllAttributes($this)
             ->getSortedAttributes();
+        }
+        return $this->_attributes;
+    }
+
+    public function getAttribute($attributeCode)
+    {
+        $this->getAttributes();
+        if (isset($this->_attributes[$attributeCode])) {
+            return $this->_attributes[$attributeCode];
+        }
+        return null;
     }
 
     /**
@@ -256,6 +280,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
         return Mage::helper('core')->validateHash($password, $hash);
     }
+
 
     /**
      * Encrypt password
@@ -399,12 +424,21 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Send email with account information
+     * Send email with new account specific information
      *
      * @return Mage_Customer_Model_Customer
      */
-    public function sendNewAccountEmail()
+    public function sendNewAccountEmail($type = 'registered')
     {
+        $types = array(
+            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,  // welcome email, when confirmation is disabled
+            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE, // welcome email, when confirmation is enabled
+            'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,   // email with confirmation link
+        );
+        if (!isset($types[$type])) {
+            throw new Exception(Mage::helper('customer')->__('Wrong transactional account email type.'));
+        }
+
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -415,10 +449,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             reset($storeIds);
             $storeId = current($storeIds);
         }
+
         Mage::getModel('core/email_template')
             ->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_TEMPLATE),
+                Mage::getStoreConfig($types[$type]),
                 Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_IDENTITY),
                 $this->getEmail(),
                 $this->getName(),
@@ -427,6 +462,24 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $translate->setTranslateInline(true);
 
         return $this;
+    }
+
+    /**
+     * Check if accounts confirmation is required in config
+     *
+     * @return bool
+     */
+    public function isConfirmationRequired()
+    {
+        if (null === self::$_isConfirmationRequired) {
+            self::$_isConfirmationRequired = 1 == Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM);
+        }
+        return self::$_isConfirmationRequired;
+    }
+
+    public function getRandomConfirmationKey()
+    {
+        return md5(uniqid());
     }
 
     /**

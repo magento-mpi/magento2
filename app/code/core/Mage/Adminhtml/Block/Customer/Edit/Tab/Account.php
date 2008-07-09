@@ -65,6 +65,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 //        }
 
         if ($customer->getId()) {
+            // add password management fieldset
             $newFieldset = $form->addFieldset(
                 'password_fieldset',
                 array('legend'=>Mage::helper('customer')->__('Password Management'))
@@ -78,6 +79,28 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 )
             );
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
+
+            // prepare customer confirmation control (only for existing customers)
+            $confirmationKey = $customer->getConfirmation();
+            if ($confirmationKey || $customer->isConfirmationRequired()) {
+                $confirmationAttribute = $customer->getAttribute('confirmation');
+                if (!$confirmationKey) {
+                    $confirmationKey = $customer->getRandomConfirmationKey();
+                }
+                $element = $fieldset->addField('confirmation', 'select', array(
+                    'name'  => 'confirmation',
+                    'label' => Mage::helper('customer')->__($confirmationAttribute->getFrontendLabel()),
+                ))->setEntityAttribute($confirmationAttribute)
+                    ->setValues(array('' => 'Confirmed', $confirmationKey => 'Not confirmed'));
+
+                // prepare send welcome email checkbox, if customer is inactive [and was never logged in]
+                if ($customer->getConfirmation()) { // && was never logged in
+                    $fieldset->addField('sendemail', 'checkbox', array(
+                        'name'  => 'sendemail',
+                        'label' => Mage::helper('customer')->__('Send Welcome Email after Confirmation')
+                    ));
+                }
+            }
         }
         else {
             $newFieldset = $form->addFieldset(
@@ -94,6 +117,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             );
             $field->setRenderer($this->getLayout()->createBlock('adminhtml/customer_edit_renderer_newpass'));
 
+            // prepare send welcome email checkbox
             $fieldset->addField('sendemail', 'checkbox', array(
                 'label' => Mage::helper('customer')->__('Send welcome email'),
                 'name'  => 'sendemail',

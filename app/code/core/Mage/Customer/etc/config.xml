@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.8.7</version>
+            <version>0.8.8</version>
         </Mage_Customer>
     </modules>
 
@@ -201,6 +201,16 @@ T: {{var telephone}}
                     <file>account_new.html</file>
                     <type>html</type>
                 </customer_create_account_email_template>
+                <customer_create_account_email_confirmation_template translate="label" module="customer">
+                    <label>New account confirmation key</label>
+                    <file>account_new_confirmation.html</file>
+                    <type>html</type>
+                </customer_create_account_email_confirmation_template>
+                <customer_create_account_email_confirmed_template translate="label" module="customer">
+                    <label>New account confirmed</label>
+                    <file>account_new_confirmed.html</file>
+                    <type>html</type>
+                </customer_create_account_email_confirmed_template>
                 <customer_password_forgot_email_template translate="label" module="customer">
                     <label>New password</label>
                     <file>password_new.html</file>
@@ -323,6 +333,8 @@ T: {{var telephone}}
                 <email_domain>emaildomain.com</email_domain>
                 <email_identity>general</email_identity>
                 <email_template>customer_create_account_email_template</email_template>
+                <email_confirmation_template>customer_create_account_email_confirmation_template</email_confirmation_template>
+                <email_confirmed_template>customer_create_account_email_confirmed_template</email_confirmed_template>
             </create_account>
 
             <default>

@@ -18,10 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * Customer login form template
- * 
+ *
  * @see Mage_Customer_Block_Form_Login
  */
 ?>
@@ -53,8 +53,12 @@
 	<p class="required"><?php echo $this->__('* Required Fields') ?></p>
 	<div class="buttons-container">
 		<a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+        <?php if ($this->helper('customer')->isConfirmationRequired()):?>
+            <span class="pipe left"> | </span>
+            <a href="<?php echo $this->helper('customer')->getEmailConfirmationUrl($this->getUsername()) ?>" class="left"><?php echo $this->__('Confirmation link') ?></a>
+        <?php endif;?>
 		<button class="form-button" type="submit" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button>
-	</div>	
+	</div>
 </div>
 </form>
 <script type="text/javascript">

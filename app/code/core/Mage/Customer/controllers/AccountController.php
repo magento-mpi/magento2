@@ -44,6 +44,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function preDispatch()
     {
+        // a brute-force protection here would be nice
+
         parent::preDispatch();
 
         if (!$this->getRequest()->isDispatched()) {
@@ -51,7 +53,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         $action = $this->getRequest()->getActionName();
-        if (!preg_match('/^(create|login|logoutSuccess|forgotpassword|forgotpasswordpost)/i', $action)) {
+        if (!preg_match('/^(create|login|logoutSuccess|forgotpassword|forgotpasswordpost|confirm|confirmation)/i', $action)) {
             if (!$this->_getSession()->authenticate($this)) {
                 $this->setFlag('', 'no-dispatch', true);
             }
@@ -104,8 +106,17 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost('login');
             if (!empty($login['username']) && !empty($login['password'])) {
-                if (!$session->login($login['username'], $login['password'])) {
-                    $session->addError($this->__('Invalid login or password'));
+                try {
+                    $session->login($login['username'], $login['password']);
+
+                    // remove activation key
+                    if ($session->getCustomer()->getConfirmation()) {
+                        $session->getCustomer()->setConfirmation(null)->save();
+                        $this->_logInNewCustomer($session->getCustomer(), true);
+                    }
+                }
+                catch (Exception $e) {
+                    $session->addError($e->getMessage());
                     $session->setUsername($login['username']);
                 }
             } else {
@@ -200,17 +211,17 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $validationResult = $customer->validate();
                 if (true === $validationResult) {
                     $customer->save();
-                    $this->_getSession()->setCustomerAsLoggedIn($customer)
-                        ->addSuccess($this->__('Thank you for registering with %s', Mage::app()->getStore()->getName()));
 
-                    $customer->sendNewAccountEmail();
-
-                    $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
-                    if ($this->_getSession()->getBeforeAuthUrl()) {
-                        $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
+                    if ($customer->isConfirmationRequired()) {
+                        $customer->sendNewAccountEmail('confirmation');
+                        $this->_getSession()->addSuccess($this->__('Account confirmation is required. Please, check your e-mail for confirmation key.'));
+                        $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                        return;
                     }
-                    $this->_redirectSuccess($successUrl);
-                    return;
+                    else {
+                        $this->_redirectSuccess($this->_logInNewCustomer($customer));
+                        return;
+                    }
                 } else {
                     $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
                     if (is_array($validationResult)) {
@@ -237,6 +248,135 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         $this->_redirectError(Mage::getUrl('*/*/create', array('_secure'=>true)));
+    }
+
+    /**
+     * Log in a customer and send new account email.
+     * Returns success URL
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param bool $isJustConfirmed
+     * @return string
+     */
+    protected function _logInNewCustomer(Mage_Customer_Model_Customer $customer, $isJustConfirmed = false)
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_getSession()->setCustomerAsLoggedIn($customer);
+        }
+        $this->_getSession()->addSuccess($this->__('Thank you for registering with %s', Mage::app()->getStore()->getName()));
+
+        $customer->sendNewAccountEmail($isJustConfirmed ? 'confirmed' : 'registered');
+
+        $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
+        if ($this->_getSession()->getBeforeAuthUrl()) {
+            $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
+        }
+        return $successUrl;
+    }
+
+    /**
+     * Confirm customer account by id and confirmation key
+     */
+    public function confirmAction()
+    {
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
+        try {
+            $id  = $this->getRequest()->getParam('id', false);
+            $key = $this->getRequest()->getParam('key', false);
+            if (empty($id) || empty($key)) {
+                throw new Exception($this->__('Bad request.'));
+            }
+
+            // load customer by id (try/catch in case if it throws exceptions)
+            try {
+                $customer = Mage::getModel('customer/customer')->load($id);
+                if ((!$customer) || (!$customer->getId())) {
+                    throw new Exception('Failed to load customer by id.');
+                }
+            }
+            catch (Exception $e) {
+                throw new Exception($this->__('Wrong customer account specified.'));
+            }
+
+            // check if it is inactive
+            if ($customer->getConfirmation()) {
+                if ($customer->getConfirmation() !== $key) {
+                    throw new Exception($this->__('Wrong confirmation key.'));
+                }
+
+                // activate customer
+                try {
+                    $customer->setConfirmation(null);
+                    $customer->save();
+                }
+                catch (Exception $e) {
+                    throw new Exception($this->__('Failed to confirm customer account.'));
+                }
+
+                // log in and send greeting email, then die happy
+                $this->_redirectSuccess($this->_logInNewCustomer($customer, true));
+                return;
+            }
+
+            // die happy
+            $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            return;
+        }
+        catch (Exception $e) {
+            // die unhappy
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirectError(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            return;
+        }
+    }
+
+    /**
+     * Send confirmation link to specified email
+     */
+    public function confirmationAction()
+    {
+        $customer = Mage::getModel('customer/customer');
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        // try to confirm by email
+        $email = $this->getRequest()->getPost('email');
+        if ($email) {
+            try {
+                $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId())->loadByEmail($email);
+                if (!$customer->getId()) {
+                    throw new Exception('');
+                }
+                if ($customer->getConfirmation()) {
+                    $customer->sendNewAccountEmail('confirmation');
+                    $this->_getSession()->addSuccess($this->__('Please, check your e-mail for confirmation key.'));
+                }
+                else {
+                    $this->_getSession()->addSuccess($this->__('This e-mail does not require confirmation.'));
+                }
+                $this->_getSession()->setUsername($email);
+                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure' => true)));
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Wrong email.'));
+                $this->_redirectError(Mage::getUrl('*/*/*', array('email' => $email, '_secure' => true)));
+            }
+            return;
+        }
+
+        // output form
+        $this->loadLayout();
+
+        $this->getLayout()->getBlock('accountConfirmation')
+            ->setEmail($this->getRequest()->getParam('email', $email));
+
+        $this->_initLayoutMessages('customer/session');
+        $this->renderLayout();
     }
 
     /**
@@ -308,7 +448,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('catalog/session');
-        
+
         if ($block = $this->getLayout()->getBlock('customer_edit')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
