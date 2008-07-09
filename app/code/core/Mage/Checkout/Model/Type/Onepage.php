@@ -164,7 +164,7 @@ class Mage_Checkout_Model_Type_Onepage
             /**
              * Billing address using otions
              */
-            $usingCase = isset($data['pickup_or_use_for_shipping']) ? (int) $data['pickup_or_use_for_shipping'] : 0;
+            $usingCase = isset($data['use_for_shipping']) ? (int) $data['use_for_shipping'] : 0;
 
             switch($usingCase) {
                 case 0:

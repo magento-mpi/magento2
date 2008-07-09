@@ -112,11 +112,11 @@ Checkout.prototype = {
     },
 
     setBilling: function() {
-    	if (($('billing:pickup_or_use_for_shipping_yes')) && ($('billing:pickup_or_use_for_shipping_yes').checked)) {
+    	if (($('billing:use_for_shipping_yes')) && ($('billing:use_for_shipping_yes').checked)) {
     		shipping.syncWithBilling();
     		$('opc-shipping').addClassName('allow');
     		this.gotoSection('shipping_method');
-    	} else if (($('billing:pickup_or_use_for_shipping_no')) && ($('billing:pickup_or_use_for_shipping_no').checked)) {
+    	} else if (($('billing:use_for_shipping_no')) && ($('billing:use_for_shipping_no').checked)) {
     		$('shipping:same_as_billing').checked = false;
     		this.gotoSection('shipping');
     	} else {
@@ -264,25 +264,6 @@ Billing.prototype = {
         $('shipping:same_as_billing').checked = flag;
     },
 
-    /*
-    	Possible flags
-
-    	1 - Use the billing address for shipping
-    	0 - Use different address
-    	2 - Store Pickup (no shipping or billing info needed)
-     */
-    setPickupOrUseForShipping: function(flag) {
-    	switch(flag) {
-    		case 1:
-    			$('shipping:same_as_billing').checked = true;
-    			break;
-    		case 0:
-    		case 2:
-    			$('shipping:same_as_billing').checked = false;
-	    		break;
-    	}
-    },
-
     save: function(){
         if (checkout.loadWaiting!=false) return;
 
@@ -421,7 +402,7 @@ Shipping.prototype = {
 
     setSameAsBilling: function(flag) {
         $('shipping:same_as_billing').checked = flag;
-        $('billing:pickup_or_use_for_shipping_yes').checked = flag;
+        $('billing:use_for_shipping_yes').checked = flag;
         if (flag) {
             this.syncWithBilling();
         }
