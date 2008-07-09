@@ -162,6 +162,17 @@ Bundle.Selection.prototype = {
             );
         }
 
+        if ($('price_type').value != '1') {
+            /**
+             * Hide not needed elements (price type select and price input)
+             */
+            inputs = $A($$('#' + this.idLabel + '_box_' + data.parentIndex + ' .price-type-box'));
+            inputs.each(
+                function(elem){
+                    elem.hide();
+                }
+            );
+        }
     },
 
     addBox : function (parentIndex) {
