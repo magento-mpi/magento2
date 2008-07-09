@@ -118,8 +118,8 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
                         $formatedValue = $optionValue;
                     }
                     $options[] = array(
-                        'label' => $this->htmlEscape($option->getTitle()),
-                        'value' => $this->htmlEscape($formatedValue),
+                        'label' => $option->getTitle(),
+                        'value' => $formatedValue,
                     );
                 }
             }
@@ -202,5 +202,28 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             }
         }
         return $messages;
+    }
+
+    public function getFormatedOptionValue($optionValue)
+    {
+        $formateOptionValue = array();
+        if (is_array($optionValue)) {
+            $_truncatedValue = implode('<br />', $optionValue);
+        } else {
+            $_truncatedValue = Mage::helper('core/string')->truncate($optionValue, 100, '');
+                $_truncatedValue = nl2br($this->htmlEscape($_truncatedValue));
+        }
+        $formateOptionValue = array(
+            'value' => $_truncatedValue
+        );
+
+        if (Mage::helper('core/string')->strlen($optionValue) > 100) {
+            $formateOptionValue['value'] = $formateOptionValue['value'] . '...';
+            $optionValue = nl2br($this->htmlEscape($optionValue));
+            $formateOptionValue = array_merge($formateOptionValue, array('full_view' => $optionValue));
+
+        }
+
+        return $formateOptionValue;
     }
 }
