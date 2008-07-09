@@ -220,7 +220,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function setBaseFile($file)
     {
-        if (0 !== strpos($file, '/', 0)) {
+        if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
         $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
@@ -256,7 +256,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 
         $baseFile = $baseDir . $file;
 
-        if (!file_exists($baseFile)) {
+        if ((!$file) || (!file_exists($baseFile))) {
             throw new Exception(Mage::helper('catalog')->__('Image file not found'));
         }
         $this->_baseFile = $baseFile;
