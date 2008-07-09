@@ -49,6 +49,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend ext
                 function " . $switchAttributeCode . "_change() {
                     if ($('" . $switchAttributeCode . "').value == " . self::DYNAMIC . ") {
                         $('" . $this->getAttribute()->getAttributeCode() . "').disabled = true;
+                        $('" . $this->getAttribute()->getAttributeCode() . "').value = '';
                         $('" . $this->getAttribute()->getAttributeCode() . "').removeClassName('required-entry');
                     } else {
                         $('" . $this->getAttribute()->getAttributeCode() . "').disabled = false;
