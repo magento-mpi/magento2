@@ -30,6 +30,7 @@ AC_FL_RunContent = 0;
 function openMessagePopupWindow()
 {
     Position.clone($($$('#html-body .wrapper')[0]), $('message-popup-window-mask'), {offsetLeft:-2});
+    toggleSelectsUnderBlock($('message-popup-window-mask'), false);
     Element.show('message-popup-window-mask');
 }
 
@@ -40,6 +41,7 @@ function popupMessageDetailsWindow(url)
 
 function closeMessagePopupWindow()
 {
+    toggleSelectsUnderBlock($('message-popup-window-mask'), true);
     Element.hide('message-popup-window-mask');
 }
 

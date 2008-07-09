@@ -20,6 +20,8 @@
 
 class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Notification_Toolbar
 {
+    protected $_available = null;
+
     protected $_httpsObjectUrl = 'http://widgets.magentocommerce.com/messagePopupWindow';
     protected $_httpObjectUrl = 'http://widgets.magentocommerce.com/messagePopupWindow';
 
@@ -65,12 +67,15 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      */
     public function canShow()
     {
-        $firstVisit = Mage::getSingleton('admin/session')->getData('is_first_visit', true);
-        if (!$firstVisit) {
-            return false;
+        if (is_null($this->_available)) {
+            $firstVisit = Mage::getSingleton('admin/session')->getData('is_first_visit', true);
+            if (!$firstVisit) {
+                $this->_available = false;
+                return false;
+            }
+            $this->_available = $this->isShow();
         }
-
-        return $this->isShow();
+        return $this->_available;
     }
 
 
