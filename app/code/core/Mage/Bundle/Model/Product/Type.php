@@ -313,6 +313,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
             }
             $selections = $this->getSelectionsByIds($selectionIds)->getItems();
+            $optionsCollection->appendSelections($selections, false, false);
         } else {
             $product->getTypeInstance()->setStoreFilter($product->getStoreId());
 
@@ -337,9 +338,13 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
         }
         if (count($selections) > 0) {
-
             $uniqueKey = array($product->getId());
             $selectionIds = array();
+
+            /*
+             * shaking selection array :) by option position
+             */
+            usort($selections, array($this, "shakeSelections"));
 
             foreach ($selections as $selection) {
                 if ($selection->getSelectionCanChangeQty() && isset($qtys[$selection->getOptionId()])) {
@@ -357,16 +362,30 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     $product->addCustomOption('product_qty_' . $selection->getId(), $qty, $selection);
                 }
 
+                /*
+                 * creating extra attributes that will be converted
+                 * to product options in order item
+                 * for selection (not for all bundle)
+                 */
+                $price = $product->getPriceModel()->getSelectionPrice($product, $selection, $qty);
+                $attributes = array(
+                    'price' => Mage::app()->getStore()->convertPrice($price),
+                    'qty' => $qty,
+                    'option_label' => $selection->getOption()->getTitle(),
+                    'option_id' => $selection->getOption()->getId()
+                );
+
                 //if (!$product->getPriceType()) {
-                    $result[] = $selection->setParentProductId($product->getId())
-                        ->addCustomOption('bundle_option_ids', serialize($optionIds))
-                        ->setCartQty($qty);
+                $result[] = $selection->setParentProductId($product->getId())
+                    ->addCustomOption('bundle_option_ids', serialize($optionIds))
+                    ->addCustomOption('bundle_selection_attributes', serialize($attributes))
+                    ->setCartQty($qty);
                 //}
+
                 $selectionIds[] = $selection->getSelectionId();
                 $uniqueKey[] = $selection->getSelectionId();
                 $uniqueKey[] = $qty;
             }
-
             /**
              * "unique" key for bundle selection and add it to selections and bundle for selections
              */
@@ -394,6 +413,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$this->_usedSelections || serialize($this->_usedSelectionsIds) != serialize($selectionIds)) {
             $this->_usedSelections = Mage::getResourceModel('bundle/selection_collection')
                     ->addAttributeToSelect('*')
+                    ->setPositionOrder()
                     ->setSelectionIdsFilter($selectionIds);
             $this->_usedSelectionsIds = $selectionIds;
         }
@@ -412,6 +432,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$this->_usedOptions || serialize($this->_usedOptionsIds) != serialize($optionIds)) {
             $this->_usedOptions = Mage::getModel('bundle/option')->getResourceCollection()
                     ->setProductIdFilter($this->getProduct()->getId())
+                    ->setPositionOrder()
                     ->joinValues(Mage::app()->getStore()->getId())
                     ->setIdFilter($optionIds);
             $this->_usedOptionsIds = $optionIds;
@@ -423,7 +444,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @return attay
+     * @return array
      */
 
     public function getOrderOptions()
@@ -446,9 +467,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
                     if ($selectionQty) {
                         $price = $product->getPriceModel()->getSelectionPrice($product, $selection, $selectionQty->getValue());
+
                         $option = $options->getItemById($selection->getOptionId());
                         if (!isset($bundleOptions[$option->getId()])) {
                             $bundleOptions[$option->getId()] = array(
+                                'option_id' => $option->getId(),
                                 'label' => $option->getTitle(),
                                 'value' => array()
                             );
@@ -457,7 +480,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                         $bundleOptions[$option->getId()]['value'][] = array(
                             'title' => $selection->getName(),
                             'qty'   => $selectionQty->getValue(),
-                            'price' => $price
+                            'price' => Mage::app()->getStore()->convertPrice($price)
                         );
 
                     }
@@ -480,4 +503,17 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         return $optionArr;
     }
+
+    public function shakeSelections($a, $b) {
+        $aPosition = ($a->getOption()->getPosition()+1)*($a->getPosition()+1);
+        $bPosition = ($b->getOption()->getPosition()+1)*($b->getPosition()+1);
+        if ($aPosition == $bPosition) {
+            if ($a->getSelectionId() == $b->getSelectionId()) {
+                return 0;
+            }
+            return ($a->getSelectionId() < $b->getSelectionId()) ? -1 : 1;
+        }
+        return ($aPosition < $bPosition) ? -1 : 1;
+    }
+
 }

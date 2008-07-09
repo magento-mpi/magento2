@@ -98,4 +98,22 @@ class Mage_Bundle_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Append selection attributes to selection's order item
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function appendBundleSelectionData($observer) {
+        $orderItem = $observer->getEvent()->getOrderItem();
+        $quoteItem = $observer->getEvent()->getItem();
+
+        if ($attributes = $quoteItem->getProduct()->getCustomOption('bundle_selection_attributes')) {
+            $productOptions = $orderItem->getProductOptions();
+            $productOptions['bundle_selection_attributes'] = $attributes->getValue();
+            $orderItem->setProductOptions($productOptions);
+        }
+    }
+
 }

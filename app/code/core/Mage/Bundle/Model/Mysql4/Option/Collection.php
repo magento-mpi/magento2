@@ -58,7 +58,8 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
 
     public function setPositionOrder()
     {
-        $this->getSelect()->order('main_table.position asc');
+        $this->getSelect()->order('main_table.position asc')
+            ->order('main_table.option_id asc');
         return $this;
     }
 
@@ -82,6 +83,7 @@ class Mage_Bundle_Model_Mysql4_Option_Collection extends Mage_Core_Model_Mysql4_
             foreach ($selectionsCollection as $_selection) {
                 if ($_option = $this->getItemById($_selection->getOptionId())) {
                     if ((!$appendAll && $_selection->isSalable() && !$_selection->getRequiredOptions()) || $appendAll) {
+                        $_selection->setOption($_option);
                         $_option->addSelection($_selection);
                     }
                 }
