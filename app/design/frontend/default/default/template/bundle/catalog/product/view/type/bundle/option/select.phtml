@@ -28,13 +28,16 @@
         <?php if ($_default = $_option->getDefaultSelection()): ?>
             <?php $_defaultQty = $_default->getSelectionQty()*1 ?>
             <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
+            1
         <?php else: ?>
             <?php if (!$_showSingle): ?>
                 <?php $_defaultQty = '' ?>
                 <?php $_canChangeQty = false ?>
+                2
             <?php else: ?>
                 <?php $_defaultQty = $_selections[0]->getSelectionQty()*1 ?>
-                <?php $_canChangeQty = true ?>
+                <?php $_canChangeQty = $_selections[0]->getSelectionCanChangeQty() ?>
+                3
             <?php endif; ?>
         <?php endif; ?>
         <label for="bundle-option-<?php echo $_option->getId() ?>-qty-input"><?php echo $this->__('Qty:') ?>&nbsp;</label><input onkeyup="bundle.changeOptionQty(this)" <?php echo $_canChangeQty?'':'disabled="disabled"' ?> id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>" />
