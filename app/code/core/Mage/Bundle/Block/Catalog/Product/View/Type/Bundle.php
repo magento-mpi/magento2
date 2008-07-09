@@ -51,7 +51,10 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
     public function hasOptions()
     {
         $this->getOptions();
-        return !empty($this->_options);
+        if (empty($this->_options) || !$this->getProduct()->isSalable()) {
+            return false;
+        }
+        return true;
     }
 
     public function getJsonConfig()
