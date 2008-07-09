@@ -1,0 +1,99 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Mage
+ * @package    design_default
+ * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php if ($this->canShow()): ?>
+
+<script language="javascript">
+AC_FL_RunContent = 0;
+flashWindowHeight = 415;
+
+function closeMessagePopupWindow()
+{
+    var mpw = document.messagePopupWindow;
+    if (mpw) {
+        mpw.style.top = '-1000px';
+    }
+}
+
+function getFlashVars()
+{
+    var result = '';
+    result += 'headerText=<b><?php echo $this->getHeaderText(); ?></b>&';
+    result += 'closeText=<?php echo $this->getCloseText(); ?>&';
+    result += 'readDetailsText=<?php echo $this->getReadDetailsText(); ?>&';
+    result += 'minorText=<?php echo $this->getMinorText(); ?>&';
+    result += 'majorText=<?php echo $this->getMajorText(); ?>&';
+    result += 'criticalText=<?php echo $this->getCriticalText(); ?>&';
+    result += 'messageText=<?php echo $this->getNoticeText(); ?>&';
+    result += 'detailsUrl=<?php echo $this->getNoticeUrl(); ?>&';
+    result += 'messageSeverity=<?php echo $this->getNoticeSeverity(); ?>';
+
+    return result;
+}
+
+function openMessagePopupWindow()
+{
+    var mpw = document.messagePopupWindow;
+    if (mpw) {
+        mpw.style.left = Math.round((document.body.offsetWidth/2)-(flashWindowHeight/2)) + 'px';
+        mpw.style.top = '200px';
+    }
+}
+
+function popupMessageDetailsWindow(url)
+{
+    window.open(url);
+}
+
+</script>
+<script src="<?php echo $this->getJsUrl() ?>flash/AC_RunActiveContent.js" language="javascript"></script>
+<script language="javascript">
+if (AC_FL_RunContent == 0) {
+    alert("This page requires AC_RunActiveContent.js.");
+} else {
+    AC_FL_RunContent(
+        'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
+        'width', '415',
+        'height', '140',
+        'src', '<?php echo $this->getObjectUrl(); ?>',
+        'quality', 'high',
+        'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+        'align', 'middle',
+        'play', 'true',
+        'loop', 'true',
+        'scale', 'showall',
+        'wmode', 'window',
+        'devicefont', 'false',
+        'id', 'messagePopupWindow',
+        'bgcolor', '#fdf4eb',
+        'name', 'messagePopupWindow',
+        'menu', 'false',
+        'allowFullScreen', 'false',
+        'allowScriptAccess','always',
+        'movie', '<?php echo $this->getObjectUrl(); ?>',
+        'salign', '',
+        'FlashVars', getFlashVars()
+    );
+
+    document.messagePopupWindow.style.position='absolute';
+    document.messagePopupWindow.style.top='-1000px';
+}
+</script>
+<?php endif; ?>

@@ -385,4 +385,9 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISCOUNT_TAX, $store) == 1);
     }
+
+    public function getTaxBasedOn($store = null)
+    {
+        return Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
+    }
 }

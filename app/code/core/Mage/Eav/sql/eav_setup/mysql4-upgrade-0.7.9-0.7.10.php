@@ -13,17 +13,24 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Eav
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass
-{
-    public function toOptionArray()
-    {
-        $options = Mage::getModel('tax/class_source_product')->toOptionArray();
-        //array_unshift($options, array('value'=>'', 'label' => Mage::helper('tax')->__('None')));
-        return $options;
-    }
 
-}
+
+/**
+ * update attribute group
+ *
+ * @category   Mage
+ * @package    Mage_Eav
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+
+$installer->startSetup();
+$installer->getConnection()->addColumn($installer->getTable('eav/attribute'), "is_used_for_price_rules", "TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1'");
+$installer->updateAttribute('catalog_product', 'tier_price', 'is_used_for_price_rules', '0');
+$installer->endSetup();
