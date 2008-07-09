@@ -428,8 +428,7 @@ class Mage_Core_Model_Locale
         if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
             self::$_currencyCache[$this->getLocaleCode()][$currency] =
                 //new Zend_Currency($currency, $this->getLocale());
-                Mage::getModel('core/locale_currency', $currency);
-            self::$_currencyCache[$this->getLocaleCode()][$currency]->setLocale($this->getLocale());
+                new Mage_Core_Model_Locale_Currency($currency, $this->getLocale());
         }
         Varien_Profiler::stop('locale/currency');
         return self::$_currencyCache[$this->getLocaleCode()][$currency];
