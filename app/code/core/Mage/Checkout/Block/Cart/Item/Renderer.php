@@ -125,7 +125,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             }
         }
         if ($addOptions = $this->getItem()->getOptionByCode('additional_options')) {
-        	$options = array_merge($options, unserialize($addOptions->getValue()));
+            $options = array_merge($options, unserialize($addOptions->getValue()));
         }
         return $options;
     }
@@ -208,11 +208,14 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     {
         $formateOptionValue = array();
         if (is_array($optionValue)) {
-            $_truncatedValue = implode('<br />', $optionValue);
+            $_truncatedValue = implode("\n", $optionValue);
+            $_truncatedValue = nl2br($_truncatedValue);
+            return array('value' => $_truncatedValue);
         } else {
             $_truncatedValue = Mage::helper('core/string')->truncate($optionValue, 100, '');
-                $_truncatedValue = nl2br($this->htmlEscape($_truncatedValue));
+            $_truncatedValue = nl2br($this->htmlEscape($_truncatedValue));
         }
+
         $formateOptionValue = array(
             'value' => $_truncatedValue
         );
