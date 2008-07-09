@@ -1096,7 +1096,7 @@ td.attributes-col p.pname a{ font-weight:bold;}
 .tax-total .tax-collapse { float:right; padding-left:20px; background:url(../images/bg_collapse.gif) 0 2px no-repeat; text-align:right; cursor:pointer; }
 .show-details .tax-collapse { background-position:0 -55px; }
 .show-details td { border-top:1px solid #d2d8db; }
-.tax-details td { font-size:0.91em;color:#626465;  background:#dae1e4; }
+.tax-details td { font-size:0.91em; color:#626465; background-color:#dae1e4; }
 .tax-details-first td { border-top:1px solid #d2d8db; }
 
 
