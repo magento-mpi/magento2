@@ -223,8 +223,10 @@ Object.extend(Validation, {
                 this.updateCallback(elm, 'failed');
             //}
             elm[prop] = 1;
-            elm.removeClassName('validation-passed');
-            elm.addClassName('validation-failed');
+            if (!elm.advaiceContainer) {
+                elm.removeClassName('validation-passed');
+                elm.addClassName('validation-failed');
+            }
             return false;
         } else {
             var advice = Validation.getAdvice(name, elm);
