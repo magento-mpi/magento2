@@ -418,3 +418,22 @@ Validation.addAllThese([
         return elm.validate();
     }]
 ]);
+
+function truncateOptions() {
+    $$('.truncate-option').each(function(element){
+        Event.observe(element, 'mouseover', function(){
+            if ($(element.id+'_full_view')) {
+                $(element.id+'_full_view').style.display = 'block';
+            }
+        });
+        Event.observe(element, 'mouseout', function(){
+            if ($(element.id+'_full_view')) {
+                $(element.id+'_full_view').style.display = 'none';
+            }
+        });
+
+    });
+}
+Event.observe(window, 'load', function(){
+   truncateOptions();
+});
