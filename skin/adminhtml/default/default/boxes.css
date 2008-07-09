@@ -130,7 +130,7 @@
 /* Grid - Pager and Buttons row */
 table.actions                   { width:100%; margin:.5em 0; }
 table.actions td                { vertical-align:top; }
-.pager select                   { width:4em; margin:0 4px; }
+.pager select                   { width:4em!important; margin:0 4px; }
 .pager input.page               { width:2em !important; }
 .pager .arrow                   { margin: 0 3px; vertical-align:middle; }
 
@@ -950,6 +950,9 @@ ul.item-options li { padding-left:.7em; }
 
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
+
+#category_info_tabs_general_content .checkbox {display:none; float:left; margin:3px 3px 0 25px; display:inline;}
+
 
 /* Product - Websites */
 .webiste-groups                         { padding:10px 20px; }
