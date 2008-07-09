@@ -28,7 +28,7 @@
 
 <div class="price-box">
         <?php if ($_product->getPriceView()): ?>
-            <span class="minimal-price"><span class="label"><?php echo $this->__('As low as:') ?></span>
+            <span class="minimal-price"><span class="label"><?php echo $this->__('As low as') ?>:</span>
             <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
                 <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span>
                 <span class="price-including-tax">(<?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?> <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax') ?></span>)</span>

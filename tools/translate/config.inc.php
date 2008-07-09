@@ -38,6 +38,12 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Backup/',
     ),
 
+    'Mage_Bundle' => array(
+        'app/code/core/Mage/Bundle/',
+        'app/design/frontend/default/default/template/bundle/',
+        'app/design/adminhtml/default/default/template/bundle/',
+    ),
+
     'Mage_Catalog' => array(
         'app/code/core/Mage/Catalog/',
         'app/design/frontend/default/default/template/catalog/',
@@ -281,6 +287,7 @@ $CONFIG['translates'] = array(
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'backup'            => 'Mage_Backup',
+    'bundle'            => 'Mage_Bundle',
     'catalog'           => 'Mage_Catalog',
     'cataloginventory'  => 'Mage_CatalogInventory',
     'catalogrule'       => 'Mage_CatalogRule',
