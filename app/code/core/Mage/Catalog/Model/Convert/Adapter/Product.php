@@ -537,7 +537,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                 $setValue = array();
             }
 
-            if ($attribute->getBackendType() == 'decimal') {
+            if ($value && $attribute->getBackendType() == 'decimal') {
                 $setValue = $this->getNumber($value);
             }
 
