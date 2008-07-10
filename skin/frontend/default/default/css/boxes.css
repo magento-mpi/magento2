@@ -1060,7 +1060,7 @@ td.attributes-col ul { margin:5px 0; font-size:.95em;}
 td.attributes-col dt { margin-top:.5em; }
 td.attributes-col dd ul { margin: 0 0 5px 0; list-style:disc; }
 td.attributes-col dd ul li { margin-left:15px; }
-td.attributes-col h4.title { padding:0; margin:0; font-size:1em; width:100%; overflow:hidden; }
+td.attributes-col h4.title { padding:0; margin:0; font-size:1em; color:#2f2f2f; width:100%; overflow:hidden; }
 td.attributes-col h4.title a { font-weight:bold; }
 
 .truncated { position:relative !important; }
@@ -1164,6 +1164,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .head a { display:none; }  /* Hide Edit button in step header */
 .one-page-checkout h3 { color:#999; font-size:1.05em; }
 .one-page-checkout h4 { border-bottom:1px solid #E4E4E4; padding-bottom:2px; text-transform:uppercase; }
+.one-page-checkout h4.title { border-bottom:0; text-transform:none; }
 .one-page-checkout .step-count { background:#fff; font-size:.9em; padding:0 4px; line-height:1em; }
 .one-page-checkout .content { padding: 10px 20px; }
 .one-page-checkout label.label { font-size:1.05em; color:#2f2f2f; }

@@ -20,7 +20,7 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td><h4 class="title"><?php echo $this->htmlEscape($this->getProductName()) ?></h4>
+    <td class="attributes-col"><h4 class="title"><?php echo $this->htmlEscape($this->getProductName()) ?></h4>
         <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">

@@ -861,7 +861,7 @@ td.attributes-col ul                { margin:5px 0; font-size:1em;}
 td.attributes-col dt                { margin-top:.5em; font-weight:bold; }
 td.attributes-col dd ul             { margin: 0 0 5px 0; }
 td.attributes-col dd ul li          { margin-left:15px; list-style:disc; }
-td.attributes-col h4.title          { padding:0; margin:0; font-size:1em; width:100%; overflow:hidden; }
+td.attributes-col h4.title          { padding:0; margin:0; font-size:1em; color:#444; width:100%; overflow:hidden; }
 td.attributes-col h4.title a        { font-weight:bold; }
 .cart-totals                    { padding:12px 0;  background:url(../images/cart_totals_bg.gif) no-repeat; text-align:right; }
 .cart-totals table              { float:right; width:400px; margin-bottom:8px; }
@@ -916,6 +916,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .head a { display:none; }  /* Hide Edit button in step header */
 .one-page-checkout h3 { float:left; margin:0; color:#999; font-size:1.05em; }
 .one-page-checkout h4 { border-bottom:1px solid #E4E4E4; padding-bottom:2px; }
+.one-page-checkout h4.title { border-bottom:0; text-transform:none; }
 .one-page-checkout .step-count { padding:0 4px; background:#fff; color:#444; font-size:.9em; line-height:1em;  }
 .one-page-checkout .content { padding: 10px 20px; }
 .one-page-checkout label.label { font-size:1.05em; color:#2f2f2f; }
