@@ -18,7 +18,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div id="bundle_selection_box_template" class="grid tier form-list hor-scroll">
+<div id="bundle_selection_box_template" class="grid tier form-list">
+  <div class="hor-scroll">
     <table class="border" cellpadding="0" cellspacing="0">
         <thead>
             <tr class="headings">
@@ -54,10 +55,10 @@
             </tr>
         </tbody>
     </table>
+  </div>
 </div>
-
 <script type="text/javascript">
-
+//<![CDATA[
 Bundle.Selection = Class.create();
 Bundle.Selection.prototype = {
     idLabel : '<?php echo $this->getFieldId() ?>',
@@ -283,5 +284,5 @@ Bundle.Selection.prototype = {
 }
 
 var bSelection = new Bundle.Selection();
-
+//]]>
 </script>
