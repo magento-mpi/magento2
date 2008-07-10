@@ -37,9 +37,8 @@
           <div class="truncated_value truncate-option-full-view">
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
-                <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option['value']) ?>
                 <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-                <dd><?php echo $_formatedOptionValue['value'] ?></dd>
+                <dd><?php echo $this->htmlEscape($_option['value']) ?></dd>
                 <?php endforeach; ?>
             </dl>
           </div>
