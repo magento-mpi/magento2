@@ -220,7 +220,13 @@ function formatCurrency(price, format, showPlus){
 
     j = (j = i.length) > groupLength ? j % groupLength : 0;
     re = new RegExp("(\\d{" + groupLength + "})(?=\\d)", "g");
-    r = (j ? i.substr(0, j) + groupSymbol : "") + i.substr(j).replace(re, "$1" + groupSymbol) + (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).slice(2) : "")
+
+    /**
+     * replace(/-/, 0) is only for fixing Safari bug which appears
+     * when Math.abs(0).toFixed() executed on "0" number.
+     * Result is "0.-0" :(
+     */
+    r = (j ? i.substr(0, j) + groupSymbol : "") + i.substr(j).replace(re, "$1" + groupSymbol) + (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).replace(/-/, 0).slice(2) : "")
 
     if (format.pattern.indexOf('{sign}') == -1) {
         pattern = s + format.pattern;
@@ -232,14 +238,14 @@ function formatCurrency(price, format, showPlus){
 };
 
 function expandDetails(el, childClass) {
-	if (Element.hasClassName(el,'show-details')) {
-		$$(childClass).each(function(item){item.hide()});
-		Element.removeClassName(el,'show-details');
-	}
-	else {
-		$$(childClass).each(function(item){item.show()});
-		Element.addClassName(el,'show-details');
-	}
+    if (Element.hasClassName(el,'show-details')) {
+        $$(childClass).each(function(item){item.hide()});
+        Element.removeClassName(el,'show-details');
+    }
+    else {
+        $$(childClass).each(function(item){item.show()});
+        Element.addClassName(el,'show-details');
+    }
 }
 
 // Version 1.0
