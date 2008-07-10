@@ -1059,8 +1059,8 @@ td.attributes-col ul { margin:5px 0; font-size:.95em;}
 td.attributes-col dt { margin-top:.5em; }
 td.attributes-col dd ul { margin: 0 0 5px 0; list-style:disc; }
 td.attributes-col dd ul li { margin-left:15px; }
-td.attributes-col p.pname  { width:100%; overflow:hidden; padding:0; margin:0; }
-td.attributes-col p.pname a { font-weight:bold;}
+td.attributes-col h4.title { padding:0; margin:0; font-size:1em; width:100%; overflow:hidden; }
+td.attributes-col h4.title a { font-weight:bold; }
 
 .truncated { position:relative!important; }
 .truncated .truncated_value { display:none; position:absolute; top:30px; left:50%; z-index:999; width:250px; padding:8px; border:1px solid #7ba7c9; background-color:#eaf6ff; }
