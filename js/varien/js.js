@@ -428,21 +428,13 @@ Validation.addAllThese([
 function truncateOptions() {
     $$('.truncate-option').each(function(element){
         Event.observe(element, 'mouseover', function(){
-            if ($(element.id+'_full_view')) {
-                $(element.id+'_full_view').style.display = 'block';
-            } else {
-                if (element.down('div.truncate-option-full-view')) {
-                    element.down('div.truncate-option-full-view').style.display = 'block';
-                }
+            if (element.down('div.truncate-option-full-view')) {
+                element.down('div.truncate-option-full-view').style.display = 'block';
             }
         });
         Event.observe(element, 'mouseout', function(){
-            if ($(element.id+'_full_view')) {
-                $(element.id+'_full_view').style.display = 'none';
-            } else {
-                if (element.down('div.truncate-option-full-view')) {
-                    element.down('div.truncate-option-full-view').style.display = 'none';
-                }
+            if (element.down('div.truncate-option-full-view')) {
+                element.down('div.truncate-option-full-view').style.display = 'none';
             }
         });
 

@@ -40,7 +40,7 @@
                 <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
                 <dd>
                     <?php if (is_array($_option['value'])): ?>
-                    <?php echo nl2br(implode("\n", $option['value'])) ?>
+                    <?php echo nl2br(implode("\n", $_option['value'])) ?>
                     <?php else: ?>
                     <?php echo $_option['value'] ?>
                     <?php endif; ?>
