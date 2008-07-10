@@ -48,8 +48,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $this->_setFieldset($customer->getAttributes(), $fieldset);
 
         if ($customer->getId()) {
-            $form->getElement('website_id')->setDisabled(true);
-            $form->getElement('created_in')->setDisabled(true);
+            $form->getElement('website_id')->setDisabled('disabled');
+            $form->getElement('created_in')->setDisabled('disabled');
         } else {
             $fieldset->removeField('created_in');
         }
@@ -93,8 +93,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 ))->setEntityAttribute($confirmationAttribute)
                     ->setValues(array('' => 'Confirmed', $confirmationKey => 'Not confirmed'));
 
-                // prepare send welcome email checkbox, if customer is inactive [and was never logged in]
-                if ($customer->getConfirmation()) { // && was never logged in
+                // prepare send welcome email checkbox, if customer is not confirmed
+                // no need to add it, if website id is empty
+                if ($customer->getConfirmation() && $customer->getWebsiteId()) {
                     $fieldset->addField('sendemail', 'checkbox', array(
                         'name'  => 'sendemail',
                         'label' => Mage::helper('customer')->__('Send Welcome Email after Confirmation')
@@ -124,6 +125,23 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 'id'    => 'sendemail',
             ));
         }
+
+        // make sendemail disabled, if website_id has empty value
+        if ($sendemail = $form->getElement('sendemail')) {
+            $prefix = $form->getHtmlIdPrefix();
+            $sendemail->setAfterElementHtml(
+                '<script type="text/javascript">'
+                . "
+                $('{$prefix}website_id').disableSendemail = function() {
+                    $('{$prefix}sendemail').disabled = ('' == this.value || '0' == this.value);
+                }.bind($('{$prefix}website_id'));
+                Event.observe('{$prefix}website_id', 'click', $('{$prefix}website_id').disableSendemail);
+                $('{$prefix}website_id').disableSendemail();
+                "
+                . '</script>'
+            );
+        }
+
         $form->setValues($customer->getData());
         $this->setForm($form);
         return $this;

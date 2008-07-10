@@ -195,23 +195,25 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $customer->setPassword($customer->generatePassword());
                 }
 
-                // remove customer confirmation key from database, if empty
-                if (!$customer->getConfirmation()) {
-                    $customer->setConfirmation(null);
+                // force new customer active
+                if ($isNewCustomer) {
+                    $customer->setForceConfirmed(true);
                 }
 
                 $customer->save();
 
-                // send new account welcome email, if creating customer
-                if ($isNewCustomer) {
-                    if ($customer->hasData('sendemail') && $customer->getWebsiteId()) {
+                // send welcome email
+                if ($customer->getWebsiteId() && $customer->hasData('sendemail')) {
+                    if ($isNewCustomer) {
                         $customer->sendNewAccountEmail();
                     }
+                    // confirm not confirmed customer
+                    elseif ((!$customer->getConfirmation())) {
+                        $customer->sendNewAccountEmail('confirmed');
+                    }
                 }
-                // send confirmed welcome email, if confirming not confirmed customer
-                elseif ((!$customer->getConfirmation()) && $customer->hasData('sendemail')) {
-                    $customer->sendNewAccountEmail('confirmed');
-                }
+
+                // TODO? Send confirmation link, if deactivating account
 
                 if ($newPassword = $customer->getNewPassword()) {
                     if ($newPassword == 'auto') {
