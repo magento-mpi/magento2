@@ -1210,6 +1210,3 @@ table.print .giftmessage-preview-link { display:none !important; }
 
 /* For Demo store only */
 .demo-notice    { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
-
-/* Clearer */
-.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden;	}
