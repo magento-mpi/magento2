@@ -206,6 +206,8 @@ Object.extend(Validation, {
             advice = this.createAdvice(name, elm, false, errorMsg);
         }
         this.showAdvice(elm, advice, 'validate-ajax');
+        this.updateCallback(elm, 'failed');
+
         elm.addClassName('validation-failed');
         elm.addClassName('validate-ajax');
     },

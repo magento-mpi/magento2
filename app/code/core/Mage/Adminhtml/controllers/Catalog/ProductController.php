@@ -338,7 +338,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->addData($this->getRequest()->getPost('product'))
                 ->validate();
         }
-        catch (Exception $e){
+        catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+            $response->setError(true);
+            $response->setAttribute($e->getAttributeCode());
+            $response->setMessage($e->getMessage());
+        }
+        catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
