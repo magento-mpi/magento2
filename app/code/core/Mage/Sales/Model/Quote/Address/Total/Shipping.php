@@ -49,7 +49,6 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
             if ($item->getProduct()->getTypeInstance()->isVirtual()) {
                 continue;
             }
-
             /**
              * Children weight we calculate for parent
              */
@@ -59,11 +58,11 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
 
             if ($item->getHasChildren() && $item->isShipSeparately()) {
                 foreach ($item->getChildren() as $child) {
-                    if ($item->getProduct()->getTypeInstance()->isVirtual()) {
+                    if ($child->getProduct()->getTypeInstance()->isVirtual()) {
                         continue;
                     }
-
                     $addressQty += $item->getQty()*$child->getQty();
+
                     if (!$item->getProduct()->getWeightType()) {
                         $itemWeight = $child->getWeight();
                         $itemQty    = $item->getQty()*$child->getQty();
@@ -102,7 +101,9 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                 }
             }
             else {
-                $addressQty += $item->getQty();
+                if (!$item->getProduct()->getTypeInstance()->isVirtual()) {
+                    $addressQty += $item->getQty();
+                }
                 $itemWeight = $item->getWeight();
                 $rowWeight  = $itemWeight*$item->getQty();
                 $addressWeight+= $rowWeight;
