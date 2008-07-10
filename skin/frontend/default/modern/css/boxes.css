@@ -57,7 +57,7 @@ textarea                { border:1px solid #b6b6b6; font:12px arial, helvetica, 
 option, optgroup        { font:12px arial, helvetica, sans-serif; }
 optgroup                { font-weight:bold; }
 input.input-text,
-textarea                { padding:2px; }
+textarea                { padding:2px; overflow:auto; }
 input.form-radio        { margin-right:3px;}
 .v-fix                  { display:inline; }
 .qty                    { width:2.5em; }
@@ -883,11 +883,12 @@ td.attributes-col h4.title a        { font-weight:bold; }
     }
 tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
-.truncated { position:relative!important; }
-.truncated .truncated_value { display:none; position:absolute; top:30px; left:50%; z-index:999; width:250px; padding:8px; border:2px solid #ddd; border-bottom-color:#666; background-color:#f6f6f6; }
-.truncated .truncated_value dt { margin-top:0; }
-.col-left .truncated .truncated_value { left:35px; top:20px; }
-.col-right .truncated .truncated_value { left:-240px; top:20px; }
+.truncated { position:relative !important; }
+.truncated .truncated_full_value { position:absolute; top:-99999em; z-index:999; width:250px; padding:8px; border:2px solid #ddd; border-bottom-color:#666; background-color:#f6f6f6; }
+.truncated .truncated_full_value dt { margin-top:0; }
+.truncated .show { top:30px; left:50%; }
+.col-left .truncated .show { left:35px; top:20px; }
+.col-right .truncated .show { left:-240px; top:20px; }
 
 /* Tax details */
 .tax-total { cursor:pointer; }

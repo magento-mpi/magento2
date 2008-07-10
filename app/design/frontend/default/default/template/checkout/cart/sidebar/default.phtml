@@ -33,8 +33,8 @@
         <?php endif;?>
         <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
-        <div class="truncated truncate-option">
-          <div class="truncated_value truncate-option-full-view">
+        <div class="truncated">
+          <div class="truncated_full_value">
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
                 <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
