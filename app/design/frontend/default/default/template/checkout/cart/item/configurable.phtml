@@ -48,14 +48,13 @@
         <dl class="item-options">
             <?php foreach ($_options as $_option):?>
             <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option['value']) ?>
-            <?php $randomId =  str_replace('.', '_', 'trunc_' . microtime(true)) ?>
             <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-            <dd class="truncated truncate-option" id="<?php echo $randomId ?>"><?php echo $_formatedOptionValue['value'] ?>
+            <dd class="truncated truncate-option"><?php echo $_formatedOptionValue['value'] ?>
                 <?php if (isset($_formatedOptionValue['full_view'])): ?>
-                <div id="<?php echo $randomId ?>_full_view" class="truncated_value">
+                <div class="truncated_value truncate-option-full-view">
                     <dl class="item-options">
-										  <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-										  <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                        <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                        <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
                     </dl>
                 </div>
                 <?php endif; ?>
