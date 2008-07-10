@@ -19,7 +19,8 @@
  */
 ?>
 <?php $_items = $this->getCreditmemo()->getAllItems() ?>
-<div class="grid">
+<div class="grid np">
+  <div class="hor-scroll">
     <table cellspacing="0" class="data order-tables">
         <col />
         <col width="1" />
@@ -46,4 +47,6 @@
             </tbody>
         <?php endforeach; ?>
     </table>
+  </div>
 </div>
+<br />

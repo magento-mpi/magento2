@@ -58,18 +58,14 @@ dl.accordion dt a,
 div.collapseable a               { width:100%; }
 .product-image-gallery .grid tbody td { padding: 4px !important; }
 .massaction .entry-edit fieldset{ float: right;}
-.massaction .entry-edit fieldset  button.scalable {text-align:center!important; padding-left:0;padding-right:0; margin-top:1px;}
+.massaction .entry-edit fieldset  button.scalable {text-align:center !important; padding-left:0;padding-right:0; margin-top:1px;}
 .content-header {zoom:1;}
 
-#tree-div {overflow-x:auto!important; height:auto!important; overflow-y:hidden!important; padding-bottom:30px;}
-
-#nav ul li, #nav ul li.active {
-	float:left;
-	clear:left;
-	width:185px;
-    }
-
-.hor-scroll { overflow-x:auto; overflow-y:hidden; padding-bottom:20px; }
-.grid-severity-critical, .grid-severity-major, .grid-severity-minor { margin:3px 0; }
-
+#tree-div {overflow-x:auto !important; height:auto !important; overflow-y:hidden !important; padding-bottom:30px; }
 #category_info_tabs_general_content .checkbox { display:inline; margin:0px 0px 0 21px; }
+
+#nav ul li, #nav ul li.active { float:left; clear:left; width:185px; }
+
+.hor-scroll { overflow-x:auto; overflow-y:hidden; padding-bottom:20px; margin-bottom:-16px; }
+
+.grid-severity-critical, .grid-severity-major, .grid-severity-minor { margin:3px 0; }

@@ -581,20 +581,12 @@ td.divider              { font-size:1px; line-height:0; }
 .scrollContent              { position: absolute; left: 0px; top: 0px;}
 
 /* Horizontal scroll */
-.hor-scroll                 { width:100%; overflow:auto; margin-bottom:-10px; padding-bottom:10px; }
-.hor-scroll .grid           { padding-bottom:0 !important; }
-.hor-scroll .grid table     { margin-bottom:0 !important; padding-bottom:0 !important; }
+.hor-scroll                 { width:100%; overflow:auto; padding-bottom:4px; margin-bottom:-4px; } /* IE has personal style, see iestyles.css */
+
 
 /**/
 .note-list { width:100%; overflow:hidden; }
-.note-list li {
-    border-top:1px solid #e3e3e3;
-    margin-top:9px !important;
-    background:url(images/icon_note_list.gif) no-repeat 0 3px;
-    padding-bottom:9px;
-    padding-left:18px;
-    }
-
+.note-list li { border-top:1px solid #e3e3e3; margin-top:9px !important; background:url(images/icon_note_list.gif) no-repeat 0 3px; padding-bottom:9px; padding-left:18px; }
 
 
 
@@ -906,14 +898,15 @@ ul.item-options li { padding-left:.7em; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
 /* Account Information */
-.account-info .form-list td.value { width:auto; }
+.account-info .form-list td.value       { width:auto; }
 
 /* Order Totals */
-.order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding: 12px 10px; background:#fcfac9; text-align:right; }
-.order-totals table                     { border: none; background: none; margin-left: auto; }
-.order-totals table td                  { padding:3px 10px;}
-.order-totals table td.label            { white-space:normal; }
+.order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding:12px 0; background:#fcfac9; text-align:right; }
+.order-totals table                     { border: none; background:none; margin-left:auto; }
+.order-totals table td                  { padding:3px 20px 3px 10px; white-space:nowrap; }
+.order-totals table td.label            { white-space:normal; padding:3px 10px 3px 20px; }
 .order-totals table td.last             { padding:2px 6px; }
+.order-totals-bottom                    { padding:0 20px; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important; }
 
 /* Tax details */

@@ -28,6 +28,7 @@
           <fieldset>
               <input type="hidden" id="<?php echo $this->getFieldId('type') ?>" name="<?php echo $this->getFieldName('type') ?>" value="order" />
               <table width="100%" cellspacing="0">
+                <tbody>
                   <tr>
                       <td class="label"><label><?php echo Mage::helper('sales')->__('From Name') ?></label></td>
                       <td class="input-ele"><input class="input-text" type="text" id="<?php echo $this->getFieldId('sender') ?>" name="<?php echo $this->getFieldName('sender') ?>" value="<?php echo $this->htmlEscape($this->getMessage()->getSender()) ?>" /></td>
@@ -44,7 +45,7 @@
                   <tr>
                       <td colspan="5" class="a-right"><?php echo $this->getSaveButtonHtml(); ?></td>
                   </tr>
-                  </tbody>
+                </tbody>
               </table>
           </fieldset>
         </form>

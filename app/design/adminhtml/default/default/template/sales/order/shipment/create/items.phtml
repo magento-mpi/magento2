@@ -54,16 +54,18 @@
 
 <div class="box-right entry-edit">
     <div class="order-totals">
-        <p>
-            <label class="normal" for="notify_customer"><?php echo Mage::helper('sales')->__('Append Comments') ?></label>
-            <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox" />
-        </p>
-        <p>
-            <label class="normal" for="send_email"><?php echo Mage::helper('sales')->__('Email Copy of Shipment') ?></label>
-            <input id="send_email" name="shipment[send_email]" value="1" type="checkbox" />
-        </p>
-        <div class="a-right">
-        <?php echo $this->getChildHtml('submit_button') ?>
+        <div class="order-totals-bottom">
+          <p>
+              <label class="normal" for="notify_customer"><?php echo Mage::helper('sales')->__('Append Comments') ?></label>
+              <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox" />
+          </p>
+          <p>
+              <label class="normal" for="send_email"><?php echo Mage::helper('sales')->__('Email Copy of Shipment') ?></label>
+              <input id="send_email" name="shipment[send_email]" value="1" type="checkbox" />
+          </p>
+          <div class="a-right">
+          <?php echo $this->getChildHtml('submit_button') ?>
+          </div>
         </div>
     </div>
 </div>
