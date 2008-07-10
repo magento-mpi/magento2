@@ -66,9 +66,9 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
         }
 
         $shift{1} = 10;
-        $options = $item->getOrderItem()->getProductOptions();
-        if (isset($options['options'])) {
-            foreach ($options['options'] as $option) {
+        $options = $this->getItemOptions();
+        if (isset($options)) {
+            foreach ($options as $option) {
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_ITALIC), 7);
 
                 $optionTxt = strip_tags($option['label']);
