@@ -38,7 +38,7 @@
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
                 <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-                <dd><?php echo $this->htmlEscape($_option['value']) ?></dd>
+                <dd><?php echo $_option['value'] ?></dd>
                 <?php endforeach; ?>
             </dl>
           </div>
