@@ -38,7 +38,13 @@
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
                 <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-                <dd><?php echo $_option['value'] ?></dd>
+                <dd>
+                    <?php if (is_array($_option['value'])): ?>
+                    <?php echo nl2br(implode("\n", $option['value'])) ?>
+                    <?php else: ?>
+                    <?php echo $_option['value'] ?>
+                    <?php endif; ?>
+                </dd>
                 <?php endforeach; ?>
             </dl>
           </div>
