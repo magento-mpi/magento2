@@ -164,7 +164,7 @@ class Mage_CatalogInventory_Model_Observer
                     Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product in option is not valid'));
                 }
                 $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $optionQty);
-                $result = $stockItem->checkQuoteItemQty($qtyForCheck);
+                $result = $stockItem->checkQuoteItemQty($optionQty, $qtyForCheck);
 
                 if (!is_null($result->getItemIsQtyDecimal())) {
                     $option->setIsQtyDecimal($result->getItemIsQtyDecimal());
@@ -193,7 +193,7 @@ class Mage_CatalogInventory_Model_Observer
                 Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product is not valid'));
             }
             $qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), $qty);
-            $result = $stockItem->checkQuoteItemQty($qtyForCheck);
+            $result = $stockItem->checkQuoteItemQty($qty, $qtyForCheck);
             if (!is_null($result->getItemIsQtyDecimal())) {
                 $item->setIsQtyDecimal($result->getItemIsQtyDecimal());
             }
