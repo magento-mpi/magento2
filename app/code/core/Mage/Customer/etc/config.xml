@@ -52,10 +52,15 @@
                 <middlename><billing>1</billing><shipping>1</shipping><mapped>1</mapped></middlename>
                 <lastname><billing>1</billing><shipping>1</shipping><required>1</required><mapped>1</mapped></lastname>
                 <suffix><billing>1</billing><shipping>1</shipping><mapped>1</mapped></suffix>
-                <street1><billing>1</billing><shipping>1</shipping><street>1</street></street1>
-                <street2><billing>1</billing><shipping>1</shipping><street>1</street></street2>
-                <street3><billing>1</billing><shipping>1</shipping><street>1</street></street3>
-                <street4><billing>1</billing><shipping>1</shipping><street>1</street></street4>
+                <street_full><billing>1</billing><shipping>1</shipping></street_full>
+                <street1><street>1</street></street1>
+                <street2><street>1</street></street2>
+                <street3><street>1</street></street3>
+                <street4><street>1</street></street4>
+                <street5><street>1</street></street5>
+                <street6><street>1</street></street6>
+                <street7><street>1</street></street7>
+                <street8><street>1</street></street8>
                 <city><billing>1</billing><shipping>1</shipping></city>
                 <region><billing>1</billing><shipping>1</shipping></region>
                 <country><billing>1</billing><shipping>1</shipping><billing_required>1</billing_required><shipping_required>1</shipping_required></country>

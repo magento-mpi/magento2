@@ -520,26 +520,27 @@ class Mage_Customer_Model_Convert_Adapter_Customer
                 $billingAddress->setData(array());
             }
 
-            $billingStreet = array();
             foreach ($this->_billingFields as $field) {
                 $cleanField = Mage::helper('core/string')->substr($field, 8);
 
-                if (in_array($field, $this->_billingStreetFields) && isset($importData[$field])) {
-                    $billingStreet[] = $importData[$field];
-                    continue;
-                }
-
                 if (isset($importData[$field])) {
-                    $billingAddress->setData($cleanField, $importData[$field]);
+                    $billingAddress->setDataUsingMethod($cleanField, $importData[$field]);
                 }
                 elseif (isset($this->_billingMappedFields[$field])
                     && isset($importData[$this->_billingMappedFields[$field]])) {
-                    $billingAddress->setData($cleanField, $importData[$this->_billingMappedFields[$field]]);
+                    $billingAddress->setDataUsingMethod($cleanField, $importData[$this->_billingMappedFields[$field]]);
                 }
             }
 
-            $billingAddress->setStreet($billingStreet);
-            $billingAddress->implodeStreetAddress();
+            $street = array();
+            foreach ($this->_billingStreetFields as $field) {
+                if (!empty($importData[$field])) {
+                    $street[] = $importData[$field];
+                }
+            }
+            if ($street) {
+                $billingAddress->setDataUsingMethod('street', $street);
+            }
 
             $billingAddress->setCountryId($importData['billing_country']);
             $regionName = isset($importData['billing_region']) ? $importData['billing_region'] : '';
@@ -550,6 +551,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
 
             if ($customer->getId()) {
                 $billingAddress->setCustomerId($customer->getId());
+
                 $billingAddress->save();
                 $customer->setDefaultBilling($billingAddress->getId());
 
@@ -573,27 +575,27 @@ class Mage_Customer_Model_Convert_Adapter_Customer
                 $shippingAddress->setData(array());
             }
 
-            $shippingStreet = array();
-
             foreach ($this->_shippingFields as $field) {
                 $cleanField = Mage::helper('core/string')->substr($field, 9);
 
-                if (in_array($field, $this->_shippingStreetFields) && isset($importData[$field])) {
-                    $shippingStreet[] = $importData[$field];
-                    continue;
-                }
-
                 if (isset($importData[$field])) {
-                    $shippingAddress->setData($cleanField, $importData[$field]);
+                    $shippingAddress->setDataUsingMethod($cleanField, $importData[$field]);
                 }
                 elseif (isset($this->_shippingMappedFields[$field])
                     && isset($importData[$this->_shippingMappedFields[$field]])) {
-                    $shippingAddress->setData($cleanField, $importData[$this->_shippingMappedFields[$field]]);
+                    $shippingAddress->setDataUsingMethod($cleanField, $importData[$this->_shippingMappedFields[$field]]);
                 }
             }
 
-            $shippingAddress->setStreet($shippingStreet);
-            $shippingAddress->implodeStreetAddress();
+            $street = array();
+            foreach ($this->_shippingStreetFields as $field) {
+                if (!empty($importData[$field])) {
+                    $street[] = $importData[$field];
+                }
+            }
+            if ($street) {
+                $shippingAddress->setDataUsingMethod('street', $street);
+            }
 
             $shippingAddress->setCountryId($importData['shipping_country']);
             $regionName = isset($importData['shipping_region']) ? $importData['shipping_region'] : '';
