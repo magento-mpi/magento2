@@ -495,7 +495,7 @@
 
             <seo>
                 <product_url_suffix>.html</product_url_suffix>
-                <category_url_suffix>/index.html</category_url_suffix>
+                <category_url_suffix>.html</category_url_suffix>
                 <product_use_categories>1</product_use_categories>
                 <title_separator>-</title_separator>
             </seo>
