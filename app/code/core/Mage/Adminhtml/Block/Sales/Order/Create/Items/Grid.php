@@ -69,7 +69,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         if ($item->hasOriginalCustomPrice()) {
             return $item->getOriginalCustomPrice()*1;
         } else {
-            return $item->getCalculationPrice()*1;
+            $result = $item->getCalculationPrice()*1;
+            if (Mage::helper('tax')->priceIncludesTax($this->getStore()) && $item->getTaxPercent()) {
+                $result = $result + ($result*($item->getTaxPercent()/100));
+            }
+            return $result;
         }
     }
 
@@ -226,5 +230,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         $tax = ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
         return $this->formatPrice($item->getRowTotalWithDiscount()+$tax);
+    }
+
+    public function getInclExclTaxMessage()
+    {
+        if (Mage::helper('tax')->priceIncludesTax($this->getStore())) {
+            return Mage::helper('sales')->__('* - Enter custom price including tax');
+        } else {
+            return Mage::helper('sales')->__('* - Enter custom price excluding tax');
+        }
     }
 }
