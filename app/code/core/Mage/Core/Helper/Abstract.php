@@ -202,13 +202,25 @@ abstract class Mage_Core_Helper_Abstract
         return $this->_layout;
     }
 
+    /**
+     *  base64_encode() for URLs encoding
+     *
+     *  @param    string $url
+     *  @return	  string
+     */
     public function urlEncode($url)
     {
-        return str_replace('/', '_', base64_encode($url));
+        return strtr(base64_encode($url), '+/=', '-_,');
     }
 
+    /**
+     *  base64_dencode() for URLs dencoding
+     *
+     *  @param    string $url
+     *  @return	  string
+     */
     public function urlDecode($url)
     {
-        return base64_decode(str_replace('_', '/', $url));
+        return base64_decode(strtr($url, '-_,', '+/='));
     }
 }

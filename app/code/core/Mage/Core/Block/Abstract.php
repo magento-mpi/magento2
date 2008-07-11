@@ -641,7 +641,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUrlBase64($route='', $params=array())
     {
-        return base64_encode($this->getUrl($route, $params));
+        return Mage::helper('core')->urlEncode($this->getUrl($route, $params));
     }
 
     /**
