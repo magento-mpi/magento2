@@ -46,7 +46,7 @@ ieHover = function() {
     		ieULs[j].style.zIndex="1";
     	}
 	}
-	var truncated=$$('.truncated_full_value');
+	var truncated=$$('.truncated_full_value .item-options');
 	for (var i=0; i<truncated.length; i++) {
 		    iframe = document.createElement('IFRAME');
     		iframe.src = BLANK_URL;
