@@ -22,7 +22,7 @@
 /******************************************************************/
 
 
-/* Loading Indicator 
+/* Loading Indicator
 ********************************************************************************************/
 #loading-process {
     position:absolute;
@@ -55,7 +55,7 @@
 #loading-mask .loader{position:absolute;top:40%;left:50%;}
 
 
-/* Tables 
+/* Tables
 ********************************************************************************************/
 
 /* Grid - General */
@@ -182,7 +182,7 @@ table.actions td                { vertical-align:top; }
 .grid tfoot td                  { border-top:1px solid #9babb9; background:#e5ecf2; line-height:1.7em; }
 
 
-/* Accordion 
+/* Accordion
 ********************************************************************************************/
 .data-defination        { padding:3px 0 3px 10px; font-weight:bold; }
 .data-defination, dl.accordion dt {
@@ -219,14 +219,16 @@ img.accordion-btn       { float:right; margin-top:1px; margin-right:5px; }
 
 ul.tabs                         { border-top:1px solid #bebebe;background-color:#e7efef; }
 ul.tabs a, ul.tabs span         { display:block; }
-ul.tabs a, ul.tabs a:hover      { color:#000; text-decoration:none; }
+ul.tabs a, ul.tabs a:hover      { text-decoration:none; }
+ul.tabs a.notloaded             { color:#999; }
+ul.tabs a, ul.tabs a:hover      { color:#000; }
 ul.tabs a                       { background:url(images/tabs_link_bg.gif) repeat-y 100%; }
 ul.tabs a:hover                 { background-color:#D8E6E6; background-image:url(images/tabs_link_over_bg.gif); }
 ul.tabs a.active                { padding:0; border-bottom:1px solid #bebebe; background:none; }
 ul.tabs a:hover.active          { padding:0; }
 ul.tabs span                    { background:url(images/tabs_span_bg.gif) repeat-x 0 100%;  padding:.3em 0.5em .28em 1.5em; cursor:pointer; }
 ul.tabs span em                 { float:right; }
-ul.tabs a.active span, 
+ul.tabs a.active span,
 ul.tabs a:hover.active span {   background:#fff; font-weight:bold; }
 ul.tabs a.subitem           { padding-left:2.2em; }
 ul.tabs a.changed .changed  { background:url(images/fam_bullet_disk.gif); width:16px; height:16px; }
@@ -300,7 +302,7 @@ input.validation-failed, textarea.validation-failed {
     }
 
 
-/* Forms 
+/* Forms
 ********************************************************************************************/
 select.countries option         { background-repeat:no-repeat; }
 .entry-edit .tree li            { margin:0; }
@@ -320,12 +322,12 @@ table.form-edit                         { width:100%; }
 
 
 /* Elements */
-input.input-text, textarea, select   { 
-    border-width:1px; 
-    border-style:solid; 
+input.input-text, textarea, select   {
+    border-width:1px;
+    border-style:solid;
     border-color:#aaa #c8c8c8 #c8c8c8 #aaa;
     background:url(images/input_ele_bg.gif) repeat-x #fff;
-    font:12px arial, helvetica, sans-serif; 
+    font:12px arial, helvetica, sans-serif;
     }
 input.input-text, textarea      { padding:2px; }
 input.qty                       { width:3em !important; }
@@ -334,7 +336,7 @@ input.price                     { width:5em !important; text-align:right; }
 /* Form List */
 .form-list                      { border:none !important; }
 .form-list td                   { border:none !important; padding-top:5px !important; padding-bottom:5px !important; background:none !important;  }
-.form-list td.label             { width:17em; padding-right:15px; }  
+.form-list td.label             { width:17em; padding-right:15px; }
 .grid tr form-list tr           { background:#fff !important; } /* Follows grid row background-color */
 .grid tr.even .form-list tr     { background:#f6f9fa !important; } /* Follows grid row background-color */
 .grid tr.on-mouse .form-list tr { background:#fcf5dd !important; } /* Follows grid row background-color */
@@ -356,34 +358,34 @@ button:active              { background:url(images/btn_active_bg.gif) #cbe1e7 re
 button span                { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
 button.delete, button.save, button.add { padding-left:6px; }
 button.cancel span, button.delete span, button.save span, button.add span { padding-left:20px; }
-button.back { 
-    border:none !important; 
-    padding-right:2px; 
-    background:none !important; 
-    color:#e36000 !important; 
-    font-weight:normal !important; 
+button.back {
+    border:none !important;
+    padding-right:2px;
+    background:none !important;
+    color:#e36000 !important;
+    font-weight:normal !important;
     }
-button.back span { 
-    border-right:1px solid #aaa; 
-    padding-right:10px; 
-    padding-left:12px; 
-    background-image:url(images/back_btn_icon.gif); 
-    text-decoration:underline; 
+button.back span {
+    border-right:1px solid #aaa;
+    padding-right:10px;
+    padding-left:12px;
+    background-image:url(images/back_btn_icon.gif);
+    text-decoration:underline;
     }
 button.cancel:active                { background-image:url(images/cancel_btn_active_bg.gif); }
 button.cancel, button.delete {
     border-color:#d24403;
-    background-image:url(images/cancel_btn_bg.gif); 
-    background-color:#fcaf81; 
-    color:#fff; 
+    background-image:url(images/cancel_btn_bg.gif);
+    background-color:#fcaf81;
+    color:#fff;
     }
 button.cancel:hover, button.delete:hover { background-image: url(images/cancel_btn_over_bg.gif); }
 button.cancel:active , button.delete:active {
     background-image:url(images/cancel_btn_active_bg.gif);
     background-color:#e0612f;
     }
-button.cancel span, button.delete span { 
-    background-image:url(images/cancel_btn_icon.gif); 
+button.cancel span, button.delete span {
+    background-image:url(images/cancel_btn_icon.gif);
     }
 button.add span     { background-image:url(images/add_btn_icon.gif); }
 button.save span    { background-image:url(images/save_btn_icon.gif); }
@@ -396,7 +398,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 
 
-/* Space 
+/* Space
 ********************************************************************************************/
 .box-left, .box-right   { width:48.5%; }
 .box-left               { float:left; }
@@ -415,23 +417,23 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 /* Scrollers
 ********************************************************************************************/
-.scroll-cont { 
-    position: absolute; 
-    top:-25px; 
-    left: 503px; 
-    width:16px; 
-    height:265px; 
-    background:transparent url(images/db-scroll-bg.gif) no-repeat top; 
-    z-index:10000; 
+.scroll-cont {
+    position: absolute;
+    top:-25px;
+    left: 503px;
+    width:16px;
+    height:265px;
+    background:transparent url(images/db-scroll-bg.gif) no-repeat top;
+    z-index:10000;
     }
 .auto-scroll                { overflow:auto; height:11em; }
 .root                       { position:relative; height: 260px; margin:0; width:1px; }
 .thumb                      { position: absolute; height: 40px; width: 16px; margin-top:-28px; z-index:11000; }
 .up                         { margin-top:254px; height:16px; }
 .dn                         { margin-top:0px; padding:0; height:15px; }
-.up a, .up a img, 
-.dn a, .dn a img, 
-.thumb a , 
+.up a, .up a img,
+.dn a, .dn a img,
+.thumb a ,
 .thumb a img                { border: 0; }
 .up a:focus, .dn a:focus    {  -moz-outline-style: none; }
 .up a:active, .dn a:active  { outline: none; }
@@ -452,7 +454,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 /************** STRUCTURE *****************/
 /******************************************/
 
-/* Layout 
+/* Layout
 ********************************************************************************************/
 
 .header { background:url(images/header_bg.gif) repeat-x #425e66; text-align:right; }
@@ -471,14 +473,14 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
     padding:1.8em 2.2em 1.8em 2em;
     padding-top:0;
     }
-.side-col { 
+.side-col {
     width:17em;
-    padding-bottom:50px; 
+    padding-bottom:50px;
     background:url(images/side_col_bg.gif) repeat-y 100% 0;
     }
-.main-col { 
-    height:450px; 
-    padding:0 0 50px 29px; 
+.main-col {
+    height:450px;
+    padding:0 0 50px 29px;
     }
 .footer {
     background:url(images/footer_bg.gif) repeat-x #e6e6e6;
@@ -499,7 +501,7 @@ body.html-body-popup    { min-width:300px !important; }
 /**************** BOXES *******************/
 /******************************************/
 
-/* Header & Footer 
+/* Header & Footer
 ********************************************************************************************/
 
 .logo                                   { float:left; margin:20px 20px 5px 25px; height:23px; }
@@ -546,7 +548,7 @@ div.autocomplete ul li {
 .footer .legality                       { float:right; width:35%; min-height:19px; padding-left:22px; text-align:right; }
 
 
-/* Columns 
+/* Columns
 ********************************************************************************************/
 
 .catalog-categories .side-col   { width:25em; padding-right:25px;}  /* Catalog/Categories */
@@ -555,7 +557,7 @@ div.autocomplete ul li {
 .order-summary .main-col        { padding-left:25px; }              /* Order/Create */
 
 
-/* Headings 
+/* Headings
 ********************************************************************************************/
 
 /* Content Header */
@@ -584,7 +586,7 @@ div.autocomplete ul li {
 .head-customer-address-list     { background-image:url(images/fam_house.gif); }
 .head-edit-form                 { background-image:url(images/fam_page_white.gif); }
 .head-customer-view             { background-image:url(images/fam_status_online.gif); padding-left:18px; }
-.head-customer, 
+.head-customer,
 .head-customer-groups           { background-image:url(images/fam_group.gif); }
 .head-user                      { background-image:url(images/fam_user.gif); }
 .head-user-edit                 { background-image:url(images/fam_user_edit.gif); }
@@ -599,7 +601,7 @@ div.autocomplete ul li {
 .head-newsletter-list           { background-image:url(images/fam_newspaper.gif); }
 .head-newsletter-report         { background-image:url(images/fam_newspaper_error.gif); }
 .head-tag, .head-tag-product    { background-image:url(images/fam_tag_orange.gif); }
-.head-sales-order, 
+.head-sales-order,
 .head-sales-invoice             { background-image:url(images/fam_folder_table.gif); }
 .head-categories                { background-image:url(images/fam_folder_database.gif); padding-left:20px; color:#253033 !important; }
 .head-catalog-product-attribute { background-image:url(images/fam_rainbow.gif); padding-left:24px; }
@@ -608,7 +610,7 @@ div.autocomplete ul li {
 .head-cms-page, .head-cms-block { background-image:url(images/application_view_tile.gif); }
 .head-backups-control           { background-image:url(images/fam_server_database.gif); }
 .head-money, .head-promo-quote  { background-image:url(images/fam_money.gif); }
-.head-shipping-address, 
+.head-shipping-address,
 .head-billing-address           { background-image:url(images/fam_house.gif); }
 .head-shipping-method           { background-image:url(images/fam_lorry.gif); }
 .head-payment-method            { background-image:url(images/fam_creditcards.gif); }
@@ -680,7 +682,7 @@ div.autocomplete ul li {
     }
 .giftmessage-order-create .entire-order { background-color: #EEE; height: 275px;}
 .giftmessage-order-create fieldset { padding: 0 0 0 0; }
-.giftmessage-order-create .entry-edit input.input-text, 
+.giftmessage-order-create .entry-edit input.input-text,
 .giftmessage-order-create .entry-edit .textarea { width:220px;}
 .giftmessage-single-item .item-text { padding:2px 5px; }
 .giftmessage-single-item .item-text .action-link {
@@ -705,7 +707,7 @@ div.autocomplete ul li {
 /* Addresses */
 .address-list                       { width:28em; padding-right:22px; }
 .address-list ul                    { border:1px solid #d6d6d6; border-top:0; }
-.address-list .btn-edit-address, 
+.address-list .btn-edit-address,
 .address-list .btn-remove-address   { position:absolute; top:8px; }
 .address-list .btn-edit-address     { right:8px; }
 .address-list .btn-remove-address   { right:27px; }
@@ -729,7 +731,7 @@ div.autocomplete ul li {
 /* CATALOG
 ********************************************************************************************/
 
-/* Product/Bundles 
+/* Product/Bundles
 .bundle-option-row table tbody td { white-space: nowrap; }
 .bundle-option-row table tbody td label { float: left; }
 .bundle-option-row INPUT.option-label { width: 50% !important; }
