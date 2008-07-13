@@ -19,7 +19,7 @@
  */
 ?>
 <?php $_width=$this->getImageWidth() ?>
-<div style="width:<?php echo $_width; ?>px;">
+<div style="width:<?php echo $_width; ?>px; margin:0 auto;">
   <div class="a-right"><a href="#" onclick="window.close(); return false;"><?php echo $this->__('Close Window') ?></a></div>
   <div class="a-center">
     <?php if($_prevUrl = $this->getPreviusImageUrl()): ?>
@@ -45,6 +45,6 @@
 <script type="text/javascript">
 Event.observe(window, 'load', function(){
     var demensions = $('product-gallery-image').getDimensions();
-    window.resizeTo(demensions.width+90, demensions.height+190);
+    window.resizeTo(demensions.width+90, demensions.height+210);
 });
 </script>
