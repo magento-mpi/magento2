@@ -89,6 +89,30 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         }
     }
 
+    /**
+     * Check is virtual product
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        if ($this->getProduct()->hasCustomOptions()) {
+            $customOption = $this->getProduct()->getCustomOption('bundle_selection_ids');
+            $selectionIds = unserialize($customOption->getValue());
+            $selections = $this->getSelectionsByIds($selectionIds);
+            $virtualCount = 0;
+            foreach ($selections->getItems() as $selection) {
+                if ($selection->getTypeInstance()->IsVirtual()) {
+                    $virtualCount++;
+                }
+            }
+            if ($virtualCount == count($selections)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function save()
     {
         parent::save();
