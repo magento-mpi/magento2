@@ -461,6 +461,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     protected function _debugException(Exception $e)
     {
+        if (!$this->_debug) {
+            return $this;
+        }
+
         $nl   = "\n";
         $code = 'EXCEPTION ' . $e->getMessage() . $nl
             . 'E TRACE: ' . print_r($e->getTrace(), true) . $nl . $nl;
