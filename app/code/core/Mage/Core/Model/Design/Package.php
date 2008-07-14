@@ -120,7 +120,6 @@ class Mage_Core_Model_Design_Package
 
 	/**
 	 * Set package name
-	 * Package name can be set only for frontend.
 	 * In case of any problem, the default will be set.
 	 *
 	 * @param  string $name
@@ -128,12 +127,6 @@ class Mage_Core_Model_Design_Package
 	 */
 	public function setPackageName($name = '')
 	{
-        // ignore package settings for non-frontend
-        if ($this->getArea() !== self::DEFAULT_AREA) {
-            $this->_name = self::DEFAULT_PACKAGE;
-            return $this;
-        }
-
         if (empty($name)) {
             // see, if exceptions for user-agents defined in config
     	    $customPackage = $this->_checkUserAgentAgainstRegexps('design/package/ua_regexp');
@@ -148,8 +141,7 @@ class Mage_Core_Model_Design_Package
             $this->_name = $name;
         }
         // make sure not to crash, if wrong package specified
-        // default area is forced here, because others are ignored
-        if (!$this->designPackageExists($this->_name, self::DEFAULT_AREA)) {
+        if (!$this->designPackageExists($this->_name, $this->getArea())) {
 	        $this->_name = self::DEFAULT_PACKAGE;
 	    }
 	    return $this;
