@@ -115,7 +115,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     /**
      * Return true if product has options
      *
-     * @return boll
+     * @return bool
      */
     public function hasOptions()
     {
