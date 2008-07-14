@@ -34,15 +34,11 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 
     <?php $_tierPrices = $this->getTierPrices() ?>
     <?php if(count($_tierPrices)>0): ?>
-    <div class="product-pricing">
-        <ul class="bare">
-        <?php foreach($_tierPrices as $_price): ?>
-            <li>
-                <?php echo $this->__('Buy %s with %s%% discount each', $_price['price_qty'], $_price['price']*1) ?>
-            </li>
-        <?php endforeach ?>
-        </ul>
-    </div>
+    <ul class="product-pricing">
+    <?php foreach($_tierPrices as $_price): ?>
+        <li><?php echo $this->__('Buy %s with %s discount each', $_price['price_qty'], '<strong class="benefit">'.($_price['price']*1).'%</strong>') ?></li>
+    <?php endforeach ?>
+    </ul>
     <?php endif; ?>
 
     <p><small><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></small></p>
@@ -50,24 +46,26 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
 
-    <?php if ($this->helper('tax')->displayBothPrices()): ?>
-        <span class="price-excluding-tax">
-            <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax') ?>:</span>
-            <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>">
-                <?php echo Mage::helper('core')->currency($_finalPrice) ?>
-            </span>
-        </span>
-        <span class="price-including-tax">
-            <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>
-            <span class="price" id="price-including-tax-<?php echo $_product->getId() ?>">
-                <?php echo Mage::helper('core')->currency($_finalPriceInclTax) ?>
-            </span>
-        </span>
-    <?php else: ?>
-    <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>">
-        <?php echo Mage::helper('core')->currency($_finalPrice) ?>
-    </span>
-    <?php endif; ?>
+    <div class="price-box">
+			<?php if ($this->helper('tax')->displayBothPrices()): ?>
+          <span class="price-excluding-tax">
+              <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax') ?>:</span>
+              <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>">
+                  <?php echo Mage::helper('core')->currency($_finalPrice) ?>
+              </span>
+          </span>
+          <span class="price-including-tax">
+              <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>
+              <span class="price" id="price-including-tax-<?php echo $_product->getId() ?>">
+                  <?php echo Mage::helper('core')->currency($_finalPriceInclTax) ?>
+              </span>
+          </span>
+      <?php else: ?>
+      <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>">
+          <?php echo Mage::helper('core')->currency($_finalPrice) ?>
+      </span>
+      <?php endif; ?>
+    </div>
 <?php else: ?>
     <p><small><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></small></p>
 <?php endif; ?>

@@ -19,8 +19,6 @@
  */
 ?>
 
-<?php echo $this->getBlockBefore()->getChildHtml('', true, true); ?>
-
 <?php
 $_children = $this->getSortedChildBlocks();
 foreach ($_children as $_key => $_child) {
@@ -31,6 +29,7 @@ foreach ($_children as $_key => $_child) {
 $_children = Mage::helper('core')->decorateArray($_children);
 ?>
 <?php if ($_children):?>
+<?php echo $this->getBlockBefore()->getChildHtml('', true, true); ?>
 <div class="product-attributes">
   <fieldset class="product-options">
     <?php foreach ($_children as $_child):?>
@@ -38,8 +37,7 @@ $_children = Mage::helper('core')->decorateArray($_children);
     <?php endforeach;?>
   </fieldset>
 </div>
+<?php echo $this->getBlockAfter()->getChildHtml('', true, true); ?>
 <?php else: ?>
 <!-- container is empty -->
 <?php endif;?>
-
-<?php echo $this->getBlockAfter()->getChildHtml('', true, true); ?>

@@ -52,7 +52,8 @@
 .account-box,
 .my-review-detail,
 .generic-product-list li,
-.truncated { zoom:1; }
+.truncated,
+.add-to { zoom:1; }
 
 .form-button, .form-button-alt { padding:1px 10px 0; }
 .multi-address-checkout-box .box { zoom:1; }

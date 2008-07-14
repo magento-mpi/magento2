@@ -46,21 +46,47 @@
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
-            <h4><?php echo $this->__('Quick Overview') ?></h4>
-            <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
-
-            <div class="divider"></div>
-
             <fieldset>
               <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
               <input type="hidden" name="related_product" id="related-products-field" value="" />
             </fieldset>
 
-                <?php echo $this->getChildHtml('alert_urls') ?>
+						<?php echo $this->getChildHtml('alert_urls') ?>
 
-                <?php echo $this->getChildHtml('product_type_data') ?>
+            <?php echo $this->getChildHtml('product_type_data') ?>
+            
+            <?php if(!$this->hasOptions()):?>
+						<div class="add-to">
+							<?php if($_product->isSaleable()): ?>
+              <fieldset class="add-to-cart-box">
+                  <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+                  <?php if(!$_product->isGrouped()): ?>
+                  <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+                  <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+                  <?php endif; ?>
+                  <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
+              </fieldset>
+									<?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                  <span class="add-or"><?php echo $this->__('OR') ?></span>
+                  <?php endif; ?>
+              <?php endif; ?>
+              <ul class="add-to-box">
+              <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
+              <?php endif; ?>
+              
+              <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product) ): ?>
+                <li><span class="pipe">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
+              <?php endif; ?>
+              </ul>
+            </div>
+            <?php endif; ?>
+            
+            <div class="divider"></div>
+            <h4><?php echo $this->__('Quick Overview') ?></h4>
+            <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
-                <?php echo $this->getChildHtml('container1') ?>
+            <?php echo $this->getChildHtml('container1') ?>
 
         </div>
         <div class="clear"></div>
