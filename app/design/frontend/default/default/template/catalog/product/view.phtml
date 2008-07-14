@@ -77,21 +77,20 @@
     </div>
 
     <div class="product-collateral">
-        <?php if($_additional = $this->getAdditionalData()): ?>
         <div class="collateral-box">
             <div class="head">
-              <h4><?php echo $this->__('Product Description') ?></h4>
+                <h4><?php echo $this->__('Product Description') ?></h4>
             </div>
             <?php echo $this->getChildHtml('description') ?>
         </div>
-        <div class="collateral-box attribute-specs">
-            <div class="head">
-                <h4><?php echo $this->__('Additional Information') ?></h4>
-                <?php //echo $this->getChildHtml('product_options') ?>
+        <?php if ($_additional = $this->getChildHtml('additional')):?>
+            <div class="collateral-box">
+                <div class="head">
+                    <h4><?php echo $this->__('Additional Information') ?></h4>
+                    <?php echo $_additional ?>
+                </div>
             </div>
-            <?php echo $this->getChildHtml('additional') ?>
-        </div>
-        <?php endif; ?>
+        <?php endif;?>
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
