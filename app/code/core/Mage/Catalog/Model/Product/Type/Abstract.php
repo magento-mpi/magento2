@@ -396,4 +396,18 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         return $this->getProduct()->getData('weight');
     }
+
+    /**
+     * Return true if product has options
+     *
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        if (count($this->getProduct()->getOptions())) {
+            return true;
+        }
+        return false;
+    }
+
 }

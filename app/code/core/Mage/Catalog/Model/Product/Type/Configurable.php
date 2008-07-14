@@ -427,4 +427,20 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         }
         return parent::isVirtual();
     }
+
+    public function hasOptions()
+    {
+        if (parent::hasOptions()) {
+            return true;
+        }
+        $attributes = $this->getConfigurableAttributes();
+        if (count($attributes)) {
+            foreach ($attributes as $key => $attribute) {
+                if ($attribute->getData('prices')) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

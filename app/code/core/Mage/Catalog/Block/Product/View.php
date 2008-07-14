@@ -119,8 +119,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function hasOptions()
     {
-        $_options = $this->getProduct()->getOptions();
-        if (count($_options) > 0) {
+        if ($this->getProduct()->getTypeInstance()->hasOptions()) {
             return true;
         }
         return false;
