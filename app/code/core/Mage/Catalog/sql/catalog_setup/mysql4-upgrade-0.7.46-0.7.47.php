@@ -22,6 +22,7 @@ $installer = $this;
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
 $installer->run("
+DROP TABLE IF EXISTS {$this->getTable('catalog_category_product_index')};
 CREATE TABLE `{$installer->getTable('catalog_category_product_index')}` (
     `category_id` int(10) unsigned NOT NULL default '0',
     `product_id` int(10) unsigned NOT NULL default '0',
@@ -33,6 +34,7 @@ CREATE TABLE `{$installer->getTable('catalog_category_product_index')}` (
     CONSTRAINT `FK_CATALOG_CATEGORY_PRODUCT_INDEX_CATEGORY_ENTITY` FOREIGN KEY (`category_id`) REFERENCES `{$installer->getTable('catalog_category_entity')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS {$this->getTable('catalog_product_enabled_index')};
 CREATE TABLE `{$installer->getTable('catalog_product_enabled_index')}` (
     `product_id` int(10) unsigned NOT NULL default '0',
     `store_id` smallint(5) unsigned NOT NULL default '0',
