@@ -112,4 +112,18 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return Zend_Json::encode($config);
     }
 
+    /**
+     * Return true if product has options
+     *
+     * @return boll
+     */
+    public function hasOptions()
+    {
+        $_options = $this->getProduct()->getOptions();
+        if (count($_options) > 0) {
+            return true;
+        }
+        return false;
+    }
+
 }
