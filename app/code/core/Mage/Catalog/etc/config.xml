@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.46</version>
+            <version>0.7.47</version>
         </Mage_Catalog>
     </modules>
 
@@ -92,6 +92,9 @@
                     <category_product>
                         <table>catalog_category_product</table>
                     </category_product>
+                    <category_product_index>
+                        <table>catalog_category_product_index</table>
+                    </category_product_index>
                     <compare_item>
                         <table>catalog_compare_item</table>
                     </compare_item>
@@ -99,6 +102,10 @@
                     <product_website>
                         <table>catalog_product_website</table>
                     </product_website>
+
+                    <product_enabled_index>
+                        <table>catalog_product_enabled_index</table>
+                    </product_enabled_index>
 
                     <product_link>
                         <table>catalog_product_link</table>
