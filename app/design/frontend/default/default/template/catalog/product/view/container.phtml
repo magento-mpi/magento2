@@ -31,13 +31,11 @@ foreach ($_children as $_key => $_child) {
 $_children = Mage::helper('core')->decorateArray($_children);
 ?>
 <?php if ($_children):?>
-<div class="product-attributes">
-  <fieldset class="product-options">
-    <?php foreach ($_children as $_child):?>
-        <?php echo $_child->toHtml()?>
-    <?php endforeach;?>
-  </fieldset>
-</div>
+<fieldset class="product-options">
+<?php foreach ($_children as $_child):?>
+    <?php echo $_child->toHtml()?>
+<?php endforeach;?>
+</fieldset>
 <?php else: ?>
 <!-- container is empty -->
 <?php endif;?>

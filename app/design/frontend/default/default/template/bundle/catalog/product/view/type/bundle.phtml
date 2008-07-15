@@ -30,7 +30,7 @@
 var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
 
-    <p><small><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></small></p>
+    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
 
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
@@ -56,6 +56,5 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
       <?php endif; ?>
     </div>
 <?php else: ?>
-    <p><small><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></small></p>
+    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>
-<script type="text/javascript">decorateTable('super-product-table')</script>

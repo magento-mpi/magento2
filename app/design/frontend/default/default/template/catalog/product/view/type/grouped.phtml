@@ -63,7 +63,7 @@
                         </span>
                     <?php else: ?>
                     <span class="regular-price"><?php echo Mage::helper('core')->currency($_price) ?></span>
-            		<?php endif; ?>
+                    <?php endif; ?>
                 <?php else: ?>
                     <span class="old-price">
                         <span class="label"><?php echo $this->__('Price:') ?></span>
@@ -73,24 +73,24 @@
                     </span>
 
                     <?php if ($this->helper('tax')->displayBothPrices() && $_finalPriceInclTax != $_finalPrice): ?>
-            	        <div class="special-price">
-            	            <span class="label"><?php echo $this->__('Special Price:') ?></span>
+                        <div class="special-price">
+                            <span class="label"><?php echo $this->__('Special Price:') ?></span>
 
-            	            <span class="price-excluding-tax">
-            	                <span class="label"><?php echo $this->__('Excl. Tax:') ?></span>
-            	                <span class="price"><?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
-            	            </span>
+                            <span class="price-excluding-tax">
+                                <span class="label"><?php echo $this->__('Excl. Tax:') ?></span>
+                                <span class="price"><?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
+                            </span>
                         <span class="price-including-tax">
                             <span class="label"><?php echo $this->__('Incl. Tax:') ?></span>
                             <span class="price"><?php echo Mage::helper('core')->currency($_finalPriceInclTax) ?></span>
                         </span>
-            			</div>
+                        </div>
                     <?php else: ?>
                     <span class="special-price">
                         <span class="label"><?php echo $this->__('Special Price:') ?></span>
                         <span class="price"><?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
                     </span>
-            		<?php endif; ?>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <?php if($_item->getTierPriceCount()): ?>
                     <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
@@ -127,7 +127,7 @@
 <script type="text/javascript">decorateTable('super-product-table')</script>
 
 <?php if($_product->isSaleable() && count($_associatedProducts)): ?>
-    <p><small><?php echo $this->__('Availability: In stock.') ?></small></p>
+    <p class="availability"><?php echo $this->__('Availability: In stock.') ?></p>
 <?php else: ?>
-    <p><small><?php echo $this->__('Availability: Out of stock.') ?></small></p>
+    <p class="availability"><?php echo $this->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>

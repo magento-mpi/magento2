@@ -52,4 +52,5 @@
 .listing-type-list .product-info .product-reviews:after,
 .my-review-detail:after,
 .add-to:after,
+.product-pricing:after,
 .shopping-cart-totals .checkout-types:after { content:"."; display:block; clear:both; height:0; font-size:0; line-height:0; visibility:hidden; overflow:hidden;	}

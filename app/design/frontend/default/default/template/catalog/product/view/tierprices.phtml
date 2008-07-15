@@ -27,20 +27,18 @@ $_product = $this->getProduct();
 $_tierPrices = $this->getTierPrices();
 ?>
 <?php if (count($_tierPrices) > 0): ?>
-    <div class="product-pricing">
-        <ul class="bare">
-        <?php foreach ($_tierPrices as $_price): ?>
-            <?php if ($this->helper('tax')->displayBothPrices() && $_price['formated_price'] != $_price['formated_price_incl_tax']): ?>
-                <li><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax) each', '<strong>'.$_price['price_qty'].'</strong>', $_price['formated_price'], '<strong>'.$_price['formated_price_incl_tax'].'</strong>') ?>
-            <?php else: ?>
-                <li><?php echo $this->__('Buy %1$s for %2$s each', '<strong>'.$_price['price_qty'].'</strong>', '<strong>'.$_price['formated_price'].'</strong>') ?>
-            <?php endif; ?>
-            <?php if(($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
-            || ($_product->getPrice() != $_product->getFinalPrice() &&  $_product->getFinalPrice() > $_price['price'])): ?>
-                <?php echo $this->__('and') ?>&nbsp;<strong class="benefit"><?php echo $this->__('save')?>&nbsp;<?php echo $_price['savePercent']?>%
-            <?php endif ?></strong>
-            </li>
-        <?php endforeach ?>
-        </ul>
-    </div>
+    <ul class="product-pricing">
+    <?php foreach ($_tierPrices as $_price): ?>
+        <?php if ($this->helper('tax')->displayBothPrices() && $_price['formated_price'] != $_price['formated_price_incl_tax']): ?>
+            <li><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax) each', $_price['price_qty'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
+        <?php else: ?>
+            <li><?php echo $this->__('Buy %1$s for %2$s each', $_price['price_qty'], $_price['formated_price']) ?>
+        <?php endif; ?>
+        <?php if(($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
+        || ($_product->getPrice() != $_product->getFinalPrice() &&  $_product->getFinalPrice() > $_price['price'])): ?>
+            <?php echo $this->__('and') ?>&nbsp;<strong class="benefit"><?php echo $this->__('save')?>&nbsp;<?php echo $_price['savePercent']?>%
+        <?php endif ?></strong>
+        </li>
+    <?php endforeach ?>
+    </ul>
 <?php endif;?>
