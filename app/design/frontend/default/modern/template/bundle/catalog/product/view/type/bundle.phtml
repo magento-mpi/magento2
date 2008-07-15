@@ -30,19 +30,6 @@
 var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
 
-<?php /* @see bundle/options.phtml */ ?>
-
-    <?php $_tierPrices = $this->getTierPrices() ?>
-    <?php if(count($_tierPrices)>0): ?>
-    <div class="product-pricing">
-        <ul class="bare">
-        <?php foreach($_tierPrices as $_price): ?>
-            <li><?php echo $this->__('Buy %s with %s%% discount each', $_price['price_qty'], $_price['price']*1) ?></li>
-        <?php endforeach ?>
-        </ul>
-    </div>
-    <?php endif; ?>
-
     <p><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
 
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>

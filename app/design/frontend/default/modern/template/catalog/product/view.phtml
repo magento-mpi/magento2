@@ -43,7 +43,7 @@
             <?php endif; ?>
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
-            
+
             <h4 class="border-head"><?php echo $this->__('Quick Overview') ?></h4>
             <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
@@ -52,13 +52,31 @@
               <input type="hidden" name="related_product" id="related-products-field" value="" />
             </fieldset>
             <?php echo $this->getChildHtml('alert_urls') ?>
-
+            <?php if (!$this->hasOptions()):?>
+                <?php echo $this->getChildHtml('tierprices') ?>
+            <?php endif;?>
             <?php echo $this->getChildHtml('product_type_data') ?>
-  
-  					<?php echo $this->getChildHtml('container1') ?>
+
+            <?php if (!$this->hasOptions()):?>
+                <div class="add-to">
+                    <?php if($_product->isSaleable()): ?>
+                        <?php echo $this->getChildHtml('addtocart') ?>
+                        <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                            <span class="add-or"><?php echo $this->__('OR') ?></span>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php echo $this->getChildHtml('addto') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($this->hasOptions()):?>
+                <?php echo $this->getChildHtml('container1') ?>
+            <?php endif; ?>
         </div>
         <div class="clear"></div>
-        <?php echo $this->getChildHtml('container2') ?>
+        <?php if ($this->hasOptions()):?>
+            <?php echo $this->getChildHtml('container2') ?>
+        <?php endif; ?>
 </form>
 <script type="text/javascript">
 	var productAddToCartForm = new VarienForm('product_addtocart_form');
