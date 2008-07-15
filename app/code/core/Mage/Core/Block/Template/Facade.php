@@ -138,12 +138,12 @@ class Mage_Core_Block_Template_Facade extends Mage_Core_Block_Template
 
     private function _insertBlockIfEquals(Mage_Core_Block_Template $blockInsertTo, array $args)
     {
-        $blockName     = array_shift($args);
+        $blockName     = array_shift($args); // numeric keys will be reset (!)
         $conditionKeys = $args;
 
         // assume, that conditions keys are passed from layout as array
-        if ((count($conditionKeys) > 0) && (is_array($conditionKeys[1]))) {
-            $conditionKeys = $conditionKeys[1];
+        if ((count($conditionKeys) > 0) && (is_array($conditionKeys[0]))) {
+            $conditionKeys = $conditionKeys[0];
         }
 
         // evaluate conditions (equality)

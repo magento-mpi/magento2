@@ -195,6 +195,9 @@ Additional block for bundle product type
         <reference name="product.info.container2">
             <action method="insertBlockIfEquals"><block>product.info.bundle.options</block><if>alias_in_layout</if><equals>options_container</equals></action>
         </reference>
+        <reference name="product.tierprices">
+            <action method="setTemplate"><template>bundle/catalog/product/view/tierprices.phtml</template></action>
+        </reference>
     </PRODUCT_TYPE_bundle>
 
     <sales_order_view>
