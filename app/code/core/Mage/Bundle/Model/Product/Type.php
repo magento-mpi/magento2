@@ -38,6 +38,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     protected $_usedOptions = null;
     protected $_usedOptionsIds = null;
 
+    protected $_optionsCount = null;
+
     /**
      * Return product sku based on sku_type attribute
      *
@@ -137,6 +139,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             if ($selections = $this->getProduct()->getBundleSelectionsData()) {
                 foreach ($selections as $index => $group) {
+                    $this->getProduct()->setHasOptions(true);
                     foreach ($group as $key => $selection) {
                         if (isset($selection['selection_id']) && $selection['selection_id'] == '') {
                             unset($selection['selection_id']);

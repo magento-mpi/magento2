@@ -275,6 +275,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
          */
         if ($data = $this->getProduct()->getConfigurableAttributesData()) {
             foreach ($data as $attributeData) {
+                $this->getProduct()->setHasOptions(true);
                 $id = isset($attributeData['id']) ? $attributeData['id'] : null;
                 $attribute = Mage::getModel('catalog/product_type_configurable_attribute')
                    ->setData($attributeData)
@@ -428,19 +429,4 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         return parent::isVirtual();
     }
 
-    public function hasOptions()
-    {
-        if (parent::hasOptions()) {
-            return true;
-        }
-        $attributes = $this->getConfigurableAttributes();
-        if (count($attributes)) {
-            foreach ($attributes as $key => $attribute) {
-                if ($attribute->getData('prices')) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

@@ -276,14 +276,17 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected function _beforeSave()
     {
         $this->cleanCache();
-
         $options = $this->getProductOptions();
         if (is_array($options)) {
+            $optionFlag = false;
+            $this->setHasOptions(false);
+            $this->setRequiredOptions(false);
             foreach ($this->getProductOptions() as $option) {
+                $optionFlag = true;
                 $this->getOptionInstance()->addOption($option);
             }
+            $this->setHasOptions($optionFlag);
         }
-        $this->setRequiredOptions(false);
         foreach ($this->getOptionInstance()->getOptions() as $option) {
             if ($option['is_require'] == '1') {
                 $this->setRequiredOptions(true);

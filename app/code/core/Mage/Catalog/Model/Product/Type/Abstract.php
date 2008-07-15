@@ -404,7 +404,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function hasOptions()
     {
-        if (count($this->getProduct()->getOptions())) {
+        if ($this->getProduct()->getHasOptions()) {
             return true;
         }
         return false;
