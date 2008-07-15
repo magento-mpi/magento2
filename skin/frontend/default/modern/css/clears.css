@@ -51,4 +51,5 @@
 .generic-product-list li:after,
 .account-nav li:after,
 .listing-type-list .listing-item:after,
-.product-options dt:after { content:"."; display:block; clear:both; height:0; font-size:0; line-height:0; visibility:hidden; overflow:hidden;	}
+.product-options dt:after,
+.product-pricing:after { content:"."; display:block; clear:both; height:0; font-size:0; line-height:0; visibility:hidden; overflow:hidden;	}

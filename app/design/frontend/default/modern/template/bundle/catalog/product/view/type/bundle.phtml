@@ -35,6 +35,7 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
 
+    <div class="price-box">
     <?php if ($this->helper('tax')->displayBothPrices()): ?>
         <span class="price-excluding-tax">
             <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax') ?>:</span>
@@ -47,6 +48,7 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     <?php else: ?>
     <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
     <?php endif; ?>
+    </div>
 <?php else: ?>
     <p><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>

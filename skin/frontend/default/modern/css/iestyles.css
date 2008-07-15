@@ -50,6 +50,7 @@
 #nav li,
 .truncated,
 .product-options dt,
+.product-pricing,
 .error-msg, .success-msg, .notice-msg, .note-msg { zoom:1; }
 
 .footer .footer-callout { position:relative; zoom:1; }

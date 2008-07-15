@@ -27,11 +27,9 @@ $_product = $this->getProduct();
 $_tierPrices = $this->getTierPrices();
 ?>
 <?php if (count($_tierPrices) > 0): ?>
-    <div class="product-pricing">
-        <ul class="bare">
-        <?php foreach($_tierPrices as $_price): ?>
-            <li><?php echo $this->__('Buy %1$s with %2$s%% discount each', $_price['price_qty'], $_price['price']*1) ?></li>
-        <?php endforeach ?>
-        </ul>
-    </div>
+    <ul class="product-pricing">
+    <?php foreach($_tierPrices as $_price): ?>
+        <li><?php echo $this->__('Buy %1$s with %2$s discount each', $_price['price_qty'], '<strong class="benefit">'.($_price['price']*1).'%</strong>') ?></li>
+    <?php endforeach ?>
+    </ul>
 <?php endif;?>

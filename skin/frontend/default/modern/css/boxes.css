@@ -401,7 +401,6 @@ h1#logo                 { float:left; }
     }
 .base-mini .head h4 .count { text-transform:none; color:#2f2f2f; white-space:nowrap; font-weight:normal; font-size:.95em; }
 .base-mini h5 { margin:0; font-size:10px; font-weight:normal; text-align:left; text-transform:uppercase; }
-.base-mini ul.super-product-attributes li { padding:0px; background-color:transparent !important; }
 .base-mini .product-images      { float:left; width:52px; height:52px; }
 .base-mini .product-images a img { border:1px solid #a9a9a9; vertical-align:top; }
 .base-mini .product-checkbox    { float: left; width:10px; }
@@ -585,7 +584,7 @@ a.minimal-price-link .price { font-weight:bold; }
 .add-to a,
 .add-to a:hover { color:#444; }
 
-.add-to-inline { text-align:right; padding:20px 0 0; }
+.add-to-inline { text-align:right; margin:10px 0; }
 .add-to-inline li { display:inline; background:url(../images/add_to_bg.gif) no-repeat 0 50%; padding-left:12px; margin-left:12px; line-height:1.25em; }
 .add-to-inline a,
 .add-to-inline a:hover { color:#444; }
@@ -753,13 +752,14 @@ a.minimal-price-link .price { font-weight:bold; }
 .product-info-box .price-box    { margin:10px 0; }
 .product-info-box .ratings      { margin-bottom:1em;}
 .add-to-cart-box                { margin:10px 0; border:1px solid #eee; background-color:#f8f8f8; padding:10px; text-align:right; }
+.add-to-boxes .add-to-cart-box  { text-align:left; }
 
-.product-attributes             { margin:10px 0 0; background-color:#f4f9ea; padding:10px; }
-.product-pricing                { margin:10px 0; background-color:#f4f9ea; padding:10px; }
-.product-attributes td          { padding:2px 0; }
-.product-attributes td.label    { padding-right:10px; font-weight:bold; }
-.product-attributes select      { width:200px; }
+.product-pricing                { margin:10px 0; padding:10px; background-color:#f4f9ea; border:1px solid #ddd; }
+.product-pricing li             { float:right; clear:both; }
+.product-pricing .benefit       { font-style:italic; font-weight:bold; }
+.product-pricing .price         { font-weight:bold; }
 
+.product-info-box .product-pricing li { float:none; clear:none; }
 
 /* Attribute Specs */
 .attribute-specs-block table    { border-color:#d9DDE3; }
@@ -767,7 +767,7 @@ a.minimal-price-link .price { font-weight:bold; }
 .attribute-specs-block .data    { border-right:0; }
 .attribute-specs-block td       { padding-top:3px; padding-bottom:3px; line-height:1.25em; }
 
-.product-options { padding:0 5px 10px; }
+.product-options { margin:10px 0; padding:0 15px 10px; background-color:#f4f9ea; border:1px solid #ddd; }
 .product-options dt { padding:10px 0 0; font-weight:normal; }
 .product-options dt .qty-holder { float:right; margin-right:15px; }
 .product-options dt .bundle-option { float:left; }
@@ -944,7 +944,6 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .opc-please-wait { padding-right:7px;}
 .one-page-checkout .payment-methods dd { padding:0; }
 .one-page-checkout .button-set { margin-top:0; padding-top:2em; }
-.one-page-checkout ul.super-product-attributes { padding-left:15px; }
 .one-page-checkout .box-no-padding .inner-box {
    padding:0px 20px;
     }
