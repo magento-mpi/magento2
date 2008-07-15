@@ -791,17 +791,37 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function collectTotals()
     {
+        $this->setSubtotal(0);
+        $this->setBaseSubtotal(0);
+
+        $this->setSubtotalWithDiscount(0);
+        $this->setBaseSubtotalWithDiscount(0);
+
         $this->setGrandTotal(0);
         $this->setBaseGrandTotal(0);
+
         foreach ($this->getAllAddresses() as $address) {
+            $address->setSubtotal(0);
+            $address->setBaseSubtotal(0);
+
+            $address->setSubtotalWithDiscount(0);
+            $address->setBaseSubtotalWithDiscount(0);
+
             $address->setGrandTotal(0);
             $address->setBaseGrandTotal(0);
 
             $address->collectTotals();
 
+            $this->setSubtotal((float) $this->getSubtotal()+$address->getSubtotal());
+            $this->setBaseSubtotal((float) $this->getBaseSubtotal()+$address->getBaseSubtotal());
+
+            $this->setSubtotalWithDiscount((float) $this->getSubtotalWithDiscount()+$address->getSubtotalWithDiscount());
+            $this->setBaseSubtotalWithDiscount((float) $this->getBaseSubtotalWithDiscount()+$address->getBaseSubtotalWithDiscount());
+
             $this->setGrandTotal((float) $this->getGrandTotal()+$address->getGrandTotal());
             $this->setBaseGrandTotal((float) $this->getBaseGrandTotal()+$address->getBaseGrandTotal());
         }
+
         Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
         Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
 
