@@ -513,6 +513,17 @@ Validation.addAllThese([
                 var ccNumberContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_type')) + '_cc_number');
                 return Validation.get('validate-cc-type').test(ccNumberContainer.value, ccNumberContainer);
             }],
+     ['validate-cc-exp', 'Incorrect credit card expiration date', function(v, elm) {
+                var ccExpMonth   = v;
+                var ccExpYear    = $('ccsave_expiration_yr').value;
+                var currentTime  = new Date();
+                var currentMonth = currentTime.getMonth() + 1;
+                var currentYear  = currentTime.getFullYear();
+                if (ccExpMonth < currentMonth && ccExpYear == currentYear) {
+                    return false;
+                }
+                return true;
+            }],
      ['validate-cc-cvn', 'Please enter a valid credit card verification number.', function(v, elm) {
                 var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_cid')) + '_cc_type');
                 if (!ccTypeContainer) {
