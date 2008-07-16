@@ -31,7 +31,7 @@
             <?php $_canChangeQty = ($_default->getSelectionCanChangeQty() || (count($_selections) == 1 && $_option->getRequired())) ?>
         <?php else: ?>
             <?php if (!$_showSingle): ?>
-                <?php $_defaultQty = '' ?>
+                <?php $_defaultQty = '0' ?>
                 <?php $_canChangeQty = false ?>
             <?php else: ?>
                 <?php $_defaultQty = $_selections[0]->getSelectionQty()*1 ?>

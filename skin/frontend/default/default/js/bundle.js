@@ -97,7 +97,7 @@ Product.Bundle.prototype = {
 
     populateQty: function(optionId, selectionId){
         if (selectionId == '' || selectionId == 'none') {
-            this.showQtyInput(optionId, '', false);
+            this.showQtyInput(optionId, '0', false);
             return;
         }
         if (this.config.options[optionId].selections[selectionId].customQty == 1) {

@@ -30,7 +30,7 @@
             <?php $_canChangeQty = $_default->getSelectionCanChangeQty() ?>
         <?php else: ?>
             <?php if (!$_showSingle): ?>
-                <?php $_defaultQty = '' ?>
+                <?php $_defaultQty = '0' ?>
                 <?php $_canChangeQty = false ?>
             <?php else: ?>
                 <?php $_defaultQty = $_selections[0]->getSelectionQty()*1 ?>
