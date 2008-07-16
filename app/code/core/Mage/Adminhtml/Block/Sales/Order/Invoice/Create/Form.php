@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
 
     public function hasInvoiceShipmentTypeMismatch() {
         foreach ($this->getInvoice()->getAllItems() as $item) {
-            if ($item->getOrderItem()->isShipSeparately() != $item->getOrderItem()->isChildrenCalculated()) {
+            if ($item->getOrderItem()->isChildrenCalculated() && !$item->getOrderItem()->isShipSeparately()) {
                 return true;
             }
         }

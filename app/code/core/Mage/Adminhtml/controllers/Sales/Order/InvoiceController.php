@@ -130,7 +130,9 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
         $savedQtys = $this->_getItemQtys();
         $skipedParent = array();
+        //echo "<pre>";
         foreach ($invoice->getOrder()->getAllItems() as $item) {
+            //echo "\n".$item->getSku();
             /*
              * if this is child and its parent was skipped
              * bc of something we need to skip child also
@@ -138,16 +140,17 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             if ($item->getParentItem() && isset($skipedParent[$item->getParentItem()->getId()])){
                 continue;
             }
-
+            //echo "1";
             if (isset($savedQtys[$item->getId()])) {
                 $qty = min($savedQtys[$item->getId()], $item->getQtyToShip());
             } else {
                 $qty = $item->getQtyToShip();
             }
-
+            //echo "2";
             if (!$item->isDummy(true) && !$item->getQtyToShip()) {
                 continue;
             }
+            //echo "3";
             /**
              * if this is a dummy item and we don't need it. we skip it.
              * also if this item is parent we need to mark that we skipped
@@ -159,20 +162,21 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 }
                 continue;
             }
-
+            //echo "4";
             if ($item->getIsVirtual()) {
                 continue;
             }
-
+            //echo "5";
             $shipItem = $convertor->itemToShipmentItem($item);
 
             if ($item->isDummy(true)) {
                 $qty = 1;
             }
+            //echo "Qty:".$qty;
             $shipItem->setQty($qty);
             $shipment->addItem($shipItem);
         }
-
+        //die;
         if (!count($shipment->getAllItems())) {
             // no need to create empty shipment
             return false;
@@ -486,6 +490,9 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 if (isset($qtys[$child->getId()]) && $qtys[$child->getId()] > 0) {
                     return true;
                 }
+            }
+            if ($item->isShipSeparately()) {
+                return true;
             }
             return false;
         } else if($item->getParentItem()) {
