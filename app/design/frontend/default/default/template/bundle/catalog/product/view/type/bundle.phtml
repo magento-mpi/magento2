@@ -20,7 +20,6 @@
 
 ?>
 <?php $_product = $this->getProduct() ?>
-<?php $_options = $this->getOptions() ?>
 
 <?php if($_product->isSaleable()): ?>
     <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
@@ -56,3 +55,4 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
         <?php endif; ?>
     </div>
 <?php endif; ?>
+end bundle phtml

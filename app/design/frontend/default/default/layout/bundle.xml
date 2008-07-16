@@ -180,6 +180,8 @@ Additional block for bundle product type
             <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle" as="product_type_data" template="bundle/catalog/product/view/type/bundle.phtml">
                 <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
             </block>
+            <remove name="product.tierprices" />
+            <block type="bundle/catalog_product_view" name="bundle.tierprices" as="tierprices" template="bundle/catalog/product/view/tierprices.phtml"/>
         </reference>
 
         <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle.options" as="type_bundle_options" template="bundle/catalog/product/view/type/bundle/options.phtml">
@@ -191,13 +193,13 @@ Additional block for bundle product type
 
         <reference name="product.info.container1">
             <action method="insertBlockIfEquals"><block>product.info.bundle.options</block><if>alias_in_layout</if><equals>options_container</equals></action>
+            <action method="insertBlockAfterIfEquals"><block>bundle.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
         </reference>
         <reference name="product.info.container2">
             <action method="insertBlockIfEquals"><block>product.info.bundle.options</block><if>alias_in_layout</if><equals>options_container</equals></action>
+            <action method="insertBlockAfterIfEquals"><block>bundle.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
         </reference>
-        <reference name="product.tierprices">
-            <action method="setTemplate"><template>bundle/catalog/product/view/tierprices.phtml</template></action>
-        </reference>
+
     </PRODUCT_TYPE_bundle>
 
     <sales_order_view>

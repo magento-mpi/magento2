@@ -115,6 +115,18 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return false;
     }
 
+    public function beforeSave()
+    {
+        parent::beforeSave();
+
+        if ($selections = $this->getProduct()->getBundleSelectionsData()) {
+            if (!empty($selections)) {
+                $this->getProduct()->setHasOptions(true);
+            }
+        }
+
+    }
+
     public function save()
     {
         parent::save();
@@ -139,7 +151,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             if ($selections = $this->getProduct()->getBundleSelectionsData()) {
                 foreach ($selections as $index => $group) {
-                    $this->getProduct()->setHasOptions(true);
                     foreach ($group as $key => $selection) {
                         if (isset($selection['selection_id']) && $selection['selection_id'] == '') {
                             unset($selection['selection_id']);
