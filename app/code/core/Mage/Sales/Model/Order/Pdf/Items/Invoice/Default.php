@@ -34,8 +34,10 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
         $item   = $this->getItem();
         $pdf    = $this->getPdf();
         $page   = $this->getPage();
-
-        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+		
+        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir()."/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf");
+        $page->setFont($font, 7);
+        //$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
 
         $page->drawText($item->getQty()*1, 35, $pdf->y, 'UTF-8');
 

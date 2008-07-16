@@ -34,8 +34,11 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         $item   = $this->getItem();
         $pdf    = $this->getPdf();
         $page   = $this->getPage();
-
-        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+		
+        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir()."/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf");
+        $page->setFont($font, 7);
+        //$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+        
         $page->drawText($item->getQty()*1, 35, $pdf->y, 'UTF-8');
 
         if (strlen($item->getName()) > 60) {
@@ -115,9 +118,12 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         } else {
             $page->drawText($item->getSku(), 265, $pdf->y);
         }
-
-        $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
+		
+        $font = Zend_Pdf_Font::fontWithPath(Mage::getRoot()."/verdana.ttf");
         $page->setFont($font, 7);
+        
+        #$font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
+        #$page->setFont($font, 7);
         $page->drawText($order->formatPriceTxt($item->getTaxAmount()), 380, $pdf->y, 'UTF-8');
         $page->drawText($order->formatPriceTxt(-$item->getDiscountAmount()), 430, $pdf->y, 'UTF-8');
         $page->drawText($order->formatPriceTxt($item->getRowTotal()), 480, $pdf->y, 'UTF-8');
