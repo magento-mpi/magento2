@@ -28,11 +28,11 @@
         <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?></span>
     </span>
     <span class="price-including-tax">
-        (<span class="price" id="price-including-tax-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
+        (<span class="price" id="price-including-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
         <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>)
     </span>
     <?php else: ?>
-    <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>">
+    <span class="regular-price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
         <span class="label"><?php echo $this->helper('tax')->__('Price as configured') ?>:</span>
         <?php echo Mage::helper('core')->currency($_finalPrice) ?>
     </span>
