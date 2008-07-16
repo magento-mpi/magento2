@@ -39,6 +39,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
         $loginUrl = Mage::helper('customer')->getLoginUrl();
+ 
         if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -51,7 +52,7 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
-        
+       
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
@@ -90,6 +91,9 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
             Mage::register('current_order', $order);
 
             $this->loadLayout();
+            
+            $this->_initLayoutMessages('catalog/session');
+             
             if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
                 $navigationBlock->setActive('sales/order/history');
             }
@@ -152,10 +156,13 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         }
 
         $order = Mage::getModel('sales/order')->load($orderId);
-
+		
         if ($this->_canViewOrder($order)) {
             Mage::register('current_order', $order);
             $this->loadLayout();
+            
+            $this->_initLayoutMessages('catalog/session');
+             
             if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
                 $navigationBlock->setActive('sales/order/history');
             }
@@ -180,6 +187,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
             Mage::register('current_order', $order);
 
             $this->loadLayout();
+            $this->_initLayoutMessages('catalog/session');
+             
             if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
                 $navigationBlock->setActive('sales/order/history');
             }
