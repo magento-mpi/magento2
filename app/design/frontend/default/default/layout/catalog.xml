@@ -210,8 +210,8 @@ Product view
                     <action method="insertBlockIfEquals"><block>product.info.options</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockBeforeIfEquals"><block>product.info.addto</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.info.addtocart</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
-                    <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.clone_prices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
+                    <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                 </block>
                 <block type="core/template_facade" name="product.info.container2" as="container2" template="catalog/product/view/container.phtml">
                     <action method="setDataByKey"><key>alias_in_layout</key><value>container2</value></action>
@@ -219,8 +219,8 @@ Product view
                     <action method="insertBlockIfEquals"><block>product.info.options</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockBeforeIfEquals"><block>product.info.addto</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.info.addtocart</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
-                    <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.clone_prices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
+                    <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                 </block>
             </block>
         </reference>
