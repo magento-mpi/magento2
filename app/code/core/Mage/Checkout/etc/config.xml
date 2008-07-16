@@ -83,12 +83,6 @@
                 </connection>
             </checkout_read>
         </resources>
-        <cache>
-            <types>
-                <checkout_quote><label>Shopping Cart data</label></checkout_quote>
-            </types>
-        </cache>
-
     </global>
     <frontend>
           <secure_url>
