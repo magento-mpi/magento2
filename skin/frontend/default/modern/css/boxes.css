@@ -796,9 +796,19 @@ a.minimal-price-link .price { font-weight:bold; }
 .product-options dd ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; }
 
+/* Product Options */
 dl.item-options dt { font-weight:bold; font-style:italic; }
 dl.item-options dd { padding-left:10px; }
 
+.truncated { cursor:help; }
+.truncated a.dots { cursor:help; text-decoration:none !important; }
+.truncated a.details { cursor:help; text-decoration:none !important; display:inline-block; border-bottom:1px dotted #4f8100; }
+.truncated .truncated_full_value { position:relative; z-index:999; }
+.truncated .truncated_full_value dl { position:absolute; top:-99999em; width:250px; padding:8px; border:2px solid #ddd; border-bottom-color:#666; background-color:#f6f6f6; }
+.truncated .truncated_full_value dt { margin-top:0; }
+.truncated .show dl { top:-35px; left:50%; }
+.col-left .truncated .show dl { left:35px; top:15px; }
+.col-right .truncated .show dl { left:-240px; top:15px; }
 
 /* Upsell */
 .up-sell-block .generic-product-grid td { width:20%; padding-bottom:8px; }
@@ -894,16 +904,6 @@ td.attributes-col h4.title a        { font-weight:bold; }
     text-align:right;
     }
 tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
-
-.truncated { cursor:help; }
-.truncated a.dots { cursor:help; text-decoration:none !important; }
-.truncated a.details { cursor:help; text-decoration:none !important; display:inline-block; border-bottom:1px dotted #4f8100; }
-.truncated .truncated_full_value { position:relative; z-index:999; }
-.truncated .truncated_full_value dl { position:absolute; top:-99999em; width:250px; padding:8px; border:2px solid #ddd; border-bottom-color:#666; background-color:#f6f6f6; }
-.truncated .truncated_full_value dt { margin-top:0; }
-.truncated .show dl { top:-35px; left:50%; }
-.col-left .truncated .show dl { left:35px; top:15px; }
-.col-right .truncated .show dl { left:-240px; top:15px; }
 
 /* Tax details */
 .tax-total { cursor:pointer; }
@@ -1022,6 +1022,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .one-page-checkout .checkout-agreements-holder { border:1px solid #ddd; border-width:0 1px; padding:5px 20px 0; }
 .one-page-checkout .checkout-agreements li { margin:20px 0 0; }
 .one-page-checkout .checkout-agreements .agreement-content { background-color:#fff; border-color:#e4e4e4; padding:5px; }
+.one-page-checkout .checkout-agreements .agree { padding-left:6px; }
 
 
 

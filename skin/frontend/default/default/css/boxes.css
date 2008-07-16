@@ -972,17 +972,18 @@ table.recently-list td {width:20%;}
 .product-essential .product-shop .ratings { margin-bottom:10px; }
 
 .product-pricing { margin:10px 0; padding:10px; background-color:#f4f7f7; border:1px solid #dadddd; }
-.product-pricing li { line-height:1.4; background:url(../images/bg_tierico1.gif) no-repeat 0 3px; padding:2px 0 2px 10px !important; color:#424242; }
+.product-pricing li { line-height:1.4; background:url(../images/bg_tierico1.gif) no-repeat 0 3px; padding:2px 0 2px 10px; color:#424242; }
 .product-pricing .benefit { font-style:italic; font-weight:bold; color:#2f2f2f; }
 .product-pricing .price { font-weight:bold; color:#2f2f2f; }
 
-.product-options { margin:10px 0; padding:10px 15px 20px; background-color:#faf7ee; border:1px dashed #a59e89; }
+.product-options { margin:10px 0 0; padding:10px 15px 20px; background-color:#f6f6f6; border:1px solid #e4e4e4; }
 .product-options dt { padding:10px 0 0; font-weight:normal; }
+.product-options dt label { color:#2f2f2f; }
 .product-options dt .qty-holder { float:right; margin-right:15px; }
 .product-options dt .qty-holder label { vertical-align:middle; }
 .product-options dt .qty-disabled { background:none; border:0; padding:3px; color:#2f2f2f; }
 .product-options dt .bundle-option { float:left; }
-.product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px dashed #a59e89; }
+.product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px solid #e4e4e4; }
 .product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
 .product-options dd input.input-text { width:98%; }
 .product-options dd textarea { width:98%; height:8em; }
@@ -994,10 +995,17 @@ table.recently-list td {width:20%;}
 .product-options dd ul.options-list { margin-right:5px; }
 .product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
 .product-options dd ul.validation-failed { padding:0 7px; }
-.product-options p.required { margin-bottom:0; }
+.product-options p.required { margin-bottom:0; padding-top:15px; }
 
-.product-options-buttom { background-color:#fffada; padding:15px 20px; }
-.product-options-buttom .price-box { float:left; }
+.product-options-bottom { background-color:#fffada; padding:15px 20px; border:1px solid #e4e4e4; border-top:0; }
+.product-options-bottom .product-pricing { margin:0; padding:0 0 15px; border:0; background:0; }
+.product-options-bottom .product-pricing li { background:0; padding:0; color:#e26703; }
+.product-options-bottom .product-pricing .benefit { color:#e26703; }
+.product-options-bottom .price-box { float:left; margin:0; padding:0; }
+
+
+.product-shop .product-options-bottom .price-box { float:none; }
+.product-shop .product-options-bottom .add-to-cart-box { float:left; padding-top:10px; }
 
 /* Product Options */
 dl.item-options dt { font-weight:bold; font-style:italic; }
@@ -1017,7 +1025,7 @@ dl.item-options dd { padding-left:10px; }
 .product-collateral { background:url(../images/product_collateral_bg.gif) repeat-x #faf7ee; }
 .product-collateral .head { margin-bottom:1em; border-bottom:1px solid #e5dcc3; padding-bottom:1px; font-size:1.15em; }
 .product-collateral .collateral-box { margin-bottom:2em;  }
-.product-collateral .collateral-box h4{ color:#E26703 ;}
+.product-collateral .collateral-box h4{ color:#e26703;}
 .product-collateral .attribute-specs table { border-color:#d9DDE3; }
 .product-collateral .attribute-specs .label { font-weight:bold; }
 .product-collateral .attribute-specs .data { border-right:0; }
@@ -1272,13 +1280,14 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .place-order-box input { margin-left:15px; }
 
 /* Checkout Agreements */
-.checkout-agreements li { margin:20px 0; }
+.checkout-agreements li { margin:30px 0; }
 .checkout-agreements .agreement-content { overflow:auto; height:10em; padding:10px; background-color:#fbfaf6; border:1px solid #bbb6a5; }
-.checkout-agreements .agree { padding:10px 0; margin:0; }
+.checkout-agreements .agree { padding:10px 0 10px 11px; margin:0; }
 
 .one-page-checkout .checkout-agreements-holder { border:1px solid #d9dde3; border-width:0 1px; padding:5px 20px 0; }
 .one-page-checkout .checkout-agreements li { margin:20px 0 0; }
 .one-page-checkout .checkout-agreements .agreement-content { background-color:#fff; border-color:#e4e4e4; padding:5px; }
+.one-page-checkout .checkout-agreements .agree { padding-left:6px; }
 
 
 

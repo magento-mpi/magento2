@@ -40,4 +40,6 @@ $_children = Mage::helper('core')->decorateArray($_children);
 <!-- container is empty -->
 <?php endif;?>
 
-<?php echo $this->getBlockAfter()->getChildHtml('', true, true); ?>
+<?php if (($afterBlockElement = $this->getBlockAfter()->getChildHtml('', true, true))): ?>
+<div class="product-options-bottom"><?php echo $afterBlockElement; ?></div>
+<?php endif; ?>
