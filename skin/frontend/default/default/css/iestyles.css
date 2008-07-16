@@ -54,8 +54,7 @@
 .product-options dt,
 .product-options-buttom,
 .truncated_full_value,
-.add-to-holder,
-.product-pricing { zoom:1; }
+.add-to-holder { zoom:1; }
 
 .form-button, .form-button-alt { padding:1px 10px 0; }
 .multi-address-checkout-box .box { zoom:1; }

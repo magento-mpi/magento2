@@ -52,6 +52,5 @@
 .my-review-detail:after,
 .product-options dt:after,
 .product-options-buttom:after,
-.product-pricing:after,
 .add-to-holder:after,
 .shopping-cart-totals .checkout-types:after { content:"."; display:block; clear:both; height:0; font-size:0; line-height:0; visibility:hidden; overflow:hidden;	}
