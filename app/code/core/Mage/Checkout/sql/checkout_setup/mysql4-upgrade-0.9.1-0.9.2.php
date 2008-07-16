@@ -13,26 +13,19 @@
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Chronopay
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Admin tax rule content block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-class Mage_Adminhtml_Block_Checkout_Agreement extends Mage_Adminhtml_Block_Widget_Grid_Container
-{
-    public function __construct()
-    {
-        $this->_controller      = 'checkout_agreement';
-        $this->_headerText      = Mage::helper('checkout')->__('Manage Checkout Terms and Conditions');
-        $this->_addButtonLabel  = Mage::helper('checkout')->__('Add New Condition');
-        parent::__construct();
-    }
-}
+$installer->startSetup();
+
+$installer->run("
+ALTER TABLE `{$installer->getTable('checkout_agreement')}`
+ADD COLUMN `content_height` varchar(25) NULL DEFAULT NULL AFTER `content`;
+");
+
+$installer->endSetup();

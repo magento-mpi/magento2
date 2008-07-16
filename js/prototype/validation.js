@@ -549,6 +549,12 @@ Validation.addAllThese([
                     return /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
                 }
                 return true;
+            }],
+     ['validate-css-length', 'Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%', function (v) {
+                if (v != '' && v) {
+                    return /^[0-9\.]+(px|pt|em|ex|%)?$/.test(v) && (!(/\..*\./.test(v))) && !(/\.$/.test(v));
+                }
+                return true;
             }]
 ]);
 
