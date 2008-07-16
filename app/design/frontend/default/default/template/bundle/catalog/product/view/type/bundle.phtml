@@ -22,21 +22,17 @@
 <?php $_product = $this->getProduct() ?>
 <?php $_options = $this->getOptions() ?>
 
-<?php echo $this->getPriceHtml($_product) ?>
-
 <?php if($_product->isSaleable()): ?>
-
 <script type="text/javascript">
 var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
-
     <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
-
+    <?php echo $this->getPriceHtml($_product) ?>
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
 
     <div class="price-box">
-			<?php if ($this->helper('tax')->displayBothPrices()): ?>
+          <?php if ($this->helper('tax')->displayBothPrices()): ?>
           <span class="price-excluding-tax">
               <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax') ?>:</span>
               <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>">
@@ -57,4 +53,5 @@ var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
     </div>
 <?php else: ?>
     <p class="availability"><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
+    <?php echo $this->getPriceHtml($_product) ?>
 <?php endif; ?>
