@@ -34,8 +34,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE   = 'customer/create_account/email_confirmation_template';
     const XML_PATH_CONFIRMED_EMAIL_TEMPLATE = 'customer/create_account/email_confirmed_template';
 
+    const EXCEPTION_EMAIL_NOT_CONFIRMED       = 1;
+    const EXCEPTION_INVALID_EMAIL_OR_PASSWORD = 2;
+
     const SUBSCRIBED_YES = 'yes';
-    const SUBSCRIBED_NO = 'no';
+    const SUBSCRIBED_NO  = 'no';
 
     protected $_eventPrefix = 'customer';
     protected $_eventObject = 'customer';
@@ -73,10 +76,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $this->loadByEmail($login);
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw new Exception(Mage::helper('customer')->__('This account is not confirmed.'));
+            throw new Exception(Mage::helper('customer')->__('This account is not confirmed.'), self::EXCEPTION_EMAIL_NOT_CONFIRMED);
         }
         if (!$this->validatePassword($password)) {
-            throw new Exception(Mage::helper('customer')->__('Invalid login or password.'));
+            throw new Exception(Mage::helper('customer')->__('Invalid login or password.'), self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD);
         }
         return true;
     }
@@ -428,7 +431,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @return Mage_Customer_Model_Customer
      */
-    public function sendNewAccountEmail($type = 'registered')
+    public function sendNewAccountEmail($type = 'registered', $backUrl = '')
     {
         $types = array(
             'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,  // welcome email, when confirmation is disabled
@@ -457,7 +460,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
                 Mage::getStoreConfig(self::XML_PATH_REGISTER_EMAIL_IDENTITY),
                 $this->getEmail(),
                 $this->getName(),
-                array('customer'=>$this));
+                array('customer' => $this, 'back_url' => $backUrl));
 
         $translate->setTranslateInline(true);
 

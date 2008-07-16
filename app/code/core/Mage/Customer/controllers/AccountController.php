@@ -108,15 +108,24 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
                     $session->login($login['username'], $login['password']);
-
-                    // remove activation key
-                    if ($session->getCustomer()->getConfirmation()) {
-                        $session->getCustomer()->setConfirmation(null)->save();
-                        $this->_logInNewCustomer($session->getCustomer(), true);
+                    if ($session->getCustomer()->getIsJustConfirmed()) {
+                        $this->_welcomeCustomer($session->getCustomer(), true);
                     }
                 }
                 catch (Exception $e) {
-                    $session->addError($e->getMessage());
+                    switch ($e->getCode()) {
+                        case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
+                            $message = Mage::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.',
+                                Mage::helper('customer')->getEmailConfirmationUrl($login['username'])
+                            );
+                            break;
+                        case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
+                            $message = $e->getMessage();
+                            break;
+                        default:
+                            $message = $e->getMessage();
+                    }
+                    $session->addError($message);
                     $session->setUsername($login['username']);
                 }
             } else {
@@ -213,13 +222,17 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $customer->save();
 
                     if ($customer->isConfirmationRequired()) {
-                        $customer->sendNewAccountEmail('confirmation');
-                        $this->_getSession()->addSuccess($this->__('Account confirmation is required. Please, check your e-mail for confirmation key.'));
+                        $customer->sendNewAccountEmail('confirmation', $this->_getSession()->getBeforeAuthUrl());
+                        $this->_getSession()->addSuccess($this->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.',
+                            Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())
+                        ));
                         $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                         return;
                     }
                     else {
-                        $this->_redirectSuccess($this->_logInNewCustomer($customer));
+                        $this->_getSession()->setCustomerAsLoggedIn($customer);
+                        $url = $this->_welcomeCustomer($customer);
+                        $this->_redirectSuccess($url);
                         return;
                     }
                 } else {
@@ -251,18 +264,15 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Log in a customer and send new account email.
+     * Add welcome message and send new account email.
      * Returns success URL
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param bool $isJustConfirmed
      * @return string
      */
-    protected function _logInNewCustomer(Mage_Customer_Model_Customer $customer, $isJustConfirmed = false)
+    protected function _welcomeCustomer(Mage_Customer_Model_Customer $customer, $isJustConfirmed = false)
     {
-        if (!$this->_getSession()->isLoggedIn()) {
-            $this->_getSession()->setCustomerAsLoggedIn($customer);
-        }
         $this->_getSession()->addSuccess($this->__('Thank you for registering with %s', Mage::app()->getStore()->getName()));
 
         $customer->sendNewAccountEmail($isJustConfirmed ? 'confirmed' : 'registered');
@@ -284,8 +294,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             return;
         }
         try {
-            $id  = $this->getRequest()->getParam('id', false);
-            $key = $this->getRequest()->getParam('key', false);
+            $id      = $this->getRequest()->getParam('id', false);
+            $key     = $this->getRequest()->getParam('key', false);
+            $backUrl = $this->getRequest()->getParam('back_url', false);
             if (empty($id) || empty($key)) {
                 throw new Exception($this->__('Bad request.'));
             }
@@ -317,7 +328,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
 
                 // log in and send greeting email, then die happy
-                $this->_redirectSuccess($this->_logInNewCustomer($customer, true));
+                $this->_getSession()->setCustomerAsLoggedIn($customer);
+                $successUrl = $this->_welcomeCustomer($customer, true);
+                $this->_redirectSuccess($backUrl ? $backUrl : $successUrl);
                 return;
             }
 

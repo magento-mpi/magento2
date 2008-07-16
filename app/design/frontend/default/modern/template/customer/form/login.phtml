@@ -62,10 +62,6 @@
     </div>
     <div class="button-set">
         <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
-        <?php if ($this->helper('customer')->isConfirmationRequired()):?>
-            <span class="pipe f-left"> | </span>
-            <a href="<?php echo $this->helper('customer')->getEmailConfirmationUrl($this->getUsername()) ?>" class="f-left"><?php echo $this->__('Confirmation link') ?></a>
-        <?php endif;?>
         <input type="image" src="<?php echo $this->getSkinUrl('images/btn_login.gif') ?>" name="send" id="send2" alt="<?php echo $this->__('Login') ?>"/>
     </div>
 </div>
