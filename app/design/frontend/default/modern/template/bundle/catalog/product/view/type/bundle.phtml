@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_modern
  * @package    Mage_Bundle
  * @copyright  Copyright (c) 2004-2007 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -22,34 +22,37 @@
 <?php $_product = $this->getProduct() ?>
 <?php $_options = $this->getOptions() ?>
 
-<?php echo $this->getPriceHtml($_product) ?>
+<?php if($_product->isSaleable()): ?>
+    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
+<?php else: ?>
+    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
+<?php endif; ?>
+
+<div class="price-box-bundle">
+    <?php echo $this->getPriceHtml($_product) ?>
+</div>
 
 <?php if($_product->isSaleable()): ?>
-
 <script type="text/javascript">
 var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
-
-    <p><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
-
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
-
     <div class="price-box">
-    <?php if ($this->helper('tax')->displayBothPrices()): ?>
-        <span class="price-excluding-tax">
-            <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax') ?>:</span>
+        <?php if ($this->helper('tax')->displayBothPrices()): ?>
+        <span class="price-excluding-tax price-as-configured">
+            <span class="label"><?php echo $this->helper('tax')->__('Price as configured') ?>:</span>
             <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?></span>
         </span>
         <span class="price-including-tax">
-            <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>
-            <span class="price" id="price-including-tax-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
+            (<span class="price" id="price-including-tax-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
+            <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>)
         </span>
-    <?php else: ?>
-    <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPrice) ?></span>
-    <?php endif; ?>
+        <?php else: ?>
+        <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>">
+            <span class="label"><?php echo $this->helper('tax')->__('Price as configured') ?>:</span>
+            <?php echo Mage::helper('core')->currency($_finalPrice) ?>
+        </span>
+        <?php endif; ?>
     </div>
-<?php else: ?>
-    <p><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>
-<script type="text/javascript">decorateTable('super-product-table')</script>

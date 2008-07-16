@@ -770,6 +770,8 @@ a.minimal-price-link .price { font-weight:bold; }
 .product-options { margin:10px 0; padding:0 15px 10px; background-color:#f4f9ea; border:1px solid #ddd; }
 .product-options dt { padding:10px 0 0; font-weight:normal; }
 .product-options dt .qty-holder { float:right; margin-right:15px; }
+.product-options dt .qty-holder label { vertical-align:middle; }
+.product-options dt .qty-disabled { background:none; border:0; padding:3px; color:#444; }
 .product-options dt .bundle-option { float:left; }
 .product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px solid #ddd; }
 .product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
@@ -885,6 +887,7 @@ td.attributes-col h4.title a        { font-weight:bold; }
 tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 
 .truncated { cursor:help; }
+.truncated a.dots { cursor:help; text-decoration:none !important; }
 .truncated a.details { cursor:help; text-decoration:none !important; display:inline-block; border-bottom:1px dotted #4f8100; }
 .truncated .truncated_full_value { position:relative; z-index:999; }
 .truncated .truncated_full_value dl { position:absolute; top:-99999em; width:250px; padding:8px; border:2px solid #ddd; border-bottom-color:#666; background-color:#f6f6f6; }
@@ -1170,7 +1173,17 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .giftmessage-close { float:right; }
 .expand { background-image:url(../images/gift-message-expand.gif); }
 .collapse { background-image:url(../images/gift-message-collapse.gif); }
+
+
+
+/********************** Print pages */
 table.print .giftmessage-preview-link { display:none !important; }
+table.print .price-excl-tax { white-space:nowrap; }
+table.print .price-incl-tax { white-space:nowrap; }
+table.print .price-excl-tax .label,
+table.print .price-excl-tax .price,
+table.print .price-incl-tax .label,
+table.print .price-incl-tax .price { display:inline; }
 
 
 

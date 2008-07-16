@@ -23,35 +23,36 @@
 <?php $_options = $this->getOptions() ?>
 
 <?php if($_product->isSaleable()): ?>
+    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
+<?php else: ?>
+    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
+<?php endif; ?>
+
+<div class="price-box-bundle">
+    <?php echo $this->getPriceHtml($_product) ?>
+</div>
+
+<?php if($_product->isSaleable()): ?>
 <script type="text/javascript">
 var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
 </script>
-    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
-    <?php echo $this->getPriceHtml($_product) ?>
     <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
     <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
-
     <div class="price-box">
-          <?php if ($this->helper('tax')->displayBothPrices()): ?>
-          <span class="price-excluding-tax">
-              <span class="label"><?php echo $this->helper('tax')->__('Excl. Tax') ?>:</span>
-              <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>">
-                  <?php echo Mage::helper('core')->currency($_finalPrice) ?>
-              </span>
-          </span>
-          <span class="price-including-tax">
-              <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>
-              <span class="price" id="price-including-tax-<?php echo $_product->getId() ?>">
-                  <?php echo Mage::helper('core')->currency($_finalPriceInclTax) ?>
-              </span>
-          </span>
-      <?php else: ?>
-      <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>">
-          <?php echo Mage::helper('core')->currency($_finalPrice) ?>
-      </span>
-      <?php endif; ?>
+        <?php if ($this->helper('tax')->displayBothPrices()): ?>
+        <span class="price-excluding-tax price-as-configured">
+            <span class="label"><?php echo $this->helper('tax')->__('Price as configured') ?>:</span>
+            <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?></span>
+        </span>
+        <span class="price-including-tax">
+            (<span class="price" id="price-including-tax-<?php echo $_product->getId() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
+            <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax') ?>:</span>)
+        </span>
+        <?php else: ?>
+        <span class="regular-price" id="product-price-<?php echo $_product->getId() ?>">
+            <span class="label"><?php echo $this->helper('tax')->__('Price as configured') ?>:</span>
+            <?php echo Mage::helper('core')->currency($_finalPrice) ?>
+        </span>
+        <?php endif; ?>
     </div>
-<?php else: ?>
-    <p class="availability"><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
-    <?php echo $this->getPriceHtml($_product) ?>
 <?php endif; ?>
