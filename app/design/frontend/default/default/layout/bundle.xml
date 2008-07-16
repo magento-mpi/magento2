@@ -179,7 +179,7 @@ Additional block for bundle product type
         <reference name="product.info">
             <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle" as="product_type_data" template="bundle/catalog/product/view/type/bundle.phtml">
                 <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
-                <block type="bundle/catalog_product_price" name="" as="bundle_prices" template="bundle/catalog/product/view/price.phtml" />
+                <block type="bundle/catalog_product_price" name="bundle.prices" as="bundle_prices" template="bundle/catalog/product/view/price.phtml" />
             </block>
             <remove name="product.tierprices" />
             <block type="bundle/catalog_product_view" name="bundle.tierprices" as="tierprices" template="bundle/catalog/product/view/tierprices.phtml"/>
