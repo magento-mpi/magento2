@@ -43,11 +43,11 @@
         </blocks>
         <template>
             <email>
-                <system_emails_forgot_email_template translate="label" module="adminhtml">
+                <admin_emails_forgot_email_template translate="label" module="adminhtml">
                     <label>New admin password</label>
                     <file>admin_password_new.html</file>
                     <type>html</type>
-                </system_emails_forgot_email_template>
+                </admin_emails_forgot_email_template>
             </email>
         </template>
 
