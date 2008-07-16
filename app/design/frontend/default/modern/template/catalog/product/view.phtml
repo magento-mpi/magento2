@@ -44,18 +44,15 @@
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
 
-            <h4 class="border-head"><?php echo $this->__('Quick Overview') ?></h4>
-            <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
-
             <fieldset class="no-display">
               <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
               <input type="hidden" name="related_product" id="related-products-field" value="" />
             </fieldset>
             <?php echo $this->getChildHtml('alert_urls') ?>
+            <?php echo $this->getChildHtml('product_type_data') ?>
             <?php if (!$this->hasOptions()):?>
                 <?php echo $this->getChildHtml('tierprices') ?>
             <?php endif;?>
-            <?php echo $this->getChildHtml('product_type_data') ?>
 
             <?php if (!$this->hasOptions()):?>
                 <div class="add-to-boxes">
@@ -65,6 +62,9 @@
                 <?php echo $this->getChildHtml('addto') ?>
                 </div>
             <?php endif; ?>
+            
+            <h4 class="border-head"><?php echo $this->__('Quick Overview') ?></h4>
+            <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
             <?php if ($this->hasOptions()):?>
                 <?php echo $this->getChildHtml('container1') ?>
@@ -76,12 +76,14 @@
         <?php endif; ?>
 </form>
 <script type="text/javascript">
-	var productAddToCartForm = new VarienForm('product_addtocart_form');
-	productAddToCartForm.submit = function() {
-			if(this.validator.validate()) {
-					this.form.submit();
-			}
-	}.bind(productAddToCartForm);
+//<![CDATA[
+    var productAddToCartForm = new VarienForm('product_addtocart_form');
+    productAddToCartForm.submit = function() {
+        if(this.validator.validate()) {
+            this.form.submit();
+        }
+    }.bind(productAddToCartForm);
+//]]>
 </script>
 </div>
 <br /><br />

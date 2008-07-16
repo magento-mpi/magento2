@@ -501,8 +501,9 @@ h1#logo                 { float:left; }
 .price { white-space:nowrap !important; }
 
 /* Regular price */
-.regular-price { font-size:12px; }
-.regular-price .price { font-weight:bold; color:#396f00; }
+.regular-price { display:block; }
+.regular-price .label { font-size:11px; font-weight:bold; white-space:nowrap; text-transform:uppercase; color:#000; }
+.regular-price .price { font-size:12px; font-weight:bold; color:#396f00; }
 
 /* Old price */
 .old-price { display:block; color:#888; font-size:12px; }
@@ -533,6 +534,7 @@ a.minimal-price-link .price { font-weight:bold; }
 .price-excluding-tax { display:block; color:#888; }
 .price-excluding-tax .label { font-size:10px; text-transform:uppercase; color:#888; }
 .price-excluding-tax .price { font-size:12px; color:#396f00; }
+.price-as-configured .label { font-size:11px; font-weight:bold; color:#000; }
 
 /* Incl tax (for order tables) */
 .price-incl-tax { display:block; }
@@ -553,8 +555,17 @@ a.minimal-price-link .price { font-weight:bold; }
 .price-to .label { font-weight:bold; }
 .price-to .price { font-weight:bold; color:#396f00; }
 
+/* Price notice next to the options */
 .price-notice { padding-left:10px; }
 .price-notice .price { font-weight:bold; }
+
+.price-box-bundle { font-size:11px; margin:10px 0; }
+.price-box-bundle .price-box { margin:0; padding:0; }
+.price-box-bundle .price { color:#000; }
+.price-box-bundle .price-from,
+.price-box-bundle .price-to { font-size:1em; }
+.price-box-bundle .price-from .price,
+.price-box-bundle .price-to .price { font-weight:normal; }
 
 
 /********************** Catalog Listing */

@@ -52,13 +52,13 @@
             </fieldset>
 
             <?php echo $this->getChildHtml('alert_urls') ?>
+            <?php echo $this->getChildHtml('product_type_data') ?>
             <?php if (!$this->hasOptions()):?>
                 <?php echo $this->getChildHtml('tierprices') ?>
             <?php endif;?>
-            <?php echo $this->getChildHtml('product_type_data') ?>
 
             <?php if (!$this->hasOptions()):?>
-                <div class="add-to">
+                <div class="add-to-holder">
                     <?php if($_product->isSaleable()): ?>
                         <?php echo $this->getChildHtml('addtocart') ?>
                         <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>

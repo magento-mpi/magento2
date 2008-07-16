@@ -958,11 +958,12 @@ table.recently-list td {width:20%;}
 .add-to-box { text-align:right; }
 .add-to-box li { display:inline; }
 
-.add-to .add-to-cart-box { float:left; }
-.add-to .add-or { float:left; padding:0 7px; font-weight:bold; color:#666; }
-.add-to .add-to-box { float:left; line-height:1.25em; text-align:left; }
-.add-to .add-to-box li { display:block; }
-.add-to .add-to-box li .pipe { display:none; }
+.add-to-holder { padding:5px 0; }
+.add-to-holder .add-to-cart-box { float:left; }
+.add-to-holder .add-or { float:left; padding:0 7px; font-weight:bold; color:#666; }
+.add-to-holder .add-to-box { float:left; line-height:1.25em; text-align:left; }
+.add-to-holder .add-to-box li { display:block; }
+.add-to-holder .add-to-box li .pipe { display:none; }
 
 .product-info-box .ratings { margin-bottom:1em;}
 .product-essential, .product-collateral { padding:25px; }
