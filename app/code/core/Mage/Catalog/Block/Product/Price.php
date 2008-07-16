@@ -32,7 +32,11 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
 
     public function getProduct()
     {
-        return $this->_getData('product');
+        $product = $this->_getData('product');
+        if (!$product) {
+            $product = Mage::registry('product');
+        }
+        return $product;
     }
 
     public function getDisplayMinimalPrice()
@@ -50,4 +54,5 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
     {
         return $this->_idSuffix;
     }
+
 }

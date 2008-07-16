@@ -202,6 +202,8 @@ Product view
                 <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml" />
                 <block type="catalog/product_view" name="product.tierprices" as="tierprices" template="catalog/product/view/tierprices.phtml"/>
 
+                <block type="catalog/product_view" name="product.clone_prices" as="prices" template="catalog/product/view/clone_price.phtml"/>
+
                 <block type="core/template_facade" name="product.info.container1" as="container1" template="catalog/product/view/container.phtml">
                     <action method="setDataByKey"><key>alias_in_layout</key><value>container1</value></action>
                     <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
@@ -209,6 +211,7 @@ Product view
                     <action method="insertBlockBeforeIfEquals"><block>product.info.addto</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.info.addtocart</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
+                    <action method="insertBlockAfterIfEquals"><block>product.clone_prices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                 </block>
                 <block type="core/template_facade" name="product.info.container2" as="container2" template="catalog/product/view/container.phtml">
                     <action method="setDataByKey"><key>alias_in_layout</key><value>container2</value></action>
@@ -217,6 +220,7 @@ Product view
                     <action method="insertBlockBeforeIfEquals"><block>product.info.addto</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.info.addtocart</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
+                    <action method="insertBlockAfterIfEquals"><block>product.clone_prices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                 </block>
             </block>
         </reference>

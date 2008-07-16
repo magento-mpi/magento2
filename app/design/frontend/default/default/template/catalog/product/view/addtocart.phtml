@@ -23,7 +23,6 @@
 
 <?php if($_product->isSaleable()): ?>
     <fieldset class="add-to-cart-box">
-        <?php echo $this->getPriceHtml($_product, false, '_clone') ?>
         <legend><?php echo $this->__('Add Items to Cart') ?></legend>
         <?php if(!$_product->isGrouped()): ?>
         <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
