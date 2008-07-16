@@ -35,7 +35,7 @@ Product.Zoom.prototype = {
 
         this.containerDim = Element.getDimensions(this.containerEl);
         this.imageDim = Element.getDimensions(this.imageEl);
-        
+
         this.imageDim.ratio = this.imageDim.width/this.imageDim.height;
 
         this.floorZoom = 1;
@@ -99,7 +99,7 @@ Product.Zoom.prototype = {
     toggleFull: function () {
         this.showFull = !this.showFull;
         //TODO: hide selects for IE only
-        
+
         for (i=0; i<this.selects.length; i++) {
             this.selects[i].style.visibility = this.showFull ? 'hidden' : 'visible';
         }
@@ -114,7 +114,7 @@ Product.Zoom.prototype = {
     },
 
     scale: function (v) {
-    	
+
         var centerX = (this.containerDim.width*(1-this.imageZoom)/2-this.imageX)/this.imageZoom;
         var centerY = (this.containerDim.height*(1-this.imageZoom)/2-this.imageY)/this.imageZoom;
 
@@ -127,7 +127,7 @@ Product.Zoom.prototype = {
 
         this.imageX = this.containerDim.width*(1-this.imageZoom)/2-centerX*this.imageZoom;
         this.imageY = this.containerDim.height*(1-this.imageZoom)/2-centerY*this.imageZoom;
-		
+
         this.contain(this.imageX, this.imageY, this.draggable);
 
         return true;
@@ -489,11 +489,16 @@ Product.OptionsPrice.prototype = {
         this.showIncludeTax     = config.showIncludeTax;
         this.productPrice       = config.productPrice;
         this.skipCalculate      = config.skipCalculate;
+        this.duplicateIdSuffix  = config.idSuffix;
 
         this.optionPrices = {};
         this.containers = {};
 
         this.initPrices();
+    },
+
+    setDuplicateIdSuffix: function(idSuffix) {
+        this.duplicateIdSuffix = idSuffix;
     },
 
     initPrices: function() {
@@ -538,8 +543,14 @@ Product.OptionsPrice.prototype = {
                 formattedPrice = this.formatPrice(price);
                 if ($(pair.value).getElementsBySelector('.price')[0]) {
                     $(pair.value).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
+                    if ($(pair.value+this.duplicateIdSuffix).getElementsBySelector('.price')[0]) {
+                        $(pair.value+this.duplicateIdSuffix).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
+                    }
                 } else {
                     $(pair.value).innerHTML = formattedPrice;
+                    if ($(pair.value+this.duplicateIdSuffix)) {
+                        $(pair.value+this.duplicateIdSuffix).innerHTML = formattedPrice;
+                    }
                 }
             };
         }.bind(this));

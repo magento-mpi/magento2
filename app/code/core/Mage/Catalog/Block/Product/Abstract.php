@@ -106,12 +106,13 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      * @param Mage_Catalog_Model_Product $product
      * @param boolean $displayMinimalPrice
      */
-    public function getPriceHtml($product, $displayMinimalPrice = false)
+    public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix='')
     {
         return $this->_getPriceBlock($product->getTypeId())
             ->setTemplate($this->_getPriceBlockTemplate($product->getTypeId()))
             ->setProduct($product)
             ->setDisplayMinimalPrice($displayMinimalPrice)
+            ->setIdSuffix($idSuffix)
             ->toHtml();
     }
 

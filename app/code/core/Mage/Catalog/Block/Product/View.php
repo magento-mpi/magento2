@@ -98,15 +98,21 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $_priceInclTax = Mage::helper('tax')->getPrice($this->getProduct(), $_finalPrice, true);
         $_priceExclTax = Mage::helper('tax')->getPrice($this->getProduct(), $_finalPrice);
 
+        $idSuffix = '__none__';
+        if ($this->hasOptions()) {
+            $idSuffix = '_clone';
+        }
+
         $config = array(
-            'productId' => $this->getProduct()->getId(),
-            'priceFormat' => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax' => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
+            'productId'      => $this->getProduct()->getId(),
+            'priceFormat'    => Mage::app()->getLocale()->getJsPriceFormat(),
+            'includeTax'     => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax' => $this->helper('tax')->displayPriceIncludingTax(),
-            'productPrice' => Mage::helper('core')->currency($_finalPrice, false, false),
-            'skipCalculate' => ($_priceExclTax != $_priceInclTax ? 0 : 1),
-            'defaultTax' => $defaultTax,
-            'currentTax' => $currentTax
+            'productPrice'   => Mage::helper('core')->currency($_finalPrice, false, false),
+            'skipCalculate'  => ($_priceExclTax != $_priceInclTax ? 0 : 1),
+            'defaultTax'     => $defaultTax,
+            'currentTax'     => $currentTax,
+            'idSuffix'       => $idSuffix
         );
 
         return Zend_Json::encode($config);

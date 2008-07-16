@@ -28,6 +28,7 @@
 class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
 {
     protected $_priceDisplayType = null;
+    protected $_idSuffix = '';
 
     public function getProduct()
     {
@@ -37,5 +38,16 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
     public function getDisplayMinimalPrice()
     {
         return $this->_getData('display_minimal_price');
+    }
+
+    public function setIdSuffix($idSuffix)
+    {
+        $this->_idSuffix = $idSuffix;
+        return $this;
+    }
+
+    public function getIdSuffix()
+    {
+        return $this->_idSuffix;
     }
 }
