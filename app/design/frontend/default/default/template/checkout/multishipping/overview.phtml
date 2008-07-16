@@ -109,6 +109,9 @@
                                 </tr>
                                 <?php endif; ?>
                             </thead>
+                            <tfoot>
+                            <?php echo $this->renderTotals($this->getShippingAddressTotals($_address)); ?>
+                            </tfoot>
                             <tbody>
                             <?php foreach ($this->getShippingAddressItems($_address) as $_item): ?>
                                 <tr>
@@ -139,9 +142,6 @@
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
-                            <tfoot>
-                            <?php echo $this->renderTotals($this->getShippingAddressTotals($_address)); ?>
-                            </tfoot>
                         </table>
                         <script type="text/javascript">decorateTable('overview-table-<?php echo $_address->getId() ?>')</script>
                     </div>
