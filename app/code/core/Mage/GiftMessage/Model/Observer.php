@@ -112,7 +112,11 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
                         $entity = $quote->getAddressById($entityId);
                         break;
                     case 'quote_address_item':
-                        $entity = $quote->getAddressById($message['address'])->getItemById($entityId);
+                        $addressId = '';
+                        if (is_array($message) && array_key_exists('address', $message)) {
+                            $addressId = $message['address'];
+                        }
+                        $entity = $quote->getAddressById($addressId)->getItemById($entityId);
                         break;
                     default:
                         $entity = $quote;
