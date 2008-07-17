@@ -223,4 +223,23 @@ abstract class Mage_Core_Helper_Abstract
     {
         return base64_decode(strtr($url, '-_,', '+/='));
     }
+
+    /**
+     *   Translate array
+     *
+     *  @param    array $arr
+     *  @return	  array
+     */
+    public function translateArray($arr = array())
+    {
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $v = self::translateArray($v);
+            } elseif ($k === 'label') {
+                $v = self::__($v);
+            }
+            $arr[$k] = $v;
+        }
+        return $arr;
+    }
 }
