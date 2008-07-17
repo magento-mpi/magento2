@@ -69,6 +69,7 @@
                 </div>
             <?php endif; ?>
 
+            <?php echo $this->getChildHtml('addto') ?>
             <div class="divider"></div>
             <h4><?php echo $this->__('Quick Overview') ?></h4>
             <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>

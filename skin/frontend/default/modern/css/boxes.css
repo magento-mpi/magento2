@@ -1017,9 +1017,9 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /* Checkout Agreements */
 .checkout-agreements li { margin:20px 0; }
 .checkout-agreements .agreement-content { overflow:auto; height:10em; padding:10px; background-color:#fbfaf6; border:1px solid #f3f3f3; }
-.checkout-agreements .agree { padding:10px 0; margin:0; }
+.checkout-agreements .agree { margin:0; padding:10px 0 10px 11px; }
 
-.one-page-checkout .checkout-agreements-holder { border:1px solid #ddd; border-width:0 1px; padding:5px 20px 0; }
+.one-page-checkout .checkout-agreements { border:1px solid #ddd; border-width:0 1px; padding:5px 20px; }
 .one-page-checkout .checkout-agreements li { margin:20px 0 0; }
 .one-page-checkout .checkout-agreements .agreement-content { background-color:#fff; border-color:#e4e4e4; padding:5px; }
 .one-page-checkout .checkout-agreements .agree { padding-left:6px; }

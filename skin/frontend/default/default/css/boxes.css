@@ -614,8 +614,10 @@ h1#logo {
 
 
 /************************** Prices */
-.price-box { padding:5px 0; }
 .price { white-space:nowrap; }
+
+.price-box { padding:5px 0; }
+.price-box .price { font-weight:bold; color:#c76200; }
 
 /* Regular price */
 .regular-price { display:block; }
@@ -632,13 +634,15 @@ h1#logo {
 .special-price .price { font-size:13px; }
 
 /* Minimal price (as low as) */
-.minimal-price { display:block; }
+/*.minimal-price { display:block; }
 .minimal-price .label { white-space:nowrap; }
-.minimal-price .price { font-size:13px; font-weight:bold; color:#c76200; }
+.minimal-price .price { font-size:13px; font-weight:bold; color:#c76200; }*/
+.minimal-price { margin:0; }
+.minimal-price .price-label { font-weight:bold; }
 
 a.minimal-price-link { display:block; }
 a.minimal-price-link .label {}
-a.minimal-price-link .price {}
+a.minimal-price-link .price { color:#1e7ec8; }
 
 /* Including tax */
 .price-including-tax { display:block; color:#999; }
@@ -649,7 +653,6 @@ a.minimal-price-link .price {}
 .price-excluding-tax { display:block; color:#999; }
 .price-excluding-tax .label { color:#999; }
 .price-excluding-tax .price { font-size:13px; color:#c76200; }
-.price-as-configured .label { font-weight:bold; color:#2f2f2f; }
 
 /* Incl tax (for order tables) */
 .price-incl-tax { display:block; }
@@ -662,23 +665,29 @@ a.minimal-price-link .price {}
 .price-excl-tax .price { display:block; font-weight:bold; }
 
 /* Price range */
-.price-from { display:block; }
+/*.price-from { display:block; }
 .price-from .label { font-weight:bold; white-space:nowrap; }
-.price-from .price { font-size:13px; font-weight:bold; color:#c76200; }
+.price-from .price { font-size:13px; font-weight:bold; color:#c76200; }*/
+.price-from { margin:0; }
+.price-from .price-label { font-weight:bold; }
 
-.price-to { display:block; }
+/*.price-to { display:block; }
 .price-to .label { font-weight:bold; white-space:nowrap; }
-.price-to .price { font-size:13px; font-weight:bold; color:#c76200; }
+.price-to .price { font-size:13px; font-weight:bold; color:#c76200; }*/
+.price-to { margin:0; }
+.price-to .price-label { font-weight:bold; }
 
 /* Price notice next to the options */
 .price-notice { padding-left:10px; color:#999; }
 .price-notice .price { font-weight:bold; color:#2f2f2f; }
 
-.price-box-bundle { font-size:12px; margin:10px 0; }
+.price-as-configured { margin:0; font-weight:bold; color:#2f2f2f; }
+
+/*.price-box-bundle { font-size:12px; margin:10px 0; }
 .price-box-bundle .price-box { margin:0; padding:0; }
-.price-box-bundle .price { color:#000; font-size:1em; }
-.price-box-bundle .price-from .price,
-.price-box-bundle .price-to .price { font-weight:normal; }
+.price-box-bundle .price { color:#000; font-size:1em; }*/
+.price-box-bundle .price-from .price { font-weight:normal; color:#666;}
+.price-box-bundle .price-to .price { color:#666; }
 
 
 /********************** Generic Box */
@@ -998,7 +1007,7 @@ table.recently-list td {width:20%;}
 .product-options p.required { margin-bottom:0; padding-top:15px; }
 
 .product-options-bottom { background-color:#fffada; padding:15px 20px; border:1px solid #e4e4e4; border-top:0; }
-.product-options-bottom .product-pricing { margin:0; padding:0 0 15px; border:0; background:0; }
+.product-options-bottom .product-pricing { margin:0; padding:0 0 10px; border:0; background:0; }
 .product-options-bottom .product-pricing li { background:0; padding:0; color:#e26703; }
 .product-options-bottom .product-pricing .benefit { color:#e26703; }
 .product-options-bottom .price-box { float:left; margin:0; padding:0; }
@@ -1282,9 +1291,9 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 /* Checkout Agreements */
 .checkout-agreements li { margin:30px 0; }
 .checkout-agreements .agreement-content { overflow:auto; height:10em; padding:10px; background-color:#fbfaf6; border:1px solid #bbb6a5; }
-.checkout-agreements .agree { padding:10px 0 10px 11px; margin:0; }
+.checkout-agreements .agree { margin:0; padding:10px 0 10px 11px; }
 
-.one-page-checkout .checkout-agreements-holder { border:1px solid #d9dde3; border-width:0 1px; padding:5px 20px 0; }
+.one-page-checkout .checkout-agreements { border:1px solid #d9dde3; border-width:0 1px; padding:5px 20px; }
 .one-page-checkout .checkout-agreements li { margin:20px 0 0; }
 .one-page-checkout .checkout-agreements .agreement-content { background-color:#fff; border-color:#e4e4e4; padding:5px; }
 .one-page-checkout .checkout-agreements .agree { padding-left:6px; }
