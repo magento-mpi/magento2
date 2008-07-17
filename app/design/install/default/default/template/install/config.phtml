@@ -80,7 +80,7 @@
         </li>
         <li>
             <label for="admin_frontname"><?php echo $this->__('Admin Path') ?> <span class="required">*</span></label><br/>
-            <input type="text" name="config[admin_frontname]" id="admin_frontname" value="<?php echo $this->getFormData()->getAdminFrontname() ?>" title="<?php echo $this->__('Admin Path') ?>" class="required-entry input-text"/>
+            <input type="text" name="config[admin_frontname]" id="admin_frontname" value="<?php echo $this->getFormData()->getAdminFrontname() ?>" title="<?php echo $this->__('Admin Path') ?>" class="required-entry validate-data input-text"/>
             <p style="margin-top:4px; line-height:1.3em; color:#666;">
                 <small><?php echo $this->__('Additional path added after Base URL to access your Administrative Panel (e.g. admin, backend, control etc.).') ?></small>
             </p>
