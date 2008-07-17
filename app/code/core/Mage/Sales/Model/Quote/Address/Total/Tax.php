@@ -164,11 +164,11 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $row['base_amount'] = 0;
                 $previouslyAppliedTaxes[$row['id']] = $row;
             }
-            
-         	
-            $row['percent'] = ($row['percent']!=0)?$row['percent']:1;
-            $rate = ($rate!=0)?$row:1;
-           
+
+
+            $row['percent'] = $row['percent'] ? $row['percent'] : 1;
+            $rate = $rate ? $rate : 1;
+
             $appliedAmount = $amount/$rate*$row['percent'];
             $baseAppliedAmount = $baseAmount/$rate*$row['percent'];
 
