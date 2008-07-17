@@ -53,11 +53,9 @@
 
             <?php echo $this->getChildHtml('alert_urls') ?>
             <?php echo $this->getChildHtml('product_type_data') ?>
-            <?php if (!$this->hasOptions()):?>
-                <?php echo $this->getChildHtml('tierprices') ?>
-            <?php endif;?>
 
             <?php if (!$this->hasOptions()):?>
+                <?php echo $this->getChildHtml('tierprices') ?>
                 <div class="add-to-holder">
                     <?php if($_product->isSaleable()): ?>
                         <?php echo $this->getChildHtml('addtocart') ?>
@@ -67,21 +65,22 @@
                     <?php endif; ?>
                     <?php echo $this->getChildHtml('addto') ?>
                 </div>
+            <?php else:?>
+                <?php echo $this->getChildHtml('addto') ?>
             <?php endif; ?>
 
-            <?php echo $this->getChildHtml('addto') ?>
             <div class="divider"></div>
             <h4><?php echo $this->__('Quick Overview') ?></h4>
             <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
 
             <?php if ($this->hasOptions()):?>
-                <?php echo $this->getChildHtml('container1') ?>
+                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
             <?php endif;?>
 
         </div>
         <div class="clear"></div>
         <?php if ($this->hasOptions()):?>
-            <?php echo $this->getChildHtml('container2') ?>
+            <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
         <?php endif;?>
     </form>
     <script type="text/javascript">

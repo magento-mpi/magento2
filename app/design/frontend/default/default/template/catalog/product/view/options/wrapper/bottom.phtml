@@ -19,27 +19,6 @@
  */
 ?>
 
-<?php //echo $this->getBlockBefore()->getChildHtml('', true, true); ?>
-
-<?php
-$_children = $this->getSortedChildBlocks();
-foreach ($_children as $_key => $_child) {
-    if (!$_child->hasOptions()) {
-        unset($_children[$_key]);
-    }
-}
-$_children = Mage::helper('core')->decorateArray($_children);
-?>
-<?php if ($_children):?>
-<fieldset class="product-options">
-<?php foreach ($_children as $_child):?>
-    <?php echo $_child->toHtml()?>
-<?php endforeach;?>
-</fieldset>
-<?php else: ?>
-<!-- container is empty -->
-<?php endif;?>
-
-<?php if (($afterBlockElement = $this->getBlockAfter()->getChildHtml('', true, true))): ?>
-<div class="product-options-bottom"><?php echo $afterBlockElement; ?></div>
-<?php endif; ?>
+<div class="product-options-bottom">
+<?php echo $this->getChildHtml('', true, true);?>
+</div>
