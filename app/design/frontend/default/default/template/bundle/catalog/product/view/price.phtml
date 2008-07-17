@@ -39,3 +39,8 @@
     </span>
     <?php endif; ?>
 </div>
+<?php if($_product->isSaleable()): ?>
+<script type="text/javascript">
+bundle.reloadPrice();
+</script>
+<?php endif; ?>

@@ -22,6 +22,9 @@
 <?php $_product = $this->getProduct() ?>
 
 <?php if($_product->isSaleable()): ?>
+<script type="text/javascript">
+    var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
+</script>
     <p class="availability"><?php echo $this->helper('catalog')->__('Availability: In stock.') ?></p>
 <?php else: ?>
     <p class="availability"><?php echo $this->helper('catalog')->__('Availability: Out of stock.') ?></p>
@@ -31,9 +34,3 @@
     <?php echo $this->getPriceHtml($_product) ?>
 </div>
 <?php echo $this->getChildHtml('bundle_prices') ?>
-
-<?php if($_product->isSaleable()): ?>
-<script type="text/javascript">
-var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
-</script>
-<?php endif; ?>
