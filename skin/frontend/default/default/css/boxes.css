@@ -614,23 +614,24 @@ h1#logo {
 
 
 /************************** Prices */
-.price { white-space:nowrap; }
+.price { white-space:nowrap !important; }
 
 .price-box { padding:5px 0; }
 .price-box .price { font-weight:bold; color:#c76200; }
 
 /* Regular price */
-.regular-price { display:block; }
+/*.regular-price { display:block; }
 .regular-price .label { font-weight:bold; white-space:nowrap; }
-.regular-price .price { font-weight:bold; font-size:13px; color:#c76200; }
+.regular-price .price { font-weight:bold; font-size:13px; color:#c76200; }*/
 
 /* Old price */
-.old-price { display:block; color:#999; }
-.old-price .price { text-decoration:line-through; }
+.old-price { margin:0; }
+.old-price .price-label { color:#999; }
+.old-price .price { font-weight:bold; color:#c76200; text-decoration:line-through; }
 
 /* Special price */
-.special-price { display:block; font-weight:bold; color:#cd5033; }
-.special-price .label { font-size:13px; }
+.special-price { margin:0; padding:3px 0; }
+.special-price .price-label { font-size:13px; font-weight:bold; color:#cd5033; }
 .special-price .price { font-size:13px; }
 
 /* Minimal price (as low as) */
@@ -642,52 +643,57 @@ h1#logo {
 
 a.minimal-price-link { display:block; }
 a.minimal-price-link .label {}
-a.minimal-price-link .price { color:#1e7ec8; }
+a.minimal-price-link .price { font-weight:normal; color:#1e7ec8; }
+
+/* Excluding tax */
+.price-excluding-tax { display:block; color:#999; }
+.price-excluding-tax .label { color:#999; }
+.price-excluding-tax .price { font-size:13px; font-weight:normal; color:#c76200; }
 
 /* Including tax */
 .price-including-tax { display:block; color:#999; }
 .price-including-tax .label { color:#999; }
 .price-including-tax .price { font-size:13px; font-weight:bold; color:#c76200; }
 
-/* Excluding tax */
-.price-excluding-tax { display:block; color:#999; }
-.price-excluding-tax .label { color:#999; }
-.price-excluding-tax .price { font-size:13px; color:#c76200; }
+/* Excl tax (for order tables) */
+.price-excl-tax  { display:block; }
+.price-excl-tax .label { display:block; white-space:nowrap; }
+.price-excl-tax .price { display:block; }
 
 /* Incl tax (for order tables) */
 .price-incl-tax { display:block; }
 .price-incl-tax .label { display:block; white-space:nowrap; }
 .price-incl-tax .price { display:block; font-weight:bold; }
 
-/* Excl tax (for order tables) */
-.price-excl-tax  { display:block; }
-.price-excl-tax .label { display:block; white-space:nowrap; }
-.price-excl-tax .price { display:block; font-weight:bold; }
-
 /* Price range */
 /*.price-from { display:block; }
 .price-from .label { font-weight:bold; white-space:nowrap; }
 .price-from .price { font-size:13px; font-weight:bold; color:#c76200; }*/
 .price-from { margin:0; }
-.price-from .price-label { font-weight:bold; }
+.price-from .price-label { font-weight:bold; white-space:nowrap; }
 
 /*.price-to { display:block; }
 .price-to .label { font-weight:bold; white-space:nowrap; }
 .price-to .price { font-size:13px; font-weight:bold; color:#c76200; }*/
 .price-to { margin:0; }
-.price-to .price-label { font-weight:bold; }
+.price-to .price-label { font-weight:bold; white-space:nowrap; }
 
 /* Price notice next to the options */
 .price-notice { padding-left:10px; color:#999; }
 .price-notice .price { font-weight:bold; color:#2f2f2f; }
 
-.price-as-configured { margin:0; font-weight:bold; color:#2f2f2f; }
+.price-as-configured { margin:0; }
+.price-as-configured .price-label { font-weight:bold; white-space:nowrap; }
 
 /*.price-box-bundle { font-size:12px; margin:10px 0; }
 .price-box-bundle .price { color:#000; font-size:1em; }*/
 .price-box-bundle .price-box { margin:0 !important; padding:0 !important; }
-.price-box-bundle .price-from .price { font-weight:normal; color:#666;}
-.price-box-bundle .price-to .price { color:#666; }
+.price-box-bundle .price { color:#555;}
+
+.product-pricing-grouped { padding:}
+.product-pricing-grouped li { padding:2px 0; color:#e26703; }
+.product-pricing-grouped li .price { font-weight:bold; }
+
 
 
 /********************** Generic Box */
@@ -1008,13 +1014,13 @@ table.recently-list td {width:20%;}
 
 .product-options-bottom { background-color:#fffada; padding:15px 20px; border:1px solid #e4e4e4; border-top:0; }
 .product-options-bottom .product-pricing { margin:0; padding:0 0 10px; border:0; background:0; }
-.product-options-bottom .product-pricing li { background:0; padding:0; color:#e26703; }
+.product-options-bottom .product-pricing li { background:0; padding:2px 0; color:#e26703; }
+.product-options-bottom .product-pricing .price,
 .product-options-bottom .product-pricing .benefit { color:#e26703; }
 .product-options-bottom .price-box { float:left; margin:0; padding:0; }
 
-
 .product-shop .product-options-bottom .price-box { float:none; }
-.product-shop .product-options-bottom .add-to-cart-box { float:left; padding-top:10px; }
+.product-shop .product-options-bottom .add-to-cart-box { float:left; padding-top:12px; }
 
 /* Product Options */
 dl.item-options dt { font-weight:bold; font-style:italic; }

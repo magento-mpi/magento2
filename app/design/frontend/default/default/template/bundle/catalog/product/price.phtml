@@ -41,7 +41,7 @@
                     </span>
             </p>
             <?php else: ?>
-            <span class="regular-price"><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span>
+            <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
             </p>
             <?php endif; ?>
         <?php else: ?>
@@ -89,7 +89,7 @@
                         <?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?>
                     </span>
                 <?php else: ?>
-                    <span class="regular-price"><?php echo Mage::helper('core')->currency($_minimalPriceTax) ?></span>
+                    <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
