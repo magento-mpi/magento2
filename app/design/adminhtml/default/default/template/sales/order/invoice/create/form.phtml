@@ -70,7 +70,7 @@
                     <small><?php echo $this->__('Some items in this order have different invoice and shipment types. You can create shipment only after the invoice is created.') ?></small>
                     <?php endif; ?>
                 <?php endif; ?>
-                <div id="tracking" style="display:none;"><?php echo $this->getChildHtml('order_tracking') ?></div>
+                <div id="tracking" style="display:none;"><?php echo $this->getChildHtml('tracking',false) ?></div>
             </fieldset>
         </div>
     </div>
