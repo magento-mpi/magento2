@@ -543,7 +543,6 @@ Product.OptionsPrice.prototype = {
                 formattedPrice = this.formatPrice(price);
                 if ($(pair.value).getElementsBySelector('.price')[0]) {
                     $(pair.value).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
-//                    alert(this.duplicateIdSuffix);
                     if ($(pair.value+this.duplicateIdSuffix) && $(pair.value+this.duplicateIdSuffix).getElementsBySelector('.price')[0]) {
                         $(pair.value+this.duplicateIdSuffix).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
                     }
