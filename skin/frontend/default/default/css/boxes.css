@@ -684,8 +684,8 @@ a.minimal-price-link .price { color:#1e7ec8; }
 .price-as-configured { margin:0; font-weight:bold; color:#2f2f2f; }
 
 /*.price-box-bundle { font-size:12px; margin:10px 0; }
-.price-box-bundle .price-box { margin:0; padding:0; }
 .price-box-bundle .price { color:#000; font-size:1em; }*/
+.price-box-bundle .price-box { margin:0 !important; padding:0 !important; }
 .price-box-bundle .price-from .price { font-weight:normal; color:#666;}
 .price-box-bundle .price-to .price { color:#666; }
 
@@ -985,7 +985,7 @@ table.recently-list td {width:20%;}
 .product-pricing .benefit { font-style:italic; font-weight:bold; color:#2f2f2f; }
 .product-pricing .price { font-weight:bold; color:#2f2f2f; }
 
-.product-options { margin:10px 0 0; padding:10px 15px 20px; background-color:#f6f6f6; border:1px solid #e4e4e4; }
+.product-options { margin:20px 0 0; padding:10px 15px 20px; background-color:#f6f6f6; border:1px solid #e4e4e4; }
 .product-options dt { padding:10px 0 0; font-weight:normal; }
 .product-options dt label { color:#2f2f2f; }
 .product-options dt .qty-holder { float:right; margin-right:15px; }
