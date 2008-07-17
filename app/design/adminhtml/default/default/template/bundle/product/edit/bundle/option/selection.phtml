@@ -250,14 +250,16 @@ Bundle.Selection.prototype = {
 
     productGridCheckboxCheck : function(grid, element) {
         var id = element.up('table').id.split('_')[4];
-        if (element.checked) {
-            var tr = element.parentNode.parentNode;
-            this.gridSelection[id][element.value] = $H({});
-            this.gridSelection[id][element.value]['name'] = tr.getElementsByClassName('name')[0].innerHTML;
-            this.gridSelection[id][element.value]['qty'] = tr.getElementsByClassName('qty')[0].value;
-            this.gridSelection[id][element.value]['sku'] = tr.getElementsByClassName('sku')[0].innerHTML;
-        } else {
-            this.gridSelection[id].remove(element.value);
+        if (element.value > 0) {
+            if (element.checked) {
+                var tr = element.parentNode.parentNode;
+                this.gridSelection[id][element.value] = $H({});
+                this.gridSelection[id][element.value]['name'] = tr.getElementsByClassName('name')[0].innerHTML;
+                this.gridSelection[id][element.value]['qty'] = tr.getElementsByClassName('qty')[0].value;
+                this.gridSelection[id][element.value]['sku'] = tr.getElementsByClassName('sku')[0].innerHTML;
+            } else {
+                this.gridSelection[id].remove(element.value);
+            }
         }
     },
 
