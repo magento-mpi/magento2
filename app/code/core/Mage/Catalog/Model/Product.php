@@ -1336,4 +1336,15 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             return false;
         }
     }
+
+    /**
+     * Check availability display product in category
+     *
+     * @param   int $categoryId
+     * @return  bool
+     */
+    public function canBeShowInCategory($categoryId)
+    {
+        return $this->_getResource()->canBeShowInCategory($this, $categoryId);
+    }
 }

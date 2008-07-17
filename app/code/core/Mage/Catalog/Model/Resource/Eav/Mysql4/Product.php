@@ -383,4 +383,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         return $this->_getReadAdapter()->fetchCol($select);
     }
+
+    /**
+     * Check availability display product in category
+     *
+     * @param   int $categoryId
+     * @return  bool
+     */
+    public function canBeShowInCategory($product, $categoryId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('catalog/category_product_index'), 'product_id')
+            ->where('product_id=?', $product->getId())
+            ->where('category_id=?', $categoryId);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
 }
