@@ -626,12 +626,12 @@ h1#logo {
 
 /* Old price */
 .old-price { margin:0; }
-.old-price .price-label { color:#999; }
+.old-price .price-label { white-space:nowrap; color:#999; }
 .old-price .price { font-weight:bold; color:#c76200; text-decoration:line-through; }
 
 /* Special price */
 .special-price { margin:0; padding:3px 0; }
-.special-price .price-label { font-size:13px; font-weight:bold; color:#cd5033; }
+.special-price .price-label { font-size:13px; font-weight:bold; white-space:nowrap; color:#cd5033; }
 .special-price .price { font-size:13px; }
 
 /* Minimal price (as low as) */
@@ -639,7 +639,7 @@ h1#logo {
 .minimal-price .label { white-space:nowrap; }
 .minimal-price .price { font-size:13px; font-weight:bold; color:#c76200; }*/
 .minimal-price { margin:0; }
-.minimal-price .price-label { font-weight:bold; }
+.minimal-price .price-label { font-weight:bold; white-space:nowrap; }
 
 a.minimal-price-link { display:block; }
 a.minimal-price-link .label {}
