@@ -183,9 +183,7 @@ Product view
                 <block type="core/text_list" name="alert.urls" as="alert_urls" />
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
                     <action method="setColumnCount"><columns>4</columns></action>
-                    <!--
                     <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
-                    -->
                 </block>
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
                 <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml"/>
@@ -219,7 +217,7 @@ Product view
                     <action method="insertBlockIfEquals"><block>product.info.options</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <!--<action method="insertBlockBeforeIfEquals"><block>product.info.addto</block><eq>alias_in_layout</eq><eq>options_container</eq></action>-->
                     <action method="insertBlockAfterIfEquals"><block>product.tierprices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
-					<action method="insertBlockAfterIfEquals"><block>product.info.addtocart</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
+                    <action method="insertBlockAfterIfEquals"><block>product.info.addtocart</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                     <action method="insertBlockAfterIfEquals"><block>product.clone_prices</block><eq>alias_in_layout</eq><eq>options_container</eq></action>
                 </block>
             </block>

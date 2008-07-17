@@ -216,9 +216,7 @@ Product view
         </reference>
         <reference name="upsell_products">
             <action method="setColumnCount"><columns>5</columns></action>
-            <!--
-                <action method="setItemLimit"><type>upsell</type><limit>5</limit></action>
-            -->
+            <action method="setItemLimit"><type>upsell</type><limit>5</limit></action>
         </reference>
         <reference name="left">
             <block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
