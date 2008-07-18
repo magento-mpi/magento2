@@ -567,7 +567,11 @@ abstract class Mage_Core_Controller_Varien_Action
 
     protected function _isUrlInternal($url)
     {
-        return strpos($url, Mage::app()->getStore()->getBaseUrl()) !== false;
+        if (strpos($url, 'http') !== false
+            && strpos($url, Mage::app()->getStore()->getBaseUrl()) !== 0) {
+        	return false;
+        }
+        return true;
     }
 
     /**
