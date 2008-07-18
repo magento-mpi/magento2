@@ -656,6 +656,9 @@ class Mage_Core_Model_Url extends Varien_Object
             } elseif (is_array($routeParams['_query'])) {
                 $this->setQueryParams($routeParams['_query'], !empty($routeParams['_current']));
             }
+            if ($routeParams['_query'] === false) {
+            	$this->setQueryParams(array());
+            }
             unset($routeParams['_query']);
         }
 
