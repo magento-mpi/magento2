@@ -560,7 +560,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 .price-as-configured .price-label { font-weight:bold; white-space:nowrap; text-transform:uppercase; }
 
 .price-box-bundle .price-box { margin:0 !important; padding:0 !important; }
-.price-box-bundle .price { color:#222;}
+.price-box-bundle .price { color:#222; }
 
 .product-pricing-grouped li { padding:2px 0; }
 .product-pricing-grouped li .price { font-weight:bold; color:#396f00; }
