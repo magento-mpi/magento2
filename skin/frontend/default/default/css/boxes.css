@@ -676,6 +676,7 @@ a.minimal-price-link .price { font-weight:normal; color:#1e7ec8; }
 .price-as-configured { margin:0; }
 .price-as-configured .price-label { font-weight:bold; white-space:nowrap; }
 
+.price-box-bundle { padding:0 0 10px 0; }
 .price-box-bundle .price-box { margin:0 !important; padding:0 !important; }
 .price-box-bundle .price { color:#555;}
 
