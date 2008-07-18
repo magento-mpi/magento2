@@ -647,11 +647,6 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $url = $this->getRouteUrl($routePath, $routeParams);
 
-        $session = Mage::getSingleton('core/session');
-        if ($sessionId = $session->getSessionIdForHost($url)) {
-            $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
-        }
-
         /**
          * Apply query params, need call after getRouteUrl for rewrite _current values
          */
@@ -662,6 +657,11 @@ class Mage_Core_Model_Url extends Varien_Object
                 $this->setQueryParams($routeParams['_query'], !empty($routeParams['_current']));
             }
             unset($routeParams['_query']);
+        }
+
+        $session = Mage::getSingleton('core/session');
+        if ($sessionId = $session->getSessionIdForHost($url)) {
+            $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
         }
 
         if ($query = $this->getQuery($escapeQuery)) {
