@@ -52,7 +52,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
             /**
              * Children weight we calculate for parent
              */
-            if ($item->getParentItemId()) {
+            if ($item->getParentItem()) {
                 continue;
             }
 
@@ -135,6 +135,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
         $address->setBaseShippingAmount(0);
 
         $method = $address->getShippingMethod();
+
         if ($method) {
             foreach ($address->getAllShippingRates() as $rate) {
                 if ($rate->getCode()==$method) {
