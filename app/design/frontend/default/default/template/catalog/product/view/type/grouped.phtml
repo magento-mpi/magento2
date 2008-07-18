@@ -26,6 +26,11 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php $_associatedProducts = $this->getAssociatedProducts() ?>
+<?php if($_product->isSaleable() && count($_associatedProducts)): ?>
+    <p class="availability"><?php echo $this->__('Availability: In stock.') ?></p>
+<?php else: ?>
+    <p class="availability"><?php echo $this->__('Availability: Out of stock.') ?></p>
+<?php endif; ?>
 <table cellspacing="0" class="data-table" id="super-product-table">
     <thead>
         <tr>
@@ -58,7 +63,7 @@
                         <span class="price-including-tax">
                             <span class="label"><?php echo $this->__('Incl. Tax:') ?></span>
                             <span class="price" id="price-including-tax-<?php echo $_id ?>">
-                                <?php echo Mage::helper('core')->currency($_finalPriceInclTax) ?>
+                                <?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?>
                             </span>
                         </span>
                     <?php else: ?>
@@ -122,11 +127,4 @@
     <?php endif; ?>
     </tbody>
 </table>
-
 <script type="text/javascript">decorateTable('super-product-table')</script>
-
-<?php if($_product->isSaleable() && count($_associatedProducts)): ?>
-    <p class="availability"><?php echo $this->__('Availability: In stock.') ?></p>
-<?php else: ?>
-    <p class="availability"><?php echo $this->__('Availability: Out of stock.') ?></p>
-<?php endif; ?>
