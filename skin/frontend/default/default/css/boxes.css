@@ -890,15 +890,17 @@ table.recently-list td {width:20%;}
     }*/
 
 .advanced-search-summary-box ul li span {
-    background-image: url(../images/search_criteria.gif);
-    background-repeat: no-repeat;
-    background-position: left;
-
+    background:url(../images/search_criteria.gif) 0 0 no-repeat;
     padding-left: 15px;
-
     font-weight: bold;
     color: #E17C24;
     }
+
+/* Inline translation fix */
+.advanced-search-summary-box ul li span.translate-inline { background:0 !important; }
+
+
+
 /********************** Catalog Listing */
 
 /* List Type */
