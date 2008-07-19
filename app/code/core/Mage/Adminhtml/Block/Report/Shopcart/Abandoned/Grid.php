@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
     public function getRowClickCallback(){
         return "function(grid, evt) {
             var trElement = Event.findElement(evt, 'tr');
-            if(trElement){
+            if(trElement && trElement.id != ''){
                 var newWindow = window.open(trElement.id, '_blank');
                 newWindow.focus();
             }}";
