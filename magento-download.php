@@ -5,7 +5,12 @@ ob_implicit_flush();
 set_time_limit(0);
 
 // get URL for latest stable package to download
-$latest = file_get_contents('http://www.magentocommerce.com/downloads/magento-stable-latest.txt');
+$ch = curl_init();
+curl_setopt(CURLOPT_URL, 'http://www.magentocommerce.com/downloads/magento-stable-latest.txt');
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$latest = curl_exec($ch);
+curl_close($ch);
 
 // hardcoded for now
 #$latest = 'http://www.magentocommerce.com/downloads/assets/1.0.19870/magento-1.0.19870.2.tar.gz 7440028 6236';
@@ -45,25 +50,19 @@ if (!isset($archiveTypes[$fileext])) {
 
 // download the archived package
 $dir = '';
-$rfile = fopen($url, 'r');
-if (!$rfile) {
-    echo "FILE IS NOT AVAILABLE FOR DOWNLOAD";
-    exit;
-}
 $lfile = fopen($dir . $filename, 'w');
 if (!$lfile) {
     echo "COULD NOT WRITE THE FILE";
     exit;
 }
-$progress = 0;
-createProgress('download');
-while(!feof($rfile)) {
-    $str = fread($rfile, BUFFER_SIZE);
-    fwrite($lfile, $str, BUFFER_SIZE);
-    $progress += strlen($str);
-    updateProgress('download', round($progress/$size*100));
-}
-fclose($rfile);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_FILE, $lfile);
+curl_exec($ch);
+curl_close($ch);
+
 fclose($lfile);
 
 
