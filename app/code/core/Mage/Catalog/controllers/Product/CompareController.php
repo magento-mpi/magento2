@@ -107,22 +107,30 @@
     public function clearAction()
     {
         $items = Mage::getResourceModel('catalog/product_compare_item_collection')
-            ->setStoreId(Mage::app()->getStore()->getId());
+            //->useProductItem(true)
+            //->setStoreId(Mage::app()->getStore()->getId())
+            ;
 
-        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
             $items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
-        } else {
+        }
+        else {
             $items->setVisitorId(Mage::getSingleton('log/visitor')->getId());
         }
 
-        $items->load();
-        //$items->walk('delete');
-        $compareItem = Mage::getModel('catalog/product_compare_item');
-        foreach ($items as $item) {
-            $compareItem->setId($item->getCatalogCompareItemId())
-                ->delete();
+        $session = Mage::getSingleton('catalog/session');
+        /* @var $session Mage_Catalog_Model_Session */
+
+        try {
+            $items->clear();
+            $session->addSuccess($this->__('Compare list successfully cleared'));
         }
-        Mage::getSingleton('catalog/session')->addSuccess($this->__('Compare list successfully cleared'));
+        catch (Mage_Core_Exception $e) {
+            $session->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $session->addException($e, $this->__('There was an error while cleared compare list'));
+        }
 
         $this->_redirectReferer();
     }
