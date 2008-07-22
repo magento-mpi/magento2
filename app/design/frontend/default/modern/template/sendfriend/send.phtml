@@ -81,8 +81,8 @@
                                 </div>
                             </li>
                             <li>
-                                <label for="sender_message"><?php echo $this->__('Message:') ?></label><br />
-                                <textarea name="sender[message]" class="input-text" id="sender_message" rows="3" cols="3" style="height:100px"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
+                                <label for="sender_message"><?php echo $this->__('Message:') ?> <span class="required">*</span></label><br />
+                                <textarea name="sender[message]" class="input-text required-entry" id="sender_message" rows="3" cols="3" style="height:100px"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
                             </li>
                      </ul>
 
