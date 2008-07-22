@@ -621,6 +621,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
     color:#fff;
     font-size:1.1em;
     }
+.narrowed-category li {clear:both;}	
 .layered-nav .narrow-by dt { border-top:1px solid #fff; padding:8px 8px 0 8px; font-size:1.1em; }
 .layered-nav .narrow-by dd { padding:0 8px 8px 8px; border-bottom:1px solid #ddd;}
 .layered-nav .narrow-by a,
