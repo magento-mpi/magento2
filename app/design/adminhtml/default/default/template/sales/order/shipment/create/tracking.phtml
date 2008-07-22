@@ -93,6 +93,6 @@ trackingControl = {
 </div>
 <script type="text/javascript">
 //<![CDATA[
-trackingControl.template = new Template('<tr>' + $('track_row_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled/g, '') + '<\/tr>');
+trackingControl.template = new Template('<tr>' + $('track_row_template').innerHTML.replace(/__index__/g, '#{index}').replace(/disabled/g, '') + '<\/tr>');
 //]]>
 </script>
