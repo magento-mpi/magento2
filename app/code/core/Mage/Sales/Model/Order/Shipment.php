@@ -444,7 +444,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Core_Model_Abstract
     {
         if (!count($this->getAllItems())) {
             Mage::throwException(
-                Mage::helper('sales')->__('Can not create empty shipment')
+                Mage::helper('sales')->__('Cannot create an empty shipment.')
             );
         }
     }
