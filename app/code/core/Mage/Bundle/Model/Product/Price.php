@@ -97,7 +97,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
     public function getChildFinalPrice($product, $productQty, $childProduct, $childProductQty)
     {
-        return $this->getSelectionFinalPrice($product, $childProduct, $productQty, $childProductQty);
+        return $this->getSelectionFinalPrice($product, $childProduct, $productQty, $childProductQty, false);
     }
 
     public function getPrices($product, $which = null)
@@ -225,14 +225,18 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * @param decimal $selectionQty
      * @return decimal
      */
-    public function getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty = null)
+    public function getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty = null, $multiplyQty = true)
     {
         if (is_null($selectionQty)) {
             $selectionQty = $selectionProduct->getSelectionQty();
         }
 
         if ($bundleProduct->getPriceType() == Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC){
-            return $selectionProduct->getFinalPrice($selectionQty)*$selectionQty;
+            if ($multiplyQty) {
+                return $selectionProduct->getFinalPrice($selectionQty)*$selectionQty;
+            } else {
+                return $selectionProduct->getFinalPrice($selectionQty);
+            }
         } else {
             if ($selectionProduct->getSelectionPriceType()) {
                 return ($bundleProduct->getPrice()*$selectionProduct->getSelectionPriceValue()/100)*$selectionQty;
@@ -265,10 +269,10 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * @param decimal $selectionQty
      * @return decimal
      */
-    public function getSelectionFinalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty = null)
+    public function getSelectionFinalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty = null, $multiplyQty = true)
     {
         // apply bundle tier price
-        $finalPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty));
+        $finalPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty, $multiplyQty));
 
         // apply bundle special price
         $finalPrice = $this->_applySpecialPrice($bundleProduct, $finalPrice);

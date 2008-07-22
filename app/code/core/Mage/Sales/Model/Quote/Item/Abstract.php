@@ -345,10 +345,12 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function getPrice()
     {
         if ($this->getHasChildren() && $this->getProduct()->getPriceType() == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
-            $price = 0;
+            $price = $this->_getData('price');
+            /*
             foreach ($this->getChildren() as $child) {
-                $price+= $child->getPrice();
+                $price+= $child->getPrice()*$child->getQty();
             }
+            */
             return $price;
         }
         else {
