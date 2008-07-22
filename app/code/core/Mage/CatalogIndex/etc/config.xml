@@ -118,15 +118,6 @@
                     </catalogindex>
                 </observers>
             </catalog_product_save_after>
-            <catalog_product_massupdate_after>
-                <observers>
-                    <catalogindex>
-                        <type>singleton</type>
-                        <class>catalogindex/observer</class>
-                        <method>processAfterMassupdate</method>
-                    </catalogindex>
-                </observers>
-            </catalog_product_massupdate_after>
             <catalog_entity_attribute_save_after>
                 <observers>
                     <catalogindex>

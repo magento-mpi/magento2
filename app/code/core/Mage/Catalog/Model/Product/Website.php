@@ -81,10 +81,10 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
      */
     protected function _refreshRewrites($productIds)
     {
-        $urlModel = Mage::getModel('catalog/url');
+//        $urlModel = Mage::getModel('catalog/url');
         /* @var $urlModel Mage_Catalog_Model_Url */
         foreach ($productIds as $productId) {
-            $urlModel->refreshProductRewrite($productId);
+//            $urlModel->refreshProductRewrite($productId);
         }
     }
 } // Class Mage_Catalog_Model_Product_Website End

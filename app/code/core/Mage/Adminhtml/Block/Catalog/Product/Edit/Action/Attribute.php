@@ -29,12 +29,6 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Adminhtml_Block_Widget
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalog/product/edit/action/attribute.phtml');
-    }
-
     protected function _prepareLayout()
     {
         $this->setChild('back_button',

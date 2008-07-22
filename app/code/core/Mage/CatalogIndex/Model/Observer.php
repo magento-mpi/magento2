@@ -59,15 +59,6 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
         }
     }
 
-    public function processAfterMassupdate(Varien_Event_Observer $observer)
-    {
-        if (count($this->_productIdsMassupdate) == 0) {
-            $this->_productIdsMassupdate = $observer->getEvent()->getProducts();
-        }
-
-        Mage::getSingleton('catalogindex/indexer')->plainReindex($this->_productIdsMassupdate);
-    }
-
     public function processPriceScopeChange(Varien_Event_Observer $observer)
     {
         Mage::getSingleton('catalogindex/indexer')->plainReindex(null, Mage_CatalogIndex_Model_Indexer::REINDEX_TYPE_PRICE);
