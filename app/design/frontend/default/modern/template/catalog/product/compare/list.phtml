@@ -74,7 +74,7 @@
                 <td>
                     <?php switch ($_attribute->getAttributeCode()) {
                         case "price": ?>
-                            <?php echo $this->helper('catalog/product')->getPriceHtml($_item) ?>
+                            <?php echo $this->getPriceHtml($_item) ?>
                             <?php break;
                         case "small_image": ?>
                             <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>"/>
