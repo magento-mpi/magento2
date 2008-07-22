@@ -166,6 +166,10 @@ class Mage_Backup_Model_Mysql4_Db
             foreach ($row as $field => $value) {
                 $statusObject->setData(strtolower($field), $value);
             }
+
+            $cntRow = $this->_read->fetchRow( $this->_read->select()->from($tableName, 'COUNT(*) as rows'));
+            $statusObject->setRows($cntRow['rows']);
+
             return $statusObject;
         }
 
