@@ -89,7 +89,7 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
         return $bundleProduct->getPriceModel()->getSelectionFinalPrice(
             $bundleProduct, $selectionProduct,
             $this->getQty(),
-            $this->getSelectionQty($selectionProduct->getSelectionId())
+            $this->_getSelectionQty($selectionProduct->getSelectionId())
         );
     }
 
