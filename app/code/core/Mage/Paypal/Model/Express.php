@@ -150,7 +150,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $block;
     }
 
-    public function getCheckoutRedirectUrl()
+    public function getOrderPlaceRedirectUrl()
     {
         return Mage::getUrl('paypal/express/mark');
     }

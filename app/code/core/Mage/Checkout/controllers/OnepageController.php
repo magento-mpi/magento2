@@ -316,8 +316,8 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
             catch (Exception $e) {
                 $result['error'] = $e->getMessage();
             }
-
-            if (empty($result['error'])) {
+            $redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
+            if (empty($result['error']) && !$redirectUrl) {
                 $this->loadLayout('checkout_onepage_review');
 
                 $result['goto_section'] = 'review';
@@ -329,7 +329,7 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
 //                $result['review_html'] = $this->getLayout()->getBlock('root')->toHtml();
             }
 
-            if ($redirectUrl = $this->getOnePage()->getQuote()->getPayment()->getCheckoutRedirectUrl()) {
+            if ($redirectUrl) {
                 $result['redirect'] = $redirectUrl;
             }
 
