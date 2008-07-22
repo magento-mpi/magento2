@@ -114,6 +114,26 @@ class Mage_Bundle_Model_Observer
             $productOptions['bundle_selection_attributes'] = $attributes->getValue();
             $orderItem->setProductOptions($productOptions);
         }
+
+        return $this;
+    }
+
+    /**
+     * loadding product options for products if there is one bundle in collection
+     * only for front end
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function loadProductOptions($observer) {
+        $collection = $observer->getEvent()->getCollection();
+        foreach ($collection->getItems() as $item){
+            if ($item->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                $collection->addOptionsToResult();
+                return $this;
+            }
+        }
+        return $this;
     }
 
 }

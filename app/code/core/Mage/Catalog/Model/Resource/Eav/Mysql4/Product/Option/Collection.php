@@ -100,7 +100,6 @@ WHERE
                 array('store_price'=>'price','store_price_type'=>'price_type',
                 'price'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price,`default_option_price`.price)'),
                 'price_type'=>new Zend_Db_Expr('IFNULL(`store_option_price`.price_type,`default_option_price`.price_type)')));
-
         return $this;
     }
 
@@ -144,4 +143,14 @@ WHERE
 
         return $this;
     }
+
+    /**
+     * Call of protected method reset
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     */
+    public function reset() {
+        return $this->_reset();
+    }
+
 }

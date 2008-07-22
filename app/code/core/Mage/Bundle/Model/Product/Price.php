@@ -140,15 +140,38 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
         }
 
+
+        $minimalPrice = $this->_applySpecialPrice($product, $minimalPrice);
+        $maximalPrice = $this->_applySpecialPrice($product, $maximalPrice);
+
+        if ($customOptions = $product->getOptions()) {
+            foreach ($customOptions as $customOption) {
+                if ($values = $customOption->getValues()) {
+                    $prices = array();
+                    foreach ($values as $value) {
+                        $prices[] = $value->getPrice();
+                    }
+                    if (count($prices)) {
+                        if ($customOption->getIsRequire()) {
+                            $minimalPrice += min($prices);
+                        }
+                        $maximalPrice += max($prices);
+                    }
+                } else {
+                    if ($customOption->getIsRequire()) {
+                        $minimalPrice += $customOption->getPrice();
+                    }
+                    $maximalPrice += $customOption->getPrice();
+                }
+            }
+        }
+
         if (is_null($which)) {
-            return array(
-                $this->_applySpecialPrice($product, $minimalPrice),
-                $this->_applySpecialPrice($product, $maximalPrice)
-                );
+            return array($minimalPrice, $maximalPrice);
         } else if ($which = 'max') {
-            return $this->_applySpecialPrice($product, $maximalPrice);
+            return $maximalPrice;
         } else if ($which = 'min') {
-            return $this->_applySpecialPrice($product, $minimalPrice);
+            return $minimalPrice;
         }
         return 0;
     }
@@ -516,6 +539,29 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
         }
 
+        /*
+         * adding customer defined options price
+         */
+        $customOptions = Mage::getResourceSingleton('catalog/product_option_collection')->reset();
+        $customOptions->addFieldToFilter('is_require', '1')
+            ->addProductToFilter($productId)
+            ->addPriceToResult($store, 'price')
+            ->addValuesToResult();
+
+        foreach ($customOptions as $customOption) {
+            if ($values = $customOption->getValues()) {
+                $prices = array();
+                foreach ($values as $value) {
+                    $prices[] = $value->getPrice();
+                }
+                if (count($prices)) {
+                    $finalPrice += min($prices);
+                }
+            } else {
+                $finalPrice += $customOption->getPrice();
+            }
+        }
+
         if ($rulePrice === false) {
             $date = mktime(0,0,0);
             $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($date, $wId, $gId, $productId);
@@ -529,4 +575,24 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         return $finalPrice;
     }
+
+
+    /*
+    public function getCustomOptionPrices($productId, $storeId, $which = null) {
+
+        $optionsCollection = Mage::getResourceModel('catalog/product_option_collection')
+            ->addProductToFilter($productId)
+            ->;
+
+        if (is_null($which)) {
+            return array($minimalPrice, $maximalPrice);
+        } else if ($which = 'max') {
+            return $maximalPrice;
+        } else if ($which = 'min') {
+            return $minimalPrice;
+        }
+        return 0;
+    }
+    */
+
 }
