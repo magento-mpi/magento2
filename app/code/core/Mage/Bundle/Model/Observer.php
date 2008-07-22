@@ -46,6 +46,10 @@ class Mage_Bundle_Model_Observer
             $product->setBundleSelectionsData($selections);
         }
 
+        if ($product->getPriceType() == '0') {
+            $product->setCanSaveCustomOptions(false);
+        }
+
         $product->setCanSaveBundleSelections((bool)$request->getPost('affect_bundle_product_selections'));
 
         return $this;
