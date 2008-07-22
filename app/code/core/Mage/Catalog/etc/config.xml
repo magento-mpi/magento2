@@ -212,6 +212,10 @@
                     <grouped translate="label" module="catalog">
                         <label>Grouped Product</label>
                         <model>catalog/product_type_grouped</model>
+                        <allow_product_types>
+                            <simple/>
+                            <virtual/>
+                        </allow_product_types>
                     </grouped>
                     <configurable translate="label" module="catalog">
                         <label>Configurable Product</label>
