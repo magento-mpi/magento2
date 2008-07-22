@@ -31,9 +31,10 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
     {
         $item = Mage::getModel('catalog/product_compare_item');
         $this->_addVisitorToItem($item);
+
         $item->loadByProduct($product);
 
-        if(!$item->getId()) {
+        if (!$item->getId()) {
             $item->addProductData($product);
             $item->save();
         }
@@ -62,9 +63,10 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
 
     protected function _addVisitorToItem($item)
     {
-        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
             $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
-        } else {
+        }
+        else {
             $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
         }
         return $this;
