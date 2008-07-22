@@ -19,6 +19,12 @@
  */
 ?>
 
-<fieldset class="product-options">
+<fieldset class="product-options" id="product-options-wrapper">
 <?php echo $this->getChildHtml('', true, true);?>
+<?php if ($this->hasRequiredOptions()):?>
+<p class="required">* Required Fields</p>
+<?php endif;?>
 </fieldset>
+<script type="text/javascript">
+decorateGeneric($$('#product-options-wrapper dl'), ['last']);
+</script>

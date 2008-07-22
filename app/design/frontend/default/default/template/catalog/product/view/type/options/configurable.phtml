@@ -19,10 +19,12 @@
  */
 ?>
 
-<?php $_product = $this->getProduct() ?>
-<?php if($_product->isSaleable()):?>
-    <dl<?php if ($this->decoratedIsLast){?> class="last"<?php }?>>
-    <?php $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());?>
+<?php
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl>
     <?php foreach($_attributes as $_attribute): ?>
         <dt><label><?php echo $_attribute->getLabel() ?><span class="required">&nbsp;*</span></label></dt>
         <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
@@ -32,7 +34,7 @@
         </dd>
     <?php endforeach; ?>
     </dl>
-<script type="text/javascript">
-var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
-</script>
+    <script type="text/javascript">
+    var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+    </script>
 <?php endif;?>

@@ -46,6 +46,8 @@ class Mage_Bundle_Model_Observer
             $product->setBundleSelectionsData($selections);
         }
 
+        $product->setCanSaveBundleSelections((bool)$request->getPost('affect_bundle_product_selections'));
+
         return $this;
     }
 

@@ -449,6 +449,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($data = $this->getRequest()->getPost('configurable_attributes_data')) {
             $product->setConfigurableAttributesData(Zend_Json::decode($data));
         }
+        $product->setCanSaveConfigurableAttributes((bool)$this->getRequest()->getPost('affect_configurable_product_attributes'));
 
         /**
          * Initialize product options
@@ -457,6 +458,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if (isset($productData['options'])) {
             $product->setProductOptions($productData['options']);
         }
+        $product->setCanSaveCustomOptions((bool)$this->getRequest()->getPost('affect_product_custom_options'));
 
         Mage::dispatchEvent('catalog_product_prepare_save', array('product' => $product, 'request' => $this->getRequest()));
 

@@ -119,12 +119,26 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     {
         parent::beforeSave();
 
-        if ($selections = $this->getProduct()->getBundleSelectionsData()) {
-            if (!empty($selections)) {
-                $this->getProduct()->setHasOptions(true);
+        $this->getProduct()->canAffectOptions(false);
+
+        if ($this->getProduct()->getCanSaveBundleSelections()) {
+            $this->getProduct()->canAffectOptions(true);
+            if ($selections = $this->getProduct()->getBundleSelectionsData()) {
+                if (!empty($selections)) {
+                    if ($options = $this->getProduct()->getBundleOptionsData()) {
+                        foreach ($options as $option) {
+                            if (empty($option['delete']) || 1 != (int)$option['delete']) {
+                                $this->getProduct()->setTypeHasOptions(true);
+                                if (1 == (int)$option['required']) {
+                                    $this->getProduct()->setTypeHasRequiredOptions(true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-
     }
 
     public function save()

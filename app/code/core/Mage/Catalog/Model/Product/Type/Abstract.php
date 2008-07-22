@@ -343,6 +343,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function beforeSave()
     {
+        $this->getProduct()->canAffectOptions(true);
         return $this;
     }
 
@@ -420,4 +421,17 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return false;
     }
 
+
+    /**
+     * Check if product has required options
+     *
+     * @return bool
+     */
+    public function hasRequiredOptions()
+    {
+        if ($this->getProduct()->getRequiredOptions()) {
+            return true;
+        }
+        return false;
+    }
 }

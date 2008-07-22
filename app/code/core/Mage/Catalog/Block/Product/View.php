@@ -131,4 +131,13 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return false;
     }
 
+    /**
+     * Check if product has required options
+     *
+     * @return bool
+     */
+    public function hasRequiredOptions()
+    {
+        return $this->getProduct()->getTypeInstance()->hasRequiredOptions();
+    }
 }

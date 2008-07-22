@@ -27,10 +27,11 @@
  */
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
-    const CACHE_TAG         = 'catalog_product';
-    protected $_cacheTag    = 'catalog_product';
-    protected $_eventPrefix = 'catalog_product';
-    protected $_eventObject = 'product';
+    const CACHE_TAG              = 'catalog_product';
+    protected $_cacheTag         = 'catalog_product';
+    protected $_eventPrefix      = 'catalog_product';
+    protected $_eventObject      = 'product';
+    protected $_canAffectOptions = false;
 
     /**
      * Product type instance
@@ -273,30 +274,73 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $attributes;
     }
 
+    /**
+     * Check product options and type options and save them, too
+     *
+     */
     protected function _beforeSave()
     {
         $this->cleanCache();
-        $options = $this->getProductOptions();
-        if (is_array($options)) {
-            $optionFlag = false;
-            $this->setHasOptions(false);
-            $this->setRequiredOptions(false);
-            foreach ($this->getProductOptions() as $option) {
-                $optionFlag = true;
-                $this->getOptionInstance()->addOption($option);
-            }
-            $this->setHasOptions($optionFlag);
-        }
-        foreach ($this->getOptionInstance()->getOptions() as $option) {
-            if ($option['is_require'] == '1') {
-                $this->setRequiredOptions(true);
-                break;
-            }
-        }
+        $this->setTypeHasOptions(false);
+        $this->setTypeHasRequiredOptions(false);
 
         $this->getTypeInstance()->beforeSave();
 
+        $hasOptions         = false;
+        $hasRequiredOptions = false;
+        $this->canAffectOptions($this->_canAffectOptions && $this->getCanSaveCustomOptions());
+        if ($this->getCanSaveCustomOptions()) {
+            $options = $this->getProductOptions();
+            if (is_array($options)) {
+                foreach ($this->getProductOptions() as $option) {
+                    $this->getOptionInstance()->addOption($option);
+                    if ((!isset($option['is_delete'])) || $option['is_delete'] != '1') {
+                        $hasOptions = true;
+                    }
+                }
+                foreach ($this->getOptionInstance()->getOptions() as $option) {
+                    if ($option['is_require'] == '1') {
+                        $hasRequiredOptions = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Set true, if any
+         * Set false, ONLY if options have been affected by Options tab and Type instance tab
+         */
+        if ($hasOptions || (bool)$this->getTypeHasOptions()) {
+            $this->setHasOptions(true);
+            if ($hasRequiredOptions || (bool)$this->getTypeHasRequiredOptions()) {
+                $this->setRequiredOptions(true);
+            }
+            elseif ($this->canAffectOptions()) {
+                $this->setRequiredOptions(false);
+            }
+        }
+        elseif ($this->canAffectOptions()) {
+            $this->setHasOptions(false);
+            $this->setRequiredOptions(false);
+        }
+
         parent::_beforeSave();
+    }
+
+    /**
+     * Check/set if options can be affected when saving product
+     * If value specified, it will be set.
+     *
+     * @param bool $value
+     * @return bool
+     */
+    public function canAffectOptions($value = null)
+    {
+        if (null !== $value) {
+            $this->_canAffectOptions = (bool)$value;
+        }
+        return $this->_canAffectOptions;
     }
 
     /**

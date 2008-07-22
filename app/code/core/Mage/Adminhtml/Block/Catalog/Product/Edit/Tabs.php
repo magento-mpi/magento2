@@ -148,6 +148,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ));
             }
 
+            /**
+             * Do not change this tab id
+             * @see Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable
+             * @see Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs
+             */
             $this->addTab('customer_options', array(
                 'label' => Mage::helper('catalog')->__('Custom Options'),
                 'url'   => $this->getUrl('*/*/options', array('_current' => true)),

@@ -47,6 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable extends Mage_A
                     ->setProductId($this->getRequest()->getParam('id'))
                     ->toHtml(),
             ));
+            $this->bindShadowTabs('configurable', 'customer_options');
         }
     }
 }
