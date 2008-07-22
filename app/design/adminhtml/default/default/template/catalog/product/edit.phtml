@@ -32,7 +32,7 @@
 		<?php echo $this->getCancelButtonHtml() ?>
 		<?php if($this->getProductId()): ?>
 			<?php echo $this->getDeleteButtonHtml() ?>
-			<?php if(!$this->getProduct()->isSuper()): ?>
+			<?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
 			<?php echo $this->getDuplicateButtonHtml() ?>
 			<?php endif; ?>
 		<?php endif; ?>
