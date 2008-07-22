@@ -27,7 +27,7 @@
 <?php $_product = $this->getProduct() ?>
 <?php $_tierPrices = $this->getTierPrices() ?>
 
-		<span class="product-price"><?php echo $this->helper('catalog/product')->getPriceHtml($_product) ?></span>
+		<span class="product-price"><?php echo $this->getPriceHtml($_product) ?></span>
 		<?php if(count($_tierPrices)>0): ?>
 		<div class="product-pricing">
 			<ul class="bare">
