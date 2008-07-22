@@ -53,7 +53,7 @@
     <?php else: ?>
     <td><div class="option-value"><?php echo $this->getValueHtml($_item)?></div></td>
     <?php endif; ?>
-    <td><?php echo $_item->getSku() ?></td>
+    <td><?php echo Mage::helper('core/string')->splitInjection($_item->getSku()) ?></td>
     <td class="a-right nowrap">
         <?php if (!$_item->getParentItem()): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
