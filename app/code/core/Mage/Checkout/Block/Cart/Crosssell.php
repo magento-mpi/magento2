@@ -102,6 +102,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             ->getProductCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
+            ->addAttributeToSelect('special_price')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('thumbnail')
             ->setStoreId(Mage::app()->getStore()->getId())
