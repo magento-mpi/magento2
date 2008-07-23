@@ -747,6 +747,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         /* @var $newProduct Mage_Catalog_Model_Product */
 
         $newOptionsArray = array();
+        $newProduct->setCanSaveCustomOptions(true);
         foreach ($this->getOptions() as $_option) {
             /* @var $_option Mage_Catalog_Model_Product_Option */
             $newOptionsArray[] = $_option->prepareOptionForDuplicate();
