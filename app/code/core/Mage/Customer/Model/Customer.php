@@ -475,7 +475,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function isConfirmationRequired()
     {
         if (null === self::$_isConfirmationRequired) {
-            self::$_isConfirmationRequired = 1 == Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM);
+            self::$_isConfirmationRequired = 1 == Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM, ($this->getStoreId() ? $this->getStoreId() : null));
         }
         return self::$_isConfirmationRequired;
     }
