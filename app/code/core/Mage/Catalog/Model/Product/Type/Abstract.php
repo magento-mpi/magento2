@@ -33,6 +33,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected $_setAttributes;
     protected $_editableAttributes;
     protected $_isComposite = false;
+    protected $_storeFilter     = null;
 
     const CALCULATE_CHILD = 0;
     const CALCULATE_PARENT = 1;
@@ -433,5 +434,26 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             return true;
         }
         return false;
+    }
+
+    /**
+     * Retrive store filter for associated products
+     *
+     * @return int|Mage_Core_Model_Store
+     */
+    public function getStoreFilter()
+    {
+        return $this->_storeFilter;
+    }
+
+    /**
+     * Set store filter for associated products
+     *
+     * @param $store int|Mage_Core_Model_Store
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function setStoreFilter($store=null) {
+        $this->_storeFilter = $store;
+        return $this;
     }
 }

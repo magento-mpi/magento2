@@ -40,7 +40,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     protected $_configurableAttributes  = null;
     protected $_usedProductIds  = null;
     protected $_usedProducts    = null;
-    protected $_storeFilter     = null;
 
     protected $_isComposite = true;
 
@@ -61,27 +60,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             }
         }
         return $this->_editableAttributes;
-    }
-
-    /**
-     * Retrive store filter for associated products
-     *
-     * @return int|Mage_Core_Model_Store
-     */
-    public function getStoreFilter()
-    {
-        return $this->_storeFilter;
-    }
-
-    /**
-     * Set store filter for associated products
-     *
-     * @param $store int|Mage_Core_Model_Store
-     * @return Mage_Catalog_Model_Product_Type_Configurable
-     */
-    public function setStoreFilter($store=null) {
-        $this->_storeFilter = $store;
-        return $this;
     }
 
     /**

@@ -243,6 +243,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $this->_selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect('*')
                 ->setPositionOrder()
+                ->addStoreFilter($this->getStoreFilter())
                 ->setOptionIdsFilter($optionIds);
         }
         return $this->_selectionsCollection;
@@ -288,27 +289,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         }
 
         return (array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount);
-    }
-
-    /**
-     * Retrive store filter for associated products
-     *
-     * @return int|Mage_Core_Model_Store
-     */
-    public function getStoreFilter()
-    {
-        return $this->_storeFilter;
-    }
-
-    /**
-     * Set store filter for associated products
-     *
-     * @param $store int|Mage_Core_Model_Store
-     * @return Mage_Catalog_Model_Product_Type_Configurable
-     */
-    public function setStoreFilter($store=null) {
-        $this->_storeFilter = $store;
-        return $this;
     }
 
     /**
@@ -486,6 +466,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$this->_usedSelections || serialize($this->_usedSelectionsIds) != serialize($selectionIds)) {
             $this->_usedSelections = Mage::getResourceModel('bundle/selection_collection')
                     ->addAttributeToSelect('*')
+                    ->addStoreFilter($this->getStoreFilter())
                     ->setPositionOrder()
                     ->setSelectionIdsFilter($selectionIds);
             $this->_usedSelectionsIds = $selectionIds;
@@ -587,6 +568,19 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             return ($a->getSelectionId() < $b->getSelectionId()) ? -1 : 1;
         }
         return ($aPosition < $bPosition) ? -1 : 1;
+    }
+
+    /**
+     * Return true if product has options
+     *
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        if (count($this->getSelectionsCollection($this->getOptionsCollection()->getAllIds())->getItems()) || $this->getProduct()->getOptions()) {
+            return true;
+        }
+        return false;
     }
 
 }
