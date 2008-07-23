@@ -256,7 +256,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
 
         $this->_applyDesignConfig();
-        $processedResult = $processor->filter($this->getTemplateText());//Zend_Debug::dump($this->getTemplateText());die();
+        $processedResult = $processor->filter($this->getTemplateText());
         $this->_cancelDesignConfig();
         return $processedResult;
     }

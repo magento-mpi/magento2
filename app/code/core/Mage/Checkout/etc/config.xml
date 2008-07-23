@@ -83,6 +83,15 @@
                 </connection>
             </checkout_read>
         </resources>
+        <template>
+            <email>
+               <checkout_payment_failed_template translate="label" module="sales">
+                   <label>Payment Failed</label>
+                   <file>payment_failed.html</file>
+                   <type>html</type>
+               </checkout_payment_failed_template>
+            </email>
+        </template>
     </global>
     <frontend>
           <secure_url>
@@ -184,6 +193,11 @@
             <sidebar>
                 <display>1</display>
             </sidebar>
+            <payment_failed>
+                <identity>general</identity>
+                <reciever>general</reciever>
+                <template>checkout_payment_failed_template</template>
+            </payment_failed>
         </checkout>
     </default>
 </config>
