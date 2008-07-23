@@ -43,6 +43,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
             $this->_associatedProducts = array();
             $collection = $this->getAssociatedProductCollection()
                 ->addAttributeToSelect('*')
+                ->addFilterByRequiredOptions()
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter());
 

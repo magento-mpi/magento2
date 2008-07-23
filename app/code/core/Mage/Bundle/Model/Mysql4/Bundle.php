@@ -60,4 +60,11 @@ class Mage_Bundle_Model_Mysql4_Bundle extends Mage_CatalogIndex_Model_Mysql4_Dat
                         WHERE `parent_item_id` in (". $result['items'] .")");
         }
     }
+
+    public function dropAllUnneededSelections($productId, $ids)
+    {
+        $this->_getWriteAdapter()
+            ->query("DELETE FROM ".$this->getTable('bundle/selection')."
+                    WHERE `parent_product_id` = ". $productId . ( count($ids) > 0 ? " and selection_id not in (" . implode(',', $ids) . ")": ''));
+    }
 }

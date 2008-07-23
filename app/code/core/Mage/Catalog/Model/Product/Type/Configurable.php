@@ -207,7 +207,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
             $this->_usedProducts = array();
             $collection = $this->getUsedProductCollection()
-                ->addAttributeToSelect('*');
+                ->addAttributeToSelect('*')
+                ->addFilterByRequiredOptions();
 
             if (is_array($requiredAttributeIds)) {
                 foreach ($requiredAttributeIds as $attributeId) {

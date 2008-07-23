@@ -163,6 +163,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 $options[$key]['option_id'] = $optionModel->getOptionId();
             }
 
+            $excludeSelectionIds = array();
+
             if ($selections = $this->getProduct()->getBundleSelectionsData()) {
                 foreach ($selections as $index => $group) {
                     foreach ($group as $key => $selection) {
@@ -183,8 +185,10 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                         $selectionModel->save();
 
                         $selection['selection_id'] = $selectionModel->getSelectionId();
+                        $excludeSelectionIds[] = $selectionModel->getSelectionId();
                     }
                 }
+                Mage::getResourceModel('bundle/bundle')->dropAllUnneededSelections($this->getProduct()->getId(), $excludeSelectionIds);
             }
 
             if ($this->getProduct()->getData('price_type') != $this->getProduct()->getOrigData('price_type')) {
@@ -244,6 +248,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addAttributeToSelect('*')
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter())
+                ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
         }
         return $this->_selectionsCollection;
@@ -468,6 +473,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                     ->addAttributeToSelect('*')
                     ->addStoreFilter($this->getStoreFilter())
                     ->setPositionOrder()
+                    ->addFilterByRequiredOptions()
                     ->setSelectionIdsFilter($selectionIds);
             $this->_usedSelectionsIds = $selectionIds;
         }
