@@ -36,30 +36,33 @@ class Mage_Admin_Model_Observer
 
         if ($request->getActionName() == 'forgotpassword') {
             $request->setDispatched(true);
-        } elseif($user) {
-            $user->reload();
         }
-        if (!$user || !$user->getId()) {
-            if ($request->getPost('login')) {
-                $postLogin  = $request->getPost('login');
-                $username   = $postLogin['username'];
-                $password   = $postLogin['password'];
-                $user = $session->login($username, $password, $request);
+        else {
+            if($user) {
+                $user->reload();
             }
-            if (!$request->getParam('forwarded')) {
-                if($request->getParam('isAjax')) {
-                    $request->setParam('forwarded', true)
-                        ->setControllerName('index')
-                        ->setActionName('deniedJson')
-                        ->setDispatched(false);
-                } else {
-                    $request->setParam('forwarded', true)
-                        ->setRouteName('adminhtml')
-                        ->setControllerName('index')
-                        ->setActionName('login')
-                        ->setDispatched(false);
+            if (!$user || !$user->getId()) {
+                if ($request->getPost('login')) {
+                    $postLogin  = $request->getPost('login');
+                    $username   = $postLogin['username'];
+                    $password   = $postLogin['password'];
+                    $user = $session->login($username, $password, $request);
                 }
-                return false;
+                if (!$request->getParam('forwarded')) {
+                    if($request->getParam('isAjax')) {
+                        $request->setParam('forwarded', true)
+                            ->setControllerName('index')
+                            ->setActionName('deniedJson')
+                            ->setDispatched(false);
+                    } else {
+                        $request->setParam('forwarded', true)
+                            ->setRouteName('adminhtml')
+                            ->setControllerName('index')
+                            ->setActionName('login')
+                            ->setDispatched(false);
+                    }
+                    return false;
+                }
             }
         }
 
