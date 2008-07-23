@@ -28,4 +28,17 @@
 class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product_Price
 {
 
+    public function isRatesGraterThenZero()
+    {
+        $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $_request->setProductClassId($this->getProduct()->getTaxClassId());
+        $defaultTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+
+        $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $_request->setProductClassId($this->getProduct()->getTaxClassId());
+        $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+
+        return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
+    }
+
 }

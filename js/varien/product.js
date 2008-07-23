@@ -526,19 +526,33 @@ Product.OptionsPrice.prototype = {
         var optionPrices = this.getOptionPrices();
         $H(this.containers).each(function(pair) {
             if ($(pair.value)) {
+
+                var price = optionPrices+parseFloat(this.productPrice)
+                if (this.includeTax == 'true') {
+                    // tax = tax included into product price by admin
+                    var tax = price / (100 + this.defaultTax) * this.defaultTax;
+                    var excl = price - tax;
+                    var incl = excl*(1+(this.currentTax/100));
+                } else {
+                    var tax = price * (this.defaultTax / 100);
+                    var excl = price;
+                    var incl = excl + tax;
+                }
+
                 if (pair.value == 'price-including-tax-'+this.productId) {
-                    price = this.getPriceWithTax(optionPrices+parseFloat(this.productPrice));
+                    price = incl;
                 } else {
                     if (this.showIncludeTax) {
-                        price = this.getPriceWithTax(optionPrices+parseFloat(this.productPrice));
+                        price = incl;
                     } else {
                         if (!this.skipCalculate || this.productPrice == 0) {
-                            price = this.getPriceWithoutTax(optionPrices+parseFloat(this.productPrice));
+                            price = excl;
                         } else {
                             price = optionPrices+parseFloat(this.productPrice);
                         }
                     }
                 }
+
                 if (price < 0) price = 0;
                 formattedPrice = this.formatPrice(price);
                 if ($(pair.value).getElementsBySelector('.price')[0]) {
@@ -554,20 +568,6 @@ Product.OptionsPrice.prototype = {
                 }
             };
         }.bind(this));
-    },
-
-    getPriceWithoutTax: function(price) {
-        if (this.includeTax == 'true') {
-            price = ((price-(price/(1+(this.defaultTax))*this.defaultTax))*this.currentTax);
-        }
-        return price;
-    },
-
-    getPriceWithTax: function(price) {
-        if (this.includeTax == 'false') {
-            price += price*(this.currentTax/100);
-        }
-        return price;
     },
     formatPrice: function(price) {
         return formatCurrency(price, this.priceFormat);
