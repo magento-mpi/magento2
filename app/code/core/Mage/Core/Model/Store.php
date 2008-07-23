@@ -489,6 +489,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         // try to get currently set code among allowed
         $code = $this->_getSession()->getCurrencyCode();
+        if (empty($code)) {
+            $code = $this->getDefaultCurrencyCode();
+        }
         if (in_array($code, $this->getAvailableCurrencyCodes(true))) {
             return $code;
         }
