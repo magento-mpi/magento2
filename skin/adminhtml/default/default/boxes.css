@@ -259,6 +259,10 @@ table.actions td                { vertical-align:top; }
 .dynamic-grid th                { padding:2px;width:100px;}
 .dynamic-grid td                { padding:2px;}
 .dynamic-grid td input          { width:94px; }
+tr.dynamic-grid td,
+tr.dynamic-grid th {padding:2px 10px 2px 0; width:auto;}
+tr.dynamic-grid  .input-text {padding:2px; width:160px!important;}
+
 
 
 
@@ -426,7 +430,7 @@ select optgroup option          { padding-left:10px; }
 
 
 /* Form List */ /* Table for default form data */
-.form-list                      { width:100%; border:none !important; }
+.form-list                      { width:auto; border:none !important; }
 .main-col .form-list            { width:auto; }
 .form-list td                   { border:none !important; padding-top:5px !important; padding-bottom:5px !important; background:none !important;  }
 .form-list td.hidden            { border:none !important; padding:0px !important;background:none !important;}

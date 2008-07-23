@@ -28,11 +28,14 @@
 <?php if (!$_element->getNoContainer()): ?>
     <fieldset id="<?php echo $_element->getHtmlId() ?>"<?php echo $_element->serialize(array('class')) ?>>
 <?php endif; ?>
-        <table cellspacing="0" class="form-list">
-            <tbody>
-                <?php echo $_element->getChildrenHtml() ?>
-            </tbody>
-        </table>
+	<div class="hor-scroll">
+	        <table cellspacing="0" class="form-list">
+	            <tbody>
+	                <?php echo $_element->getChildrenHtml() ?>
+	            </tbody>
+	        </table>
+	</div>
+<!--[if IE]>&nbsp;<![endif]-->
 <?php if (!$_element->getNoContainer()): ?>
     </fieldset>
 <?php endif; ?>
