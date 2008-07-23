@@ -391,6 +391,53 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         return $this->raw_query($sql);
     }
 
+    public function getKeyList($tableName)
+    {
+        $keyList = array();
+        $create  = $this->raw_fetchRow('SHOW CREATE TABLE ' . $this->quoteIdentifier($tableName), 'Create Table');
+        $matches = array();
+        preg_match_all('#KEY `([^`]+)` \(([^)]+)\)#s', $create, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $v) {
+            $keyList[$v[1]] = split(',', str_replace($this->getQuoteIdentifierSymbol(), '', $v[2]));
+        }
+
+        return $keyList;
+    }
+
+    /**
+     * Add Index Key
+     *
+     * @param string $tableName
+     * @param string $indexName
+     * @param string|array $fields
+     * @return
+     */
+    public function addKey($tableName, $indexName, $fields)
+    {
+        $keyList = $this->getKeyList($tableName);
+
+        $sql = 'ALTER TABLE '.$this->quoteIdentifier($tableName);
+        if (isset($keyList[$indexName])) {
+            $sql .= ' DROP INDEX ' . $this->quoteIdentifier($indexName) . ',';
+        }
+
+        if (is_array($fields)) {
+            $fieldSql = array();
+            foreach ($fields as $field) {
+                $fieldSql[] = $this->quoteIdentifier($field);
+            }
+            $fieldSql = join(',', $fieldSql);
+        }
+        else {
+            $fieldSql = $this->quoteIdentifier($fields);
+        }
+
+        $sql .= ' ADD INDEX ' . $this->quoteIdentifier($indexName) . ' (' . $fieldSql . ')';
+
+        return $this->raw_query($sql);
+    }
+
     /**
      * Creates and returns a new Zend_Db_Select object for this adapter.
      *

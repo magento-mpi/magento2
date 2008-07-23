@@ -25,8 +25,13 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Status extends Varien_Object
+class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
 {
+    protected function _construct()
+    {
+        $this->_init('catalog/product_status');
+    }
+
     const STATUS_ENABLED    = 1;
     const STATUS_DISABLED   = 2;
 
@@ -84,5 +89,10 @@ class Mage_Catalog_Model_Product_Status extends Varien_Object
     {
         $options = self::getOptionArray();
         return isset($options[$optionId]) ? $options[$optionId] : null;
+    }
+
+    public function updateProductStatus($productId, $storeId, $value)
+    {
+        $this->_getResource()->updateProductStatus($productId, $storeId, $value);
     }
 }

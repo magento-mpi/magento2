@@ -26,12 +26,22 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
-    extends Mage_Adminhtml_Block_Store_Switcher
+    extends Mage_Adminhtml_Block_Widget
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    public function getStoreName($storeId)
+    public function getWebsiteCollection()
     {
-        return Mage::app()->getStore($storeId)->getName();
+        return Mage::app()->getWebsites();
+    }
+
+    public function getGroupCollection(Mage_Core_Model_Website $website)
+    {
+        return $website->getGroups();
+    }
+
+    public function getStoreCollection(Mage_Core_Model_Store_Group $group)
+    {
+        return $group->getStores();
     }
 
     /**

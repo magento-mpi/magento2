@@ -684,31 +684,28 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function massStatusAction()
     {
-        $productIds = $this->getRequest()->getParam('product');
-        $storeId = (int)$this->getRequest()->getParam('store', 0);
-        if(!is_array($productIds)) {
-            // No products selected
-            $this->_getSession()->addError($this->__('Please select product(s)'));
-        } else {
-            try {
-                foreach ($productIds as $productId) {
-                    $product = Mage::getSingleton('catalog/product')
-                        ->unsetData()
-                        ->setStoreId($storeId)
-                        ->load($productId)
-                        ->setStatus($this->getRequest()->getParam('status'))
-                        ->setIsMassupdate(true)
-                        ->save();
-                }
-                Mage::dispatchEvent('catalog_product_massupdate_after', array('products'=>$productIds));
-                $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully updated', count($productIds))
-                );
-            } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+        $productIds = (array)$this->getRequest()->getParam('product');
+        $storeId    = (int)$this->getRequest()->getParam('store', 0);
+        $status     = (int)$this->getRequest()->getParam('status');
+
+        $statusModel = Mage::getModel('catalog/product_status');
+
+        try {
+            foreach ($productIds as $productId) {
+                $statusModel->updateProductStatus($productId, $storeId, $status);
             }
+            $this->_getSession()->addSuccess(
+                $this->__('Total of %d record(s) were successfully updated', count($productIds))
+            );
         }
-        $this->_redirect('*/*/', array('store'=>(int)$this->getRequest()->getParam('store', 0)));
+        catch (Mage_Core_Model_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        catch (Exception $e) {
+            $this->_getSession->addException($e, $this->__('There was an error while updating product(s) status'));
+        }
+
+        $this->_redirect('*/*/', array('store'=> $storeId));
     }
 
     public function tagCustomerGridAction()
