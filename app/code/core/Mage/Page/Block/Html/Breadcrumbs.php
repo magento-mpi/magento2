@@ -52,8 +52,10 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
 
     function addCrumb($crumbName, $crumbInfo, $after = false)
     {
-        $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'first', 'last'));
-    	$this->_crumbs[$crumbName] = $crumbInfo;
+        $this->_prepareArray($crumbInfo, array('label', 'title', 'link', 'first', 'last', 'readonly'));
+        if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
+    	   $this->_crumbs[$crumbName] = $crumbInfo;
+        }
     	return $this;
     }
 

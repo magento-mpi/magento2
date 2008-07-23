@@ -27,8 +27,13 @@
  */
 class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_View_Abstract
 {
+    protected $_isGalleryDisabled;
+
     public function getGalleryImages()
     {
+        if ($this->_isGalleryDisabled) {
+            return array();
+        }
         $collection = $this->getProduct()->getMediaGalleryImages();
         return $collection;
     }
@@ -41,5 +46,10 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
             return $this->getUrl('*/*/gallery', $params);
         }
         return $this->getUrl('*/*/gallery', $params);
+    }
+
+    public function disableGallery()
+    {
+        $this->_isGalleryDisabled = true;
     }
 }
