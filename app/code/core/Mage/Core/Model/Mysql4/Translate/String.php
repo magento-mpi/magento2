@@ -34,15 +34,24 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
 
     public function load(Mage_Core_Model_Abstract $object, $value, $field=null)
     {
+        /**
+         * Partially reverted rev 21685
+         * @see issue #5943
+         */
+//        if (is_string($value)) {
+//            $select = $this->_getReadAdapter()->select()
+//                ->from($this->getMainTable())
+//                ->where($this->getMainTable().'.string=:tr_string');
+//            $result = $this->_getReadAdapter()->fetchRow($select, array('tr_string'=>$value));
+//            return $result;
+//        }
+//        else {
+//        	return parent::load($object, $value, $field);
+//        }
         if (is_string($value)) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable())
-                ->where($this->getMainTable().'.string=:tr_string');
-            return $this->_getReadAdapter()->fetchRow($select, array('tr_string'=>$value));
+            $field = 'string';
         }
-        else {
-        	return parent::load($object, $value, $field);
-        }
+        return parent::load($object, $value, $field);
     }
 
     protected function _getLoadSelect($field, $value, $object)
