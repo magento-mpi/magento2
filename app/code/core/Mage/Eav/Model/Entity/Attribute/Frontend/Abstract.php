@@ -102,7 +102,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
         elseif ($this->getConfigField('input')=='multiselect') {
             $value = $this->getOption($value);
             if (is_array($value)) {
-                $value = implode(',', $value);
+                $value = implode(', ', $value);
             }
         }
         return $value;
