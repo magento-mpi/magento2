@@ -135,7 +135,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                     $productWebsite->removeProducts($websiteRemoveData, $this->_getHelper()->getProductIds());
                 }
                 if ($websiteAddData) {
-                    $productWebsite->addProducts($websiteRemoveData, $this->_getHelper()->getProductIds());
+                    $productWebsite->addProducts($websiteAddData, $this->_getHelper()->getProductIds());
                 }
 
                 $this->_getSession()->addNotice(
