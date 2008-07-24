@@ -130,6 +130,20 @@ function parseDir($path, $basicModuleName)
 {
     global $CONFIG;
 
+    if (is_file($path)) {
+        if ($CONFIG['generate']['print_file']) {
+            print 'check file ' . $path . "\n";
+        }
+
+        if (preg_match('/\.'.$CONFIG['generate']['allow_ext'].'$/', $path)) {
+            parseFile($path, $basicModuleName);
+        }
+        elseif (preg_match('/\.'.$CONFIG['generate']['xml_ext'].'$/', $path)) {
+            parseXmlFile($path, $basicModuleName);
+        }
+        return true;
+    }
+
     if ($CONFIG['generate']['print_dir']) {
         print 'check dir ' . $path . "\n";
     }
@@ -153,6 +167,8 @@ function parseDir($path, $basicModuleName)
         unset($dir_element);
         closedir($dirh);
     }
+
+    return true;
 }
 
 /**
@@ -268,6 +284,9 @@ function xmlFindTranslate($xmlNode, &$translate, $xPath = array())
             $translateNodes = split(' ', $attributes['translate']);
 
             foreach ($translateNodes as $nodeName) {
+                if (!(string)$node->$nodeName) {
+                    continue;
+                }
                 $translate[] = array(
                     'module'    => $module,
                     'value'     => (string)$node->$nodeName,
