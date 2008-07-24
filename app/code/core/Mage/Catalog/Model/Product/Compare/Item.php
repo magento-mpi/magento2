@@ -80,6 +80,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         $visitorItemCollection = Mage::getResourceModel('catalog/product_compare_item_collection')
             ->setObject('catalog/product_compare_item')
+            ->useProductItem(true)
             ->setVisitorId(Mage::getSingleton('log/visitor')->getId())
             ->load();
 
@@ -89,10 +90,11 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 
         $customerProductIds = $customerItemCollection->getProductIds();
 
-        foreach($visitorItemCollection as $item) {
-            if(in_array($item->getProductId(), $customerProductIds)) {
+        foreach ($visitorItemCollection as $item) {
+            if (in_array($item->getProductId(), $customerProductIds)) {
                 $item->delete();
-            } else {
+            }
+            else {
                 $item->setCustomerId($customer->getId())
                     ->setVisitorId(0)
                     ->save();
