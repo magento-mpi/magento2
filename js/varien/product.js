@@ -27,11 +27,12 @@ Product.Zoom = Class.create();
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 Product.Zoom.prototype = {
-    initialize: function(imageEl, trackEl, handleEl, zoomInEl, zoomOutEl){
+    initialize: function(imageEl, trackEl, handleEl, zoomInEl, zoomOutEl, hintEl){
         this.containerEl = $(imageEl).parentNode;
         this.imageEl = $(imageEl);
         this.handleEl = $(handleEl);
         this.trackEl = $(trackEl);
+        this.hintEl = $(hintEl);
 
         this.containerDim = Element.getDimensions(this.containerEl);
         this.imageDim = Element.getDimensions(this.imageEl);
@@ -49,6 +50,7 @@ Product.Zoom.prototype = {
         if (this.imageDim.width < this.containerDim.width
             && this.imageDim.height < this.containerDim.height) {
             this.trackEl.up().hide();
+            this.hintEl.hide();
             this.containerEl.removeClassName('main-product-img');
             return;
         }
