@@ -83,8 +83,9 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_Core_Block_Template
     public function getProductUnsubscribeUrl($productId)
     {
         return $this->getUrl('productalert/unsubscribe/stock', array(
-            'product' => $productId
-        )) . $this->_getStoreUrlParam();
+            'product' => $productId,
+            '_query'  => $this->_getStoreUrlParam()
+        ));
     }
 
     /**
@@ -94,7 +95,9 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_Core_Block_Template
      */
     public function getUnsubscribeUrl()
     {
-        return $this->getUrl('productalert/unsubscribe/stockAll') . $this->_getStoreUrlParam();
+        return $this->getUrl('productalert/unsubscribe/stockAll', array(
+            '_query'  => $this->_getStoreUrlParam()
+        ));
     }
 
     /**
@@ -105,8 +108,10 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_Core_Block_Template
     protected function _getStoreUrlParam()
     {
         if ($this->getStoreCode()) {
-            return '?store='.$this->getStoreCode();
+            return array(
+                '___store' => $this->getStoreCode()
+            );
         }
-        return null;
+        return array();
     }
 }

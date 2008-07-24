@@ -26,6 +26,10 @@ if (!Mage::app()->isInstalled()) {
     echo "Application is not installed yet, please complete install wizard first.";
 }
 
+// Only for urls
+// Don't remove this
+$_SERVER['SCRIPT_FILENAME'] = 'index.php';
+
 try {
     Mage::getConfig()->init()->loadEventObservers('crontab');
     Mage::app()->addEventArea('crontab');
