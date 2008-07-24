@@ -407,6 +407,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
             $productData['stock_data']['use_config_manage_stock'] = 0;
         }
+
+        /**
+         * Websites
+         */
+        if (!isset($productData['website_ids'])) {
+            $productData['website_ids'] = array();
+        }
+
         $product->addData($productData);
         if (Mage::app()->isSingleStoreMode()) {
             $product->setWebsiteIds(array(Mage::app()->getStore(true)->getId()));
@@ -462,7 +470,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         /**
          * Initialize product options
          */
-        $productData = $this->getRequest()->getPost('product');
         if (isset($productData['options'])) {
             $product->setProductOptions($productData['options']);
         }

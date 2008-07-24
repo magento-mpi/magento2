@@ -157,7 +157,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        return $product->isVisibleInCatalog();
+        return $product->isVisibleInCatalog() && $product->isVisibleInSiteVisibility();
         // TODO shold be check both status and visibility
         //if ('catalog' == $where) {
         //}
