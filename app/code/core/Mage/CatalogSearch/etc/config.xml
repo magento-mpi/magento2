@@ -108,9 +108,9 @@
             </modules>
         </translate>
         <menu>
-            <catalog translate="title" module="catalog">
+            <catalog>
                 <children>
-                    <search translate="title" module="catalog">
+                    <search translate="title" module="catalogsearch">
                         <title>Search</title>
                         <action>adminhtml/catalog_search/</action>
                     </search>

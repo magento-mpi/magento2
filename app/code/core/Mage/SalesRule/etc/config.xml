@@ -98,7 +98,7 @@
     </global>
     <adminhtml>
         <menu>
-             <promo translate="title" module="salesrule">
+             <promo>
                 <children>
                     <quote translate="title" module="salesrule">
                         <title>Shopping Cart Price Rules</title>

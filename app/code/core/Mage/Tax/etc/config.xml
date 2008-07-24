@@ -107,7 +107,7 @@
     </global>
     <adminhtml>
         <menu>
-            <sales translate="title" module="tax">
+            <sales>
                 <children>
                     <tax translate="title" module="tax">
                         <title>Tax</title>
