@@ -51,7 +51,8 @@ Product.Bundle.prototype = {
         }
 
         if (this.config.specialPrice) {
-            calculatedPrice = (calculatedPrice*this.config.specialPrice)/100;
+            var newPrice = (calculatedPrice*this.config.specialPrice)/100;
+            calculatedPrice = Math.min(newPrice, calculatedPrice);
         }
 
         optionsPrice.changePrice('bundle', calculatedPrice);
