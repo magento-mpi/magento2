@@ -75,7 +75,7 @@ class Mage_Reports_Model_Mysql4_Report_Collection
 
                 switch ($this->_period) {
                     case 'day' :
-                        $t['title'] = $dateStart->toString('MM/dd/yyyy');
+                        $t['title'] = $dateStart->toString(Mage::app()->getLocale()->getDateFormat());
                         $t['start'] = $dateStart->toString('yyyy-MM-dd HH:mm:ss');
                         $t['end'] = $dateStart->toString('yyyy-MM-dd 23:59:59');
                         $dateStart->addDay(1);
