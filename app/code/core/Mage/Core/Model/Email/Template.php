@@ -304,7 +304,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             }
         }
         else {
-            $mail->addTo($email, $name);
+          //  $mail->addTo($email, $name);
+            $mail->addTo($email, '=?utf-8?B?'.base64_encode($name).'?=');
         }
 
         $this->setUseAbsoluteLinks(true);
@@ -316,8 +317,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             $mail->setBodyHTML($text);
         }
 
-        $mail->setSubject($this->getProcessedTemplateSubject($variables));
+        $mail->setSubject('=?utf-8?B?'.base64_encode($this->getProcessedTemplateSubject($variables)).'?=');
+        //$mail->setSubject($this->getProcessedTemplateSubject($variables));
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
+
         try {
             $mail->send(); // Zend_Mail warning..
             $this->_mail = null;
