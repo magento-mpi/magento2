@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     public function addVisibleInCatalogFilterToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
     {
         $collection->setVisibility($this->getVisibleInCatalogIds());
-        //$collection->addAttributeToFilter('visibility', array('in'=>$this->getVisibleInCatalogIds()));
+//        $collection->addAttributeToFilter('visibility', array('in'=>$this->getVisibleInCatalogIds()));
         return $this;
     }
 

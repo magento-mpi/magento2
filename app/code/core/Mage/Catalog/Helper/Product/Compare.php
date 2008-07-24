@@ -56,9 +56,9 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     public function getAddUrl($product)
     {
-        if ($product->isSuper()) {
-            return false;
-        }
+//        if ($product->isSuper()) {
+//            return false;
+//        }
 
         $params = array(
             'product'=>$product->getId(),

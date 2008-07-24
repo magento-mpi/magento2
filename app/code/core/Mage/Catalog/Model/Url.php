@@ -387,7 +387,7 @@ class Mage_Catalog_Model_Url
             unset($categories);
             unset($product);
 
-            $this->getResource()->clearCategoryProduct($storeId);
+//            $this->getResource()->clearCategoryProduct($storeId);
         }
 
         return $this;

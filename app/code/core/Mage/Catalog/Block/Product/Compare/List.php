@@ -54,7 +54,8 @@
 
             $this->_items
                 ->loadComaparableAttributes()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
+                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addMinimalPrice();
 
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($this->_items);
         }
