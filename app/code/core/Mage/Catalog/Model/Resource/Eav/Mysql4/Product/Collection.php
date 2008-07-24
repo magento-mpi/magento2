@@ -627,4 +627,31 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         );
         return $this;
     }
+
+    public function setOrder($attribute, $dir='desc')
+    {
+        if ($attribute == 'price') {
+            $customerGroup = Mage::getSingleton('customer/session')->getCustomer()->getCustomerGroupId();
+            $storeId = Mage::app()->getStore()->getId();
+
+            $priceAttributeId = $this->getAttribute('price')->getId();
+
+            $entityCondition = '_price_order_table.entity_id = e.entity_id';
+            $storeCondition = $this->getConnection()->quoteInto('_price_order_table.store_id = ?', $storeId);
+            $groupCondition = $this->getConnection()->quoteInto('_price_order_table.customer_group_id = ?', $customerGroup);
+            $attributeCondition = $this->getConnection()->quoteInto('_price_order_table.attribute_id = ?', $priceAttributeId);
+
+            $this->getSelect()->joinLeft(
+                array('_price_order_table'=>$this->getTable('catalogindex/price')),
+                "{$entityCondition} AND {$storeCondition} AND {$groupCondition} AND {$attributeCondition}",
+                array()
+            );
+            $this->getSelect()->order('_price_order_table.value ' . $dir);
+            $this->getSelect()->group('e.entity_id');
+        } else {
+            parent::setOrder($attribute, $dir);
+        }
+
+        return $this;
+    }
 }
