@@ -147,6 +147,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
                                 ->getResourceCollection()
                                 ->setAttributeGroupFilter($node->getAttributeGroupId())
                                 ->addVisibleFilter()
+                                /**
+                                 * TODO: issue #5126
+                                 * @see Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+                                 */
+                                ->checkConfigurableProducts()
                                 ->load();
 
             if ( $nodeChildren->getSize() > 0 ) {
@@ -160,6 +165,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
                     $tmpArr['allowDrag'] = true;
                     $tmpArr['leaf'] = true;
                     $tmpArr['is_user_defined'] = $child->getIsUserDefined();
+                    // TODO: issue #5126. Template already has reuqired changes
+                    $tmpArr['is_used_in_configurable'] = false; // (bool)$child->getIsUsedInConfigurable(); // TODO: issue #5126
                     $tmpArr['entity_id'] = $child->getEntityAttributeId();
 
                     $item['children'][] = $tmpArr;
@@ -201,6 +208,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             $item['allowDrag'] = true;
             $item['leaf'] = true;
             $item['is_user_defined'] = $node->getIsUserDefined();
+            $item['is_used_in_configurable'] = false;
 
             $items[] = $item;
         }

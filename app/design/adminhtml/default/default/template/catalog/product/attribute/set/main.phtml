@@ -218,6 +218,11 @@
                             return;
                         }
 
+                        if (editSet.ConfigurableNodeExists(editSet.currentNode)) {
+                            alert('<?php echo Mage::helper('catalog')->__('This group contains attributes, used in configurable products. Please move these attributes to another group and try again.') ?>');
+                            return;
+                        }
+
                         if( editSet.currentNode && editSet.currentNode.attributes.cls == 'folder' ) {
                             TreePanels.root.removeChild(editSet.currentNode);
                             for( i in editSet.currentNode.childNodes ) {
@@ -244,6 +249,18 @@
                                 }
                             }
                         }
+                    },
+
+                    ConfigurableNodeExists : function(currentNode) {
+                        for (var i in currentNode.childNodes ) {
+                            if (currentNode.childNodes[i].id) {
+                                child = editSet.currentNode.childNodes[i];
+                                if (child.attributes.is_used_in_configurable) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
                     },
 
                     rightAppend : function(node) {
