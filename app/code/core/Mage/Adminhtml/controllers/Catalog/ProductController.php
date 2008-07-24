@@ -373,9 +373,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $response->setError(false);
 
         try {
+            $productData = $this->getRequest()->getPost('product');
+            if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
+                $productData['stock_data']['use_config_manage_stock'] = 0;
+            }
             $product = Mage::getModel('catalog/product')
                 ->setId($this->getRequest()->getParam('id'))
-                ->addData($this->getRequest()->getPost('product'))
+                ->addData($productData)
                 ->validate();
         }
         catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
@@ -399,7 +403,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     protected function _initProductSave()
     {
         $product    = $this->_initProduct();
-        $product->addData($this->getRequest()->getPost('product'));
+        $productData = $this->getRequest()->getPost('product');
+        if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
+            $productData['stock_data']['use_config_manage_stock'] = 0;
+        }
+        $product->addData($productData);
         if (Mage::app()->isSingleStoreMode()) {
             $product->setWebsiteIds(array(Mage::app()->getStore(true)->getId()));
         }
@@ -487,8 +495,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $productId      = $this->getRequest()->getParam('id');
         $isEdit         = (int)($this->getRequest()->getParam('id') != null);
 
-
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
+            if (!isset($data['product']['stock_data']['use_config_manage_stock'])) {
+                $data['product']['stock_data']['use_config_manage_stock'] = 0;
+            }
             $product = $this->_initProductSave();
 
             try {
