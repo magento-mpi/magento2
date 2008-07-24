@@ -729,7 +729,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         return $parsedUrl['scheme'] . '://' . $parsedUrl['host']
             . (isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '')
-            . $parsedUrl['path'] . $query
+            . $parsedUrl['path'] . str_replace('%2F', '/', rawurlencode(rawurldecode($query)))
             . ($parsedQuery ? '?'.http_build_query($parsedQuery, '', '&amp;') : '');
     }
 
