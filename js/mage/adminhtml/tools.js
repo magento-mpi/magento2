@@ -206,7 +206,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
 
     function floatingTopButtonToolbarToggle() {
 
-        if (!header || !header_copy.parentNode) {
+        if (!header || !header_copy || !header_copy.parentNode) {
             return;
         }
         var s;
