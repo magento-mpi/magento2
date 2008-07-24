@@ -100,6 +100,7 @@ varienGrid.prototype = {
 
         if (!Element.hasClassName('pointer')
             && (this.rowClickCallback !== openGridRow || element.id)) {
+            if(element.id)
             Element.addClassName(element, 'pointer');
         }
     },
