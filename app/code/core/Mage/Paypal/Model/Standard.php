@@ -216,7 +216,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     ));
                     if($item->getBaseTaxAmount()>0){
                         $sArr = array_merge($sArr, array(
-                        'tax_'.$i      => sprintf('%.2f',$item->getBaseTaxAmount()),
+                        'tax_'.$i      => sprintf('%.2f',$item->getBaseTaxAmount()/$item->getQty()),
                         ));
                     }
                     $i++;
