@@ -51,9 +51,11 @@ class Mage_Shipping_Model_Carrier_Flatrate
         } elseif ($this->getConfigData('type') == 'I') { // per item
             $shippingPrice = $request->getPackageQty() * $this->getConfigData('price');
 
-            foreach ($request->getAllItems() as $item) {
-                if ($item->getFreeShipping() && !$item->getProduct()->getTypeInstance()->isVirtual()) {
-                    $shippingPrice -= $item->getQty() * $this->getConfigData('price');
+            if ($request->getAllItems()) {
+                foreach ($request->getAllItems() as $item) {
+                    if ($item->getFreeShipping() && !$item->getProduct()->getTypeInstance()->isVirtual()) {
+                        $shippingPrice -= $item->getQty() * $this->getConfigData('price');
+                    }
                 }
             }
         } else {

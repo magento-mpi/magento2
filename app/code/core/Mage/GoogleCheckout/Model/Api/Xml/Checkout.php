@@ -188,10 +188,24 @@ EOT;
         return $xml;
     }
 
+    protected function _getVirtualOrderShippingXml()
+    {
+        $title = Mage::helper('googlecheckout')->__('Free Shipping');
+
+        $xml = <<<EOT
+            <shipping-methods>
+                <flat-rate-shipping name="{$title}">
+                    <price currency="{$this->getCurrency()}">0</price>
+                </flat-rate-shipping>
+            </shipping-methods>
+EOT;
+        return $xml;
+    }
+
     protected function _getShippingMethodsXml()
     {
         if ($this->_isOrderVirtual()) {
-            return '';
+            return $this->_getVirtualOrderShippingXml();
         }
 
         $xml = <<<EOT
