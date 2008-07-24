@@ -65,7 +65,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
     protected function _joinTaxClass($select, $priceTable='main_table')
     {
         $taxClassAttribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'tax_class_id');
-        $select->join(
+        $select->joinLeft(
             array('tax_class_d'=>$taxClassAttribute->getBackend()->getTable()),
             "tax_class_d.entity_id = {$priceTable}.entity_id AND tax_class_d.attribute_id = '{$taxClassAttribute->getId()}'
             AND tax_class_d.store_id = 0",

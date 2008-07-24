@@ -52,7 +52,13 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Grouped extends Mage_CatalogIndex_Mode
                 $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
                 foreach ($typeIds as $id) {
                     $finalPrice = $retreiver->getFinalPrice($id, $storeObject, $group);
-                    $resultMinimal = $finalPrice;
+
+                    if (!is_null($resultMinimal)) {
+                        $resultMinimal = min($resultMinimal, $finalPrice);
+                    } else {
+                        $resultMinimal = $finalPrice;
+                    }
+
                     $tiers = $retreiver->getTierPrices($id, $storeObject);
                     foreach ($tiers as $tier) {
                         if ($tier['customer_group_id'] != $customerGroup && !$tier['all_groups']) {
