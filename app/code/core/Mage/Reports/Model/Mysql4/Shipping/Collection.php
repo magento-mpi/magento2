@@ -39,7 +39,8 @@ class Mage_Reports_Model_Mysql4_Shipping_Collection extends Mage_Sales_Model_Ent
             ->groupByAttribute('shipping_description')
             ->getSelect()->order('orders desc');
 
-         return $this;
+        $this->getSelect()->where("`_table_shipping_description`.`value` <> ''");
+        return $this;
     }
 
     public function setStoreIds($storeIds)
@@ -55,6 +56,7 @@ class Mage_Reports_Model_Mysql4_Shipping_Collection extends Mage_Sales_Model_Ent
                 'SUM({{base_shipping_amount}}/{{store_to_base_rate}})',
                 array('base_shipping_amount', 'store_to_base_rate'));
         }
+
         return $this;
     }
 }
