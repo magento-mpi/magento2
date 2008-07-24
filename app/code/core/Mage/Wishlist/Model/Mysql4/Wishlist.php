@@ -53,7 +53,8 @@ class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstrac
     {
         if (is_null($this->_itemsCount)) {
             $collection = $wishlist->getProductCollection()
-                ->addAttributeToFilter('store_id', array('in'=>$wishlist->getSharedStoreIds()));
+                //->addAttributeToFilter('store_id', array('in'=>$wishlist->getSharedStoreIds()))
+                ->addStoreFilter();
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);

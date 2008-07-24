@@ -57,7 +57,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addMinimalPrice()
             ->addFinalPrice()
-            ->addTaxPercents();
+            ->addTaxPercents()
+            ->addStoreFilter();
 
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);

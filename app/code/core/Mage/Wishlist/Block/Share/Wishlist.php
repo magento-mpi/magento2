@@ -51,7 +51,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('thumbnail')
-                ->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
+                //->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
                 ->addStoreFilter();
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_collection);

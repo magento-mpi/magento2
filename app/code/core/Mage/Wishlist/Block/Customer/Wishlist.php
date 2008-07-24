@@ -46,7 +46,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Catalog_Block_Product_A
 
             $collection = Mage::registry('wishlist')->getProductCollection()
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-                ->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
+                //->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
                 ->addStoreFilter();
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
