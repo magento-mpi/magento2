@@ -296,7 +296,7 @@ ul.tabs                         { border-top:1px solid #bebebe; background-color
 ul.tabs li                      { list-style:none; }
 ul.tabs a, ul.tabs span         { display:block; }
 ul.tabs a, ul.tabs a:hover      { text-decoration:none; }
-ul.tabs a.notloaded             { color:#999; }
+/* ul.tabs a.notloaded             { color:#999; } */
 ul.tabs a, ul.tabs a:hover      { color:#000; }
 ul.tabs, ul.tabs a              { background:url(images/tabs_link_bg.gif) repeat-y 100% #E7EFEF; }
 ul.tabs a:hover                 { background-color:#D8E6E6; background-image:url(images/tabs_link_over_bg.gif); }
