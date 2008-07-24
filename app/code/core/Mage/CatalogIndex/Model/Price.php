@@ -51,13 +51,13 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
 
     public function addMinimalPrices(Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection)
     {
-        $minimalPrices = $this->_getResource()->getMinimalPrices($collection->getSelect());
+        $minimalPrices = $this->_getResource()->getMinimalPrices($collection->getLoadedIds());
 
-        $indexValues = array();
         foreach ($minimalPrices as $row) {
             $item = $collection->getItemById($row['entity_id']);
-            if ($item)
+            if ($item) {
                 $item->setData('minimal_price', $row['value']);
+            }
         }
     }
 }

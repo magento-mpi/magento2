@@ -167,17 +167,13 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
         return $this->_getReadAdapter()->fetchCol($select);
     }
 
-    public function getMinimalPrices($entitySelect)
+    public function getMinimalPrices($ids)
     {
-        $select = clone $entitySelect;
-        $select->reset(Zend_Db_Select::COLUMNS)
-            ->reset(Zend_Db_Select::ORDER);
-
-        $select->from('', array('price_table.entity_id', 'value'=>"(price_table.value)"))
-            ->join(array('price_table'=>$this->getTable('catalogindex/minimal_price')), 'price_table.entity_id=e.entity_id', array())
+        $select = $this->_getReadAdapter()->select();
+        $select->from(array('price_table'=>$this->getTable('catalogindex/minimal_price')), array('price_table.entity_id', 'value'=>"(price_table.value)"))
+            ->where('price_table.entity_id in (?)', $ids)
             ->where('price_table.store_id = ?', $this->getStoreId())
             ->where('price_table.customer_group_id = ?', $this->getCustomerGroupId());
-
         return $this->_getReadAdapter()->fetchAll($select);
     }
 }

@@ -1159,4 +1159,14 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
 
         return $this;
     }
+
+    /**
+     * Returns already loaded element ids
+     *
+     * return array
+     */
+    public function getLoadedIds()
+    {
+        return array_keys($this->_items);
+    }
 }
