@@ -48,7 +48,7 @@
             <?php if ($_minimalPrice <> $_maximalPrice): ?>
             <p class="price-from">
                 <span class="price-label"><?php echo $this->__('From') ?>:</span>
-                <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
+                <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                     <span class="price-excluding-tax">
                         <span class="label"><?php echo $this->__('Excl. Tax') ?>:</span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
@@ -65,7 +65,7 @@
                 <?php $_maximalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_maximalPrice, true); ?>
                 <p class="price-to">
                     <span class="price-label"><?php echo $this->__('To') ?>:</span>
-                    <?php if ($this->helper('tax')->displayBothPrices() && ($_maximalPriceTax != $_maximalPriceInclTax)): ?>
+                    <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                         <span class="price-excluding-tax">
                             <span class="label"><?php echo $this->__('Excl. Tax') ?>:</span>
                             <?php echo Mage::helper('core')->currency($_maximalPriceTax) ?>
@@ -79,7 +79,7 @@
                     <?php endif; ?>
                 </p>
             <?php else: ?>
-                <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
+                <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                     <span class="price-excluding-tax">
                         <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax') ?>:</span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
