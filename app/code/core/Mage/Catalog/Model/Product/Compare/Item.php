@@ -86,7 +86,8 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
 
         $customerItemCollection = $this->getResourceCollection()
             ->setCustomerId($customer->getId())
-            ->load();;
+            ->useProductItem(true)
+            ->load();
 
         $customerProductIds = $customerItemCollection->getProductIds();
 
