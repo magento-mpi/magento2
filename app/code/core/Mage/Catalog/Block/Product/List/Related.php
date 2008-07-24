@@ -29,19 +29,23 @@
 class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product_Abstract
 {
     protected $_itemCollection;
+
     protected function _prepareData()
     {
-        $collection = Mage::registry('product')->getRelatedProductCollection()
+        $product = Mage::registry('product');
+        /* @var $product Mage_Catalog_Model_Product */
+
+        $this->_itemCollection = $product->getRelatedProductCollection()
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addAttributeToSelect('required_options')
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
             ->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds());
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-        $collection->load();
-        $this->_itemCollection = $collection;
+//        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
+
+        $this->_itemCollection->load();
 
         foreach ($this->_itemCollection as $product) {
             $product->setDoNotUseCategoryId(true);
@@ -56,8 +60,8 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
         return parent::_beforeToHtml();
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         return $this->_itemCollection;
     }
-
 }
