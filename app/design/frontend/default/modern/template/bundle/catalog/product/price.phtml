@@ -30,7 +30,7 @@
         <?php if ($_product->getPriceView()): ?>
             <p class="minimal-price">
                 <span class="price-label"><?php echo $this->__('As low as') ?>:</span>
-                <?php if ($this->helper('tax')->displayBothPrices() && ($_minimalPriceTax != $_minimalPriceInclTax)): ?>
+                <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                     <span class="price-excluding-tax">
                         <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax') ?>:</span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
