@@ -327,7 +327,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 return Mage::helper('bundle')->__('Please select options for product.');
             }
 
-            $optionsCollection = $this->getOptionsByIds($optionIds);
+            //$optionsCollection = $this->getOptionsByIds($optionIds);
+            $optionsCollection = $this->getOptionsCollection();
 
             foreach ($optionsCollection->getItems() as $option) {
                 if ($option->getRequired() && !isset($options[$option->getId()])) {
