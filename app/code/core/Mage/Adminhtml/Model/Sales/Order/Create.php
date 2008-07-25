@@ -895,12 +895,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     public function importPostData($data)
     {
-    	if (is_array($data)) {
-    		$this->addData($data);
-    	}
-    	else {
-    		return $this;
-    	}
+        if (is_array($data)) {
+            $this->addData($data);
+        }
+        else {
+            return $this;
+        }
 
         if (isset($data['account'])) {
             $this->setAccountData($data['account']);
@@ -978,6 +978,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 if ($options) {
                     $orderItem->setProductOptions($options);
                 }
+
+                if ($item->getParentItem()) {
+                    $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
+                }
+
                 $order->addItem($orderItem);
             }
         }
@@ -996,6 +1001,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 if ($options) {
                     $orderItem->setProductOptions($options);
                 }
+
+                if ($item->getParentItem()) {
+                    $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
+                }
+
                 $order->addItem($orderItem);
             }
         }
