@@ -1574,7 +1574,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
     line-height:0;
     }
 .compare-products tbody.remove-buttons td img { float:right; }
-
+.compare-products tr.last td {border-bottom:1px solid #ccc!important;}
 
 /* Reviews */
 .my-review-detail .product-image { float:left; width:135px; }
