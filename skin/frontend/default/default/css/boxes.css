@@ -229,14 +229,15 @@ p.required {
     float:left;
     width:55%;
     }
-
+.page-head .link-feed {float:right; margin-top:9px;}
+.button-level .link-feed {float:none!important; font-size:1em!important; }
 
 /* Category list heading */
 .category-head {
     margin-bottom:7px;
     }
 .category-head h2 {
-    width:100%;
+    max-width:100%;
     margin:0;
     padding:3px 0;
     color:#0a263c;
@@ -247,6 +248,7 @@ p.required {
     }
 
 .box-header {font-size:1.05em;text-align:left;background:#EEEEEE none repeat scroll 0%;font-weight:bold;padding:2px 8px;margin:10px 0px}
+.category-head  .link-feed {float:right; margin-top:10px; position:relative;}
 
 /********************* Tables */
 td.label        { font-weight:bold; }
