@@ -229,12 +229,16 @@ class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
                     );
                 }
                 elseif (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {
-                    $result['goto_section'] = 'shipping_method';
+
+                   $result['goto_section'] = 'shipping_method';
+
                     $result['update_section'] = array(
                         'name' => 'shipping-method',
                         'html' => $this->_getShippingMethodsHtml()
                     );
+
                     $result['allow_sections'] = array('shipping');
+                    $result['duplicateBillingInfo'] = 'true';
                 }
                 else {
                     $result['goto_section'] = 'shipping';

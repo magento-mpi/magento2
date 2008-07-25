@@ -29,7 +29,6 @@ Checkout.prototype = {
         this.method = '';
         this.payment = '';
         this.loadWaiting = false;
-
         this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
 
         //this.onSetMethod = this.nextStep.bindAsEventListener(this);
@@ -183,6 +182,12 @@ Checkout.prototype = {
                 $('opc-'+e).addClassName('allow');
             });
         }
+
+        if(response.duplicateBillingInfo)
+        {
+            shipping.setSameAsBilling(true);
+        }
+
         if (response.goto_section) {
             this.reloadProgressBlock();
             this.gotoSection(response.goto_section);
