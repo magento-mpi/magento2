@@ -328,6 +328,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
         foreach ($address->getAllItems() as $item) {
             $orderItem = $convertQuote->itemToOrderItem($item->getQuoteItem());
+            if ($item->getQuoteItem()->getParentItem()) {
+                $orderItem->setParentItem($order->getItemByQuoteItemId($item->getQuoteItem()->getParentItem()->getId()));
+            }
             $order->addItem($orderItem);
         }
 

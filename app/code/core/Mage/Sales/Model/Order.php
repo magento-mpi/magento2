@@ -1265,7 +1265,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
          */
         if (!$this->getId()) {
             foreach ($this->getAllItems() as $item) {
-                if ($parent = $item->getQuoteParentItemId()) {
+                if ($parent = $item->getQuoteParentItemId() && !$item->getParentItem()) {
                     $item->setParentItem($this->getItemByQuoteItemId($parent));
                 }
             }
@@ -1356,17 +1356,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $convertor = Mage::getModel('sales/convert_order');
         $invoice = $convertor->toInvoice($this);
         foreach ($this->getAllItems() as $orderItem) {
-
             if (!$orderItem->isDummy() && !$orderItem->getQtyToInvoice()) {
                 continue;
             }
-
             if ($orderItem->isDummy() && !$this->_needToAddDummy($orderItem, $qtys)) {
                 continue;
             }
-
             $item = $convertor->itemToInvoiceItem($orderItem);
-
             if ($orderItem->isDummy()) {
                 $qty = 1;
             } else {
@@ -1380,7 +1376,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $item->setQty($qty);
             $invoice->addItem($item);
         }
-
         $invoice->collectTotals();
 
         return $invoice;

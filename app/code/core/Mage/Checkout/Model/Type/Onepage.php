@@ -423,7 +423,11 @@ class Mage_Checkout_Model_Type_Onepage
         $order->setPayment($convertQuote->paymentToOrderPayment($this->getQuote()->getPayment()));
 
         foreach ($this->getQuote()->getAllItems() as $item) {
-            $order->addItem($convertQuote->itemToOrderItem($item));
+            $orderItem = $convertQuote->itemToOrderItem($item);
+            if ($item->getParentItem()) {
+                $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
+            }
+            $order->addItem($orderItem);
         }
 
         /**
