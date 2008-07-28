@@ -20,7 +20,6 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-
 var bundleTemplateBox = '<table class="border" cellpadding="0" cellspacing="0">' +
     '    <thead>' +
     '        <tr class="headings">' +
@@ -67,7 +66,7 @@ Bundle.Selection.prototype = {
     gridSelection : $H({}),
 
     initialize : function() {
-        this.templateBox = '<div class="grid tier form-list" id="' + this.idLabel + '_box_{{parentIndex}}">' + bundleTemplateBox + '</div>';
+        this.templateBox = '<div class="grid form-list" id="' + this.idLabel + '_box_{{parentIndex}}"><div class="hor-scroll">' + bundleTemplateBox + '</div></div>';
 
         this.templateRow = '<tr class="selection" id="' + this.idLabel + '_row_{{index}}">' + bundleTemplateRow + '</tr>';
     },
