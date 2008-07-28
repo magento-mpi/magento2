@@ -36,14 +36,10 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
         $page   = $this->getPage();
         $shift  = array(0, 10, 0);
 
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir()."/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf");
-        $page->setFont($font, 7);
-
-        #$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-
+        $this->_setFontRegular();
         $page->drawText($item->getQty()*1, 35, $pdf->y, 'UTF-8');
 
-        foreach (Mage::helper('core/string')->str_split($item->getName(), 80, true, true) as $key => $part) {
+        foreach (Mage::helper('core/string')->str_split($item->getName(), 60, true, true) as $key => $part) {
             $page->drawText($part, 60, $pdf->y-$shift[0], 'UTF-8');
             if ($key > 0) {
                 $shift[0] += 10;
@@ -53,18 +49,18 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
         $options = $this->getItemOptions();
         if (isset($options)) {
             foreach ($options as $option) {
-                $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_ITALIC), 7);
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 80) as $_option) {
+                // draw options label
+                $this->_setFontItalic();
+                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60,false,true) as $_option) {
                     $page->drawText($_option, 60, $pdf->y-$shift[1], 'UTF-8');
                     $shift[1] += 10;
                 }
-
-                $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-
+                // draw options value
+                $this->_setFontRegular();
                 if ($option['value']) {
                     $values = explode(', ', strip_tags($option['value']));
                     foreach ($values as $value) {
-                        foreach (Mage::helper('core/string')->str_split($value, 80) as $_value) {
+                        foreach (Mage::helper('core/string')->str_split($value, 60,true,true) as $_value) {
                             $page->drawText($_value, 65, $pdf->y-$shift[1], 'UTF-8');
                             $shift[1] += 10;
                         }
@@ -78,7 +74,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
             $shift{1} += 10;
         }
 
-        foreach (Mage::helper('core/string')->str_split($item->getSku(), 36) as $key => $part) {
+        foreach (Mage::helper('core/string')->str_split($item->getSku(), 25) as $key => $part) {
             $page->drawText($part, 440, $pdf->y-$shift[2], 'UTF-8');
             if ($key > 0) {
                 $shift[2] += 10;
