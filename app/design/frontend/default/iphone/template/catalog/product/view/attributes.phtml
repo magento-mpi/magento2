@@ -19,19 +19,21 @@
  */
 
 /**
- * Simple product deatle template
+ * Product additional attributes template
  *
- * @see Mage_Catalog_Block_Product_View_Type_Simple
+ * @see Mage_Catalog_Block_Product_View_Attributes
  */
 ?>
-<?php $_product = $this->getProduct() ?>
-		
-		<?php if($_product->isSaleable()): ?>
-			<p><small><strong><?php echo $this->__('Availability: In stock.') ?></strong></small></p>
-		<?php else: ?>
-			<p><small><strong><?php echo $this->__('Availability: Out of stock.') ?></strong></small></p>
-		<?php endif; ?>
-		
-		<span class="product-price"><?php echo $this->getPriceHtml($_product) ?></span>
-	</div><div class="clear"></div>
+<?php if($_additional = $this->getAdditionalData()): ?>
+<div class="collateral-box attribute-specs">
+    <table cellspacing="0" class="data-table" id="product-attribute-specs-table">
+    <?php foreach ($_additional as $_data): ?>
+    <tr>
+        <td class="label"><?php echo $_data['label'] ?></td>
+        <td class="data"><?php echo $_data['value'] ?></td>
+    </tr>
+    <?php endforeach; ?>
+    </table>
+    <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
 </div>
+<?php endif;?>

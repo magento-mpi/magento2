@@ -21,8 +21,7 @@
 <?php $_product = $this->getProduct() ?>
 <?php $_finalPrice = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice()); ?>
 <?php $_finalPriceInclTax = Mage::helper('tax')->getPrice($_product, $_product->getFinalPrice(), true); ?>
-
-<div class="price-box">
+<div class="product-price">
     <p class="price-as-configured">
         <span class="price-label"><?php echo $this->helper('bundle')->__('Price as configured') ?>:</span>
         <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>

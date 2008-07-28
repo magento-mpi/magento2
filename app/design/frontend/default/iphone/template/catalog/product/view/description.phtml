@@ -19,19 +19,11 @@
  */
 
 /**
- * Simple product deatle template
+ * Product description template
  *
- * @see Mage_Catalog_Block_Product_View_Type_Simple
+ * @see Mage_Catalog_Block_Product_View_Description
  */
 ?>
-<?php $_product = $this->getProduct() ?>
-		
-		<?php if($_product->isSaleable()): ?>
-			<p><small><strong><?php echo $this->__('Availability: In stock.') ?></strong></small></p>
-		<?php else: ?>
-			<p><small><strong><?php echo $this->__('Availability: Out of stock.') ?></strong></small></p>
-		<?php endif; ?>
-		
-		<span class="product-price"><?php echo $this->getPriceHtml($_product) ?></span>
-	</div><div class="clear"></div>
+<div class="product-specs">
+<?php echo nl2br($this->getProduct()->getDescription()) ?>
 </div>

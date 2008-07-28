@@ -17,21 +17,17 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Simple product deatle template
- *
- * @see Mage_Catalog_Block_Product_View_Type_Simple
- */
 ?>
+
 <?php $_product = $this->getProduct() ?>
-		
-		<?php if($_product->isSaleable()): ?>
-			<p><small><strong><?php echo $this->__('Availability: In stock.') ?></strong></small></p>
-		<?php else: ?>
-			<p><small><strong><?php echo $this->__('Availability: Out of stock.') ?></strong></small></p>
-		<?php endif; ?>
-		
-		<span class="product-price"><?php echo $this->getPriceHtml($_product) ?></span>
-	</div><div class="clear"></div>
-</div>
+
+<?php if($_product->isSaleable()): ?>
+    <fieldset class="add-to-cart-box">
+        <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+        <?php if(!$_product->isGrouped()): ?>
+        <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+        <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+        <?php endif; ?>
+        <button class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
+    </fieldset>
+<?php endif; ?>

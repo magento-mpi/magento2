@@ -25,7 +25,7 @@ $_options = Mage::helper('core')->decorateArray($this->getOptions());
 ?>
 <?php if ($_product->isSaleable()):?>
     <?php if (count($_options)): ?>
-        <dl>
+        <dl class="bundle-options">
         <?php foreach ($_options as $_option): ?>
             <?php if (!$_option->getSelections()): ?>
                 <?php continue; ?>
