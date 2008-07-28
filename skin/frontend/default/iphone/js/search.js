@@ -6,4 +6,5 @@ function showSearchForm(a)
 		$('search').value = '';
 		$('search').focus();
 	}
+	return false;
 }
