@@ -558,6 +558,20 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Retrieve collection related link
+     */
+    public function getRelatedLinkCollection()
+    {
+        $collection = $this->getLinkInstance()->useRelatedLinks()
+            ->getLinkCollection();
+        $collection->setProduct($this);
+        $collection->addLinkTypeIdFilter();
+        $collection->addProductIdFilter();
+        $collection->joinAttributes();
+        return $collection;
+    }
+
+    /**
      * Retrieve array of up sell products
      *
      * @return array
@@ -604,7 +618,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Retrieve array of cross sell roducts
+     * Retrieve collection up sell link
+     */
+    public function getUpSellLinkCollection()
+    {
+        $collection = $this->getLinkInstance()->useUpSellLinks()
+            ->getLinkCollection();
+        $collection->setProduct($this);
+        $collection->addLinkTypeIdFilter();
+        $collection->addProductIdFilter();
+        $collection->joinAttributes();
+        return $collection;
+    }
+
+    /**
+     * Retrieve array of cross sell products
      *
      * @return array
      */
@@ -646,6 +674,34 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             ->getProductCollection()
             ->setIsStrongMode();
         $collection->setProduct($this);
+        return $collection;
+    }
+
+    /**
+     * Retrieve collection cross sell link
+     */
+    public function getCrossSellLinkCollection()
+    {
+        $collection = $this->getLinkInstance()->useCrossSellLinks()
+            ->getLinkCollection();
+        $collection->setProduct($this);
+        $collection->addLinkTypeIdFilter();
+        $collection->addProductIdFilter();
+        $collection->joinAttributes();
+        return $collection;
+    }
+    
+    /**
+     * Retrieve collection grouped link
+     */
+    public function getGroupedLinkCollection()
+    {
+        $collection = $this->getLinkInstance()->useGroupedLinks()
+            ->getLinkCollection();
+        $collection->setProduct($this);
+        $collection->addLinkTypeIdFilter();
+        $collection->addProductIdFilter();
+        $collection->joinAttributes();
         return $collection;
     }
 
@@ -753,6 +809,62 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $newOptionsArray[] = $_option->prepareOptionForDuplicate();
         }
         $newProduct->setProductOptions($newOptionsArray);
+
+        /* Prepare Related*/
+        $data = array();
+        $this->getLinkInstance()->useRelatedLinks();
+        $attributes = array();
+        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
+            if (isset($_attribute['code'])) {
+                $attributes[]=$_attribute['code'];
+            }
+        }
+        foreach ($this->getRelatedLinkCollection() as $_link) {
+            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
+        }
+        $newProduct->setRelatedLinkData($data);
+
+        /* Prepare UpSell*/
+        $data = array();
+        $this->getLinkInstance()->useUpSellLinks();
+        $attributes = array();
+        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
+            if (isset($_attribute['code'])) {
+                $attributes[]=$_attribute['code'];
+            }
+        }
+        foreach ($this->getUpSellLinkCollection() as $_link) {
+            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
+        }
+        $newProduct->setUpSellLinkData($data);
+
+        /* Prepare Cross Sell */
+        $data = array();
+        $this->getLinkInstance()->useCrossSellLinks();
+        $attributes = array();
+        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
+            if (isset($_attribute['code'])) {
+                $attributes[]=$_attribute['code'];
+            }
+        }
+        foreach ($this->getCrossSellLinkCollection() as $_link) {
+            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
+        }
+        $newProduct->setCrossSellLinkData($data);
+
+        /* Prepare Grouped */
+        $data = array();
+        $this->getLinkInstance()->useGroupedLinks();
+        $attributes = array();
+        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
+            if (isset($_attribute['code'])) {
+                $attributes[]=$_attribute['code'];
+            }
+        }
+        foreach ($this->getGroupedLinkCollection() as $_link) {
+            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
+        }
+        $newProduct->setGroupedLinkData($data);
 
         $newId = $newProduct->getId();
 

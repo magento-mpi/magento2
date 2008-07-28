@@ -91,6 +91,15 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
         return $collection;
     }
 
+    /**
+     * Retrieve link collection
+     */
+    public function getLinkCollection()
+    {
+        $collection = Mage::getResourceModel('catalog/product_link_collection')
+            ->setLinkModel($this);
+        return $collection;
+    }
 
     public function getAttributes($type=null)
     {
