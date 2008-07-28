@@ -126,12 +126,18 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $addressId = $googleAddress['id'];
 
 
+            $regionCode = $googleAddress['region']['VALUE'];
+            $regionModel = Mage::getModel('directory/region')->loadByCode($regionCode);
+            $regionId = $regionModel->getId();
+
             $address->setCountryId($googleAddress['country-code']['VALUE'])
-                ->setRegion($googleAddress['region']['VALUE'])
+                ->setRegion($regionCode)
+                ->setRegionId($regionId)
                 ->setCity($googleAddress['city']['VALUE'])
                 ->setPostcode($googleAddress['postal-code']['VALUE']);
             $billingAddress->setCountryId($googleAddress['country-code']['VALUE'])
-                ->setRegion($googleAddress['region']['VALUE'])
+                ->setRegion($regionCode)
+                ->setRegionId($regionId)
                 ->setCity($googleAddress['city']['VALUE'])
                 ->setPostcode($googleAddress['postal-code']['VALUE']);
 
@@ -156,25 +162,19 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
                 $errors = array();
                 $rates = array();
+                $rateCodes = array();
                 foreach ($result->getAllRates() as $rate) {
                     if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
                         $errors[$rate->getCarrierTitle()] = 1;
                     } else {
                         $rates[$rate->getCarrierTitle().' - '.$rate->getMethodTitle()] = $rate->getPrice();
+                        $rateCodes[$rate->getCarrierTitle().' - '.$rate->getMethodTitle()] = $rate->getCode();
                     }
                 }
 
                 foreach ($gRequestMethods as $method) {
                     $methodName = is_array($method) ? $method['name'] : $method;
                     $result = new GoogleResult($addressId);
-
-                    if ($this->getData('root/calculate/tax/VALUE')=='true') {
-                        $address->setCollectShippingRates(false)->collectTotals();
-                        $billingAddress->setCollectShippingRates(false)->collectTotals();
-                        $taxAmount = $address->getTaxAmount();
-                        $taxAmount += $billingAddress->getTaxAmount();
-                        $result->setTaxDetails($taxAmount);
-                    }
 
                     if (!empty($errors)) {
                         $continue = false;
@@ -191,13 +191,25 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                         }
                     }
                     if (!empty($rates[$methodName])) {
+                        if ($this->getData('root/calculate/tax/VALUE')=='true') {
+                            $address->setShippingMethod($rateCodes[$methodName]);
+                            $address->setCollectShippingRates(false)->collectTotals();
+                            $billingAddress->setCollectShippingRates(false)->collectTotals();
+
+                            $taxAmount = $address->getTaxAmount();
+                            $taxAmount += $billingAddress->getTaxAmount();
+
+                            $result->setTaxDetails($taxAmount);
+                        }
+
                         $result->SetShippingDetails($methodName, $rates[$methodName], "true");
                         $merchantCalculations->AddResult($result);
                     }
                 }
             } elseif ($this->getData('root/calculate/tax/VALUE')=='true') {
-                $billingAddress->setCollectShippingRates(false)->collectTotals();
+                $address->setShippingMethod(null);
                 $address->setCollectShippingRates(false)->collectTotals();
+                $billingAddress->setCollectShippingRates(false)->collectTotals();
                 $taxAmount = $address->getTaxAmount();
                 $taxAmount += $billingAddress->getTaxAmount();
                 $result = new GoogleResult($addressId);
