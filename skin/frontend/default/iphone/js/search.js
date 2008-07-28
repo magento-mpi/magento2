@@ -1,6 +1,9 @@
 
-function showSearchForm()
+function showSearchForm(a)
 {
 	Effect.SlideDown('topSearch', {scaleContent:false, duration:0.3});
-	return false;
+	if(a > 0){
+		$('search').value = '';
+		$('search').focus();
+	}
 }
