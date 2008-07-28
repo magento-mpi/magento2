@@ -130,7 +130,8 @@ h1#logo {
 .search-form {
 	text-align:center;
 	width:100%;
-	border-bottom:1px solid #bebebe;
+	border:0;
+	height:35px !important;
 }
 .search-form-cont 	{ background:#d1d1d1 url(../images/search-bg.gif) repeat-x bottom left; padding:0 10px; }
 .search-form .col-1 { width:75%; }
