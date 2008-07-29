@@ -726,15 +726,14 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
     overflow:hidden;
     width:300px;
     height:300px;
-    z-index:9;border:1px solid #cacaca;
+    z-index:9;
+	border:1px solid #cacaca;
     }
 .product-img-box .main-product-img img {
     position:absolute;
-    left:2px;
-    top:2px;
-    width:100%;
+    left:0;
+    top:0;
     cursor:move;
-    z-index:99;
     }
 .image-zoom {
     z-index:9;
@@ -745,7 +744,6 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
     padding:0 28px 0 28px;
     cursor:pointer;
     }
-#image          { width:auto; }
 #track          { position:relative; height:24px; }
 #handle         { position:absolute; left:0; top:3px; width:9px; height:18px;background:url(../images/magnifier_handle.gif) no-repeat;  }
 .btn-zoom-out   { position:absolute; left:10px; top:7px;}

@@ -65,8 +65,4 @@ input.form-checkbox { width:13px; height:13px; }
 .col-left, .col-right, .col-main    { display:inline; }
 
 /* Clearer */
-.clear { display:block; clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden;	}
-
-/* Fix for IE hover bug */
-#nav iframe,
-.truncated iframe { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
+.clear { clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
