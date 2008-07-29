@@ -32,7 +32,7 @@ function toggleMenu(el, over)
 }
 
 ieHover = function() {
-	var ieULs, iframe, li;
+	var ieULs, iframe;
 	if($('nav')){
 	    ieULs = $('nav').getElementsByTagName('ul');
     	for (var j=0; j<ieULs.length; j++) {

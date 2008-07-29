@@ -19,19 +19,10 @@
 /***********[ Layout ]***********/
 /****************************************************/ 
 
-.container {
-	width:950px; 
-	border:1px solid #ddd; 
-	margin:0 auto; padding:10px;
-	}
+.container { width:950px; border:1px solid #ddd; margin:0 auto; padding:10px; }
 .header {}
-.middle {
-	padding:0 0 10px;
-	}
-.footer {
-	border:1px solid #ddd;
-	padding:10px;
-	}
+.middle { padding:0 0 10px; }
+.footer { border:1px solid #ddd; padding:10px; }
 
 /********************** Columns */ 
 
@@ -329,8 +320,29 @@ p.required {
 
 /**********************General Product */
 .product-name {}
-.product-image {}
 .product-details {}
+
+.product-options { padding:10px; border:1px solid #ddd; }
+.product-options dt { padding:10px 0 0; font-weight:normal; }
+.product-options dt label { color:#2f2f2f; }
+.product-options dt .qty-holder { float:right; margin-right:15px; }
+.product-options dt .qty-holder label { vertical-align:middle; }
+.product-options dt .qty-disabled { background:none; border:0; padding:3px; color:#2f2f2f; }
+.product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px solid #e4e4e4; }
+.product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
+.product-options dd input.input-text { width:98%; }
+.product-options dd textarea { width:98%; height:8em; }
+.product-options dd select { width:99%; }
+.product-options dd .multiselect { width:99%; }
+.product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
+.product-options dd ul.options-list { margin-right:5px; }
+.product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
+.product-options dd ul.options-list input.form-radio { float:left; margin:3px 0 0 0; }
+.product-options dd ul.options-list input.form-checkbox { float:left; margin:4px 0 0 0; }
+.product-options dd ul.options-list .label { margin-left:18px; }
+.product-options dd ul.options-list label { font-weight:normal; }
+.product-options dd ul.validation-failed { padding:0 7px; }
+.product-options p.required { margin-bottom:0; padding:15px 0 0; }
 
 
 /****************************************************/
@@ -350,12 +362,11 @@ p.required {
 /********************** Category Products */ 
 
 .category-products {}
-.product-image {}
 
 /*Type:Grid*/
-	.category-products table.products-grid td {padding:5px; border:1px solid #ddd; width:33%}
+	.category-products table.products-grid td { padding:5px; border:1px solid #ddd; width:33% }
 /*Type:List*/
-	.category-products ul.products-list .item{padding:5px; border:1px solid #ddd;}
+	.category-products ul.products-list .item { padding:5px; border:1px solid #ddd; }
 	.category-products ul.products-list .item .product-image {}
 	.category-products ul.products-list .item .product-shop {}
 
@@ -381,29 +392,12 @@ p.required {
 	.additional-data {}
 	.up-sell {}
 
-/***********************************image ZOOM*/
-.product-media .product-image {
-    position:relative;
-    overflow:hidden;
-    width:265px;
-    height:265px;
-    z-index:9;
-    }
-.product-media .product-image img {
-    position:absolute;
-    left:2px;
-    top:2px;
-    width:100%;
-    cursor:move;
-    z-index:99;
-    }	
-.image-zoom {
-    z-index:9; position:relative; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px; cursor:pointer; }
-#image { width:auto; }
-#track { position:relative; height:18px; }
-#handle { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) no-repeat;  }
-.btn-zoom-out { position:absolute; left:2px; top:1px;}
-.btn-zoom-in { position:absolute; right:2px; top:1px;}
-	
-	
-	
+/*********************************** Image ZOOM */
+.product-img-box { float:left; width:265px; }
+.product-img-box .product-image { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
+.product-img-box .product-image img { position:absolute; left:0; top:0; cursor:move; }
+.image-zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px; padding:0 28px; background:url(../images/slider_bg.gif) 50% 50% no-repeat; cursor:pointer; }
+.image-zoom #track { position:relative; height:18px; }
+.image-zoom #handle { position:absolute; left:0; top:-1px; width:9px; height:22px; background:url(../images/magnifier_handle.gif) 0 0 no-repeat;  }
+.image-zoom .btn-zoom-out { position:absolute; left:2px; top:0; }
+.image-zoom .btn-zoom-in { position:absolute; right:2px; top:0; }

@@ -19,6 +19,7 @@
 /****************[ Mage_CSS_B Clears ]***************/
 /****************************************************/
 
+.clear,
 .product-essential:after,
 .pager:after,
 .sorter:after,
@@ -28,13 +29,4 @@
 .middle:after,
 .footer:after,
 .box:after,
-.clearfix:after {
-	content:".";
-	display:block;
-	clear:both;
-	height:0;
-	font-size:0;
-	line-height:0em;
-	visibility:hidden;
-	overflow:hidden;
-	}
+.clearfix:after { content:"."; display:block; clear:both; height:0; font-size:0; line-height:0; visibility:hidden; overflow:hidden;	}

@@ -110,7 +110,7 @@ Product.Zoom.prototype = {
 
         this.trackEl.style.visibility = this.showFull ? 'hidden' : 'visible';
         this.containerEl.style.overflow = this.showFull ? 'visible' : 'hidden';
-        this.containerEl.style.zIndex = this.showFull ? '999' : '9';
+		this.containerEl.style.zIndex = this.showFull ? '1000' : '9';
 
         return this;
     },
