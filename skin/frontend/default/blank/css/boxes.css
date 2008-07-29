@@ -394,8 +394,9 @@ p.required {
 
 /*********************************** Image ZOOM */
 .product-img-box { float:left; width:265px; }
-.product-img-box .product-image { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
-.product-img-box .product-image img { position:absolute; left:0; top:0; cursor:move; }
+.product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
+.product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
+.product-img-box .product-image { margin:0; }
 .image-zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px; padding:0 28px; background:url(../images/slider_bg.gif) 50% 50% no-repeat; cursor:pointer; }
 .image-zoom #track { position:relative; height:18px; }
 .image-zoom #handle { position:absolute; left:0; top:-1px; width:9px; height:22px; background:url(../images/magnifier_handle.gif) 0 0 no-repeat;  }

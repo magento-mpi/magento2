@@ -54,3 +54,6 @@
 .mini-related-items .product-images img { float:left; }
 .header-top-container { position:relative; }
 #nav ul li.parent { margin-bottom:-3px; }
+
+/* Clearer */
+.clear { clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }

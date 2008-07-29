@@ -26,9 +26,10 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-<p class="product-image">
+<p class="product-image-zoom">
     <img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
 </p>
+<p id="track_hint"><?php echo $this->__('Double click on above image to view full picture') ?></p>
 <div class="image-zoom" id="track_outer">
     <img id="zoom_out" src="<?php echo $this->getSkinUrl('images/slider_btn_zoom_out.gif') ?>" alt="<?php echo $this->__('Zoom Out') ?>" class="btn-zoom-out" />
     <div id="track">
@@ -43,8 +44,8 @@
 </script>
 <?php else: ?>
 <p class="product-image">
-	<img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(265); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
-</p>	
+    <img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(265); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+</p>
 <?php endif; ?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">

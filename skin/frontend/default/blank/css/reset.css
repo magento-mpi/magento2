@@ -17,12 +17,9 @@
 
 * { margin:0; padding:0; }
 
-body {
-    padding:10px;
-    color:#444;
-    font:11px/1.55em arial, helvetica, sans-serif;
-    }
-a img       { border:0;}
+body        { background:#fff; padding:10px; color:#444; font:11px/1.55em Arial, Helvetica, sans-serif;  }
+
+img         { border:0; vertical-align:top; }
 :focus      { outline: 0; }
 
 
@@ -36,23 +33,26 @@ h6          { margin-bottom:.1em; font-size:1em; line-height:1.35em; }
 
 
 /* Table */
+table       { border:0; font-size:100%; }
 th          { vertical-align:top; font-weight:normal; text-align:left; }
 td          { vertical-align:top; }
 
 /* Paragraph */
-p           { margin-bottom:.9em; }
-address     { margin-bottom:.4em; font-style:normal; line-height:1.4em; }
-cite        { font-style:normal; font-size:10px;}
+address     { font-style:normal; }
+cite        { font-style:normal; font-size:10px; }
+q,
+blockquote  { quotes:none; }
 q:before, 
-q:after     { content:'';}
+q:after     { content:''; }
 
 /* Form */
-form        { display:inline;}
+form        { display:inline; }
 fieldset    { border:none; }
 legend      { display:none;}
-label       { color:#555; font-weight:bold; }
+label       { font-weight:bold; }
 input, 
 select, 
+textarea,
 button      { vertical-align:middle; }
 
 /* Lists */
@@ -60,6 +60,4 @@ dt          { display:block; font-weight:bold; }
 ul,ol       { list-style:none; }
 
 /* Size */
-small       { font-size:.85em; }
-big         { font-size:1.15em; }
-hr          { height:0; margin:8px 0; overflow:hidden; visibility:hidden; }
+small,big { font-size:1em; }
