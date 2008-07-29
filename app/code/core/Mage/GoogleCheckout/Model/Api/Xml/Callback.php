@@ -127,19 +127,22 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
 
             $regionCode = $googleAddress['region']['VALUE'];
-            $regionModel = Mage::getModel('directory/region')->loadByCode($regionCode);
+            $countryCode = $googleAddress['country-code']['VALUE'];
+            $regionModel = Mage::getModel('directory/region')->loadByCode($regionCode, $countryCode);
             $regionId = $regionModel->getId();
 
-            $address->setCountryId($googleAddress['country-code']['VALUE'])
+            $address->setCountryId($countryCode)
                 ->setRegion($regionCode)
                 ->setRegionId($regionId)
                 ->setCity($googleAddress['city']['VALUE'])
                 ->setPostcode($googleAddress['postal-code']['VALUE']);
-            $billingAddress->setCountryId($googleAddress['country-code']['VALUE'])
+            $billingAddress->setCountryId($countryCode)
                 ->setRegion($regionCode)
                 ->setRegionId($regionId)
                 ->setCity($googleAddress['city']['VALUE'])
                 ->setPostcode($googleAddress['postal-code']['VALUE']);
+
+            $address->setCollectShippingRates(true)->collectShippingRates();
 
             if ($gRequestMethods = $this->getData('root/calculate/shipping/method')) {
                 $carriers = array();
@@ -167,8 +170,14 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                     if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
                         $errors[$rate->getCarrierTitle()] = 1;
                     } else {
-                        $rates[$rate->getCarrierTitle().' - '.$rate->getMethodTitle()] = $rate->getPrice();
-                        $rateCodes[$rate->getCarrierTitle().' - '.$rate->getMethodTitle()] = $rate->getCode();
+                        $k = $rate->getCarrierTitle().' - '.$rate->getMethodTitle();
+                        $price = $rate->getPrice();
+                        if ($price) {
+                            $price = Mage::helper('tax')->getShippingPrice($price, false, $address);
+                        }
+
+                        $rates[$k] = $price;
+                        $rateCodes[$k] = $rate->getCarrier() . '_' . $rate->getMethod();
                     }
                 }
 
@@ -190,9 +199,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                             continue;
                         }
                     }
-                    if (!empty($rates[$methodName])) {
+
+                    if (isset($rates[$methodName])) {
                         if ($this->getData('root/calculate/tax/VALUE')=='true') {
                             $address->setShippingMethod($rateCodes[$methodName]);
+
                             $address->setCollectShippingRates(false)->collectTotals();
                             $billingAddress->setCollectShippingRates(false)->collectTotals();
 
@@ -208,10 +219,13 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 }
             } elseif ($this->getData('root/calculate/tax/VALUE')=='true') {
                 $address->setShippingMethod(null);
+
                 $address->setCollectShippingRates(false)->collectTotals();
                 $billingAddress->setCollectShippingRates(false)->collectTotals();
+
                 $taxAmount = $address->getTaxAmount();
                 $taxAmount += $billingAddress->getTaxAmount();
+
                 $result = new GoogleResult($addressId);
                 $result->setTaxDetails($taxAmount);
                 $merchantCalculations->addResult($result);
@@ -368,7 +382,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         if (!empty($method)) {
             $qAddress->setShippingMethod($method)
                 ->setShippingDescription($shipping['shipping-name']['VALUE'])
-                ->setShippingAmount($shipping['shipping-cost']['VALUE']);
+                ->setShippingAmount($shipping['shipping-cost']['VALUE'], true);
         }
 
         $qAddress->setGrandTotal($this->getData('root/order-total/VALUE'));

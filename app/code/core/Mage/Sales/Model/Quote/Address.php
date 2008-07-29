@@ -625,11 +625,13 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         return $this->setData('applied_taxes', serialize($data));
     }
 
-    public function setShippingAmount($value)
+    public function setShippingAmount($value, $alreadyExclTax = false)
     {
         if (Mage::helper('tax')->shippingPriceIncludesTax()) {
             $includingTax = Mage::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
-            $value = Mage::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
+            if (!$alreadyExclTax) {
+                $value = Mage::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
+            }
             $this->setShippingTaxAmount($includingTax - $value);
         }
         return $this->setData('shipping_amount', $value);
