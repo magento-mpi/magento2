@@ -232,10 +232,12 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     'shipping' => $shipping
               ));
           } else {
+              $shippingTax = $this->getQuote()->getShippingAddress()->getBaseShippingTaxAmount();
               $sArr = array_merge($sArr, array(
                     'item_name_'.$i   => $totalArr['shipping']->getTitle(),
                     'quantity_'.$i    => 1,
                     'amount_'.$i      => $shipping,
+                    'tax_'.$i         => sprintf('%.2f',$shippingTax),
               ));
               $i++;
           }
