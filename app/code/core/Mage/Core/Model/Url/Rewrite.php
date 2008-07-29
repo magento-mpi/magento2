@@ -207,6 +207,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             return false;
         }
 
+
         $request->setAlias(self::REWRITE_REQUEST_PATH_ALIAS, $this->getRequestPath());
         $external = substr($this->getTargetPath(), 0, 6);
         if ($external==='http:/' || $external==='https:') {
@@ -222,6 +223,10 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             header("Location: ".$targetUrl);
             exit;
         }
+
+        if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
+                $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
+            }
 
         if ($queryString = $this->_getQueryString()) {
         	$targetUrl .= '?'.$queryString;
