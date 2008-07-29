@@ -383,7 +383,10 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $qAddress->setShippingMethod($method)
                 ->setShippingDescription($shipping['shipping-name']['VALUE'])
                 ->setShippingAmount($shipping['shipping-cost']['VALUE'], true);
+        } else {
+            $qAddress->setShippingMethod(null);
         }
+
 
         $qAddress->setGrandTotal($this->getData('root/order-total/VALUE'));
     }

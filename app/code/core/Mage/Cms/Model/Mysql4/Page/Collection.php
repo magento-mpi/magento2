@@ -60,10 +60,14 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Mage_Core_Model_Mysql4_Colle
                             continue;
                         }
                         if ($result[$item->getData('page_id')] == 0) {
-                            $storeCode = key(Mage::app()->getStores(false, true));
+                            $stores = Mage::app()->getStores(false, true);
+                            $storeId = current($stores)->getId();
+                            $storeCode = key($stores);
                         } else {
-                            $storeCode = Mage::app()->getStore($result[$item->getData('page_id')])->getCode();
+                            $storeId = $result[$item->getData('page_id')];
+                            $storeCode = Mage::app()->getStore($storeId)->getCode();
                         }
+                        $item->setData('_first_store_id', $storeId);
                         $item->setData('store_code', $storeCode);
                     }
                 }
