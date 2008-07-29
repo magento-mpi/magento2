@@ -329,10 +329,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             //$optionsCollection = $this->getOptionsByIds($optionIds);
             $optionsCollection = $this->getOptionsCollection();
-
-            foreach ($optionsCollection->getItems() as $option) {
-                if ($option->getRequired() && !isset($options[$option->getId()])) {
-                    return Mage::helper('bundle')->__('Required options not selected.');
+            if (!$this->getProduct()->getSkipCheckRequiredOption()) {
+                foreach ($optionsCollection->getItems() as $option) {
+                    if ($option->getRequired() && !isset($options[$option->getId()])) {
+                        return Mage::helper('bundle')->__('Required options not selected.');
+                    }
                 }
             }
             $selectionIds = array();
