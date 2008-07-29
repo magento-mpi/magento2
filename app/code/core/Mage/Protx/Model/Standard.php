@@ -141,7 +141,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
                 $totalCostPlusTax = sprintf('%.2f', $quantity * $cost + $tax);
 
-                $resultParts[] = $item->getName();
+                $resultParts[] = str_replace(':', ' ', $item->getName());
                 $resultParts[] = $quantity;
                 $resultParts[] = $cost;
                 $resultParts[] = $tax;

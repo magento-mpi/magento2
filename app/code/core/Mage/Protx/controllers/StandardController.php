@@ -171,7 +171,6 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         if ($order->canInvoice()) {
             $invoice = $order->prepareInvoice();
 
-            $invoice->collectTotals();
             $invoice->register()->capture();
             Mage::getModel('core/resource_transaction')
                ->addObject($invoice)
