@@ -137,9 +137,11 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
             //->where('email=?', $email);
             ->where('email=:customer_email');
-        // possible bug here!
         if ($customer->getSharingConfig()->isWebsiteScope()) {
-            $select->where('website_id=?', (int) $customer->getWebsiteId());
+            if (!$customer->hasData('website_id')) {
+                Mage::throwException(Mage::helper('customer')->__('Customer website id must be specified, when using website scope.'));
+            }
+            $select->where('website_id=?', (int)$customer->getWebsiteId());
         }
 
         if ($id = $this->_getReadAdapter()->fetchOne($select, array('customer_email' => $email))) {
