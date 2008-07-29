@@ -154,23 +154,6 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Authenticate customer
-     *
-     * @param   string $email
-     * @param   string $password
-     * @return  false|object
-     */
-    public function authenticate(Mage_Customer_Model_Customer $customer, $email, $password)
-    {
-        $this->loadByEmail($customer, $email);
-        $success = $customer->getPasswordHash()===$customer->hashPassword($password);
-        if (!$success) {
-            $customer->setData(array());
-        }
-        return $success;
-    }
-
-    /**
      * Change customer password
      * $data = array(
      *      ['password']
