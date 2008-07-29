@@ -91,7 +91,7 @@ getFinalPrice() - used in shopping cart calculations
         $product->setData($args['row']);
         $final_price = $product->getFinalPrice();
         $description = '<table><tr>'.
-            '<td><a href="'.$product->getProductUrl().'"><img src="'.$product->getThumbnailUrl().'" border="0" align="left" height="75" width="75"></a></td>'.
+            '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription().
             '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
             ($product->getPrice() != $final_price  ? ' Special Price:'. Mage::helper('core')->currency($final_price) : '').

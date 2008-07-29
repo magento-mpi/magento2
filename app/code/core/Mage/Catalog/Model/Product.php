@@ -690,7 +690,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $collection->joinAttributes();
         return $collection;
     }
-    
+
     /**
      * Retrieve collection grouped link
      */
@@ -994,31 +994,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getUrlPath($category=null)
     {
         return $this->_urlModel->getUrlPath($this, $category);
-    }
-
-    public function getImageUrl()
-    {
-        return $this->_urlModel->getImageUrl($this);
-    }
-
-    public function getCustomImageUrl($size, $extension=null, $watermark=null)
-    {
-        return $this->_urlModel->getCustomImageUrl($this, $size, $extension, $watermark);
-    }
-
-    public function getSmallImageUrl()
-    {
-        return $this->_urlModel->getSmallImageUrl($this);
-    }
-
-    public function getCustomSmallImageUrl($size, $extension=null, $watermark=null)
-    {
-        return $this->_urlModel->getCustomSmallImageUrl($this, $size, $extension, $watermark);
-    }
-
-    public function getThumbnailUrl()
-    {
-        return $this->_urlModel->getThumbnailUrl($this);
     }
 
     public function importFromTextArray(array $row)

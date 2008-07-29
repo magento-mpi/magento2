@@ -66,7 +66,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
                 foreach($collection as $item){
                     $product->unsetData()->load($item->getProductId());
                     $description = '<table><tr>'.
-                        '<td><a href="'.$item->getProductUrl().'"><img src="'.$item->getThumbnailUrl().'" border="0" align="left" height="75" width="75"></a></td>'.
+                        '<td><a href="'.$item->getProductUrl().'"><img src="' . $this->helper('catalog/image')->init($item, 'thumbnail')->resize(75, 75) . '" border="0" align="left" height="75" width="75"></a></td>'.
                         '<td  style="text-decoration:none;">'.
                         $product->getDescription().
                         '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).

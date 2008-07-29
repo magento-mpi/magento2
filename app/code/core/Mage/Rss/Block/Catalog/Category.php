@@ -102,7 +102,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
                     foreach ($_productCollection as $_product) {
                         $final_price = $_product->getFinalPrice();
                         $description = '<table><tr>'.
-                            '<td><a href="'.$_product->getProductUrl().'"><img src="'.$_product->getThumbnailUrl()
+                            '<td><a href="'.$_product->getProductUrl().'"><img src="' . $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75, 75)
                             .'" border="0" align="left" height="75" width="75"></a></td>'.
                             '<td  style="text-decoration:none;">'.$_product->getDescription().
                             '<p> Price:'.Mage::helper('core')->currency($_product->getPrice()).

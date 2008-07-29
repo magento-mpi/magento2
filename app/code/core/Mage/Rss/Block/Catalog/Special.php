@@ -113,7 +113,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
 
                $special_price = ($result['use_special'] ? $result['special_price'] : $result['rule_price']);
                $description = '<table><tr>'.
-                '<td><a href="'.$product->getProductUrl().'"><img src="'.$product->getThumbnailUrl().'" border="0" align="left" height="75" width="75"></a></td>'.
+                '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
                 '<td  style="text-decoration:none;">'.$product->getDescription().
                 '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
                 ' Special Price:'. Mage::helper('core')->currency($special_price).
