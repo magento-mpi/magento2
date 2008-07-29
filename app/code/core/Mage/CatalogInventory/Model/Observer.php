@@ -123,7 +123,7 @@ class Mage_CatalogInventory_Model_Observer
             && is_null($product->getData('stock_data/use_config_backorders'))) {
             $item->setData('use_config_backorders', false);
         }
-		if (!is_null($product->getData('stock_data/notify_stock_qty'))
+        if (!is_null($product->getData('stock_data/notify_stock_qty'))
             && is_null($product->getData('stock_data/use_config_notify_stock_qty'))) {
             $item->setData('use_config_notify_stock_qty', false);
         }
@@ -196,10 +196,10 @@ class Mage_CatalogInventory_Model_Observer
             }
 
             if ($item->getParentItem()) {
-            	$qtyForCheck = $item->getParentItem()->getQty()*$qty;
+                $qtyForCheck = $item->getParentItem()->getQty()*$qty;
             }
             else {
-            	$qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), $qty);
+                $qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), $qty);
             }
 
             $result = $stockItem->checkQuoteItemQty($qty, $qtyForCheck);
@@ -240,9 +240,9 @@ class Mage_CatalogInventory_Model_Observer
     {
         $qty = $itemQty;
         if (isset($this->_checkedProductsQty[$productId])) {
-        	$qty+= $this->_checkedProductsQty[$productId];
+            $qty+= $this->_checkedProductsQty[$productId];
         }
-    	$this->_checkedProductsQty[$productId] = $qty;
+        $this->_checkedProductsQty[$productId] = $qty;
         return $qty;
     }
 
@@ -307,9 +307,14 @@ class Mage_CatalogInventory_Model_Observer
     public function cancelOrderItem($observer)
     {
         $item = $observer->getEvent()->getItem();
-        if ($item->getId() && ($productId = $item->getProductId()) && ($qty = $item->getQtyToShip())) {
+
+        $children = $item->getChildrenItems();
+        $qty = $item->getQtyOrdered() - max($item->getQtyShipped(), $item->getQtyInvoiced()) - $item->getQtyCanceled();
+
+        if ($item->getId() && ($productId = $item->getProductId()) && empty($children) && $qty) {
             Mage::getSingleton('cataloginventory/stock')->backItemQty($productId, $qty);
         }
+
         return $this;
     }
 
