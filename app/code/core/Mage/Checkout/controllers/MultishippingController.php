@@ -412,10 +412,12 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             $this->_redirect('*/*/success');
         }
         catch (Mage_Core_Exception $e){
+            Mage::helper('checkout')->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         }
         catch (Exception $e){
+            Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage(), 'multi-shipping');
             Mage::getSingleton('checkout/session')->addError('Order place error.');
             $this->_redirect('*/*/billing');
         }
@@ -430,4 +432,5 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
         $this->_initLayoutMessages('checkout/session');
         $this->renderLayout();
     }
+
 }
