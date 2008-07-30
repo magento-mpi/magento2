@@ -380,10 +380,13 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         }
 
         $this->save();
-        if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
-            $this->sendUnsubscriptionEmail();
-        } elseif ($this->getIsStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
-            $this->sendConfirmationSuccessEmail();
+        $sendSubscription = $customer->getData('sendSubscription');
+        if (is_null($sendSubscription) xor $sendSubscription) {
+            if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
+                $this->sendUnsubscriptionEmail();
+            } elseif ($this->getIsStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
+                $this->sendConfirmationSuccessEmail();
+            }
         }
         return $this;
     }

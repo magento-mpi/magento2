@@ -20,7 +20,7 @@
 
 /**
  * osCommerce edit tab
- * 
+ *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form
@@ -29,7 +29,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
     function initForm()
     {
         $model = Mage::registry('oscommerce_adminhtml_import');
-    
+
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
@@ -45,7 +45,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
             'name'      => 'name',
             'required'  => true,
         ));
-        
+
         $fieldset->addField('host', 'text', array(
             'label'     => $this->__('IP or Hostname'),
             'title'     => $this->__('IP or Hostname'),
@@ -60,14 +60,14 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
 //            'required'  => true,
 //            'value'     => $model->getData('port') ? $model->getData('port'): Mage_Oscommerce_Model_Oscommerce::DEFAULT_PORT
 //        ));
-                
+
         $fieldset->addField('db_name', 'text', array(
             'label'     => $this->__('DB Name'),
             'title'     => $this->__('DB Name'),
             'name'      => 'db_name',
             'required'  => true,
         ));
-                
+
         $fieldset->addField('db_user', 'text', array(
             'label'     => $this->__('DB Username'),
             'title'     => $this->__('DB Username'),
@@ -80,13 +80,21 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
             'title'     => $this->__('DB Password'),
             'name'      => 'db_password',
         ));
-        
+
         $fieldset->addField('table_prefix', 'text', array(
             'label'     => $this->__('Prefix'),
             'title'     => $this->__('Prefix'),
             'name'      => 'table_prefix',
         ));
-         
+
+        $fieldset->addField('send_subscription', 'checkbox', array(
+            'label'     => $this->__('Send subscription notify to customers'),
+            'title'     => $this->__('Send subscription notify to customers'),
+            'name'      => 'send_subscription',
+            'values'    => $this->getData('send_subscription'),
+            'checked'   => $this->getData('send_subscription'),
+        ));
+
         $form->setValues($model->getData());
 
         $this->setForm($form);
