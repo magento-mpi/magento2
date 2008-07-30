@@ -201,9 +201,9 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
             }
         }
 
-        $this->printer->write(
-          PHPUnit_Runner_Version::getVersionString() . "\n\n"
-        );
+//        $this->printer->write(
+//          PHPUnit_Runner_Version::getVersionString() . "\n\n"
+//        );
 
         foreach ($arguments['listeners'] as $listener) {
             $result->addListener($listener);
@@ -544,10 +544,10 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
      */
     public static function printVersionString()
     {
-        if (!self::$versionStringPrinted) {
-            self::write(PHPUnit_Runner_Version::getVersionString() . "\n\n");
-            self::$versionStringPrinted = TRUE;
-        }
+//        if (!self::$versionStringPrinted) {
+//            self::write(PHPUnit_Runner_Version::getVersionString() . "\n\n");
+//            self::$versionStringPrinted = TRUE;
+//        }
     }
 
     /**

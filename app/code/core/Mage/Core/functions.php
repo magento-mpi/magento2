@@ -63,7 +63,7 @@ function __autoload($class)
     //$a = explode('_', $class);
     //Varien_Profiler::start('AUTOLOAD');
     //Varien_Profiler::start('AUTOLOAD: '.$a[0]);
-	
+
     include($classFile);
 
     //Varien_Profiler::stop('AUTOLOAD');
@@ -249,7 +249,8 @@ function mageDebugBacktrace($return=false, $html=true, $showFirst=false)
         if (!$showFirst && $i==0) {
             continue;
         }
-        $out .= "[$i] {$r['file']}:{$r['line']}\n";
+        // sometimes there is undefined index 'file'
+        @$out .= "[$i] {$r['file']}:{$r['line']}\n";
     }
     if ($html) $out .= "</pre>";
     if ($return) {

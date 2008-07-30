@@ -20,10 +20,7 @@
 
 if (!defined('_IS_INCLUDED')) {
     require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
-    $suite = new PHPUnit_Framework_TestSuite();
-    $suite->addTestSuite('Mage_Tag_Controllers_IndexTest');
-    PHPUnit_TextUI_TestRunner::run($suite);
-    exit;
+    PHPUnitTestInit::runMe(__FILE__);
 }
 
 /**
@@ -95,10 +92,10 @@ class Mage_Tag_Controllers_IndexTest extends Mage_Tag_Controllers_AbstractTestCa
             $contents = ob_get_clean();
         }
         catch (Exception $e) {
-            if ($tag && $tag->getId()) {
+            if ((!empty($tag)) && $tag->getId()) {
                 $tag->delete();
             }
-            if ($session && $session->isLoggedIn()) {
+            if ((!empty($session)) && $session->isLoggedIn()) {
                 $session->logout();
             }
             ob_get_clean();

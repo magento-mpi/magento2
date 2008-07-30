@@ -97,5 +97,6 @@ abstract class Mage_Tag_Controllers_AbstractTestCase extends PHPUnit_Framework_T
         if ($this->_customer) {
             $this->_customer->delete();
         }
+        Mage::reset();
     }
 }

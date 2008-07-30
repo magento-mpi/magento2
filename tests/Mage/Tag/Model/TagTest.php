@@ -18,6 +18,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+if (!defined('_IS_INCLUDED')) {
+    require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
+    PHPUnitTestInit::runMe(__FILE__);
+}
 
 /**
  * DESCRIPTION
@@ -26,8 +30,6 @@
  * @package    Mage_PACKAGE
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-
 class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -111,7 +113,8 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
                     ->setTagId($tag->getId())
                     ->setCustomerId($customer->getId())
                     ->setStoreId($customer->getStoreId())
-                    ->setActive(Mage_Tag_Model_Tag_Relation::STATUS_ACTIVE)
+//                    ->setActive(Mage_Tag_Model_Tag_Relation::STATUS_ACTIVE)
+                    ->setActive(1)
                     ->setProductId($product->getId())
                     ->save();
             }

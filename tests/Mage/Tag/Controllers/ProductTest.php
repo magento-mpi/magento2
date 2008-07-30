@@ -20,10 +20,7 @@
 
 if (!defined('_IS_INCLUDED')) {
     require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
-    $suite = new PHPUnit_Framework_TestSuite();
-    $suite->addTestSuite('Mage_Tag_Controllers_ProductTest');
-    PHPUnit_TextUI_TestRunner::run($suite);
-    exit;
+    PHPUnitTestInit::runMe(__FILE__);
 }
 
 /**

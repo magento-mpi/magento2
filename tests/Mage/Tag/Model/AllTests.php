@@ -18,6 +18,11 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+if (!defined('_IS_INCLUDED')) {
+    require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
+    PHPUnitTestInit::runMe(__FILE__);
+}
+
 /**
  * All tests for Tag models
  *
@@ -27,6 +32,7 @@ class Mage_Tag_Model_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Mage/Tag/Model/AllTests');
+        $suite->addTestSuite('Mage_Tag_Model_TagRelationTest');
         $suite->addTestSuite('Mage_Tag_Model_TagTest');
         return $suite;
     }

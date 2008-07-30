@@ -78,6 +78,20 @@ final class Mage {
     }
 
     /**
+     * Set all my static data to defaults
+     *
+     */
+    public static function reset()
+    {
+        self::$_registry = array();
+        self::$_app      = null;
+        self::$_useCache = array();
+        self::$_objects  = null;
+        self::$_isDownloader    = false;
+        self::$_isDeveloperMode = false;
+    }
+
+    /**
      * Register a new variable
      *
      * @param string $key
