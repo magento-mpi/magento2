@@ -1,11 +1,11 @@
 <?php
-class Mage_Tag_Model_TagTest extends Mage_ModelCase
+class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
 {
     protected $_model;
 
     protected function setUp()
     {
-        parent::setUp();
+        Mage::app();
         $this->_model = Mage::getModel('tag/tag');
     }
 
