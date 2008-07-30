@@ -40,16 +40,14 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
         $shift  = array(0, 0, 0);
 
         foreach ($items as $_item) {
-
-            $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-
+            $this->_setFontRegular();
             $attributes = $this->getSelectionAttributes($_item);
 
             if ($_item->getOrderItem()->getParentItem()) {
                 if ($_prevOptionId != $attributes['option_id']) {
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_ITALIC), 7);
+                    $this->_setfontItalic();
                     $page->drawText($attributes['option_label'], 60, $pdf->y, 'UTF-8');
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+                    $this->_setFontRegular();
                     $_prevOptionId = $attributes['option_id'];
                     $pdf->y -= 10;
                 }
@@ -81,9 +79,8 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                     $shift[2] += 10;
                 }
             }
-
-            $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
-            $page->setFont($font, 7);
+            $font = $this->_setFontBold();
+            //$page->setFont($font);
 
             if ($this->canShowPriceInfo($_item)) {
                 $page->drawText($order->formatPriceTxt($_item->getTaxAmount()), 380, $pdf->y, 'UTF-8');
@@ -99,21 +96,17 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
         }
 
         if ($item->getOrderItem()->getProductOptions() || $item->getOrderItem()->getDescription()) {
-
-            $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-
+            $this->_setFontRegular();
             $shift[1] = 10;
             $options = $item->getOrderItem()->getProductOptions();
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_ITALIC), 7);
+                    $this->_setFontItalic();
                     foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 80) as $_option) {
                         $page->drawText($_option, 60, $pdf->y-$shift[1], 'UTF-8');
                         $shift[1] += 10;
                     }
-
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
-
+                    $this->_setFontRegular();
                     if ($option['value']) {
                         $values = explode(', ', strip_tags($option['value']));
                         foreach ($values as $value) {

@@ -35,7 +35,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
         $pdf    = $this->getPdf();
         $page   = $this->getPage();
 
-        $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+        $this->_setFontRegular();
 
         $shipItems = $this->getChilds($item);
         $items = array_merge(array($item->getOrderItem()), $item->getOrderItem()->getChildrenItems());
@@ -49,9 +49,9 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
 
             if ($_item->getParentItem()) {
                 if ($_prevOptionId != $attributes['option_id']) {
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_ITALIC), 7);
+                    $this->_setFontItalic();
                     $page->drawText($attributes['option_label'], 60, $pdf->y, 'UTF-8');
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+                    $this->_setFontRegular();
                     $_prevOptionId = $attributes['option_id'];
                     $pdf->y -= 10;
                 }
@@ -100,13 +100,13 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
             $options = $item->getOrderItem()->getProductOptions();
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_ITALIC), 7);
+                    $this->_setFontItalic();
                     foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 80) as $_option) {
                         $page->drawText($_option, 60, $pdf->y-$shift[1], 'UTF-8');
                         $shift[1] += 10;
                     }
 
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+                    $this->_setFontRegular();
 
                     if ($option['value']) {
                         $values = explode(', ', strip_tags($option['value']));
