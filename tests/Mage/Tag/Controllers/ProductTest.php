@@ -12,7 +12,12 @@ class Mage_Tag_Controllers_ProductTest extends PHPUnit_Framework_TestCase
     protected $_product;
     protected $_tag;
     protected $_tagRelation;
+    protected $_customer;
 
+    /**
+     * Add a product, customer, tag and its relations
+     *
+     */
     protected function setUp()
     {
         $storeId = Mage::app()->getStore()->getId();
@@ -33,7 +38,7 @@ class Mage_Tag_Controllers_ProductTest extends PHPUnit_Framework_TestCase
             ->setWebsiteIds(array($websiteId))
             ->setAttributeSetId($defaultAttributeSetId)
             ->save();
-        $customer = Mage::getModel('customer/customer')
+        $this->_customer = Mage::getModel('customer/customer')
             ->setStoreId($storeId)
             ->setFirstname(uniqid())
             ->setLastname(uniqid())
@@ -43,7 +48,6 @@ class Mage_Tag_Controllers_ProductTest extends PHPUnit_Framework_TestCase
             ->setCreatedIn($websiteId)
             ->setIsSubscribed(false)
             ->save();
-
         $this->_tag = Mage::getModel('tag/tag')
             ->setName(uniqid())
             ->setStatus(1)
@@ -51,15 +55,19 @@ class Mage_Tag_Controllers_ProductTest extends PHPUnit_Framework_TestCase
             ->save();
         $this->_tagRelation = Mage::getModel('tag/tag_relation')
             ->setTagId($this->_tag->getId())
-            ->setCustomerId($customer->getId())
-            ->setStoreId($customer->getStoreId())
+            ->setCustomerId($this->_customer->getId())
+            ->setStoreId($this->_customer->getStoreId())
             ->setActive(1)
             ->setProductId($this->_product->getId())
             ->save();
         $this->_tag->aggregate();
     }
 
-    public function testListActionTag11()
+    /**
+     * Check if added product tag is at the page
+     *
+     */
+    public function testListAction()
     {
         ob_start();
         try {
@@ -74,20 +82,33 @@ class Mage_Tag_Controllers_ProductTest extends PHPUnit_Framework_TestCase
                 Mage::getSingleton('core/layout')->getBlock('tag_products'),
                 new PHPUnit_Framework_Constraint_IsInstanceOf(Mage::getConfig()->getBlockClassName('tag/product_result'))
             );
+            $contents = ob_get_clean();
+            $this->assertContains($this->_tag->getName(), $contents);
+            $this->assertContains($this->_product->getName(), $contents);
         }
         catch (Exception $e) {
-            $contents = ob_get_clean();
+            ob_get_clean();
             throw $e;
         }
-        $contents = ob_get_clean();
-        file_put_contents('./contents.html', $contents);
-
-        $this->assertContains($this->_tag->getName(), $contents);
-        $this->assertContains($this->_product->getName(), $contents);
     }
 
+    /**
+     * Delete test temporary data
+     *
+     */
     protected function tearDown()
     {
-
+        if ($this->_product) {
+            $this->_product->delete();
+        }
+        if ($this->_tag) {
+            $this->_tag->delete();
+        }
+        if ($this->_tagRelation) {
+            $this->_tagRelation->delete();
+        }
+        if ($this->_customer) {
+            $this->_customer->delete();
+        }
     }
 }
