@@ -102,7 +102,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
                     $this->_setFontItalic();
-                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 80) as $_option) {
+                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60,false,true) as $_option) {
                         $page->drawText($_option, 60, $pdf->y-$shift[1], 'UTF-8');
                         $shift[1] += 10;
                     }
@@ -110,7 +110,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                     if ($option['value']) {
                         $values = explode(', ', strip_tags($option['value']));
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 80) as $_value) {
+                            foreach (Mage::helper('core/string')->str_split($value, 50,true,true) as $_value) {
                                 $page->drawText($_value, 65, $pdf->y-$shift[1], 'UTF-8');
                                 $shift[1] += 10;
                             }
