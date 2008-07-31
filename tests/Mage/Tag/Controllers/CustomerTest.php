@@ -147,11 +147,15 @@ class Mage_Tag_Controllers_CustomerTest extends Mage_Tag_Controllers_AbstractTes
 
             $contents = ob_get_clean();
 
-            $this->_tag = Mage::getModel('tag/tag')->loadByName($newTagName);
-            $this->assertGreaterThan(0, $this->_tag->getId());
+            $_newTag = Mage::getModel('tag/tag')->loadByName($newTagName);
+            $this->assertGreaterThan(0, $_newTag->getId());
+            $_newTag->delete();
         }
         catch (Exception $e) {
             ob_get_clean();
+            if (isset($_newTag) && $_newTag->getId()) {
+                $_newTag->delete();
+            }
             throw $e;
         }
     }

@@ -92,10 +92,10 @@ class Mage_Tag_Controllers_IndexTest extends Mage_Tag_Controllers_AbstractTestCa
             $contents = ob_get_clean();
         }
         catch (Exception $e) {
-            if ((!empty($tag)) && $tag->getId()) {
+            if ((isset($tag)) && $tag->getId()) {
                 $tag->delete();
             }
-            if ((!empty($session)) && $session->isLoggedIn()) {
+            if ((isset($session)) && $session->isLoggedIn()) {
                 $session->logout();
             }
             ob_get_clean();
