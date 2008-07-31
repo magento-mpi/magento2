@@ -58,18 +58,45 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
     {
         $package = $this->getRequest()->getParam('id');
         if ($package) {
-            $filename = Mage::getBaseDir('var').DS.'pear'.DS.$package.'.ser';
             $session = Mage::getSingleton('adminhtml/session');
-            if (is_readable($filename)) {
-                $p = file_get_contents($filename);
-                $data = unserialize($p);
+            try {
+                $data = $this->_loadPackageFile(Mage::getBaseDir('var') . DS . 'pear' . DS . $package);
                 $session->setCustomExtensionPackageFormData($data);
                 $session->addSuccess(Mage::helper('adminhtml')->__("Package %s data was successfully loaded", $package));
-            } else {
-                $session->addError(Mage::helper('adminhtml')->__("File %s.ser could not be read", $package));
+            }
+            catch (Exception $e) {
+                $session->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/edit');
+    }
+
+    private function _loadPackageFile($filenameNoExtension)
+    {
+        $data = null;
+
+        // try to load xml-file
+        $filename = $filenameNoExtension . '.xml';
+        if (file_exists($filename)) {
+            $xml = simplexml_load_file($filename);
+            $data = Mage::helper('core')->xmlToAssoc($xml);
+            if (!empty($data)) {
+                return $data;
+            }
+        }
+
+        // try to load ser-file
+        $filename = $filenameNoExtension . '.ser';
+        if (!is_readable($filename)) {
+            throw new Exception(Mage::helper('adminhtml')->__('Failed to load %1$s.xml or %1$s.ser', basename($filenameNoExtension)));
+        }
+        $contents = file_get_contents($filename);
+        $data = unserialize($contents);
+        if (!empty($data)) {
+            return $data;
+        }
+
+        throw new Exception('Failed to load package data.');
     }
 
     public function saveAction()

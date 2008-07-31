@@ -270,7 +270,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $pkgver = $this->getName().'-'.$this->getReleaseVersion();
         $this->unsPackageXml();
         $this->unsRoles();
-        if (!@file_put_contents($dir.DS.$this->getName().'.ser', serialize($this->getData()))) {
+        $xml = Mage::helper('core')->assocToXml($this->getData());
+        if (!@file_put_contents($dir.DS.$this->getName().'.xml', $xml->asXML())) {
             return false;
         }
 
