@@ -161,11 +161,7 @@ a.form-button-alt { padding: 2px 9px; text-decoration:none; }
 label.required {
     font-weight:bold;
     }
-p.required {
-    font-size:.95em;
-    text-align:right;
-    }
-
+p.required { font-size:.95em; text-align:right; }
 
 
 /********************** Messages  */
@@ -426,7 +422,7 @@ h1#logo {
 .shop-access li.last { padding-right:0; background:none; }
 .language-switcher { float: right; margin-top: 5px; margin-left: 60px; }
 .language-switcher label { color:#A7C6DD; padding-right: 5px; }
-.language-switcher .flag option { background-repeat:no-repeat; background-position: left center; padding-left: 20px;margin-left: 2px; }
+.language-switcher .flag option { background-repeat:no-repeat; background-position:left center; padding-left:20px; margin-left:2px; }
 
 /* Breadcrumbs */
 .breadcrumbs {  margin-bottom:13px; font-size:.95em; line-height:1.25em; }
@@ -646,12 +642,12 @@ a.minimal-price-link .price { font-weight:normal; color:#1e7ec8; }
 
 /* Excluding tax */
 .price-excluding-tax { display:block; color:#999; }
-.price-excluding-tax .label { color:#999; }
+.price-excluding-tax .label { white-space:nowrap; color:#999; }
 .price-excluding-tax .price { font-size:13px; font-weight:normal; color:#c76200; }
 
 /* Including tax */
 .price-including-tax { display:block; color:#999; }
-.price-including-tax .label { color:#999; }
+.price-including-tax .label { white-space:nowrap; color:#999; }
 .price-including-tax .price { font-size:13px; font-weight:bold; color:#c76200; }
 
 /* Excl tax (for order tables) */
@@ -994,14 +990,14 @@ table.recently-list td {width:20%;}
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:99%; }
 .product-options dd .multiselect { width:99%; }
-.product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
-.product-options dd ul.options-list { margin-right:5px; }
-.product-options dd ul.options-list li { line-height:1.5; padding:2px 0; }
-.product-options dd ul.options-list input.form-radio { float:left; margin:3px 0 0 0; }
-.product-options dd ul.options-list input.form-checkbox { float:left; margin:4px 0 0 0; }
-.product-options dd ul.options-list .label { margin-left:18px; }
-.product-options dd ul.options-list label { font-weight:normal; }
-.product-options dd ul.validation-failed { padding:0 7px; }
+.product-options dd .multiselect option { border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
+.product-options ul.options-list { margin-right:5px; }
+.product-options ul.options-list li { line-height:1.5; padding:2px 0; }
+.product-options ul.options-list input.form-radio { float:left; margin:3px 0 0 0; }
+.product-options ul.options-list input.form-checkbox { float:left; margin:4px 0 0 0; }
+.product-options ul.options-list .label { margin-left:18px; }
+.product-options ul.options-list label { font-weight:normal; }
+.product-options ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; padding:15px 0 0; }
 
 .product-options-bottom { background-color:#fffada; padding:15px 20px; border:1px solid #e4e4e4; border-top:0; }

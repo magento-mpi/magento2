@@ -1,3 +1,4 @@
+<?php if (!Mage::registry('current_category')) return ?>
 <?php
 /**
  * Magento
@@ -25,26 +26,30 @@
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
-<?php if (!Mage::registery('current_category')) return ?>
 <?php $_categories=$this->getCurrentChildCategories() ?>
 <?php if($_categories->count()): ?>
-<div class="box">
-    <h3 class="box-head"><?php echo $this->__('Browse By') ?></h3>
-	<dl id="narrow-by-list">
-		<dt><?php echo $this->__('Category') ?></dt>
-		<dd>
-			<ol>
-			<?php foreach ($_categories as $_category): ?>
-				<?php if($_category->getIsActive()): ?>
-				<li>
-					<a href="<?php echo $this->getCategoryUrl($_category) ?>"<?php if ($this->isCategoryActive($_category)): ?> class="active"<?php endif ?>><?php echo $this->htmlEscape($_category->getName()) ?></a> (<?php echo $_category->getProductCount() ?>)
-				</li>
-				<?php endif; ?>
-			<?php endforeach ?>
-			</ol>
-		</dd>
-	</dl>
-	<script type="text/javascript">decorateDataList('narrow-by-list')</script>
+<div class="box layered-nav">
+    <div class="head">
+        <h3><?php echo $this->__('Browse By') ?></h3>
+    </div>
+    <div class="border-creator">
+        <div class="narrow-by">
+            <dl id="narrow-by-list">
+                <dt><?php echo $this->__('Category') ?></dt>
+                <dd>
+                    <ol>
+                    <?php foreach ($_categories as $_category): ?>
+                        <?php if($_category->getIsActive()): ?>
+                        <li>
+                            <a href="<?php echo $this->getCategoryUrl($_category) ?>"<?php if ($this->isCategoryActive($_category)): ?> class="active"<?php endif ?>><?php echo $this->htmlEscape($_category->getName()) ?></a> (<?php echo $_category->getProductCount() ?>)
+                        </li>
+                        <?php endif; ?>
+                    <?php endforeach ?>
+                    </ol>
+                </dd>
+            </dl><script type="text/javascript">decorateDataList('narrow-by-list')</script>
+        </div>
+    </div>
 </div>
 <?php endif; ?>
 <!-- [ends] .browse-by // -->

@@ -110,10 +110,7 @@ input.form-radio        { margin-right:3px;}
 label.required {
     font-weight:bold;
     }
-p.required {
-    text-align:right;
-    }
-
+p.required { text-align:right; }
 
 
 /********************** Messages  */
@@ -527,12 +524,12 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 
 /* Including tax */
 .price-including-tax { display:block; color:#888; }
-.price-including-tax .label {  font-size:10px; text-transform:uppercase; color:#888; }
+.price-including-tax .label {  font-size:10px; text-transform:uppercase; white-space:nowrap; color:#888; }
 .price-including-tax .price { font-size:13px; font-weight:bold; color:#396f00; }
 
 /* Excluding tax */
 .price-excluding-tax { display:block; color:#888; }
-.price-excluding-tax .label { font-size:10px; text-transform:uppercase; color:#888; }
+.price-excluding-tax .label { font-size:10px; text-transform:uppercase; white-space:nowrap; color:#888; }
 .price-excluding-tax .price { font-size:12px; font-weight:normal; color:#396f00; }
 
 /* Incl tax (for order tables) */
@@ -766,14 +763,14 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:99%; }
 .product-options dd .multiselect { width:99%; }
-.product-options dd .multiselect option { white-space:normal; border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
-.product-options dd ul.options-list { margin-right:5px; }
-.product-options dd ul.options-list li { padding:2px 0; }
-.product-options dd ul.options-list input.form-radio { float:left; margin:3px 0 0 0; }
-.product-options dd ul.options-list input.form-checkbox { float:left; margin:3px 0 0 0; }
-.product-options dd ul.options-list .label { margin-left:18px; }
-.product-options dd ul.options-list label { font-weight:normal; }
-.product-options dd ul.validation-failed { padding:0 7px; }
+.product-options dd .multiselect option { border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
+.product-options ul.options-list { margin-right:5px; }
+.product-options ul.options-list li { padding:2px 0; }
+.product-options ul.options-list input.form-radio { float:left; margin:3px 0 0 0; }
+.product-options ul.options-list input.form-checkbox { float:left; margin:3px 0 0 0; }
+.product-options ul.options-list .label { margin-left:18px; }
+.product-options ul.options-list label { font-weight:normal; }
+.product-options ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; padding:15px 0 0; }
 
 .product-options-bottom { background-color:#f6f6f6; padding:15px 20px; border:1px solid #e4e4e4; border-top:0; }
