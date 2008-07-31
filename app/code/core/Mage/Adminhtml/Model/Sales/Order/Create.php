@@ -160,8 +160,22 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
 
+        $this->_initBillingAddressFromOrder($order);
+        $this->_initShippingAddressFromOrder($order);
+
         if ($this->getQuote()->getCouponCode()) {
             $this->getQuote()->collectTotals();
+        }
+
+        Mage::helper('core')->copyFieldset(
+            'sales_copy_order',
+            'to_edit',
+            $order,
+            $this->getQuote()
+        );
+
+        if (!$order->getCustomerId()) {
+            $this->getQuote()->setCustomerIsGuest(true);
         }
 
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
@@ -170,6 +184,28 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             ->save();
 
         return $this;
+    }
+
+    protected function _initBillingAddressFromOrder(Mage_Sales_Model_Order $order)
+    {
+        $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
+        Mage::helper('core')->copyFieldset(
+            'sales_copy_order_billing_address',
+            'to_order',
+            $order->getBillingAddress(),
+            $this->getQuote()->getBillingAddress()
+        );
+    }
+
+    protected function _initShippingAddressFromOrder(Mage_Sales_Model_Order $order)
+    {
+        $this->getQuote()->getShippingAddress()->setCustomerAddressId('');
+        Mage::helper('core')->copyFieldset(
+            'sales_copy_order_shipping_address',
+            'to_order',
+            $order->getShippingAddress(),
+            $this->getQuote()->getShippingAddress()
+        );
     }
 
     /**
@@ -941,6 +977,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function createOrder()
     {
         $this->_validate();
+
         if (!$this->getQuote()->getCustomerIsGuest()) {
             $this->_saveCustomer();
         }
@@ -950,6 +987,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         /* @var $quoteConvert Mage_Sales_Model_Convert_Quote */
 
         $quote = $this->getQuote();
+        if (!$this->getSession()->getOrder()->getId()) {
+            $quote->reserveOrderId();
+        }
 
         if ($this->getQuote()->getIsVirtual()) {
             $order = $quoteConvert->addressToOrder($quote->getBillingAddress());
@@ -1014,17 +1054,22 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $order->setEmailSent(true);
         }
 
-        $order->place()
-            ->save();
-
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
+
             $originalId = $oldOrder->getOriginalIncrementId() ? $oldOrder->getOriginalIncrementId() : $oldOrder->getIncrementId();
             $order->setOriginalIncrementId($originalId);
             $order->setRelationParentId($oldOrder->getId());
             $order->setRelationParentRealId($oldOrder->getIncrementId());
             $order->setEditIncrement($oldOrder->getEditIncrement()+1);
             $order->setIncrementId($originalId.'-'.$order->getEditIncrement());
+        }
+
+        $order->place()
+            ->save();
+
+        if ($this->getSession()->getOrder()->getId()) {
+            $oldOrder = $this->getSession()->getOrder();
 
             $this->getSession()->getOrder()->setRelationChildId($order->getId());
             $this->getSession()->getOrder()->setRelationChildRealId($order->getIncrementId());

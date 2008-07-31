@@ -232,8 +232,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
-            ->setXRelayResponse('False')
-            ->setXInvoiceNum($order->getId());
+            ->setXRelayResponse('False');
+
+        if ($order && $order->getIncrementId()) {
+            $request->setXInvoiceNum($order->getIncrementId());
+        }
 
         $request->setXTestRequest($this->getConfigData('test') ? 'TRUE' : 'FALSE');
 
@@ -259,8 +262,6 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
 
         if (!empty($order)) {
-            $request->setXInvoiceNum($order->getIncrementId());
-
             $billing = $order->getBillingAddress();
             if (!empty($billing)) {
                 $request->setXFirstName($billing->getFirstname())

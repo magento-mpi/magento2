@@ -27,6 +27,42 @@
     </modules>
     <global>
         <fieldsets>
+            <sales_copy_order>
+                <customer_email><to_edit>*</to_edit></customer_email>
+                <customer_group_id><to_edit>*</to_edit></customer_group_id>
+            </sales_copy_order>
+            <sales_copy_order_billing_address>
+                <prefix><to_order>*</to_order></prefix>
+                <firstname><to_order>*</to_order></firstname>
+                <middlename><to_order>*</to_order></middlename>
+                <lastname><to_order>*</to_order></lastname>
+                <suffix><to_order>*</to_order></suffix>
+                <company><to_order>*</to_order></company>
+                <street><to_order>*</to_order></street>
+                <city><to_order>*</to_order></city>
+                <region><to_order>*</to_order></region>
+                <postcode><to_order>*</to_order></postcode>
+                <country_id><to_order>*</to_order></country_id>
+                <telephone><to_order>*</to_order></telephone>
+                <fax><to_order>*</to_order></fax>
+                <region_id><to_order>*</to_order></region_id>
+            </sales_copy_order_billing_address>
+            <sales_copy_order_shipping_address>
+                <prefix><to_order>*</to_order></prefix>
+                <firstname><to_order>*</to_order></firstname>
+                <middlename><to_order>*</to_order></middlename>
+                <lastname><to_order>*</to_order></lastname>
+                <suffix><to_order>*</to_order></suffix>
+                <company><to_order>*</to_order></company>
+                <street><to_order>*</to_order></street>
+                <city><to_order>*</to_order></city>
+                <region><to_order>*</to_order></region>
+                <postcode><to_order>*</to_order></postcode>
+                <country_id><to_order>*</to_order></country_id>
+                <telephone><to_order>*</to_order></telephone>
+                <fax><to_order>*</to_order></fax>
+                <region_id><to_order>*</to_order></region_id>
+            </sales_copy_order_shipping_address>
             <sales_convert_quote>
                 <remote_ip><to_order>*</to_order></remote_ip>
 
