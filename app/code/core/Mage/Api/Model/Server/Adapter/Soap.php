@@ -111,7 +111,9 @@ class Mage_Api_Model_Server_Adapter_Soap
             $this->_soap = new SoapServer(Mage::getUrl('*/*/*', array('wsdl'=>1)));
             use_soap_error_handler(false);
             $this->_soap->setClass($this->getHandler());
-            $this->_soap->handle();
+            $this->getController()->getResponse()
+                ->setHeader('Content-Type', 'text/xml')
+                ->setBody($this->_soap->handle());
 
         } else {
             $this->fault('0', 'Unable to load Soap extension on the server');
