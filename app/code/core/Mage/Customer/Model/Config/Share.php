@@ -58,7 +58,7 @@ class Mage_Customer_Model_Config_Share extends Mage_Core_Model_Config_Data
             foreach ($collection as $customer) {
                 if ($customer->getEmailCount()>1) {
                     Mage::throwException(
-                        Mage::helper('customer')->__('Can\'t share customer accounts global.')
+                        Mage::helper('customer')->__('Can\'t share customer accounts global. Because some customer accounts with same emails exist on multiple websites and cannot be merged.')
                     );
                 }
             }
