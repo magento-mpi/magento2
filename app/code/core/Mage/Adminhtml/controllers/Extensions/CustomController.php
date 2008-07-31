@@ -233,4 +233,15 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
     {
         return Mage::getSingleton('admin/session')->isAllowed('system/extensions/custom');
     }
+
+    /**
+     * Grid for loading packages
+     *
+     */
+    public function gridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/extensions_custom_edit_tab_grid')->toHtml()
+        );
+    }
 }
