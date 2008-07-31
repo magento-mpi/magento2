@@ -41,7 +41,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                 if (!empty($ninProductIds)) {
                     $collection->addExcludeProductFilter($ninProductIds);
                 }
-                $collection->load(true);
+                $collection->load();
 
                 foreach ($collection as $item) {
                     $ninProductIds[] = $item->getId();
