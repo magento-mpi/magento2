@@ -41,7 +41,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
                 if (!empty($ninProductIds)) {
                     $collection->addExcludeProductFilter($ninProductIds);
                 }
-                $collection->load();
+                $collection->load(true);
 
                 foreach ($collection as $item) {
                     $ninProductIds[] = $item->getId();
@@ -103,6 +103,8 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('special_price')
+            ->addAttributeToSelect('special_from_date')
+            ->addAttributeToSelect('special_to_date')
             ->addAttributeToSelect('image')
             ->addAttributeToSelect('thumbnail')
             ->setStoreId(Mage::app()->getStore()->getId())
