@@ -32,11 +32,11 @@
                 <span class="price-label"><?php echo $this->__('As low as') ?>:</span>
                 <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax') ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
                     </span>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax') ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?>
                     </span>
             </p>
@@ -50,11 +50,11 @@
                 <span class="price-label"><?php echo $this->__('From') ?>:</span>
                 <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo $this->__('Excl. Tax') ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
                     </span>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax') ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?>
                     </span>
                 <?php else: ?>
@@ -67,7 +67,7 @@
                     <span class="price-label"><?php echo $this->__('To') ?>:</span>
                     <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                         <span class="price-excluding-tax">
-                            <span class="label"><?php echo $this->__('Excl. Tax') ?>:</span>
+                            <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
                             <?php echo Mage::helper('core')->currency($_maximalPriceTax) ?>
                         </span>
                         <span class="price-including-tax">
@@ -81,11 +81,11 @@
             <?php else: ?>
                 <?php if ($this->helper('tax')->displayBothPrices() && $this->isRatesGraterThenZero()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax') ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceTax) ?>
                     </span>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax') ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
                         <?php echo Mage::helper('core')->currency($_minimalPriceInclTax) ?>
                     </span>
                 <?php else: ?>
