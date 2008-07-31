@@ -393,7 +393,6 @@ Product.Config.prototype = {
     },
 
     reloadPrice: function(){
-//        var price = parseFloat(this.config.basePrice);
         var price = 0;
         for(var i=this.settings.length-1;i>=0;i--){
             var selected = this.settings[i].options[this.settings[i].selectedIndex];
@@ -401,9 +400,6 @@ Product.Config.prototype = {
                 price += parseFloat(selected.config.price);
             }
         }
-        if (price < 0)
-            price = 0;
-//        price = this.formatPrice(price);
 
         optionsPrice.changePrice('config', price);
         optionsPrice.reload();
