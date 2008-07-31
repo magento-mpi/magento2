@@ -72,6 +72,8 @@ final class Mage {
 
     static private $_isDeveloperMode = false;
 
+    public static $headersSentThrowsException = true;
+
     public static function getVersion()
     {
         return '1.1.1';
@@ -89,6 +91,7 @@ final class Mage {
         self::$_objects  = null;
         self::$_isDownloader    = false;
         self::$_isDeveloperMode = false;
+        // do not reset $headersSentThrowsException
     }
 
     /**

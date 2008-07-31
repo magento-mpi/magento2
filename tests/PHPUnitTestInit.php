@@ -1,14 +1,13 @@
 <?php
 if (!defined('_IS_INCLUDED')) {
     define('_IS_INCLUDED', 1);
-    // start output buffer not to break headers
-    // this really cramps CLI :(
-    // actually, only controllers need this thing
-    ob_start();
-//    session_start();
     // setup include path and autoloader
     require realpath(dirname(__FILE__) . '/../app/Mage.php');
     set_include_path(get_include_path() . PS . dirname(__FILE__));
+
+    // prevent error "headers already sent" for controllers
+    session_start();
+    Mage::$headersSentThrowsException = false;
 
     /**
      * Auto-runner for files, called directly, not via phpunit shell

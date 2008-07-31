@@ -34,6 +34,7 @@ class Mage_Tag_Controllers_AllTests
         $suite = new PHPUnit_Framework_TestSuite('Mage/Tag/Controllers/AllTests');
         $suite->addTestSuite('Mage_Tag_Controllers_CustomerTest');
         $suite->addTestSuite('Mage_Tag_Controllers_IndexTest');
+        $suite->addTestSuite('Mage_Tag_Controllers_ListTest');
         $suite->addTestSuite('Mage_Tag_Controllers_ProductTest');
         return $suite;
     }

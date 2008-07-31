@@ -808,7 +808,7 @@ class Mage_Core_Model_App
         if (!$this->_frontController) {
             $this->_initFrontController();
         }
-        
+
         return $this->_frontController;
     }
 
@@ -1042,6 +1042,7 @@ class Mage_Core_Model_App
     {
         if (empty($this->_response)) {
             $this->_response = new Mage_Core_Controller_Response_Http();
+            $this->_response->headersSentThrowsException = Mage::$headersSentThrowsException;
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }
         return $this->_response;
@@ -1085,7 +1086,7 @@ class Mage_Core_Model_App
                 continue;
             }
             foreach ($events[$eventName]['observers'] as $obsName=>$obs) {
-            
+
                 $observer->setData(array('event'=>$event));
                 Varien_Profiler::start('OBSERVER: '.$obsName);
                 switch ($obs['type']) {
