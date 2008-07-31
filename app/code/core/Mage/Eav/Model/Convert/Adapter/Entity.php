@@ -95,7 +95,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                 $type = $type['type'];
             }
 
-            if ($type == 'dateFromTo') {
+            if ($type == 'dateFromTo' || $type == 'datetimeFromTo') {
                 foreach ($filters as $k => $v) {
                     if (strpos($k, $key . '/') === 0) {
                         $split = split('/', $k);
@@ -153,6 +153,14 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                         'from'      => $val['from'],
                         'to'        => $val['to'],
                         'date'      => true
+                    );
+                    break;
+                case 'datetimeFromTo':
+                    $attr = array(
+                        'attribute' => $keyDB,
+                        'from'      => $val['from'],
+                        'to'        => $val['to'],
+                        'datetime'  => true
                     );
                     break;
                 default:

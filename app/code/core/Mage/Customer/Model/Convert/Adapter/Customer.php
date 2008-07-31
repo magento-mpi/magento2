@@ -282,7 +282,18 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             'type'  => 'like',
             'bind'  => $addressType
         );
-        $attrFilterArray ['created_at']                 = 'dateFromTo';
+        $attrFilterArray ['created_at']                 = 'datetimeFromTo';
+
+        /*
+         * Fixing date filter from and to
+         */
+        if ($var = $this->getVar('filter/created_at/from')) {
+            $this->setVar('filter/created_at/from', $var . ' 00:00:00');
+        }
+
+        if ($var = $this->getVar('filter/created_at/to')) {
+            $this->setVar('filter/created_at/to', $var . ' 23:59:59');
+        }
 
         $attrToDb = array(
             'group'                     => 'group_id',
