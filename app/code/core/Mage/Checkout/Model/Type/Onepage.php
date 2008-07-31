@@ -184,7 +184,7 @@ class Mage_Checkout_Model_Type_Onepage
             $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
         }
 
-        $this->getQuote()->setCustomerDob($address->getDob());
+        $this->getQuote()->setCustomerDob(Mage::app()->getLocale()->date($address->getDob(), null, null, false)->toString('yyyy-MM-dd'));
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
 
