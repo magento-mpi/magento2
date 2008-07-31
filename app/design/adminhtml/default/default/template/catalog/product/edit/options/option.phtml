@@ -155,10 +155,11 @@ var productOptionType = {
             if ($(element.readAttribute('id')+'_'+previousGroupElm.getValue())) {
                 formElm = $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).descendants();
                 formElm.each(function(elm){
-                    if (elm.match('input') || elm.match('select')) {
+                    if (elm.tagName == 'input' || elm.tagName == 'select') {
                         elm.name = '__delete__'+elm.readAttribute('name');
                     }
                 });
+
                 $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).addClassName('no-display');
                 $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).addClassName('ignore-validate');
                 $(element.readAttribute('id')+'_'+previousGroupElm.getValue()).hide();
