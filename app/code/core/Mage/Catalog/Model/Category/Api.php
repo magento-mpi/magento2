@@ -211,6 +211,9 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             }
         }
 
+        $result['children']           = $category->getChildren();
+        $result['all_children']       = $category->getAllChildren();
+
         return $result;
     }
 
@@ -223,9 +226,16 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function create($parentId, $categoryData, $store = null)
     {
+         $parent_category = $this->_initCategory($parentId);
+
         $category = Mage::getModel('catalog/category')
-            ->setStoreId($this->_getStoreId($store))
-            ->setParentId($parentId);
+            ->setStoreId($this->_getStoreId($store));
+
+
+
+        $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));
+
+        $category ->setAttributeSetId($category->getDefaultAttributeSetId());
         /* @var $category Mage_Catalog_Model_Category */
 
         foreach ($category->getAttributes() as $attribute) {
@@ -237,9 +247,15 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
                 );
             }
         }
-
+logme($parent_category->getId());
+        $category->setParentId($parent_category->getId());
+logme($category->getParentId());
         try {
             $category->save();
+
+           # $category->load();
+            #$category ->setParentId($parent_category->getId());
+            #$category->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }

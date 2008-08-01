@@ -352,7 +352,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     public function getAllChildren()
     {
+        $this->getTreeModelInstance()->load();
         $children = $this->getTreeModelInstance()->getChildren($this->getId());
+
         $myId = array($this->getId());
         if (is_array($children)) {
             $children = array_merge($myId, $children);
@@ -364,6 +366,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     public function getChildren()
     {
+        $this->getTreeModelInstance()->load();
         return implode(',', $this->getTreeModelInstance()->getChildren($this->getId(), false));
     }
 

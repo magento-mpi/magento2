@@ -51,6 +51,8 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
      */
     protected $_table;
 
+    protected $_loaded = false;
+
     /**
      * SQL select object
      *
@@ -128,48 +130,52 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
      */
     public function load($parentNode=null, $recursionLevel = 0)
     {
-        $startLevel = 1;
-        $parentPath = '';
+        if (!$this->_loaded) {
+            $startLevel = 1;
+            $parentPath = '';
 
-        if ($parentNode instanceof Varien_Data_Tree_Node) {
-            $parentPath = $parentNode->getData($this->_pathField);
-            $startLevel = $parentNode->getData($this->_levelField);
-        } elseif (is_numeric($parentNode)) {
-            $parentNode = null;
-            $select = $this->_conn->select();
-            $select->from($this->_table, array($this->_pathField, $this->_levelField))->where("{$this->_idField} = ?", $parentNode);
-            $parent = $this->_conn->fetchRow($select);
-            $startLevel = $parent[$this->_levelField];
-            $parentPath = $parent[$this->_pathField];
-        } elseif (is_string($parentNode)) {
-            $parentNode = null;
-            $parentPath = $parentNode;
-            $startLevel = count(explode($parentPath))-1;
+            if ($parentNode instanceof Varien_Data_Tree_Node) {
+                $parentPath = $parentNode->getData($this->_pathField);
+                $startLevel = $parentNode->getData($this->_levelField);
+            } elseif (is_numeric($parentNode)) {
+                $parentNode = null;
+                $select = $this->_conn->select();
+                $select->from($this->_table, array($this->_pathField, $this->_levelField))->where("{$this->_idField} = ?", $parentNode);
+                $parent = $this->_conn->fetchRow($select);
+                $startLevel = $parent[$this->_levelField];
+                $parentPath = $parent[$this->_pathField];
+            } elseif (is_string($parentNode)) {
+                $parentNode = null;
+                $parentPath = $parentNode;
+                $startLevel = count(explode($parentPath))-1;
+            }
+
+            $select = clone $this->_select;
+            $select->order($this->_table.'.'.$this->_orderField . ' ASC');
+
+            if ($parentPath) {
+                $condition = $this->_conn->quoteInto("$this->_table.$this->_pathField like ?", "$parentPath/%");
+                $select->where($condition);
+            }
+            if ($recursionLevel != 0) {
+                $select->where("$this->_levelField <= ?", $startLevel + $recursionLevel);
+            }
+
+            $arrNodes = $this->_conn->fetchAll($select);
+
+            $childrenItems = array();
+
+            foreach ($arrNodes as $nodeInfo) {
+                $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
+                array_pop($pathToParent);
+                $pathToParent = implode('/', $pathToParent);
+                $childrenItems[$pathToParent][] = $nodeInfo;
+            }
+
+            $this->addChildNodes($childrenItems, $parentPath, $parentNode);
+
+            $this->_loaded = true;
         }
-
-        $select = clone $this->_select;
-        $select->order($this->_table.'.'.$this->_orderField . ' ASC');
-
-        if ($parentPath) {
-            $condition = $this->_conn->quoteInto("$this->_table.$this->_pathField like ?", "$parentPath/%");
-            $select->where($condition);
-        }
-        if ($recursionLevel != 0) {
-            $select->where("$this->_levelField <= ?", $startLevel + $recursionLevel);
-        }
-
-        $arrNodes = $this->_conn->fetchAll($select);
-
-        $childrenItems = array();
-
-        foreach ($arrNodes as $nodeInfo) {
-            $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
-            array_pop($pathToParent);
-            $pathToParent = implode('/', $pathToParent);
-            $childrenItems[$pathToParent][] = $nodeInfo;
-        }
-
-        $this->addChildNodes($childrenItems, $parentPath, $parentNode);
 
         return $this;
     }
