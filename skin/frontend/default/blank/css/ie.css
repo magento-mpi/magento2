@@ -17,22 +17,27 @@
 /****************************************************/
 /****************[ IE Clears ]***************/
 /****************************************************/
-.product-essential,
+
+.clearer,
+.header,
+#nav,
+.main-container,
+.footer,
+
 .product-options ul.options-list li,
+.product-essential,
 .pager,
 .sorter,
 .group-select li,
-#nav,
+.box { zoom:1; }
+
+/* < hasLayout On */
 #nav li,
-#nav a,
-.header-top,
-.middle,
-.footer,
-.box,
-.clearfix {
-	zoom:1;
-	}
-	
+#nav li a { zoom:1; }
+/* hasLayout On > */
+
+.form-radio,
+.form-checkbox { width:13px; height:13px; }
 	
 /****************************************************/
 /****************[ MENU FIX ]***************/
