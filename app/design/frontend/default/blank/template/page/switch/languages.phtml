@@ -27,7 +27,7 @@
 
 ?>
 <?php if(count($this->getStores())>1): ?>
-<fieldset class="language-switcher">
+<fieldset class="form-language">
     <label for="select-language"><?php echo $this->__('Your Language') ?>: </label>
     <select id="select-language" onchange="window.location.href=this.value">
     <?php foreach ($this->getStores() as $_lang): ?>

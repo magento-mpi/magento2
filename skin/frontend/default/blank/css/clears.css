@@ -20,13 +20,14 @@
 /****************************************************/
 
 .clearer:after,
+.header:after,
+.main-container:after,
+.footer:after,
+
 .product-options ul.options-list li:after,
 .product-essential:after,
 .pager:after,
 .sorter:after,
 #nav:after,
 .group-select li:after ,
-.header-top:after,
-.middle:after,
-.footer:after,
 .box:after { content:"."; display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

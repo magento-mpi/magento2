@@ -27,7 +27,7 @@ Gift message add/edit form
 -->
     <giftmessage_index_edit>
         <reference name="root">
-            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml"/>
@@ -39,7 +39,7 @@ Gift message save result
 -->
     <giftmessage_index_save>
         <reference name="root">
-            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml" >
@@ -53,7 +53,7 @@ Gift message remove result
 -->
     <giftmessage_index_remove>
         <reference name="root">
-            <action method="setTemplate"><template>page/one-column.phtml</template></action>
+            <action method="setTemplate"><template>page/popup.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="giftmessage/message_form" name="giftmessage.form" template="giftmessage/form.phtml" >
