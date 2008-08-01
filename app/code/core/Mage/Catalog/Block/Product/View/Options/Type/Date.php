@@ -58,7 +58,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date
             ->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'options_'.$this->getOption()->getId().'_hour',
-                    'class' => 'select'.$require
+                    'class' => $require
                 ))
             ->setName('options['.$this->getOption()->getId().'][hour]')
             ->setOptions(array('00' => '00', '01' => '01'));
@@ -67,7 +67,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date
             ->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'options_'.$this->getOption()->getId().'_minutes',
-                    'class' => 'select'.$require
+                    'class' => $require
                 ))
             ->setName('options['.$this->getOption()->getId().'][minutes]')
             ->setOptions(array('00' => '00', '05' => '05'));
@@ -76,7 +76,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date
             ->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'options_'.$this->getOption()->getId().'_time_format',
-                    'class' => 'select'.$require
+                    'class' => $require
                 ))
             ->setName('options['.$this->getOption()->getId().'][time_format]')
             ->setOptions(array('am' => 'AM', 'pm' => 'PM'));
