@@ -47,11 +47,11 @@
 <?php endif; ?>
 <tr id="order-item-row-<?php echo $_item->getId() ?>">
     <?php if (!$_item->getParentItem()): ?>
-    <td align="left" valign="top" style="padding:3px 9px"><?php echo $this->htmlEscape($_item->getName()) ?></td>
+    <td align="left" valign="top" style="padding:3px 9px"><strong><?php echo $this->htmlEscape($_item->getName()) ?></strong></td>
     <?php else: ?>
     <td align="left" valign="top" style="padding:3px 19px"><?php echo $this->getValueHtml($_item)?></td>
     <?php endif; ?>
-    <td align="center" valign="top" style="padding:3px 9px"><?php echo $_item->getSku() ?></td>
+    <td align="left" valign="top" style="padding:3px 9px"><?php echo $_item->getSku() ?></td>
     <td align="center" valign="top" style="padding:3px 9px">
     <?php if (!$_item->getParentItem()): ?>
         <?php echo $_item->getQtyOrdered()*1 ?>
