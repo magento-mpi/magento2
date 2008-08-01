@@ -180,8 +180,8 @@ label.required {
     }
 p.required { text-align:right; }
 /* Expiration date and cvv number validation case */
-.input-box .v-fix {position:relative; display:inline; float:left;}
-.input-box .v-fix .validation-advice {position:relative; margin-right:-12em; float:left; display:inline; width:12em;}
+.input-box .v-fix { position:relative; display:inline; float:left; }
+.input-box .v-fix .validation-advice { position:relative; margin-right:-12em; float:left; display:inline; width:12em; }
 
 /********************** Messages  */
 .success { color:#3d6611; }
@@ -296,11 +296,13 @@ p.required { text-align:right; }
 
 		
 /********************** Data Table */ 		
-.data-table {width:100%;}
-.data-table th {padding:5px; font-weight:bold;}
-.data-table td {padding:5px; border:1px solid #ddd;}
-.data-table .label {font-weight:bold;}
+.data-table { width:100%; }
+.data-table th { padding:5px; border:1px solid #ddd; font-weight:bold; }
+.data-table td { padding:5px; border:1px solid #ddd; }
+.data-table .label { font-weight:bold; }
 .data-table .data {}
+.data-table tr.odd {}
+.data-table tr.even {}
 
 /**********************
 *************** Pager**
@@ -339,17 +341,17 @@ p.required { text-align:right; }
 .regular-price .price { font-weight:bold; }
 
 /* Old price */
-.old-price { margin:0; }
+.old-price {}
 .old-price .price-label { white-space:nowrap; }
 .old-price .price { font-weight:bold; text-decoration:line-through; }
 
 /* Special price */
-.special-price { margin:0; }
+.special-price {}
 .special-price .price-label { font-weight:bold; white-space:nowrap; }
 .special-price .price { font-weight:bold; }
 
 /* Minimal price (as low as) */
-.minimal-price { margin:0; }
+.minimal-price {}
 .minimal-price .price-label { font-weight:bold; white-space:nowrap; }
 
 a.minimal-price-link { display:block; }
@@ -377,24 +379,22 @@ a.minimal-price-link .price { font-weight:normal;}
 .price-incl-tax .price { display:block; font-weight:bold; }
 
 /* Price range */
-.price-from { margin:0; }
+.price-from {}
 .price-from .price-label { font-weight:bold; white-space:nowrap; }
 
-.price-to { margin:0; }
+.price-to {}
 .price-to .price-label { font-weight:bold; white-space:nowrap; }
 
 /* Price notice next to the options */
 .price-notice { padding-left:10px; }
 .price-notice .price { font-weight:bold; }
 
-.price-as-configured { margin:0; }
+.price-as-configured {}
 .price-as-configured .price-label { font-weight:bold; white-space:nowrap; }
 
 .price-box-bundle {}
-.price-box-bundle .price-box {}
-.price-box-bundle .price { color:#444; }
 
-.product-pricing-grouped li { padding:2px 0; color:#e26703; }
+.product-pricing-grouped li {}
 .product-pricing-grouped li .price { font-weight:bold; }
 
 
@@ -411,7 +411,7 @@ a.minimal-price-link .price { font-weight:normal;}
 .up-sell {}
 .product-name {}
 .availability {}
-.availability .value { font-weight:bold; }
+.availability span { font-weight:bold; }
 .product-details {}
 .product-pricing li .price { font-weight:bold; }
 
@@ -434,7 +434,7 @@ a.minimal-price-link .price { font-weight:normal;}
 /* < Product Options */
 .product-options { padding:10px; border:1px solid #ddd; }
 .product-options dt label { font-weight:bold; }
-.product-options dt .qty-holder { float:right; margin-right:15px; }
+.product-options dt .qty-holder { float:right; }
 .product-options dt .qty-holder label { vertical-align:middle; }
 .product-options dt .qty-disabled { background:none; border:0; padding:3px; color:#000; }
 .product-options dd { margin:10px 0; }

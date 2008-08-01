@@ -27,9 +27,9 @@
 <?php $_product = $this->getProduct() ?>
 <?php $_associatedProducts = $this->getAssociatedProducts() ?>
 <?php if($_product->isSaleable() && count($_associatedProducts)): ?>
-    <p class="availability"><?php echo $this->__('Availability: In stock.') ?></p>
+    <p class="availability"><?php echo $this->__('Availability') ?>: <span class="in-stock"><?php echo $this->__('In stock') ?></span></p>
 <?php else: ?>
-    <p class="availability"><?php echo $this->__('Availability: Out of stock.') ?></p>
+    <p class="availability"><?php echo $this->__('Availability') ?>: <span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
 <?php endif; ?>
 <table cellspacing="0" class="data-table" id="super-product-table">
     <col />

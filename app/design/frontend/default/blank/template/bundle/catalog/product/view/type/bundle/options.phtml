@@ -17,20 +17,23 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 ?>
-<?php $_product = $this->getProduct() ?>
 
-<?php if($_product->isSaleable()): ?>
-<script type="text/javascript">
-    var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
-</script>
-    <p class="availability"><?php echo $this->helper('catalog')->__('Availability') ?>: <span class="in-stock"><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
-<?php else: ?>
-    <p class="availability"><?php echo $this->helper('catalog')->__('Availability') ?>: <span class="out-of-stock"><?php echo $this->helper('catalog')->__('Out of stock') ?></span></p>
-<?php endif; ?>
-
-<div class="price-box-bundle">
-    <?php echo $this->getPriceHtml($_product) ?>
-</div>
-<?php echo $this->getChildHtml('bundle_prices') ?>
+<?php
+$_product = $this->getProduct();
+$_options = Mage::helper('core')->decorateArray($this->getOptions());
+?>
+<?php if ($_product->isSaleable()):?>
+    <?php if (count($_options)): ?>
+        <dl>
+        <?php foreach ($_options as $_option): ?>
+            <?php if (!$_option->getSelections()): ?>
+                <?php continue; ?>
+            <?php endif; ?>
+            <?php echo $this->getOptionHtml($_option) ?>
+        <?php endforeach; ?>
+        </dl>
+    <?php else: ?>
+        <p><?php echo $this->__('No options of this product are available.') ?></p>
+    <?php endif; ?>
+<?php endif;?>

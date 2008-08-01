@@ -18,6 +18,7 @@
 /****************[ IE Clears ]***************/
 /****************************************************/
 .product-essential,
+.product-options ul.options-list li,
 .pager,
 .sorter,
 .group-select li,
@@ -42,6 +43,10 @@
 #nav li.over li ul.shown-sub { left:100px; }
 #nav ul li.parent { margin-bottom:-3px; }
 
+/* Hover fix */
+#nav iframe,
+.truncated iframe { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
+
 .form-button, .form-button-alt { padding:0 8px; }
 
 .multi-address-checkout-box .box { zoom:1; }
@@ -56,4 +61,4 @@
 #nav ul li.parent { margin-bottom:-3px; }
 
 /* Clearer */
-.clear { clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
+.clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
