@@ -26,16 +26,15 @@
 </div>
 <?php endif; ?>
 <?php if (!$_element->getNoContainer()): ?>
-    <fieldset id="<?php echo $_element->getHtmlId() ?>"<?php echo $_element->serialize(array('class')) ?>>
+    <div class="fieldset" id="<?php echo $_element->getHtmlId() ?>"<?php echo $_element->serialize(array('class')) ?>>
 <?php endif; ?>
-	<div class="hor-scroll">
-	        <table cellspacing="0" class="form-list">
-	            <tbody>
-	                <?php echo $_element->getChildrenHtml() ?>
-	            </tbody>
-	        </table>
-	</div>
-<!--[if IE]>&nbsp;<![endif]-->
+    <div class="hor-scroll">
+        <table cellspacing="0" class="form-list">
+            <tbody>
+                <?php echo $_element->getChildrenHtml() ?>
+            </tbody>
+        </table>
+    </div>
 <?php if (!$_element->getNoContainer()): ?>
-    </fieldset>
+    </div>
 <?php endif; ?>

@@ -41,17 +41,24 @@ ul.tabs li a,
 .entry-edit .entry-edit-head,
 .notification-global { zoom:1; } /* IE version of clearing */
 
-.clear                          { clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
+.clear                          { display:block; clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
+
+/* Opacity fix */
+#loading-mask { filter:alpha(opacity=80); }
+#message-popup-window-mask { filter:alpha(opacity=80); }
+.content-header-floating { filter:alpha(opacity=85); }
 
 /* Scalable Button Override */
 button, .form-button            { width:auto; margin-left:5px; overflow:visible; }
 .massaction button              { width:auto; height: 20px; margin-left:0px; overflow:hidden; }
 
+.hor-scroll { overflow-y:hidden; padding-bottom:20px; margin-bottom:-16px; }
+
 /* Grid Filter Override */
 .grid tr.filter th              { padding-top:3px; padding-bottom:3px; }
 .grid tr.filter th input        { margin-right: -10px; }
 .grid tr.filter th .range input { margin-right: 2px; }
-button.icon-btn {width:31px;}
+button.icon-btn                 { width:31px; }
 
 .nested-content .content-header { position:relative; zoom:1; }
 dl.accordion dt a, 
@@ -66,6 +73,6 @@ div.collapseable a               { width:100%; }
 
 #nav ul li, #nav ul li.active { float:left; clear:left; width:185px; }
 
-.hor-scroll { overflow-x:auto; overflow-y:hidden; padding-bottom:20px; margin-bottom:-16px; }
-
-.grid-severity-critical, .grid-severity-major, .grid-severity-minor { margin:3px 0; }
+.grid-severity-critical,
+.grid-severity-major,
+.grid-severity-minor { margin:3px 0; }
