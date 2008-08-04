@@ -48,6 +48,9 @@ class Mage_Shipping_Model_Carrier_Freeshipping
         $result = Mage::getModel('shipping/rate_result');
 //      $packageValue = $request->getBaseCurrency()->convert($request->getPackageValueWithDiscount(), $request->getPackageCurrency());
         $packageValue = $request->getPackageValueWithDiscount();
+
+        $this->_updateFreeMethodQuote($request);
+
         $allow = ($request->getFreeShipping())
             || ($packageValue >= $this->getConfigData('free_shipping_subtotal'));
 
@@ -67,6 +70,25 @@ class Mage_Shipping_Model_Carrier_Freeshipping
         }
 
         return $result;
+    }
+
+    protected function _updateFreeMethodQuote($request)
+    {
+        $freeShipping = false;
+        $items = $request->getAllItems();
+        $c = count($items);
+        for ($i = 0; $i < $c; $i++) {
+            if ($items[$i]->getProduct() instanceof Mage_Catalog_Model_Product) {
+                if ($items[$i]->getFreeShipping()) {
+                    $freeShipping = true;
+                } else {
+                    return;
+                }
+            }
+        }
+        if ($freeShipping) {
+            $request->setFreeShipping(true);
+        }
     }
 
     public function getAllowedMethods()
