@@ -31,11 +31,11 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_A
     {
         $this->addColumn('regexp', array(
             'label' => Mage::helper('adminhtml')->__('Matched expression'),
-            'size'  => 30,
+            'style' => 'width:200px',
         ));
         $this->addColumn('value', array(
             'label' => Mage::helper('adminhtml')->__('Value'),
-            'size'  => 20
+            'style' => 'width:200px',
         ));
         $this->_addAfter = false;
         $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Exception');

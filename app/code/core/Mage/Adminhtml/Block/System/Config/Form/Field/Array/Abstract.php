@@ -79,6 +79,8 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
         $this->_columns[$name] = array(
             'label'     => empty($params['label']) ? 'Column' : $params['label'],
             'size'      => empty($params['size'])  ? false    : $params['size'],
+            'style'     => empty($params['style'])  ? null    : $params['style'],
+            'class'     => empty($params['class'])  ? null    : $params['class'],
             'renderer'  => false,
         );
         if ((!empty($params['renderer'])) && ($params['renderer'] instanceof Mage_Core_Block_Abstract)) {
@@ -147,6 +149,9 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
                 ->toHtml();
         }
 
-        return '<input type="text" name="' . $inputName . '" value="#{' . $columnName . '}" ' . ($column['size'] ? 'size="' . $column['size'] . '"' : '') . '/>';
+        return '<input type="text" name="' . $inputName . '" value="#{' . $columnName . '}" ' .
+            ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
+            (isset($column['class']) ? $column['class'] : 'input-text') . '"'.
+            (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';
     }
 }
