@@ -85,8 +85,8 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         $html = '';
 
         $script = '<script type="text/javascript" src="%s" %s></script>';
-        $stylesheet = '<link type="text/css" rel="stylesheet" href="%s" %s></link>';
-        $alternate = '<link rel="alternate" type="%s" href="%s" %s></link>';
+        $stylesheet = '<link rel="stylesheet" type="text/css" href="%s" %s />';
+        $alternate = '<link rel="alternate" type="%s" href="%s" %s />';
 
         foreach ($this->_data['items'] as $item) {
             if (!is_null($item['cond']) && !$this->getData($item['cond'])) {
