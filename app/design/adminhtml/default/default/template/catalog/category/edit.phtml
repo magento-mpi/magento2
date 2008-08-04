@@ -40,7 +40,8 @@
     <div id="category_tab_content"></div>
     </form>
 
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
+//<![CDATA[
     var categoryForm = new varienForm('category_edit_form');
 
     function categoryDelete(){
@@ -104,6 +105,7 @@
     <?php echo $_gridJsObject ?>.checkboxCheckCallback = registerCategoryProduct;
     <?php echo $_gridJsObject ?>.rows.each(function(row){categoryProductRowInit(<?php echo $_gridJsObject ?>, row)});
 <?php endif; ?>
+//]]>
 </script>
 
 <?php else: ?>

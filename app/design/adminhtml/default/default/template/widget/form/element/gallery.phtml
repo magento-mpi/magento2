@@ -55,12 +55,13 @@
 <?php endif; ?>
 
 <?php if ($i==0): ?>
-    <script language="javascript">document.getElementById("gallery_thead").style.visibility="hidden";</script>
+    <script type="text/javascript">document.getElementById("gallery_thead").style.visibility="hidden";</script>
 <?php endif; ?>
 
 </tbody></table>
         
-<script language="javascript">
+<script type="text/javascript">
+//<![CDATA[
 id = 0;
 num_of_images = <?php echo $i ?>;
 
@@ -129,7 +130,7 @@ function deleteImage(image)
         image.parentNode.parentNode.parentNode.removeChild( image.parentNode.parentNode );
     }
 }
+//]]>
 </script>
-
-</td>
+    </td>
 </tr>

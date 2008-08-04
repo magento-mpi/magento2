@@ -45,8 +45,8 @@
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product_edit_form" enctype="multipart/form-data">
 <div style="display:none"></div>
 </form>
-<script type="text/javascript" language="javascript">
-
+<script type="text/javascript">
+//<![CDATA[
     var productForm = new varienForm('product_edit_form', '<?php echo $this->getValidationUrl() ?>');
     productForm._processValidationResult = function(transport) {
         var response = transport.responseText.evalJSON();
@@ -201,4 +201,5 @@ Validation.addAllThese([
     ['validate-super-product-attributes', '<?php echo Mage::helper('catalog')->__('Please select one or more attributes.') ?>', function(v) {
                 return (v != "no-attributes");
             }]]);
+//]]>
 </script>

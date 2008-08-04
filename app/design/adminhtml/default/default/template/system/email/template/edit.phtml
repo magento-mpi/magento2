@@ -101,7 +101,8 @@
 <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
 <input type="hidden" id="preview_text" name="text" value="" />
 </form>
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
+//<![CDATA[
     var templateForm = new varienForm('email_template_edit_form');
     var templatePreviewForm = new varienForm('email_template_preview_form');
     var templateControl = {
@@ -195,4 +196,5 @@
     };
 
     templateControl.init();
+//]]>
 </script>

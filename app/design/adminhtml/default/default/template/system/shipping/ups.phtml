@@ -46,7 +46,8 @@ if(!$storeCode && $websiteCode){
     $stroredFreeShipment = Mage::getStoreConfig('carriers/ups/free_method');
 }
 ?>
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
+//<![CDATA[
 	originShipmentObj = new Object();
 
 
@@ -211,4 +212,5 @@ if(!$storeCode && $websiteCode){
 		}
 	}
 	xml = new upsXml();
+//]]>
 </script>
