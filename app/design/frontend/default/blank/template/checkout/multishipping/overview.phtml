@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-2">
                     <h4><?php echo $this->__('Items') ?><span> | </span><a href="<?php echo $this->getAddressesEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
-                    <table cellspacing="0" id="overview-table-<?php echo $_address->getId() ?>" class="data-table">
+                    <table id="overview-table-<?php echo $_address->getId() ?>" class="data-table">
                         <col />
                         <col width="70" />
                         <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
@@ -147,7 +147,7 @@
             <div class="col-2">
                 <h4><?php echo $this->__('Items') ?><span> | </span><a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
                 <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
-                <table cellspacing="0" id="virtual-overview-table" class="data-table">
+                <table id="virtual-overview-table" class="data-table">
                     <col />
                     <col width="70" />
                     <?php if ($this->helper('tax')->displayCartBothPrices()): ?>

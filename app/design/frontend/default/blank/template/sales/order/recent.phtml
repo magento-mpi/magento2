@@ -23,7 +23,7 @@
     <h3 class="box-head"><?php echo $this->__('Recent Orders') ?></h3>
 	<?php if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
 <?php if( sizeof($_orders->getItems()) > 0 ): ?>
-    <table cellspacing="0" class="data-table" id="my-orders-table">
+    <table class="data-table" id="my-orders-table">
         <thead>
             <tr>
                 <th><?php echo $this->__('Order #') ?></th>

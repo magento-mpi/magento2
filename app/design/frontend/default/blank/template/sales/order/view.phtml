@@ -58,16 +58,14 @@ function giftMessageToogle(giftMessageIdentifier)
 <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
 <?php endif; ?>
 </h3>
-<table cellspacing="0" class="data-table" id="my-orders-table">
-	<colgroup>
-            <col/>
-            <col width="5%"/>
-            <col width="10%"/>
-            <col width="6%"/>
-            <col width="6%"/>
-            <col width="6%"/>
-            <col width="10%"/>
-	</colgroup>
+<table class="data-table" id="my-orders-table">
+    <col/>
+    <col width="5%" />
+    <col width="10%" />
+    <col width="6%" />
+    <col width="6%" />
+    <col width="6%" />
+    <col width="10%" />
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>

@@ -26,7 +26,7 @@ $_categories = $this->getRssCatalogFeeds();
 $_misc = $this->getRssMiscFeeds();
 ?>
     <?php if($_misc): ?>
-    <table cellspacing="0" class="data-table" id="rss-table-misc">
+    <table class="data-table" id="rss-table-misc">
         <thead><tr><th>Miscellaneous Feeds</th></tr></thead>
         <tbody>
     <?php foreach ($_misc as $_feed): ?>
@@ -39,7 +39,7 @@ $_misc = $this->getRssMiscFeeds();
     <?php endif; ?>
     <?php if ($_categories || $_misc): ?><br/><?php endif ?>
     <?php if($_categories): ?>
-    <table cellspacing="0" class="data-table" id="rss-table-category">
+    <table class="data-table" id="rss-table-category">
     <thead><tr><th>Category Feeds</th></tr></thead>
     <tbody>
     <?php foreach ($_categories as $_category): ?>

@@ -20,7 +20,7 @@
 ?>
 <?php if(!$this->getDontDisplayContainer()): ?>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 if(!window.toogleVisibilityOnObjects) {
     var toogleVisibilityOnObjects = function(source, objects) {
         if($(source) && $(source).checked) {
@@ -81,7 +81,7 @@ billing.onSave = function(evt){
 }.bindAsEventListener(billing);
 
 }
-//-->
+//]]>
 </script>
 <?php endif ?>
 <div>
@@ -137,7 +137,7 @@ billing.onSave = function(evt){
 				<div class="product-details">
 					<h4 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h4>
                     <fieldset class="group-select">
-                        <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_item"/>
+                        <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_item" />
                         <ul>
                             <li>
                                 <div class="input-box">
@@ -222,7 +222,7 @@ billing.onSave = function(evt){
            <div class="product-details">
                 <h4 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h4>
                 <fieldset class="group-select">
-                    <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_address_item"/>
+                    <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_address_item" />
                     <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][address]" value="<?php echo $this->getEntity()->getId()?>" />
                     <ul>
                         <li>

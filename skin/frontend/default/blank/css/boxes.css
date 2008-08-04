@@ -63,7 +63,7 @@
 
 /************ 1ST LEVEL ************/
 #nav ul li,
-#nav ul li.active { float:none; margin:0; padding-bottom:1px; background:#656461; }
+#nav ul li.active { float:none; margin:0; padding-bottom:1px; background:#ddd; }
 /*#nav ul li.over { background:#656461; }*/
 #nav ul li.last { background:#656461; padding-bottom:0; }
 
@@ -72,7 +72,7 @@
 #nav ul li a { font-weight:normal !important; }
 
 /************ 2ND LEVEL ************/
-#nav ul { position:absolute; width:15em; top:25px; left:-10000px; border:1px solid #899ba5; }
+#nav ul { position:absolute; width:15em; top:25px; left:-10000px; border:1px solid #ddd; }
 
 /* Show menu */
 #nav li.over > ul { left:0; }
@@ -80,8 +80,8 @@
 #nav li.over ul ul { left:-10000px; }
 
 #nav ul li a { background:#f6f6f6; color:#898885; }
-#nav ul li a:hover { background:#898885; color:#fff !important; }
-#nav ul span, #nav ul li.last li span { padding:3px 15px 4px 15px;}
+#nav ul li a:hover { background:#ccc; color:#fff !important; }
+#nav ul span, #nav ul li.last li span { padding:3px 15px 4px 15px; }
 
 /************ 3RD+ LEVEL ************/
 #nav ul ul { top:5px; }
@@ -91,8 +91,8 @@
 
 
 /* ************* < Footer Elements */
-.footer p,
-.footer address { float:right; clear:right;	}
+.footer p { text-align:right; }
+.footer address { text-align:right; }
 .footer ul { float:left; padding:0 20px 0 0; }	
 /* ************* Footer Elements > */
 
@@ -116,13 +116,13 @@
 .col2-set .col-1,
 .col2-set .col-2 { width:48.5%; }
 .col2-set .col-1 { float:left; }
-.col2-set .col-2 { float:right;}
+.col2-set .col-2 { float:right; }
 
 /* Col2-alt */
 .col2-alt-set .col-1 { width:32%; }
 .col2-alt-set .col-2 { width:65%; }
 .col2-alt-set .col-1 { float:left; }
-.col2-alt-set .col-2 { float:right;}
+.col2-alt-set .col-2 { float:right; }
 
 /* Col3 */
 .col3-set .col-1, .col3-set .col-2, .col3-set .col-3 { float:left; width:31.3%; }
@@ -171,8 +171,8 @@ input.form-radio {}
 /* Form lists */
 .form-list li { margin-bottom:6px; }
 .form-list li .input-box .input-text, .form-list li .input-box textarea { width:250px; }
-.form-list li .input-box select { width:256px;}
-.form-list li.addElement { border-top:1px solid #DDD; padding-top:10px;}
+.form-list li .input-box select { width:256px; }
+.form-list li.addElement { border-top:1px solid #DDD; padding-top:10px; }
 
 .group-select {}
 .group-select .legend {}
@@ -180,9 +180,9 @@ input.form-radio {}
 .group-select li .input-box {float:left; width:260px; }
 .group-select li .input-text, .group-select li select, .group-select li textarea {width:510px; }
 .group-select li .input-box .input-text, .group-select li .input-box textarea {width:250px; }
-.group-select li .input-box select { width:256px;}
+.group-select li .input-box select { width:256px; }
 
-.wide .input-text, .wide textarea {width:510px;}
+.wide .input-text, .wide textarea {width:510px; }
 
 /* Form Messages */
 .validation-advice, .required { color:#f00; }
@@ -211,7 +211,7 @@ p.required { text-align:right; }
 /********************** Messages  */
 .success { color:#3d6611; }
 .error { color:#df280a; }
-.notice {color:#e26703;}
+.notice {color:#e26703; }
 .success, .error { font-weight:bold; }
 .messages { width:100%; overflow:hidden; }
 .error-msg, .success-msg, .notice-msg, .note-msg {
@@ -287,18 +287,18 @@ p.required { text-align:right; }
 /**********************
 *************** Pager**
 ***********************/ 
-.pager { border:1px solid #ddd;padding:5px; margin:5px 0;}
-	.pager .items-number {float:left;}
-	.pager .items-limiter {float:right;}
+.pager { border:1px solid #ddd;padding:5px; margin:5px 0; }
+	.pager .items-number {float:left; }
+	.pager .items-limiter {float:right; }
 	.pager .pages{margin:0 150px; }
-	.pager .pages ol{display:inline;}
-	.pager .pages li{display:inline;}
+	.pager .pages ol{display:inline; }
+	.pager .pages li{display:inline; }
 	.pager .pages .on {} /*current page*/
 
 /********************** Sorter */ 
-.sorter {border:1px solid #ddd;padding:5px; margin:5px 0;}
-	.sorter .view-mode {float:left;}
-	.sorter .sort-by {float:right;}
+.sorter {border:1px solid #ddd;padding:5px; margin:5px 0; }
+	.sorter .view-mode {float:left; }
+	.sorter .sort-by {float:right; }
 	.sorter .link-feed {}
 
 
@@ -336,7 +336,7 @@ p.required { text-align:right; }
 
 a.minimal-price-link { display:block; }
 a.minimal-price-link .label {}
-a.minimal-price-link .price { font-weight:normal;}
+a.minimal-price-link .price { font-weight:normal; }
 
 /* Excluding tax */
 .price-excluding-tax { display:block; }
@@ -382,11 +382,10 @@ a.minimal-price-link .price { font-weight:normal;}
 .product-info-box {}
 .product-essential {}
 .product-essential .product-shop { float:right; width:428px; }
-.product-media {float:left; width:265px; overflow:hidden;}
+.product-media {float:left; width:265px; overflow:hidden; }
 .product-media .product-image {}
-.product-media .more-views li{display:inline;}
-.product-collateral {margin:10px 0;}
-.product-description {}
+.product-media .more-views li { display:inline; }
+.product-collateral {}
 .additional-data {}
 .up-sell {}
 .product-name {}
@@ -434,6 +433,19 @@ a.minimal-price-link .price { font-weight:normal;}
 .product-options-bottom .price-box { margin:10px 0; }
 /* Product Options > */
 /* ********** Product View Page > */
+
+dl.item-options dt { font-weight:bold; font-style:italic; }
+dl.item-options dd { padding-left:10px; }
+
+.truncated { cursor:help; }
+.truncated a.dots { cursor:help; text-decoration:none !important; }
+.truncated a.details { cursor:help; text-decoration:none !important; display:inline-block; border-bottom:1px #1e7ec8 dotted; }
+.truncated .truncated_full_value { position:relative; z-index:999; }
+.truncated .truncated_full_value dl { position:absolute; top:-99999em; z-index:999; width:250px; padding:8px; border:1px solid #ddd; background-color:#f6f6f6; }
+.truncated .truncated_full_value dl dt { margin-top:0; }
+.truncated .show dl { top:-20px; left:50%; }
+.col-left .truncated .show dl { left:35px; top:10px; }
+.col-right .truncated .show dl  { left:-240px; top:10px; }
 
 
 /****************************************************/

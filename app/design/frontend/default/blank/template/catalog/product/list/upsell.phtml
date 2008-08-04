@@ -21,7 +21,7 @@
 <?php if(count($this->getItemCollection()->getItems())): ?>
 <div class="box">
     <h3 class="box-head"><?php echo $this->__('You may also be interested in the following product(s)') ?></h3>
-    <table cellspacing="0" class="products-grid" id="upsell-product-table">
+    <table class="products-grid" id="upsell-product-table">
     <?php // $this->setColumnCount(4); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
     <?php $this->resetItemsIterator() ?>
     <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
@@ -43,4 +43,4 @@
     </table>
     <script type="text/javascript">decorateTable('upsell-product-table')</script>
 </div>
-<?php endif ?><!--  -->
+<?php endif ?>

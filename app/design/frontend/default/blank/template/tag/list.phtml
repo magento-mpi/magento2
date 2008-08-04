@@ -29,22 +29,24 @@
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-<h3><?php echo $this->__('Add Your Tags:') ?></h3>
     <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="get">
-		<fieldset>
-			<input type="text" class="input-text required-entry" name="tagName" />
+        <fieldset>
+            <label for="tagName"><?php echo $this->__('Add Your Tags:') ?></label>
+            <input type="text" class="input-text required-entry" name="tagName" id="tagName" />
         </fieldset>
         <div class="buttons-container">
-			<button class="form-button" onclick="submitTagForm()"><span><?php echo $this->__('Add Tags') ?></span></button>
-		</div>	
+            <button class="form-button" onclick="submitTagForm()"><span><?php echo $this->__('Add Tags') ?></span></button>
+        </div>
+        <p class="notice"><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></p>
     </form>
     <script type="text/javascript">
+    //<![CDATA[
         var addTagFormJs = new VarienForm('addTagForm');
         function submitTagForm(){
             if(addTagFormJs.validator.validate()) {
                 addTagFormJs.form.submit();
             }
         }
+    //]]>
     </script>
-    <p><small><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></small></p>
 </div>
