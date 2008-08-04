@@ -56,7 +56,7 @@
 <script type="text/javascript">decorateTable('shopping-cart-table')</script>
 </form>
 <div class="shopping-cart-totals">
-    <table cellspacing="0" id="shoping-cart-totals-table" align="right">
+    <table cellspacing="0" id="shopping-cart-totals-table" align="right">
         <tfoot>
         <?php foreach($this->getTotals() as $total): ?>
             <?php if($total->getArea()=='footer'): ?>
@@ -78,7 +78,7 @@
         <?php endforeach ?>
         </tbody>
     </table>
-    <script type="text/javascript">decorateTable('shoping-cart-totals-table')</script>
+    <script type="text/javascript">decorateTable('shopping-cart-totals-table')</script>
 </div>
 <div class="clear"></div>
 <?php echo $this->getChildHtml('coupon') ?>
