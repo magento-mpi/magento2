@@ -152,8 +152,14 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             }
             $object->setFrontendLabel($frontendLabel[0]);
 
+            if ($object->getData('modulePrefix')) {
+            	$str = $object->getData('modulePrefix') . Mage_Core_Model_Translate::SCOPE_SEPARATOR . $frontendLabel[0];
+            }
+            else {
+            	$str = $frontendLabel[0];
+            }
             Mage::getModel('core/translate_string')
-                ->setString($frontendLabel[0])
+                ->setString($str)
                 ->setTranslate($frontendLabel[0])
                 ->setStoreTranslations($frontendLabel)
                 ->save();
