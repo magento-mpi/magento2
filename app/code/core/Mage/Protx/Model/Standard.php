@@ -199,7 +199,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['SuccessURL'] = $this->getSuccessURL();
         $queryPairs['FailureURL'] = $this->getFailureURL();
 
-        $queryPairs['CustomerName'] = $shipping->getFirstname().' '.$shipping->getLastname();
+        $queryPairs['CustomerName'] = $billing->getFirstname().' '.$billing->getLastname();
         $queryPairs['CustomerEMail'] = $order->getCustomerEmail();
         $queryPairs['ContactNumber'] = $billing->getTelephone();
         $queryPairs['ContactFax'] = $billing->getFax();
@@ -209,8 +209,14 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         $queryPairs['BillingAddress'] = $billing->getFormated();
         $queryPairs['BillingPostCode'] = $billing->getPostcode();
-        $queryPairs['DeliveryAddress'] = $shipping->getFormated();
-        $queryPairs['DeliveryPostCode'] = $shipping->getPostcode();
+
+        if ($shipping) {
+            $queryPairs['DeliveryAddress'] = $shipping->getFormated();
+            $queryPairs['DeliveryPostCode'] = $shipping->getPostcode();
+        } else {
+            $queryPairs['DeliveryAddress'] = '';
+            $queryPairs['DeliveryPostCode'] = '';
+        }
 
         $queryPairs['Basket'] = $this->getFormattedCart();
 
