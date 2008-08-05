@@ -45,7 +45,7 @@
     <?php $_prevOptionId = $attributes['option_id'] ?>
     <?php endif; ?>
 <?php endif; ?>
-<tr <?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?> id="order-item-row-<?php echo $_item->getId() ?>">
+<tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?> id="order-item-row-<?php echo $_item->getId() ?>">
     <?php if (!$_item->getParentItem()): ?>
     <td><h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5></td>
     <?php else: ?>
@@ -96,7 +96,8 @@
         <?php endif; ?>
         <?php echo $_item->getDescription() ?>
         <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
-            <br /><a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $parentItem->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
+            <br />
+            <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $parentItem->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
         <?php endif; ?>
     </td>
     <td>&nbsp;</td>

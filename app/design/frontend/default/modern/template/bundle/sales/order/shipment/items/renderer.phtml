@@ -49,7 +49,7 @@
     <?php if (!$_item->getParentItem()): ?>
     <td><h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5></td>
     <?php else: ?>
-    <td><div class="option-value"><?php echo $this->getValueHtml($_item)?></div></td>
+    <td><div class="option-value"><?php echo $this->getValueHtml($_item) ?></div></td>
     <?php endif; ?>
     <td><?php echo $_item->getSku() ?></td>
     <td class="a-center">
@@ -77,7 +77,8 @@
             <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
             <?php if (!$this->getPrintStatus()): ?>
                 <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option['value']) ?>
-                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>>
+                    <?php echo $_formatedOptionValue['value'] ?>
                     <?php if (isset($_formatedOptionValue['full_view'])): ?>
                     <div class="truncated_full_value">
                         <dl class="item-options">
@@ -88,14 +89,15 @@
                     <?php endif; ?>
                 </dd>
             <?php else: ?>
-                <dd><?php echo $this->htmlEscape($_option['value']) ?>
+                <dd><?php echo $this->htmlEscape($_option['value']) ?></dd>
             <?php endif; ?>
         <?php endforeach; ?>
         </dl>
         <?php endif; ?>
         <?php echo $_item->getDescription() ?>
         <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
-            <br /><a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $parentItem->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
+            <br />
+            <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="giftmessage-preview-link expand" onclick="return giftMessageToogle('<?php echo $parentItem->getId() ?>')"><?php echo Mage::helper('sales')->__('Gift Message') ?></a>
         <?php endif; ?>
     </td>
     <td>&nbsp;</td>
