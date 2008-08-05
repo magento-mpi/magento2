@@ -65,10 +65,10 @@ class Mage_Sales_Block_Order_Email_Items_Order_Default extends Mage_Core_Block_T
         }
     }
 
-     public function getSku($item)
+    public function getSku($item)
     {
-        if ($item->getOrderItem()->getProductOptionByCode('simple_sku'))
-            return $item->getOrderItem()->getProductOptionByCode('simple_sku');
+        if ($item->getProductOptionByCode('simple_sku'))
+            return $item->getProductOptionByCode('simple_sku');
         else
             return $item->getSku();
     }
