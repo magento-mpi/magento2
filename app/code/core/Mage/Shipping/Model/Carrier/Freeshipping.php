@@ -34,9 +34,9 @@ class Mage_Shipping_Model_Carrier_Freeshipping
     protected $_code = 'freeshipping';
 
     /**
-     * Enter description here...
+     * FreeShipping Rates Collector
      *
-     * @param Mage_Shipping_Model_Rate_Request $data
+     * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Rate_Result
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -72,6 +72,12 @@ class Mage_Shipping_Model_Carrier_Freeshipping
         return $result;
     }
 
+    /**
+     * Allows free shipping when all product items have free shipping (promotions etc.)
+     *
+     * @param Mage_Shipping_Model_Rate_Request $request
+     * @return void
+     */
     protected function _updateFreeMethodQuote($request)
     {
         $freeShipping = false;
