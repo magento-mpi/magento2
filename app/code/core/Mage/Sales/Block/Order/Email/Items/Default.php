@@ -64,4 +64,12 @@ class Mage_Sales_Block_Order_Email_Items_Default extends Mage_Core_Block_Templat
             return $this->htmlEscape($value);
         }
     }
+
+    public function getSku($item)
+    {
+        if ($item->getOrderItem()->getProductOptionByCode('simple_sku'))
+            return $item->getOrderItem()->getProductOptionByCode('simple_sku');
+        else
+            return $item->getSku();
+    }
 }

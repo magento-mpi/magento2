@@ -70,7 +70,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         }
 
         // draw sku
-        foreach (Mage::helper('core/string')->str_split($item->getSku(), 25) as $key => $part) {
+        foreach (Mage::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
             $page->drawText($part, 275, $pdf->y-$shift[2], 'UTF-8');
                 $shift[2] += 10;
         }

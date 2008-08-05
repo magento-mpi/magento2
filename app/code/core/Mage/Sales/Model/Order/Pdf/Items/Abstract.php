@@ -266,4 +266,12 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
         $this->getPage()->setFont($font, $size);
         return $font;
     }
+
+    public function getSku($item)
+    {
+        if ($item->getOrderItem()->getProductOptionByCode('simple_sku'))
+            return $item->getOrderItem()->getProductOptionByCode('simple_sku');
+        else
+            return $item->getSku();
+    }
 }
