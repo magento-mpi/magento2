@@ -30,7 +30,7 @@ var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout
         <p><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></p>
     </div>
 </form>
-<div class="buttons-container">
+<div class="buttons-set">
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
     <span id="payment-buttons-container">
         <a href="#" onclick="checkout.back(); return false;" class="back-link"><?php echo $this->__('Back') ?></a>
@@ -42,6 +42,7 @@ var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout
 </div>
 
 <script type="text/javascript">
+//<![CDATA[
     function toggleToolTip(event){
         if($('payment-tool-tip')){
             $('payment-tool-tip').setStyle({
@@ -59,6 +60,7 @@ var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout
     $$('.cvv-what-is-this').each(function(element){
         Event.observe(element, 'click', toggleToolTip);
     });
+//]]>
 </script>
 <script type="text/javascript">
     payment.currentMethod = "<?php echo $this->getChild('methods')->getSelectedMethodCode() ?>";

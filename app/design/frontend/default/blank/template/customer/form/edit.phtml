@@ -31,8 +31,8 @@
         </li>
         <li>
             <div class="input-box">
-				<label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
-				<input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="required-entry validate-email input-text" />
+                <label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
+                <input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="required-entry validate-email input-text" />
             </div>
         </li>
 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
@@ -73,7 +73,7 @@
         </li>
     </ul>
 </fieldset>
-<div class="buttons-container">
+<div class="buttons-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
     <button type="submit" class="form-button"><span><?php echo $this->__('Save') ?></span></button>

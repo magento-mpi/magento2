@@ -226,15 +226,13 @@
         <button class="form-button" id="review-button" type="submit"><span><?php echo $this->__('Place Order') ?></span></button>
     </span>
 
-    <div class="buttons-container">
+    <div class="buttons-set">
         <a href="<?php echo $this->getBackUrl() ?>" class="back-link"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>
     </div>
 
 </form>
-
-
-
 <script type="text/javascript">
+//<![CDATA[
     var submitted = false;
 
     function showLoader()
@@ -261,4 +259,5 @@
         });
         return true;
     }
+//]]>
 </script>

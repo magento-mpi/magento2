@@ -53,7 +53,7 @@
         <?php else: ?>
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
-        <div class="buttons-container">
+        <div class="buttons-set">
             <p class="required">&nbsp;</p>
             <button class="form-button" onclick="checkout.setMethod();"><span><?php echo $this->__('Continue') ?></span></button>
         </div>
@@ -78,7 +78,7 @@
                 </li>
             </ul>
         </form>
-        <div class="buttons-container">
+        <div class="buttons-set">
             <p class="required"><?php echo $this->__('* Required Fields') ?></p>
             <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
             <button class="form-button" onclick="loginForm.submit()" ><span><?php echo $this->__('Login') ?></span></button>
@@ -87,6 +87,7 @@
 
 
 <script type="text/javascript">
+//<![CDATA[
     var loginForm = new VarienForm('login-form', true);
     $('login-email').observe('keypress', bindLoginPost);
     $('login-password').observe('keypress', bindLoginPost);
@@ -95,4 +96,5 @@
             loginForm.submit();
         }
     }
+//]]>
 </script>

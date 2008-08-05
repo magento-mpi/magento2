@@ -32,7 +32,7 @@
                 </address>
             </div>
             <div class="col-2">
-				<h4><?php echo $this->__('Shipping Method') ?></h4>
+                <h4><?php echo $this->__('Shipping Method') ?></h4>
 
                 <?php if (!($_shippingRateGroups = $this->getShippingRates())): ?>
                     <p><strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong></p>
@@ -78,9 +78,9 @@
 
     <div class="box">
         <h3 class="box-head"><?php echo $this->__('Billing Information') ?></h3>
-		<h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
-		<p><?php echo $this->__('PayPal Account') ?><br />
-		<?php echo $this->getBillingAddress()->getEmail() ?></p>
+        <h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+        <p><?php echo $this->__('PayPal Account') ?><br />
+        <?php echo $this->getBillingAddress()->getEmail() ?></p>
     </div>
 
     <h3><?php echo $this->__('Items in Your Shopping Cart') ?><span> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
@@ -98,13 +98,14 @@
                 <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
             </span>
             <span id="review-buttons-container">
-				<button class="form-button" type="button" id="review-button" onclick="return saveOrder();"><span><?php echo $this->__('Place an Order') ?></span></button>
+                <button class="form-button" type="button" id="review-button" onclick="return saveOrder();"><span><?php echo $this->__('Place an Order') ?></span></button>
             </span>
         </p>
     </form>
 
 
 <script type="text/javascript">
+//<![CDATA[
     $('update_shipping_method') && $('update_shipping_method').hide();
     var submitted = false;
 
@@ -135,4 +136,5 @@
         Element.show('review-please-wait');
         Element.setStyle('review-buttons-container', {opacity:.5});
     }
+//]]>
 </script>

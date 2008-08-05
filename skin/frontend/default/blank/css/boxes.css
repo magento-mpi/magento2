@@ -15,27 +15,29 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* ************* < Layout */
-.wrapper { padding:10px 0; }
-.page { width:1003px; margin:0 auto; text-align:left; }
-.print-page { padding:20px; text-align:left; }
+/**************************************************/
+/****************** [ Layout ] ********************/
+/**************************************************/
+.wrapper {}
+.page { width:1003px; margin:0 auto; padding:10px 0; text-align:left; }
+.page-print { padding:20px; text-align:left; }
+.page-popup { padding:20px; text-align:left; }
 .main-container { padding:0 0 10px; }
-.footer { border:1px solid #ddd; padding:10px; }
 
 /* < Columns */ 
-.col-left { float:left; width:250px; border:1px solid #ddd; padding:5px; }
-.col-main { float:left; width:720px; border:1px solid #ddd; padding:5px; }
-.col-right { float:right; width:250px; border:1px solid #ddd; padding:5px; }
+.col-left { float:left; width:230px; border:1px solid #ddd; padding:5px; }
+.col-main { float:left; width:739px; border:1px solid #ddd; padding:5px; }
+.col-right { float:right; width:230px; border:1px solid #ddd; padding:5px; }
 
 .col1-layout { border:1px solid #ddd; padding:10px; margin-bottom:10px; }
 .col2-left-layout .col-main { float:right; }
 .col2-right-layout .col-main {}
-.col3-layout .col-main { width:457px; margin-left:10px; }
-/* Columns */
-/* ************* Layout > */
+.col3-layout .col-main { width:487px; margin-left:10px; }
 
 
-/* ************* < Header Elements */
+/**************************************************/
+/****************** [ Header ] ********************/
+/**************************************************/
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
 #logo { float:left; width:200px; height:63px; background-position:0 0; background-repeat:no-repeat; text-indent:-999em; overflow:hidden; cursor:pointer; } 
@@ -44,7 +46,7 @@
 .header .form-search { text-align:center; }
 .header .form-language { text-align:center; }
 
-/* < Navigation styles */
+/* Navigation styles */
 #nav { padding:5px 0; font-size:1.1em; }
 
 /************** ALL LEVELS  *************/ /* Style consistent throughout all nav levels */
@@ -86,26 +88,25 @@
 
 /************ 3RD+ LEVEL ************/
 #nav ul ul { top:5px; }
-/* Navigation styles > */
-
-/* ************* Header Elements > */
 
 
-/* ************* < Footer Elements */
+/**************************************************/
+/**************** [ Header ] **********************/
+/**************************************************/
+.footer { border:1px solid #ddd; padding:10px; }
 .footer p { text-align:right; }
 .footer address { text-align:right; }
-.footer ul { float:left; padding:0 20px 0 0; }	
-/* ************* Footer Elements > */
+.footer ul { float:left; padding:0 20px 0 0; }
 
-/****************************************************/
-/***********[ Common Elements ]**********************/
-/****************************************************/
+
+/**************************************************/
+/**************** [ Common ] **********************/
+/**************************************************/
 
 .page-head-container {}
 .page-head {}
 
-/*Back link style*/
-
+/* Back link style */
 .back-link {}
 
 /********************** Columns */
@@ -144,14 +145,12 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 /* Form Elements */
 input.input-text, select, textarea { }
 option, optgroup {}
-optgroup {}
-input.input-text, textarea {}
-input.form-radio {}
-.qty { width:2.5em; }
+input.text, textarea {}
+input.radio { width:13px; height:13px; }
+input.checkbox { width:13px; height:13px; }
+input.qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label {}
-.buttons-container { /* Container for form buttons*/
-    clear:both;
-    }
+.buttons-set { clear:both;  }
 .form-button {
     overflow:visible;
     width:auto;

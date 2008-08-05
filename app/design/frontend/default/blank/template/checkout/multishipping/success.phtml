@@ -23,16 +23,12 @@
 </div>
 <div class="box">
     <p><strong><?php echo $this->__('Thank you for your purchase!') ?></strong></p>
-    <p>
-        <?php echo $this->__('We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.') ?>
-    </p>
+    <p><?php echo $this->__('We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.') ?></p>
     <?php if($_orderIds = $this->getOrderIds()): ?>
         <?php echo $this->__('Your order number is %s', $_orderIds) ?>
     <?php endif; ?>
-    <p>
-        <a href="<?php echo $this->getUrl('customer/account/') ?>"><?php echo $this->__('My Account') ?></a>
-    </p>
+    <p><a href="<?php echo $this->getUrl('customer/account/') ?>"><?php echo $this->__('My Account') ?></a></p>
 </div>
-<div class="buttons-container">
+<div class="buttons-set">
     <button class="form-button" onclick="setLocation('<?php echo $this->getContinueUrl() ?>')"><span><?php echo $this->__('Continue Shopping') ?></span></button>
 </div>

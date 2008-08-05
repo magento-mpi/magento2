@@ -26,7 +26,7 @@
  */
 ?>
 <div class="page-head-container">
-	<h2 class="page-head"><?php echo $this->__('Create an Account') ?></h2>
+    <h2 class="page-head"><?php echo $this->__('Create an Account') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate">
@@ -44,14 +44,14 @@
                     <input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" />
                 </div>
             </li>
-			
+            
 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
 <?php if ($_dob->isEnabled()): ?>
             <li>
                 <?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?>
             </li>
-<?php endif ?>	
-			
+<?php endif ?>    
+            
             <li>
                 <input type="checkbox" name="is_subscribed" title="<?php echo $this->__('Sign Up for Newsletter') ?>" value="1" id="is_subscribed" <?php if($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif ?> />
                 <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
@@ -128,7 +128,7 @@
             </li>
         </ul>
     </fieldset>
-    <div class="buttons-container">
+    <div class="buttons-set">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
         <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
         <button class="form-button" type="submit"><span><?php echo $this->__('Submit') ?></span></button>

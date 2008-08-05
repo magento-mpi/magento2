@@ -118,14 +118,11 @@ T: <?php echo $_order['customers_telephone'] ?>
 <?php if (isset($_orderSummary['history'])): ?>
 
     <h3><?php echo $this->__('About Your Order') ?></h3>
-	<dl>
-		<?php foreach ($_orderSummary['history'] as $_historyItem): ?>
-			<dt><?php echo $this->formatDate($_historyItem['date_added'], 'medium', true) ?> | <?php echo $_historyItem['orders_status'] ?> </dt>
-			<dd><?php echo $_historyItem['comments'] ?></dd>
-		<?php endforeach; ?>
-	</dl>
+    <dl>
+        <?php foreach ($_orderSummary['history'] as $_historyItem): ?>
+            <dt><?php echo $this->formatDate($_historyItem['date_added'], 'medium', true) ?> | <?php echo $_historyItem['orders_status'] ?> </dt>
+            <dd><?php echo $_historyItem['comments'] ?></dd>
+        <?php endforeach; ?>
+    </dl>
 <?php endif; ?>
-
-<div class="buttons-container">
-    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
-</div>
+<div class="buttons-set"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a></div>

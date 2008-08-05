@@ -94,16 +94,17 @@
 
     <form method="post" action="<?php echo $this->getUrl('paypaluk/express/saveOrder') ?>">
         <p>
-			<span id="review-please-wait" style="display:none;" class="opc-please-wait">
-				<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
-			</span>
-			<span id="review-buttons-container">
-				<button class="form-button" type="button" id="review-button" onclick="return saveOrder();"><span><?php echo $this->__('Place an Order') ?></span></button>
-			</span>
+            <span id="review-please-wait" style="display:none;" class="opc-please-wait">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
+            </span>
+            <span id="review-buttons-container">
+                <button class="form-button" type="button" id="review-button" onclick="return saveOrder();"><span><?php echo $this->__('Place an Order') ?></span></button>
+            </span>
         </p>
     </form>
 
 <script type="text/javascript">
+//<![CDATA[
     $('update_shipping_method') && $('update_shipping_method').hide();
     var submitted = false;
 
@@ -135,4 +136,5 @@
         Element.show('review-please-wait');
         Element.setStyle('review-buttons-container', {opacity:.5});
     }
+//]]>
 </script>

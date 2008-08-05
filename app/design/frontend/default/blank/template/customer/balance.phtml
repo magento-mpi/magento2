@@ -20,6 +20,4 @@
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php echo $this->__('Your account balance is: %s', $customer->getStoreBalance()) ?> 
-<div class="buttons-container">
-		<a href="<?php echo $this->getUrl('customer/account') ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
-</div>
+<div class="buttons-set"><a href="<?php echo $this->getUrl('customer/account') ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></div>

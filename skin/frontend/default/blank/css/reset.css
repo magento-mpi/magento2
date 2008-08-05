@@ -62,7 +62,8 @@ ul,ol       { list-style:none; }
 small,big   { font-size:1em; }
 
 /* < Tools */
-.nobr { white-space:nowrap; }
+.nobr { white-space:nowrap !important; }
+.wrap { white-space:normal !important; }
 .a-left { text-align:left !important; }
 .a-center { text-align:center !important; }
 .a-right { text-align:right !important; }

@@ -20,6 +20,7 @@
 ?>
 <?php if ($this->helper('giftmessage/message')->getIsMessagesAvailable('items', $this->getOrder())): ?>
 <script type="text/javascript">
+//<![CDATA[
 function giftMessageToogle(giftMessageIdentifier)
 {
     var link = $('order-item-gift-message-link-'+giftMessageIdentifier);
@@ -45,17 +46,17 @@ function giftMessageToogle(giftMessageIdentifier)
 
     return false;
 }
+//]]>
 </script>
 <?php endif; ?>
 <?php  $_order = $this->getOrder() ?>
 
-<h4><?php echo $this->__('Items Ordered') ?>
-
-<?php  if ($_order->getTracksCollection()->count()) : ?>
-<span class="separator">|</span>
-<a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
-<?php endif; ?>
-</h4>
+<h3><?php echo $this->__('Items Ordered') ?>
+    <?php if ($_order->getTracksCollection()->count()) : ?>
+        <span class="separator">|</span>
+        <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
+    <?php endif; ?>
+</h3>
 
 <?php echo $this->getChildHtml('order_items') ?>
 
@@ -64,13 +65,13 @@ function giftMessageToogle(giftMessageIdentifier)
     <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
     <strong><?php echo $this->__('Gift Message for this Order') ?></strong>
      <ul>
-        <li>
-            <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
-        </li>
-        <li>
-            <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
-        </li>
-        <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></li>
+         <li>
+             <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
+         </li>
+         <li>
+             <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
+         </li>
+         <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></li>
      </ul>
 </div>
 <?php endif; ?>
@@ -89,5 +90,5 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 
 <div class="button-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
+    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

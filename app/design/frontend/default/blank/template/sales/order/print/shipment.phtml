@@ -19,11 +19,7 @@
  */
 ?>
 <?php $_order = $this->getOrder() ?>
-<!--<div class="page-head button-level">
-    <h2><?php echo $this->__('My Orders - Details') ?></h2>
-    <button class="form-button"><span><?php echo $this->__('Print All Shipments') ?></span></button>
-</div>-->
-<h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
+<h2><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h2>
 <p><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long')) ?></p>
 <?php if (!$_order->getIsVirtual()): ?>
 <?php $_shipment = $this->getShipment() ?>
@@ -32,20 +28,18 @@
 <?php else: ?>
     <?php $_shipments = $_order->getShipmentsCollection() ?>
 <?php endif; ?>
-
 <?php foreach ($_shipments as $_shipment): ?>
-    <div class="divider"></div>
     <div class="head">
-        <h3><?php echo $this->__('Shipment #%s', $_shipment->getIncrementId()) ?></h3>
+        <h2><?php echo $this->__('Shipment #%s', $_shipment->getIncrementId()) ?></h2>
     </div>
     <div class="col2-set">
         <div class="col-1">
-            <h4><?php echo $this->__('Shipping Address') ?></h4>
+            <h3><?php echo $this->__('Shipping Address') ?></h3>
             <?php $_shipping = $_shipment->getShippingAddress() ?>
             <address><?php echo $_shipping->format('html') ?></address>
         </div>
         <div class="col-2">
-            <h4><?php echo $this->__('Billing Address') ?></h4>
+            <h3><?php echo $this->__('Billing Address') ?></h3>
             <?php $_billing = $_shipment->getbillingAddress() ?>
             <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
         </div>
@@ -53,17 +47,16 @@
     <br />
     <div class="col2-set">
         <div class="col-1">
-            <h4><?php echo $this->__('Shipping Method') ?></h4>
+            <h3><?php echo $this->__('Shipping Method') ?></h3>
              <?php echo $_order->getShippingDescription() ?>
         </div>
         <div class="col-2">
-            <h4><?php echo $this->__('Payment Method') ?></h4>
+            <h3><?php echo $this->__('Payment Method') ?></h3>
             <?php echo $this->getPaymentInfoHtml() ?>
         </div>
     </div>
-    <br />
-    <h4><?php echo $this->__('Items Shipped') ?></h4>
-    <table cellspacing="0" class="data-table print" id="my-shipment-table-<?php echo $_shipment->getId(); ?>">
+    <h3><?php echo $this->__('Items Shipped') ?></h3>
+    <table class="data-table" id="my-shipment-table-<?php echo $_shipment->getId(); ?>">
         <col />
         <col width="35%" />
         <col width="1" />

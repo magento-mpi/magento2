@@ -42,14 +42,14 @@
         <?php endif; ?>
     </ul>
 </fieldset>
-<div class="buttons-container">
+<div class="buttons-set">
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
     <a href="<?php echo $this->getUrl('*/')?>" class="back-link">&laquo; <?php echo $this->__('Back')?></a>
     <button type="submit" class="form-button"><span><?php echo $this->__('Share Wishlist') ?></span></button>
 </div>
 </form>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 Validation.addAllThese([
     ['validate-emails', '<?php echo $this->__('Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.') ?>', function (v) {
                 if(Validation.get('IsEmpty').test(v)) {
@@ -69,5 +69,5 @@ Validation.addAllThese([
             }]
 ]);
 var dataForm = new VarienForm('form-validate', true);
-//-->
+//]]>
 </script>

@@ -19,11 +19,7 @@
  */
 ?>
 <?php $_order = $this->getOrder() ?>
-<!--<div class="page-head button-level">
-    <h2><?php echo $this->__('Invoices') ?></h2>
-    <button class="form-button"><span><?php echo $this->__('Print All Invoices') ?></span></button>
-</div>-->
-<h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
+<h2><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h2>
 <p><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAt(), 'long')) ?></p>
 <?php $_invoice = $this->getInvoice() ?>
 <?php if($_invoice): ?>
@@ -32,21 +28,19 @@
     <?php $_invoices = $_order->getInvoiceCollection() ?>
 <?php endif; ?>
 <?php foreach ($_invoices as $_invoice): ?>
-    <div class="divider"></div>
     <div class="head">
-        <h3><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h3>
-<!--        <a href="#"><?php echo $this->__('Print Invoice') ?></a>-->
+        <h2><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h2>
     </div>
     <div class="col2-set">
         <div class="col-1">
         <?php if (!$_order->getIsVirtual()): ?>
-            <h4><?php echo $this->__('Shipping Address') ?></h4>
+            <h3><?php echo $this->__('Shipping Address') ?></h3>
             <?php $_shipping = $_invoice->getShippingAddress() ?>
             <address><?php echo $_shipping->format('html') ?></address>
         </div>
         <div class="col-2">
         <?php endif; ?>
-            <h4><?php echo $this->__('Billing Address') ?></h4>
+            <h3><?php echo $this->__('Billing Address') ?></h3>
             <?php $_billing = $_invoice->getbillingAddress() ?>
             <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
         </div>
@@ -55,18 +49,17 @@
     <br />
     <div class="col2-set">
         <div class="col-1">
-            <h4><?php echo $this->__('Shipping Method') ?></h4>
+            <h3><?php echo $this->__('Shipping Method') ?></h3>
              <?php echo $_order->getShippingDescription() ?>
         </div>
         <?php endif; ?>
         <div class="col-2">
-            <h4><?php echo $this->__('Payment Method') ?></h4>
+            <h3><?php echo $this->__('Payment Method') ?></h3>
             <?php echo $this->getPaymentInfoHtml() ?>
         </div>
     </div>
-    <br />
-    <h4><?php echo $this->__('Items Invoiced') ?></h4>
-    <table cellspacing="0" class="data-table print" id="my-invoice-table-<?php echo $_invoice->getId(); ?>">
+    <h3><?php echo $this->__('Items Invoiced') ?></h3>
+    <table class="data-table" id="my-invoice-table-<?php echo $_invoice->getId(); ?>">
         <col />
         <col width="25%" />
         <col width="1" />
@@ -121,6 +114,6 @@
         </tbody>
         <?php endforeach; ?>
     </table>
-		<script type="text/javascript">decorateTable('my-invoice-table-<?php echo $_invoice->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
+    <script type="text/javascript">decorateTable('my-invoice-table-<?php echo $_invoice->getId(); ?>', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
 <?php endforeach; ?>
 <script type="text/javascript">window.print();</script>

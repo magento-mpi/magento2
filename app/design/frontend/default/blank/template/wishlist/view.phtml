@@ -65,7 +65,7 @@
         </tbody>
     </table>
 <script type="text/javascript">decorateTable('wishlist-table')</script>
-    <div class="buttons-container">
+    <div class="buttons-set">
         <button onclick="setLocation('<?php echo $this->getUrl('*/*/share') ?>')" class="form-button" type="button"><span><?php echo $this->__('Share Wishlist') ?></span></button>&nbsp;
         <?php if($this->isSaleable()):?>
         <button onclick="setLocation('<?php echo $this->getUrl('*/*/allcart') ?>')" class="form-button"  type="button"><span><?php echo $this->__('Add All to Cart') ?></span></button>&nbsp;
@@ -76,9 +76,7 @@
 <?php else: ?>
     <p><?php echo $this->__('You have no items in your wishlist.') ?></p>
 <?php endif ?>
-<div class="buttons-container">
-    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
-</div>
+<div class="buttons-set"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></div>
 <script type="text/javascript">
 function confirmRemoveWishlistItem(url){
     if(confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>')) {

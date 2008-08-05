@@ -23,7 +23,7 @@
 </div>
 
 <?php echo $this->getChildHtml('agreements') ?>
-<div class="buttons-container">
+<div class="buttons-set">
     <p><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Your Cart') ?></a></p>
     <p>
         <span id="review-please-wait" style="display:none;" class="opc-please-wait">
@@ -31,11 +31,10 @@
         </span>
 
         <span id="review-buttons-container">
-			<button class="form-button" onclick="review.save();" type="submit"><span><?php echo $this->__('Place Order') ?></span></button>
+            <button class="form-button" onclick="review.save();" type="submit"><span><?php echo $this->__('Place Order') ?></span></button>
         </span>
     </p>
 </div>
-
 <script type="text/javascript">
     var review = new Review('<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>');
 </script>

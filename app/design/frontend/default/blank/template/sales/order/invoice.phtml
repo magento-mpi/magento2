@@ -20,6 +20,7 @@
 ?>
 <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $this->getOrder())): ?>
 <script type="text/javascript">
+//<![CDATA[
 function giftMessageToogle(giftMessageIdentifier)
 {
     var link = $('order-item-gift-message-link-'+giftMessageIdentifier);
@@ -47,9 +48,8 @@ function giftMessageToogle(giftMessageIdentifier)
 
     return false;
 }
+//]]>
 </script>
 <?php endif; ?>
-    <?php echo $this->getChildHtml('invoice_items') ?>
-<div class="button-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
-</div>
+<?php echo $this->getChildHtml('invoice_items') ?>
+<div class="buttons-set"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a></div>

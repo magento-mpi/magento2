@@ -19,8 +19,8 @@
  */
 ?>
 <div class="page-head-container">
-	<h2 class="page-head">Address Book</h2>
-</div>	
+    <h2 class="page-head">Address Book</h2>
+</div>    
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <table>
     <tr>
@@ -74,7 +74,7 @@
         </td>
     </tr>
 </table>
-<div class="buttons-container">
+<div class="buttons-set">
     <a href="<?php echo $this->getUrl('customer/account/') ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
     <input type="button" onclick="window.location='<?php echo $this->getUrl('customer/address/form') ?>';" value="<?php echo $this->__('New Address') ?>" class="input-button" />
 </div>

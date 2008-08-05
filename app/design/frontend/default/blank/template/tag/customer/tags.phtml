@@ -25,15 +25,13 @@
 <?php if($this->getTags()): ?>
     <p><?php echo $this->__('Click on a tag to view your corresponding products.') ?></p>
     <div class="box">
-		<ul>
-			<?php foreach ($this->getTags() as $_tag): ?>
-				<li><a href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
-			<?php endforeach; ?>
-		</ul>
+        <ul>
+            <?php foreach ($this->getTags() as $_tag): ?>
+                <li><a href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 <?php else: ?>
     <p><?php echo $this->__('You have not tagged any products yet.') ?></p>
 <?php endif; ?>
-<div class="buttons-container">
-    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
-</div>
+<div class="buttons-set"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></div>
