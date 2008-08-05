@@ -96,7 +96,7 @@
                 <td class="giftmessage-row last" colspan="7">
                     <ul class="giftmessage-content">
                         <li><label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></li>
-                        <li><label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></li>
+                      <li><label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></li>
                       <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_item) ?></li>
                     </ul>
                   <div class="giftmessage-close"><a href="#" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>');"><img src="<?php echo $this->getSkinUrl('images/gift-message-close.gif') ?>" alt="" /></a></div>

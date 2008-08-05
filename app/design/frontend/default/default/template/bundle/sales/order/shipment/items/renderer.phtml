@@ -77,7 +77,8 @@
             <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
             <?php if (!$this->getPrintStatus()): ?>
                 <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option['value']) ?>
-                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>>
+                    <?php echo $_formatedOptionValue['value'] ?>
                     <?php if (isset($_formatedOptionValue['full_view'])): ?>
                     <div class="truncated_full_value">
                         <dl class="item-options">
@@ -88,7 +89,7 @@
                     <?php endif; ?>
                 </dd>
             <?php else: ?>
-                <dd><?php echo $this->htmlEscape($_option['value']) ?>
+                <dd><?php echo $this->htmlEscape($_option['value']) ?></dd>
             <?php endif; ?>
         <?php endforeach; ?>
         </dl>

@@ -28,7 +28,8 @@
             <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
             <?php if (!$this->getPrintStatus()): ?>
                 <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option['value']) ?>
-                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>>
+                    <?php echo $_formatedOptionValue['value'] ?>
                     <?php if (isset($_formatedOptionValue['full_view'])): ?>
                     <div class="truncated_full_value">
                         <dl class="item-options">
@@ -39,7 +40,7 @@
                     <?php endif; ?>
                 </dd>
             <?php else: ?>
-                <dd><?php echo $this->htmlEscape($_option['value']) ?>
+                <dd><?php echo $this->htmlEscape($_option['value']) ?></dd>
             <?php endif; ?>
         <?php endforeach; ?>
         </dl>
@@ -53,18 +54,18 @@
     <td class="a-right nowrap">
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
             <span class="price-excl-tax">
-							<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                  <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
-              <?php endif; ?>
-              <?php echo $_order->formatPrice($_item->getPrice()) ?>
+                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
+                <?php endif; ?>
+                <?php echo $_order->formatPrice($_item->getPrice()) ?>
             </span>
         <?php endif; ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
             <span class="price-incl-tax">
-							<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                  <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
-              <?php endif; ?>
-              <?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
+                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
+                <?php endif; ?>
+                <?php echo $_order->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
             </span>
         <?php endif; ?>
     </td>
@@ -72,18 +73,18 @@
     <td class="a-right nowrap">
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
             <span class="price-excl-tax">
-							<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                  <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
-              <?php endif; ?>
-              <?php echo $_order->formatPrice($_item->getRowTotal()) ?>
+                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
+                <?php endif; ?>
+                <?php echo $_order->formatPrice($_item->getRowTotal()) ?>
             </span>
         <?php endif; ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceInclTax()): ?>
             <span class="price-incl-tax">
-							<?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                  <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
-              <?php endif; ?>
-              <?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
+                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
+                <?php endif; ?>
+                <?php echo $_order->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
             </span>
         <?php endif; ?>
     </td>

@@ -17,19 +17,20 @@
 
 /* ************* < Layout */
 .wrapper { padding:10px 0; }
-.page { width:981px; margin:0 auto; padding:10px; border:1px solid #ddd; text-align:left; }
+.page { width:1003px; margin:0 auto; text-align:left; }
+.print-page { padding:20px; text-align:left; }
 .main-container { padding:0 0 10px; }
 .footer { border:1px solid #ddd; padding:10px; }
 
 /* < Columns */ 
-.col-right { float:right; width:205px; border:1px solid #ddd; padding:5px; }
-.col-left { float:left; width:205px; border:1px solid #ddd; padding:5px; }
-.col-main { float:left; width:713px; border:1px solid #ddd; padding:5px; }
+.col-left { float:left; width:250px; border:1px solid #ddd; padding:5px; }
+.col-main { float:left; width:720px; border:1px solid #ddd; padding:5px; }
+.col-right { float:right; width:250px; border:1px solid #ddd; padding:5px; }
 
-.layout-1column { border:1px solid #ddd; padding:10px; margin-bottom:10px; }
-.layout-3columns .col-main { width:484px; margin-left:10px; display:inline; }
-.layout-2columns-left .col-main { float:right; }
-.layout-2columns-right .col-main {}
+.col1-layout { border:1px solid #ddd; padding:10px; margin-bottom:10px; }
+.col2-left-layout .col-main { float:right; }
+.col2-right-layout .col-main {}
+.col3-layout .col-main { width:457px; margin-left:10px; }
 /* Columns */
 /* ************* Layout > */
 
@@ -109,33 +110,33 @@
 
 /********************** Columns */
 
-/* All */
+/* All *\/
 .col2-set, .col3-set, .col4-set, .col5-set { clear:both; }
 
-/* Col2 */
+/* Col2 *\/
 .col2-set .col-1,
 .col2-set .col-2 { width:48.5%; }
 .col2-set .col-1 { float:left; }
 .col2-set .col-2 { float:right; }
 
-/* Col2-alt */
+/* Col2-alt *\/
 .col2-alt-set .col-1 { width:32%; }
 .col2-alt-set .col-2 { width:65%; }
 .col2-alt-set .col-1 { float:left; }
 .col2-alt-set .col-2 { float:right; }
 
-/* Col3 */
+/* Col3 *\/
 .col3-set .col-1, .col3-set .col-2, .col3-set .col-3 { float:left; width:31.3%; }
 .col3-set .col-1, .col3-set .col-2 { margin-right:3%; }
 
-/* Col4 */
+/* Col4 *\/
 .col4-set .col-1, .col4-set .col-2, .col4-set .col-3, .col4-set .col-4 { float:left; width:22%; }
 .col4-set .col-1, .col4-set .col-2, .col4-set .col-3 { margin-right:4%; }
 
-/* Table Columns */
+/* Table Columns *\/
 table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; margin:0 !important; }
 .col3-set td.spacer { width:3%; }
-.col4-set td.spacer { width:4%; }
+.col4-set td.spacer { width:4%; }*/
 
 
 /********************** Forms */
@@ -279,10 +280,19 @@ p.required { text-align:right; }
 .data-table { width:100%; }
 .data-table th { padding:5px; border:1px solid #ddd; font-weight:bold; }
 .data-table td { padding:5px; border:1px solid #ddd; }
-.data-table .label { font-weight:bold; }
+.data-table td.label { font-weight:bold; }
 .data-table .data {}
 .data-table tr.odd {}
 .data-table tr.even {}
+
+/* Tax details */
+.tax-total { cursor:pointer; }
+.tax-total td { padding-top:5px !important; padding-bottom:5px !important; }
+.tax-total .tax-collapse { float:right; padding-left:20px; background:url(../images/bg_collapse.gif) 0 5px no-repeat; text-align:right; cursor:pointer; }
+.show-details .tax-collapse { background-position:0 -52px; }
+/*.show-details td { border-top:1px solid #ddd; }*/
+.tax-details td {}
+/*.tax-details-first td { border-top:1px solid #ddd; }*/
 
 /**********************
 *************** Pager**

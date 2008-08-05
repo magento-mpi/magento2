@@ -25,13 +25,10 @@
  * @see Mage_Catalog_Block_Navigation
  */
 ?>
-<div class="header-nav-container">
-    <div class="header-nav">
-        <ul id="nav">
-        <?php foreach ($this->getStoreCategories() as $_category): ?>
-            <?php echo $this->drawItem($_category) ?>
-        <?php endforeach ?>
-        </ul>
-    </div>
-    <?php echo $this->getChildHtml('topLeftLinks') ?>
+<div class="header-nav">
+    <ul id="nav">
+    <?php foreach ($this->getStoreCategories() as $_category): ?>
+        <?php echo $this->drawItem($_category) ?>
+    <?php endforeach ?>
+    </ul>
 </div>

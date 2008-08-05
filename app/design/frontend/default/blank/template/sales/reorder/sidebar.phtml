@@ -26,14 +26,11 @@
  */
 ?>
 
-
 <?php if($_order = $this->getLastOrder()): ?>
-
 <div class="box">
 <form method="post" action="<?php echo $this->getUrl('checkout/cart/addgroup') ?>" id="reorder-validate-detail">
     <h3><?php echo $this->__('My Orders') ?><span> | </span><a href="<?php echo $this->getUrl('customer/account') ?>">View All</a></h3>
     <h4><?php echo $this->__('Last ordered items') ?></h4>
-
     <ol id="cart-sidebar-reorder" class="options-list">
         <?php $_showAddButtonFlag = false ?>
         <?php foreach ($_order->getItemsRandomCollection(5) as $_item): ?>
@@ -53,7 +50,6 @@
     </ol>
 
     <div id="cart-sidebar-reorder-advice-container"></div>
-
     <?php if ($_showAddButtonFlag): ?>
         <p class="actions">
             <button class="form-button" type="submit"><span><?php echo $this->__('Add to Cart') ?></span></button><br />
@@ -64,9 +60,8 @@
 <?php echo $this->getPagerHtml(); ?>
 
 <script type="text/javascript">
-<!--
+//<![CDATA[
  var reorderFormDetail = new VarienForm('reorder-validate-detail');
-//-->
-
+//]]>
 </script>
 <?php endif ?>
