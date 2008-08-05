@@ -61,6 +61,9 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
             $session = Mage::getSingleton('adminhtml/session');
             try {
                 $data = $this->_loadPackageFile(Mage::getBaseDir('var') . DS . 'pear' . DS . $package);
+
+                $data = array_merge($data, array('file_name' => $package));
+
                 $session->setCustomExtensionPackageFormData($data);
                 $session->addSuccess(Mage::helper('adminhtml')->__("Package %s data was successfully loaded", $package));
             }
@@ -109,9 +112,14 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
             unset($p['_create']);
         }
 
+        if ($p['file_name'] == '') {
+            $p['file_name'] = $p['name'];
+        }
+
         $session->setCustomExtensionPackageFormData($p);
         try {
             $ext = Mage::getModel('adminhtml/extension');
+            /* @var $ext Mage_Adminhtml_Model_Extension */
             $ext->setData($p);
             $output = $ext->getPear()->getOutput();
             if ($ext->savePackage()) {
@@ -238,10 +246,22 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
      * Grid for loading packages
      *
      */
+    public function loadtabAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/extensions_custom_edit_tab_load')->toHtml()
+        );
+    }
+
+    /**
+     * Grid for loading packages
+     *
+     */
     public function gridAction()
     {
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/extensions_custom_edit_tab_grid')->toHtml()
         );
     }
+
 }

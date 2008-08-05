@@ -32,14 +32,13 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Grid
     {
         parent::__construct();
         $this->setId('extensions_custom_edit_grid');
-//        $this->setDefaultSort('filename');
-//        $this->setDefaultDir('ASC');
+        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
     {
         // take a look at Mage_Adminhtml_Model_Extension_Collection_Abstract
-        $collection = Mage::getSingleton('backup/fs_collection');
+        $collection = Mage::getSingleton('adminhtml/extension_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -49,28 +48,23 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Grid
         $baseUrl = $this->getUrl();
 
         $this->addColumn('filename', array(
-            'header'    => Mage::helper('tag')->__('Package'),
+            'header'    => Mage::helper('adminhtml')->__('Package'),
             'index'     => 'filename',
         ));
 
         return parent::_prepareColumns();
     }
 
+    public function getCurrentUrl($params=array())
+    {
+        return $this->getUrl('*/*/grid', array('_current'=>true));
+    }
+
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/load', array(
-            'id' => 'package_name, not filename here',
+            'id' => $row->getFilenameId(),
         ));
     }
 
-    protected function _addColumnFilterToCollection($column)
-    {
-         if($column->getIndex()=='stores') {
-                $this->getCollection()->addStoreFilter($column->getFilter()->getCondition(), false);
-         } else {
-                parent::_addColumnFilterToCollection($column);
-         }
-
-         return $this;
-    }
 }

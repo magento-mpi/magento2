@@ -254,6 +254,13 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
     public function savePackage()
     {
+        if ($this->getData('file_name') != '') {
+            $fileName = $this->getData('file_name');
+            $this->unsetData('file_name');
+        } else {
+            $fileName = $this->getName();
+        }
+
         if (!$this->getPackageXml()) {
             $this->generatePackageXml();
         }
@@ -271,7 +278,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $this->unsPackageXml();
         $this->unsRoles();
         $xml = Mage::helper('core')->assocToXml($this->getData());
-        if (!@file_put_contents($dir.DS.$this->getName().'.xml', $xml->asXML())) {
+
+        if (!@file_put_contents($dir.DS.$fileName.'.xml', $xml->asXML())) {
             return false;
         }
 

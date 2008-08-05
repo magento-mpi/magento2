@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tabs extends Mage_Adminhtml_Bl
         $this->addTab('load', array(
             'label'     => Mage::helper('adminhtml')->__('Load local Package'),
             'class'     => 'ajax',
-            'url'       => $this->getUrl('*/*/grid', array('_current' => true)),
+            'url'       => $this->getUrl('*/*/loadtab', array('_current' => true)),
         ));
 
         return parent::_beforeToHtml();

@@ -19,39 +19,24 @@
  */
 
 /**
- * Convert profile edit block
+ * Convert profile edit tab
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Extensions_Custom_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Load
+    extends Mage_Adminhtml_Block_Abstract
 {
     public function __construct()
     {
-        $this->_objectId = 'id';
-        $this->_controller = 'extensions_custom';
-
         parent::__construct();
-
-        $this->_removeButton('back');
-
-        $this->_updateButton('reset', 'onclick', "resetPackage()");
-
-        $this->_addButton('create', array(
-            'label'=>Mage::helper('adminhtml')->__('Save data and Create Package'),
-            'class'=>'save',
-            'onclick'=>"createPackage()",
-        ));
-        $this->_addButton('save_as', array(
-            'label'=>Mage::helper('adminhtml')->__('Save As...'),
-            'title'=>Mage::helper('adminhtml')->__('Save package with custom package file name'),
-            'onclick'=>'saveAsPackage()'
-        ));
+        $this->setTemplate('extensions/custom/load.phtml');
     }
 
-    public function getHeaderText()
+    public function getPackageGridHtml()
     {
-        return Mage::helper('adminhtml')->__('New Extension');
+        return $this->getLayout()->createBlock('adminhtml/extensions_custom_edit_tab_grid')->toHtml();
     }
+
 }

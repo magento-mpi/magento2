@@ -42,6 +42,19 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Package
 
         $fieldset = $form->addFieldset('package_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Package')));
 
+        if ($this->getData('name') != $this->getData('file_name')) {
+            $this->setData('file_name_disabled', $this->getData('file_name'));
+            $fieldset->addField('file_name_disabled', 'text', array(
+                'name' => 'file_name_disabled',
+                'label' => Mage::helper('adminhtml')->__('Package File Name'),
+                'disabled' => 'disabled',
+            ));
+        }
+
+        $fieldset->addField('file_name', 'hidden', array(
+            'name' => 'file_name',
+        ));
+
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
             'label' => Mage::helper('adminhtml')->__('Name'),
