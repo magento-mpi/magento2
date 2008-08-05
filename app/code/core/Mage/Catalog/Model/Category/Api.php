@@ -200,7 +200,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         // Basic category data
         $result = array();
         $result['category_id'] = $category->getId();
-        $result['parent_id']   = $category->getParentId();
+
         $result['is_active']   = $category->getIsActive();
         $result['position']    = $category->getPosition();
         $result['level']       = $category->getLevel();
@@ -210,7 +210,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
                 $result[$attribute->getAttributeCode()] = $category->getData($attribute->getAttributeCode());
             }
         }
-
+        $result['parent_id']   = $category->getParentId();
         $result['children']           = $category->getChildren();
         $result['all_children']       = $category->getAllChildren();
 
@@ -247,15 +247,10 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
                 );
             }
         }
-logme($parent_category->getId());
         $category->setParentId($parent_category->getId());
-logme($category->getParentId());
         try {
             $category->save();
 
-           # $category->load();
-            #$category ->setParentId($parent_category->getId());
-            #$category->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
@@ -304,11 +299,14 @@ logme($category->getParentId());
      */
     public function move($categoryId, $parentId, $afterId = null)
     {
+       $category = $this->_initCategory($categoryId);
+       $parent_category = $this->_initCategory($parentId);
+
         $tree = Mage::getResourceModel('catalog/category_tree')
                 ->load();
 
-        $node           = $tree->getNodeById($categoryId);
-        $newParentNode  = $tree->getNodeById($parentId);
+        $node           = $tree->getNodeById($category->getId());
+        $newParentNode  = $tree->getNodeById($parent_category->getId());
         $prevNode       = $tree->getNodeById($afterId);
 
         if (!$node || !$node->getId()) {
