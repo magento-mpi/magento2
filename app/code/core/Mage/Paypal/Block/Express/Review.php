@@ -102,4 +102,9 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     {
         return $this->getReview()->getQuote()->getStore()->convertPrice($price, true);
     }
+
+    public function isVirtual()
+    {
+        return $this->getReview()->getQuote()->getIsVirtual();
+    }
 }
