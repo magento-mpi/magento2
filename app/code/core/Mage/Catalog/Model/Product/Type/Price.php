@@ -28,6 +28,8 @@
 class Mage_Catalog_Model_Product_Type_Price
 {
 
+    static $attributeCache = array();
+
     /**
      * Default action to get price of product
      *
