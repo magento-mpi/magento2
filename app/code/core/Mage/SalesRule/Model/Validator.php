@@ -113,7 +113,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 $qty*= $item->getParentItem()->getQty();
             }
 			$qty = $rule->getDiscountQty() ? min($qty, $rule->getDiscountQty()) : $qty;
-			$rulePercent = $rule->getDiscountAmount();
+			$rulePercent = min(100, $rule->getDiscountAmount());
             $discountAmount = 0;
             $baseDiscountAmount = 0;
 			switch ($rule->getSimpleAction()) {
@@ -186,7 +186,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 			}
 
             $result = new Varien_Object(array(
-                'discount_amount'      => $discountAmount, 
+                'discount_amount'      => $discountAmount,
                 'base_discount_amount' => $baseDiscountAmount,
             ));
             Mage::dispatchEvent('salesrule_validator_process', array(
@@ -197,7 +197,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 'qty'     => $qty,
                 'result'  => $result,
             ));
-            
+
             $discountAmount = $result->getDiscountAmount();
             $baseDiscountAmount = $result->getBaseDiscountAmount();
 
