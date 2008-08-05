@@ -92,22 +92,14 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
         if (!$attribute->getId()) {
             $this->_fault('not_exists');
         }
-
-        $result = array();
+        $options = array();
         if ($attribute->usesSource()) {
-            foreach ($attribute->getSource()->getAllOptions() as $optionId=>$optionValue) {
-                if (is_array($optionValue)) {
-                    $result[] = $optionValue;
-                } else {
-                    $result[] = array(
-                        'value' => $optionId,
-                        'label' => $optionValue
-                    );
-                }
-            }
+            $options = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                ->setAttributeFilter($attribute->getId())
+                ->setStoreFilter()
+                ->load()
+                ->toOptionArray();
         }
-
-        return $result;
+        return $options;
     }
-
 } // Class Mage_Catalog_Model_Product_Attribute_Api End
