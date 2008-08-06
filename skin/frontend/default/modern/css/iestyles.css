@@ -56,9 +56,9 @@
 .truncated_full_value,
 .error-msg, .success-msg, .notice-msg, .note-msg { zoom:1; }
 
-input.form-radio,
-input.form-checkbox { width:13px; height:13px; }
-.product-options dd ul.options-list input.form-radio { margin-top:4px; }
+input.radio,
+input.checkbox { width:13px; height:13px; }
+.product-options ul.options-list input.radio { margin-top:4px; }
 
 .footer .footer-callout { position:relative; zoom:1; }
 .login-box .content     { height:180px; }

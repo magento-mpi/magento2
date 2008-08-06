@@ -37,6 +37,9 @@
 #nav li a { zoom:1; }
 /* hasLayout On > */
 
+input.radio { width:13px; height:13px; }
+input.checkbox { width:13px; height:13px; }
+
 	
 /****************************************************/
 /****************[ MENU FIX ]***************/

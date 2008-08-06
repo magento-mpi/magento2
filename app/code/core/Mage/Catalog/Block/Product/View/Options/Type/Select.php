@@ -77,14 +77,14 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             switch ($_option->getType()) {
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
                     $type = 'radio';
-                    $class = 'form-radio';
+                    $class = 'radio';
                     if (!$_option->getIsRequire()) {
-                        $selectHtml .= '<li><input type="radio" id="options_'.$_option->getId().'" class="form-radio product-custom-option" name="options['.$_option->getId().']" onclick="opConfig.reloadPrice()" value="" checked="checked" /><div class="label"><label for="options_'.$_option->getId().'">' . $this->__('None') . '</label></div></li>';
+                        $selectHtml .= '<li><input type="radio" id="options_'.$_option->getId().'" class="'.$class.' product-custom-option" name="options['.$_option->getId().']" onclick="opConfig.reloadPrice()" value="" checked="checked" /><div class="label"><label for="options_'.$_option->getId().'">' . $this->__('None') . '</label></div></li>';
                     }
                     break;
                 case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                     $type = 'checkbox';
-                    $class = 'form-checkbox';
+                    $class = 'checkbox';
                     $arraySign = '[]';
                     break;
             }
@@ -96,7 +96,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                     'pricing_value' => $_value->getPrice(true)
                 ));
                 $selectHtml .= '<li>' .
-                               '<input type="'.$type.'" class="'.$require.' '.$class.' product-custom-option" onclick="opConfig.reloadPrice()" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />' .
+                               '<input type="'.$type.'" class="'.$class.' '.$require.' product-custom-option" onclick="opConfig.reloadPrice()" name="options['.$_option->getId().']'.$arraySign.'" id="options_'.$_option->getId().'_'.$count.'" value="'.$_value->getOptionTypeId().'" />' .
                                '<div class="label"><label for="options_'.$_option->getId().'_'.$count.'">'.$_value->getTitle().' '.$priceStr.'</label></div>';
                 if ($_option->getIsRequire()) {
                     $selectHtml .= '<script type="text/javascript">' .

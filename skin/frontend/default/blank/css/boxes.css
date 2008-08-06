@@ -147,8 +147,8 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 input, select, textarea, button { font:12px Arial, Helvetica, sans-serif; vertical-align:middle; }
 option, optgroup {}
 input.input-text, textarea {}
-input.radio { width:13px; height:13px; margin-right:5px; }
-input.checkbox { width:13px; height:13px; margin-right:5px; }
+input.radio { margin-right:5px; }
+input.checkbox { margin-right:5px; }
 input.qty { width:2.5em; }
 .form-button { overflow:visible; width:auto; padding:1px 8px; background:#f6f6f6; border:1px solid #000; font-weight:bold; color:#000; text-align:center; cursor:pointer; }
 .form-button span { white-space:nowrap; }
@@ -438,8 +438,8 @@ a.minimal-price-link .price { font-weight:normal; }
 .product-options dd select { width:100%; }
 .product-options dd .multiselect option { /*border-bottom:1px dotted #d9e5ee; padding:2px 4px;*/ }
 .product-options ul.options-list {}
-.product-options ul.options-list input.radio { float:left; margin:3px 0 0 0; }
-.product-options ul.options-list input.checkbox { float:left; margin:3px 0 0 0; }
+.product-options ul.options-list input.radio { float:left; margin-top:3px; }
+.product-options ul.options-list input.checkbox { float:left; margin-top:3px; }
 .product-options ul.options-list .label { margin-left:18px; }
 .product-options ul.validation-failed { padding:0 7px; }
 .product-options p.required { padding:15px 0 0; }

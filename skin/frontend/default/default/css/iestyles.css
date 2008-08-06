@@ -60,8 +60,10 @@
 
 .form-button,
 .form-button-alt { padding:1px 10px 0; }
-input.form-radio,
-input.form-checkbox { width:13px; height:13px; }
+
+input.radio,
+input.checkbox { width:13px; height:13px; }
+
 .product-options dd ul.options-list input.form-radio { margin-top:4px; }
 .multi-address-checkout-box .box { zoom:1; }
 .multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px; }

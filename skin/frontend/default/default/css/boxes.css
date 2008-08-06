@@ -60,8 +60,8 @@ option, optgroup { font:12px arial, helvetica, sans-serif; }
 optgroup { font-weight:bold; }
 textarea { overflow:auto; }
 input.input-text, textarea { padding:2px; }
-input.form-radio,
-input.form-checkbox { margin-right:3px; }
+input.radio { margin-right:3px; }
+input.checkbox { margin-right:3px; }
 .qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label { font-weight:bold;}
 .input-text:focus, select:focus, textarea:focus { background:#edf7fd; }
@@ -992,8 +992,8 @@ table.recently-list td {width:20%;}
 .product-options dd .multiselect option { border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
 .product-options ul.options-list { margin-right:5px; }
 .product-options ul.options-list li { line-height:1.5; padding:2px 0; }
-.product-options ul.options-list input.form-radio { float:left; margin:3px 0 0 0; }
-.product-options ul.options-list input.form-checkbox { float:left; margin:4px 0 0 0; }
+.product-options ul.options-list input.radio { float:left; margin-top:3px; }
+.product-options ul.options-list input.checkbox { float:left; margin-top:3px; }
 .product-options ul.options-list .label { margin-left:18px; }
 .product-options ul.options-list label { font-weight:normal; }
 .product-options ul.validation-failed { padding:0 7px; }
