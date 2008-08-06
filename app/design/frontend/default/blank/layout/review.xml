@@ -74,6 +74,7 @@ Product reviews page
                 </block>
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
                 <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
+                <block type="catalog/product_view" name="product.tierprices" as="tierprices" template="catalog/product/view/tierprices.phtml"/>
                 <block type="core/template" name="product.info.other" as="other" template="review/product/view/other.phtml"/>
                 <block type="page/html_pager" name="product_review_list.toolbar" />
                 <block type="core/template" name="product_review_list.count" template="review/product/view/count.phtml" />
