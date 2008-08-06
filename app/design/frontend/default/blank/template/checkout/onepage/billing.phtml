@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -49,7 +49,7 @@
                     <label for="billing:city"><?php echo $this->__('City') ?> <span class="required">*</span></label><br />
                     <input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="required-entry input-text" id="billing:city" /></div>
                 <div class="input-box">
-                    <label for="billing:region"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br/>
+                    <label for="billing:region"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
                     <select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none">
                         <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                     </select>
@@ -68,10 +68,10 @@
                     <?php echo $this->getCountryHtmlSelect('billing') ?></div></li>
             <li>
                 <div class="input-box">
-                    <label for="billing:telephone"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><br/>
+                    <label for="billing:telephone"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><br />
                     <input type="text" name="billing[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="required-entry input-text" id="billing:telephone" /></div>
                 <div class="input-box">
-                    <label for="billing:fax"><?php echo $this->__('Fax') ?></label><br/>
+                    <label for="billing:fax"><?php echo $this->__('Fax') ?></label><br />
                     <input type="text" name="billing[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="billing:fax" /></div></li>
             <?php if(!$this->isCustomerLoggedIn()): ?>
 
@@ -85,10 +85,10 @@
 
             <li id="register-customer-password">
                 <div class="input-box">
-                    <label for="billing:customer_password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br/>
+                    <label for="billing:customer_password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br />
                     <input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?php echo $this->__('Password') ?>" class="required-entry validate-password input-text" /></div>
                 <div class="input-box">
-                    <label for="billing:confirm_password"><?php echo $this->__('Confirm Password') ?> <span class="required">*</span></label><br/>
+                    <label for="billing:confirm_password"><?php echo $this->__('Confirm Password') ?> <span class="required">*</span></label><br />
                     <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="required-entry validate-password input-text" />
                 </div>
             </li>

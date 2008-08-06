@@ -16,7 +16,7 @@
  */
 
 /****************************************************/
-/****************[ Mage_CSS_B Clears ]***************/
+/******************** [ Clears ] ********************/
 /****************************************************/
 
 .clearer:after,
@@ -24,10 +24,11 @@
 #nav:after,
 .main-container:after,
 .footer:after,
+.buttons-set:after,
 
 .product-options ul.options-list li:after,
 .product-essential:after,
 .pager:after,
 .sorter:after,
 .group-select li:after,
-.box:after { content:"."; display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+.box:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

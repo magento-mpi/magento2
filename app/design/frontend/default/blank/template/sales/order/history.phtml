@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -26,6 +26,12 @@
 <?php echo $this->getPagerHtml(); ?>
 <?php if($_orders->getSize()): ?>
 <table class="data-table" id="my-orders-table">
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
     <thead>
         <tr>
             <th><?php echo $this->__('Order #') ?></th>
@@ -48,7 +54,7 @@
             <td class="a-center"><a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
                 <?php /*<span class="separator">|</span><a href="<?php echo $this->getTrackUrl($_order) ?>"><?php echo $this->__('Track Order') ?></a>&nbsp;*/ ?>
                 <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
-                <span class="separator">|</span><a href="<?php echo $this->getReorderUrl($_order) ?>"><?php echo $this->__('Reorder') ?></a>
+                <span class="separator">|</span> <a href="<?php echo $this->getReorderUrl($_order) ?>"><?php echo $this->__('Reorder') ?></a>
                 <?php endif ?>
             </td>
         </tr>

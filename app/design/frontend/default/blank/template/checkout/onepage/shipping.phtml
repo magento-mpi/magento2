@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -30,7 +30,7 @@
         <li><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress())
                 ->setFieldIdFormat('shipping:%s')->setFieldNameFormat('shipping[%s]')->setFieldParams('onchange="shipping.setSameAsBilling(false)"')->toHtml() ?></li>
         <li><div class="input-box">
-            <label for="shipping:company"><?php echo $this->__('Company') ?></label><br/>
+            <label for="shipping:company"><?php echo $this->__('Company') ?></label><br />
             <input type="text" id="shipping:company" name="shipping[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" /></div>
 <?php if(false): ?>
             <div class="input-box">

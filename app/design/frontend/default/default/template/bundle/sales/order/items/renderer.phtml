@@ -59,7 +59,7 @@
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <span class="price-excl-tax">
                     <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                        <span class="value"><?php echo Mage::helper('tax')->__('Excl. Tax'); ?>:</span>
+                        <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax'); ?>:</span>
                     <?php endif; ?>
                   <?php echo $this->getOrder()->formatPrice($this->getItem()->getPrice()) ?>
                 </span>

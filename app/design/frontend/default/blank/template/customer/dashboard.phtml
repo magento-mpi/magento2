@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -22,8 +22,8 @@
 <div class="box">
     <h3 class="box-head"><?php echo $this->__('Personal Information') ?></h3>
     <p>
-        <?php echo $this->getCustomer()->toString('{{firstname}} {{lastname}}<br/>{{email}}') ?>
-        <br/>
+        <?php echo $this->getCustomer()->toString('{{firstname}} {{lastname}}<br />{{email}}') ?>
+        <br />
         <a href="<?php echo $this->getAccountUrl() ?>"><?php echo $this->__('Edit Personal Information') ?></a>
     </p>
     <h3><?php echo _('Newsletters') ?></h3>
@@ -47,7 +47,7 @@
 <div class="box">
     <h3 class="box-head"><?php echo $this->__('Last 5 Orders') ?></h3>
     <p>
-    <?php echo $this->__('Order List...') ?><br/>
+    <?php echo $this->__('Order List...') ?><br />
     <a href=""><?php echo $this->__('View Order List') ?></a>
     </p>
 </div>

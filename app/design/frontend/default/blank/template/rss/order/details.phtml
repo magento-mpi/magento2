@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -25,8 +25,8 @@ store name = $_order->getStore()->getGroup()->getName()
 ?>
 <?php $_order=$this->getOrder() ?>
 <div>
-<?php echo $this->__('Customer Name: %s', $_order->getCustomerFirstname()?$_order->getCustomerName():$_order->getBillingAddress()->getName()) ?><br/>
-<?php echo $this->__('Purchased From: %s', $_order->getStore()->getGroup()->getName()) ?><br/>
+<?php echo $this->__('Customer Name: %s', $_order->getCustomerFirstname()?$_order->getCustomerName():$_order->getBillingAddress()->getName()) ?><br />
+<?php echo $this->__('Purchased From: %s', $_order->getStore()->getGroup()->getName()) ?><br />
 </div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
     <thead>
@@ -45,7 +45,7 @@ store name = $_order->getStore()->getGroup()->getName()
             <br /><strong><?php echo $this->__('Gift Message') ?></strong>
             <br /><?php echo $this->__('From:'); ?> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
             <br /><?php echo $this->__('To:'); ?> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
-            <br /><?php echo $this->__('Message:'); ?><br/> <?php echo $this->htmlEscape($_giftMessage->getMessage()) ?>
+            <br /><?php echo $this->__('Message:'); ?><br /> <?php echo $this->htmlEscape($_giftMessage->getMessage()) ?>
             <?php endif; ?>
             </td>
             <td align="center" valign="top" style="padding:3px 9px"><?php echo $_item->getQtyOrdered()*1 ?></td>
@@ -61,7 +61,7 @@ store name = $_order->getStore()->getGroup()->getName()
             <strong><?php echo $this->__('Gift Message') ?></strong>
             <br /><?php echo $this->__('From:'); ?> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
             <br /><?php echo $this->__('To:'); ?> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
-            <br /><?php echo $this->__('Message:'); ?><br/> <?php echo $this->htmlEscape($_giftMessage->getMessage()) ?>
+            <br /><?php echo $this->__('Message:'); ?><br /> <?php echo $this->htmlEscape($_giftMessage->getMessage()) ?>
             </td>
         </tr>
      <?php endif; ?>

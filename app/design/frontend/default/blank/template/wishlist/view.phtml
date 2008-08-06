@@ -12,14 +12,14 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="page-head-container">
-    <h2 class="page-head"><?php echo $this->__('My Wishlist') ?></h2>
+<div class="page-heading">
+    <h2 class="heading"><?php echo $this->__('My Wishlist') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->getWishlist()->getSize()): ?>
@@ -78,6 +78,7 @@
 <?php endif ?>
 <div class="buttons-set"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></div>
 <script type="text/javascript">
+//<![CDATA[
 function confirmRemoveWishlistItem(url){
     if(confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>')) {
         setLocation(url);
@@ -91,4 +92,5 @@ function focusComment(obj) {
         obj.value = '<?php echo $this->__('Please, enter your comments...') ?>';
     }
 }
+//]]>
 </script>

@@ -30,7 +30,6 @@
     <?php endif; ?>
   </div>
   <div class="a-left"><?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?></div>
-  <div class="clear"></div>
   <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
   <div class="a-center">
     <?php if($_prevUrl = $this->getPreviusImageUrl()): ?>
@@ -43,8 +42,10 @@
   <div class="a-right"><a href="#" onclick="window.close(); return false;"><?php echo $this->__('Close Window') ?></a></div>
 </div>
 <script type="text/javascript">
+//<![CDATA[
 Event.observe(window, 'load', function(){
     var demensions = $('product-gallery-image').getDimensions();
     window.resizeTo(demensions.width+90, demensions.height+210);
 });
+//]]>
 </script>

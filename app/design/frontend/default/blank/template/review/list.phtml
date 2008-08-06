@@ -12,25 +12,25 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
 <?php if(!empty($collection) && $collection->getSize()): ?>
-	<h3><?php echo $this->__('Customer Reviews') ?></h3>
-	<?php if($reviewCount): ?>
-	<p>
-		<?php if( $this->getUseBackLink() ): ?>
-		<small>&laquo; <a href="<?php echo $backLink ?>" class="back-link"><?php echo $this->__('Back') ?></a></small>
-		<?php else: ?>
-		<a href="<?php echo $reviewLink ?>"><small><?php echo $this->__('View All Reviews') ?></small></a>
-		<?php endif; ?>
-		<span> | </span>	
-	<?php endif; ?>
-	<a href="<?php echo $this->getAddLink() ?>#review-form"><small><?php echo $this->__('Add Your Review') ?></small></a>
-	</p>
+    <h3><?php echo $this->__('Customer Reviews') ?></h3>
+    <?php if($reviewCount): ?>
+    <p>
+        <?php if( $this->getUseBackLink() ): ?>
+        <small>&laquo; <a href="<?php echo $backLink ?>" class="back-link"><?php echo $this->__('Back') ?></a></small>
+        <?php else: ?>
+        <a href="<?php echo $reviewLink ?>"><small><?php echo $this->__('View All Reviews') ?></small></a>
+        <?php endif; ?>
+        <span> | </span>    
+    <?php endif; ?>
+    <a href="<?php echo $this->getAddLink() ?>#review-form"><small><?php echo $this->__('Add Your Review') ?></small></a>
+    </p>
     <?php if( $this->getUseBackLink() ): ?>
     <?php echo $this->getToolbarHtml() ?>
     <?php endif; ?>

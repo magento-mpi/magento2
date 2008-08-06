@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -20,23 +20,23 @@
 ?>
 <div class="box">
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
-        <h3 class="box-head"><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h3>
+        <h2 class="box-head"><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h2>
     <?php else: ?>
-        <h3 class="box-head"><?php echo $this->__('Compare Products') ?></h3>
+        <h2 class="box-head"><?php echo $this->__('Compare Products') ?></h2>
     <?php endif; ?>
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
         <ol id="compare-items">
         <?php foreach($this->helper('catalog/product_compare')->getItemCollection() as $_index=>$_item): ?>
             <li>
                 <input type="hidden" class="compare-item-id" value="<?php echo $_item->getId() ?>" />
-                <a href="<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>');" /></a>
+                <a href="<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" class="v-middle" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>');" /></a>
                 <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
             </li>
         <?php endforeach; ?>
         </ol>
         <script type="text/javascript">decorateList('compare-items')</script>
         <p class="actions">
-            <a href="<?php echo $this->helper('catalog/product_compare')->getClearListUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove all item from compare products?') ?>');"><?php echo $this->__('Clear All Items') ?></a>
+            <a href="<?php echo $this->helper('catalog/product_compare')->getClearListUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove all item from compare products?') ?>');"><?php echo $this->__('Clear All') ?></a>
             <button class="form-button" onclick="popWin('<?php echo $this->helper('catalog/product_compare')->getListUrl() ?>','compare','width=800,height=600,resizable=yes,scrollbars=yes')"><span><?php echo $this->__('Compare Items') ?></span></button>
         </p>
     <?php else: ?>

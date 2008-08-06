@@ -12,14 +12,14 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="page-head-container">
-    <h2 class="page-head"><?php echo $this->__('Share Your Wishlist') ?></h2>
+<div class="page-heading">
+    <h2 class="heading"><?php echo $this->__('Share Your Wishlist') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSendUrl() ?>" id="form-validate" method="post">
@@ -27,11 +27,11 @@
     <h3 class="legend"><?php echo $this->__('Sharing Information') ?></h3>
     <ul class="form-list">
         <li>
-            <label for="email_address"><?php echo $this->__('Email addresses, separated by commas') ?> <span class="required">*</span></label><br/>
+            <label for="email_address"><?php echo $this->__('Email addresses, separated by commas') ?> <span class="required">*</span></label><br />
             <textarea name="emails" cols="60" rows="5" class="validate-emails required-entry"><?php echo $this->getEnteredData('emails') ?></textarea>
         </li>
         <li>
-            <label for="message"><?php echo $this->__('Message') ?></label><br/>
+            <label for="message"><?php echo $this->__('Message') ?></label><br />
             <textarea id="message" name="message" cols="60" rows="5"><?php echo $this->getEnteredData('message') ?></textarea>
         </li>
         <?php if($this->helper('wishlist')->isRssAllow()): ?>

@@ -12,14 +12,14 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="page-head-container">
-    <h2 class="page-head"><?php echo $this->__('Edit Account Information') ?></h2>
+<div class="page-heading">
+    <h2 class="heading"><?php echo $this->__('Edit Account Information') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate">
@@ -57,17 +57,17 @@
     <ul>
         <li>
             <div class="input-box">
-                <label for="current_password"><?php echo $this->__('Current Password') ?></label><br/>
+                <label for="current_password"><?php echo $this->__('Current Password') ?></label><br />
                 <input type="password" class="input-text" name="current_password" id="current_password" />
             </div>
         </li>
         <li>
             <div class="input-box">
-                <label for="password"><?php echo $this->__('New Password') ?></label><br/>
+                <label for="password"><?php echo $this->__('New Password') ?></label><br />
                 <input type="password" class="validate-password input-text" name="password" id="password" />
             </div>
             <div class="input-box">
-                <label for="confirmation"><?php echo $this->__('Confirm New Password') ?></label><br/>
+                <label for="confirmation"><?php echo $this->__('Confirm New Password') ?></label><br />
                 <input type="password" class="validate-cpassword input-text" name="confirmation" id="confirmation" />
             </div>
         </li>

@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage_Bundle
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -49,12 +49,12 @@
 <?php endif; ?>
 <tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?> id="order-item-row-<?php echo $_item->getId() ?>">
     <?php if (!$_item->getOrderItem()->getParentItem()): ?>
-    <td><h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5></td>
+    <td><h4 class="product-name"><?php echo $this->htmlEscape($_item->getName()) ?></h4></td>
     <?php else: ?>
     <td><div class="option-value"><?php echo $this->getValueHtml($_item) ?></div></td>
     <?php endif; ?>
     <td><?php echo $_item->getSku() ?></td>
-    <td class="a-right nowrap">
+    <td class="a-right">
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <span class="price-excl-tax">
@@ -83,7 +83,7 @@
             &nbsp;
         <?php endif; ?>
     </td>
-    <td class="a-right nowrap">
+    <td class="a-right">
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php if ($this->helper('tax')->displayCartBothPrices() || $this->helper('tax')->displayCartPriceExclTax()): ?>
                 <span class="price-excl-tax">

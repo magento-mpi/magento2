@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -21,24 +21,24 @@
 <?php if ($this->helper('wishlist')->isAllow()) : ?>
 <?php //if($this->getCanDisplayWishlist()): ?>
 <div class="box">
-	<h3 class="box-head"><?php echo $this->__('My Wishlist - <a href="%s">%d Item(s)</a>',
-			$this->helper('wishlist')->getListUrl(),
-			$this->helper('wishlist')->getItemCount()
-		) ?></h3>
-	<h4><?php echo $this->__('Last Added Items') ?></h4>
+    <h2 class="box-head"><?php echo $this->__('My Wishlist - <a href="%s">%d Item(s)</a>',
+            $this->helper('wishlist')->getListUrl(),
+            $this->helper('wishlist')->getItemCount()
+        ) ?></h2>
+    <h3><?php echo $this->__('Last Added Items') ?></h3>
     
     <?php if($this->helper('wishlist')->getItemCount()>0): ?>
     <ol id="wishlist-sidebar">
      <?php foreach($this->getWishlistItems() as $_item): ?>
         <li>
-			<a class="product-image" href="<?php echo $_item->getProductUrl() ?>">
-				<img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50); ?>" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" width="50" height="50" />
-			</a>
+            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>">
+                <img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50); ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
+            </a>
             <div class="product-details">
                 <a href="<?php echo $this->helper('wishlist')->getRemoveUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the wishlist?') ?>');">
                     <img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Item') ?>" />
                 </a>
-                <h5 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_item) ?>
                 <?php if($_item->isSaleable()): ?>
                 <a href="<?php echo $this->helper('wishlist')->getAddToCartUrlBase64($_item) ?>"><?php echo $this->__('Add to Cart') ?></a>

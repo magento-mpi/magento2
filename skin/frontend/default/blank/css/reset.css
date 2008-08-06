@@ -20,20 +20,23 @@
 body        { background:#fff; font:11px/1.5em Arial, Helvetica, sans-serif; color:#000; text-align:center; }
 
 img         { border:0; vertical-align:top; }
+
+a           {}
+a:hover     {}
 :focus      { outline: 0; }
 
 
-/* Heading */
-h1          { margin-bottom:.4em; font-size:1.65em; line-height:1.2em; }
-h2          { margin-bottom:.4em; font-size:1.5em; line-height:1.2em; }
-h3          { margin-bottom:.4em; font-size:1.35em; line-height:1.2em; }
-h4          { margin-bottom:.4em; font-size:1.05em; line-height:1.35em; }
-h5          { margin-bottom:.4em; font-size:1.05em; line-height:1.35em; }
-h6          { margin-bottom:.1em; font-size:1em; line-height:1.35em; }
+/* Headings */
+h1          { margin-bottom:.5em; font-size:1.65em; line-height:1.2em; }
+h2          { margin-bottom:.5em; font-size:1.5em; line-height:1.2em; }
+h3          { margin-bottom:.5em; font-size:1.35em; line-height:1.2em; }
+h4          { margin-bottom:.5em; font-size:1.05em; line-height:1.35em; }
+h5          { margin-bottom:.5em; font-size:1.05em; line-height:1.35em; }
+h6          { margin-bottom:.5em; font-size:1em; line-height:1.35em; }
 
 
 /* Table */
-table       { border:0; border-collapse:collapse; border-spacing:0; font-size:100%; }
+table       { border:0; border-collapse:collapse; border-spacing:0; empty-cells:show; font-size:100%; }
 th          { vertical-align:top; text-align:left; font-weight:normal; }
 td          { vertical-align:top; }
 
@@ -50,10 +53,6 @@ form        { display:inline; }
 fieldset    { border:0; }
 legend      { display:none; }
 label       {}
-input, 
-select, 
-textarea,
-button      { vertical-align:middle; }
 
 /* Lists */
 ul,ol       { list-style:none; }

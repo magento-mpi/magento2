@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -20,8 +20,8 @@
 ?>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/giftmessage.js') ?>"></script>
 <?php if(!$this->getSaveMode()): ?>
-<div class="page-head-container">
-    <h2 class="page-head"><?php echo $this->__('Gift Message') ?></h2>
+<div class="page-heading">
+    <h2 class="heading"><?php echo $this->__('Gift Message') ?></h2>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
     <ul class="form-list">
@@ -54,10 +54,10 @@
     </div>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
-<h2 class="page-head"><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
+<h2 class="heading"><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
 <p><button class="form-button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
 <?php else: ?>
-<h2 class="page-head"><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
+<h2 class="heading"><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
 <p><button class="form-button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
 <?php endif; ?>
 <script type="text/javascript">

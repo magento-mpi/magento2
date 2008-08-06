@@ -12,7 +12,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -71,7 +71,7 @@
                 <th><?php echo $this->__('SKU') ?></th>
                 <th class="a-right"><?php echo $this->__('Price') ?></th>
                 <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Invoiced') ?></span></th>
-                <th class="a-right last"><?php echo $this->__('Subtotal') ?></th>
+                <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
             </tr>
         </thead>
         <?php $colspan = 4; ?>
@@ -79,30 +79,30 @@
             <?php if($_invoice->getSubtotal() != $_invoice->getGrandTotal()): ?>
             <tr>
                 <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()) ?></td>
+                <td class="a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()) ?></td>
             </tr>
             <?php endif; ?>
             <?php if ($_invoice->getDiscountAmount() > 0): ?>
             <tr>
                 <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Discount :') ?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_invoice->getDiscountAmount()) ?></td>
+                <td class="a-right"><?php echo $_order->formatPrice(0.00 - $_invoice->getDiscountAmount()) ?></td>
             </tr>
             <?php endif; ?>
             <?php if ($_invoice->getTaxAmount() > 0): ?>
             <tr>
                 <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Tax') ?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>
+                <td class="a-right"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>
             </tr>
             <?php endif; ?>
             <?php if ($_invoice->getShippingAmount()*1 || $_invoice->getShippingDescription()): ?>
             <tr>
                 <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getShippingAmount()) ?></td>
+                <td class="a-right"><?php echo $_order->formatPrice($_invoice->getShippingAmount()) ?></td>
             </tr>
             <?php endif; ?>
             <tr>
                 <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total') ?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
+                <td class="a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
             </tr>
         </tfoot>
         <?php $_items = $_invoice->getItemsCollection(); ?>
