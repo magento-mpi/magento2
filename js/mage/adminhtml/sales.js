@@ -202,7 +202,8 @@ AdminOrder.prototype = {
     resetShippingMethod : function(data){
         data['reset_shipping'] = 1;
         this.isShippingMethodReseted = true;
-        this.loadArea(['shipping_method', 'billing_method', 'totals', 'giftmessage'], true, data);
+//        this.loadArea(['shipping_method', 'billing_method', 'totals', 'giftmessage'], true, data);
+        this.loadArea(['shipping_method', 'totals', 'giftmessage'], true, data);
     },
 
     loadShippingRates : function(){
@@ -213,7 +214,8 @@ AdminOrder.prototype = {
     setShippingMethod : function(method){
         var data = $H({});
         data['order[shipping_method]'] = method;
-        this.loadArea(['shipping_method', 'totals', 'billing_method'], true, data);
+//        this.loadArea(['shipping_method', 'totals', 'billing_method'], true, data);
+        this.loadArea(['shipping_method', 'totals'], true, data);
     },
 
     switchPaymentMethod : function(method){
