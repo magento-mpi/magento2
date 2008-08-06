@@ -29,7 +29,6 @@ Checkout.prototype = {
         this.method = '';
         this.payment = '';
         this.loadWaiting = false;
-
         this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment', 'review'];
 
         //this.onSetMethod = this.nextStep.bindAsEventListener(this);
@@ -176,13 +175,19 @@ Checkout.prototype = {
 
     setStepResponse: function(response){
         if (response.update_section) {
-            $('checkout-'+response.update_section.name+'-load').innerHTML = response.update_section.html;
+            $('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
         }
         if (response.allow_sections) {
             response.allow_sections.each(function(e){
                 $('opc-'+e).addClassName('allow');
             });
         }
+
+        if(response.duplicateBillingInfo)
+        {
+            shipping.setSameAsBilling(true);
+        }
+
         if (response.goto_section) {
             this.reloadProgressBlock();
             this.gotoSection(response.goto_section);
@@ -403,6 +408,7 @@ Shipping.prototype = {
 
     setSameAsBilling: function(flag) {
         $('shipping:same_as_billing').checked = flag;
+// #5599. Also it hangs up, if the flag is not false
 //        $('billing:use_for_shipping_yes').checked = flag;
         if (flag) {
             this.syncWithBilling();
@@ -555,13 +561,15 @@ ShippingMethod.prototype = {
                 response = {};
             }
         }
+
         if (response.error) {
             alert(response.message);
             return false;
         }
 
         if (response.update_section) {
-            $('checkout-'+response.update_section.name+'-load').innerHTML = response.update_section.html;
+            $('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
+            response.update_section.html.evalScripts();
         }
 
         $$('.cvv-what-is-this').each(function(element){
