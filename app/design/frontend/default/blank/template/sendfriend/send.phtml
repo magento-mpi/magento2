@@ -78,7 +78,7 @@
                 </li>
                 <li>
                     <label for="sender_message"><?php echo $this->__('Message:') ?></label><br />
-                    <textarea name="sender[message]" class="input-text" id="sender_message" cols="3" rows="3" style="width:100%;height:100px"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
+                    <textarea name="sender[message]" id="sender_message" cols="3" rows="3" style="width:100%; height:100px;"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
                 </li>
 
          </ul>
@@ -98,7 +98,7 @@
                         </div>
                     </li>
             </ul>
-    <div id="max_recipient_message" style="display:none">
+    <div id="max_recipient_message" style="display:none;">
     <?php if ($this->getMaxRecipients()): ?>
       <p><?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRecipients()) ?></p>
     <?php endif; ?>

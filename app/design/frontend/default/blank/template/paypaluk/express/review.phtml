@@ -41,7 +41,7 @@
                     <?php else: ?>
 
                     <form method="post" action="<?php echo $this->getUrl('paypaluk/express/saveShippingMethod') ?>">
-                        <select name="shipping_method" id="shipping_method" style="width:250px" onchange="saveShippingMethod(this.value)">
+                        <select name="shipping_method" id="shipping_method" style="width:250px;" onchange="saveShippingMethod(this.value)">
                         <?php if(!$this->getAddressShippingMethod()): ?>
                             <option value=""><?php echo $this->__('Please select a shipping method...') ?></option>
                         <?php endif ?>

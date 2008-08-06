@@ -27,9 +27,7 @@
         <h3><?php echo $hit['name']; ?></h3>
         <p>
             <?php foreach ($hit['tags']['data'] as $tag) { ?>
-                <a style="font-size:<?php echo $tag['size']; ?>" href="/taggedproducts/?tag=<?php echo $tag['tag_name']; ?>">
-                    <?php echo $tag['tag_name']; ?>
-                </a>
+                <a style="font-size:<?php echo $tag['size']; ?>" href="/taggedproducts/?tag=<?php echo $tag['tag_name']; ?>"><?php echo $tag['tag_name']; ?></a>
             <?php } ?>
         </p>
     </li>

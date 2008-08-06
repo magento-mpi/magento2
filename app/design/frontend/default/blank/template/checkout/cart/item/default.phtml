@@ -56,7 +56,7 @@
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td>
-        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" />
+        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" class="checkbox" />
     </td>
     <?php endif ?>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>

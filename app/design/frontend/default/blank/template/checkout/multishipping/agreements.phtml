@@ -26,7 +26,7 @@
             <?php echo nl2br($this->htmlEscape($_a->getContent())) ?>
         </div>
         <p class="agree">
-            <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" />&nbsp;
+            <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" class="checkbox" />
             <label for="agreement-<?php echo $_a->getId()?>"><?php echo $_a->getCheckboxText()?></label>
         </p>
     </li>

@@ -28,19 +28,19 @@
         <li>
             <div class="input-box">
                 <label for="sender"><?php echo $this->__('From') ?> <span class="required">*</span></label><br />
-                <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="required-entry input-text" />
+                <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="input-text required-entry" />
             </div>
         </li>
         <li>
             <div class="input-box">
                 <label for="recipient"><?php echo $this->__('To') ?> <span class="required">*</span></label><br />
-                <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="required-entry input-text" />
+                <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="input-text required-entry" />
             </div>
         </li>
         <li>
             <div class="input-box">
                 <label for="email_address"><?php echo $this->__('Message') ?> <span class="required">*</span></label><br />
-                <textarea name="messagetext" title="<?php echo $this->__('Message') ?>" class="required-entry input-text" cols="60" rows="5"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
+                <textarea name="messagetext" title="<?php echo $this->__('Message') ?>" class="input-text required-entry" cols="60" rows="5"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
             </div>
         </li>
     </ul>

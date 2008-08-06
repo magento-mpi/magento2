@@ -35,47 +35,47 @@
 <?php if(false): ?>
             <div class="input-box">
             <label for="shipping:email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
-            <input type="text" name="shipping[email]" id="shipping:email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" /></div>
+            <input type="text" name="shipping[email]" id="shipping:email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" /></div>
 <?php endif ?>
             </li>
         <li><label for="shipping:street1"><?php echo $this->__('Address') ?> <span class="required">*</span></label><br />
-            <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="required-entry input-text" onchange="shipping.setSameAsBilling(false);" /></li>
+            <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" onchange="shipping.setSameAsBilling(false);" /></li>
 <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
         <li><input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="shipping[street][]" id="shipping:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" /></li>
 <?php endfor ?>
         <li><div class="input-box">
             <label for="shipping:city"><?php echo $this->__('City') ?> <span class="required">*</span></label><br />
-            <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);" /></div>
+            <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="input-text required-entry" id="shipping:city" onchange="shipping.setSameAsBilling(false);" /></div>
             <div class="input-box">
             <label for="shipping:region"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
-            <select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none">
+            <select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
                 <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
             </select>
             <script type="text/javascript">
                 $('shipping:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
             </script>
-            <input type="text" id="shipping:region" name="shipping[region]" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none" /></div></li>
+            <input type="text" id="shipping:region" name="shipping[region]" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" /></div></li>
         <li><div class="input-box">
             <label for="shipping:postcode"><?php echo $this->__('Zip/Postal Code') ?> <span class="required">*</span></label><br />
-            <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>" class="validate-zip-international required-entry input-text" onchange="shipping.setSameAsBilling(false);" /></div>
+            <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international required-entry" onchange="shipping.setSameAsBilling(false);" /></div>
             <div class="input-box">
             <label for="shipping:country_id"><?php echo $this->__('Country') ?> <span class="required">*</span></label><br />
             <?php echo $this->getCountryHtmlSelect('shipping') ?>
             </div></li>
         <li><div class="input-box">
             <label for="shipping:telephone"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><br />
-            <input type="text" name="shipping[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="required-entry input-text" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);" /></div>
+            <input type="text" name="shipping[telephone]" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);" /></div>
             <div class="input-box">
             <label for="shipping:fax"><?php echo $this->__('Fax') ?></label><br />
             <input type="text" name="shipping[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="shipping:fax" onchange="shipping.setSameAsBilling(false);" /></div></li>
         <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
-            <li><input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="shipping:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> /> <label for="shipping:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
+            <li><input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="shipping:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /> <label for="shipping:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
         <?php else:?>
             <li><input type="hidden" name="shipping[save_in_address_book]" value="1" /></li>
         <?php endif;?>
     </ul>
 </fieldset>
-    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?php if($this->getAddress()->getSameAsBilling()): ?>checked="checked"<?php endif ?> onclick="shipping.setSameAsBilling(this.checked)" /> &nbsp;<label for="shipping:same_as_billing"><?php echo $this->__('Use Billing Address') ?></label></p>
+    <p><input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1" <?php if($this->getAddress()->getSameAsBilling()): ?>checked="checked"<?php endif ?> onclick="shipping.setSameAsBilling(this.checked)" class="checkbox" /> <label for="shipping:same_as_billing"><?php echo $this->__('Use Billing Address') ?></label></p>
 </form>
 <div class="buttons-set">
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>

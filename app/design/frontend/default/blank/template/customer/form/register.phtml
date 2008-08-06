@@ -41,7 +41,7 @@
             <li>
                 <div class="input-box">
                     <label for="email_address"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
-                    <input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" />
+                    <input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
                 </div>
             </li>
             
@@ -53,7 +53,7 @@
 <?php endif ?>    
             
             <li>
-                <input type="checkbox" name="is_subscribed" title="<?php echo $this->__('Sign Up for Newsletter') ?>" value="1" id="is_subscribed" <?php if($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif ?> />
+                <input type="checkbox" name="is_subscribed" title="<?php echo $this->__('Sign Up for Newsletter') ?>" value="1" id="is_subscribed"<?php if($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox" />
                 <label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
             </li>
         </ul>
@@ -70,12 +70,12 @@
                 </div>
                 <div class="input-box">
                     <label for="lastname"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><br />
-                    <input type="text" name="telephone" id="telephone" value="<?php echo $this->htmlEscape($this->getFormData()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="required-entry input-text" />
+                    <input type="text" name="telephone" id="telephone" value="<?php echo $this->htmlEscape($this->getFormData()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry" />
                 </div>
             </li>
             <li>
                 <label for="street_1"><?php echo $this->__('Street Address') ?> <span class="required">*</span></label><br />
-                <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="required-entry input-text" />
+                <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="input-text required-entry" />
             </li>
 <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
             <li>
@@ -85,23 +85,23 @@
             <li>
                 <div class="input-box">
                     <label for="city"><?php echo $this->__('City') ?> <span class="required">*</span></label><br />
-                    <input type="text" name="city" value="<?php echo $this->htmlEscape($this->getFormData()->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="required-entry input-text" id="city" />
+                    <input type="text" name="city" value="<?php echo $this->htmlEscape($this->getFormData()->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text required-entry" id="city" />
                 </div>
                 <div class="input-box">
                     <label for="region_id"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
-                    <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none">
+                    <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
                         <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                     </select>
                     <script type="text/javascript">
                         $('region_id').setAttribute('defaultValue',  "<?php echo $this->getFormData()->getRegionId() ?>");
                     </script>
-                    <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none" />
+                    <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
                 </div>
             </li>
             <li>
                 <div class="input-box">
                     <label for="zip"><?php echo $this->__('Zip/Postal Code') ?> <span class="required">*</span></label><br />
-                    <input type="text" name="postcode" value="<?php echo $this->htmlEscape($this->getFormData()->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="validate-zip-international required-entry input-text" />
+                    <input type="text" name="postcode" value="<?php echo $this->htmlEscape($this->getFormData()->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international required-entry" />
                 </div>
                 <div class="input-box">
                     <label for="country"><?php echo $this->__('Country') ?> <span class="required">*</span></label><br />
@@ -119,11 +119,11 @@
             <li>
                 <div class="input-box">
                     <label for="password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br />
-                    <input type="password" name="password" id="password" title="<?php echo $this->__('Password') ?>" class="required-entry validate-password input-text" />
+                    <input type="password" name="password" id="password" title="<?php echo $this->__('Password') ?>" class="input-text required-entry validate-password" />
                 </div>
                 <div class="input-box">
                     <label for="confirmation"><?php echo $this->__('Confirm Password') ?> <span class="required">*</span></label><br />
-                    <input type="password" name="confirmation" title="<?php echo $this->__('Confirm Password') ?>" id="confirmation" class="required-entry validate-cpassword input-text" />
+                    <input type="password" name="confirmation" title="<?php echo $this->__('Confirm Password') ?>" id="confirmation" class="input-text required-entry validate-cpassword" />
                 </div>
             </li>
         </ul>

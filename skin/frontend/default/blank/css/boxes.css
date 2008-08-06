@@ -279,7 +279,7 @@ display:inline;
 .data-table tbody.even td { border-width:0 1px; }
 .data-table tbody.odd tr.border td,
 .data-table tbody.even tr.border td { border-bottom-width:1px; }
-.data-table td h4.product-name { font-size:1em; font-weight:bold; line-height:1.5; margin:0; padding:0; }
+.data-table td h4.product-name { font-size:1em; font-weight:bold; line-height:1.5; }
 .data-table td.label { font-weight:bold; }
 .data-table td.data {}
 

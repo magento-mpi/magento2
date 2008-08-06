@@ -91,7 +91,7 @@ billing.onSave = function(evt){
         <h3 class="box-head"><?php echo $this->__('Do you have any gift items in your order?'); ?></h3>
 
         <p>
-            <input type="checkbox" name="allow_gift_messages" id="allow_gift_messages" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container']);" <?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?>checked="checked"<?php endif ?> />
+            <input type="checkbox" name="allow_gift_messages" id="allow_gift_messages" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container']);"<?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?> checked="checked"<?php endif; ?> class="checkbox" />
             <label for="allow_gift_messages"><?php echo $this->__('Check this checkbox if you want to add gift messages.') ?></label>
         </p>
     </div>
@@ -176,7 +176,7 @@ billing.onSave = function(evt){
     <div class="inner-box">
         <h3><?php echo $this->__('Gift Messages'); ?></h3>
         <p>
-            <input type="checkbox" name="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container-<?php echo $this->getEntity()->getId() ?>']);" <?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?>checked="checked"<?php endif ?> />
+            <input type="checkbox" name="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>" value="1" onclick="toogleVisibilityOnObjects(this, ['allow-gift-message-container-<?php echo $this->getEntity()->getId() ?>']);"<?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?> checked="checked"<?php endif ?> class="checkbox" />
             <label for="allow_gift_messages_<?php echo $this->getEntity()->getId() ?>"><?php echo $this->__('Check this checkbox if you want to add gift messages to your items.') ?></label>
         </p>
 
