@@ -102,13 +102,13 @@
     <div class="product-collateral">
         <?php if ($_description = $this->getChildHtml('description')):?>
             <div class="box">
-                <h3 class="box-head"><?php echo $this->__('Product Description') ?></h3>
+                <h3><?php echo $this->__('Product Description') ?></h3>
                 <?php echo $_description ?>
             </div>
         <?php endif;?>
         <?php if ($_additional = $this->getChildHtml('additional')):?>
             <div class="box">
-                <h3 class="box-head"><?php echo $this->__('Additional Information') ?></h3>
+                <h3><?php echo $this->__('Additional Information') ?></h3>
                 <?php echo $_additional ?>
             </div>
         <?php endif;?>

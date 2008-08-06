@@ -41,10 +41,10 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
                 <action method="addCss"><stylesheet>css/reset.css</stylesheet></action>
-                <action method="addCss"><stylesheet>css/boxes.css</stylesheet></action>
+                <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/clears.css</stylesheet></action>
 
-                <action method="addItem"><type>skin_css</type><name>css/ie.css</name><params/><if>lte IE 7</if></action>
+                <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>IE</if></action>
 
                 <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
                 <action method="addItem"><type>js</type><name>varien/iehover-fix.js</name><params/><if>lt IE 7</if></action>
@@ -91,10 +91,10 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>varien/js.js</script></action>
 
                 <action method="addCss"><stylesheet>css/reset.css</stylesheet></action>
-                <action method="addCss"><stylesheet>css/boxes.css</stylesheet></action>
+                <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/clears.css</stylesheet></action>
 
-                <action method="addItem"><type>skin_css</type><name>css/ie.css</name><params/><if>lte IE 7</if></action>
+                <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>IE</if></action>
 
                 <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
                 <action method="addItem"><type>js</type><name>varien/iehover-fix.js</name><params/><if>lt IE 7</if></action>

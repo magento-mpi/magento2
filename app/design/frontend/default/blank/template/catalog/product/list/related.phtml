@@ -20,7 +20,7 @@
 ?>
 <?php if($this->getItems()->getSize()): ?>
 <div class="box">
-    <h3 class="box-head"><?php echo $this->__('Related Products') ?></h3>
+    <h2><?php echo $this->__('Related Products') ?></h2>
     <p><strong><?php echo $this->__('Check items to add to the cart or ') ?><a href="#" onclick="selectAllRelated(this);return false;"><?php echo $this->__('select all') ?></a></strong></p>
     <ol>
     <?php foreach($this->getItems() as $_item): ?>

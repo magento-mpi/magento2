@@ -35,7 +35,7 @@
 //]]>
 </script>
 <div class="box">
-    <h2 class="box-head"><?php echo $this->__('Community Poll') ?></h2>
+    <h2><?php echo $this->__('Community Poll') ?></h2>
     <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
         <h3><?php echo $poll->getPollTitle(); ?></h3>
         <?php if( $poll_answers ): ?>

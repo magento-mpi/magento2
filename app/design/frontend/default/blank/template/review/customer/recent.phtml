@@ -20,7 +20,7 @@
 ?>
 <?php if( $this->getCollection() && $this->count()): ?>
 <div class="box">
-    <h3 class="box-head"><?php echo $this->__('My Recent Reviews') ?></h3>
+    <h2><?php echo $this->__('My Recent Reviews') ?></h2>
     <a href="<?php echo $this->getAllReviewsUrl() ?>"><small><?php echo $this->__('View All Reviews') ?></small></a>
     <?php $iterator = 0 ?>
     <?php foreach ($this->getCollection() as $_review): ?>

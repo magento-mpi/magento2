@@ -27,8 +27,7 @@
 ?>
 <?php if($this->canShowBlock()): ?>
 <div class="box">
-    <h3 class="box-head"><?php echo $this->__('Shop by') ?></h3>
-
+    <h2><?php echo $this->__('Shop by') ?></h2>
     <?php echo $this->getStateHtml() ?>
     <?php if($this->canShowOptions()): ?>
     <h4><?php echo $this->__('Shopping Options') ?></h4>
@@ -45,7 +44,5 @@
     </dl>
     <script type="text/javascript">decorateDataList('narrow-by-list')</script>
     <?php endif; ?>
-
 </div>
 <?php endif; ?>
-<!-- [ends] .browse-by // -->

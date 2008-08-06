@@ -14,58 +14,39 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-/****************************************************/
-/****************[ IE Clears ]***************/
-/****************************************************/
 
-.clearer,
+/****************************************************/
+/****************[ Clears ]***************/
+/****************************************************/
 .header,
 #nav,
 .main-container,
 .footer,
 .buttons-set,
-
-.product-options ul.options-list li,
-.product-essential,
+.col2-set,
+.col3-set,
+.col4-set,
 .pager,
 .sorter,
+.product-img-box .more-views ul,
+.product-options ul.options-list li,
 .group-select li,
 .box { zoom:1; }
 
-/* < hasLayout On */
+/* Clearer */
+.clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+
+/********************** Navigation styles */
 #nav li,
 #nav li a { zoom:1; }
-/* hasLayout On > */
-
-input.radio { width:13px; height:13px; }
-input.checkbox { width:13px; height:13px; }
-
-	
-/****************************************************/
-/****************[ MENU FIX ]***************/
-/****************************************************/
-
-/* Show menu */
+/* Show Menu */
 #nav li.over ul.shown-sub { left:0; }
 #nav li.over li ul.shown-sub { left:100px; }
 #nav ul li.parent { margin-bottom:-3px; }
 
-/* Hover fix */
+/********************** Hover Fix */
 #nav iframe,
 .truncated iframe { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
 
-.form-button { padding:0 8px; }
-
-.multi-address-checkout-box .box { zoom:1; }
-.multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px;}
-.quick-access li { padding-right:4px; padding-left:6px;}
-.mini-search  { padding-top:-1px; line-height:1em;}
-.home-spot { display:inline; }
-.mini-related-items .product-details { margin-left:76px; }
-.mini-related-items .product-images input { zoom:1; position:relative; float:left; margin:-4px 2px 0 -10px; }
-.mini-related-items .product-images img { float:left; }
-.header-top-container { position:relative; }
-#nav ul li.parent { margin-bottom:-3px; }
-
-/* Clearer */
-.clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+input.radio { width:13px; height:13px; }
+input.checkbox { width:13px; height:13px; }

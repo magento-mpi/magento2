@@ -20,7 +20,7 @@
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
 <div class="box">
-    <h2 class="box-head"><?php echo $this->__('Recently Viewed Products') ?></h2>
+    <h2><?php echo $this->__('Recently Viewed Products') ?></h2>
     <ol id="recently-viewed-items">
     <?php foreach ($_products as $_item): ?>
         <li><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>

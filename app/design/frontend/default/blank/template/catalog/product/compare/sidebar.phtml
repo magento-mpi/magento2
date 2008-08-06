@@ -20,9 +20,9 @@
 ?>
 <div class="box">
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
-        <h2 class="box-head"><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h2>
+        <h2><?php echo $this->__('Compare Products - %d Items', $this->helper('catalog/product_compare')->getItemCount()) ?></h2>
     <?php else: ?>
-        <h2 class="box-head"><?php echo $this->__('Compare Products') ?></h2>
+        <h2><?php echo $this->__('Compare Products') ?></h2>
     <?php endif; ?>
     <?php if($this->helper('catalog/product_compare')->getItemCount()>0): ?>
         <ol id="compare-items">
