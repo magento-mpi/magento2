@@ -137,9 +137,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $productIds = array();
         $return     = array();
         foreach ($this->getOptions() as $option) {
-//            mageDebugBacktrace();
             /* @var $option Mage_Sales_Model_Quote_Item_Option */
-            if ($option->getProduct()->getId() != $this->getProduct()->getId()
+            if (is_object($option->getProduct()) && $option->getProduct()->getId() != $this->getProduct()->getId()
                 && !isset($productIds[$option->getProduct()->getId()])) {
                 $productIds[$option->getProduct()->getId()] = $option->getProduct()->getId();
             }
@@ -163,7 +162,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function setProduct($product)
     {
         if ($this->getQuote()) {
-        	$product->setStoreId($this->getQuote()->getStoreId());
+            $product->setStoreId($this->getQuote()->getStoreId());
         }
         $this->setData('product', $product)
             ->setProductId($product->getId())
@@ -223,7 +222,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         foreach ($itemOptions as $option) {
             $code = $option->getCode();
             if (in_array($code, $this->_norRepresentOptions )) {
-            	continue;
+                continue;
             }
             if ( !isset($productOptions[$code])
                 || ($productOptions[$code]->getValue() === null)
