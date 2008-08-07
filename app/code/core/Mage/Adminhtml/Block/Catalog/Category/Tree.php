@@ -208,7 +208,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $item['allowDrop'] = true;
         // disallow drag if it's first level and category is root of a store
         $item['allowDrag'] = ($node->getLevel()==1 && $rootForStores) ? false : true;
-        if ((int)$node->getCountChildren()>0) {
+        if ((int)$node->getChildrenCount()>0) {
             $item['children'] = array();
         }
         if ($node->hasChildren()) {

@@ -22,7 +22,7 @@
 $this->startSetup();
 
 $this->run("
-        ALTER TABLE `{$this->getTable('catalog_category_entity')}` ADD `count_children` INT NOT NULL;
+        ALTER TABLE `{$this->getTable('catalog_category_entity')}` ADD `children_count` INT NOT NULL;
 ");
 
 $sql    = "SELECT * FROM `{$this->getTable('catalog_category_entity')}`";
@@ -33,7 +33,7 @@ foreach ($data as $row) {
     $count  = (int) $this->getConnection()->fetchOne($sql);
 
     $this->run("UPDATE `{$this->getTable('catalog_category_entity')}`
-        SET `count_children` = $count
+        SET `children_count` = $count
         WHERE `entity_id` = {$row['entity_id']}");
 }
 
