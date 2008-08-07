@@ -55,16 +55,18 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             unset($tagNamesArr[$key]);
                         }
                     }
-
+                    $newCount = 0;
                     foreach( $tagNamesArr as $tagName ) {
                         if( $tagName ) {
                             $tagModel = Mage::getModel('tag/tag');
                             $tagModel->loadByName($tagName);
                             if ($tagModel->getId()) {
                                 $status = $tagModel->getStatus();
+                                $session->addNotice($this->__('Tag "%s" has already been added to the product' ,$tagName));
                             }
                             else {
                                 $status = $tagModel->getPendingStatus();
+                                $newCount++;
                             }
 
                             $tagModel->setName($tagName)
@@ -94,7 +96,9 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             continue;
                         }
                     }
-                    $session->addSuccess($this->__('Your tag(s) have been accepted for moderation'));
+                    if ($newCount > 0) {
+                        $session->addSuccess($this->__('%s tag(s) have been accepted for moderation', $newCount));
+                    }
                 } catch (Exception $e) {
                     $session->addError($this->__('Unable to save tag(s)'));
                 }
