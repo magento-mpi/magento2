@@ -59,6 +59,7 @@
             <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
                 (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
             <?php endif; ?>
+            <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
         </fieldset>
     </div>
 <?php endif; ?>

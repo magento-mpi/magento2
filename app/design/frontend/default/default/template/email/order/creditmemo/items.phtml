@@ -55,7 +55,7 @@
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_creditmemo->getShippingAmount()) ?></td>
         </tr>
         <?php endif; ?>
-        <?php if ($_creditmemo->getTaxAmount() > 0): ?>
+         <?php if (($_order->getTaxAmount() > 0)||(Mage::getStoreConfig('tax/display/zero_tax'))): ?>
         <tr>
             <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Tax') ?></td>
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_creditmemo->getTaxAmount()) ?></td>

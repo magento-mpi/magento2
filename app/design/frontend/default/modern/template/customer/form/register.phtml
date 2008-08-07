@@ -71,11 +71,11 @@
             </li>
             <li>
                 <label for="street_1"><?php echo $this->__('Street Address') ?> <span class="required">*</span></label><br/>
-                <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="required-entry input-text"/>
+                <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet(1)) ?> " title="<?php echo $this->__('Street Address') ?>" id="street_1" class="required-entry input-text"/>
             </li>
 <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
             <li>
-                <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet($_i)) ?>" title="<?php echo $this->__('Street Address '.$_i) ?>" id="street_<?php echo $_i?>" class="input-text"/>
+                <input type="text" name="street[]" value="<?php echo $this->htmlEscape($this->getFormData()->getStreet($_i)) ?> " title="<?php echo $this->__('Street Address '.$_i) ?>" id="street_<?php echo $_i?>" class="input-text"/>
             </li>
 <?php endfor ?>
             <li>

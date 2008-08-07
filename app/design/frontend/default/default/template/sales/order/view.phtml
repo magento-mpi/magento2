@@ -47,6 +47,8 @@ function giftMessageToogle(giftMessageIdentifier)
 }
 </script>
 <?php endif; ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
 <?php  $_order = $this->getOrder() ?>
 
 <h4><?php echo $this->__('Items Ordered') ?>
