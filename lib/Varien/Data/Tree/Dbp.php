@@ -184,7 +184,13 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
     {
         if (isset($children[$path])) {
             foreach ($children[$path] as $child) {
-                $node = new Varien_Data_Tree_Node($child, $this->_idField, $this, $parentNode);
+                $nodeId = isset($child[$this->_idField])?$child[$this->_idField]:false;
+                if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
+                    $node->addData($child);
+                } else {
+                    $node = new Varien_Data_Tree_Node($child, $this->_idField, $this, $parentNode);
+                }
+
                 //$node->setLevel(count(explode('/', $node->getData($this->_pathField)))-1);
                 $node->setLevel($node->getData($this->_levelField));
                 $node->setPathId($node->getData($this->_pathField));
@@ -291,6 +297,70 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
         } catch (Exception $e){
             $this->_conn->rollBack();
             throw new Exception("Can't move tree node due to error: " . $e->getMessage());
+        }
+    }
+
+    public function loadEnsuredNodes($category, $rootNode)
+    {
+        $pathIds = $category->getPathIds();
+        $rootNodeId = $rootNode->getId();
+        $rootNodePath = $rootNode->getData($this->_pathField);
+
+        $select = clone $this->_select;
+        $select->order($this->_table.'.'.$this->_orderField . ' ASC');
+
+        if ($pathIds) {
+            $condition = $this->_conn->quoteInto("$this->_table.$this->_idField in (?)", $pathIds);
+            $select->where($condition);
+        }
+
+        $arrNodes = $this->_conn->fetchAll($select);
+
+        foreach ($arrNodes as $nodeInfo) {
+            $nodeId = $nodeInfo[$this->_idField];
+            if ($nodeId<=$rootNodeId) {
+                continue;
+            }
+
+            $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
+            array_pop($pathToParent);
+            $pathToParent = implode('/', $pathToParent);
+            $childrenItems[$pathToParent][] = $nodeInfo;
+        }
+
+        $this->_addChildNodes($childrenItems, $rootNodePath, $rootNode, true);
+
+    }
+
+    protected function _addChildNodes($children, $path, $parentNode, $withChildren=false, $level = 0)
+    {
+        if (isset($children[$path])) {
+            foreach ($children[$path] as $child) {
+                $nodeId = isset($child[$this->_idField])?$child[$this->_idField]:false;
+                if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
+                    $node->addData($child);
+                } else {
+                    $node = new Varien_Data_Tree_Node($child, $this->_idField, $this, $parentNode);
+                    $node->setLevel($node->getData($this->_levelField));
+                    $node->setPathId($node->getData($this->_pathField));
+                    $this->addNode($node, $parentNode);
+                }
+
+                if ($withChildren) {
+                    $node->loadChildren(1);
+                    $this->_loaded = false;
+                }
+
+                if ($path) {
+                    $childrenPath = explode('/', $path);
+                } else {
+                    $childrenPath = array();
+                }
+                $childrenPath[] = $node->getId();
+                $childrenPath = implode('/', $childrenPath);
+
+                $this->_addChildNodes($children, $childrenPath, $node, $withChildren, $level+1);
+            }
         }
     }
 

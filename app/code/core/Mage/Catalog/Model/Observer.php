@@ -59,7 +59,12 @@ class Mage_Catalog_Model_Observer
     public function categoryMove($observer)
     {
         $categoryId = $observer->getEvent()->getCategoryId();
+        $prevParentId = $observer->getEvent()->getPrevParentId();
+        $parentId = $observer->getEvent()->getParentId();
         Mage::getModel('catalog/url')->refreshCategoryRewrite($categoryId);
+        $model = Mage::getModel('catalog/category')->load($prevParentId)->save();
+        $model = Mage::getModel('catalog/category')->load($parentId)->save();
+        $model = null;
         return $this;
     }
 

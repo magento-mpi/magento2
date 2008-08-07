@@ -51,6 +51,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             }
         }
 
+        if ($activeTabId = (string) $this->getRequest()->getParam('active_tab_id')) {
+            Mage::getSingleton('admin/session')->setActiveTabId($activeTabId);
+        }
+
         Mage::register('category', $category);
         Mage::register('current_category', $category);
         return $category;
@@ -68,7 +72,49 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function addAction()
     {
+        $_prevCategoryId = (int) Mage::getSingleton('admin/session')
+            ->getLastEditedCategory(true);
+        if ($_prevCategoryId) {
+            $this->getRequest()->setParam('id', $_prevCategoryId);
+            $category = $this->_initCategory();
+            $path = $category->getPath();
+            Mage::unregister('category');
+            Mage::unregister('current_category');
+            $this->_redirect('*/*/add',
+                array(
+                    '_current' => true,
+                    'id' => null,
+                    'parent' => base64_encode($path)
+                )
+            );
+            return;
+        }
         $this->_forward('edit');
+    }
+
+    /**
+     * Add new category form (Ajax version)
+     */
+    public function addAjaxAction()
+    {
+        $_prevCategoryId = (int) Mage::getSingleton('admin/session')
+            ->getLastEditedCategory(true);
+        if ($_prevCategoryId) {
+            $this->getRequest()->setParam('id', $_prevCategoryId);
+            $category = $this->_initCategory();
+            $path = $category->getPath();
+            Mage::unregister('category');
+            Mage::unregister('current_category');
+            $this->_redirect('*/*/addAjax',
+                array(
+                    '_current' => true,
+                    'id' => null,
+                    'parent' => base64_encode($path)
+                )
+            );
+            return;
+        }
+        $this->_forward('editAjax');
     }
 
     /**
@@ -76,6 +122,14 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function editAction()
     {
+        $categoryId = (int) $this->getRequest()->getParam('id');
+        $_prevCategoryId = Mage::getSingleton('admin/session')
+            ->getLastEditedCategory(true);
+        if ($_prevCategoryId && $_prevCategoryId != $categoryId) {
+            $this->getRequest()->setParam('id', $_prevCategoryId);
+            $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$_prevCategoryId));
+        }
+
         $this->loadLayout();
         $this->_setActiveMenu('catalog/categories');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true)
@@ -100,6 +154,43 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
         );
         $this->renderLayout();
+    }
+
+    /**
+     * Edit category page (Ajax version)
+     */
+    public function editAjaxAction()
+    {
+        $category = $this->_initCategory();
+
+        Mage::getSingleton('admin/session')->setLastEditedCategory($category->getId());
+
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
+                ->toHtml()
+        );
+    }
+
+    /**
+     * Get tree node (Ajax version)
+     */
+    public function categoriesJsonAction()
+    {
+        if ($this->getRequest()->getParam('expand_all')) {
+            Mage::getSingleton('admin/session')->setIsTreeWasExpanded(true);
+        } else {
+            Mage::getSingleton('admin/session')->setIsTreeWasExpanded(false);
+        }
+
+        if ($categoryId = (int) $this->getRequest()->getPost('id')) {
+            $this->getRequest()->setParam('id', $categoryId);
+
+            $category = $this->_initCategory();
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+                    ->getTreeJson($category)
+            );
+        }
     }
 
     /**
@@ -146,13 +237,65 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     }
 
     /**
+     * Category save (Ajax version)
+     */
+    public function saveAjaxAction()
+    {
+        $category = $this->_initCategory();
+        $storeId = $this->getRequest()->getParam('store');
+        if ($data = $this->getRequest()->getPost()) {
+            $category->addData($data['general']);
+            /**
+             * Check "Use Default Value" checkboxes values
+             */
+            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+                foreach ($useDefaults as $attributeCode) {
+                    $category->setData($attributeCode, null);
+                }
+            }
+
+            if (isset($data['general']['is_top_level_category'])) {
+                if ($storeId) {
+                    $store = Mage::app()->getStore($storeId);
+                    $rootId = $store->getRootCategoryId();
+                } else {
+                    $rootId = 1;
+                }
+                $category->setData('path', $rootId);
+            }
+
+            $category->setAttributeSetId($category->getDefaultAttributeSetId());
+
+            if (isset($data['category_products'])) {
+                $products = array();
+                parse_str($data['category_products'], $products);
+                $category->setPostedProducts($products);
+            }
+
+            try {
+                $category->save();
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
+            }
+            catch (Exception $e){
+                $this->_getSession()->addError($e->getMessage())
+                    ->setCategoryData($data);
+                $this->getResponse()->setRedirect($this->getUrl('*/*/editAjax', array('id'=>$category->getId(), 'store'=>$storeId)));
+                return;
+            }
+        }
+
+        $this->getResponse()->setRedirect($this->getUrl('*/*/editAjax', array('id'=>$category->getId(), 'store'=>$storeId)));
+    }
+
+    /**
      * Move category tree node action
      */
     public function moveAction()
     {
-        $nodeId         = $this->getRequest()->getPost('id', false);
-        $parentNodeId   = $this->getRequest()->getPost('pid', false);
-        $prevNodeId     = $this->getRequest()->getPost('aid', false);
+        $nodeId           = $this->getRequest()->getPost('id', false);
+        $parentNodeId     = $this->getRequest()->getPost('pid', false);
+        $prevNodeId       = $this->getRequest()->getPost('aid', false);
+        $prevParentNodeId = $this->getRequest()->getPost('paid', false);
 
         try {
             $tree = Mage::getResourceModel('catalog/category_tree')
@@ -168,7 +311,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
             $tree->move($node, $newParentNode, $prevNode);
 
-            Mage::dispatchEvent('category_move', array('category_id' => $nodeId));
+            Mage::dispatchEvent('category_move',
+                array(
+                    'category_id' => $nodeId,
+                    'prev_parent_id' => $prevParentNodeId,
+                    'parent_id' => $parentNodeId
+            ));
 
             $this->getResponse()->setBody("SUCCESS");
         }
@@ -197,6 +345,28 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('*/*/', array('_current'=>true, 'id'=>null)));
+    }
+
+    /**
+     * Delete category action (Ajax version)
+     */
+    public function deleteAjaxAction()
+    {
+        if ($id = (int) $this->getRequest()->getParam('id')) {
+            try {
+                $category = Mage::getModel('catalog/category')->load($id);
+                Mage::dispatchEvent('catalog_controller_category_delete', array('category'=>$category));
+
+                $category->delete();
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category deleted'));
+            }
+            catch (Exception $e){
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Category delete error'));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/editAjax', array('_current'=>true)));
+                return;
+            }
+        }
+        $this->getResponse()->setRedirect($this->getUrl('*/*/editAjax', array('_current'=>true, 'id'=>null)));
     }
 
     public function gridAction()

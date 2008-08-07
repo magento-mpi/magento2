@@ -22,43 +22,91 @@
     <table cellspacing="0">
         <tr>
             <td><h3 class="icon-head head-categories"><?php echo Mage::helper('catalog')->__('Categories') ?></h3></td>
-            <td class="form-buttons"><?php if($this->getRoot()): ?><?php echo $this->getAddButtonHtml() ?><?php endif; ?></td>
+            <td class="form-buttons">
+                <?php if($this->getRoot()): ?>
+                    <?php echo $this->getAddButtonHtml() ?>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="form-buttons">
+                <?php if($this->getRoot()): ?>
+                    <?php echo $this->getCollapseButtonHtml() ?>
+                <?php endif; ?>
+            </td>
+            <td class="form-buttons">
+                <?php if($this->getRoot()): ?>
+                    <?php echo $this->getExpandButtonHtml() ?>
+                <?php endif; ?>
+            </td>
         </tr>
     </table>
 </div>
 <?php echo $this->getStoreSwitcherHtml() ?>
-<?php if($this->getRoot()): ?>
+<?php if ($this->getRoot()): ?>
 <div style="margin-right:10px;">
 <div id="tree-div" style="width:100%;overflow:auto;"></div>
 </div>
 <script type="text/javascript">
-Ext.onReady(function(){
-    var tree = new Ext.tree.TreePanel('tree-div', {
-        animate:false,
-        loader: false,
-        enableDD:true,
-        containerScroll: true,
-        rootVisible: '<?php echo $this->getRoot()->getIsVisible() ?>'
+var tree;
+var root;
+var categoryEditContainer;
+var categoryLoaderl
+Ext.EventManager.onDocumentReady(function() {
+    categoryEditContainer = $('content').getElementsBySelector('.main-col-inner')[0];
+    categoryLoader = new Ext.tree.TreeLoader({
+       dataUrl: '<?php echo $this->getLoadTreeUrl() ?>'
     });
 
-    // set the root node
-    var root = new Ext.tree.TreeNode({
-        text: '<?php echo htmlentities($this->getRoot()->getName(), ENT_QUOTES) ?>',
-        draggable:false,
-        allowDrop: <?php if($this->getRoot()->getIsVisible()): ?>true<?php else : ?>false<?php endif; ?>,
+    categoryLoader.createNode = function(config) {
+        var node;
+        if (config.children && !config.children.length) {
+            delete(config.children);
+            node = new Ext.tree.AsyncTreeNode(config);
+
+        } else {
+            node = new Ext.tree.TreeNode(config);
+        }
+        return node;
+    };
+
+    categoryLoader.on("beforeload", function(treeLoader, node) {
+        treeLoader.baseParams.id = node.attributes.id;
+    });
+
+    categoryLoader.on("load", function(treeLoader, node, config) {
+        varienWindowOnload();
+    });
+
+    tree = new Ext.tree.TreePanel('tree-div', {
+        animate:false,
+        loader: categoryLoader,
+        enableDD: true,
+        containerScroll: true,
+		selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
+		rootVisible: '<?php echo $this->getRoot()->getIsVisible() ?>'
+	});
+
+	// set the root node
+    root = new Ext.tree.TreeNode({
+        text: '<?php echo htmlentities($this->getRoot()->getName()) ?>',
+        draggable: false,
+        allowDrop: <?php if ($this->getRoot()->getIsVisible()): ?>true<?php else : ?>false<?php endif; ?>,
         id:'<?php echo $this->getRoot()->getId() ?>'
     });
 
     tree.setRootNode(root);
-    bildCategoryTree(root, <?php echo $this->getTreeJson() ?>);
-    // set handlers
+	buildCategoryTree(root, <?php echo $this->getTreeJson() ?>);
     tree.addListener('click', categoryClick.createDelegate(this));
     tree.addListener('beforenodedrop', categoryMove.createDelegate(this));
 
     // render the tree
     tree.render();
-    root.expand();
-    tree.expandAll();
+    <?php if ($this->isWasExpanded()): ?>
+        tree.expandAll();
+    <?php else: ?>
+        root.expand();
+    <?php endif; ?>
 
     var selectedNode = tree.getNodeById('<?php echo $this->getCategoryId() ?>');
     if(selectedNode){
@@ -66,31 +114,154 @@ Ext.onReady(function(){
     }
 });
 
-function bildCategoryTree(parent, config){
+function _updateContent(url, params)
+{
+    if (!params) {
+        var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
+    }
+
+    new Ajax.Updater(
+        categoryEditContainer,
+        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
+        {
+           parameters: params || {},
+           method:'post',
+           loaderArea:categoryEditContainer,
+           onComplete:refreshEditArea.bind(this),
+           evalScripts:true
+        }
+    );
+}
+
+function _request(url, params)
+{
+    if (!params) {
+        var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
+    }
+    new Ajax.Request(
+        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
+        {
+           parameters: params || {},
+           method:'post',
+           loaderArea:categoryEditContainer,
+        }
+    );
+}
+
+function addNew(url)
+{
+    _updateContent(url);
+}
+
+function categorySubmit()
+{
+    var activeTab = document.createElement('INPUT');
+    activeTab.type= 'hidden';
+    activeTab.name= 'active_tab_id';
+    activeTab.value = category_info_tabsJsTabs.activeTab.id;
+    categoryForm.validator.form.appendChild(activeTab);
+
+    categoryForm.submit();
+}
+
+function categoryReset(url, params)
+{
+    var params = {active_tab_id:false};
+    _updateContent(url, params);
+}
+
+function categoryDelete(url)
+{
+    _updateContent(url);
+}
+
+function refreshEditArea(transport)
+{
+    setTimeout(function() {
+        category_info_tabsJsTabs.moveTabContentInDest();
+    }, 500);
+}
+
+function categoryAdd(id)
+{
+    var ids = $('product_categories').value.split(',');
+    ids.push(id);
+    $('product_categories').value = ids.join(',');
+}
+
+function categoryRemove(id)
+{
+    var ids = $('product_categories').value.split(',');
+    ids.splice(ids.indexOf(id), 1);
+    $('product_categories').value = ids.join(',');
+}
+
+function collapseTree()
+{
+    categoryLoader.dataUrl = '<?php echo $this->getLoadTreeUrl(false) ?>';
+    _request(categoryLoader.dataUrl);
+    tree.collapseAll();
+
+    setTimeout(function() {
+        root.ensureVisible(false);
+    }, 100);
+}
+
+function expandTree()
+{
+    categoryLoader.dataUrl = '<?php echo $this->getLoadTreeUrl(true) ?>';
+    tree.expandAll();
+}
+
+function buildCategoryTree(parent, config)
+{
     if (!config) return null;
 
 	if (parent && config && config.length){
-        for (var i = 0; i < config.length; i++){
+        for (var i = 0; i < config.length; i++) {
             var node = new Ext.tree.TreeNode(config[i]);
+            if (config[i].children && !config[i].children.length) {
+                delete(config[i].children);
+                node = new Ext.tree.AsyncTreeNode(config[i]);
+            } else {
+                node = new Ext.tree.TreeNode(config[i]);
+            }
             parent.appendChild(node);
+            node.loader = node.getOwnerTree().loader;
             if(config[i].children){
-                bildCategoryTree(node, config[i].children);
+                buildCategoryTree(node, config[i].children);
             }
         }
     }
 }
 
-categoryClick = function(node, e){
-    setLocation('<?php echo $this->getEditUrl() ?>'+'id/'+node.id+'/');
-};
+function categoryClick(node, e)
+{
+    var url = '<?php echo $this->getEditUrl() ?>'+'id/'+node.id+'/';
+    new Ajax.Updater(
+        categoryEditContainer,
+        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
+        {
+           parameters: {
+               active_tab_id: category_info_tabsJsTabs.activeTab.id
+           },
+           method:'post',
+           loaderArea:categoryEditContainer,
+           onComplete:refreshEditArea.bind(this),
+           evalScripts:true
+        }
+    );
+}
 
-categoryMove = function(obj){
+function categoryMove(obj)
+{
     var data = {id: obj.dropNode.id}
 
     data.point = obj.point;
     switch (obj.point) {
         case 'above' :
             data.pid = obj.target.parentNode.id;
+            data.paid = obj.dropNode.parentNode.id;
             if (obj.target.previousSibling) {
                 data.aid = obj.target.previousSibling.id;
             } else {
@@ -103,6 +274,7 @@ categoryMove = function(obj){
         break;
         case 'append' :
             data.pid = obj.target.id;
+            data.paid = obj.dropNode.parentNode.id;
             if (obj.target.lastChild) {
                 data.aid = obj.target.lastChild.id;
             } else {

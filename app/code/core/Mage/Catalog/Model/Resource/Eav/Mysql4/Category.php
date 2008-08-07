@@ -112,7 +112,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         $categoryIds = explode('/', $object->getPath());
         $this->refreshProductIndex($categoryIds);
+        $this->_saveCountChidren($object);
         return parent::_afterSave($object);
+    }
+
+    protected function _saveCountChidren($object)
+    {
+        $chidren = $object->getChildren();
+        if (strlen($chidren)>0) {
+            $chidrenCount = count(explode(',', $chidren));
+        } else {
+            $chidrenCount = 0;
+        }
+        $this->_getWriteAdapter()->update($this->getEntityTable(),
+            array('count_children'=>$chidrenCount),
+            $this->_getWriteAdapter()->quoteInto('entity_id=?', $object->getId())
+        );
+
+        return $this;
     }
 
     protected function _savePath($object)

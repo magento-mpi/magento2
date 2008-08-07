@@ -46,28 +46,50 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
 
     public function _prepareLayout()
     {
-    parent::_prepareLayout();
+        parent::_prepareLayout();
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('General Information')));
 
-        $this->_setFieldset($this->getCategory()->getAttributes(true), $fieldset);
-
         if (!$this->getCategory()->getId()) {
-            $fieldset->addField('path', 'select', array(
-                'name'  => 'path',
-                'label' => Mage::helper('catalog')->__('Parent Category'),
-                'value' => base64_decode($this->getRequest()->getParam('parent')),
-                'values'=> $this->_getParentCategoryOptions(),
-                //'required' => true,
-                //'class' => 'required-entry'
+//            $fieldset->addField('path', 'select', array(
+//                'name'  => 'path',
+//                'label' => Mage::helper('catalog')->__('Parent Category'),
+//                'value' => base64_decode($this->getRequest()->getParam('parent')),
+//                'values'=> $this->_getParentCategoryOptions(),
+//                //'required' => true,
+//                //'class' => 'required-entry'
+//                ),
+//                'name'
+//            );
+            $statuses[] = array('label'=>'Yes', 'value'=>'1');
+            if (!$this->getRequest()->getParam('parent')) {
+                $value = 1;
+            } else {
+                $statuses[] = array('label'=>'No', 'value'=>'0');
+                $value =  (int)$this->getCategory()->getIsTopLevelCategory();
+
+                $fieldset->addField('path', 'hidden', array(
+                    'name'  => 'path',
+                    'value' => base64_decode($this->getRequest()->getParam('parent'))
+                ));
+            }
+
+            $fieldset->addField('is_top_level_category', 'select', array(
+                'name'  => 'is_top_level_category',
+                'label' => Mage::helper('catalog')->__('Is Top Level Category'),
+                'value' => $value,
+                'values'=> $statuses,
                 ),
                 'name'
             );
         }
-        else {
+
+        $this->_setFieldset($this->getCategory()->getAttributes(true), $fieldset);
+
+        if ($this->getCategory()->getId()) {
             if ($this->getCategory()->getLevel() == 1) {
                 $fieldset->removeField('url_key');
                 $fieldset->addField('url_key', 'hidden', array(
@@ -93,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     protected function _getParentCategoryOptions($node=null, &$options=array())
     {
         if (is_null($node)) {
-            $node = $this->getLayout()->getBlock('category.tree')->getRoot();
+            $node = $this->getRoot();
         }
 
         if ($node) {

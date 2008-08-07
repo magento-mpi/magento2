@@ -25,7 +25,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     public function __construct()
     {
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Te
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Save Category'),
-                    'onclick'   => 'categoryForm.submit()',
+                    'onclick'   => "categorySubmit()",
                     'class' => 'save'
                 ))
         );
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Te
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Delete Category'),
-                    'onclick'   => 'categoryDelete()',
+                    'onclick'   => "categoryDelete('".$this->getUrl('*/*/deleteAjax', array('_current'=>true))."')",
                     'class' => 'delete'
                 ))
         );
@@ -61,19 +61,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Te
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => "setLocation('".$this->getUrl('*/*/*', array('_current'=>true))."')"
+                    'onclick'   => "categoryReset('".$this->getUrl('*/*/editAjax', array('_current'=>true))."')"
                 ))
         );
         return parent::_prepareLayout();
-    }
-
-    public function hasStoreRootCategory()
-    {
-        $root = $this->getLayout()->getBlock('category.tree')->getRoot();
-        if ($root && $root->getId()) {
-            return true;
-        }
-        return false;
     }
 
     public function getStoreConfigurationUrl()
@@ -92,16 +83,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Te
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('_current'=>true));
-    }
-
-    public function getCategoryId()
-    {
-        return Mage::registry('category')->getId();
-    }
-
-    public function getCategoryName()
-    {
-        return Mage::registry('category')->getName();
     }
 
     public function getDeleteButtonHtml()
@@ -140,12 +121,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Te
 
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('_current'=>true));
+        return $this->getUrl('*/*/deleteAjax', array('_current'=>true));
     }
 
     public function getProductsJson()
     {
-        $products = Mage::registry('category')->getProductsPosition();
+        $products = $this->getCategory()->getProductsPosition();
         if (!empty($products)) {
             return Zend_Json::encode($products);
         }

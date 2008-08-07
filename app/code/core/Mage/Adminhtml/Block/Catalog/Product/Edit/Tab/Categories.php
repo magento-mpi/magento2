@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
         return Zend_Json::encode($children);
     }
 
-    public function getLoadTreeUrl()
+    public function getLoadTreeUrl($expanded=null)
     {
         return $this->getUrl('*/*/categoriesJson', array('_current'=>true));
     }

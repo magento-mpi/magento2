@@ -147,10 +147,30 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
+    /**
+     * Set Active Tab
+     *
+     * @param string $tabId
+     * @return Mage_Adminhtml_Block_Widget_Tabs
+     */
+    protected function _setActiveTab($tabId)
+    {
+        foreach ($this->_tabs as $id => $tab) {
+            if ($this->getTabId($tab) == $tabId) {
+                $this->_activeTab = $id;
+                $tab->setActive(true);
+                return $this;
+            }
+        }
+        return $this;
+    }
+
     protected function _beforeToHtml()
     {
         if ($activeTab = $this->getRequest()->getParam('active_tab')) {
             $this->setActiveTab($activeTab);
+        } elseif ($activeTabId = Mage::getSingleton('admin/session')->getActiveTabId()) {
+            $this->_setActiveTab($activeTabId);
         }
         $this->assign('tabs', $this->_tabs);
         return parent::_beforeToHtml();
