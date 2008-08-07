@@ -316,20 +316,21 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
 
         $arrNodes = $this->_conn->fetchAll($select);
 
-        foreach ($arrNodes as $nodeInfo) {
-            $nodeId = $nodeInfo[$this->_idField];
-            if ($nodeId<=$rootNodeId) {
-                continue;
+        if ($arrNodes) {
+            foreach ($arrNodes as $nodeInfo) {
+                $nodeId = $nodeInfo[$this->_idField];
+                if ($nodeId<=$rootNodeId) {
+                    continue;
+                }
+
+                $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
+                array_pop($pathToParent);
+                $pathToParent = implode('/', $pathToParent);
+                $childrenItems[$pathToParent][] = $nodeInfo;
             }
 
-            $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
-            array_pop($pathToParent);
-            $pathToParent = implode('/', $pathToParent);
-            $childrenItems[$pathToParent][] = $nodeInfo;
+            $this->_addChildNodes($childrenItems, $rootNodePath, $rootNode, true);
         }
-
-        $this->_addChildNodes($childrenItems, $rootNodePath, $rootNode, true);
-
     }
 
     protected function _addChildNodes($children, $path, $parentNode, $withChildren=false, $level = 0)
