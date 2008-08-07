@@ -134,7 +134,7 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 /********************** Forms Styles */
 /* Form Elements */
 input, select, textarea, button { font:12px Arial, Helvetica, sans-serif; vertical-align:middle; }
-option, optgroup {}
+textarea { overflow:auto; }
 input.input-text, textarea {}
 input.radio { margin-right:5px; }
 input.checkbox { margin-right:5px; }
