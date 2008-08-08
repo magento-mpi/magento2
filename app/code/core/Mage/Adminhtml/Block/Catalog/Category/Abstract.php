@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
             }
 
             $tree = Mage::getResourceSingleton('catalog/category_tree')
-                ->load(null, $recursionLevel);
+                ->load($rootId, $recursionLevel);
             $root = $tree->getNodeById($rootId);
 
             if ($this->getCategory()) {
