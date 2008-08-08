@@ -25,7 +25,7 @@
 </div>
 <h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
 <?php foreach ($this->getInvoices() as $_invoice): ?>
-<div class="head">
+<div class="page-heading">
     <h3><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h3>
     <a href="#"><?php echo $this->__('Print Invoice') ?></a>
 </div>

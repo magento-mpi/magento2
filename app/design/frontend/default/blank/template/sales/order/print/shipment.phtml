@@ -29,7 +29,7 @@
     <?php $_shipments = $_order->getShipmentsCollection() ?>
 <?php endif; ?>
 <?php foreach ($_shipments as $_shipment): ?>
-    <div class="head">
+    <div class="page-heading">
         <h2><?php echo $this->__('Shipment #%s', $_shipment->getIncrementId()) ?></h2>
     </div>
     <div class="col2-set">

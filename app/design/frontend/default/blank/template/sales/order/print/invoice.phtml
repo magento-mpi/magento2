@@ -28,7 +28,7 @@
     <?php $_invoices = $_order->getInvoiceCollection() ?>
 <?php endif; ?>
 <?php foreach ($_invoices as $_invoice): ?>
-    <div class="head">
+    <div class="page-heading">
         <h2><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h2>
     </div>
     <div class="col2-set">
