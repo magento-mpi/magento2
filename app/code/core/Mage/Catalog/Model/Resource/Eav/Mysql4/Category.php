@@ -125,7 +125,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             $chidrenCount = 0;
         }
         $this->_getWriteAdapter()->update($this->getEntityTable(),
-            array('count_children'=>$chidrenCount),
+            array('children_count'=>$chidrenCount),
             $this->_getWriteAdapter()->quoteInto('entity_id=?', $object->getId())
         );
 
@@ -438,10 +438,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             ->order('level')
             ->order('path');
         if (is_array($categoryIds) && !empty($categoryIds)) {
-        	$select->where('entity_id IN (?)', $categoryIds);
+            $select->where('entity_id IN (?)', $categoryIds);
         }
         elseif (is_numeric($categoryIds)) {
-        	$select->where('entity_id=?', $categoryIds);
+            $select->where('entity_id=?', $categoryIds);
         }
 
         $categories = $this->_getWriteAdapter()->fetchAll($select);
