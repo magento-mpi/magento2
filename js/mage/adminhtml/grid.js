@@ -210,7 +210,7 @@ varienGrid.prototype = {
             return;
         }
 //        var dataElements = $(this.containerId+this.tableSufix).down('.data tbody').getElementsBySelector('input', 'select');
-        var dataElements = $(this.containerId+this.tableSufix).down('tbody').getElementsBySelector('input', 'select');
+        var dataElements = $(this.containerId+this.tableSufix).down('tbody').select('input', 'select');
         for(var i=0; i<dataElements.length;i++){
             Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges.bind(dataElements[i]));
         }
@@ -234,7 +234,7 @@ varienGrid.prototype = {
         this.reload(this.addVarToUrl(this.filterVar, ''));
     },
     checkCheckboxes : function(element){
-        elements = Element.getElementsBySelector($(this.containerId), 'input[name="'+element.name+'"]');
+        elements = Element.select($(this.containerId), 'input[name="'+element.name+'"]');
         for(var i=0; i<elements.length;i++){
             this.setCheckboxChecked(elements[i], element.checked);
         }
