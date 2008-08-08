@@ -28,7 +28,7 @@
 <head>
 <?php echo $this->getChildHtml('head') ?>
 </head>
-<body class="<?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <div class="page-popup">
     <?php echo $this->getChildHtml('content') ?>
     <?php echo $this->getChildHtml('before_body_end') ?>

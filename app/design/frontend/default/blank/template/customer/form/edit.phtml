@@ -53,7 +53,7 @@
 </fieldset>
 <p><input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" /> <label for="change_password"><?php echo $this->__('Change Password') ?></label></p>
 <fieldset class="group-select" style="display:none;">
-    <h3 class="legend"><?php echo $this->__('Change Password') ?></h3>
+    <h3><?php echo $this->__('Change Password') ?></h3>
     <ul>
         <li>
             <div class="input-box">
@@ -80,6 +80,7 @@
 </div>
 </form>
 <script type="text/javascript">
+//<![CDATA[
     var dataForm = new VarienForm('form-validate', true);
     function setPasswordForm(arg){
         if(arg){
@@ -98,4 +99,5 @@
     <?php if($this->getCustomer()->getChangePassword()): ?>
         setPasswordForm(true);
     <?php endif; ?>
+//]]>
 </script>

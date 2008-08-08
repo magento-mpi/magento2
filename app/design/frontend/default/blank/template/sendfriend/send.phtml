@@ -115,10 +115,12 @@
 </div>
 </form>
 <script type="text/javascript">
+//<[CDATA[
     var productSendtofriendForm = new VarienForm('product_sendtofriend_form');
     productSendtofriendForm.submit = function() {
         if(this.validator.validate()) {
             this.form.submit();
         }
     }.bind(productSendtofriendForm);
+//]]>
 </script>

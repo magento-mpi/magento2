@@ -48,18 +48,18 @@
             <td><?php echo $this->getEscapedDescription($item) ?></td>
             <td>
                 <?php if($item->isSaleable()): ?>
-                <a href="#" onclick="setLocation('<?php echo $this->helper('checkout/cart')->getAddUrl($item) ?>');return false;"><?php echo $this->__('Add to Cart') ?></a>
+                <a href="#" onclick="setLocation('<?php echo $this->helper('checkout/cart')->getAddUrl($item) ?>'); return false;"><?php echo $this->__('Add to Cart') ?></a>
                 <?php endif;?><br />
-                <a href="#" onclick="setLocation('<?php echo $this->helper('wishlist')->getAddUrl($item) ?>');return false;"><?php echo $this->__('Add to Wishlist') ?></a>
+                <a href="#" onclick="setLocation('<?php echo $this->helper('wishlist')->getAddUrl($item) ?>'); return false;"><?php echo $this->__('Add to Wishlist') ?></a>
             </td>
         </tr>
         <?php endforeach ?>
     </tbody>
     </table>
-    <script type="text/javascript">decorateTable('wishlist-table')</script>
+    <script type="text/javascript">decorateTable('wishlist-table');</script>
     <?php if($this->isSaleable()):?>
     <div class="buttons-set">
-        <button onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="form-button"  type="button"><span><?php echo $this->__('Add All to Cart') ?></span></button>&nbsp;
+        <button onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="form-button"  type="button"><span><?php echo $this->__('Add All to Cart') ?></span></button>
     </div>
     <?php endif;?>
 </form>

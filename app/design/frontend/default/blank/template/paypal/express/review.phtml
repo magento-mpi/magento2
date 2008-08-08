@@ -26,7 +26,7 @@
         <h3><?php echo $this->__('Shipping Information') ?></h3>
         <div class="col2-set">
             <div class="col-1">
-                <h4><?php echo $this->__('Shipping Address') ?><span> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
+                <h4><?php echo $this->__('Shipping Address') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
                 <address>
                     <?php echo $this->getShippingAddress()->getFormated(true) ?>
                 </address>
@@ -69,7 +69,9 @@
                             </optgroup>
                         <?php endforeach; ?>
                         </select>
-                        <p class="actions"><button id="update_shipping_method" class="form-button" type="submit"><span><?php echo $this->__('Update Shipping Method') ?></span></button></p>
+                        <p class="actions">
+                            <button id="update_shipping_method" class="form-button" type="submit"><span><?php echo $this->__('Update Shipping Method') ?></span></button>
+                        </p>
                     </form>
 
                     <?php endif; ?>
@@ -81,12 +83,12 @@
 
     <div class="box">
         <h3><?php echo $this->__('Billing Information') ?></h3>
-        <h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+        <h4><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
         <p><?php echo $this->__('PayPal Account') ?><br />
         <?php echo $this->getBillingAddress()->getEmail() ?></p>
     </div>
 
-    <h3><?php echo $this->__('Items in Your Shopping Cart') ?><span> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
+    <h3><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
 
     <div id='details-reload'>
         <?php echo $this->getChildHtml('details') ?>

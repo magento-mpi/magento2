@@ -81,6 +81,7 @@
     <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
 </div>
 <script type="text/javascript">
+//<![CDATA[
 function confirmRemoveWishlistItem(url){
     if(confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>')) {
         setLocation(url);
@@ -94,4 +95,5 @@ function focusComment(obj) {
         obj.value = '<?php echo $this->__('Please, enter your comments...') ?>';
     }
 }
+//]]>
 </script>

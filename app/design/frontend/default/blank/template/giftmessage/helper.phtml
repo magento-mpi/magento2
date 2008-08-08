@@ -66,9 +66,9 @@
 <?php if($this->getCanDisplayContainer()): ?>
 </div>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 var <?php echo $this->getJsObjectName() ?> = new GiftMessage('<?php echo $this->getId() ?>');
 <?php echo $this->getJsObjectName() ?>.url = '<?php echo $this->getEditUrl() ?>';
-//-->
+//]]>
 </script>
 <?php endif; ?>

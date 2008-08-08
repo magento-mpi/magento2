@@ -23,5 +23,7 @@
 </div>
 <p><?php echo $this->__('You have been successfully logged out and will be redirected to our homepage in 5 seconds.') ?></p>
 <script type="text/javascript">
-setTimeout(function(){ location.href = '<?php echo $this->getUrl() ?>'},5000);
+//<![CDATA[
+    setTimeout(function(){ location.href = '<?php echo $this->getUrl() ?>'},5000);
+//]]>
 </script>

@@ -52,7 +52,7 @@
             <td class="a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
         </tr>
         <?php endif; ?>
-        <?php if ((float) $_creditmemo->getTaxAmount()): ?>
+        <?php if (($_order->getTaxAmount() > 0)||(Mage::getStoreConfig('tax/display/zero_tax'))): ?>
         <tr>
             <td colspan="6" class="a-right"><?php echo $this->__('Tax') ?></td>
             <td class="a-right"><?php echo $_order->formatPrice($_creditmemo->getTaxAmount()) ?></td>

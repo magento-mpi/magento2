@@ -31,9 +31,7 @@
     <ol id="wishlist-sidebar">
      <?php foreach($this->getWishlistItems() as $_item): ?>
         <li>
-            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>">
-                <img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50); ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
-            </a>
+            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50); ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
             <div class="product-details">
                 <a href="<?php echo $this->helper('wishlist')->getRemoveUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the wishlist?') ?>');">
                     <img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Item') ?>" />
@@ -47,11 +45,10 @@
         </li>
     <?php endforeach; ?>
     </ol>
-    <script type="text/javascript">decorateList('wishlist-sidebar')</script>
+    <script type="text/javascript">decorateList('wishlist-sidebar');</script>
     <?php else: ?>
-    <p><?php echo $this->__('You have no items in your wishlist.') ?></p>
+        <p><?php echo $this->__('You have no items in your wishlist.') ?></p>
     <?php endif ?>
-    <p class="actions"><a href="<?php echo $this->helper('wishlist')->getListUrl() ?>"><?php echo $this->__('Go to Wishlist') ?></a></p>
+        <p class="actions"><a href="<?php echo $this->helper('wishlist')->getListUrl() ?>"><?php echo $this->__('Go to Wishlist') ?></a></p>
 </div>
 <?php endif ?>
-<!-- [ends] .mini-wishlist // -->

@@ -25,10 +25,7 @@
  * @see Mage_Sale_Block_Reorder_Sidebar
  */
 ?>
-
-
 <?php if($_order = $this->getLastOrder()): ?>
-
 <div class="box base-mini mini-compare-products">
 <form method="post" action="<?php echo $this->getUrl('checkout/cart/addgroup') ?>" id="reorder-validate-detail">
     <div class="head">
@@ -68,10 +65,9 @@
 </form>
 </div>
 <?php echo $this->getPagerHtml(); ?>
-
 <script type="text/javascript">
 //<![CDATA[
-var reorderFormDetail = new VarienForm('reorder-validate-detail');
+    var reorderFormDetail = new VarienForm('reorder-validate-detail');
 //]]>
 </script>
 <?php endif ?>

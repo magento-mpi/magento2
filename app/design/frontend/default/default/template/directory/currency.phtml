@@ -39,10 +39,12 @@
         </select>
 </div>
 <script type="text/javascript">
+//<![CDATA[
 function changeCurrency(sObject){
     if(sObject.value){
         setLocation('<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() ?>currency/'+sObject.value);
     }
 }
+//]]>
 </script>
 <?php endif; ?>

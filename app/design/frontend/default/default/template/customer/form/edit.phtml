@@ -82,6 +82,7 @@
 </div>
 </form>
 <script type="text/javascript">
+//<![CDATA[
     var dataForm = new VarienForm('form-validate', true);
     function setPasswordForm(arg){
         if(arg){
@@ -100,4 +101,5 @@
     <?php if($this->getCustomer()->getChangePassword()): ?>
         setPasswordForm(true);
     <?php endif; ?>
+//]]>
 </script>

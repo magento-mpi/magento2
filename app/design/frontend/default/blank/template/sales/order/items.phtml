@@ -63,7 +63,8 @@
                 <td class="a-right"><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
             </tr>
         <?php endif; ?>
-        <?php if ($_order->getTaxAmount() > 0): ?>
+        <?php //if ($_order->getTaxAmount() > 0): ?>
+        <?php if (($_order->getTaxAmount() > 0)||(Mage::getStoreConfig('tax/display/zero_tax'))): ?>
             <?php echo $this->getChildHtml('tax'); ?>
         <?php endif; ?>
         <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>
@@ -91,7 +92,7 @@
         <tbody>
             <?php echo $this->getItemHtml($_item) ?>
             <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
-            <tr class="border<?php echo ($_index++ > $_count ?'':'') ?>" id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
+            <tr class="border<?php echo ($_index++ > $_count ?' last':'') ?>" id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
                 <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item); ?>
                 <td class="giftmessage-row" colspan="7">
                     <ul class="giftmessage-content">

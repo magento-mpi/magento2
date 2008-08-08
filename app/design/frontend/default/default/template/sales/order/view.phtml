@@ -20,6 +20,7 @@
 ?>
 <?php if ($this->helper('giftmessage/message')->getIsMessagesAvailable('items', $this->getOrder())): ?>
 <script type="text/javascript">
+//<![CDATA[
 function giftMessageToogle(giftMessageIdentifier)
 {
     var link = $('order-item-gift-message-link-'+giftMessageIdentifier);
@@ -45,12 +46,11 @@ function giftMessageToogle(giftMessageIdentifier)
 
     return false;
 }
+//]]>
 </script>
 <?php endif; ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-
 <?php  $_order = $this->getOrder() ?>
-
 <h4><?php echo $this->__('Items Ordered') ?>
 
 <?php  if ($_order->getTracksCollection()->count()) : ?>
@@ -78,7 +78,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
 <?php if (count($_history)): ?>
-    <div class="clear">&nbsp;</div>
+    <div class="clear"></div>
     <h4><?php echo $this->__('About Your Order') ?></h4>
     <div>
         <dl>

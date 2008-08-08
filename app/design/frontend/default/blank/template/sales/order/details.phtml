@@ -25,8 +25,6 @@
 </div>
 <h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
 <?php foreach ($this->getInvoices() as $_invoice): ?>
-<div class="divider">
-</div>
 <div class="head">
     <h3><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h3>
     <a href="#"><?php echo $this->__('Print Invoice') ?></a>
@@ -40,8 +38,8 @@
         <?php echo $_shipping->getStreet() ?><br />
         <?php echo $_shipping->getCity() ?>, <?php echo $_shipping->getRegion() ?> <?php echo $_shipping->getPostcode() ?><br />
         <strong>T</strong> | <?php echo $_shipping->getTelephone();
-            if ($_shipping->getFax()): ?><br />
-        <strong>F</strong> | <?php echo $_shipping->getFax() ?>
+        if($_shipping->getFax()): ?>
+            <br /><strong>F</strong> | <?php echo $_shipping->getFax() ?>
         <?php endif; ?>
         </address>
     </div>
@@ -53,8 +51,8 @@
         <?php echo $_billing->getStreet() ?><br />
         <?php echo $_billing->getCity() ?>, <?php echo $_billing->getRegion() ?> <?php echo $_billing->getPostcode() ?><br />
         <strong>T</strong> | <?php echo $_billing->getTelephone();
-            if ($_billing->getFax()): ?><br />
-        <strong>F</strong> | <?php echo $_billing->getFax() ?>
+        if($_billing->getFax()): ?>
+            <br /><strong>F</strong> | <?php echo $_billing->getFax() ?>
         <?php endif; ?>
         </address>
     </div>

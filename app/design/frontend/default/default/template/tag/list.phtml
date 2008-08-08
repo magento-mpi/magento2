@@ -39,12 +39,14 @@
         <fieldset><button class="form-button-alt" onclick="submitTagForm()"><span><?php echo $this->__('Add Tags') ?></span></button></fieldset>
     </form>
     <script type="text/javascript">
+    //<![CDATA[
         var addTagFormJs = new VarienForm('addTagForm');
         function submitTagForm(){
             if(addTagFormJs.validator.validate()) {
                 addTagFormJs.form.submit();
             }
         }
+    //]]>
     </script>
     <div class="clear"></div>
     <small><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></small>

@@ -20,13 +20,13 @@
 ?>
 <?php if( $this->getCollection() && $this->count()): ?>
 <div class="box">
-    <h2><?php echo $this->__('My Recent Reviews') ?></h2>
+    <h3><?php echo $this->__('My Recent Reviews') ?></h3>
     <a href="<?php echo $this->getAllReviewsUrl() ?>"><small><?php echo $this->__('View All Reviews') ?></small></a>
     <?php $iterator = 0 ?>
     <?php foreach ($this->getCollection() as $_review): ?>
-    <ol>
-        <li<?php if($iterator % 2 == 0): ?> class="odd"<?php endif; ?>>
-            <span><?php echo ++$iterator ?></span>
+    <ol id="my_recent_reviews">
+        <li>
+            <span class="number"><?php echo ++$iterator ?></span>
                 <h4 class="product-name"><a href="<?php echo $this->getReviewUrl($_review->getReviewId()) ?>"><?php echo $this->htmlEscape($_review->getName()) ?></a></h4>
                 <?php if($_review->getSum()): ?>
                 <p><?php echo $this->__('Rating:') ?></p>
@@ -36,6 +36,7 @@
                 <?php endif; ?>
         </li>
     </ol>
+    <script type="text/javascript">decorateList('my_recent_reviews');</script>
     <?php endforeach; ?>
 </div>
 <?php endif; ?>

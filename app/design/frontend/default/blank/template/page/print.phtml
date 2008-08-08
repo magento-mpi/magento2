@@ -28,7 +28,7 @@
 <head>
 <?php echo $this->getChildHtml('head') ?>
 </head>
-<body class="<?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <div class="page-print">
     <h1><img src="<?php echo $this->getPrintLogoUrl()?$this->getPrintLogoUrl():$this->getSkinUrl('images/logo_print.gif') ?>" alt="<?php echo $this->__('Magento Commerce Demo Store') ?>" title="<?php echo $this->__('Magento Commerce Demo Store') ?>" /></h1>
     <?php echo $this->getChildHtml('content') ?>

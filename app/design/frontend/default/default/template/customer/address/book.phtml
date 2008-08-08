@@ -99,10 +99,12 @@
     <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
 </div>
 <script type="text/javascript">
+//<![CDATA[
     function deleteAddress(addressId) {
         if(confirm('<?php echo $this->__('Are you sure you want to delete this address?') ?>')) {
             window.location='<?php echo $this->getDeleteUrl() ?>id/'+addressId;
         }
         return false;
     }
+//]]>
 </script>

@@ -21,10 +21,12 @@
 <fieldset class="form-list">
     <?php $_code=$this->getMethodCode() ?>
     <script type="text/javascript">
+    //<![CDATA[
         Validation.creditCartTypes.JCB = [new RegExp('^(35[0-9]{14}|(2131|1800)[0-9]{11})$'), new RegExp('^([0-9]{3})?$'), true];
         Validation.creditCartTypes.LASER = [new RegExp('^((6304|6706|6771|6709)[0-9]{12}([0-9]{3}))$'), new RegExp('^([0-9]{3})?$'), false];
         Validation.creditCartTypes.UATP = [false, new RegExp('^[0-9]{3}([0-9]{1})?$'), false];
         Validation.creditCartTypes.MCI = [false, new RegExp('^[0-9]{3}([0-9]{1})?$'), false];
+    //]]>
     </script>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
         <!--li>
@@ -118,6 +120,7 @@
     </ul>
 </fieldset>
 <script type="text/javascript">
+//<![CDATA[
 Validation.addAllThese([
     ['validate-cybersource-cc-ss', 'Please enter issue number or start date for Switch/Solo/Maestro(UK Domestic) card type.', function(v,elm) {
           var endposition;
@@ -155,4 +158,5 @@ Validation.addAllThese([
           return true;
     }]
 ]);
+//]]>
 </script>

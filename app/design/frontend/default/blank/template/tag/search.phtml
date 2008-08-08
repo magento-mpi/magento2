@@ -21,16 +21,16 @@
 <div class="page-heading">
     <h2 class="heading"><?php echo $this->__("Products tagged with '%s' (<a href='%s'>RSS</a>)", $query, '/tag/index/xml?tag='.$query) ?></h2>
 </div>
-<?php if (!empty($collection)) { ?>
+<?php if (!empty($collection)): ?>
 <ol>
-<?php foreach ($collection as $item) { ?>
+<?php foreach ($collection as $item): ?>
     <li>
         <?php echo $item['name']; ?>
         <strong>Tags:</strong>
-            <?php foreach ($item['tags'] as $tag) { ?>
-                <A href="/tag/index/search?q=<?php echo $tag['tagname']; ?>"><?php echo $tag['tagname']; ?></a> 
-            <?php } ?>
+            <?php foreach ($item['tags'] as $tag): ?>
+                <a href="/tag/index/search?q=<?php echo $tag['tagname']; ?>"><?php echo $tag['tagname']; ?></a> 
+            <?php endforeach; ?>
     </li>
-<?php } ?>
+<?php endforeach; ?>
 </ol>
-<?php } ?>
+<?php endif; ?>

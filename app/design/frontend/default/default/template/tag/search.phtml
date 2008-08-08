@@ -28,7 +28,7 @@
         <?php echo $item['name']; ?>
         <strong>Tags:</strong>
             <?php foreach ($item['tags'] as $tag) { ?>
-                <A href="/tag/index/search?q=<?php echo $tag['tagname']; ?>"><?php echo $tag['tagname']; ?></a> 
+                <a href="/tag/index/search?q=<?php echo $tag['tagname']; ?>"><?php echo $tag['tagname']; ?></a> 
             <?php } ?>
     </li>
 <?php } ?>

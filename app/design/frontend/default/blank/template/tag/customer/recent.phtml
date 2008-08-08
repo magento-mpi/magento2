@@ -19,13 +19,13 @@
  */
 ?>
 <div class="box">
-    <h2><?php echo $this->__('My Recent Tags') ?></h2>
+    <h3><?php echo $this->__('My Recent Tags') ?></h3>
     <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo $this->__('View All Tags') ?></a>
-    <ol>
-        <?php $iterator = 0 ?>
+    <ol id="my_recent_tags">
+        <?php $iterator = 0; ?>
         <?php foreach( $this->getCollection()->getItems() as $_item ): ?>
-            <li<?php if($iterator % 2 == 0): ?> class="odd"<?php else: ?> class="even"<?php endif; ?>>
-                <div class="count"><?php echo ++$iterator ?></div>
+            <li>
+                <span class="number"><?php echo ++$iterator ?></span>
                 <div class="content">
                     <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                     <p><strong><?php echo $this->__('Tags:') ?></strong></p>
@@ -37,4 +37,5 @@
             </li>
         <?php endforeach; ?>
     </ol>
+    <script type="text/javascript">decorateList('my_recent_tags');</script>
 </div>

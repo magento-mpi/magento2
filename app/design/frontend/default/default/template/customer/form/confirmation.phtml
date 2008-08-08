@@ -19,8 +19,9 @@
  */
 ?>
     <div class="page-head">
-            <h3><?php echo $this->__('Send confirmation link') ?></h3>
-        </div><?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+       <h3><?php echo $this->__('Send confirmation link') ?></h3>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form action="" method="post" id="form-validate">
         <fieldset>
                 <legend><?php echo $this->__('Retrieve your confirmation link here') ?></legend>
@@ -28,7 +29,7 @@
         <ul class="form-list">
             <li>
                 <div class="input-box"><label for="email_address"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br/>
-                <input name="email" alt="email" type="text" id="email_address" class="required-entry validate-email input-text" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" /></div></li>
+                <input name="email" type="text" id="email_address" class="required-entry validate-email input-text" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" /></div></li>
         </ul>
     <div class="button-set">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
@@ -38,5 +39,8 @@
         </fieldset>
     </form>
     <script type="text/javascript">
+    //<![CDATA[
         var dataForm = new VarienForm('form-validate', true);
+    //]]>
     </script>
+    

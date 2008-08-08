@@ -39,7 +39,6 @@ NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
       Alternatively we could calculate widths automatically using block input parameters.
 */
 ?>
-
 <div class="customer-dob">
     <label for="<?php echo $this->getFieldId('day')?>">
         <?php echo $this->__('Date of Birth') ?>
@@ -69,5 +68,7 @@ NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
     <div style="opacity: 0.999999; display:none;" class="validation-advice"></div>
 </div>
 <script type="text/javascript">
+//<![CDATA[
     var customer_dob = new Varien.DOB('.customer-dob', <?php echo $this->isRequired() ? 'true' : 'false' ?>);
+//]]>
 </script>

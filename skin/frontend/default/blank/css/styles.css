@@ -232,7 +232,7 @@ p.required { text-align:right; }
 .data-table tbody.even td { border-width:0 1px; }
 .data-table tbody.odd tr.border td,
 .data-table tbody.even tr.border td { border-bottom-width:1px; }
-.data-table td h4.product-name { font-size:1em; font-weight:bold; line-height:1.5; }
+.data-table td .product-name { font-size:1em; font-weight:bold; line-height:1.5; }
 .data-table td.label { font-weight:bold; background-color:#f6f6f6; }
 .data-table td.data {}
 /* Tax Details Row */

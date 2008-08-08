@@ -49,8 +49,8 @@ function giftMessageToogle(giftMessageIdentifier)
 //]]>
 </script>
 <?php endif; ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php  $_order = $this->getOrder() ?>
-
 <h3><?php echo $this->__('Items Ordered') ?>
     <?php if ($_order->getTracksCollection()->count()) : ?>
         <span class="separator">|</span>
@@ -77,7 +77,6 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php endif; ?>
 <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
 <?php if (count($_history)): ?>
-    <div class="clearer"></div>
     <h4><?php echo $this->__('About Your Order') ?></h4>
     <div>
         <dl>
@@ -88,7 +87,6 @@ function giftMessageToogle(giftMessageIdentifier)
         </dl>
     </div>
 <?php endif; ?>
-
 <div class="buttons-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a>
 </div>

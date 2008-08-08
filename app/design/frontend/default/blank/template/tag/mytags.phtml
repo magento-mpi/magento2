@@ -19,6 +19,7 @@
  */
 ?>
 <script type="text/javascript">
+//<![CDATA[
 function editTag(id, name) {
     var new_name = prompt('Please type new tag name', name)
     if (new_name) {
@@ -54,6 +55,7 @@ function deleteTag(id) {
         });    
     }
 }
+//]]>
 </script>
 
 <?php foreach ($collection->getItems() as $tag) { /* $tag = $tag->getData();*/ ?> 

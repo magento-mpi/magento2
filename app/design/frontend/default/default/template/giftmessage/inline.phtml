@@ -20,7 +20,7 @@
 ?>
 <?php if(!$this->getDontDisplayContainer()): ?>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 if(!window.toogleVisibilityOnObjects) {
     var toogleVisibilityOnObjects = function(source, objects) {
         if($(source) && $(source).checked) {
@@ -81,7 +81,7 @@ billing.onSave = function(evt){
 }.bindAsEventListener(billing);
 
 }
-//-->
+//]]>
 </script>
 <?php endif ?>
 <div class="giftmessages">
@@ -253,7 +253,9 @@ billing.onSave = function(evt){
          <?php endif; ?>
     </div>
     <script type="text/javascript">
+    //<![CDATA[
         toogleVisibilityOnObjects('allow_gift_messages_<?php echo $this->getEntity()->getId() ?>', ['allow-gift-message-container-<?php echo $this->getEntity()->getId() ?>']);
+    //]]>
     </script>
     <?php break; ?>
 <?php endswitch ?>
