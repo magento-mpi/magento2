@@ -358,7 +358,7 @@ Product.Configurable.prototype = {
 	},
 	addNewProduct: function(productId, attributes) {
 	    if (this.checkAttributes(attributes)) {
-	        this.links[productId] = this.cloneAttributes(attributes);
+	        this.links.set(productId, this.cloneAttributes(attributes));
 	    } else {
 	        this.newProducts.push(productId);
 	    }
@@ -384,11 +384,11 @@ Product.Configurable.prototype = {
 	registerProduct: function(grid, element, checked) {
 		if(checked){
             if(element.linkAttributes) {
-            	this.links[element.value]=element.linkAttributes;
+            	this.links.set(element.value, element.linkAttributes);
             }
         }
         else{
-            this.links.remove(element.value);
+            this.links.unset(element.value);
         }
         this.updateGrid();
         this.grid.rows.each(function(row) {
@@ -399,13 +399,13 @@ Product.Configurable.prototype = {
 	updateProduct: function(productId, attributes) {
 	    var isAssociated = false;
 
-	    if (typeof this.links[productId] != 'undefined') {
+	    if (typeof this.links.get(productId) != 'undefined') {
 	        isAssociated = true;
-	        this.links.remove(productId);
+	        this.links.unset(productId);
 	    }
 
 	    if (isAssociated && this.checkAttributes(attributes)) {
-	        this.links[productId] = this.cloneAttributes(attributes);
+	        this.links.set([productId], this.cloneAttributes(attributes));
 	    } else if (isAssociated) {
 	        this.newProducts.push(productId);
 	    }
@@ -495,9 +495,9 @@ Product.Configurable.prototype = {
 			for (var i = 0, length=pair.value.length; i < length; i ++) {
 				var attribute = pair.value[i];
 				if(uniqueAttributeValues.keys().indexOf(attribute.attribute_id)==-1) {
-					uniqueAttributeValues[attribute.attribute_id] = $H({});
+					uniqueAttributeValues.set(attribute.attribute_id, $H({}));
 				}
-				uniqueAttributeValues[attribute.attribute_id][attribute.value_index] = attribute;
+				uniqueAttributeValues.get(attribute.attribute_id).set(attribute.value_index, attribute);
 			}
 		});
 		/* Updating attributes value container */
@@ -505,7 +505,7 @@ Product.Configurable.prototype = {
 			var attribute = row.attributeObject;
 			for(var i = 0, length=attribute.values.length; i < length; i ++) {
 				if(uniqueAttributeValues.keys().indexOf(attribute.attribute_id)==-1
-					|| uniqueAttributeValues[attribute.attribute_id].keys().indexOf(attribute.values[i].value_index)==-1) {
+					|| uniqueAttributeValues.get(attribute.attribute_id).keys().indexOf(attribute.values[i].value_index)==-1) {
 					row.attributeValues.immediateDescendants().each(function(elem){
 						if(elem.valueObject.value_index==attribute.values[i].value_index) {
 							elem.remove();
@@ -514,12 +514,12 @@ Product.Configurable.prototype = {
 					attribute.values[i] = undefined;
 
 				} else {
-					uniqueAttributeValues[attribute.attribute_id].remove(attribute.values[i].value_index);
+					uniqueAttributeValues.get(attribute.attribute_id).unset(attribute.values[i].value_index);
 				}
 			}
 			attribute.values = attribute.values.compact();
-			if(uniqueAttributeValues[attribute.attribute_id]) {
-				uniqueAttributeValues[attribute.attribute_id].each(function(pair){
+			if(uniqueAttributeValues.get(attribute.attribute_id)) {
+				uniqueAttributeValues.get(attribute.attribute_id).each(function(pair){
 					attribute.values.push(pair.value);
 					this.createValueRow(row,pair.value);
 				}.bind(this));
@@ -534,19 +534,19 @@ Product.Configurable.prototype = {
 		if(!this.valueAutoIndex) {
 			this.valueAutoIndex = 1;
 		}
-		templateVariables.html_id = container.id  + '_' + this.valueAutoIndex;
+		templateVariablesset(html_id, container.id  + '_' + this.valueAutoIndex);
 		templateVariables.merge(value);
-		if (!isNaN(parseFloat(templateVariables.pricing_value))) {
-		    templateVariables.pricing_value = parseFloat(templateVariables.pricing_value);
+		if (!isNaN(parseFloat(templateVariables.get(pricing_value)))) {
+		    templateVariables.set(pricing_value, parseFloat(templateVariables.pricing_value));
 		} else  {
-		    templateVariables.pricing_value = undefined;
+		    templateVariables.set(pricing_value, undefined);
 		}
 		this.valueAutoIndex++;
 
 		//var li = $(Builder.node('li', {className:'attribute-value'}));
 		var li = $(document.createElement('LI'));
 		li.className = 'attribute-value';
-		li.id = templateVariables.html_id;
+		li.id = templateVariables.get(html_id);
 		li.update(this.addValueTemplate.evaluate(templateVariables));
 		li.valueObject = value;
 		if (typeof li.valueObject.is_percent == 'undefined') {
@@ -673,7 +673,7 @@ Product.Configurable.prototype = {
 	        }
 	    }.bind(this));
 
-	    this.links[result.product_id] = result.attributes;
+	    this.links.set(result.product_id, result.attributes);
 	    this.updateGrid();
 	    this.updateValues();
 	    this.grid.reload();

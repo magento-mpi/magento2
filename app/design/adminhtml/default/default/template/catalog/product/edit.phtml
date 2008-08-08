@@ -122,10 +122,10 @@
         registerProduct : function(grid, element, checked) {
             if(checked){
                 if(element.inputElements) {
-                    this.products[element.value]={};
+                    this.products.set(element.value, {});
                     for(var i = 0; i < element.inputElements.length; i++) {
                         element.inputElements[i].disabled = false;
-                        this.products[element.value][element.inputElements[i].name] = element.inputElements[i].value;
+                        this.products.get(element.value).set(element.inputElements[i].name) = element.inputElements[i].value;
                     }
                 }
             }
@@ -136,7 +136,7 @@
                     }
                 }
 
-                this.products.remove(element.value);
+                this.products.unset(element.value);
             }
 
             this.saveField.value = this.serializeObject(this.products);
@@ -164,7 +164,7 @@
         inputChange : function(event) {
             var element = Event.element(event);
             if(element && element.checkboxElement && element.checkboxElement.checked){
-                this.products[element.checkboxElement.value][element.name] = element.value;
+                this.products.get(element.checkboxElement.value).set(element.name, element.value);
                 this.saveField.value = this.serializeObject(this.products);
             }
         },
@@ -175,8 +175,8 @@
                 checkbox.inputElements = inputs;
                 for(var i = 0; i < inputs.length; i++) {
                     inputs[i].checkboxElement = checkbox;
-                    if(this.products[checkbox.value] && this.products[checkbox.value][inputs[i].name]) {
-                        inputs[i].value = this.products[checkbox.value][inputs[i].name];
+                    if(this.products.get(checkbox.value) && this.products.get(checkbox.value).get(inputs[i].name)) {
+                        inputs[i].value = this.products.get(checkbox.value).get(inputs[i].name);
                     }
                     inputs[i].disabled = !checkbox.checked;
                     inputs[i].tabIndex = this.tabIndex++;

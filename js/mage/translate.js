@@ -27,17 +27,17 @@ Translate.prototype = {
         var args = arguments;
         var text = arguments[0];
 
-        if(this.data[text]){
-            return this.data[text];
+        if(this.data.get(text)){
+            return this.data.get(text);
         }
         return text;
     },
     add : function() {
         if (arguments.length > 1) {
-            this.data[arguments[0]] = arguments[1];
+            this.data.set(arguments[0], arguments[1]);
         } else if (typeof arguments[0] =='object') {
             $H(arguments[0]).each(function (pair){
-                this.data[pair.key] = pair.value;
+                this.data.set(pair.key, pair.value);
             }.bind(this));
         }
     }

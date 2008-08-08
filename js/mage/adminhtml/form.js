@@ -25,7 +25,7 @@ varienForm.prototype = {
         if($(this.formId)){
             this.validator  = new Validation(this.formId, {onElementValidate : this.checkErrors.bind(this)});
         }
-        this.errorSections = new Hash();
+        this.errorSections = $H({});
     },
 
     checkErrors : function(result, elm){
@@ -36,7 +36,7 @@ varienForm.prototype = {
     },
 
     submit : function(url){
-        this.errorSections = new Hash();
+        this.errorSections = $H({});
         this.canShowError = true;
         this.submitUrl = url;
         if(this.validator && this.validator.validate()){
@@ -119,16 +119,16 @@ var varienElementMethods = {
         while(elm && elm.tagName != 'BODY') {
             if(elm.statusBar){
                 if(form.errorSections.keys().indexOf(elm.statusBar.id)<0)
-                    form.errorSections[elm.statusBar.id] = flag;
+                    form.errorSections.set(elm.statusBar.id, flag);
                 if(flag){
                     Element.addClassName($(elm.statusBar), 'error');
                     if(form.canShowError && $(elm.statusBar).show){
                         form.canShowError = false;
                         $(elm.statusBar).show();
                     }
-                    form.errorSections[elm.statusBar.id] = flag;
+                    form.errorSections.set(elm.statusBar.id, flag);
                 }
-                else if(!form.errorSections[elm.statusBar.id]){
+                else if(!form.errorSections.get(elm.statusBar.id)){
                     Element.removeClassName($(elm.statusBar), 'error')
                 }
             }

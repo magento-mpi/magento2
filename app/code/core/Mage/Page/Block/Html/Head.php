@@ -124,8 +124,14 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $html .= '<!--[if '.$if.']>'."\n";
             }
             if (!empty($items['script'])) {
-                foreach ($this->getChunkedItems($items['script'], $baseJs.'index.php?c=auto&amp;f=') as $item) {
-                    $html .= sprintf($script, $item, '')."\n";
+                $scriptItems = array();
+                if (!Mage::getStoreConfigFlag('dev/js/deprecation')) {
+                    $scriptItems = $this->getChunkedItems($items['script'], 'index.php?c=auto&amp;f=');
+                } else {
+                    $scriptItems = $items['script'];
+                }
+                foreach ($scriptItems as $item) {
+                    $html .= sprintf($script, $baseJs.$item, '') . "\n";
                 }
 //                foreach (array_chunk($items['script'], 15) as $chunk) {
 //                    $html .= sprintf($script, $baseJs.'index.php/x.js?f='.join(',',$chunk), '')."\n";

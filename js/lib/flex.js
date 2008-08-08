@@ -419,7 +419,7 @@ function FABridge__bridgeInitialized(bridgeName)
         else
         {
             flashInstances.each(function(inst){
-                var params = inst.getElementsBySelector('param');
+                var params = inst.select('param');
                 var flash_found = false;
 
                 params.each(function(param) {

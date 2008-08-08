@@ -26,30 +26,28 @@ SessionError.prototype = {
     }
 };
 
-
-Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
-   initialize: function(url, options) {
+Ajax.Request = Object.extend(Ajax.Request, {
+  initialize: function($super, url, options) {
+    $super(options);
     this.transport = Ajax.getTransport();
-    this.setOptions(options);
     this.request((url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1'));
   },
   respondToReadyState: function(readyState) {
-    var state = Ajax.Request.Events[readyState];
-    var transport = this.transport, json = this.evalJSON();
+    var state = Ajax.Request.Events[readyState], response = new Ajax.Response(this);
 
     if (state == 'Complete') {
       try {
         this._complete = true;
-        if (transport.responseText.isJSON()) {
-           var _checkData  = transport.responseText.evalJSON();
+        if (response.isJSON()) {
+           var _checkData  = response.evalJSON();
            if(typeof _checkData == 'object' && _checkData.ajaxExpired && _checkData.ajaxRedirect) {
                window.location.replace(_checkData.ajaxRedirect);
                throw new SessionError('session expired');
            }
         }
-        (this.options['on' + this.transport.status]
+        (this.options['on' + response.status]
          || this.options['on' + (this.success() ? 'Success' : 'Failure')]
-         || Prototype.emptyFunction)(transport, json);
+         || Prototype.emptyFunction)(response, response.headerJSON);
       } catch (e) {
         this.dispatchException(e);
         if (e instanceof SessionError) {
@@ -57,15 +55,16 @@ Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
         }
       }
 
-      var contentType = this.getHeader('Content-type');
-      if (contentType && contentType.strip().
-        match(/^(text|application)\/(x-)?(java|ecma)script(;.*)?$/i))
-          this.evalResponse();
+      var contentType = response.getHeader('Content-type');
+      if (this.options.evalJS == 'force'
+          || (this.options.evalJS && this.isSameOrigin() && contentType
+          && contentType.match(/^\s*(text|application)\/(x-)?(java|ecma)script(;.*)?\s*$/i)))
+        this.evalResponse();
     }
 
     try {
-      (this.options['on' + state] || Prototype.emptyFunction)(transport, json);
-      Ajax.Responders.dispatch('on' + state, this, transport, json);
+      (this.options['on' + state] || Prototype.emptyFunction)(response, response.headerJSON);
+      Ajax.Responders.dispatch('on' + state, this, response, response.headerJSON);
     } catch (e) {
       this.dispatchException(e);
     }
@@ -77,25 +76,22 @@ Ajax.Request.prototype = Object.extend(Ajax.Request.prototype, {
   }
 });
 
-Ajax.Updater.prototype.respondToReadyState = Ajax.Request.prototype.respondToReadyState;
-
-Ajax.Updater.prototype = Object.extend(Ajax.Updater.prototype, {
-    initialize: function(container, url, options) {
+Ajax.Updater.respondToReadyState = Ajax.Request.respondToReadyState;
+Ajax.Updater = Object.extend(Ajax.Updater, {
+  initialize: function($super, container, url, options) {
     this.container = {
       success: (container.success || container),
       failure: (container.failure || (container.success ? null : container))
-    }
+    };
 
-    this.transport = Ajax.getTransport();
-    this.setOptions(options);
-
-    var onComplete = this.options.onComplete || Prototype.emptyFunction;
-    this.options.onComplete = (function(transport, param) {
-      this.updateContent();
-      onComplete(transport, param);
+    options = Object.clone(options);
+    var onComplete = options.onComplete;
+    options.onComplete = (function(response, json) {
+      this.updateContent(response.responseText);
+      if (Object.isFunction(onComplete)) onComplete(response, json);
     }).bind(this);
 
-    this.request((url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1'));
+    $super((url.match(new RegExp('\\?',"g")) ? url + '&isAjax=1' : url + '?isAjax=1'), options);
   }
 });
 
@@ -110,8 +106,8 @@ varienLoader.prototype = {
     },
 
     getCache : function(url){
-        if(this.cache[url]){
-            return this.cache[url]
+        if(this.cache.get(url)){
+            return this.cache.get(url)
         }
         return false;
     },
@@ -151,7 +147,7 @@ varienLoader.prototype = {
 
     processResult : function(transport){
         if(this.caching){
-            this.cache[this.url] = transport;
+            this.cache.set(this.url, transport);
         }
         if(this.callback){
             this.callback(transport.responseText);
@@ -171,7 +167,7 @@ varienLoaderHandler.handler = {
         request.options.loaderArea = $$('#html-body .wrapper')[0]; // Blocks all page
 
         if(request && request.options.loaderArea){
-            Position.clone($(request.options.loaderArea), $('loading-mask'), {offsetLeft:-2});
+            Element.clonePosition($('loading-mask'), $(request.options.loaderArea), {offsetLeft:-2})
             toggleSelectsUnderBlock($('loading-mask'), false);
             Element.show('loading-mask');
             setLoaderPosition();

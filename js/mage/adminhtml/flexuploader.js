@@ -42,9 +42,9 @@ if(!window.Flex) {
             this.config = config;
 
             this.flexContainerId = this.containerId + '-flash';
-            new Insertion.Top(
+            Element.insert(
                 window.document.body,
-                '<div id="'+this.flexContainerId+'" class="flex" style="position:absolute;"></div>'
+                {'top':'<div id="'+this.flexContainerId+'" class="flex" style="position:absolute;"></div>'}
             );
 
             this.flex = new Flex.Object({

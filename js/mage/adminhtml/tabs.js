@@ -27,7 +27,7 @@ varienTabs.prototype = {
         this.tabs = $$('#'+this.containerId+' li a.tab-item-link');
 
         this.hideAllTabsContent();
-        for(var tab in this.tabs){
+        for (var tab=0; tab<this.tabs.length; tab++) {
             Event.observe(this.tabs[tab],'click',this.tabOnClick);
             // move tab contents to destination element
             if($(this.destElementId)){

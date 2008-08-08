@@ -57,14 +57,14 @@
         if(checked){
             if(element.positionElement){
                 element.positionElement.disabled = false;
-                categoryProducts[element.value] = element.positionElement.value;
+                categoryProducts.set(element.value, element.positionElement.value);
             }
         }
         else{
             if(element.positionElement){
                 element.positionElement.disabled = true;
             }
-            categoryProducts.remove(element.value);
+            categoryProducts.unset(element.value);
         }
         $('in_category_products').value = categoryProducts.toQueryString();
         grid.reloadParams = {'selected_products[]':categoryProducts.keys()};
@@ -83,7 +83,7 @@
     function positionChange(event){
         var element = Event.element(event);
         if(element && element.checkboxElement && element.checkboxElement.checked){
-            categoryProducts[element.checkboxElement.value] = element.value;
+            categoryProducts.set(element.checkboxElement.value, element.value);
             $('in_category_products').value = categoryProducts.toQueryString();
         }
     }

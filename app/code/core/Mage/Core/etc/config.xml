@@ -132,6 +132,9 @@
                 <file>system.log</file>
                 <exception_file>exception.log</exception_file>
             </log>
+            <js>
+                <deprecation>0</deprecation>
+            </js>
         </dev>
 
 

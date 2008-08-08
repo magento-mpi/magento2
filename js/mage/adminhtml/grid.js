@@ -201,7 +201,7 @@ varienGrid.prototype = {
     },
     bindFilterFields : function(){
         var filters = $$('#'+this.containerId+' .filter input', '#'+this.containerId+' .filter select');
-        for (var i in filters){
+        for (var i=0; i<filters.length; i++) {
             Event.observe(filters[i],'keypress',this.filterKeyPress.bind(this));
         }
     },
@@ -209,7 +209,8 @@ varienGrid.prototype = {
         if (!$(this.containerId)) {
             return;
         }
-        var dataElements = $(this.containerId+this.tableSufix).down('.data tbody').getElementsBySelector('input', 'select');
+//        var dataElements = $(this.containerId+this.tableSufix).down('.data tbody').getElementsBySelector('input', 'select');
+        var dataElements = $(this.containerId+this.tableSufix).down('tbody').getElementsBySelector('input', 'select');
         for(var i=0; i<dataElements.length;i++){
             Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges.bind(dataElements[i]));
         }
@@ -295,7 +296,7 @@ varienGridMassaction.prototype = {
        this.initMassactionElements();
 
        checkedValues.each(function(item){
-           this.checkedValues[item] = item;
+           this.checkedValues.set(item, item);
        }.bind(this));
 
        this.formFieldName = formFieldName;
@@ -448,19 +449,23 @@ varienGridMassaction.prototype = {
         return false;
     },
     setCheckedValues: function(values) {
-        this.checkedValues.remove.apply(this.checkedValues, this.checkedValues.keys());
+        this.checkedValues.each(function(item){
+            this.checkedValues.unset(item.key);
+        }.bind(this));
         values.each(function(item){
-            this.checkedValues[item] = item;
+            this.checkedValues.set(item, item);
         }.bind(this));
     },
     addCheckedValues: function(values) {
         values.each(function(item){
-            this.checkedValues[item] = item;
+            this.checkedValues.set(item, item);
         }.bind(this));
     },
     unsetCheckedValues: function(values) {
         if(values.size()) {
-            this.checkedValues.remove.apply(this.checkedValues, values);
+            values.each(function(item){
+                this.checkedValues.unset(item);
+            }.bind(this));
         }
     },
     getCheckedValues: function() {
@@ -485,9 +490,9 @@ varienGridMassaction.prototype = {
     },
     setCheckbox: function(checkbox) {
         if(checkbox.checked) {
-            this.checkedValues[checkbox.value] = checkbox.value;
+            this.checkedValues.set(checkbox.value, checkbox.value);
         } else {
-            this.checkedValues.remove(checkbox.value);
+            this.checkedValues.unset(checkbox.value);
         }
         this.updateCount();
     },

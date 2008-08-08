@@ -132,7 +132,8 @@ Object.extend(Validation, {
             onElementValidate : function(result, elm) {}
         }, options || {});
         elm = $(elm);
-        var cn = elm.classNames();
+//        var cn = elm.classNames();
+        var cn = $w(elm.classname);
         return result = cn.all(function(value) {
             var test = Validation.test(value,elm,options.useTitle);
             options.onElementValidate(test, elm);

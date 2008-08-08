@@ -94,7 +94,7 @@ function imagePreview(element){
 function toggleValueElements(checkbox, container){
     if(container && checkbox){
         //var elems = container.getElementsBySelector('select', 'input');
-        var elems = Element.getElementsBySelector(container, ['select', 'input', 'textarea', 'button', 'img']);
+        var elems = Element.select(container, ['select', 'input', 'textarea', 'button', 'img']);
         elems.each(function (elem) {
             if(elem!=checkbox) {
                 elem.disabled=checkbox.checked;
@@ -181,17 +181,21 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         }
 
         if (!header) {
-            return;
+;            return
         }
-        header_offset = Position.cumulativeOffset(header)[1];
+        header_offset = Element.cumulativeOffset(header)[1];
         var buttons = $$('.content-buttons')[0];
         if (buttons) {
-            new Insertion.Before(buttons, '<div class="content-buttons-placeholder"></div>');
+            Element.insert(
+                buttons,
+                {'before':'<div class="content-buttons-placeholder"></div>'}
+            );
+            //new Insertion.Before(buttons, '<div class="content-buttons-placeholder"></div>');
             buttons.placeholder = buttons.previous('.content-buttons-placeholder');
             buttons.remove();
             buttons.placeholder.appendChild(buttons);
 
-            header_offset = Position.cumulativeOffset(buttons)[1];
+            header_offset = Element.cumulativeOffset(buttons)[1];
 
         }
 
