@@ -76,19 +76,7 @@ selectOptionType = {
 
         data.id  = optionId;
 
-        afterElm = this.div+'_'+data.id;
-        lastSelectId = this.itemCount-1;
-        if ($('product_option_'+data.id+'_select_'+lastSelectId)) {
-            afterElm = 'product_option_'+data.id+'_select_'+lastSelectId;
-        }
-//		new Insertion.After(
-//			$(afterElm),
-//			this.template.evaluate(data)
-//		);
-		new Insertion.Bottom(
-			$(this.div+'_'+data.id),
-			this.template.evaluate(data)
-		);
+		Element.insert($(this.div+'_'+data.id), {'bottom':this.template.evaluate(data)});
 
 		if (data.checkboxScopeTitle) {
             //set disabled

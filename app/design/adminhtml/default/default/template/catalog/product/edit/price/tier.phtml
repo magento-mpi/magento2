@@ -94,15 +94,15 @@
                 data.qty        = arguments[2];
                 data.price      = arguments[3];
             }
-            new Insertion.Bottom($('<?php echo $_htmlId ?>_container'), this.template.evaluate(data));
+            Element.insert($('<?php echo $_htmlId ?>_container'), {'bottom':this.template.evaluate(data)});
             $('tier_price_row_'+data.index+'_cust_group').value = data.group;
             $('tier_price_row_'+data.index+'_website').value = data.website_id;
         },
         deleteItem : function(event) {
             var tr = Event.findElement(event, 'tr');
             if (tr) {
-                Element.getElementsBySelector(tr, '.delete').each(function(elem){elem.value='1'});
-                Element.getElementsBySelector(tr, ['input', 'select']).each(function(elem){elem.hide()});
+                Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+                Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
                 Element.hide(tr);
                 Element.addClassName(tr, 'no-display template');
             }

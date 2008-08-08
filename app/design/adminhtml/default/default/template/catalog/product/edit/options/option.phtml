@@ -63,10 +63,7 @@ var productOption = {
             this.itemCount = data.item_count;
         }
 
-        new Insertion.After(
-            this.div,
-            this.template.evaluate(data)
-        );
+        Element.insert(this.div, {'after':this.template.evaluate(data)});
 
         //set selected type
         if (data.type) {
@@ -188,10 +185,7 @@ var productOptionType = {
                     data.option_id = $(element.readAttribute('id').sub('_type', '_id')).getValue();
                 }
 
-                new Insertion.After(
-                    element.readAttribute('id').sub('_type', ''),
-                    this.secondTemplate.evaluate(data)
-                );
+                Element.insert(element.readAttribute('id').sub('_type', ''), {'after':this.secondTemplate.evaluate(data)});
 
                 switch(element.getValue()){
                     case 'drop_down':
@@ -237,10 +231,7 @@ var productOptionType = {
 
         this.secondTemplate = new Template(template, this.templateSyntax);
 
-        new Insertion.After(
-            $('<?php echo $this->getFieldId() ?>_'+data.option_id),
-            this.secondTemplate.evaluate(data)
-        );
+        Element.insert($('<?php echo $this->getFieldId() ?>_'+data.option_id), {'after':this.secondTemplate.evaluate(data)});
 
         if (data.checkboxScopePrice) {
             //set disabled
