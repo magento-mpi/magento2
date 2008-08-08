@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
 
     public function getRoot($parentNodeCategory=null, $recursionLevel=2)
     {
-        if (!is_null($parentNodeCategory)) {
+        if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
             return $this->getNode($parentNodeCategory, $recursionLevel);
         }
         $root = $this->getData('root');

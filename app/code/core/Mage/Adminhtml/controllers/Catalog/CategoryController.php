@@ -290,8 +290,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
     public function treeAction()
     {
-        if ($storeId = (int) $this->getRequest()->getPost('store')) {
-            if (!$this->getRequest()->getPost('id')) {
+        $storeId = (int) $this->getRequest()->getPost('store');
+        $categoryId = (int) $this->getRequest()->getPost('id');
+
+        if ($storeId) {
+            if (!$categoryId) {
                 $store = Mage::app()->getStore($storeId);
                 $rootId = $store->getRootCategoryId();
                 $this->getRequest()->setParam('store', $storeId);
