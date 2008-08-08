@@ -48,7 +48,7 @@
     <?php $_items = $this->getRecentItems() ?>
     <?php if(count($_items)): ?>
     <h3><?php echo $this->__('Recently added item(s)') ?></h3>
-    <ol id="cart-sidebar">
+    <ol id="cart-sidebar" class="sidebar-products">
     <?php foreach($_items as $_item): ?>
         <?php echo $this->getItemHtml($_item) ?>
     <?php endforeach; ?>

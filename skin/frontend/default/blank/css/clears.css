@@ -31,5 +31,6 @@
 .sorter:after,
 .product-img-box .more-views ul:after,
 .product-options ul.options-list li:after,
+.sidebar-products li:after,
 .group-select li:after,
 .box:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
