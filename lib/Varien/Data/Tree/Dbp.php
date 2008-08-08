@@ -317,6 +317,7 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
         $arrNodes = $this->_conn->fetchAll($select);
 
         if ($arrNodes) {
+            $childrenItems = array();
             foreach ($arrNodes as $nodeInfo) {
                 $nodeId = $nodeInfo[$this->_idField];
                 if ($nodeId<=$rootNodeId) {

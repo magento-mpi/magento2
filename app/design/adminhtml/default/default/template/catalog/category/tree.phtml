@@ -23,11 +23,16 @@
         <tr>
             <td><h3 class="icon-head head-categories"><?php echo Mage::helper('catalog')->__('Categories') ?></h3></td>
             <td class="form-buttons">
-                <?php if($this->getRoot()): ?>
+                <?php if ($this->getRoot()): ?>
                     <?php echo $this->getAddButtonHtml() ?>
                 <?php endif; ?>
             </td>
         </tr>
+    </table>
+</div>
+<?php echo $this->getStoreSwitcherHtml() ?>
+<div>
+    <table cellspacing="0">
         <tr>
             <td class="form-buttons">
                 <?php if($this->getRoot()): ?>
@@ -42,7 +47,6 @@
         </tr>
     </table>
 </div>
-<?php echo $this->getStoreSwitcherHtml() ?>
 <?php if ($this->getRoot()): ?>
 <div style="margin-right:10px;">
 <div id="tree-div" style="width:100%;overflow:auto;"></div>
@@ -50,10 +54,110 @@
 <script type="text/javascript">
 var tree;
 var root;
-var categoryEditContainer;
-var categoryLoaderl
+var categoryLoader;
+
+Ext.tree.TreePanel.prototype._switchTree = function(transport)
+{
+    var response = eval('('+transport.responseText+')');
+    if (!response['parameters']) {
+        return false;
+    }
+
+    tree.reloadTree(response['parameters'],response['data']);
+}
+
+Ext.tree.TreePanel.prototype.switchTree = function(url, params)
+{
+    new Ajax.Request(
+        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
+        {
+           parameters:  params || {},
+           method:      'post',
+           onComplete:  tree._switchTree.bind(this)
+        }
+    );
+}
+
+Ext.tree.TreePanel.prototype.switchStore = function(event, switcher)
+{
+    var obj = event.target;
+
+    var storeParam = obj.value ? 'store/'+obj.value + '/' : '';
+
+    if (obj.switchParams) {
+        storeParam+= obj.switchParams;
+    }
+    if (switcher.useConfirm) {
+        if (!confirm("<?php echo $this->__('Please confirm site switching. All data that hasn\'t been saved will be lost.') ?>")){
+            obj.value = '<?php echo $this->getStoreId() ?>';
+            return false;
+        }
+    }
+
+    if (this.useAjax && this.storeId != obj.value) {
+        if (this.cache[this.storeId]) {
+            this.cache[this.storeId]['parameters']['category_id'] = this.currentNodeId;
+        }
+        this.el.dom.innerHTML = '';
+        this.unregisterNode(this.root);
+        this.storeId = obj.value;
+
+        var cache = this.cache[this.storeId];
+
+        if (cache) {
+            storeParam = storeParam+'id/'+cache['parameters']['category_id']+'/';
+            this.reloadTree(cache['parameters'],cache['data'],true);
+        } else {
+            this.switchTree(this.switchTreeUrl+storeParam, {store:this.storeId});
+        }
+    }
+
+    this.updateContent(this.switchEditUrl+storeParam);
+}
+
+Ext.tree.TreePanel.prototype.updateContent = function(url, params)
+{
+    if (!this.useAjax) {
+        setLocation(url);
+        return;
+    }
+
+    if (!params) {
+        var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
+    }
+
+    new Ajax.Updater(
+        this.categoryContainer,
+        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
+        {
+           parameters:  params || {},
+           method:      'post',
+           loaderArea:  this.categoryContainer,
+           onComplete:  refreshEditArea.bind(this),
+           evalScripts: true
+        }
+    );
+}
+
+Ext.tree.TreePanel.prototype.request = function(url, params)
+{
+    if (!params) {
+        var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
+    }
+    var result = new Ajax.Request(
+        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
+        {
+           parameters:  params || {},
+           method:      'post',
+           loaderArea:  this.categoryContainer
+        }
+    );
+
+    return result;
+}
+
 Ext.EventManager.onDocumentReady(function() {
-    categoryEditContainer = $('content').getElementsBySelector('.main-col-inner')[0];
+
     categoryLoader = new Ext.tree.TreeLoader({
        dataUrl: '<?php echo $this->getLoadTreeUrl() ?>'
     });
@@ -79,78 +183,71 @@ Ext.EventManager.onDocumentReady(function() {
     });
 
     tree = new Ext.tree.TreePanel('tree-div', {
-        animate:false,
-        loader: categoryLoader,
-        enableDD: true,
-        containerScroll: true,
-		selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
-		rootVisible: '<?php echo $this->getRoot()->getIsVisible() ?>'
+        animate:          false,
+        loader:           categoryLoader,
+        enableDD:         true,
+        containerScroll:  true,
+		selModel:         new Ext.tree.CheckNodeMultiSelectionModel(),
+		rootVisible:      '<?php echo $this->getRoot()->getIsVisible() ?>',
+		useAjax:          <?php echo $this->getUseAjax() ?>,
+		switchTreeUrl:    '<?php echo $this->getSwitchTreeUrl() ?>',
+		switchEditUrl:          '<?php echo $this->getSwitchedEditUrl() ?>',
+		categoryContainer:$('content').getElementsBySelector('.main-col-inner')[0],
+		storeId:          <?php echo (int) $this->getStore()->getId() ?>,
+		currentNodeId:    <?php echo $this->getCategoryId() ?>,
+		cache:            {}
 	});
+    tree.storeId = <?php echo (int) $this->getStore()->getId() ?>;
+
+	varienStoreSwitcher.storeSelectorClickCallback = tree.switchStore.bind(tree);
 
 	// set the root node
-    root = new Ext.tree.TreeNode({
-        text: '<?php echo htmlentities($this->getRoot()->getName()) ?>',
-        draggable: false,
-        allowDrop: <?php if ($this->getRoot()->getIsVisible()): ?>true<?php else : ?>false<?php endif; ?>,
-        id:'<?php echo $this->getRoot()->getId() ?>'
-    });
+	var parameters = {
+        text:       '<?php echo htmlentities($this->getRoot()->getName()) ?>',
+        draggable:  false,
+        allowDrop:  <?php if ($this->getRoot()->getIsVisible()): ?>true<?php else : ?>false<?php endif; ?>,
+        id:         <?php echo (int) $this->getRoot()->getId() ?>,
+        expanded:   <?php echo (int) $this->getIsWasExpanded() ?>,
+        store_id:   <?php echo $this->getStore()->getId() ?>,
+        category_id:<?php echo $this->getCategoryId() ?>
+    };
 
-    tree.setRootNode(root);
-	buildCategoryTree(root, <?php echo $this->getTreeJson() ?>);
-    tree.addListener('click', categoryClick.createDelegate(this));
-    tree.addListener('beforenodedrop', categoryMove.createDelegate(this));
+    tree.reloadTree(parameters,<?php echo $this->getTreeJson() ?>);
+
+});
+
+Ext.tree.TreePanel.prototype.reloadTree = function(parameters, data, alreadyLoaded)
+{
+    root = new Ext.tree.TreeNode(parameters);
+
+    this.setRootNode(root);
+
+    buildCategoryTree(root, data);
+
+    if (!alreadyLoaded) {
+        this.addListener('click', categoryClick.createDelegate(this));
+        this.addListener('beforenodedrop', categoryMove.createDelegate(this));
+    }
 
     // render the tree
-    tree.render();
-    <?php if ($this->isWasExpanded()): ?>
-        tree.expandAll();
-    <?php else: ?>
+    this.render();
+    if (parameters['expanded']) {
+        this.expandAll();
+    } else {
         root.expand();
-    <?php endif; ?>
+    }
 
-    var selectedNode = tree.getNodeById('<?php echo $this->getCategoryId() ?>');
+    var selectedNode = tree.getNodeById(parameters['category_id']);
     if(selectedNode){
         tree.getSelectionModel().select(selectedNode);
     }
-});
 
-function _updateContent(url, params)
-{
-    if (!params) {
-        var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
-    }
-
-    new Ajax.Updater(
-        categoryEditContainer,
-        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
-        {
-           parameters: params || {},
-           method:'post',
-           loaderArea:categoryEditContainer,
-           onComplete:refreshEditArea.bind(this),
-           evalScripts:true
-        }
-    );
-}
-
-function _request(url, params)
-{
-    if (!params) {
-        var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
-    }
-    new Ajax.Request(
-        url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
-        {
-           parameters: params || {},
-           method:'post',
-           loaderArea:categoryEditContainer,
-        }
-    );
+    tree.cache[parameters['store_id']] = {parameters:parameters,data:data};
 }
 
 function addNew(url)
 {
-    _updateContent(url);
+    tree.updateContent(url);
 }
 
 function categorySubmit()
@@ -167,12 +264,12 @@ function categorySubmit()
 function categoryReset(url, params)
 {
     var params = {active_tab_id:false};
-    _updateContent(url, params);
+    tree.updateContent(url, params);
 }
 
 function categoryDelete(url)
 {
-    _updateContent(url);
+    tree.updateContent(url);
 }
 
 function refreshEditArea(transport)
@@ -199,12 +296,8 @@ function categoryRemove(id)
 function collapseTree()
 {
     categoryLoader.dataUrl = '<?php echo $this->getLoadTreeUrl(false) ?>';
-    _request(categoryLoader.dataUrl);
+    tree.request(categoryLoader.dataUrl);
     tree.collapseAll();
-
-    setTimeout(function() {
-        root.ensureVisible(false);
-    }, 100);
 }
 
 function expandTree()
@@ -228,7 +321,7 @@ function buildCategoryTree(parent, config)
             }
             parent.appendChild(node);
             node.loader = node.getOwnerTree().loader;
-            if(config[i].children){
+            if (config[i].children) {
                 buildCategoryTree(node, config[i].children);
             }
         }
@@ -237,18 +330,19 @@ function buildCategoryTree(parent, config)
 
 function categoryClick(node, e)
 {
-    var url = '<?php echo $this->getEditUrl() ?>'+'id/'+node.id+'/';
+    var url = '<?php echo $this->getEditUrl() ?>'+'store/'+tree.storeId+'/'+'id/'+node.id+'/';
+    tree.currentNodeId = node.id;
     new Ajax.Updater(
-        categoryEditContainer,
+        tree.categoryContainer,
         url + (url.match(new RegExp('\\?')) ? '&ajax=true' : '?ajax=true' ),
         {
            parameters: {
                active_tab_id: category_info_tabsJsTabs.activeTab.id
            },
-           method:'post',
-           loaderArea:categoryEditContainer,
-           onComplete:refreshEditArea.bind(this),
-           evalScripts:true
+           method:      'post',
+           loaderArea:  tree.categoryContainer,
+           onComplete:  refreshEditArea.bind(this),
+           evalScripts: true
         }
     );
 }
@@ -314,18 +408,13 @@ function categoryMove(obj)
     new Ajax.Request(
         '<?php echo $this->getMoveUrl() ?>',
         {
-            method: 'POST',
-            parameters:  pd.join(""),
+            method:     'POST',
+            parameters: pd.join(""),
             onSuccess : success,
             onFailure : failure,
-            loaderArea:'tree-div'
+//            loaderArea: 'tree-div'
         }
     );
-    /*var con = new Ext.lib.Ajax.request(
-        'POST',
-        '<?php echo $this->getMoveUrl() ?>',
-        {success:success,failure:failure, scope:obj, loaderArea:'tree-div'},
-        pd.join(""));*/
 }
 </script>
 <?php endif; ?>

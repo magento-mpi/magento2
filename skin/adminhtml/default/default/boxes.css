@@ -422,6 +422,7 @@ input.item-qty                  { width:22px !important; }
 input.price                     { width:50px !important; text-align:right; }
 select optgroup                 { font-style:normal; }
 select optgroup option          { padding-left:10px; }
+select optgroup option.even { background:#f6f6f6; } /* Zebra even-row */
 
 
 /* Form List */ /* Table for default form data */

@@ -68,6 +68,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
         return false;
     }
 
+    public function getStore()
+    {
+        $storeId = (int) $this->getRequest()->getParam('store');
+        return Mage::app()->getStore($storeId);
+    }
+
     public function getRoot($parentNodeCategory=null, $recursionLevel=2)
     {
         if (!is_null($parentNodeCategory)) {

@@ -41,13 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     protected function _prepareLayout()
     {
-        if ($this->getUseAjax()) {
-            $addMethod = 'addAjax';
-        } else {
-            $addMethod = 'add';
-        }
-
-        $url = $this->getUrl("*/*/{$addMethod}", array(
+        $url = $this->getUrl("*/*/add", array(
             '_current'=>true,
             'parent'=>base64_encode($this->getCategoryPath()),
             'id'=>null,
@@ -82,7 +76,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('adminhtml/store_switcher')
-                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false,'store'=>null)))
+                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
+                ->setTemplate('store/switcher/enhanced.phtml')
         );
         return parent::_prepareLayout();
     }
@@ -152,13 +147,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     public function getEditUrl()
     {
-        if ($this->getUseAjax()) {
-            $editMethod = 'editAjax';
-        } else {
-            $editMethod = 'edit';
-        }
+        return $this->getUrl("*/catalog_category/edit", array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null));
+    }
 
-        return $this->getUrl("*/catalog_category/{$editMethod}", array('_current'=>true, '_query'=>false, 'id'=>null, 'parent'=>null));
+    public function getSwitchedEditUrl()
+    {
+        return $this->getUrl("*/catalog_category/edit", array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null));
+    }
+
+    public function getSwitchTreeUrl()
+    {
+        return $this->getUrl("*/catalog_category/tree", array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null));
     }
 
     public function isWasExpanded()
@@ -169,6 +168,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     public function getMoveUrl()
     {
         return $this->getUrl('*/catalog_category/move', array('store'=>$this->getRequest()->getParam('store')));
+    }
+
+    public function getTree($parenNodeCategory=null)
+    {
+        $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
+        $tree = isset($rootArray['children']) ? $rootArray['children'] : array();
+        return $tree;
     }
 
     public function getTreeJson($parenNodeCategory=null)
