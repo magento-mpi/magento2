@@ -113,7 +113,7 @@
 </div>
 
 <script type="text/javascript">
-<!--
+//<![CDATA[
     var billing = new Billing('co-billing-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>');
     var billingForm = new VarienForm('co-billing-form');
 
@@ -121,5 +121,5 @@
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
 
     var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
-//-->
+//]]>
 </script>

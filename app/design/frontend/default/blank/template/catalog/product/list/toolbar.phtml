@@ -101,9 +101,6 @@
             <a href="<?php echo $this->getOrderUrl(null, 'desc') ?>"><img src="<?php echo $this->getSkinUrl('images/sort_asc_arrow.gif') ?>" alt="<?php echo $this->__('Set Descending Direction') ?>" class="v-middle" /></a>
         <?php endif; ?>
     </fieldset>    
-    <?php if ($this->helper('rss/catalog')->getTagFeedUrl()): ?>
-        <a href="<?php echo $this->helper('rss/catalog')->getTagFeedUrl() ?>" class="link-feed"><?php echo $this->__('Subscribe to Feed') ?></a>
-    <?php endif; ?>
 </div>
 <?php endif; ?>
 <?php endif ?>

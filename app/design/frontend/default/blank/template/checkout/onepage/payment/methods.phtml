@@ -25,7 +25,6 @@
  * @see Mage_Checkout_Block_Onepage_Payment_Methods
  */
 ?>
-
 <dl id="checkout-payment-method-load">
 <?php foreach ($this->getMethods() as $_method): $_code = $_method->getCode() ?>
     <dt>
@@ -41,7 +40,4 @@
     </dd>
 <?php endforeach; ?>
 </dl>
-
-<script type="text/javascript">
-payment.init();
-</script>
+<script type="text/javascript">payment.init();</script>

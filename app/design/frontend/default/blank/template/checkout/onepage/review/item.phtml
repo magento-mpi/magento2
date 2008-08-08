@@ -20,20 +20,27 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td>
-        <?php echo $this->htmlEscape($this->getProductName()) ?>
-        <?php if ($_options = $this->getOptionList()): ?>
-        <ul>
-            <?php foreach ($_options as $_option): ?>
-            <li><strong><?php echo $_option['label'] ?></strong><br />
-            <?php if (is_array($_option['value'])): ?>
-                <?php echo implode('<br />', $_option['value']) ?>
-            <?php else: ?>
-                <?php echo $this->htmlEscape($_option['value']) ?>
-            <?php endif; ?>
+    <td><h4 class="product-name"><?php echo $this->htmlEscape($this->getProductName()) ?></h4>
+        <!-- item custom options -->
+        <?php if ($_options = $this->getOptionList()):?>
+        <dl class="item-options">
+            <?php foreach ($_options as $_option) : ?>
+            <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option['value']) ?>
+            <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                <div class="truncated_full_value">
+                    <dl class="item-options">
+                        <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+                        <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                    </dl>
+                </div>
+                <?php endif; ?>
+            </dd>
             <?php endforeach; ?>
-        </ul>
-        <?php endif; ?>
+        </dl>
+        <?php endif;?>
+        <!-- / -->
     </td>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>

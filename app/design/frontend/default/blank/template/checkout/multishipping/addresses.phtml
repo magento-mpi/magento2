@@ -35,11 +35,11 @@
 <fieldset>
     <input type="hidden" name="continue" value="0" id="can_continue_flag" />
     <input type="hidden" name="new_address" value="0" id="add_new_address_flag" />
-    <table id="multiship-addresses-table" class="data-table">
+    <table class="data-table" id="multiship-addresses-table">
         <col width="300" />
-        <col width="30" />
+        <col width="1" />
         <col />
-        <col width="30" />
+        <col width="1" />
         <thead>
             <tr>
                 <th><?php echo $this->__('Product') ?></th>
@@ -56,9 +56,7 @@
         <tbody>
         <?php foreach ($this->getItems() as $_index => $_item): ?>
             <tr>
-                <td class="attributes-col">
-                    <?php echo $this->getItemHtml($_item->getQuoteItem())?>
-                </td>
+                <td><?php echo $this->getItemHtml($_item->getQuoteItem())?></td>
                 <td><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty" /></td>
                 <td><?php if ($_item->getProduct()->getIsVirtual()): echo $this->__('Shipping selection is not applicable'); else: echo $this->getAddressesHtmlSelect($_item, $_index); endif; ?></td>
                 <td><a href="<?php echo $this->getItemDeleteUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php echo $this->__('Remove Item') ?>" /></a></td>

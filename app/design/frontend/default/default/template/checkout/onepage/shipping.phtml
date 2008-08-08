@@ -89,7 +89,7 @@
 </div>
 
 <script type="text/javascript">
-<!--
+//<![CDATA[
     var shipping = new Shipping('co-shipping-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>',
         '<?php echo $this->getUrl('checkout/onepage/shippingMethod') ?>');
     var shippingForm = new VarienForm('co-shipping-form');
@@ -98,5 +98,5 @@
     $('shipping-address-select') && shipping.newAddress(!$('shipping-address-select').value);
 
     var shippingRegionUpdater = new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', countryRegions);
-//-->
+//]]>
 </script>

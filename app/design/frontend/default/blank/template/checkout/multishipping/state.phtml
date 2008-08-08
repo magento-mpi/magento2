@@ -27,6 +27,6 @@
 ?>
 <ul>
 <?php foreach ($this->getSteps() as $_step): ?>
-    <li<?php if($_step->getIsActive()): ?> class="active"<?php endif ?>><span><?php echo $_step->getLabel() ?></span></li>
+    <li<?php if($_step->getIsActive()): ?> class="active"<?php endif ?>><?php echo $_step->getLabel() ?></li>
 <?php endforeach; ?>
 </ul>

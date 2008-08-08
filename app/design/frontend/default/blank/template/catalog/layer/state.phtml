@@ -32,7 +32,7 @@
     <?php foreach ($_filters as $_filter): ?>
         <li>
             <a href="<?php echo $_filter->getRemoveUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" /></a>
-            <span><?php echo $_filter->getName() ?>: </span><?php echo $_filter->getLabel() ?>
+            <span><?php echo $this->__($_filter->getName()) ?>: </span><?php echo $_filter->getLabel() ?>
         </li>
     <?php endforeach; ?>
     </ol>

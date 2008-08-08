@@ -139,11 +139,12 @@ input.input-text, textarea {}
 input.radio { margin-right:5px; }
 input.checkbox { margin-right:5px; }
 input.qty { width:2.5em; }
-.form-button { overflow:visible; width:auto; padding:1px 8px; background:#ccc; border:1px solid #333; font-weight:bold; color:#000; text-align:center; cursor:pointer; }
-.form-button span { white-space:nowrap; }
-.disabled {}
+button.form-button { overflow:visible; width:auto; padding:1px 8px; background:#ccc; border:1px solid #333; font-weight:bold; color:#000; text-align:center; cursor:pointer; }
+button.form-button span { white-space:nowrap; }
+button.disabled {}
 .group-select label, .form-list label, .payment-methods label {}
 .buttons-set { clear:both; margin:5px 0; padding:5px; border:1px solid #ddd; }
+.buttons-set .back-link {}
 
 /* Form lists */
 .form-list li { margin-bottom:6px; }
@@ -199,8 +200,6 @@ p.required { text-align:right; }
 .page-heading .heading {}
 .with-buttons {}
 
-.back-link {}
-
 /*********************** Pager */ 
 .pager { border:1px solid #ddd; padding:5px; margin:5px 0; text-align:center; }
 .pager .amount { float:left; }
@@ -234,9 +233,8 @@ p.required { text-align:right; }
 .data-table tbody.odd tr.border td,
 .data-table tbody.even tr.border td { border-bottom-width:1px; }
 .data-table td h4.product-name { font-size:1em; font-weight:bold; line-height:1.5; }
-.data-table td.label { font-weight:bold; }
+.data-table td.label { font-weight:bold; background-color:#f6f6f6; }
 .data-table td.data {}
-
 /* Tax Details Row */
 tr.tax-total { cursor:pointer; }
 tr.tax-total td {}
@@ -252,7 +250,7 @@ tr.tax-details-first td {}
 /************************************************/
 .product-info-box {}
 .product-essential {}
-.product-shop { float:right; width:445px; }
+.product-essential .product-shop { float:right; width:445px; }
 .product-collateral {}
 .additional-data {}
 .up-sell {}

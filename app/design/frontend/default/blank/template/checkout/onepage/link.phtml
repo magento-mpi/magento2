@@ -21,9 +21,9 @@
 <?php if ($this->isPossibleOnepageCheckout()):?>
 <li>
 <?php if ($this->isDisabled()):?>
-    <button class="form-button" disabled="disabled" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
+    <button class="form-button disabled" disabled="disabled" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
 <?php else: ?>
-    <button class="form-button" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
+    <button class="form-button disabled" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
 <?php endif?>
 </li>
 <?php endif?>

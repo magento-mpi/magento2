@@ -28,13 +28,13 @@
         <div class="col2-set">
             <div class="col-1">
                 <?php $_address=$this->getBillingAddress() ?>
-                <h4><?php echo $this->__('Billing Address') ?><span> | </span><a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>"><?php echo $this->__('Change Billing Address') ?></a></h4>
+                <h4><?php echo $this->__('Billing Address') ?><span class="separator"> | </span><a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>"><?php echo $this->__('Change Billing Address') ?></a></h4>
                 <address>
                     <?php echo $_address->format('html') ?>
                 </address>
             </div>
             <div class="col-2">
-                <h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getEditBillingUrl() ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+                <h4><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getEditBillingUrl() ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
                 <input type="hidden" name="payment[cc_number]" value="<?php echo $this->htmlEscape($this->getPayment()->getCcNumber())?>" />
                 <input type="hidden" name="payment[cc_cid]" value="<?php echo $this->htmlEscape($this->getPayment()->getCcCid())?>" />
                 <?php echo $this->getPaymentHtml() ?>
@@ -48,15 +48,14 @@
         <?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
             <div class="col2-alt-set"><h4><?php echo $this->__('Address %s of %s', ($_index+1), $this->getShippingAddressCount()) ?></h4>
                 <div class="col-1">
-                    <h4><?php echo $this->__('Shipping to') ?><span> | </span><a href="<?php echo $this->getEditShippingAddressUrl($_address) ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
+                    <h4><?php echo $this->__('Shipping to') ?><span class="separator"> | </span><a href="<?php echo $this->getEditShippingAddressUrl($_address) ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
                     <address>
                         <?php echo $_address->format('html') ?>
                     </address>
-                    <h4><?php echo $this->__('Shipping Method') ?><span> | </span><a href="<?php echo $this->getEditShippingUrl() ?>"><?php echo $this->__('Change Shipping Method') ?></a></h4>
+                    <h4><?php echo $this->__('Shipping Method') ?><span class="separator"> | </span><a href="<?php echo $this->getEditShippingUrl() ?>"><?php echo $this->__('Change Shipping Method') ?></a></h4>
                     <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
                     <p>
                     <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodDescription() ?>)
-                    -
                     <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
                     <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
 
@@ -68,7 +67,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="col-2">
-                    <h4><?php echo $this->__('Items') ?><span> | </span><a href="<?php echo $this->getAddressesEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
+                    <h4><?php echo $this->__('Items') ?><span class="separator"> | </span><a href="<?php echo $this->getAddressesEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
                     <table id="overview-table-<?php echo $_address->getId() ?>" class="data-table">
                         <col />
                         <col width="70" />
@@ -145,9 +144,9 @@
         <div class="col2-alt-set">
             <div class="col-1"></div>
             <div class="col-2">
-                <h4><?php echo $this->__('Items') ?><span> | </span><a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
+                <h4><?php echo $this->__('Items') ?><span class="separator"> | </span><a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
                 <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
-                <table id="virtual-overview-table" class="data-table">
+                <table class="data-table" id="virtual-overview-table">
                     <col />
                     <col width="70" />
                     <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
@@ -174,6 +173,9 @@
                         </tr>
                         <?php endif; ?>
                     </thead>
+                    <tfoot>
+                        <?php echo $this->renderTotals($this->getBillinAddressTotals()); ?>
+                    </tfoot>
                     <tbody>
                     <?php foreach ($this->getVirtualItems() as $_item): ?>
                         <tr>
@@ -205,9 +207,6 @@
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
-                        <tfoot>
-                        <?php echo $this->renderTotals($this->getBillinAddressTotals()); ?>
-                        </tfoot>
                     </table>
                     <script type="text/javascript">decorateTable('virtual-overview-table')</script>
                 </div>
@@ -216,7 +215,6 @@
     <?php endif; ?>
 
     <?php echo $this->getChildHtml('agreements') ?>
-
 
     <span id="review-please-wait" style="display:none;" class="opc-please-wait">
         <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" /> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;

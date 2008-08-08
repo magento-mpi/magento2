@@ -48,7 +48,7 @@
             </span>
         <?php else: ?>
         <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_price,true,true) ?></span>
-		<?php endif; ?>
+        <?php endif; ?>
 
     <?php else: /* if ($_finalPrice == $_price): */ ?>
         <p class="old-price">
@@ -57,23 +57,23 @@
         </p>
 
         <?php if ($this->helper('tax')->displayBothPrices() && $_finalPriceInclTax != $_finalPrice): ?>
-	        <p class="special-price">
-	            <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
-	            <span class="price-excluding-tax">
-	                <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
-	                <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?></span>
-	            </span>
+            <p class="special-price">
+                <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
+                <span class="price-excluding-tax">
+                    <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
+                    <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?></span>
+                </span>
             <span class="price-including-tax">
                 <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
             </span>
-			</p>
+            </p>
         <?php else: ?>
         <p class="special-price">
             <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
             <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPrice,true,false) ?></span>
         </p>
-		<?php endif; ?>
+        <?php endif; ?>
 
     <?php endif; /* if ($_finalPrice == $_price): */ ?>
 
