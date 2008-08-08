@@ -523,6 +523,8 @@ CREATE TABLE `{$installer->getTable('catalog_product_enabled_index')}` (
     CONSTRAINT `FK_CATALOG_PRODUCT_ENABLED_INDEX_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$installer->getTable('core_store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `{$this->getTable('catalog_category_entity')}` ADD `children_count` INT NOT NULL;
+
 ");
 
 }

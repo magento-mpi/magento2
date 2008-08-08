@@ -21,9 +21,7 @@
 /* @var $this Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $this->startSetup();
 
-$this->run("
-        ALTER TABLE `{$this->getTable('catalog_category_entity')}` ADD `children_count` INT NOT NULL;
-");
+$this->getConnection()->addColumn($this->getTable('catalog_category_entity'), 'children_count', 'INT NOT NULL');
 
 $sql    = "SELECT * FROM `{$this->getTable('catalog_category_entity')}`";
 $data   = $this->getConnection()->fetchAll($sql);
