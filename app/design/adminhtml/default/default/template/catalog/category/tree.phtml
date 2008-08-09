@@ -219,7 +219,7 @@ Ext.EventManager.onDocumentReady(function() {
 Ext.tree.TreePanel.prototype.reloadTree = function(parameters, data, alreadyLoaded)
 {
 	tree.cache[parameters['store_id']] = {parameters:parameters,data:data};
-	
+
     root = new Ext.tree.TreeNode(parameters);
 
     this.setRootNode(root);
