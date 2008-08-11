@@ -194,7 +194,7 @@ Ext.EventManager.onDocumentReady(function() {
 		switchEditUrl:          '<?php echo $this->getSwitchedEditUrl() ?>',
 		categoryContainer:$('content').getElementsBySelector('.main-col-inner')[0],
 		storeId:          <?php echo (int) $this->getStore()->getId() ?>,
-		currentNodeId:    <?php echo $this->getCategoryId() ?>,
+		currentNodeId:    <?php echo (int) $this->getCategoryId() ?>,
 		cache:            {}
 	});
     tree.storeId = <?php echo (int) $this->getStore()->getId() ?>;
@@ -208,8 +208,8 @@ Ext.EventManager.onDocumentReady(function() {
         allowDrop:  <?php if ($this->getRoot()->getIsVisible()): ?>true<?php else : ?>false<?php endif; ?>,
         id:         <?php echo (int) $this->getRoot()->getId() ?>,
         expanded:   <?php echo (int) $this->getIsWasExpanded() ?>,
-        store_id:   <?php echo $this->getStore()->getId() ?>,
-        category_id:<?php echo $this->getCategoryId() ?>
+        store_id:   <?php echo (int) $this->getStore()->getId() ?>,
+        category_id:<?php echo (int) $this->getCategoryId() ?>
     };
 
     tree.reloadTree(parameters,<?php echo $this->getTreeJson() ?>);
