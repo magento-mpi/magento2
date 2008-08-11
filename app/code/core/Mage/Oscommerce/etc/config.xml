@@ -42,13 +42,13 @@
                     </oscommerce_type>
                     <oscommerce_ref>
                         <table>oscommerce_ref</table>
-                    </oscommerce_ref>               
+                    </oscommerce_ref>
                     <catalog_product_website>
                         <table>catalog_product_website</table>
                     </catalog_product_website>
                     <catalog_category>
                         <table>catalog_category_entity</table>
-                    </catalog_category>                    
+                    </catalog_category>
                     <oscommerce_order>
                         <table>oscommerce_orders</table>
                     </oscommerce_order>
@@ -130,8 +130,24 @@
                         <sort_order>100</sort_order>
                     </oscorder>
                 </children>
-            </sales>            
+            </sales>
         </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <oscorder translate="title">
+                                    <title>osCommerce Orders</title>
+                                    <sort_order>100</sort_order>
+                                </oscorder>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
         <events>
             <controller_action_predispatch_oscommerce>
                 <observers>
@@ -178,7 +194,7 @@
                     </files>
                 </Mage_Oscommerce>
             </modules>
-        </translate-->        
+        </translate-->
     </frontend>
     <default>
         <oscommerce>
@@ -186,5 +202,5 @@
                 <max_rows>10</max_rows>
             </import>
         </oscommerce>
-    </default>    
+    </default>
 </config>

@@ -139,6 +139,6 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('sales/checkout/agreement');
+	    return Mage::getSingleton('admin/session')->isAllowed('sales/checkoutagreement');
     }
 }
