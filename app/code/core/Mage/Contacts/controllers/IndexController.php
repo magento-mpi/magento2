@@ -73,6 +73,11 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                         null,
                         array('data' => $postObject)
                     );
+
+                if (!$mailTemplate->getSentSuccess()) {
+                    throw new Exception();
+                }
+
                 $translate->setTranslateInline(true);
 
                 Mage::getSingleton('customer/session')->addSuccess(Mage::helper('contacts')->__('Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'));

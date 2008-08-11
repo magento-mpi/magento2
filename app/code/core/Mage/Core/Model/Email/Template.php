@@ -334,6 +334,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
     public function sendTransactional($templateId, $sender, $email, $name, $vars=array(), $storeId=null)
     {
+        $this->setSentSuccess(false);
+
     	if (is_null($storeId)) {
     	    if ($this->getDesignConfig() && $this->getDesignConfig()->getStore()) {
                 $storeId = $this->getDesignConfig()->getStore();
@@ -361,7 +363,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     	    $this->setSenderEmail($sender['email']);
     	}
 
-    	$this->send($email, $name, $vars);
+    	$this->setSentSuccess( $this->send($email, $name, $vars) );
     	return $this;
 	}
 
