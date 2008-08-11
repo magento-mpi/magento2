@@ -703,15 +703,19 @@
                                             </children>
                                         </actions>
                                     </children>
+                                    <sort_order>10</sort_order>
                                 </order>
                                 <invoice translate="title">
                                     <title>Invoices</title>
+                                    <sort_order>20</sort_order>
                                 </invoice>
                                 <shipment translate="title">
                                     <title>Shipments</title>
+                                    <sort_order>30</sort_order>
                                 </shipment>
                                 <creditmemo translate="title">
                                     <title>Credit Memos</title>
+                                    <sort_order>40</sort_order>
                                 </creditmemo>
                             </children>
                         </sales>
