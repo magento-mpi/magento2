@@ -308,21 +308,23 @@ function expandTree()
 
 function buildCategoryTree(parent, config)
 {
+    console.log(config);
     if (!config) return null;
 
 	if (parent && config && config.length){
         for (var i = 0; i < config.length; i++) {
             var node = new Ext.tree.TreeNode(config[i]);
-            if (config[i].children && !config[i].children.length) {
-                delete(config[i].children);
-                node = new Ext.tree.AsyncTreeNode(config[i]);
+            var _node = Object.clone(config[i]);
+            if (_node.children && !_node.children.length) {
+                delete(_node.children);
+                node = new Ext.tree.AsyncTreeNode(_node);
             } else {
-                node = new Ext.tree.TreeNode(config[i]);
+                node = new Ext.tree.TreeNode(_node);
             }
             parent.appendChild(node);
             node.loader = node.getOwnerTree().loader;
-            if (config[i].children) {
-                buildCategoryTree(node, config[i].children);
+            if (_node.children) {
+                buildCategoryTree(node, _node.children);
             }
         }
     }
