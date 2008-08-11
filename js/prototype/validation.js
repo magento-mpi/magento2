@@ -132,8 +132,8 @@ Object.extend(Validation, {
             onElementValidate : function(result, elm) {}
         }, options || {});
         elm = $(elm);
-//        var cn = elm.classNames();
-        var cn = $w(elm.classname);
+
+        var cn = $w(elm.className);
         return result = cn.all(function(value) {
             var test = Validation.test(value,elm,options.useTitle);
             options.onElementValidate(test, elm);
@@ -154,13 +154,13 @@ Object.extend(Validation, {
                 case 'radio':
                     var p = elm.parentNode;
                     if(p) {
-                        new Insertion.Bottom(p, advice);
+                        Element.insert(p, {'bottom': advice});
                     } else {
-                        new Insertion.After(elm, advice);
+                        Element.insert(elm, {'after': advice});
                     }
                     break;
                 default:
-                    new Insertion.After(elm, advice);
+                    Element.insert(elm, {'after': advice});
             }
         }
     },
@@ -173,7 +173,7 @@ Object.extend(Validation, {
                 this.hideAdvice(elm, pair.value);
             }.bind(this));
         }
-        elm.advices[adviceName] = advice;
+        elm.advices.set(adviceName, advice);
         if(typeof Effect == 'undefined') {
             advice.style.display = 'block';
         } else {
@@ -288,7 +288,7 @@ Object.extend(Validation, {
     },
     reset : function(elm) {
         elm = $(elm);
-        var cn = elm.classNames();
+        var cn = $w(elm.className);
         cn.each(function(value) {
             var prop = '__advice'+value.camelize();
             if(elm[prop]) {
