@@ -26,7 +26,7 @@
         <h4><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h4>
         <strong><?php echo $this->getQty() ?></strong> x
 
-        <?php $_excl = $_item->getPrice(); ?>
+        <?php $_excl = $_item->getCalculationPrice() ? $_item->getCalculationPrice() : $_item->getPrice(); ?>
         <?php $_incl = $this->helper('checkout')->getPriceInclTax($_item); ?>
         <?php if ($this->helper('tax')->displayCartPriceInclTax()): $_excl = $_incl; endif; ?>
 
