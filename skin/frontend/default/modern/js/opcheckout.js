@@ -191,6 +191,12 @@ Checkout.prototype = {
                 $('opc-'+e).addClassName('allow');
             });
         }
+
+        if(response.duplicateBillingInfo)
+        {
+            shipping.setSameAsBilling(true);
+        }
+
         if (response.goto_section) {
             this.reloadProgressBlock();
             this.gotoSection(response.goto_section);
@@ -329,7 +335,6 @@ Billing.prototype = {
 
                 alert(response.message.join("\n"));
             }
-
             return false;
         }
 
@@ -570,6 +575,7 @@ ShippingMethod.prototype = {
 
         if (response.update_section) {
             $('checkout-'+response.update_section.name+'-load').innerHTML = response.update_section.html;
+            response.update_section.html.evalScripts();
         }
 
         $$('.cvv-what-is-this').each(function(element){
@@ -620,13 +626,14 @@ Payment.prototype = {
         if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
             var form = $('payment_form_'+this.currentMethod);
             form.style.display = 'none';
-            var elements = form.getElementsBySelector('input', 'select', 'textarea');
+            var elements = form.select('input', 'select', 'textarea');
             for (var i=0; i<elements.length; i++) elements[i].disabled = true;
         }
+
         if ($('payment_form_'+method)){
             var form = $('payment_form_'+method);
             form.style.display = '';
-            var elements = form.getElementsBySelector('input', 'select', 'textarea');
+            var elements = form.select('input', 'select', 'textarea');
             for (var i=0; i<elements.length; i++) elements[i].disabled = false;
             this.currentMethod = method;
         }

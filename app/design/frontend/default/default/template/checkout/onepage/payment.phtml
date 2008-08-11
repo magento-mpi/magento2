@@ -67,6 +67,5 @@ var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout
 <script type="text/javascript">
 //<![CDATA[
     payment.currentMethod = "<?php echo $this->getChild('methods')->getSelectedMethodCode() ?>";
-    payment.init();
 //]]>
 </script>

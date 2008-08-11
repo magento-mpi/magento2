@@ -59,14 +59,14 @@ VarienForm.prototype = {
 
     elementOnFocus: function(event){
         var element = Event.findElement(event, 'fieldset');
-        if(element.className){
+        if(element && element.className){
             Element.addClassName(element, this.highlightClass);
         }
     },
 
     elementOnBlur: function(event){
         var element = Event.findElement(event, 'fieldset');
-        if(element.className){
+        if(element && element.className){
             Element.removeClassName(element, this.highlightClass);
         }
     },
@@ -239,7 +239,7 @@ RegionUpdater.prototype = {
 
     setMarkDisplay: function(elem, display){
         if(elem.parentNode){
-            var marks = Element.getElementsByClassName(elem.parentNode, 'required');
+            var marks = Element.select(elem.parentNode, '.required');
             if(marks[0]){
                 display ? marks[0].show() : marks[0].hide();
             }

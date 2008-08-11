@@ -350,7 +350,7 @@ var Fieldset = {
     saveState: function(url, parameters) {
         new Ajax.Request(url, {
             method: 'get',
-            parameters: Hash.toQueryString(parameters),
+            parameters: Object.toQueryString(parameters),
             loaderArea: false
         });
     }

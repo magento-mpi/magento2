@@ -136,19 +136,19 @@ function decorateTable(table, options) {
         }
         // decorate
         if (_options['tbody']) {
-            decorateGeneric(table.getElementsBySelector('tbody'), _options['tbody']);
+            decorateGeneric(table.select('tbody'), _options['tbody']);
         }
         if (_options['tbody tr']) {
-            decorateGeneric(table.getElementsBySelector('tbody tr'), _options['tbody tr']);
+            decorateGeneric(table.select('tbody tr'), _options['tbody tr']);
         }
         if (_options['thead tr']) {
-            decorateGeneric(table.getElementsBySelector('thead tr'), _options['thead tr']);
+            decorateGeneric(table.select('thead tr'), _options['thead tr']);
         }
         if (_options['tfoot tr']) {
-            decorateGeneric(table.getElementsBySelector('tfoot tr'), _options['tfoot tr']);
+            decorateGeneric(table.select('tfoot tr'), _options['tfoot tr']);
         }
         if (_options['tr td']) {
-            var allRows = table.getElementsBySelector('tr');
+            var allRows = table.select('tr');
             if (allRows.length) {
                 for (var i = 0; i < allRows.length; i++) {
                     decorateGeneric(allRows[i].getElementsByTagName('TD'), _options['tr td']);
@@ -165,7 +165,7 @@ function decorateTable(table, options) {
 function decorateList(list, nonRecursive) {
     if ($(list)) {
         if (typeof(nonRecursive) == 'undefined') {
-            var items = $(list).getElementsBySelector('li')
+            var items = $(list).select('li')
         }
         else {
             var items = $(list).childElements();
@@ -181,8 +181,8 @@ function decorateList(list, nonRecursive) {
 function decorateDataList(list) {
     list = $(list);
     if (list) {
-        decorateGeneric(list.getElementsBySelector('dt'), ['odd', 'even', 'last']);
-        decorateGeneric(list.getElementsBySelector('dd'), ['odd', 'even', 'last']);
+        decorateGeneric(list.select('dt'), ['odd', 'even', 'last']);
+        decorateGeneric(list.select('dd'), ['odd', 'even', 'last']);
     }
 }
 
