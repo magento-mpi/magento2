@@ -64,27 +64,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
 //                ),
 //                'name'
 //            );
-            $statuses[] = array('label'=>'Yes', 'value'=>'1');
-            if (!$this->getRequest()->getParam('parent')) {
-                $value = 1;
-            } else {
-                $statuses[] = array('label'=>'No', 'value'=>'0');
-                $value =  (int)$this->getCategory()->getIsTopLevelCategory();
-
+            if ($this->getRequest()->getParam('parent')) {
                 $fieldset->addField('path', 'hidden', array(
                     'name'  => 'path',
                     'value' => base64_decode($this->getRequest()->getParam('parent'))
                 ));
             }
-
-            $fieldset->addField('is_top_level_category', 'select', array(
-                'name'  => 'is_top_level_category',
-                'label' => Mage::helper('catalog')->__('Is Top Level Category'),
-                'value' => $value,
-                'values'=> $statuses,
-                ),
-                'name'
-            );
         }
 
         $this->_setFieldset($this->getCategory()->getAttributes(true), $fieldset);

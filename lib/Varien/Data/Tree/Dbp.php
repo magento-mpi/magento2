@@ -349,6 +349,7 @@ class Varien_Data_Tree_Dbp extends Varien_Data_Tree
                 }
 
                 if ($withChildren) {
+                    $this->_loaded = false;
                     $node->loadChildren(1);
                     $this->_loaded = false;
                 }

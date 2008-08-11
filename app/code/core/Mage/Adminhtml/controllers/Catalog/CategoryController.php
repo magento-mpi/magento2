@@ -99,18 +99,35 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function editAction()
     {
-        $categoryId = (int) $this->getRequest()->getParam('id');
+        $params['_current'] = true;
+        $redirect = false;
+
         $storeId = (int) $this->getRequest()->getParam('store');
-        if ($storeId && !$categoryId) {
-            $store = Mage::app()->getStore($storeId);
-            $categoryId = $store->getRootCategoryId();
-            $this->getRequest()->setParam('id', $categoryId);
+        $_prevStoreId = Mage::getSingleton('admin/session')
+            ->getLastViewedStore(true);
+
+        if ($_prevStoreId != null) {
+            $params['store'] = $_prevStoreId;
+            $redirect = true;
         }
+
+        $categoryId = (int) $this->getRequest()->getParam('id');
         $_prevCategoryId = Mage::getSingleton('admin/session')
             ->getLastEditedCategory(true);
-        if ($_prevCategoryId && !$categoryId) {
+        if ($_prevCategoryId) {
+            $params['id'] = $_prevCategoryId;
+            $redirect = true;
+        }
+
+        if ($redirect) {
+            $this->_redirect('*/*/edit', $params);
+            return;
+        }
+
+        if ($storeId && !$categoryId) {
+            $store = Mage::app()->getStore($storeId);
+            $_prevCategoryId = (int) $store->getRootCategoryId();
             $this->getRequest()->setParam('id', $_prevCategoryId);
-            $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$_prevCategoryId));
         }
 
         if (!$category = $this->_initCategory()) {
@@ -118,7 +135,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         if ($this->getRequest()->getQuery('ajax')) {
-            Mage::getSingleton('admin/session')->setLastEditedCategory($category->getId());
+            Mage::getSingleton('admin/session')
+                ->setLastViewedStore($this->getRequest()->getParam('store'));
+            Mage::getSingleton('admin/session')
+                ->setLastEditedCategory($category->getId());
 
             $this->getResponse()->setBody(
                 $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
@@ -210,12 +230,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())
                     ->setCategoryData($data);
-                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_curent'=> true, 'id'=>$category->getId(), 'store'=>$storeId)));
+                $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
                 return;
             }
         }
 
-        $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_curent'=> true, 'id'=>$category->getId(), 'store'=>$storeId)));
+        $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
     }
 
     /**
@@ -290,14 +310,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
     public function treeAction()
     {
-        $storeId = (int) $this->getRequest()->getPost('store');
-        $categoryId = (int) $this->getRequest()->getPost('id');
+        $storeId = (int) $this->getRequest()->getParam('store');
+        $categoryId = (int) $this->getRequest()->getParam('id');
 
         if ($storeId) {
             if (!$categoryId) {
                 $store = Mage::app()->getStore($storeId);
                 $rootId = $store->getRootCategoryId();
-                $this->getRequest()->setParam('store', $storeId);
                 $this->getRequest()->setParam('id', $rootId);
             }
         }
@@ -305,16 +324,18 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
         $block = $this->getLayout()->createBlock('adminhtml/catalog_category_tree');
-        $root = $block->getRoot($category);
+        $root = $block->getRoot();
         $response = array();
-        $response['data'] = $block->getTree($category);
+        $response['data'] = $block->getTree();
         $response['parameters'] = array(
             'text'        => htmlentities($root->getName()),
             'draggable'   => false,
             'allowDrop'   => ($root->getIsVisible())?'true':'false',
-            'id'          => $root->getId(),
-            'store_id'    => $block->getStore()->getId(),
-            'category_id' => $category->getId()
+            'id'          => (int) $root->getId(),
+            'expanded'    => (int) $block->getIsWasExpanded(),
+            'store_id'    => (int) $block->getStore()->getId(),
+            'category_id' => (int) $category->getId(),
+            'root_visible'=> (int) $root->getIsVisible()
         );
 
         $this->getResponse()->setBody(
