@@ -35,7 +35,7 @@ freeModel.prototype = {
         } else {
             var freeMethodElements = $$('.free-method');
         }
-        for(var i in freeMethodElements) {
+        for(var i=0;i<freeMethodElements.length; i++) {
             Event.observe(freeMethodElements[i], 'change', this.checkFreeMethod.bind(this));
             this.initFreeMethod(freeMethodElements[i]);
         }

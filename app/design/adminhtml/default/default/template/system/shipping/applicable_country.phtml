@@ -35,7 +35,7 @@ CountryModel.prototype = {
         } else {
             var applyCountryElements = $$('.shipping-applicable-country');
         }
-        for(var i in applyCountryElements) {
+        for(var i=0;i<applyCountryElements.length; i++) {
             Event.observe(applyCountryElements[i], 'change', this.checkSpecificCountry.bind(this));
             this.initSpecificCountry(applyCountryElements[i]);
         }
