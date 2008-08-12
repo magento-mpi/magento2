@@ -23,7 +23,7 @@
     <button class="form-button" onclick="setLocation('<?php echo $this->getAddNewUrl() ?>')"><span><?php echo $this->__('Add New Address') ?></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="box">
+<div class="block">
 <?php $_index=0 ?>
 <?php foreach ($this->getAddressCollection() as $_address): ?>
     <?php if($_index%3==0): ?><div class="col3-set"><?php endif; ?>

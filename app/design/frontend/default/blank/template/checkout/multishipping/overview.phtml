@@ -23,7 +23,7 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();">
-    <div class="box">
+    <div class="block">
         <h3><?php echo $this->__('Billing Information') ?></h3>
         <div class="col2-set">
             <div class="col-1">
@@ -42,7 +42,7 @@
         </div>
      </div>
 
-    <div class="box">
+    <div class="block">
         <h3><?php echo $this->__('Shipping Information') ?></h3>
         <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
         <?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
@@ -139,7 +139,7 @@
     </div>
 
     <?php if ($this->getQuote()->hasVirtualItems()): ?>
-    <div class="box">
+    <div class="block">
         <h3><?php echo $this->__('Other items in your order') ?></h3>
         <div class="col2-alt-set">
             <div class="col-1"></div>

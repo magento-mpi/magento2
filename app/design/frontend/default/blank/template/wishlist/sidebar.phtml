@@ -20,7 +20,7 @@
 ?>
 <?php if ($this->helper('wishlist')->isAllow()) : ?>
 <?php //if($this->getCanDisplayWishlist()): ?>
-<div class="box">
+<div class="block">
     <h2><?php echo $this->__('My Wishlist - <a href="%s">%d Item(s)</a>',
             $this->helper('wishlist')->getListUrl(),
             $this->helper('wishlist')->getItemCount()

@@ -22,7 +22,7 @@
     <h2 class="heading"><?php echo $this->__('Popular Search Terms') ?></h2>
 </div>
 <?php if( sizeof($this->getTerms()) > 0 ): ?>
-<div class="box">
+<div class="block">
     <ul>
         <?php foreach ($this->getTerms() as $_term): ?>
             <li><a href="<?php echo $this->getSearchUrl($_term) ?>" style="font-size:<?php echo $_term->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_term->getName()) ?></a></li>

@@ -26,7 +26,7 @@
  */
 ?>
 <?php if($_order = $this->getLastOrder()): ?>
-<div class="box">
+<div class="block">
 <form method="post" action="<?php echo $this->getUrl('checkout/cart/addgroup') ?>" id="reorder-validate-detail">
     <h2><?php echo $this->__('My Orders') ?><span> | </span><a href="<?php echo $this->getUrl('customer/account') ?>">View All</a></h2>
     <h3><?php echo $this->__('Last ordered items') ?></h3>

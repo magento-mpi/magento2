@@ -22,7 +22,7 @@
 .page { width:1003px; margin:0 auto; padding:10px 0; text-align:left; }
 .page-print { padding:20px; text-align:left; }
 .page-popup { padding:20px; text-align:left; }
-.main-container { padding:0 0 10px; }
+.main { padding:0 0 10px; }
 
 /********************** Columns */ 
 .col-left { float:left; width:230px; border:1px solid #ddd; padding:5px; }
@@ -188,10 +188,6 @@ p.required { text-align:right; }
 .notice-msg,
 .note-msg { border-color:#fcd344; color:#3d6611; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); }
 
-/*********************** Box */ 
-.box { border:1px solid #f00 !important; padding:5px; margin:10px 0; }
-.block { border:1px solid #ddd; padding:5px; margin:10px 0; }
-
 /*********************** BreadCrumbs */ 
 .breadcrumbs { padding:10px; margin:0 0 10px; border:1px solid #ddd; }
 .breadcrumbs li { display:inline; }
@@ -244,6 +240,14 @@ tr.show-details .tax-collapse { background-position:0 -53px; }
 tr.show-details td {}
 tr.tax-details td { background-color:#f6f6f6; }
 tr.tax-details-first td {}
+
+
+/************************************************/
+/******************* Sidebar ********************/
+/************************************************/
+.box { border:1px solid #f00 !important; padding:5px; margin:10px 0; } /* temp */
+
+.sidebar .block { border:1px solid #ddd; padding:5px; margin:10px 0; }
 
 
 /************************************************/

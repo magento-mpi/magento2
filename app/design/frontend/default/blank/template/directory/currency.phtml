@@ -26,7 +26,7 @@
  */
 ?>
 <?php if($this->getCurrencyCount()>1): ?>
-<div class="box">
+<div class="block">
     <h2><?php echo $this->__('Select Your Currency') ?></h2>
     <select name="currency" onchange="changeCurrency(this)">
     <?php foreach ($this->getCurrencies() as $_code => $_name): ?>

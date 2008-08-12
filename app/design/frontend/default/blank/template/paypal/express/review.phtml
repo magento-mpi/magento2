@@ -22,7 +22,7 @@
     <h2 class="heading"><?php echo $this->__('Review Order') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <div class="box">
+    <div class="block">
         <h3><?php echo $this->__('Shipping Information') ?></h3>
         <div class="col2-set">
             <div class="col-1">
@@ -81,7 +81,7 @@
         </div>
      </div>
 
-    <div class="box">
+    <div class="block">
         <h3><?php echo $this->__('Billing Information') ?></h3>
         <h4><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
         <p><?php echo $this->__('PayPal Account') ?><br />

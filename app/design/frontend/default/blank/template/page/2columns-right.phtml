@@ -32,13 +32,13 @@
 <div class="wrapper">
     <div class="page">
         <div class="header-container"><?php echo $this->getChildHtml('header') ?></div>
-        <div class="main-container col2-right-layout">
+        <div class="main col2-right-layout">
             <?php echo $this->getChildHtml('breadcrumbs') ?>
             <div class="col-main">
                 <?php echo $this->getChildHtml('global_messages') ?>
                 <?php echo $this->getChildHtml('content') ?>
             </div>
-            <div class="col-right"><?php echo $this->getChildHtml('right') ?></div>
+            <div class="col-right sidebar"><?php echo $this->getChildHtml('right') ?></div>
         </div>
         <div class="footer"><?php echo $this->getChildHtml('footer') ?></div>
         <?php echo $this->getChildHtml('before_body_end') ?>
