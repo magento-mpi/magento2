@@ -934,8 +934,8 @@ table.recently-list td {width:20%;}
 /********************** Product Detail */
 /* Product Images */
 .product-img-box { float:left; width:267px; }
-.product-img-box .main-product-img { position:relative; overflow:hidden; width:265px; height:265px; z-index:9; }
-.product-img-box .main-product-img img { position:absolute; left:0; top:0; cursor:move; }
+.product-img-box .product-image-zoom { position:relative; overflow:hidden; width:265px; height:265px; z-index:9; }
+.product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
 .image-zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px auto; background:url(../images/slider_bg.gif) no-repeat 50% 50%; padding:0 28px 0 28px; cursor:pointer; }
 .image-zoom #track { position:relative; height:18px; }
 .image-zoom #handle { position:absolute; left:0; top:-1px; width:9px; height:22px;background:url(../images/magnifier_handle.gif) 0 0 no-repeat; }

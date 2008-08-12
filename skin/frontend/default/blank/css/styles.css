@@ -189,7 +189,8 @@ p.required { text-align:right; }
 .note-msg { border-color:#fcd344; color:#3d6611; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); }
 
 /*********************** Box */ 
-.box { border:1px solid #ddd; padding:5px; margin:10px 0; }
+.box { border:1px solid #f00 !important; padding:5px; margin:10px 0; }
+.block { border:1px solid #ddd; padding:5px; margin:10px 0; }
 
 /*********************** BreadCrumbs */ 
 .breadcrumbs { padding:10px; margin:0 0 10px; border:1px solid #ddd; }
@@ -262,15 +263,16 @@ tr.tax-details-first td {}
 .product-pricing li .price { font-weight:bold; }
 
 /************************ Product Images */
-.product-img-box { float:left; width:265px; }
-.product-img-box .product-image {}
+.product-img-box { float:left; width:267px; }
+.product-img-box .product-image { border:1px solid #ddd; }
 .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
 .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
-.product-img-box .image-zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px; padding:0 28px; background:url(../images/slider_bg.gif) 50% 50% no-repeat; cursor:pointer; }
-.product-img-box .image-zoom #track { position:relative; height:18px; }
-.product-img-box .image-zoom #handle { position:absolute; left:0; top:-1px; width:9px; height:22px; background:url(../images/magnifier_handle.gif) 0 0 no-repeat;  }
-.product-img-box .image-zoom .btn-zoom-out { position:absolute; left:2px; top:0; }
-.product-img-box .image-zoom .btn-zoom-in { position:absolute; right:2px; top:0; }
+.product-img-box .zoom-notice { text-align:center; }
+.product-img-box .zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px; padding:0 28px; background:url(../images/slider_bg.gif) 50% 50% no-repeat; cursor:pointer; }
+.product-img-box .zoom #track { position:relative; height:18px; }
+.product-img-box .zoom #handle { position:absolute; left:0; top:-1px; width:9px; height:22px; background:url(../images/magnifier_handle.gif) 0 0 no-repeat;  }
+.product-img-box .zoom .btn-zoom-out { position:absolute; left:2px; top:0; }
+.product-img-box .zoom .btn-zoom-in { position:absolute; right:2px; top:0; }
 /* Thumbs */
 .product-img-box .more-views ul li { float:left; padding:1px; background-color:#ddd; margin-right:10px; }
 
@@ -343,10 +345,10 @@ a.minimal-price-link .price { font-weight:normal; }
 .rating-box .rating { position:absolute; top:0; left:0; height:13px; background:url(../images/bg_rating.gif) 0 100% repeat-x; }
 
 /************************ Add to Links */
-.add-to-box li .pipe { display:none; }
+.add-to-box li .separator { display:none; }
 
 /************************ Product Options */
-.product-options { padding:10px; margin:10px 0; border:1px solid #ddd; }
+.product-options { padding:10px; margin:10px 0 0; border:1px solid #ddd; }
 .product-options dt label { font-weight:bold; }
 .product-options dt .qty-holder { float:right; }
 .product-options dt .qty-holder label { vertical-align:middle; }
@@ -357,11 +359,11 @@ a.minimal-price-link .price { font-weight:normal; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
 .product-options dd .multiselect option { /*border-bottom:1px dotted #d9e5ee; padding:2px 4px;*/ }
-.product-options ul.options-list {}
-.product-options ul.options-list input.radio { float:left; margin-top:3px; }
-.product-options ul.options-list input.checkbox { float:left; margin-top:3px; }
-.product-options ul.options-list .label { margin-left:18px; }
-.product-options ul.validation-failed { padding:0 7px; }
+.product-options .options-list {}
+.product-options .options-list input.radio { float:left; margin:3px -18px 0 0; }
+.product-options .options-list input.checkbox { float:left; margin:3px -18px 0 0; }
+.product-options .options-list .label { margin-left:18px; }
+.product-options .validation-failed { padding:0 7px; }
 .product-options p.required { padding:15px 0 0; }
 
 .product-options-bottom { padding:10px; border:1px solid #ddd; border-top:0; }
