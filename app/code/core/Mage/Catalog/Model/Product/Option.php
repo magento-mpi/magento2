@@ -318,16 +318,17 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      * get Product Option Collection
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return unknown
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
      */
     public function getProductOptionCollection(Mage_Catalog_Model_Product $product)
     {
         $collection = $this->getCollection()
             ->addFieldToFilter('product_id', $product->getId())
-            ->getOptions($product->getStoreId())
+            ->addTitleToResult($product->getStoreId())
+            ->addPriceToResult($product->getStoreId())
             ->setOrder('sort_order', 'asc')
             ->setOrder('title', 'asc')
-            ->addValuesToResult();
+            ->addValuesToResult($product->getStoreId());
 
         return $collection;
     }

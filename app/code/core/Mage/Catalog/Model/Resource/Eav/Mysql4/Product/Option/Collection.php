@@ -36,23 +36,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
 
     public function getOptions($store_id)
     {
-/*
-SELECT
-    `main_table`.option_id,
-    `main_table`.type,
-    IFNULL(`option_title`.title,`default_option_title`.title) option_title,
-    IFNULL(option_price.price, default_option_price.price) option_price,
-    IFNULL(option_price.price_type, default_option_price.price_type) option_price_type
-FROM
-    catalog_product_option AS main_table
-    left join catalog_product_option_price as default_option_price ON default_option_price.option_id=main_table.option_id AND (default_option_price.store_id='0')
-    left join catalog_product_option_price as  option_price ON option_price.option_id=main_table.option_id AND option_price.store_id=1
-    inner join catalog_product_option_title AS default_option_title ON default_option_title.option_id = main_table.option_id
-    left join catalog_product_option_title AS option_title ON option_title.option_id = main_table.option_id AND option_title.store_id = 1
-WHERE
-    (product_id = '141') AND (default_option_title.store_id = '0')
-*/
-
         $this->getSelect()
             ->joinLeft(array('default_option_price'=>$this->getTable('catalog/product_option_price')),
                 '`default_option_price`.option_id=`main_table`.option_id AND '.$this->getConnection()->quoteInto('`default_option_price`.store_id=?',0),
@@ -103,8 +86,11 @@ WHERE
         return $this;
     }
 
-    public function addValuesToResult()
+    public function addValuesToResult($storeId = null)
     {
+        if (null === $storeId) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
         $optionIds = array();
         foreach ($this as $option) {
             $optionIds[] = $option->getId();
@@ -112,8 +98,8 @@ WHERE
         if (!empty($optionIds)) {
             $values = Mage::getModel('catalog/product_option_value')
                 ->getCollection()
-                ->addTitleToResult(Mage::app()->getStore()->getId())
-                ->addPriceToResult(Mage::app()->getStore()->getId())
+                ->addTitleToResult($storeId)
+                ->addPriceToResult($storeId)
                 ->addOptionToFilter($optionIds)
                 ->setOrder('sort_order', 'asc')
                 ->setOrder('title', 'asc');
