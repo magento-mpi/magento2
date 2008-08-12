@@ -143,14 +143,22 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         if (!self::$_urlInstance) {
             self::$_urlInstance = Mage::getModel('core/url');
         }
-
+        $_urlInstanceOldStore = null;
         if (!empty($path) && !Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
             && !Mage::app()->isSingleStoreMode())
         {
-            $params['_query']['___store'] = Mage::app()->getStore()->getCode();
+            $params['_query']['___store'] = Mage::app()->getStore(Mage::getDesign()->getStore())->getCode();
+        } elseif (!empty($path) && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+            && !Mage::app()->isSingleStoreMode())
+        {
+            $_urlInstanceOldStore = self::$_urlInstance->getStore();
+            self::$_urlInstance->setStore(Mage::app()->getStore(Mage::getDesign()->getStore())->getCode());
         }
 
         $url = self::$_urlInstance->getUrl($path, $params);
+        if (null ==! $_urlInstanceOldStore) {
+            self::$_urlInstance->setStore($_urlInstanceOldStore);
+        }
 
         return $url;
     }

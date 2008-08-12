@@ -511,6 +511,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
     {
         $currentDesign = Mage::getDesign()->setAllGetOld(array(
             'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+            'store' => $this->getStoreId()
         ));
 
         $translate = Mage::getSingleton('core/translate');
