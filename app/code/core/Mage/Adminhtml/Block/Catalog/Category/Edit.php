@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Ca
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Save Category'),
-                    'onclick'   => "categorySubmit()",
+                    'onclick'   => "categorySubmit(true)",
                     'class' => 'save'
                 ))
         );
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Ca
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Delete Category'),
-                    'onclick'   => "categoryDelete('".$this->getUrl('*/*/deleteAjax', array('_current'=>true))."')",
+                    'onclick'   => "categoryDelete('".$this->getUrl('*/*/delete', array('_current'=>true))."',true)",
                     'class' => 'delete'
                 ))
         );
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Ca
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => "categoryReset('".$this->getUrl('*/*/editAjax', array('_current'=>true))."')"
+                    'onclick'   => "categoryReset('".$this->getUrl('*/*/edit', array('_current'=>true))."',true)"
                 ))
         );
         return parent::_prepareLayout();
@@ -80,9 +80,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Ca
         return $this->getUrl('*/system_store', $params);
     }
 
-    public function getSaveUrl()
+    public function getSaveUrl(array $args = array())
     {
-        return $this->getUrl('*/*/save', array('_current'=>true));
+        $params = array('_current'=>true);
+        $params = array_merge($params, $args);
+        return $this->getUrl('*/*/save', $params);
     }
 
     public function getDeleteButtonHtml()
@@ -119,9 +121,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Ca
         return Mage::helper('catalog')->__('Set Root Category For Store');
     }
 
-    public function getDeleteUrl()
+    public function getDeleteUrl(array $args = array())
     {
-        return $this->getUrl('*/*/deleteAjax', array('_current'=>true));
+        $params = array('_current'=>true);
+        $params = array_merge($params, $args);
+        return $this->getUrl('*/*/delete', $params);
     }
 
     public function getProductsJson()

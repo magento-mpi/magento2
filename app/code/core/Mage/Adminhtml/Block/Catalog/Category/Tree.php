@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Collapse All'),
-                    'onclick'   => 'collapseTree();',
+                    'onclick'   => 'tree.collapseTree();',
                     'class'     => 'collapse'
                 ))
         );
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Expand All'),
-                    'onclick'   => 'expandTree();',
+                    'onclick'   => 'tree.expandTree();',
                     'class'     => 'expand'
                 ))
         );

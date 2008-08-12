@@ -106,7 +106,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $_prevStoreId = Mage::getSingleton('admin/session')
             ->getLastViewedStore(true);
 
-        if ($_prevStoreId != null) {
+        if ($_prevStoreId != null && !$this->getRequest()->getQuery('isAjax')) {
             $params['store'] = $_prevStoreId;
             $redirect = true;
         }
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $categoryId = (int) $this->getRequest()->getParam('id');
         $_prevCategoryId = Mage::getSingleton('admin/session')
             ->getLastEditedCategory(true);
-        if ($_prevCategoryId) {
+        if ($_prevCategoryId && !$this->getRequest()->getQuery('isAjax')) {
             $params['id'] = $_prevCategoryId;
             $redirect = true;
         }
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
 
-        if ($this->getRequest()->getQuery('ajax')) {
+        if ($this->getRequest()->getQuery('isAjax')) {
             Mage::getSingleton('admin/session')
                 ->setLastViewedStore($this->getRequest()->getParam('store'));
             Mage::getSingleton('admin/session')
