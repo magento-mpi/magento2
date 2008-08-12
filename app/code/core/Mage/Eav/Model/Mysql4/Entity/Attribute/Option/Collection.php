@@ -84,9 +84,16 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
         return $this->_toOptionArray('option_id', 'value');
     }
 
-    public function setPositionOrder($dir='asc')
+    public function setPositionOrder($dir = 'ASC', $sortAlpha = false)
     {
         $this->setOrder('main_table.sort_order', $dir);
+        // sort alphabetically by values in admin
+        if ($sortAlpha) {
+            $this->getSelect()->joinLeft(array('sort_alpha_value' => $this->_optionValueTable),
+                'sort_alpha_value.option_id=main_table.option_id AND sort_alpha_value.store_id=0', 'value'
+            );
+            $this->setOrder('sort_alpha_value.value', $dir);
+        }
         return $this;
     }
 }

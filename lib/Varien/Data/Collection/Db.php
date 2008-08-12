@@ -176,18 +176,66 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         return $this->_select;
     }
 
-
     /**
-     * Set select order
+     * Add select order
      *
      * @param   string $field
      * @param   string $direction
      * @return  Varien_Data_Collection_Db
      */
-    public function setOrder($field, $direction = 'desc')
+    public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
-        $direction = (strtoupper($direction)==self::SORT_ORDER_ASC) ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
-        $this->_orders[$field] = new Zend_Db_Expr($field.' '.$direction);
+        return $this->_setOrder($field, $direction);
+    }
+
+    /**
+     * self::setOrder() alias
+     *
+     * @param string $field
+     * @param string $direction
+     * @return Varien_Data_Collection_Db
+     */
+    public function addOrder($field, $direction = self::SORT_ORDER_DESC)
+    {
+        return $this->_setOrder($field, $direction);
+    }
+
+    /**
+     * Add select order to the beginning
+     *
+     * @param string $field
+     * @param string $direction
+     * @return Varien_Data_Collection_Db
+     */
+    public function unshiftOrder($field, $direction = self::SORT_ORDER_DESC)
+    {
+        return $this->_setOrder($field, $direction, true);
+    }
+
+    /**
+     * Add ORDERBY to the end or to the beginning
+     *
+     * @param string $field
+     * @param string $direction
+     * @param bool $unshift
+     * @return Varien_Data_Collection_Db
+     */
+    private function _setOrder($field, $direction, $unshift = false)
+    {
+        $direction = (strtoupper($direction) == self::SORT_ORDER_ASC) ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
+        // emulate associative unshift
+        if ($unshift) {
+            $orders = array($field => new Zend_Db_Expr($field . ' ' . $direction));
+            foreach ($this->_orders as $key => $expression) {
+                if (!isset($orders[$key])) {
+                    $orders[$key] = $expression;
+                }
+            }
+            $this->_orders = $orders;
+        }
+        else {
+            $this->_orders[$field] = new Zend_Db_Expr($field . ' ' . $direction);
+        }
         return $this;
     }
 

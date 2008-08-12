@@ -40,6 +40,7 @@ class Mage_Core_Model_Mysql4_Store_Group_Collection extends Mage_Core_Model_Mysq
         if (!$this->_loadDefault) {
             $this->setWithoutDefaultFilter();
         }
+        $this->addOrder('main_table.name', 'ASC');
         return parent::load($printQuery, $logQuery);
     }
 

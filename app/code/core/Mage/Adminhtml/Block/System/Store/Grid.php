@@ -33,8 +33,6 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setId('storeGrid');
-        $this->setDefaultSort('name');
-        $this->setDefaultSort('ASC');
         $this->setSaveParametersInSession(true);
     }
 
@@ -42,8 +40,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
     {
         $collection = Mage::getModel('core/website')
             ->getCollection()
-            ->joinGroupAndStore()
-            ->load();
+            ->joinGroupAndStore();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -76,7 +73,6 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         return parent::_prepareColumns();
-
     }
 
 }

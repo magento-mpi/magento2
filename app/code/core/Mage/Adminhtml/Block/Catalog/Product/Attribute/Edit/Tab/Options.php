@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
             $values = array();
             $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
                 ->setAttributeFilter($this->getAttributeObject()->getId())
-                ->setPositionOrder('desc')
+                ->setPositionOrder('desc', true)
                 ->load();
 
             foreach ($optionCollection as $option) {
