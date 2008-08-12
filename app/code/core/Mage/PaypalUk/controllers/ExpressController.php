@@ -169,6 +169,9 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
             if ($payPalSession->getExpressCheckoutMethod()=='mark') {
                 switch ($this->getReview()->getQuote()->getCheckoutMethod()) {
                     case 'guest':
+                        if (!$this->getReview()->getQuote()->isAllowedGuestCheckout()) {
+                            Mage::throwException(Mage::helper('checkout')->__('Sorry, guest checkout is not enabled. Please try again or contact store owner.'));
+                        }
                         $this->getReview()->getQuote()->setCustomerEmail($billing->getEmail())
                             ->setCustomerIsGuest(true)
                             ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);

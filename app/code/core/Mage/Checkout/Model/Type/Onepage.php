@@ -311,7 +311,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
-            Mage::throwException('Please select valid payment method.');
+            Mage::throwException($helper->__('Please select valid payment method.'));
         }
     }
 
@@ -330,6 +330,9 @@ class Mage_Checkout_Model_Type_Onepage
         }
         switch ($this->getQuote()->getCheckoutMethod()) {
         case 'guest':
+            if (!$this->getQuote()->isAllowedGuestCheckout()) {
+                Mage::throwException(Mage::helper('checkout')->__('Sorry, guest checkout is not enabled. Please try again or contact store owner.'));
+            }
             $this->getQuote()->setCustomerEmail($billing->getEmail())
                 ->setCustomerIsGuest(true)
                 ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
@@ -429,7 +432,7 @@ class Mage_Checkout_Model_Type_Onepage
         // check again, if customer exists
         if ($this->getQuote()->getCheckoutMethod() == 'register') {
             if ($this->_customerEmailExists($customer->getEmail(), Mage::app()->getWebsite()->getId())) {
-                Mage::throwException('There is already a customer registered using this email address');
+                Mage::throwException(Mage::helper('checkout')->__('There is already a customer registered using this email address'));
             }
         }
         $order->place();
