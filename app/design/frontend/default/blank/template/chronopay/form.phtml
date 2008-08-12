@@ -19,9 +19,9 @@
  */
 ?>
 <script type="text/javascript">
-Validation.creditCartTypes.JCB = [new RegExp('^(35[0-9]{14}|(2131|1800)[0-9]{11})$'), new RegExp('^([0-9]{3})?$'), true];
-Validation.creditCartTypes.DICL = [new RegExp('(^(30)[0-5]\d{11}$)|(^(36)\d{12}$)|(^(38[0-8])\d{11}$)'), new RegExp('^([0-9]{3})?$'), false];
-Validation.creditCartTypes.ENR = [new RegExp('(^(2014)|^(2149))\d{11}$'), new RegExp('^([0-9]{3})?$'), false];
+Validation.creditCartTypes.set('JCB', [new RegExp('^(35[0-9]{14}|(2131|1800)[0-9]{11})$'), new RegExp('^([0-9]{3})?$'), true]);
+Validation.creditCartTypes.set('DICL', [new RegExp('(^(30)[0-5]\d{11}$)|(^(36)\d{12}$)|(^(38[0-8])\d{11}$)'), new RegExp('^([0-9]{3})?$'), false]);
+Validation.creditCartTypes.set('ENR', [new RegExp('(^(2014)|^(2149))\d{11}$'), new RegExp('^([0-9]{3})?$'), false]);
 </script>
 <fieldset class="form-list">
     <?php $_code=$this->getMethodCode() ?>

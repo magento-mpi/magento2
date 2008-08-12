@@ -464,8 +464,8 @@ Validation.addAllThese([
     ['validate-cc-number', 'Please enter a valid credit card number.', function(v, elm) {
                 // remove non-numerics
                 var ccTypeContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_number')) + '_cc_type');
-                if (ccTypeContainer && typeof Validation.creditCartTypes[ccTypeContainer.value] != 'undefined'
-                        && Validation.creditCartTypes[ccTypeContainer.value][2] == false) {
+                if (ccTypeContainer && typeof Validation.creditCartTypes.get(ccTypeContainer.value) != 'undefined'
+                        && Validation.creditCartTypes.get(ccTypeContainer.value)[2] == false) {
                     if (!Validation.get('IsEmpty').test(v) && Validation.get('validate-digits').test(v)) {
                         return true;
                     } else {
@@ -485,12 +485,12 @@ Validation.addAllThese([
                 }
                 var ccType = ccTypeContainer.value;
 
-                if (typeof Validation.creditCartTypes[ccType] == 'undefined') {
+                if (typeof Validation.creditCartTypes.get(ccType) == 'undefined') {
                     return false;
                 }
 
                 // Other card type or switch or solo card
-                if (Validation.creditCartTypes[ccType][0]==false) {
+                if (Validation.creditCartTypes.get(ccType)[0]==false) {
                     return true;
                 }
 
