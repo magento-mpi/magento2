@@ -80,13 +80,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         return $this->getUrl('*/system_store', $params);
     }
 
-    public function getSaveUrl(array $args = array())
-    {
-        $params = array('_current'=>true);
-        $params = array_merge($params, $args);
-        return $this->getUrl('*/*/save', $params);
-    }
-
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
