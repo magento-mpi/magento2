@@ -129,4 +129,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         }
         return '{}';
     }
+
+    public function isAjax()
+    {
+        return Mage::app()->getRequest()->isXmlHttpRequest();
+    }
 }

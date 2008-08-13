@@ -121,6 +121,9 @@
     <?php echo $_gridJsObject ?>.checkboxCheckCallback = registerCategoryProduct;
     <?php echo $_gridJsObject ?>.rows.each(function(row){categoryProductRowInit(<?php echo $_gridJsObject ?>, row)});
 <?php endif; ?>
+<?php if($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject=$block->getJsObjectName())): ?>
+    <?php echo $_tabsJsObject ?>.moveTabContentInDest();
+<?php endif; ?>
     function updateContent(url, params, loader){
         var categoryContainer = $('category-edit-container');
         if (!params) {
