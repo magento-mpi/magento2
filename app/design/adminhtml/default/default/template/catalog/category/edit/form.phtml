@@ -145,50 +145,5 @@
             category_info_tabsJsTabs.moveTabContentInDest();
         }, 1000);
     }
-
-    function categorySubmit(useAjax){
-        var activeTab = document.createElement('INPUT');
-        activeTab.type= 'hidden';
-        activeTab.name= 'active_tab_id';
-        activeTab.value = category_info_tabsJsTabs.activeTab.id;
-        categoryForm.validator.form.appendChild(activeTab);
-        if (!useAjax) {
-            categoryForm.submit();
-            return;
-        }
-
-        var params = {};
-        var fields = $('category_edit_form').getElementsBySelector('input', 'select');
-        for(var i=0;i<fields.length;i++){
-            if (!fields[i].name) {
-                continue;
-            }
-            params[fields[i].name] = fields[i].getValue();
-        }
-
-        if (tree && tree.storeId==0 && !tree.addingTo) {
-            var currentNode = tree.getNodeById(tree.currentNodeId);
-            if (currentNode) {
-                if (params['general[is_active]']) {
-                    var oldClass = 'no-active-category';
-                    var newClass = 'active-category';
-                } else {
-                    var oldClass = 'active-category';
-                    var newClass = 'no-active-category';
-                }
-                currentNode.ui.wrap.firstChild.removeClassName(oldClass);
-                currentNode.ui.wrap.firstChild.addClassName(newClass);
-                var name = currentNode.text;
-                if (!name.match(/(\(\d+\))/)) {
-                   name = params['general[name]'];
-                } else {
-                    name = name.replace(/(.+)\(/,params['general[name]']+' (');
-                }
-                currentNode.setText(name);
-            }
-        }
-
-        updateContent('<?php echo $this->getSaveUrl() ?>', params, true);
-    }
 //]]>
 </script>

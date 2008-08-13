@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Save Category'),
-                    'onclick'   => "categorySubmit(true)",
+                    'onclick'   => "categorySubmit('".$this->getSaveUrl()."',true)",
                     'class' => 'save'
                 ))
         );

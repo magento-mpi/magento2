@@ -36,11 +36,4 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setTemplate('catalog/category/edit.phtml');
     }
-
-    public function getSaveUrl(array $args = array())
-    {
-        $params = array('_current'=>true);
-        $params = array_merge($params, $args);
-        return $this->getUrl('*/*/save', $params);
-    }
 }
