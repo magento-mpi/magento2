@@ -46,19 +46,19 @@
     </ul>
     <div class="buttons-set">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-        <button class="form-button" type="submit" name="send"><span><?php echo $this->__('Save') ?></span></button> &nbsp;
-        <button class="form-button listen-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button>
+        <button class="button" type="submit" name="send"><span><?php echo $this->__('Save') ?></span></button> &nbsp;
+        <button class="button listen-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button>
         <?php if($this->getMessage()->getGiftMessageId()): ?>
-        <button class="form-button listen-remove" type="button"><span><?php echo $this->__('Remove') ?></span></button>
+        <button class="button listen-remove" type="button"><span><?php echo $this->__('Remove') ?></span></button>
         <?php endif; ?>
     </div>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
 <h2 class="heading"><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
-<p><button class="form-button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
+<p><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
 <?php else: ?>
 <h2 class="heading"><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
-<p><button class="form-button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
+<p><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
 <?php endif; ?>
 <script type="text/javascript">
 //<![CDATA[

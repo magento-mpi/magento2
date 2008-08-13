@@ -28,7 +28,7 @@
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-heading">
     <h2 class="heading"><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
-    <button class="form-button" type="submit" onclick="$('add_new_address_flag').value=1"><span><?php echo $this->__('Enter a New Address') ?></span></button>
+    <button class="button" type="submit" onclick="$('add_new_address_flag').value=1"><span><?php echo $this->__('Enter a New Address') ?></span></button>
 </div>
 <div class="multi-address-checkout-description"><?php echo $this->__('Please select shipping address for applicable items') ?></div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -50,7 +50,7 @@
         </thead>
         <tfoot>
             <tr>
-                <td colspan="100"><button class="form-button" type="submit" onclick="$('can_continue_flag').value=0"><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></button></td>
+                <td colspan="100"><button class="button" type="submit" onclick="$('can_continue_flag').value=0"><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></button></td>
             </tr>
         </tfoot>
         <tbody>
@@ -67,7 +67,7 @@
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
     <div class="buttons-set">
         <a href="<?php echo $this->getBackUrl() ?>" class="back-link"><?php echo $this->__('&laquo; Back to Shopping Cart') ?></a>
-        <button class="form-button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" type="submit" onclick="$('can_continue_flag').value=1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><?php echo $this->__('Continue to Shipping Information') ?></span></button>
+        <button class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" type="submit" onclick="$('can_continue_flag').value=1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><?php echo $this->__('Continue to Shipping Information') ?></span></button>
     </div>
 </fieldset>
 </form>

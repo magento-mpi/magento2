@@ -15,16 +15,14 @@
  * @licensehttp://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/************************************************/
-/******************** Layout ********************/
-/************************************************/
+/******************** Layout */
 .wrapper {}
 .page { width:1003px; margin:0 auto; padding:10px 0; text-align:left; }
 .page-print { padding:20px; text-align:left; }
 .page-popup { padding:20px; text-align:left; }
 .main { padding:0 0 10px; }
 
-/********************** Columns */ 
+/* Columns */ 
 .col-left { float:left; width:230px; border:1px solid #ddd; padding:5px; }
 .col-main { float:left; width:739px; border:1px solid #ddd; padding:5px; }
 .col-right { float:right; width:230px; border:1px solid #ddd; padding:5px; }
@@ -62,19 +60,17 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 .col4-set td.spacer { width:4%; }*/
 
 
-/************************************************/
-/******************** Header ********************/
-/************************************************/
+/******************** Header */
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
-#logo { float:left; width:200px; height:63px; background-position:0 0; background-repeat:no-repeat; text-indent:-999em; overflow:hidden; cursor:pointer; } 
 .header .welcome { font-weight:bold; text-align:right; }
 .header .links { float:right; }
 .header .form-search { text-align:center; }
 .header .form-language { text-align:center; }
+#logo { float:left; width:200px; height:63px; background-position:0 0; background-repeat:no-repeat; text-indent:-999em; overflow:hidden; cursor:pointer; } 
 
-/********************** Navigation styles */
-#nav { padding:5px 0; font-size:1.1em; }
+/******************** Navigation */
+#nav { font-size:12px; border:1px solid #ddd; padding:10px 0; margin:10px 0; }
 
 /* All Levels */
 #nav li { position:relative; text-align:left; }
@@ -134,14 +130,21 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 /********************** Forms Styles */
 /* Form Elements */
 input, select, textarea, button { font:12px Arial, Helvetica, sans-serif; vertical-align:middle; }
-textarea { overflow:auto; }
-input.input-text, textarea {}
-input.radio { margin-right:5px; }
-input.checkbox { margin-right:5px; }
+input.input-text, select, textarea { border:1px solid #888; }
+input.input-text, textarea { padding:2px; }
+input.radio { margin-right:3px; }
+input.checkbox { margin-right:3px; }
 input.qty { width:2.5em; }
-button.form-button { overflow:visible; width:auto; padding:1px 8px; background:#ccc; border:1px solid #333; font-weight:bold; color:#000; text-align:center; cursor:pointer; }
-button.form-button span { white-space:nowrap; }
+textarea { overflow:auto; }
+button.button { overflow:visible; width:auto; background:#f6f6f6; border:1px solid #717171; cursor:pointer; }
+button.button span { display:block; margin:0; padding:0 8px; font:bold 12px/16px Arial, Helvetica, sans-serif; text-align:center; white-space:nowrap; color:#000; }
 button.disabled {}
+button.disabled span {}
+/* Input & Textarea stretched for 100% */
+.field-100 { border:1px solid #888; padding:2px; overflow:hidden; }
+.field-100 input.input-text,
+.field-100 textarea { float:left; width:100%; margin:0; padding:0; border:0; }
+
 .group-select label, .form-list label, .payment-methods label {}
 .buttons-set { clear:both; margin:5px 0; padding:5px; border:1px solid #ddd; }
 .buttons-set .back-link {}
@@ -247,7 +250,24 @@ tr.tax-details-first td {}
 /************************************************/
 .box { border:1px solid #f00 !important; padding:5px; margin:10px 0; } /* temp */
 
-.sidebar .block { border:1px solid #ddd; padding:5px; margin:10px 0; }
+.sidebar .block { border:1px solid #ddd; margin:0 0 10px; }
+.sidebar .block .block-title { border-bottom:1px solid #ddd; padding:0 10px; }
+.sidebar .block .block-title h2 { font-size:14px; font-weight:bold; line-height:1.5; }
+.sidebar .block .block-content { padding:10px; }
+
+/* Mini Products List */
+.sidebar .mini-products-list li { padding:5px 0; }
+.sidebar .mini-products-list li .product-image { float:left; width:50px; padding:5px; border:1px solid #ddd; margin-right:-75px; }
+.sidebar .mini-products-list li .product-details { margin-left:75px; }
+.sidebar .mini-products-list li .product-details h4 { font-size:1em; font-weight:bold; margin:0; }
+.sidebar .mini-products-list li .product-details .btn_remove { float:right; }
+
+/* Block: Currency Switcher */
+.block-currency select { width:100%; border:1px solid #888; }
+
+/* Block: My Cart */
+.block-cart .items-amount {}
+.block-cart .subtotal { text-align:center; }
 
 
 /************************************************/
@@ -400,13 +420,6 @@ dl.item-options dd { padding-left:10px; }
 /*********************** List Decoration */
 ul li.odd {}
 ol li.even { background-color:#f6f6f6; }
-
-.sidebar-products li { padding:5px; }
-.sidebar-products .product-image { float:left; width:50px; padding:5px; border:1px solid #ddd; margin-right:-75px; }
-.sidebar-products .product-details { margin-left:75px; }
-.sidebar-products .product-details h4 { font-size:1em; font-weight:bold; margin:0; }
-.sidebar-products .product-details .btn_widget { float:right; }
-
 
 /************************************************/
 /************ HOME Page SAMPLE DATA *************/

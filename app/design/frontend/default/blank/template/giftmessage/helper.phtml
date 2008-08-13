@@ -27,7 +27,7 @@
 <?php endif; ?>
 <?php switch ($this->getType()): ?>
 <?php case 'item': ?>
-    <button class="form-button listen-for-click" type="button"><span>
+    <button class="button listen-for-click" type="button"><span>
         <?php if($this->hasGiftMessage()): ?>
         <?php echo $this->__('Edit') ?>
         <?php else: ?>
@@ -54,7 +54,7 @@
     </a>
     <?php break; ?>
 <?php case 'address_item': ?>
-    <button class="form-button listen-for-click" type="button"><span>
+    <button class="button listen-for-click" type="button"><span>
         <?php if($this->hasGiftMessage()): ?>
         <?php echo $this->__('Edit') ?>
         <?php else: ?>

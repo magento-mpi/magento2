@@ -19,6 +19,7 @@
 /****************[ Clears ]***************/
 /****************************************************/
 .header,
+.field-100,
 #nav,
 .main,
 .footer,
@@ -30,7 +31,7 @@
 .sorter,
 .product-img-box .more-views ul,
 .product-options ul.options-list li,
-.sidebar-products li,
+.mini-products-list li,
 .group-select li,
 .box { zoom:1; }
 

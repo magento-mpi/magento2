@@ -35,8 +35,12 @@
 //]]>
 </script>
 <div class="block">
-    <h2><?php echo $this->__('Community Poll') ?></h2>
+    <div class="block-title">
+        <h2><?php echo $this->__('Community Poll') ?></h2>
+    </div>
     <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
+    <fieldset class="block-content">
+        <legend><?php echo $this->__('Community Poll') ?></legend>
         <h3><?php echo $poll->getPollTitle(); ?></h3>
         <?php if( $poll_answers ): ?>
         <ol>
@@ -48,7 +52,8 @@
             <?php endforeach; ?>
         </ol>
         <?php endif; ?>
-        <p class="actions"><button type="submit" class="form-button"><span><?php echo $this->__('Vote') ?></span></button></p>
+        <div class="buttons-set"><button type="submit" class="button"><span><?php echo $this->__('Vote') ?></span></button></div>
+    </fieldset>
     </form>
 </div>
 <?php endif; ?>
