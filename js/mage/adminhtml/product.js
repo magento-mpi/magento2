@@ -272,7 +272,7 @@ Product.Attributes.prototype = {
         var attributesContainer = $$('#group_fields' + this.getConfig().group_id + ' .form-list tbody')[0];
         new Insertion.Bottom(attributesContainer, html);
 
-        var childs = attributesContainer.immediateDescendants();
+        var childs = attributesContainer.childElements();
         var element = childs[childs.size()-1].getElementsBySelector('input','select','textarea')[0];
         if (element) {
             window.scrollTo(0, Position.cumulativeOffset(element)[1] + element.offsetHeight);
@@ -351,7 +351,7 @@ Product.Configurable.prototype = {
 		this.updateSaveInput();
 	},
 	updatePositions: function(param) {
-		this.container.immediateDescendants().each(function(row, index) {
+		this.container.childElements().each(function(row, index) {
 			row.attributeObject.position = index;
 		});
 		this.updateSaveInput();
@@ -405,7 +405,7 @@ Product.Configurable.prototype = {
 	    }
 
 	    if (isAssociated && this.checkAttributes(attributes)) {
-	        this.links.set([productId], this.cloneAttributes(attributes));
+	        this.links.set(productId, this.cloneAttributes(attributes));
 	    } else if (isAssociated) {
 	        this.newProducts.push(productId);
 	    }
@@ -489,24 +489,24 @@ Product.Configurable.prototype = {
 		this.grid.reloadParams = {'products[]':this.links.keys().size() ? this.links.keys() : [0], 'new_products[]':this.newProducts};
 	},
 	updateValues: function () {
-		var uniqueAttributeValues = $H({});
+		var uniqueAttributeValues = new Hash({});
 		/* Collect unique attributes */
 		this.links.each(function(pair) {
 			for (var i = 0, length=pair.value.length; i < length; i ++) {
 				var attribute = pair.value[i];
-				if(uniqueAttributeValues.keys().indexOf(attribute.attribute_id)==-1) {
-					uniqueAttributeValues.set(attribute.attribute_id, $H({}));
+				if (-1 == uniqueAttributeValues.keys().indexOf(attribute.attribute_id)) {
+					uniqueAttributeValues.set(attribute.attribute_id, new Hash({}));
 				}
 				uniqueAttributeValues.get(attribute.attribute_id).set(attribute.value_index, attribute);
 			}
 		});
 		/* Updating attributes value container */
-		this.container.immediateDescendants().each(function(row) {
+		this.container.childElements().each(function(row) {
 			var attribute = row.attributeObject;
-			for(var i = 0, length=attribute.values.length; i < length; i ++) {
-				if(uniqueAttributeValues.keys().indexOf(attribute.attribute_id)==-1
+			for (var i = 0, length=attribute.values.length; i < length; i ++) {
+				if (uniqueAttributeValues.keys().indexOf(attribute.attribute_id)==-1
 					|| uniqueAttributeValues.get(attribute.attribute_id).keys().indexOf(attribute.values[i].value_index)==-1) {
-					row.attributeValues.immediateDescendants().each(function(elem){
+					row.attributeValues.childElements().each(function(elem) {
 						if(elem.valueObject.value_index==attribute.values[i].value_index) {
 							elem.remove();
 						}
@@ -518,10 +518,10 @@ Product.Configurable.prototype = {
 				}
 			}
 			attribute.values = attribute.values.compact();
-			if(uniqueAttributeValues.get(attribute.attribute_id)) {
-				uniqueAttributeValues.get(attribute.attribute_id).each(function(pair){
+			if (uniqueAttributeValues.get(attribute.attribute_id)) {
+				uniqueAttributeValues.get(attribute.attribute_id).each(function(pair) {
 					attribute.values.push(pair.value);
-					this.createValueRow(row,pair.value);
+					this.createValueRow(row, pair.value);
 				}.bind(this));
 			}
 		}.bind(this));
@@ -529,24 +529,24 @@ Product.Configurable.prototype = {
 		this.updateSimpleForm();
 	},
 	createValueRow: function(container, value) {
-
 		var templateVariables = $H({});
 		if(!this.valueAutoIndex) {
 			this.valueAutoIndex = 1;
 		}
-		templateVariablesset(html_id, container.id  + '_' + this.valueAutoIndex);
-		templateVariables.merge(value);
-		if (!isNaN(parseFloat(templateVariables.get(pricing_value)))) {
-		    templateVariables.set(pricing_value, parseFloat(templateVariables.pricing_value));
+		templateVariables.set('html_id', container.id  + '_' + this.valueAutoIndex);
+		templateVariables = templateVariables.merge(value);
+		var pricingValue = parseFloat(templateVariables.get('pricing_value'));
+		if (!isNaN(pricingValue)) {
+		    templateVariables.set('pricing_value', pricingValue);
 		} else  {
-		    templateVariables.set(pricing_value, undefined);
+		    templateVariables.unset('pricing_value');
 		}
 		this.valueAutoIndex++;
 
 		//var li = $(Builder.node('li', {className:'attribute-value'}));
 		var li = $(document.createElement('LI'));
 		li.className = 'attribute-value';
-		li.id = templateVariables.get(html_id);
+		li.id = templateVariables.get('html_id');
 		li.update(this.addValueTemplate.evaluate(templateVariables));
 		li.valueObject = value;
 		if (typeof li.valueObject.is_percent == 'undefined') {
