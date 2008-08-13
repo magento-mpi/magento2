@@ -55,17 +55,46 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     }
 
     /**
-     * Get shopping cart subtotal
+     * Get shopping cart subtotal.
+     * It will include tax, if required by config settings.
      *
      * @return decimal
      */
-    public function getSubtotal()
+    public function getSubtotal($skipTax = false)
     {
+        $subtotal = 0;
         $totals = $this->getTotals();
         if (isset($totals['subtotal'])) {
-            return $totals['subtotal']->getValue();
+            $subtotal = $totals['subtotal']->getValue();
+            if (!$skipTax) {
+                if ((!$this->helper('tax')->displayCartBothPrices()) && $this->helper('tax')->displayCartPriceInclTax()) {
+                    $subtotal = $this->_addTax($subtotal);
+                }
+            }
         }
-        return 0;
+        return $subtotal;
+    }
+
+    /**
+     * Get subtotal, including tax.
+     * Will return > 0 only if appropriate config settings are enabled.
+     *
+     * @return decimal
+     */
+    public function getSubtotalInclTax()
+    {
+        if (!$this->helper('tax')->displayCartBothPrices()) {
+            return 0;
+        }
+        return $this->_addTax($this->getSubtotal(true));
+    }
+
+    private function _addTax($price) {
+        $totals = $this->getTotals();
+        if (isset($totals['tax'])) {
+            $price += $totals['tax']->getValue();
+        }
+        return $price;
     }
 
     public function getSummaryCount()
