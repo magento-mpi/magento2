@@ -25,12 +25,12 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('catalog/category/edit.phtml');
+        $this->setTemplate('catalog/category/edit/form.phtml');
     }
 
     protected function _prepareLayout()

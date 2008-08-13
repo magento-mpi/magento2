@@ -141,7 +141,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setLastEditedCategory($category->getId());
 
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
+                $this->getLayout()->createBlock('adminhtml/catalog_category_edit_form')
                     ->toHtml()
             );
             return;
@@ -160,11 +160,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Catalog Categories'),
              Mage::helper('catalog')->__('Manage Categories')
         );
+
         $this->_addLeft(
             $this->getLayout()->createBlock('adminhtml/catalog_category_tree', 'category.tree')
         );
         $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_container')
+            $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
         );
         $this->renderLayout();
     }
