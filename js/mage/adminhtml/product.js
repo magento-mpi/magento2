@@ -489,13 +489,13 @@ Product.Configurable.prototype = {
 		this.grid.reloadParams = {'products[]':this.links.keys().size() ? this.links.keys() : [0], 'new_products[]':this.newProducts};
 	},
 	updateValues: function () {
-		var uniqueAttributeValues = new Hash({});
+		var uniqueAttributeValues = $H({});
 		/* Collect unique attributes */
 		this.links.each(function(pair) {
 			for (var i = 0, length=pair.value.length; i < length; i ++) {
 				var attribute = pair.value[i];
-				if (-1 == uniqueAttributeValues.keys().indexOf(attribute.attribute_id)) {
-					uniqueAttributeValues.set(attribute.attribute_id, new Hash({}));
+				if (uniqueAttributeValues.keys().indexOf(attribute.attribute_id) == -1) {
+					uniqueAttributeValues.set(attribute.attribute_id, $H({}));
 				}
 				uniqueAttributeValues.get(attribute.attribute_id).set(attribute.value_index, attribute);
 			}
@@ -504,10 +504,10 @@ Product.Configurable.prototype = {
 		this.container.childElements().each(function(row) {
 			var attribute = row.attributeObject;
 			for (var i = 0, length=attribute.values.length; i < length; i ++) {
-				if (uniqueAttributeValues.keys().indexOf(attribute.attribute_id)==-1
+				if (uniqueAttributeValues.keys().indexOf(attribute.attribute_id) == -1
 					|| uniqueAttributeValues.get(attribute.attribute_id).keys().indexOf(attribute.values[i].value_index)==-1) {
 					row.attributeValues.childElements().each(function(elem) {
-						if(elem.valueObject.value_index==attribute.values[i].value_index) {
+						if (elem.valueObject.value_index==attribute.values[i].value_index) {
 							elem.remove();
 						}
 					});
