@@ -144,7 +144,7 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         }
         var cache = this.cache[newStoreId];
 
-        if (this.useAjax && !varienStoreSwitcher.isSameSore(newStoreId, this.storeId)) {
+        if (this.useAjax && !switcher.isSameSore(newStoreId, this.storeId)) {
             if (cache) {
                 storeParam = storeParam+'id/'+cache['parameters']['category_id']+'/';
                 this.loadTree(cache);
@@ -336,7 +336,9 @@ Ext.EventManager.onDocumentReady(function()
 		cache:            {}
 	});
 
-	varienStoreSwitcher.storeSelectorClickCallback = tree.switchStore.bind(tree);
+	if ((typeof varienStoreSwitcher)!='undefined') {
+	    varienStoreSwitcher.storeSelectorClickCallback = tree.switchStore.bind(tree);
+	}
 
 	// set the root node
 	var parameters = {
