@@ -69,6 +69,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
                     'name'  => 'path',
                     'value' => base64_decode($this->getRequest()->getParam('parent'))
                 ));
+            } else {
+                $storeId = (int) $this->getRequest()->getParam('store');
+                $fieldset->addField('path', 'hidden', array(
+                    'name'  => 'path',
+                    'value' => 1
+                ));
             }
         }
 
