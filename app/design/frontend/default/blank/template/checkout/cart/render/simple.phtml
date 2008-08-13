@@ -20,21 +20,20 @@
 ?>
 <?php $_item = $this->getItem() ?>
 <tr>
-    <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="Remove item" /></a></td>
-    <td><a href="<?php echo $this->getItemUrl($_item) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getItemProductForThumbnail($_item), 'thumbnail')->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getItemName($_item)) ?>" width="75" /></a>
-    </td>
-    <td class="attributes-col">
-        <h4 class="title"><a href="<?php echo $this->getItemUrl($_item) ?>"><?php echo $this->getItemName($_item) ?></a></h4>
+    <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" title="<?php $this->__('Remove item')?>" /></a></td>
+    <td><a href="<?php echo $this->getItemUrl($_item) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getItemProductForThumbnail($_item), 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($this->getItemName($_item)) ?>" title="<?php echo $this->htmlEscape($this->getItemName($_item)) ?>" /></a></td>
+    <td>
+        <h3 class="product-name"><a href="<?php echo $this->getItemUrl($_item) ?>"><?php echo $this->getItemName($_item) ?></a></h3>
         <?php echo $this->getItemDescription($_item) ?>
         <?php if($_item->getMessage()): ?>
-        <div style="font-size:95%;margin-top:6px;" class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
+        <div class="shopping-cart-item-message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
             * <?php echo $_item->getMessage() ?>
         </div>
         <?php endif; ?>
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
-        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" />
+        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" class="checkbox" />
     </td>
     <?php endif ?>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>

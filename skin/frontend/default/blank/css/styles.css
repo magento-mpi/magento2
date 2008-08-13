@@ -27,9 +27,11 @@
 .col-main { float:left; width:739px; border:1px solid #ddd; padding:5px; }
 .col-right { float:right; width:230px; border:1px solid #ddd; padding:5px; }
 
-.col1-layout { border:1px solid #ddd; padding:10px; margin-bottom:10px; }
+.col1-layout .col-main { float:none; width:auto; border:1px solid #ddd; padding:10px; margin-bottom:10px; }
+
 .col2-left-layout .col-main { float:right; }
 .col2-right-layout .col-main {}
+
 .col3-layout .col-main { width:487px; margin-left:10px; }
 
 /* Content Columns */
@@ -70,7 +72,7 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 #logo { float:left; width:200px; height:63px; background-position:0 0; background-repeat:no-repeat; text-indent:-999em; overflow:hidden; cursor:pointer; } 
 
 /******************** Navigation */
-#nav { font-size:12px; border:1px solid #ddd; padding:10px 0; margin:10px 0; }
+#nav { font-size:12px; border:1px solid #ddd; padding:5px 0; margin:10px 0; }
 
 /* All Levels */
 #nav li { position:relative; text-align:left; }
@@ -196,9 +198,9 @@ p.required { text-align:right; }
 .breadcrumbs li { display:inline; }
 
 /*********************** Page Heading */
-.page-heading {}
-.page-heading .heading {}
-.with-buttons {}
+.page-title { border-bottom:1px solid #ddd; padding:0 0 5px; margin:0 0 10px; }
+.title-buttons {}
+.title-buttons h2 { float:left; }
 
 /*********************** Pager */ 
 .pager { border:1px solid #ddd; padding:5px; margin:5px 0; text-align:center; }
@@ -244,6 +246,9 @@ tr.show-details td {}
 tr.tax-details td { background-color:#f6f6f6; }
 tr.tax-details-first td {}
 
+/************************ List Decoration */
+li.odd {}
+li.even { background-color:#f6f6f6; }
 
 /************************************************/
 /******************* Sidebar ********************/
@@ -266,9 +271,63 @@ tr.tax-details-first td {}
 /* Block: Currency Switcher */
 .block-currency select { width:100%; border:1px solid #888; }
 
+/* Block: Layered Navigation */
+.block-layered-nav dt { font-weight:bold; }
+
 /* Block: My Cart */
 .block-cart .items-amount {}
 .block-cart .subtotal { text-align:center; }
+
+/* Block: Compare Products */
+.block-compare {}
+
+/* Block: Poll */
+.block-poll .radio { float:left; margin:3px -18px 0 0; }
+.block-poll .label { display:block; margin-left:18px; }
+.block-poll .answer {}
+.block-poll .votes { font-weight:bold; }
+
+/* Block: Banner */
+.block-banner {}
+.block-banner .block-content { text-align:center; }
+
+/* Block: Popular Tags */
+.block-tags ul,
+.block-tags li { display:inline; }
+
+
+/************************************************/
+/***************** Main Content *****************/
+/************************************************/
+.category-products {}
+
+/* View Type: Grid */
+.products-grid { width:100%; }
+.products-grid tr.odd {}
+.products-grid tr.even { background-color:#f6f6f6; }
+.category-products td { width:33%; border:1px solid #ddd; padding:5px; }
+
+/* View Type: List */
+/*.products-list .item { padding:5px; border:1px solid #ddd; }*/
+.products-list li { border:1px solid #ddd; padding:5px; margin:0 0 5px; }
+.products-list .product-image { float:left; margin-right:-150px; }
+.products-list .product-shop { margin-left:150px; }
+.products-list .add-to-cart { text-align:right; }
+
+
+/************************************************/
+/**************** Shopping Cart *****************/
+/************************************************/
+.checkout-types { float:right; }
+
+.block-crosssell li {}
+.block-crosssell .product-image { float:left; margin-right:-90px; }
+.block-crosssell .product-shop { margin-left:90px; }
+
+.shopping-cart-totals table { width:100%; }
+.shopping-cart-totals table th,
+.shopping-cart-totals table td { padding:5px; text-align:right; }
+.shopping-cart-totals table th { font-weight:bold; }
 
 
 /************************************************/
@@ -415,14 +474,6 @@ dl.item-options dd { padding-left:10px; }
 
 
 /************************************************/
-/****************** Side Bar ********************/
-/************************************************/
-
-/*********************** List Decoration */
-ul li.odd {}
-ol li.even { background-color:#f6f6f6; }
-
-/************************************************/
 /************ HOME Page SAMPLE DATA *************/
 /************************************************/
 .home-spot { float:left; width:474px; margin-left:20px; }
@@ -435,13 +486,3 @@ ol li.even { background-color:#f6f6f6; }
 .category-head .link-feed {}
 .category-image {}
 .category-description {}
-
-/*********************** Category Products */ 
-.category-products {}
-
-/*********************** Type: Grid */
-.category-products table.products-grid td { padding:5px; border:1px solid #ddd; width:33% }
-/*********************** Type: List */
-.category-products ul.products-list .item { padding:5px; border:1px solid #ddd; }
-.category-products ul.products-list .item .product-image {}
-.category-products ul.products-list .item .product-shop {}

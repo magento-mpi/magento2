@@ -19,11 +19,11 @@
  */
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="page-heading">
+<div class="page-title">
     <?php if($this->helper('wishlist')->isRssAllow() && $this->getWishlist()->getSize()): ?>
         <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
     <?php endif; ?>
-    <h2 class="heading"><?php echo $this->__('My Wishlist') ?></h2>
+    <h2><?php echo $this->__('My Wishlist') ?></h2>
 </div>
 
 <?php if($this->getWishlist()->getSize()): ?>

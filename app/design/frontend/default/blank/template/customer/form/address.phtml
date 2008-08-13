@@ -20,8 +20,8 @@
 ?>
 <script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
 
-<div class="page-heading">
-    <h2 class="heading"><?php if($data->getAddressId()): ?><?php echo $this->__('Edit Address Entry') ?><?php else: ?><?php echo $this->__('New Address Entry') ?><?php endif ?></h2>
+<div class="page-title">
+    <h2><?php if($data->getAddressId()): ?><?php echo $this->__('Edit Address Entry') ?><?php else: ?><?php echo $this->__('New Address Entry') ?><?php endif ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $action ?>" method="post" id="form-validate">

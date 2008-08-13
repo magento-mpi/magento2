@@ -20,16 +20,16 @@
 ?>
 <?php if($this->getResultCount()): ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="page-heading">
+<div class="page-title">
     <?php if ($this->helper('rss/catalog')->getTagFeedUrl()): ?>
         <a href="<?php echo $this->helper('rss/catalog')->getTagFeedUrl() ?>" class="nobr link-rss"><?php echo $this->__('Subscribe to Feed') ?></a>
     <?php endif; ?>    
-    <h2 class="heading"><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
+    <h2><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
 </div>
     <?php echo $this->getProductListHtml() ?>
 <?php else: ?>
-<div class="page-heading">
-    <h2 class="heading"><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
+<div class="page-title">
+    <h2><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : $this->__("Search results for '%s'", $this->helper('catalogSearch')->getEscapedQueryText()) ?></h2>
 </div>
 <p class="note-msg">
     <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>

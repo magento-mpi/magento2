@@ -19,8 +19,8 @@
  */
 ?>
 <?php if($this->getProductData()->getId()): ?>
-    <div class="page-heading">
-        <h2 class="heading"><?php echo $this->__('Review Details') ?></h2>
+    <div class="page-title">
+        <h2><?php echo $this->__('Review Details') ?></h2>
     </div>
     <div>
         <a class="product-image" href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="125" width="125" /></a>

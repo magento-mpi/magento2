@@ -26,7 +26,7 @@
 <?php endif; ?>
 <p><a href="<?php echo $this->getPrintAllShipmentsUrl($_order) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print All Shipments') ?></a></p>
 <?php foreach ($_order->getShipmentsCollection() as $_shipment): ?>
-<div class="page-heading">
+<div class="page-title">
     <h2><?php echo $this->__('Shipment #') ?><?php echo $_shipment->getIncrementId(); ?></h2>
     <a href="<?php echo $this->getPrintShipmentUrl($_shipment) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print Shipment') ?></a>
 </div>

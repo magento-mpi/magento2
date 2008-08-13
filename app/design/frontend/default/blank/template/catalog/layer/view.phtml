@@ -26,21 +26,25 @@
  */
 ?>
 <?php if($this->canShowBlock()): ?>
-<div class="block">
-    <h2><?php echo $this->__('Shop by') ?></h2>
-    <?php echo $this->getStateHtml() ?>
-    <?php if($this->canShowOptions()): ?>
-    <h3><?php echo $this->__('Shopping Options') ?></h3>
-    <dl>
-        <?php $_filters = $this->getFilters() ?>
-        <?php foreach ($_filters as $_filter): ?>
-        <?php if($_filter->getItemsCount()): ?>
-        <dt><?php echo $_filter->getName() ?></dt>
-        <dd><?php echo $_filter->getHtml() ?></dd>
+<div class="block block-layered-nav">
+    <div class="block-title">
+        <h2><?php echo $this->__('Shop by') ?></h2>
+    </div>
+    <div class="block-content">
+		<?php echo $this->getStateHtml() ?>
+        <?php if($this->canShowOptions()): ?>
+        <h3><?php echo $this->__('Shopping Options') ?></h3>
+        <dl>
+            <?php $_filters = $this->getFilters() ?>
+            <?php foreach ($_filters as $_filter): ?>
+            <?php if($_filter->getItemsCount()): ?>
+            <dt><?php echo $_filter->getName() ?></dt>
+            <dd><?php echo $_filter->getHtml() ?></dd>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        </dl>
+        <script type="text/javascript">decorateDataList('narrow-by-list')</script>
         <?php endif; ?>
-        <?php endforeach; ?>
-    </dl>
-    <script type="text/javascript">decorateDataList('narrow-by-list')</script>
-    <?php endif; ?>
+    </div>
 </div>
 <?php endif; ?>

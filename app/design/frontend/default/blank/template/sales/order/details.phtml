@@ -19,13 +19,13 @@
  */
 ?>
 <?php $_order = $this->getOrder() ?>
-<div class="page-heading with-buttons">
+<div class="page-title title-buttons">
     <h2><?php echo $this->__('My Orders - Details') ?></h2>
     <button class="button"><span><?php echo $this->__('Print All Invoices') ?></span></button>
 </div>
 <h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
 <?php foreach ($this->getInvoices() as $_invoice): ?>
-<div class="page-heading">
+<div class="page-title">
     <h3><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h3>
     <a href="#"><?php echo $this->__('Print Invoice') ?></a>
 </div>

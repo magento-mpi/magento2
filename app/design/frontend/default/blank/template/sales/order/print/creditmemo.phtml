@@ -28,7 +28,7 @@
     <?php $_creditmemos = $_order->getCreditmemosCollection() ?>
 <?php endif; ?>
 <?php foreach ($_creditmemos as $_creditmemo): ?>
-    <div class="page-heading">
+    <div class="page-title">
         <h2><?php echo $this->__('Refund #%s', $_creditmemo->getIncrementId()) ?></h2>
     </div>
     <div class="col2-set">

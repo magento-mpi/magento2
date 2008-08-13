@@ -22,8 +22,8 @@
 <?php  $_order = $_orderSummary['order'] ?>
 <?php $_currency = $_order['currency_symbol'] ? $_order['currency_symbol']: $_order['currency']?>
 
-<div class="page-heading">
-    <h2 class="heading"><?php echo $this->__('Order') ?> #<?php echo $_order['orders_id'] ?></h2>
+<div class="page-title">
+    <h2><?php echo $this->__('Order') ?> #<?php echo $_order['orders_id'] ?></h2>
 </div>
 <p><?php echo $this->__('Order Date:')?> <?php echo $this->formatDate($_order['date_purchased'], 'medium', false) ?></p>
 

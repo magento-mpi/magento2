@@ -23,15 +23,20 @@
 #nav,
 .main,
 .footer,
+.heading-buttons,
 .buttons-set,
 .col2-set,
 .col3-set,
 .col4-set,
+.col-main,
 .pager,
 .sorter,
 .product-img-box .more-views ul,
 .product-options ul.options-list li,
+
 .mini-products-list li,
+.block-poll li,
+
 .group-select li,
 .box { zoom:1; }
 

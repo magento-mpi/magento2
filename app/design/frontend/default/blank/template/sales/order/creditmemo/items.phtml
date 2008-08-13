@@ -21,7 +21,7 @@
 <?php  $_order = $this->getOrder() ?>
 <p><a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print All Refunds') ?></a></p>
 <?php foreach ($_order->getCreditmemosCollection() as $_creditmemo): ?>
-<div class="page-heading">
+<div class="page-title">
     <h2><?php echo $this->__('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?></h2>
     <a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>" onclick="this.target='_blank'"><?php echo $this->__('Print Refund') ?></a>
 </div>

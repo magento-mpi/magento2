@@ -24,14 +24,20 @@
 #nav:after,
 .main:after,
 .footer:after,
+.title-buttons:after,
 .buttons-set:after,
 .col2-set:after,
 .col3-set:after,
 .col4-set:after,
+.col-main:after,
 .pager:after,
 .sorter:after,
+.products-list li:after,
 .product-img-box .more-views ul:after,
 .product-options ul.options-list li:after,
+
 .mini-products-list li:after,
+.block-poll li:after,
+
 .group-select li:after,
 .box:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

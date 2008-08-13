@@ -20,7 +20,7 @@
 ?>
 <div class="account-box ad-orders">
 <?php $_orders = $this->getOrders(); ?>
-    <div class="page-heading">
+    <div class="page-title">
         <h3><?php echo $this->__('Recent Orders') ?></h3>
         <?php if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
     </div>

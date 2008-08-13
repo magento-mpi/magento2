@@ -26,22 +26,22 @@
  */
 ?>
 <?php if($this->getItemCount()): ?>
-<div class="block">
+<div class="block block-crosssell">
     <h3><?php echo $this->__('Based on your selection, you may be interested in the following items:') ?></h3>
-    <ul class="product-list">
+    <ul>
     <?php foreach ($this->getItems() as $_item): ?>
         <li>
-            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
             <div class="product-shop">
                 <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_item) ?>
-                <p><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
+                <p class="add-to-cart"><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
                 <p>
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
                     <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
                     <?php endif; ?>
-                    <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?><br />
-                    <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+                    <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?>
+                    <span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
                     <?php endif; ?>
                 </p>    
             </div>

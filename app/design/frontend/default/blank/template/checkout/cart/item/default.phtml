@@ -20,11 +20,10 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" /></a></td>
-    <td><a href="<?php echo $this->getProductUrl() ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" /></a></td>
-    <td class="attributes-col">
-        <h4 class="title"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h4>
-
+    <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" title="<?php $this->__('Remove item')?>" /></a></td>
+    <td><a href="<?php echo $this->getProductUrl() ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a></td>
+    <td>
+        <h3 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h3>
         <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
@@ -56,7 +55,7 @@
     </td>
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
-        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" />
+        <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" class="checkbox" />
     </td>
     <?php endif ?>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
