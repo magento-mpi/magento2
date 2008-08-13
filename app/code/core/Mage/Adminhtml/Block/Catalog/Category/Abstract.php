@@ -133,4 +133,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
 
         return $node;
     }
+
+    public function getSaveUrl(array $args = array())
+    {
+        $params = array('_current'=>true);
+        $params = array_merge($params, $args);
+        return $this->getUrl('*/*/save', $params);
+    }
+
+
 }

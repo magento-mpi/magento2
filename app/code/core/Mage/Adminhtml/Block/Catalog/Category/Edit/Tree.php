@@ -179,11 +179,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         return $this->getUrl("*/catalog_category/tree", array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null));
     }
 
-    public function getSaveUrl()
-    {
-        return $this->getUrl("*/catalog_category/save", array('_current'=>true, 'store'=>null, '_query'=>false, 'id'=>null, 'parent'=>null));
-    }
-
     public function getIsWasExpanded()
     {
         return Mage::getSingleton('admin/session')->getIsTreeWasExpanded();
