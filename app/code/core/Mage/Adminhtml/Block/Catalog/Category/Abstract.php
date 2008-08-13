@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
         if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
             return $this->getNode($parentNodeCategory, $recursionLevel);
         }
-        $root = $this->getData('root');
+        $root = Mage::registry('root');
         if (is_null($root)) {
             $storeId = (int) $this->getRequest()->getParam('store');
 
@@ -93,11 +93,14 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
 
             $tree = Mage::getResourceSingleton('catalog/category_tree')
                 ->load($rootId, $recursionLevel);
-            $root = $tree->getNodeById($rootId);
 
             if ($this->getCategory()) {
-                $tree->loadEnsuredNodes($this->getCategory(), $root);
+                $tree->loadEnsuredNodes($this->getCategory(), $tree->getNodeById($rootId));
             }
+
+            $tree->addCollectionData($this->getCategoryCollection());
+
+            $root = $tree->getNodeById($rootId);
 
             if ($root && $rootId != 1) {
                 $root->setIsVisible(true);
@@ -106,8 +109,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
                 $root->setName(Mage::helper('catalog')->__('Root'));
             }
 
-            $tree->addCollectionData($this->getCategoryCollection());
-            $this->setData('root', $root);
+            Mage::register('root', $root);
         }
 
         return $root;
