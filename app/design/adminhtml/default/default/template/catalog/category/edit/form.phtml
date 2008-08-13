@@ -42,6 +42,7 @@
 <?php endif; ?>
 <form id="category_edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
 <input type="hidden" name="category_products" id="in_category_products" value=""/>
+<input type="hidden" name="active_tab_id" id="active_tab_id" value=""/>
 <div id="category_tab_content"></div>
 </form>
 <script type="text/javascript">
@@ -122,14 +123,10 @@
 <?php endif; ?>
 <?php if($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject=$block->getJsObjectName())): ?>
     <?php echo $_tabsJsObject ?>.moveTabContentInDest();
-    activeTab = document.createElement('INPUT');
-    activeTab.type= 'hidden';
-    activeTab.name= 'active_tab_id';
     if (<?php echo $_tabsJsObject ?>.activeTab) {
-        activeTab.value = <?php echo $_tabsJsObject ?>.activeTab.id;
+        $('active_tab_id').value = <?php echo $_tabsJsObject ?>.activeTab.id;
     }
-    activeTab.tabsJsObject = <?php echo $_tabsJsObject ?>;
-    categoryForm.validator.form.appendChild(activeTab);
+    $('active_tab_id').tabsJsObject = <?php echo $_tabsJsObject ?>;
 <?php endif; ?>
 //]]>
 </script>

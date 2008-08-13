@@ -49,8 +49,9 @@
     function refreshEditArea(transport){ return true; }
 
     function categorySubmit(url, useAjax){
-        if ((typeof activeTab)!= 'undefined') {
-            if (activeTab.tabsJsObject) {
+        var activeTab = $('active_tab_id');
+        if (activeTab) {
+            if (activeTab.tabsJsObject && activeTab.tabsJsObject.activeTab) {
                 activeTab.value = activeTab.tabsJsObject.activeTab.id;
             }
         }
