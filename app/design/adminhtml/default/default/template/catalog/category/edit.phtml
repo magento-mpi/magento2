@@ -49,6 +49,9 @@
     function refreshEditArea(transport){}
 
     function categorySubmit(url, useAjax){
+        if (activeTab && activeTab.tabsJsObject) {
+            activeTab.value = activeTab.tabsJsObject.activeTab.id;
+        }
         if (!useAjax) {
             categoryForm.submit();
             return;

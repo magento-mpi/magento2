@@ -122,10 +122,13 @@
 <?php endif; ?>
 <?php if($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject=$block->getJsObjectName())): ?>
     <?php echo $_tabsJsObject ?>.moveTabContentInDest();
-    var activeTab = document.createElement('INPUT');
+    activeTab = document.createElement('INPUT');
     activeTab.type= 'hidden';
     activeTab.name= 'active_tab_id';
-    activeTab.value = <?php echo $_tabsJsObject ?>.activeTab.id;
+    if (<?php echo $_tabsJsObject ?>.activeTab) {
+        activeTab.value = <?php echo $_tabsJsObject ?>.activeTab.id;
+    }
+    activeTab.tabsJsObject = <?php echo $_tabsJsObject ?>;
     categoryForm.validator.form.appendChild(activeTab);
 <?php endif; ?>
 //]]>
