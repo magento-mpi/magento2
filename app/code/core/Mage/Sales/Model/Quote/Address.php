@@ -534,6 +534,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
         if (!$found) {
             $this->setShippingAmount(0)
+                ->setBaseShippingAmount(0)
                 ->setShippingMethod('')
                 ->setShippingDescription('');
         }

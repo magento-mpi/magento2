@@ -26,6 +26,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
         $oldWeight = $address->getWeight();
         $address->setWeight(0);
         $address->setShippingAmount(0);
+        $address->setBaseShippingAmount(0);
         $address->setFreeMethodWeight(0);
 
         $items = $address->getAllItems();
