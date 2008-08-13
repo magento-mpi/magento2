@@ -96,7 +96,7 @@ class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_C
             array('store_id'=>'store_id', 'store_title'=>'name')
         );
         $this->addOrder('group_table.name', 'ASC')       // store name
-            ->addOrder('CASE WHEN main_table.store_id = 0 THEN 0 ELSE 1 END', 'ASC') // view is admin
+            ->addOrder('CASE WHEN store_table.store_id = 0 THEN 0 ELSE 1 END', 'ASC') // view is admin
             ->addOrder('store_table.sort_order', 'ASC') // view sort order
             ->addOrder('store_table.name', 'ASC')       // view name
         ;
