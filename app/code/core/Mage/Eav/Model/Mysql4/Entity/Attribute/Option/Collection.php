@@ -46,6 +46,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
         if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
         }
+        $sortBy = 'store_default_value';
         if ($useDefaultValue) {
             $this->getSelect()
                 ->join(array('store_default_value'=>$this->_optionValueTable),
@@ -58,12 +59,14 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
                 ->where($this->getConnection()->quoteInto('store_default_value.store_id=?', 0));
         }
         else {
+            $sortBy = 'store_value';
             $this->getSelect()
                 ->joinLeft(array('store_value'=>$this->_optionValueTable),
                     'store_value.option_id=main_table.option_id AND '.$this->getConnection()->quoteInto('store_value.store_id=?', $storeId),
                     'value')
                 ->where($this->getConnection()->quoteInto('store_value.store_id=?', $storeId));
         }
+        $this->setOrder("{$sortBy}.value", 'ASC');
 
         return $this;
     }
