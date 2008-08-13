@@ -768,7 +768,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 .product-options ul.options-list li { padding:2px 0; }
 .product-options ul.options-list input.radio { float:left; margin-top:3px; }
 .product-options ul.options-list input.checkbox { float:left; margin-top:3px; }
-.product-options ul.options-list .label { margin-left:18px; }
+.product-options ul.options-list .label { display:block; margin-left:18px; }
 .product-options ul.options-list label { font-weight:normal; }
 .product-options ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; padding:15px 0 0; }

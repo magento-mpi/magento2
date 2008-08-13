@@ -994,7 +994,7 @@ table.recently-list td {width:20%;}
 .product-options ul.options-list li { line-height:1.5; padding:2px 0; }
 .product-options ul.options-list input.radio { float:left; margin-top:3px; }
 .product-options ul.options-list input.checkbox { float:left; margin-top:3px; }
-.product-options ul.options-list .label { margin-left:18px; }
+.product-options ul.options-list .label { display:block; margin-left:18px; }
 .product-options ul.options-list label { font-weight:normal; }
 .product-options ul.validation-failed { padding:0 7px; }
 .product-options p.required { margin-bottom:0; padding:15px 0 0; }

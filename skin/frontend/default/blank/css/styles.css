@@ -252,7 +252,8 @@ tr.tax-details-first td {}
 
 .sidebar .block { border:1px solid #ddd; margin:0 0 10px; }
 .sidebar .block .block-title { border-bottom:1px solid #ddd; padding:0 10px; }
-.sidebar .block .block-title h2 { font-size:14px; font-weight:bold; line-height:1.5; }
+.sidebar .block .block-title h2 { font-size:16px; font-weight:bold; line-height:1.5; }
+.sidebar .block h3 { font-size:14px; line-height:1.5; }
 .sidebar .block .block-content { padding:10px; }
 
 /* Mini Products List */
@@ -386,7 +387,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .product-options .options-list {}
 .product-options .options-list input.radio { float:left; margin:3px -18px 0 0; }
 .product-options .options-list input.checkbox { float:left; margin:3px -18px 0 0; }
-.product-options .options-list .label { margin-left:18px; }
+.product-options .options-list .label { display:block; margin-left:18px; }
 .product-options .validation-failed { padding:0 7px; }
 .product-options p.required { padding:15px 0 0; }
 
