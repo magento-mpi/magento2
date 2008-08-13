@@ -21,7 +21,9 @@
 
 class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstract
 {
-    private $_carriers;
+    protected $_carriers = null;
+    protected $_rates = array();
+    protected $_address = array();
 
     public function getEstimateRates()
     {
