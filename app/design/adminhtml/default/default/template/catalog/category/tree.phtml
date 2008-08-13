@@ -231,6 +231,7 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
     {
         var url = '<?php echo $this->getEditUrl() ?>'+(this.storeId?'store/'+this.storeId+'/':'')+'id/'+node.id+'/';
         this.currentNodeId = node.id;
+        this.addingTo = false;
         if (!this.useAjax) {
             setLocation(url);
             return;
@@ -332,6 +333,7 @@ Ext.EventManager.onDocumentReady(function()
 		switchEditUrl:    '<?php echo $this->getSwitchedEditUrl() ?>',
 		saveUrl:          '<?php echo $this->getSaveUrl() ?>',
 		currentNodeId:    <?php echo (int) $this->getCategoryId() ?>,
+		addingTo:         false,
 		cache:            {}
 	});
 
@@ -354,6 +356,7 @@ Ext.EventManager.onDocumentReady(function()
 
 function addNew(url, params)
 {
+    tree.addingTo = tree.currentNodeId;
     updateContent(url, params, true);
 }
 

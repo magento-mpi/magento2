@@ -161,7 +161,7 @@
             params[fields[i].name] = fields[i].getValue();
         }
         updateContent('<?php echo $this->getSaveUrl() ?>', params, true);
-        if (tree && tree.storeId==0) {
+        if (tree && tree.storeId==0 && tree.addingTo) {
             var currentNode = tree.getNodeById(tree.currentNodeId);
             if (currentNode) {
                 if (params['general[is_active]']) {
