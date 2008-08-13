@@ -91,9 +91,9 @@ if (!(isset($_GET['s']) && !$_GET['s'])) {
 }
 
 // use gzip or deflate, use this if not enabled in .htaccess, default on
-if (!(isset($_GET['z']) && !$_GET['z'])) {
-    ini_set('zlib.output_compression', 1);
-}
+//if (!(isset($_GET['z']) && !$_GET['z'])) {
+//    ini_set('zlib.output_compression', 1);
+//}
 
 // add Expires header if not disabled, default 1 year
 if (!(isset($_GET['e']) && $_GET['e']==='no')) {
