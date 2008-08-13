@@ -46,11 +46,13 @@
         );
     }
 
-    function refreshEditArea(transport){}
+    function refreshEditArea(transport){ return true; }
 
     function categorySubmit(url, useAjax){
-        if (activeTab && activeTab.tabsJsObject) {
-            activeTab.value = activeTab.tabsJsObject.activeTab.id;
+        if ((typeof activeTab)!= 'undefined') {
+            if (activeTab.tabsJsObject) {
+                activeTab.value = activeTab.tabsJsObject.activeTab.id;
+            }
         }
         if (!useAjax) {
             categoryForm.submit();

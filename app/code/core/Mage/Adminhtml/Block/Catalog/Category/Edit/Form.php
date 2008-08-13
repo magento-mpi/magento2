@@ -132,6 +132,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
 
     public function isAjax()
     {
-        return Mage::app()->getRequest()->isXmlHttpRequest();
+        return Mage::app()->getRequest()->isXmlHttpRequest() || Mage::app()->getRequest()->getParam('isAjax');
     }
 }
