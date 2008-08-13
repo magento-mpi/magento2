@@ -157,7 +157,7 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
             storeParam = storeParam+'id/'+this.currentNodeId+'/';
         }
 
-        updateContent(this.switchEditUrl+storeParam);
+        updateContent(this.editUrl+storeParam);
     },
 
     switchTree : function(tree, url, params)
@@ -330,7 +330,7 @@ Ext.EventManager.onDocumentReady(function()
 		rootVisible:      '<?php echo $this->getRoot()->getIsVisible() ?>',
 		useAjax:          <?php echo $this->getUseAjax() ?>,
 		switchTreeUrl:    '<?php echo $this->getSwitchTreeUrl() ?>',
-		switchEditUrl:    '<?php echo $this->getSwitchedEditUrl() ?>',
+		editUrl:    '<?php echo $this->getEditUrl() ?>',
 		currentNodeId:    <?php echo (int) $this->getCategoryId() ?>,
 		addingTo:         false,
 		cache:            {}
