@@ -31,19 +31,15 @@
 //<![CDATA[
     var categoryForm = new varienForm('category_edit_form');
 
-    function updateContent(url, params, loader){
+    function updateContent(url, params, noLoader){
         var categoryContainer = $('category-edit-container');
-        if (!params) {
-            var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
-        }
-
         new Ajax.Updater(
             categoryContainer,
             url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ),
             {
                parameters:  params || {},
                method:      'post',
-               loaderArea:  loader?categoryContainer:false,
+               loaderArea:  noLoader?false:categoryContainer,
                onComplete:  refreshEditArea.bind(this),
                evalScripts: true
             }
@@ -53,11 +49,6 @@
     function refreshEditArea(transport){}
 
     function categorySubmit(url, useAjax){
-        var activeTab = document.createElement('INPUT');
-        activeTab.type= 'hidden';
-        activeTab.name= 'active_tab_id';
-        activeTab.value = category_info_tabsJsTabs.activeTab.id;
-        categoryForm.validator.form.appendChild(activeTab);
         if (!useAjax) {
             categoryForm.submit();
             return;
@@ -72,6 +63,10 @@
             params[fields[i].name] = fields[i].getValue();
         }
 
+        if (tree && tree.addingTo) {
+            var parent = tree.getNodeById(tree.currentNodeId);
+            var node = new Ext.tree.TreeNode();
+        }
         if (tree && tree.storeId==0 && !tree.addingTo) {
             var currentNode = tree.getNodeById(tree.currentNodeId);
             if (currentNode) {
@@ -94,7 +89,8 @@
             }
         }
 
-        updateContent(url, params, true);
+
+        updateContent(url, params);
     }
 //]]>
 </script>
