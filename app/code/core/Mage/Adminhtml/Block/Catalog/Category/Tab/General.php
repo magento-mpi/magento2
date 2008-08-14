@@ -76,6 +76,15 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
                     'value' => 1
                 ));
             }
+        } else {
+            $fieldset->addField('id', 'hidden', array(
+                'name'  => 'id',
+                'value' => $this->getCategory()->getId()
+            ));
+            $fieldset->addField('path', 'hidden', array(
+                'name'  => 'path',
+                'value' => $this->getCategory()->getPath()
+            ));
         }
 
         $this->_setFieldset($this->getCategory()->getAttributes(true), $fieldset);

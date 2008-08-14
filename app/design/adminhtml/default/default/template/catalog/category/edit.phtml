@@ -31,7 +31,7 @@
 //<![CDATA[
     var categoryForm = new varienForm('category_edit_form');
 
-    function updateContent(url, params, noLoader){
+    function updateContent(url, params, refreshTree){
         var categoryContainer = $('category-edit-container');
         new Ajax.Updater(
             categoryContainer,
@@ -39,14 +39,40 @@
             {
                parameters:  params || {},
                method:      'post',
-               loaderArea:  noLoader?false:categoryContainer,
-               onComplete:  refreshEditArea.bind(this),
+               loaderArea:  categoryContainer,
+               onComplete:  refreshTree?refreshTreeArea.bind(this):false,
                evalScripts: true
             }
         );
     }
 
-    function refreshEditArea(transport){ return true; }
+    function refreshTreeArea(transport)
+    {
+        if (tree && tree.addNodeTo) {
+            var parent = tree.getNodeById(tree.currentNodeId);
+            var parameters = {
+                text:        $('_generalname').value,
+                draggable:   false,
+                allowDrop:   tree.rootVisible,
+                id:          $('_generalid').value,
+                path:        $('_generalpath').value,
+                expanded:    false,
+                store_id:    tree.storeId,
+                category_id: 1000
+            };
+            var node = new Ext.tree.AsyncTreeNode(parameters);
+            node.loaded = true;
+            tree.addNodeTo = false;
+            parent.appendChild(node);
+            parent.expand();
+            var path = node.attributes.path;
+            if (!tree.storeId) {
+                path = '0/'+path;
+            }
+            tree.selectPath(path);
+            tree.currentNodeId = node.id;
+        }
+    }
 
     function categorySubmit(url, useAjax){
         var activeTab = $('active_tab_id');
@@ -69,11 +95,7 @@
             params[fields[i].name] = fields[i].getValue();
         }
 
-        if (tree && tree.addingTo) {
-            var parent = tree.getNodeById(tree.currentNodeId);
-            var node = new Ext.tree.TreeNode();
-        }
-        if (tree && tree.storeId==0 && !tree.addingTo) {
+        if (tree && tree.storeId==0 && !tree.addNodeTo) {
             var currentNode = tree.getNodeById(tree.currentNodeId);
             if (currentNode) {
                 if (params['general[is_active]']) {
@@ -95,7 +117,7 @@
             }
         }
 
-        updateContent(url, params);
+        updateContent(url, params, tree?true:false);
     }
 //]]>
 </script>

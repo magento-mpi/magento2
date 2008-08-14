@@ -220,9 +220,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $item['id']  = $node->getId();
         $item['store']  = (int) $this->getStore()->getId();
         $item['path'] = $node->getData('path');
-        if ($this->getStore()->getId()==0) {
-            $item['path'] = '0/'.$item['path'];
-        }
 
         $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
         //$item['allowDrop'] = ($level<3) ? true : false;
