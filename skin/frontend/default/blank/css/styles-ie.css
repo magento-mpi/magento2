@@ -19,10 +19,10 @@
 /****************[ Clears ]***************/
 /****************************************************/
 .header,
-.field-100,
 #nav,
 .main,
 .footer,
+.messages li,
 .heading-buttons,
 .buttons-set,
 .col2-set,
@@ -31,6 +31,8 @@
 .col-main,
 .pager,
 .sorter,
+.field-100,
+.product-essential,
 .product-img-box .more-views ul,
 .product-options ul.options-list li,
 
@@ -57,3 +59,4 @@
 
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
+.validation-advice { height:13px; }

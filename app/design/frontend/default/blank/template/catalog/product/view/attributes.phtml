@@ -25,15 +25,15 @@
  */
 ?>
 <?php if($_additional = $this->getAdditionalData()): ?>
-<div class="collateral-box attribute-specs">
-    <table class="data-table" id="product-attribute-specs-table">
+<table class="data-table" id="product-attribute-specs-table">
+    <col width="30%" />
+    <col width="70%" />
     <?php foreach ($_additional as $_data): ?>
     <tr>
-        <td class="label"><?php echo $this->__($_data['label']) ?></td>
+        <th class="label"><?php echo $this->__($_data['label']) ?></th>
         <td class="data"><?php echo $_data['value'] ?></td>
     </tr>
     <?php endforeach; ?>
-    </table>
-    <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
-</div>
+</table>
+<script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
 <?php endif;?>

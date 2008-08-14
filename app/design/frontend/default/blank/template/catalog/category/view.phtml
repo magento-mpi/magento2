@@ -27,28 +27,28 @@
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->isContentMode()): ?>
-    <div class="category-head">
+    <div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h2><?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?></h2>
     </div>
     <?php if($_imageUrl=$this->getCurrentCategory()->getImageUrl()): ?>
-        <img class="category-image" src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" />
+        <img src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" class="category-image" />
     <?php endif; ?>
     <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
         <p class="category-description"><?php echo $_description ?></p>
     <?php endif; ?>
     <?php echo $this->getCmsBlockHtml() ?>
 <?php elseif($this->isMixedMode()): ?>
-    <div class="category-head">
+    <div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h2><?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?></h2>
     </div>
     <?php if($_imageUrl=$this->getCurrentCategory()->getImageUrl()): ?>
-        <img class="category-image" src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" />
+        <img src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" class="category-image" />
     <?php endif; ?>
     <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
         <p class="category-description"><?php echo $_description ?></p>
@@ -62,14 +62,14 @@
     <?php echo $this->getProductListHtml() ?>
 
 <?php else: ?>
-    <div class="category-head">
+    <div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h2><?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?></h2>
     </div>
     <?php if($_imageUrl=$this->getCurrentCategory()->getImageUrl()): ?>
-        <img class="category-image" src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" />
+        <img src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" class="category-image" />
     <?php endif; ?>
     <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
         <p class="category-description"><?php echo $_description ?></p>

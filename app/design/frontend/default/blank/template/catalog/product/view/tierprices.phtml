@@ -27,7 +27,7 @@ $_product = $this->getProduct();
 $_tierPrices = $this->getTierPrices();
 ?>
 <?php if (count($_tierPrices) > 0): ?>
-    <ul class="product-pricing">
+    <ul class="tier-prices">
     <?php foreach ($_tierPrices as $_price): ?>
         <?php if ($this->helper('tax')->displayBothPrices() && $_price['formated_price'] != $_price['formated_price_incl_tax']): ?>
             <li><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax) each', $_price['price_qty'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>

@@ -40,9 +40,9 @@
             <?php switch($this->getAttributeInputType($_attribute)):
                 case 'number': ?>
                 <p>
-                    <input name="<?php echo $_code ?>[from]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'from')) ?>" id="<?php echo $_code ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text validate-number" type="text" />
+                    <input type="text" name="<?php echo $_code ?>[from]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'from')) ?>" id="<?php echo $_code ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>" class="input-text validate-number" />
                     -
-                    <input name="<?php echo $_code ?>[to]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'to')) ?>" id="<?php echo $_code ?>_to" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text validate-number" type="text" />
+                    <input type="text" name="<?php echo $_code ?>[to]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'to')) ?>" id="<?php echo $_code ?>_to" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>" class="input-text validate-number" />
                 </p>
                 <?php break;
                 case 'select': ?>
@@ -64,12 +64,13 @@
     </ul>
     <script type="text/javascript">decorateList('advanced-search-list')</script>
 </fieldset>
+<p class="required">* <?php echo $this->__('Required Fields') ?></p>
 <div class="buttons-set">
-    <p class="required">* <?php echo $this->__('Required Fields') ?></p>
     <button class="button" type="submit" name="search" id="search"><span><?php echo $this->__('Search') ?></span></button>
 </div>
 </form>
 <script type="text/javascript">
+//<![CDATA[
     var dataForm = new VarienForm('form-validate', true);
+//]]>
 </script>
-<br />

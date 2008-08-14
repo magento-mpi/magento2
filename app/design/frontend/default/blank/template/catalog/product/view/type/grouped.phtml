@@ -98,7 +98,7 @@
                     <?php endif; ?>
                 <?php endif; ?>
                 <?php if($_item->getTierPriceCount()): ?>
-                    <ul class="product-pricing">
+                    <ul class="tier-prices">
                     <?php foreach ($this->getTierPrices($_item) as $_tierPrice): ?>
                         <?php if($_tierPrice['price'] <= $_finalPriceInclTax): ?>
                             <?php if ($this->helper('tax')->displayBothPrices() && $_tierPrice['formated_price'] != $_tierPrice['formated_price_incl_tax']): ?>
