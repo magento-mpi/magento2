@@ -39,7 +39,9 @@
         </div>
 
         <div class="product-shop">
-            <h2 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h2>
+            <div class="product-name">
+                <h2><?php echo $this->htmlEscape($_product->getName()) ?></h2>
+            </div>
 
             <?php if ($this->canEmailToFriend()): ?>
                 <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />

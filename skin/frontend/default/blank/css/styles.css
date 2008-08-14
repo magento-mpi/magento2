@@ -81,6 +81,7 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 #nav a:hover { display:block; line-height:1.3em; text-decoration:none; }
 #nav span { display:block; cursor:pointer; white-space:nowrap; }
 #nav li ul span {white-space:normal; }
+#nav li li.parent {}
 
 /* 0 Level */
 #nav li { float:left; }
