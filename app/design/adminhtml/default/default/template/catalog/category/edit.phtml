@@ -65,12 +65,9 @@
             tree.addNodeTo = false;
             parent.appendChild(node);
             parent.expand();
-            var path = node.attributes.path;
-            if (!tree.storeId) {
-                path = '0/'+path;
-            }
-            tree.selectPath(path);
+
             tree.currentNodeId = node.id;
+            tree.selectCurrentNode();
         }
     }
 

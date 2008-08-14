@@ -98,31 +98,8 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         var selectedNode = this.getNodeById(parameters['category_id']);
         if (selectedNode) {
             this.currentNodeId = parameters['category_id'];
-            if ((typeof selectedNode.attributes.path)!='undefined') {
-                var path = selectedNode.attributes.path;
-                if (!tree.storeId) {
-                    path = '0/'+path;
-                }
-                this.selectPath(path);
-            } else {
-                this.getSelectionModel().select(selectedNode);
-            }
-        } else {
-            if (this.currentNodeId) {
-                selectedNode = this.getNodeById(this.currentNodeId);
-                if (selectedNode) {
-                    if ((typeof selectedNode.attributes.path)!='undefined') {
-                        var path = selectedNode.attributes.path;
-                        if (!tree.storeId) {
-                            path = '0/'+path;
-                        }
-                        this.selectPath(path);
-                    } else {
-                        this.getSelectionModel().select(selectedNode);
-                    }
-                }
-            }
         }
+        this.selectCurrentNode();
 
         this.cache[parameters['store_id']] = {parameters:parameters, data:data};
     },
@@ -208,10 +185,8 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         return result;
     },
 
-    collapseTree : function()
+    selectCurrentNode : function()
     {
-        this.collapseAll();
-
         if (this.currentNodeId) {
             var selectedNode = this.getNodeById(this.currentNodeId);
             if ((typeof selectedNode.attributes.path)!='undefined') {
@@ -224,6 +199,14 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
                 this.getSelectionModel().select(selectedNode);
             }
         }
+    },
+
+    collapseTree : function()
+    {
+        this.collapseAll();
+
+        this.selectCurrentNode();
+
         if (!this.collapsed) {
             this.collapsed = true;
             this.loader.dataUrl = '<?php echo $this->getLoadTreeUrl(false) ?>';
