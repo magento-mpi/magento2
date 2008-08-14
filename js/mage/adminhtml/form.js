@@ -255,7 +255,7 @@ RegionUpdater.prototype = {
 
     setMarkDisplay: function(elem, display){
         if(elem.parentNode.parentNode){
-            var marks = Element.getElementsByClassName(elem.parentNode.parentNode, 'required');
+            var marks = Element.select(elem.parentNode.parentNode, '.required');
             if(marks[0]){
                 display ? marks[0].show() : marks[0].hide();
             }

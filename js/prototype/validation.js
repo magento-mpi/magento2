@@ -532,11 +532,11 @@ Validation.addAllThese([
                 }
                 var ccType = ccTypeContainer.value;
 
-                if (typeof Validation.creditCartTypes[ccType] == 'undefined') {
+                if (typeof Validation.creditCartTypes.get(ccType) == 'undefined') {
                     return false;
                 }
 
-                var re = Validation.creditCartTypes[ccType][1];
+                var re = Validation.creditCartTypes.get(ccType)[1];
 
                 if (v.match(re)) {
                     return true;
