@@ -58,16 +58,30 @@
                 path:        $('_generalpath').value,
                 expanded:    false,
                 store_id:    tree.storeId,
-                category_id: 1000
+                category_id: $('_generalid').value
             };
             var node = new Ext.tree.AsyncTreeNode(parameters);
             node.loaded = true;
             tree.addNodeTo = false;
-            parent.appendChild(node);
-            parent.expand();
-
             tree.currentNodeId = node.id;
-            tree.selectCurrentNode();
+            parent.appendChild(node);
+            if (parent.expanded) {
+                tree.selectCurrentNode();
+            } else {
+                var timer;
+                parent.expand();
+                var f = function(){
+                    if(parent.expanded){ // done expanding
+                        clearInterval(timer);
+                        tree.selectCurrentNode();
+                    }
+                };
+                timer = setInterval(f, 200);
+                return;
+            }
+
+
+//            tree.selectCurrentNode();
         }
     }
 
