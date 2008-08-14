@@ -35,15 +35,15 @@
             <div class="product-shop">
                 <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_item) ?>
-                <p class="add-to-cart"><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
-                <p>
+                <p><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
+                <ul class="add-to-links">
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+                    <li><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?>
-                    <span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+                    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                     <?php endif; ?>
-                </p>    
+                </ul>    
             </div>
         </li>
     <?php endforeach; ?>

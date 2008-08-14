@@ -32,12 +32,19 @@
 .pager,
 .sorter,
 .field-100,
+.add-to-box,
+.add-to-cart,
+.ratings,
+.products-list .item,
 .product-essential,
 .product-img-box .more-views ul,
 .product-options ul.options-list li,
+.product-review,
 
-.mini-products-list li,
+.sidebar .mini-products-list li,
 .block-poll li,
+.block-related li,
+.block-related .item,
 
 .group-select li,
 .box { zoom:1; }

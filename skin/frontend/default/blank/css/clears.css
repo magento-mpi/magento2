@@ -32,13 +32,19 @@
 .col-main:after,
 .pager:after,
 .sorter:after,
+.ratings:after,
+.add-to-box:after,
+.add-to-cart:after,
 .product-essential:after,
-.products-list li:after,
+.products-list .item:after,
 .product-img-box .more-views ul:after,
 .product-options ul.options-list li:after,
+.product-review:after,
 
 .mini-products-list li:after,
 .block-poll li:after,
+.block-related li:after,
+.block-related .item:after,
 
 .group-select li:after,
 .box:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

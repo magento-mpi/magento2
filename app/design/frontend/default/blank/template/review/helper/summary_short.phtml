@@ -24,7 +24,7 @@
             <div class="rating-box">
                 <div class="rating" style="width:<?php echo $this->getRatingSummary() ?>%"></div>
             </div>
-            (<?php echo $this->getReviewsCount() ?>)
+            <span class="amount">(<?php echo $this->getReviewsCount() ?>)</span>
         <?php else: ?>
             <a href="<?php echo $this->getReviewsUrl() ?>"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
         <?php endif;?>

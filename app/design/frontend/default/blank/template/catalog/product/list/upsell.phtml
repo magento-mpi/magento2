@@ -19,7 +19,7 @@
  */
 ?>
 <?php if(count($this->getItemCollection()->getItems())): ?>
-<div class="block">
+<div class="block-upsell">
     <h3><?php echo $this->__('You may also be interested in the following product(s)') ?></h3>
     <table class="products-grid" id="upsell-product-table">
     <?php // $this->setColumnCount(4); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
@@ -29,7 +29,7 @@
         <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
             <?php if($_link=$this->getIterableItem()): ?>
             <td>
-                <a class="product-image" href="<?php echo $_link->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_link->getName()) ?>" title="<?php echo $this->htmlEscape($_link->getName()) ?>" /></a>
+                <a href="<?php echo $_link->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_link, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_link->getName()) ?>" title="<?php echo $this->htmlEscape($_link->getName()) ?>" /></a>
                 <h4 class="product-name"><a href="<?php echo $_link->getProductUrl() ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_link, true) ?>
                 <?php echo $this->getReviewsSummaryHtml($_link) ?>

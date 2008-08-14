@@ -21,33 +21,36 @@
 
 <?php $_items = $this->getReviewsCollection()->getItems();?>
 <?php if (count($_items)):?>
-<div class="box" id="customer-reviews">
-    <div class="page-title">
-        <h4><?php echo $this->__('Customer Reviews') ?></h4>
-    </div>
+<div class="block-reviews" id="customer-reviews">
+    <h3><?php echo $this->__('Customer Reviews') ?></h3>
     <?php echo $this->getChildHtml('toolbar') ?>
-    <ol>
-        <?php foreach ($_items as $_review):?>
-            <li>
-                <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><strong><?php echo $this->htmlEscape($_review->getTitle()) ?></strong></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
-                <table class="data-table">
-                    <tbody>
-                        <?php foreach ($_review->getRatingVotes() as $_vote): ?>
-                        <tr>
-                            <td class="label"><strong><?php echo $_vote->getRatingCode() ?></strong></td>
-                            <td>
-                                <div class="rating-box">
-                                    <div class="rating" style="width: <?php echo $_vote->getPercent() ?>%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <p><?php echo nl2br($this->htmlEscape($_review->getDetail())) ?> <?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></p>
-            </li>
-        <?php endforeach; ?>
-    </ol>
+    <dl>
+	<?php foreach ($_items as $_review):?>
+        <dt>
+            <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><?php echo $this->htmlEscape($_review->getTitle()) ?></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
+        </dt>
+        <dd>
+            <table class="data-table">
+                <col width="30%" />
+                <col />
+                <tbody>
+                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                    <tr>
+                        <th class="label"><?php echo $_vote->getRatingCode() ?></th>
+                        <td class="value">
+                            <div class="rating-box">
+                                <div class="rating" style="width:<?php echo $_vote->getPercent() ?>%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <p><?php echo nl2br($this->htmlEscape($_review->getDetail())) ?></p>
+			<p class="date"><?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></p>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
     <?php echo $this->getChildHtml('toolbar') ?>
 </div>
 <?php endif;?>

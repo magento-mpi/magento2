@@ -35,9 +35,9 @@
     <?php // List mode ?>
     <?php if($this->getMode()!='grid'): ?>
     <?php $_iterator = 0; ?>
-    <ul class="products-list" id="products-list">
+    <ol class="products-list" id="products-list">
     <?php foreach ($_productCollection as $_product): ?>
-        <li<?php if( ++$_iterator == sizeof($_productCollection) ): ?> class="last"<?php endif; ?>>
+        <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
             <?php // Product Image ?>
             <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
                 <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
@@ -51,7 +51,7 @@
                 <?php endif; ?>
                 <?php echo $this->getPriceHtml($_product, true) ?>
                 <?php if($_product->isSaleable()): ?>
-                <p class="add-to-cart"><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
+                <p><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
                 <?php else: ?>
                 <p class="availability"><span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
                 <?php endif; ?>
@@ -59,19 +59,19 @@
                     <?php echo nl2br($_product->getShortDescription()) ?>
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->__('Learn More') ?></a>
                 </p>
-                <p>
+                <ul class="add-to-links">
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                    <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+                    <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
-                    <span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+                    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                     <?php endif; ?>
-                </p>
+                </ul>
             </div>
         </li>
     <?php endforeach; ?>
-    </ul>
-    <script type="text/javascript">decorateList('products-list')</script>
+    </ol>
+    <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
 
     <?php else: ?>
 
@@ -97,14 +97,14 @@
                 <?php else: ?>
                 <p class="availability"><span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
                 <?php endif; ?>
-                <p>
+                <ul class="add-to-links">
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                    <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+                    <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
-                    <br /><a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+                    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                     <?php endif; ?>
-                </p>
+                </ul>
             </td>
         <?php if ($i%3==0 && $i!=$_collectionSize): ?>
         </tr>

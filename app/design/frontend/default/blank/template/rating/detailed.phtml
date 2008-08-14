@@ -20,12 +20,14 @@
 ?>
 <?php if(!empty($collection) && $collection->getSize()): ?>
     <table class="data-table">
+    <col width="30%" />
+    <col />
         <tbody>
             <?php foreach ($collection as $_rating): ?>
                 <?php if($_rating->getSummary()): ?>
                     <tr>
                         <td class="label"><?php echo $this->__($_rating->getRatingCode()) ?></td>
-                        <td>
+                        <td class="value">
                             <div class="rating-box">
                                 <div class="rating" style="width:<?php echo ceil($_rating->getSummary()) ?>%;"></div>
                             </div>
