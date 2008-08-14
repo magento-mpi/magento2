@@ -215,7 +215,11 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         if (this.currentNodeId) {
             var selectedNode = this.getNodeById(this.currentNodeId);
             if ((typeof selectedNode.attributes.path)!='undefined') {
-                this.selectPath(selectedNode.attributes.path);
+                var path = selectedNode.attributes.path;
+                if (!this.storeId) {
+                    path = '0/'+path;
+                }
+                this.selectPath(path);
             } else {
                 this.getSelectionModel().select(selectedNode);
             }
