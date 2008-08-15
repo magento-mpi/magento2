@@ -27,14 +27,14 @@
 ?>
 <?php $_filters = $this->getActiveFilters() ?>
 <?php if(!empty($_filters)): ?>
-    <h4><?php echo $this->__('Currently Shopping by') ?></h4>
+    <h3><?php echo $this->__('Currently Shopping by') ?></h3>
     <ol>
     <?php foreach ($_filters as $_filter): ?>
         <li>
-            <a href="<?php echo $_filter->getRemoveUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" /></a>
-            <span><?php echo $this->__($_filter->getName()) ?>: </span><?php echo $_filter->getLabel() ?>
+            <a href="<?php echo $_filter->getRemoveUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" title="<?php echo $this->__('Remove This Item') ?>" class="v-middle" /></a>
+            <span class="label"><?php echo $this->__($_filter->getName()) ?>:</span> <?php echo $_filter->getLabel() ?>
         </li>
     <?php endforeach; ?>
     </ol>
-    <p class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All Items') ?></a></p>
+    <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
 <?php endif; ?>

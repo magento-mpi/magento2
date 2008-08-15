@@ -44,7 +44,7 @@
             </div>
 
             <?php if ($this->canEmailToFriend()): ?>
-                <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />
+                <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
             <?php endif; ?>
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
@@ -103,13 +103,13 @@
 
     <div class="product-collateral">
         <?php if ($_description = $this->getChildHtml('description')):?>
-            <div class="block-description">
+            <div class="description">
                 <h3><?php echo $this->__('Product Description') ?></h3>
                 <?php echo $_description ?>
             </div>
         <?php endif;?>
         <?php if ($_additional = $this->getChildHtml('additional')):?>
-            <div class="block-additional">
+            <div class="additional">
                 <h3><?php echo $this->__('Additional Information') ?></h3>
                 <?php echo $_additional ?>
             </div>

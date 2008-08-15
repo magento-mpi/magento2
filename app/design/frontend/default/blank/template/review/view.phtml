@@ -30,22 +30,22 @@
           <?php echo $this->getReviewsSummaryHtml($this->getProductData()) ?>
         <?php endif; ?>
     </div>
-    <div class="product-review-details">
+    <div class="details">
         <h3 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-        <h4><?php echo $this->__('Product Rating:') ?></h4>
+            <h4><?php echo $this->__('Product Rating:') ?></h4>
+            <dl class="ratings-list">
             <?php foreach ($this->getRating() as $_rating): ?>
-            <?php if($_rating->getPercent()): ?>
-                <dl class="ratings">
+                <?php if($_rating->getPercent()): ?>
                     <dt><?php echo $this->__($_rating->getRatingCode()) ?></dt>
                     <dd>
                         <div class="rating-box">
                             <div class="rating" style="width:<?php echo ceil($_rating->getPercent()) ?>%;"></div>
                         </div>
                     </dd>
-                </dl>
-            <?php endif; ?>
-            <?php endforeach; ?>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </dl>
         <?php endif; ?>
         <p><?php echo $this->__('Product Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
         <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
