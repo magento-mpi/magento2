@@ -64,6 +64,12 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         parent::preDispatch();
 
+        if (!Mage::getModel('checkout/type_multishipping')->isCheckoutAvailable()) {
+            $this->_redirectUrl($this->_getHelper()->getCartUrl());
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return $this;
+        }
+
         $action = $this->getRequest()->getActionName();
         if (!preg_match('#^(login|register)#', $action)) {
             if (!Mage::getSingleton('customer/session')->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
