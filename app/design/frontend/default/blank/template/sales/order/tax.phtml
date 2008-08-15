@@ -33,10 +33,10 @@
         <?php foreach ($rates as $rate): ?>
         <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' tax-details-first'; endif; ?>" style="display:none;">
             <td class="a-right" colspan="4">
-                <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br />
+                <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%
             </td>
             <?php if ($isFirst): ?>
-                <td class="a-right" rowspan="<?php echo count($rates); ?>">
+                <td rowspan="<?php echo count($rates); ?>">
                     <?php echo $_order->formatPrice($amount); ?>
                 </td>
             <?php endif; ?>

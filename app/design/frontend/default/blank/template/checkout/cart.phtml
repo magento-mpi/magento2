@@ -82,7 +82,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="100" class="a-right">
+                        <td colspan="50" class="a-right">
                             <?php if($this->getContinueShoppingUrl()): ?>
                                 <button type="button" class="button continue-shopping" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><?php echo $this->__('Continue Shopping') ?></span></button>
                             <?php endif; ?>
@@ -99,18 +99,16 @@
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-    <div class="cart-collaterals">
-        <div class="col2-set">
-            <div class="col-1">
-                <?php echo $this->getChildHtml('crosssell') ?>
-            </div>
-            <div class="col-2">
-                <?php echo $this->getChildHtml('coupon') ?>
-                <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
-            </div>
+    <div class="col2-set cart-collaterals">
+        <div class="col-1">
+            <?php echo $this->getChildHtml('crosssell') ?>
+        </div>
+        <div class="col-2">
+            <?php echo $this->getChildHtml('coupon') ?>
+            <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
         </div>
     </div>
-    <div class="cart-totals">
+    <div class="totals">
         <?php echo $this->getChildHtml('totals'); ?>
         <?php if(!$this->hasError()): ?>
         <ul class="checkout-types">

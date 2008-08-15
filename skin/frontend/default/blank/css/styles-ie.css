@@ -14,56 +14,60 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+ 
+/* IE 6 only */
+.login-page .content { _height:150px; }
+.validation-advice { _height:13px; }
+.one-page-checkout li.section { vertical-align:top; }
 
-/****************************************************/
-/****************[ Clears ]***************/
-/****************************************************/
-.header,
-#nav,
-.main,
-.footer,
-.messages li,
-.heading-buttons,
-.buttons-set,
-.col2-set,
-.col3-set,
-.col4-set,
-.col-main,
-.pager,
-.sorter,
-.field-100,
-.add-to-box,
-.add-to-cart,
-.ratings,
-.products-list .item,
-.product-essential,
-.product-img-box .more-views ul,
-.product-options ul.options-list li,
-.product-review,
-
-.sidebar .mini-products-list li,
-.block-poll li,
-.block-related li,
-.block-related .item,
-
-.group-select li,
-.box { zoom:1; }
-
-/* Clearer */
-.clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
-
-/********************** Navigation styles */
+/********** < Navigation styles */
 #nav li,
 #nav li a { zoom:1; }
 /* Show Menu */
 #nav li.over ul.shown-sub { left:0; }
 #nav li.over li ul.shown-sub { left:100px; }
 #nav ul li.parent { margin-bottom:-3px; }
+/********** < Navigation styles */
 
-/********************** Hover Fix */
+/* Hover Fix */
 #nav iframe,
 .truncated iframe { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
 
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
-.validation-advice { height:13px; }
+
+/* Clearer */
+.clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+
+/* Clears and hasLayout fixes */
+.header,
+#nav,
+.main,
+.footer,
+.col-main,
+.col2-set,
+.col3-set,
+.col4-set,
+.messages li,
+.sidebar .mini-products-list li,
+.block-poll li,
+.block-related li,
+.block-related .item,
+.title-buttons,
+.pager,
+.sorter,
+.ratings,
+.products-list .item,
+.add-to-box,
+.add-to-cart,
+.product-essential,
+.product-view .product-img-box .more-views,
+.product-options .options-list li,
+.product-review,
+.cart,
+.one-page-checkout .step-title,
+.one-page-checkout .step,
+.field-100,
+.form-list li,
+.group-select li,
+.buttons-set { zoom:1; }

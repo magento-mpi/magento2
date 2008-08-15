@@ -20,20 +20,28 @@
 ?>
 <table class="data-table" id="checkout-review-table">
     <?php if ($this->helper('tax')->displayCartBothPrices()): $colspan = $rowspan = 2; else: $colspan = $rowspan = 1; endif; ?>
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+    <col width="1" />
+    <col width="1" />
+    <?php endif; ?>
     <thead>
         <tr>
             <th rowspan="<?php echo $rowspan ?>"><?php echo $this->__('Product Name') ?></th>
-            <th colspan="<?php echo $colspan ?>" width="10%"><?php echo $this->__('Price') ?></th>
+            <th colspan="<?php echo $colspan ?>" width="10%" class="a-center"><?php echo $this->__('Price') ?></th>
             <th rowspan="<?php echo $rowspan ?>" width="5%"><?php echo $this->__('Qty') ?></th>
-            <th colspan="<?php echo $colspan ?>" width="10%"><?php echo $this->__('Subtotal') ?></th>
+            <th colspan="<?php echo $colspan ?>" width="10%" class="a-center"><?php echo $this->__('Subtotal') ?></th>
         </tr>
-        <?php if ($this->helper('tax')->displayCartBothPrices()):?>
-        <tr>
-            <th><?php echo $this->__('Excl. Tax'); ?></th>
-            <th><?php echo $this->__('Incl. Tax'); ?></th>
-            <th><?php echo $this->__('Excl. Tax'); ?></th>
-            <th><?php echo $this->__('Incl. Tax'); ?></th>
-        </tr>
+        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+            <tr>
+                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                <th class="a-left"><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                <th class="a-left"><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+            </tr>
         <?php endif; ?>
     </thead>
     <?php echo $this->getChildHtml('totals'); ?>

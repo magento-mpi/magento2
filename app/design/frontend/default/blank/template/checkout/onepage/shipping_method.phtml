@@ -19,24 +19,24 @@
  */
 ?>
 <form id="co-shipping-method-form" action="">
-
-<div class="box" id="checkout-shipping-method-load">
-    <?php echo $this->getChildHtml('available') ?>
-</div>
-
-<script type="text/javascript">
-    var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>");
-</script>
-<div id="onepage-checkout-shipping-method-additional-load">
-<?php echo $this->getChildHtml('additional') ?>
-</div>
-</form>
-<div class="buttons-set">
-    <span id="shipping-method-buttons-container">
-        <a href="#" onclick="checkout.back(); return false;" class="back-link"><?php echo $this->__('Back') ?></a>
-        <button class="button" onclick="shippingMethod.save()"><span><?php echo $this->__('Continue') ?></span></button>
-        <span id="shipping-method-please-wait" style="display:none;" class="opc-please-wait">
-            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Loading next step...') ?> &nbsp;
+<fieldset>
+    <div id="checkout-shipping-method-load">
+        <?php echo $this->getChildHtml('available') ?>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>");
+    //]]>
+    </script>
+    <div id="onepage-checkout-shipping-method-additional-load">
+        <?php echo $this->getChildHtml('additional') ?>
+    </div>
+    <div class="buttons-set" id="shipping-method-buttons-container">
+        <a href="#" onclick="checkout.back(); return false;" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
+        <button type="button" class="button" onclick="shippingMethod.save()"><span><?php echo $this->__('Continue') ?></span></button>
+        <span id="shipping-method-please-wait" class="please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?> &nbsp;
         </span>
-    </span>
-</div>
+    </div>
+</fieldset>
+</form>

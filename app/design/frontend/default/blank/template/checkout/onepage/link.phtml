@@ -20,10 +20,6 @@
 ?>
 <?php if ($this->isPossibleOnepageCheckout()):?>
 <li>
-<?php if ($this->isDisabled()):?>
-    <button class="button disabled" disabled="disabled" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
-<?php else: ?>
-    <button class="button" onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';" type="button"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
-<?php endif?>
+    <button type="button" class="button<?php if (!$this->isDisabled()):?> disabled<?php endif; ?>"<?php if ($this->isDisabled()):?> disabled="disabled"<?php endif; ?> onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';"><span><?php echo $this->__('Proceed to Checkout') ?></span></button>
 </li>
 <?php endif?>
