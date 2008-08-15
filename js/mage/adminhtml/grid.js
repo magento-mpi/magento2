@@ -209,7 +209,7 @@ varienGrid.prototype = {
         if (!$(this.containerId)) {
             return;
         }
-//        var dataElements = $(this.containerId+this.tableSufix).down('.data tbody').getElementsBySelector('input', 'select');
+//        var dataElements = $(this.containerId+this.tableSufix).down('.data tbody').select('input', 'select');
         var dataElements = $(this.containerId+this.tableSufix).down('tbody').select('input', 'select');
         for(var i=0; i<dataElements.length;i++){
             Event.observe(dataElements[i], 'change', dataElements[i].setHasChanges.bind(dataElements[i]));
@@ -407,7 +407,7 @@ varienGridMassaction.prototype = {
             return false;
         }
         checkbox = false;
-        Event.findElement(evt, 'tr').getElementsBySelector('.massaction-checkbox').each(function(element){
+        Event.findElement(evt, 'tr').select('.massaction-checkbox').each(function(element){
             if(element.isMassactionCheckbox) {
                 checkbox = element;
             }
@@ -474,7 +474,7 @@ varienGridMassaction.prototype = {
     getCheckboxes: function() {
         var result = [];
         this.grid.rows.each(function(row){
-            var checkboxes = row.getElementsBySelector('.massaction-checkbox');
+            var checkboxes = row.select('.massaction-checkbox');
             checkboxes.each(function(checkbox){
                 result.push(checkbox);
             });

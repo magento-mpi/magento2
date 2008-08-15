@@ -267,7 +267,7 @@ VarienRulesForm.prototype = {
         var trElement = Event.findElement(event, 'tr');
         var isInput = Event.element(event).tagName == 'INPUT';
         if (trElement) {
-            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            var checkbox = Element.select(trElement, 'input');
             if (checkbox[0]) {
                 var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
                 grid.setCheckboxChecked(checkbox[0], checked);

@@ -93,7 +93,7 @@ function imagePreview(element){
 
 function toggleValueElements(checkbox, container){
     if(container && checkbox){
-        //var elems = container.getElementsBySelector('select', 'input');
+        //var elems = container.select('select', 'input');
         var elems = Element.select(container, ['select', 'input', 'textarea', 'button', 'img']);
         elems.each(function (elem) {
             if(elem!=checkbox) {
@@ -116,7 +116,7 @@ function toggleValueElements(checkbox, container){
  */
 function submitAndReloadArea(area, url) {
     if($(area)) {
-        var fields = $(area).getElementsBySelector('input', 'select', 'textarea');
+        var fields = $(area).select('input', 'select', 'textarea');
         var data = Form.serializeElements(fields, true);
         new Ajax.Request(url, {
             parameters: $H(data),

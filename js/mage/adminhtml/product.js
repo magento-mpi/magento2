@@ -113,7 +113,7 @@ Product.Gallery.prototype = {
         var vars = Object.clone(image);
         vars.id = this.prepareId(image.file);
         var html = this.template.evaluate(vars);
-        new Insertion.Bottom(this.getElement('list'), html);
+        Element.insert(this.getElement('list'), {bottom: html});
     },
     prepareId: function(file) {
         if(typeof this.file2id[file] == 'undefined') {
@@ -205,8 +205,8 @@ Product.Gallery.prototype = {
     updateUseDefault: function ()
     {
       if (this.getElement('default')) {
-         this.getElement('default').getElementsBySelector('input').each(function(input){
-             $(this.containerId).getElementsBySelector('.cell-' + input.value + ' input').each(function(radio) {
+         this.getElement('default').select('input').each(function(input){
+             $(this.containerId).select('.cell-' + input.value + ' input').each(function(radio) {
                  radio.disabled = input.checked;
              });
          }.bind(this));
@@ -270,10 +270,10 @@ Product.Attributes.prototype = {
     },
     addRow: function(html) {
         var attributesContainer = $$('#group_fields' + this.getConfig().group_id + ' .form-list tbody')[0];
-        new Insertion.Bottom(attributesContainer, html);
+        Element.insert(attributesContainer, {bottom: html});
 
         var childs = attributesContainer.childElements();
-        var element = childs[childs.size()-1].getElementsBySelector('input','select','textarea')[0];
+        var element = childs[childs.size()-1].select('input','select','textarea')[0];
         if (element) {
             window.scrollTo(0, Position.cumulativeOffset(element)[1] + element.offsetHeight);
         }
@@ -591,10 +591,10 @@ Product.Configurable.prototype = {
 	        return;
 	    }
 
-	    $(this.idPrefix + 'simple_form').getElementsBySelector('td.value').each(function (td) {
+	    $(this.idPrefix + 'simple_form').select('td.value').each(function (td) {
             var adviceContainer = $(Builder.node('div'));
             td.appendChild(adviceContainer);
-	        td.getElementsBySelector('input', 'select').each(function(element){
+	        td.select('input', 'select').each(function(element){
 	            element.advaiceContainer = adviceContainer;
 	        });
 	    });
@@ -603,7 +603,7 @@ Product.Configurable.prototype = {
 	quickCreateNewProduct: function() {
         this.initializeAdvicesForSimpleForm();
 	    $(this.idPrefix + 'simple_form').removeClassName('ignore-validate');
-	    var validationResult = $(this.idPrefix + 'simple_form').getElementsBySelector('input','select','textarea').collect(
+	    var validationResult = $(this.idPrefix + 'simple_form').select('input','select','textarea').collect(
 	       function(elm) {
 	            return Validation.validate(elm,{useTitle : false, onElementValidate : function(){}});
 	       }
@@ -615,7 +615,7 @@ Product.Configurable.prototype = {
 	    }
 
 	    var params = Form.serializeElements(
-	       $(this.idPrefix + 'simple_form').getElementsBySelector('input','select','textarea'),
+	       $(this.idPrefix + 'simple_form').select('input','select','textarea'),
 	       true
 	    );
         $('messages').update();
@@ -727,7 +727,7 @@ Product.Configurable.prototype = {
 
         select = $(select);
         if (select.value && !$('simple_product_' + attributeCode + '_pricing_container')) {
-            new Insertion.After(select, '<div class="left"></div> <div id="simple_product_' + attributeCode + '_pricing_container" class="left"></div>');
+            Element.insert(select, {after: '<div class="left"></div> <div id="simple_product_' + attributeCode + '_pricing_container" class="left"></div>'});
             var newContainer = select.next('div');
             select.parentNode.removeChild(select);
             newContainer.appendChild(select);
