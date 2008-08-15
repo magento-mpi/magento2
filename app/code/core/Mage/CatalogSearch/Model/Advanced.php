@@ -87,6 +87,8 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                         } else {
                             $condition = $value;
                         }
+                    } elseif ($attribute->getFrontendInput() == 'boolean') {
+                        $condition = array('in' => array(0,1));
                     }
                 }
             }
