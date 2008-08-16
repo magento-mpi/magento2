@@ -51,6 +51,7 @@ blockquote  { quotes:none; }
 q:before, 
 q:after     { content:''; }
 small,big   { font-size:1em; }
+sup         { vertical-align:top; }
 
 /* Lists */
 ul,ol       { list-style:none; }

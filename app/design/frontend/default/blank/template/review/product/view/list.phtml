@@ -25,7 +25,7 @@
     <h3><?php echo $this->__('Customer Reviews') ?></h3>
     <?php echo $this->getChildHtml('toolbar') ?>
     <dl>
-	<?php foreach ($_items as $_review):?>
+    <?php foreach ($_items as $_review):?>
         <dt>
             <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><?php echo $this->htmlEscape($_review->getTitle()) ?></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
         </dt>
@@ -47,7 +47,7 @@
                 </tbody>
             </table>
             <p><?php echo nl2br($this->htmlEscape($_review->getDetail())) ?></p>
-			<p class="date"><?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></p>
+            <p class="date"><?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></p>
         </dd>
     <?php endforeach; ?>
     </dl>
