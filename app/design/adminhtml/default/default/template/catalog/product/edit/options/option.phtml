@@ -50,13 +50,13 @@ var productOption = {
     div : $('product_options_container_top'),
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : firstStepTemplate,
-    itemCount : <?php echo $this->getItemCount() ?>,
+    itemCount : 1,
     add : function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);
 
         if(!data.id){
             data = {};
-            data.id  = ++this.itemCount;
+            data.id  = this.itemCount;
             data.type = '';
             data.option_id = 0;
         } else {

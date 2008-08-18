@@ -52,12 +52,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
     public function setItemCount($itemCount)
     {
-        $this->_itemCount = max($this->itemCount, $itemCount);
+        $this->_itemCount = max($this->_itemCount, $itemCount);
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Get Product
      *
      * @return Mage_Catalog_Model_Product
      */
