@@ -24,7 +24,6 @@
     <td><a href="<?php echo $this->getProductUrl() ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a></td>
     <td>
         <h3 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h3>
-        <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
@@ -43,8 +42,6 @@
             <?php endforeach; ?>
         </dl>
         <?php endif;?>
-        <!-- / -->
-
         <?php if ($messages = $this->getMessages()): ?>
         <?php foreach ($messages as $message): ?>
         <div class="shopping-cart-item-message <?php echo $message['type'] ?>">

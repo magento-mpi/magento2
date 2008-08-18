@@ -21,7 +21,6 @@
 <?php $_item = $this->getItem()?>
 <tr>
     <td><h4 class="product-name"><?php echo $this->htmlEscape($this->getProductName()) ?></h4>
-        <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
@@ -40,7 +39,6 @@
             <?php endforeach; ?>
         </dl>
         <?php endif;?>
-        <!-- / -->
     </td>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>

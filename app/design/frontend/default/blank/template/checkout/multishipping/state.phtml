@@ -25,8 +25,8 @@
  * @see Mage_Checkout_Block_Multishipping_State
  */
 ?>
-<ul>
+<ul class="checkout-progress">
 <?php foreach ($this->getSteps() as $_step): ?>
-    <li<?php if($_step->getIsActive()): ?> class="active"<?php endif ?>><?php echo $_step->getLabel() ?></li>
+    <li<?php if($_step->getIsActive()): ?> class="active"<?php endif; ?>><?php echo $_step->getLabel() ?></li>
 <?php endforeach; ?>
 </ul>

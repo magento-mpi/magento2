@@ -32,10 +32,8 @@
 
         <?php echo $this->helper('checkout')->formatPrice($_excl); ?>
         <?php if ($this->helper('tax')->displayCartBothPrices() && $_incl != $_excl): ?>
-            <br />(<span><?php echo $this->helper('checkout')->formatPrice($_incl); ?></span> <?php echo Mage::helper('tax')->__('Incl. Tax') ?>)
+            <br />(<?php echo $this->helper('checkout')->formatPrice($_incl); ?> <?php echo Mage::helper('tax')->__('Incl. Tax') ?>)
         <?php endif; ?>
-
-        <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <div class="truncated">
           <div class="truncated_full_value">
@@ -54,7 +52,6 @@
           </div>
         <a href="#" onclick="return false;" class="details"><?php echo $this->__('Details') ?></a>
         </div>
-        <?php endif;?>
-        <!-- / -->
+        <?php endif; ?>
     </div>
 </li>
