@@ -141,7 +141,7 @@
         </translate>
           <layout>
               <updates>
-                  <review>
+                  <review module="Mage_Review">
                       <file>review.xml</file>
                   </review>
               </updates>

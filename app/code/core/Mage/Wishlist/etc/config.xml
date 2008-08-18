@@ -119,7 +119,7 @@
         </translate>
           <layout>
               <updates>
-                  <wishlist>
+                  <wishlist module="Mage_Wishlist">
                       <file>wishlist.xml</file>
                   </wishlist>
               </updates>

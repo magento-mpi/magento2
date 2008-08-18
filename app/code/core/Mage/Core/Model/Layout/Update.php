@@ -257,6 +257,10 @@ class Mage_Core_Model_Layout_Update
             $updateFiles = array();
             foreach ($updatesRoot->children() as $updateNode) {
                 if ($updateNode->file) {
+                    $module = $updateNode->getAttribute('module');
+                    if ($module && Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $module)) {
+                        continue;
+                    }
                     $updateFiles[] = (string)$updateNode->file;
                 }
             }

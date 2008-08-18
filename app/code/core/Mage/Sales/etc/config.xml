@@ -638,7 +638,7 @@
         </translate>
         <layout>
             <updates>
-                <sales>
+                <sales module="Mage_Sales">
                     <file>sales.xml</file>
                 </sales>
             </updates>

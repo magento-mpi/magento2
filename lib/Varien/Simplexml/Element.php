@@ -86,6 +86,16 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return false;
     }
 
+    /**
+     * Returns attribute value by attribute name
+     *
+     * @return string
+     */
+    public function getAttribute($name){
+        $attrs = $this->attributes();
+        return isset($attrs[$name]) ? (string)$attrs[$name] : null;
+    }
+
 /*
     public function addAttribute($name, $value=null, $namespace=null)
     {
@@ -565,5 +575,6 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $this;
     }
 */
+
 
 }

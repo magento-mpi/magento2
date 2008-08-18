@@ -320,7 +320,7 @@ T: {{var telephone}}
         </translate>
       <layout>
           <updates>
-              <customer>
+              <customer module="Mage_Customer">
                   <file>customer.xml</file>
               </customer>
           </updates>

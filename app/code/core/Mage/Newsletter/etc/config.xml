@@ -235,7 +235,7 @@
         </translate>
           <layout>
               <updates>
-                  <newsletter>
+                  <newsletter module="Mage_Newsletter">
                       <file>newsletter.xml</file>
                   </newsletter>
               </updates>
@@ -259,7 +259,7 @@
     <crontab>
         <jobs>
             <newsletter_send_all>
-                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
                 <run><model>newsletter/observer::scheduledSend</model></run>
             </newsletter_send_all>
         </jobs>
