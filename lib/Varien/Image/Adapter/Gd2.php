@@ -65,6 +65,12 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             }
         }
 
+        // keep alpha transparency
+        $isAlpha     = false;
+        $this->_getTransparency($this->_imageHandler, $this->_fileType, $isAlpha);
+        if ($isAlpha) {
+            $this->_fillBackgroundColor($this->_imageHandler);
+        }
         call_user_func($this->_getCallback('output'), $this->_imageHandler, $fileName);
     }
 
