@@ -390,7 +390,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </business_name>
-                         <logo_url translate="label">
+                         <logo_url translate="label comment">
                             <label>Paypal Logo Image URL</label>
                             <comment>Maximum image size is 750x90 px.</comment>
                             <frontend_type>text</frontend_type>

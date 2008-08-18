@@ -23,17 +23,15 @@ class Mage_GoogleCheckout_Model_Source_Checkout_Image
 {
     public function toOptionArray()
     {
-        $hlp = Mage::helper('googlecheckout');
-
         $sizes = array(
-            '180/46' => $hlp->__('Large - %s', '180x46'),
-            '168/44' => $hlp->__('Medium - %s', '168x44'),
-            '160/43' => $hlp->__('Small - %s', '160x43'),
+            '180/46' => Mage::helper('googlecheckout')->__('Large - %s', '180x46'),
+            '168/44' => Mage::helper('googlecheckout')->__('Medium - %s', '168x44'),
+            '160/43' => Mage::helper('googlecheckout')->__('Small - %s', '160x43'),
         );
 
         $styles = array(
-            'trans' => $hlp->__('Transparent'),
-            'white'   => $hlp->__('White Background'),
+            'trans' => Mage::helper('googlecheckout')->__('Transparent'),
+            'white'   => Mage::helper('googlecheckout')->__('White Background'),
         );
 
         $options = array();

@@ -54,7 +54,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </list_mode>
-                        <grid_per_page_values>
+                        <grid_per_page_values translate="label">
                             <label>Products per page on Grid allow values</label>
                             <comment>comma separated</comment>
                             <frontend_type>text</frontend_type>
@@ -67,7 +67,7 @@
 
 
 
-                        <grid_per_page translate="label">
+                        <grid_per_page translate="label comment">
                             <label>Products per Page on Grid default value</label>
                             <comment>must be accessibility in values list</comment>
                             <frontend_type>text</frontend_type>
@@ -78,7 +78,7 @@
                             <show_in_store>1</show_in_store>
                         </grid_per_page>
 
-                        <list_per_page_values>
+                        <list_per_page_values translate="label comment">
                             <label>Products per Page on List allow values</label>
                             <comment>comma separated</comment>
                             <frontend_type>text</frontend_type>
@@ -89,7 +89,7 @@
                             <show_in_store>1</show_in_store>
                         </list_per_page_values>
 
-                        <list_per_page translate="label">
+                        <list_per_page translate="label comment">
                             <label>Products per Page on List default value</label>
                             <comment>must be accessibility in values list</comment>
                             <frontend_type>text</frontend_type>
@@ -132,7 +132,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <category_url_suffix translate="label">
+                        <category_url_suffix translate="label comment">
                             <label>Category URL Suffix</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
@@ -141,7 +141,7 @@
                             <show_in_store>1</show_in_store>
                             <comment>cache refresh needed</comment>
                         </category_url_suffix>
-                        <product_url_suffix translate="label">
+                        <product_url_suffix translate="label comment">
                             <label>Product URL Suffix</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>

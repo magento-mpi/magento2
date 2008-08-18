@@ -42,7 +42,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
         }
         $html .= '</div>';
         $html .= $this->_getAddRowButtonHtml('merchant_allowed_methods_container',
-            'merchant_allowed_methods_template', 'Add Shipping Method');
+            'merchant_allowed_methods_template', $this->__('Add Shipping Method'));
 
         return $html;
     }
@@ -122,6 +122,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
                     ->setType('button')
                     ->setClass('add '.$this->_getDisabled())
                     ->setLabel($this->__($title))
+                    //$this->__('Add')
                     ->setOnClick("new Insertion.Bottom($('".$container."'), $('".$template."').innerHTML)")
                     ->setDisabled($this->_getDisabled())
                     ->toHtml();
@@ -136,6 +137,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
                     ->setType('button')
                     ->setClass('delete '.$this->_getDisabled())
                     ->setLabel($this->__($title))
+                    //$this->__('Remove')
                     ->setOnClick("Element.remove($(this).up('".$selector."'))")
                     ->setDisabled($this->_getDisabled())
                     ->toHtml();

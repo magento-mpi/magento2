@@ -47,7 +47,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </changefreq>
-                        <priority translate="label">
+                        <priority translate="label comment">
                             <label>Priority</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_sitemap</backend_model>
@@ -76,7 +76,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </changefreq>
-                        <priority translate="label">
+                        <priority translate="label comment">
                             <label>Priority</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_sitemap</backend_model>
@@ -105,7 +105,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </changefreq>
-                        <priority translate="label">
+                        <priority translate="label comment">
                             <label>Priority</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_sitemap</backend_model>

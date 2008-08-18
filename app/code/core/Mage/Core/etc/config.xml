@@ -58,11 +58,11 @@
         </template>
         <cache>
             <types>
-                <config><label>Configuration</label></config>
-                <layout><label>Layouts</label></layout>
-                <block_html><label>Blocks HTML output</label></block_html>
-                <translate><label>Translations</label></translate>
-                <collections><label>Collections Data</label></collections>
+                <config translate="label" module="core"><label>Configuration</label></config>
+                <layout translate="label" module="core"><label>Layouts</label></layout>
+                <block_html translate="label" module="core"><label>Blocks HTML output</label></block_html>
+                <translate translate="label" module="core"><label>Translations</label></translate>
+                <collections translate="label" module="core"><label>Collections Data</label></collections>
             </types>
         </cache>
     </global>

@@ -32,7 +32,7 @@
                     <show_in_store>0</show_in_store>
                     <comment>For correct URLs generated during cron runs please make sure that Web > Secure and Unsecure Base URLs are explicitly set.</comment>
                     <fields>
-                        <schedule_generate_every>
+                        <schedule_generate_every translate="label">
                             <label>Generate schedules every</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
@@ -56,7 +56,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </schedule_lifetime>
-                        <history_cleanup_every>
+                        <history_cleanup_every translate="label">
                             <label>History cleanup every</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>

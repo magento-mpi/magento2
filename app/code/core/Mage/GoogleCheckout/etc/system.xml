@@ -119,7 +119,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </continue_shopping_url>
-                        <hide_cart_contents translate="label">
+                        <hide_cart_contents translate="label comment">
                             <label>Hide Cart Contents During Checkout</label>
                             <comment>If enabled, cart contents will be hidden after clicking on the Google Checkout button in the shopping cart, and restored if "Edit Cart" link was activated.</comment>
                             <frontend_type>select</frontend_type>
@@ -140,7 +140,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <active>
+                        <active translate="label">
                             <label>Enable Merchant Calculated</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -149,7 +149,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </active>
-                        <allowed_methods>
+                        <allowed_methods translate="label">
                             <label>Allowed Methods</label>
                             <frontend_type>select</frontend_type>
                             <frontend_model>googlecheckout/adminhtml_shipping_merchant</frontend_model>
@@ -170,7 +170,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <active>
+                        <active translate="label">
                             <label>Enable Carrier Calculated</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -179,7 +179,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </active>
-                        <methods>
+                        <methods translate="label">
                             <label>Carrier Calculated Methods</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>googlecheckout/source_shipping_carrier</source_model>
@@ -188,7 +188,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </methods>
-                        <address_category>
+                        <address_category translate="label">
                             <label>Delivery Address Category</label>
                             <frontend_type>select</frontend_type>
                             <source_model>googlecheckout/source_shipping_category</source_model>
@@ -197,7 +197,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </address_category>
-                        <default_price>
+                        <default_price translate="label">
                             <label>Default price for methods</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -205,7 +205,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </default_price>
-                        <default_width>
+                        <default_width translate="label">
                             <label>Default Package Width (in)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
@@ -213,7 +213,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </default_width>
-                        <default_height>
+                        <default_height translate="label">
                             <label>Default Package Height (in)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
@@ -221,7 +221,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </default_height>
-                        <default_length>
+                        <default_length translate="label">
                             <label>Default Package Length (in)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>60</sort_order>
@@ -276,7 +276,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <active>
+                        <active translate="label">
                             <label>Enable Flat Rate</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -285,7 +285,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </active>
-                        <title_1>
+                        <title_1 translate="label">
                             <label>Rate 1 Title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
@@ -293,7 +293,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </title_1>
-                        <price_1>
+                        <price_1 translate="label">
                             <label>Rate 1 Amount</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>22</sort_order>
@@ -301,7 +301,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </price_1>
-                        <title_2>
+                        <title_2 translate="label">
                             <label>Rate 2 Title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -309,7 +309,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </title_2>
-                        <price_2>
+                        <price_2 translate="label">
                             <label>Rate 2 Amount</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>32</sort_order>
@@ -317,7 +317,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </price_2>
-                        <title_3>
+                        <title_3 translate="label">
                             <label>Rate 3 Title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
@@ -325,7 +325,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </title_3>
-                        <price_3>
+                        <price_3 translate="label">
                             <label>Rate 3 Amount</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>42</sort_order>

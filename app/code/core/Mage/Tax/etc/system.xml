@@ -30,7 +30,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <classes>
+                <classes translate="label">
                     <label>Tax Classes</label>
                     <sort_order>10</sort_order>
                     <show_in_default>1</show_in_default>
@@ -48,7 +48,7 @@
                         </shipping_tax_class>
                     </fields>
                 </classes>
-                <calculation>
+                <calculation translate="label">
                     <label>Calculation</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
@@ -114,7 +114,7 @@
                         </apply_tax_on>
                     </fields>
                 </calculation>
-                <defaults>
+                <defaults translate="label">
                     <label>Default Tax Origin Calculation</label>
                     <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
@@ -150,7 +150,7 @@
                         </postcode>
                     </fields>
                 </defaults>
-                <display>
+                <display translate="label">
                     <label>Display</label>
                     <sort_order>40</sort_order>
                     <show_in_default>1</show_in_default>
