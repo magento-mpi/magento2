@@ -64,7 +64,8 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
     {
         parent::preDispatch();
 
-        if (!Mage::getModel('checkout/type_multishipping')->isCheckoutAvailable()) {
+        //if (!Mage::getModel('checkout/type_multishipping')->isCheckoutAvailable()) {
+        if (!Mage::helper('checkout')->isMultishippingCheckoutAvailable()){
             $this->_redirectUrl($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;

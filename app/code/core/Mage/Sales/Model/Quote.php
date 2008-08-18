@@ -555,6 +555,11 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         if ($item = $this->getItemById($itemId)) {
             $item->isDeleted(true);
+            if ($item->getHasChildren()) {
+                foreach ($item->getChildren() as $child) {
+                    $child->isDeleted(true);
+                }
+            }
         }
         return $this;
     }
@@ -852,7 +857,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setVirtualItemsQty(0);
 
         foreach ($this->getAllVisibleItems() as $item) {
-
             //if ($item->getProduct()->getIsVirtual()) {
             //    $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
             //}

@@ -195,4 +195,26 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return false;
     }
+
+    /**
+     * Check if multishipping checkout is available.
+     * There should be a valid quote in checkout session. If not, only the config value will be returned.
+     *
+     * @return bool
+     */
+    public function isMultishippingCheckoutAvailable()
+    {
+        $quote = $this->getQuote();
+        $isMultiShipping = (bool)(int)Mage::getStoreConfig('shipping/option/checkout_multiple');
+        if (!$quote) {
+            return $isMultiShipping;
+        }
+        $maximunQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
+        return $isMultiShipping
+            && !$quote->hasItemsWithDecimalQty()
+            && $quote->validateMinimumAmount()
+            && (($quote->getItemsSummaryQty() - $quote->getItemVirtualQty()) > 0)
+            && ($quote->getItemsSummaryQty() <= $maximunQty)
+        ;
+    }
 }

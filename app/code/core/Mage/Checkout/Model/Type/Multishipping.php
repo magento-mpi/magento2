@@ -440,6 +440,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     }
 
     /**
+     * Function is deprecated. Moved into helper.
+     *
      * Check if multishipping checkout is available.
      * There should be a valid quote in checkout session. If not, only the config value will be returned.
      *
@@ -447,17 +449,6 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     public function isCheckoutAvailable()
     {
-        $quote = $this->getQuote();
-        $isMultiShipping = (bool)(int)Mage::getStoreConfig('shipping/option/checkout_multiple');
-        if (!$quote) {
-            return $isMultiShipping;
-        }
-        $maximunQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
-        return $isMultiShipping
-            && !$quote->hasItemsWithDecimalQty()
-            && $quote->validateMinimumAmount()
-            && (($quote->getItemsSummaryQty() - $quote->getItemVirtualQty()) > 0)
-            && ($quote->getItemsSummaryQty() <= $maximunQty)
-        ;
+        return Mage::helper('checkout')->isMultishippingCheckoutAvailable();
     }
 }
