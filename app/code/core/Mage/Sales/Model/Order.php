@@ -193,23 +193,15 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         }
 
         /**
-         * need use int, becose $a=762.73;$b=762.73; $a-$b!=0;
+         * We can have problem with float in php (on some server $a=762.73;$b=762.73; $a-$b!=0)
+         * for this we have additional diapason for 0
          */
-        $paidCompare = (int) ($this->getTotalPaid() * 1000000);
-        $refundedCompare = (int) ($this->getTotalRefunded() * 1000000);
-        if ($paidCompare>$refundedCompare) {
-            return true;
-        }
-        /**
-         * Moshe: another solution
-         */
-        /*
         if (abs($this->getTotalPaid()-$this->getTotalRefunded())<.0001) {
-            return true;
+            return false;
         }
-        */
 
-        return false;
+
+        return true;
     }
 
     /**
