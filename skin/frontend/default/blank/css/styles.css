@@ -57,7 +57,7 @@
 /* Header ================================================================================ */
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
-.header .welcome { font-weight:bold; text-align:right; }
+.header .welcome-msg { font-weight:bold; text-align:right; }
 .header .links { float:right; }
 .header .form-search { text-align:center; }
 .header .form-language { text-align:center; }
@@ -129,7 +129,7 @@ button.disabled span {}
 .field-100 { border:1px solid #888; padding:2px; overflow:hidden; }
 .field-100 input.input-text,
 .field-100 textarea { float:left; width:100%; margin:0; padding:0; border:0; }
-/* Active fieldset */
+/* Form Highlight */
 .highlight {}
 
 /* Form lists */
@@ -156,7 +156,8 @@ button.disabled span {}
 .group-select.wide textarea { width:510px; }
 
 .buttons-set { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; }
-.buttons-set .back-link { float:left; }
+.buttons-set .back-link,
+.buttons-set a { float:left; }
 .buttons-set .button { float:right; }
 
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; text-align:right; }
@@ -165,8 +166,8 @@ button.disabled span {}
 .validation-advice { clear:both; min-height:13px; margin:3px 0 0; padding-left:17px; font-size:10px; line-height:13px; background:url(../images/validation_advice_bg.gif) 2px 1px no-repeat; color:#f00; }
 .validation-failed { border:1px dashed #f00 !important; background:#faebe7 !important; }
 .validation-passed {}
-.required { font-size:10px; color:#f00; }
-p.required { text-align:right; }
+.required { color:#f00; }
+p.required { font-size:10px; text-align:right; }
 /* Expiration date and cvv number validation fix */
 .v-fix { float:left; }
 .v-fix .validation-advice { float:left; width:12em; margin-right:-12em; display:inline; position:relative; }
@@ -177,11 +178,9 @@ p.required { text-align:right; }
 .messages li li { margin:0 0 3px; }
 .error-msg,
 .success-msg,
-.notice-msg,
 .note-msg { border-style:solid !important; border-width:1px !important; background-position:10px 10px !important; background-repeat:no-repeat !important; min-height:24px !important; padding:8px 8px 8px 32px !important; font-size:10px !important; font-weight:bold !important; }
 .error-msg { border-color:#f16048; background-color:#faebe7; background-image:url(../images/error_msg_icon.gif); color:#df280a; }
 .success-msg { border-color:#446423; background-color:#eff5ea; background-image:url(../images/success_msg_icon.gif); color:#3d6611; }
-.notice-msg,
 .note-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); color:#3d6611; }
 /*.success { color:#3d6611; }
 .error { color:#df280a; }
@@ -196,7 +195,11 @@ p.required { text-align:right; }
 /* Page Heading */
 .page-title { border-bottom:1px solid #ddd; padding:0 0 5px; margin:0 0 10px; }
 .title-buttons { text-align:right; }
-.title-buttons h2 { float:left; }
+.title-buttons h2,
+.title-buttons h3,
+.title-buttons h4,
+.title-buttons h5,
+.title-buttons h6 { float:left; }
 
 /* Pager */ 
 .pager { border:1px solid #ddd; padding:5px; margin:5px 0; text-align:center; }
@@ -215,7 +218,7 @@ p.required { text-align:right; }
 
 /* Data Table */ 
 .data-table { width:100%; }
-.data-table th { padding:5px; border:1px solid #ddd; font-weight:bold; }
+.data-table th { padding:5px; border:1px solid #ddd; font-weight:bold; white-space:nowrap; }
 .data-table td { padding:5px; border:1px solid #ddd; }
 .data-table thead { background-color:#f2f2f2; }
 .data-table tbody {}
@@ -253,10 +256,6 @@ dd.odd {}
 dt.even,
 dd.even { background-color:#f6f6f6; }
 
-/* Tooltip */
-.tool-tip { border:1px solid #ddd; background-color:#f6f6f6; padding:5px; position:absolute; left:0; z-index:1000; }
-.tool-tip .btn-close { text-align:right; }
-.tool-tip .tool-tip-content { padding:5px; }
 
 /* Class: std - styles for admin-controlled content */
 .std,
@@ -266,13 +265,13 @@ dd.even { background-color:#f6f6f6; }
 .std p,
 .std address,
 .std blockquote { margin:0 0 1em; padding:0; }
-.std ul { list-style:disc inside; padding:0 0 0 1.5em; }
+.std ul { list-style:disc outside; padding:0 0 0 1.5em; }
 .std ul ul { list-style-type:circle; }
 .std ul ul,
 .std ol ol,
 .std ul ol,
 .std ol ul { margin:.5em 0; }
-.std ol { list-style:decimal inside; margin:0 0 0 1.5em; }
+.std ol { list-style:decimal outside; margin:0 0 0 1.5em; }
 .std dt { font-weight:bold; }
 .std dd { padding:0 0 0 1.5em; }
 .std blockquote { font-style:italic; padding:0 0 0 1.5em; }
@@ -378,7 +377,7 @@ dd.even { background-color:#f6f6f6; }
 .products-grid { width:100%; }
 .products-grid tr.odd {}
 .products-grid tr.even { background-color:#f6f6f6; }
-.category-products td { width:33%; border:1px solid #ddd; padding:5px; }
+.products-grid td { width:33%; border:1px solid #ddd; padding:5px; }
 
 /* View Type: List */
 .products-list .item { border:1px solid #ddd; padding:5px; margin:0 0 5px; }
@@ -533,8 +532,8 @@ a.minimal-price-link .price { font-weight:normal; }
 .product-options-bottom { padding:10px; border:1px solid #ddd; border-top:0; }
 .product-options-bottom .price-box { margin:10px 0; }
 
-dl.item-options dt { font-weight:bold; font-style:italic; }
-dl.item-options dd { padding-left:10px; }
+.item-options dt { font-weight:bold; font-style:italic; }
+.item-options dd { padding-left:10px; }
 .truncated { cursor:help; }
 .truncated a.dots { cursor:help; }
 .truncated a.details { cursor:help; }
@@ -555,7 +554,6 @@ dl.item-options dd { padding-left:10px; }
 
 /* Block: Tags */
 .product-view .tags {}
-.product-view .tags .tags-list li { display:inline; }
 .product-view .tags .form-add-tags label { float:left; }
 .product-view .tags .form-add-tags .input-box { float:left; margin:0 5px; }
 .product-view .tags .form-add-tags .button { float:left; }
@@ -567,6 +565,11 @@ dl.item-options dd { padding-left:10px; }
 /* Block: Add Review */
 .product-view .add-review {}
 .product-view .add-review .product-name span { font-weight:normal; }
+/* ======================================================================================= */
+
+
+/* Content Styles ======================================================================== */
+.tags-list li { display:inline; }
 /* ======================================================================================= */
 
 
@@ -611,6 +614,7 @@ dl.item-options dd { padding-left:10px; }
 .checkout-progress { padding:0 50px; margin:10px 0; }
 .checkout-progress li { float:left; width:20%; border-top:5px solid #ccc; text-align:center; color:#ccc; }
 .checkout-progress li.active { border-top-color:#000; color:#000; }
+
 .multiple-checkout { position:relative; }
 .multiple-checkout .grand-total { font-size:1.5em; text-align:right; }
 .multiple-checkout .grand-total big {}
@@ -621,11 +625,22 @@ dl.item-options dd { padding-left:10px; }
 .please-wait { float:right; }
 .cvv-what-is-this { cursor:help; }
 
+/* Tooltip */
+.tool-tip { border:1px solid #ddd; background-color:#f6f6f6; padding:5px; position:absolute; left:0; z-index:1000; }
+.tool-tip .btn-close { text-align:right; }
+.tool-tip .tool-tip-content { padding:5px; }
+
 /* Gift Messages */
 .add-gift-message {}
 .gift-message-form { border:1px solid #ddd; background-color:#f5f5f5; }
 .gift-message-form .inner-box { padding:5px; height:300px; overflow:auto; }
 .gift-message-form .gift-item {}
+
+.gift-message-link { display:block; background:url(../images/bg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
+.gift-message-link.expanded { background-position:0 -53px; }
+.gift-message-row {}
+.gift-message-row .btn-close { float:right; }
+.gift-message dt span { font-weight:bold; }
 
 /* Checkout Agreements */
 .checkout-agreements {}
@@ -642,14 +657,32 @@ dl.item-options dd { padding-left:10px; }
 /* ======================================================================================= */
 
 
-/* Dashboard ============================================================================= */
+/* My Account ============================================================================= */
+/********** < Dashboard */
 .dashboard {}
+.dashboard .welcome-msg {}
+
+/* Block: Recent Orders */
+.dashboard .recent-orders { margin:10px 0; }
+
+/* Block: Tags */
 .dashboard .tags .number { float:left; margin-right:-20px; }
 .dashboard .tags .details { margin-left:20px; }
-/* ======================================================================================= */
 
+/* Block: Reviews */
+.dashboard .reviews {}
+/********** Dashboard > */
 
-/* Print Pages Rewrites ================================================================== */
+/* Orders */
+.order-info { border:1px solid #ddd; padding:5px; }
+.order-info dt,
+.order-info dd,
+.order-info ul,
+.order-info li { display:inline; }
+.order-info dt { font-weight:bold; }
+
+/* Print Pages Rewrites */
+.page-print .gift-message-link { display:none; }
 .page-print .price-excl-tax,
 .page-print .price-incl-tax { display:block; white-space:nowrap; }
 .page-print .price-excl-tax .label,

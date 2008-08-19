@@ -30,16 +30,14 @@ function giftMessageToogle(giftMessageIdentifier)
 
     if(link.expanded) {
         link.expanded = false;
-        link.removeClassName('collapse');
-        link.addClassName('expand');
+        link.removeClassName('expanded');
         if(container.hasClassName('last')) {
             row.addClassName('last');
         }
         container.hide();
     } else {
         link.expanded = true;
-        link.addClassName('collapse');
-        link.removeClassName('expand');
+        link.addClassName('expanded');
         if(container.hasClassName('last')) {
             row.removeClassName('last');
         }

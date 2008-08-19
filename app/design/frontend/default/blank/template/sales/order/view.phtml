@@ -28,16 +28,14 @@ function giftMessageToogle(giftMessageIdentifier)
     var row = $('order-item-row-'+giftMessageIdentifier);
     if(link.expanded) {
         link.expanded = false;
-        link.removeClassName('collapse');
-        link.addClassName('expand');
+        link.removeClassName('expanded');
         if(container.hasClassName('last')) {
             row.addClassName('last');
         }
         container.hide();
     } else {
         link.expanded = true;
-        link.addClassName('collapse');
-        link.removeClassName('expand');
+        link.addClassName('expanded');
         if(container.hasClassName('last')) {
             row.removeClassName('last');
         }
@@ -54,30 +52,24 @@ function giftMessageToogle(giftMessageIdentifier)
 <h3><?php echo $this->__('Items Ordered') ?>
     <?php if ($_order->getTracksCollection()->count()) : ?>
         <span class="separator">|</span>
-        <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
+        <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','top=50,left=50,width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
     <?php endif; ?>
 </h3>
 
 <?php echo $this->getChildHtml('order_items') ?>
 
 <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()): ?>
-<div class="giftmessage">
+    <h3><?php echo $this->__('Gift Message for this Order') ?></h3>
     <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
-    <strong><?php echo $this->__('Gift Message for this Order') ?></strong>
-     <ul>
-         <li>
-             <label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?>
-         </li>
-         <li>
-             <label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?>
-         </li>
-         <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></li>
-     </ul>
-</div>
+    <dl class="gift-message">
+        <dt><span><?php echo $this->__('From') ?></span> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
+        <dt><span><?php echo $this->__('To') ?></span> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
+        <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></dd>
+    </dl>
 <?php endif; ?>
 <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
 <?php if (count($_history)): ?>
-    <h4><?php echo $this->__('About Your Order') ?></h4>
+    <h3><?php echo $this->__('About Your Order') ?></h3>
     <div>
         <dl>
             <?php foreach ($_history as $_historyItem): ?>

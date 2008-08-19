@@ -19,7 +19,10 @@
  */
 ?>
 <div class="tags">
-    <h2><?php echo $this->__('My Recent Tags') ?></h2>
+    <div class="title-buttons">
+        <h3><?php echo $this->__('My Recent Tags') ?></h3>
+        <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo $this->__('View All Tags') ?></a>
+    </div>
     <ol id="my_recent_tags">
         <?php $iterator = 0; ?>
         <?php foreach( $this->getCollection()->getItems() as $_item ): ?>
@@ -36,8 +39,5 @@
             </li>
         <?php endforeach; ?>
     </ol>
-        <script type="text/javascript">decorateList('my_recent_tags');</script>
-        <div class="buttons-set">
-            <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo $this->__('View All Tags') ?></a>
-        </div>
+    <script type="text/javascript">decorateList('my_recent_tags');</script>
 </div>

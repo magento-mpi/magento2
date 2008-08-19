@@ -94,13 +94,13 @@
             <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
             <tr class="border<?php echo ($_index++ > $_count ?' last':'') ?>" id="order-item-gift-message-<?php echo $_item->getId() ?>" style="display:none;">
                 <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_item); ?>
-                <td class="giftmessage-row" colspan="7">
-                    <ul class="giftmessage-content">
-                        <li><label><?php echo $this->__('From') ?></label> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></li>
-                        <li><label><?php echo $this->__('To') ?></label> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></li>
-                        <li><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_item) ?></li>
-                    </ul>
-                  <div class="giftmessage-close"><a href="#" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>');"><img src="<?php echo $this->getSkinUrl('images/gift-message-close.gif') ?>" alt="" /></a></div>
+                <td class="gift-message-row" colspan="7">
+                    <a href="#" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>');"><img src="<?php echo $this->getSkinUrl('images/gift-message-close.gif') ?>" alt="<?php echo $this->__('Close') ?>" title="<?php echo $this->__('Close') ?>" class="btn-close" /></a>
+                    <dl class="gift-message">
+                        <dt><span><?php echo $this->__('From') ?></span> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
+                        <dt><span><?php echo $this->__('To') ?></span> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
+                        <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_item) ?></dd>
+                    </dl>
                 </td>
             </tr>
             <?php endif ?>

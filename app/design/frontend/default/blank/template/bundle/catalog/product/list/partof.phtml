@@ -19,9 +19,9 @@
  */
 ?>
 <?php if($this->getItemCollection()->getSize()): ?>
-<div class="block">
+<div class="upsell">
     <h3><?php echo $this->__('This product is also part of bundle(s)') ?></h3>
-    <table id="bundle-product-table" class="data-table">
+    <table class="products-grid" id="bundle-product-table">
     <?php // $this->setColumnCount(4); // uncomment this line if you want to have another number of columns ?>
     <?php $this->resetItemsIterator() ?>
     <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
@@ -30,12 +30,12 @@
             <?php if($_bundle=$this->getIterableItem()): ?>
             <td>
                 <p class="product-image"><a href="<?php echo $_bundle->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_bundle, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_bundle->getName()) ?>" title="<?php echo $this->htmlEscape($_bundle->getName()) ?>" /></a></p>
-                <h5><a href="<?php echo $_bundle->getProductUrl() ?>"><?php echo $this->htmlEscape($_bundle->getName()) ?></a></h5>
+                <h4><a href="<?php echo $_bundle->getProductUrl() ?>"><?php echo $this->htmlEscape($_bundle->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_bundle, true) ?>
                 <?php echo $this->getReviewsSummaryHtml($_bundle) ?>
             </td>
             <?php else: ?>
-            <td class="empty-product">&nbsp;</td>
+            <td>&nbsp;</td>
             <?php endif; ?>
         <?php endfor; ?>
         </tr>

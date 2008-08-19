@@ -40,6 +40,7 @@ ieHover = function() {
     		iframe.src = BLANK_URL;
     		iframe.scrolling = 'no';
     		iframe.frameBorder = 0;
+			iframe.className = 'hover-fix'
     		iframe.style.width = ieULs[j].offsetWidth+"px";
     		iframe.style.height = ieULs[j].offsetHeight+"px";
     		ieULs[j].insertBefore(iframe, ieULs[j].firstChild);
@@ -52,6 +53,7 @@ ieHover = function() {
     		iframe.src = BLANK_URL;
     		iframe.scrolling = 'no';
     		iframe.frameBorder = 0;
+			iframe.className = 'hover-fix'
     		iframe.style.width = truncated[i].offsetWidth+"px";
     		iframe.style.height = truncated[i].offsetHeight+"px";
     		truncated[i].insertBefore(iframe, truncated[i].firstChild);

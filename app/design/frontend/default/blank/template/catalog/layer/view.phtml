@@ -34,7 +34,7 @@
         <?php echo $this->getStateHtml() ?>
         <?php if($this->canShowOptions()): ?>
             <h3><?php echo $this->__('Shopping Options') ?></h3>
-            <dl id="narrow-by-list">
+            <dl>
                 <?php $_filters = $this->getFilters() ?>
                 <?php foreach ($_filters as $_filter): ?>
                 <?php if($_filter->getItemsCount()): ?>
@@ -43,7 +43,6 @@
                 <?php endif; ?>
                 <?php endforeach; ?>
             </dl>
-            <script type="text/javascript">decorateDataList('narrow-by-list')</script>
         <?php endif; ?>
     </div>
 </div>

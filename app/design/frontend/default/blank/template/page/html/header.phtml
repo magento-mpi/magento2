@@ -20,7 +20,7 @@
 ?>
 <div class="header">
     <h1 id="logo" title="<?php echo $this->getLogoAlt() ?>" onclick="location.href='<?php echo $this->getUrl('') ?>'" style="background-image:url(<?php echo $this->getLogoSrc() ?>);">Magento - Open Source eCommerce</h1>
-    <p class="welcome"><?php echo $this->htmlEscape($this->getWelcome()) ?></p>
+    <p class="welcome-msg"><?php echo $this->htmlEscape($this->getWelcome()) ?></p>
     <?php echo $this->getChildHtml('topLinks') ?>
     <?php echo $this->getChildHtml('topSearch') ?>
     <?php echo $this->getChildHtml('store_language') ?>
