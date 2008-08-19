@@ -36,7 +36,7 @@ $_tierPrices = $this->getTierPrices();
         <?php endif; ?>
         <?php if(($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
         || ($_product->getPrice() != $_product->getFinalPrice() &&  $_product->getFinalPrice() > $_price['price'])): ?>
-            <?php echo $this->__('and') ?>&nbsp;<strong class="benefit"><?php echo $this->__('save')?>&nbsp;<?php echo $_price['savePercent']?>%
+            <?php echo $this->__('and') ?> <strong class="benefit"><?php echo $this->__('save')?> <?php echo $_price['savePercent']?>%
         <?php endif ?></strong>
         </li>
     <?php endforeach ?>
