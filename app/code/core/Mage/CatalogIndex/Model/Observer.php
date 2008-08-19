@@ -107,4 +107,12 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
     {
         Mage::getSingleton('catalogindex/indexer')->plainReindex();
     }
+
+    public function runQueuedIndexing()
+    {
+        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED) {
+            Mage::getSingleton('catalogindex/indexer')->plainReindex();
+        }
+    }
 }

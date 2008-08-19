@@ -298,6 +298,13 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     public function plainReindex($products = null, $attributes = null, $stores = null)
     {
+        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            return $this;
+        } else if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED) {
+            $flag->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING)->save();
+        }
+
         $attributeCodes = $priceAttributeCodes = array();
         $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
         $visibility = array(
@@ -369,6 +376,11 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                 }
             }
         }
+
+        if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            $flag->delete();
+        }
+
         return $this;
     }
 }

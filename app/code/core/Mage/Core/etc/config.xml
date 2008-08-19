@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.8.9</version>
+             <version>0.8.10</version>
         </Mage_Core>
     </modules>
 
@@ -44,6 +44,7 @@
                     <convert_profile><table>core_convert_profile</table></convert_profile>
                     <convert_history><table>core_convert_history</table></convert_history>
                     <design_change><table>design_change</table></design_change>
+                    <flag><table>core_flag</table></flag>
                 </entities>
             </core_mysql4>
         </models>

@@ -68,6 +68,22 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
 
     public function getCatalogData()
     {
+        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        switch ($flag->getState()) {
+            case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED:
+                $layeredAction = Mage::helper('adminhtml')->__('Queued...');
+                $layeredIsDisabled = true;
+                break;
+            case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING:
+                $layeredAction = Mage::helper('adminhtml')->__('Running...');
+                $layeredIsDisabled = true;
+                break;
+            default:
+                $layeredAction = Mage::helper('adminhtml')->__('Refresh');
+                $layeredIsDisabled = false;
+                break;
+        }
+
         return array(
             'refresh_catalog_rewrites'   => array(
                 'name'      => 'refresh_catalog_rewrites',
@@ -82,7 +98,8 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
             'refresh_layered_navigation' => array(
                 'name'      => 'refresh_layered_navigation',
                 'label'     => Mage::helper('adminhtml')->__('Layered Navigation Indices'),
-                'action'    => Mage::helper('adminhtml')->__('Refresh'),
+                'action'    => $layeredAction,
+                'disabled'  => $layeredIsDisabled,
             )
         );
     }

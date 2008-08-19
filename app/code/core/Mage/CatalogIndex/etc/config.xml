@@ -181,6 +181,10 @@
                 <schedule><cron_expr>0 2 * * *</cron_expr></schedule>
                 <run><model>catalogindex/observer::reindexAll</model></run>
             </catalogindex_reindex_all>
+            <catalogindex_run_queued>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <run><model>catalogindex/observer::runQueuedIndexing</model></run>
+            </catalogindex_run_queued>
         </jobs>
     </crontab>
 </config>
