@@ -174,4 +174,10 @@ Base preview layout
         </block>
     </systemPreview>
 
+<!--
+Empty hanle for ajax response etc.
+-->
+    <empty>
+    </empty>
+
 </layout>

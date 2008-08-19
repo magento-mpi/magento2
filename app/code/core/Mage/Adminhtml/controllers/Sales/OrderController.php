@@ -178,6 +178,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         if ($order = $this->_initOrder()) {
             try {
+                $response = false;
                 $data = $this->getRequest()->getPost('history');
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
                 $order->addStatusToHistory($data['status'], $data['comment'], $notify);
@@ -185,7 +186,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
                 $order->sendOrderUpdateEmail($notify, $comment);
                 $order->save();
-                $response = $this->getLayout()->createBlock('adminhtml/sales_order_view_history')->toHtml();
+
+                $this->loadLayout('empty');
+                $this->renderLayout();
             }
             catch (Mage_Core_Exception $e) {
                 $response = array(
@@ -201,8 +204,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             }
             if (is_array($response)) {
                 $response = Zend_Json::encode($response);
+                $this->getResponse()->setBody($response);
             }
-            $this->getResponse()->setBody($response);
         }
     }
 

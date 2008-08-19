@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<fieldset id="order_history_block">
+<div id="order_history_block">
     <?php if ($this->canAddComment()):?>
     <div id="history_form" class="order-history-form">
         <div><?php echo Mage::helper('sales')->__('Add Order Comments') ?></div>
@@ -67,4 +67,4 @@
     <script type="text/javascript">
     if($('order_status'))$('order_status').update('<?php echo $this->getOrder()->getStatusLabel() ?>');
     </script>
-</fieldset>
+</div>

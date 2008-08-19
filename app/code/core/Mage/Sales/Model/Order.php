@@ -161,7 +161,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         if ($this->canUnhold()) {
             return false;
         }
-
         if ($this->getState() === self::STATE_CANCELED ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ) {
@@ -622,6 +621,12 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendOrderUpdateEmail($notifyCustomer=true, $comment='')
     {
+        $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
+        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
+        if (!$notifyCustomer && !$copyTo) {
+            return $this;
+        }
+
         // set design parameters, required for email (remember current)
         $currentDesign = Mage::getDesign()->setAllGetOld(array(
             'store'   => $this->getStoreId(),
@@ -632,12 +637,6 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
-
-        $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
-        if (!$notifyCustomer && !$copyTo) {
-            return $this;
-        }
 
         $sendTo = array();
 
