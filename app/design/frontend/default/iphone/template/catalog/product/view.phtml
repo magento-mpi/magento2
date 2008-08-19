@@ -66,11 +66,11 @@
 
 			<?php echo $this->getChildHtml('other');?>
 
-			<?php if ($this->hasOptions()):?>
+			<?php if ($_product->isSaleable() && $this->hasOptions()):?>
 				<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
 			<?php endif;?>
 
-			<?php if ($this->hasOptions()):?>
+			<?php if ($_product->isSaleable() && $this->hasOptions()):?>
 				<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
 			<?php endif;?>
 
