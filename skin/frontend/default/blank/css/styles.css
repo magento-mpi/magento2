@@ -403,7 +403,7 @@ dd.even { background-color:#f6f6f6; }
 .product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin-right:10px; }
 
 .product-image-popup { margin:0 auto; }
-.product-image-popup .nav {}
+.product-image-popup .nav { text-align:center; }
 .product-image-popup .image { display:block; }
 .product-image-popup .image-label {}
 
