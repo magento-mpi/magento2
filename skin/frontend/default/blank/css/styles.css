@@ -301,6 +301,7 @@ dd.even { background-color:#f6f6f6; }
 /* Block: Layered Navigation */
 .sidebar .block-layered-nav {}
 .sidebar .block-layered-nav dt { font-weight:bold; }
+.sidebar .block-layered-nav .currently {}
 
 /* Block: Cart */
 .sidebar .block-cart {}
