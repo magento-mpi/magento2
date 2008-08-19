@@ -178,10 +178,12 @@ p.required { font-size:10px; text-align:right; }
 .messages li li { margin:0 0 3px; }
 .error-msg,
 .success-msg,
-.note-msg { border-style:solid !important; border-width:1px !important; background-position:10px 10px !important; background-repeat:no-repeat !important; min-height:24px !important; padding:8px 8px 8px 32px !important; font-size:10px !important; font-weight:bold !important; }
+.note-msg,
+.notice-msg { border-style:solid !important; border-width:1px !important; background-position:10px 10px !important; background-repeat:no-repeat !important; min-height:24px !important; padding:8px 8px 8px 32px !important; font-size:10px !important; font-weight:bold !important; }
 .error-msg { border-color:#f16048; background-color:#faebe7; background-image:url(../images/error_msg_icon.gif); color:#df280a; }
 .success-msg { border-color:#446423; background-color:#eff5ea; background-image:url(../images/success_msg_icon.gif); color:#3d6611; }
-.note-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); color:#3d6611; }
+.note-msg,
+.notice-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); color:#3d6611; }
 /*.success { color:#3d6611; }
 .error { color:#df280a; }
 .notice { color:#e26703; }
@@ -551,6 +553,7 @@ a.minimal-price-link .price { font-weight:normal; }
 
 /* Block: Upsell */
 .product-view .upsell {}
+.product-view .upsell .products-grid td { width:25%; }
 
 /* Block: Tags */
 .product-view .tags {}
