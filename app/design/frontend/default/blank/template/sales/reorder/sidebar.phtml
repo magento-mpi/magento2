@@ -48,7 +48,7 @@
                             //]]>
                             </script>
                         <?php endif; ?>
-                        <span class="label"><label for="reorder-item-<?php echo $_item->getId() ?>"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></label></span>
+                        <span class="label"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></span>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

@@ -33,6 +33,10 @@
 <div class="product-view">
     <div class="product-essential">
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form">
+    <fieldset class="no-display">
+        <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+        <input type="hidden" name="related_product" id="related-products-field" value="" />
+    </fieldset>
 
         <div class="product-img-box">
             <?php echo $this->getChildHtml('media') ?>
@@ -48,12 +52,6 @@
             <?php endif; ?>
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
-
-            <fieldset class="no-display">
-              <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-              <input type="hidden" name="related_product" id="related-products-field" value="" />
-            </fieldset>
-
             <?php echo $this->getChildHtml('alert_urls') ?>
             <?php echo $this->getChildHtml('product_type_data') ?>
 
@@ -73,8 +71,10 @@
             <?php endif; ?>
 
             <?php if ($_product->getShortDescription()):?>
-                <h3><?php echo $this->__('Quick Overview') ?></h3>
-                <div class="short-description"><?php echo nl2br($_product->getShortDescription()) ?></div>
+                <div class="short-description std">
+                    <h3><?php echo $this->__('Quick Overview') ?></h3>
+                    <?php echo nl2br($_product->getShortDescription()) ?>
+                </div>
             <?php endif;?>
 
             <?php echo $this->getChildHtml('other');?>

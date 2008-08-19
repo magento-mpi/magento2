@@ -19,7 +19,7 @@
  */
 ?>
 <?php if($this->getItemCollection()->getSize()): ?>
-<div class="upsell">
+<div class="up-sell">
     <h3><?php echo $this->__('This product is also part of bundle(s)') ?></h3>
     <table class="products-grid" id="bundle-product-table">
     <?php // $this->setColumnCount(4); // uncomment this line if you want to have another number of columns ?>
@@ -35,7 +35,7 @@
                 <?php echo $this->getReviewsSummaryHtml($_bundle) ?>
             </td>
             <?php else: ?>
-            <td>&nbsp;</td>
+            <td class="empty">&nbsp;</td>
             <?php endif; ?>
         <?php endfor; ?>
         </tr>

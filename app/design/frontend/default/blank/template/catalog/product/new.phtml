@@ -19,7 +19,7 @@
  */
 ?>
 <?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
-<div class="upsell">
+<div class="up-sell">
     <h2><?php echo $this->__('New Products') ?></h2>
     <table class="products-grid" id="recently-compared-list-table">
     <tr>
@@ -39,18 +39,18 @@
             <?php else: ?>
             <p class="availability"><span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
             <?php endif; ?>
-            <p>
+            <ul class="add-to-links">
                 <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                <a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+                    <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
                 <?php endif; ?>
                 <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?><br />
-                <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a>
+                    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                 <?php endif; ?>
-            </p>
+            </ul>
         </td>
     <?php $i++; endforeach; ?>
     <?php for($i;$i%5!=0;$i++): ?>
-            <td>&nbsp;</td>
+            <td class="empty">&nbsp;</td>
         <?php endfor ?>
     </tr>
     </table>

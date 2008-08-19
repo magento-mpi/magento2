@@ -19,10 +19,10 @@
  */
 ?>
 <?php if(count($this->getItemCollection()->getItems())): ?>
-<div class="upsell">
+<div class="up-sell">
     <h3><?php echo $this->__('You may also be interested in the following product(s)') ?></h3>
     <table class="products-grid" id="upsell-product-table">
-    <?php // $this->setColumnCount(4); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
+    <?php // $this->setColumnCount(5); // uncomment this line if you want to have another number of columns. also can be changed in layout ?>
     <?php $this->resetItemsIterator() ?>
     <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
         <tr>
@@ -35,7 +35,7 @@
                 <?php echo $this->getReviewsSummaryHtml($_link) ?>
             </td>
             <?php else: ?>
-            <td>&nbsp;</td>
+            <td class="empty">&nbsp;</td>
             <?php endif; ?>
         <?php endfor; ?>
         </tr>

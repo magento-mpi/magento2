@@ -31,7 +31,7 @@
 <?php else: ?>
     <p class="availability"><?php echo $this->__('Availability') ?>: <span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
 <?php endif; ?>
-<table class="data-table" id="super-product-table">
+<table class="data-table grouped-items" id="super-product-table">
     <col />
     <col />
     <col width="1" />
@@ -117,7 +117,7 @@
             <?php if ($_item->isSaleable()) : ?>
                 <input name="super_group[<?php echo $_item->getId() ?>]" value="<?php echo $_item->getQty()*1 ?>" type="text" class="input-text qty" />
             <?php else: ?>
-                <?php echo $this->__('Out of stock.') ?>
+                <p class="availability"><span class="out-of-stock"><?php echo $this->__('Out of stock.') ?></span></p>
             <?php endif; ?>
             </td>
             <?php endif; ?>

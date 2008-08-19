@@ -23,7 +23,9 @@
 
 <?php if($_product->isSaleable()): ?>
 <script type="text/javascript">
+//<![CDATA[
     var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
+//]]>
 </script>
     <p class="availability"><?php echo $this->helper('catalog')->__('Availability') ?>: <span class="in-stock"><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
 <?php else: ?>
