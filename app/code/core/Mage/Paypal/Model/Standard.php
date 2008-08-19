@@ -220,7 +220,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         'item_name_'.$i      => $item->getName(),
                         'item_number_'.$i      => $item->getSku(),
                         'quantity_'.$i      => $item->getQty(),
-                        'amount_'.$i      => ($item->getBaseCalculationPrice() - $item->getBaseDiscountAmount()),
+                        'amount_'.$i      => sprintf('%.2f', ($item->getBaseCalculationPrice() - $item->getBaseDiscountAmount())),
                     ));
                     if($item->getBaseTaxAmount()>0){
                         $sArr = array_merge($sArr, array(
@@ -244,7 +244,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
               $sArr = array_merge($sArr, array(
                     'item_name_'.$i   => $totalArr['shipping']->getTitle(),
                     'quantity_'.$i    => 1,
-                    'amount_'.$i      => $shipping,
+                    'amount_'.$i      => sprintf('%.2f',$shipping),
                     'tax_'.$i         => sprintf('%.2f',$shippingTax),
               ));
               $i++;
@@ -326,7 +326,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
             } else {
 
-                if ($this->getIpnFormData('mc_gross')!=$order->getGrandTotal()) {
+                if ($this->getIpnFormData('mc_gross')!=$order->getBaseGrandTotal()) {
                     //when grand total does not equal, need to have some logic to take care
                     $order->addStatusToHistory(
                         $order->getStatus(),//continue setting current order status
