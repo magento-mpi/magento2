@@ -47,6 +47,7 @@ class Mage_Tax_Model_Config
     const CONFIG_XML_PATH_DISPLAY_TAX_COLUMN = 'tax/display/column_in_summary';
     const CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY = 'tax/display/full_summary';
     const CONFIG_XML_PATH_DISPLAY_SHIPPING = 'tax/display/shipping';
+    const CONFIG_XML_PATH_DISPLAY_ZERO_TAX = 'tax/display/zero_tax';
 
     // deprecated settings
     const CONFIG_XML_PATH_SHOW_IN_CATALOG = 'tax/display/show_in_catalog';
@@ -58,4 +59,6 @@ class Mage_Tax_Model_Config
     const DISPLAY_TYPE_EXCLUDING_TAX = 1;
     const DISPLAY_TYPE_INCLUDING_TAX = 2;
     const DISPLAY_TYPE_BOTH = 3;
+
+
 }

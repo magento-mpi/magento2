@@ -27,6 +27,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     const PRICE_CONVERSION_MINUS = 2;
 
 
+
     protected $_displayTaxColumn;
     protected $_taxData;
     protected $_priceIncludesTax;
@@ -136,6 +137,14 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     public function displayFullSummary($store = null)
     {
         return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY, $store) == 1);
+    }
+
+    public function displayZeroTax($store = null)
+    {
+        if (is_null($store))
+            $store = Mage::app()->getStore();
+
+        return $store->getConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISPLAY_ZERO_TAX);
     }
 
     public function displayCartPriceInclTax($store = null)
