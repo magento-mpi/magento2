@@ -36,10 +36,11 @@ h1#logo { display:inline; }
 .login-box h4 { height:16px; }
 .login-box .content { height:230px; }
 
+.product-img-box .more-views li { display:inline; }
+
 /* Menu fixes */
 #nav li.over ul.shown-sub { left:0; }
 #nav li.over li ul.shown-sub { left:100px; }
 
 /* Hover fix */
-#nav iframe,
-.truncated iframe { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
+iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }

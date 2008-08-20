@@ -43,3 +43,6 @@
 #nav ul li.parent li.parent { margin-bottom:-3px; }
 
 #message-popup-window-mask .flash-window { position:absolute; top:200px; }
+
+/* Hover Fix */
+iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
