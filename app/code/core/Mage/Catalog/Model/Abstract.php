@@ -55,9 +55,10 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
         return $collection;
     }
     
-    public function loadByAttribute($attribute, $value)
+    public function loadByAttribute($attribute, $value, $additionalAttributes='*')
     {
         $collection = $this->getResourceCollection()
+            ->addAttributeToSelect($additionalAttributes)
             ->addAttributeToFilter($attribute, $value)
             ->setPage(1,1);   
 
