@@ -71,4 +71,4 @@ input.checkbox { width:13px; height:13px; }
 .buttons-set { zoom:1; }
 
 /* Hover Fix */
-iframe.hover-fix { position:absolute; left:-1px; top:0; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
+iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
