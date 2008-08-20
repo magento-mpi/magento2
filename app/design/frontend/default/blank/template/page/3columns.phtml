@@ -35,11 +35,11 @@
         <div class="main col3-layout">
             <?php echo $this->getChildHtml('breadcrumbs') ?>
             <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+            <div class="col-right sidebar"><?php echo $this->getChildHtml('right') ?></div>
             <div class="col-main">
                 <?php echo $this->getChildHtml('global_messages') ?>
                 <?php echo $this->getChildHtml('content') ?>
             </div>
-            <div class="col-right sidebar"><?php echo $this->getChildHtml('right') ?></div>
         </div>
         <div class="footer"><?php echo $this->getChildHtml('footer') ?></div>
         <?php echo $this->getChildHtml('before_body_end') ?>

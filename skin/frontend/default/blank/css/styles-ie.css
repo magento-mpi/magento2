@@ -19,6 +19,7 @@
 .login-page .content { _height:150px; }
 .validation-advice { _height:13px; }
 .one-page-checkout li.section { vertical-align:top; }
+.product-view .product-img-box .more-views li { display:inline; }
 
 /********** < Navigation styles */
 #nav li,
@@ -47,9 +48,10 @@ input.checkbox { width:13px; height:13px; }
 .messages li,
 .sidebar .mini-products-list li,
 .sidebar .block .actions,
-.block-poll li,
-.block-related li,
-.block-related .item,
+.sidebar .block-poll li,
+.sidebar .block-related li,
+.sidebar .block-related .item,
+.sidebar .block-reorder li,
 .title-buttons,
 .pager,
 .sorter,
@@ -58,7 +60,7 @@ input.checkbox { width:13px; height:13px; }
 .add-to-box,
 .add-to-cart,
 .product-essential,
-.product-view .product-img-box .more-views,
+.product-view .product-img-box .more-views ul,
 .product-options .options-list li,
 .product-review,
 .cart,
