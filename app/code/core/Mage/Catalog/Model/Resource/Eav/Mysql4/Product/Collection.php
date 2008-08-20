@@ -559,9 +559,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     protected function _addTaxPercents(){
         $classToRate = array();
-
         $request = Mage::getSingleton('tax/calculation')->getRateRequest();
         foreach ($this as &$item) {
+            if (null === $item->getTaxClassId()) {
+                $item->setTaxClassId($item->getMinimalTaxClassId());
+            }
             if (!isset($classToRate[$item->getTaxClassId()])) {
                 $request->setProductClassId($item->getTaxClassId());
                 $classToRate[$item->getTaxClassId()] = Mage::getSingleton('tax/calculation')->getRate($request);

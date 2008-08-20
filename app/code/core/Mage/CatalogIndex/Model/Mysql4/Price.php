@@ -173,7 +173,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             return array();
         }
         $select = $this->_getReadAdapter()->select();
-        $select->from(array('price_table'=>$this->getTable('catalogindex/minimal_price')), array('price_table.entity_id', 'value'=>"(price_table.value)"))
+        $select->from(array('price_table'=>$this->getTable('catalogindex/minimal_price')), array('price_table.entity_id', 'value'=>"(price_table.value)", 'tax_class_id'=>'(price_table.tax_class_id)'))
             ->where('price_table.entity_id in (?)', $ids)
             ->where('price_table.store_id = ?', $this->getStoreId())
             ->where('price_table.customer_group_id = ?', $this->getCustomerGroupId());
