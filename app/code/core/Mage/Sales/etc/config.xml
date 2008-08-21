@@ -739,6 +739,17 @@
                 </sales>
             </updates>
         </layout>
+        <events>
+            <catalog_product_delete_before>
+                <observers>
+                    <sales_quote_observer>
+                        <type>singleton</type>
+                        <class>sales/observer</class>
+                        <method>substractQtyFromQuotes</method>
+                    </sales_quote_observer>
+                </observers>
+            </catalog_product_delete_before>
+        </events>
     </adminhtml>
 
     <default>
