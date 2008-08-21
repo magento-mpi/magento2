@@ -35,20 +35,19 @@ class Mage_Reports_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_M
             array('r' => $this->getTable('review/review')),
             'e.entity_id=r.entity_pk_value',
             array(
-                'review_cnt'    => 'COUNT(r.entity_pk_value)',
+                'review_cnt'    => 'COUNT(DISTINCT r.review_id)',
                 'last_created'  => 'MAX(r.created_at)',
-//                'avg_rating'    => 'entity_id'
             )
-        )->group('r.entity_pk_value');
+        );
 
         $this->getSelect()->joinLeft(
             array('table_rating' => $this->getTable('rating_option_vote_aggregated')),
-            'e.entity_id=table_rating.entity_pk_value',
+            'e.entity_id=table_rating.entity_pk_value AND table_rating.store_id>0',
             array(
                 'avg_rating'    => 'SUM(table_rating.percent)/COUNT(table_rating.rating_id)'
             )
-        )->group('table_rating.entity_pk_value');
-
+        );
+        $this->getSelect()->group('e.entity_id');
 
         return $this;
     }
