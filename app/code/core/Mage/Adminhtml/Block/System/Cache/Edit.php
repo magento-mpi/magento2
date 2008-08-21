@@ -68,6 +68,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
 
     public function getCatalogData()
     {
+        $nowIsDisabled = false;
         $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
         switch ($flag->getState()) {
             case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED:
@@ -77,29 +78,47 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
             case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING:
                 $layeredAction = Mage::helper('adminhtml')->__('Running...');
                 $layeredIsDisabled = true;
+                $nowIsDisabled = true;
                 break;
             default:
-                $layeredAction = Mage::helper('adminhtml')->__('Refresh');
+                $layeredAction = Mage::helper('adminhtml')->__('Queue Refresh');
                 $layeredIsDisabled = false;
                 break;
         }
 
         return array(
             'refresh_catalog_rewrites'   => array(
-                'name'      => 'refresh_catalog_rewrites',
                 'label'     => Mage::helper('adminhtml')->__('Catalog Rewrites'),
-                'action'    => Mage::helper('adminhtml')->__('Refresh'),
+                'buttons'   => array(
+                    array(
+                        'name'      => 'refresh_catalog_rewrites',
+                        'action'    => Mage::helper('adminhtml')->__('Refresh'),
+                        )
+                ),
             ),
             'clear_images_cache'         => array(
-                'name'      => 'clear_images_cache',
                 'label'     => Mage::helper('adminhtml')->__('Images Cache'),
-                'action'    => Mage::helper('adminhtml')->__('Clear'),
+                'buttons'   => array(
+                    array(
+                        'name'      => 'clear_images_cache',
+                        'action'    => Mage::helper('adminhtml')->__('Clear'),
+                        )
+                ),
             ),
             'refresh_layered_navigation' => array(
-                'name'      => 'refresh_layered_navigation',
                 'label'     => Mage::helper('adminhtml')->__('Layered Navigation Indices'),
-                'action'    => $layeredAction,
-                'disabled'  => $layeredIsDisabled,
+                'buttons'   => array(
+                    array(
+                        'name'      => 'refresh_layered_navigation',
+                        'action'    => $layeredAction,
+                        'disabled'  => $layeredIsDisabled,
+                        ),
+                    array(
+                        'name'      => 'refresh_layered_navigation_now',
+                        'action'    => Mage::helper('adminhtml')->__('Refresh Now'),
+                        'disabled'  => $nowIsDisabled,
+                        )
+                ),
             )
         );
     }

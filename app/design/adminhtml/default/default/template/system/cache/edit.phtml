@@ -56,7 +56,11 @@ function cacheCatalogAction(button)
             <?php foreach ($this->getCatalogData() as $_item): ?>
             <tr>
                 <td class="label"><label><?php echo $_item['label'] ?></label></td>
-                <td class="value"><button <?php if (!isset($_item['disabled']) || !$_item['disabled']):?>onclick="cacheCatalogAction(this)"<?php endif; ?> id="<?php echo $_item['name'] ?>" type="button" class="scalable <?php if (isset($_item['disabled']) && $_item['disabled']):?>disabled<?php endif; ?>" style=""><span><?php echo $_item['action'] ?></span></button></td>
+                <td class="value">
+                    <?php foreach ($_item['buttons'] as $_button): ?>
+                        <button <?php if (!isset($_button['disabled']) || !$_button['disabled']):?>onclick="cacheCatalogAction(this)"<?php endif; ?> id="<?php echo $_button['name'] ?>" type="button" class="scalable <?php if (isset($_button['disabled']) && $_button['disabled']):?>disabled<?php endif; ?>" style=""><span><?php echo $_button['action'] ?></span></button>
+                    <?php endforeach; ?>
+                </td>
                 <td><small></small></td>
             </tr>
             <?php endforeach; ?>

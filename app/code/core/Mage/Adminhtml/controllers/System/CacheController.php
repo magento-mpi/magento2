@@ -100,8 +100,8 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                         $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while cleared Image cache. Please try again later'));
                     }
                     break;
-/*
-                case 'refresh_layered_navigation':
+
+                case 'refresh_layered_navigation_now':
                     try {
                         Mage::getSingleton('catalogindex/indexer')->plainReindex();
                         $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Layered Navigation Indices was refreshed succesfuly'));
@@ -113,7 +113,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                         $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while refreshed Layered Navigation Indices. Please try again later'));
                     }
                     break;
-*/
+
 
                 case 'refresh_layered_navigation':
                     try {
