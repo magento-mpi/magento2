@@ -426,7 +426,7 @@ select optgroup option.even { background:#f6f6f6; } /* Zebra even-row */
 
 
 /* Form List */ /* Table for default form data */
-.form-list                      { width:auto; border:none !important; }
+.form-list                      { width:100%; border:none !important; }
 .main-col .form-list            { width:auto; }
 .form-list td                   { border:none !important; padding-top:5px !important; padding-bottom:5px !important; background:none !important;  }
 .form-list td.hidden            { border:none !important; padding:0px !important;background:none !important;}
