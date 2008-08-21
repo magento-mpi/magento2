@@ -166,10 +166,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
     public function shortcutSetExpressCheckout()
     {
+        $this->getQuote()->reserveOrderId();
         $this->getApi()
             ->setPaymentType($this->getPaymentAction())
             ->setAmount($this->getQuote()->getBaseGrandTotal())
             ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
+            ->setInvNum($this->getQuote()->getReservedOrderId())
             ->callSetExpressCheckout();
 
         $this->catchError();
@@ -311,9 +313,10 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function placeOrder(Varien_Object $payment)
     {
         $api = $this->getApi();
-
+        $this->getQuote()->reserveOrderId();
         $api->setAmount($payment->getOrder()->getBaseGrandTotal())
-            ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode());
+            ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
+            ->setInvNum($this->getQuote()->getReservedOrderId());
 
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')

@@ -75,13 +75,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         //------------------------------------------------------------------------------------------------------------------------------------
         // Construct the parameter string that describes the SetExpressCheckout API call
 
-
         $nvpArr = array(
             'PAYMENTACTION' => $this->getPaymentType(),
             'AMT'           => $this->getAmount(),
             'CURRENCYCODE'  => $this->getCurrencyCode(),
             'RETURNURL'     => $this->getReturnUrl(),
             'CANCELURL'     => $this->getCancelUrl(),
+            'INVNUM'        => $this->getInvNum()
         );
         $this->setUserAction(self::USER_ACTION_CONTINUE);
 
@@ -242,6 +242,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'AMT'            => $this->getAmount(),
             'CURRENCYCODE'   => $this->getCurrencyCode(),
             'BUTTONSOURCE'   => $this->getButtonSourceDp(),
+            'INVNUM'         => $this->getInvNum(),
 
             'CREDITCARDTYPE' => $this->getCcTypeName($p->getCcType()),
             'ACCT'           => $p->getCcNumber(),
@@ -308,6 +309,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'AMT'             => $this->getAmount(),
             'CURRENCYCODE'    => $this->getCurrencyCode(),
             'NOTE'            => $this->getNote(),
+            'INVNUM'          => $this->getInvNum()
         );
 
         $resArr = $this->call('DoCapture', $nvpArr);

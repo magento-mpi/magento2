@@ -104,14 +104,15 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function authorize(Varien_Object $payment, $amount)
     {
+        $this->getQuote()->reserveOrderId();
         $api = $this->getApi()
             ->setPaymentType($this->getPaymentAction())
             ->setAmount($amount)
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
             ->setShippingAddress($payment->getOrder()->getShippingAddress())
             ->setEmail($payment->getOrder()->getCustomerEmail())
-            ->setPayment($payment);
-        ;
+            ->setPayment($payment)
+            ->setInvNum($this->getQuote()->reserveOrderId(););
 
         if ($api->callDoDirectPayment()!==false) {
             $payment
@@ -144,7 +145,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
             ->setShippingAddress($payment->getOrder()->getShippingAddress())
             ->setEmail($payment->getOrder()->getCustomerEmail())
-            ->setPayment($payment);
+            ->setPayment($payment)
+            ->setInvNum($payment->getOrder()->getIncrementId());
         ;
         if ($payment->getCcTransId()) {
             $api->setAuthorizationId($payment->getCcTransId())
@@ -183,8 +185,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setPaymentType($this->getPaymentAction())
             ->setAmount($payment->getOrder()->getGrandTotal())
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
-            ->setPayment($payment);
-        ;
+            ->setPayment($payment)
+            ->setInvNum($payment->getOrder()->getIncrementId());
 
         if ($api->callDoDirectPayment()!==false) {
             $payment
