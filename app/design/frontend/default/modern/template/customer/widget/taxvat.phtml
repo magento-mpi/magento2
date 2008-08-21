@@ -28,7 +28,7 @@
     <input type="text"
         id="<?php echo $this->getFieldId('taxvat')?>"
         name="<?php echo $this->getFieldName('taxvat')?>"
-        value="<?php echo $this->htmlEscape($this->getCustomer()->getTaxvat()) ?>"
+        value="<?php echo $this->htmlEscape($this->getTaxvat()) ?>"
         class="<?php if ($this->isRequired()):?>required-entry<?php endif?> input-text"
         <?php echo $this->getFieldParams() ?> />
 </div>

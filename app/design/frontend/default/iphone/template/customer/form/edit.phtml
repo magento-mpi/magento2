@@ -27,6 +27,7 @@
 	<fieldset class="group-select">
 		<h4 class="legend"><?php echo $this->__('Account Information') ?></h4>
 		<ul class="form-list">
+<?php /*
 			<li>
 				<div class="col2-alt-set">
 					<div class="col-1"><label for="firstname"><?php echo $this->__('First Name') ?> <span class="required">*</span>&nbsp;</label></div>
@@ -39,12 +40,24 @@
 					<div class="col-2"><input type="text" name="lastname" id="lastname" value="<?php echo $this->htmlEscape($this->getCustomer()->getLastname()) ?>" title="<?php echo $this->__('Last Name') ?>"  class="required-entry input-text" /></div>
 				</div><div class="clear"></div>
 			</li>
+*/ ?>
+            <li>
+                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
+            </li>
 			<li>
 				<div class="col2-alt-set">
 					<div class="col-1"><label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span>&nbsp;</label></div>
 					<div class="col-2"><input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="required-entry validate-email input-text" /></div>
 				</div><div class="clear"></div>
 			</li>
+<?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+<?php if ($_dob->isEnabled()): ?>
+            <li><?php echo $_dob->setDate($this->getCustomer()->getDob())->toHtml() ?></li>
+<?php endif ?>
+<?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+<?php if ($_taxvat->isEnabled()): ?>
+            <li><?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())->toHtml() ?></li>
+<?php endif ?>
 		</ul>
 	</fieldset>
 	<p><input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> /> <label for="change_password"><?php echo $this->__('Change Password') ?></label></p>

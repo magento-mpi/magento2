@@ -19,8 +19,22 @@
  */
 
 
-class Mage_Checkout_OnepageController extends Mage_Core_Controller_Front_Action
+class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 {
+    /**
+     * @return Mage_Checkout_OnepageController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        if (!$this->_preDispatchValidateCustomer()) {
+            return $this;
+        }
+
+        return $this;
+    }
+
     protected function _ajaxRedirectResponse()
     {
         $this->getResponse()

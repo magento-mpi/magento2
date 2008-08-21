@@ -40,9 +40,4 @@ class Mage_Customer_Block_Widget_Taxvat extends Mage_Customer_Block_Widget_Abstr
     {
         return Mage::getSingleton('customer/session')->getCustomer();
     }
-
-    public function getTaxVat()
-    {
-        return get_class($this->getCustomer());
-    }
 }

@@ -23,5 +23,5 @@
         <?php echo $this->__('Tax/VAT number') ?>
         <?php if ($this->isRequired()):?><span class="required">*</span><?php endif ?>
     </label>
-    <input type="text" id="<?php echo $this->getFieldId('taxvat')?>" name="<?php echo $this->getFieldName('taxvat')?>" value="<?php echo $this->htmlEscape($this->getCustomer()->getTaxvat()) ?>" class="input-text<?php if ($this->isRequired()):?> required-entry<?php endif; ?>" <?php echo $this->getFieldParams() ?> />
+    <input type="text" id="<?php echo $this->getFieldId('taxvat')?>" name="<?php echo $this->getFieldName('taxvat')?>" value="<?php echo $this->htmlEscape($this->getTaxvat()) ?>" class="input-text<?php if ($this->isRequired()):?> required-entry<?php endif; ?>" <?php echo $this->getFieldParams() ?> />
 </div>

@@ -1,27 +1,27 @@
 <?php
-/** 
- * Magento 
- * 
- * NOTICE OF LICENSE 
- * 
- * This source file is subject to the Open Software License (OSL 3.0) 
- * that is bundled with this package in the file LICENSE.txt. 
- * It is also available through the world-wide-web at this URL: 
- * http://opensource.org/licenses/osl-3.0.php 
- * If you did not receive a copy of the license and are unable to 
- * obtain it through the world-wide-web, please send an email 
- * to license@magentocommerce.com so we can send you a copy immediately. 
- * 
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
  * @category   design_default
- * @package    Mage 
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com) 
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0) 
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * Create account form template
- * 
+ *
  * @see Mage_Customer_Block_Form_Register
  */
 ?>
@@ -34,6 +34,7 @@
 		<input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
 			<h4 class="legend"><?php echo $this->__('Personal Information') ?></h4>
 			<ul class="form-list">
+<?php /*
 				<li>
 					<div class="col2-alt-set">
 						<div class="col-1"><label for="firstname"><?php echo $this->__('First Name') ?> <span class="required">*</span></label></div>
@@ -46,6 +47,10 @@
 						<div class="col-2"><input type="text" name="lastname" id="lastname" value="<?php echo $this->htmlEscape($this->getFormData()->getLastname()) ?>" title="<?php echo $this->__('Last Name') ?>" class="required-entry input-text" /></div>
 					</div><div class="clear"></div>
 				</li>
+*/ ?>
+                <li>
+                    <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getFormData())->toHtml() ?>
+                </li>
 				<li>
 					<div class="col2-alt-set">
 						<div class="col-1"><label for="email_address"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label></div>
@@ -58,6 +63,14 @@
 						<label for="is_subscribed"><?php echo $this->__('Sign Up for Newsletter') ?></label>
 					</div>
 				</li>
+<?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+<?php if ($_dob->isEnabled()): ?>
+                <li><?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?></li>
+<?php endif ?>
+<?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+<?php if ($_taxvat->isEnabled()): ?>
+                <li><?php echo $_taxvat->setTaxvat($this->getFormData()->getTaxvat())->toHtml() ?></li>
+<?php endif ?>
 			</ul>
 		</fieldset>
 		<?php if($this->getShowAddressFields()): ?>

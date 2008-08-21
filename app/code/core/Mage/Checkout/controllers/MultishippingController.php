@@ -23,7 +23,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_Action
+class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Action
 {
     /**
      * Retrieve checkout model
@@ -76,6 +76,10 @@ class Mage_Checkout_MultishippingController extends Mage_Core_Controller_Front_A
             if (!Mage::getSingleton('customer/session')->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             }
+        }
+
+        if (!$this->_preDispatchValidateCustomer()) {
+            return $this;
         }
 
         if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)

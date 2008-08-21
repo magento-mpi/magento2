@@ -665,6 +665,15 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Please make sure your passwords match.');
         }
 
+        if (('req' === Mage::helper('customer/address')->getConfig('dob_show'))
+            && '' == trim($this->getDob())) {
+            $errors[] = $helper->__('Date of Birth is required.');
+        }
+        if (('req' === Mage::helper('customer/address')->getConfig('taxvat_show'))
+            && '' == trim($this->getTaxvat())) {
+            $errors[] = $helper->__('TAX/VAT number is required.');
+        }
+
         if (empty($errors)) {
             return true;
         }
