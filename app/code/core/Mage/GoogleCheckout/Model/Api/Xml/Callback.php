@@ -305,9 +305,14 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $payment = Mage::getModel('sales/order_payment')->setMethod('googlecheckout');
         $order->setPayment($payment);
 
+        $emailAllowed = ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE')==='true');
+
         $order->setCustomerNote(
             $this->__('Google Order Number: %s', '<strong>'.$this->getGoogleOrderNumber()).'</strong>'.
-            '<br/>'. $this->__('Google Buyer Id: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>')
+            '<br />'.
+            $this->__('Google Buyer Id: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>').
+            '<br />'.
+            $this->__('Is Buyer Willing To Receive Marketing E-Mails: %s', '<strong>' . ($emailAllowed ? $this->__('Yes') : $this->__('No')) . '</strong>')
         );
 
 #ob_start(array($this, 'log'));
@@ -323,10 +328,17 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             ->setLastOrderId($order->getId())
             ->setLastRealOrderId($order->getIncrementId());
 
-        if ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE')==='true') {
+        if ($emailAllowed) {
             Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
         }
 
+        $shoppingCartQuoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+        $tmpQuote = Mage::getModel('sales/quote')->load($shoppingCartQuoteId);
+/*
+        if (!$tmpQuote->getIsChanged()) {
+            $tmpQuote->delete();
+        }
+*/
         $this->getGRequest()->SendMerchantOrderNumber($order->getExtOrderId(), $order->getIncrementId());
     }
 
@@ -351,12 +363,15 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 $qAddress->setLastname($nameArr[1]);
             }
         }
+        $region = Mage::getModel('directory/region')->loadByCode($gAddress->getData('region/VALUE'), $gAddress->getData('country-code/VALUE'));
+
         $qAddress
             ->setCompany($gAddress->getData('company-name/VALUE'))
             ->setEmail($gAddress->getData('email/VALUE'))
             ->setStreet(trim($gAddress->getData('address1/VALUE')."\n".$gAddress->getData('address2/VALUE')))
             ->setCity($gAddress->getData('city/VALUE'))
             ->setRegion($gAddress->getData('region/VALUE'))
+            ->setRegionId($region->getId())
             ->setPostcode($gAddress->getData('postal-code/VALUE'))
             ->setCountryId($gAddress->getData('country-code/VALUE'))
             ->setTelephone($gAddress->getData('phone/VALUE'))
@@ -368,6 +383,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     protected function _importGoogleTotals($qAddress)
     {
         $qAddress->setTaxAmount($this->getData('root/order-adjustment/total-tax/VALUE'));
+        $qAddress->setBaseTaxAmount($this->getData('root/order-adjustment/total-tax/VALUE'));
 
         $prefix = 'root/order-adjustment/shipping/';
         if ($shipping = $this->getData($prefix.'carrier-calculated-shipping-adjustment')) {
@@ -380,15 +396,25 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $method = 'googlecheckout_pickup';
         }
         if (!empty($method)) {
+            $excludingTax = $shipping['shipping-cost']['VALUE'];
+            if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
+                $includingTax = Mage::helper('tax')->getShippingPrice($excludingTax, true, $qAddress, $qAddress->getQuote()->getCustomerTaxClassId());
+                $shippingTax = $includingTax - $excludingTax;
+                $qAddress->setShippingTaxAmount($shippingTax)
+                    ->setBaseShippingTaxAmount($shippingTax);
+            }
+
             $qAddress->setShippingMethod($method)
                 ->setShippingDescription($shipping['shipping-name']['VALUE'])
-                ->setShippingAmount($shipping['shipping-cost']['VALUE'], true);
+                ->setShippingAmount($excludingTax, true)
+                ->setBaseShippingAmount($excludingTax, true);
         } else {
             $qAddress->setShippingMethod(null);
         }
 
 
         $qAddress->setGrandTotal($this->getData('root/order-total/VALUE'));
+        $qAddress->setBaseGrandTotal($this->getData('root/order-total/VALUE'));
     }
 
     /**
@@ -465,6 +491,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $latestCharged = $this->getData('root/latest-charge-amount/VALUE');
         $totalCharged = $this->getData('root/total-charge-amount/VALUE');
         $payment->setAmountCharged($totalCharged);
+        $order->setIsInProcess(true);
 
         $msg = $this->__('Google Charge:');
         $msg .= '<br />'.$this->__('Latest Charge: %s', '<strong>'.Mage::helper('core')->currency($latestCharged).'</strong>');
@@ -501,6 +528,25 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         return $invoice;
     }
+
+    protected function _createShipment()
+    {
+        $order = $this->getOrder();
+        $shipment = $order->prepareShipment();
+        if ($shipment) {
+            $shipment->register();
+
+            $order->setIsInProcess(true);
+
+            $transactionSave = Mage::getModel('core/resource_transaction')
+                ->addObject($shipment)
+                ->addObject($shipment->getOrder())
+                ->save();
+        }
+
+        return $shipment;
+    }
+
 
     protected function _responseChargebackAmountNotification()
     {
@@ -606,7 +652,9 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
     protected function _orderStateChangeFulfillmentDelivered()
     {
-
+        $shipment = $this->_createShipment();
+        if (!is_null($shipment))
+            $shipment->save();
     }
 
     protected function _orderStateChangeFulfillmentWillNotDeliver()

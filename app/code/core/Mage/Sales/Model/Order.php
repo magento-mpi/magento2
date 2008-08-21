@@ -1373,6 +1373,46 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Create new shipment with maximum qty for shipping for each item
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    public function prepareShipment($qtys = array())
+    {
+        $totalToShip = 0;
+        $convertor = Mage::getModel('sales/convert_order');
+        $shipment = $convertor->toShipment($this);
+        foreach ($this->getAllItems() as $orderItem) {
+            if (!$orderItem->isDummy() && !$orderItem->getQtyToShip()) {
+                continue;
+            }
+            if ($orderItem->isDummy() && !$this->_needToAddDummy($orderItem, $qtys)) {
+                continue;
+            }
+            $item = $convertor->itemToShipmentItem($orderItem);
+            if ($orderItem->isDummy()) {
+                $qty = 1;
+            } else {
+                if (isset($qtys[$orderItem->getId()])) {
+                    $qty = $qtys[$orderItem->getId()];
+                } else {
+                    $qty = $orderItem->getQtyToShip();
+                }
+            }
+
+            $totalToShip += $qty;
+            $item->setQty($qty);
+            $shipment->addItem($item);
+        }
+
+        if ($totalToShip) {
+            return $shipment;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Decides if we need to create dummy invoice item or not
      * for eaxample we don't need create dummy parent if all
      * children are not in process

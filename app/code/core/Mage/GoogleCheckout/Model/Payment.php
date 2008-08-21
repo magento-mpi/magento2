@@ -36,7 +36,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     protected $_canRefund               = true;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = false;
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout          = false;
     protected $_canUseForMultishipping  = false;
 
     /**
@@ -147,6 +147,8 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
         $hlp = Mage::helper('googlecheckout');
         $reason = $this->getReason() ? $this->getReason() : $hlp->__('Unknown Reason');
         $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
+
+        // if total_refunded != total_paid then refund (total_paid - total_refunded)
 
         $api = Mage::getModel('googlecheckout/api');
         #$api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);

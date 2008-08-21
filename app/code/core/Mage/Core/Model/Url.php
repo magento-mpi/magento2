@@ -198,6 +198,10 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function getSecure()
     {
+        if ($this->hasSecureIsForced()) {
+            return $this->_getData('secure');
+        }
+
         if (!Mage::getStoreConfigFlag('web/secure/use_in_frontend')) {
             return false;
         }
@@ -411,9 +415,15 @@ class Mage_Core_Model_Url extends Varien_Object
             unset($data['_type']);
         }
 
-        if (isset($data['_secure'])) {
-            $this->setSecure((bool)$data['_secure']);
-            unset($data['_secure']);
+        if (isset($data['_forced_secure'])) {
+            $this->setSecure((bool)$data['_forced_secure']);
+            $this->setSecureIsForced(true);
+            unset($data['_forced_secure']);
+        } else {
+            if (isset($data['_secure'])) {
+                $this->setSecure((bool)$data['_secure']);
+                unset($data['_secure']);
+            }
         }
 
         if (isset($data['_absolute'])) {

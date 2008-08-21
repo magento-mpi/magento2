@@ -169,4 +169,11 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setCheckoutState(self::CHECKOUT_STATE_BEGIN);
         return $this;
     }
+
+    public function replaceQuote($quote)
+    {
+        $this->_quote = $quote;
+        $this->setQuoteId($quote->getId());
+        return $this;
+    }
 }

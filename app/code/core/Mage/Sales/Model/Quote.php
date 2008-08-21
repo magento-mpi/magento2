@@ -138,13 +138,24 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $baseCurrencyCode  = Mage::app()->getBaseCurrencyCode();
         $storeCurrency = $this->getStore()->getBaseCurrency();
-        $quoteCurrency = $this->getStore()->getCurrentCurrency();
+
+        if ($this->hasForcedCurrency()){
+            $quoteCurrency = $this->getForcedCurrency();
+        } else {
+            $quoteCurrency = $this->getStore()->getCurrentCurrency();
+        }
 
         $this->setBaseCurrencyCode($baseCurrencyCode);
         $this->setStoreCurrencyCode($storeCurrency->getCode());
         $this->setQuoteCurrencyCode($quoteCurrency->getCode());
         $this->setStoreToBaseRate($storeCurrency->getRate($baseCurrencyCode));
         $this->setStoreToQuoteRate($storeCurrency->getRate($quoteCurrency));
+
+        if (!$this->hasChangedFlag() || $this->getChangedFlag() == true) {
+            $this->setIsChanged(1);
+        } else {
+            $this->setIsChanged(0);
+        }
 
         parent::_beforeSave();
     }
