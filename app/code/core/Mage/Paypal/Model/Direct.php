@@ -112,7 +112,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setShippingAddress($payment->getOrder()->getShippingAddress())
             ->setEmail($payment->getOrder()->getCustomerEmail())
             ->setPayment($payment)
-            ->setInvNum($this->getQuote()->reserveOrderId(););
+            ->setInvNum($this->getQuote()->reserveOrderId());
 
         if ($api->callDoDirectPayment()!==false) {
             $payment
