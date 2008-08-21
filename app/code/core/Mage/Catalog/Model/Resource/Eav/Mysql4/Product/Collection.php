@@ -632,9 +632,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     public function setOrder($attribute, $dir='desc')
     {
-        if ($attribute == 'price') {
+        $storeId = Mage::app()->getStore()->getId();
+        if ($attribute == 'price' && $storeId != 0) {
             $customerGroup = Mage::getSingleton('customer/session')->getCustomer()->getCustomerGroupId();
-            $storeId = Mage::app()->getStore()->getId();
 
             $priceAttributeId = $this->getAttribute('price')->getId();
 
