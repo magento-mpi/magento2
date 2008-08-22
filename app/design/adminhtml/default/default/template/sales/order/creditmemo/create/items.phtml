@@ -114,9 +114,9 @@
 
 <script type="text/javascript">
 //<![CDATA[
-var submitButtons = document.getElementsByClassName('submit-button');
-var updateButtons = document.getElementsByClassName('update-button');
-var fields = document.getElementsByClassName('qty-input');
+var submitButtons = $$('.submit-button');
+var updateButtons = $$('.update-button');
+var fields = $$('.qty-input');
 
 updateButtons.each(function (elem) {elem.disabled=true;elem.addClassName('disabled');});
 
