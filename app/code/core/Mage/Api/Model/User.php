@@ -155,7 +155,9 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
      */
     public function login($username, $apiKey)
     {
+        $sessId = $this->getSessid();
         if ($this->authenticate($username, $apiKey)) {
+            $this->setSessid($sessId);
             $this->getResource()->recordLogin($this);
         }
 
@@ -171,6 +173,12 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
     public function loadByUsername($username)
     {
         $this->setData($this->getResource()->loadByUsername($username));
+        return $this;
+    }
+
+    public function loadBySessId ($sessId)
+    {
+        $this->setData($this->getResource()->loadBySessId($sessId));
         return $this;
     }
 

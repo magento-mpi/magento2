@@ -102,4 +102,34 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <api>
+                                            <title>Magento Core Api Section</title>
+                                        </api>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Mage_Api>
+                    <files>
+                        <default>Mage_Api.csv</default>
+                    </files>
+                </Mage_Api>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

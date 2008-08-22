@@ -99,6 +99,17 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     }
 
     /**
+     *  Check session expiration
+     *
+     *  @param    none
+     *  @return	  boolean
+     */
+    protected function _isSessionExpired ()
+    {
+        return $this->_getSession()->isSessionExpired();
+    }
+
+    /**
      * Dispatch webservice fault
      *
      * @param string $faultName
@@ -200,6 +211,10 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     {
         $this->_startSession($sessionId);
 
+        if (!$this->_getSession()->isLoggedIn($sessionId)) {
+            return $this->_fault('session_expired');
+        }
+
         list($resourceName, $methodName) = explode('.', $apiPath);
 
         if (empty($resourceName) || empty($methodName)) {
@@ -277,6 +292,11 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     public function multiCall($sessionId, array $calls = array(), $options = array())
     {
         $this->_startSession($sessionId);
+
+        if (!$this->_getSession()->isLoggedIn($sessionId)) {
+            return $this->_fault('session_expired');
+        }
+
         $result = array();
 
         $resourcesAlias = $this->_getConfig()->getResourcesAlias();

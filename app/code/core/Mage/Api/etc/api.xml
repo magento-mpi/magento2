@@ -71,6 +71,10 @@
                 <code>4</code>
                 <message>Resource path is not callable.</message>
             </resource_path_not_callable>
+            <session_expired>
+                <code>5</code>
+                <message>Session expired. Try to relogin.</message>
+            </session_expired>
         </faults>
         <acl>
             <asserts>
