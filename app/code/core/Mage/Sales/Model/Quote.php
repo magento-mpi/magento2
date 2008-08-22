@@ -565,6 +565,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function removeItem($itemId)
     {
         if ($item = $this->getItemById($itemId)) {
+            /**
+             * If we remove item from quote - we can't use multishipping mode
+             */
+            $this->setIsMultiShipping(false);
             $item->isDeleted(true);
             if ($item->getHasChildren()) {
                 foreach ($item->getChildren() as $child) {
