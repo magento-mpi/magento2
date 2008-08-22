@@ -92,7 +92,7 @@
             <td class="last a-right"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
         </tr>
     </tfoot>
-		<?php $_items = $_order->getItemsCollection(); ?>
+    <?php $_items = $_order->getItemsCollection(); ?>
     <?php $_count = $_items->count(); ?>
     <?php foreach ($_items as $_item): ?>
     <?php if ($_item->getParentItem()) continue; ?>

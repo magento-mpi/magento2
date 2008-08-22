@@ -18,7 +18,7 @@
 h1#logo { display:inline; }
 #nav li.parent { margin-bottom:-3px; }
 .one-page-checkout { position:relative; }
-.one-page-checkout li,
+.one-page-checkout li.section,
 .one-page-checkout .default-box { zoom:1; vertical-align:top; }
 .group-select .legend { position:relative; zoom:1; }
 .advanced-search .legend { position:relative; zoom:1; }

@@ -49,9 +49,7 @@
             <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a>
         </div>
     <?php endif; ?>
-    <div style="clear:both;"></div>
 </div>
-<br />
 <?php if($this->getResultCount()): ?>
     <?php echo $this->getProductListHtml() ?>
 <?php endif; ?>

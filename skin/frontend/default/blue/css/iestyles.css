@@ -57,7 +57,9 @@
 .product-options dd ul.options-list .label,
 .product-options-bottom,
 .truncated_full_value,
-.add-to-holder { zoom:1; }
+.add-to-holder,
+.advanced-search-summary-box,
+.listing-type-grid2 .grid-row { zoom:1; }
 
 input.radio,
 input.checkbox { width:13px; height:13px; }
