@@ -155,10 +155,7 @@ if(!window.Flex) {
         },
         updateFile:  function (file) {
             if (!$(this.getFileId(file))) {
-                new Insertion.Bottom(
-                    this.container,
-                    this.fileRowTemplate.evaluate(this.getFileVars(file))
-                );
+                Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
             }
 
             if (file.status == 'full_complete' && file.response.isJSON()) {

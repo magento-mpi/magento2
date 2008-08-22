@@ -161,23 +161,23 @@ function execImportData() {
 
         $("updatedRows").down("img").src = config.styles.message.icon;
         $("updatedRows").style.backgroundColor = config.styles.message.bg;
-        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+        Element.insert($("liFinished"), {before: config.tpl.evaluate({
             style: "background-color:"+config.styles.message.bg,
             image: config.styles.message.icon,
             text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
             id: "updatedFinish"
-        }));
+        })});
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId())) .'", {
             onComplete: function(transport) {
                 if (transport.responseText.isJSON()) {
                     var response = transport.responseText.evalJSON();
                     if (response.error) {
-                        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+                        Element.insert($("liFinished"), {before: config.tpl.evaluate({
                             style: "background-color:"+config.styles.error.bg,
                             image: config.styles.error.icon,
                             text: response.error.escapeHTML(),
                             id: "error-finish"
-                        }));
+                        })});
                     }
                 }
 
@@ -196,12 +196,12 @@ function sendImportData(data) {
         config.tplSccTxt = new Template(config.successText);
     }
     if (!$("updatedRows")) {
-        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+        Element.insert($("liFinished"), {before: config.tpl.evaluate({
             style: "background-color: #FFD;",
             image: config.styles.loader,
             text: config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}),
             id: "updatedRows"
-        }));
+        })});
     }
     countOfStartedProfiles++;
 
@@ -214,12 +214,12 @@ function sendImportData(data) {
         if (transport.responseText.isJSON()) {
             addProfileRow(transport.responseText.evalJSON());
         } else {
-            new Insertion.Before($("updatedRows"), config.tpl.evaluate({
+            Element.insert($("updatedRows"), {before: config.tpl.evaluate({
                 style: "background-color:"+config.styles.error.bg,
                 image: config.styles.error.icon,
                 text: transport.responseText.escapeHTML(),
                 id: "error-" + countOfStartedProfiles
-            }));
+            })});
             countOfError += data["rows[]"].length;
         }
         execImportData();
@@ -234,12 +234,12 @@ function getPercent() {
 function addProfileRow(data) {
     if (data.errors.length > 0) {
         for (var i=0, length=data.errors.length; i<length; i++) {
-            new Insertion.Before($("updatedRows"), config.tpl.evaluate({
+            Element.insert($("updatedRows"), {before: config.tpl.evaluate({
                 style: "background-color:"+config.styles.error.bg,
                 image: config.styles.error.icon,
                 text: data.errors[i],
                 id: "id-" + (countOfUpdated + i + 1)
-            }));
+            })});
             countOfError ++;
         }
     }

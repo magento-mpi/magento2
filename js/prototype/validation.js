@@ -143,7 +143,7 @@ Object.extend(Validation, {
     insertAdvice : function(elm, advice){
         var container = $(elm).up('.field-row');
         if(container){
-            new Insertion.After(container, advice);
+            Element.insert(container, {after: advice});
         }
         else if (elm.advaiceContainer && $(elm.advaiceContainer)) {
             $(elm.advaiceContainer).update(advice);

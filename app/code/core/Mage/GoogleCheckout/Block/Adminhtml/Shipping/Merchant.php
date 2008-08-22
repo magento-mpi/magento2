@@ -123,7 +123,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
                     ->setClass('add '.$this->_getDisabled())
                     ->setLabel($this->__($title))
                     //$this->__('Add')
-                    ->setOnClick("new Insertion.Bottom($('".$container."'), $('".$template."').innerHTML)")
+                    ->setOnClick("Element.insert($('".$container."'), {bottom: $('".$template."').innerHTML})")
                     ->setDisabled($this->_getDisabled())
                     ->toHtml();
         }

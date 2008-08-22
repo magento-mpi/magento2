@@ -193,11 +193,11 @@ addressesModel.prototype = {
             }
 
             // create new form elements
-            new Insertion.Bottom(
-                this.formContainer,
+            Element.insert(this.formContainer, {bottom:
                 '<div id="' + 'form_' + this.baseItemId + this.itemCount + '">'
                 + this.prepareTemplate(this.formTemplate.innerHTML)
-                + '</div>') ;
+                + '</div>'
+            });
 
             var newForm = $('form_' + this.baseItemId + this.itemCount);
 
@@ -209,7 +209,7 @@ addressesModel.prototype = {
             deleteButtonId ++;
             template    += this.prepareTemplate(this.itemTemplate.innerHTML).replace('delete_button', 'delete_button'+ deleteButtonId);
             template    += '</li>';
-            new Insertion.Bottom(this.itemContainer, template);
+            Element.insert(this.itemContainer, {bottom: template});
             var newItem = $(this.baseItemId+this.itemCount);
             newItem.isNewAddress = true;
             newItem.formBlock = newForm;
@@ -474,7 +474,7 @@ addressesModel.prototype = {
                 if(reqLabel){
                     reqLabel.each(function(item){Element.hide(item)});
                 }
-                new Insertion.Before(this.regionElement, html);
+                Element.insert(this.regionElement, {before: html});
                 Element.remove(this.regionElement);
             }
         }

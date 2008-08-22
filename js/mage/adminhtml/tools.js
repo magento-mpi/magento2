@@ -186,11 +186,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         header_offset = Element.cumulativeOffset(header)[1];
         var buttons = $$('.content-buttons')[0];
         if (buttons) {
-            Element.insert(
-                buttons,
-                {'before':'<div class="content-buttons-placeholder"></div>'}
-            );
-            //new Insertion.Before(buttons, '<div class="content-buttons-placeholder"></div>');
+            Element.insert(buttons, {before: '<div class="content-buttons-placeholder"></div>'});
             buttons.placeholder = buttons.previous('.content-buttons-placeholder');
             buttons.remove();
             buttons.placeholder.appendChild(buttons);

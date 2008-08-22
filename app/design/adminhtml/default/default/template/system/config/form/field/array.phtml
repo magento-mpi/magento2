@@ -95,17 +95,11 @@ var arrayRow<?php echo $_htmlId ?> = {
 
         // insert before last row
         if ('' == insertAfterId) {
-            new Insertion.Before(
-                $('addRow<?php echo $_htmlId ?>'),
-                this.template.evaluate(templateData)
-            );
+            Element.insert($('addRow<?php echo $_htmlId ?>'), {before: this.template.evaluate(templateData)});
         }
         // insert after specified row
         else {
-            new Insertion.After(
-                $(insertAfterId),
-                this.template.evaluate(templateData)
-            );
+            Element.insert($(insertAfterId), {after: this.template.evaluate(templateData)});
         }
 
 <?php if ($this->_addAfter):?>

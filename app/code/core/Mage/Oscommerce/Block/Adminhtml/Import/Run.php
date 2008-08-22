@@ -20,7 +20,7 @@
 
 /**
  *  osCommerce import run block
- * 
+ *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Abstract
@@ -65,8 +65,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
         echo '</ul>';
 
         if ($importModel->getId()) {
-            echo '<ul id="profileRows">';  
-            ob_implicit_flush();              
+            echo '<ul id="profileRows">';
+            ob_implicit_flush();
             $showFinished = false;
             $countItems = 0;
             $batchConfig = array(
@@ -89,7 +89,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
             'successText'  => $this->__('Total imported <strong>%s</strong> records (%s)', '#{updated}', '#{totalImported}')
             );
 
-            
+
             echo '<li id="liFinished" style="display:none;">';
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Finished profile execution.");
@@ -116,19 +116,19 @@ function addImportData(data) {
 }
 
 function execImportData() {
-    
+
     if (importData.length == 0) {
     	resetAllCount();
     	var totalImported = "";
     	for (var idx in totalImportedRecords) {
     		totalImported += (totalImported?", ":"") + idx.ucFirst() + " <strong>" + totalImportedRecords[idx] + "</strong> '.$this->__('records').'";
     	}
-        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+    	Element.insert($("liFinished"), {before: config.tpl.evaluate({
             style: "background-color:"+config.styles.message.bg,
             image: config.styles.message.icon,
             text: config.tplSccTxt.evaluate({updated:(countOfTotalUpdated-countOfError), totalImported:totalImported}),
             id: "updatedFinish"
-        }));
+        })});
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $importModel->getId())) .'", {
             onComplete: function() {
                 $(\'liFinished\').show();
@@ -147,12 +147,12 @@ function sendImportData(data) {
     }
     if (!$("updatedRows-"+data["import_type"])) {
         resetAllCount();
-        new Insertion.Before($("liFinished"), config.tpl.evaluate({
+        Element.insert($("liFinished"), {before: config.tpl.evaluate({
             style: "background-color: #FFD;",
             image: config.styles.loader,
             text: data["import_type"].ucFirst() + " " +  config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent(data), total:totalRecords[data["import_type"]]}),
             id: "updatedRows-"+data["import_type"]
-        }));
+        })});
     }
     countOfStartedProfiles++;
 
@@ -161,7 +161,7 @@ function sendImportData(data) {
       method: "post",
       parameters: data,
       onSuccess: function(transport) {
-        
+
         countOfStartedProfiles --;
         if (transport.responseText.isJSON()) {
             savedRows = parseInt(transport.responseText.evalJSON()["savedRows"]);
@@ -173,12 +173,12 @@ function sendImportData(data) {
                 $("updatedRows-"+data["import_type"]).style.backgroundColor = config.styles.message.bg;
             }
         } else {
-            new Insertion.Before($("updatedRows"), config.tpl.evaluate({
+            Element.insert($("updatedRows"), {before: config.tpl.evaluate({
                 style: "background-color:"+config.styles.error.bg,
                 image: config.styles.error.icon,
                 text: transport.responseText.escapeHTML(),
                 id: "error-" + countOfStartedProfiles
-            }));
+            })});
             countOfError += data["from"].length;
         }
         execImportData();
@@ -186,7 +186,7 @@ function sendImportData(data) {
       onFailure: function() {
         alert("error");
       }
-      
+
     });
 }
 
@@ -202,12 +202,12 @@ function getPercent(data) {
 function addProfileRow(data, Info) {
     if (data.errors.length > 0) {
         for (var i=0, length=data.errors.length; i<length; i++) {
-            new Insertion.Before($("updatedRows-"+Info["import_type"]), config.tpl.evaluate({
+            Element.insert($("updatedRows-"+Info["import_type"]), {before: config.tpl.evaluate({
                 style: "background-color:"+config.styles.error.bg,
                 image: config.styles.error.icon,
                 text: data.errors[i],
                 id: "id-" + (countOfUpdated + i + 1)
-            }));
+            })});
             countOfError ++;
         }
     }
@@ -230,10 +230,10 @@ String.prototype.ucFirst = function () {
 
 </script>
 ';
-            
+
 //            echo '<ul id="profileRows">';
 
-       
+
             if ($totalRecords = $importModel->getTotalRecords()) {
 
                     $maxRows = $importModel->getResource()->getMaxRows();
@@ -250,7 +250,7 @@ String.prototype.ucFirst = function () {
                                 );
                                 echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
                             }
-                        
+
 //                        if ($importType=='categories') {
 //                            $data = array(
 //                                'import_id'   => $importModel->getId(),
@@ -259,7 +259,7 @@ String.prototype.ucFirst = function () {
 //                                'is_done'     => true
 //                            );
 //                            echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
-//                            
+//
 //                        } else {
 //                            $page =  floor($totalRecord/$maxRows) + 1;
 //                            for ($i = 0; $i < $page; $i++) {
@@ -273,10 +273,10 @@ String.prototype.ucFirst = function () {
 //                            }
 //                        }
                     }
-                    echo '<script type="text/javascript">execImportData()</script>';   
+                    echo '<script type="text/javascript">execImportData()</script>';
 
             }
-                   
+
         }
         echo '</body></html>';
         exit;

@@ -123,10 +123,7 @@ var attributeOption = {
         if (!data.intype)
             data.intype = optionDefaultInputType;
 
-        new Insertion.After(
-				this.table,
-				this.template.evaluate(data)
-			);
+        Element.insert(this.table, {after: this.template.evaluate(data)});
         this.bindRemoveButtons();
         this.itemCount++;
         this.totalItems++;

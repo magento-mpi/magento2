@@ -132,7 +132,7 @@ VarienForm.prototype = {
                     }
                 }
                 html+= '</select>';
-                new Insertion.Before(child,html);
+                Element.insert(child, {before: html});
                 Element.remove(child);
             }
         }
@@ -140,7 +140,7 @@ VarienForm.prototype = {
             var child = $(this.cache[this.currLoader]['child']);
             if (child){
                 var html = '<input type="text" name="'+child.name+'" id="'+child.id+'" class="'+child.className+'" title="'+child.title+'" '+this.extraChildParams+'>';
-                new Insertion.Before(child,html);
+                Element.insert(child, {before: html});
                 Element.remove(child);
             }
         }

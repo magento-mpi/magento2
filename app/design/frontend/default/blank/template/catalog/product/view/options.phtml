@@ -33,10 +33,7 @@
 
             template = '<iframe id="upload_target" name="upload_target" style="width:0; height:0; border:0;"><\/iframe>';
 
-            new Insertion.After(
-                $('option_'+element.readAttribute('id').sub('option_', '')+'_uploaded_file'),
-                template
-            );
+            Element.insert($('option_'+element.readAttribute('id').sub('option_', '')+'_uploaded_file'), {after: template});
 
             this.formAction = this.productForm.action;
             this.productForm.action = '<?php echo $this->getUrl('*/product/upload') ?>option_id/'+element.readAttribute('id').sub('option_', '');
@@ -72,10 +69,7 @@
                 $('option_'+data.optionId+'').hide();
                 template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"><\/a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file<\/a>';
 
-                new Insertion.After(
-                    $('option_'+data.optionId+'_uploaded_file'),
-                    template
-                );
+                Element.insert($('option_'+data.optionId+'_uploaded_file'), {after: template});
             }
         },
         removeFile : function(optionId)

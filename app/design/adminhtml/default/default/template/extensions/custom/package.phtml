@@ -22,7 +22,7 @@
 <script type="text/javascript">
 function addRow(container, template)
 {
-    new Insertion.Bottom($(container), '<tr>' + $(template).innerHTML + '</tr>');
+    Element.insert($(container), {bottom: '<tr>' + $(template).innerHTML + '</tr>'});
 }
 
 function removeRow(button, selector)

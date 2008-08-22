@@ -47,7 +47,7 @@ function showOption(select)
 function addFieldMapping()
 {
     var entityType = $('profile_entity_type').value;
-    new Insertion.Bottom($('map_container_'+entityType), $('map_template_'+entityType).innerHTML);
+    Element.insert($('map_container_'+entityType), {bottom: $('map_template_'+entityType).innerHTML});
 }
 
 function removeFieldMapping(button)

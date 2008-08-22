@@ -33,10 +33,7 @@ if(!window.Flex) {
 
             this.config = config;
             this.flexContainerId = this.containerId + '-flash';
-            new Insertion.Bottom(
-                this.container,
-                '<div id="'+this.flexContainerId+'"></div>'
-            );
+            Element.insert(this.container, {bottom: '<div id="'+this.flexContainerId+'"></div>'});
 
             this.flex = new Flex.Object({
                 width:  "1024",
@@ -44,20 +41,20 @@ if(!window.Flex) {
                 src:    movieSrc,
                 wmode: 'transparent'
             });
-            
-      
+
+
             this.flex.onBridgeInit = this.handleBridgeInit.bind(this);
-            this.flex.apply(this.flexContainerId);			
+            this.flex.apply(this.flexContainerId);
         },
         getInnerElement: function(elementName) {
             return $(this.containerId + '-' + elementName);
-        },        
-        handleBridgeInit: function() {			
-			this.flex.getBridge().addEventListener('image_loaded', this.handleImageLoad.bind(this));		
+        },
+        handleBridgeInit: function() {
+			this.flex.getBridge().addEventListener('image_loaded', this.handleImageLoad.bind(this));
 			this.flex.getBridge().setImage(this.config.image);
-			
-			
-        },       
+
+
+        },
 		handleImageLoad: function(event) {
 			alert('image_loaded:' + this.config.image);
 			this.hangleImageResize();
@@ -66,12 +63,12 @@ if(!window.Flex) {
 			var size = this.flex.getBridge().getSize();
 			this.getInnerElement('width').value = size.width;
 			this.getInnerElement('height').value = size.height;
-			
+
 		},
 		rotateCw: function() {
 			this.flex.getBridge().rotateFw();
 			this.hangleImageResize();
-		},		
+		},
 		rotateCCw: function() {
 			this.flex.getBridge().rotateBw();
 			this.hangleImageResize();
