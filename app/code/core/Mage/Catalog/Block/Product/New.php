@@ -28,6 +28,10 @@
  */
 class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
 {
+    protected $_productsCount = null;
+
+    const DEFAULT_PRODUCTS_COUNT = 5;
+
     public function __construct()
     {
         parent::__construct();
@@ -49,8 +53,26 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
 
-        $products->setOrder('news_from_date')->setPageSize(5)->setCurPage(1);
-
         $this->setProductCollection($products);
+    }
+
+    protected function _beforeToHtml()
+    {
+        $this->getProductCollection()->setOrder('news_from_date')->setPageSize($this->getProductsCount())->setCurPage(1);
+        return parent::_beforeToHtml();
+    }
+
+    public function setProductsCount($count)
+    {
+        $this->_productsCount = $count;
+        return $this;
+    }
+
+    public function getProductsCount()
+    {
+        if (null === $this->_productsCount) {
+            $this->_productsCount = self::DEFAULT_PRODUCTS_COUNT;
+        }
+        return $this->_productsCount;
     }
 }
