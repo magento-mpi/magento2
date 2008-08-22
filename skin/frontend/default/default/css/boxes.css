@@ -854,12 +854,16 @@ table.recently-list td {width:20%; }
 .listing-type-grid .actions { margin:10px 0; text-align:center; }*/
 
 /* Grid Type */
-.listing-type-grid2 { background:url(../images/bkg_products-grid.gif) 0 0 repeat-y; }
-.listing-type-grid2 .grid-row { border-bottom:1px solid #d9dde3; }
-.listing-type-grid2 li.item { float:left; width:138px; padding:12px 10px; line-height:1.6em; overflow:hidden; }
-.listing-type-grid2 .last { border-bottom:0; }
-.listing-type-grid2 .rating-box { float:left; margin-left:0; margin-right:5px; }
-.listing-type-grid2 .actions { margin:10px 0; text-align:center; }
+.listing-type-grid { background:url(../images/bkg_products-grid.gif) 0 0 repeat; }
+.listing-type-grid .grid-row { border-bottom:1px solid #d9dde3; }
+.listing-type-grid li.item { float:left; width:138px; padding:12px 10px; line-height:1.6em; overflow:hidden; }
+.listing-type-grid .last { border-bottom:0; }
+.listing-type-grid .product-image { text-align:center; }
+.listing-type-grid .rating-box { float:left; margin-left:0; margin-right:5px; }
+.listing-type-grid .actions { margin:10px 0; text-align:center; }
+/* Rewrites for Advanced Search Page */
+.advanced-search-products .listing-type-grid li.item { width:208px; }
+.advanced-search-products .listing-type-grid { background-image:url(../images/bkg_products-grid2.gif); }
 
 
 

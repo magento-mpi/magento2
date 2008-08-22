@@ -51,6 +51,8 @@
     <?php endif; ?>
 </div>
 <?php if($this->getResultCount()): ?>
-    <?php echo $this->getProductListHtml() ?>
+    <div class="advanced-search-products">
+        <?php echo $this->getProductListHtml() ?>
+    </div>
 <?php endif; ?>
 <?php $this->getSearchCriterias(); ?>

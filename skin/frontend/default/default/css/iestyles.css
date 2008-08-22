@@ -59,7 +59,7 @@
 .truncated_full_value,
 .add-to-holder,
 .advanced-search-summary-box,
-.listing-type-grid2 .grid-row { zoom:1; }
+.listing-type-grid .grid-row { zoom:1; }
 
 .form-button,
 .form-button-alt { padding:1px 10px 0; }
