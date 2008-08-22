@@ -113,4 +113,20 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
         }
         return $statuses;
     }
+
+    /**
+     * Retrieve states which are visible on front end
+     *
+     * @return array
+     */
+    public function getVisibleOnFrontStates()
+    {
+        $states = array();
+        foreach ($this->getNode('states')->children() as $state) {
+            if ($state->visible_on_front){
+                $states[] = $state->getName();
+            }
+        }
+        return $states;
+    }
 }
