@@ -23,9 +23,16 @@
  */
 class Mage_Adminhtml_Model_System_Config_Source_Order_Status
 {
+    protected $_stateStatuses = null;
+
     public function toOptionArray()
     {
-        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
+        if ($this->_stateStatuses) {
+            $statuses = Mage::getSingleton('sales/order_config')->getStateStatuses($this->_stateStatuses);
+        }
+        else {
+            $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
+        }
         $options = array();
         $options[] = array(
         	   'value' => '',

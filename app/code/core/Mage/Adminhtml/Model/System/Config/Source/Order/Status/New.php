@@ -21,22 +21,7 @@
 /**
  * Order Statuses source model
  */
-class Mage_Adminhtml_Model_System_Config_Source_Order_Status_New
+class Mage_Adminhtml_Model_System_Config_Source_Order_Status_New extends Mage_Adminhtml_Model_System_Config_Source_Order_Status
 {
-    public function toOptionArray()
-    {
-        $statuses = Mage::getSingleton('sales/order_config')->getStateStatuses(Mage_Sales_Model_Order::STATE_NEW);
-        $options = array();
-        $options[] = array(
-               'value' => '',
-               'label' => Mage::helper('adminhtml')->__('-- Please Select --')
-            );
-        foreach ($statuses as $code=>$label) {
-            $options[] = array(
-               'value' => $code,
-               'label' => $label
-            );
-        }
-        return $options;
-    }
+    protected $_stateStatuses = Mage_Sales_Model_Order::STATE_NEW;
 }

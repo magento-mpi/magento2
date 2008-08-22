@@ -50,12 +50,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     /**
      * Order states
      */
-    const STATE_NEW         = 'new';
-    const STATE_PROCESSING  = 'processing';
-    const STATE_COMPLETE    = 'complete';
-    const STATE_CLOSED      = 'closed';
-    const STATE_CANCELED    = 'canceled';
-    const STATE_HOLDED      = 'holded';
+    const STATE_NEW             = 'new';
+    const STATE_PENDING_PAYMENT = 'pending_payment';
+    const STATE_PROCESSING      = 'processing';
+    const STATE_COMPLETE        = 'complete';
+    const STATE_CLOSED          = 'closed';
+    const STATE_CANCELED        = 'canceled';
+    const STATE_HOLDED          = 'holded';
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';

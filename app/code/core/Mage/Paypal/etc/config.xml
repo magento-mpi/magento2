@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Paypal>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
         </Mage_Paypal>
     </modules>
     <global>
@@ -156,6 +156,7 @@
                   <types>IPN</types>
                   <allowspecific>0</allowspecific>
                   <transaction_type>O</transaction_type>
+                  <order_status>pending_paypal</order_status>
             </paypal_standard>
         </payment>
     </default>

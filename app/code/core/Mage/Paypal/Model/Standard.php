@@ -375,7 +375,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                        }
                     } else {
                         $order->addStatusToHistory(
-                                $order->getStatus(),
+                                'pending',
                                 Mage::helper('paypal')->__('Received IPN verification'));
                     }
 
