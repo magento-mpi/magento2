@@ -785,6 +785,7 @@ table.recently-list td {width:20%; }
 .advanced-search-found-amount { margin-bottom:10px; }
 .advanced-search-summary-box { padding:10px 10px 5px 10px; border:1px solid #E9D7C9; background-color:#FFF6F1; }
 .advanced-search-summary-tip { clear:both; font-weight:bold; }
+.advanced-search-summary-box { margin-bottom:10px; }
 .advanced-search-summary-box ul { list-style:none; float:left; width:50%; margin-bottom:10px; }
 .advanced-search-summary-box ul li span { background:url(../images/search_criteria.gif) 0 3px no-repeat; padding-left:15px; font-weight:bold; color:#E17C24; }
 /* Inline translation fix */
