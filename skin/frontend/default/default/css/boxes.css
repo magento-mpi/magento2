@@ -1382,7 +1382,7 @@ tr.grand_total td, p.grand_total { padding-top:5px; padding-bottom:5px; }
 .customer-name-prefix-middlename-suffix .name-suffix input { width:45px !important; }
 .customer-name-prefix-middlename-suffix .name-suffix select { width:51px !important; }
 
-.customer-dob .input-box { display:block; width:60px !important; }
+.customer-dob .input-box { float:left; width:60px !important; }
 .customer-dob input { width:50px !important; }
 .customer-dob label.label-dob { font-weight:normal; color:#888; font-size:10px; }
 
