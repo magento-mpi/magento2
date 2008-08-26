@@ -29,7 +29,25 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
+
     var categoryForm = new varienForm('category_edit_form');
+
+    categoryForm.submit= function (url){
+      this.errorSections = $H({});
+        this.canShowError = true;
+        this.submitUrl = url;
+        if(this.validator && this.validator.validate()){
+            if(this.validationUrl){
+                this._validate();
+            }
+            else{
+                this._submit();
+            }
+              displayLoadingMask();
+            return true;
+        }
+        return false;
+    };
 
     function updateContent(url, params, refreshTree){
         var categoryContainer = $('category-edit-container');
@@ -85,17 +103,27 @@
         }
     }
 
+    function displayLoadingMask()
+    {
+       var loaderArea = $$('#html-body .wrapper')[0]; // Blocks all page
+        Position.clone($(loaderArea), $('loading-mask'), {offsetLeft:-2});
+        toggleSelectsUnderBlock($('loading-mask'), false);
+        Element.show('loading-mask');
+    }
+
     function categorySubmit(url, useAjax){
+
+        useAjax = false;
         var activeTab = $('active_tab_id');
         if (activeTab) {
             if (activeTab.tabsJsObject && activeTab.tabsJsObject.activeTab) {
                 activeTab.value = activeTab.tabsJsObject.activeTab.id;
             }
         }
-        if (!useAjax) {
+      /*  if (!useAjax) {
             categoryForm.submit();
             return;
-        }
+        }*/
 
         var params = {};
         var fields = $('category_edit_form').getElementsBySelector('input', 'select');
@@ -107,8 +135,13 @@
         }
 
         if (tree && tree.storeId==0 && !tree.addNodeTo) {
+
+
             var currentNode = tree.getNodeById(tree.currentNodeId);
+
             if (currentNode) {
+
+
                 if (params['general[is_active]']) {
                     var oldClass = 'no-active-category';
                     var newClass = 'active-category';
@@ -116,9 +149,11 @@
                     var oldClass = 'active-category';
                     var newClass = 'no-active-category';
                 }
-                currentNode.ui.wrap.firstChild.removeClassName(oldClass);
-                currentNode.ui.wrap.firstChild.addClassName(newClass);
+
+               currentNode.ui.wrap.firstChild.removeClassName(oldClass);
+               currentNode.ui.wrap.firstChild.addClassName(newClass);
                 var name = currentNode.text;
+
                 if (!name.match(/(\(\d+\))/)) {
                    name = params['general[name]'];
                 } else {
@@ -128,7 +163,11 @@
             }
         }
 
-        updateContent(url, params, tree?true:false);
+        categoryForm.submit();
+
+
+        //updateContent(url, params, tree?true:false);
     }
+
 //]]>
 </script>

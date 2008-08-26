@@ -40,13 +40,15 @@
     <?php echo Mage::helper('catalog')->__('Set root category for this store in the <a href="%s">configuration</a>', $this->getStoreConfigurationUrl()) ?>
 </div>
 <?php endif; ?>
-<form id="category_edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+<iframe name="iframeSave"  style="width:100%;display:none;"></iframe>
+<form target="iframeSave" id="category_edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
 <input type="hidden" name="category_products" id="in_category_products" value=""/>
 <input type="hidden" name="active_tab_id" id="active_tab_id" value=""/>
 <div id="category_tab_content"></div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
+
     function categoryReset(url,useAjax){
         if(useAjax){
             var params = {active_tab_id:false};
@@ -66,6 +68,7 @@
 
     }
 <?php if(($block = $this->getLayout()->getBlock('category.product.grid')) && ($_gridJsObject=$block->getJsObjectName())): ?>
+
     var categoryProducts = $H(<?php echo $this->getProductsJson() ?>);
     $('in_category_products').value = categoryProducts.toQueryString();
 
@@ -116,10 +119,13 @@
             Event.observe(position,'keyup',positionChange);
         }
     }
+
+
     <?php echo $_gridJsObject ?>.rowClickCallback = categoryProductRowClick;
     <?php echo $_gridJsObject ?>.initRowCallback = categoryProductRowInit;
     <?php echo $_gridJsObject ?>.checkboxCheckCallback = registerCategoryProduct;
     <?php echo $_gridJsObject ?>.rows.each(function(row){categoryProductRowInit(<?php echo $_gridJsObject ?>, row)});
+
 <?php endif; ?>
 <?php if($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject=$block->getJsObjectName())): ?>
     <?php echo $_tabsJsObject ?>.moveTabContentInDest();

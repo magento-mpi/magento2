@@ -203,6 +203,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (!$category = $this->_initCategory()) {
             return;
         }
+
         $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $category->addData($data['general']);
@@ -224,9 +225,10 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             }
 
             try {
-                #if( $this->getRequest()->getParam('image') )
+              //  if( $this->getRequest()->getParam('image') )
 
                 $category->save();
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
             }
             catch (Exception $e){
@@ -236,8 +238,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 return;
             }
         }
+        $url = $this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId()));
 
-        $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
+     echo '<script type="text/javascript">parent.updateContent("'.$url.'");</script>';
+
+      //  $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
     }
 
     /**
