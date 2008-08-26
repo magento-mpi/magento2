@@ -104,10 +104,12 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     }
 */
 
-    public function buildEntityFilter($attributes, $values, &$filteredAttributes)
+    public function buildEntityFilter($attributes, $values, &$filteredAttributes, $productCollection)
     {
         $filter = array();
         $store = Mage::app()->getStore()->getId();
+        $taxClassJoined = false;
+        $baseToStoreCurrencyRate = Mage::app()->getStore()->getCurrentCurrencyRate();
 
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
@@ -127,13 +129,25 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                 $filter[$code]->where('attribute_id = ?', $attribute->getId());
                             }
                             if (is_array($values[$code])) {
+                                $additionalCalculations = '';
+                                $rateConversion = 1;
                                 if (isset($values[$code]['from']) && isset($values[$code]['to'])) {
 
                                     if ($values[$code]['from']) {
                                         if (!is_numeric($values[$code]['from'])) {
                                             $values[$code]['from'] = date("Y-m-d H:i:s", strtotime($values[$code]['from']));
                                         }
-                                        $filter[$code]->where('value >= ?', $values[$code]['from']);
+
+                                        if ($attribute->getFrontendInput() == 'price') {
+                                            $rateConversion = $baseToStoreCurrencyRate;
+                                            if (!$taxClassJoined) {
+                                                Mage::helper('tax')->joinTaxClass($productCollection->getSelect(), $store, 'e');
+                                                $taxClassJoined = true;
+                                                $additionalCalculations = Mage::helper('tax')
+                                                    ->getPriceTaxSql('value', 'IFNULL(tax_class_c.value, tax_class_d.value)');
+                                            }
+                                        }
+                                        $filter[$code]->where("(value{$additionalCalculations})*{$rateConversion} >= ?", $values[$code]['from']);
                                     }
 
 
@@ -141,7 +155,16 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                         if (!is_numeric($values[$code]['to'])) {
                                             $values[$code]['to'] = date("Y-m-d H:i:s", strtotime($values[$code]['to']));
                                         }
-                                        $filter[$code]->where('value <= ?', $values[$code]['to']);
+                                        if ($attribute->getFrontendInput() == 'price') {
+                                            $rateConversion = $baseToStoreCurrencyRate;
+                                            if (!$taxClassJoined) {
+                                                Mage::helper('tax')->joinTaxClass($productCollection->getSelect(), $store, 'e');
+                                                $taxClassJoined = true;
+                                                $additionalCalculations = Mage::helper('tax')
+                                                    ->getPriceTaxSql('value', 'IFNULL(tax_class_c.value, tax_class_d.value)');
+                                            }
+                                        }
+                                        $filter[$code]->where("(value{$additionalCalculations})*{$rateConversion} <= ?", $values[$code]['to']);
                                     }
                                 } else {
                                     $filter[$code]->where('value in (?)', $values[$code]);

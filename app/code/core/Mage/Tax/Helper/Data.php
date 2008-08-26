@@ -390,6 +390,21 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return $result;
     }
 
+    public function joinTaxClass($select, $storeId, $priceTable='main_table')
+    {
+        $taxClassAttribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'tax_class_id');
+        $select->joinLeft(
+            array('tax_class_d'=>$taxClassAttribute->getBackend()->getTable()),
+            "tax_class_d.entity_id = {$priceTable}.entity_id AND tax_class_d.attribute_id = '{$taxClassAttribute->getId()}'
+            AND tax_class_d.store_id = 0",
+             array());
+        $select->joinLeft(
+            array('tax_class_c'=>$taxClassAttribute->getBackend()->getTable()),
+            "tax_class_c.entity_id = {$priceTable}.entity_id AND tax_class_c.attribute_id = '{$taxClassAttribute->getId()}'
+            AND tax_class_c.store_id = '{$storeId}'",
+            array());
+    }
+
     public function discountTax($store=null)
     {
         return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISCOUNT_TAX, $store) == 1);

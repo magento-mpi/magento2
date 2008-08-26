@@ -58,7 +58,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         $attributes = $this->getAttributes();
         $allConditions = array();
         $filteredAttributes = array();
-        $indexFilters = Mage::getModel('catalogindex/indexer')->buildEntityFilter($attributes, $values, $filteredAttributes);
+        $indexFilters = Mage::getModel('catalogindex/indexer')->buildEntityFilter($attributes, $values, $filteredAttributes, $this->getProductCollection());
         foreach ($indexFilters as $filter) {
             $this->getProductCollection()->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($filter)));
         }

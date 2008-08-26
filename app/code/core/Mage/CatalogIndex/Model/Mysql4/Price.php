@@ -59,22 +59,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
 
     protected function _getTaxRateConditions($tableName = 'main_table')
     {
-        return Mage::helper('tax')->getPriceTaxSql($tableName . '.value', 'IFNULL(tax_class_c.value, tax_class_d.value)');
-    }
-
-    protected function _joinTaxClass($select, $priceTable='main_table')
-    {
-        $taxClassAttribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'tax_class_id');
-        $select->joinLeft(
-            array('tax_class_d'=>$taxClassAttribute->getBackend()->getTable()),
-            "tax_class_d.entity_id = {$priceTable}.entity_id AND tax_class_d.attribute_id = '{$taxClassAttribute->getId()}'
-            AND tax_class_d.store_id = 0",
-             array());
-        $select->joinLeft(
-            array('tax_class_c'=>$taxClassAttribute->getBackend()->getTable()),
-            "tax_class_c.entity_id = {$priceTable}.entity_id AND tax_class_c.attribute_id = '{$taxClassAttribute->getId()}'
-            AND tax_class_c.store_id = '{$this->getStoreId()}'",
-            array());
+        return Mage::helper('tax')->getPriceTaxSql($tableName . '.value', $this->getStoreId(), 'IFNULL(tax_class_c.value, tax_class_d.value)');
     }
 
     public function getMaxValue($attribute = null, $entitySelect)
@@ -87,7 +72,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             ->join(array('price_table'=>$this->getMainTable()), 'price_table.entity_id=e.entity_id', array())
             ->where('price_table.store_id = ?', $this->getStoreId())
             ->where('price_table.attribute_id = ?', $attribute->getId());
-        $this->_joinTaxClass($select, 'price_table');
+        Mage::helper('tax')->joinTaxClass($select, 'price_table');
 
         if ($attribute->getAttributeCode() == 'price')
             $select->where('price_table.customer_group_id = ?', $this->getCustomerGroupId());
@@ -132,7 +117,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             ->group('range')
             ->where('price_table.store_id = ?', $this->getStoreId())
             ->where('price_table.attribute_id = ?', $attribute->getId());
-        $this->_joinTaxClass($select, 'price_table');
+        Mage::helper('tax')->joinTaxClass($select, 'price_table');
 
         if ($attribute->getAttributeCode() == 'price')
             $select->where('price_table.customer_group_id = ?', $this->getCustomerGroupId());
@@ -157,7 +142,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             ->where($tableName . '.store_id = ?', $this->getStoreId())
             ->where($tableName . '.attribute_id = ?', $attribute->getId());
 
-        $this->_joinTaxClass($select, $tableName);
+        Mage::helper('tax')->joinTaxClass($select, $tableName);
         if ($attribute->getAttributeCode() == 'price')
             $select->where($tableName . '.customer_group_id = ?', $this->getCustomerGroupId());
 
