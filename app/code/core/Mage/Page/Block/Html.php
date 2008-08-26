@@ -116,6 +116,8 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         return $this->_getData('body_class');
     }
 
-
-
+    public function getAbsoluteFooter()
+    {
+        return Mage::getStoreConfig('design/footer/absolute_footer');
+    }
 }
