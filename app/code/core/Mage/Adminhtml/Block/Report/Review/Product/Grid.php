@@ -68,10 +68,17 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('avg_rating', array(
-            'header'    =>Mage::helper('reports')->__('Average rating'),
+            'header'    =>Mage::helper('reports')->__('Avg. rating'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'avg_rating'
+        ));
+
+        $this->addColumn('avg_rating_approved', array(
+            'header'    =>Mage::helper('reports')->__('Avg. approved rating'),
+            'width'     =>'50px',
+            'align'     =>'right',
+            'index'     =>'avg_rating_approved'
         ));
 
         $this->addColumn('last_created', array(

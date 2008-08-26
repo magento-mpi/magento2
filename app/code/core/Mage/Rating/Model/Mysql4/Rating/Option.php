@@ -136,14 +136,16 @@ class Mage_Rating_Model_Mysql4_Rating_Option
 
         $select = $this->_read->select()
             ->from(array('vote'=>$this->_ratingVoteTable),
-                      array('COUNT(vote.vote_id) AS vote_count',
-                              'SUM(vote.value) AS vote_value_sum'))
+                array('COUNT(vote.vote_id) AS vote_count',
+                    'SUM(vote.value) AS vote_value_sum',
+                    'COUNT(CASE WHEN review.status_id=1 THEN vote.vote_id ELSE NULL END) AS app_vote_count',
+                    'SUM(CASE WHEN review.status_id=1 THEN vote.value ELSE 0 END) AS app_vote_value_sum',
+            ))
             ->join(array('review'=>$this->_reviewTable), 'vote.review_id=review.review_id', array())
             ->joinLeft(array('store'=>$this->_reviewStoreTable), 'vote.review_id=store.review_id', 'store_id')
             ->join(array('rstore'=>$this->_ratingStoreTable), 'vote.rating_id=rstore.rating_id AND rstore.store_id=store.store_id', array())
             ->where('vote.rating_id = ?', $ratingId)
             ->where('vote.entity_pk_value = ?', $entityPkValue)
-            ->where('review.status_id=1')
             ->group('vote.rating_id')
             ->group('vote.entity_pk_value')
             ->group('store.store_id');
@@ -152,13 +154,15 @@ class Mage_Rating_Model_Mysql4_Rating_Option
 
          $usedStores = array();
          foreach($perStoreInfo as $row) {
-             $saveData = new Varien_Object();
-             $saveData->setRatingId($ratingId)
-                ->setEntityPkValue($entityPkValue)
-                ->setVoteCount($row['vote_count'])
-                ->setVoteValueSum($row['vote_value_sum'])
-                ->setPercent( (($row['vote_value_sum']/$row['vote_count'])/5) * 100 )
-                ->setStoreId($row['store_id']);
+             $saveData = new Varien_Object(array(
+                'rating_id'        => $ratingId,
+                'entity_pk_value'  => $entityPkValue,
+                'vote_count'       => $row['vote_count'],
+                'vote_value_sum'   => $row['vote_value_sum'],
+                'percent'          => (($row['vote_value_sum']/$row['vote_count'])/5) * 100,
+                'percent_approved' => (($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100,
+                'store_id'         => $row['store_id'],
+             ));
 
              if(isset($oldData[$row['store_id']])) {
                  $condition = $this->_write->quoteInto("primary_id = ?", $oldData[$row['store_id']]);

@@ -44,7 +44,8 @@ class Mage_Reports_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_M
             array('table_rating' => $this->getTable('rating_option_vote_aggregated')),
             'e.entity_id=table_rating.entity_pk_value AND table_rating.store_id>0',
             array(
-                'avg_rating'    => 'SUM(table_rating.percent)/COUNT(table_rating.rating_id)'
+                'avg_rating'          => 'SUM(table_rating.percent)/COUNT(table_rating.rating_id)',
+                'avg_rating_approved' => 'SUM(table_rating.percent_approved)/COUNT(table_rating.rating_id)'
             )
         );
         $this->getSelect()->group('e.entity_id');
@@ -54,7 +55,7 @@ class Mage_Reports_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_M
 
     public function addAttributeToSort($attribute, $dir='asc')
     {
-        if (in_array($attribute, array('review_cnt', 'last_created', 'avg_rating'))) {
+        if (in_array($attribute, array('review_cnt', 'last_created', 'avg_rating', 'avg_rating_approved'))) {
             $this->getSelect()->order($attribute.' '.$dir);
             return $this;
         }
