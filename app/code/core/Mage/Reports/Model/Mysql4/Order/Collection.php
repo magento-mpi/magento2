@@ -146,8 +146,9 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         $this->getSelect()->join(
                 array('items'=>$this->getTable('sales/order_item')),
                 'items.order_id=e.entity_id',
-                array('items_count'=>new Zend_Db_Expr('COUNT(items.item_id)'))
+                array('items_count'=>new Zend_Db_Expr('COUNT(items.item_id)', 'parent_item'))
             )
+            ->where('items.parent_item_id is NULL')
             ->group('e.entity_id');
         return $this;
     }
