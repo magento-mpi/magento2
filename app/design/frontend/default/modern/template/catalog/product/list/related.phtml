@@ -42,12 +42,8 @@
             <div class="product-details">
                     <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
                     <?php echo $this->getPriceHtml($_item) ?>
-                    <?php if($_item->isComposite()): ?>
-                        <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a><br/>
-                    <?php else: ?>
-                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+					<?php if ($this->helper('wishlist')->isAllow()) : ?>
                         <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-base"><?php echo $this->__('Add to Wishlist') ?></a>
-                        <?php endif; ?>
                     <?php endif; ?>
             </div>
         </li>
@@ -57,7 +53,7 @@
     </div>
 </div>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 $$('.related-checkbox').each(function(elem){
     Event.observe(elem, 'click', addRelatedToProduct)
 });
@@ -90,6 +86,6 @@ function addRelatedToProduct(){
         $('related-products-field').value = values.join(',');
     }
 }
-//-->
+//]]>
 </script>
 <?php endif ?>
