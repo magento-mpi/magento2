@@ -47,6 +47,7 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
             ->addAttributeToSort('news_from_date','desc')
             ->addAttributeToSelect(array('name', 'price', 'small_image'), 'inner')
             ->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
+            ->addAttributeToSelect('status')
         ;
         /* @var $products Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 

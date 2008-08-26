@@ -74,6 +74,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
+                ->addAttributeToSelect('status')
                 ->addIdFilter($productIds)
                 ->addUrlRewrite();
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
