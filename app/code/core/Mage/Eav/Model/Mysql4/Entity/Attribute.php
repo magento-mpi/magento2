@@ -153,10 +153,10 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $object->setFrontendLabel($frontendLabel[0]);
 
             if ($object->getData('modulePrefix')) {
-            	$str = $object->getData('modulePrefix') . Mage_Core_Model_Translate::SCOPE_SEPARATOR . $frontendLabel[0];
+                $str = $object->getData('modulePrefix') . Mage_Core_Model_Translate::SCOPE_SEPARATOR . $frontendLabel[0];
             }
             else {
-            	$str = $frontendLabel[0];
+                $str = $frontendLabel[0];
             }
             Mage::getModel('core/translate_string')
                 ->setString($str)
@@ -295,7 +295,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
                     $write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));
                     foreach ($stores as $store) {
-                        if (!empty($values[$store->getId()]) || $values[$store->getId()] == "0") {
+                        if (isset($values[$store->getId()]) && (!empty($values[$store->getId()]) || $values[$store->getId()] == "0")) {
                             $data = array(
                                 'option_id' => $intOptionId,
                                 'store_id'  => $store->getId(),
