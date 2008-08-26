@@ -52,10 +52,8 @@
                     <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getFormData())->toHtml() ?>
                 </li>
 				<li>
-					<div class="col2-alt-set">
-						<div class="col-1"><label for="email_address"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label></div>
-						<div class="col-2"><input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" /></div>
-					</div><div class="clear"></div>
+                    <label for="email_address"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
+                    <input type="text" name="email" id="email_address" value="<?php echo $this->htmlEscape($this->getFormData()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text" />
 				</li>
 				<li>
 					<div class="a-right">

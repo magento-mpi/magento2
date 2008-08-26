@@ -187,7 +187,7 @@ ul.breadcrumbs { padding:0 5px; }
 
 .category-block { padding:0 5px; }
 
-.legality { color:#818181; margin:6px 0; }
+.legality { color:#818181; margin:6px 0; text-align:center; }
 
 .pager { color:#444; margin:10px 0; }
 .pager ol { float:right; }
@@ -374,4 +374,9 @@ h4.legend { margin:1px 0 5px 0; }
     color:#e96200;
 }
 
-ul.disc li { list-style:disc; margin:2px 0 0 15px; }
+/********************* Customer */
+/* Date of Birth */
+.customer-dob .input-box { float:left; width:60px !important; }
+.customer-dob input { width:50px !important; }
+.customer-dob label.label-dob { font-weight:normal; color:#888; font-size:10px; }
+/********************************/
