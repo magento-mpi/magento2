@@ -115,15 +115,17 @@ class Mage_Rating_Model_Mysql4_Rating_Option
 
     public function aggregate($option)
     {
-        $select = $this->_read->select();
-
         $optionData = $this->load($option->getId());
-
         $vote = Mage::getModel('rating/rating_option_vote')->load($option->getVoteId());
+        $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
+    }
 
-        $select->from($this->_aggregateTable)
-            ->where('rating_id = ?', $vote->getRatingId())
-            ->where('entity_pk_value = ?', $vote->getEntityPkValue());
+    public function aggregateEntityByRatingId($ratingId, $entityPkValue)
+    {
+        $select = $this->_read->select()
+            ->from($this->_aggregateTable)
+            ->where('rating_id = ?', $ratingId)
+            ->where('entity_pk_value = ?', $entityPkValue);
 
         $data = $this->_read->fetchAll($select);
 
@@ -139,8 +141,9 @@ class Mage_Rating_Model_Mysql4_Rating_Option
             ->join(array('review'=>$this->_reviewTable), 'vote.review_id=review.review_id', array())
             ->joinLeft(array('store'=>$this->_reviewStoreTable), 'vote.review_id=store.review_id', 'store_id')
             ->join(array('rstore'=>$this->_ratingStoreTable), 'vote.rating_id=rstore.rating_id AND rstore.store_id=store.store_id', array())
-            ->where('vote.rating_id = ?', $vote->getRatingId())
-            ->where('vote.entity_pk_value = ?', $vote->getEntityPkValue())
+            ->where('vote.rating_id = ?', $ratingId)
+            ->where('vote.entity_pk_value = ?', $entityPkValue)
+            ->where('review.status_id=1')
             ->group('vote.rating_id')
             ->group('vote.entity_pk_value')
             ->group('store.store_id');
@@ -150,8 +153,8 @@ class Mage_Rating_Model_Mysql4_Rating_Option
          $usedStores = array();
          foreach($perStoreInfo as $row) {
              $saveData = new Varien_Object();
-             $saveData->setRatingId($vote->getRatingId())
-                ->setEntityPkValue($vote->getEntityPkValue())
+             $saveData->setRatingId($ratingId)
+                ->setEntityPkValue($entityPkValue)
                 ->setVoteCount($row['vote_count'])
                 ->setVoteValueSum($row['vote_value_sum'])
                 ->setPercent( (($row['vote_value_sum']/$row['vote_count'])/5) * 100 )
@@ -173,25 +176,6 @@ class Mage_Rating_Model_Mysql4_Rating_Option
              $condition = $this->_write->quoteInto("primary_id = ?", $oldData[$storeId]);
              $this->_write->delete($this->_aggregateTable, $condition);
          }
-        /* Wrong
-        if( $oldData['primary_id'] > 0 ) {
-            $option->setVoteCount(new Zend_Db_Expr('vote_count + 1'))
-                ->setVoteValueSum( new Zend_Db_Expr('vote_value_sum + ' . $optionData['value']) )
-                ->setPercent( ((($oldData['vote_value_sum'] / 100) / (($oldData['vote_count'] * 5) / 100)) * 100) )
-                ->unsetData('option_id')
-                ->unsetData('review_id');
-
-            $condition = $this->_write->quoteInto("{$this->_aggregateTable}.primary_id = ?", $oldData['primary_id']);
-            $this->_write->update($this->_aggregateTable, $option->getData(), $condition);
-        } else {
-            $option->setVoteCount('1')
-                ->setVoteValueSum( $optionData['value'] )
-                ->setPercent( (($optionData['value'] / 5) * 100) )
-                ->unsetData('option_id')
-                ->unsetData('review_id');
-
-            $this->_write->insert($this->_aggregateTable, $option->getData());
-        }*/
     }
 
     public function load($optionId)

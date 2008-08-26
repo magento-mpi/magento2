@@ -34,6 +34,14 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
         $data =  Mage::getSingleton('review/session')->getFormData(true);
         $data = new Varien_Object($data);
 
+        // add logged in customer name as nickname
+        if (!$data->getNickname()) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            if ($customer && $customer->getId()) {
+                $data->setNickname($customer->getFirstname());
+            }
+        }
+
         $this->setTemplate('review/form.phtml')
             ->assign('data', $data)
             ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
