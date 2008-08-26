@@ -160,7 +160,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
                 'vote_count'       => $row['vote_count'],
                 'vote_value_sum'   => $row['vote_value_sum'],
                 'percent'          => (($row['vote_value_sum']/$row['vote_count'])/5) * 100,
-                'percent_approved' => (($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100,
+                'percent_approved' => ($row['app_vote_count'] ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
                 'store_id'         => $row['store_id'],
              ));
 
