@@ -30,7 +30,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 {
     protected $_defaultToolbarBlock = 'catalog/product_list_toolbar';
     protected $_productCollection;
-    protected $_currentCategoryId = null;
 
     /**
      * Retrieve loaded category collection
@@ -93,17 +92,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
      */
     protected function _beforeToHtml()
     {
-        $layer = Mage::getSingleton('catalog/layer');
-        /* @var $layer Mage_Catalog_Model_Layer */
-        $category = $layer->getCurrentCategory();
-        if ($category) {
-            if ($category->getId() != $this->_currentCategoryId) {
-                $layer->setProductCollection(null);
-                $this->_productCollection = null;
-                $this->_currentCategoryId = $category->getId();
-            }
-        }
-
         /*$toolbar = $this->getLayout()->createBlock('catalog/product_list_toolbar', microtime());
         if ($toolbarTemplate = $this->getToolbarTemplate()) {
             $toolbar->setTemplate($toolbarTemplate);

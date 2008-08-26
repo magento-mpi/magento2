@@ -67,8 +67,8 @@ class Mage_CatalogIndex_Model_Data_Configurable extends Mage_CatalogIndex_Model_
     {
         return array(
                     'table'=>'catalog/product_super_link',
-                    'parent_field'=>'product_id',
-                    'child_field'=>'parent_id',
+                    'parent_field'=>'parent_id',
+                    'child_field'=>'product_id',
                     );
     }
 }
