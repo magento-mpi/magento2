@@ -19,16 +19,15 @@
  */
 ?>
 
-<div class="input-box taxvat">
-    <label for="<?php echo $this->getFieldId('taxvat')?>">
-        <?php echo $this->__('Tax/VAT number') ?>
-        <?php if ($this->isRequired()):?><span class="required">*</span><?php endif ?>
-    </label>
-    <br />
-    <input type="text"
-        id="<?php echo $this->getFieldId('taxvat')?>"
-        name="<?php echo $this->getFieldName('taxvat')?>"
-        value="<?php echo $this->htmlEscape($this->getTaxvat()) ?>"
-        class="<?php if ($this->isRequired()):?>required-entry<?php endif?> input-text"
-        <?php echo $this->getFieldParams() ?> />
+<div class="col2-alt-set">
+    <div class="col-1">
+        <label for="<?php echo $this->getFieldId('taxvat')?>">
+            <?php echo $this->__('Tax/VAT number') ?>
+            <?php if ($this->isRequired()):?><span class="required">*</span><?php endif ?>
+        </label>
+    </div>
+    <div class="col-2">
+        <input type="text" id="<?php echo $this->getFieldId('taxvat')?>" name="<?php echo $this->getFieldName('taxvat')?>" value="<?php echo $this->htmlEscape($this->getTaxvat()) ?>" class="<?php if ($this->isRequired()):?>required-entry<?php endif?> input-text" <?php echo $this->getFieldParams() ?> />
+    </div>
+    <div class="clear"></div>
 </div>
