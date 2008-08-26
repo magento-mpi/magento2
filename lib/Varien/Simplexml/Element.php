@@ -425,10 +425,9 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                     // http://bugs.php.net/bug.php?id=36795
                     // comment on [8 Feb 8:09pm UTC]
                     if (isset($node->$nodeName)) {
-                        $node->$nodeName = $node->xmlentities($value);
-                    } else {
-                        $node->$nodeName = $value;
+                        unset($node->$nodeName);
                     }
+                    $node->$nodeName = $value;
                 }
             } else {
                 if (!isset($node->$nodeName)) {
