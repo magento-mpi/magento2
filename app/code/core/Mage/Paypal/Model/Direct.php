@@ -104,7 +104,6 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function authorize(Varien_Object $payment, $amount)
     {
-        $this->getQuote()->reserveOrderId();
         $api = $this->getApi()
             ->setPaymentType($this->getPaymentAction())
             ->setAmount($amount)
@@ -112,7 +111,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setShippingAddress($payment->getOrder()->getShippingAddress())
             ->setEmail($payment->getOrder()->getCustomerEmail())
             ->setPayment($payment)
-            ->setInvNum($this->getQuote()->reserveOrderId());
+            ->setInvNum($payment->getOrder()->getIncrementId());
 
         if ($api->callDoDirectPayment()!==false) {
             $payment
