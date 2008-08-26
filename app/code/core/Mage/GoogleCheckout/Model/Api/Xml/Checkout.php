@@ -196,6 +196,7 @@ EOT;
         $xml = <<<EOT
             <shipping-methods>
                 <flat-rate-shipping name="{$title}">
+                    <shipping-restrictions><allowed-areas><world-area /></allowed-areas></shipping-restrictions>
                     <price currency="{$this->getCurrency()}">0</price>
                 </flat-rate-shipping>
             </shipping-methods>
@@ -304,6 +305,10 @@ EOT;
             return '';
         }
 
+        $allowSpecific = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific', $this->getQuote()->getStoreId());
+        $specificCountries = Mage::getStoreConfig('google/checkout_shipping_flatrate/specificcountry', $this->getQuote()->getStoreId());
+        $allowedAreasXml = $this->_getAllowedCountries($allowSpecific, $specificCountries);
+
         for ($xml='', $i=1; $i<=3; $i++) {
             $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i, $this->getQuote()->getStoreId());
             $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i, $this->getQuote()->getStoreId());
@@ -316,12 +321,35 @@ EOT;
 
             $xml .= <<<EOT
                 <flat-rate-shipping name="{$title}">
+                    <shipping-restrictions>
+                        <allowed-areas>
+                        {$allowedAreasXml}
+                        </allowed-areas>
+                    </shipping-restrictions>
                     <price currency="{$this->getCurrency()}">{$price}</price>
                 </flat-rate-shipping>
 EOT;
         }
         $this->_shippingCalculated = true;
         return $xml;
+    }
+
+    protected function _getAllowedCountries($allowSpecific, $specific)
+    {
+        $xml = '';
+        if ($allowSpecific == 1) {
+            if($specific) {
+                foreach (explode(',', $specific) as $country) {
+                    $xml .= "<postal-area><country-code>{$country}</country-code></postal-area>\n";
+                }
+            }
+        }
+
+        if ($xml) {
+            return $xml;
+        }
+
+        return '<world-area />';
     }
 
     protected function _getMerchantCalculatedShippingXml()
@@ -360,8 +388,15 @@ EOT;
                 $defaultPrice = $methods['price'][$i];
                 $defaultPrice = Mage::helper('tax')->getShippingPrice($defaultPrice, false, false);
 
+                $allowedAreasXml = $this->_getAllowedCountries($carrier->getConfigData('sallowspecific'), $carrier->getConfigData('specificcountry'));
+
                 $xml .= <<<EOT
                     <merchant-calculated-shipping name="{$method}">
+                        <address-filters>
+                            <allowed-areas>
+                                {$allowedAreasXml}
+                            </allowed-areas>
+                        </address-filters>
                         <price currency="{$this->getCurrency()}">{$defaultPrice}</price>
                     </merchant-calculated-shipping>
 EOT;
