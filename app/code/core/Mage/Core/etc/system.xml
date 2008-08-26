@@ -270,7 +270,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Match expresions in the same order as displayed in the configuration.</comment>
+                            <comment>Match expressions in the same order as displayed in the configuration.</comment>
                         </ua_regexp>
                     </fields>
                 </package>
@@ -306,7 +306,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Match expresions in the same order as displayed in the configuration.</comment>
+                            <comment>Match expressions in the same order as displayed in the configuration.</comment>
                         </template_ua_regexp>
                         <skin translate="label">
                             <label>Skin (Images / CSS)</label>
