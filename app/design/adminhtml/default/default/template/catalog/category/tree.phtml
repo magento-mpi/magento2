@@ -43,18 +43,14 @@
 //<![CDATA[
 var tree;
 
-/*Event.Methods = Object.extend(Event.Methods, {
-    element: function(event) {
-      var node = Event.extend(event).target || Event.extend(event).srcElement;
-      return Element.extend(node.nodeType == Node.TEXT_NODE ? node.parentNode : node);
-    //return $(event.target || event.srcElement);
-    }
-});
-*/
-Ext.lib.Event.getTarget = function(e){
+/**
+ * Fix ext compatibility with prototype 1.6
+ */
+Ext.lib.Event.getTarget = function(e) {
     var ee = e.browserEvent || e;
     return ee.target ? Event.element(ee) : null;
 };
+
 Ext.tree.TreePanel.Enhanced = function(el, config)
 {
     Ext.tree.TreePanel.Enhanced.superclass.constructor.call(this, el, config);
