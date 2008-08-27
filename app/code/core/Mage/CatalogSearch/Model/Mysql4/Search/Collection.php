@@ -59,7 +59,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
     protected function _isAttributeTextAndSearchable($attribute)
     {
-        if (($attribute->getIsSearchable() && $attribute->getFrontendInput() != 'select')
+        if (($attribute->getIsSearchable() && !in_array($attribute->getFrontendInput(), array('select', 'multiselect')))
             && (in_array($attribute->getBackendType(), array('varchar', 'text')) || $attribute->getBackendType() == 'static')) {
             return true;
         }
@@ -68,7 +68,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
     protected function _hasAttributeOptionsAndSearchable($attribute)
     {
-        if ($attribute->getIsSearchable() && $attribute->getFrontendInput() == 'select') {
+        if ($attribute->getIsSearchable() && in_array($attribute->getFrontendInput(), array('select', 'multiselect'))) {
             return true;
         }
 
@@ -119,7 +119,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
         }
 
         if ($sql = $this->_getSearchInOptionSql($query)) {
-            $selects[] = $sql;
+            $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inheritant unions may be inside
         }
         //die(print_r($selects));
         $sql = implode(' UNION ', $selects);
@@ -130,19 +130,19 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
      * Retrieve SQL for search entities by option
      *
      * @param unknown_type $query
-     * @return unknown
+     * @return string
      */
     protected function _getSearchInOptionSql($query)
     {
-        $attributeIds = array();
-        $table = '';
+        $attributeIds    = array();
+        $attributeTables = array();
 
         /**
          * Collect attributes with options
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
             if ($this->_hasAttributeOptionsAndSearchable($attribute)) {
-                $table = $attribute->getBackend()->getTable();
+                $attributeTables[$attribute->getFrontendInput()] = $attribute->getBackend()->getTable();
                 $attributeIds[] = $attribute->getId();
             }
         }
@@ -150,20 +150,23 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
             return false;
         }
 
-        $optionTable = Mage::getSingleton('core/resource')->getTableName('eav/attribute_option');
-        $optionValueTable = Mage::getSingleton('core/resource')->getTableName('eav/attribute_option_value');
+        $resource = Mage::getSingleton('core/resource');
+        $optionTable      = $resource->getTableName('eav/attribute_option');
+        $optionValueTable = $resource->getTableName('eav/attribute_option_value');
+        $attributesTable  = $resource->getTableName('eav/attribute');
 
         /**
          * Select option Ids
          */
         $select = $this->getConnection()->select()
-            ->from(array('default'=>$optionValueTable), array('option_id','option.attribute_id', 'store_id'=>'IFNULL(store.store_id, default.store_id)'))
+            ->from(array('default'=>$optionValueTable), array('option_id','option.attribute_id', 'store_id'=>'IFNULL(store.store_id, default.store_id)', 'a.frontend_input'))
             ->joinLeft(array('store'=>$optionValueTable),
                 $this->getConnection()->quoteInto('store.option_id=default.option_id AND store.store_id=?', $this->getStoreId()),
                 array())
             ->join(array('option'=>$optionTable),
                 'option.option_id=default.option_id',
                 array())
+            ->join(array('a' => $attributesTable), 'option.attribute_id=a.attribute_id', array())
             ->where('default.store_id=0')
             ->where('option.attribute_id IN (?)', $attributeIds);
 
@@ -171,19 +174,36 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
         $select->where($searchCondition);
 
         $options = $this->getConnection()->fetchAll($select, array('search_query'=>$this->_searchQuery));
-
         if (empty($options)) {
             return false;
         }
 
-        $cond = array();
-        foreach ($options as $option) {
-            $cond[] = "attribute_id = '{$option['attribute_id']}' AND value = '{$option['option_id']}' AND store_id = '{$option['store_id']}'";
+        // build selects of entity ids for specified options ids by frontend input
+        $select = array();
+        foreach (array(
+            'select'      => "value = '%d'",
+            'multiselect' => "FIND_IN_SET('%d', value)")
+            as $frontendInput => $condition) {
+            if (isset($attributeTables[$frontendInput])) {
+                $select[$frontendInput] = $this->getConnection()->select()
+                    ->from($attributeTables[$frontendInput], 'entity_id');
+                $where = array();
+                foreach ($options as $option) {
+                    if ($frontendInput === $option['frontend_input']) {
+                        $where[] = "attribute_id = '{$option['attribute_id']}' AND store_id = '{$option['store_id']}' AND "
+                            . sprintf($condition, $option['option_id'])
+                        ;
+                    }
+                }
+                if ($where) {
+                    $select[$frontendInput]->where(implode(' OR ', $where));
+                    $select[$frontendInput] = (string)$select[$frontendInput];
+                }
+                else {
+                    unset($select[$frontendInput]);
+                }
+            }
         }
-
-        return $this->getConnection()->select()
-            ->from($table, 'entity_id')
-//            ->where('store_id=?', $this->getStoreId())
-            ->where(implode(' OR ', $cond));
+        return implode(' UNION ', $select);
     }
 }
