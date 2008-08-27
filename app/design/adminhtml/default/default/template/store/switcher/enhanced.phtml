@@ -48,7 +48,7 @@
 </p>
 </div>
 <script type="text/javascript">
-
+//<![CDATA[
 var varienStore = new Class.create();
 
 varienStore.prototype = {
@@ -106,5 +106,6 @@ varienStore.prototype = {
 }
 
 var varienStoreSwitcher = new varienStore('store_switcher_container', 'store_switcher', '<?php echo $this->getSwitchUrl() ?>', <?php echo $this->getUseAjax() ?>, <?php echo $this->getUseConfirm() ?>);
+//]]>
 </script>
 <?php endif; ?>

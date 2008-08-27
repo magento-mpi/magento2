@@ -415,7 +415,7 @@ input.input-text, textarea, select   {
     background:#fff;
     font:12px arial, helvetica, sans-serif;
     }
-select  {min-height:19px;/* to set the height for empty selects */}
+select  { min-height:17px; /* to set the height for empty selects */ }
 input.input-text, textarea      { padding:2px; }
 input.qty                       { width:40px !important; }
 input.item-qty                  { width:22px !important; }
@@ -529,7 +529,7 @@ button.icon-btn span {text-indent:-999em; display:block; width:16px; padding:0px
 *******************************************************************************/
 .switcher               { margin-bottom:10px; border:1px solid #cddddd; background:#e7efef; padding:10px; }
 .side-col .switcher     { margin-right:20px; margin-bottom:20px; }
-.side-col .switcher select { width:95%; }
+.side-col .switcher select { width:100%; }
 .catalog-categories .side-col .switcher { margin-right:0; margin-bottom:15px; }
 
 
@@ -722,7 +722,7 @@ div.autocomplete ul li {
 .side-col .content-header       { border-bottom:0; margin-right:12px; margin-bottom:.6em; }
 .catalog-categories .side-col .content-header { margin-right:0; }  /* Catalog/Categories */
 
-.left-col-block {width:200px;}
+.left-col-block { width:200px; }
 
 /* Floating Content Header */ /* Used to make action buttons always within reach */
 .content-header-floating { position:fixed; left:0; top:0; width:100%; display:none; border:0; border-bottom:solid 1px #988753; z-index:100; background:#fdfaa4; opacity:.85; }
@@ -941,6 +941,13 @@ ul.item-options li { padding-left:.7em; }
 *******************************************************************************/
 
 /* Category */
+.categories-side-col .content-header { padding:0; }
+.categories-side-col .content-header h3 { float:none; }
+.categories-side-col .content-header button { margin:5px 0 0; }
+.categories-side-col .switcher { margin:10px 20px 0 0; }
+.categories-side-col .tree-actions { text-align:center; margin:10px 20px 10px 0; }
+.categories-side-col .tree-holder { margin-right:20px; }
+
 .no-active-category a span                  { color:#aaa !important; }
 
 #tree-div { overflow:auto!important; padding-bottom:15px; width:200px; }
