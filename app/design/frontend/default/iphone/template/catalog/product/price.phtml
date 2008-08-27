@@ -31,21 +31,21 @@
     <?php $_finalPrice = $_product->getFinalPrice() ?>
 
     <?php if ($_finalPrice == $_price): ?>
-        <span class="regular-price" id="product-price-<?php echo $_id ?>">
+        <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
             <?php echo Mage::helper('core')->currency($_price) ?>
         </span>
         <br />
     <?php else: /* if ($_finalPrice == $_price): */ ?>
         <span class="old-price">
             <span class="label"><?php echo $this->__('Regular Price:') ?></span>
-            <span class="price" id="old-price-<?php echo $_id ?>">
+            <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                 <?php echo Mage::helper('core')->currency($_price) ?>
             </span>
         </span>
         <br />
         <span class="special-price">
             <span class="label"><?php echo $this->__('Special Price:') ?></span>
-            <span class="price" id="product-price-<?php echo $_id ?>">
+            <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                 <?php echo Mage::helper('core')->currency($_finalPrice) ?>
             </span>
         </span>
@@ -55,7 +55,7 @@
     <?php if ($this->getDisplayMinimalPrice() && $_minimalPrice && $_minimalPrice < $_finalPrice): ?>
         <span class="minimal-price">
             <span class="label"><?php echo $this->__('As low as:') ?></span>
-            <span class="price" id="product-minimal-price-<?php echo $_id ?>">
+            <span class="price" id="product-minimal-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                 <?php echo Mage::helper('core')->currency($_minimalPrice) ?>
             </span>
         </span>
