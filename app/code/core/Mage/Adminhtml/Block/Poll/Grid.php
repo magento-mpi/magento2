@@ -119,8 +119,8 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'closed',
             'type'      => 'options',
             'options'   => array(
-                1 => 'Closed',
-                0 => 'Open',
+                1 => Mage::helper('poll')->__('Closed'),
+                0 => Mage::helper('poll')->__('Open')
             ),
         ));
 
