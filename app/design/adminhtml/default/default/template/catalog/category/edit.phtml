@@ -78,6 +78,7 @@
                 store_id:    tree.storeId,
                 category_id: $('_generalid').value
             };
+            console.log(parameters);
             var node = new Ext.tree.AsyncTreeNode(parameters);
             node.loaded = true;
             tree.addNodeTo = false;
@@ -97,9 +98,13 @@
                 timer = setInterval(f, 200);
                 return;
             }
-
-
 //            tree.selectCurrentNode();
+        }
+        else if (tree && tree.nodeForDelete) {
+            var parentNode = tree.getNodeById(tree.nodeForDelete).parentNode;
+            parentNode.removeChild(tree.getNodeById(tree.nodeForDelete));
+            tree.nodeForDelete = false;
+            tree.currentNodeId = false;
         }
     }
 

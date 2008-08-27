@@ -60,7 +60,8 @@
     function categoryDelete(url,useAjax){
         if(confirm('<?php echo Mage::helper('catalog')->__('Are you sure you want to delete this category?') ?>')){
             if(useAjax){
-                updateContent('<?php echo $this->getDeleteUrl() ?>');
+                tree.nodeForDelete = tree.currentNodeId;
+                updateContent('<?php echo $this->getDeleteUrl() ?>', {}, true);
             }else{
                 location.href = '<?php echo $this->getDeleteUrl() ?>'
             }
