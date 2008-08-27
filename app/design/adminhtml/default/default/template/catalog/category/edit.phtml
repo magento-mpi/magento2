@@ -150,8 +150,9 @@
                     var newClass = 'no-active-category';
                 }
 
-               currentNode.ui.wrap.firstChild.removeClassName(oldClass);
-               currentNode.ui.wrap.firstChild.addClassName(newClass);
+                Element.removeClassName(currentNode.ui.wrap.firstChild, oldClass);
+                Element.addClassName(currentNode.ui.wrap.firstChild, newClass);
+
                 var name = currentNode.text;
 
                 if (!name.match(/(\(\d+\))/)) {
