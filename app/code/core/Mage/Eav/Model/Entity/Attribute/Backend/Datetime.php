@@ -26,6 +26,15 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
         $object->setData($this->getAttribute()->getName(), $value);
     }
 
+    /**
+     * Prepare date for save in DB
+     *
+     * string format used from input fields (all date input fields need apply locale settings)
+     * int value can be declared in code (this meen whot we use valid date)
+     *
+     * @param   string | int $date
+     * @return  string
+     */
     public function formatDate($date)
     {
     	if (empty($date)) {

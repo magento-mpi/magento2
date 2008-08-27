@@ -498,7 +498,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      * @param   Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return  boolean
      */
-    protected function _isApplicableAttribute ($object, $attribute)
+    protected function _isApplicableAttribute($object, $attribute)
     {
         return true;
     }
@@ -554,8 +554,12 @@ abstract class Mage_Eav_Model_Entity_Abstract
                     $instance = $attribute->getSource();
                     break;
             }
+
             try {
                 $results[$attrCode] = call_user_func_array(array($instance, $method), $args);
+            }
+            catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+                throw $e;
             }
             catch (Exception $e) {
                 $exception = new Mage_Eav_Model_Entity_Attribute_Exception($e->getMessage());

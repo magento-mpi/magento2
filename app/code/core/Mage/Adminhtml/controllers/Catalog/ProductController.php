@@ -417,7 +417,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $product->addData($productData);
         if (Mage::app()->isSingleStoreMode()) {
-            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getId()));
+            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
         }
         /**
          * Check "Use Default Value" checkboxes values
@@ -578,8 +578,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
    /**
      * Decode strings for linked products
      *
-     * @param 	string $encoded
-     * @return 	array
+     * @param   string $encoded
+     * @return  array
      */
     protected function _decodeInput($encoded)
     {
