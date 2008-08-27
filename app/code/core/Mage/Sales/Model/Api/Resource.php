@@ -76,6 +76,10 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     {
         $result = array();
 
+        if (!is_object($object)) {
+            return $result;
+        }
+
         foreach ($object->getData() as $attribute=>$value) {
             if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
                 $result[$attribute] = $value;
