@@ -166,6 +166,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->_initBillingAddressFromOrder($order);
         $this->_initShippingAddressFromOrder($order);
 
+        $this->getQuote()->getPayment()->addData($order->getPayment()->getData());
+
         if ($this->getQuote()->getCouponCode()) {
             $this->getQuote()->collectTotals();
         }
