@@ -26,11 +26,12 @@
 <?php if($this->getTags()): ?>
     <p><?php echo $this->__('Click on a tag to view your corresponding products.') ?></p>
         <div class="content">
-            <ul class="tags-list">
+            <ul class="tags-list" id="tags-list">
                 <?php foreach ($this->getTags() as $_tag): ?>
                     <li><a href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
                 <?php endforeach; ?>
             </ul>
+            <script type="text/javascript">decorateGeneric($$('#tags-list li'),['last','first']);</script>
         </div>
 <?php else: ?>
     <p><?php echo $this->__('You have not tagged any products yet.') ?></p>
