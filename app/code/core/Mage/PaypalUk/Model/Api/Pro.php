@@ -292,9 +292,9 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
          if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
              $this->setTransactionId($result->getPnref());
           } else {
-            $errorArr['code'] = $result->getResultCode();
-            $errorArr['message'] = $result->getRespmsg();
-            $this->setError($errorArr);
+            //$errorArr['code'] = $result->getResultCode();
+            //$errorArr['message'] = $result->getRespmsg();
+            //$this->setError($errorArr);
             return false;
          }
 

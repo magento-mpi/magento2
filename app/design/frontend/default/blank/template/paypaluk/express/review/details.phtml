@@ -36,8 +36,8 @@
         <?php if ($_item->getParentItem()) continue ?>
         <tr>
             <td>
-                <?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
-                <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
+                <?php echo $_item->getProduct()->getName() ?>
+                <?php echo $_item->getProduct()->getDescription() ?>
             </td>
             <td><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()); ?></td>
             <td><?php echo $_item->getQty() ?></td>

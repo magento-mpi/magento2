@@ -51,6 +51,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
+    protected $_isInitializeNeeded      = false;
 
     public function __construct()
     {
@@ -157,6 +158,16 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function isGateway()
     {
         return $this->_isGateway;
+    }
+
+    /**
+     * flag if we need to run payment initialize while order place
+     *
+     * @return bool
+     */
+    public function isInitializeNeeded()
+    {
+        return $this->_isInitializeNeeded;
     }
 
     /**
@@ -413,4 +424,17 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return true;
     }
+
+    /**
+     * Method that will be executed instead of authorize or capture
+     * if flag isInitilizeNeeded set to true
+     *
+     * @param   string $paymentAction
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function initialize($paymentAction, $stateObject)
+    {
+        return $this;
+    }
+
 }

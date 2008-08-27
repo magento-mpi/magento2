@@ -104,6 +104,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
         $orderState = Mage_Sales_Model_Order::STATE_NEW;
         $orderStatus= false;
+
+        $stateObject = new Varien_Object();
+
         /**
          * validating payment method again
          */
@@ -112,45 +115,55 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             /**
              * Run action declared for payment method in configuration
              */
-            switch ($action) {
-                case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
-                case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH:
-                    $methodInstance->authorize($this, $this->getOrder()->getBaseTotalDue());
 
-                    $this->setAmountAuthorized($this->getOrder()->getTotalDue());
-                    $this->setBaseAmountAuthorized($this->getOrder()->getBaseTotalDue());
+            if ($methodInstance->isInitializeNeeded()) {
+                $methodInstance->initialize($action, $stateObject);
+            } else {
+                switch ($action) {
+                    case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
+                    case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH:
+                        $methodInstance->authorize($this, $this->getOrder()->getBaseTotalDue());
 
-                    $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
-                    break;
-                case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
-                case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE:
-                    $invoice = $this->_invoice();
+                        $this->setAmountAuthorized($this->getOrder()->getTotalDue());
+                        $this->setBaseAmountAuthorized($this->getOrder()->getBaseTotalDue());
 
-                    $this->setAmountAuthorized($this->getOrder()->getTotalDue());
-                    $this->setBaseAmountAuthorized($this->getOrder()->getBaseTotalDue());
+                        $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
+                        break;
+                    case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
+                    case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE:
+                        $invoice = $this->_invoice();
 
-                    $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
-                    break;
-                default:
-                    break;
+                        $this->setAmountAuthorized($this->getOrder()->getTotalDue());
+                        $this->setBaseAmountAuthorized($this->getOrder()->getBaseTotalDue());
+
+                        $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
-        /*
-        * this flag will set if the order went to as authorization under fraud service for payflowpro
-        */
-        if ($this->getFraudFlag()) {
-            $orderStatus = $methodInstance->getConfigData('fraud_order_status');
-            $orderState = Mage_Sales_Model_Order::STATE_HOLDED;
+        if ($stateObject->getState() && $stateObject->getStatus()) {
+            $orderState = $stateObject->getState();
+            $orderStatus = $stateObject->getStatus();
         } else {
-            /**
-             * Change order status if it specified
+            /*
+             * this flag will set if the order went to as authorization under fraud service for payflowpro
              */
-            $orderStatus = $methodInstance->getConfigData('order_status');
-        }
+            if ($this->getFraudFlag()) {
+                $orderStatus = $methodInstance->getConfigData('fraud_order_status');
+                $orderState = Mage_Sales_Model_Order::STATE_HOLDED;
+            } else {
+                /**
+                 * Change order status if it specified
+                 */
+                $orderStatus = $methodInstance->getConfigData('order_status');
+            }
 
-        if (!$orderStatus) {
-            $orderStatus = $this->getOrder()->getConfig()->getStateDefaultStatus($orderState);
+            if (!$orderStatus) {
+                $orderStatus = $this->getOrder()->getConfig()->getStateDefaultStatus($orderState);
+            }
         }
 
         $this->getOrder()->setState($orderState);
