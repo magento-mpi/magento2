@@ -317,7 +317,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             $stores[$store->getId()] = $store->getId();
         }
 
-        $entityStoreId = $this->getStoreId();
+        $entityStoreId = $category->getStoreId();
         if (!in_array($entityStoreId, $stores)) {
             array_unshift($stores, $entityStoreId);
         }
