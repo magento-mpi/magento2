@@ -43,6 +43,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
                 $pathIds = array_reverse(explode(',', $pathInStore));
 
                 $categories = Mage::getResourceModel('catalog/category_collection')
+                    ->setStore(Mage::app()->getStore())
                     ->addAttributeToSelect('name')
                     ->addAttributeToSelect('url_key')
                     ->addFieldToFilter('entity_id', array('in'=>$pathIds))
@@ -52,6 +53,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
                 // add category path breadcrumb
                 foreach ($pathIds as $categoryId) {
                     if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
+                        $categories[$categoryId]->setStoreId(Mage::app()->getStore()->getId());
                         $path['category'.$categoryId] = array(
                             'label' => $categories[$categoryId]->getName(),
                             'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getUrl() : ''

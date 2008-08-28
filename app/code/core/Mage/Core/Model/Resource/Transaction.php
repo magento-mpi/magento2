@@ -129,16 +129,37 @@ class Mage_Core_Model_Resource_Transaction
     public function save()
     {
         $this->_startTransaction();
-        try {
-            foreach ($this->_objects as $object) {
+        $commit = true;
+        $errors = array();
+
+        foreach ($this->_objects as $object) {
+            try {
                 $object->save();
             }
+            catch (Exception $e) {
+                $commit = false;
+                $errors[] = $e->getMessage();
+            }
+        }
+
+        if ($commit) {
             $this->_commitTransaction();
         }
-        catch (Exception $e) {
+        else {
             $this->_rollbackTransaction();
-            throw $e;
+            Mage::throwException(join("\n", $errors));
         }
+
+//        try {
+//            foreach ($this->_objects as $object) {
+//                $object->save();
+//            }
+//            $this->_commitTransaction();
+//        }
+//        catch (Exception $e) {
+//            $this->_rollbackTransaction();
+//            throw $e;
+//        }
         return $this;
     }
 
