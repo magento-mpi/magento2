@@ -103,6 +103,43 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
         return $value;
     }
 
+    public function getAvailableCurrencies()
+    {
+        $currencies = $this->getData('_currencies');
+        if (is_null($currencies)) {
+            $currencies = array();
+            $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
+            if (is_array($codes) && count($codes)) {
+                $rates = Mage::getModel('directory/currency')->getCurrencyRates(
+                    Mage::app()->getStore()->getBaseCurrency(),
+                    $codes
+                );
+
+                foreach ($codes as $code) {
+                    if (isset($rates[$code])) {
+                        $currencies[$code] = $code;
+                    }
+                }
+            }
+
+            $this->setData('currencies', $currencies);
+        }
+        return $currencies;
+    }
+
+    public function getCurrencyCount()
+    {
+        return count($this->getAvailableCurrencies());
+    }
+
+    public function getCurrency($attribute)
+    {
+        return Mage::app()->getStore()->getCurrentCurrencyCode();
+
+        $baseCurrency = Mage::app()->getStore()->getBaseCurrency()->getCurrencyCode();
+        return $this->getAttributeValue($attribute, 'currency') ? $this->getAttributeValue($attribute, 'currency') : $baseCurrency;
+    }
+
     /**
      * Retrieve attribute input type
      *
@@ -119,6 +156,10 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
 
         if ($imputType == 'boolean') {
             return 'yesno';
+        }
+
+        if ($imputType == 'price') {
+            return 'price';
         }
 
         if ($dataType == 'int' || $dataType == 'decimal') {

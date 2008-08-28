@@ -317,6 +317,28 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </price_1>
+
+                        <sallowspecific_1 translate="label">
+                            <label>Rate 1 Ship To Applicable Countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>24</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sallowspecific_1>
+                        <specificcountry_1 translate="label">
+                            <label>Rate 1 Ship to Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>26</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificcountry_1>
+
+
                         <title_2 translate="label">
                             <label>Rate 2 Title</label>
                             <frontend_type>text</frontend_type>
@@ -333,6 +355,28 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </price_2>
+
+                        <sallowspecific_2 translate="label">
+                            <label>Rate 2 Ship To Applicable Countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>34</sort_order>
+                            <frontend_class>shipping-applicable-country-2</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sallowspecific_2>
+                        <specificcountry_2 translate="label">
+                            <label>Rate 2 Ship to Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>36</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificcountry_2>
+
+
                         <title_3 translate="label">
                             <label>Rate 3 Title</label>
                             <frontend_type>text</frontend_type>
@@ -349,25 +393,25 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </price_3>
-                        <sallowspecific translate="label">
-                            <label>Ship to applicable countries</label>
+                        <sallowspecific_3 translate="label">
+                            <label>Rate 3 Ship To Applicable Countries</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>100</sort_order>
-                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <sort_order>44</sort_order>
+                            <frontend_class>shipping-applicable-country-3</frontend_class>
                             <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </sallowspecific>
-                        <specificcountry translate="label">
-                            <label>Ship to Specific countries</label>
+                        </sallowspecific_3>
+                        <specificcountry_3 translate="label">
+                            <label>Rate 3 Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
-                            <sort_order>101</sort_order>
+                            <sort_order>46</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </specificcountry>
+                        </specificcountry_3>
                     </fields>
                 </checkout_shipping_flatrate>
             </groups>

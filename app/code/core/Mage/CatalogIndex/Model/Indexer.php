@@ -110,12 +110,17 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     }
 */
 
+    protected function _getBaseToSpecifiedCurrencyRate($code)
+    {
+        return Mage::app()->getStore()->getBaseCurrency()->getRate($code);;
+    }
+
     public function buildEntityFilter($attributes, $values, &$filteredAttributes, $productCollection)
     {
         $filter = array();
         $store = Mage::app()->getStore()->getId();
         $taxClassJoined = false;
-        $baseToStoreCurrencyRate = Mage::app()->getStore()->getCurrentCurrencyRate();
+        $currentStoreCurrency = Mage::app()->getStore()->getCurrentCurrencyCode();
 
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
@@ -145,7 +150,12 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                         }
 
                                         if ($attribute->getFrontendInput() == 'price') {
-                                            $rateConversion = $baseToStoreCurrencyRate;
+                                            if (isset($values[$code]['currency'])) {
+                                                $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($values[$code]['currency']);
+                                            } else {
+                                                $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($currentStoreCurrency);
+                                            }
+
                                             if (!$taxClassJoined) {
                                                 Mage::helper('tax')->joinTaxClass($productCollection->getSelect(), $store, 'e');
                                                 $taxClassJoined = true;
@@ -162,7 +172,12 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                             $values[$code]['to'] = date("Y-m-d H:i:s", strtotime($values[$code]['to']));
                                         }
                                         if ($attribute->getFrontendInput() == 'price') {
-                                            $rateConversion = $baseToStoreCurrencyRate;
+                                            if (isset($values[$code]['currency'])) {
+                                                $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($values[$code]['currency']);
+                                            } else {
+                                                $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($currentStoreCurrency);
+                                            }
+
                                             if (!$taxClassJoined) {
                                                 Mage::helper('tax')->joinTaxClass($productCollection->getSelect(), $store, 'e');
                                                 $taxClassJoined = true;
@@ -329,81 +344,100 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     {
         $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
         if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-            return $this;
+            $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
+            if ($kill->checkIsThisProcess()) {
+                $kill->delete();
+                return $this;
+            }
         } else if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED) {
             $flag->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING)->save();
         }
 
-        $attributeCodes = $priceAttributeCodes = array();
-        $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
-        $visibility = array(
-            Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
-            Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
-        );
+        try {
+            $attributeCodes = $priceAttributeCodes = array();
+            $status = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+            $visibility = array(
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
+            );
 
-        if (is_null($stores)) {
-            $stores = $this->_getStores();
-        } else if ($stores instanceof Mage_Core_Model_Store) {
-            $stores = array($stores);
-        } else if (!is_array($stores)) {
-            Mage::throwException('Invalid stores supplied for indexing');
-        }
-
-        if (is_null($attributes)) {
-            $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
-            $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
-        } else if ($attributes instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
-            if ($this->_indexers['eav']->isAttributeIndexable($attributes)) {
-                $attributeCodes[] = $attributes->getAttributeId();
+            if (is_null($stores)) {
+                $stores = $this->_getStores();
+            } else if ($stores instanceof Mage_Core_Model_Store) {
+                $stores = array($stores);
+            } else if (!is_array($stores)) {
+                Mage::throwException('Invalid stores supplied for indexing');
             }
-            if ($this->_indexers['price']->isAttributeIndexable($attributes)) {
-                $priceAttributeCodes[] = $attributes->getAttributeId();
-            }
-        } else if ($attributes == self::REINDEX_TYPE_PRICE) {
-            $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
-        } else if ($attributes == self::REINDEX_TYPE_ATTRIBUTE) {
-            $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
-        } else {
-            Mage::throwException('Invalid attributes supplied for indexing');
-        }
 
-        $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, $products, $stores);
-        foreach ($stores as $store) {
-            $collection = Mage::getModel('catalog/product')
-                ->getCollection()
-                ->addAttributeToFilter('status', $status)
-                ->addAttributeToFilter('visibility', $visibility)
-                ->addStoreFilter($store);
-            /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-
-            if ($products instanceof Mage_Catalog_Model_Product) {
-                $collection->addIdFilter($products->getId());
-            } else if (is_array($products) || is_numeric($products)) {
-                $collection->addIdFilter($products);
-            }
-            $productIds = $collection->getAllIds();
-
-            if (!$productIds)
-                continue;
-
-            $step = 1000;
-            $productCount = count($productIds);
-            for ($i=0;$i<$productCount/$step;$i++) {
-                $stepData = array_slice($productIds, $i*$step, $step);
-
-                if (count($attributeCodes)) {
-                    $this->_getResource()->reindexAttributes($stepData, $attributeCodes, $store);
+            if (is_null($attributes)) {
+                $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
+                $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
+            } else if ($attributes instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+                if ($this->_indexers['eav']->isAttributeIndexable($attributes)) {
+                    $attributeCodes[] = $attributes->getAttributeId();
                 }
+                if ($this->_indexers['price']->isAttributeIndexable($attributes)) {
+                    $priceAttributeCodes[] = $attributes->getAttributeId();
+                }
+            } else if ($attributes == self::REINDEX_TYPE_PRICE) {
+                $priceAttributeCodes = $this->_indexers['price']->getIndexableAttributeCodes();
+            } else if ($attributes == self::REINDEX_TYPE_ATTRIBUTE) {
+                $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
+            } else {
+                Mage::throwException('Invalid attributes supplied for indexing');
+            }
 
-                if (count($priceAttributeCodes)) {
-                    $this->_getResource()->reindexPrices($stepData, $priceAttributeCodes, $store);
+            $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, $products, $stores);
+            foreach ($stores as $store) {
+                $collection = Mage::getModel('catalog/product')
+                    ->getCollection()
+                    ->addAttributeToFilter('status', $status)
+                    ->addAttributeToFilter('visibility', $visibility)
+                    ->addStoreFilter($store);
+                /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 
-                    $this->_getResource()->reindexTiers($stepData, $store);
-                    $this->_getResource()->reindexFinalPrices($stepData, $store);
-                    $this->_getResource()->reindexMinimalPrices($stepData, $store);
+                if ($products instanceof Mage_Catalog_Model_Product) {
+                    $collection->addIdFilter($products->getId());
+                } else if (is_array($products) || is_numeric($products)) {
+                    $collection->addIdFilter($products);
+                }
+                $productIds = $collection->getAllIds();
+
+                if (!$productIds)
+                    continue;
+
+                $step = 1000;
+                $productCount = count($productIds);
+                for ($i=0;$i<$productCount/$step;$i++) {
+                    $this->_getResource()->beginTransaction();
+
+                    $stepData = array_slice($productIds, $i*$step, $step);
+
+                    if (count($attributeCodes)) {
+                        $this->_getResource()->reindexAttributes($stepData, $attributeCodes, $store);
+                    }
+
+                    if (count($priceAttributeCodes)) {
+                        $this->_getResource()->reindexPrices($stepData, $priceAttributeCodes, $store);
+
+                        $this->_getResource()->reindexTiers($stepData, $store);
+                        $this->_getResource()->reindexFinalPrices($stepData, $store);
+                        $this->_getResource()->reindexMinimalPrices($stepData, $store);
+                    }
+
+                    $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
+                    if ($kill->checkIsThisProcess()) {
+                        $this->_getResource()->rollBack();
+                        $kill->delete();
+                    } else {
+                        $this->_getResource()->commit();
+                    }
                 }
             }
+        } catch (Exception $e) {
+            $flag->delete();
+            throw $e;
         }
 
         if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {

@@ -311,11 +311,11 @@ EOT;
             return '';
         }
 
-        $allowSpecific = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific', $this->getQuote()->getStoreId());
-        $specificCountries = Mage::getStoreConfig('google/checkout_shipping_flatrate/specificcountry', $this->getQuote()->getStoreId());
-        $allowedAreasXml = $this->_getAllowedCountries($allowSpecific, $specificCountries);
-
         for ($xml='', $i=1; $i<=3; $i++) {
+            $allowSpecific = Mage::getStoreConfigFlag('google/checkout_shipping_flatrate/sallowspecific_'.$i, $this->getQuote()->getStoreId());
+            $specificCountries = Mage::getStoreConfig('google/checkout_shipping_flatrate/specificcountry_'.$i, $this->getQuote()->getStoreId());
+            $allowedAreasXml = $this->_getAllowedCountries($allowSpecific, $specificCountries);
+
             $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i, $this->getQuote()->getStoreId());
             $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i, $this->getQuote()->getStoreId());
             $price = number_format($price, 2, '.','');

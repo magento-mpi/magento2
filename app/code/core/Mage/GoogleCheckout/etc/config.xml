@@ -187,7 +187,9 @@ Something like this is to be added to resolve bug #4890
                 <default_width>10</default_width>
             </checkout_shipping_carrier>
             <checkout_shipping_flatrate>
-                <sallowspecific>0</sallowspecific>
+                <sallowspecific_1>0</sallowspecific_1>
+                <sallowspecific_2>0</sallowspecific_2>
+                <sallowspecific_3>0</sallowspecific_3>
             </checkout_shipping_flatrate>
         </google>
     </default>

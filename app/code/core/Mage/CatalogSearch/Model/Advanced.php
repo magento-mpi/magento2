@@ -129,15 +129,23 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         $name = $attribute->getFrontend()->getLabel();
 
         if (is_array($value) && (isset($value['from']) || isset($value['to']))){
+            if (isset($value['currency'])) {
+                $currencyModel = Mage::getModel('directory/currency')->load($value['currency']);
+                $from = $currencyModel->format($value['from'], array(), false);
+                $to = $currencyModel->format($value['to'], array(), false);
+            } else {
+                $currencyModel = null;
+            }
+
             if ($value['from'] > 0 && $value['to'] > 0) {
                 // -
-                $value = sprintf('%s - %s', $value['from'], $value['to']);
+                $value = sprintf('%s - %s', ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
             } elseif ($value['from'] > 0) {
                 // and more
-                $value = Mage::helper('catalogsearch')->__('%s and greater', $value['from']);
+                $value = Mage::helper('catalogsearch')->__('%s and greater', ($currencyModel ? $from : $value['from']));
             } elseif ($value['to'] > 0) {
                 // to
-                $value = Mage::helper('catalogsearch')->__('up to %s', $value['to']);
+                $value = Mage::helper('catalogsearch')->__('up to %s', ($currencyModel ? $to : $value['to']));
             }
         }
 

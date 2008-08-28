@@ -48,4 +48,14 @@ Category layered navigation layout
         </reference>
     </catalog_category_layered>
 
+
+<!--
+Catalog Search layout
+-->
+
+    <catalogsearch_advanced_index>
+        <reference name="right">
+            <block type="directory/currency" name="right_currency" before="-" template="directory/currency.phtml"/>
+        </reference>
+    </catalogsearch_advanced_index>
 </layout>
