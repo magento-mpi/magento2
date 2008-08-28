@@ -30,7 +30,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
     public function loadAttributeOptions()
     {
         $attributes = array(
-            'subtotal' => Mage::helper('salesrule')->__('Subtotal'),
+            'base_subtotal' => Mage::helper('salesrule')->__('Subtotal'),
             'total_qty' => Mage::helper('salesrule')->__('Total Items Quantity'),
             'weight' => Mage::helper('salesrule')->__('Total Weight'),
             'payment_method' => Mage::helper('salesrule')->__('Payment Method'),
@@ -56,7 +56,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'subtotal': case 'weight': case 'total_qty':
+            case 'base_subtotal': case 'weight': case 'total_qty':
                 return 'numeric';
 
             case 'shipping_method': case 'payment_method': case 'country_id': case 'region_id':
@@ -105,7 +105,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
         }
         return $this->getData('value_select_options');
     }
-    
+
     public function validate(Varien_Object $object)
     {
         switch ($this->getAttribute()) {
