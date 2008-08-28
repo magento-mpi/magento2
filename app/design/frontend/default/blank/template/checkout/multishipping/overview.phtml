@@ -59,7 +59,7 @@
                 <h5><?php echo $this->__('Shipping Method') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditShippingUrl() ?>"><?php echo $this->__('Change Shipping Method') ?></a></h5>
                 <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
                 <p>
-                <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodDescription() ?>)
+                <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodTitle() ?>)
                 <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
                 <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
 

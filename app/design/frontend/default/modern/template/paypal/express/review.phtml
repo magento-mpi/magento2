@@ -68,7 +68,7 @@
                                     </option>
                                <?php else: ?>
                                    <option value="<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()): ?> selected="selected"<?php endif ?> style="margin-left:16px;">
-                                        <?php echo $_rate->getMethodDescription() ?> -
+                                        <?php echo $_rate->getMethodTitle() ?> -
 
                                         <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
                                         <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>

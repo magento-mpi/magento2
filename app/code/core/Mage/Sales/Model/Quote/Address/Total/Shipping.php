@@ -152,7 +152,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                     $amountPrice = $address->getQuote()->getStore()->convertPrice($rate->getPrice(), false);
                     $address->setShippingAmount($amountPrice);
                     $address->setBaseShippingAmount($rate->getPrice());
-                    $address->setShippingDescription($rate->getCarrierTitle().' - '.$rate->getMethodDescription());
+                    $address->setShippingDescription($rate->getCarrierTitle().' - '.$rate->getMethodTitle());
                     break;
                 }
             }

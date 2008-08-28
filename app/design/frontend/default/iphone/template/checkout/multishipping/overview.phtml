@@ -33,7 +33,7 @@
 		<form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();">
 			<div class="box">
 				<div class="inner-head"><h4 class="legend"><?php echo $this->__('Billing Information') ?></h4><div class="clear"></div></div>
-				<table class="shopping-cart"> 
+				<table class="shopping-cart">
 					<col width="50%" />
 					<col width="50%" />
 					<tbody>
@@ -75,7 +75,7 @@
 				<?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
 					<div>
 						<h4><?php echo $this->__('Address %s of %s', ($_index+1), $this->getShippingAddressCount()) ?></h4>
-						<table class="shopping-cart"> 
+						<table class="shopping-cart">
 							<thead>
 								<tr>
 									<th class="a-left">
@@ -101,7 +101,7 @@
 									</td>
 									<td class="v-top">
 										<?php if($_rate=$this->getShippingAddressRate($_address)): ?>
-										<p><?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodDescription() ?>) - <?php echo $_rate->getPrice() ?></p>
+										<p><?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodTitle() ?>) - <?php echo $_rate->getPrice() ?></p>
 										<?php endif; ?>
 									</td>
 								</tr>
@@ -133,7 +133,7 @@
 											<?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
 											<?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
 										</td>
-	
+
 										<td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>
 										<td class="a-center"><?php echo $_item->getQty()*1 ?></td>
 										<td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?></td>
@@ -174,7 +174,7 @@
 					</td>
 				</tr>
 			</table>
-	
+
 			<div class="clear"></div>
 			<div class="button-set">
 				<a href="<?php echo $this->getBackUrl() ?>" class="left"><?php echo $this->__('&laquo; Back to Billing Information') ?></a>

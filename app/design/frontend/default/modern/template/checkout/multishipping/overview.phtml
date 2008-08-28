@@ -73,7 +73,7 @@
                         </div>
                         <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
                         <p>
-                        <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodDescription() ?>)
+                        <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodTitle() ?>)
                         -
                         <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
                         <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
