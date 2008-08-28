@@ -388,10 +388,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * @param   string $field
      * @return  mixed
      */
-    public function getConfigData($field)
+    public function getConfigData($field, $storeId = null)
     {
+        if (null === $storeId) {
+            $storeId = $this->getStore();
+        }
         $path = 'payment/'.$this->getCode().'/'.$field;
-        return Mage::getStoreConfig($path, $this->getStore());
+        return Mage::getStoreConfig($path, $storeId);
     }
 
     /**

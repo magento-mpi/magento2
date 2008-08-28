@@ -33,6 +33,8 @@
  */
 class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
 {
+    private $_states;
+
     public function __construct()
     {
         parent::__construct(Mage::getConfig()->getNode('global/sales/order'));
@@ -105,16 +107,30 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
 
     /**
      * Retrieve statuses available for state
+     * Get all possible statuses, or for specified state, or specified states array
+     * Add labels by default. Return plain array of statuses, if no labels.
      *
+     * @param mixed $state
+     * @param bool $addLabels
      * @return array
      */
-    public function getStateStatuses($state)
+    public function getStateStatuses($state, $addLabels = true)
     {
         $statuses = array();
-        if ($stateNode = $this->_getState($state)) {
-            foreach ($stateNode->statuses->children() as $statusNode) {
-                $status = $statusNode->getName();
-                $statuses[$status] = $this->getStatusLabel($status);
+        if (empty($state) || !is_array($state)) {
+            $state = array($state);
+        }
+        foreach ($state as $_state) {
+            if ($stateNode = $this->_getState($_state)) {
+                foreach ($stateNode->statuses->children() as $statusNode) {
+                    $status = $statusNode->getName();
+                    if ($addLabels) {
+                        $statuses[$status] = $this->getStatusLabel($status);
+                    }
+                    else {
+                        $statuses[] = $status;
+                    }
+                }
             }
         }
         return $statuses;
@@ -127,12 +143,43 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
      */
     public function getVisibleOnFrontStates()
     {
-        $states = array();
-        foreach ($this->getNode('states')->children() as $state) {
-            if ($state->visible_on_front){
-                $states[] = $state->getName();
+        $this->_getStates();
+        return $this->_states['visible'];
+    }
+
+    /**
+     * Get order states, visible on frontend
+     *
+     * @return array
+     */
+    public function getInvisibleOnFrontStates()
+    {
+        $this->_getStates();
+        return $this->_states['invisible'];
+    }
+
+    private function _getStates()
+    {
+        if (null === $this->_states) {
+            $this->_states = array(
+                'all'       => array(),
+                'visible'   => array(),
+                'invisible' => array(),
+                'statuses'  => array(),
+            );
+            foreach ($this->getNode('states')->children() as $state) {
+                $name = $state->getName();
+                $this->_states['all'][] = $name;
+                if ($state->visible_on_front){
+                    $this->_states['visible'][] = $name;
+                }
+                else {
+                    $this->_states['invisible'][] = $name;
+                }
+                foreach ($state->statuses->children() as $status) {
+                    $this->_states['statuses'][$name][] = $status->getName();
+                }
             }
         }
-        return $states;
     }
 }

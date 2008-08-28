@@ -351,16 +351,23 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         $order->sendNewOrderEmail();
                     }
                     */
+
+                    // get from config order status to be set
+                    $newOrderStatus = $this->getConfigData('order_status', $order->getStoreId());
+                    if (empty($newOrderStatus)) {
+                        $newOrderStatus = $order->getStatus();
+                    }
+
                     /*
                     if payer_status=verified ==> transaction in sale mode
                     if transactin in sale mode, we need to create an invoice
                     otherwise transaction in authorization mode
                     */
-                    if ($this->getIpnFormData('payment_status')=='Completed') {
+                    if ($this->getIpnFormData('payment_status') == 'Completed') {
                        if (!$order->canInvoice()) {
                            //when order cannot create invoice, need to have some logic to take care
                            $order->addStatusToHistory(
-                                $order->getStatus(),//continue setting current order status
+                                $order->getStatus(), // keep order status/state
                                 Mage::helper('paypal')->__('Error in creating an invoice')
                            );
 
@@ -374,15 +381,16 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                                ->addObject($invoice)
                                ->addObject($invoice->getOrder())
                                ->save();
-                           $order->addStatusToHistory(
-                                'processing',//update order status to processing after creating an invoice
-                                Mage::helper('paypal')->__('Invoice '.$invoice->getIncrementId().' was created')
+                           $order->setState(
+                               Mage_Sales_Model_Order::STATE_PROCESSING, $newOrderStatus,
+                               Mage::helper('paypal')->__('Invoice %s was created', $invoice->getIncrementId())
                            );
                        }
                     } else {
-                        $order->addStatusToHistory(
-                                'pending',
-                                Mage::helper('paypal')->__('Received IPN verification'));
+                        $order->setState(
+                            Mage_Sales_Model_Order::STATE_PROCESSING, $newOrderStatus,
+                            Mage::helper('paypal')->__('Received IPN verification')
+                        );
                     }
 
                 }//else amount the same and there is order obj
@@ -424,4 +432,15 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
     }
 
+    public function isInitializeNeeded()
+    {
+        return true;
+    }
+
+    public function initialize($paymentAction, $stateObject)
+    {
+        $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        $stateObject->setState($state);
+        $stateObject->setStatus(Mage::getSingleton('sales/order_config')->getStateDefaultStatus($state));
+    }
 }

@@ -416,17 +416,19 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     /**
      * Declare order state
      *
-     * @param   string $state
+     * @param string $state
+     * @param string $status
+     * @param string $comment
      * @return  Mage_Sales_Model_Order
      */
-    public function setState($state, $status=false)
+    public function setState($state, $status = false, $comment = '')
     {
         $this->setData('state', $state);
         if ($status) {
             if ($status === true) {
                 $status = $this->getConfig()->getStateDefaultStatus($state);
             }
-            $this->addStatusToHistory($status);
+            $this->addStatusToHistory($status, $comment);
         }
         return $this;
     }
