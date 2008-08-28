@@ -37,7 +37,7 @@
                     <li><a href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->htmlEscape($_tag->getName()) ?></a></li>
                 <?php endforeach; ?>
             </ul>
-            <script type="text/javascript">decorateGeneric($$('#tags-list li'),['last','first']);</script>
+            <script type="text/javascript">decorateGeneric($('tags-list').select('li'),['last','first']);</script>
         </div>
 <?php else: ?>
     <p><?php echo $this->__('You have not tagged any products yet.') ?></p>
