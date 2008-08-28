@@ -355,10 +355,14 @@ Ext.onReady(function()
 
 });
 
-function addNew(url, params)
+function addNew(url, isRoot)
 {
+    if (isRoot) {
+        tree.currentNodeId = tree.root.id;
+    }
     tree.addNodeTo = tree.currentNodeId;
-    updateContent(url, params);
+    url+= 'parent/'+tree.currentNodeId;
+    updateContent(url);
 }
 
 function categoryMove(obj)

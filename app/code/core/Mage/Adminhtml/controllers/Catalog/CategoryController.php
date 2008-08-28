@@ -78,25 +78,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function addAction()
     {
-        $_prevCategoryId = (int) Mage::getSingleton('admin/session')
-            ->getLastEditedCategory(true);
-        if ($_prevCategoryId) {
-            $this->getRequest()->setParam('id', $_prevCategoryId);
-            if (!$category = $this->_initCategory()) {
-                return;
-            }
-            $path = $category->getPath();
-            Mage::unregister('category');
-            Mage::unregister('current_category');
-            $this->_redirect('*/*/add',
-                array(
-                    '_current' => true,
-                    'id' => null,
-                    'parent' => base64_encode($path)
-                )
-            );
-            return;
-        }
         $this->_forward('edit');
     }
 
@@ -213,6 +194,20 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $category->addData($data['general']);
+
+            if (!$category->getId()) {
+                $parentId = $this->getRequest()->getParam('parent');
+                if (!$parentId) {
+                    if ($storeId) {
+                        $parentId = Mage::app()->getStore($storeId)->getRootCategoryId();
+                    }
+                    else {
+                        $parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+                    }
+                }
+                $parentCategory = Mage::getModel('catalog/category')->load($parentId);
+                $category->setPath($parentCategory->getPath());
+            }
             /**
              * Check "Use Default Value" checkboxes values
              */
@@ -246,7 +241,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
         $url = $this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId()));
 
-     echo '<script type="text/javascript">parent.updateContent("'.$url.'");</script>';
+     echo '<script type="text/javascript">parent.updateContent("'.$url.'", {}, true);</script>';
 
       //  $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
     }

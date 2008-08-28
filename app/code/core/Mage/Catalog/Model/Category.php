@@ -39,6 +39,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     const DM_PRODUCT        = 'PRODUCTS';
     const DM_PAGE           = 'PAGE';
     const DM_MIXED          = 'PRODUCTS_AND_PAGE';
+    const TREE_ROOT_ID      = 1;
 
     const CACHE_TAG         = 'catalog_category';
     protected $_cacheTag    = 'catalog_category';

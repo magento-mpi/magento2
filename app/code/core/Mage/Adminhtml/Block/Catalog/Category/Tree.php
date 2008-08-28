@@ -47,9 +47,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     protected function _prepareLayout()
     {
-        $urlAddSub = $this->getUrl("*/*/add", array(
+        $addUrl = $this->getUrl("*/*/add", array(
             '_current'=>true,
-            'parent'=>base64_encode($this->getCategoryPath()),
             'id'=>null,
         ));
 
@@ -57,40 +56,17 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add Subcategory'),
-                    'onclick'   => "addNew('".$urlAddSub."')",
+                    'onclick'   => "addNew('".$addUrl."', false)",
                     'class'     => 'add'
                 ))
         );
-
-        $urlAddRoot = $this->getUrl("*/*/add", array(
-            '_current'=>true,
-            'id'=>null,
-        ));
 
         $this->setChild('add_root_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => Mage::helper('catalog')->__('Add Root Category'),
-                    'onclick'   => "addNew('".$urlAddRoot."')",
+                    'onclick'   => "addNew('".$addUrl."', true)",
                     'class'     => 'add'
-                ))
-        );
-
-        $this->setChild('collapse_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Collapse All'),
-                    'onclick'   => 'tree.collapseTree();',
-                    'class'     => 'collapse'
-                ))
-        );
-
-        $this->setChild('expand_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Expand All'),
-                    'onclick'   => 'tree.expandTree();',
-                    'class'     => 'expand'
                 ))
         );
 
