@@ -66,6 +66,14 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
             $baseTotalTax += $creditmemo->getBaseShippingTaxAmount();
         }
 
+        $totalTax       = $totalTax - $creditmemo->getOrder()->getTaxRefunded();
+        $baseTotalTax   = $baseTotalTax - $creditmemo->getOrder()->getBaseTaxRefunded();
+
+        if ($baseTotalTax<0) {
+            $baseTotalTax = 0;
+            $totalTax = 0;
+        }
+
         $creditmemo->setTaxAmount($totalTax);
         $creditmemo->setBaseTaxAmount($baseTotalTax);
 

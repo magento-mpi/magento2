@@ -63,7 +63,7 @@
         <?php endif; ?>
         <tr>
             <td class="label"><?php echo $this->helper('sales')->__('Refund Shipping') ?></td>
-            <td><input type="text" name="creditmemo[shipping_amount]" value="<?php echo $_source->getOrder()->getBaseShippingAmount()*1 ?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="shipping_amount" /></td>
+            <td><input type="text" name="creditmemo[shipping_amount]" value="<?php echo $_source->getBaseShippingAmount()*1 ?>" class="input-text not-negative-amount" style="width:60px;text-align:right" id="shipping_amount" /></td>
         </tr>
         <tr>
             <td colspan="2" id="shipping_amount_adv" class="advice-bg-right"></td>
