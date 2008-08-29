@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
         return Mage::app()->getStore($storeId);
     }
 
-    public function getRoot($parentNodeCategory=null, $recursionLevel=2)
+    public function getRoot($parentNodeCategory=null, $recursionLevel=3)
     {
         if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
             return $this->getNode($parentNodeCategory, $recursionLevel);
