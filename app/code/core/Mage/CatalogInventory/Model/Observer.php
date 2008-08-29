@@ -163,13 +163,14 @@ class Mage_CatalogInventory_Model_Observer
             foreach ($options as $option) {
                 /* @var $option Mage_Sales_Model_Quote_Item_Option */
                 $optionQty = $qty * $option->getValue();
+                $increaseOptionQty = ($item->getQtyToAdd() ? $item->getQtyToAdd() : $qty) * $option->getValue();
 
                 $stockItem = $option->getProduct()->getStockItem();
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product in option is not valid'));
                 }
-                $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $optionQty);
+                $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $increaseOptionQty);
                 $result = $stockItem->checkQuoteItemQty($optionQty, $qtyForCheck);
 
                 if (!is_null($result->getItemIsQtyDecimal())) {
@@ -205,7 +206,8 @@ class Mage_CatalogInventory_Model_Observer
                 $qtyForCheck = $item->getParentItem()->getQty()*$qty;
             }
             else {
-                $qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), $qty);
+                $increaseQty = $item->getQtyToAdd() ? $item->getQtyToAdd() : $qty;
+                $qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), $increaseQty);
             }
 
             $result = $stockItem->checkQuoteItemQty($qty, $qtyForCheck);
@@ -246,7 +248,7 @@ class Mage_CatalogInventory_Model_Observer
     {
         $qty = $itemQty;
         if (isset($this->_checkedProductsQty[$productId])) {
-            $qty+= $this->_checkedProductsQty[$productId];
+            $qty += $this->_checkedProductsQty[$productId];
         }
         $this->_checkedProductsQty[$productId] = $qty;
         return $qty;

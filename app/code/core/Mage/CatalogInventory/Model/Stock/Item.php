@@ -306,9 +306,10 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             }
         }
         else {
+            $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName());
             $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('The requested quantity is not available'))
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName()))
+                ->setMessage($message)
+                ->setQuoteMessage($message)
                 ->setQuoteMessageIndex('qty');
             return $result;
         }

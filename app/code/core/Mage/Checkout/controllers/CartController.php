@@ -171,7 +171,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if ($this->_getSession()->getUseNotice(true)) {
                 $this->_getSession()->addNotice($e->getMessage());
             } else {
-                $this->_getSession()->addError($e->getMessage());
+                foreach (explode("\n", $e->getMessage()) as $message) {
+                    $this->_getSession()->addError($message);
+                }
             }
 
             $url = $this->_getSession()->getRedirectUrl(true);

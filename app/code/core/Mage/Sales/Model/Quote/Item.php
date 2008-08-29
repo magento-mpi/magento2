@@ -100,6 +100,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         $oldQty = $this->getQty();
         $qty = $this->_prepareQty($qty);
+        $this->setQtyToAdd($qty);
         $this->setQty($oldQty+$qty);
         return $this;
     }

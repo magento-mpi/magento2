@@ -642,8 +642,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
 
         $parentItem = null;
+        $errors = array();
         foreach ($cartCandidates as $candidate) {
-
             $item = $this->_addCatalogProduct($candidate, $candidate->getCartQty());
 
             /**
@@ -661,11 +661,13 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
              */
             $item->addQty($candidate->getCartQty());
 
+            // collect errors instead of throwing first one
             if ($item->getHasError()) {
-
-                Mage::throwException($item->getMessage());
-
+                $errors[] = $item->getMessage();
             }
+        }
+        if (!empty($errors)) {
+            Mage::throwException(implode("\n", $errors));
         }
         return $item;
     }
