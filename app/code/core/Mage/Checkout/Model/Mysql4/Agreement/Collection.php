@@ -43,7 +43,8 @@ class Mage_Checkout_Model_Mysql4_Agreement_Collection extends Mage_Core_Model_My
             'main_table.agreement_id = store_table.agreement_id',
             array()
         )
-        ->where('store_table.store_id in (?)', array(0, $store));
+        ->where('store_table.store_id in (?)', array(0, $store))
+        ->group('main_table.agreement_id');
 
         return $this;
     }
