@@ -81,6 +81,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             ->addAttributeToSelect('is_anchor')
             ->addAttributeToFilter('is_active', 1)
             ->addIdFilter($category->getChildren())
+            ->setOrder('position', 'ASC')
             ->joinUrlRewrite()
             ->load();
 
