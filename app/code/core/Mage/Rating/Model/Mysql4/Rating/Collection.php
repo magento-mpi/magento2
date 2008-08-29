@@ -145,7 +145,7 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
                     {$this->getTable('rating/rating_store')} AS rst
                     ON rst.rating_id = {$this->getTable('rating_vote')}.rating_id AND rst.store_id = ". (int) $storeId . "
                 INNER JOIN
-                    {$this->getTable('review/review')} ON review_store.review_id=review.review_id AND review.status_id=1
+                    {$this->getTable('review/review')} ON {$this->getTable('review/review_store')}.review_id={$this->getTable('review/review')}.review_id AND {$this->getTable('review/review')}.status_id=1
                 WHERE
                     {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.rating_id IN (?)', $arrRatingId)}
                     AND {$this->getConnection()->quoteInto($this->getTable('rating_vote').'.entity_pk_value=?', $entityPkValue)}
