@@ -137,6 +137,10 @@ class Mage_Shipping_Model_Shipping
             if (!$result instanceof Mage_Shipping_Model_Rate_Result_Error) {
                 $result = $carrier->collectRates($request);
             }
+            // sort rates by price
+            if (method_exists($result, 'sortRatesByPrice')) {
+                $result->sortRatesByPrice();
+            }
             $this->getResult()->append($result);
         }
         return $this;

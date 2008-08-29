@@ -128,4 +128,31 @@ class Mage_Shipping_Model_Rate_Result
 	    }
 	    return $cheapest;
 	}
+
+	/**
+	 *  Sort rates by price from min to max
+	 *
+	 *  @param    none
+	 *  @return	  Mage_Shipping_Model_Rate_Result
+	 */
+	public function sortRatesByPrice ()
+	{
+	    if (!is_array($this->_rates) || !count($this->_rates)) {
+	        return $this;
+	    }
+	    /* @var $rate Mage_Shipping_Model_Rate_Result_Method */
+	    foreach ($this->_rates as $i => $rate) {
+	        $tmp[$i] = $rate->getPrice();
+	    }
+
+	    natsort($tmp);
+
+	    foreach ($tmp as $i => $price) {
+	        $result[] = $this->_rates[$i];
+	    }
+
+	    $this->reset();
+	    $this->_rates = $result;
+	    return $this;
+	}
 }
