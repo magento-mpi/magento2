@@ -108,4 +108,20 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
 
         return $formateOptionValue;
     }
+
+    /**
+     * Return sku of order item. If order item is conf product
+     * it return sku of child product (conf. product has only one child)
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        if ($this->getOrderItem()->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            foreach ($this->getOrderItem()->getChildrenItems() as $_children) {
+                return $_children->getSku();
+            }
+        }
+        return $this->getItem()->getSku();
+    }
 }
