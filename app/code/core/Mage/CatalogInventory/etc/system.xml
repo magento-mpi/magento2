@@ -37,7 +37,8 @@
             <show_in_store>0</show_in_store>
             <groups>
                 <options translate="label">
-                    <label>Stock Options</label>
+                    <comment>&lt;strong&gt;Please note&lt;/strong&gt;, that these Settings are applicable to cart line Items, not the whole Cart.</comment>
+                    <label>Product Stock Options</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
