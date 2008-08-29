@@ -837,13 +837,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             );
 
         } catch (Exception $e) {
-            echo 1;
-                echo $e->getMessage();
-                mageDebugBacktrace(false, true, false, $e->getTrace());
-                exit();
             Mage::logException($e);
             $result['error'] = array(
-                'message'   =>  $this->__('Product saving error.')
+                'message'   =>  $this->__('Product saving error. ') . $e->getMessage()
              );
         }
 
