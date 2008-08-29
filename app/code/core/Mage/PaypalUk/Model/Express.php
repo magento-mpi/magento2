@@ -92,9 +92,11 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this->getCheckout()->getQuote();
     }
 
-    public function getPaymentAction()
+    public function getPaymentAction($paymentAction=null)
     {
-        $paymentAction = Mage::getStoreConfig('payment/paypaluk_express/payment_action');
+        if (is_null($paymentAction)) {
+            $paymentAction = Mage::getStoreConfig('payment/paypaluk_express/payment_action');
+        }
         if (!$paymentAction) {
             $paymentAction = Mage_PaypalUk_Model_Api_Pro::TRXTYPE_AUTH_ONLY;
         } else {
@@ -410,7 +412,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         }
 
         $this->getApi()
-            ->setTrxtype($paymentAction)
+            ->setTrxtype($this->getPaymentAction($paymentAction))
             ->setAmount($address->getBaseGrandTotal())
             ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->setShippingAddress($address)
