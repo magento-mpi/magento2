@@ -39,7 +39,7 @@
 <table cellspacing="0" id="shopping-cart-table" class="data-table box-table shopping-cart">
     <thead>
         <tr>
-			<th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th class="a-center"><?php echo $this->__('Qty') ?></th>
             <th class="a-center"><?php echo $this->__('Product') ?></th>
             <th class="a-center"><?php echo $this->__('Rem') ?></th>
             <th class="a-right"><?php echo $this->__('Price') ?><?php echo $this->getIncExcTax(false) ?></th>
@@ -54,7 +54,7 @@
         </tr>
     </tfoot>
     <tbody>
-	<?php foreach($this->getItems() as $_item): ?>
+    <?php foreach($this->getItems() as $_item): ?>
         <?php echo $this->getItemHtml($_item) ?>
     <?php endforeach ?>
     </tbody>
@@ -91,14 +91,14 @@
 <div class="clear"></div>
 <?php if(!$this->hasError()): ?>
 <div class="p-methods">
-	<ul class="checkout-types">
-		<?php echo $this->getChildHtml('methods') ?>
-	</ul>
+    <ul class="checkout-types">
+        <?php echo $this->getChildHtml('methods') ?>
+    </ul>
 </div>
 <?php endif; ?>
 <?php if($this->getContinueShoppingUrl()): ?>
 <p class="a-right" style="padding-right:5px;">
-	<a href="javascript:void(0);" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><?php echo $this->__('Continue Shopping') ?> &raquo;</a>
+    <a href="javascript:void(0);" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><?php echo $this->__('Continue Shopping') ?> &raquo;</a>
 </p>
 <?php endif; ?>
 <br />

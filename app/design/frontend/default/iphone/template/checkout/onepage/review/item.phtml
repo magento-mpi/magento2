@@ -26,9 +26,9 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-	<td>
-		<?php echo $this->htmlEscape($this->getProductName()) ?>
-		<!-- item custom options -->
+    <td>
+        <?php echo $this->htmlEscape($this->getProductName()) ?>
+        <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
@@ -48,22 +48,22 @@
         </dl>
         <?php endif;?>
         <!-- / -->
-	</td>
-	<td class="a-center"><?php echo $_item->getQty() ?></td>
-	<td class="a-right" class="nowrap">
-		<?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-			<span class="nowrap"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></span>
-		<?php endif; ?>	
-		<?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-			<div class="nowrap" style="font-size:9px;"><?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?><br />(Incl.Tax)</div>
-		<?php endif; ?>
-	</td>
-	<td class="a-right" class="nowrap">
-		<?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>	
-			<span class="nowrap"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?></span>
-		<?php endif; ?>
-		<?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-			<div class="nowrap" style="font-size:9px;"><?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?><br />(Incl.Tax)</div>
-		<?php endif; ?>	
-	</td>
+    </td>
+    <td class="a-center"><?php echo $_item->getQty() ?></td>
+    <td class="a-right" class="nowrap">
+        <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <span class="nowrap"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></span>
+        <?php endif; ?>    
+        <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <div class="nowrap" style="font-size:9px;"><?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?><br />(Incl.Tax)</div>
+        <?php endif; ?>
+    </td>
+    <td class="a-right" class="nowrap">
+        <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>    
+            <span class="nowrap"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()) ?></span>
+        <?php endif; ?>
+        <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+            <div class="nowrap" style="font-size:9px;"><?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?><br />(Incl.Tax)</div>
+        <?php endif; ?>    
+    </td>
 </tr>

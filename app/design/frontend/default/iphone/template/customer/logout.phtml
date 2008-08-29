@@ -25,11 +25,11 @@
  */
 ?>
 <div class="in-page">
-	<div class="page-head">
-		<h3><?php echo $this->__("You're now Logged Out") ?></h3>
-	</div>
-	<p><?php echo $this->__('You have been successfully logged out and will be redirected to our homepage in 5 seconds.') ?></p>
-	<br /><br />
+    <div class="page-head">
+        <h3><?php echo $this->__("You're now Logged Out") ?></h3>
+    </div>
+    <p><?php echo $this->__('You have been successfully logged out and will be redirected to our homepage in 5 seconds.') ?></p>
+    <br /><br />
 </div>
 <script type="text/javascript">
 setTimeout(function(){ location.href = '<?php echo $this->getUrl() ?>'},5000);

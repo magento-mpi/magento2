@@ -31,7 +31,7 @@
     </div>
     <div class="clear"></div>
     <a href="<?php echo $this->getUrl('review/product/list', array('id' => $this->getProduct()->getId())) ?>"><small class="count"><?php echo $this->__('%d Review(s)', $this->getProduct()->getRatingSummary()->getReviewsCount()) ?></small></a><br />
-	<a href="<?php echo $this->getAddLink() ?>#review-form"><small><?php echo $this->__('Add Your Review') ?></small></a>
+    <a href="<?php echo $this->getAddLink() ?>#review-form"><small><?php echo $this->__('Add Your Review') ?></small></a>
 </div>
 <?php endif; ?>
 

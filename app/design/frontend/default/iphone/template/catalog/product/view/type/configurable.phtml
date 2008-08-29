@@ -33,9 +33,9 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()): ?>
-    <p class="availability"><?php echo $this->__('Availability: In stock.') ?></p>
+    <p><?php echo $this->__('Availability: In stock.') ?></p>
 <?php else: ?>
-    <p class="availability"><?php echo $this->__('Availability: Out of stock.') ?></p>
+    <p><?php echo $this->__('Availability: Out of stock.') ?></p>
 <?php endif; ?>
 
 <?php echo $this->getPriceHtml($_product) ?>

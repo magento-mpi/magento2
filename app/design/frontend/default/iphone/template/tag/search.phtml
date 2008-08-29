@@ -29,14 +29,14 @@
 </div>
 <?php if (!empty($collection)) { ?>
 <ol>
-	<?php foreach ($collection as $item) { ?>
-		<li>
-			<?php echo $item['name']; ?>
-			<strong>Tags:</strong>
-				<?php foreach ($item['tags'] as $tag) { ?>
-					<A href="/tag/index/search?q=<?php echo $tag['tagname']; ?>"><?php echo $tag['tagname']; ?></a> 
-				<?php } ?>
-		</li>
-	<?php } ?>
+    <?php foreach ($collection as $item) { ?>
+        <li>
+            <?php echo $item['name']; ?>
+            <strong>Tags:</strong>
+                <?php foreach ($item['tags'] as $tag) { ?>
+                    <A href="/tag/index/search?q=<?php echo $tag['tagname']; ?>"><?php echo $tag['tagname']; ?></a> 
+                <?php } ?>
+        </li>
+    <?php } ?>
 </ol>
 <?php } ?>

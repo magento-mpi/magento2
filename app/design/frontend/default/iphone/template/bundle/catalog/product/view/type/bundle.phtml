@@ -25,18 +25,14 @@
  */
 
 ?>
-
-		<?php $_product = $this->getProduct() ?>
-		<?php if($_product->isSaleable()): ?>
-		<script type="text/javascript">
-			var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
-		</script>
-			<p><small><strong><?php echo $this->__('Availability: In stock.') ?></strong></small></p>
-		<?php else: ?>
-			<p><small><strong><?php echo $this->__('Availability: Out of stock.') ?></strong></small></p>
-		<?php endif; ?>
-		
-		<span class="product-bundle-price"><?php echo $this->getPriceHtml($_product) ?></span>
-		<span class="product-price"><?php echo $this->getChildHtml('bundle_prices') ?></span>
-	</div><div class="clear"></div>
-</div>
+<?php $_product = $this->getProduct() ?>
+<?php if($_product->isSaleable()): ?>
+<script type="text/javascript">
+    var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
+</script>
+    <p><?php echo $this->__('Availability: In stock.') ?></p>
+<?php else: ?>
+    <p><?php echo $this->__('Availability: Out of stock.') ?></p>
+<?php endif; ?>
+<div class="product-bundle-price"><?php echo $this->getPriceHtml($_product) ?></div>
+<div class="product-price"><?php echo $this->getChildHtml('bundle_prices') ?></div>

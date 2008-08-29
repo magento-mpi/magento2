@@ -36,7 +36,7 @@
     <li id="opc-<?php echo $_stepId ?>" class="section <?php echo !empty($_stepInfo['allow'])?'allow':'' ?> <?php echo !empty($_stepInfo['complete'])?'saved':'' ?>">
         <div class="head">
             <h3><span class="step-count"><?php echo $i ?></span> &nbsp;<?php echo $_stepInfo['label'] ?></h3><a href="#"><?php echo $this->__('Edit') ?></a>
-			<div class="clear"></div>
+            <div class="clear"></div>
         </div>
         <div id="checkout-step-<?php echo $_stepId ?>" class="box<?php if($_stepId=='shipping_method'): ?>-no-padding<?php endif; ?> a-item" style="display:none;">
             <?php echo $this->getChildHtml($_stepId) ?>

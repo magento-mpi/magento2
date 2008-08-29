@@ -29,7 +29,7 @@
         <div class="inner-head">
             <h5><?php echo $this->__('Contact Information') ?></h5>
             <a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
-			<div class="clear"></div>
+            <div class="clear"></div>
         </div>
         <p style="line-height:14px;">
             <?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?> 
@@ -43,7 +43,7 @@
         <div class="inner-head">
             <h5><?php echo $this->__('Newsletters') ?></h5>
             <a href="<?php echo $this->getUrl('newsletter/manage') ?>">Edit</a>
-			<div class="clear"></div>
+            <div class="clear"></div>
         </div>
         <p>
             <?php if( $this->getIsSubscribed() ): ?>

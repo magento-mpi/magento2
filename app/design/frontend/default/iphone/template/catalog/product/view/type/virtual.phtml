@@ -31,13 +31,10 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
-		
-		<?php if($_product->isSaleable()): ?>
-			<p><small><strong><?php echo $this->__('Availability: In stock.') ?></strong></small></p>
-		<?php else: ?>
-			<p><small><strong><?php echo $this->__('Availability: Out of stock.') ?></strong></small></p>
-		<?php endif; ?>
-		
-		<span class="product-price"><?php echo $this->getPriceHtml($_product) ?></span>
-	</div><div class="clear"></div>
-</div>
+<?php if($_product->isSaleable()): ?>
+    <p><?php echo $this->__('Availability: In stock.') ?></p>
+<?php else: ?>
+    <p><?php echo $this->__('Availability: Out of stock.') ?></p>
+<?php endif; ?>
+
+<?php echo $this->getPriceHtml($_product) ?>

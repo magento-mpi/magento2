@@ -40,28 +40,28 @@
 <div class="multi-address-checkout-box">
     <div class="box">
         <div>
-			<table class="shopping-cart"> 
-				<thead>
-					<tr>
-						<th class="a-left">
-							<div class="col2-set">
-								<div class="col-1"><?php echo $this->__('Billing Address') ?></div>
-								<div class="col-2 a-right"><a href="<?php echo $this->getSelectAddressUrl() ?>"><?php echo $this->__('Change Billing Address') ?></a></div>
-							</div><div class="clear"></div>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<?php $_address=$this->getAddress() ?>
-							<address>
-								<?php echo $_address->format('html') ?>
-							</address>
-						</td>
-					</tr>
-				</tbody>
-			</table><br />
+            <table class="shopping-cart"> 
+                <thead>
+                    <tr>
+                        <th class="a-left">
+                            <div class="col2-set">
+                                <div class="col-1"><?php echo $this->__('Billing Address') ?></div>
+                                <div class="col-2 a-right"><a href="<?php echo $this->getSelectAddressUrl() ?>"><?php echo $this->__('Change Billing Address') ?></a></div>
+                            </div><div class="clear"></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <?php $_address=$this->getAddress() ?>
+                            <address>
+                                <?php echo $_address->format('html') ?>
+                            </address>
+                        </td>
+                    </tr>
+                </tbody>
+            </table><br />
             <div>
                 <div class="inner-head">
                     <h5><?php echo $this->__('Payment Method') ?></h5><div class="clear"></div>
