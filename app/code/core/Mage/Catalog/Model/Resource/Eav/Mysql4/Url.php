@@ -208,9 +208,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData);
             }
             catch (Exception $e) {
-                var_dump($rewriteData);
-                echo $e;
-                die();
+                Mage::throwException(Mage::helper('catalog')->__('Url rewrie save problem.'));
             }
         }
         unset($rewriteData);
