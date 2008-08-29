@@ -849,7 +849,7 @@ table.recently-list td {width:20%; }
 .listing-type-list .product-image { float:left; width:135px; }
 .listing-type-list .product-shop { width:305px; }
 .listing-type-list .product-shop .description { margin:.5em 0 1.2em 0; }
-.listing-type-list .product-shop .price-box { float:left;text-align:left; white-space:nowrap; margin:3px 13px 5px 0; }
+.listing-type-list .product-shop .price-box { float:left;text-align:left; white-space:nowrap; margin:3px 13px 5px 0; padding:0; }
 .listing-type-list .product-shop .form-button {margin:0.5em 0 0; }
 .listing-type-list .product-shop .product-reviews { margin:15px 0; font-size:.95em; }
 .listing-type-list .product-shop .product-reviews a, .listing-type-list .product-shop .product-reviews a:hover { color:#6e6969; }
