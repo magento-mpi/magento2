@@ -274,10 +274,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         if (is_null($store) && is_null($product)) {
             Mage::throwException(Mage::helper('catalog')->__('For reindex enabled product(s) you need specify store or product'));
         }
-        elseif (is_null($product)) {
+        elseif (is_null($product) || is_array($product)) {
             $storeId    = $store->getId();
             $websiteId  = $store->getWebsiteId();
-        	$this->_getWriteAdapter()->delete($indexTable, 'store_id='.$storeId);
+
+            $productsCondition = '';
+            $deleteCondition = '';
+            if (is_array($product) && !empty($product)) {
+                $productsCondition  = $this->_getWriteAdapter()->quoteInto(' AND t_v_default.entity_id IN (?)', $product);
+                $deleteCondition    = $this->_getWriteAdapter()->quoteInto(' AND product_id IN (?)', $product);
+            }
+        	$this->_getWriteAdapter()->delete($indexTable, 'store_id='.$storeId.$deleteCondition);
         	$query = "INSERT INTO $indexTable
             SELECT
                 t_v_default.entity_id, {$storeId}, IFNULL(t_v.value, t_v_default.value)
@@ -292,7 +299,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             LEFT JOIN {$statusTable} AS `t_s`
                 ON (t_s.entity_id = t_v_default.entity_id) AND (t_s.attribute_id='{$statusAttributeId}') AND (t_s.store_id='{$storeId}')
             WHERE
-                t_v_default.attribute_id='{$visibilityAttributeId}' AND t_v_default.store_id=0
+                t_v_default.attribute_id='{$visibilityAttributeId}' AND t_v_default.store_id=0{$productsCondition}
                 AND (IFNULL(t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
         	$this->_getWriteAdapter()->query($query);
         }

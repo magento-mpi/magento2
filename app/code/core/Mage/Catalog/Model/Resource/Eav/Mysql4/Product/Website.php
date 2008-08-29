@@ -39,6 +39,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website extends Mage_Core_M
     }
 
     /**
+     * Get catalog product resource model
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
+    protected function _getProductResource()
+    {
+        return Mage::getResourceSingleton('catalog/product');
+    }
+
+    /**
      * Removes products from websites
      *
      * @param array $websiteIds
@@ -91,16 +101,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website extends Mage_Core_M
 
         // Before adding of products we should remove it old rows with same ids
         $this->removeProducts($websiteIds, $productIds);
-
-        foreach ($productIds as $productId) {
-            if ((int) $productId == 0) {
-                continue;
-            }
-            foreach ($websiteIds as $websiteId) {
+        foreach ($websiteIds as $websiteId) {
+            foreach ($productIds as $productId) {
+                if ((int) $productId == 0) {
+                    continue;
+                }
                 $this->_getWriteAdapter()->insert($this->getMainTable(), array(
                     'product_id' => $productId,
                     'website_id' => $websiteId
                 ));
+            }
+            /**
+             * Refresh product enabled index
+             */
+            $storeIds = Mage::app()->getWebsite($websiteId)->getStoreIds();
+            foreach ($storeIds as $storeId) {
+                $store = Mage::app()->getStore($storeId);
+            	$this->_getProductResource()->refreshEnabledIndex($store, $productIds);
             }
         }
 
