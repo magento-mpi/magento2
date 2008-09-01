@@ -556,6 +556,17 @@ Validation.addAllThese([
                     return /^[0-9\.]+(px|pt|em|ex|%)?$/.test(v) && (!(/\..*\./.test(v))) && !(/\.$/.test(v));
                 }
                 return true;
+            }],
+     ['validate-length', 'Maximum length exceeded.', function (v, elm) {
+                var re = new RegExp(/^maximum-length-[0-9]+$/);
+                var result = true;
+                $w(elm.className).each(function(name, index) {
+                        if (name.match(re) && result) {
+                           var length = name.split('-')[2];
+                           result = (v.length <= length);
+                        }
+                    });
+                return result;
             }]
 ]);
 

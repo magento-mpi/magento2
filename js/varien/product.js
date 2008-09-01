@@ -116,7 +116,7 @@ Product.Zoom.prototype = {
 
         this.trackEl.style.visibility = this.showFull ? 'hidden' : 'visible';
         this.containerEl.style.overflow = this.showFull ? 'visible' : 'hidden';
-		this.containerEl.style.zIndex = this.showFull ? '1000' : '9';
+        this.containerEl.style.zIndex = this.showFull ? '1000' : '9';
 
         return this;
     },
@@ -559,10 +559,10 @@ Product.OptionsPrice.prototype = {
 
                 if (price < 0) price = 0;
                 formattedPrice = this.formatPrice(price);
-                if ($(pair.value).getElementsBySelector('.price')[0]) {
-                    $(pair.value).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
-                    if ($(pair.value+this.duplicateIdSuffix) && $(pair.value+this.duplicateIdSuffix).getElementsBySelector('.price')[0]) {
-                        $(pair.value+this.duplicateIdSuffix).getElementsBySelector('.price')[0].innerHTML = formattedPrice;
+                if ($(pair.value).select('.price')[0]) {
+                    $(pair.value).select('.price')[0].innerHTML = formattedPrice;
+                    if ($(pair.value+this.duplicateIdSuffix) && $(pair.value+this.duplicateIdSuffix).select('.price')[0]) {
+                        $(pair.value+this.duplicateIdSuffix).select('.price')[0].innerHTML = formattedPrice;
                     }
                 } else {
                     $(pair.value).innerHTML = formattedPrice;
