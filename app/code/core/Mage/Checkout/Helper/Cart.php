@@ -52,37 +52,34 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
         /**
          * Identify continue shopping url
          */
-        if ($currentProduct = Mage::registry('current_product')) {
-            /**
-             * go to product view page
-             */
-            $continueShoppingUrl = $currentProduct->getProductUrl();
-        } elseif ($currentCategory = Mage::registry('current_category')) {
-            /**
-             * go to category view page
-             */
-          
-            //$continueShoppingUrl = $currentCategory->getUrl();
-            $continueShoppingUrl = $this->_getRequest()->getRequestUri();
-        } else {
-            $continueShoppingUrl = $this->_getUrl('*/*/*', array('_current'=>true));
-        }
-	
+//        if ($currentProduct = Mage::registry('current_product')) {
+//            /**
+//             * go to product view page
+//            */
+//            $continueShoppingUrl = $currentProduct->getProductUrl();
+//        } elseif ($currentCategory = Mage::registry('current_category')) {
+//            /**
+//             * go to category view page
+//             */
+//          
+//            $continueShoppingUrl = $currentCategory->getUrl().(count($this->_getRequest()->getQuery())!=0?'?'.http_build_qu//ery($this->_getRequest()->getQuery(), '', '&amp;'):'');
+//         
+//       } else {
+//            $continueShoppingUrl = $this->_getUrl('*/*/*', array('_current'=>true));
+//        }
+        
+		$continueShoppingUrl = $this->getCurrentUrl();
+		
         $params = array(
             Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('core')->urlEncode($continueShoppingUrl),
             'product' => $product->getId()
         );
         
-       // $params = array("me"=>$this->_getRequest()->getRequestUri());
-
         if ($this->_getRequest()->getRouteName() == 'checkout'
             && $this->_getRequest()->getControllerName() == 'cart') {
             $params['in_cart'] = 1;
         }
-        
-       
-        	
-    
+
         if (count($additional)){
             $params = array_merge($params, $additional);
         }
