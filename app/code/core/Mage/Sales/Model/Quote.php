@@ -961,7 +961,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     public function reserveOrderId()
     {
-        $this->setReservedOrderId($this->_getResource()->getReservedOrderId($this));
+        if (!$this->getReservedOrderId()) {
+            $this->setReservedOrderId($this->_getResource()->getReservedOrderId($this));
+        }
         return $this;
     }
 

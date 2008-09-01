@@ -317,6 +317,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     protected function _prepareOrder(Mage_Sales_Model_Quote_Address $address)
     {
+        $this->getQuote()->unsReservedOrderId();
         $this->getQuote()->reserveOrderId();
         $convertQuote = Mage::getSingleton('sales/convert_quote');
         $order = $convertQuote->addressToOrder($address);
