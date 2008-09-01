@@ -425,7 +425,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                         $this->_getResource()->reindexFinalPrices($stepData, $store);
                         $this->_getResource()->reindexMinimalPrices($stepData, $store);
                     }
-
+                    Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($store, $stepData);
                     $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
                     if ($kill->checkIsThisProcess()) {
                         $this->_getResource()->rollBack();
