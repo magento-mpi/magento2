@@ -96,11 +96,11 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
     public function getTemplateFilter()
     {
-    	if (empty($this->_templateFilter)) {
-    		$this->_templateFilter = Mage::getModel('core/email_template_filter');
-    		$this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks());
-    	}
-    	return $this->_templateFilter;
+        if (empty($this->_templateFilter)) {
+            $this->_templateFilter = Mage::getModel('core/email_template_filter');
+            $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks());
+        }
+        return $this->_templateFilter;
     }
 
     /**
@@ -253,7 +253,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $processor = $this->getTemplateFilter();
 
         if(!$this->_preprocessFlag) {
-        	$variables['this'] = $this;
+            $variables['this'] = $this;
         }
 
         $processor
@@ -306,7 +306,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $mail = $this->getMail();
         if (is_array($email)) {
             foreach ($email as $emailOne) {
-            	$mail->addTo($emailOne, $name);
+                $mail->addTo($emailOne, $name);
             }
         }
         else {
@@ -342,36 +342,37 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         $this->setSentSuccess(false);
 
-    	if (is_null($storeId)) {
-    	    if ($this->getDesignConfig() && $this->getDesignConfig()->getStore()) {
+        if (is_null($storeId)) {
+            if ($this->getDesignConfig() && $this->getDesignConfig()->getStore()) {
                 $storeId = $this->getDesignConfig()->getStore();
-    	    }
-    	    else {
-    	        $storeId = Mage::app()->getStore();
-    	    }
-    	}
-
-    	if (is_numeric($templateId)) {
-    	   $this->load($templateId);
-        } else {
-           $this->loadDefault($templateId);
+            }
+            else {
+                $storeId = Mage::app()->getStore();
+            }
         }
 
-    	if (!$this->getId()) {
-    		throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
-    	}
+        if (is_numeric($templateId)) {
+            $this->load($templateId);
+        } else {
+            $localeCode = Mage::getStoreConfig('general/locale/code', $storeId);
+            $this->loadDefault($templateId, $localeCode);
+        }
 
-    	if (!is_array($sender)) {
-    	    $this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
-    	    $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
-    	} else {
-    	    $this->setSenderName($sender['name']);
-    	    $this->setSenderEmail($sender['email']);
-    	}
+        if (!$this->getId()) {
+            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
+        }
 
-    	$this->setSentSuccess( $this->send($email, $name, $vars) );
-    	return $this;
-	}
+        if (!is_array($sender)) {
+            $this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
+            $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
+        } else {
+            $this->setSenderName($sender['name']);
+            $this->setSenderEmail($sender['email']);
+        }
+
+        $this->setSentSuccess( $this->send($email, $name, $vars) );
+        return $this;
+    }
 
     /**
      * Delete template from DB
@@ -386,10 +387,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
     public function getProcessedTemplateSubject(array $variables)
     {
-    	$processor = $this->getTemplateFilter();
+        $processor = $this->getTemplateFilter();
 
         if(!$this->_preprocessFlag) {
-        	$variables['this'] = $this;
+            $variables['this'] = $this;
         }
 
         $processor->setVariables($variables);
@@ -454,7 +455,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         if (is_array($bcc)) {
             foreach ($bcc as $email) {
-            	$this->getMail()->addBcc($email);
+                $this->getMail()->addBcc($email);
             }
         }
         elseif ($bcc) {

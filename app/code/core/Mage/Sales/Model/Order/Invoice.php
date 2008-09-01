@@ -661,10 +661,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
         }
 
         foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+            $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
                 ->sendTransactional(
                     $template,
-                    Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
+                    Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $order->getStoreId()),
                     $recipient['email'],
                     $recipient['name'],
                     array(
