@@ -419,16 +419,17 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      * @param string $state
      * @param string $status
      * @param string $comment
+     * @param bool $isCustomerNotified
      * @return  Mage_Sales_Model_Order
      */
-    public function setState($state, $status = false, $comment = '')
+    public function setState($state, $status = false, $comment = '', $isCustomerNotified = false)
     {
         $this->setData('state', $state);
         if ($status) {
             if ($status === true) {
                 $status = $this->getConfig()->getStateDefaultStatus($state);
             }
-            $this->addStatusToHistory($status, $comment);
+            $this->addStatusToHistory($status, $comment, $isCustomerNotified);
         }
         return $this;
     }
@@ -451,7 +452,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      * @param   boolean $is_customer_notified
      * @return  Mage_Sales_Model_Order
      */
-    public function addStatusToHistory($status, $comment='', $isCustomerNotified=false)
+    public function addStatusToHistory($status, $comment='', $isCustomerNotified = false)
     {
         $status = Mage::getModel('sales/order_status_history')
             ->setStatus($status)

@@ -103,7 +103,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         //Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
         //and then redirect to checkout one page
         $this->_redirect('checkout/cart');
-     }
+    }
 
     /**
      * when paypal returns
@@ -119,16 +119,6 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
          * set the quote as inactive after back from paypal
          */
         Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
-
-        /**
-         * send confirmation email to customer
-         */
-        $order = Mage::getModel('sales/order');
-
-        $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
-        if($order->getId()){
-            $order->sendNewOrderEmail();
-        }
 
         //Mage::getSingleton('checkout/session')->unsQuoteId();
 

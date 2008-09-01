@@ -265,6 +265,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
         $order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId());
 
         if ($order->getId()) {
+            $comment = null;
             if ($order->canInvoice() && $this->getExpress()->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
                 $invoice = $order->prepareInvoice();
                 $invoice->register()->capture();
@@ -275,11 +276,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
 
                 $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $orderStatus = $this->getExpress()->getConfigData('order_status');
-
-                $order->addStatusToHistory(
-                    $orderStatus,
-                    Mage::helper('paypal')->__('Invoice '.$invoice->getIncrementId().' was created')
-                );
+                $comment = Mage::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId());
             } else {
                 $this->getExpress()->placeOrder($order->getPayment());
 
@@ -290,13 +287,11 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
             if (!$orderStatus) {
                 $orderStatus = $order->getConfig()->getStateDefaultStatus($orderState);
             }
+            if (!$comment) {
+                $comment = Mage::helper('paypal')->__('Customer returned from PayPal site.');
+            }
 
-            $order->setState($orderState);
-            $order->addStatusToHistory(
-                $orderStatus,
-                Mage::helper('paypal')->__('Customer returned from PayPal site.')
-            );
-
+            $order->setState($orderState, $orderStatus, $comment, $notified = true);
             $order->save();
 
             Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false);

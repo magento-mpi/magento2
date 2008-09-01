@@ -150,9 +150,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             }
         }
 
+        $orderIsNotified = null;
         if ($stateObject->getState() && $stateObject->getStatus()) {
-            $orderState = $stateObject->getState();
-            $orderStatus = $stateObject->getStatus();
+            $orderState      = $stateObject->getState();
+            $orderStatus     = $stateObject->getStatus();
+            $orderIsNotified = $stateObject->getIsNotified();
         } else {
             /*
              * this flag will set if the order went to as authorization under fraud service for payflowpro
@@ -176,7 +178,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->getOrder()->addStatusToHistory(
             $orderStatus,
             $this->getOrder()->getCustomerNote(),
-            $this->getOrder()->getCustomerNoteNotify()
+            (null !== $orderIsNotified ? $orderIsNotified : $this->getOrder()->getCustomerNoteNotify())
         );
 
         Mage::dispatchEvent('sales_order_payment_place_end', array('payment' => $this));

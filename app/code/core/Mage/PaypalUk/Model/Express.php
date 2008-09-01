@@ -422,6 +422,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
         $stateObject->setStatus('pending_paypal');
+        $stateObject->setIsNotified(false);
 
         Mage::getSingleton('paypal/session')->unsExpressCheckoutMethod();
 
