@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                 $element->setAfterElementHtml($this->_getAdditionalElementHtml($element));
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
-                    $element->setValues($attribute->getFrontend()->getSelectOptions());
+                    $element->setValues($attribute->getSource()->getAllOptions(true, Mage::app()->getStore()->getId()));
                 }
 
                 if ($inputType == 'date') {

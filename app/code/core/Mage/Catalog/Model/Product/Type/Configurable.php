@@ -43,6 +43,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     protected $_usedProductAttributeIds = null;
     protected $_usedProductAttributes   = null;
+    protected $_usedAttributes          = null;
     protected $_configurableAttributes  = null;
     protected $_usedProductIds  = null;
     protected $_usedProducts    = null;
@@ -129,8 +130,11 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         if (is_null($this->_usedProductAttributes)) {
             $this->_usedProductAttributes = array();
+            $this->_usedAttributes = array();
             foreach ($this->getConfigurableAttributes() as $attribute) {
-                $this->_usedProductAttributes[$attribute->getProductAttribute()->getId()] = $attribute->getProductAttribute();
+                $id = $attribute->getProductAttribute()->getId();
+                $this->_usedProductAttributes[$id] = $attribute->getProductAttribute();
+                $this->_usedAttributes[$id] = $attribute;
             }
         }
         return $this->_usedProductAttributes;
@@ -354,15 +358,15 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         Varien_Profiler::start('CONFIGURABLE:'.__METHOD__);
         if ($attributesOption = $this->getProduct()->getCustomOption('attributes')) {
             $data = unserialize($attributesOption->getValue());
-            $usedAttributes = $this->getUsedProductAttributes();
+            $this->getUsedProductAttributeIds();
 
             foreach ($data as $attributeId => $attributeValue) {
-                if (isset($usedAttributes[$attributeId])) {
-                    $attribute = $usedAttributes[$attributeId];
-                    $label = $attribute->getFrontend()->getLabel();
-
-                    if ($attribute->getSourceModel()) {
-                        $value = $attribute->getSource()->getOptionText($attributeValue);
+                if (isset($this->_usedAttributes[$attributeId])) {
+                    $attribute = $this->_usedAttributes[$attributeId];
+                    $label = $attribute->getLabel();
+                    $value = $attribute->getProductAttribute();
+                    if ($value->getSourceModel()) {
+                        $value = $value->getSource()->getOptionText($attributeValue);
                     }
                     else {
                         $value = '';

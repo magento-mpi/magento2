@@ -27,13 +27,16 @@
 
 class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
-    public function getAllOptions($withEmpty = true)
+    public function getAllOptions($withEmpty = true, $storeId = null)
     {
         if (is_null($this->_options)) {
+            if (null === $storeId) {
+                $storeId = $this->getAttribute()->getStoreId();
+            }
             $this->_options = Mage::getResourceModel('eav/entity_attribute_option_collection')
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
-                ->setStoreFilter($this->getAttribute()->getStoreId())
+                ->setStoreFilter($storeId)
                 ->load()
                 ->toOptionArray();
         }
