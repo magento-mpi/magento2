@@ -331,7 +331,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getTaxAmount()
     {
-        if ($this->getHasChildren() && $this->getProduct()->getPriceType() === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+        if ($this->getHasChildren() && (int)$this->getProduct()->getPriceType() === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
             $amount = 0;
             foreach ($this->getChildren() as $child) {
                 $amount+= $child->getTaxAmount();
@@ -350,7 +350,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function getPrice()
     {
-        if ($this->getHasChildren() && $this->getProduct()->getPriceType() === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+        if ($this->getHasChildren() && (int)$this->getProduct()->getPriceType() === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
             $price = $this->_getData('price');
             /*
             foreach ($this->getChildren() as $child) {
@@ -461,7 +461,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $calculate = $this->getProduct()->getPriceType();
         }
 
-        if ($calculate === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+        if ((int)$calculate === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
             return true;
         }
         return false;
@@ -481,7 +481,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $shipmentType = $this->getProduct()->getShipmentType();
         }
 
-        if ($shipmentType === Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+        if ((int)$shipmentType === Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
             return true;
         }
         return false;
