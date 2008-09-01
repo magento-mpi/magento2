@@ -105,9 +105,10 @@ function bildCategoryTree(parent, config){
         for (var i = 0; i < config.length; i++){
             config[i].uiProvider = Ext.tree.CheckboxNodeUI;
             var node;
-            if (config[i].children && !config[i].children.length) {
-                delete(config[i].children);
-                node = new Ext.tree.AsyncTreeNode(config[i]);
+            var _node = Object.clone(config[i]);
+            if (_node.children && !_node.children.length) {
+                delete(_node.children);
+                node = new Ext.tree.AsyncTreeNode(_node);
 
             } else {
                 node = new Ext.tree.TreeNode(config[i]);

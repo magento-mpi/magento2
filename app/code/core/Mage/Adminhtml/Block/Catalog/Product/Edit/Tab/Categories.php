@@ -81,9 +81,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
             $item['expanded'] = true;
         }
 
-        if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
-            $item['children'] = array();
-        }
+//        if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
+//            $item['children'] = array();
+//        }
 
 
         if (in_array($node->getId(), $this->getCategoryIds())) {
@@ -121,7 +121,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
 
     public function getCategoryChildrenJson($categoryId)
     {
-        $node = $this->getRoot()->getTree()->getNodeById($categoryId);
+        $category = Mage::getModel('catalog/category')->load($categoryId);
+        $node = $this->getRoot($category, 1)->getTree()->getNodeById($categoryId);
 
         if (!$node || !$node->hasChildren()) {
             return '[]';

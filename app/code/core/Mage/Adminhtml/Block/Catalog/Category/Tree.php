@@ -192,6 +192,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     {
         $item = array();
         $item['text']= $this->htmlEscape($node->getName());
+
         if ($this->_withProductCount) {
              $item['text'].= ' ('.$node->getProductCount().')';
         }
@@ -208,9 +209,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $item['allowDrop'] = true;
         // disallow drag if it's first level and category is root of a store
         $item['allowDrag'] = ($node->getLevel()==1 && $rootForStores) ? false : true;
+
         if ((int)$node->getChildrenCount()>0) {
             $item['children'] = array();
         }
+
         if ($node->hasChildren()) {
             $item['children'] = array();
             foreach ($node->getChildren() as $child) {
@@ -224,11 +227,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $item['expanded'] = true;
         }
 
-        if ($this->getUseAjax()) {
-            if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
-                $item['children'] = array();
-            }
-        }
+//        if ($this->getUseAjax()) {
+//            if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
+//                $item['children'] = array();
+//            }
+//        }
 
         return $item;
     }

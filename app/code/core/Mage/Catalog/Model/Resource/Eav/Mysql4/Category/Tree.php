@@ -120,7 +120,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
             $collection->load();
 
             foreach ($collection as $category) {
-                $this->getNodeById($category->getId())->addData($category->getData());
+                if ($this->getNodeById($category->getId())) {
+                    $this->getNodeById($category->getId())->addData($category->getData());
+                }
             }
         }
 
