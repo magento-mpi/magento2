@@ -81,10 +81,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Catalog_Block_Product_Abs
         if ($productIds) {
             $productCollection = Mage::getModel('catalog/product')
                 ->getCollection()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('small_image')
-                ->addAttributeToSelect('status')
+                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addUrlRewrite()
                 ->addIdFilter($productIds);
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
