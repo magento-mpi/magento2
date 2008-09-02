@@ -47,9 +47,10 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
 
         foreach (Mage::helper('core/string')->str_split($item->getName(), 60, true, true) as $key => $part) {
             $page->drawText($part, 60, $pdf->y-$shift[0], 'UTF-8');
-            if ($key > 0) {
+            $shift[0] += 10;
+            /*if ($key > 0) {
                 $shift[0] += 10;
-            }
+            }*/
         }
 
         $options = $this->getItemOptions();
