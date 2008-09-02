@@ -142,6 +142,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
     {
         $attributeIds    = array();
         $attributeTables = array();
+        $storeId = (int)$this->getStoreId();
 
         /**
          * Collect attributes with options
@@ -167,18 +168,15 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
         $select = $this->getConnection()->select()
             ->from(array('default'=>$optionValueTable), array('option_id','option.attribute_id', 'store_id'=>'IFNULL(store.store_id, default.store_id)', 'a.frontend_input'))
             ->joinLeft(array('store'=>$optionValueTable),
-                $this->getConnection()->quoteInto('store.option_id=default.option_id AND store.store_id=?', $this->getStoreId()),
+                $this->getConnection()->quoteInto('store.option_id=default.option_id AND store.store_id=?', $storeId),
                 array())
             ->join(array('option'=>$optionTable),
                 'option.option_id=default.option_id',
                 array())
             ->join(array('a' => $attributesTable), 'option.attribute_id=a.attribute_id', array())
             ->where('default.store_id=0')
-            ->where('option.attribute_id IN (?)', $attributeIds);
-
-        $searchCondition = 'IFNULL(store.value, default.value) LIKE :search_query';
-        $select->where($searchCondition);
-
+            ->where('option.attribute_id IN (?)', $attributeIds)
+            ->where('IFNULL(store.value, default.value) LIKE :search_query');
         $options = $this->getConnection()->fetchAll($select, array('search_query'=>$this->_searchQuery));
         if (empty($options)) {
             return false;
@@ -187,29 +185,36 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
         // build selects of entity ids for specified options ids by frontend input
         $select = array();
         foreach (array(
-            'select'      => "value = '%d'",
-            'multiselect' => "FIND_IN_SET('%d', value)")
+            'select'      => 'value = %d',
+            'multiselect' => 'FIND_IN_SET(%d, value)')
             as $frontendInput => $condition) {
             if (isset($attributeTables[$frontendInput])) {
-                $select[$frontendInput] = $this->getConnection()->select()
-                    ->from($attributeTables[$frontendInput], 'entity_id');
                 $where = array();
                 foreach ($options as $option) {
                     if ($frontendInput === $option['frontend_input']) {
-                        $where[] = "attribute_id = '{$option['attribute_id']}' AND store_id = '{$option['store_id']}' AND "
-                            . sprintf($condition, $option['option_id'])
-                        ;
+                        $where[] = sprintf("attribute_id=%d AND store_id=%d AND {$condition}", $option['attribute_id'], $option['store_id'], $option['option_id']);
                     }
                 }
                 if ($where) {
-                    $select[$frontendInput]->where(implode(' OR ', $where));
-                    $select[$frontendInput] = (string)$select[$frontendInput];
-                }
-                else {
-                    unset($select[$frontendInput]);
+                    $select[$frontendInput] = (string)$this->getConnection()->select()
+                        ->from($attributeTables[$frontendInput], 'entity_id')
+                        ->where(implode(' OR ', $where));
                 }
             }
         }
+
+        // search in catalogindex for products as part of configurable/grouped/bundle products (current store)
+        $where = array();
+        foreach ($options as $option) {
+            $where[] = sprintf('attribute_id=%d AND value=%d', $option['attribute_id'], $option['option_id']);
+        }
+        if ($where) {
+            $select[] = (string)$this->getConnection()->select()
+                ->from($resource->getTableName('catalogindex/eav'), 'entity_id')
+                ->where(implode(' OR ', $where))
+                ->where("store_id={$storeId}");
+        }
+
         return implode(' UNION ', $select);
     }
 }
