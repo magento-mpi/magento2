@@ -253,7 +253,22 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         }
         foreach ($this->getOptions() as $option) {
             if ($itemOption = $item->getOptionByCode($option->getCode())) {
-                if ($itemOption->getValue() != $option->getValue()) {
+                $itemOptionValue = $itemOption->getValue();
+                $optionValue     = $option->getValue();
+
+                // dispose of some options params, that can cramp comparing of arrays
+                if (is_string($itemOptionValue) && is_string($optionValue)) {
+                    $_itemOptionValue = @unserialize($itemOptionValue);
+                    $_optionValue     = @unserialize($optionValue);
+                    if (is_array($_itemOptionValue) && is_array($_optionValue)) {
+                        $itemOptionValue = $_itemOptionValue;
+                        $optionValue     = $_optionValue;
+                        // looks like it does not break bundle selection qty
+                        unset($itemOptionValue['qty'], $itemOptionValue['uenc'], $optionValue['qty'], $optionValue['uenc']);
+                    }
+                }
+
+                if ($itemOptionValue != $optionValue) {
                     return false;
                 }
             }
