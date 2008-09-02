@@ -38,11 +38,7 @@
                     <block type="adminhtml/sales_order_view_info" name="order_info" template="sales/order/view/info.phtml"></block>
                     <block type="adminhtml/sales_order_view_items" name="order_items" template="sales/order/view/items.phtml">
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_order_view_items_renderer_default</block><template>sales/order/view/items/renderer/default.phtml</template></action>
-
-                          <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_order_view_items_renderer_configurable</block><template>sales/order/view/items/renderer/configurable.phtml</template></action>
-
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
-
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                     </block>
                     <block type="adminhtml/sales_order_payment" name="order_payment"></block>
@@ -73,9 +69,6 @@
                     <block type="adminhtml/sales_order_payment" name="order_payment"></block>
                     <block type="adminhtml/sales_order_invoice_create_items" name="order_items" template="sales/order/invoice/create/items.phtml">
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/create/items/renderer/default.phtml</template></action>
-
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/invoice/create/items/renderer/configurable.phtml</template></action>
-
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
 
@@ -91,10 +84,6 @@
     <adminhtml_sales_order_invoice_updateqty>
         <block type="adminhtml/sales_order_invoice_create_items" name="order_items" template="sales/order/invoice/create/items.phtml">
             <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/create/items/renderer/default.phtml</template></action>
-
-              <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/invoice/create/items/renderer/configurable.phtml</template></action>
-
-
             <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
             <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
 
@@ -118,11 +107,7 @@
                     <block type="adminhtml/sales_order_payment" name="order_payment"></block>
 
                     <block type="adminhtml/sales_order_invoice_view_items" name="invoice_items" template="sales/order/invoice/view/items.phtml">
-                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block>          <template>sales/order/invoice/view/items/renderer/default.phtml</template></action>
-
-
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/invoice/view/items/renderer/configurable.phtml</template></action>
-
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/view/items/renderer/default.phtml</template></action>
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                     </block>
@@ -143,9 +128,6 @@
                     <block type="adminhtml/sales_order_shipment_create_tracking" name="shipment_tracking" template="sales/order/shipment/create/tracking.phtml"></block>
                     <block type="adminhtml/sales_order_shipment_create_items" name="order_items" template="sales/order/shipment/create/items.phtml">
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/shipment/create/items/renderer/default.phtml</template></action>
-
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/shipment/create/items/renderer/configurable.phtml</template></action>
-
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                     </block>
@@ -177,9 +159,6 @@
                     <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
                     <block type="adminhtml/sales_order_shipment_view_items" name="shipment_items" template="sales/order/shipment/view/items.phtml">
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/shipment/view/items/renderer/default.phtml</template></action>
-
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/shipment/view/items/renderer/configurable.phtml</template></action>
-
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                     </block>
@@ -198,9 +177,6 @@
                     <block type="adminhtml/sales_order_payment" name="order_payment"></block>
                     <block type="adminhtml/sales_order_creditmemo_create_items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
-
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/creditmemo/create/items/renderer/configurable.phtml</template></action>
-
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                         <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
@@ -215,8 +191,6 @@
     <adminhtml_sales_order_creditmemo_updateqty>
         <block type="adminhtml/sales_order_creditmemo_create_items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
             <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/creditmemo/create/items/renderer/configurable.phtml</template></action>
-
             <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
             <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
             <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
@@ -239,11 +213,6 @@
                     <block type="adminhtml/sales_order_payment" name="order_payment"></block>
                     <block type="adminhtml/sales_order_creditmemo_view_items" name="creditmemo_items" template="sales/order/creditmemo/view/items.phtml">
                         <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/view/items/renderer/default.phtml</template></action>
-
-
-                        <action method="addItemRender"><type>configurable</type><block>adminhtml/sales_items_renderer_configurable</block><template>sales/order/creditmemo/view/items/renderer/configurable.phtml</template></action>
-
-
                         <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                     </block>
