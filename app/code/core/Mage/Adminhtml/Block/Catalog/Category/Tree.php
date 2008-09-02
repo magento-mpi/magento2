@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     public function getTree($parenNodeCategory=null)
     {
-        $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
+       	$rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
         $tree = isset($rootArray['children']) ? $rootArray['children'] : array();
         return $tree;
     }
@@ -222,17 +222,16 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         }
 
         $isParent = $this->_isParentSelectedCategory($node);
-
+		
         if ($isParent || $node->getLevel()<2) {
             $item['expanded'] = true;
         }
-
-//        if ($this->getUseAjax()) {
-//            if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
-//                $item['children'] = array();
-//            }
-//        }
-
+       if ($this->getUseAjax()) {
+           if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
+                $item['children'] = array();
+            }
+        }
+		//logme(print_r($item,true));
         return $item;
     }
 

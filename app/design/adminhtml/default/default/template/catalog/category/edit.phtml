@@ -77,7 +77,7 @@
             var parent = tree.getNodeById(tree.currentNodeId);
             var parameters = {
                 text:        $('_generalname').value,
-                draggable:   false,
+                draggable:   tree.rootVisible,
                 allowDrop:   tree.rootVisible,
                 id:          $('_generalid').value,
                 path:        $('_generalpath').value,
