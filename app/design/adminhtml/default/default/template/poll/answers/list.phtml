@@ -35,11 +35,11 @@
         <table cellspacing="0" class="form-list" style="width:100%;">
             <tr>
                 <td class="label"><?php echo Mage::helper('poll')->__('Answer Title:') ?> <span class="required">*</span></td>
-                <td class="value"><?php echo $this->getDeleteButtonHtml() ?><input id="answer_<?php echo $_item->getId() ?>" name="answer[<?php echo $_item->getId() ?>][title]" value="<?php echo $_item->getAnswerTitle() ?>" class="required-entry input-text" type="text" /></td>
+                <td class="value"><?php echo $this->getDeleteButtonHtml() ?><input type="text" id="answer_<?php echo $_item->getId() ?>" name="answer[<?php echo $_item->getId() ?>][title]" value="<?php echo $_item->getAnswerTitle() ?>" class="input-text required-entry" /></td>
             </tr>
             <tr>
                 <td class="label"><?php echo Mage::helper('poll')->__('Votes Count:') ?> <span class="required">*</span></td>
-                <td class="value"><input id="answer_votes_<?php echo $_item->getId() ?>" name="answer[<?php echo $_item->getId() ?>][votes]" value="<?php echo $_item->getVotesCount() ?>" class="required-entry validate-not-negative-number input-text" type="text" />
+                <td class="value"><input type="text" id="answer_votes_<?php echo $_item->getId() ?>" name="answer[<?php echo $_item->getId() ?>][votes]" value="<?php echo $_item->getVotesCount() ?>" class="input-text required-entry validate-not-negative-number" />
                 </td>
              </tr>
         </table>
