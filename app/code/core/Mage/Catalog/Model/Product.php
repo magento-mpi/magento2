@@ -1223,4 +1223,23 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->_getResource()->canBeShowInCategory($this, $categoryId);
     }
+
+
+    public function getAvailableInCategories()
+    {
+        $allCategories = array();
+        if (is_null($this->getData('_available_in_categories'))) {
+            $assigned = $this->getCategoryIds();
+            foreach ($assigned as $one) {
+                $allCategories[] = $one;
+                $anchors = Mage::getModel('catalog/category')->load($one)->getAnchorsAbove();
+                foreach ($anchors as $anchor) {
+                	$allCategories[] = $anchor;
+                }
+            }
+
+            $this->setData('_available_in_categories', $allCategories);
+        }
+        return $this->getData('_available_in_categories');
+    }
 }

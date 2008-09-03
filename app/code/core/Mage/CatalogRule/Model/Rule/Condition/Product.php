@@ -251,6 +251,10 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             return $this->validateAttribute($value);
         }
 
+        if ($this->getAttribute() == 'category_ids') {
+            return $this->validateAttribute($object->getAvailableInCategories());
+        }
+
         return parent::validate($object);
     }
 }

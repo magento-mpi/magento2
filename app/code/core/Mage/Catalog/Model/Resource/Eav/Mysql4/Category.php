@@ -82,9 +82,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
     protected function _beforeDelete(Varien_Object $object){
         parent::_beforeDelete($object);
-        
+
         /*$toUpdateChild = explode('/',substr($object->getPath(),0,strrpos($object->getPath(),'/')));
-        
+
         $this->_getWriteAdapter()->update(
 		        $this->getEntityTable(),
 		        array('children_count'=>new Zend_Db_Expr('`children_count`-1')),
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             $object->setPosition($this->_getMaxPosition($object->getPath()) + 1);
             $object->setLevel(count(explode('/', $object->getPath())));
             $object->setPath($object->getPath() . '/');
-            
+
        /*     $toUpdateChild = explode('/',$object->getPath());
 
             $this->_getWriteAdapter()->update(
@@ -117,13 +117,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 		        array('children_count'=>new Zend_Db_Expr('`children_count`+1')),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
-       */     
+       */
         }
         return $this;
     }
 
     protected function _afterSave(Varien_Object $object)
-    {   
+    {
         $this->_saveCategoryProducts($object);
 
         /**
@@ -135,10 +135,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             //$this->save($object);
         }
         $categoryIds = explode('/', $object->getPath());
-        
-        
-        
-        
+
+
+
+
         $this->refreshProductIndex($categoryIds);
         $this->_saveCountChidren($object);
         return parent::_afterSave($object);
@@ -370,15 +370,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         /*$category   = Mage::getModel('catalog/category')->load($categoryId);
         $old_parent = Mage::getModel('catalog/category')->load($old_parentId);
         $new_parent = Mage::getModel('catalog/category')->load($new_parentId);
-    	
+
         logme($old_parent->getId().'   '.$old_parent->getPath());
         logme($new_parent->getId().'   '.$new_parent->getPath());
-   
-        
+
+
     	$select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), 'children_count')
             ->where('entity_id=?', $category->getId());
-            
+
         $child = $this->_getReadAdapter()->fetchOne($select);
         $child+=1;
         $toUpdateChild = explode('/',substr($new_parent->getPath(),0,strrpos($new_parent->getPath(),'/')));
@@ -388,18 +388,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 		        array('children_count'=>new Zend_Db_Expr('`children_count`+'.$child)),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
-      		  
+
       	$toUpdateChild = explode('/',substr($old_parent->getPath(),0,strrpos($old_parent->getPath(),'/')));
-      	logme(print_r($toUpdateChild,true));	  	  
+      	logme(print_r($toUpdateChild,true));
       	$this->_getWriteAdapter()->update(
 		        $this->getEntityTable(),
 		        array('children_count'=>new Zend_Db_Expr('`children_count`-'.$child)),
 		        $this->_getWriteAdapter()->quoteInto('entity_id?', $old_parent))
-      		  ;	  
-        
+      		  ;
+
     	/*if ($child != 0)
     	{
-    	    
+
     	}*/
 
         $oldStoreId = $category->getStoreId();
@@ -527,12 +527,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         return $this;
     }
-    
+
+    public function findWhereAttributeIs($entityIdsFilter, $attribute, $expectedValue)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($attribute->getBackend()->getTable(), array('entity_id'))
+            ->where('attribute_id = ?', $attribute->getId())
+            ->where('value = ?', $expectedValue)
+            ->where('entity_id in (?)', $entityIdsFilter);
+
+        return $this->_getReadAdapter()->fetchCol($select);
+    }
+
     public function getProductCount($category)
     {
-       
+
         $productTable =Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
-       
+
             $select =  $this->getReadConnection()->select();
             $select->from(
                     array('main_table'=>$productTable),
@@ -540,11 +551,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 )
                 ->where('main_table.category_id = ?', $category->getId())
                 ->group('main_table.category_id');
-                
+
             $counts =$this->getReadConnection()->fetchOne($select);
-            
+
             return intval($counts);
-            
+
     }
-    
 }

@@ -444,7 +444,27 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
-    
+
+    public function getAnchorsAbove()
+    {
+        $anchors = array();
+        $path = $this->getPathIds();
+
+        if (in_array($this->getId(), $path)) {
+            unset($path[array_search($this->getId(), $path)]);
+        }
+
+        if (!Mage::registry('_category_is_anchor_attribute')) {
+            $model = $this->getResource()->getAttribute('is_anchor');
+            Mage::register('_category_is_anchor_attribute', $model);
+        }
+
+        if ($isAnchorAttribute = Mage::registry('_category_is_anchor_attribute')) {
+            $anchors = $this->getResource()->findWhereAttributeIs($path, $isAnchorAttribute, 1);
+        }
+        return $anchors;
+    }
+
     public function getProductCount()
     {
         if (!$this->hasProductCount()) {
