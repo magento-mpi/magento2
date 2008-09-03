@@ -151,14 +151,37 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $priceAttr = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
 
         $select = $read->select()
-            ->from($priceAttr->getBackend()->getTable(), array('entity_id', 'value'))
+            ->from($priceAttr->getBackend()->getTable(), array('entity_id', 'store_id', 'value'))
             ->where('attribute_id=?', $priceAttr->getAttributeId())
-            ->where('entity_id in (?)', $productIds);
+            ->where('entity_id in (?)', $productIds)
+            ->order('store_id');
 
-        $prices = $read->fetchAssoc($select);
+        $prices = $read->fetchAll($select);
+
+        /**
+         * Prepare price information per website
+         */
+        $productPrices = array();
+        foreach ($prices as $index => $priceData) {
+        	$websiteId = Mage::app()->getStore($priceData['store_id'])->getWebsiteId();
+
+        	if (!isset($productPrices[$priceData['entity_id']])) {
+        		$productPrices[$priceData['entity_id']] = array(
+                    'default'    => $priceData['value'],
+                    'websites'   => array($websiteId=>$priceData['value'])
+        		);
+        	}
+        	else {
+                $productPrices[$priceData['entity_id']]['websites'][$websiteId] = $priceData['value'];
+        	}
+        }
+
         foreach ($ruleProducts as &$p) {
-            if (isset($prices[$p['product_id']]['value'])) {
-                $p['price'] = $prices[$p['product_id']]['value'];
+        	if (isset($productPrices[$p['product_id']]['websites'][$p['website_id']])) {
+                $p['price'] = $productPrices[$p['product_id']]['websites'][$p['website_id']];
+        	}
+            elseif (isset($productPrices[$p['product_id']]['default'])) {
+                $p['price'] = $productPrices[$p['product_id']]['default'];
             }
         }
 
