@@ -88,9 +88,9 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
         return $this;
     }
 
-    public function toOptionArray()
+    public function toOptionArray($valueKey = 'value')
     {
-        return $this->_toOptionArray('option_id', 'value');
+        return $this->_toOptionArray('option_id', $valueKey);
     }
 
     public function setPositionOrder($dir = 'ASC', $sortAlpha = false)

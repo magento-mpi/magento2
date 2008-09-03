@@ -27,20 +27,20 @@
 
 class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
-    public function getAllOptions($withEmpty = true, $storeId = null)
+    protected $_optionsDefault = array();
+
+    public function getAllOptions($withEmpty = true, $defaultValues = false)
     {
         if (is_null($this->_options)) {
-            if (null === $storeId) {
-                $storeId = $this->getAttribute()->getStoreId();
-            }
-            $this->_options = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $collection = Mage::getResourceModel('eav/entity_attribute_option_collection')
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
-                ->setStoreFilter($storeId)
-                ->load()
-                ->toOptionArray();
+                ->setStoreFilter($this->getAttribute()->getStoreId())
+                ->load();
+            $this->_options        = $collection->toOptionArray();
+            $this->_optionsDefault = $collection->toOptionArray('default_value');
         }
-        $options = $this->_options;
+        $options = ($defaultValues ? $this->_optionsDefault : $this->_options);
         if ($withEmpty) {
             array_unshift($options, array('label'=>'', 'value'=>''));
         }

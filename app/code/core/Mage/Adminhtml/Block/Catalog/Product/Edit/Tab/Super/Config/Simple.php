@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
             $fieldset->addField( 'simple_product_' . $attributeCode, 'select',  array(
                 'label' => $attribute->getFrontend()->getLabel(),
                 'name'  => $attributeCode,
-                'values' => $attribute->getSource()->getAllOptions(),
+                'values' => $attribute->getSource()->getAllOptions(true, true),
                 'required' => true,
                 'class'    => 'validate-configurable',
                 'onchange' => 'superProduct.showPricing(this, \'' . $attributeCode . '\')'
