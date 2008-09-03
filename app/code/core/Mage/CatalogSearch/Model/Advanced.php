@@ -180,6 +180,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             $this->_productCollection = Mage::getResourceModel('catalogsearch/advanced_collection')
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addMinimalPrice()
+                ->addTaxPercents()
                 ->addStoreFilter();
                 Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
                 Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);

@@ -54,7 +54,8 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
 
             $collection->addSearchFilter($text)
                 ->addStoreFilter()
-                ->addMinimalPrice();
+                ->addMinimalPrice()
+                ->addTaxPercents();
             $this->setData('result_collection', $collection);
         }
         return $collection;
