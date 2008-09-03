@@ -100,6 +100,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
         $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
 
+        $_regularPrice = $this->getProduct()->getPrice();
         $_finalPrice = $this->getProduct()->getFinalPrice();
         $_priceInclTax = Mage::helper('tax')->getPrice($this->getProduct(), $_finalPrice, true);
         $_priceExclTax = Mage::helper('tax')->getPrice($this->getProduct(), $_finalPrice);
@@ -113,8 +114,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             'productId'      => $this->getProduct()->getId(),
             'priceFormat'    => Mage::app()->getLocale()->getJsPriceFormat(),
             'includeTax'     => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax' => $this->helper('tax')->displayPriceIncludingTax(),
+            'showIncludeTax' => Mage::helper('tax')->displayPriceIncludingTax(),
+            'showBothPrices' => Mage::helper('tax')->displayBothPrices(),
             'productPrice'   => Mage::helper('core')->currency($_finalPrice, false, false),
+            'productOldPrice'=> Mage::helper('core')->currency($_regularPrice, false, false),
             'skipCalculate'  => ($_priceExclTax != $_priceInclTax ? 0 : 1),
             'defaultTax'     => $defaultTax,
             'currentTax'     => $currentTax,

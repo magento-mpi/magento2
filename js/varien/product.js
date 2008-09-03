@@ -410,7 +410,6 @@ Product.Config.prototype = {
         optionsPrice.changePrice('config', price);
         optionsPrice.reload();
 
-
         return price;
 
         if($('product-price-'+this.config.productId)){
@@ -491,7 +490,9 @@ Product.OptionsPrice.prototype = {
         this.currentTax         = config.currentTax;
         this.productPrice       = config.productPrice;
         this.showIncludeTax     = config.showIncludeTax;
+        this.showBothPrices     = config.showBothPrices;
         this.productPrice       = config.productPrice;
+        this.productOldPrice    = config.productOldPrice;
         this.skipCalculate      = config.skipCalculate;
         this.duplicateIdSuffix  = config.idSuffix;
 
@@ -510,6 +511,7 @@ Product.OptionsPrice.prototype = {
         this.containers[1] = 'bundle-price-' + this.productId;
         this.containers[2] = 'price-including-tax-' + this.productId;
         this.containers[3] = 'price-excluding-tax-' + this.productId;
+        this.containers[4] = 'old-price-' + this.productId;
     },
 
     changePrice: function(key, price) {
@@ -529,9 +531,15 @@ Product.OptionsPrice.prototype = {
         var formattedPrice;
         var optionPrices = this.getOptionPrices();
         $H(this.containers).each(function(pair) {
+            var _productPrice;
             if ($(pair.value)) {
+                if (pair.value == 'old-price-'+this.productId && this.productOldPrice != this.productPrice) {
+                    _productPrice = this.productOldPrice;
+                } else {
+                    _productPrice = this.productPrice;
+                }
 
-                var price = optionPrices+parseFloat(this.productPrice)
+                var price = optionPrices+parseFloat(_productPrice)
                 if (this.includeTax == 'true') {
                     // tax = tax included into product price by admin
                     var tax = price / (100 + this.defaultTax) * this.defaultTax;
@@ -545,14 +553,20 @@ Product.OptionsPrice.prototype = {
 
                 if (pair.value == 'price-including-tax-'+this.productId) {
                     price = incl;
+                } else if (pair.value == 'old-price-'+this.productId) {
+                    if (this.showIncludeTax || this.showBothPrices) {
+                        price = incl;
+                    } else {
+                        price = excl;
+                    }
                 } else {
                     if (this.showIncludeTax) {
                         price = incl;
                     } else {
-                        if (!this.skipCalculate || this.productPrice == 0) {
+                        if (!this.skipCalculate || _productPrice == 0) {
                             price = excl;
                         } else {
-                            price = optionPrices+parseFloat(this.productPrice);
+                            price = optionPrices+parseFloat(_productPrice);
                         }
                     }
                 }
