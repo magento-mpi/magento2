@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
             if ($this->getRequest()->getParam('parent')) {
                 $fieldset->addField('path', 'hidden', array(
                     'name'  => 'path',
-                    'value' => base64_decode($this->getRequest()->getParam('parent'))
+                    'value' => $this->getRequest()->getParam('parent')
                 ));
             } else {
                 $storeId = (int) $this->getRequest()->getParam('store');
