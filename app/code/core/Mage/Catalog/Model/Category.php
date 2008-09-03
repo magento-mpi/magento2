@@ -444,4 +444,13 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
+    
+    public function getProductCount()
+    {
+        if (!$this->hasProductCount()) {
+            $count = $this->_getResource()->getProductCount($this); // load product count
+            $this->setData('product_count', $count);
+        }
+        return $this->getData('product_count');
+    }
 }

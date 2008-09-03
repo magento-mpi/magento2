@@ -242,9 +242,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 return;
             }
         }
+     
         $url = $this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId()));
-
-     echo '<script type="text/javascript">parent.updateContent("'.$url.'", {}, true);</script>';
+        echo '<script type="text/javascript">parent.updateContent("'.$url.'", {node_name:"'.$category->getName().'('.$category->getProductCount().')'.'"}, true);</script>';
 
       //  $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
     }
@@ -262,9 +262,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         try {
             $tree = Mage::getResourceModel('catalog/category_tree')
                 ->load($nodeId,$parentNodeId,$prevParentNodeId);
-			 
-           //Mage::getResourceSingleton('catalog/category')->move($nodeId);
-			 
+            //Mage::getResourceSingleton('catalog/category')->move($nodeId,$parentNodeId,$prevParentNodeId);
             $node = $tree->getNodeById($nodeId);
             $newParentNode  = $tree->getNodeById($parentNodeId);
             $prevNode       = $tree->getNodeById($prevNodeId);
