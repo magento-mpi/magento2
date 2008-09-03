@@ -350,6 +350,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
                 $storeId = Mage::app()->getStore();
             }
         }
+        Mage::app()->getLocale()->emulate($storeId);
 
         if (is_numeric($templateId)) {
             $this->load($templateId);
@@ -371,6 +372,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
 
         $this->setSentSuccess( $this->send($email, $name, $vars) );
+        Mage::app()->getLocale()->revert();
         return $this;
     }
 

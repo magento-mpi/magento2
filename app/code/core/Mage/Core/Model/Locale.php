@@ -70,6 +70,13 @@ class Mage_Core_Model_Locale
      */
     protected $_locale;
 
+    /**
+     * Emulated locales stack
+     *
+     * @var array
+     */
+    protected $_emulatedLocales = array();
+
     protected static $_currencyCache = array();
 
     public function __construct($locale = null)
@@ -110,7 +117,7 @@ class Mage_Core_Model_Locale
     /**
      * Set locale
      *
-     * @param   strint $locale
+     * @param   string $locale
      * @return  Mage_Core_Model_Locale
      */
     public function setLocale($locale = null)
@@ -549,5 +556,33 @@ class Mage_Core_Model_Locale
         );
 
         return $result;
+    }
+
+    /**
+     * Push current locale to stack and replace with locale from specified store
+     * Event is not dispatched.
+     *
+     * @param int $storeId
+     */
+    public function emulate($storeId)
+    {
+        if ($storeId) {
+            $this->_emulatedLocales[] = clone $this->getLocale();
+            $this->_locale = new Zend_Locale(Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE, $storeId));
+        }
+        else {
+            $this->_emulatedLocales[] = false;
+        }
+    }
+
+    /**
+     * Get last locale, used before last emulation
+     *
+     */
+    public function revert()
+    {
+        if ($locale = array_pop($this->_emulatedLocales)) {
+            $this->_locale = $locale;
+        }
     }
 }
