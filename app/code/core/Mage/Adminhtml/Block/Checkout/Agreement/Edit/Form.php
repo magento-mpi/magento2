@@ -64,18 +64,18 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
         ));
 
         if ($model->getId()) {
-        	$fieldset->addField('agreement_id', 'hidden', array(
+            $fieldset->addField('agreement_id', 'hidden', array(
                 'name' => 'agreement_id',
             ));
         }
-    	$fieldset->addField('name', 'text', array(
+        $fieldset->addField('name', 'text', array(
             'name'      => 'name',
             'label'     => Mage::helper('checkout')->__('Condition Name'),
             'title'     => Mage::helper('checkout')->__('Condition Name'),
             'required'  => true,
         ));
 
-    	$fieldset->addField('is_active', 'select', array(
+        $fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('checkout')->__('Status'),
             'title'     => Mage::helper('checkout')->__('Status'),
             'name'      => 'is_active',
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
-        	$fieldset->addField('store_id', 'multiselect', array(
+            $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
                 'label'     => Mage::helper('checkout')->__('Store View'),
                 'title'     => Mage::helper('checkout')->__('Store View'),
@@ -107,15 +107,19 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
             'name'      => 'checkbox_text',
             'label'     => Mage::helper('checkout')->__('Checkbox text'),
             'title'     => Mage::helper('checkout')->__('Checkbox text'),
+            'rows'      => '5',
+            'cols'      => '30',
             'wysiwyg'   => false,
             'required'  => true,
         ));
 
-    	$fieldset->addField('content', 'editor', array(
+        $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
             'label'     => Mage::helper('checkout')->__('Content'),
             'title'     => Mage::helper('checkout')->__('Content'),
-            'style'     => 'width: 98%; height: 600px;',
+            //'style'     => 'width: 98%; height: 600px;',
+            'rows'      => '50',
+            'cols'      => '30',
             'wysiwyg'   => false,
             'required'  => true,
         ));
