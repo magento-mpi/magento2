@@ -48,7 +48,10 @@ ul.tabs li a,
 .entry-edit .entry-edit-head,
 .notification-global { zoom:1; } /* IE version of clearing */
 
-.clear                          { display:block; clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
+.clear { display:block; clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
+
+input.checkbox,
+input.radio { width:13px; height:13px; }
 
 /* Opacity fix */
 #loading-mask { filter:alpha(opacity=80); }
@@ -59,7 +62,7 @@ ul.tabs li a,
 button, .form-button            { width:auto; margin-left:5px; overflow:visible; }
 .massaction button              { width:auto; height: 20px; margin-left:0px; overflow:hidden; }
 
-.hor-scroll { overflow-y:hidden; padding-bottom:20px; margin-bottom:-16px; }
+.hor-scroll { overflow-y:hidden; /*padding-bottom:20px; margin-bottom:-16px;*/ }
 
 /* Grid Filter Override */
 .grid tr.filter th              { padding-top:3px; padding-bottom:3px; }

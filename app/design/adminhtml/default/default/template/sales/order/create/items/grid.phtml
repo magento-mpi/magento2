@@ -68,7 +68,7 @@
                 <?php foreach ($_items as $_item):$i++ ?>
                     <tr class="<?php echo ($i%2)?'even':'odd' ?>">
                         <td><h5 class="title"><?php echo $_item->getName() ?></h5>
-                            <div  class="nobr">
+                            <div class="nobr">
                                 <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $_item->getSku() ?>
                             </div>
                             <div class="nobr">
@@ -162,7 +162,7 @@
                             <?php endif; ?>
                         </td>
                         <?php if($this->isGiftMessagesAvailable()): ?>
-                        <td>
+                        <td class="a-center">
                             <input type="checkbox" name="item[<?php echo $_item->getId() ?>][giftmessage]"<?php if($this->isAllowedForGiftMessage($_item)): ?> checked="checked"<?php endif; ?><?php if(!$this->isGiftMessagesAvailable($_item)): ?> disabled="disabled"<?php endif; ?>/>
                         </td>
                         <?php endif ?>

@@ -38,7 +38,7 @@
                 <h4 style="margin-left:12px;"><?php echo $_group->getName() ?></h4>
             <?php endif; ?>
             <span class="field-row" style="margin-left:28px;">
-                <input type="radio" id="store_<?php echo $_store->getId() ?>" class="new-store" onclick="order.setStoreId('<?php echo $_store->getId() ?>')"/>
+                <input type="radio" id="store_<?php echo $_store->getId() ?>" class="radio" onclick="order.setStoreId('<?php echo $_store->getId() ?>')"/>
                 <label for="store_<?php echo $_store->getId() ?>" class="inline"><?php echo $_store->getName() ?></label>
             </span>
         <?php endforeach; ?>

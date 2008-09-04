@@ -159,10 +159,10 @@ originModel.prototype = {
                         if(this.regionElement.value && (this.regionElement.value == data[i].value || this.regionElement.value == data[i].label)) {
                             html+= ' selected';
                         }
-                        html+='>'+data[i].label+'</option>';
+                        html+='>'+data[i].label+'<\/option>';
                     }
                 }
-                html+= '</select>';
+                html+= '<\/select>';
 
                 var parentNode = this.regionElement.parentNode;
                 var regionElementId = this.regionElement.id;

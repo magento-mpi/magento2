@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple extends 
                     $element->setAfterElementHtml(
                          '<input type="checkbox" id="simple_product_' . $attributeCode . '_autogenerate" '
                          . 'name="simple_product[' . $attributeCode . '_autogenerate]" value="1" '
-                         . 'onclick="toggleValueElements(this, this.parentNode)" checked/> '
+                         . 'onclick="toggleValueElements(this, this.parentNode)" checked="checked" /> '
                          . '<label for="simple_product_' . $attributeCode . '_autogenerate" >'
                          . Mage::helper('catalog')->__('Autogenerate')
                          . '</label>'

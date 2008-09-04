@@ -354,9 +354,9 @@ table.form-edit                         { width:100%; }
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { list-style:none; margin:4px 0; }
 .entry-edit fieldset input.input-text,
-.entry-edit fieldset textarea           { width:270px; }
+.entry-edit fieldset textarea           { width:274px; }
 .entry-edit fieldset textarea           { height:12em; }
-.entry-edit fieldset select             { width:276px; }
+.entry-edit fieldset select             { width:280px; }
 .entry-edit fieldset span.form_row,
 .entry-edit fieldset .field-row .hint   { float:left; color:#999; padding-left:12em; }
 .entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
@@ -392,16 +392,15 @@ select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
 .form-list td.label             { width:150px; }
 .form-list td.label label       { display:block; width:150px; padding-right:15px; }
 .form-list td.value input.input-text,
-.form-list td.value textarea    { width:90%; }
+.form-list td.value textarea    { width:95%; }
 .form-list td.value select      { width:270px; }
 
 .columns .form-list                      { width:auto; }
-.columns .form-list td.value             { /*width:auto;*/ padding-right:5px; }
-.columns .form-list td.value input.input-text { width:264px; }
+.columns .form-list td.value             { width:280px; padding-right:5px; }
+.columns .form-list td.value input.input-text { width:274px; }
 .columns .form-list td.value textarea    { width:90%; }
-.columns .form-list td.value select      { width:270px; }
+.columns .form-list td.value select      { width:280px; }
 .columns .form-list td.use-default       { padding-left:15px; }
-
 .columns .form-list td.value .next-toinput { width:75px; display:inline; margin-right:5px; }
 .columns .form-list td.value .next-toselect .input-text { width:180px; display:inline; }
 
@@ -485,9 +484,9 @@ button.icon-btn span {text-indent:-999em; display:block; width:16px; padding:0; 
 
 /* SWITCHER
 *******************************************************************************/
-.switcher               { margin-bottom:10px; border:1px solid #cddddd; background:#e7efef; padding:10px; }
-.side-col .switcher     { margin-right:20px; margin-bottom:20px; }
+.switcher { margin-bottom:10px; border:1px solid #cddddd; background:#e7efef; padding:10px; }
 .side-col .switcher select { width:100%; }
+/*.side-col .switcher     { margin-right:20px; margin-bottom:20px; }*/
 .catalog-categories .side-col .switcher { margin-right:0; margin-bottom:15px; }
 
 
@@ -503,10 +502,7 @@ button.icon-btn span {text-indent:-999em; display:block; width:16px; padding:0; 
 td.divider              { font-size:1px; line-height:0; }
 .box,
 .entry-edit fieldset,
-.entry-edit .fieldset {
-    border:1px solid #d6d6d6;
-    background:#fafafa;
-    }
+.entry-edit .fieldset { border:1px solid #d6d6d6; background:#fafafa; }
 
 
 /* SCOLLER */ /* Used primarily in Sales -> Order -> Create Order */ /*
@@ -1308,3 +1304,5 @@ div.actions:after,
 .tier-container:after,
 .clear:after,
 .notification-global:after { display:block; clear:both; content:"."; font-size:0; line-height:0; height:0; overflow:hidden; }
+
+fieldset { border:1px solid red !important; }
