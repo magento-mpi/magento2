@@ -24,7 +24,7 @@
 /* Set min-width */
 .wrapper { width:expression(document.body.clientWidth<1004?'1003px':'auto'); zoom:1; }
 .wrapper-popup { width:expression(document.body.clientWidth<751?'750px':'auto'); }
-.grid tr.filter .range div.date { width:115px; }
+.grid tr.filter .range div.date { width:121px; }
 
 /* Set min-height */
 .middle { height:450px; }

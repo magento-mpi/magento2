@@ -33,9 +33,11 @@
             <h4 class="fieldset-legend head-gift-message"><?php echo Mage::helper('sales')->__('Gift Message') ?></h4>
         </div>
         <fieldset>
-        <table cellpadding="0" cellpadding="0" border="0" width="100%">
+        <table width="100%">
+        <col width="50%" />
+        <col width="50%" />
             <tr>
-                <td width="50%">
+                <td>
                 <div class="entire-order">
                     <div class="section-head"><?php echo Mage::helper('sales')->__('Add a gift message for the <strong>entire order</strong>') ?></div>
                     <?php echo $this->getFormHtml($this->getQuote(), 'main') ?>
@@ -56,12 +58,12 @@
                 </td>
             </tr>
         </table>
-
         </fieldset>
     </div>
 </div>
 <div class="clear"></div>
 <script type="text/javascript">
+//<![CDATA[
 if(!window.toogleRequired) {
     var toogleRequired = function (source, objects)
     {
@@ -80,5 +82,6 @@ if(!window.toogleRequired) {
     }
 }
 order.giftmessageFieldsBind('order:giftmessage');
+//]]>
 </script>
 <?php endif; ?>

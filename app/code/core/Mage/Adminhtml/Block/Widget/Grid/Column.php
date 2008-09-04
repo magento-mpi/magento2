@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
     {
         $class = $this->getData('header_css_class');
         if (($this->getSortable()===false) || ($this->getGrid()->getSortable()===false)) {
-            $class .= ' no-link';
+            $class .= 'no-link';
         }
         if ($this->isLast()) {
             $class .= ' last';
@@ -282,7 +282,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         if ($this->getFilter()) {
             return $this->getFilter()->getHtml();
         } else {
-            return '<div style="width: 100%;">&nbsp;</div>';
+            return '&nbsp;';
         }
         return null;
     }

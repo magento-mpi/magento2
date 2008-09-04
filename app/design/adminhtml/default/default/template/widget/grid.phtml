@@ -126,14 +126,14 @@ $numColumns = sizeof($this->getColumns());
 	            <?php if ($this->getHeadersVisibility()): ?>
 	                <tr class="headings">
 	                <?php foreach ($this->getColumns() as $_column): ?>
-	                    <th <?php echo $_column->getHeaderHtmlProperty() ?>><span class="nobr"><?php echo $_column->getHeaderHtml() ?></span></th>
+	                    <th<?php echo $_column->getHeaderHtmlProperty() ?>><span class="nobr"><?php echo $_column->getHeaderHtml() ?></span></th>
 	                <?php endforeach; ?>
 	                </tr>
 	            <?php endif; ?>
 	            <?php if ($this->getFilterVisibility()): ?>
 	                <tr class="filter">
 	                <?php $i=0;foreach ($this->getColumns() as $_column): ?>
-	                    <th <?php echo $_column->getHeaderHtmlProperty() ?>><?php echo $_column->getFilterHtml() ?></th>
+	                    <th<?php echo $_column->getHeaderHtmlProperty() ?>><?php echo $_column->getFilterHtml() ?></th>
 	                <?php endforeach; ?>
 	                </tr>
 	            <?php endif ?>
