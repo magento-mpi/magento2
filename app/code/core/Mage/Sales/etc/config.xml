@@ -43,6 +43,7 @@
                 <middlename><to_order>*</to_order></middlename>
                 <lastname><to_order>*</to_order></lastname>
                 <suffix><to_order>*</to_order></suffix>
+                <customer_address_id><to_order>*</to_order></customer_address_id>
                 <company><to_order>*</to_order></company>
                 <street><to_order>*</to_order></street>
                 <city><to_order>*</to_order></city>
@@ -59,6 +60,7 @@
                 <middlename><to_order>*</to_order></middlename>
                 <lastname><to_order>*</to_order></lastname>
                 <suffix><to_order>*</to_order></suffix>
+                <customer_address_id><to_order>*</to_order></customer_address_id>
                 <company><to_order>*</to_order></company>
                 <street><to_order>*</to_order></street>
                 <city><to_order>*</to_order></city>

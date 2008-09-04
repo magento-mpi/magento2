@@ -172,6 +172,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->_initBillingAddressFromOrder($order);
         $this->_initShippingAddressFromOrder($order);
 
+        $this->setShippingMethod($order->getShippingMethod());
+        $this->getQuote()->getShippingAddress()->setShippingDescription($order->getShippingDescription());
+
         $this->getQuote()->getPayment()->addData($order->getPayment()->getData());
 
         if ($this->getQuote()->getCouponCode()) {
@@ -189,8 +192,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->getQuote()->setCustomerIsGuest(true);
         }
 
-        $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-        $this->getQuote()->getShippingAddress()->collectShippingRates();
+        // Make collect rates when user click "Get shipping methods and rates" in order creating
+        // $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+        // $this->getQuote()->getShippingAddress()->collectShippingRates();
+
         $this->getQuote()->collectTotals()
             ->save();
 
