@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
             'name'      => 'content',
             'label'     => Mage::helper('checkout')->__('Content'),
             'title'     => Mage::helper('checkout')->__('Content'),
-            'rows'      => '50',
+            'rows'      => '25',
             'cols'      => '30',
             //'style'     => 'width: 98%; height: 600px;',			
             'wysiwyg'   => false,

@@ -1304,5 +1304,3 @@ div.actions:after,
 .tier-container:after,
 .clear:after,
 .notification-global:after { display:block; clear:both; content:"."; font-size:0; line-height:0; height:0; overflow:hidden; }
-
-fieldset { border:1px solid red !important; }
