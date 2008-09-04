@@ -242,9 +242,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 return;
             }
         }
-     
+        $name = $category->getName().'('.$category->getProductCount().')';
         $url = $this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId()));
-        echo '<script type="text/javascript">parent.updateContent("'.$url.'", {node_name:"'.$category->getName().'('.$category->getProductCount().')'.'"}, true);</script>';
+        echo '<script type="text/javascript">parent.updateNodeName("'.$name.'");parent.updateContent("'.$url.'", {}, true);</script>';
 
       //  $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=> true, 'id'=>$category->getId())));
     }

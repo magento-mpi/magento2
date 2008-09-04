@@ -120,6 +120,14 @@
             tree.currentNodeId = false;
         }
     }
+    
+    function updateNodeName(name)
+    {
+        if (tree && !tree.addNodeTo) {
+         var currentNode = tree.getNodeById(tree.currentNodeId);
+          currentNode.setText(name);
+        }
+    }
 
     function displayLoadingMask()
     {
