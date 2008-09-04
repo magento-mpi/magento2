@@ -73,7 +73,7 @@ VarienRulesForm.prototype = {
 	    for (i=0; i<values.length; i++) {
 	        s = values[i].strip();
 	        if (s!='') {
-	           this.chooserSelectedItems[s] = 1;
+	           this.chooserSelectedItems.set(s,1);
 	        }
 	    }
 	    new Ajax.Updater(chooser, chooser.getAttribute('url'), {
@@ -285,7 +285,7 @@ VarienRulesForm.prototype = {
     chooserGridCheckboxCheck: function (grid, element, checked) {
         if (checked) {
             if (!element.up('th')) {
-                this.chooserSelectedItems[element.value]=1;
+                this.chooserSelectedItems.set(element.value,1);
             }
         } else {
             this.chooserSelectedItems.remove(element.value);
