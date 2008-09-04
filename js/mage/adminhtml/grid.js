@@ -132,9 +132,9 @@ varienGrid.prototype = {
     doSort : function(event){
         var element = Event.findElement(event, 'a');
 
-        if(element.name && element.target){
+        if(element.name && element.title){
             this.addVarToUrl(this.sortVar, element.name);
-            this.addVarToUrl(this.dirVar, element.target);
+            this.addVarToUrl(this.dirVar, element.title);
             this.reload(this.url);
         }
         Event.stop(event);
