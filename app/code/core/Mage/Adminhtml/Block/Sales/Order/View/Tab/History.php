@@ -136,6 +136,21 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
         return Mage::helper('sales')->__('Order History');
     }
 
+    public function getTabClass()
+    {
+        return 'ajax only';
+    }
+
+    public function getClass()
+    {
+        return $this->getTabClass();
+    }
+
+    public function getTabUrl()
+    {
+        return $this->getUrl('*/*/commentsHistory', array('_current' => true));
+    }
+
     public function canShowTab()
     {
         return true;
