@@ -136,7 +136,9 @@ varienTabs.prototype = {
                     this.loadShadowTab($(tab.shadowTabs[k]));
                 }
             }
-            Element.removeClassName(tab, 'notloaded');
+            if (!Element.hasClassName(tab, 'ajax only')) {
+                Element.removeClassName(tab, 'notloaded');
+            }
             this.activeTab = tab;
         }
         if (varienGlobalEvents) {
@@ -149,10 +151,12 @@ varienTabs.prototype = {
         var tabContentElement = $(this.getTabContentElementId(tab));
         if (tabContentElement) {
             // wait for ajax request, if defined
-            if ((tabContentElement.innerHTML == '')
-                && (tab.href.indexOf('#') != tab.href.length-1)
-                && (Element.hasClassName(tab, 'ajax'))
-            ) {
+            var isAjax = Element.hasClassName(tab, 'ajax');
+            var isEmpty = tabContentElement.innerHTML=='' && tab.href.indexOf('#')!=tab.href.length-1;
+            var isNotLoaded = Element.hasClassName(tab, 'notloaded');
+
+            if ( isAjax && (isEmpty || isNotLoaded) )
+            {
                 new Ajax.Updater(tabContentElement.id, tab.href, {
                      onComplete : function () {
                          this.showTabContentImmediately(tab)
@@ -171,7 +175,9 @@ varienTabs.prototype = {
         if (tabContentElement && Element.hasClassName(tab, 'ajax') && Element.hasClassName(tab, 'notloaded')) {
             new Ajax.Updater(tabContentElement.id, tab.href, {
                 onComplete : function () {
-                    Element.removeClassName(tab, 'notloaded');
+                    if (!Element.hasClassName(tab, 'ajax only')) {
+                        Element.removeClassName(tab, 'notloaded');
+                    }
                 }.bind(this),
                 evalScripts : true
             });
