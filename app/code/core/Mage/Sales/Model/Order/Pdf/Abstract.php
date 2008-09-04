@@ -75,6 +75,39 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     }
 
+    /**
+     * Calculate coordinates to draw something in a column aligned to the right
+     *
+     * @param string $string
+     * @param int $x
+     * @param int $columnWidth
+     * @param Zend_Pdf_Resource_Font $font
+     * @param int $fontSize
+     * @param int $padding
+     * @return int
+     */
+    public function getAlignRight($string, $x, $columnWidth, Zend_Pdf_Resource_Font $font, $fontSize, $padding = 5)
+    {
+        $width = $this->widthForStringUsingFontSize($string, $font, $fontSize);
+        return $x + $columnWidth - $width - $padding;
+    }
+
+    /**
+     * Calculate coordinates to draw something in a column aligned to the center
+     *
+     * @param string $string
+     * @param int $x
+     * @param int $columnWidth
+     * @param Zend_Pdf_Resource_Font $font
+     * @param int $fontSize
+     * @return int
+     */
+    public function getAlignCenter($string, $x, $columnWidth, Zend_Pdf_Resource_Font $font, $fontSize)
+    {
+        $width = $this->widthForStringUsingFontSize($string, $font, $fontSize);
+        return $x + round(($columnWidth - $width) / 2);
+    }
+
     protected function insertLogo(&$page)
     {
         $image = Mage::getStoreConfig('sales/identity/logo');
@@ -174,12 +207,12 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
         $page->drawRectangle(25, 730, 570, $y);
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-        
+
         $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir()."/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf");
-        
+
 		//$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
 		$page->setFont($font, 7);
-        
+
 
         $this->y = 720;
 
@@ -258,18 +291,18 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
                 $yShipments -=17;
                 $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 6);
                 foreach ($order->getTracksCollection() as $track) {
-                	
+
                 	$CarrierCode = $track->getCarrierCode();
                 	if ($CarrierCode!='custom')
                 	{
-                		$carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);			
+                		$carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);
                 		$carrierTitle = $carrier->getConfigData('title');
                 	}
-                	else 
+                	else
                 	{
                 		$carrierTitle = Mage::helper('sales')->__('Custom Value');
                 	}
-                    
+
                     $truncatedCarrierTitle = substr($carrierTitle, 0, 35) . (strlen($carrierTitle) > 35 ? '...' : '');
                     $truncatedTitle = substr($track->getTitle(), 0, 45) . (strlen($track->getTitle()) > 45 ? '...' : '');
                     //$page->drawText($truncatedCarrierTitle, 285, $yShipments , 'UTF-8');

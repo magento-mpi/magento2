@@ -334,6 +334,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             }
 
             //$optionsCollection = $this->getOptionsByIds($optionIds);
+            $product->getTypeInstance()->setStoreFilter($product->getStoreId());
             $optionsCollection = $this->getOptionsCollection();
             if (!$this->getProduct()->getSkipCheckRequiredOption()) {
                 foreach ($optionsCollection->getItems() as $option) {

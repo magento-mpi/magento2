@@ -82,10 +82,10 @@ class Mage_Sales_Model_Order_Pdf_Items_Shipment_Default extends Mage_Sales_Model
         }
 
         foreach (Mage::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
-            $page->drawText($part, 440, $pdf->y-$shift[2], 'UTF-8');
             if ($key > 0) {
                 $shift[2] += 10;
             }
+            $page->drawText($part, 440, $pdf->y-$shift[2], 'UTF-8');
         }
 
         $pdf->y -=max($shift)+10;

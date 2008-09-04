@@ -63,17 +63,13 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
             $page->drawText(Mage::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table head */
+            $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
+            $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
+            $page->setLineWidth(0.5);
             $page->drawRectangle(25, $this->y, 570, $this->y-15);
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('SKU'), 280, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Tax'), 380, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Discount'), 430, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y, 'UTF-8');
-
+            $this->_drawHeader($page);
             $this->y -=15;
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
@@ -97,15 +93,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
                     $page->setLineWidth(0.5);
                     $page->drawRectangle(25, $this->y, 570, $this->y-15);
                     $this->y -=10;
-
-                    $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('SKU'), 280, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('Tax'), 380, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('Discount'), 430, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('Total(ex)'), 480, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('Total(inc)'), 530, $this->y, 'UTF-8');
+                    $this->_drawHeader($page);
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $this->y -=20;
@@ -122,5 +110,36 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
         $this->_afterGetPdf();
 
         return $pdf;
+    }
+
+    protected function _drawHeader(Zend_Pdf_Page $page)
+    {
+        $font = $page->getFont();
+        $size = $page->getFontSize();
+
+        $page->drawText(Mage::helper('sales')->__('Products'), $x = 35, $this->y, 'UTF-8');
+        $x += 220;
+
+        $page->drawText(Mage::helper('sales')->__('SKU'), $x, $this->y, 'UTF-8');
+        $x += 100;
+
+        $text = Mage::helper('sales')->__('Total(ex)');
+        $page->drawText($text, $this->getAlignRight($text, $x, 50, $font, $size), $this->y, 'UTF-8');
+        $x += 50;
+
+        $text = Mage::helper('sales')->__('Discount');
+        $page->drawText($text, $this->getAlignRight($text, $x, 50, $font, $size), $this->y, 'UTF-8');
+        $x += 50;
+
+        $text = Mage::helper('sales')->__('QTY');
+        $page->drawText($text, $this->getAlignCenter($text, $x, 30, $font, $size), $this->y, 'UTF-8');
+        $x += 30;
+
+        $text = Mage::helper('sales')->__('Tax');
+        $page->drawText($text, $this->getAlignRight($text, $x, 45, $font, $size, 10), $this->y, 'UTF-8');
+        $x += 45;
+
+        $text = Mage::helper('sales')->__('Total(inc)');
+        $page->drawText($text, $this->getAlignRight($text, $x, 570 - $x, $font, $size), $this->y, 'UTF-8');
     }
 }

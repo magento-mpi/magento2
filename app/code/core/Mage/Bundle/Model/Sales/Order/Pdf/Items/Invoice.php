@@ -44,6 +44,13 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
         $this->_setFontRegular();
         $items = $this->getChilds($item);
 
+//                    $page->drawText(Mage::helper('sales')->__('Product'), 35, $this->y, 'UTF-8');
+//                    $page->drawText(Mage::helper('sales')->__('SKU'), 240, $this->y, 'UTF-8');
+//                    $page->drawText(Mage::helper('sales')->__('Price'), 380, $this->y, 'UTF-8');
+//                    $page->drawText(Mage::helper('sales')->__('QTY'), 430, $this->y, 'UTF-8');
+//                    $page->drawText(Mage::helper('sales')->__('Tax'), 480, $this->y, 'UTF-8');
+//                    $page->drawText(Mage::helper('sales')->__('Subtotal'), 535, $this->y, 'UTF-8');
+
         $_prevOptionId = '';
 
         foreach ($items as $_item) {
@@ -54,23 +61,19 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
             if ($_item->getOrderItem()->getParentItem()) {
                 if ($_prevOptionId != $attributes['option_id']) {
                     $this->_setFontItalic();
-                    $page->drawText($attributes['option_label'], 60, $pdf->y, 'UTF-8');
+                    $page->drawText($attributes['option_label'], 35, $pdf->y, 'UTF-8');
                     $this->_setFontRegular();
                     $_prevOptionId = $attributes['option_id'];
                     $pdf->y -= 10;
                 }
             }
 
-            if ($this->canShowPriceInfo($_item)) {
-                $page->drawText($_item->getQty()*1, 35, $pdf->y, 'UTF-8');
-            }
-
             /* in case Product name is longer than 80 chars - it is written in a few lines */
             if ($_item->getOrderItem()->getParentItem()) {
-                $feed = 65;
+                $feed = 40;
                 $name = $this->getValueHtml($_item);
             } else {
-                $feed = 60;
+                $feed = 35;
                 $name = $_item->getName();
             }
             foreach (Mage::helper('core/string')->str_split($name, 60, true, true) as $key => $part) {
@@ -80,40 +83,52 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Bundle_Model_
                 }
             }
 
-            /* in case Product SKU is longer than 36 chars - it is written in a few lines */
-            foreach (Mage::helper('core/string')->str_split($item->getSku(), 30) as $key => $part) {
-                $page->drawText($part, 380, $pdf->y-$shift[2], 'UTF-8');
-                if ($key > 0) {
-                    $shift[2] += 10;
+
+            // draw SKUs
+            if (!$_item->getOrderItem()->getParentItem()) {
+                foreach (Mage::helper('core/string')->str_split($item->getSku(), 30) as $key => $part) {
+                    if ($key > 0) {
+                        $shift[2] += 10;
+                    }
+                    $page->drawText($part, 240, $pdf->y-$shift[2], 'UTF-8');
                 }
             }
 
+            // draw prices
             if ($this->canShowPriceInfo($_item)) {
                 $font =  $this->_setFontBold();
-                $row_total = $order->formatPriceTxt($_item->getRowTotal());
 
+                $price = $order->formatPriceTxt($_item->getPrice());
+                $page->drawText($price, 395-$pdf->widthForStringUsingFontSize($price, $font, 7), $pdf->y, 'UTF-8');
+
+                $page->drawText($_item->getQty()*1, 435, $pdf->y, 'UTF-8');
+
+                $tax = $order->formatPriceTxt($_item->getTaxAmount());
+                $page->drawText($tax, 495-$pdf->widthForStringUsingFontSize($tax, $font, 7), $pdf->y, 'UTF-8');
+
+                $row_total = $order->formatPriceTxt($_item->getRowTotal());
                 $page->drawText($row_total, 565-$pdf->widthForStringUsingFontSize($row_total, $font, 7), $pdf->y, 'UTF-8');
+                $this->_setFontRegular();
             }
 
             $pdf->y -= max($shift)+10;
         }
 
         if ($item->getOrderItem()->getProductOptions() || $item->getOrderItem()->getDescription()) {
-            $shift{1} = 10;
             $options = $item->getOrderItem()->getProductOptions();
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
                     $this->_setFontItalic();
-                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60,false,true) as $_option) {
-                        $page->drawText($_option, 60, $pdf->y-$shift[1], 'UTF-8');
+                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60,false, true) as $_option) {
+                        $page->drawText($_option, 35, $pdf->y-$shift[1], 'UTF-8');
                         $shift[1] += 10;
                     }
                     $this->_setFontRegular();
                     if ($option['value']) {
                         $values = explode(', ', strip_tags($option['value']));
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 70,true,true) as $_value) {
-                                $page->drawText($_value, 65, $pdf->y-$shift[1], 'UTF-8');
+                            foreach (Mage::helper('core/string')->str_split($value, 70, true, true) as $_value) {
+                                $page->drawText($_value, 40, $pdf->y-$shift[1], 'UTF-8');
                                 $shift[1] += 10;
                             }
                         }

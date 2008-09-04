@@ -50,9 +50,6 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
         foreach (Mage::helper('core/string')->str_split($item->getName(), 60, true, true) as $key => $part) {
             $page->drawText($part, 35, $pdf->y-$shift[0], 'UTF-8');
             $shift[0] += 10;
-            /*if ($key > 0) {
-                $shift[0] += 10;
-            }*/
         }
 
         $options = $this->getItemOptions();
@@ -60,8 +57,8 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
             foreach ($options as $option) {
                 // draw options label
                 $this->_setFontItalic();
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60,false,true) as $_option) {
-                    $page->drawText($_option, 60, $pdf->y-$shift[0], 'UTF-8');
+                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true) as $_option) {
+                    $page->drawText($_option, 35, $pdf->y-$shift[0], 'UTF-8');
                     $shift[0] += 10;
                 }
                 // draw options value
@@ -70,7 +67,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
                     $values = explode(', ', strip_tags($option['value']));
                     foreach ($values as $value) {
                         foreach (Mage::helper('core/string')->str_split($value, 60,true,true) as $_value) {
-                            $page->drawText($_value, 65, $pdf->y-$shift[0], 'UTF-8');
+                            $page->drawText($_value, 40, $pdf->y-$shift[0], 'UTF-8');
                             $shift[0] += 10;
                         }
                     }
@@ -85,10 +82,10 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
 
         /* in case Product SKU is longer than 36 chars - it is written in a few lines */
         foreach (Mage::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
-            $page->drawText($part, 240, $pdf->y-$shift[2], 'UTF-8');
             if ($key > 0) {
                 $shift[2] += 10;
             }
+            $page->drawText($part, 240, $pdf->y-$shift[2], 'UTF-8');
         }
 
         $font = $this->_setFontBold();
