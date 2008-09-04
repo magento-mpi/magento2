@@ -203,4 +203,15 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
     {
         return $this->getHtml();
     }
+
+    public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
+    {
+        if (in_array('disabled', $attributes)) {
+            $this->_data['disabled'] = 'disabled';
+        }
+        if (in_array('checked', $attributes)) {
+            $this->_data['checked'] = 'checked';
+        }
+        return parent::serialize($attributes, $valueSeparator, $fieldSeparator, $quote);
+    }
 }
