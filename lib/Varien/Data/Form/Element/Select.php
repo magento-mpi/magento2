@@ -116,4 +116,8 @@ class Varien_Data_Form_Element_Select extends Varien_Data_Form_Element_Abstract
         }
     }
 
+    public function getHtmlAttributes()
+    {
+        return array('title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'readonly');
+    }
 }
