@@ -51,15 +51,10 @@
                 <tr style="background:#D2D3D3;">
                     <td class="a-right v-top"><strong><?php echo $this->__('Product: ') ?></strong></td>
                     <td class="v-top">
-                        <a href="<?php echo $this->helper('checkout')->getQuoteItemProductUrl($_item) ?>">
-                            <strong><?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?></strong>
-                        </a><br />
+                        <?php echo $this->getItemHtml($_item->getQuoteItem())?>
                     </td>
                     <td class="v-top"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php echo $this->__('Remove Item') ?>" /></a></td>
                 </tr>
-                <?php if($this->helper('checkout')->getQuoteItemProductDescription($_item) != ''):?>
-                <tr><td>&nbsp;</td><td colspan="2"><?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?></td></tr>
-                <?php endif; ?>
                 <tr>
                     <td class="a-right v-top" style="padding-top:8px;"><strong><?php echo $this->__('Qty: ') ?></strong></td>
                     <td class="v-top" colspan="2"><input name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty" /></td>

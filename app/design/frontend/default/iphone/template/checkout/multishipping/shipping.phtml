@@ -113,8 +113,7 @@
                 <?php foreach ($this->getAddressItems($_address) as $_item): ?>
                 <tr>
                     <td>
-                        <?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
-                        <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
+                        <?php echo $this->getItemHtml($_item->getQuoteItem()) ?>
                     </td>
                     <td class="a-center"><?php echo $_item->getQty() ?></td>
                 </tr>

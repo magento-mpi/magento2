@@ -130,8 +130,7 @@
                                 <?php foreach ($this->getShippingAddressItems($_address) as $_item): ?>
                                     <tr>
                                         <td>
-                                            <?php echo $this->helper('checkout')->getQuoteItemProductName($_item) ?>
-                                            <?php echo $this->helper('checkout')->getQuoteItemProductDescription($_item) ?>
+                                            <?php echo $this->getItemHtml($_item->getQuoteItem())?>
                                         </td>
 
                                         <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()) ?></td>
