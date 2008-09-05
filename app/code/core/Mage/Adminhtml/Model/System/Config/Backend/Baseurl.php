@@ -37,7 +37,15 @@ class Mage_Adminhtml_Model_System_Config_Backend_Baseurl extends Mage_Core_Model
                 Mage::throwException(Mage::helper('core')->__('The %s you entered is invalid. Please make sure that it follows "http://domain.com/" format.', $this->getFieldConfig()->label));
             }
         }
-        $value = rtrim($value, '/') . '/';
+
+        $value = rtrim($value,  '/');
+        /**
+         * If value is special ({{}}) we don't need add slash
+         */
+        if (!preg_match('#}}$#', $value)) {
+        	$value.= '/';
+        }
+         
 
         $this->setValue($value);
         return $this;
