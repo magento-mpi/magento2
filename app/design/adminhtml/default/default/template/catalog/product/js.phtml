@@ -25,6 +25,7 @@
  */
 ?>
 <script type="text/javascript">
+//<![CDATA[
 Event.observe(window, 'load', recalculateTax);
 Event.observe(window, 'load', registerTaxRecalcs);
 
@@ -89,4 +90,5 @@ if(<?php echo $tabsBlock->getJsObjectName() ?> && <?php echo $tabsBlock->getJsOb
     $('store_switcher').switchParams = 'active_tab/'+<?php echo $tabsBlock->getJsObjectName() ?>.activeTab.name+'/';
 }
 <?php endif; ?>
+//]]>
 </script>

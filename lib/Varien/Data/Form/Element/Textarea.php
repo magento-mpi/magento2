@@ -38,6 +38,8 @@ class Varien_Data_Form_Element_Textarea extends Varien_Data_Form_Element_Abstrac
         parent::__construct($attributes);
         $this->setType('textarea');
         $this->setExtType('textarea');
+        $this->setRows(2);
+        $this->setCols(15);
     }
 
     public function getHtmlAttributes()

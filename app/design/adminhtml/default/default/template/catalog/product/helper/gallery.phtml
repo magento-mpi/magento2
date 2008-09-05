@@ -85,7 +85,7 @@ $_block = $this;
                 <td class="a-center">
                 <?php if($_block->getElement()->canDisplayUseDefault($_attribute)): ?>
                 <input class="default-checkbox" name="use_default[]" type="checkbox" onclick="<?php echo $_block->getJsObjectName(); ?>.updateUseDefault()"
-<?php if($_block->getElement()->usedDefault($_attribute)): ?>checked<?php endif; ?> value="<?php echo $_attribute->getAttributeCode() ?>"/>
+<?php if($_block->getElement()->usedDefault($_attribute)): ?>checked<?php endif; ?> value="<?php echo $_attribute->getAttributeCode() ?>" />
                 <?php endif ?>
                 </td>
                 <?php endforeach; ?>
@@ -95,20 +95,20 @@ $_block = $this;
     <?php endif ?>
         <tr id="<?php echo $_block->getHtmlId() ?>-image-0">
                 <td class="cell-image"><?php echo Mage::helper('catalog')->__('No image') ?></td>
-                <td class="cell-label"><input type="hidden">&nbsp;</td>
-                <td class="cell-position"><input type="hidden">&nbsp;</td>
+                <td class="cell-label"><input type="hidden" />&nbsp;</td>
+                <td class="cell-position"><input type="hidden" />&nbsp;</td>
                 <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
-                <td class="cell-<?php echo $typeId ?> a-center"><input type="radio" name="<?php echo $type['field'] ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.setProductImages('no_selection')" value="no_selection"/></td>
+                <td class="cell-<?php echo $typeId ?> a-center"><input type="radio" name="<?php echo $type['field'] ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.setProductImages('no_selection')" value="no_selection" /></td>
                 <?php endforeach; ?>
-                <td class="cell-disable"><input type="hidden">&nbsp;</td>
-                <td class="cell-remove last"><input type="hidden">&nbsp;</td>
+                <td class="cell-disable"><input type="hidden" />&nbsp;</td>
+                <td class="cell-remove last"><input type="hidden" />&nbsp;</td>
         </tr>
     </tbody>
 
     <tfoot>
         <tr>
             <td colspan="100" class="last" style="padding:8px">
-            <?php echo $_block->getUploaderHtml() ?>
+                <?php echo $_block->getUploaderHtml() ?>
             </td>
         </tr>
     </tfoot>

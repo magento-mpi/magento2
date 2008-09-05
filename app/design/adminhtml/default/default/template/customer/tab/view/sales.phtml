@@ -25,7 +25,7 @@
  */
 ?>
 <div class="entry-edit">
-	<div class="entry-edit-head"><h4 class="icon-head head-customer-sales-statistics"><?php echo Mage::helper('customer')->__('Sales Statistics') ?></h4></div>
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-sales-statistics"><?php echo Mage::helper('customer')->__('Sales Statistics') ?></h4></div>
     <div class="grid">
         <table cellspacing="0" class="data">
             <thead>
@@ -55,7 +55,7 @@
                         <?php if ($_row->getStoreId() == 0): ?>
                         <td colspan="3" class="label"><?php echo $_row->getStoreName() ?></td>
                         <?php else: ?>
-                <tr <?php echo ($_i++ % 2 ? 'class="even"' : '') ?>>
+                <tr<?php echo ($_i++ % 2 ? ' class="even"' : '') ?>>
                         <?php if (!$_websiteRow): ?>
                     <td rowspan="<?php echo $this->getWebsiteCount($_websiteId) ?>"><?php echo $_row->getWebsiteName() ?></td>
                             <?php $_websiteRow = true; ?>
@@ -77,23 +77,3 @@
         </table>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

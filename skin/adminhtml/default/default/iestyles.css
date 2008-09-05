@@ -52,6 +52,9 @@ ul.tabs li a,
 
 input.checkbox,
 input.radio { width:13px; height:13px; }
+button.disabled,
+button.disabled:hover,
+button.disabled:active { filter:alpha(opacity=80); }
 
 /* Opacity fix */
 #loading-mask { filter:alpha(opacity=80); }

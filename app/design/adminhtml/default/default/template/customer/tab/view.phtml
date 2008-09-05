@@ -30,8 +30,8 @@
  */
 ?>
 <div class="entry-edit">
-	<div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('customer')->__('Personal Information') ?></h4></div>
-	<fieldset>
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo Mage::helper('customer')->__('Personal Information') ?></h4></div>
+    <fieldset>
         <table cellspacing="2" class="box-left">
             <tr>
                 <td><strong><?php echo $this->__('Last Logged In:') ?></strong></td>
@@ -54,11 +54,11 @@
                 <td><?php echo $this->getGroupName() ?></td>
             </tr>
         </table>
-		<address class="box-right">
-		<strong><?php echo $this->__('Primary Billing Address') ?></strong><br/>
-		<?php echo $this->getBillingAddressHtml() ?>
-		</address>
-	</fieldset>
+        <address class="box-right">
+            <strong><?php echo $this->__('Primary Billing Address') ?></strong><br/>
+            <?php echo $this->getBillingAddressHtml() ?>
+        </address>
+    </fieldset>
 </div>
 <?php echo $this->getSalesHtml(); ?>
 <div class="clear"></div>

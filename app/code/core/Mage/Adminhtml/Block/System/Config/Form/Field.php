@@ -56,9 +56,10 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $html = '<tr><td class="label">'.$element->getLabel().'</td>';
-
         $id = $element->getHtmlId();
+
+        $html = '<tr><td class="label"><label for="'.$id.'">'.$element->getLabel().'</label></td>';
+
         //$isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
         $isMultiple = $element->getExtType()==='multiple';
 

@@ -127,11 +127,11 @@
 .grid table.border              { border:1px solid #cbd3d4; }
 .grid tbody                     { background:#fff; }    /* Zebra odd-row */
 .grid tr.even, .grid tr.even tr { background:#f6f6f6; } /* Zebra even-row */
-.grid tr.on-mouse               { background:#fcf5dd; } /* Rows mouse-over */
+.grid tr.on-mouse               { background:#fcf5dd; cursor:pointer; } /* Rows mouse-over */
 .grid tr.invalid                { background-color:#d3a5ba !important; }
 .grid th, .grid td              { padding:2px 4px 2px 4px; }
 .grid th                        { white-space:nowrap; }
-.grid td input.input-text       { width:86%!important; }
+.grid td input.input-text       { width:86%; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
 .grid table.border td           { background:#fff !important; }
 .grid table td.last             { border-right:0; }
@@ -347,20 +347,20 @@ select.countries option         { background-repeat:no-repeat; }
 table.form-edit                         { width:100%; }
 .box,
 .entry-edit fieldset,
-.entry-edit .fieldset                   { margin-bottom:1.5em; padding:1em 1.5em 1.2em 1.5em; }
+.entry-edit .fieldset                   { padding:10px 15px; margin-bottom:15px; }
 .entry-edit .entry-edit-head h4         { float:left; padding:0; background:none; margin:0; color:#fff; font-size:1em; line-height:18px; min-height:0; }
 .entry-edit .entry-edit-head strong,
 .entry-edit .entry-edit-head a          { color:#fff; font-size:1em; line-height:18px; min-height:0; font-weight:bold}
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
 .entry-edit fieldset li                 { list-style:none; margin:4px 0; }
-.entry-edit fieldset input.input-text,
+/*.entry-edit fieldset input.input-text,
 .entry-edit fieldset textarea           { width:274px; }
 .entry-edit fieldset textarea           { height:12em; }
-.entry-edit fieldset select             { width:280px; }
+.entry-edit fieldset select             { width:280px; }*/
 .entry-edit fieldset span.form_row,
 .entry-edit fieldset .field-row .hint   { float:left; color:#999; padding-left:12em; }
 .entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
-label.inline                            { float:none!important; width:auto!important; }
+label.inline                            { float:none !important; width:auto !important; }
 .nested-content .entry-edit             { margin-left:2em; }
 .nested-content .entry-edit .entry-edit { margin-left:0; }
 
@@ -392,20 +392,26 @@ select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
 .form-list td.label             { width:150px; }
 .form-list td.label label       { display:block; width:150px; padding-right:15px; }
 .form-list td.value input.input-text,
-.form-list td.value textarea    { width:95%; }
-.form-list td.value select      { width:270px; }
+.form-list td.value textarea    { width:274px; }
+.form-list td.value textarea    { height:12em; }
+.form-list td.value select      { width:280px; }
+.form-list td.use-default       { padding-left:15px; }
+.form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px; }
+.form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 
 .columns .form-list                      { width:auto; }
-.columns .form-list td.value             { width:280px; padding-right:5px; }
-.columns .form-list td.value input.input-text { width:274px; }
-.columns .form-list td.value textarea    { width:90%; }
-.columns .form-list td.value select      { width:280px; }
-.columns .form-list td.use-default       { padding-left:15px; }
+.columns .form-list td.value             { width:280px; padding-right:5px !important; }
+/*.columns .form-list td.value input.input-text,
+.columns .form-list td.value textarea    { width:274px; }
+.columns .form-list td.value select      { width:280px; }*/
 .columns .form-list td.value .next-toinput { width:75px; display:inline; margin-right:5px; }
 .columns .form-list td.value .next-toselect .input-text { width:180px; display:inline; }
 
-.form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px; }
-.form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
+.form-wide { width:100% !important; }
+.form-wide td.value { width:auto !important; }
+.form-wide td.value input.input-text,
+.form-wide td.value textarea { width:98%; }
+
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
 .grid tr .form-list tr          { background:#fff !important; } /* Follows grid row background-color */
 .grid tr.even .form-list tr     { background:#f6f6f6 !important; } /* Follows grid row background-color */
@@ -419,31 +425,13 @@ select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
 
 /* Form Button */
 .content-buttons.form-buttons,
-.content-header .form-buttons   { text-align:right; white-space:nowrap; margin-bottom:0; }
-.content-header .content-buttons-placeholder { display:inline!important; }
+.content-header .form-buttons   { text-align:right; margin-bottom:0; white-space:nowrap; }
+.content-header .content-buttons-placeholder { display:inline !important; }
 .content-header .form-buttons   { float:right; }
 .content-header td.form-buttons   { float:none; }
 .content-header .form-buttons button { margin-bottom:3px; }
-.sub-btn-set {
-    border-width:0 1px;
-    border-color:#ddd;
-    border-style:solid;
-    background:url(images/sub_button_bg.gif) repeat;
-    padding:3px 10px;
-    text-align:right;
-    }
-button, .form-button {
-    border-width:1px;
-    border-style:solid;
-    border-color:#ed6502 #a04300 #a04300 #ed6502;
-    padding:0 7px 1px 7px;
-    background:url(images/btn_bg.gif) #ffac47 repeat-x 0 100%;
-    color:#fff;
-    font:bold 12px arial, helvetica, sans-serif;
-    cursor:pointer;
-    text-align:center !important;
-    white-space:nowrap;
-    }
+.sub-btn-set { border:1px solid #ddd; border-width:0 1px; background:url(images/sub_button_bg.gif) repeat; padding:3px 10px; text-align:right; }
+button, .form-button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 url(images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
 button:hover                    { background:url(images/btn_over_bg.gif) repeat-x 0 0 #f77c16; }
 button:active                   { background:url(images/btn_on_bg.gif) repeat-x 0 0 #f77c16; }
 button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
@@ -451,32 +439,22 @@ button.delete,
 button.save,
 button.add                      { padding-left:6px; }
 button.cancel span, button.delete span, button.save span, button.add span, button.back span { padding-left:20px; }
-button.back {
-    border-color:#ccc #aaa #aaa #ccc;
-    background-color:#fff;
-    background-image:url(images/btn_back_bg.gif);
-    color:#555;
-    }
+button.back { border-color:#ccc #aaa #aaa #ccc; background-color:#fff; background-image:url(images/btn_back_bg.gif); color:#555; }
 button.back span                { background-image:url(images/icon_btn_back.gif); }
 button.cancel:active            { background-image:url(images/cancel_btn_active_bg.gif); }
-button.cancel, button.delete    {
-    border-color:#d24403 #a92000 #a92000 #d24403;
-    background-image:url(images/cancel_btn_bg.gif);
-    background-color:#fcaf81;
-    color:#fff;
-    }
+button.cancel,
+button.delete    { border-color:#d24403 #a92000 #a92000 #d24403; background-image:url(images/cancel_btn_bg.gif); background-color:#fcaf81; color:#fff; }
 button.cancel:hover, button.delete:hover { background-image:url(images/cancel_btn_over_bg.gif); }
 button.cancel:active,
 button.delete:active            { background-image:url(images/cancel_btn_active_bg.gif); background-color:#e0612f; }
-button.cancel span, button.delete span {
-    background-image:url(images/cancel_btn_icon.gif);
-    }
+button.cancel span,
+button.delete span { background-image:url(images/cancel_btn_icon.gif); }
 button.add span     { background-image:url(images/add_btn_icon.gif); }
 button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 button.disabled,
 button.disabled:hover,
-button.disabled:active          { border-width:1px; border-style:solid; border-color:#4b6e7c #344d56 #344d56 #4b6e7c; background:#6f8992; color:#ededed; cursor:default; }
+button.disabled:active { border-color:#777 #505050 #505050 #777; background:#919191 url(images/btn_bg-disabled.gif) 0 0 repeat-x; color:#fff; cursor:default; opacity:.8; }
 
 button.icon-btn {width:32px!important; }
 button.icon-btn span {text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
@@ -832,7 +810,7 @@ ul.item-options li { padding-left:.7em; }
 .entry-edit .order-address .textarea    { width:95% !important; }
 .entry-edit .order-address .select      { width:96.5%; }
 .order-search-items .entry-edit .grid   { height:610px; overflow:auto; }
-.order-search-items .entry-edit .grid table {width:99.9%; }
+.order-search-items .entry-edit .grid table { width:99.9%; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
 /* Account Information */
@@ -863,16 +841,16 @@ ul.item-options li { padding-left:.7em; }
 
 /* Gift Messages */
 .giftmessage-order-create .entire-order,
-.giftmessage-order-create .each-order-item          { padding:1.2em 1.5em; padding-right:0; padding-left:1.2em; }
-.giftmessage-order-create .each-order-item          { height:275px; }
-.giftmessage-order-create .each-order-item .scroll  { overflow:auto; height:250px; }
-.giftmessage-order-create .single                   { width:100%; float:left; padding:1.2em 1.5em; }
-.giftmessage-order-create .section-head             { margin-bottom:10px; }
-.giftmessage-order-create .item-head                { background-color:#cfcfcf; margin-bottom:10px; width:400px; padding:2px 6px; font-size:11px; }
-.giftmessage-order-create .entire-order             { background-color:#eee; height:275px; }
-.giftmessage-order-create fieldset                  { padding:0 0 0 0; }
-.giftmessage-order-create .entry-edit .input-text,
-.giftmessage-order-create .entry-edit .textarea     { width:220px; }
+.giftmessage-order-create .each-order-item { background-color:#eee; padding:6px 14px; height:275px;  }
+.giftmessage-order-create .entire-order .entry-edit,
+.giftmessage-order-create .each-order-item .scroll { height:250px; overflow:auto; }
+.giftmessage-order-create .single { width:100%; float:left; padding:1.2em 1.5em; }
+.giftmessage-order-create h5 { font-size:12px; font-weight:normal; line-height:1.5; margin-bottom:10px; }
+.giftmessage-order-create h6 { font-size:11px; font-weight:normal; line-height:1.55; background-color:#cfcfcf; margin-bottom:10px; padding:2px 6px; width:95%; }
+.giftmessage-order-create .fieldset { padding:0; }
+.giftmessage-order-create .form-list td.label label { width:100px; }
+.giftmessage-order-create .form-list td.value input.input-text,
+.giftmessage-order-create .form-list td.value textarea { width:95%; }
 
 .giftmessage-single-item                            { padding:0 !important; }
 .giftmessage-single-item .item-container            { cursor:auto; }
@@ -1068,9 +1046,9 @@ fieldset.sitemap .form-list { width:auto; }
 *******************************************************************************/
 
 /* Configuration */
-fieldset.config td          { padding-top:5px; padding-bottom:5px; }
+/*fieldset.config td          { padding-top:5px; padding-bottom:5px; }
 fieldset.config input.input-text { width:250px; }
-fieldset.config select.select { width:256px; }
+fieldset.config select.select { width:256px; }*/
 div.tree_item,
 div.tree_item_last          { background-position:left; background-repeat:no-repeat; padding-left:20px; }
 div.tree_item               { background-image:url(images/tree_icons/join.gif); }
