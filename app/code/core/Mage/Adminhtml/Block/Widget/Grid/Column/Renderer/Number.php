@@ -48,8 +48,10 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Admin
     public function renderProperty()
     {
         $out = parent::renderProperty();
-        if ($this->getColumn()->getGrid()->getFilterVisibility()) {
-            $out.= ' width="100px" ';
+        if (!$this->getColumn()->hasData('width')) {
+            if ($this->getColumn()->getGrid()->getFilterVisibility()) {
+                $out.= ' width="100px" ';
+            }
         }
         return $out;
     }
