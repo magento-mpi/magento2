@@ -34,7 +34,7 @@
 
 abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends Mage_Adminhtml_Block_Abstract implements Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Interface
 {
-
+    protected $_defaultWidth;
     protected $_column;
 
     public function setColumn($column)
@@ -105,19 +105,27 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
 
     public function renderProperty()
     {
-        $out = ' ';
+        $out = '';
         if ($this->getColumn()->getEditable() && !$this->getColumn()->getEditOnly()) {
-            $out .=' span="2"';
+            $out .= ' span="2"';
         }
 
-        if ($width = $this->getColumn()->getWidth()) {
-            if (is_numeric($width)) {
-               # $width .= '%';
-            } else {
-                $width = (int)$width;
+        $width = $this->_defaultWidth;
+
+        if ($this->getColumn()->hasData('width')) {
+            $customWidth = $this->getColumn()->getData('width');
+            if ((null === $customWidth) || (preg_match('/^[0-9]+%?$/', $customWidth))) {
+                $width = $customWidth;
             }
-            $out .='width="'.$width . '" ';
+            elseif (preg_match('/^([0-9]+)px$/', $customWidth, $matches)) {
+                $width = (int)$matches[1];
+            }
         }
+
+        if (null !== $width) {
+            $out .= ' width="' . $width . '"';
+        }
+
         return $out;
     }
 

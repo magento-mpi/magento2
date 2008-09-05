@@ -34,6 +34,7 @@
 
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    protected $_defaultWidth = 100;
 
     protected function _getValue(Varien_Object $row)
     {
@@ -43,17 +44,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Admin
         	return $value ? $value: '0'; // fixed for showing zero in grid
         }
         return $this->getColumn()->getDefault();
-    }
-
-    public function renderProperty()
-    {
-        $out = parent::renderProperty();
-        if (!$this->getColumn()->hasData('width')) {
-            if ($this->getColumn()->getGrid()->getFilterVisibility()) {
-                $out.= ' width="100px" ';
-            }
-        }
-        return $out;
     }
 
     public function renderCss()

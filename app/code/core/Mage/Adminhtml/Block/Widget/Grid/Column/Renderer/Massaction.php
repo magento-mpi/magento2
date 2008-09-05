@@ -34,6 +34,7 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
 {
+    protected $_defaultWidth = 20;
 
     public function renderHeader()
     {
@@ -42,7 +43,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Massaction extends Mage_A
 
     public function renderProperty()
     {
-        $out = 'class="a-center" width="20"';
+        $out = parent::renderProperty();
+        $out = preg_replace('/class=".*?"/i', '', $out);
+        $out .= ' class="a-center"';
         return $out;
     }
 

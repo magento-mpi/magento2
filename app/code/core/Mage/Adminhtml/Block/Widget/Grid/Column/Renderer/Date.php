@@ -34,6 +34,7 @@
 
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    protected $_defaultWidth = 160;
     /**
      * Date format string
      */
@@ -91,12 +92,5 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Date extends Mage_Adminht
             return $data;
         }
         return $this->getColumn()->getDefault();
-    }
-
-    public function renderProperty()
-    {
-        $out = parent::renderProperty();
-        $out.= ' width="160" ';
-        return $out;
     }
 }

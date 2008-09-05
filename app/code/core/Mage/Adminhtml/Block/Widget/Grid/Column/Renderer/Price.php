@@ -34,6 +34,7 @@
 
 class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Price extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    protected $_defaultWidth = 100;
 	/**
 	 * Currency objects cache
 	 */
@@ -82,15 +83,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Price extends Mage_Adminh
             return floatval($rate);
         }
         return 1;
-    }
-
-    public function renderProperty()
-    {
-        $out = parent::renderProperty();
-        if (!$this->getColumn()->getWidth()) {
-            $out.= ' width="100" ';
-        }
-        return $out;
     }
 
     public function renderCss()
