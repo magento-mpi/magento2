@@ -136,6 +136,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     */
     public function shortcutSetExpressCheckout()
     {
+        $this->getQuote()->reserveOrderId();
         $this->getApi()
             ->setTrxtype($this->getPaymentAction())
             ->setAmount($this->getQuote()->getBaseGrandTotal())
@@ -416,6 +417,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setAmount($address->getBaseGrandTotal())
             ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->setShippingAddress($address)
+            ->setInvNum($this->getQuote()->getReservedOrderId())
             ->callSetExpressCheckout();
 
         $this->throwError();
