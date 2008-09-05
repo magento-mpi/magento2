@@ -74,10 +74,35 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
      */
     public function getPrintLogoUrl ()
     {
-        $logo = Mage::getStoreConfig('sales/identity/logo');
-        return $logo
-            ? Mage::getStoreConfig('web/unsecure/base_media_url') . 'sales/store/logo/' . $logo
-            : '';
+        // load html logo
+        $logo = Mage::getStoreConfig('sales/identity/logo_html');
+        if (!empty($logo)) {
+            $logo = 'sales/store/logo_html/' . $logo;
+        }
+
+        // load default logo
+        if (empty($logo)) {
+            $logo = Mage::getStoreConfig('sales/identity/logo');
+            if (!empty($logo)) {
+                // prevent tiff format displaying in html
+                if (strtolower(substr($logo, -5)) === '.tiff' || strtolower(substr($logo, -4)) === '.tif') {
+                    $logo = '';
+                }
+                else {
+                    $logo = 'sales/store/logo/' . $logo;
+                }
+            }
+        }
+
+        // buld url
+        if (!empty($logo)) {
+            $logo = Mage::getStoreConfig('web/unsecure/base_media_url') . $logo;
+        }
+        else {
+            $logo = '';
+        }
+
+        return $logo;
     }
 
     public function setHeaderTitle($title)

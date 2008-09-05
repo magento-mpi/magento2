@@ -120,7 +120,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <logo translate="label">
-                            <label>Logo (200x50)</label>
+                            <label>Logo for PDF print-outs (200x50)</label>
                             <frontend_type>image</frontend_type>
                             <backend_model>adminhtml/system_config_backend_image_pdf</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo</upload_dir>
@@ -129,7 +129,20 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <comment>Default logo, will be used in PDF and HTML documents.&lt;br /&gt;(jpeg, tiff, png)</comment>
                         </logo>
+                        <logo_html translate="label">
+                            <label>Logo for HTML print view</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">sales/store/logo_html</upload_dir>
+                            <base_url type="media" scope_info="1">sales/store/logo_html</base_url>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Logo for HTML documents only. If empty, default will be used.&lt;br /&gt;(jpeg, gif, png)</comment>
+                        </logo_html>
                         <address translate="label">
                             <label>Address</label>
                             <frontend_type>textarea</frontend_type>
