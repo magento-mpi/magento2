@@ -43,6 +43,11 @@ class Varien_Data_Form_Element_Multiline extends Varien_Data_Form_Element_Abstra
         return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'maxlength');
     }
 
+    public function getLabelHtml($suffix = 0)
+    {
+        return parent::getLabelHtml($suffix);
+    }
+
     public function getElementHtml()
     {
         $html = '';

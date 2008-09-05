@@ -40,7 +40,7 @@
             <a href="#" class="btn-remove-address">
                 <img src="<?php echo $this->getSkinUrl('images/cancel_icon.gif') ?>" alt="Remove address" id="delete_button<?php echo ++$_iterator ?>" />
             </a>
-            <a href="#" id="select_button" class="select_button btn-edit-address">
+            <a href="#" id="select_button_<?php echo $_address->getId() ?>" class="select_button btn-edit-address">
                 <img src="<?php echo $this->getSkinUrl('images/edit_icon.gif') ?>" alt="Edit address"/>
             </a>
             <address>
@@ -48,11 +48,11 @@
             </address>
             <div class="address-type">
                 <span class="address-type-line">
-                    <input type="radio" value="<?php echo $_address->getId() ?>" id="address_item_billing<?php echo $_address->getId() ?>" name="account[default_billing]" title="<?php echo Mage::helper('customer')->__('Set as Default Billing Address') ?>"<?php if($_address->getId()==$customer->getDefaultBilling()): ?> checked="true"<?php endif; ?>/>
+                    <input type="radio" value="<?php echo $_address->getId() ?>" id="address_item_billing<?php echo $_address->getId() ?>" name="account[default_billing]" title="<?php echo Mage::helper('customer')->__('Set as Default Billing Address') ?>"<?php if($_address->getId()==$customer->getDefaultBilling()): ?> checked="checked"<?php endif; ?>/>
                     &nbsp;<label for="address_item_billing<?php echo $_address->getId() ?>"><?php echo Mage::helper('customer')->__('Default Billing Address') ?></label>
                 </span>
                 <span class="address-type-line">
-                    <input type="radio" value="<?php echo $_address->getId() ?>" id="address_item_shipping<?php echo $_address->getId() ?>" name="account[default_shipping]" title="<?php echo Mage::helper('customer')->__('Set as Default Shipping Address') ?>"<?php if($_address->getId()==$customer->getDefaultShipping()): ?> checked="true"<?php endif; ?>/>
+                    <input type="radio" value="<?php echo $_address->getId() ?>" id="address_item_shipping<?php echo $_address->getId() ?>" name="account[default_shipping]" title="<?php echo Mage::helper('customer')->__('Set as Default Shipping Address') ?>"<?php if($_address->getId()==$customer->getDefaultShipping()): ?> checked="checked"<?php endif; ?>/>
                     &nbsp;<label for="address_item_shipping<?php echo $_address->getId() ?>"><?php echo Mage::helper('customer')->__('Default Shipping Address') ?></label>
                 </span>
             </div>
@@ -69,11 +69,11 @@
             <div id="form_address_item_<?php echo $_address->getId() ?>" style="display:none">
             <?php
                     $this->getFormObject()->setValues($_address->getData())
-                            ->setHtmlIdPrefix($_address->getId())
+                            ->setHtmlIdPrefix("id{$_address->getId()}")
                             ->setFieldNameSuffix('address['.$_address->getId().']')
             ?>
             <?php echo $this->getFormObject()->getHtml() ?>
-            <input type="hidden" name="address[<?php echo $_address->getId() ?>][_deleted]" id="deleted_address_item_<?php echo $_address->getId() ?>">
+            <input type="hidden" name="address[<?php echo $_address->getId() ?>][_deleted]" id="deleted_address_item_<?php echo $_address->getId() ?>" />
             </div>
             <?php endforeach; ?>
         <?php else: ?>
@@ -88,7 +88,7 @@
         <a href="#" class="btn-remove-address">
             <img src="<?php echo $this->getSkinUrl('images/cancel_icon.gif') ?>" alt="Remove address" id="delete_button<?php echo ++$_iterator ?>" />
         </a>
-        <a href="#" id="select_button" class="select_button btn-edit-address">
+        <a href="#" id="select_button_" class="select_button btn-edit-address">
             <img src="<?php echo $this->getSkinUrl('images/edit_icon.gif') ?>" alt="Edit address"/>
         </a>
         <address><?php echo Mage::helper('customer')->__('New Customer Address') ?></address>
@@ -119,6 +119,7 @@
 
 <!-- -->
 <script type="text/javascript">
+//<![CDATA[
 var deleteButtonId = <?php echo $_iterator ?>;
 
 var addressesModel = Class.create();
@@ -236,7 +237,11 @@ addressesModel.prototype = {
     },
 
     prepareTemplate : function(template){
-        return template.replace(/<?php echo $_templatePrefix ?>/g, '_item'+this.itemCount).replace(/_counted="undefined"/g, '');
+        return template
+            .replace(/<?php echo $_templatePrefix ?>/g, '_item'+this.itemCount)
+            .replace(/_counted="undefined"/g, '')
+            .replace(/"select_button_"/g, 'select_button_' + this.itemCount)
+            ;
     },
 
     canCreateNewAddress : function(){
@@ -289,10 +294,10 @@ addressesModel.prototype = {
 
     toggleDeleteButton : function(item, flag){
         if(flag){
-            $(item).getElementsByClassName('btn-remove-address').each(Element.show);
+            $(item).select('.btn-remove-address').each(Element.show);
             $(item.formBlock).getElementsBySelector('.delete-address').each(Element.show);
         } else {
-            $(item).getElementsByClassName('btn-remove-address').each(Element.hide);
+            $(item).select('.btn-remove-address').each(Element.hide);
             $(item.formBlock).getElementsBySelector('.delete-address').each(Element.hide);
         }
     },
@@ -325,7 +330,7 @@ addressesModel.prototype = {
 
     addFieldChangeObserver : function(container){
         var fields = this.getFormContainerFields(container);
-        for(var i in fields){
+        for (var i = 0; i < fields.length; i++) {
             Event.observe(fields[i], 'change', this.onItemFormFieldChange);
         }
 
@@ -449,7 +454,7 @@ addressesModel.prototype = {
             var value = this.regionElement.value;
 
             var row = Element.previous(this.regionElement.parentNode,0);
-            var reqLabel = Element.getElementsByClassName(row, 'required');
+            var reqLabel = Element.select(row, '.required');
             if (data.length) {
                 var html = '<select name="'+this.regionElement.name+'" id="'+this.regionElement.id+'" class="required-entry select" title="'+this.regionElement.title+'">';
                 html+= '<option value=""></option>';
@@ -488,6 +493,7 @@ addressesModel.prototype = {
 }
 
 customerAddresses = new addressesModel();
+//]]>
 </script>
 </td>
 </tr></table>

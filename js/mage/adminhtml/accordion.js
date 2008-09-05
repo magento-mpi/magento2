@@ -113,7 +113,7 @@ varienAccordion.prototype = {
         if(item.link.href.indexOf('#') == item.link.href.length-1){
             return;
         }
-        if (item.link.target == 'ajax') {
+        if (Element.hasClassName(item.link, 'ajax')) {
             this.loadingItem = item;
             this.loader.load(item.link.href, {updaterId : this.loadingItem.dd.id}, this.setItemContent.bind(this));
             return;
