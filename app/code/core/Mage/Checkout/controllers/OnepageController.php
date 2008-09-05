@@ -391,6 +391,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $result['success'] = false;
             $result['error'] = true;
             $result['error_messages'] = $e->getMessage();
+            $this->getOnepage()->getQuote()->save();
         }
         catch (Exception $e) {
             Mage::logException($e);
@@ -398,6 +399,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $result['success']  = false;
             $result['error']    = true;
             $result['error_messages'] = $this->__('There was an error processing your order. Please contact us or try again later.');
+            $this->getOnepage()->getQuote()->save();
         }
 
         /**

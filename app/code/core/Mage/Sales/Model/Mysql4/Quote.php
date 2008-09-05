@@ -50,7 +50,7 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Mysql4_Abstract
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-	   	$select = parent::_getLoadSelect($field, $value, $object);
+           $select = parent::_getLoadSelect($field, $value, $object);
         if ($storeIds = $object->getSharedStoreIds()) {
             $select->where('store_id IN (?)', $storeIds);
         }
@@ -93,4 +93,20 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Mysql4_Abstract
     {
         return Mage::getSingleton('eav/config')->getEntityType('order')->fetchNewIncrementId($quote->getStoreId());
     }
+
+    public function isOrderIncrementIdUsed($orderIncrementId) {
+        if ($this->_getReadAdapter()) {
+            $select = $this->_getReadAdapter()->select();
+            $select->from($this->getTable('sales/order'), 'entity_id')
+                ->where('increment_id = ?', $orderIncrementId);
+            $entity_id = $this->_getReadAdapter()->fetchOne($select);
+            if ($entity_id > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
 }
