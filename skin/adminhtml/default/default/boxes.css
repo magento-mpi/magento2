@@ -450,6 +450,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 button.disabled,
 button.disabled:hover,
 button.disabled:active { border-color:#777 #505050 #505050 #777; background:#919191 url(images/btn_bg-disabled.gif) 0 0 repeat-x; color:#fff; cursor:default; opacity:.8; }
+button.add.disabled span { background-image:url(images/add_btn_icon-disabled.gif);}
 
 button.icon-btn {width:32px!important; }
 button.icon-btn span {text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
