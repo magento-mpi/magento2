@@ -177,8 +177,10 @@ class Mage_Checkout_Model_Type_Onepage
                     $billing = clone $address;
                     $billing->unsAddressId()->unsAddressType();
                     $shipping = $this->getQuote()->getShippingAddress();
+                    $shippingMethod = $shipping->getShippingMethod();
                     $shipping->addData($billing->getData())
                         ->setSameAsBilling(1)
+                        ->setShippingMethod($shippingMethod)
                         ->setCollectShippingRates(true);
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
                     break;
