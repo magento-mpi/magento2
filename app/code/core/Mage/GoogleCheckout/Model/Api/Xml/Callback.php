@@ -310,6 +310,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $payment = Mage::getModel('sales/order_payment')->setMethod('googlecheckout');
         $order->setPayment($payment);
+        $order->setCanShipPartiallyItem(false);
 
         $emailAllowed = ($this->getData('root/buyer-marketing-preferences/email-allowed/VALUE')==='true');
 

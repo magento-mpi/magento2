@@ -422,4 +422,31 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
             return false;
         }
     }
+
+    public function canShipPartially()
+    {
+        $value = Mage::registry('current_shipment')->getOrder()->getCanShipPartially();
+        if (!is_null($value) && !$value) {
+            return false;
+        }
+        return true;
+    }
+
+    public function canShipPartiallyItem()
+    {
+        $value = Mage::registry('current_shipment')->getOrder()->getCanShipPartiallyItem();
+        if (!is_null($value) && !$value) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isShipmentRegular()
+    {
+        if (!$this->canShipPartiallyItem() || !$this->canShipPartially()) {
+            return false;
+        }
+        return true;
+    }
+
 }
