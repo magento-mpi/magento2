@@ -38,7 +38,7 @@ class Mage_Payment_Model_Config
     protected static $_methods;
 
     /**
-     * Retrieve active system carriers
+     * Retrieve active system payments
      *
      * @param   mixed $store
      * @return  array
@@ -51,6 +51,22 @@ class Mage_Payment_Model_Config
             if (Mage::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
                 $methods[$code] = $this->_getMethod($code, $methodConfig);
             }
+        }
+        return $methods;
+    }
+
+    /**
+     * Retrieve all system payments
+     *
+     * @param mixed $store
+     * @return array
+     */
+    public function getAllMethods($store=null)
+    {
+        $methods = array();
+        $config = Mage::getStoreConfig('payment', $store);
+        foreach ($config as $code => $methodConfig) {
+            $methods[$code] = $this->_getMethod($code, $methodConfig);
         }
         return $methods;
     }

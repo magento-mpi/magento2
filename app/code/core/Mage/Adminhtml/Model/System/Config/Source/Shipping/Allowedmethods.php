@@ -25,32 +25,11 @@
  */
 
 class Mage_Adminhtml_Model_System_Config_Source_Shipping_Allowedmethods
+    extends Mage_Adminhtml_Model_System_Config_Source_Shipping_Allmethods
 {
     public function toOptionArray()
     {
-        $methods = array(array('value'=>'', 'label'=>''));
-        $carriers = Mage::getSingleton('shipping/config')->getActiveCarriers();
-        foreach ($carriers as $carrierCode=>$carrierModel) {
-            if (!$carrierModel->isActive()) {
-                continue;
-            }
-            $carrierMethods = $carrierModel->getAllowedMethods();
-            if (!$carrierMethods) {
-                continue;
-            }
-            $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
-            $methods[$carrierCode] = array(
-                'label'   => $carrierTitle,
-                'value' => array(),
-            );
-            foreach ($carrierMethods as $methodCode=>$methodTitle) {
-                $methods[$carrierCode]['value'][] = array(
-                    'value' => $carrierCode.'_'.$methodCode,
-                    'label' => '['.$carrierCode.'] '.$methodTitle,
-                );
-            }
-        }
-
-        return $methods;
+        return parent::toOptionArray(true);
     }
+
 }

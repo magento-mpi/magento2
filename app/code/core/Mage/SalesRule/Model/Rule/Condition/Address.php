@@ -89,12 +89,12 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
                     break;
 
                 case 'shipping_method':
-                    $options = Mage::getModel('adminhtml/system_config_source_shipping_allowedmethods')
+                    $options = Mage::getModel('adminhtml/system_config_source_shipping_allmethods')
                         ->toOptionArray();
                     break;
 
                 case 'payment_method':
-                    $options = Mage::getModel('adminhtml/system_config_source_payment_allowedmethods')
+                    $options = Mage::getModel('adminhtml/system_config_source_payment_allmethods')
                         ->toOptionArray();
                     break;
 
