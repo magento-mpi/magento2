@@ -215,7 +215,7 @@ ALTER TABLE `{$installer->getTable('core_url_rewrite_tag')}`
   ADD CONSTRAINT `FK_CORE_URL_REWRITE_TAG_URL_REWRITE` FOREIGN KEY (`url_rewrite_id`) REFERENCES `{$installer->getTable('core_url_rewrite')}` (`url_rewrite_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `{$installer->getTable('design_change')}`
-  ADD CONSTRAINT `FK_DESIGN_CHANGE_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$installer->getTable('core_store')}` (`store_id`);
+  ADD CONSTRAINT `FK_DESIGN_CHANGE_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$installer->getTable('core_store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ");
 
