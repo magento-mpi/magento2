@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Tax_Class_Edit_Form extends Mage_Adminhtml_Block_Widg
         $form   = new Varien_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
-            'method'    => 'POST'
+            'method'    => 'post'
         ));
 
         $classType  = $this->getClassType();

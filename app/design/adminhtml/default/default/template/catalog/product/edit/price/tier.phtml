@@ -63,22 +63,22 @@
                 </select>
                 </td>
                 <td class="nobr">
-                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'"/> <small class="nobr"><?php echo Mage::helper('catalog')->__('and above')?></small>
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'" /> <small class="nobr"><?php echo Mage::helper('catalog')->__('and above')?></small>
                 </td>
                 <td>
-                    <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'"/>
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'" />
                 </td>
-                <td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value=""><button title="Delete Tier" class="scalable delete icon-btn delete-product-option" onclick="tierPriceControl.deleteItem(event);return false"><span>Delete</span></button></td>
+                <td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value="" /><button title="Delete Tier" class="scalable delete icon-btn delete-product-option" onclick="tierPriceControl.deleteItem(event);return false"><span>Delete</span></button></td>
             </tr>
         </thead>
-        <tbody id="<?php echo $_htmlId ?>_container">
-        </tbody>
         <tfoot>
             <tr>
                 <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>></td>
                 <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
             </tr>
         </tfoot>
+        <tbody id="<?php echo $_htmlId ?>_container">
+        </tbody>
     </table>
 
 <script type="text/javascript">

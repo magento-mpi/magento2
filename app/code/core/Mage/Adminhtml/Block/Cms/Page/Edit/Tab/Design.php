@@ -40,23 +40,23 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design extends Mage_Adminhtml_Block
         $model = Mage::registry('cms_page');
 
         $fieldset = $form->addFieldset('design_fieldset', array(
-            'legend'=>Mage::helper('cms')->__('Custom Design'),
-						'class'=>'cms-edit-form',
+            'legend' => Mage::helper('cms')->__('Custom Design'),
+            'class'  => 'fieldset-wide',
         ));
 
-    	$fieldset->addField('custom_theme', 'select', array(
+        $fieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
             'label'     => Mage::helper('cms')->__('Custom Theme'),
-            'values'   => Mage::getModel('core/design_source_design')->getAllOptions(),
+            'values'    => Mage::getModel('core/design_source_design')->getAllOptions(),
         ));
 
-    	$fieldset->addField('custom_theme_from', 'date', array(
+        $fieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
             'label'     => Mage::helper('cms')->__('Custom Theme From'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
         ));
 
-    	$fieldset->addField('custom_theme_to', 'date', array(
+        $fieldset->addField('custom_theme_to', 'date', array(
             'name'      => 'custom_theme_to',
             'label'     => Mage::helper('cms')->__('Custom Theme To'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
@@ -64,9 +64,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design extends Mage_Adminhtml_Block
 
         $layouts = array();
         foreach (Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
-        	$layouts[$layoutName] = (string)$layoutConfig->label;
+            $layouts[$layoutName] = (string)$layoutConfig->label;
         }
-    	$fieldset->addField('root_template', 'select', array(
+        $fieldset->addField('root_template', 'select', array(
             'name'      => 'root_template',
             'label'     => Mage::helper('cms')->__('Layout'),
             'required'  => true,
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design extends Mage_Adminhtml_Block
         $fieldset->addField('layout_update_xml', 'editor', array(
             'name'      => 'layout_update_xml',
             'label'     => Mage::helper('cms')->__('Layout Update XML'),
-            'style'     => 'width:98%; height:300px;'
+            'style'     => 'height:24em;'
         ));
 
         $form->setValues($model->getData());

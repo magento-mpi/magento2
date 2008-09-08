@@ -213,7 +213,7 @@ table.actions td                { vertical-align:top; }
 .dynamic-grid td input          { width:94px; }
 tr.dynamic-grid td,
 tr.dynamic-grid th { padding:2px 10px 2px 0; width:auto; }
-tr.dynamic-grid  input.input-text { width:160px; }
+tr.dynamic-grid input.input-text { width:154px; }
 
 
 
@@ -352,13 +352,12 @@ table.form-edit                         { width:100%; }
 .entry-edit .entry-edit-head strong,
 .entry-edit .entry-edit-head a          { color:#fff; font-size:1em; line-height:18px; min-height:0; font-weight:bold}
 .entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
-.entry-edit fieldset li                 { list-style:none; margin:4px 0; }
-/*.entry-edit fieldset input.input-text,
-.entry-edit fieldset textarea           { width:274px; }
-.entry-edit fieldset textarea           { height:12em; }
-.entry-edit fieldset select             { width:280px; }*/
+.entry-edit fieldset li,
+.entry-edit .fieldset li                { list-style:none; margin:4px 0; }
 .entry-edit fieldset span.form_row,
-.entry-edit fieldset .field-row .hint   { float:left; color:#999; padding-left:12em; }
+.entry-edit .fieldset span.form_row,
+.entry-edit fieldset .field-row .hint,
+.entry-edit .fieldset .field-row .hint  { float:left; color:#999; padding-left:12em; }
 .entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
 label.inline                            { float:none !important; width:auto !important; }
 .nested-content .entry-edit             { margin-left:2em; }
@@ -386,7 +385,7 @@ select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
 
 
 /* Form List */ /* Table for default form data */
-.form-list                      { width:100%; border:0 !important; }
+.form-list                      { width:auto; border:0 !important; }
 .form-list td                   { border:0 !important; padding-top:5px !important; padding-bottom:5px !important; background:0 !important;  }
 .form-list td.hidden            { border:0 !important; padding:0 !important; background:0 !important; }
 .form-list td.label             { width:150px; }
@@ -399,18 +398,14 @@ select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
 .form-list td.note              { background:url(images/note_cell_bg.gif) no-repeat 6px 10px !important; padding-left:18px; }
 .form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 
-.columns .form-list                      { width:auto; }
-.columns .form-list td.value             { width:280px; padding-right:5px !important; }
-/*.columns .form-list td.value input.input-text,
-.columns .form-list td.value textarea    { width:274px; }
-.columns .form-list td.value select      { width:280px; }*/
+.columns .form-list             { width:auto; }
+.columns .form-list td.value    { width:280px; padding-right:5px !important; }
 .columns .form-list td.value .next-toinput { width:75px; display:inline; margin-right:5px; }
-.columns .form-list td.value .next-toselect .input-text { width:180px; display:inline; }
+.columns .form-list td.value .next-toselect input.input-text { width:180px; display:inline; }
 
-.form-wide { width:100% !important; }
-.form-wide td.value { width:auto !important; }
-.form-wide td.value input.input-text,
-.form-wide td.value textarea { width:98%; }
+.fieldset-wide .form-list { width:100% !important; }
+.fieldset-wide .form-list td.value { width:auto !important; }
+.fieldset-wide .form-list td.value textarea { width:98% !important; }
 
 .multi-input                    { margin-bottom:8px; } /* Example: Address fields with 2 input lines */
 .grid tr .form-list tr          { background:#fff !important; } /* Follows grid row background-color */
@@ -520,7 +515,7 @@ td.divider              { font-size:1px; line-height:0; }
 
 /**/
 .note-list { width:100%; overflow:hidden; }
-.note-list li { border-top:1px solid #e3e3e3; margin-top:9px !important; background:url(images/icon_note_list.gif) no-repeat 0 3px; padding-bottom:9px; padding-left:18px; }
+.note-list li { border-top:1px solid #e3e3e3; margin-top:9px !important; background:url(images/icon_note_list.gif) no-repeat 0 4px; padding-bottom:9px; padding-left:18px; }
 
 
 
@@ -813,9 +808,6 @@ ul.item-options li { padding-left:.7em; }
 .order-search-items .entry-edit .grid table { width:99.9%; }
 /* .create-order-totals                 { background:url(images/bg_create_order_totals.gif) repeat-y 50% 0 !important; } */
 
-/* Account Information */
-.account-info .form-list td.value       { width:auto; }
-
 /* Order Totals */
 .order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding:12px 0; background:#fcfac9; text-align:right; }
 .order-totals table                     { border:none; background:none; margin-left:auto; }
@@ -848,6 +840,7 @@ ul.item-options li { padding-left:.7em; }
 .giftmessage-order-create h5 { font-size:12px; font-weight:normal; line-height:1.5; margin-bottom:10px; }
 .giftmessage-order-create h6 { font-size:11px; font-weight:normal; line-height:1.55; background-color:#cfcfcf; margin-bottom:10px; padding:2px 6px; width:95%; }
 .giftmessage-order-create .fieldset { padding:0; }
+.giftmessage-order-create .form-list { width:100%; }
 .giftmessage-order-create .form-list td.label label { width:100px; }
 .giftmessage-order-create .form-list td.value input.input-text,
 .giftmessage-order-create .form-list td.value textarea { width:95%; }
@@ -966,8 +959,6 @@ ul.item-options li { padding-left:.7em; }
 .rule-chooser                   { border:solid 1px #CCC; margin:5px; padding:5px; display:none; }
 .rule-param-wait                { padding-left:20px; background-image:url(images/rule-ajax-loader.gif); background-repeat:no-repeat; background-position:0 50%; }
 
-fieldset.sitemap .form-list { width:auto; }
-
 /* Product Customer Defined options */
 .custom-options  .box {padding:0 1.5em; }
 .custom-options  .option-box {border:1px solid #cddddd; padding:1em;  background:#e7efef; margin:1.5em 0; }
@@ -1035,11 +1026,6 @@ fieldset.sitemap .form-list { width:auto; }
 /* NEWSLETTER
 *******************************************************************************/
 .template-preview           { width:100%; height:200px; background-color:#fff; }
-
-/* CUSTOMER
-*******************************************************************************/
-.cms-edit-form .form-list { width:100%; }
-.cms-edit-form .form-list td.value { width:auto; }
 
 
 /* SYSTEM

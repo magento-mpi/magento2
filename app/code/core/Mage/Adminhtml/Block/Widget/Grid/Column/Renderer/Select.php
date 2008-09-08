@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Select extends Mage_Admin
         $html = '<select name="'.( $this->getColumn()->getName() ? $this->getColumn()->getName() : $this->getColumn()->getId() ).'" ' . $this->getColumn()->getValidateClass() . '">';
         $value = $row->getData($this->getColumn()->getIndex());
         foreach ($this->getColumn()->getOptions() as $val => $label){
-        	$selected = ( ($val == $value && (!is_null($value))) ? ' selected="true"' : '' );
+        	$selected = ( ($val == $value && (!is_null($value))) ? ' selected="selected"' : '' );
             $html.= '<option value="' . $val . '"' . $selected . '>' . $label . '</option>';
         }
         $html.='</select>';

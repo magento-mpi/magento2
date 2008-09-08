@@ -32,7 +32,7 @@
 </div>
 <?php endif; ?>
 <?php if (!$_element->getNoContainer()): ?>
-    <div class="fieldset" id="<?php echo $_element->getHtmlId() ?>"<?php echo $_element->serialize(array('class')) ?>>
+    <div class="fieldset <?php echo $_element->getClass() ?>" id="<?php echo $_element->getHtmlId() ?>">
 <?php endif; ?>
     <div class="hor-scroll">
         <table cellspacing="0" class="form-list">

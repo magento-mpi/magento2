@@ -63,7 +63,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
             }
 
             $html = '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image\');return false;">
-            <img src="'.$url.'" id="'.$this->getHtmlId().'_image" alt="'.$this->getValue().'" height="22" width="22" align="absmiddle" class="small-image-preview">
+            <img src="'.$url.'" id="'.$this->getHtmlId().'_image" alt="'.$this->getValue().'" height="22" width="22" alt="" class="v-middle small-image-preview" />
             </a>';
         }
         $this->setClass(null);
@@ -83,7 +83,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
         $html = '';
         if ($this->getValue()) {
             $html .= '<span class="nobr">';
-            $html .= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" class="checkbox" id="'.$this->getHtmlId().'_delete"'.($this->getDisabled() ? ' disabled': '').'/>';
+            $html .= '<input type="checkbox" name="'.parent::getName().'[delete]" value="1" class="checkbox" id="'.$this->getHtmlId().'_delete"'.($this->getDisabled() ? ' disabled="disabled"': '').'/>';
             $html .= '<label class="'.($this->getDisabled() ? 'disabled' : 'normal'). '" for="'.$this->getHtmlId().'_delete"> '.__('Delete Image').'</label>';
             $html .= $this->_getHiddenInput();
             $html .= '</span>';
@@ -99,7 +99,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
      */
     protected function _getHiddenInput()
     {
-        return '<input type="hidden" name="'.parent::getName().'[value]" value="'.$this->getValue().'">';
+        return '<input type="hidden" name="'.parent::getName().'[value]" value="'.$this->getValue().'" />';
     }
 
     /**

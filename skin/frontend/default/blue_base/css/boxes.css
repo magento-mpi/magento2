@@ -146,7 +146,6 @@ p.required { font-size:.95em; text-align:right; }
 /*********** [SPACE] ************/
 
 .no-show { display:none; }
-.no-wrap { white-space:nowrap; }
 .content { padding:12px 12px 12px 15px; }
 .actions { line-height:1.3em; }
 .content-box { min-height:250px; }

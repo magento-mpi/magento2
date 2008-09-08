@@ -93,14 +93,14 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
             'name' => 'synonim_for',
             'label' => Mage::helper('catalog')->__('Synonym For'),
             'title' => Mage::helper('catalog')->__('Synonym For'),
-            'after_element_html' => '<span class="hint">' . Mage::helper('catalog')->__('(Will make search for the query above return results for this search.)') . '</span>',
+            'after_element_html' => '<p class="nm"><small>' . Mage::helper('catalog')->__('(Will make search for the query above return results for this search.)') . '</small></p>',
         ));
 
         $fieldset->addField('redirect', 'text', array(
             'name' => 'redirect',
             'label' => Mage::helper('catalog')->__('Redirect URL'),
             'title' => Mage::helper('catalog')->__('Redirect URL'),
-            'after_element_html' => '<span class="hint">' . Mage::helper('catalog')->__('ex. http://domain.com') . '</span>',
+            'after_element_html' => '<p class="nm"><small>' . Mage::helper('catalog')->__('ex. http://domain.com') . '</small></p>',
         ));
 
         $fieldset->addField('display_in_terms', 'select', array(

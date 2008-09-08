@@ -29,15 +29,14 @@
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('adminhtml')->__('Product Categories') ?></h4>
     </div>
     <fieldset id="grop_fields">
-        <input type="hidden" name="categories" id="product_categories" value="">
+        <input type="hidden" name="categories" id="product_categories" value="" />
         <div id="tree-div" class="tree" style="width:auto;"></div>
     </fieldset>
-    <div>
-    Note: if selected product or category has been associated in this module, you can't select one of them.
-    </div>
+    <p><strong><?php echo $this->__('Note:'); ?></strong> <?php echo $this->__('If selected product or category has been associated in this module, you can\'t select one of them.'); ?></p>
 </div>
 <?php if($this->getRootNode() && $this->getRootNode()->hasChildren()): ?>
 <script type="text/javascript">
+//<![CDATA[
 var _root = '';
 var _tree = '';
 Ext.EventManager.onDocumentReady(function() {
@@ -203,7 +202,6 @@ Ext.tree.TreePanel.prototype.getHirechyName = function(node){
 
     return checked;
 };
-
-
+//]]>
 </script>
 <?php endif; ?>

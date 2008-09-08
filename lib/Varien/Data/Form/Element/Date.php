@@ -58,7 +58,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
 
         $this->addClass('input-text');
 
-        $html = '<input name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" ' . $this->serialize($this->getHtmlAttributes()) . ' style="width:100px"/> <img src="' . $this->getImage() . '" alt="" class="v-middle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '"' . ($this->getDisabled() ? ' style="display:none;"' : '') . ' />';
+        $html = '<input name="'.$this->getName().'" id="'.$this->getHtmlId().'" value="'.$this->getEscapedValue().'" ' . $this->serialize($this->getHtmlAttributes()) . ' style="width:100px; "/> <img src="' . $this->getImage() . '" alt="" class="v-middle" id="'.$this->getHtmlId().'_trig" title="' . __('Select Date') . '"' . ($this->getDisabled() ? ' style="display:none;"' : '') . ' />';
         $html.= '<script type="text/javascript">
             Calendar.setup({
                 inputField : "'.$this->getHtmlId().'",

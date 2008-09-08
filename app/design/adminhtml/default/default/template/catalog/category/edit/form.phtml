@@ -46,15 +46,16 @@
     <?php echo Mage::helper('catalog')->__('Set root category for this store in the <a href="%s">configuration</a>', $this->getStoreConfigurationUrl()) ?>
 </div>
 <?php endif; ?>
-<iframe name="iframeSave"  style="width:100%;display:none;"></iframe>
+<iframe name="iframeSave" style="display:none; width:100%;"></iframe>
 <form target="iframeSave" id="category_edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
-<input type="hidden" name="category_products" id="in_category_products" value=""/>
-<input type="hidden" name="active_tab_id" id="active_tab_id" value=""/>
+<div class="no-display">
+    <input type="hidden" name="category_products" id="in_category_products" value="" />
+    <input type="hidden" name="active_tab_id" id="active_tab_id" value="" />
+</div>
 <div id="category_tab_content"></div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
-
     categoryForm = new varienForm('category_edit_form');
 
     categoryForm.submit= function (url) {

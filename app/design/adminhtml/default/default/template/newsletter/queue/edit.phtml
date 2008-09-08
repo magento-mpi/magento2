@@ -43,12 +43,14 @@
         </tr>
     </table>
 </div>
-<form action="<?php echo $this->getSaveUrl() ?>" method="POST" id="queue_edit_form">
-<input type="hidden" name="_resume" id="_resume_flag" value="">
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="queue_edit_form">
+<div class="no-display">
+    <input type="hidden" name="_resume" id="_resume_flag" value="" />
+</div>
 <?php echo $this->getChildHtml('form') ?>
 </form>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 var queueForm = new varienForm('queue_edit_form');
 
 var queueControl = {
@@ -61,5 +63,5 @@ var queueControl = {
 		queueForm.submit();
 	}
 };
-//-->
+//]]>
 </script>

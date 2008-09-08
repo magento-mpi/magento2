@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             $template->addData($post);
         }
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('newsletter')->__('Template Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('newsletter')->__('Template Information'), 'class' => 'fieldset-wide'));
 
         $fieldset->addField('code', 'text', array(
             'name'=>'code',
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
             'required' => true,
             'state' => 'html',
             'value' => $template->getTemplateText(),
-           	'style'   => 'width:98%; height: 600px;',
+           	'style'   => 'height:36em;',
         ));
 
         if ($template->getId()) {

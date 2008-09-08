@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         $this->addColumn('id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
-            'width'     => '60px',
+            'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         ));
         $this->addColumn('sku', array(
             'header'    => Mage::helper('catalog')->__('SKU'),
-            'width'     => '80px',
+            'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         ));
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
-            'width'     => '70px',
+            'width'     => '70',
             'type'      => 'number',
             'index'     => 'position',
             'editable'  => true

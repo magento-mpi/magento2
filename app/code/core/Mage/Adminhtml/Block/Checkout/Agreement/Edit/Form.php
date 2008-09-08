@@ -60,7 +60,8 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('checkout')->__('Terms and Conditions Information')
+            'legend'    => Mage::helper('checkout')->__('Terms and Conditions Information'),
+			'class'     => 'fieldset-wide',
         ));
 
         if ($model->getId()) {

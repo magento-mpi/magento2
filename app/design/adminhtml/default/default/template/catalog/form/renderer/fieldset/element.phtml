@@ -27,7 +27,6 @@
 <?php $_element = $this->getElement() ?>
 <?php $this->checkFieldDisable() ?>
 
-
 <?php if ($_element->getType()=='hidden'): ?>
 <tr>
     <td class="hidden" colspan="100"><?php echo trim($_element->getElementHtml()) ?></td>
@@ -43,6 +42,6 @@
         <label for="<?php echo $_element->getHtmlId() ?>_default" class="normal"><?php echo $this->__('Use Default Value') ?></label>
     </td>
     <?php endif; ?>
-    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?>><small><?php echo $_element->getNote() ?></small></td>
+    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?>><small><?php echo $_element->getNote()?$_element->getNote():'&nbsp;' ?></small></td>
 </tr>
 <?php endif; ?>

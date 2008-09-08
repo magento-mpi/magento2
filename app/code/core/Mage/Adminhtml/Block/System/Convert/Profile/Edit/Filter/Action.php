@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Filter_Action
 
         $html  = '<select name="' . ($this->getColumn()->getName() ? $this->getColumn()->getName() : $this->getColumn()->getId()) . '" ' . $this->getColumn()->getValidateClass() . '>';
         foreach ($values as $k => $v) {
-            $html .= '<option value="'.$k.'"' . ($value == $k ? ' selected="true"' : '') . '>'.$v.'</option>';
+            $html .= '<option value="'.$k.'"' . ($value == $k ? ' selected="selected"' : '') . '>'.$v.'</option>';
         }
         $html .= '</select>';
         return $html;

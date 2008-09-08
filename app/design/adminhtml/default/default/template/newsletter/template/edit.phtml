@@ -25,7 +25,7 @@
  */
 ?>
 <div class="content-header">
-   <h3 class="icon-head head-newsletter-list"><?php echo $this->getHeaderText() ?></h3></td>
+   <h3 class="icon-head head-newsletter-list"><?php echo $this->getHeaderText() ?></h3>
    <p class="content-buttons form-buttons">
                 <?php echo $this->getBackButtonHtml(); ?>
                 <?php echo $this->getResetButtonHtml(); ?>
@@ -44,13 +44,17 @@
     </p>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="newsletter_template_edit_form">
-<input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
-<input type="hidden" id="save_as_flag" name="_save_as_flag" value="<?php echo $this->getSaveAsFlag() ?>" />
+<div class="no-display">
+    <input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
+    <input type="hidden" id="save_as_flag" name="_save_as_flag" value="<?php echo $this->getSaveAsFlag() ?>" />
+</div>
 <?php echo $this->getForm() ?>
 </form>
 <form action="<?php echo $this->getPreviewUrl() ?>" method="post" id="newsletter_template_preview_form" target="_blank">
-<input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
-<input type="hidden" id="preview_text" name="text" value="" />
+<div class="no-display">
+    <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
+    <input type="hidden" id="preview_text" name="text" value="" />
+</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
