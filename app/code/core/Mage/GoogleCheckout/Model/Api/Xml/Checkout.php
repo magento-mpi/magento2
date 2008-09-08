@@ -384,28 +384,30 @@ EOT;
             list($carrierCode, $methodCode) = explode('/', $method);
             if ($carrierCode) {
                 $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($carrierCode);
-                $allowedMethods = $carrier->getAllowedMethods();
+                if ($carrier) {
+                    $allowedMethods = $carrier->getAllowedMethods();
 
-                if (isset($allowedMethods[$methodCode])) {
-                    $method = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getQuote()->getStoreId());
-                    $method .= ' - '.$allowedMethods[$methodCode];
-                }
+                    if (isset($allowedMethods[$methodCode])) {
+                        $method = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getQuote()->getStoreId());
+                        $method .= ' - '.$allowedMethods[$methodCode];
+                    }
 
-                $defaultPrice = $methods['price'][$i];
-                $defaultPrice = Mage::helper('tax')->getShippingPrice($defaultPrice, false, false);
+                    $defaultPrice = $methods['price'][$i];
+                    $defaultPrice = Mage::helper('tax')->getShippingPrice($defaultPrice, false, false);
 
-                $allowedAreasXml = $this->_getAllowedCountries($carrier->getConfigData('sallowspecific'), $carrier->getConfigData('specificcountry'));
+                    $allowedAreasXml = $this->_getAllowedCountries($carrier->getConfigData('sallowspecific'), $carrier->getConfigData('specificcountry'));
 
-                $xml .= <<<EOT
-                    <merchant-calculated-shipping name="{$method}">
-                        <address-filters>
-                            <allowed-areas>
-                                {$allowedAreasXml}
-                            </allowed-areas>
-                        </address-filters>
-                        <price currency="{$this->getCurrency()}">{$defaultPrice}</price>
-                    </merchant-calculated-shipping>
+                    $xml .= <<<EOT
+                        <merchant-calculated-shipping name="{$method}">
+                            <address-filters>
+                                <allowed-areas>
+                                    {$allowedAreasXml}
+                                </allowed-areas>
+                            </address-filters>
+                            <price currency="{$this->getCurrency()}">{$defaultPrice}</price>
+                        </merchant-calculated-shipping>
 EOT;
+                }
             }
         }
         $this->_shippingCalculated = true;
