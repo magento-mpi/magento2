@@ -638,12 +638,12 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
     protected function _orderStateChangeFinancialCancelled()
     {
-        $this->getOrder()->cancel()->save();
+        $this->getOrder()->setBeingCanceledFromGoogleApi(true)->cancel()->save();
     }
 
     protected function _orderStateChangeFinancialCancelledByGoogle()
     {
-        $this->getOrder()->cancel()->save();
+        $this->getOrder()->setBeingCanceledFromGoogleApi(true)->cancel()->save();
         $this->getGRequest()->SendBuyerMessage($this->getGoogleOrderNumber(), "Sorry, your order is cancelled by Google", true);
     }
 

@@ -47,4 +47,26 @@ class Mage_GoogleCheckout_Model_Observer
 
         $api->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
+
+    public function salesOrderShipmentSaveAfter(Varien_Event_Observer $observer)
+    {
+        $googleShipmentNames = array('googlecheckout_carrier', 'googlecheckout_merchant', 'googlecheckout_flatrate', 'googlecheckout_pickup');
+
+        $shipment = $observer->getEvent()->getShipment();
+        $order = $shipment->getOrder();
+
+        if (!in_array($order->getShippingMethod(), $googleShipmentNames)) {
+            return;
+        }
+
+        $items = array();
+
+        foreach ($shipment->getAllItems() as $item) {
+            $items[] = $item->getSku();
+        }
+
+        if ($items) {
+            Mage::getModel('googlecheckout/api')->shipItems($order->getExtOrderId(), $items);
+        }
+    }
 }

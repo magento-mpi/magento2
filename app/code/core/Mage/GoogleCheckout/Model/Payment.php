@@ -150,12 +150,14 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      */
     public function cancel(Varien_Object $payment)
     {
-        $hlp = Mage::helper('googlecheckout');
-        $reason = $this->getReason() ? $this->getReason() : $hlp->__('Unknown Reason');
-        $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
+        if (!$payment->getOrder()->getBeingCanceledFromGoogleApi()) {
+            $hlp = Mage::helper('googlecheckout');
+            $reason = $this->getReason() ? $this->getReason() : $hlp->__('Unknown Reason');
+            $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
 
-        $api = Mage::getModel('googlecheckout/api');
-        $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
+            $api = Mage::getModel('googlecheckout/api');
+            $api->cancel($payment->getOrder()->getExtOrderId(), $reason, $comment);
+        }
 
         return $this;
     }

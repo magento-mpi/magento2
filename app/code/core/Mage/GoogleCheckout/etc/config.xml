@@ -157,6 +157,15 @@ Something like this is to be added to resolve bug #4890
                     </googlecheckout>
                 </observers>
             </sales_order_shipment_track_save_after>
+            <sales_order_shipment_save_after>
+                <observers>
+                    <googlecheckout>
+                        <type>model</type>
+                        <class>googlecheckout/observer</class>
+                        <method>salesOrderShipmentSaveAfter</method>
+                    </googlecheckout>
+                </observers>
+            </sales_order_shipment_save_after>
         </events>
     </adminhtml>
 

@@ -107,12 +107,11 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
 
 // FULFILLMENT COMMANDS (ITEM BASED)
 
-    public function shipItems(Mage_Sales_Model_Order $order, array $items)
+    public function shipItems($gOrderId, array $items)
     {
         $api = $this->_getApi('order')
-            ->setOrder($order)
-            ->setItems($items)
-            ->shipItems();
+            ->setGoogleOrderNumber($gOrderId)
+            ->shipItems($items);
         return $api;
     }
 

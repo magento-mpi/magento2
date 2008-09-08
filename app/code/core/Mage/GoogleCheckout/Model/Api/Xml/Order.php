@@ -107,8 +107,13 @@ class Mage_GoogleCheckout_Model_Api_Xml_Order extends Mage_GoogleCheckout_Model_
 
     public function shipItems($items, $sendMail=true)
     {
+        $googleShipItems = array();
+        foreach ($items as $item) {
+            $googleShipItems[] = new GoogleShipItem($item);
+        }
+
         $response = $this->getGRequest()
-            ->SendShipItems($this->getGoogleOrderNumber(), $items, $sendMail?'true':'false');
+            ->SendShipItems($this->getGoogleOrderNumber(), $googleShipItems, $sendMail?'true':'false');
         return $this->_processGResponse($response);
     }
 
