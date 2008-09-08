@@ -25,6 +25,10 @@
 /***********[ Mage_CSS_B Common Elements ]***********/
 /****************************************************/
 
+/************************ Reset */
+ul,ol,li,dl,dt,dd,fieldset { margin:0; padding:0; }
+
+
 /********************** Columns */
 
 /* All */
@@ -359,6 +363,8 @@ h4.legend { margin:1px 0 5px 0; }
 .one-page-checkout .button-set { margin-top:0; padding-top:2em; }
 .one-page-checkout ul.super-product-attributes { padding-left:15px; }
 .default-box { margin-right:1px; }
+.one-page-checkout li { zoom:1; vertical-align:top; }
+.one-page-checkout .box { zoom:1; }
 
 .checkout-progress { margin:0 auto; width:290px; }
 .checkout-progress td {
