@@ -29,27 +29,79 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
 {
     public function chooserAction()
     {
+        $block = false;
         switch ($this->getRequest()->getParam('attribute')) {
             case 'sku':
-                $type = 'adminhtml/promo_widget_chooser_sku';
+                $block = $this->getLayout()->createBlock(
+                    'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
+                    array('js_form_object' => $this->getRequest()->getParam('form'),
+                ));
                 break;
 
             case 'category_ids':
-                $type = 'adminhtml/promo_widget_chooser_categories';
+                $block = $this->getLayout()->createBlock(
+                        'adminhtml/catalog_category_checkboxes_tree', 'promo_widget_chooser_category_ids',
+                        array('js_form_object' => $this->getRequest()->getParam('form'))
+                    )
+                    ->setCategoryIds($this->getRequest()->getParam('selected', array()))
+                ;
                 break;
         }
-        if (!empty($type)) {
-            $block = $this->getLayout()->createBlock($type, 'promo_widget_chooser_sku', array(
-                'js_form_object' => $this->getRequest()->getParam('form'),
-            ));
-            if ($block) {
-                $this->getResponse()->setBody($block->toHtml());
-            }
+        if ($block) {
+            $this->getResponse()->setBody($block->toHtml());
         }
     }
 
     protected function _isAllowed()
     {
 	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
+    }
+
+    /**
+     * Get tree node (Ajax version)
+     */
+    public function categoriesJsonAction()
+    {
+        if ($categoryId = (int) $this->getRequest()->getPost('id')) {
+            $this->getRequest()->setParam('id', $categoryId);
+
+            if (!$category = $this->_initCategory()) {
+                return;
+            }
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
+                    ->getTreeJson($category)
+            );
+        }
+    }
+
+    /**
+     * Initialize category object in registry
+     *
+     * @return Mage_Catalog_Model_Category
+     */
+    protected function _initCategory()
+    {
+        $categoryId = (int) $this->getRequest()->getParam('id',false);
+
+        $storeId    = (int) $this->getRequest()->getParam('store');
+
+        $category = Mage::getModel('catalog/category');
+        $category->setStoreId($storeId);
+
+        if ($categoryId) {
+            $category->load($categoryId);
+            if ($storeId) {
+                $rootId = Mage::app()->getStore($storeId)->getRootCategoryId();
+                if (!in_array($rootId, $category->getPathIds())) {
+                    $this->_redirect('*/*/', array('_current'=>true, 'id'=>null));
+                    return false;
+                }
+            }
+        }
+
+        Mage::register('category', $category);
+        Mage::register('current_category', $category);
+        return $category;
     }
 }

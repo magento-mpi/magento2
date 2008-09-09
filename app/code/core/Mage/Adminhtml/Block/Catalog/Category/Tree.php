@@ -214,30 +214,27 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $item['children'] = array();
         }
 
+        $isParent = $this->_isParentSelectedCategory($node);
+
         if ($node->hasChildren()) {
             $item['children'] = array();
-            foreach ($node->getChildren() as $child) {
-                $item['children'][] = $this->_getNodeJson($child, $level+1);
+            if (!($this->getUseAjax() && $node->getLevel() > 1 && !$isParent)) {
+                foreach ($node->getChildren() as $child) {
+                    $item['children'][] = $this->_getNodeJson($child, $level+1);
+                }
             }
         }
 
-        $isParent = $this->_isParentSelectedCategory($node);
-		
-        if ($isParent || $node->getLevel()<2) {
+        if ($isParent || $node->getLevel() < 2) {
             $item['expanded'] = true;
         }
-       if ($this->getUseAjax()) {
-           if ($node->getLevel() > 1 && !$isParent && isset($item['children'])) {
-                $item['children'] = array();
-            }
-        }
-		//logme(print_r($item,true));
+
         return $item;
     }
 
     protected function _isParentSelectedCategory($node)
     {
-        if ($node) {
+        if ($node && $this->getCategory()) {
             $pathIds = $this->getCategory()->getPathIds();
             if (in_array($node->getId(), $pathIds)) {
                 return true;

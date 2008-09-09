@@ -121,6 +121,34 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
         return $root;
     }
 
+    /**
+     * Get and register categories root by specified categories IDs
+     *
+     * IDs can be arbitrary set of any categories ids.
+     * Tree with minimal required nodes (all parents and neighbours) will be built.
+     * If ids are empty, default tree with depth = 2 will be returned.
+     *
+     * @param array $ids
+     */
+    public function getRootByIds($ids)
+    {
+        $root = Mage::registry('root');
+        if (null === $root) {
+            $tree = Mage::getResourceSingleton('catalog/category_tree')
+                ->loadByIds($ids);
+            $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+            $root   = $tree->getNodeById($rootId);
+            if ($root && $rootId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                $root->setIsVisible(true);
+            }
+            elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                $root->setName(Mage::helper('catalog')->__('Root'));
+            }
+            Mage::register('root', $root);
+        }
+        return $root;
+    }
+
     public function getNode($parentNodeCategory, $recursionLevel=2)
     {
         $tree = Mage::getResourceModel('catalog/category_tree');
