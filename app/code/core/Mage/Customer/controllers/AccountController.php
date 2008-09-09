@@ -480,6 +480,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer->setChangePassword(1);
         }
 
+        $this->getLayout()->getBlock('head')->setTitle($this->__('Account Information'));
+
         $this->renderLayout();
     }
 

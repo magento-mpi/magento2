@@ -59,6 +59,8 @@ class Mage_Sales_OrderController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
 
+        $this->getLayout()->getBlock('head')->setTitle($this->__('My Orders'));
+
         if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }

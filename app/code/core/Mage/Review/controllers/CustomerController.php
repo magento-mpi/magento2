@@ -38,13 +38,16 @@ class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
-        
+
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');
         }
         if ($block = $this->getLayout()->getBlock('review_customer_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
+
+        $this->getLayout()->getBlock('head')->setTitle($this->__('My Product Reviews'));
+
         $this->renderLayout();
     }
 
@@ -54,6 +57,7 @@ class Mage_Review_CustomerController extends Mage_Core_Controller_Front_Action
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');
         }
+        $this->getLayout()->getBlock('head')->setTitle($this->__('Review Details'));
         $this->renderLayout();
     }
 }

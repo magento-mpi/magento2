@@ -66,6 +66,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
+        $this->getLayout()->getBlock('head')->setTitle($this->__('My Tags'));
         $this->renderLayout();
     }
 
@@ -85,6 +86,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             }
 
             $this->_initLayoutMessages('checkout/session');
+            $this->getLayout()->getBlock('head')->setTitle($this->__('My Tags'));
             $this->renderLayout();
         }
         else {
