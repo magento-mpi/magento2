@@ -21,9 +21,85 @@
 
 class WebService_Connector_Rpc implements WebService_Connector_Interface
 {
-    public function init($url){}
-    public function startSession($apiLogin, $apiPassword){}
-    public function endSession(){}
-    public function call($method, $params = null){}
-    public function multiCall($methods){}
+    /**
+     * Create XmlRpc connection to specified URL
+     *
+     * @param string $url
+     * @return WebService_Connector_Interface
+     */
+    public function init($url){
+        $this->_connection = new Zend_XmlRpc_Client($url);
+        return $this;
+    }
+
+    /**
+     * Start session on current XmlRpc connection
+     *
+     * @param string $apiLogin
+     * @param string $apiPassword
+     * @return WebService_Connector_Interface
+     */
+    public function startSession($apiLogin, $apiPassword){
+        $this->_session = $this->_connection->call('login', array($apiLogin, $apiPassword));
+        return $this;
+    }
+
+    /**
+     * Stop session on current XmlRpc connection
+     *
+     * @return WebService_Connector_Interface
+     */
+    public function endSession(){
+        $this->_connection->call('endSession', array($this->_session));
+        return $this;
+    }
+
+    /**
+     * Call specified method with specified params on current XmlRpc connection
+     *
+     * @param array $method
+     * @param array $params
+     * @return mixed
+     */
+    public function call($method, $params = null){
+        return $this->_connection->call('call', array($this->_session, $method, $params));
+    }
+
+    /**
+     * Multicall specified methods on current XmlRpc connection
+     *
+     * @param array $methods
+     * @param mixed $options
+     * @return mixed
+     */
+    public function multiCall($methods, $options = null){
+        return $this->_connection->call('multiCall', array($this->_session, $methods, $options));
+    }
+
+    /**
+     * Return list of available API resources and methods allowed for current session
+     *
+     * @return array
+     */
+    public function listResources(){
+        return $this->call('resources');
+    }
+
+    /**
+     * Return list of fault messages and their codes, that do not depend on any resource
+     *
+     * @return array
+     */
+    public function getGlobalFaults(){
+        return $this->call('globalFaults');
+    }
+
+    /**
+     * Return list of the resource fault messages, if this resource is allowed in current session
+     *
+     * @return array
+     */
+    public function getResourceFaults(){
+        return $this->call('resourceFaults');
+    }
 }

@@ -21,9 +21,66 @@
 
 interface WebService_Connector_Interface
 {
+    /**
+     * Create connection to specified URL
+     *
+     * @param string $url
+     * @return WebService_Connector_Interface
+     */
     public function init($url);
+
+    /**
+     * Start session on current connection
+     *
+     * @param string $apiLogin
+     * @param string $apiPassword
+     * @return WebService_Connector_Interface
+     */
     public function startSession($apiLogin, $apiPassword);
+
+    /**
+     * Stop session on current connection
+     *
+     * @return WebService_Connector_Interface
+     */
     public function endSession();
+
+    /**
+     * Call specified method with specified params on current connection
+     *
+     * @param array $method
+     * @param array $params
+     * @return mixed
+     */
     public function call($method, $params = null);
-    public function multiCall($methods);
+
+    /**
+     * Multicall specified methods on current connection
+     *
+     * @param array $methods
+     * @param mixed $options
+     * @return mixed
+     */
+    public function multiCall($methods, $options = null);
+
+    /**
+     * Return list of available API resources and methods allowed for current session
+     *
+     * @return array
+     */
+    public function listResources();
+
+    /**
+     * Return list of fault messages and their codes, that do not depend on any resource
+     *
+     * @return array
+     */
+    public function getGlobalFaults();
+
+    /**
+     * Return list of the resource fault messages, if this resource is allowed in current session
+     *
+     * @return array
+     */
+    public function getResourceFaults();
 }
