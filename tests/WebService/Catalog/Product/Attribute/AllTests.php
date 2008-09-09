@@ -25,18 +25,18 @@
  */
 
 if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
+    require dirname(__FILE__) . '/../../../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
 
-class WebService_Customer_GroupTest extends WebService_TestCase_Abstract
+class WebService_Catalog_Product_Attribute_AllTests
 {
-    /**
-     * @dataProvider connectorProvider
-     */
-    public function testList(WebService_Connector_Interface $connector)
+    public static function suite()
     {
-        //$result = $connector->call('customer_group.list');
-        // logics
+        $suite = new PHPUnit_Framework_TestSuite('WebService/Catalog/Product/Attribute/AllTests');
+        $suite->addTest(WebService_Catalog_Product_Attribute_Tier_AllTests::suite());
+        $suite->addTestSuite('WebService_Catalog_Product_Attribute_MediaTest');
+        $suite->addTestSuite('WebService_Catalog_Product_Attribute_SetTest');
+        return $suite;
     }
 }

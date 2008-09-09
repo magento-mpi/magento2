@@ -25,18 +25,6 @@
  */
 
 if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
+    require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
-}
-
-class WebService_Customer_GroupTest extends WebService_TestCase_Abstract
-{
-    /**
-     * @dataProvider connectorProvider
-     */
-    public function testList(WebService_Connector_Interface $connector)
-    {
-        //$result = $connector->call('customer_group.list');
-        // logics
-    }
 }

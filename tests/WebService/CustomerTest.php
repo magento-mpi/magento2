@@ -25,18 +25,62 @@
  */
 
 if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
+    require dirname(__FILE__) . '/../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
 
-class WebService_Customer_GroupTest extends WebService_TestCase_Abstract
+/**
+ * WebServices Customer test case
+ */
+class WebService_CustomerTest extends WebService_TestCase_Abstract
 {
     /**
+     * customer.list - Retrieve customers
+     *
      * @dataProvider connectorProvider
      */
-    public function testList(WebService_Connector_Interface $connector)
+    public function listTest(WebService_Connector_Interface $connector)
     {
-        //$result = $connector->call('customer_group.list');
-        // logics
+
+    }
+
+    /**
+     * customer.create - Create customer
+     *
+     * @dataProvider connectorProvider
+     */
+    public function createTest(WebService_Connector_Interface $connector)
+    {
+
+    }
+
+    /**
+     * customer.info - Retrieve customer data
+     *
+     * @dataProvider connectorProvider
+     */
+    public function infoTest(WebService_Connector_Interface $connector)
+    {
+
+    }
+
+    /**
+     * customer.update - Update customer data
+     *
+     * @dataProvider connectorProvider
+     */
+    public function updateTest(WebService_Connector_Interface $connector)
+    {
+
+    }
+
+    /**
+     * customer.delete - Delete customer
+     *
+     * @dataProvider connectorProvider
+     */
+    public function deleteTest(WebService_Connector_Interface $connector)
+    {
+
     }
 }

@@ -29,14 +29,12 @@ if (!defined('_IS_INCLUDED')) {
     PHPUnitTestInit::runMe(__FILE__);
 }
 
-class WebService_Customer_GroupTest extends WebService_TestCase_Abstract
+class WebService_CatalogInventory_AllTests
 {
-    /**
-     * @dataProvider connectorProvider
-     */
-    public function testList(WebService_Connector_Interface $connector)
+    public static function suite()
     {
-        //$result = $connector->call('customer_group.list');
-        // logics
+        $suite = new PHPUnit_Framework_TestSuite('WebService/CatalogInventory/AllTests');
+        $suite->addTest(WebService_CatalogInventory_Stock_AllTests::suite());
+        return $suite;
     }
 }

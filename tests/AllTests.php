@@ -39,6 +39,7 @@ class AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('All tests');
         $suite->addTest(Mage_AllTests::suite());
+        $suite->addTest(Webservice_AllTests::suite());
         return $suite;
     }
 }

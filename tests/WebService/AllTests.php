@@ -12,19 +12,37 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
  * @category   Mage
  * @package    Mage_Tests
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+if (!defined('_IS_INCLUDED')) {
+    require dirname(__FILE__) . '/../PHPUnitTestInit.php';
+    PHPUnitTestInit::runMe(__FILE__);
+}
 
+/**
+ * All WebService API tests
+ *
+ */
 class WebService_AllTests
 {
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('WebService/AllTests');
+        $suite->addTest(WebService_Catalog_AllTests::suite());
+        $suite->addTest(WebService_CatalogInventory_AllTests::suite());
         $suite->addTest(WebService_Customer_AllTests::suite());
+        $suite->addTest(WebService_Directory_AllTests::suite());
+        $suite->addTest(WebService_Sales_AllTests::suite());
         return $suite;
     }
 }
