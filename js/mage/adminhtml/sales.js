@@ -656,7 +656,7 @@ AdminOrder.prototype = {
         if (typeof(show) == 'undefined') { show = true; }
 
         var orderObj = this;
-        var obj = this.overlayData[elId]
+        var obj = this.overlayData.get(elId)
         if (!obj) {
             obj = {
                 show: show,
@@ -667,7 +667,7 @@ AdminOrder.prototype = {
                 }
             }
             obj.bfx = obj.fx.bindAsEventListener(obj);
-            this.overlayData[elId] = obj;
+            this.overlayData.get(elId) = obj;
         }
         else {
             obj.show = show;
