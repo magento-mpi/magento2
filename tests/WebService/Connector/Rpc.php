@@ -58,11 +58,15 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
      * Call specified method with specified params on current XmlRpc connection
      *
      * @param array $method
-     * @param array $params
+     * @param mixed $params
      * @return mixed
      */
-    public function call($method, $params = null){
-        return $this->_connection->call('call', array($this->_session, $method, $params));
+    public function call($method, $params = array()){
+        $callParams = array($this->_session, $method);
+        if ($params)
+            $callParams[] = $params;
+
+        return $this->_connection->call('call', $callParams);
     }
 
     /**

@@ -36,7 +36,9 @@ class WebService_Customer_GroupTest extends WebService_TestCase_Abstract
      */
     public function testList(WebService_Connector_Interface $connector)
     {
-        //$result = $connector->call('customer_group.list');
-        // logics
+        $result = $connector->call('customer_group.list');
+        $this->assertType('array', $result);
+        $this->assertTrue(isset($result[0]));
+        $this->assertTrue($result[0]['customer_group_id'] == 0);
     }
 }

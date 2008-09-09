@@ -58,10 +58,10 @@ class WebService_Connector_Soap implements WebService_Connector_Interface
      * Call specified method with specified params on current SOAP connection
      *
      * @param array $method
-     * @param array $params
+     * @param mixed $params
      * @return mixed
      */
-    public function call($method, $params = null){
+    public function call($method, $params = array()){
         return $this->_connection->call($this->_session, $method, $params);
     }
 

@@ -49,10 +49,10 @@ interface WebService_Connector_Interface
      * Call specified method with specified params on current connection
      *
      * @param array $method
-     * @param array $params
+     * @param mixed $params
      * @return mixed
      */
-    public function call($method, $params = null);
+    public function call($method, $params = array());
 
     /**
      * Multicall specified methods on current connection
