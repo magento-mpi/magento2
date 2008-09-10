@@ -61,9 +61,9 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
      * @param mixed $params
      * @return mixed
      */
-    public function call($method, $params = array()){
+    public function call($method, $params = null){
         $callParams = array($this->_session, $method);
-        if ($params) {
+        if (func_num_args() > 1) {
             if (!is_array($params)) {
                 $params = array($params);
             }

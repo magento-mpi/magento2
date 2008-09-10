@@ -21,40 +21,44 @@
 
 abstract class WebService_TestCase_Abstract extends PHPUnit_Framework_TestCase
 {
-    protected static $_soapConnector;
-    protected static $_rpcConnector;
-
-    protected function setUp()
-    {
-        self::$_soapConnector->init(WebService_Connector_Configuration::getSoapApiUrl());
-        self::$_rpcConnector->init(WebService_Connector_Configuration::getRpcApiUrl());
-
-        self::$_soapConnector->startSession(
-            WebService_Connector_Configuration::getApiLogin(),
-            WebService_Connector_Configuration::getApiPassword()
-        );
-
-        self::$_rpcConnector->startSession(
-            WebService_Connector_Configuration::getApiLogin(),
-            WebService_Connector_Configuration::getApiPassword()
-        );
-    }
-
-    protected function tearDown()
-    {
-        self::$_soapConnector->endSession();
-        self::$_rpcConnector->endSession();
-    }
+    protected static $_soapConnector = null;
+    protected static $_rpcConnector = null;
 
     public static function connectorProvider()
     {
-        self::$_soapConnector = new WebService_Connector_Soap();
-        self::$_rpcConnector = new WebService_Connector_Rpc();
+        if (is_null(self::$_soapConnector)) {
+            self::$_soapConnector = new WebService_Connector_Soap();
+            self::$_soapConnector->init(WebService_Connector_Configuration::getSoapApiUrl());
+            self::$_soapConnector->startSession(
+                WebService_Connector_Configuration::getApiLogin(),
+                WebService_Connector_Configuration::getApiPassword()
+            );
+        }
+
+        if (is_null(self::$_rpcConnector)) {
+            self::$_rpcConnector = new WebService_Connector_Rpc();
+            self::$_rpcConnector->init(WebService_Connector_Configuration::getRpcApiUrl());
+            self::$_rpcConnector->startSession(
+                WebService_Connector_Configuration::getApiLogin(),
+                WebService_Connector_Configuration::getApiPassword()
+            );
+        }
 
         return
             array(
                 array(self::$_rpcConnector),
                 array(self::$_soapConnector)
             );
+    }
+
+    function __destruct()
+    {
+        if (!is_null(self::$_soapConnector)) {
+            self::$_soapConnector->endSession();
+        }
+
+        if (!is_null(self::$_rpcConnector)) {
+            self::$_rpcConnector->endSession();
+        }
     }
 }
