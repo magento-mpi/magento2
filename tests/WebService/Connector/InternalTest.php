@@ -29,32 +29,23 @@ if (!defined('_IS_INCLUDED')) {
     PHPUnitTestInit::runMe(__FILE__);
 }
 
-class WebService_Customer_GroupTest extends WebService_TestCase_Abstract
+class WebService_Connector_InternalTest extends WebService_TestCase_Abstract
 {
     /**
      * @dataProvider connectorProvider
      */
-    public function testListIsNotEmpty(WebService_Connector_Interface $connector)
+    public function testCategoryInfo(WebService_Connector_Interface $connector)
     {
-        $result = $connector->call('customer_group.list');
-        $this->assertTrue(isset($result[0]));
-    }
-
-    /**
-     * @dataProvider connectorProvider
-     */
-    public function testListIsArray(WebService_Connector_Interface $connector)
-    {
-        $result = $connector->call('customer_group.list');
+        $result = $connector->call('catalog_category.info', 1);
         $this->assertType('array', $result);
     }
 
     /**
      * @dataProvider connectorProvider
      */
-    public function testListHasDefaultEntry(WebService_Connector_Interface $connector)
+    public function testListResourcesReturnsAnArray(WebService_Connector_Interface $connector)
     {
-        $result = $connector->call('customer_group.list');
-        $this->assertTrue($result[0]['customer_group_id'] == 0);
+        $result = $connector->listResources();
+        $this->assertType('array', $result);
     }
 }

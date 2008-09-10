@@ -63,8 +63,13 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
      */
     public function call($method, $params = array()){
         $callParams = array($this->_session, $method);
-        if ($params)
+        if ($params) {
+            if (!is_array($params)) {
+                $params = array($params);
+            }
+
             $callParams[] = $params;
+        }
 
         return $this->_connection->call('call', $callParams);
     }
@@ -86,7 +91,7 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
      * @return array
      */
     public function listResources(){
-        return $this->call('resources');
+        return $this->_connection->call('resources', array($this->_session));
     }
 
     /**
@@ -95,7 +100,7 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
      * @return array
      */
     public function getGlobalFaults(){
-        return $this->call('globalFaults');
+        return $this->_connection->call('globalFaults', array($this->_session));
     }
 
     /**
@@ -104,6 +109,6 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
      * @return array
      */
     public function getResourceFaults(){
-        return $this->call('resourceFaults');
+        return $this->_connection->call('resourceFaults', array($this->_session));
     }
 }
