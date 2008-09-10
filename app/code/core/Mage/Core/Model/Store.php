@@ -753,4 +753,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
+    
+    /**
+     * rewrite in order to clear configuration cache
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _afterDelte()
+    {
+    	parent::_afterDelte();
+    	Mage::getConfig()->removeCache();
+    	return $this;
+    }
 }
