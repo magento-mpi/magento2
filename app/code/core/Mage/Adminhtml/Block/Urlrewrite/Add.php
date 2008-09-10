@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         					// Create category tree using json data
         					buildCategoryTree(_root, response);
         					// Expand all tree members
-        					_tree.expandAll();
+        					//_tree.expandAll();
         					// Disable associated categories for current product
         					_tree.disableChecked();
         				}

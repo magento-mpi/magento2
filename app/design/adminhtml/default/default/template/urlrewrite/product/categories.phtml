@@ -40,9 +40,92 @@
 var _root = '';
 var _tree = '';
 Ext.EventManager.onDocumentReady(function() {
+    //-------------------------------------------------------------------------------------
+    var categoryLoader = new Ext.tree.TreeLoader({
+     dataUrl: '<?php echo  Mage::getUrl('*/catalog_category/categoriesJson/'); ?>'
+    });
+    categoryLoader.createNode = function(config) {
+         config.uiProvider = Ext.tree.CheckboxNodeUI;
+        var node;
+        var _node = Object.clone(config);
+        if (config.children && !config.children.length) {
+            delete(config.children);
+            node = new Ext.tree.AsyncTreeNode(config);
+        } else {
+            node = new Ext.tree.TreeNode(config);
+        }
+
+        return node;
+    };
+
+    categoryLoader.buildCategoryTree = function(parent, config)
+    {
+        if (!config) return null;
+
+    	if (parent && config && config.length){
+            for (var i = 0; i < config.length; i++) {
+                 config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+                var node;
+                var _node = Object.clone(config[i]);
+                if (_node.children && !_node.children.length) {
+                    delete(_node.children);
+                    node = new Ext.tree.AsyncTreeNode(_node);
+                } else {
+                    node = new Ext.tree.TreeNode(config[i]);
+                }
+                parent.appendChild(node);
+                node.loader = node.getOwnerTree().loader;
+                if (_node.children) {
+                    this.buildCategoryTree(node, _node.children);
+                }
+            }
+        }
+    };
+
+    categoryLoader.buildHash = function(node)
+    {
+        var hash = {};
+
+        hash = this.toArray(node.attributes);
+
+        if (node.childNodes.length>0 || (node.loaded==false && node.loading==false)) {
+            hash['children'] = new Array;
+
+            for (var i = 0, len = node.childNodes.length; i < len; i++) {
+                if (!hash['children']) {
+                    hash['children'] = new Array;
+                }
+            	hash['children'].push(this.buildHash(node.childNodes[i]));
+            }
+        }
+
+        return hash;
+    };
+
+    categoryLoader.toArray = function(attributes) {
+        var data = {};
+        for (var key in attributes) {
+            var value = attributes[key];
+            data[key] = value;
+        }
+
+        return data;
+    };
+
+    categoryLoader.on("beforeload", function(treeLoader, node) {
+        treeLoader.baseParams.id = node.attributes.id;
+        treeLoader.baseParams.store = node.attributes.store;
+    });
+
+    categoryLoader.on("load", function(treeLoader, node, config) {
+        varienWindowOnload();
+    });
+    //-------------------------------------------------------------------------------------
+    
 	var tree = new Ext.tree.TreePanel('tree-div', {
         animate:false,
-        loader: false,
+        loader: categoryLoader,
+        //loader: false,
         enableDD:false,
         containerScroll: true,
 		rootUIProvider: Ext.tree.CheckboxNodeUI,
@@ -98,16 +181,16 @@ Ext.EventManager.onDocumentReady(function() {
 
     // render the tree
     tree.render();
-    root.expand();
-    tree.expandAll();
+   // root.expand();
+  //  tree.expandAll();
 
     //$('product_categories').value = tree.getChecked().join(',');
 });
 
 function buildCategoryTree(parent, config){
-    if (!config) return null;
+    //if (!config) return null;
 
-    if (parent && config && config.length){
+   /* if (parent && config && config.length){
         for (var i = 0; i < config.length; i++){
             config[i].uiProvider = Ext.tree.CheckboxNodeUI;
             var node = new Ext.tree.TreeNode(config[i]);
@@ -116,7 +199,27 @@ function buildCategoryTree(parent, config){
                 buildCategoryTree(node, config[i].children);
             }
         }
-    }
+    }*/
+      if (!config) return null;
+
+    	if (parent && config && config.length){
+            for (var i = 0; i < config.length; i++) {
+                 config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+                var node;
+                var _node = Object.clone(config[i]);
+                if (_node.children && !_node.children.length) {
+                    delete(_node.children);
+                    node = new Ext.tree.AsyncTreeNode(_node);
+                } else {
+                    node = new Ext.tree.TreeNode(config[i]);
+                }
+                parent.appendChild(node);
+               node.loader = node.getOwnerTree().loader;
+                if (_node.children) {
+                    buildCategoryTree(node, _node.children);
+                }
+            }
+        }
 }
 
 function categoryClick(node, e){
