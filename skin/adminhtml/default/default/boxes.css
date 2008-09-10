@@ -987,11 +987,11 @@ ul.item-options li { padding-left:.7em; }
 .custom-options  .type-butt  {width:33px; }
 .custom-options  .type-last  {width:auto; }
 
-.custom-options .option-box  .border .input-text,
-.custom-options .option-box  .border .select{width:95%!important; }
+.custom-options .option-box .border input.input-text,
+.custom-options .option-box .border select.select { width:90% !important; }
 
-.custom-options .option-box  .border .type-last  .input-text {width:60px!important; }
-.custom-options .option-box  .border  input.type-sku  {width:150px !important; }
+.custom-options .option-box .border .type-last input.input-text { width:60px !important; }
+.custom-options .option-box .border input.type-sku  {width:150px !important; }
 
 /* Bundle product */
 .bundle .option-box  {padding-bottom:2em; }
