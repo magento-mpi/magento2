@@ -25,7 +25,7 @@
  */
 
 if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
+    require dirname(__FILE__) . '/../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
 
@@ -33,16 +33,64 @@ class WebService_CatalogInventory_StockItemTest extends WebService_TestCase_Abst
 {
     /**
      * tests cataloginventory_stock_item.list
+     *
+     * @dataProvider connectorProvider
      */
-    public function testItems(WebService_Connector_Interface $connector)
+    public function testList(WebService_Connector_Interface $connector)
     {
-        //$result = $connector->call('customer_group.list');
+        $skus = array(uniqid(), uniqid());
+
+        $attributeSets = $connector->call('product_attribute_set.list');
+        $set = current($attributeSets);
+
+        $products = array();
+        foreach ($skus as $sku) {
+            $productId = $connector->call('product.create', array('simple', $set['set_id'], $sku, array('name' => uniqid())));
+            $products[$productId]['sku'] = $sku;
+            $products[$productId]['qty'] = mt_rand(0,100);
+            $products[$productId]['is_in_stock'] = mt_rand(0,1);
+
+            $connector->call('product_stock.update', array($productId, $products[$productId]));
+        }
+        $list = $connector->call('product_stock.list', array(array_keys($products)));
+        $expected = array();
+        foreach ($products as $productId => $product) {
+            $expected[] = array(
+                'product_id'    => $productId,
+                'sku'           => $product['sku'],
+                'qty'           => $product['qty'],
+                'is_in_stock'   => $product['is_in_stock']
+            );
+
+            $connector->call('product.delete', array($productId));
+        }
+        $this->assertEquals($expected, $list);
     }
+
     /**
      * tests cataloginventory_stock_item.update
+     *
+     * @dataProvider connectorProvider
      */
     public function testUpdate(WebService_Connector_Interface $connector)
     {
-        //$result = $connector->call('customer_group.list');
+        $attributeSets = $connector->call('product_attribute_set.list');
+        $set = current($attributeSets);
+        $sku = uniqid();
+        $productId = $connector->call('product.create', array('simple', $set['set_id'], $sku, array('name' => uniqid())));
+
+        $expected = array(
+            'product_id'    => $productId,
+            'sku'           => $sku,
+            'qty'           => mt_rand(0,100),
+            'is_in_stock'   => mt_rand(0,1)
+        );
+
+        $connector->call('product_stock.update', array($productId, $expected));
+        $result = $connector->call('product_stock.list', array(array($productId)));
+
+        $connector->call('product.delete', array($productId));
+
+        $this->assertEquals($expected, $result[0]);
     }
 }
