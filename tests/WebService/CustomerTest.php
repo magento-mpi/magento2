@@ -35,52 +35,56 @@ if (!defined('_IS_INCLUDED')) {
 class WebService_CustomerTest extends WebService_TestCase_Abstract
 {
     /**
-     * customer.list - Retrieve customers
-     *
-     * @dataProvider connectorProvider
-     */
-    public function listTest(WebService_Connector_Interface $connector)
-    {
-
-    }
-
-    /**
-     * customer.create - Create customer
-     *
-     * @dataProvider connectorProvider
-     */
-    public function createTest(WebService_Connector_Interface $connector)
-    {
-
-    }
-
-    /**
      * customer.info - Retrieve customer data
      *
      * @dataProvider connectorProvider
      */
-    public function infoTest(WebService_Connector_Interface $connector)
+    public function testAll(WebService_Connector_Interface $connector)
     {
+            // view all customers
+            $this->assertTrue(is_array($connector->call('customer.list')), 'Failed to list customers.');
 
-    }
+            // create new customer
+            $customerName = uniqid(null, true);
+            $newCustomer = array(
+                'firstname'     => $customerName,
+                'lastname'      => $customerName,
+                'email'         => $customerName . '@example.com',
+                'password_hash' => md5($customerName),
+                'store_id'      => 0,
+                'website_id'    => 0
+            );
+            $newCustomerId = (int)$connector->call('customer.create', array($newCustomer));
+            $this->assertTrue($newCustomerId > 0, 'Failed to create new customer.');
 
-    /**
-     * customer.update - Update customer data
-     *
-     * @dataProvider connectorProvider
-     */
-    public function updateTest(WebService_Connector_Interface $connector)
-    {
+            // get new customer info
+            $newCustomerInfo = $connector->call('customer.info', $newCustomerId);
+            $this->assertTrue(
+                is_array($newCustomerInfo)
+                && isset($newCustomerInfo['customer_id'])
+                && isset($newCustomerInfo['created_at'])
+                && isset($newCustomerInfo['updated_at'])
+                && isset($newCustomerInfo['increment_id'])
+                && isset($newCustomerInfo['store_id'])
+                && isset($newCustomerInfo['website_id'])
+                && isset($newCustomerInfo['created_in'])
+                && isset($newCustomerInfo['email'])
+                && isset($newCustomerInfo['firstname'])
+                && isset($newCustomerInfo['group_id'])
+                && isset($newCustomerInfo['lastname'])
+                && isset($newCustomerInfo['password_hash'])
+                , 'New created customer data does not contain required keys.'
+            );
+            $this->assertEquals($customerName, $newCustomerInfo['firstname'], 'New created customer has wrong name.');
 
-    }
 
-    /**
-     * customer.delete - Delete customer
-     *
-     * @dataProvider connectorProvider
-     */
-    public function deleteTest(WebService_Connector_Interface $connector)
-    {
+            // update customer - change name
+            $customerName .= 'changed';
+            $connector->call('customer.update', array($newCustomerId, array('firstname' => $customerName)));
+            $updatedInfo = $connector->call('customer.info', $newCustomerId);
+            $this->assertEquals($updatedInfo['firstname'], $customerName, 'Failed to update customer name.');
 
+            // delete customer
+            $connector->call('customer.delete', $newCustomerId);
     }
 }
