@@ -42,13 +42,15 @@ abstract class Mage_Tag_Controllers_AbstractTestCase extends PHPUnit_Framework_T
     protected function setUp()
     {
         $storeId = Mage::app()->getStore()->getId();
+        Mage::register('isSecureArea', true, true);
         $websiteId = Mage::app()->getStore()->getWebsiteId();
         $defaultAttributeSetId = Mage::getModel('eav/entity_type')->loadByCode('catalog_product')->getDefaultAttributeSetId();
+        $className = get_class($this);
 
         $this->_product = Mage::getModel('catalog/product')
             ->setTypeId('simple')
             ->setStoreId($storeId)
-            ->setName(uniqid())
+            ->setName($className . uniqid())
             ->setDescription('test desc')
             ->setShortDescription('test shortdesc')
             ->setSku(uniqid())
@@ -61,17 +63,17 @@ abstract class Mage_Tag_Controllers_AbstractTestCase extends PHPUnit_Framework_T
             ->save();
         $this->_customer = Mage::getModel('customer/customer')
             ->setStoreId($storeId)
-            ->setFirstname(uniqid())
-            ->setLastname(uniqid())
-            ->setEmail(uniqid() . '@varien.com')
+            ->setFirstname($className . uniqid())
+            ->setLastname($className . uniqid())
+            ->setEmail($className . uniqid() . '@varien.com')
             ->setGroupId('general')
-            ->setPassword(uniqid())
+            ->setPassword($className . uniqid())
             ->setCreatedIn($websiteId)
             ->setIsSubscribed(false)
             ->setConfirmation(null)
             ->save();
         $this->_tag = Mage::getModel('tag/tag')
-            ->setName(uniqid())
+            ->setName($className . uniqid())
             ->setStatus(1)
             ->setStoreId($storeId)
             ->save();

@@ -105,10 +105,14 @@ final class Mage {
      *
      * @param string $key
      * @param mixed $value
+     * @param bool $graceful
      */
-    public static function register($key, $value)
+    public static function register($key, $value, $graceful = false)
     {
-        if(isset(self::$_registry[$key])){
+        if(isset(self::$_registry[$key])) {
+            if ($graceful) {
+                return;
+            }
             Mage::throwException('Mage registry key "'.$key.'" already exists');
         }
         self::$_registry[$key] = $value;

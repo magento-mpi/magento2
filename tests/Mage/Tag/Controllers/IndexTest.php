@@ -45,7 +45,7 @@ class Mage_Tag_Controllers_IndexTest extends Mage_Tag_Controllers_AbstractTestCa
         try {
             // create unique tag name
             for ($i = 0; ; $i++) {
-                $tagName = uniqid();
+                $tagName = __CLASS__ . uniqid();
                 $tag = Mage::getModel('tag/tag')
                     ->loadByName($tagName);
                 if (0 == $tag->getId()) {

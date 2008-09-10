@@ -50,6 +50,7 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         Mage::app();
+        Mage::register('isSecureArea', true, true);
     }
 
     public function testGetPopularity()
@@ -281,7 +282,7 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
         return Mage::getModel('catalog/product')
             ->setTypeId('simple')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->setName(uniqid())
+            ->setName(__CLASS__ . uniqid())
             ->setDescription('test desc')
             ->setShortDescription('test shortdesc')
             ->setSku(uniqid())
@@ -303,8 +304,8 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
     {
         return Mage::getModel('customer/customer')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->setFirstname(uniqid())
-            ->setLastname(uniqid())
+            ->setFirstname(__CLASS__ . uniqid())
+            ->setLastname(__CLASS__ . uniqid())
             ->setEmail(uniqid() . '@varien.com')
             ->setGroupId('general')
             ->setPassword(uniqid())
@@ -322,7 +323,7 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
     protected function _createTag($name = null)
     {
         return Mage::getModel('tag/tag')
-            ->setName($name ? $name : uniqid())
+            ->setName($name ? $name : __CLASS__ . uniqid())
             ->setStatus(Mage_Tag_Model_Tag::STATUS_APPROVED)
             ->setStoreId(Mage::app()->getStore()->getId())
             ->save();

@@ -45,7 +45,7 @@ class WebService_CustomerTest extends WebService_TestCase_Abstract
             $this->assertTrue(is_array($connector->call('customer.list')), 'Failed to list customers.');
 
             // create new customer
-            $customerName = uniqid(null, true);
+            $customerName = __CLASS__ . uniqid(null, true);
             $newCustomer = array(
                 'firstname'     => $customerName,
                 'lastname'      => $customerName,

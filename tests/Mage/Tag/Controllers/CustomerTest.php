@@ -142,7 +142,7 @@ class Mage_Tag_Controllers_CustomerTest extends Mage_Tag_Controllers_AbstractTes
     {
         ob_start();
         try {
-            $newTagName = 'new_'.$this->_tag->getName();
+            $newTagName = __CLASS__ . 'new_'.$this->_tag->getName();
             $_POST['tagName'] = $newTagName;
             Mage::app()->getFrontController()->getRequest()
                 ->setModuleName('tag')

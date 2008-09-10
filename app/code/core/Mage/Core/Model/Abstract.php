@@ -324,7 +324,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _protectFromNonAdmin()
     {
-        if (Mage::registry('isApiRequest')) {
+        if (Mage::registry('isSecureArea')) {
             return;
         }
         if (!Mage::app()->getStore()->isAdmin()) {
