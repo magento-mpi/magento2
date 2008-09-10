@@ -324,6 +324,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _protectFromNonAdmin()
     {
+        if (Mage::registry('isApiRequest')) {
+            return;
+        }
         if (!Mage::app()->getStore()->isAdmin()) {
             Mage::throwException(Mage::helper('core')->__('Cannot complete this operation from non-admin area.'));
         }

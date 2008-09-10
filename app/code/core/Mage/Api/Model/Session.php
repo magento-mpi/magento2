@@ -144,6 +144,9 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this->_renewBySessId($sessId);
         }
 
+        if ($userExists) {
+            Mage::register('isApiRequest', true);
+        }
         return $userExists;
     }
 
