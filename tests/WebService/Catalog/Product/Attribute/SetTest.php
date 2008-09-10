@@ -28,3 +28,30 @@ if (!defined('_IS_INCLUDED')) {
     require dirname(__FILE__) . '/../../../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
+
+class WebService_Catalog_Product_Attribute_SetTest extends WebService_TestCase_Abstract
+{
+    /**
+     * tests catalog_product_attribute_set.list
+     *
+     * @dataProvider connectorProvider
+     */
+    public function testList (WebService_Connector_Interface $connector)
+    {
+        // create new attribute set
+        $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
+        $set = Mage::getModel('eav/entity_attribute_set')
+            ->setEntityTypeId($entityType->getId())
+            ->setAttributeSetName(uniqid())
+            ->save();
+        $setData = array(
+            'set_id' => $set->getId(),
+            'name' => $set->getAttributeSetName()
+        );
+
+        $setList = $connector->call('catalog_product_attribute_set.list');
+        $set->delete();
+        $this->assertTrue(in_array($setData, $setList));
+    }
+
+}
