@@ -262,7 +262,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         try {
             $tree = Mage::getResourceModel('catalog/category_tree')
                 ->load($nodeId,$parentNodeId,$prevParentNodeId);
-            //Mage::getResourceSingleton('catalog/category')->move($nodeId,$parentNodeId,$prevParentNodeId);
+                
+            Mage::getResourceSingleton('catalog/category')->move($nodeId,$parentNodeId,$prevParentNodeId);
+            
             $node = $tree->getNodeById($nodeId);
             $newParentNode  = $tree->getNodeById($parentNodeId);
             $prevNode       = $tree->getNodeById($prevNodeId);
