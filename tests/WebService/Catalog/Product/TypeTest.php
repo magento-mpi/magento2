@@ -28,3 +28,27 @@ if (!defined('_IS_INCLUDED')) {
     require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
+
+class WebService_Catalog_Product_TypeTest extends WebService_TestCase_Abstract
+{
+    /**
+     * tests catalog_product_type.list
+     *
+     * @dataProvider connectorProvider
+     */
+    public function testList (WebService_Connector_Interface $connector)
+    {
+        $list = $connector->call('product_type.list');
+
+        $result = array();
+        foreach (Mage_Catalog_Model_Product_Type::getOptionArray() as $type => $label) {
+            $result[] = array(
+                'type'  => $type,
+                'label' => $label
+            );
+        }
+
+        $this->assertEquals($list, $result);
+    }
+
+}
