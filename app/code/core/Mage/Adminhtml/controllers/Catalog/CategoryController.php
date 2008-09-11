@@ -41,7 +41,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     protected function _initCategory()
     {
         $categoryId = (int) $this->getRequest()->getParam('id',false);
-        
+
         $storeId    = (int) $this->getRequest()->getParam('store');
 
         $category = Mage::getModel('catalog/category');
@@ -102,8 +102,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $categoryId = (int) $this->getRequest()->getParam('id');
         $_prevCategoryId = Mage::getSingleton('admin/session')
             ->getLastEditedCategory(true);
-           
-		
+
+
         if ($_prevCategoryId && !$this->getRequest()->getQuery('isAjax')) {
            // $params['id'] = $_prevCategoryId;
              $this->getRequest()->setParam('id',$_prevCategoryId);
@@ -261,10 +261,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         try {
             $tree = Mage::getResourceModel('catalog/category_tree')
-                ->load($nodeId,$parentNodeId,$prevParentNodeId);
-                
-            Mage::getResourceSingleton('catalog/category')->move($nodeId,$parentNodeId,$prevParentNodeId);
-            
+                ->load();
+
             $node = $tree->getNodeById($nodeId);
             $newParentNode  = $tree->getNodeById($parentNodeId);
             $prevNode       = $tree->getNodeById($prevNodeId);

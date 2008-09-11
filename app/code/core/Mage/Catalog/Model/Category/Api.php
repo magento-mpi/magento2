@@ -49,7 +49,9 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
         $ids = array();
         $storeId = Mage_Catalog_Model_Category::DEFAULT_STORE_ID;
-        if (!is_null($website)) {
+
+        // load root categories of website
+        if (null !== $website) {
             try {
                 $website = Mage::app()->getWebsite($website);
                 foreach ($website->getStores() as $store) {
@@ -59,25 +61,27 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             } catch (Mage_Core_Exception $e) {
                 $this->_fault('website_not_exists', $e->getMessage());
             }
-        } elseif (!is_null($store) && is_null($categoryId)) {
-            try {
-                $store = Mage::app()->getStore($store);
-                $storeId = $store->getId();
-                $ids = $store->getRootCategoryId();
-            } catch (Mage_Core_Model_Store_Exception $e) {
-                $this->_fault('store_not_exists');
+        }
+        elseif (null !== $store) {
+            // load children of root category of store
+            if (null === $categoryId) {
+                try {
+                    $store = Mage::app()->getStore($store);
+                    $storeId = $store->getId();
+                    $ids = $store->getRootCategoryId();
+                } catch (Mage_Core_Model_Store_Exception $e) {
+                    $this->_fault('store_not_exists');
+                }
             }
-        } elseif (!is_null($store)) {
-            $storeId = $this->_getStoreId($store);
-            $ids = (int) $categoryId;
-        } else {
-            foreach (Mage::app()->getStores() as $store) {
-                $ids[] = $store->getRootCategoryId();
+            // load children of specified category id
+            else {
+                $storeId = $this->_getStoreId($store);
+                $ids = (int)$categoryId;
             }
-
-            if (count($ids)==0) {
-                $ids[] = 1;
-            }
+        }
+        // load all root categories
+        else {
+            $ids = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         }
 
         $collection = Mage::getModel('catalog/category')->getCollection()
@@ -86,7 +90,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             ->addAttributeToSelect('is_active');
 
         if (is_array($ids)) {
-            $collection->addFieldToFilter('entity_id', array('in'=>$ids));
+            $collection->addFieldToFilter('entity_id', array('in' => $ids));
         } else {
             $collection->addFieldToFilter('parent_id', $ids);
         }
@@ -256,7 +260,6 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         $category->setParentId($parent_category->getId());
         try {
             $category->save();
-
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }

@@ -251,6 +251,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      *
      */
     public function move($category, $newParent, $prevNode = null) {
+        Mage::getResourceSingleton('catalog/category')->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
             array(Mage_Catalog_Model_Category::CACHE_TAG));

@@ -85,12 +85,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $toUpdateChild = explode('/',substr($object->getPath(),0,strrpos($object->getPath(),'/')));
 
+        // BUG here
         $this->_getWriteAdapter()->update(
 		        $this->getEntityTable(),
 		        array('children_count'=>new Zend_Db_Expr('`children_count`-1')),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
-        
+
         if ($child = $this->_getTree()->getNodeById($object->getId())) {
             $children = $child->getChildren();
             foreach ($children as $child) {
@@ -107,7 +108,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         if (!$object->getId()) {
             $object->setPosition($this->_getMaxPosition($object->getPath()) + 1);
-            $object->setLevel(count(explode('/', $object->getPath())));
+            $path  = explode('/', $object->getPath());
+            $level = count($path);
+            $object->setLevel($level);
+            if ($level) {
+                $object->setParentId($path[$level - 1]);
+            }
             $object->setPath($object->getPath() . '/');
 
            $toUpdateChild = explode('/',$object->getPath());
@@ -117,7 +123,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 		        array('children_count'=>new Zend_Db_Expr('`children_count`+1')),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
-       
+
         }
         return $this;
     }
@@ -365,11 +371,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     }
 
    // public function move(Mage_Catalog_Model_Category $category, $newParentId)
-    public function move($categoryId,$new_parentId,$old_parentId)
+    public function move($categoryId, $newParentId)
     {
         $category   = Mage::getModel('catalog/category')->load($categoryId);
-        $old_parent = Mage::getModel('catalog/category')->load($old_parentId);
-        $new_parent = Mage::getModel('catalog/category')->load($new_parentId);
+        $oldParent  = $category->getParentCategory();
+        $newParent  = Mage::getModel('catalog/category')->load($newParentId);
 
     	$select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), 'children_count')
@@ -377,23 +383,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $child = $this->_getReadAdapter()->fetchOne($select);
         $child+=1;
-        
-        //$toUpdateChild = explode('/',substr($new_parent->getPath(),0,strrpos($new_parent->getPath(),'/')));
-        $toUpdateChild = explode('/',$new_parent->getPath()); 
+
+
+        $toUpdateChild = explode('/',$newParent->getPath());
         $this->_getWriteAdapter()->update(
 		        $this->getEntityTable(),
-		        array('children_count'=>new Zend_Db_Expr('`children_count`+'.$child)),
+		        array('children_count'=>new Zend_Db_Expr('`children_count`+' . $child)),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
-      	//$toUpdateChild = explode('/',substr($old_parent->getPath(),0,strrpos($old_parent->getPath(),'/')));
-      	$toUpdateChild = explode('/',$old_parent->getPath());        
+
+      	$toUpdateChild = explode('/', $oldParent->getPath());
       	$this->_getWriteAdapter()->update(
 		        $this->getEntityTable(),
-		        array('children_count'=>new Zend_Db_Expr('`children_count`-'.$child)),
+		        array('children_count'=>new Zend_Db_Expr('`children_count`-' . $child)),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
         return ;
-    	
+
 
         $oldStoreId = $category->getStoreId();
         $parent = Mage::getModel('catalog/category')
