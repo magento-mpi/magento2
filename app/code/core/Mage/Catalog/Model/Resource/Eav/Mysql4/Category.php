@@ -84,11 +84,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         parent::_beforeDelete($object);
 
         $toUpdateChild = explode('/',substr($object->getPath(),0,strrpos($object->getPath(),'/')));
-
+         $child = $this->getChildrenCount($object->getId());
+         $child+=1; 
         // BUG here
         $this->_getWriteAdapter()->update(
 		        $this->getEntityTable(),
-		        array('children_count'=>new Zend_Db_Expr('`children_count`-1')),
+		        array('children_count'=>new Zend_Db_Expr('`children_count`-'.$child)),
 		        $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $toUpdateChild))
       		  ;
 
@@ -369,6 +370,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         $positions = $this->_getWriteAdapter()->fetchPairs($select);
         return $positions;
     }
+    
+    public function getChildrenCount($categoryId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getEntityTable(), 'children_count')
+            ->where('entity_id=?', $categoryId);
+
+        $child = $this->_getReadAdapter()->fetchOne($select);
+        
+        return $child;
+    }
 
    // public function move(Mage_Catalog_Model_Category $category, $newParentId)
     public function move($categoryId, $newParentId)
@@ -376,12 +388,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         $category   = Mage::getModel('catalog/category')->load($categoryId);
         $oldParent  = $category->getParentCategory();
         $newParent  = Mage::getModel('catalog/category')->load($newParentId);
-
-    	$select = $this->_getReadAdapter()->select()
-            ->from($this->getEntityTable(), 'children_count')
-            ->where('entity_id=?', $category->getId());
-
-        $child = $this->_getReadAdapter()->fetchOne($select);
+        
+        $child = $this->getChildrenCount($category->getId());
         $child+=1;
 
 
