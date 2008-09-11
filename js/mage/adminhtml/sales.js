@@ -35,7 +35,7 @@ AdminOrder.prototype = {
         this.billingAddressContainer = '';
         this.shippingAddressContainer= '';
         this.isShippingMethodReseted = data.shipping_method_reseted ? data.shipping_method_reseted : false;
-        this.overlayData = {};
+        this.overlayData = $H({});
     },
 
     setLoadBaseUrl : function(url){
@@ -667,7 +667,7 @@ AdminOrder.prototype = {
                 }
             }
             obj.bfx = obj.fx.bindAsEventListener(obj);
-            this.overlayData.get(elId) = obj;
+            this.overlayData.set(elId, obj);
         }
         else {
             obj.show = show;
