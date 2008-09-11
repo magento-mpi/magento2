@@ -23,10 +23,10 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 if (!defined('_IS_INCLUDED')) {
     require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
+
 }
 class WebService_Directory_CountryTest extends WebService_TestCase_Abstract
 {
@@ -36,7 +36,30 @@ class WebService_Directory_CountryTest extends WebService_TestCase_Abstract
     public function testResultIsArray(WebService_Connector_Interface $connector)
     {
         $result = $connector->call('directory_country.list');
-
         $this->assertType('array', $result);
+    }
+    
+    /**
+     * @dataProvider connectorProvider
+     */
+    public function testResultIsEquals(WebService_Connector_Interface $connector)
+    {
+        $serviceResult = $connector->call('directory_country.list');
+        $magentoResult = $this->getCountryArray();
+        $this->assertEquals($serviceResult,$magentoResult);
+    }
+    
+    
+    public function getCountryArray()
+    {
+        $collection = Mage::getModel('directory/country')->getCollection();
+
+        $result = array();
+        foreach ($collection as $country) {
+            $country->getName(); 
+            $result[] = $country->toArray(array('country_id', 'iso2_code', 'iso3_code', 'name'));
+        }
+
+        return $result;
     }
 }

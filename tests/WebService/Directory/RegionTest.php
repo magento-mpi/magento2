@@ -28,3 +28,53 @@ if (!defined('_IS_INCLUDED')) {
     require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
+
+class WebService_Directory_RegionTest extends WebService_TestCase_Abstract
+{
+    /**
+     * @dataProvider connectorProvider
+     */
+    public function testResultIsArray(WebService_Connector_Interface $connector)
+    {
+        $result = $connector->call('region.list',array('US'));
+        $this->assertType('array', $result);
+    }
+    /**
+     * @dataProvider connectorProvider
+     */
+    public function testResultsIsEquals(WebService_Connector_Interface $connector)
+    {
+        $serviceResult = $connector->call('region.list',array('US'));
+        $magentoResult = $this->getRegions('US');
+        $this->assertEquals($serviceResult,$magentoResult);
+    }
+    
+    public function getCountrie($code)
+    {
+        try {
+            $country = Mage::getModel('directory/country')->loadByCode($code);
+        } catch (Mage_Core_Exception $e) {
+            $this->assertFalse(true,'country_not_exists');
+        }
+        
+        if (!$country->getId()) {
+            $this->assertFalse(true,'country_not_exists');
+        }
+        
+        return $country;
+    }
+    
+    public function getRegions($code)
+    {
+        $country = $this->getCountrie($code);
+        
+        $result = array();
+        foreach ($country->getRegions() as $region) {
+            $region->getName();
+            $result[] = $region->toArray(array('region_id', 'code', 'name'));
+        }
+
+        return $result;
+    }
+    
+}
