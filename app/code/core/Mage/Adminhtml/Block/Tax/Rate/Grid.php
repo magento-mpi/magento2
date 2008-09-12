@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Grid extends Mage_Adminhtml_Block_Widget_Gri
             array(
                 'header'=>Mage::helper('tax')->__('Zip/Post Code'),
                 'align' =>'left',
-                'index' => 'main_table.tax_postcode',
+                'index' => 'tax_postcode',
                 'default' => '*',
             )
         );
