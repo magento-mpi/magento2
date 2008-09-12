@@ -125,8 +125,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
             'wrap'			=> 'soft'
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_grid', array('legend' => Mage::helper('adminhtml')->__('Please select a product')));
-        $gridFieldset->addField('products_grid', 'note', array(
+        $form->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_product_grid')->toHtml(),
             'disabled' => true
         ));

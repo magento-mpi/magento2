@@ -67,24 +67,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
                 'width' => '80px',
                 'index' => 'sku',
         ));
-        $this->addColumn('price',
-            array(
-                'header'=> Mage::helper('adminhtml')->__('Price'),
-                'type'  => 'currency',
-                'index' => 'price',
-        ));
-        $this->addColumn('qty',
-            array(
-                'header'=> Mage::helper('adminhtml')->__('Qty'),
-                'width' => '130px',
-                'type'  => 'number',
-                'index' => 'qty',
-        ));
         $this->addColumn('status',
             array(
                 'header'=> Mage::helper('adminhtml')->__('Status'),
                 'width' => '50px',
                 'index' => 'status',
+                'type'  => 'options',
+                'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
         ));
 
         /*

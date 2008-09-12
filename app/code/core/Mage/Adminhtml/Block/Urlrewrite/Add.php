@@ -48,11 +48,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
         $this->_formScripts[] = '
             toggleFieldsetVis("add_urlrewrite_form");
-            toggleFieldsetVis("add_urlrewrite_grid");
+            toggleVis("products_grid");
             toggleFieldsetVis("add_urlrewrite_category");
 
             //toggleParentVis("add_urlrewrite_form");
-            //toggleParentVis("add_urlrewrite_grid");
+            //toggleParentVis("products_grid");
             //toggleParentVis("add_urlrewrite_category");
             toggleVis("save_button");
             toggleVis("reset_button");
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                     },
 
                     showForm : function() {
-                        toggleFieldsetVis("add_urlrewrite_grid");
+                        toggleVis("products_grid");
                         toggleFieldsetVis("add_urlrewrite_category");
                         toggleVis("save_button");
                         toggleVis("reset_button");
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
                         	toggleFieldsetVis("add_urlrewrite_category");
                         	toggleFieldsetVis("add_urlrewrite_type");
                         } else if (typeDom.options[typeDom.options.selectedIndex].value == 2) {
-                        	toggleFieldsetVis("add_urlrewrite_grid");
+                        	toggleVis("products_grid");
                         	toggleFieldsetVis("add_urlrewrite_type");
                         } else if (typeDom.options[typeDom.options.selectedIndex].value == 3) {
                         	toggleFieldsetVis("add_urlrewrite_form");
