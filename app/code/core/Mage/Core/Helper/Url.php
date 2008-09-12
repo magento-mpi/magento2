@@ -38,7 +38,7 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
      */
     public function getCurrentUrl()
     {
-        return $this->_getUrl('*/*/*', array('_current'=>true));
+        return $this->_getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true));
     }
 
     /**

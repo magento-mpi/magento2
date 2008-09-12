@@ -55,7 +55,10 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
             ->setControllerName(isset($d[1]) ? $d[1] : 'page')
             ->setActionName(isset($d[2]) ? $d[2] : 'view')
             ->setParam('page_id', $page->getId());
-
+		$request->setAlias(
+			Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS,
+			$identifier
+		);
         return true;
     }
 }

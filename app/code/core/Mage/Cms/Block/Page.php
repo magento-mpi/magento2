@@ -77,7 +77,8 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
     protected function _toHtml()
     {
         $processor = Mage::getModel('core/email_template_filter');
-
-        return $processor->filter($this->getPage()->getContent());
+        $html = $processor->filter($this->getPage()->getContent());
+        $html = $this->getMessagesBlock()->getGroupedHtml() . $html;
+        return $html;
     }
 }

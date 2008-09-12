@@ -80,6 +80,15 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         $action->loadLayout(array('default', 'cms_page'), false, false);
         $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
         $action->generateLayoutXml()->generateLayoutBlocks();
+
+        if ($storage = Mage::getSingleton('catalog/session')) {
+            $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        }
+
+        if ($storage = Mage::getSingleton('checkout/session')) {
+            $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        }
+
         $action->renderLayout();
 
         return true;

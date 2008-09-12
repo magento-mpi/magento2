@@ -333,8 +333,9 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getRoutePath($routeParams=array())
     {
         if (!$this->hasData('route_path')) {
+        	$routePath = $this->getRequest()->getAlias(Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS);
             if (!empty($routeParams['_use_rewrite'])
-                && ($routePath = $this->getRequest()->getAlias(Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS))) {
+                && ($routePath !== null)) {
                 $this->setData('route_path', $routePath);
                 return $routePath;
             }
