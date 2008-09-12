@@ -31,8 +31,8 @@
  */
 class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 {
-	const DEFAULT_EXPORT_PATH = 'var/export';
-	const DEFAULT_EXPORT_FILENAME = 'export_';
+    const DEFAULT_EXPORT_PATH = 'var/export';
+    const DEFAULT_EXPORT_FILENAME = 'export_';
 
     protected function _construct()
     {
@@ -61,19 +61,19 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         }
 
         if (is_array($this->getGuiData())) {
-        	$data = $this->getData();
-        	$guiData = $this->getGuiData();
-        	if (isset($guiData['file']['type']) && $guiData['file']['type'] == 'file') {
-        		if (strlen($guiData['file']['path']) == 0
-        		|| (strlen($guiData['file']['path']) == 1
-        		&& in_array($guiData['file']['path'], array('\\','/','.','!','@','#','$','%','&', '*','~', '^')))) {
-        			$guiData['file']['path'] = self::DEFAULT_EXPORT_PATH;
-        		}
-        		if (strlen($guiData['file']['filename']) == 0 ) {
-        			$guiData['file']['filename'] = self::DEFAULT_EXPORT_FILENAME.$data['entity_type'].'.'.($guiData['parse']['type']=='csv'?$guiData['parse']['type']:'xml');
-        		}
-        		$this->setGuiData($guiData);
-        	}
+            $data = $this->getData();
+            $guiData = $this->getGuiData();
+            if (isset($guiData['file']['type']) && $guiData['file']['type'] == 'file') {
+                if (strlen($guiData['file']['path']) == 0
+                || (strlen($guiData['file']['path']) == 1
+                && in_array($guiData['file']['path'], array('\\','/','.','!','@','#','$','%','&', '*','~', '^')))) {
+                    $guiData['file']['path'] = self::DEFAULT_EXPORT_PATH;
+                }
+                if (strlen($guiData['file']['filename']) == 0 ) {
+                    $guiData['file']['filename'] = self::DEFAULT_EXPORT_FILENAME.$data['entity_type'].'.'.($guiData['parse']['type']=='csv'?$guiData['parse']['type']:'xml');
+                }
+                $this->setGuiData($guiData);
+            }
 //        	echo '<pre>';
 //        	print_r($this->getGuiData());
             $this->_parseGuiData();
@@ -267,13 +267,13 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         );
 
         if ($import) {
-        	if ($this->getDataTransfer()==='interactive') {
-	            $parseFileXmlInter .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
-        	} else {
-	            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
-	            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
-	            $parseDataXml .= '</action>'.$nl.$nl;
-        	}
+//            if ($this->getDataTransfer()==='interactive') {
+                $parseFileXmlInter .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
+//            } else {
+//                $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
+//                $parseDataXml = '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
+//                $parseDataXml .= '</action>'.$nl.$nl;
+//            }
 //            $parseDataXml = '<action type="'.$parsers[$this->getEntityType()].'" method="parse">'.$nl;
 //            $parseDataXml .= '    <var name="store"><![CDATA['.$this->getStoreId().']]></var>'.$nl;
 //            $parseDataXml .= '</action>'.$nl.$nl;
@@ -325,19 +325,19 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 . $numberOfRecords . '</var>' . $nl;
             $parseFileXmlInter .= '    <var name="decimal_separator"><![CDATA['
                 . $decimalSeparator . ']]></var>' . $nl;
-        	if ($this->getDataTransfer()==='interactive') {
-        		$xml = $parseFileXmlInter;
+            if ($this->getDataTransfer()==='interactive') {
+                $xml = $parseFileXmlInter;
                 $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
                 $xml .= '    <var name="method">parse</var>'.$nl;
                 $xml .= '</action>';
-        	} else {
-        		$xml = $fileXml;
-        		$xml .= $parseFileXmlInter;
+            } else {
+                $xml = $fileXml;
+                $xml .= $parseFileXmlInter;
                 $xml .= '    <var name="adapter">'.$adapters[$this->getEntityType()].'</var>'.$nl;
                 $xml .= '    <var name="method">parse</var>'.$nl;
                 $xml .= '</action>';
-        	}
-        	//$xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
+            }
+            //$xml = $interactiveXml.$fileXml.$parseFileXml.$mapXml.$parseDataXml.$entityXml;
 
         } else {
             $xml = $entityXml.$parseDataXml.$mapXml.$parseFileXml.$fileXml.$interactiveXml;
