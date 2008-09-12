@@ -36,7 +36,12 @@
 </head>
 <body class="page-popup<?php echo !$this->getBodyClass()?' '.$this->getBodyClass():'' ?>">
 <div>
-  <div><img src="<?php echo $this->getPrintLogoUrl()?$this->getPrintLogoUrl():$this->getSkinUrl('images/logo_print.gif') ?>" alt="<?php echo $this->__('Magento Commerce Demo Store') ?>" /></div>
+  <div>
+    <img src="<?php echo $this->getPrintLogoUrl() ? $this->getPrintLogoUrl() : $this->getSkinUrl('images/logo_print.gif') ?>" alt="<?php echo $this->__('Magento Commerce Demo Store') ?>" />
+    <?php if ($this->getPrintLogoText()):?>
+    <span><?php echo nl2br($this->htmlEscape($this->getPrintLogoText())) ?></span>
+    <?php endif;?>
+  </div>
   <?php echo $this->getChildHtml('content') ?>
   <div class="clear"></div>
   <div class="button-set">

@@ -36,7 +36,12 @@
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <div class="page-print">
-    <h1><img src="<?php echo $this->getPrintLogoUrl()?$this->getPrintLogoUrl():$this->getSkinUrl('images/logo_print.gif') ?>" alt="<?php echo $this->__('Magento Commerce Demo Store') ?>" title="<?php echo $this->__('Magento Commerce Demo Store') ?>" /></h1>
+    <div>
+        <img src="<?php echo $this->getPrintLogoUrl() ? $this->getPrintLogoUrl() : $this->getSkinUrl('images/logo_print.gif') ?>" alt="<?php echo $this->__('Magento Commerce Demo Store') ?>" />
+        <?php if ($this->getPrintLogoText()):?>
+        <span><?php echo nl2br($this->htmlEscape($this->getPrintLogoText())) ?></span>
+        <?php endif;?>
+    </div>
     <?php echo $this->getChildHtml('content') ?>
     <div class="buttons-set">
         <button onclick="window.close();" class="button"><span><?php echo $this->__('Close Window') ?></span></button>

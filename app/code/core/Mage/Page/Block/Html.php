@@ -105,6 +105,11 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         return $logo;
     }
 
+    public function getPrintLogoText()
+    {
+        return Mage::getStoreConfig('sales/identity/address');
+    }
+
     public function setHeaderTitle($title)
     {
         $this->_title = $title;

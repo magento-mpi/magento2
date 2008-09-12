@@ -41,7 +41,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
         $pdf = new Zend_Pdf();
         $style = new Zend_Pdf_Style();
-        $style->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD), 10);
+        $this->_setFontBold($style, 10);
 
         foreach ($invoices as $invoice) {
             $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
@@ -60,7 +60,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
 
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
-            $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+            $this->_setFontRegular($page);
             $page->drawText(Mage::helper('sales')->__('Invoice # ') . $invoice->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table */
@@ -97,7 +97,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
                     $pdf->pages[] = $page;
                     $this->y = 800;
 
-                    $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 7);
+                    $this->_setFontRegular($page);
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
                     $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
                     $page->setLineWidth(0.5);
