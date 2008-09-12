@@ -128,6 +128,11 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         }
 
         /**
+         * init first billing address, need for virtual products
+         */
+        $this->_getOrderCreateModel()->getBillingAddress();
+
+        /**
          * Flag for using billing address for shipping
          */
         if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()) {
