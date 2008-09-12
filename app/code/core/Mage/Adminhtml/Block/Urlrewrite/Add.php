@@ -49,17 +49,18 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
         $this->_formScripts[] = '
             toggleFieldsetVis("add_urlrewrite_form");
             toggleVis("products_grid");
-            toggleFieldsetVis("add_urlrewrite_category");
+            toggleVis("category_tree");
 
             //toggleParentVis("add_urlrewrite_form");
             //toggleParentVis("products_grid");
-            //toggleParentVis("add_urlrewrite_category");
+            //toggleParentVis("category_tree");
             toggleVis("save_button");
             toggleVis("reset_button");
             document.getElementById("urlrewrite_container").style.display="block";
         ';
 
         $this->_formInitScripts[] = '
+            //<![CDATA[
             var urlrewrite = function() {
                 return {
                     productInfoUrl : null,
@@ -83,14 +84,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
                     showForm : function() {
                         toggleVis("products_grid");
-                        toggleFieldsetVis("add_urlrewrite_category");
+                        toggleVis("category_tree");
                         toggleVis("save_button");
                         toggleVis("reset_button");
                     },
 
                     showForm1 : function() {
                         toggleFieldsetVis("add_urlrewrite_form");
-                        toggleFieldsetVis("add_urlrewrite_category");
+                        toggleVis("category_tree");
                         toggleVis("save_button");
                         toggleVis("reset_button");
                     },
@@ -102,7 +103,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
                             urlrewrite.categoryInfoUrl = "' . $this->getUrl('*/urlrewrite/getCategoryInfo') . '";
                             var con = new Ext.lib.Ajax.request(\'POST\', urlrewrite.categoryInfoUrl, {success:urlrewrite.loadCategory,failure:urlrewrite.reqFailure});
-                        	toggleFieldsetVis("add_urlrewrite_category");
+                        	toggleVis("category_tree");
                         	toggleFieldsetVis("add_urlrewrite_type");
                         } else if (typeDom.options[typeDom.options.selectedIndex].value == 2) {
                         	toggleVis("products_grid");
@@ -194,6 +195,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add extends Mage_Adminhtml_Block_Widget_Fo
 
             // trim function for string
             String.prototype.trim = function () { return this.replace(/^\s+|\s+$/g, ""); };
+            //]]>
         ';
     }
 

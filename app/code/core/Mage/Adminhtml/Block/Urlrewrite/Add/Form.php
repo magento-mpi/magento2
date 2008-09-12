@@ -130,8 +130,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Add_Form extends Mage_Adminhtml_Block_Widg
             'disabled' => true
         ));
 
-        $gridFieldset = $form->addFieldset('add_urlrewrite_category', array('legend' => Mage::helper('adminhtml')->__('Please select a category')));
-        $gridFieldset->addField('category_tree', 'note', array(
+        $form->addField('category_tree', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/urlrewrite_category_tree')->toHtml(),
             'disabled' => true
         ));
