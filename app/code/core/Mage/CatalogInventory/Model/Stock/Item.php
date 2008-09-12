@@ -242,6 +242,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * Checking quote item quantity
      *
      * @param   mixed $qty
+     * @param   mixed $summaryQty
      * @return  Varien_Object
      */
     public function checkQuoteItemQty($qty, $summaryQty)
@@ -296,22 +297,29 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
 
-        if ($this->checkQty($summaryQty)) {
-            if (($this->getQty() - $summaryQty < 0) && ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES)) {
-                if ($this->getProduct()) {
-                    $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.',
-                        ($this->getQty() > 0) ? ($qty - $this->getQty()) * 1 : $qty * 1,
-                        $this->getProduct()->getName()));
-                }
-            }
-        }
-        else {
+        if (!$this->checkQty($summaryQty)) {
             $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName());
             $result->setHasError(true)
                 ->setMessage($message)
                 ->setQuoteMessage($message)
                 ->setQuoteMessageIndex('qty');
             return $result;
+        }
+        else {
+            if (($this->getQty() - $summaryQty) < 0) {
+                if ($this->getProduct()) {
+                    $backorderQty = ($this->getQty() > 0) ? ($qty - $this->getQty()) * 1 : $qty * 1;
+                    $result->setItemBackorders($backorderQty);
+                    if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES) {
+                        $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %d of the items will be backordered.',
+                            $backorderQty,
+                            $this->getProduct()->getName())
+                            )
+                        ;
+                    }
+                }
+            }
+            // no return intentionally
         }
 
         /**
@@ -328,7 +336,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
          * Adding stock data to quote item
          */
         $result->setItemQty($qty);
-        $result->setItemBackorders($qty);
 
         return $result;
     }
