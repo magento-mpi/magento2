@@ -159,7 +159,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach ($order->getItemsCollection() as $orderItem) {
             /* @var $orderItem Mage_Sales_Model_Order_Item */
             if (!$orderItem->getParentItem()) {
-                $qty = $orderItem->getQtyOrdered() - $orderItem->getQtyShipped() - $orderItem->getQtyInvoiced();
+                if ($order->getReordered()) {
+                	$qty = $orderItem->getQtyOrdered();
+                }
+                else {
+                	$qty = $orderItem->getQtyOrdered() - $orderItem->getQtyShipped() - $orderItem->getQtyInvoiced();
+                }
+                
                 if ($qty > 0) {
                     $item = $this->initFromOrderItem($orderItem, $qty);
                     if (is_string($item)) {
