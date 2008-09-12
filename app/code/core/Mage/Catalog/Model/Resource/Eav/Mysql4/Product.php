@@ -227,6 +227,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             $categoriesSelect = $this->_getWriteAdapter()->select()->from($this->getTable('catalog/category'))
                 ->where('entity_id IN (?)', $categoryIds);
             $categoriesInfo = $this->_getWriteAdapter()->fetchAll($categoriesSelect);
+
+            // get categories positions (bug #6940)
+            $select = $this->_getWriteAdapter()->select()
+                ->from($this->getTable('catalog/category_product'), array('category_id', 'position'))
+                ->where('product_id=' . $product->getId());
+            $categoriesPositions = $this->_getWriteAdapter()->fetchPairs($select);
+
             $indexCategoryIds = array();
             foreach ($categoriesInfo as $categoryInfo) {
                 $ids = explode('/', $categoryInfo['path']);
@@ -238,7 +245,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
                 $data = array(
                     'category_id'   => $categoryId,
                     'product_id'    => $product->getId(),
-                    'position'      => 0,
+                    'position'      => (isset($categoriesPositions[(int)$categoryId]) ? $categoriesPositions[(int)$categoryId] : 0),
                     'is_parent'     => in_array($categoryId, $categoryIds)
                 );
                 $this->_getWriteAdapter()->insert($this->getTable('catalog/category_product_index'), $data);
