@@ -31,6 +31,19 @@ if (!defined('_IS_INCLUDED')) {
 
 /**
  * WebServices Category test case
+ *
+ * catalog_category.currentStore
+ * catalog_category.tree
+ * catalog_category.level
+ * catalog_category.info
+ * catalog_category.create
+ * catalog_category.update
+ * catalog_category.move
+ * catalog_category.delete
+ * catalog_category.assignedProducts
+ * catalog_category.assignProduct
+ * catalog_category.updateProduct
+ * catalog_category.removeProduct
  */
 class WebService_Catalog_CategoryTest extends WebService_TestCase_Abstract
 {
@@ -255,32 +268,93 @@ class WebService_Catalog_CategoryTest extends WebService_TestCase_Abstract
      */
     public function testMove(WebService_Connector_Interface $connector)
     {
-        $this->markTestSkipped();
-//catalog_category.move
-//
-//Move category in tree
-//
-//Return: boolean
-//
-//Arguments:
-//
-//      int $categoryId - category ID for moving
-//      int $parentId - new category parent
-//      int $afterId - category ID after what position it will be moved (optional)
+        $tree = $this->_createCategoriesPlainTree();
+
+        // move c2 to c12 and check children count of affected categories
+        $result = $connector->call('catalog_category.move', array($tree[2]->getId(), $tree[12]->getId()));
+        $this->assertTrue($result, 'Failed to move category to its neighbour child.');
+        $c1 = Mage::getModel('catalog/category')->load($tree[1]->getId());
+        $this->assertEquals(4, (int)$c1->getChildrenCount(), 'Children count after moving categories is incorrect.');
+
+        // move c2 to c0
+        $result = $connector->call('catalog_category.move', array($tree[2]->getId(), $tree[0]->getId()));
+        $this->assertTrue($result, 'Failed to move category to its parent parent.');
+
+        // make c12 before c11
+        $result = $connector->call('catalog_category.move', array($tree[11]->getId(), $tree[1]->getId(), $tree[12]->getId()));
+        $this->assertTrue($result, 'Failed to move category inside its level.');
+        $c11 = Mage::getModel('catalog/category')->load($tree[11]->getId());
+        $c12 = Mage::getModel('catalog/category')->load($tree[12]->getId());
+        $this->assertTrue((int)$c11->getPosition() > (int)$c12->getPosition(), 'Failed to change categories order inside one level.');
+
+        // move category to its child - expect exception
+        try {
+            $connector->call('catalog_category.move', array($tree[2]->getId(), $tree[21]->getId()));
+            $this->fail('Moved category to its child. This is unacceptable.');
+        }
+        catch (PHPUnit_Framework_AssertionFailedError $failure) {
+            $this->_deleteCategories($tree);
+            throw $failure;
+        }
+        catch (Exception $expected) {
+        }
+
+        $this->_deleteCategories($tree);
+    }
+
+    /**
+     * catalog_category.assignedProducts
+     *
+     * @dataProvider connectorProvider
+     */
+    public function testAssignedProducts(WebService_Connector_Interface $connector)
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * catalog_category.assignProduct
+     *
+     * @dataProvider connectorProvider
+     */
+    public function testAssignProduct(WebService_Connector_Interface $connector)
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * catalog_category.updateProduct
+     *
+     * @dataProvider connectorProvider
+     */
+    public function testUpdateProduct(WebService_Connector_Interface $connector)
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * catalog_category.removeProduct
+     *
+     * @dataProvider connectorProvider
+     */
+    public function testRemoveProduct(WebService_Connector_Interface $connector)
+    {
+        $this->markTestIncomplete();
     }
 
     /**
      * Create a category manually
      *
      * @param int $parentId
+     * @param string $name
      * @return Mage_Catalog_Model_Category
      */
-    private function _createCategory($parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID)
+    private function _createCategory($parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID, $name = '')
     {
         $c = Mage::getModel('catalog/category')
             ->setStoreId(0)
             ->addData(array (
-                'name'          => __CLASS__ . uniqid(),
+                'name'          => $name . __CLASS__ . uniqid(),
                 'is_active'     => '1',
                 'url_key'       => '',
                 'description'   => '',
@@ -329,12 +403,12 @@ class WebService_Catalog_CategoryTest extends WebService_TestCase_Abstract
      */
     private function _createCategoriesPlainTree()
     {
-        $tree = array(0 => $this->_createCategory());
-        $tree[1]  = $this->_createCategory($tree[0]->getId());
-        $tree[11] = $this->_createCategory($tree[1]->getId());
-        $tree[12] = $this->_createCategory($tree[1]->getId());
-        $tree[2]  = $this->_createCategory($tree[0]->getId());
-        $tree[21] = $this->_createCategory($tree[2]->getId());
+        $tree = array(0 => $this->_createCategory(), 'c0');
+        $tree[1]  = $this->_createCategory($tree[0]->getId(), 'c1');
+        $tree[11] = $this->_createCategory($tree[1]->getId(), 'c11');
+        $tree[12] = $this->_createCategory($tree[1]->getId(), 'c12');
+        $tree[2]  = $this->_createCategory($tree[0]->getId(), 'c2');
+        $tree[21] = $this->_createCategory($tree[2]->getId(), 'c21');
         return $tree;
     }
 
