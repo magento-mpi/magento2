@@ -171,8 +171,11 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
      */
     public function calcRowTotal()
     {
-        $this->setRowTotal($this->getPrice()*$this->getQty());
-        $this->setBaseRowTotal($this->getBasePrice()*$this->getQty());
+        $rowTotal       = $this->getOrderItem()->getRowTotal()/$this->getOrderItem()->getQtyOrdered()*$this->getQty();
+        $baseRowTotal   = $this->getOrderItem()->getBaseRowTotal()/$this->getOrderItem()->getQtyOrdered()*$this->getQty();
+        
+        $this->setRowTotal($this->getInvoice()->getStore()->roundPrice($rowTotal));
+        $this->setBaseRowTotal($this->getInvoice()->getStore()->roundPrice($baseRowTotal));
         return $this;
     }
 
