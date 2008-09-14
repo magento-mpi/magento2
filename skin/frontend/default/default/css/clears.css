@@ -26,6 +26,7 @@
 /****************************************************/
 .page-head:after,
 .page-head-alt:after,
+.page-popup .print-head:after,
 .clear:after,
 .col2-set:after,
 .col3-set:after,

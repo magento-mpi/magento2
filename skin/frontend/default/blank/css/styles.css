@@ -702,7 +702,11 @@ a.minimal-price-link .price { font-weight:normal; }
 .order-info li { display:inline; }
 .order-info dt { font-weight:bold; }
 
-/* Print Pages Rewrites */
+/* Print Pages */
+.page-print .print-head {}
+.page-print .print-head img { float:left; }
+.page-print .print-head address { float:left; margin-left:15px; }
+/* Price Rewrites */
 .page-print .gift-message-link { display:none; }
 .page-print .price-excl-tax,
 .page-print .price-incl-tax { display:block; white-space:nowrap; }

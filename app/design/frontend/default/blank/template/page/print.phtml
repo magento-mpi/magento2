@@ -36,17 +36,17 @@
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <div class="page-print">
-    <div>
-        <img src="<?php echo $this->getPrintLogoUrl() ? $this->getPrintLogoUrl() : $this->getSkinUrl('images/logo_print.gif') ?>" alt="<?php echo $this->__('Magento Commerce Demo Store') ?>" />
+    <div class="print-head">
+        <img src="<?php echo $this->getPrintLogoUrl() ? $this->getPrintLogoUrl() : $this->getSkinUrl('images/logo_print.gif') ?>" alt="" />
         <?php if ($this->getPrintLogoText()):?>
-        <span><?php echo nl2br($this->htmlEscape($this->getPrintLogoText())) ?></span>
+            <address><?php echo nl2br($this->htmlEscape($this->getPrintLogoText())) ?></address>
         <?php endif;?>
     </div>
     <?php echo $this->getChildHtml('content') ?>
     <div class="buttons-set">
         <button onclick="window.close();" class="button"><span><?php echo $this->__('Close Window') ?></span></button>
     </div>
+    <?php echo $this->getAbsoluteFooter() ?>
 </div>
-<?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>

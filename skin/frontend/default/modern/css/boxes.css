@@ -1266,6 +1266,9 @@ table.print .price-incl-tax .price { display:inline; }
 
 /********************** Pop up pages */
 .page-popup { background:#fff; margin:25px 30px; text-align:left; }
+.page-popup .print-head { margin:0 0 15px; }
+.page-popup .print-head img { float:left; }
+.page-popup .print-head address { float:left; margin-left:15px; }
 .product-gallery-nav { padding:0 5px; }
 
 

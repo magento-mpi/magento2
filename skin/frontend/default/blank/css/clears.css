@@ -55,4 +55,5 @@
 .field-100:after,
 .group-select li:after,
 .form-list li:after,
-.buttons-set:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
+.buttons-set:after,
+.page-print .print-head:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
