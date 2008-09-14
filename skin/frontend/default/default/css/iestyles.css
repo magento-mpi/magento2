@@ -66,13 +66,15 @@
 .truncated_full_value,
 .add-to-holder,
 .advanced-search-summary-box,
-.listing-type-grid .grid-row { zoom:1; }
-
-.form-button,
-.form-button-alt { padding:1px 10px 0; }
+.listing-type-grid .grid-row,
+.one-page-checkout .default-box { zoom:1; }
 
 input.radio,
 input.checkbox { width:13px; height:13px; }
+.form-button,
+.form-button-alt { padding:1px 10px 0; }
+
+.one-page-checkout li.section { zoom:1; vertical-align:top; }
 
 .product-options dd ul.options-list input.form-radio { margin-top:4px; }
 .multi-address-checkout-box .box { zoom:1; }
