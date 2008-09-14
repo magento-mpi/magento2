@@ -80,13 +80,10 @@ input.input-text:focus, textarea:focus, select:focus { background-color:#fafaec;
     }
 
 .form-button,
-.form-button-alt { overflow:visible; border:0; background:transparent; font:bold 12px/19px Arial, Helvetica, sans-serif; cursor:pointer; text-align:center; vertical-align:middle; }
+.form-button-alt { overflow:visible; padding:1px 0 0; border:0; background:transparent; font:bold 12px/19px Arial, Helvetica, sans-serif; cursor:pointer; text-align:center; vertical-align:middle; }
 .form-button span,
-.form-button-alt span { float:left; height:19px; border:1px solid #406a83; margin:-1px 0 0; padding:0 8px; font:bold 12px/19px Arial, Helvetica, sans-serif; background:#91c1cb url(../images/bkg_btn.gif) 0 100% repeat-x; white-space:nowrap; color:#fff; position:relative; }
+.form-button-alt span { float:left; height:19px; border:1px solid #406a83; margin:-1px 0 0; padding:0 8px; font:bold 12px/19px Arial, Helvetica, sans-serif; background:#91c1cb url(../images/bkg_btn.gif) 0 100% repeat-x; white-space:nowrap; color:#fff; /*position:relative;*/ }
 
-/*.form-button-alt { border:1px solid #406a83; background-color:#618499; }
-a.form-button-alt { padding:2px 9px; text-decoration:none; }
-a.form-button-alt:hover { color:#fff; text-decoration:none; }*/
 .btn-checkout {
     display:block;
     float:right;
@@ -1511,6 +1508,9 @@ table.print .price-incl-tax .price { display:inline; }
 
 /********************** Pop up pages */
 .page-popup { background:#fff; margin:25px 30px; text-align:left; }
+.page-popup .print-head { margin:0 0 15px; }
+.page-popup .print-head img { float:left; }
+.page-popup .print-head address { float:left; margin-left:15px; }
 .product-gallery-nav { padding:0 5px; }
 
 
