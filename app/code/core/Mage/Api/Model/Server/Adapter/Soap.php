@@ -156,9 +156,9 @@ class Mage_Api_Model_Server_Adapter_Soap
      *  @param    none
      *  @return	  boolean
      */
-    protected function _extensionLoaded ()
+    protected function _extensionLoaded()
     {
-        return class_exists('SoapServer');
+        return class_exists('SoapServer', false);
     }
 
 } // Class Mage_Api_Model_Server_Adapter_Soap End
