@@ -220,7 +220,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
                 return $group->getName();
             }
         }
-        return $null;
+        return null;
     }
 
     /**
