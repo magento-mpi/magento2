@@ -1242,4 +1242,28 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
         return $this->getData('_available_in_categories');
     }
+
+    /**
+     * Deprecated since 1.1.5
+     */
+    public function getImageUrl()
+    {
+        return (string)Mage::helper('catalog/image')->init($this, 'image')->resize(265);
+    }
+
+    /**
+     * Deprecated since 1.1.5
+     */
+    public function getSmallImageUrl($width = 88, $height = 77)
+    {
+        return (string)Mage::helper('catalog/image')->init($this, 'small_image')->resize($width, $height);
+    }
+
+    /**
+     * Deprecated since 1.1.5
+     */
+    public function getThumbnailUrl($width = 75, $height = 75)
+    {
+        return (string)Mage::helper('catalog/image')->init($this, 'thumbnail')->resize($width, $height);
+    }
 }
