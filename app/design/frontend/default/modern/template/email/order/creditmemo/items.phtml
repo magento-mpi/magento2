@@ -67,6 +67,19 @@
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_creditmemo->getTaxAmount()) ?></td>
         </tr>
         <?php endif; ?>
+        <?php if ((float) $_creditmemo->getAdjustmentPositive()): ?>
+        <tr>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Adjustment Refund') ?></td>
+            <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_creditmemo->getAdjustmentPositive()) ?></td>
+        </tr>
+        <?php endif; ?>
+
+        <?php if ((float) $_creditmemo->getAdjustmentNegative()): ?>
+        <tr>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Adjustment Fee') ?></td>
+            <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_creditmemo->getAdjustmentNegative()) ?></td>
+        </tr>
+        <?php endif; ?>
         <tr bgcolor="#DEE5E8">
             <td colspan="3" align="right" style="padding:3px 9px"><strong><big><?php echo $this->__('Grand Total') ?></big></strong></td>
             <td align="right" style="padding:6px 9px"><strong><big><?php echo $_order->formatPrice($_creditmemo->getGrandTotal()) ?></big></strong></td>

@@ -66,7 +66,14 @@
     </td>
     <td align="right" valign="top" style="padding:3px 9px">
         <?php if ($this->canShowPriceInfo($_item)): ?>
-            <?php echo $this->getOrder()->formatPrice($_item->getRowTotal()) ?>
+            <?php if ($this->helper('tax')->displayCartPriceInclTax($_item->getOrderItem()->getOrder()->getStore())): ?>
+                <?php echo $_item->getOrderItem()->getOrder()->formatPrice($_item->getRowTotal() + $_item->getTaxAmount()) ?>
+            <?php elseif ($this->helper('tax')->displayCartPriceExclTax($_item->getOrderItem()->getOrder()->getStore())): ?>
+                <?php echo $_item->getOrderItem()->getOrder()->formatPrice($_item->getRowTotal()) ?>
+            <?php else: ?>
+                <?php echo Mage::helper('tax')->__('Excl. Tax'); ?>: <?php echo $_item->getOrderItem()->getOrder()->formatPrice($_item->getRowTotal()) ?><br />
+                <?php echo Mage::helper('tax')->__('Incl. Tax'); ?>: <?php echo $_item->getOrderItem()->getOrder()->formatPrice($_item->getRowTotal() + $_item->getTaxAmount()) ?>
+            <?php endif; ?>
         <?php else: ?>
             &nbsp;
         <?php endif; ?>
