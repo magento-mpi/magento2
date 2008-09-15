@@ -25,22 +25,31 @@
  */
 
 if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/PHPUnitTestInit.php';
+    require dirname(__FILE__) . '/../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
 
 /**
- * All possible tests
+ * All Mage tests
  *
  */
-class AllTests
+class Bugs_AllTests
 {
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('All tests');
-        $suite->addTest(Mage_AllTests::suite());
-        $suite->addTest(Webservice_AllTests::suite());
-        $suite->addTest(Bugs_AllTests::suite());
+        $suite = new PHPUnit_Framework_TestSuite('Bugs/AllTests');
+        // $suite->addTest();
+
+        #6602, #6292
+
+        #6006
+
+        #6664, #5529, #6346
+
+        #6583
+
+        #6439
+
         return $suite;
     }
 }
