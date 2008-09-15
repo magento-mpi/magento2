@@ -280,12 +280,23 @@ class WebService_Catalog_CategoryTest extends WebService_TestCase_Abstract
         $result = $connector->call('catalog_category.move', array($tree[2]->getId(), $tree[0]->getId()));
         $this->assertTrue($result, 'Failed to move category to its parent parent.');
 
-        // make c12 before c11
+        // make c11 after c12
         $result = $connector->call('catalog_category.move', array($tree[11]->getId(), $tree[1]->getId(), $tree[12]->getId()));
         $this->assertTrue($result, 'Failed to move category inside its level.');
         $c11 = Mage::getModel('catalog/category')->load($tree[11]->getId());
         $c12 = Mage::getModel('catalog/category')->load($tree[12]->getId());
         $this->assertTrue((int)$c11->getPosition() > (int)$c12->getPosition(), 'Failed to change categories order inside one level.');
+
+        // move c2 to c1 without specifying third param and make sure it is has position greater than c11 and c12
+        $result = $connector->call('catalog_category.move', array($tree[2]->getId(), $tree[1]->getId()));
+        $c11 = Mage::getModel('catalog/category')->load($tree[11]->getId());
+        $c12 = Mage::getModel('catalog/category')->load($tree[12]->getId());
+        $c2  = Mage::getModel('catalog/category')->load($tree[2]->getId());
+        $this->assertTrue(
+            (int)$c11->getPosition() < (int)$c2->getPosition()
+            && (int)$c12->getPosition() < (int)$c2->getPosition(),
+            'Moved category without specifying afterId, but it moved not to the end of the level.'
+        );
 
         // move category to its child - expect exception
         try {
