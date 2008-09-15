@@ -97,6 +97,15 @@ class WebService_Catalog_CategoryTest extends WebService_TestCase_Abstract
             array('name' => 'New Category Through Soap', 'is_active' => 1, 'is_anchor' => 1)
         ));
 
+        // load the category via API and via Mage and compare their parent ids
+        $apiCategory = $connector->call('catalog_category.info', $newCategoryId);
+        $category    = Mage::getModel('catalog/category')->load($newCategoryId);
+        $this->assertTrue(
+            (int)$apiCategory['parent_id'] === (int)$category->getParentId()
+            && (int)$apiCategory['parent_id'] === Mage_Catalog_Model_Category::TREE_ROOT_ID,
+            '[#6056] Created category, but it is not linking to its parent category'
+        );
+
         // delete created category manually
         $this->_deleteCategoryById($newCategoryId);
     }
@@ -295,8 +304,10 @@ class WebService_Catalog_CategoryTest extends WebService_TestCase_Abstract
         $this->assertTrue(
             (int)$c11->getPosition() < (int)$c2->getPosition()
             && (int)$c12->getPosition() < (int)$c2->getPosition(),
-            'Moved category without specifying afterId, but it moved not to the end of the level.'
+            '[#6592] Moved category without specifying afterId, but it moved not to the end of the level.'
         );
+        // check if parent id of c2 is now c1
+        $this->assertEquals((int)$tree[1]->getId(), (int)$c2->getParentId(), '[#6058] Moved category to another parent, but its parent id has not been updated.');
 
         // move category to its child - expect exception
         try {
