@@ -170,6 +170,9 @@ RegionUpdater.prototype = {
         this.countryEl = $(countryEl);
         this.regionTextEl = $(regionTextEl);
         this.regionSelectEl = $(regionSelectEl);
+//        // clone for select element (#6924)
+//        this._regionSelectEl = {};
+//        this.tpl = new Template('<select class="#{className}" name="#{name}" id="#{id}">#{innerHTML}</select>');
         this.regions = regions;
         this.disableAction = (typeof disableAction=='undefined') ? 'hide' : disableAction;
 
@@ -188,7 +191,10 @@ RegionUpdater.prototype = {
     update: function()
     {
         if (this.regions[this.countryEl.value]) {
-
+//            if (!this.regionSelectEl) {
+//                Element.insert(this.regionTextEl, {after : this.tpl.evaluate(this._regionSelectEl)});
+//                this.regionSelectEl = $(this._regionSelectEl.id);
+//            }
             if (this.lastCountryId!=this.countryEl.value) {
                 var i, option, region, def;
 
@@ -256,6 +262,14 @@ RegionUpdater.prototype = {
                 this.lastCountryId = '';
             }
             this.setMarkDisplay(this.regionSelectEl, false);
+
+//            // clone required stuff from select element and then remove it
+//            this._regionSelectEl.className = this.regionSelectEl.className;
+//            this._regionSelectEl.name      = this.regionSelectEl.name;
+//            this._regionSelectEl.id        = this.regionSelectEl.id;
+//            this._regionSelectEl.innerHTML = this.regionSelectEl.innerHTML;
+//            Element.remove(this.regionSelectEl);
+//            this.regionSelectEl = null;
         }
     },
 
