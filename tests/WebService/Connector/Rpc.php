@@ -106,9 +106,10 @@ class WebService_Connector_Rpc implements WebService_Connector_Interface
     /**
      * Return list of the resource fault messages, if this resource is allowed in current session
      *
+     * @param string $resource
      * @return array
      */
-    public function getResourceFaults(){
-        return $this->_connection->call('resourceFaults', array($this->_session));
+    public function getResourceFaults($resource){
+        return $this->_connection->call('resourceFaults', array($this->_session, $resource));
     }
 }

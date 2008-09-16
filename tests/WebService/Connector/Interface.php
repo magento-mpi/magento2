@@ -80,7 +80,8 @@ interface WebService_Connector_Interface
     /**
      * Return list of the resource fault messages, if this resource is allowed in current session
      *
+     * @param string $resource
      * @return array
      */
-    public function getResourceFaults();
+    public function getResourceFaults($resource);
 }

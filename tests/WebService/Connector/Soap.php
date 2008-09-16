@@ -97,9 +97,10 @@ class WebService_Connector_Soap implements WebService_Connector_Interface
     /**
      * Return list of the resource fault messages, if this resource is allowed in current session
      *
+     * @param string $resource
      * @return array
      */
-    public function getResourceFaults(){
-        return $this->_connection->resourceFaults($this->_session);
+    public function getResourceFaults($resource){
+        return $this->_connection->resourceFaults($this->_session, $resource);
     }
 }
