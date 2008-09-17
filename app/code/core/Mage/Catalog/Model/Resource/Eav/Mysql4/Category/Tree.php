@@ -387,7 +387,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         }
 
         // count children products qty plus own products qty
-        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog/category_entity');
+        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog/category');
         $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
         $select->from(null, new Zend_Db_Expr('CASE WHEN `_is_anchor`.`value` > 0
             THEN
