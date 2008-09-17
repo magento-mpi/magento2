@@ -387,11 +387,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         }
 
         // count children products qty plus own products qty
+        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog/category_entity');
+        $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
         $select->from(null, new Zend_Db_Expr('CASE WHEN `_is_anchor`.`value` > 0
             THEN
                 (SELECT COUNT(DISTINCT cp.product_id)
-                    FROM catalog_category_entity ee
-                        LEFT JOIN catalog_category_product cp ON ee.entity_id=cp.category_id
+                    FROM ' . $categoriesTable . ' ee
+                        LEFT JOIN ' . $categoriesProductsTable . ' cp ON ee.entity_id=cp.category_id
                     WHERE ee.entity_id=e.entity_id OR ee.path like CONCAT(e.path, \'/%\'))
             ELSE
                 COUNT(_category_product.product_id)
@@ -399,7 +401,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         );
 
         // count own products qty
-        $select->joinLeft(array('_category_product' => Mage::getSingleton('core/resource')->getTableName('catalog/category_product')),
+        $select->joinLeft(array('_category_product' => $categoriesProductsTable),
             'e.entity_id=_category_product.category_id'
         )
         ->group('e.entity_id');
