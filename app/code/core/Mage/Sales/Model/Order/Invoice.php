@@ -274,7 +274,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function cancel()
     {
-        $this->setState(self::STATE_CANCELED);
         $this->getOrder()->getPayment()->cancelInvoice($this);
         foreach ($this->getAllItems() as $item) {
             $item->cancel();
@@ -298,6 +297,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
                 $this->getOrder()->getBaseTotalInvoiced()-$this->getBaseGrandTotal()
             );
         }
+        $this->setState(self::STATE_CANCELED);
         $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
         Mage::dispatchEvent('sales_order_invoice_cancel', array($this->_eventObject=>$this));
         return $this;
