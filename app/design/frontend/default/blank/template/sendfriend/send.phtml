@@ -82,8 +82,8 @@
                        <input name="sender[email]" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="sender_email" type="text" class="input-text required-entry validate-email" /></div>
                 </li>
                 <li>
-                    <label for="sender_message"><?php echo $this->__('Message:') ?></label><br />
-                    <textarea name="sender[message]" id="sender_message" cols="3" rows="3" style="height:100px;"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
+                    <label for="sender_message"><?php echo $this->__('Message:') ?></label> <span class="required">*</span><br />
+                    <textarea name="sender[message]" class="input-text required-entry" id="sender_message" cols="3" rows="3" style="height:100px;"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
                 </li>
 
          </ul>
