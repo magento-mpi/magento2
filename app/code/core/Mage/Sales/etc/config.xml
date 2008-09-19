@@ -796,48 +796,56 @@
         </sales>
         <sales_email>
             <order>
+                <enabled>1</enabled>
                 <template>sales_email_order_template</template>
                 <guest_template>sales_email_order_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </order>
             <order_comment>
+                <enabled>1</enabled>
                 <template>sales_email_order_comment_template</template>
                 <guest_template>sales_email_order_comment_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </order_comment>
             <invoice>
+                <enabled>1</enabled>
                 <template>sales_email_invoice_template</template>
                 <guest_template>sales_email_invoice_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </invoice>
             <invoice_comment>
+                <enabled>1</enabled>
                 <template>sales_email_invoice_comment_template</template>
                 <guest_template>sales_email_invoice_comment_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </invoice_comment>
             <shipment>
+                <enabled>1</enabled>
                 <template>sales_email_shipment_template</template>
                 <guest_template>sales_email_shipment_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </shipment>
             <shipment_comment>
+                <enabled>1</enabled>
                 <template>sales_email_shipment_comment_template</template>
                 <guest_template>sales_email_shipment_comment_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </shipment_comment>
             <creditmemo>
+                <enabled>1</enabled>
                 <template>sales_email_creditmemo_template</template>
                 <guest_template>sales_email_creditmemo_guest_template</guest_template>
                 <identity>sales</identity>
                 <copy_method>bcc</copy_method>
             </creditmemo>
             <creditmemo_comment>
+                <enabled>1</enabled>
                 <template>sales_email_creditmemo_comment_template</template>
                 <guest_template>sales_email_creditmemo_comment_guest_template</guest_template>
                 <identity>sales</identity>

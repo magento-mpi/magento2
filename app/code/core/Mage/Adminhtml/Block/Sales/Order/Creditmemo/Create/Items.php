@@ -177,4 +177,9 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
             return false;
         }
     }
+
+    public function canSendCreditmemoEmail()
+    {
+        return Mage::helper('sales')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
+    }
 }

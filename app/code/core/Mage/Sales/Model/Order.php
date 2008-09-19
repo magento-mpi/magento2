@@ -46,12 +46,14 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     const XML_PATH_EMAIL_IDENTITY               = 'sales_email/order/identity';
     const XML_PATH_EMAIL_COPY_TO                = 'sales_email/order/copy_to';
     const XML_PATH_EMAIL_COPY_METHOD            = 'sales_email/order/copy_method';
+    const XML_PATH_EMAIL_ENABLED                = 'sales_email/order/enabled';
 
     const XML_PATH_UPDATE_EMAIL_TEMPLATE        = 'sales_email/order_comment/template';
     const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE  = 'sales_email/order_comment/guest_template';
     const XML_PATH_UPDATE_EMAIL_IDENTITY        = 'sales_email/order_comment/identity';
     const XML_PATH_UPDATE_EMAIL_COPY_TO         = 'sales_email/order_comment/copy_to';
     const XML_PATH_UPDATE_EMAIL_COPY_METHOD     = 'sales_email/order_comment/copy_method';
+    const XML_PATH_UPDATE_EMAIL_ENABLED         = 'sales_email/order_comment/enabled';
 
     /**
      * Order states
@@ -566,6 +568,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
+        if (!Mage::helper('sales')->canSendNewOrderEmail($this->getStore()->getId())) {
+            return $this;
+        }
+
         $translate = Mage::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
@@ -633,6 +639,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function sendOrderUpdateEmail($notifyCustomer=true, $comment='')
     {
+        if (!Mage::helper('sales')->canSendOrderCommentEmail($this->getStore()->getId())) {
+            return $this;
+        }
+
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
         if (!$notifyCustomer && !$copyTo) {
