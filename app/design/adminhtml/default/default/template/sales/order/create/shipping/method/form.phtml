@@ -36,7 +36,9 @@
                 <?php $_code=$_rate->getCode() ?>
                 <li>
                    <?php if ($_rate->getErrorMessage()): ?>
-                        <?php echo $_rate->getErrorMessage() ?>
+                        <ul class="messages">
+                            <li class="error-msg"><?php echo $_rate->getErrorMessage() ?></li>
+                        </ul>
                    <?php else: ?>
                         <?php $_checked = $this->isMethodActive($_code) ? 'checked="checked"' : '' ?>
                         <input <?php echo $_radioProperty ?> value="<?php echo $_code ?>" id="s_method_<?php echo $_code ?>" <?php echo $_checked ?>/>

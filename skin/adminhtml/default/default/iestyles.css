@@ -84,7 +84,9 @@ div.collapseable a               { width:100%; }
 #tree-div {overflow-x:auto !important; height:auto !important; overflow-y:hidden !important; padding-bottom:30px; }
 #category_info_tabs_general_content .checkbox { display:inline; margin:0 0 0 21px; }
 
-#nav ul li, #nav ul li.active { float:left; clear:left; width:185px; }
+#nav ul li,
+#nav ul li.active { float:left; clear:left; width:185px; }
+#nav ul a span { zoom:1; }
 
 .grid-severity-critical,
 .grid-severity-major,
