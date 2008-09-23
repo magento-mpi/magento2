@@ -22,34 +22,33 @@
  */
 function toggleMenu(el, over)
 {
-	if (Element.childElements(el)) {
-	var uL = Element.childElements(el)[1];
-	var iS = true;
-	}
+    if (Element.childElements(el)) {
+    var uL = Element.childElements(el)[1];
+    var iS = true;
+    }
     if (over) {
         Element.addClassName(el, 'over');
-		
-		if(iS){ uL.addClassName('shown-sub')};
+        
+        if(iS){ uL.addClassName('shown-sub')};
     }
     else {
         Element.removeClassName(el, 'over');
-		if(iS){ uL.removeClassName('shown-sub')};
+        if(iS){ uL.removeClassName('shown-sub')};
     }
 }
 
 ieHover = function() {
-	var items, iframe;
-	items = $$('#nav ul', '.truncated_full_value .item-options');
-	for (var j=0; j<items.length; j++) {
-		iframe = document.createElement('IFRAME');
-		iframe.src = BLANK_URL;
-		iframe.scrolling = 'no';
-		iframe.frameBorder = 0;
-		iframe.className = 'hover-fix'
-		iframe.style.width = items[j].offsetWidth+"px";
-		iframe.style.height = items[j].offsetHeight+"px";
-		items[j].insertBefore(iframe, items[j].firstChild);
-	}
+    var items, iframe;
+    items = $$('#nav ul', '.truncated_full_value .item-options');
+    for (var j=0; j<items.length; j++) {
+        iframe = document.createElement('IFRAME');
+        iframe.src = BLANK_URL;
+        iframe.scrolling = 'no';
+        iframe.frameBorder = 0;
+        iframe.className = 'hover-fix';
+        iframe.style.width = items[j].offsetWidth+"px";
+        iframe.style.height = items[j].offsetHeight+"px";
+        items[j].insertBefore(iframe, items[j].firstChild);
+    }
 }
-
 Event.observe(window, 'load', ieHover);
