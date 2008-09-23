@@ -25,12 +25,12 @@
  */
 ?>
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
-<div class="box base-mini mini-poll">
+<div class="box base-mini mini-compare-products">
     <div class="head">
         <h4><span><?php echo $this->__('Recently Compared Products') ?></span></h4>
     </div>
     <div class="content">
-        <ol  id="recently-compared-items">
+        <ol id="recently-compared-items">
         <?php foreach ($_products as $_item): ?>
             <li><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>
         <?php endforeach; ?>
