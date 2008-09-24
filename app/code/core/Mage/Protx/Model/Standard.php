@@ -288,6 +288,10 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $result = '';
         $cryptKey = $this->getConfig()->getCryptKey();
 
+        if (!$cryptKey) {
+            return $string;
+        }
+
         // Initialise key array
         $keyList = array();
 
