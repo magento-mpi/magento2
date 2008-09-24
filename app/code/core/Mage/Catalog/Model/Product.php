@@ -783,6 +783,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             ->setOriginalId($this->getId())
             ->setSku(null)
             ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+            ->setCreatedAt(null)
+            ->setUpdatedAt(null)
             ->setId(null);
         /* @var $newProduct Mage_Catalog_Model_Product */
 
