@@ -259,7 +259,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'LASTNAME'       => $a->getLastname(),
             'STREET'         => $a->getStreet(1),
             'CITY'           => $a->getCity(),
-            'STATE'          => $a->getRegionCode(),
+            'STATE'          => ($a->getRegionCode() ? $a->getRegionCode() : $a->getRegion()),
             'ZIP'            => $a->getPostcode(),
             'COUNTRYCODE'    => 'US', // only US supported for direct payment
             'EMAIL'          => $this->getEmail(),
