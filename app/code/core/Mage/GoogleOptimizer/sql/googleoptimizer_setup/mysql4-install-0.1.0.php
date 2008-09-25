@@ -31,8 +31,8 @@ $installer->startSetup();
 
 $installer->run("
 
-DROP TABLE IF EXISTS {$this->getTable('googleoptimizer/code_product')};
-CREATE TABLE {$this->getTable('googleoptimizer/code_product')} (
+DROP TABLE IF EXISTS {$this->getTable('googleoptimizer/product_code')};
+CREATE TABLE {$this->getTable('googleoptimizer/product_code')} (
   `code_id` int(10) unsigned NOT NULL auto_increment,
   `product_id` int(10) unsigned NOT NULL,
   `store_id` smallint(5) unsigned NOT NULL,
