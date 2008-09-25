@@ -325,5 +325,12 @@
                 <Mage_Eav />
             </depends>
         </Mage_CatalogIndex>
+        <Mage_GoogleOptimizer>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Catalog />
+            </depends>
+        </Mage_GoogleOptimizer>
     </modules>
 </config>
