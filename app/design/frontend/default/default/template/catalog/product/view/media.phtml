@@ -30,7 +30,12 @@
  * @see Mage_Catalog_Block_Product_View_Media
  */
 ?>
-<?php $_product = $this->getProduct() ?>
+
+<?php
+    $_product = $this->getProduct();
+    $_helper = $this->helper('catalog/product');
+?>
+
 <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
 <p class="product-image-zoom"><img id="image" src="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></p>
 <p class="a-center" id="track_hint"><?php echo $this->__('Double click on above image to view full picture') ?></p>

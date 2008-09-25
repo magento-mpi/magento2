@@ -164,10 +164,18 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
 
         return $product->isVisibleInCatalog() && $product->isVisibleInSiteVisibility();
-        // TODO shold be check both status and visibility
-        //if ('catalog' == $where) {
-        //}
+    }
 
-        return false;
+    /**
+     * Prepare attribute html output
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @param   string $attributeHtml
+     * @param   string $attributeName
+     * @return  string
+     */
+    public function outputAttribute($product, $attributeHtml, $attributeName)
+    {
+        return $attributeHtml;
     }
 }

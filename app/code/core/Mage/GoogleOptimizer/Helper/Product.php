@@ -18,18 +18,34 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    Mage_GoogleOptimizer
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Product description template
+ * Google Optimizer Product helper
  *
- * @see Mage_Catalog_Block_Product_View_Description
+ * @category   Mage
+ * @package    Mage_GoogleOptimizer
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-?>
-<div class="product-specs">
-<?php echo $this->helper('catalog/product')->outputAttribute($this->getProduct(), nl2br($this->getProduct()->getDescription()), 'description') ?>
-</div>
+class Mage_Googleoptimizer_Helper_Product extends Mage_Catalog_Helper_Product
+{
+    /**
+     * Prepare attribute html output
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @param   string $attributeHtml
+     * @param   string $attributeName
+     * @return  string
+     */
+    public function outputAttribute($product, $attributeHtml, $attributeName)
+    {
+        $attributeHtml = parent::outputAttribute($product, $attributeHtml, $attributeName);
+        return $attributeHtml;
+        $attributeHtml = '<script>utmx_section("'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
+        return $attributeHtml;
+    }
+}
