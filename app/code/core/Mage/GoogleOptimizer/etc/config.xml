@@ -37,10 +37,17 @@
                 <class>Mage_GoogleOptimizer_Model</class>
                 <resourceModel>googleoptimizer_mysql4</resourceModel>
             </googleoptimizer>
+
             <googleoptimizer_mysql4>
                 <class>Mage_GoogleOptimizer_Model_Mysql4</class>
                 <entities>
-                    <code><table>googleoptimizer_code</table></code>
+                    <code>
+                        <table>googleoptimizer_code</table>
+                    </code>
+
+                    <code_product>
+                        <table>googleoptimizer_code_product</table>
+                    </code_product>
                 </entities>
             </googleoptimizer_mysql4>
         </models>
