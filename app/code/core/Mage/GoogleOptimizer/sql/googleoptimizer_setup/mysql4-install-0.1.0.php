@@ -31,18 +31,17 @@ $installer->startSetup();
 
 $installer->run("
 
-DROP TABLE IF EXISTS {$this->getTable('googleoptimizer/product_code')};
-CREATE TABLE {$this->getTable('googleoptimizer/product_code')} (
+DROP TABLE IF EXISTS {$this->getTable('googleoptimizer/code')};
+CREATE TABLE {$this->getTable('googleoptimizer/code')} (
   `code_id` int(10) unsigned NOT NULL auto_increment,
-  `product_id` int(10) unsigned NOT NULL,
+  `entity_id` int(10) unsigned NOT NULL,
+  `entity_type` varchar(50) NOT NULL default '',
   `store_id` smallint(5) unsigned NOT NULL,
   `control_script` text,
   `tracking_script` text,
   `conversion_script` text,
   PRIMARY KEY  (`code_id`),
-  KEY `GOOGLEOPTIMIZER_CODE_PRODUCT` (`product_id`),
   KEY `GOOGLEOPTIMIZER_CODE_STORE` (`store_id`),
-  CONSTRAINT `FK_GOOGLEOPTIMIZER_CODE_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `{$this->getTable('catalog/product_entity')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_GOOGLEOPTIMIZER_CODE_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$this->getTable('core/store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

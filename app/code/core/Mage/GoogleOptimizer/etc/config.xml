@@ -41,9 +41,9 @@
             <googleoptimizer_mysql4>
                 <class>Mage_GoogleOptimizer_Model_Mysql4</class>
                 <entities>
-                    <product_code>
-                        <table>googleoptimizer_product_code</table>
-                    </product_code>
+                    <code>
+                        <table>googleoptimizer_code</table>
+                    </code>
                 </entities>
             </googleoptimizer_mysql4>
         </models>

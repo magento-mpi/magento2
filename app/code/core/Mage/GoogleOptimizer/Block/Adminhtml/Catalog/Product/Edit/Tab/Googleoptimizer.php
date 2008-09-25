@@ -35,30 +35,75 @@
 class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer
     extends Mage_Adminhtml_Block_Catalog_Form implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    protected $_googleoptimizerModel = null;
+
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
+
+        /**
+         * Need to set GoogleOptimizer_product Model instead of product
+         */
+        $form->setDataObject(Mage::registry('product'));
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Codes'))
         );
 
+        $fieldset->addField('control_script', 'textarea',
+            array(
+                'name'  => 'control_script',
+                'label' => Mage::helper('googleoptimizer')->__('Control Script'),
+                'class' => 'textarea',
+                'required' => false,
+                'note' => '',
+            )
+        );
+        $fieldset->addField('tracking_script', 'textarea',
+            array(
+                'name'  => 'tracking_script',
+                'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
+                'class' => 'textarea',
+                'required' => false,
+                'note' => '',
+            )
+        );
+        $fieldset->addField('conversion_script', 'textarea',
+            array(
+                'name'  => 'conversion_script',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
+                'class' => 'textarea',
+                'required' => false,
+                'note' => '',
+            )
+        );
 
-//        $fieldset->addField(
-//            array(
-//                'name'  => $attribute->getAttributeCode(),
-//                'label' => __($attribute->getFrontend()->getLabel()),
-//                'class' => $attribute->getFrontend()->getClass(),
-//                'required' => $attribute->getIsRequired(),
-//                'note' => $attribute->getNote(),
-//            )
-//        );
+        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute');
+        /** @var $fakeEntityAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
 
-//        $form->addValues($values);
-//        $form->setFieldNameSuffix('product');
+        /**
+         * setting fake entity attribute to elements. scope logic need this object
+         */
+        foreach ($fieldset->getElements() as $element) {
+            $element->setEntityAttribute($fakeEntityAttribute);
+        }
+
+        $form->addValues($this->getGoogleoptimizerModel()->getData());
+        $form->setFieldNameSuffix('googleoptimizer');
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    public function getGoogleoptimizerModel()
+    {
+        if (is_null($this->_googleoptimizerModel)) {
+            /**
+             * need to get singelton
+             */
+            $this->_googleoptimizerModel = Mage::getModel('googleoptimizer/code')->load(1);
+        }
+        return $this->_googleoptimizerModel;
     }
 
     public function getTabLabel()
