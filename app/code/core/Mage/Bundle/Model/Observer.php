@@ -123,7 +123,8 @@ class Mage_Bundle_Model_Observer
      * @param Varien_Object $observer
      * @return Mage_Bundle_Model_Observer
      */
-    public function appendBundleSelectionData($observer) {
+    public function appendBundleSelectionData($observer)
+    {
         $orderItem = $observer->getEvent()->getOrderItem();
         $quoteItem = $observer->getEvent()->getItem();
 
@@ -143,7 +144,8 @@ class Mage_Bundle_Model_Observer
      * @param Varien_Object $observer
      * @return Mage_Bundle_Model_Observer
      */
-    public function loadProductOptions($observer) {
+    public function loadProductOptions($observer)
+    {
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection->getItems() as $item){
             if ($item->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
@@ -154,4 +156,59 @@ class Mage_Bundle_Model_Observer
         return $this;
     }
 
+    /**
+     * duplicating bundle options and selections
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function duplicateProduct($observer)
+    {
+        $product = $observer->getEvent()->getCurrentProduct();
+
+        if ($product->getType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            //do nothing if not bundle
+            return $this;
+        }
+
+        $newProduct = $observer->getEvent()->getNewProduct();
+
+        $product->getTypeInstance()->setStoreFilter($product->getStoreId());
+        $optionCollection = $product->getTypeInstance()->getOptionsCollection();
+        $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
+                $product->getTypeInstance()->getOptionsIds()
+            );
+        $optionCollection->appendSelections($selectionCollection);
+
+        $optionRawData = array();
+        $selectionRawData = array();
+
+        $i = 0;
+        foreach ($optionCollection as $option) {
+            $optionRawData[$i] = array(
+                    'required' => $option->getData('required'),
+                    'position' => $option->getData('position'),
+                    'type' => $option->getData('type'),
+                    'title' => $option->getData('title')?$option->getData('title'):$option->getData('default_title'),
+                    'delete' => ''
+                );
+            foreach ($option->getSelections() as $selection) {
+                $selectionRawData[$i][] = array(
+                    'product_id' => $selection->getProductId(),
+                    'position' => $selection->getPosition(),
+                    'is_default' => $selection->getIsDefault(),
+                    'selection_price_type' => $selection->getSelectionPriceType(),
+                    'selection_price_value' => $selection->getSelectionPriceValue(),
+                    'selection_qty' => $selection->getSelectionQty(),
+                    'selection_can_change_qty' => $selection->getSelectionCanChangeQty(),
+                    'delete' => ''
+                );
+            }
+            $i++;
+        }
+
+        $newProduct->setBundleOptionsData($optionRawData);
+        $newProduct->setBundleSelectionsData($selectionRawData);
+        return $this;
+    }
 }

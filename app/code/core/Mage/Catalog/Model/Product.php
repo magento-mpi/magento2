@@ -310,8 +310,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                     }
                 }
                 foreach ($this->getOptionInstance()->getOptions() as $option) {
-                    if ($option['is_require'] == '1') {
-                        $hasRequiredOptions = true;
+                        if ($option['is_require'] == '1') {
+                            $hasRequiredOptions = true;
                         break;
                     }
                 }
@@ -781,16 +781,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getWebsiteIds();
         $this->getCategoryIds();
 
-        Mage::dispatchEvent('catalog_model_product_duplicate', array($this->_eventObject=>$this));
-        $newProduct = Mage::getModel('catalog/product')
-            ->setData($this->getData())
+        $newProduct = Mage::getModel('catalog/product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setSku(null)
             ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
-            ->setId(null);
+            ->setId(null)
+            ->setStoreId(Mage::app()->getStore()->getId());
+
+        Mage::dispatchEvent('catalog_model_product_duplicate', array('current_product'=>$this, 'new_product'=>$newProduct));
+
         /* @var $newProduct Mage_Catalog_Model_Product */
 
         $newOptionsArray = array();
@@ -1241,7 +1243,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 $allCategories[] = $one;
                 $anchors = Mage::getModel('catalog/category')->load($one)->getAnchorsAbove();
                 foreach ($anchors as $anchor) {
-                	$allCategories[] = $anchor;
+                    $allCategories[] = $anchor;
                 }
             }
 

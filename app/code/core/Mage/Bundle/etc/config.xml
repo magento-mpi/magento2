@@ -237,6 +237,15 @@
                     </bundle_observer>
                 </observers>
             </sales_convert_quote_item_to_order_item>
+            <catalog_model_product_duplicate>
+                <observers>
+                    <bundle_observer>
+                        <type>singleton</type>
+                        <class>bundle/observer</class>
+                        <method>duplicateProduct</method>
+                    </bundle_observer>
+                </observers>
+            </catalog_model_product_duplicate>
         </events>
     </adminhtml>
 </config>
