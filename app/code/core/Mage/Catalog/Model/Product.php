@@ -72,6 +72,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_options = array();
 
     /**
+     * Product reserved attribute codes
+     */
+    protected $_reservedAttributes;
+
+    /**
      * Initialize resources
      */
     protected function _construct()
@@ -1281,4 +1286,42 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return (string)Mage::helper('catalog/image')->init($this, 'thumbnail')->resize($width, $height);
     }
 
+    /**
+     *  Returns system reserved attribute codes
+     *
+     *  @param    none
+     *  @return	  array Reserved attribute names
+     */
+    public function getReservedAttributes()
+    {
+        if ($this->_reservedAttributes === null) {
+            $_reserved = array();
+            $methods = get_class_methods(__CLASS__);
+            foreach ($methods as $method) {
+                if (preg_match('/^get([A-Z]{1}.+)/', $method, $matches)) {
+                    $method = $matches[1];
+                    $tmp = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $method));
+                    $_reserved[] = $tmp;
+                }
+            }
+            $_allowed = array(
+                'name','type_id','status','calculated_final_price','minimal_price',
+                'special_price','special_from_date','special_to_date','request_path',
+                'gift_message_available','rating_summary'
+            );
+            $this->_reservedAttributes = array_diff($_reserved, $_allowed);
+        }
+        return $this->_reservedAttributes;
+    }
+
+    /**
+     *  Check whether attribute reserved or not
+     *
+     *  @param    string $code Attribute code
+     *  @return	  boolean
+     */
+    public function isReservedAttribute ($code)
+    {
+        return in_array($code, $this->getReservedAttributes());
+    }
 }
