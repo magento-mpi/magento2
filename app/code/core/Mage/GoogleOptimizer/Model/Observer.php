@@ -34,15 +34,14 @@
 class Mage_Googleoptimizer_Model_Observer
 {
     /**
-     * Enter description here...
+     * Loading product codes after load product
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
     public function appendToProductGoogleOptimizerCodes($observer)
     {
         $product = $observer->getEvent()->getProduct();
-
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_product')
             ->loadCodes($product);
 
@@ -52,10 +51,10 @@ class Mage_Googleoptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Prepare product codes for saving
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
     public function prepareGoogleOptimizerCodes($observer)
     {
@@ -69,10 +68,10 @@ class Mage_Googleoptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Save product codes after saving product
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
     public function saveProductGoogleOptimizerCodes($observer)
     {
@@ -87,16 +86,75 @@ class Mage_Googleoptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Delete Produt Codes after deleteing product
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
     public function deleteProductGoogleOptimizerCodes($observer)
     {
         $product = $observer->getEvent()->getProduct();
         $googleOptimizer = Mage::getModel('googleoptimizer/code_product')
             ->deleteCodes($product);
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
+     */
+    public function appendToPageGoogleOptimizerCodes($observer)
+    {
+        $cmsPage = $observer->getEvent()->getObject();
+        $googleOptimizerModel = Mage::getModel('googleoptimizer/code_page')
+            ->loadCodes($cmsPage);
+        $cmsPage->setGoogleOptimizerCodes($googleOptimizerModel);
+
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
+    public function preparePageGoogleOptimizerCodes($observer)
+    {
+        $cmsPage = $observer->getEvent()->getPage();
+        $request = $observer->getEvent()->getRequest();
+
+        if ($googleOptimizer = $request->getPost('googleoptimizer')) {
+            $cmsPage->setGoogleOptimizerCodes($googleOptimizer);
+        }
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
+    public function savePageGoogleOptimizerCodes($observer)
+    {
+        $cmsPage = $observer->getEvent()->getObject();
+
+        if ($cmsPage->getGoogleOptimizerCodes()) {
+            $googleOptimizer = Mage::getModel('googleoptimizer/code_page')
+                ->saveCodes($cmsPage);
+        }
+
+        return $this;
+    }
+
+    public function deletePageGoogleOptimizerCodes($observer)
+    {
+        $cmsPage = $observer->getEvent()->getObject();
+        $googleOptimizer = Mage::getModel('googleoptimizer/code_page')
+            ->deleteCodes($cmsPage);
         return $this;
     }
 }

@@ -147,6 +147,42 @@
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_delete_after>
+            <cms_page_load_after>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>appendToPageGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </cms_page_load_after>
+            <cms_page_prepare_save>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>preparePageGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </cms_page_prepare_save>
+            <cms_page_save_after>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>savePageGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </cms_page_save_after>
+            <cms_page_delete_after>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>deletePageGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </cms_page_delete_after>
         </events>
         <layout>
             <updates>

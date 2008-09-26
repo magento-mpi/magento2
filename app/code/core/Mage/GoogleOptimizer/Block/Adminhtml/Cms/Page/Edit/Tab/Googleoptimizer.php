@@ -25,23 +25,20 @@
  */
 
 /**
- * Google Optimizer Tab
+ * Google Optimizer Cms Page Tab
  *
  * @category    Mage
  * @package     Mage_GoogleOptimizer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer
-    extends Mage_Adminhtml_Block_Catalog_Form implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
+    extends Mage_Adminhtml_Block_Widget_Form/* implements Mage_Adminhtml_Block_Widget_Tab_Interface*/
 {
 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-
-//        $form->setDataObject($this->getGoogleOptimizer());
-        $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Codes'))
@@ -75,17 +72,6 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             )
         );
 
-        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute')
-            ->setData('is_global', true);
-        /** @var $fakeEntityAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
-
-        /**
-         * setting fake entity attribute to elements. scope logic need this object
-         */
-        foreach ($fieldset->getElements() as $element) {
-            $element->setEntityAttribute($fakeEntityAttribute);
-        }
-
         $values = array();
         if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
             $values = $this->getGoogleOptimizer()->getData();
@@ -99,34 +85,34 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         return parent::_prepareForm();
     }
 
-    public function getProduct()
+    public function getCmsPage()
     {
-        return Mage::registry('product');
+        return Mage::registry('cms_page');
     }
 
     public function getGoogleOptimizer()
     {
-        return $this->getProduct()->getGoogleOptimizerCodes();
+        return $this->getCmsPage()->getGoogleOptimizerCodes();
     }
-
-    public function getTabLabel()
-    {
-        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
-    }
-
-    public function getTabTitle()
-    {
-        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
-    }
-
-    public function canShowTab()
-    {
-        return true;
-    }
-
-    public function isHidden()
-    {
-        return false;
-    }
+//
+//    public function getTabLabel()
+//    {
+//        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
+//    }
+//
+//    public function getTabTitle()
+//    {
+//        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
+//    }
+//
+//    public function canShowTab()
+//    {
+//        return true;
+//    }
+//
+//    public function isHidden()
+//    {
+//        return false;
+//    }
 
 }
