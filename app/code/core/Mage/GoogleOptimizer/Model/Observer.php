@@ -95,9 +95,8 @@ class Mage_Googleoptimizer_Model_Observer
     public function deleteProductGoogleOptimizerCodes($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product->getGoogleOptimizerCodes()) {
-            Mage::getModel('googleoptimizer/code_product')->deleteCodes($product);
-        }
+        $googleOptimizer = Mage::getModel('googleoptimizer/code_product')
+            ->deleteCodes($product);
         return $this;
     }
 }

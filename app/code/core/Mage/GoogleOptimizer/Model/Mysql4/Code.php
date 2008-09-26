@@ -85,7 +85,7 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
         $write = $this->_getWriteAdapter();
         if ($write) {
             $where = $write->quoteInto($this->getMainTable().'.entity_id=?', $entity->getId()) .
-                ' AND ' . $write->quoteInto($this->getMainTable().'.entity_type=?', $entity->getEntityType());
+                ' AND ' . $write->quoteInto($this->getMainTable().'.entity_type=?', $googleoptimizer->getEntityType());
             $write->delete($this->getMainTable(), $where);
         }
 
