@@ -247,6 +247,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category->setPostedProducts($products);
             }
 
+            Mage::dispatchEvent('catalog_category_prepare_save', array(
+                'category' => $category,
+                'request' => $this->getRequest()
+            ));
+
             try {
               //  if( $this->getRequest()->getParam('image') )
 
