@@ -33,10 +33,67 @@
  */
 class Mage_Googleoptimizer_Model_Code extends Mage_Core_Model_Abstract
 {
-    protected $_entityType;
+    const DEFAULT_ENTITY_TYPE = 'product';
+
+    protected $_entityType = null;
 
     protected function _construct()
     {
+        parent::_construct();
         $this->_init('googleoptimizer/code');
+        if (is_null($this->_entityType)) {
+            $this->_entityType = self::DEFAULT_ENTITY_TYPE;
+        }
+    }
+
+    public function getEntityType()
+    {
+        return $this->_entityType;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $entity
+     * @return Mage_Googleoptimizer_Model_Code
+     */
+    public function loadCodes(Varien_Object $entity)
+    {
+        $this->getResource()->loadByEntityType($this, $entity);
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $entity
+     * @return Mage_Googleoptimizer_Model_Code
+     */
+    public function saveCodes(Varien_Object $entity)
+    {
+        $this->setData($entity->getGoogleOptimizerCodes())
+            ->setEntityId($entity->getId())
+            ->setEntityType($this->getEntityType())
+            ->setStoreId($entity->getStoreId());
+
+//        if ($entity->getStoreId() != '0' && !$this->getCodeId()) {
+//            $clone = clone $this;
+//            $clone->setStoreId(0)
+//                ->save();
+//        }
+        $this->save();
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $entity
+     * @return Mage_Googleoptimizer_Model_Code
+     */
+    public function deleteCodes(Varien_Object $entity)
+    {
+        $this->getResource()->deleteByEntityType($this, $entity);
+        return $this;
     }
 }

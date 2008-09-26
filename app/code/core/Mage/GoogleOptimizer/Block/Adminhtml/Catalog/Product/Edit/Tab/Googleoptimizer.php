@@ -41,10 +41,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     {
         $form = new Varien_Data_Form();
 
-        /**
-         * Need to set GoogleOptimizer_product Model instead of product
-         */
-        $form->setDataObject(Mage::registry('product'));
+//        $form->setDataObject($this->getGoogleOptimizer());
+        $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Codes'))
@@ -78,7 +76,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             )
         );
 
-        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute');
+        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute')
+            ->setData('is_global', true);
         /** @var $fakeEntityAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
 
         /**
@@ -88,22 +87,25 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             $element->setEntityAttribute($fakeEntityAttribute);
         }
 
-        $form->addValues($this->getGoogleoptimizerModel()->getData());
+        if ($this->getGoogleOptimizer()->getData()) {
+            $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
+        }
+
+        $form->addValues($this->getGoogleOptimizer()->getData());
         $form->setFieldNameSuffix('googleoptimizer');
         $this->setForm($form);
 
         return parent::_prepareForm();
     }
 
-    public function getGoogleoptimizerModel()
+    public function getProduct()
     {
-        if (is_null($this->_googleoptimizerModel)) {
-            /**
-             * need to get singelton
-             */
-            $this->_googleoptimizerModel = Mage::getModel('googleoptimizer/code')->load(1);
-        }
-        return $this->_googleoptimizerModel;
+        return Mage::registry('product');
+    }
+
+    public function getGoogleOptimizer()
+    {
+        return $this->getProduct()->getGoogleOptimizerCodes();
     }
 
     public function getTabLabel()

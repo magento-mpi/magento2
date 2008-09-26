@@ -37,4 +37,59 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
     {
         $this->_init('googleoptimizer/code', 'code_id');
     }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $googleOptimizer
+     * @param unknown_type $productId
+     * @return unknown
+     */
+    public function loadbyEntityType($googleOptimizer, $entity)
+    {
+        $read = $this->_getReadAdapter();
+        if ($read) {
+            $select = $read->select()
+                ->from($this->getMainTable())
+                ->where($this->getMainTable().'.entity_id=?', $entity->getId())
+                ->where($this->getMainTable().'.entity_type=?', $googleOptimizer->getEntityType())
+//                ->where($this->getMainTable().'.store_id=?', $entity->getStoreId())
+                ->where($this->getMainTable().'.store_id=?', 0)
+                ->limit(1);
+            $data = $read->fetchRow($select);
+//            if (!$data && $entity->getStoreId() != '0') {
+//                $select->reset('where');
+//                $select->where($this->getMainTable().'.entity_id=?', $entity->getId())
+//                    ->where($this->getMainTable().'.entity_type=?', $googleOptimizer->getEntityType())
+//                    ->where($this->getMainTable().'.store_id=?', 0);
+//
+//                $data = $read->fetchRow($select);
+//            }
+            if ($data) {
+                $googleOptimizer->setData($data);
+            }
+        }
+        $this->_afterLoad($googleOptimizer);
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $googleoptimizer
+     * @param unknown_type $entity
+     * @return unknown
+     */
+    public function deleteByEntityType($googleoptimizer, $entity)
+    {
+        $write = $this->_getWriteAdapter();
+        if ($write) {
+            $where = $write->quoteInto($this->getMainTable().'.entity_id=?', $entity->getId()) .
+                ' AND ' . $write->quoteInto($this->getMainTable().'.entity_type=?', $entity->getEntityType());
+            $write->delete($this->getMainTable(), $where);
+        }
+
+        $this->_afterDelete($googleoptimizer);
+        return $this;
+    }
 }
