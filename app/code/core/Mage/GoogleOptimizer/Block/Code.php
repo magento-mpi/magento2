@@ -38,12 +38,23 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
     protected $_googleOptmizerModel = null;
     protected $_avaibleScriptTypes = array('control_script', 'tracking_script', 'conversion_script');
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $model
+     * @return unknown
+     */
     protected function _setGoogleOptimizerModel($model)
     {
         $this->_googleOptmizerModel = $model;
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
     protected function _getGoogleOptimizerModel()
     {
         return $this->_googleOptmizerModel;
@@ -54,8 +65,16 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
         return parent::_toHtml() . $this->getScriptCode();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
     public function getScriptCode()
     {
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+            return '';
+        }
         if (is_null($this->_scriptType)) {
             return '';
         }
@@ -65,6 +84,12 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
         return $this->_getGoogleOptimizerModel()->getData($this->_scriptType);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $scriptType
+     * @return unknown
+     */
     public function setScriptType($scriptType)
     {
         if (in_array($scriptType, $this->_avaibleScriptTypes)) {
