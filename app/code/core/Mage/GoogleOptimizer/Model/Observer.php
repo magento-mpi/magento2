@@ -150,6 +150,12 @@ class Mage_Googleoptimizer_Model_Observer
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
     public function deletePageGoogleOptimizerCodes($observer)
     {
         $cmsPage = $observer->getEvent()->getObject();
