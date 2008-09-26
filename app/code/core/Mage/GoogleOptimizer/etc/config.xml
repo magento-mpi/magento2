@@ -156,4 +156,11 @@
             </updates>
         </layout>
     </adminhtml>
+    <default>
+        <google>
+            <optimizer>
+                <active>0</active>
+            </optimizer>
+        </google>
+    </default>
 </config>
