@@ -157,4 +157,13 @@ class Mage_Googleoptimizer_Model_Observer
             ->deleteCodes($cmsPage);
         return $this;
     }
+
+    public function assignHandlers($observer)
+    {
+        $catalogHalper = $observer->getEvent()->getHelper();
+        $helper = Mage::helper('googleoptimizer');
+        $catalogHalper->addHandler('productAttribute', $helper)
+            ->addHandler('categoryAttribute', $helper);
+        return $this;
+    }
 }

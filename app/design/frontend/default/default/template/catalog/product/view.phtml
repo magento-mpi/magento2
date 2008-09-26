@@ -32,7 +32,7 @@
  */
 ?>
 <?php
-    $_helper = $this->helper('catalog/product');
+    $_helper = $this->helper('catalog/output');
     $_product = $this->getProduct()
 ?>
 <script type="text/javascript">
@@ -49,11 +49,11 @@
 
         <div class="product-shop">
             <h3 class="product-name">
-                <?php echo $_helper->outputAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?>
+                <?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?>
             </h3>
 
             <?php if ($this->canEmailToFriend()): ?>
-                <a href="<?php echo $_helper->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />
+                <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />
             <?php endif; ?>
 
             <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
@@ -85,7 +85,7 @@
 
             <?php if ($_product->getShortDescription()):?>
                 <h4><?php echo $this->__('Quick Overview') ?></h4>
-                <div class="short-description"><?php echo $_helper->outputAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                <div class="short-description"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
             <?php endif;?>
 
             <?php echo $this->getChildHtml('other');?>

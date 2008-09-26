@@ -33,5 +33,29 @@
  */
 class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_ENABLED = 'google/optimizer/active';
 
+    public function isOptimizerActive()
+    {
+        return Mage::app()->getStore()->getConfig(self::XML_PATH_ENABLED);
+    }
+    /**
+     * Prepare product attribute html output
+     *
+     * @param unknown_type $callObject
+     * @param unknown_type $attributeHtml
+     * @param unknown_type $params
+     * @return unknown
+     */
+    public function productAttribute($callObject, $attributeHtml, $params)
+    {
+        if (!$this->isOptimizerActive()) {
+            return $attributeHtml;
+        }
+        $attributeName  = $params['attribute'];
+        $product        = $params['product'];
+
+        $attributeHtml = '<script>utmx_section("'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
+        return $attributeHtml;
+    }
 }

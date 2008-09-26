@@ -51,11 +51,6 @@
             <googleoptimizer>
                 <class>Mage_GoogleOptimizer_Helper</class>
             </googleoptimizer>
-            <catalog>
-                <rewrite>
-                    <product>Mage_GoogleOptimizer_Helper_Product</product>
-                </rewrite>
-            </catalog>
         </helpers>
         <resources>
             <googleoptimizer_setup>
@@ -98,6 +93,17 @@
                 </googleoptimizer>
             </updates>
         </layout>
+        <events>
+            <catalog_helper_output_construct>
+                <observers>
+                    <googleoptimizer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>assignHandlers</method>
+                    </googleoptimizer>
+                </observers>
+            </catalog_helper_output_construct>
+        </events>
     </frontend>
 
     <adminhtml>
