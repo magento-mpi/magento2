@@ -97,6 +97,15 @@
         </events>
     </global>
     <frontend>
+        <routers>
+            <googleoptimizer>
+                <use>standard</use>
+                <args>
+                    <module>Mage_GoogleOptimizer</module>
+                    <frontName>googleoptimizer</frontName>
+                </args>
+            </googleoptimizer>
+        </routers>
         <translate>
             <modules>
                 <Mage_GoogleOptimizer>
@@ -184,6 +193,42 @@
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_delete_after>
+            <catalog_category_load_after>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>appendToCategoryGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </catalog_category_load_after>
+            <catalog_category_prepare_save>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>prepareCategoryGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </catalog_category_prepare_save>
+            <catalog_category_save_after>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>saveCategoryGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </catalog_category_save_after>
+            <catalog_category_delete_after>
+                <observers>
+                    <googleoptimizer_observer>
+                        <type>singleton</type>
+                        <class>googleoptimizer/observer</class>
+                        <method>deleteCategoryGoogleOptimizerCodes</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </catalog_category_delete_after>
             <cms_page_prepare_save>
                 <observers>
                     <googleoptimizer_observer>

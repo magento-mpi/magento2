@@ -172,4 +172,69 @@ class Mage_Googleoptimizer_Model_Observer
             ->addHandler('categoryAttribute', $helper);
         return $this;
     }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
+    public function appendToCategoryGoogleOptimizerCodes($observer)
+    {
+        $category = $observer->getEvent()->getCategory();
+        $googleOptimizerModel = Mage::getModel('googleoptimizer/code_category')
+            ->loadCodes($category);
+        $category->setGoogleOptimizerCodes($googleOptimizerModel);
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
+    public function prepareCategoryGoogleOptimizerCodes($observer)
+    {
+        $category = $observer->getEvent()->getCategory();
+        $request = $observer->getEvent()->getRequest();
+
+        if ($googleOptimizer = $request->getPost('googleoptimizer')) {
+            $category->setGoogleOptimizerCodes($googleOptimizer);
+        }
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
+    public function saveCategoryGoogleOptimizerCodes($observer)
+    {
+        $category = $observer->getEvent()->getCategory();
+
+        if ($category->getGoogleOptimizerCodes()) {
+            $googleOptimizer = Mage::getModel('googleoptimizer/code_category')
+                ->saveCodes($category);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $observer
+     * @return unknown
+     */
+    public function deleteCategoryGoogleOptimizerCodes($observer)
+    {
+        $category = $observer->getEvent()->getCategory();
+        $googleOptimizer = Mage::getModel('googleoptimizer/code_category')
+            ->deleteCodes($category);
+        return $this;
+    }
+
 }

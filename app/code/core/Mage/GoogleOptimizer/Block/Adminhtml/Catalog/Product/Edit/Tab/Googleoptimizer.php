@@ -86,6 +86,12 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             $element->setEntityAttribute($fakeEntityAttribute);
         }
 
+        $fieldset->addField('export_controls', 'text', array('name'  => 'export_controls'));
+
+        $form->getElement('export_controls')->setRenderer(
+            $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
+        );
+
         $values = array();
         if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
             $values = $this->getGoogleOptimizer()->getData();
