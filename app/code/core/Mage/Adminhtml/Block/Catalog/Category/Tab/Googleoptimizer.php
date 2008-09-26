@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Googleoptimizer extends Mage_Adm
         );
 
         $form->getElement('export_controls')->setRenderer(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_tab_googleoptimizer_export')
+            $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
         );
 
         $form->addValues($this->getGoogleOptimizer()->getData());
