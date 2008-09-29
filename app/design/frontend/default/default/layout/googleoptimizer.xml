@@ -123,4 +123,12 @@ Product view
         </reference>
     </checkout_multishipping>
 
+    <customer_account_create>
+        <reference name="before_body_end">
+            <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
+                <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+            </block>
+        </reference>
+    </customer_account_create>
+
 </layout>
