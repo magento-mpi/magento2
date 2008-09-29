@@ -34,6 +34,11 @@
 <?php
     $_helper    = $this->helper('catalog/output');
     $_category  = $this->getCurrentCategory();
+    $_imgHtml   = '';
+    if ($_imageUrl = $_category->getImageUrl()) {
+        $_imgHtml = '<img src="'.$_imageUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" width="475" />';
+        $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
+    }
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->isContentMode()): ?>
@@ -43,8 +48,8 @@
     <?php endif; ?>
     <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($_category->getName()), 'name') ?></h2>
     </div>
-    <?php if($_imageUrl=$_category->getImageUrl()): ?>
-        <p><img src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" width="475" /></p>
+    <?php if($_imgHtml): ?>
+        <p><?php echo $_imgHtml?></p>
     <?php endif; ?>
     <?php if($_description=$_category->getDescription()): ?>
         <p class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></p>
@@ -57,8 +62,8 @@
     <?php endif; ?>
     <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($_category->getName()), 'name') ?></h2>
     </div>
-    <?php if($_imageUrl=$_category->getImageUrl()): ?>
-        <p><img src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" width="475" /></p>
+    <?php if($_imgHtml): ?>
+        <p><?php echo $_imgHtml?></p>
     <?php endif; ?>
     <?php if($_description=$_category->getDescription()): ?>
         <p class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></p>
@@ -78,8 +83,8 @@
     <?php endif; ?>
     <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($_category->getName()), 'name') ?></h2>
     </div>
-    <?php if($_imageUrl=$_category->getImageUrl()): ?>
-        <p><img src="<?php echo $_imageUrl ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" width="475" /></p>
+    <?php if($_imgHtml): ?>
+        <p><?php echo $_imgHtml?></p>
     <?php endif; ?>
     <?php if($_description=$_category->getDescription()): ?>
         <p class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></p>
