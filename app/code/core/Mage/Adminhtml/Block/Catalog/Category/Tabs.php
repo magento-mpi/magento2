@@ -63,8 +63,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addTab('googleoptimizer', array(
-            'label'     => Mage::helper('catalog')->__('Google Optimizer'),
-            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_googleoptimizer')->toHtml(),
+            'label'     => Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'),
+            'content'   => $this->getLayout()->createBlock('googleoptimizer/adminhtml_catalog_category_edit_tab_googleoptimizer')->toHtml(),
         ));
 
         /*$this->addTab('features', array(

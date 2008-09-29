@@ -32,16 +32,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
-    extends Mage_Adminhtml_Block_Widget_Form/* implements Mage_Adminhtml_Block_Widget_Tab_Interface*/
+class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Widget_Form
 {
-
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
-            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Codes'))
+            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
         $fieldset->addField('control_script', 'textarea',
@@ -72,6 +70,15 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
             )
         );
 
+        $fieldset->addField('export_controls', 'text',
+            array(
+                'name'  => 'export_controls',
+            )
+        );
+
+        $renderer = $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import');
+        $form->getElement('export_controls')->setRenderer($renderer);
+
         $values = array();
         if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
             $values = $this->getGoogleOptimizer()->getData();
@@ -94,25 +101,4 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
     {
         return $this->getCmsPage()->getGoogleOptimizerCodes();
     }
-//
-//    public function getTabLabel()
-//    {
-//        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
-//    }
-//
-//    public function getTabTitle()
-//    {
-//        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
-//    }
-//
-//    public function canShowTab()
-//    {
-//        return true;
-//    }
-//
-//    public function isHidden()
-//    {
-//        return false;
-//    }
-
 }

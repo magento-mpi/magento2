@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Adminhtml_Block_Catalog_Category_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Catalog_Form
+class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Catalog_Form
 {
     public function __construct()
     {
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Googleoptimizer extends Mage_Adm
         $form = new Varien_Data_Form();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('Google Optimizer')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts')));
 
 
         $fieldset->addField('control_script', 'textarea',
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Googleoptimizer extends Mage_Adm
             )
         );
 
-        if ($this->getGoogleOptimizer()->getData()) {
+        if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getId()) {
             $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
         }
 
@@ -97,7 +97,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Googleoptimizer extends Mage_Adm
             $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
         );
 
-        $form->addValues($this->getGoogleOptimizer()->getData());
+        if ($this->getGoogleOptimizer()) {
+            $form->addValues($this->getGoogleOptimizer()->getData());
+        }
+
         $form->setFieldNameSuffix('googleoptimizer');
         $this->setForm($form);
     }

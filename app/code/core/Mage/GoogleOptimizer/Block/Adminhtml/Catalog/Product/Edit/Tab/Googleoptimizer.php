@@ -44,7 +44,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
-            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Codes'))
+            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
         $fieldset->addField('control_script', 'textarea',
@@ -117,12 +117,12 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
     public function getTabLabel()
     {
-        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
+        return Mage::helper('googleoptimizer')->__('Google Optimizer Scripts');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('googleoptimizer')->__('Google Optimizer Codes');
+        return Mage::helper('googleoptimizer')->__('Google Optimizer Scripts');
     }
 
     public function canShowTab()

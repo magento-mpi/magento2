@@ -39,6 +39,7 @@ class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::app()->getStore()->getConfig(self::XML_PATH_ENABLED);
     }
+
     /**
      * Prepare product attribute html output
      *
@@ -49,13 +50,39 @@ class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function productAttribute($callObject, $attributeHtml, $params)
     {
-        if (!$this->isOptimizerActive()) {
-            return $attributeHtml;
-        }
         $attributeName  = $params['attribute'];
         $product        = $params['product'];
 
-        $attributeHtml = '<script>utmx_section("'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
+        if (!$this->isOptimizerActive()
+            || !$product->getGoogleOptimizerCodes()
+            || !$product->getGoogleOptimizerCodes()->getControlScript()) {
+            return $attributeHtml;
+        }
+
+        $attributeHtml = '<script>utmx_section("product_'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
+        return $attributeHtml;
+    }
+
+    /**
+     * Prepare category attribute html output
+     *
+     * @param unknown_type $callObject
+     * @param unknown_type $attributeHtml
+     * @param unknown_type $params
+     * @return unknown
+     */
+    public function categoryAttribute($callObject, $attributeHtml, $params)
+    {
+        $attributeName  = $params['attribute'];
+        $category       = $params['category'];
+
+        if (!$this->isOptimizerActive()
+            || !$category->getGoogleOptimizerCodes()
+            || !$category->getGoogleOptimizerCodes()->getControlScript()) {
+            return $attributeHtml;
+        }
+
+        $attributeHtml = '<script>utmx_section("category_'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
         return $attributeHtml;
     }
 }

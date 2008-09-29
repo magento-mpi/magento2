@@ -19,33 +19,34 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptimizer
+ * @package    Mage_GoogleOptmizer
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Google Optimizer Product helper
+ *
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Helper_Product extends Mage_Catalog_Helper_Product
+class Mage_GoogleOptimizer_Block_Code_Category extends Mage_GoogleOptimizer_Block_Code
 {
-    /**
-     * Prepare attribute html output
-     *
-     * @param   Mage_Catalog_Model_Product $product
-     * @param   string $attributeHtml
-     * @param   string $attributeName
-     * @return  string
-     */
-    public function outputAttribute($product, $attributeHtml, $attributeName)
+    public function _construct()
     {
-        $attributeHtml = parent::outputAttribute($product, $attributeHtml, $attributeName);
-        return $attributeHtml;
-        $attributeHtml = '<script>utmx_section("'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
-        return $attributeHtml;
+        parent::_construct();
+        $this->_setGoogleOptimizerModel($this->getGoogleOptimizer());
+    }
+
+    public function getCategory()
+    {
+        return Mage::registry('current_category');
+    }
+
+    public function getGoogleOptimizer()
+    {
+        return $this->getCategory()->getGoogleOptimizerCodes();
     }
 }

@@ -25,9 +25,9 @@
  */
 ?>
 <tr>
-    <td class="label"><label for="target_url"><?php echo Mage::helper('catalog')->__('URL') ?></label></td>
+    <td class="label"><label for="target_url"><?php echo Mage::helper('googleoptimizer')->__('Scripts Install URL') ?></label></td>
     <td class="value" nowrap>
-    <input type="text" class="input-text" name="target_url" id="target_url"/> <button style="" onclick="pushCodes();" class="scalable" type="button" id="get_codes"><span>Import Codes</span></button>
+    <input type="text" class="input-text" name="target_url" id="target_url"/> <button style="" onclick="pushCodes();" class="scalable" type="button" id="get_codes"><span><?php echo Mage::helper('googleoptimizer')->__('Install Scripts') ?></span></button>
 
     <script type="text/javascript">
     //<![CDATA[
