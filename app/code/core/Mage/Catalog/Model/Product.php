@@ -1307,9 +1307,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 }
             }
             $_allowed = array(
-                'name','type_id','status','calculated_final_price','minimal_price',
-                'special_price','special_from_date','special_to_date','request_path',
-                'gift_message_available','rating_summary'
+                'type_id','calculated_final_price','request_path','rating_summary'
             );
             $this->_reservedAttributes = array_diff($_reserved, $_allowed);
         }
@@ -1319,11 +1317,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      *  Check whether attribute reserved or not
      *
-     *  @param    string $code Attribute code
+     *  @param    Mage_Eav_Model_Entity_Attribute $attribute Attribute model object
      *  @return	  boolean
      */
-    public function isReservedAttribute ($code)
+    public function isReservedAttribute ($attribute)
     {
-        return in_array($code, $this->getReservedAttributes());
+        return $attribute->getIsUserDefined()
+            && in_array($attribute->getAttributeCode(), $this->getReservedAttributes());
     }
 }
