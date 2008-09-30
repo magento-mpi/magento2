@@ -299,14 +299,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'class' => 'validate-digits',
         ));
 
-        if ($model->getIsUserDefined() || !$model->getId()) {
+//        if ($model->getIsUserDefined() || !$model->getId()) {
             $fieldset->addField('is_visible_on_front', 'select', array(
                 'name' => 'is_visible_on_front',
                 'label' => Mage::helper('catalog')->__('Visible on Catalog Pages on Front-end'),
                 'title' => Mage::helper('catalog')->__('Visible on Catalog Pages on Front-end'),
                 'values' => $yesno,
             ));
-        }
+//        }
 
 
         if ($model->getId()) {
