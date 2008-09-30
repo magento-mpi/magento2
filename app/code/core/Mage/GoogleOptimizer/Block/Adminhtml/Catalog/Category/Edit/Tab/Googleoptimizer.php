@@ -46,20 +46,44 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
 
     public function _prepareLayout()
     {
-        parent::_prepareLayout();
         $form = new Varien_Data_Form();
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts')));
+
+        $disabledScriptsFields = false;
+        $values = array();
+        if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
+            $disabledScriptsFields = true;
+            $values = $this->getGoogleOptimizer()->getData();
+            $checkedUseDefault = true;
+            if ($this->getGoogleOptimizer()->getStoreId() == $this->getCategory()->getStoreId()) {
+                $checkedUseDefault = false;
+                $disabledScriptsFields = false;
+                $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
+            }
+            // show 'use default' checkbox if store different for default and product has scripts for default store
+            if ($this->getCategory()->getStoreId() != '0') {
+                $fieldset->addField('store_flag', 'checkbox',
+                    array(
+                        'name'  => 'store_flag',
+                        'value' => '1',
+                        'label' => Mage::helper('googleoptimizer')->__('Use Default'),
+                        'class' => 'checkbox',
+                        'required' => false,
+                        'onchange' => 'googleOptimizerScopeAction()',
+                    )
+                )->setIsChecked($checkedUseDefault);
+            }
+        }
 
 
         $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
-                'class' => 'textarea',
+                'class' => 'textarea googleoptimizer',
                 'required' => false,
-                'note' => '',
             )
         );
 
@@ -67,9 +91,8 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array(
                 'name'  => 'tracking_script',
                 'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
-                'class' => 'textarea',
+                'class' => 'textarea googleoptimizer',
                 'required' => false,
-                'note' => '',
             )
         );
 
@@ -77,14 +100,27 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array(
                 'name'  => 'conversion_script',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
-                'class' => 'textarea',
+                'class' => 'textarea googleoptimizer',
                 'required' => false,
-                'note' => '',
             )
         );
 
-        if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getId()) {
-            $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
+        $fieldset->addField('conversion_page', 'select',
+            array(
+                'name'  => 'conversion_page',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
+                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'class' => 'select googleoptimizer',
+                'required' => false,
+            )
+        );
+
+        if ($disabledScriptsFields) {
+            foreach ($fieldset->getElements() as $element) {
+                if ($element->getType() == 'textarea' || $element->getType() == 'select') {
+                    $element->setDisabled($disabledScriptsFields);
+                }
+            }
         }
 
         $fieldset->addField('export_controls', 'text',
@@ -97,12 +133,11 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
         );
 
-        if ($this->getGoogleOptimizer()) {
-            $form->addValues($this->getGoogleOptimizer()->getData());
-        }
-
+        $form->addValues($values);
         $form->setFieldNameSuffix('googleoptimizer');
         $this->setForm($form);
+
+        return parent::_prepareLayout();
     }
 
 }

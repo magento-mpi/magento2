@@ -19,25 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptmizer
+ * @package    Mage_Directory
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-/**
- *
- *
- * @category   Mage
- * @package    Mage_GoogleOptimizer
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Code
-{
-    protected function _initGoogleOptimizerModel()
-    {
-        $cmsPage = Mage::getSingleton('cms/page');
-        $this->_setGoogleOptimizerModel($cmsPage->getGoogleOptimizerCodes());
-        return parent::_initGoogleOptimizerModel();
-    }
-}
+$installer->startSetup();
+
+$installer->getConnection()->addColumn($installer->getTable('googleoptimizer/code'), 'conversion_page', "varchar(255) NOT NULL default ''");
+
+$installer->endSetup();

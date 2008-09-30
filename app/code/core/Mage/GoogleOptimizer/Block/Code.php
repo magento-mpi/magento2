@@ -38,6 +38,11 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
     protected $_googleOptmizerModel = null;
     protected $_avaibleScriptTypes = array('control_script', 'tracking_script', 'conversion_script');
 
+    protected function _initGoogleOptimizerModel()
+    {
+        return $this;
+    }
+
     /**
      * Enter description here...
      *
@@ -78,6 +83,7 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
         if (is_null($this->_scriptType)) {
             return '';
         }
+        $this->_initGoogleOptimizerModel();
         if (!($this->_getGoogleOptimizerModel() instanceof Varien_Object)) {
             return '';
         }

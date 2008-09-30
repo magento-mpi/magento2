@@ -34,10 +34,10 @@
  */
 class Mage_GoogleOptimizer_Block_Code_Product extends Mage_GoogleOptimizer_Block_Code
 {
-    public function _construct()
+    protected function _initGoogleOptimizerModel()
     {
-        parent::_construct();
         $this->_setGoogleOptimizerModel($this->getGoogleOptimizer());
+        return parent::_initGoogleOptimizerModel();
     }
 
     public function getProduct()

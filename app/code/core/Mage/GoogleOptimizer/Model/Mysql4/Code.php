@@ -45,31 +45,37 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
      * @param unknown_type $productId
      * @return unknown
      */
-    public function loadbyEntityType($googleOptimizer, $entity)
+    public function loadbyEntityType($object, $storeId)
     {
         $read = $this->_getReadAdapter();
         if ($read) {
+            //preapre colums to fetch, except scope columns
+            $_columns = array_keys($read->describeTable($this->getMainTable()));
+            $columnsToFetch = array();
+            foreach ($_columns as $_column) {
+                if (!in_array($_column, array('code_id', 'store_id', 'control_script', 'tracking_script', 'conversion_script'))) {
+                    $columnsToFetch[] = $_column;
+                }
+            }
             $select = $read->select()
-                ->from($this->getMainTable())
-                ->where($this->getMainTable().'.entity_id=?', $entity->getId())
-                ->where($this->getMainTable().'.entity_type=?', $googleOptimizer->getEntityType())
-//                ->where($this->getMainTable().'.store_id=?', $entity->getStoreId())
-                ->where($this->getMainTable().'.store_id=?', 0)
+                ->from(array('_default_table' => $this->getMainTable()), $columnsToFetch)
+                ->joinLeft(array('_store_table' => $this->getMainTable()),
+                    "_store_table.entity_id = _default_table.entity_id AND _store_table.entity_type = _default_table.entity_type AND _store_table.store_id = {$storeId}",
+                    array('code_id' => new Zend_Db_Expr("IFNULL(_store_table.code_id, _default_table.code_id)"),
+                        'store_id' => new Zend_Db_Expr("IFNULL(_store_table.store_id, _default_table.store_id)"),
+                        'control_script' => new Zend_Db_Expr("IFNULL(_store_table.control_script, _default_table.control_script)"),
+                        'tracking_script' => new Zend_Db_Expr("IFNULL(_store_table.tracking_script, _default_table.tracking_script)"),
+                        'conversion_script' => new Zend_Db_Expr("IFNULL(_store_table.conversion_script, _default_table.conversion_script)")))
+                ->where('_default_table.entity_id=?', $object->getEntity()->getId())
+                ->where('_default_table.entity_type=?', $object->getEntityType())
+                ->where('_default_table.store_id=?', 0)
                 ->limit(1);
             $data = $read->fetchRow($select);
-//            if (!$data && $entity->getStoreId() != '0') {
-//                $select->reset('where');
-//                $select->where($this->getMainTable().'.entity_id=?', $entity->getId())
-//                    ->where($this->getMainTable().'.entity_type=?', $googleOptimizer->getEntityType())
-//                    ->where($this->getMainTable().'.store_id=?', 0);
-//
-//                $data = $read->fetchRow($select);
-//            }
             if ($data) {
-                $googleOptimizer->setData($data);
+                $object->setData($data);
             }
         }
-        $this->_afterLoad($googleOptimizer);
+        $this->_afterLoad($object);
         return $this;
     }
 
@@ -80,16 +86,17 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
      * @param unknown_type $entity
      * @return unknown
      */
-    public function deleteByEntityType($googleoptimizer, $entity)
+    public function deleteByEntityType($object, $store_id)
     {
         $write = $this->_getWriteAdapter();
         if ($write) {
-            $where = $write->quoteInto($this->getMainTable().'.entity_id=?', $entity->getId()) .
-                ' AND ' . $write->quoteInto($this->getMainTable().'.entity_type=?', $googleoptimizer->getEntityType());
+            $where = $write->quoteInto($this->getMainTable().'.entity_id=?', $object->getEntity()->getId()) .
+                ' AND ' . $write->quoteInto($this->getMainTable().'.entity_type=?', $object->getEntityType()) .
+                ' AND ' . $write->quoteInto($this->getMainTable().'.store_id=?', $store_id);
             $write->delete($this->getMainTable(), $where);
         }
 
-        $this->_afterDelete($googleoptimizer);
+        $this->_afterDelete($object);
         return $this;
     }
 }

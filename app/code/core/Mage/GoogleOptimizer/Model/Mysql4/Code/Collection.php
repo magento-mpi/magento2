@@ -38,4 +38,9 @@ class Mage_GoogleOptimizer_Model_Mysql4_Code_Collection extends Mage_Core_Model_
 	{
 		$this->_init('googleoptimizer/code');
 	}
+
+	public function addFilterByEntityType()
+	{
+        $this->addFieldToFilter();
+	}
 }

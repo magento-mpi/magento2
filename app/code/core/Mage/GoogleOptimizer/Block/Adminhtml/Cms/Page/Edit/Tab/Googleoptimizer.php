@@ -70,6 +70,16 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             )
         );
 
+        $fieldset->addField('conversion_page', 'select',
+            array(
+                'name'  => 'conversion_page',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
+                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'class' => 'select googleoptimizer',
+                'required' => false,
+            )
+        );
+
         $fieldset->addField('export_controls', 'text',
             array(
                 'name'  => 'export_controls',

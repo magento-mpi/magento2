@@ -40,50 +40,79 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     {
         $form = new Varien_Data_Form();
 
-//        $form->setDataObject($this->getGoogleOptimizer());
         $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
+        $disabledScriptsFields = false;
+        $values = array();
+        if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
+            $disabledScriptsFields = true;
+            $values = $this->getGoogleOptimizer()->getData();
+            $checkedUseDefault = true;
+            if ($this->getGoogleOptimizer()->getStoreId() == $this->getProduct()->getStoreId()) {
+                $checkedUseDefault = false;
+                $disabledScriptsFields = false;
+                $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
+            }
+            // show 'use default' checkbox if store different for default and product has scripts for default store
+            if ($this->getProduct()->getStoreId() != '0') {
+                $fieldset->addField('store_flag', 'checkbox',
+                    array(
+                        'name'  => 'store_flag',
+                        'value' => '1',
+                        'label' => Mage::helper('googleoptimizer')->__('Use Default'),
+                        'class' => 'checkbox',
+                        'required' => false,
+                        'onchange' => 'googleOptimizerScopeAction()',
+                    )
+                )->setIsChecked($checkedUseDefault);
+            }
+        }
+
         $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
-                'class' => 'textarea',
+                'class' => 'textarea googleoptimizer',
                 'required' => false,
-                'note' => '',
             )
         );
         $fieldset->addField('tracking_script', 'textarea',
             array(
                 'name'  => 'tracking_script',
                 'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
-                'class' => 'textarea',
+                'class' => 'textarea googleoptimizer',
                 'required' => false,
-                'note' => '',
             )
         );
         $fieldset->addField('conversion_script', 'textarea',
             array(
                 'name'  => 'conversion_script',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
-                'class' => 'textarea',
+                'class' => 'textarea googleoptimizer',
                 'required' => false,
-                'note' => '',
             )
         );
 
-        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute')
-            ->setData('is_global', true);
-        /** @var $fakeEntityAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        $fieldset->addField('conversion_page', 'select',
+            array(
+                'name'  => 'conversion_page',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
+                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'class' => 'select googleoptimizer',
+                'required' => false,
+            )
+        );
 
-        /**
-         * setting fake entity attribute to elements. scope logic need this object
-         */
-        foreach ($fieldset->getElements() as $element) {
-            $element->setEntityAttribute($fakeEntityAttribute);
+        if ($disabledScriptsFields) {
+            foreach ($fieldset->getElements() as $element) {
+                if ($element->getType() == 'textarea' || $element->getType() == 'select') {
+                    $element->setDisabled($disabledScriptsFields);
+                }
+            }
         }
 
         $fieldset->addField('export_controls', 'text', array('name'  => 'export_controls'));
@@ -91,12 +120,6 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $form->getElement('export_controls')->setRenderer(
             $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
         );
-
-        $values = array();
-        if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
-            $values = $this->getGoogleOptimizer()->getData();
-            $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
-        }
 
         $form->addValues($values);
         $form->setFieldNameSuffix('googleoptimizer');
@@ -127,7 +150,10 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
     public function canShowTab()
     {
-        return true;
+        if ($this->getProduct()->getAttributeSetId()) {
+        	return true;
+        }
+        return false;
     }
 
     public function isHidden()

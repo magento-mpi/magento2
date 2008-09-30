@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptmizer
+ * @package    Mage_GoogleOptimizer
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -29,15 +29,20 @@
  *
  *
  * @category   Mage
- * @package    Mage_GoogleOptimizer
+ * @package    Mage_GoogleOptmizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Code
+class Mage_GoogleOptimizer_Model_Adminhtml_System_Config_Source_Googleoptimizer_Conversionpages
 {
-    protected function _initGoogleOptimizerModel()
+    public function toOptionArray()
     {
-        $cmsPage = Mage::getSingleton('cms/page');
-        $this->_setGoogleOptimizerModel($cmsPage->getGoogleOptimizerCodes());
-        return parent::_initGoogleOptimizerModel();
+        return array(
+            array('value'=>'', 'label'=>Mage::helper('googleoptimizer')->__('-- Please Select --')),
+            array('value'=>'checkout_cart', 'label'=>Mage::helper('googleoptimizer')->__('Shopping Cart')),
+            array('value'=>'checkout_onepage', 'label'=>Mage::helper('googleoptimizer')->__('One Page Checkout')),
+            array('value'=>'checkout_multishipping', 'label'=>Mage::helper('googleoptimizer')->__('Multi Address Checkout')),
+            array('value'=>'checkout_success', 'label'=>Mage::helper('googleoptimizer')->__('Order Success')),
+            array('value'=>'account_create', 'label'=>Mage::helper('googleoptimizer')->__('Account Registration')),
+        );
     }
 }

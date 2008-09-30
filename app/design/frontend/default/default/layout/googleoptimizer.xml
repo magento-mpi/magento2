@@ -100,6 +100,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+                <action method="setPageType"><pageType>checkout_cart</pageType></action>
             </block>
         </reference>
     </checkout_cart_index>
@@ -108,6 +109,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+                <action method="setPageType"><pageType>checkout_onepage</pageType></action>
             </block>
         </reference>
     </checkout_onepage_index>
@@ -116,6 +118,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+                <action method="setPageType"><pageType>checkout_success</pageType></action>
             </block>
         </reference>
     </checkout_onepage_success>
@@ -124,6 +127,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+                <action method="setPageType"><pageType>checkout_success</pageType></action>
             </block>
         </reference>
     </checkout_multishipping_success>
@@ -132,6 +136,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+                <action method="setPageType"><pageType>checkout_multishipping</pageType></action>
             </block>
         </reference>
     </checkout_multishipping>
@@ -140,6 +145,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
+                <action method="setPageType"><pageType>customer_account_create</pageType></action>
             </block>
         </reference>
     </customer_account_create>

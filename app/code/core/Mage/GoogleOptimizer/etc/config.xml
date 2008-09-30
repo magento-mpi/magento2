@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_GoogleOptimizer>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Mage_GoogleOptimizer>
     </modules>
     <global>

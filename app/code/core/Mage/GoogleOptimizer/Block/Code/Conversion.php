@@ -34,12 +34,17 @@
  */
 class Mage_GoogleOptimizer_Block_Code_Conversion extends Mage_GoogleOptimizer_Block_Code
 {
-    public function _construct()
-    {
-        parent::_construct();
+    protected $_pageType = null;
 
+    protected function _initGoogleOptimizerModel()
+    {
         $collection = Mage::getModel('googleoptimizer/code')
             ->getCollection();
+
+        if ($this->getPageType()) {
+            $collection->addFieldToFilter('conversion_page', $this->getPageType());
+        }
+
         $conversionCodes = array();
         foreach ($collection as $_item) {
             $conversionCodes[] = $_item->getConversionScript();
@@ -49,5 +54,17 @@ class Mage_GoogleOptimizer_Block_Code_Conversion extends Mage_GoogleOptimizer_Bl
                 'conversion_script' => implode('', $conversionCodes)
             ))
         );
+        return parent::_initGoogleOptimizerModel();
+    }
+
+    public function setPageType($pageType)
+    {
+        $this->_pageType = $pageType;
+        return $this;
+    }
+
+    public function getPageType()
+    {
+        return $this->_pageType;
     }
 }
