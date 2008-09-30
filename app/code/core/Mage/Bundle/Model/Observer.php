@@ -166,7 +166,7 @@ class Mage_Bundle_Model_Observer
     {
         $product = $observer->getEvent()->getCurrentProduct();
 
-        if ($product->getType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             //do nothing if not bundle
             return $this;
         }
