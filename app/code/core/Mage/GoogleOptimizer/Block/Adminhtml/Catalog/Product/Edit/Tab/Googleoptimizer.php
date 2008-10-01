@@ -140,12 +140,12 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
     public function getTabLabel()
     {
-        return Mage::helper('googleoptimizer')->__('Google Optimizer Scripts');
+        return Mage::helper('googleoptimizer')->__('Product View Optimization');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('googleoptimizer')->__('Google Optimizer Scripts');
+        return Mage::helper('googleoptimizer')->__('Product View Optimization');
     }
 
     public function canShowTab()
