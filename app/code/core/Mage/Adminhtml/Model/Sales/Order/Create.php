@@ -165,7 +165,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 else {
                 	$qty = $orderItem->getQtyOrdered() - $orderItem->getQtyShipped() - $orderItem->getQtyInvoiced();
                 }
-                
+
                 if ($qty > 0) {
                     $item = $this->initFromOrderItem($orderItem, $qty);
                     if (is_string($item)) {
@@ -820,7 +820,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function setShippingAddress($address)
     {
         if (is_array($address)) {
-            $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
+            $address['save_in_address_book'] = isset($address['save_in_address_book']) ? (empty($address['save_in_address_book']) ? 0 : 1) : 0;
             $shippingAddress = Mage::getModel('sales/quote_address')
                 ->setData($address);
             $shippingAddress->implodeStreetAddress();
