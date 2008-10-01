@@ -77,6 +77,11 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             }
         }
 
+        $fieldset->addField('export_controls', 'text',
+            array(
+                'name'  => 'export_controls',
+            )
+        );
 
         $fieldset->addField('control_script', 'textarea',
             array(
@@ -123,11 +128,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             }
         }
 
-        $fieldset->addField('export_controls', 'text',
-            array(
-                'name'  => 'export_controls',
-            )
-        );
 
         $form->getElement('export_controls')->setRenderer(
             $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')

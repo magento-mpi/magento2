@@ -72,6 +72,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             }
         }
 
+        $fieldset->addField('export_controls', 'text', array('name'  => 'export_controls'));
+
         $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
@@ -115,8 +117,6 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             }
         }
 
-        $fieldset->addField('export_controls', 'text', array('name'  => 'export_controls'));
-
         $form->getElement('export_controls')->setRenderer(
             $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
         );
@@ -151,7 +151,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     public function canShowTab()
     {
         if ($this->getProduct()->getAttributeSetId()) {
-        	return true;
+            return true;
         }
         return false;
     }

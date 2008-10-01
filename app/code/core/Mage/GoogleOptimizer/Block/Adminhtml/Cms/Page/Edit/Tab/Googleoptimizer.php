@@ -42,7 +42,13 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
-        $fieldset->addField('control_script', 'textarea',
+        $fieldset->addField('export_controls', 'text',
+            array(
+                'name'  => 'export_controls',
+            )
+        );
+
+       $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
@@ -77,12 +83,6 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
                 'class' => 'select googleoptimizer',
                 'required' => false,
-            )
-        );
-
-        $fieldset->addField('export_controls', 'text',
-            array(
-                'name'  => 'export_controls',
             )
         );
 
