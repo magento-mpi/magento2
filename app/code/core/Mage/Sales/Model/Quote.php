@@ -908,6 +908,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             //$this->setItemsCount($this->getItemsCount()+1);
             //$this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
         }
+
+        $this->setData('trigger_recollect', 0);
+
         return $this;
     }
 
@@ -1075,5 +1078,19 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $this->setCouponCode($quote->getCouponCode());
         }
         return $this;
+    }
+
+    /**
+     * Trigger collect totals after loading, if required
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _afterLoad()
+    {
+        // collect totals and save me, if required
+        if (1 == $this->getData('trigger_recollect')) {
+            $this->collectTotals()->save();
+        }
+        return parent::_afterLoad();
     }
 }

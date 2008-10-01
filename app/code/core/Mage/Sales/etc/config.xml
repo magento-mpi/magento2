@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.20</version>
+            <version>0.9.21</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -770,6 +770,24 @@
                     </sales_quote_observer>
                 </observers>
             </catalog_product_delete_before>
+            <catalogrule_before_apply>
+                <observers>
+                    <sales_quote_observer>
+                        <type>singleton</type>
+                        <class>sales/observer</class>
+                        <method>markQuotesRecollectOnCatalogRules</method>
+                    </sales_quote_observer>
+                </observers>
+            </catalogrule_before_apply>
+            <catalogrule_after_apply>
+                <observers>
+                    <sales_quote_observer>
+                        <type>singleton</type>
+                        <class>sales/observer</class>
+                        <method>markQuotesRecollectOnCatalogRules</method>
+                    </sales_quote_observer>
+                </observers>
+            </catalogrule_after_apply>
         </events>
     </adminhtml>
 

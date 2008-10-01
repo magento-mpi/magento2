@@ -190,6 +190,8 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function applyAllRulesForDateRange($fromDate, $toDate=null, $productId=null)
     {
+        Mage::dispatchEvent('catalogrule_before_apply');
+
         $product = null;
         if (is_null($toDate)) {
             $toDate = $fromDate;
