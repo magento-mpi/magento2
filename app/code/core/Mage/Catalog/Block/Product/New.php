@@ -48,8 +48,11 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
         /* @var $product Mage_Catalog_Model_Product */
         $todayDate  = $product->getResource()->formatDate(time());
         $products   = $product->setStoreId($storeId)->getCollection()
-            ->addAttributeToFilter('news_from_date', array('date'=>true, 'to'=> $todayDate))
-            ->addAttributeToFilter(array(array('attribute'=>'news_to_date', 'date'=>true, 'from'=>$todayDate), array('attribute'=>'news_to_date', 'is' => new Zend_Db_Expr('null'))),'','left')
+            ->addAttributeToFilter('news_from_date', array('date' => true, 'to' => $todayDate))
+            ->addAttributeToFilter('news_to_date', array('or'=> array(
+                0 => array('date' => true, 'from' => $todayDate),
+                1 => array('is' => new Zend_Db_Expr('null')))
+            ), 'left')
             ->addAttributeToSort('news_from_date','desc')
             ->addAttributeToSelect(array('name', 'price', 'small_image'), 'inner')
             ->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
