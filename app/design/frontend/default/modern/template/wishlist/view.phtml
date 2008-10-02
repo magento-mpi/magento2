@@ -66,9 +66,9 @@
                 </td>
                 <td class="a-center">
                 <?php if($item->isSaleable()): ?>
-                    <a href="<?php echo $this->getItemAddToCartUrl($item) ?>');"><img src="<?php echo $this->getSkinUrl('images/btn_add_to_cart_sm.gif') ?>" alt="<?php echo $this->__('Add to Cart') ?>" class="v-middle"/></a><br/>
+                    <a href="<?php echo $this->getItemAddToCartUrl($item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_add_to_cart_sm.gif') ?>" alt="<?php echo $this->__('Add to Cart') ?>" class="v-middle"/></a><br/>
                 <?php endif; ?>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?php echo $this->getItemRemoveUrl($item) ?>');return false;" class="link-remove" ><?php echo $this->__('Remove Item') ?></a>
+                    <a href="<?php echo $this->getItemRemoveUrl($item) ?>" onclick="return confirmRemoveWishlistItem();" class="link-remove" ><?php echo $this->__('Remove Item') ?></a>
                 </td>
             </tr>
         <?php endforeach ?>
@@ -76,7 +76,7 @@
     </table>
 <script type="text/javascript">decorateTable('wishlist-table')</script>
     <div class="button-set">
-        
+
         <a href="<?php echo $this->getBackUrl() ?>" class="f-left">&laquo; <?php echo $this->__('Back') ?></a>
         <a href="#" onclick="setLocation('<?php echo $this->getUrl('*/*/share') ?>')"><img src="<?php echo $this->getSkinUrl('images/btn_share_wishlist.gif');?>" alt="<?php echo $this->__('Share Wishlist') ?>" class="v-middle"/></a>
         <?php if($this->isSaleable()):?>
@@ -92,10 +92,8 @@
     </div>
 <?php endif ?>
 <script type="text/javascript">
-function confirmRemoveWishlistItem(url){
-    if(confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>')) {
-        setLocation(url);
-    }
+function confirmRemoveWishlistItem() {
+    return confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>');
 }
 
 function focusComment(obj) {

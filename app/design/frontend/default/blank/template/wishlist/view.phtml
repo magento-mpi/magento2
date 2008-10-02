@@ -63,9 +63,9 @@
                 </td>
                 <td>
                 <?php if($item->isSaleable()): ?>
-                    <a href="#" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>');return false;"><?php echo $this->__('Add to Cart') ?></a><br />
+                    <a href="<?php echo $this->getItemAddToCartUrl($item) ?>"><?php echo $this->__('Add to Cart') ?></a><br />
                 <?php endif; ?>
-                    <a href="#" onclick="confirmRemoveWishlistItem('<?php echo $this->getItemRemoveUrl($item) ?>');return false;"><?php echo $this->__('Remove Item') ?></a>
+                    <a href="<?php echo $this->getItemRemoveUrl($item) ?>" onclick="return confirmRemoveWishlistItem();"><?php echo $this->__('Remove Item') ?></a>
                 </td>
             </tr>
         <?php endforeach ?>
@@ -88,10 +88,8 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-function confirmRemoveWishlistItem(url){
-    if(confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>')) {
-        setLocation(url);
-    }
+function confirmRemoveWishlistItem() {
+    return confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>');
 }
 
 function focusComment(obj) {
