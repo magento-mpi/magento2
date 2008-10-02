@@ -88,6 +88,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
 
     /**
      * Retrieve current category model
+     * If no category found in registry, the root will be taken
      *
      * @return Mage_Catalog_Model_Category
      */
@@ -99,7 +100,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
                 $this->setData('current_category', $category);
             }
             else {
-                $category = false;
+                $category = Mage::getModel('catalog/category')->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
