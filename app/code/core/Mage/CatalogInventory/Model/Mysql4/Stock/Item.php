@@ -63,8 +63,14 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item extends Mage_Core_Model_Mysq
      */
     public function addCatalogInventoryToProductCollection($productCollection)
     {
-        $productCollection->joinField('inventory_in_stock', 'cataloginventory/stock_item',
-                                      'is_in_stock', 'product_id=entity_id', null, 'left');
+        $productCollection->joinTable('cataloginventory/stock_item',
+            'product_id=entity_id',
+            array(
+                'is_saleable'           => '(IF(manage_stock, is_in_stock, 1))',
+                'inventory_in_stock'    => 'is_in_stock'
+            ),
+            null, 'left');
+
         return $this;
     }
 }

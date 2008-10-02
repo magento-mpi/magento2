@@ -553,7 +553,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     public function addAttributeToFilter($attribute, $condition=null, $joinType='inner'){
         $this->_allIdsCache = null;
-        return parent::addAttributeToFilter($attribute, $condition, $joinType);
+        if (is_string($attribute) && $attribute == 'is_saleable') {
+            return $this->getSelect()->where($this->_getConditionSql('(IF(manage_stock, is_in_stock, 1))', $condition));
+        } else {
+            return parent::addAttributeToFilter($attribute, $condition, $joinType);
+        }
     }
 
     public function addTaxPercents(){
