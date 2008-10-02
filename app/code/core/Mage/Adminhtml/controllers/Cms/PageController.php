@@ -102,8 +102,13 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()
             ->_addBreadcrumb($id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page_edit')->setData('action', $this->getUrl('*/cms_page/save')))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/cms_page_edit_tabs'))
-            ->renderLayout();
+            ->_addLeft($this->getLayout()->createBlock('adminhtml/cms_page_edit_tabs'));
+
+        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)) {
+            $this->_addJs($this->getLayout()->createBlock('googleoptimizer/js')->setTemplate('googleoptimizer/js.phtml'));
+        }
+
+        $this->renderLayout();
     }
 
     /**

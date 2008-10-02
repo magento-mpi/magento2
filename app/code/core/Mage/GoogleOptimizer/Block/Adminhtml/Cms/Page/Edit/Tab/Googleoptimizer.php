@@ -83,8 +83,30 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
                 'class' => 'select googleoptimizer',
                 'required' => false,
+                'onchange' => 'googleOptimizerConversionPageAction(this)'
             )
         );
+
+        $fieldset->addField('conversion_page_url', 'text',
+            array(
+                'name'  => 'conversion_page_url',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                'class' => 'input-text',
+                'readonly' => true,
+                'required' => false,
+                'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+            )
+        );
+
+        if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
+            && $this->getGoogleOptimizer()
+            && $this->getGoogleOptimizer()->getConversionPage())
+        {
+            $form->getElement('conversion_page_url')
+                ->setValue(Mage::helper('googleoptimizer')
+                    ->getConversionPagesUrl()->getData($this->getGoogleOptimizer()->getConversionPage())
+                );
+        }
 
         $renderer = $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import');
         $form->getElement('export_controls')->setRenderer($renderer);

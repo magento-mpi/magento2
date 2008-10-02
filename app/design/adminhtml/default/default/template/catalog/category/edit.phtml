@@ -130,19 +130,4 @@
     }
 //]]>
 </script>
-<script type="text/javascript">
-//<![CDATA[
-
-function googleOptimizerScopeAction()
-{
-    $$('.googleoptimizer').each(function(elm){
-        if (elm.disabled) {
-            elm.disabled = false;
-        } else {
-            elm.disabled = true;
-        }
-    });
-}
-
-//]]>
-</script>
+<?php echo $this->getChildHtml('googleoptimizer_js') ?>

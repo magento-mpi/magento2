@@ -118,7 +118,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
-                <action method="setPageType"><pageType>checkout_success</pageType></action>
+                <action method="setPageType"><pageType>checkout_onepage_success</pageType></action>
             </block>
         </reference>
     </checkout_onepage_success>
@@ -127,7 +127,7 @@ Product view
         <reference name="before_body_end">
             <block type="googleoptimizer/code_conversion" after="-" name="googleoptimizer.conversion.script">
                 <action method="setScriptType"><scriptType>conversion_script</scriptType></action>
-                <action method="setPageType"><pageType>checkout_success</pageType></action>
+                <action method="setPageType"><pageType>checkout_multishipping_success</pageType></action>
             </block>
         </reference>
     </checkout_multishipping_success>

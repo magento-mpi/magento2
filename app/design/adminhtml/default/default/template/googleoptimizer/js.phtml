@@ -38,5 +38,25 @@ function googleOptimizerScopeAction()
     });
 }
 
+function googleOptimizerConversionPageAction(elm)
+{
+    var urls = <?php echo $this->getJsonConversionPagesUrl() ?>;
+    if (elm) {
+        if (elm.value == '') {
+            $('conversion_page_url').value = '';
+            return;
+        } else {
+            if (urls[elm.value]) {
+                if (urlField = $('conversion_page_url')) {
+                    urlField.value = urls[elm.value];
+                    urlField.focus();
+                    urlField.select();
+                }
+            }
+        }
+    }
+    return;
+}
+
 //]]>
 </script>

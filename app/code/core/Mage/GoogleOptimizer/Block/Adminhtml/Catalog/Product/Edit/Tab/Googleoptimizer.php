@@ -40,7 +40,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     {
         $form = new Varien_Data_Form();
 
-        $form->setDataObject($this->getProduct());
+//        $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
@@ -63,7 +63,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                     array(
                         'name'  => 'store_flag',
                         'value' => '1',
-                        'label' => Mage::helper('googleoptimizer')->__('Use Default'),
+                        'label' => Mage::helper('googleoptimizer')->__('Use Default Values'),
                         'class' => 'checkbox',
                         'required' => false,
                         'onchange' => 'googleOptimizerScopeAction()',
@@ -106,14 +106,45 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
                 'class' => 'select googleoptimizer',
                 'required' => false,
+                'onchange' => 'googleOptimizerConversionPageAction(this)'
             )
         );
+
+        $fieldset->addField('conversion_page_url', 'text',
+            array(
+                'name'  => 'conversion_page_url',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                'class' => 'input-text',
+                'readonly' => true,
+                'required' => false,
+                'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+            )
+        );
+
+        if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
+            && $this->getGoogleOptimizer()
+            && $this->getGoogleOptimizer()->getConversionPage())
+        {
+            $form->getElement('conversion_page_url')
+                ->setValue(Mage::helper('googleoptimizer')
+                    ->getConversionPagesUrl()->getData($this->getGoogleOptimizer()->getConversionPage())
+                );
+        }
 
         if ($disabledScriptsFields) {
             foreach ($fieldset->getElements() as $element) {
                 if ($element->getType() == 'textarea' || $element->getType() == 'select') {
                     $element->setDisabled($disabledScriptsFields);
                 }
+            }
+            $form->getElement('export_controls')->setDisabled($disabledScriptsFields);
+        }
+
+        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute');
+
+        foreach ($fieldset->getElements() as $element) {
+            if ($element->getId() != 'store_flag') {
+                $element->setEntityAttribute($fakeEntityAttribute);
             }
         }
 

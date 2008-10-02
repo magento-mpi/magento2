@@ -24,38 +24,70 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<?php
+    $_disabled = '';
+    if ($this->getElement()->getDisabled()) {
+        $_disabled = ' disabled="disabled"';
+    }
+?>
 <tr>
-    <td class="label"><label for="target_url"><?php echo Mage::helper('googleoptimizer')->__('Scripts Install URL') ?></label></td>
+    <td class="label">
+        <label for="target_url"><?php echo Mage::helper('googleoptimizer')->__('Scripts Install URL') ?></label>
+    </td>
     <td class="value" nowrap>
-    <input type="text" class="input-text" name="target_url" id="target_url"/> <button style="" onclick="pushCodes();" class="scalable" type="button" id="get_codes"><span><?php echo Mage::helper('googleoptimizer')->__('Install Scripts') ?></span></button>
 
-    <script type="text/javascript">
-    //<![CDATA[
-    function pushCodes()
-    {
-        var url = '<?php echo $this->getExportUrl() ?>';
+    <input type="text" class="input-text googleoptimizer" onchange="refreshButton(this);" name="target_url" id="target_url"<?php echo $_disabled ?>/>
 
-        new Ajax.Request(url, {
-            method: 'get',
-            parameters: {url: $('target_url').value},
-            onSuccess: function(transport) {
-                try {
-                    if (transport.responseText.isJSON())
-                    {
-                        var response = transport.responseText.evalJSON();
-                        $('<?php echo $this->getControlFieldKey() ?>').value = response.code_control.unescapeHTML();
-                        $('<?php echo $this->getTrackingFieldKey() ?>').value = response.code_tracking.unescapeHTML();
-                        $('<?php echo $this->getConversionFieldKey() ?>').value = response.code_conversion.unescapeHTML();
-                    }
-                }
-                catch (e) {
-                    alert('Error occurs in codes importing');
+    </td>
+    <td class="scope-label"></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td class="label">
+    </td>
+    <td class="value" nowrap>
+
+    <button style="float:right;" onclick="pushCodes();" class="scalable googleoptimizer" type="button" id="get_codes"<?php echo $_disabled ?>>
+        <span><?php echo Mage::helper('googleoptimizer')->__('Install Scripts') ?></span>
+    </button>
+
+    </td>
+    <td class="scope-label"></td>
+    <td></td>
+    <td></td>
+</tr>
+<script type="text/javascript">
+//<![CDATA[
+function pushCodes()
+{
+    var url = '<?php echo $this->getExportUrl() ?>';
+
+    new Ajax.Request(url, {
+        method: 'get',
+        parameters: {url: $('target_url').value},
+        onSuccess: function(transport) {
+            try {
+                if (transport.responseText.isJSON())
+                {
+                    var response = transport.responseText.evalJSON();
+                    $('<?php echo $this->getControlFieldKey() ?>').value = response.code_control.unescapeHTML();
+                    $('<?php echo $this->getTrackingFieldKey() ?>').value = response.code_tracking.unescapeHTML();
+                    $('<?php echo $this->getConversionFieldKey() ?>').value = response.code_conversion.unescapeHTML();
                 }
             }
-        });
+            catch (e) {
+                alert('Error occurs in codes importing');
+            }
+        }
+    });
+}
+function refreshButton(elm) {
+    if (elm && elm.value.length > 0) {
+        $('get_codes').disabled = false;
+    } else {
+        $('get_codes').disabled = true;
     }
-
-    //]]>
-    </script>
-    </td>
-</tr>
+}
+//]]>
+</script>

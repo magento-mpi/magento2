@@ -85,4 +85,50 @@ class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         $attributeHtml = '<script>utmx_section("category_'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
         return $attributeHtml;
     }
+
+    /**
+     * Return conversion pages from source model
+     *
+     * @return Varien_Object
+     */
+    public function getConversionPagesUrl()
+    {
+        /**
+         * Example:
+         *
+         * array(
+         *  'checkout_cart' => 'http://base.url/...'
+         * )
+         */
+        $urls = array();
+        $choices = Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
+            ->toOptionArray();
+        foreach ($choices as $choice) {
+            $route = '';
+            switch ($choice['value']) {
+                case 'checkout_cart':
+                    $route = 'checkout/cart';
+                    break;
+                case 'checkout_onepage':
+                    $route = 'checkout/onepage';
+                    break;
+                case 'checkout_multishipping':
+                    $route = 'checkout/multishipping';
+                    break;
+                case 'checkout_onepage_success':
+                    $route = 'checkout/onepage/success/';
+                    break;
+                case 'checkout_multishipping_success':
+                    $route = 'checkout/multishipping/success/';
+                    break;
+                case 'account_create':
+                    $route = 'customer/account/create/';
+                    break;
+            }
+            if ($route) {
+                $urls[$choice['value']] = $this->_getUrl($route, array('_secure' => true));
+            }
+        }
+        return new Varien_Object($urls);
+    }
 }

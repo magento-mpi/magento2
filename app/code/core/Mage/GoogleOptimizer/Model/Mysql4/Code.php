@@ -53,7 +53,7 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
             $_columns = array_keys($read->describeTable($this->getMainTable()));
             $columnsToFetch = array();
             foreach ($_columns as $_column) {
-                if (!in_array($_column, array('code_id', 'store_id', 'control_script', 'tracking_script', 'conversion_script'))) {
+                if (in_array($_column, array('entity_id', 'entity_type'))) {
                     $columnsToFetch[] = $_column;
                 }
             }
@@ -65,7 +65,8 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
                         'store_id' => new Zend_Db_Expr("IFNULL(_store_table.store_id, _default_table.store_id)"),
                         'control_script' => new Zend_Db_Expr("IFNULL(_store_table.control_script, _default_table.control_script)"),
                         'tracking_script' => new Zend_Db_Expr("IFNULL(_store_table.tracking_script, _default_table.tracking_script)"),
-                        'conversion_script' => new Zend_Db_Expr("IFNULL(_store_table.conversion_script, _default_table.conversion_script)")))
+                        'conversion_script' => new Zend_Db_Expr("IFNULL(_store_table.conversion_script, _default_table.conversion_script)"),
+                        'conversion_page' => new Zend_Db_Expr("IFNULL(_store_table.conversion_page, _default_table.conversion_page)")))
                 ->where('_default_table.entity_id=?', $object->getEntity()->getId())
                 ->where('_default_table.entity_type=?', $object->getEntityType())
                 ->where('_default_table.store_id=?', 0)

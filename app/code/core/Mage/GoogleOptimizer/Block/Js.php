@@ -23,33 +23,10 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Category container block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Catalog_Category_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_GoogleOptimizer_Block_Js extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    public function getJsonConversionPagesUrl()
     {
-        $this->_objectId    = 'entity_id';
-        $this->_controller  = 'catalog_category';
-        $this->_mode        = 'edit';
-
-        parent::__construct();
-        $this->setTemplate('catalog/category/edit.phtml');
-    }
-
-    protected function _prepareLayout()
-    {
-        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)) {
-            $this->setChild('googleoptimizer_js',
-                $this->getLayout()->createBlock('googleoptimizer/js')->setTemplate('googleoptimizer/js.phtml')
-            );
-        }
-        return parent::_prepareLayout();
+        return Mage::helper('googleoptimizer')->getConversionPagesUrl()->toJson();
     }
 }
