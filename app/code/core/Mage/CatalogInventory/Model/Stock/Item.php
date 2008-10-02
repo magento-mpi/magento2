@@ -152,6 +152,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getMinQty()
     {
+        if ($this->hasData('forced_min_qty')) {
+            return $this->getForcedMinQty();
+        }
         if ($this->getUseConfigMinQty()) {
             return (float) Mage::getStoreConfig(self::XML_PATH_MIN_QTY);
         }
@@ -380,6 +383,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $this->setLowStockDate(false);
         }
 
+        if ($this->hasStockStatusChangedAutomaticallyFlag()) {
+            $this->setStockStatusChangedAutomatically((int) $this->getStockStatusChangedAutomaticallyFlag());
+        } else {
+            $this->setStockStatusChangedAutomatically(0);
+        }
+
         Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item'=>$this));
         return $this;
     }
@@ -391,5 +400,4 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         return $this->_getData('is_in_stock');
     }
-
 }

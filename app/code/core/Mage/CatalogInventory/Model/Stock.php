@@ -151,4 +151,34 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
         $this->getResource()->setInStockFilterToCollection($collection);
         return $this;
     }
+
+    public function updateItemsStockAvailability($currentMinQtyValue)
+    {
+        $isStockManagedInConfig = Mage::getStoreConfig('cataloginventory/options/manage_stock');
+        $collection = $this
+                    ->getItemCollection()
+                    ->addFieldToFilter('use_config_min_qty', 1)
+                    ->addFieldToFilter('is_in_stock', 1)
+                    ->addManagedFilter($isStockManagedInConfig)
+                    ->addQtyFilter('<=', $currentMinQtyValue);
+        foreach ($collection as $item) {
+            $item->setStockStatusChangedAutomaticallyFlag(true)
+                ->setIsInStock(false)
+                ->save();
+        }
+
+        $collection = $this
+                    ->getItemCollection()
+                    ->addFieldToFilter('use_config_min_qty', 1)
+                    ->addFieldToFilter('is_in_stock', 0)
+                    ->addFieldToFilter('stock_status_changed_automatically', 1)
+                    ->addManagedFilter($isStockManagedInConfig)
+                    ->addQtyFilter('>', $currentMinQtyValue);
+        foreach ($collection as $item) {
+            $item->setStockStatusChangedAutomaticallyFlag(true)
+                ->setIsInStock(true)
+                ->setForcedMinQty($currentMinQtyValue)
+                ->save();
+        }
+    }
 }

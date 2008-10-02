@@ -79,4 +79,27 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item_Collection extends Mage_Core
         $this->addFieldToFilter('product_id', array('in'=>$productIds));
         return $this;
     }
+
+    public function addManagedFilter($isStockManagedInConfig)
+    {
+        if ($isStockManagedInConfig) {
+            $this->getSelect()
+                ->where('(manage_stock = ?', 1)
+                ->orWhere('use_config_manage_stock = ?)', 1);
+        } else {
+            $this->addFieldToFilter('manage_stock', 1);
+        }
+
+        return $this;
+    }
+
+    public function addQtyFilter($comparsionMethod, $qty)
+    {
+        $allowedMethods = array('<', '>', '=', '<=', '>=', '<>');
+        if (!in_array($comparsionMethod, $allowedMethods)) {
+            Mage::throwException(Mage::helper('cataloginventory')->__('%s is not correct comparsion method.', $comparsionMethod));
+        }
+		$this->getSelect()->where("qty {$comparsionMethod} ?", $qty);
+        return $this;
+    }
 }
