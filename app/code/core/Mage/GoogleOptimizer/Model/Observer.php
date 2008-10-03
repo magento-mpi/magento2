@@ -45,9 +45,9 @@ class Mage_Googleoptimizer_Model_Observer
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_product')
             ->setEntity($product)
             ->loadScripts($product->getStoreId());
-
-        $product->setGoogleOptimizerCodes($googleOptimizerModel);
-
+        if ($googleOptimizerModel->getId()) {
+            $product->setGoogleOptimizerCodes($googleOptimizerModel);
+        }
         return $this;
     }
 
@@ -114,8 +114,9 @@ class Mage_Googleoptimizer_Model_Observer
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_page')
             ->setEntity($cmsPage)
             ->loadScripts(0);
-        $cmsPage->setGoogleOptimizerCodes($googleOptimizerModel);
-
+        if ($googleOptimizerModel->getId()) {
+            $cmsPage->setGoogleOptimizerCodes($googleOptimizerModel);
+        }
         return $this;
     }
 
@@ -191,7 +192,9 @@ class Mage_Googleoptimizer_Model_Observer
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_category')
             ->setEntity($category)
             ->loadScripts($category->getStoreId());
-        $category->setGoogleOptimizerCodes($googleOptimizerModel);
+        if ($googleOptimizerModel->getId()) {
+            $category->setGoogleOptimizerCodes($googleOptimizerModel);
+        }
         return $this;
     }
 
