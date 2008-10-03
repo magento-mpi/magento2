@@ -124,6 +124,7 @@ function submitAndReloadArea(area, url) {
     if($(area)) {
         var fields = $(area).select('input', 'select', 'textarea');
         var data = Form.serializeElements(fields, true);
+        url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true');
         new Ajax.Request(url, {
             parameters: $H(data),
             loaderArea: area,
@@ -133,6 +134,9 @@ function submitAndReloadArea(area, url) {
                         var response = transport.responseText.evalJSON()
                         if (response.error) {
                             alert(response.message);
+                        }
+                        if(response.ajaxExpired && response.ajaxRedirect) {
+                            setLocation(response.ajaxRedirect);
                         }
                     } else {
                         $(area).update(transport.responseText);
