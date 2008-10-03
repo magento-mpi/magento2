@@ -62,18 +62,24 @@
            var currentNode = tree.getNodeById(tree.currentNodeId);
            currentNode.setText(params.node_name);
        }*/
-        var categoryContainer = $('category-edit-container');
-        new Ajax.Updater(
-            categoryContainer,
-            url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ),
-            {
-               parameters:  params || {},
-               method:      'post',
-               loaderArea:  categoryContainer,
-               onComplete:  refreshTree ? refreshTreeArea.bind(this) : false,
-               evalScripts: true
-            }
-        );
+        var categoryArea = "category-edit-container";
+        url = url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true');
+        new Ajax.Request(url, {
+            parameters: params || {},
+            loaderArea: categoryArea,
+            onSuccess: function(transport) {
+                if(transport.responseText.isJSON()) {
+                   var response = transport.responseText.evalJSON();
+                   if (response.ajaxExpired && response.ajaxRedirect) {
+                       setLocation(response.ajaxRedirect);
+                       return false;
+                   }
+                }
+                $(categoryArea).update(transport.responseText);
+                return refreshTree ? refreshTreeArea.bind(this) : false;
+            },
+            evalScripts: true
+        });
     }
 
     function refreshTreeArea(transport)
