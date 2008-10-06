@@ -53,7 +53,7 @@
             <label for="shipping:city"><?php echo $this->__('City') ?> <span class="required">*</span></label><br />
             <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>" class="required-entry input-text" id="shipping:city" onchange="shipping.setSameAsBilling(false);" /></div>
             <div class="input-box">
-            <label for="shipping:region"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
+            <label for="shipping:region_id"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
             <select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none">
                 <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
             </select>
