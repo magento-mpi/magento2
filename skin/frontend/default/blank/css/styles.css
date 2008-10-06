@@ -241,7 +241,6 @@ p.required { font-size:10px; text-align:right; }
 .data-table tbody.odd tr.border td,
 .data-table tbody.even tr.border td { border-bottom-width:1px; }
 .data-table th .tax-flag { white-space:nowrap; font-weight:normal; }
-.data-table td .product-name { font-size:1em; font-weight:bold; line-height:1.5; }
 .data-table td.label,
 .data-table th.label { font-weight:bold; background-color:#f6f6f6; }
 .data-table td.value {}
@@ -570,6 +569,8 @@ a.minimal-price-link .price { font-weight:normal; }
 
 
 /* Content Styles ================================================================= */
+.product-name { font-size:1em; font-weight:bold; line-height:1.5; }
+
 /* Product Tags */
 .tags-list li { display:inline; }
 
