@@ -39,55 +39,48 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
         return Mage::getSingleton('reports/session')->getData('viewed_products');
     }
 
-    public function __construct()
+    protected function _toHtml()
     {
-        parent::__construct();
         if ($this->_hasViewedProductsBefore() === false) {
-            return $this;
+            return '';
         }
-//        $this->setTemplate('reports/product_viewed.phtml');
 
-        $ignore = null;
+        // get products collection and apply status and visibility filter
+        $collection = Mage::getModel('catalog/product')->getCollection()
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addUrlRewrite()
+            ->setPageSize(5)
+            ->setCurPage(1)
+        ;
+        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+
+        // apply events log to collection with required parameters
+        $skip = array();
         if (($product = Mage::registry('product')) && $product->getId()) {
-            $ignore = $product->getId();
+            $skip = (int)$product->getId();
         }
-
+        $subtype = 0;
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $subjectId = $customer->getId();
-            $subtype = 0;
+            $subjectId = Mage::getSingleton('customer/session')->getCustomer()->getId();
         } else {
             $subjectId = Mage::getSingleton('log/visitor')->getId();
             $subtype = 1;
         }
-        $collection = Mage::getModel('reports/event')
-            ->getCollection()
-            ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $subjectId, $subtype, $ignore);
-        $productIds = array();
-        foreach ($collection as $event) {
-            $productIds[] = $event->getObjectId();
-        }
-        unset($collection);
+        Mage::getResourceSingleton('reports/event')->applyLogToCollection($collection, Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $subjectId, $subtype, $skip);
 
+        // load products collection and set session flag if viewed
+        $hasProducts = false;
+        foreach ($collection as $product) {
+            $hasProducts = true;
+            $product->setDoNotUseCategoryId(true);
+        }
         if (is_null($this->_hasViewedProductsBefore())) {
-            Mage::getSingleton('reports/session')->setData('viewed_products', count($productIds) > 0);
+            Mage::getSingleton('reports/session')->setData('viewed_products', $hasProducts);
         }
 
-        $productCollection = null;
-        if ($productIds) {
-            $productCollection = Mage::getModel('catalog/product')
-                ->getCollection()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-                ->addIdFilter($productIds)
-                ->addUrlRewrite();
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($productCollection);
-            $productCollection->setPageSize(5)->setCurPage(1)->load();
+        $this->setRecentlyViewedProducts($collection);
 
-            foreach ($productCollection as $product) {
-                $product->setDoNotUseCategoryId(true);
-            }
-        }
-        $this->setRecentlyViewedProducts($productCollection);
+        return parent::_toHtml();
     }
 }
