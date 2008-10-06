@@ -32,8 +32,19 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstract
+class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstract
 {
+    protected $_eventTypeId = Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW;
+
+    protected function _getProductsToSkip()
+    {
+        $ids = array();
+        if (($product = Mage::registry('product')) && $product->getId()) {
+            $ids = (int)$product->getId();
+        }
+        return $ids;
+    }
+
     protected function _hasViewedProductsBefore()
     {
         return Mage::getSingleton('reports/session')->getData('viewed_products');
@@ -45,41 +56,14 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Catalog_Block_Product_Abstr
             return '';
         }
 
-        // get products collection and apply status and visibility filter
-        $collection = Mage::getModel('catalog/product')->getCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-            ->addUrlRewrite()
-            ->setPageSize(5)
-            ->setCurPage(1)
-        ;
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-
-        // apply events log to collection with required parameters
-        $skip = array();
-        if (($product = Mage::registry('product')) && $product->getId()) {
-            $skip = (int)$product->getId();
-        }
-        $subtype = 0;
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $subjectId = Mage::getSingleton('customer/session')->getCustomer()->getId();
-        } else {
-            $subjectId = Mage::getSingleton('log/visitor')->getId();
-            $subtype = 1;
-        }
-        Mage::getResourceSingleton('reports/event')->applyLogToCollection($collection, Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $subjectId, $subtype, $skip);
-
-        // load products collection and set session flag if viewed
-        $hasProducts = false;
-        foreach ($collection as $product) {
-            $hasProducts = true;
-            $product->setDoNotUseCategoryId(true);
-        }
+        $collection = $this->_getRecentProductsCollection();
+        $hasProducts = (bool)count($collection);
         if (is_null($this->_hasViewedProductsBefore())) {
             Mage::getSingleton('reports/session')->setData('viewed_products', $hasProducts);
         }
-
-        $this->setRecentlyViewedProducts($collection);
+        if ($hasProducts) {
+            $this->setRecentlyViewedProducts($collection);
+        }
 
         return parent::_toHtml();
     }
