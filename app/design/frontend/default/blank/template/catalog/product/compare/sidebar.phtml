@@ -38,7 +38,7 @@
         <?php foreach($this->helper('catalog/product_compare')->getItemCollection() as $_index=>$_item): ?>
             <li>
                 <input type="hidden" class="compare-item-id" value="<?php echo $_item->getId() ?>" />
-                <a href="<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" class="v-middle" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>');" /></a>
+                <a href="<?php echo $this->helper('catalog/product_compare')->getRemoveUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove This Item') ?>" title="<?php echo $this->__('Remove This Item') ?>" class="v-middle" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the compare products?') ?>');" /></a>
                 <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
             </li>
         <?php endforeach; ?>

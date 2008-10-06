@@ -45,7 +45,7 @@
 .add-to-box:after,
 .add-to-cart:after,
 .product-essential:after,
-.products-list .item:after,
+.products-list li.item:after,
 .product-view .product-img-box .more-views ul:after,
 .product-options .options-list li:after,
 .product-review:after,

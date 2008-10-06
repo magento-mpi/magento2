@@ -39,8 +39,8 @@
         <option value="<?php echo $_store->getUrl('') ?>"<?php if($_store->getId()==$this->getCurrentStoreId()): ?> selected="selected"<?php endif; ?>><?php echo $_store->getName() ?></option>
     <?php endforeach;*/ ?>
     <?php foreach ($this->getGroups() as $_group): ?>
-        <?php $_selected = ($_group->getId()==$this->getCurrentGroupId()) ? 'selected="selected"' : '' ?>
-        <option value="<?php echo $_group->getHomeUrl() ?>" <?php echo $_selected ?>><?php echo $this->htmlEscape($_group->getName()) ?></option>
+        <?php $_selected = ($_group->getId()==$this->getCurrentGroupId()) ? ' selected="selected"' : '' ?>
+        <option value="<?php echo $_group->getHomeUrl() ?>"<?php echo $_selected ?>><?php echo $this->htmlEscape($_group->getName()) ?></option>
     <?php endforeach; ?>
     </select>
 </fieldset>

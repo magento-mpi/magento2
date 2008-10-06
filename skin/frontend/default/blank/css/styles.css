@@ -61,13 +61,14 @@
 
 
 /* Header ================================================================================ */
+.logo { float:left; width:200px; height:63px; overflow:hidden; } 
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
+.header .logo { background-position:0 0; background-repeat:no-repeat; text-indent:-999em; cursor:pointer; }
 .header .welcome-msg { font-weight:bold; text-align:right; }
 .header .links { float:right; }
 .header .form-search { text-align:center; }
 .header .form-language { text-align:center; }
-#logo { float:left; width:200px; height:63px; background-position:0 0; background-repeat:no-repeat; text-indent:-999em; overflow:hidden; cursor:pointer; } 
 
 /********** < Navigation */
 #nav { font-size:12px; border:1px solid #ddd; padding:5px 0; margin:10px 0; }
@@ -119,14 +120,15 @@
 
 /* Global Styles ========================================================================= */
 /* Form Elements */
-input, select, textarea, button { font:12px Arial, Helvetica, sans-serif; vertical-align:middle; }
-input.input-text, select, textarea { border:1px solid #888; }
-input.input-text:focus, select:focus, textarea:focus {}
-input.input-text, textarea { padding:2px; }
+input,select,textarea,button { font:12px Arial, Helvetica, sans-serif; vertical-align:middle; color:#000; }
+input.input-text,select,textarea { border:1px solid #ddd; }
+input.input-text,textarea { padding:2px; }
+select { padding:1px; }
+select option { padding-right:10px; }
+textarea { overflow:auto; }
 input.radio { margin-right:3px; }
 input.checkbox { margin-right:3px; }
-input.qty { width:2.5em; }
-textarea { overflow:auto; }
+input.qty { width:2.5em !important; }
 button.button { overflow:visible; width:auto; background:#f6f6f6; border:1px solid #717171; cursor:pointer; }
 button.button span { display:block; margin:0; padding:0 8px 1px; font:bold 12px/16px Arial, Helvetica, sans-serif; text-align:center; white-space:nowrap; color:#000; }
 button.disabled {}
@@ -136,7 +138,8 @@ button.disabled span {}
 .field-100 input.input-text,
 .field-100 textarea { float:left; width:100%; margin:0; padding:0; border:0; }
 /* Form Highlight */
-.highlight {}
+/*input.input-text:focus,select:focus,textarea:focus {}
+.highlight {}*/
 
 /* Form lists */
 .form-list li { margin:0 0 5px; }
@@ -158,12 +161,10 @@ button.disabled span {}
 .group-select li .input-box input.input-text,
 .group-select li .input-box textarea { width:250px; }
 .group-select li .input-box select { width:256px; }
-.group-select.wide input.input-text,
-.group-select.wide textarea { width:510px; }
 
 .buttons-set { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; }
 .buttons-set .back-link { float:left; }
-.buttons-set .button { float:right; }
+.buttons-set button.button { float:right; }
 
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; text-align:right; }
 
@@ -326,7 +327,7 @@ dd.even { background-color:#f6f6f6; }
 /* Block: Related */
 .sidebar .block-related {}
 .sidebar .block-related li { padding:5px 0; }
-.sidebar .block-related .checkbox { float:left; margin-right:-20px; }
+.sidebar .block-related input.checkbox { float:left; margin-right:-20px; }
 .sidebar .block-related .item { margin-left:20px; }
 .sidebar .block-related .item .product-image { float:left; margin-right:-65px; }
 .sidebar .block-related .item .product-details { margin-left:65px; }
@@ -340,7 +341,7 @@ dd.even { background-color:#f6f6f6; }
 
 /* Block: Poll */
 .sidebar .block-poll {}
-.sidebar .block-poll .radio { float:left; margin:3px -18px 0 0; }
+.sidebar .block-poll input.radio { float:left; margin:3px -18px 0 0; }
 .sidebar .block-poll .label { display:block; margin-left:18px; }
 .sidebar .block-poll .answer {}
 .sidebar .block-poll .votes { font-weight:bold; }
@@ -355,7 +356,7 @@ dd.even { background-color:#f6f6f6; }
 /* Block: Reorder */
 .sidebar .block-reorder {}
 .sidebar .block-reorder li { padding:5px 0; }
-.sidebar .block-reorder .checkbox { float:left; margin:3px -20px 0 0; }
+.sidebar .block-reorder input.checkbox { float:left; margin:3px -20px 0 0; }
 .sidebar .block-reorder .label { display:block; margin-left:20px; }
 
 /* Block: Banner */
@@ -384,8 +385,8 @@ dd.even { background-color:#f6f6f6; }
 .products-grid td.empty {}
 
 /* View Type: List */
-.products-list .item { border:1px solid #ddd; padding:5px; margin:0 0 5px; }
-.products-list .product-image { float:left; margin-right:-150px; }
+.products-list li.item { border:1px solid #ddd; padding:5px; margin:0 0 5px; }
+.products-list .product-image { float:left; }
 .products-list .product-shop { float:right; width:320px; }
 /* ======================================================================================= */
 
@@ -509,7 +510,7 @@ a.minimal-price-link .price { font-weight:normal; }
 /* Add to Cart */
 .add-to-cart label { float:left; margin-right:5px; }
 .add-to-cart .qty { float:left; }
-.add-to-cart .button { float:left; margin-left:5px; }
+.add-to-cart button.button { float:left; margin-left:5px; }
 
 /* Add to Links + Add to Cart */
 .add-to-box {}
@@ -556,7 +557,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .product-view .tags {}
 .product-view .tags .form-add-tags label { float:left; }
 .product-view .tags .form-add-tags .input-box { float:left; margin:0 5px; }
-.product-view .tags .form-add-tags .button { float:left; }
+.product-view .tags .form-add-tags button.button { float:left; }
 .product-view .tags .form-add-tags p { clear:both; }
 
 /* Block: Reviews */
