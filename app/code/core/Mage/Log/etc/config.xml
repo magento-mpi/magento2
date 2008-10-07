@@ -28,7 +28,7 @@
 <config>
     <modules>
     <Mage_Log>
-        <version>0.7.2</version>
+        <version>0.7.3</version>
     </Mage_Log>
     </modules>
     <global>
@@ -94,6 +94,15 @@
                 </connection>
             </log_read>
         </resources>
+        <template>
+            <email>
+                <system_log_error_email_template translate="label" module="log">
+                    <label>Log cleanup Warnings</label>
+                    <file>log_clean_warning.html</file>
+                    <type>text</type>
+                </system_log_error_email_template>
+            </email>
+        </template>
     </global>
     <frontend>
         <events>
@@ -166,8 +175,27 @@
         </translate>
     </adminhtml>
 
+    <default>
+        <system>
+            <log>
+                <clean_after_day>1</clean_after_day>
+                <enabled>0</enabled>
+                <time></time>
+                <frequency>D</frequency>
+                <error_email></error_email>
+                <error_email_identity>general</error_email_identity>
+                <error_email_template>system_log_error_email_template</error_email_template>
+            </log>
+        </system>
+    </default>
+
     <crontab>
         <jobs>
+            <log_clean>
+                <run>
+                    <model>log/cron::logClean</model>
+                </run>
+            </log_clean>
             <every_10_minutes>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>

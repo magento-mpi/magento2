@@ -449,6 +449,15 @@
                     </catalogindex>
                 </observers>
             </catalog_product_import_after>
+            <log_log_clean_after>
+                <observers>
+                    <catalog_product_compare>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>catalogProductCompareClean</method>
+                    </catalog_product_compare>
+                </observers>
+            </log_log_clean_after>
         </events>
         <translate>
             <modules>

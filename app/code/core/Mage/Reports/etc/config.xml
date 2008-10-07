@@ -144,6 +144,15 @@
                     </reports>
                 </observers>
             </wishlist_share>
+            <log_log_clean_after>
+                <observers>
+                    <reports>
+                        <type>singleton</type>
+                        <class>reports/event_observer</class>
+                        <method>eventClean</method>
+                    </reports>
+                </observers>
+            </log_log_clean_after>
         </events>
     </global>
 

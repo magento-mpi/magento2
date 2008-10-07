@@ -132,4 +132,33 @@ class Mage_Reports_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
         }
         return $stores;
     }
+
+    /**
+     * Clean report event table
+     */
+    public function clean(Mage_Reports_Model_Event $object)
+    {
+        while (true) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('event_table' => $this->getMainTable()), array('event_id'))
+                ->joinLeft(
+                    array('visitor_table' => $this->getTable('log/visitor')),
+                    'event_table.subject_id = visitor_table.visitor_id',
+                    array())
+                ->where('visitor_table.visitor_id IS NULL')
+                ->where('event_table.subtype=?', 1)
+                ->limit(1000);
+            $eventIds = $this->_getReadAdapter()->fetchCol($select);
+
+            if (!$eventIds) {
+                break;
+            }
+
+            $this->_getWriteAdapter()->delete(
+                $this->getMainTable(),
+                $this->_getWriteAdapter()->quoteInto('event_id IN(?)', $eventIds)
+            );
+        }
+        return $this;
+    }
 }
