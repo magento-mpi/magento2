@@ -97,8 +97,8 @@
                 <default>
                     <view descr="View entity"/>
                     <edit descr="Edit entity"/>
-                    <delete descr=""/>
-                    <create descr=""/>
+                    <delete descr="Delete entity"/>
+                    <create descr="Create entity"/>
                 </default>
             </privilegeSets>
         </acl>
