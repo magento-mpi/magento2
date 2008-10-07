@@ -154,7 +154,14 @@ TranslateInline.prototype = {
 
         var inputs = $('translate-inline-form').getInputs(), parameters = {};
         for (var i=0; i<inputs.length; i++) {
-            parameters[inputs[i].name] = inputs[i].value;
+            if (inputs[i].type == 'checkbox') {
+                if (inputs[i].checked) {
+                    parameters[inputs[i].name] = inputs[i].value;
+                }
+            }
+            else {
+                parameters[inputs[i].name] = inputs[i].value;
+            }
         }
         parameters['area'] = this.area;
 
