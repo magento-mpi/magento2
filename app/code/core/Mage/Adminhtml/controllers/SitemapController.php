@@ -138,7 +138,12 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                     $this->_redirect('*/*/edit', array('sitemap_id' => $model->getId()));
                     return;
                 }
-                // go to grid
+                // go to grid or forward to generate action
+                if ($this->getRequest()->getParam('generate')) {
+                    $this->getRequest()->setParam('sitemap_id', $model->getId());
+                    $this->_forward('generate');
+                    return;
+                }
                 $this->_redirect('*/*/');
                 return;
 
@@ -222,11 +227,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             );
         }
 
-        // go back or to grid
-        if ($this->getRequest()->getParam('go_back')) {
-            $this->_redirectReferer('*/*/');
-            return;
-        }
+        // go to grid
         $this->_redirect('*/*/');
     }
 

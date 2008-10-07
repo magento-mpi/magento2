@@ -45,16 +45,11 @@ class Mage_Adminhtml_Block_Sitemap_Edit extends Mage_Adminhtml_Block_Widget_Form
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Sitemap'));
-        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Sitemap'));
-        if (Mage::registry('sitemap_sitemap') && $sitemapId = Mage::registry('sitemap_sitemap')->getId()) {
-            $generationUrl = Mage::helper('core')->htmlEscape(Mage::getUrl('*/*/generate', array('sitemap_id' => $sitemapId, 'go_back' => 1)));
-            $this->_addButton('generate', array(
-                'label'   => Mage::helper('adminhtml')->__('Generate'),
-                'onclick' => "setLocation('{$generationUrl}')",
-                'class'   => 'add',
-            ));
-        }
+        $this->_addButton('generate', array(
+            'label'   => Mage::helper('adminhtml')->__('Save & Generate'),
+            'onclick' => "$('generate').value=1; editForm.submit();",
+            'class'   => 'add',
+        ));
     }
 
     /**
@@ -71,5 +66,4 @@ class Mage_Adminhtml_Block_Sitemap_Edit extends Mage_Adminhtml_Block_Widget_Form
             return Mage::helper('sitemap')->__('New Sitemap');
         }
     }
-
 }
