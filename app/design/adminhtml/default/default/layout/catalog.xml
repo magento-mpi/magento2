@@ -35,7 +35,7 @@
             <block type="adminhtml/catalog_product_edit_tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
-            <block type="adminhtml/template" template="catalog/product/js.phtml"></block>
+            <block type="adminhtml/template" template="catalog/product/js.phtml" name="catalog_product_js"></block>
         </reference>
     </adminhtml_catalog_product_new>
 
@@ -48,7 +48,7 @@
             <block type="adminhtml/catalog_product_edit_tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
-            <block type="adminhtml/template" template="catalog/product/js.phtml"></block>
+            <block type="adminhtml/template" template="catalog/product/js.phtml" name="catalog_product_js"></block>
         </reference>
     </adminhtml_catalog_product_edit>
 
@@ -63,9 +63,8 @@ Layout handle for grouped products
 -->
 
     <adminhtml_catalog_product_grouped>
-        <remove name="product_tabs"/>
-        <reference name="left">
-            <block type="adminhtml/catalog_product_edit_tabs_grouped" name="grouped_product_tabs"></block>
+        <reference name="product_tabs">
+            <action method="addTab"><name>super</name><block>adminhtml/catalog_product_edit_tab_super_group</block></action>
         </reference>
     </adminhtml_catalog_product_grouped>
 
@@ -73,10 +72,17 @@ Layout handle for grouped products
 Layout handle for configurable products
 -->
 
-    <adminhtml_catalog_product_configurable>
+    <adminhtml_catalog_product_configurable_new>
         <remove name="product_tabs"/>
         <reference name="left">
             <block type="adminhtml/catalog_product_edit_tabs_configurable" name="configurable_product_tabs"></block>
+        </reference>
+    </adminhtml_catalog_product_configurable_new>
+
+    <adminhtml_catalog_product_configurable>
+        <reference name="product_tabs">
+            <action method="addTab"><name>configurable</name><block>adminhtml/catalog_product_edit_tab_super_config</block></action>
+            <action method="bindShadowTabs"><first>configurable</first><second>customer_options</second></action>
         </reference>
     </adminhtml_catalog_product_configurable>
 

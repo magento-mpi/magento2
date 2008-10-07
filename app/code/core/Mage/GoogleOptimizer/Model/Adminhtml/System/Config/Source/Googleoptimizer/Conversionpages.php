@@ -38,6 +38,7 @@ class Mage_GoogleOptimizer_Model_Adminhtml_System_Config_Source_Googleoptimizer_
     {
         return array(
             array('value'=>'', 'label'=>Mage::helper('googleoptimizer')->__('-- Please Select --')),
+            array('value'=>'other', 'label'=>Mage::helper('googleoptimizer')->__('Other')),
             array('value'=>'checkout_cart', 'label'=>Mage::helper('googleoptimizer')->__('Shopping Cart')),
             array('value'=>'checkout_onepage', 'label'=>Mage::helper('googleoptimizer')->__('One Page Checkout')),
             array('value'=>'checkout_multishipping', 'label'=>Mage::helper('googleoptimizer')->__('Multi Address Checkout')),

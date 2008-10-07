@@ -52,7 +52,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
-                'class' => 'textarea',
+                'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
             )
@@ -61,7 +61,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             array(
                 'name'  => 'tracking_script',
                 'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
-                'class' => 'textarea',
+                'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
             )
@@ -70,7 +70,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             array(
                 'name'  => 'conversion_script',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
-                'class' => 'textarea',
+                'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
             )
@@ -81,7 +81,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
                 'name'  => 'conversion_page',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
-                'class' => 'select googleoptimizer',
+                'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
             )

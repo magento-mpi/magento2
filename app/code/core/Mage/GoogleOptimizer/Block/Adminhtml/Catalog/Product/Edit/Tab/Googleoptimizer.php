@@ -40,8 +40,6 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     {
         $form = new Varien_Data_Form();
 
-//        $form->setDataObject($this->getProduct());
-
         $fieldset = $form->addFieldset('googleoptimizer_fields',
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
@@ -57,6 +55,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 $disabledScriptsFields = false;
                 $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
             }
+
             // show 'use default' checkbox if store different for default and product has scripts for default store
             if ($this->getProduct()->getStoreId() != '0') {
                 $fieldset->addField('store_flag', 'checkbox',
@@ -78,7 +77,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
-                'class' => 'textarea googleoptimizer',
+                'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
@@ -86,7 +85,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             array(
                 'name'  => 'tracking_script',
                 'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
-                'class' => 'textarea googleoptimizer',
+                'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
@@ -94,7 +93,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             array(
                 'name'  => 'conversion_script',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
-                'class' => 'textarea googleoptimizer',
+                'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
@@ -104,7 +103,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'name'  => 'conversion_page',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
-                'class' => 'select googleoptimizer',
+                'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
             )

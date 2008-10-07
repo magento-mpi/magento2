@@ -198,6 +198,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
      */
     public function getAttributeTabBlock()
     {
+        if ($this->getLayout()->getBlock('left')->getData('attributeTabs')) {
+            return $this->getLayout()->getBlock('left')->getData('attributeTabs');
+        }
         return $this->_attributeTabBlock;
+    }
+
+    public function setAttributeTabBlock($attributeTabBlock)
+    {
+        $this->_attributeTabBlock = $attributeTabBlock;
+        return $this;
     }
 }

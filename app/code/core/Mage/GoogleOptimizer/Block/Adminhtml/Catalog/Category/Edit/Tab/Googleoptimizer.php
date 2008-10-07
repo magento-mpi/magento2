@@ -47,9 +47,10 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     public function _prepareLayout()
     {
         $form = new Varien_Data_Form();
-//        $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts')));
+        $fieldset = $form->addFieldset('base_fieldset',
+            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
+        );
 
         $disabledScriptsFields = false;
         $values = array();
@@ -83,7 +84,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
-                'class' => 'textarea googleoptimizer',
+                'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
@@ -92,7 +93,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array(
                 'name'  => 'tracking_script',
                 'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
-                'class' => 'textarea googleoptimizer',
+                'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
@@ -101,7 +102,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array(
                 'name'  => 'conversion_script',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
-                'class' => 'textarea googleoptimizer',
+                'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
@@ -111,7 +112,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
                 'name'  => 'conversion_page',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
-                'class' => 'select googleoptimizer',
+                'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
             )

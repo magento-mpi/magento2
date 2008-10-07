@@ -79,6 +79,28 @@ class Mage_Googleoptimizer_Model_Code extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    protected function _validate()
+    {
+        $entryFlag = false;
+        $validationResult = false;
+        if ($control = $this->getControlScript()) {
+            $entryFlag = true;
+        }
+        if ($tracking = $this->getTrackingScript()) {
+            $entryFlag = true;
+        }
+        if ($conversion = $this->getConversionScript()) {
+            $entryFlag = true;
+        }
+        if ($conversionPage = $this->getConversionPage()) {
+            $entryFlag = true;
+        }
+        if ($entryFlag && (!$control || !$tracking || !$conversion || !$conversionPage)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Enter description here...
      *
@@ -98,6 +120,10 @@ class Mage_Googleoptimizer_Model_Code extends Mage_Core_Model_Abstract
             ->setEntityId($this->getEntity()->getId())
             ->setEntityType($this->getEntityType())
             ->setStoreId($storeId);
+
+        if (false === $this->_validate()) {
+            throw new Exception(Mage::helper('googleoptimizer')->__('All fields of script types have to be filled.'));
+        }
 
         //use default scripts, need to delete scripts for current store
         if ($this->getStoreFlag()) {
