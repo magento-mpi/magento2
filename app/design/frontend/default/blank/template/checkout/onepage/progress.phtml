@@ -44,7 +44,7 @@
             </dt>
         <?php endif; ?>
         <?php endif; ?>
-    
+
         <?php if ($this->getCheckout()->getStepData('shipping', 'is_show')): ?>
         <?php if($this->getCheckout()->getStepData('shipping', 'complete')): ?>
             <dt class="complete">
@@ -59,7 +59,7 @@
             </dt>
         <?php endif; ?>
         <?php endif; ?>
-    
+
         <?php if ($this->getCheckout()->getStepData('shipping_method', 'is_show')): ?>
         <?php if($this->getCheckout()->getStepData('shipping_method', 'complete')): ?>
             <dt class="complete">
@@ -68,13 +68,18 @@
             <dd class="complete">
                 <?php if ($this->getShippingMethod()): ?>
                     <?php echo $this->getShippingDescription() ?>
+
                     <?php $_excl = $this->getShippingPriceExclTax(); ?>
                     <?php $_incl = $this->getShippingPriceInclTax(); ?>
-    
-                    <?php echo $_excl; ?>
+                    <?php if ($this->helper('tax')->displayShippingPriceIncludingTax()): ?>
+                        <?php echo $_incl; ?>
+                    <?php else: ?>
+                        <?php echo $_excl; ?>
+                    <?php endif; ?>
                     <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
+
                 <?php else: ?>
                     <?php echo $this->__('Shipping method has not been selected yet') ?>
                 <?php endif; ?>
@@ -85,7 +90,7 @@
             </dt>
         <?php endif; ?>
         <?php endif; ?>
-    
+
         <?php if ($this->getCheckout()->getStepData('payment', 'is_show')): ?>
         <?php if($this->getCheckout()->getStepData('payment', 'complete')): ?>
             <dt class="complete">
