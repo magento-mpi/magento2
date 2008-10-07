@@ -31,6 +31,15 @@
  */
 class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 {
+    const XML_PATH_PRODUCT_URL_SUFFIX   = 'catalog/seo/product_url_suffix';
+
+    /**
+     * Cache for product rewrite suffix
+     *
+     * @var array
+     */
+    protected $_productUrlSuffix = array();
+
     protected $_statuses;
 
     protected $_priceBlock;
@@ -164,5 +173,23 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
 
         return $product->isVisibleInCatalog() && $product->isVisibleInSiteVisibility();
+    }
+
+    /**
+     * Retrieve product rewrite sufix for store
+     *
+     * @param int $storeId
+     * @return string
+     */
+    public function getProductUrlSuffix($storeId = null)
+    {
+        if (is_null($storeId)) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+
+        if (!isset($this->_productUrlSuffix[$storeId])) {
+            $this->_productUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+        }
+        return $this->_productUrlSuffix[$storeId];
     }
 }

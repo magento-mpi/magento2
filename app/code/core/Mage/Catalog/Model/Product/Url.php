@@ -142,9 +142,17 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
         return $urlKey;
     }
 
+    /**
+     * Retrieve Product Url path (with category if exists)
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Catalog_Model_Category $category
+     *
+     * @return string
+     */
     public function getUrlPath($product, $category=null)
     {
-        $path = $product->getUrlKey();
+        $path = $product->getData('url_path');
 
         if (is_null($category)) {
             /** @todo get default category */
@@ -153,8 +161,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
             Mage::throwException('Invalid category object supplied');
         }
 
-        $path = $category->getUrlPath().'/'.$path;
-
-        return $path;
+        return Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath())
+            . '/' . $path;
     }
 }

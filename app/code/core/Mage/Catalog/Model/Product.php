@@ -984,6 +984,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->_urlModel->formatUrlKey($str);
     }
 
+    /**
+     * Retrieve Product Url Path (include category)
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return string
+     */
     public function getUrlPath($category=null)
     {
         return $this->_urlModel->getUrlPath($this, $category);
