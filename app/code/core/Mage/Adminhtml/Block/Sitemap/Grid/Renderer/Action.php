@@ -19,35 +19,25 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Sitemap
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Sitemap grid link column renderer
+ * Sitemap grid action column renderer
  *
  * @category   Mage
  * @package    Mage_Sitemap
  */
-class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
-
-    /**
-     * Prepare link to display in grid
-     *
-     * @param Varien_Object $row
-     * @return string
-     */
     public function render(Varien_Object $row)
     {
-        $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());
-        $url = $this->htmlEscape(Mage::getBaseUrl('web') . $fileName);
-
-        if (file_exists(BP . DS . $fileName)) {
-            return sprintf('<a href="%1$s">%1$s</a>', $url);
-        }
-        return $url;
+        $this->getColumn()->setActions(array(array(
+            'url'     => $this->getUrl('*/sitemap/generate', array('sitemap_id' => $row->getSitemapId())),
+            'caption' => Mage::helper('sitemap')->__('Generate'),
+        )));
+        return parent::render($row);
     }
-
 }

@@ -216,8 +216,17 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             $destinationFolder['path'] = $io->getDestinationFolder($sitemap->getPreparedFilename());
             $io->open($destinationFolder);
             $io->write($sitemap->getPreparedFilename(), $xml);
+
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sitemap')->__('Sitemap "%s" has been successfully generated.',
+                $sitemap->getData('sitemap_path') . $sitemap->getData('sitemap_filename'))
+            );
         }
-        // go to grid
+
+        // go back or to grid
+        if ($this->getRequest()->getParam('go_back')) {
+            $this->_redirectReferer('*/*/');
+            return;
+        }
         $this->_redirect('*/*/');
     }
 

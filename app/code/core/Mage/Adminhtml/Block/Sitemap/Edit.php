@@ -47,6 +47,14 @@ class Mage_Adminhtml_Block_Sitemap_Edit extends Mage_Adminhtml_Block_Widget_Form
 
         $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Sitemap'));
         $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Sitemap'));
+        if (Mage::registry('sitemap_sitemap') && $sitemapId = Mage::registry('sitemap_sitemap')->getId()) {
+            $generationUrl = Mage::helper('core')->htmlEscape(Mage::getUrl('*/*/generate', array('sitemap_id' => $sitemapId, 'go_back' => 1)));
+            $this->_addButton('generate', array(
+                'label'   => Mage::helper('adminhtml')->__('Generate'),
+                'onclick' => "setLocation('{$generationUrl}')",
+                'class'   => 'add',
+            ));
+        }
     }
 
     /**
