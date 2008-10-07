@@ -777,6 +777,9 @@ class Mage_Core_Model_App
      */
     public function getHelper($name)
     {
+        if (strpos($name, '/') === false) {
+            $name .= '/data';
+        }
         if (!isset($this->_helpers[$name])) {
             $class = Mage::getConfig()->getHelperClassName($name);
             $this->_helpers[$name] = new $class();
