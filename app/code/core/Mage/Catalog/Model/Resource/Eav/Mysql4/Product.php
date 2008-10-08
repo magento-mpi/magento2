@@ -41,6 +41,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     public function __construct()
     {
+        parent::__construct();
+        Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $this->_getDefaultAttributes());
         $resource = Mage::getSingleton('core/resource');
         $this->setType('catalog_product')
             ->setConnection(
@@ -59,7 +61,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     protected function _getDefaultAttributes()
     {
-        return array('entity_type_id', 'attribute_set_id', 'type_id', 'created_at', 'updated_at');
+        return array('entity_id', 'entity_type_id', 'attribute_set_id', 'type_id', 'created_at', 'updated_at');
     }
 
     /**

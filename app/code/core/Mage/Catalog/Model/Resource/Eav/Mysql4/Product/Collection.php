@@ -45,6 +45,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_allIdsCache = null;
     protected $_addTaxPercents = false;
 
+    public function __construct($resource=null)
+    {
+        /**
+         * Preload attributes for EAV optimization
+         */
+        $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
+        $attributes = array_merge($attributes, array(
+            'tax_class_id', 'tier_price'
+        ));
+
+        Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $attributes);
+        parent::__construct($resource);
+    }
+
     /**
      * Initialize resources
      */
@@ -54,6 +68,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
         $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
     }
+
+    /**
+     * Add attribute to entities in collection
+     *
+     * If $attribute=='*' select all attributes
+     *
+     * @param array|string|integer|Mage_Core_Model_Config_Element $attribute
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function addAttributeToSelect($attribute, $joinType=false)
+    {
+        if (is_array($attribute)) {
+            Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $attribute);
+        }
+        return parent::addAttributeToSelect($attribute, $joinType);
+    }
+
 
     protected function _beforeLoad()
     {

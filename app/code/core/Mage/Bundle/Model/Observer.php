@@ -86,7 +86,6 @@ class Mage_Bundle_Model_Observer
 
         $bundles = Mage::getModel('catalog/product')->getResourceCollection()
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-            ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
             ->addMinimalPrice()
 

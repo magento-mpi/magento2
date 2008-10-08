@@ -277,7 +277,10 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     protected function _addSetInfo()
     {
         if ($this->_addSetInfoFlag) {
-            $attributeIds = array_keys($this->_items);
+            $attributeIds = array();
+            foreach ($this->_data as &$dataItem) {
+            	$attributeIds[] = $dataItem['attribute_id'];
+            }
             $attributeToSetInfo = array();
 
             if (count($attributeIds) > 0) {
@@ -304,14 +307,14 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
                 }
             }
 
-            foreach ($this->getItems() as $attribute) {
-                if (isset($attributeToSetInfo[$attribute->getId()])) {
-                    $setInfo = $attributeToSetInfo[$attribute->getId()];
+            foreach ($this->_data as &$attributeData) {
+                if (isset($attributeToSetInfo[$attributeData['attribute_id']])) {
+                    $setInfo = $attributeToSetInfo[$attributeData['attribute_id']];
                 } else {
                     $setInfo = array();
                 }
 
-                $attribute->setAttributeSetInfo($setInfo);
+                $attributeData['attribute_set_info'] = $setInfo;
             }
 
             unset($attributeToSetInfo);
@@ -319,36 +322,27 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
         }
     }
 
-    /**
-     * TODO: issue #5126
-     *
-     * @return unknown
-     */
-    public function checkConfigurableProducts()
-    {
-// was:
-/*
-SELECT `main_table`.*, `entity_attribute`.*
-FROM `eav_attribute` AS `main_table`
-    INNER JOIN `eav_entity_attribute` AS `entity_attribute` ON entity_attribute.attribute_id=main_table.attribute_id
-WHERE (entity_attribute.attribute_group_id='46') AND (main_table.is_visible=1)
-*/
-// to be done: left join catalog_product_super_attribute and count appropriate lines
-/*
-SELECT `main_table`.*, `entity_attribute`.*, COUNT(`super`.attribute_id) AS `is_used_in_configurable`
-FROM `eav_attribute` AS `main_table`
-    INNER JOIN `eav_entity_attribute` AS `entity_attribute` ON entity_attribute.attribute_id=main_table.attribute_id
-    LEFT JOIN `catalog_product_super_attribute` AS `super` ON `main_table`.attribute_id=`super`.attribute_id
-WHERE (entity_attribute.attribute_group_id='46') AND (main_table.is_visible=1)
-GROUP BY `main_table`.attribute_id
-*/
-        return $this;
-    }
-
-    protected function _afterLoad()
+    protected function _afterLoadData()
     {
         $this->_addSetInfo();
-        return parent::_afterLoad();
+        return parent::_afterLoadData();
     }
 
+    /**
+     * Specify collection attribute codes filter
+     *
+     * @param   string || array $code
+     * @return  Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
+    public function setCodeFilter($code)
+    {
+        if (empty($code)) {
+        	return $this;
+        }
+        if (!is_array($code)) {
+        	$code = array($code);
+        }
+        $this->getSelect()->where('main_table.attribute_code IN(?)', $code);
+        return $this;
+    }
 }
