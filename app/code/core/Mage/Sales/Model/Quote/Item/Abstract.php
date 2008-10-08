@@ -200,10 +200,10 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         if ($this->getParentItem()) {
             $qty = $qty*$this->getParentItem()->getQty();
         }
-        
+
         if ($rowTotal = $this->getRowTotalExcTax()) {
-        	$baseTotal = $rowTotal;
-        	$total = $this->getStore()->convertPrice($baseTotal);
+            $baseTotal = $rowTotal;
+            $total = $this->getStore()->convertPrice($baseTotal);
         }
         else {
             $total      = $this->getCalculationPrice()*$qty;
@@ -239,7 +239,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setTaxAmount($store->roundPrice($rowTotal * $taxPercent));
             $this->setBaseTaxAmount($store->roundPrice($rowBaseTotal * $taxPercent));
 
-
             $rowTotal       = $this->getRowTotal();
             $rowBaseTotal   = $this->getBaseRowTotal();
             $this->setTaxBeforeDiscount($store->roundPrice($rowTotal * $taxPercent));
@@ -253,8 +252,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                     $totalTax -= $this->getDiscountAmount()*($this->getTaxPercent()/100);
                     $totalBaseTax -= $this->getBaseDiscountAmount()*($this->getTaxPercent()/100);
 
-                    $this->setBaseTaxAmount($totalBaseTax);
-                    $this->setTaxAmount($totalTax);
+                    $this->setBaseTaxAmount($store->roundPrice($totalBaseTax));
+                    $this->setTaxAmount($store->roundPrice($totalTax));
                 }
             }
         }
@@ -425,20 +424,20 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
                 if ($this->getParentItem()) {
                     $qty = $qty*$this->getParentItem()->getQty();
                 }
-                
+
                 if (Mage::helper('tax')->displayCartPriceInclTax($store)) {
                     $rowTotal = $value*$qty;
-                	$rowTotalExcTax = Mage::helper('tax')->getPrice($this->getProduct()->setTaxPercent(null), $rowTotal, false, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
-                	$rowTotalIncTax = Mage::helper('tax')->getPrice($this->getProduct()->setTaxPercent(null), $rowTotal, true, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
-                	$totalBaseTax = $rowTotalIncTax-$rowTotalExcTax;
-                	$this->setRowTotalExcTax($rowTotalExcTax);
+                    $rowTotalExcTax = Mage::helper('tax')->getPrice($this->getProduct()->setTaxPercent(null), $rowTotal, false, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
+                    $rowTotalIncTax = Mage::helper('tax')->getPrice($this->getProduct()->setTaxPercent(null), $rowTotal, true, $sAddress, $bAddress, $this->getQuote()->getCustomerTaxClassId(), $store);
+                    $totalBaseTax = $rowTotalIncTax-$rowTotalExcTax;
+                    $this->setRowTotalExcTax($rowTotalExcTax);
                 }
                 else {
                     $taxAmount = $priceIncludingTax - $priceExcludingTax;
                     $this->setTaxPercent($this->getProduct()->getTaxPercent());
                     $totalBaseTax = $taxAmount*$qty;
                 }
-                
+
                 $totalTax = $this->getStore()->convertPrice($totalBaseTax);
                 $this->setTaxBeforeDiscount($totalTax);
                 $this->setBaseTaxBeforeDiscount($totalBaseTax);
