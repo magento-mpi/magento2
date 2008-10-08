@@ -76,6 +76,10 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         Varien_Profiler::start(__METHOD__.'/start');
 
+        if ($sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter')) {
+            session_cache_limiter((string)$sessionCacheLimiter);
+        }
+
         session_start();
 
         Varien_Profiler::stop(__METHOD__.'/start');
