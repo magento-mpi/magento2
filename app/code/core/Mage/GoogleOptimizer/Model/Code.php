@@ -31,7 +31,7 @@
  * @package    Mage_GoogleOptimizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Model_Code extends Mage_Core_Model_Abstract
+class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
 {
     protected $_entity = null;
     protected $_entityType = null;
@@ -76,6 +76,7 @@ class Mage_Googleoptimizer_Model_Code extends Mage_Core_Model_Abstract
         }
 
         $this->getResource()->loadByEntityType($this, $storeId);
+        $this->_afterLoad();
         return $this;
     }
 
@@ -125,7 +126,7 @@ class Mage_Googleoptimizer_Model_Code extends Mage_Core_Model_Abstract
             throw new Exception(Mage::helper('googleoptimizer')->__('All fields of script types have to be filled.'));
         }
 
-        //use default scripts, need to delete scripts for current store
+        // use default scripts, need to delete scripts for current store
         if ($this->getStoreFlag()) {
             $this->deleteScripts($storeId);
             return $this;

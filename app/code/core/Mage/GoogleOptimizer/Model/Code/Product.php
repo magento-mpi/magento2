@@ -31,7 +31,7 @@
  * @package    Mage_GoogleOptimizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model_Code
+class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model_Code
 {
     protected $_entityType = 'product';
 }

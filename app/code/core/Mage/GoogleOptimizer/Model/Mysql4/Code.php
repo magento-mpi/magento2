@@ -31,7 +31,7 @@
  * @package    Mage_GoogleOptimizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abstract
+class Mage_GoogleOptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function  _construct()
     {
@@ -66,7 +66,8 @@ class Mage_Googleoptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
                         'control_script' => new Zend_Db_Expr("IFNULL(_store_table.control_script, _default_table.control_script)"),
                         'tracking_script' => new Zend_Db_Expr("IFNULL(_store_table.tracking_script, _default_table.tracking_script)"),
                         'conversion_script' => new Zend_Db_Expr("IFNULL(_store_table.conversion_script, _default_table.conversion_script)"),
-                        'conversion_page' => new Zend_Db_Expr("IFNULL(_store_table.conversion_page, _default_table.conversion_page)")))
+                        'conversion_page' => new Zend_Db_Expr("IFNULL(_store_table.conversion_page, _default_table.conversion_page)"),
+                        'additional_data' => new Zend_Db_Expr("IFNULL(_store_table.additional_data, _default_table.additional_data)")))
                 ->where('_default_table.entity_id=?', $object->getEntity()->getId())
                 ->where('_default_table.entity_type=?', $object->getEntityType())
                 ->where('_default_table.store_id=?', 0)

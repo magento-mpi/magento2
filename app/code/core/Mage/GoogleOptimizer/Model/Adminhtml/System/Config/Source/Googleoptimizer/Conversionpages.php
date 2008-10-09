@@ -44,7 +44,7 @@ class Mage_GoogleOptimizer_Model_Adminhtml_System_Config_Source_Googleoptimizer_
             array('value'=>'checkout_multishipping', 'label'=>Mage::helper('googleoptimizer')->__('Multi Address Checkout')),
             array('value'=>'checkout_onepage_success', 'label'=>Mage::helper('googleoptimizer')->__('Order Success (One Page Checkout)')),
             array('value'=>'checkout_multishipping_success', 'label'=>Mage::helper('googleoptimizer')->__('Order Success (Multi Address Checkout)')),
-            array('value'=>'account_create', 'label'=>Mage::helper('googleoptimizer')->__('Account Registration')),
+            array('value'=>'customer_account_create', 'label'=>Mage::helper('googleoptimizer')->__('Account Registration')),
         );
     }
 }

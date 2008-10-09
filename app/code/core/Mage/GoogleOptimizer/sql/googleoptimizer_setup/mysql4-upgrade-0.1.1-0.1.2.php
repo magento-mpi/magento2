@@ -19,19 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptimizer
+ * @package    Mage_Directory
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * GoogleOptimizer category model
- *
- * @category   Mage_Googleoptimizer
- * @package    Mage_Googleoptimizer_Model_Code_Category
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_GoogleOptimizer_Model_Code_Category extends Mage_GoogleOptimizer_Model_Code
-{
-    protected $_entityType = 'category';
-}
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+
+$installer->startSetup();
+
+$installer->getConnection()->addColumn($installer->getTable('googleoptimizer/code'), 'additional_data', "text");
+
+$installer->endSetup();

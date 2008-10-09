@@ -32,7 +32,7 @@
  * @name       Mage_GoogleOptimizer_IndexController
  * @author     Magento Core Team <core@magentocommerce.com>
 */
-class Mage_GoogleOptimizer_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_GoogleOptimizer_IndexController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Retrieve js codes by parsing remote Google Optimizer page

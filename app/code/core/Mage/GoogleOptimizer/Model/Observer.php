@@ -31,7 +31,7 @@
  * @package     Mage_GoogleOptimizer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Model_Observer
+class Mage_GoogleOptimizer_Model_Observer
 {
     /**
      * Loading product codes after load product
@@ -114,6 +114,7 @@ class Mage_Googleoptimizer_Model_Observer
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_page')
             ->setEntity($cmsPage)
             ->loadScripts(0);
+
         if ($googleOptimizerModel->getId()) {
             $cmsPage->setGoogleOptimizerCodes($googleOptimizerModel);
         }

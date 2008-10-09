@@ -48,7 +48,24 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             )
         );
 
-       $fieldset->addField('control_script', 'textarea',
+        $pageTypes = array(
+            '' => Mage::helper('googleoptimizer')->__('-- Please Select --'),
+            'original' => Mage::helper('googleoptimizer')->__('Original Page'),
+            'variant' => Mage::helper('googleoptimizer')->__('Variant Page')
+        );
+
+        $fieldset->addField('page_type', 'select',
+            array(
+                'name'  => 'page_type',
+                'label' => Mage::helper('googleoptimizer')->__('Page Type'),
+                'values'=> $pageTypes,
+                'class' => 'select googleoptimizer validate-googleoptimizer',
+                'required' => false,
+                'onchange' => 'googleOptimizerVariantPageAction(this)'
+            )
+        );
+
+        $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
                 'label' => Mage::helper('googleoptimizer')->__('Control Script'),
@@ -115,6 +132,15 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
             $values = $this->getGoogleOptimizer()->getData();
             $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
+            if ($this->getGoogleOptimizer()->getData('page_type') == Mage_Googleoptimizer_Model_Code_Page::PAGE_TYPE_VARIANT) {
+                foreach ($fieldset->getElements() as $element) {
+                    if (($element->getId() != 'tracking_script' && $element->getId() != 'page_type')
+                        && ($element->getType() == 'textarea' || $element->getType() == 'select'))
+                    {
+                        $element->setDisabled(true);
+                    }
+                }
+            }
         }
 
         $form->addValues($values);
@@ -131,6 +157,11 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
 
     public function getGoogleOptimizer()
     {
-        return $this->getCmsPage()->getGoogleOptimizerCodes();
+        if ($this->getCmsPage()->getGoogleoptimizer()) {//if data was set from session after exception
+            $googleOptimizer = new Varien_Object($this->getCmsPage()->getGoogleoptimizer());
+        } else {
+            $googleOptimizer = $this->getCmsPage()->getGoogleOptimizerCodes();
+        }
+        return $googleOptimizer;
     }
 }

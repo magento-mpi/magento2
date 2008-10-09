@@ -31,7 +31,7 @@
  * @package    Mage_GoogleOptimizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'google/optimizer/active';
 
@@ -59,7 +59,7 @@ class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             return $attributeHtml;
         }
 
-        $attributeHtml = '<script>utmx_section("product_'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
+        $attributeHtml = '<script>utmx_section("product_'.$attributeName.'_'.$product->getId().'")</script>' . $attributeHtml . '</noscript>';
         return $attributeHtml;
     }
 
@@ -82,7 +82,7 @@ class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             return $attributeHtml;
         }
 
-        $attributeHtml = '<script>utmx_section("category_'.$attributeName.'")</script>' . $attributeHtml . '</noscript>';
+        $attributeHtml = '<script>utmx_section("category_'.$attributeName.'_'.$category->getId().'")</script>' . $attributeHtml . '</noscript>';
         return $attributeHtml;
     }
 
@@ -121,7 +121,7 @@ class Mage_Googleoptimizer_Helper_Data extends Mage_Core_Helper_Abstract
                 case 'checkout_multishipping_success':
                     $route = 'checkout/multishipping/success/';
                     break;
-                case 'account_create':
+                case 'customer_account_create':
                     $route = 'customer/account/create/';
                     break;
             }

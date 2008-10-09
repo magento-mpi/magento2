@@ -58,6 +58,21 @@ function googleOptimizerConversionPageAction(elm)
     return;
 }
 
+function googleOptimizerVariantPageAction(elm)
+{
+    if ($$('.validate-googleoptimizer')) {
+        var disableFlag = false;
+        if ($('page_type') && $('page_type').value == 'variant') {
+            disableFlag = true;
+        }
+        $$('.validate-googleoptimizer').each(function(elm){
+            if (elm.id == 'control_script' || elm.id == 'conversion_script' || elm.id == 'conversion_page') {
+                elm.disabled = disableFlag;
+            }
+        });
+    }
+}
+
 Validation.addAllThese([
     ['validate-googleoptimizer', 'This field is required unless all the fields are empty.', function(v,element) {
             var fieldEntry = false;
