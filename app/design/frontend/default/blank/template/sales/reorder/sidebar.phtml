@@ -34,7 +34,7 @@
 <?php if($_order = $this->getLastOrder()): ?>
 <div class="block block-reorder">
     <div class="block-title">
-        <h2><?php echo $this->__('My Orders') ?><span> | </span><a href="<?php echo $this->getUrl('customer/account') ?>">View All</a></h2>
+        <h2><?php echo $this->__('My Orders') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('customer/account') ?>">View All</a></h2>
     </div>
     <div class="block-content">
     <h3><?php echo $this->__('Last ordered items') ?></h3>
@@ -59,15 +59,15 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         </ol>
+        <script type="text/javascript">decorateList('cart-sidebar-reorder')</script>
+        <div id="cart-sidebar-reorder-advice-container"></div>
+        <?php if ($_showAddButtonFlag): ?>
+            <div class="actions">
+                <button type="submit" class="button"><span><?php echo $this->__('Add to Cart') ?></span></button>
+            </div>
+        <?php endif; ?>
     </fieldset>
     </form>
-    <script type="text/javascript">decorateList('cart-sidebar-reorder')</script>
-    <div id="cart-sidebar-reorder-advice-container"></div>
-    <?php if ($_showAddButtonFlag): ?>
-        <div class="actions">
-            <button type="submit" class="button"><span><?php echo $this->__('Add to Cart') ?></span></button>
-        </div>
-    <?php endif; ?>
     </div>
 </div>
 <?php echo $this->getPagerHtml(); ?>

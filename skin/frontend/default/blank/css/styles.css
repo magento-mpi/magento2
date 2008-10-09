@@ -24,7 +24,7 @@
 /* Layout ================================================================================= */
 .wrapper {}
 .page { width:1000px; margin:0 auto; padding:10px 0; text-align:left; }
-.page-print { padding:20px; text-align:left; }
+.page-print { background:#fff; padding:20px; text-align:left; }
 .page-popup { padding:20px; text-align:left; }
 .main { padding:0 0 10px; }
 
@@ -176,7 +176,7 @@ button.disabled span {}
 p.required { font-size:10px; text-align:right; }
 /* Expiration date and cvv number validation fix */
 .v-fix { float:left; }
-.v-fix .validation-advice { float:left; width:12em; margin-right:-12em; display:inline; position:relative; }
+.v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
 
 /* Global Messages  */
 .success { color:#3d6611; font-weight:bold; }
@@ -663,7 +663,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .gift-message-link.expanded { background-position:0 -53px; }
 .gift-message-row {}
 .gift-message-row .btn-close { float:right; }
-.gift-message dt span { font-weight:bold; }
+.gift-message dt strong { font-weight:bold; }
 
 /* Checkout Agreements */
 .checkout-agreements {}

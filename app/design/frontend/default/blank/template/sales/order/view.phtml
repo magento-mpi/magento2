@@ -67,22 +67,20 @@ function giftMessageToogle(giftMessageIdentifier)
     <h3><?php echo $this->__('Gift Message for this Order') ?></h3>
     <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
     <dl class="gift-message">
-        <dt><span><?php echo $this->__('From') ?></span> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
-        <dt><span><?php echo $this->__('To') ?></span> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
+        <dt><strong><?php echo $this->__('From') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
+        <dt><strong><?php echo $this->__('To') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
         <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></dd>
     </dl>
 <?php endif; ?>
 <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
 <?php if (count($_history)): ?>
     <h3><?php echo $this->__('About Your Order') ?></h3>
-    <div>
-        <dl>
-            <?php foreach ($_history as $_historyItem): ?>
-                <dt><?php echo $this->formatDate($_historyItem->getCreatedAt(), 'medium', true) ?></dt>
-                <dd><?php echo $_historyItem->getComment() ?></dd>
-            <?php endforeach; ?>
-        </dl>
-    </div>
+    <dl>
+        <?php foreach ($_history as $_historyItem): ?>
+            <dt><?php echo $this->formatDate($_historyItem->getCreatedAt(), 'medium', true) ?></dt>
+            <dd><?php echo $_historyItem->getComment() ?></dd>
+        <?php endforeach; ?>
+    </dl>
 <?php endif; ?>
 <div class="buttons-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a>

@@ -34,8 +34,8 @@
 <head>
 <?php echo $this->getChildHtml('head') ?>
 </head>
-<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
-<div class="page-popup">
+<body class="page-popup<?php echo $this->getBodyClass()?$this->getBodyClass() : ''?>">
+<div>
     <?php echo $this->getChildHtml('content') ?>
     <?php echo $this->getChildHtml('before_body_end') ?>
 </div>

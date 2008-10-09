@@ -64,6 +64,7 @@
             <?php echo $this->getPaymentInfoHtml() ?>
         </div>
     </div>
+    <br />
     <h3><?php echo $this->__('Items Invoiced') ?></h3>
     <table class="data-table" id="my-invoice-table-<?php echo $_invoice->getId(); ?>">
         <col />
@@ -107,8 +108,8 @@
             </tr>
             <?php endif; ?>
             <tr>
-                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total') ?></td>
-                <td class="a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
+                <td colspan="<?php echo $colspan; ?>" class="a-right"><strong><?php echo $this->__('Grand Total') ?></strong></td>
+                <td class="a-right"><strong><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></strong></td>
             </tr>
         </tfoot>
         <?php $_items = $_invoice->getItemsCollection(); ?>

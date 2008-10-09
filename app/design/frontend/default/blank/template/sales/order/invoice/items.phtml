@@ -71,8 +71,8 @@
         </tr>
         <?php endif; ?>
         <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Grand Total') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></td>
+            <td colspan="4" class="a-right"><strong><?php echo $this->__('Grand Total') ?></strong></td>
+            <td class="last a-right"><strong><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></strong></td>
         </tr>
     </tfoot>
     <?php $_items = $_invoice->getAllItems(); ?>

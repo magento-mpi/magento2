@@ -34,10 +34,10 @@
 <head>
 <?php echo $this->getChildHtml('head') ?>
 </head>
-<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
-<div class="page-print">
+<body class="page-print<?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
+<div>
     <div class="print-head">
-        <img src="<?php echo $this->getPrintLogoUrl() ? $this->getPrintLogoUrl() : $this->getSkinUrl('images/logo_print.gif') ?>" alt="" />
+        <h1 class="logo"><img src="<?php echo $this->getPrintLogoUrl() ? $this->getPrintLogoUrl() : $this->getSkinUrl('images/logo_print.gif') ?>" alt="" /></h1>
         <?php if ($this->getPrintLogoText()):?>
             <address><?php echo nl2br($this->htmlEscape($this->getPrintLogoText())) ?></address>
         <?php endif;?>
