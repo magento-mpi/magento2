@@ -32,7 +32,11 @@
  */
 class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
 {
-
+    /**
+     * Retrieve Quote Data HTML
+     *
+     * @return unknown
+     */
     public function getQuoteOrdersHtml()
     {
         $quote = $this->getQuote();
@@ -62,6 +66,11 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         return $html;
     }
 
+    /**
+     * Retrieve Order Data HTML
+     *
+     * @return string
+     */
     public function getOrderHtml()
     {
 
@@ -109,6 +118,11 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         return $html;
     }
 
+    /**
+     * Retrieve Google Account Identifier
+     *
+     * @return string
+     */
     public function getAccount()
     {
         if (!$this->hasData('account')) {
@@ -117,14 +131,24 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         return $this->getData('account');
     }
 
+    /**
+     * Retrieve current page URL
+     *
+     * @return string
+     */
     public function getPageName()
     {
         if (!$this->hasData('page_name')) {
-            $this->setPageName($this->getRequest()->getPathInfo());
+            $this->setPageName(Mage::getSingleton('core/url')->escape($this->getRequest()->getPathInfo()));
         }
         return $this->getData('page_name');
     }
 
+    /**
+     * Prepare and return block's html output
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         if (!Mage::getStoreConfigFlag('google/analytics/active')) {
@@ -156,5 +180,4 @@ pageTracker._trackPageview("' . $this->getPageName() . '");
 
         return parent::_toHtml();
     }
-
 }
