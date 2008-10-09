@@ -74,9 +74,11 @@
                 <?php if (!empty($_GET['updates'])): ?><td><?php echo $pkg['upgrade_latest']?>&nbsp;</td><?php endif; ?>
                 <td><select class="select" name="actions[<?php echo $channel.'|'.$pkgName ?>]">
                     <option selected="selected"></option>
-                    <?php foreach ($pkg['actions'] as $k=>$v): ?>
-                    <option value="<?php echo $k ?>"><?php echo $v ?></option>
-                    <?php endforeach; ?>
+                    <?php if(isset($pkg['actions']) && is_array($pkg['actions'])): ?>
+                        <?php foreach ($pkg['actions'] as $k=>$v): ?>
+                        <option value="<?php echo $k ?>"><?php echo $v ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
                 </td>
                 <td class="last"><?php echo $pkg['summary']?></td>
