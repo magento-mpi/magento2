@@ -76,7 +76,7 @@ function pushCodes()
                     }
                     var response = transport.responseText.evalJSON();
                     if ($('page_type')) {
-                        if ($('page_type').value == '<?php echo Mage_Googleoptimizer_Model_Code_Page::PAGE_TYPE_VARIANT ?>') {
+                        if ($('page_type').value == '<?php echo Mage_GoogleOptimizer_Model_Code_Page::PAGE_TYPE_VARIANT ?>') {
                             $('<?php echo $this->getTrackingFieldKey() ?>').value = response.code_tracking_variants.unescapeHTML().strip();
                         } else {
                             $('<?php echo $this->getControlFieldKey() ?>').value = response.code_control.unescapeHTML().strip();
