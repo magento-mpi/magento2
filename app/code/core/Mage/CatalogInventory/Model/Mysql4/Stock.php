@@ -52,7 +52,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
         $this->_getWriteAdapter()->query($select);
         return $this;
     }
-    
+
     /**
      * add join to select only in stock products
      *
@@ -61,8 +61,26 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
      */
     public function setInStockFilterToCollection( $collection)
     {
-    	$collection->joinField('inventory_in_stock', 'cataloginventory/stock_item',
-    							'is_in_stock', 'product_id=entity_id', '{{table}}.is_in_stock=1');
-    	return $this;
+        $manageStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $cond = array(
+            '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
+            '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
+        );
+
+        if ($manageStock) {
+            $cond[] = '{{table}}.use_config_manage_stock = 1 AND {{table}}.is_in_stock=1';
+        }
+        else {
+            $cond[] = '{{table}}.use_config_manage_stock = 1';
+        }
+
+        $collection->joinField(
+            'inventory_in_stock',
+            'cataloginventory/stock_item',
+            'is_in_stock',
+            'product_id=entity_id',
+            '('.join(') OR (', $cond) . ')'
+        );
+        return $this;
     }
 }

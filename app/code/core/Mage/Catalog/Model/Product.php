@@ -656,6 +656,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     /**
      * Retrieve collection cross sell product
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
      */
     public function getCrossSellProductCollection()
     {
