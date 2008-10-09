@@ -392,9 +392,10 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             foreach ($stores as $store) {
                 $collection = Mage::getModel('catalog/product')
                     ->getCollection()
-                    ->addAttributeToFilter('status', $status)
-                    ->addAttributeToFilter('visibility', $visibility)
+                    ->setStoreId($store)
                     ->addStoreFilter($store);
+                Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($collection);
+
                 /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 
                 if ($products instanceof Mage_Catalog_Model_Product) {
@@ -403,6 +404,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                     $collection->addIdFilter($products);
                 }
                 $productIds = $collection->getAllIds();
+
 
                 if (!$productIds)
                     continue;
