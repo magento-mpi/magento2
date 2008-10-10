@@ -110,6 +110,7 @@
             <name/>
             <short_description/>
             <description/>
+            <image/>
         </attributes>
     </admin>
     <frontend>

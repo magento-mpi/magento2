@@ -33,6 +33,7 @@
  */
 class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model_Code
 {
+    const DEFAULT_COUNT_OF_ATTRIBUTES = 8;
     protected $_entityType = 'product';
 
     protected function _afterLoad()
@@ -65,16 +66,9 @@ class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model
         $attributesFlag = false;
         if ($attributes = $this->getAttributes()) {
             $attributesCount = 0;
-            if (count($attributes) && count($attributes) <= 8) {
+            if (count($attributes) && count($attributes) <= self::DEFAULT_COUNT_OF_ATTRIBUTES) {
                 $attributesFlag = true;
             }
-//            foreach ($attributes as $_attributeCode => $_attributeValue) {
-//                $attributesCount++;
-//                if (!strlen($_attributeValue)) {
-//                    $attributesFlag = false;
-//                    break;
-//                }
-//            }
         }
         if ($this->_validateEntryFlag && !$attributesFlag) {
             return false;

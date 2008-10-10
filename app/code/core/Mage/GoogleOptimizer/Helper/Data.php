@@ -35,7 +35,6 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'google/optimizer/active';
     const XML_PATH_ALLOWED_ATTRIBUTES = 'admin/attributes';
-    const DEFAULT_COUNT_OF_ATTRIBUTES = 8;
 
     public function isOptimizerActive()
     {
@@ -158,10 +157,5 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $optimizerAttributes;
-    }
-
-    public function getMaxCountAttributes()
-    {
-        return self::DEFAULT_COUNT_OF_ATTRIBUTES;
     }
 }

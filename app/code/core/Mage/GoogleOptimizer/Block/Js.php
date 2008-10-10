@@ -32,6 +32,6 @@ class Mage_GoogleOptimizer_Block_Js extends Mage_Adminhtml_Block_Template
 
     public function getMaxCountOfAttributes()
     {
-        return Mage::helper('googleoptimizer')->getMaxCountAttributes();
+        return Mage_GoogleOptimizer_Model_Code_Product::DEFAULT_COUNT_OF_ATTRIBUTES;
     }
 }
