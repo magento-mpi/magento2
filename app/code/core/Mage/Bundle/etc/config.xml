@@ -246,6 +246,15 @@
                     </bundle_observer>
                 </observers>
             </catalog_model_product_duplicate>
+            <catalog_product_edit_action>
+                <observers>
+                    <bundle_observer>
+                        <type>singleton</type>
+                        <class>bundle/observer</class>
+                        <method>setAttributeTabBlock</method>
+                    </bundle_observer>
+                </observers>
+            </catalog_product_edit_action>
         </events>
     </adminhtml>
 </config>

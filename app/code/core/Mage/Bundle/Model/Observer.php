@@ -210,4 +210,20 @@ class Mage_Bundle_Model_Observer
         $newProduct->setBundleSelectionsData($selectionRawData);
         return $this;
     }
+
+    /**
+     * Setting attribute tab block for bundle
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Bundle_Model_Observer
+     */
+    public function setAttributeTabBlock($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            Mage::helper('adminhtml/catalog')
+                ->setAttributeTabBlock('bundle/adminhtml_catalog_product_edit_tab_attributes');
+        }
+        return $this;
+    }
 }

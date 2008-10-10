@@ -197,6 +197,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $product = $this->_initProduct();
 
+        Mage::dispatchEvent('catalog_product_edit_action', array('product' => $product));
+
         $_additionalLayoutPart = '';
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
             && !($product->getTypeInstance()->getUsedProductAttributeIds()))
