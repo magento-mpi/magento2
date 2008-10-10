@@ -105,6 +105,13 @@
             </catalog_category_load_after>
         </events>
     </global>
+    <admin>
+        <attributes>
+            <name/>
+            <short_description/>
+            <description/>
+        </attributes>
+    </admin>
     <frontend>
         <routers>
             <googleoptimizer>

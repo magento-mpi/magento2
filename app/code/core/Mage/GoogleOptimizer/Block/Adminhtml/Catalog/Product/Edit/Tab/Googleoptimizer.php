@@ -119,6 +119,19 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
             )
         );
+//        Zend_Debug::dump($this->getProduct()->getAttributes());
+        $attributes = Mage::helper('googleoptimizer')->getProductAttributes($this->getProduct());
+        $fieldset->addField('attributes', 'multiselect',
+            array(
+                'name'  => 'attributes',
+                'label' => Mage::helper('googleoptimizer')->__('Attributes'),
+                'class' => 'validate-googleoptimizer validate-googleoptimizer-attributes',
+                'values' => $attributes,
+                'required' => false,
+                'onchange' => 'googleOptimizerAttributesCheckAction(this)'
+//                'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+            )
+        );
 
         if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
             && $this->getGoogleOptimizer()

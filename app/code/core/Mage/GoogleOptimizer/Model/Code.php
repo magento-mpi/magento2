@@ -35,6 +35,7 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
 {
     protected $_entity = null;
     protected $_entityType = null;
+    protected $_validateEntryFlag = false;
     protected $_scriptTypes = array('control', 'tracking', 'conversion');
 
     protected function _construct()
@@ -96,6 +97,7 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
         if ($conversionPage = $this->getConversionPage()) {
             $entryFlag = true;
         }
+        $this->_validateEntryFlag = $entryFlag;
         if ($entryFlag && (!$control || !$tracking || !$conversion || !$conversionPage)) {
             return false;
         }

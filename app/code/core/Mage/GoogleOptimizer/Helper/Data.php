@@ -34,6 +34,8 @@
 class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'google/optimizer/active';
+    const XML_PATH_ALLOWED_ATTRIBUTES = 'admin/attributes';
+    const DEFAULT_COUNT_OF_ATTRIBUTES = 8;
 
     public function isOptimizerActive()
     {
@@ -58,8 +60,9 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             || !$product->getGoogleOptimizerCodes()->getControlScript()) {
             return $attributeHtml;
         }
-
-        $attributeHtml = '<script>utmx_section("product_'.$attributeName.'_'.$product->getId().'")</script>' . $attributeHtml . '</noscript>';
+        if (in_array($attributeName, $product->getGoogleOptimizerCodes()->getAttributes())) {
+            $attributeHtml = '<script>utmx_section("product_'.$attributeName.'_'.$product->getId().'")</script>' . $attributeHtml . '</noscript>';
+        }
         return $attributeHtml;
     }
 
@@ -130,5 +133,35 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return new Varien_Object($urls);
+    }
+
+
+    /**
+     * Create array of attributes for variation
+     * that allowed by googleoptimizer config
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getProductAttributes($product)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $allowedAttributes = array_keys(Mage::getConfig()->getNode(self::XML_PATH_ALLOWED_ATTRIBUTES)->asArray());
+        $productAttributes = $product->getAttributes();
+        $optimizerAttributes = array();
+        foreach ($productAttributes as $_attributeCode => $_attribute) {
+            if (in_array($_attributeCode, $allowedAttributes)) {
+                $optimizerAttributes[] = array(
+                    'label' => $_attribute->getFrontendLabel(),
+                    'value' => $_attributeCode
+                );
+            }
+        }
+        return $optimizerAttributes;
+    }
+
+    public function getMaxCountAttributes()
+    {
+        return self::DEFAULT_COUNT_OF_ATTRIBUTES;
     }
 }

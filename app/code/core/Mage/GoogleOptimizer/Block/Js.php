@@ -29,4 +29,9 @@ class Mage_GoogleOptimizer_Block_Js extends Mage_Adminhtml_Block_Template
     {
         return Mage::helper('googleoptimizer')->getConversionPagesUrl()->toJson();
     }
+
+    public function getMaxCountOfAttributes()
+    {
+        return Mage::helper('googleoptimizer')->getMaxCountAttributes();
+    }
 }

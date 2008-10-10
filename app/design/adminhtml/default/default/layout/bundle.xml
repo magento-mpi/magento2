@@ -32,11 +32,11 @@
 Layout handle for budle products
 -->
 
-    <default>
-        <!--<reference name="left">
+    <!--<default>
+        <reference name="left">
             <action method="setData"><attribute>attributeTabs</attribute><attributeType>bundle/adminhtml_catalog_product_edit_tab_attributes</attributeType></action>
-        </reference>-->
-    </default>
+        </reference>
+    </default>-->
 
     <adminhtml_catalog_product_bundle>
         <reference name="product_tabs">

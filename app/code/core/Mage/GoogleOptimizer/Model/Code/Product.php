@@ -34,4 +34,54 @@
 class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model_Code
 {
     protected $_entityType = 'product';
+
+    protected function _afterLoad()
+    {
+        if ($data = $this->getAdditionalData()) {
+            $data = unserialize($data);
+            if (isset($data['attributes'])) {
+                $this->setAttributes($data['attributes']);
+            }
+        }
+        return parent::_afterLoad();
+    }
+
+    protected function _beforeSave()
+    {
+        if ($attributes = $this->getData('attributes')) {
+            $this->setData('additional_data', serialize(array(
+                'attributes' => $attributes))
+            );
+        }
+        parent::_beforeSave();
+    }
+
+    protected function _validate()
+    {
+        $_validationResult = parent::_validate();
+        if (!$_validationResult) {
+            return false;
+        }
+        $attributesFlag = false;
+        if ($attributes = $this->getAttributes()) {
+            $attributesCount = 0;
+            if (count($attributes) && count($attributes) <= 8) {
+                $attributesFlag = true;
+            }
+//            foreach ($attributes as $_attributeCode => $_attributeValue) {
+//                $attributesCount++;
+//                if (!strlen($_attributeValue)) {
+//                    $attributesFlag = false;
+//                    break;
+//                }
+//            }
+        }
+        if ($this->_validateEntryFlag && !$attributesFlag) {
+            return false;
+        }
+        if (!$this->_validateEntryFlag && $attributesFlag) {
+            return false;
+        }
+        return true;
+    }
 }

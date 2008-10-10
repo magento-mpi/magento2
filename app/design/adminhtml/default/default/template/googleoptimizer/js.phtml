@@ -73,6 +73,40 @@ function googleOptimizerVariantPageAction(elm)
     }
 }
 
+function googleOptimizerCheckAttributesCount(elm)
+{
+    var options = elm.options
+    var count = 0;
+    var maxCount = <?php echo $this->getMaxCountOfAttributes() ?>;
+    for (var i=0; i<options.length; i++) {
+        if (elm.options[i].value) {
+            if (elm.options[i].selected) {
+                count++;
+            }
+        }
+    }
+    if (count > 8) {
+        return false;
+    }
+    return true;
+}
+
+function googleOptimizerAttributesCheckAction(elm)
+{
+
+    if ($('advice-validate-googleoptimizer-attributes-attributes')) {
+        $('advice-validate-googleoptimizer-attributes-attributes').remove();
+    }
+
+    if (googleOptimizerCheckAttributesCount(elm) == false) {
+//        elm.addClassName('validation-failed');
+//        template = new Template('<div id="advice-validate-googleoptimizer-attributes-attributes" class="validation-advice">Not more than 8 attributes allowed.</div>');
+//        Element.insert(elm, {'after':template.evaluate({})});
+        alert('Not more than 8 attributes allowed.');
+    }
+    return true;
+}
+
 Validation.addAllThese([
     ['validate-googleoptimizer', 'This field is required unless all the fields are empty.', function(v,element) {
             var fieldEntry = false;
@@ -94,6 +128,11 @@ Validation.addAllThese([
                 return false;
             }
             return true;
+        }]
+    ]);
+Validation.addAllThese([
+    ['validate-googleoptimizer-attributes', 'Not more than 8 attributes allowed.', function(v,element) {
+            return googleOptimizerCheckAttributesCount(element);
         }]
     ]);
 //]]>
