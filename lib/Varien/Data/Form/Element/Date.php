@@ -56,6 +56,10 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
      */
     public function setValue($value, $format = null, $locale = null)
     {
+        if (empty($value)) {
+            $this->_value = '';
+            return $this;
+        }
         if ($value instanceof Zend_Date) {
             $this->_value = $value;
             return $this;
