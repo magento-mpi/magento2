@@ -433,7 +433,7 @@
                </sales_email_creditmemo_comment_template>
                <sales_email_creditmemo_comment_guest_template translate="label" module="sales">
                    <label>Credit Memo Update for Guest</label>
-                   <file>sales/creditmemo_update.html</file>
+                   <file>sales/creditmemo_update_guest.html</file>
                    <type>html</type>
                </sales_email_creditmemo_comment_guest_template>
                <sales_email_shipment_template translate="label" module="sales">
