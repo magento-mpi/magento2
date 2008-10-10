@@ -64,7 +64,7 @@ $CONFIG['translates'] = array(
     ),
     'Mage_CatalogSearch' => array(
         'app/code/core/Mage/CatalogSearch/',
-        'app/design/frontend/de fault/default/template/catalogsearch/',
+        'app/design/frontend/default/default/template/catalogsearch/',
         'app/design/frontend/default/default/layout/catalogsearch.xml',
     ),
     'Mage_Checkout' => array(
@@ -143,6 +143,12 @@ $CONFIG['translates'] = array(
     'Mage_GoogleCheckout' => array(
         'app/code/core/Mage/GoogleCheckout/',
         'app/design/frontend/default/default/layout/googlecheckout.xml',
+    ),
+    'Mage_GoogleOptimizer' => array(
+        'app/code/core/Mage/GoogleOptimizer/',
+        'app/design/frontend/default/default/layout/googleoptimizer.xml',
+        'app/design/adminhtml/default/default/layout/googleoptimizer.xml',
+        'app/design/adminhtml/default/default/template/googleoptimizer/',
     ),
     'Mage_Ideal' => array(
         'app/code/core/Mage/Ideal/',
@@ -299,6 +305,7 @@ $CONFIG['helpers']  = array(
     'giftmessage'       => 'Mage_GiftMessage',
     'googleanalytics'   => 'Mage_GoogleAnalytics',
     'googlecheckout'    => 'Mage_GoogleCheckout',
+    'googleoptimizer'   => 'Mage_GoogleOptimizer',
     'ideal'             => 'Mage_Ideal',
     'install'           => 'Mage_Install',
     'log'               => 'Mage_Log',
