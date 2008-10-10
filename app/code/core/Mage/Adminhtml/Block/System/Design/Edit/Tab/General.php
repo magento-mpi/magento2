@@ -60,6 +60,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             'title'    => Mage::helper('core')->__('Date From'),
             'name'     => 'date_from',
             'image'    => $this->getSkinUrl('images/grid-cal.gif'),
+            'format'   => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
             //'required' => true,
         ));
 
@@ -68,6 +69,7 @@ class Mage_Adminhtml_Block_System_Design_Edit_Tab_General extends Mage_Adminhtml
             'title'    => Mage::helper('core')->__('Date To'),
             'name'     => 'date_to',
             'image'    => $this->getSkinUrl('images/grid-cal.gif'),
+            'format'   => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
             //'required' => true,
         ));
 

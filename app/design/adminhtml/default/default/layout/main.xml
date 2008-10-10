@@ -86,7 +86,6 @@ Default layout, loads most of the pages
 
                 <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
                 <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
-                <action method="addItem"><type>js</type><name>calendar/lang/calendar-en.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
                 <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
 
                 <action method="addItem"><type>js</type><name>extjs/ext-tree.js</name><params/><if/><condition>can_load_ext_js</condition></action>
@@ -95,6 +94,8 @@ Default layout, loads most of the pages
                 <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name><params/><if/><condition>can_load_ext_js</condition></action>
 
                 <action method="addItem"><type>js</type><name>mage/adminhtml/rules.js</name><params/><if/><condition>can_load_rules_js</condition></action>
+
+                <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
             </block>
 
             <block type="adminhtml/page_header" name="header" as="header"></block>

@@ -223,6 +223,24 @@ class Mage_Core_Model_Locale
     }
 
     /**
+     * Retrieve days of week option list
+     *
+     * @return array
+     */
+    public function getOptionWeekdays()
+    {
+        $options= array();
+        $days = $this->getLocale()->getTranslationList('days');
+        foreach (array_values($days['format']['wide']) as $code => $name) {
+            $options[] = array(
+               'label' => $name,
+               'value' => $code,
+            );
+        }
+        return $options;
+    }
+
+    /**
      * Retrieve country option list
      *
      * @return array
@@ -376,14 +394,7 @@ class Mage_Core_Model_Locale
      */
     public function getDateStrFormat($type)
     {
-        $convert = array('yyyy-MM-ddTHH:mm:ssZZZZ'=>'%c',   'EEEE'=>'%A',   'EEE'=>'%a','D'=>'%j',
-                         'MMMM'=>'%B',  'MMM'=>'%b',        'MM'=>'%m',     'M'=>'%m',  'dd'=>'%d',
-                         'd'=>'%e',     'yyyy'=>'%Y',       'yy'=>'%y');
-        $format = $this->getDateFormat($type);
-        foreach ($convert as $key=>$value) {
-            $format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
-        }
-        return $format;
+        return Varien_Date::convertZendToStrftime($this->getDateFormat($type), true, false);
     }
 
     /**
@@ -394,13 +405,7 @@ class Mage_Core_Model_Locale
      */
     public function getTimeStrFormat($type)
     {
-        $convert = array('a'=>'%p', 'hh'=>'%I', 'h'=>'%I', 'HH'=>'%H', 'mm'=>'%M', 'ss'=>'%S', 'z'=>'%Z', 'v'=>'%Z');
-
-        $format = $this->getTimeFormat($type);
-        foreach ($convert as $key=>$value) {
-            $format = preg_replace('/(^|[^%])'.$key.'/', '$1'.$value, $format);
-        }
-        return $format;
+        return Varien_Date::convertZendToStrftime($this->getTimeFormat($type), false, true);
     }
 
     /**

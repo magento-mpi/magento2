@@ -120,17 +120,19 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main extends Mage_Adminhtml_Bl
         ));
 
     	$fieldset->addField('from_date', 'date', array(
-            'name' => 'from_date',
-            'label' => Mage::helper('catalogrule')->__('From Date'),
-            'title' => Mage::helper('catalogrule')->__('From Date'),
-            'image' => $this->getSkinUrl('images/grid-cal.gif'),
+            'name'   => 'from_date',
+            'label'  => Mage::helper('catalogrule')->__('From Date'),
+            'title'  => Mage::helper('catalogrule')->__('From Date'),
+            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
 
     	$fieldset->addField('to_date', 'date', array(
-            'name' => 'to_date',
-            'label' => Mage::helper('catalogrule')->__('To Date'),
-            'title' => Mage::helper('catalogrule')->__('To Date'),
-            'image' => $this->getSkinUrl('images/grid-cal.gif'),
+            'name'   => 'to_date',
+            'label'  => Mage::helper('catalogrule')->__('To Date'),
+            'title'  => Mage::helper('catalogrule')->__('To Date'),
+            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
 
         $fieldset->addField('sort_order', 'text', array(

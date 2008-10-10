@@ -136,17 +136,19 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
         ));
 
     	$fieldset->addField('from_date', 'date', array(
-            'name' => 'from_date',
-            'label' => Mage::helper('salesrule')->__('From Date'),
-            'title' => Mage::helper('salesrule')->__('From Date'),
-            'image' => $this->getSkinUrl('images/grid-cal.gif'),
+            'name'   => 'from_date',
+            'label'  => Mage::helper('salesrule')->__('From Date'),
+            'title'  => Mage::helper('salesrule')->__('From Date'),
+            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
         ));
 
     	$fieldset->addField('to_date', 'date', array(
-            'name' => 'to_date',
-            'label' => Mage::helper('salesrule')->__('To Date'),
-            'title' => Mage::helper('salesrule')->__('To Date'),
-            'image' => $this->getSkinUrl('images/grid-cal.gif'),
+            'name'   => 'to_date',
+            'label'  => Mage::helper('salesrule')->__('To Date'),
+            'title'  => Mage::helper('salesrule')->__('To Date'),
+            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
         ));
 
         $fieldset->addField('sort_order', 'text', array(
