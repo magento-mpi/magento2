@@ -133,7 +133,10 @@ function categoryAdd(id) {
 }
 function categoryRemove(id) {
     var ids = $('product_categories').value.split(',');
-    ids.splice(ids.indexOf(id), 1);
+    // bug #7654 fixed
+    while (-1 != ids.indexOf(id)) {
+        ids.splice(ids.indexOf(id), 1);
+    }
     $('product_categories').value = ids.join(',');
 }
 </script>
