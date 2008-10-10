@@ -280,13 +280,13 @@ function parseXmlFile($fileName, $basicModuleName)
  * @param array $translate
  * @param array $xPath
  */
-function xmlFindTranslate($xmlNode, &$translate, $xPath = array())
+function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array())
 {
     $xPath[] = (string)$xmlNode->getName();
     foreach ($xmlNode as $node) {
         $attributes = $node->attributes();
         if (isset($attributes['translate'])) {
-            $module = isset($attributes['module']) ? (string)$attributes['module'] : null;
+            $module = isset($attributes['module']) ? (string)$attributes['module'] : $module;
             $translateNodes = split(' ', $attributes['translate']);
 
             foreach ($translateNodes as $nodeName) {
@@ -300,7 +300,7 @@ function xmlFindTranslate($xmlNode, &$translate, $xPath = array())
                 );
             }
         }
-        xmlFindTranslate($node, $translate, $xPath);
+        xmlFindTranslate($node, $translate, $module, $xPath);
     }
 }
 
