@@ -649,7 +649,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .cvv-what-is-this { cursor:help; }
 
 /* Tooltip */
-.tool-tip { border:1px solid #ddd; background-color:#f6f6f6; padding:5px; position:absolute; left:0; z-index:1000; }
+.tool-tip { border:1px solid #ddd; background-color:#f6f6f6; padding:5px; position:absolute; z-index:1000; }
 .tool-tip .btn-close { text-align:right; }
 .tool-tip .tool-tip-content { padding:5px; }
 

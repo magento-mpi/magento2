@@ -48,6 +48,7 @@
 .products-list li.item:after,
 .product-view .product-img-box .more-views ul:after,
 .product-options .options-list li:after,
+.product-options-bottom:after,
 .product-review:after,
 .cart:after,
 .one-page-checkout .step-title:after,

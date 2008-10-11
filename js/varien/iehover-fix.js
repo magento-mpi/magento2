@@ -1,4 +1,4 @@
-/**
+ /**
  * Magento
  *
  * NOTICE OF LICENSE
@@ -39,7 +39,10 @@ function toggleMenu(el, over)
 
 ieHover = function() {
     var items, iframe;
-    items = $$('#nav ul', '.truncated_full_value .item-options');
+    items = $$('#nav ul', '.truncated_full_value .item-options', '.tool-tip');
+    $$('#checkout-step-payment', '.tool-tip').each(function(el) {
+        el.setStyle({'visibility':'hidden', 'display':'block'})
+    })
     for (var j=0; j<items.length; j++) {
         iframe = document.createElement('IFRAME');
         iframe.src = BLANK_URL;
@@ -50,5 +53,8 @@ ieHover = function() {
         iframe.style.height = items[j].offsetHeight+"px";
         items[j].insertBefore(iframe, items[j].firstChild);
     }
+    $$('#checkout-step-payment', '.tool-tip').each(function(el) {
+        el.setStyle({'visibility':'visible', 'display':'none'})
+    })
 }
 Event.observe(window, 'load', ieHover);
