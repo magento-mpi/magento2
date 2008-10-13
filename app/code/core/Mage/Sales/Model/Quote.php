@@ -658,7 +658,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
 
             /**
-             * We specify qty after we know about parent (for stocj)
+             * We specify qty after we know about parent (for stock)
              */
             $item->addQty($candidate->getCartQty());
 
@@ -881,10 +881,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $this->setVirtualItemsQty(0);
 
         foreach ($this->getAllVisibleItems() as $item) {
-            //if ($item->getProduct()->getIsVirtual()) {
-            //    $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
-            //}
-
             if ($item->getParentItem()) {
                 continue;
             }
@@ -894,19 +890,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     if ($child->getProduct()->getIsVirtual()) {
                         $this->setVirtualItemsQty($this->getVirtualItemsQty() + $child->getQty()*$item->getQty());
                     }
-                    $this->setItemsCount($this->getItemsCount()+1);
-                    $this->setItemsQty((float) $this->getItemsQty()+$child->getQty()*$item->getQty());
                 }
-            } else {
-                if ($item->getProduct()->getIsVirtual()) {
-                    $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
-                }
-                $this->setItemsCount($this->getItemsCount()+1);
-                $this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
             }
 
-            //$this->setItemsCount($this->getItemsCount()+1);
-            //$this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
+            if ($item->getProduct()->getIsVirtual()) {
+                $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
+            }
+            $this->setItemsCount($this->getItemsCount()+1);
+            $this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
         }
 
         $this->setData('trigger_recollect', 0);
