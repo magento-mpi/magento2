@@ -33,7 +33,7 @@
     <div>
         <div class="website-name">
             <input name="add_website_ids[]" value="<?php echo $_website->getId() ?>" class="checkbox website-checkbox" id="add_product_website_<?php echo $_website->getId() ?>" type="checkbox" />
-            <big><strong><label for="add_product_website_<?php echo $_website->getId() ?>"><?php echo $_website->getName() ?></label></big></strong>
+            <big><strong><label for="add_product_website_<?php echo $_website->getId() ?>"><?php echo $_website->getName() ?></label></strong></big>
         </div>
         <div class="webiste-groups" id="add_product_website_<?php echo $_website->getId() ?>_data">
         <?php foreach ($this->getGroupCollection($_website) as $_group): ?>
