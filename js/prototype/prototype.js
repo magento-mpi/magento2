@@ -3858,8 +3858,10 @@ Event.Methods = (function() {
             && currentTarget.type === 'radio'))
               node = currentTarget;
       }
-      if (node.nodeType == Node.TEXT_NODE) node = node.parentNode;
-      return Element.extend(node);
+      if (node) {
+        if (node.nodeType == Node.TEXT_NODE) node = node.parentNode;
+        return Element.extend(node);
+      } else return false;
     },
 
     findElement: function(event, expression) {
