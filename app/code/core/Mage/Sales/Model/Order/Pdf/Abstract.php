@@ -146,9 +146,29 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         //return $page;
     }
 
+    /**
+     * Format address
+     *
+     * @param string $address
+     * @return array
+     */
+    protected function _formatAddress($address)
+    {
+        $return = array();
+        foreach (split("\|", $address) as $str) {
+            foreach (Mage::helper('core/string')->str_split($str, 65, true, true) as $part) {
+                if (empty($part)) {
+                    continue;
+                }
+                $return[] = $part;
+            }
+        }
+        return $return;
+    }
+
     protected function insertOrder(&$page, $order, $putOrderId = true)
     {
-
+        /* @var $order Mage_Sales_Model_Order */
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0.5));
 
         $page->drawRectangle(25, 790, 570, 755);
@@ -172,7 +192,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         /* Calculate blocks info */
 
         /* Billing Address */
-        $billingAddress  = explode('|', $order->getBillingAddress()->format('pdf'));
+        $billingAddress = $this->_formatAddress($order->getBillingAddress()->format('pdf'));
 
         /* Payment */
         $paymentInfo = Mage::helper('payment')->getInfoBlock($order->getPayment())
@@ -189,7 +209,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         /* Shipping Address and Method */
         if (!$order->getIsVirtual()) {
             /* Shipping Address */
-            $shippingAddress = explode('|', $order->getShippingAddress()->format('pdf'));
+            $shippingAddress = $this->_formatAddress($order->getShippingAddress()->format('pdf'));
+
             $shippingMethod  = $order->getShippingDescription();
         }
 
@@ -205,10 +226,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if (!$order->getIsVirtual()) {
-            $y = 730-max(count($billingAddress), count($shippingAddress))*10+5;
+            $y = 730 - (max(count($billingAddress), count($shippingAddress)) * 10 + 5);
         }
         else {
-            $y = 730-count($billingAddress)*10 + 5;
+            $y = 730 - (count($billingAddress) * 10 + 5);
         }
 
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
