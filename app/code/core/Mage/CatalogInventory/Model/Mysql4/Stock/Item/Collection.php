@@ -83,9 +83,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item_Collection extends Mage_Core
     public function addManagedFilter($isStockManagedInConfig)
     {
         if ($isStockManagedInConfig) {
-            $this->getSelect()
-                ->where('(manage_stock = ?', 1)
-                ->orWhere('use_config_manage_stock = ?)', 1);
+            $this->getSelect()->where('(manage_stock = 1 OR use_config_manage_stock = 1)');
         } else {
             $this->addFieldToFilter('manage_stock', 1);
         }
