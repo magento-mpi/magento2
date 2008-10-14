@@ -59,18 +59,19 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 /* Form Elements */
 input.input-text,
 select,
-textarea                { border:1px solid #b6b6b6; font:12px arial, helvetica, sans-serif; }
-option, optgroup        { font:12px arial, helvetica, sans-serif; }
-optgroup                { font-weight:bold; }
+textarea                  { border:1px solid #b6b6b6; font:12px arial, helvetica, sans-serif; }
+option, optgroup          { font:12px arial, helvetica, sans-serif; }
+optgroup                  { font-weight:bold; }
 input.input-text,
-textarea                { padding:2px; overflow:auto; }
-input.radio             { margin-right:3px; }
-input.checkbox          { margin-right:3px; }
-.v-fix                  { display:inline; }
-.qty                    { width:2.5em; }
+textarea                  { padding:2px; overflow:auto; }
+input.radio               { margin-right:3px; }
+input.checkbox            { margin-right:3px; }
+.v-fix                    { float:left; }
+.v-fix .validation-advice { display:block; margin-right:-12em; width:12em; position:relative; }
+.qty                      { width:2.5em; }
 .group-select label,
 .form-list label,
-.payment-methods label  { font-weight:bold; }
+.payment-methods label    { font-weight:bold; }
 .button-set { /* Container for form buttons*/
     clear:both;
     margin-top:4em;

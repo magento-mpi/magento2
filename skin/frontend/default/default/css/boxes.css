@@ -1602,5 +1602,5 @@ table.print .price-incl-tax .price { display:inline; }
 .order-info li.selected {font-weight:bold; background:url(../images/point-con.gif) no-repeat fixed center bottom; }
 
 /* Expiration date and cvv number validation case */
-.input-box .v-fix { position:relative; float:left; }
-.input-box .v-fix .validation-advice { position:relative; margin-right:-12em; float:left; display:inline; width:12em; }
+.v-fix { float:left; }
+.v-fix .validation-advice { display:block; margin-right:-12em; width:12em; position:relative; }

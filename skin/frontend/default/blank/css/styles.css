@@ -174,7 +174,7 @@ button.disabled span {}
 .validation-passed {}
 .required { color:#f00; }
 p.required { font-size:10px; text-align:right; }
-/* Expiration date and cvv number validation fix */
+/* Expiration date and CVV number validation fix */
 .v-fix { float:left; }
 .v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
 
