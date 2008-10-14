@@ -249,7 +249,7 @@ p.required { font-size:.95em; text-align:right; }
     overflow:hidden;
     }
 
-.box-header {font-size:1.05em;text-align:left;background:#EEEEEE none repeat scroll 0%;font-weight:bold;padding:2px 8px;margin:10px 0px}
+.box-header {font-size:1.05em;text-align:left;background:#EEEEEE none repeat scroll 0%;font-weight:bold;padding:2px 8px;margin:10px 0; }
 .category-head  .link-feed {float:right; margin-top:10px; position:relative; }
 
 /********************* Tables */
@@ -356,26 +356,10 @@ table.view-by td {
 
 /* Structure */
 .wrapper { min-width:954px; }
-.header {
-    text-align:left;
-    }
-.header-top {
-    position:relative;
-    z-index:999;
-    width:930px;
-    margin:0 auto;
-    }
-.header-nav {
-    width:950px;
-    margin:0 auto;
-    }
-.middle {
-    min-height:400px;
-    width:900px;
-    margin:0 auto;
-    text-align:left;
-    position:relative;
-    }
+.header { text-align:left; }
+.header-top { position:relative; z-index:999; width:930px; margin:0 auto; }
+.header-nav { width:950px; margin:0 auto; }
+.middle { min-height:400px; width:900px; margin:0 auto; text-align:left; position:relative; }
 .side-col { width:195px; }
 .col-left { float:left; }
 .col-main { float:left; }
@@ -436,22 +420,14 @@ h1#logo {
 
 
 /* Mini search */
-.mini-search {
-    position:absolute;
-    top:0;
-    right:0;
-    width:300px;
-    height:30px;
-    padding:1px 20px 0 40px;
-    background:url(../images/mini_search_bg.gif) no-repeat;
-    }
+.mini-search { position:absolute; top:0; right:0; width:300px; height:30px; padding:1px 20px 0 40px; background:url(../images/mini_search_bg.gif) no-repeat; }
 .mini-search .input-text { width:212px; margin-right:4px; }
-
-.search-autocomplete { border:1px solid #5c7989; background:#f9f5f0; position:absolute; left:40px; top:22px; width:216px !important;  }
-.search-autocomplete li { border-bottom:1px solid #f4eee7; padding:2px 8px 1px 8px; }
+.search-autocomplete { z-index:999; }
+.search-autocomplete ul { border:1px solid #5c7989; background-color:#f9f5f0; }
+.search-autocomplete li { border-bottom:1px solid #f4eee7; padding:2px 8px 1px 8px; cursor:pointer; }
 .search-autocomplete li .amount { float:right; font-weight:bold; }
-.search-autocomplete li.odd { background:#fffefb; }
-.search-autocomplete li.selected { background:#f7e8dd; }
+.search-autocomplete li.odd { background-color:#fffefb; }
+.search-autocomplete li.selected { background-color:#f7e8dd; }
 
 
 /********************** Sidebars */

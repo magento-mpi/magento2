@@ -74,19 +74,18 @@ input.checkbox { width:13px; height:13px; }
 .form-button,
 .form-button-alt { padding-right:1px; }
 
+#nav ul li { vertical-align:top; }
+
 .one-page-checkout li.section { zoom:1; vertical-align:top; }
 
 .product-options dd ul.options-list input.form-radio { margin-top:4px; }
 .multi-address-checkout-box .box { zoom:1; }
 .multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px; }
 .quick-access li { padding-right:4px; padding-left:6px;}
-.mini-search  { padding-top:-1px; line-height:1em;}
 .home-spot { display:inline; }
 .mini-related-items .product-details { margin-left:80px; }
 .mini-related-items .product-images input { zoom:1; position:relative; margin:-4px 2px 0 -4px; }
 .mini-related-items .product-images img { float:left; }
-.header-top-container { position:relative; }
-#nav ul li.parent { margin-bottom:-3px; }
 
 /* Clearer */
-.clear { clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
+.clear { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

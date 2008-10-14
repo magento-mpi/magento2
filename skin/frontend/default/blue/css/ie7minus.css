@@ -26,7 +26,6 @@
 .middle-container { background:none; }
 
 h1#logo { display:inline; }
-#nav li.parent { margin-bottom:-3px; }
 .one-page-checkout { position:relative; }
 .group-select .legend { position:relative; zoom:1; }
 .advanced-search .legend { position:relative; zoom:1; }
@@ -46,7 +45,7 @@ h1#logo { display:inline; }
 
 .product-img-box .more-views li { display:inline; }
 
-/* Menu fixes */
+/* Menu Shoe */
 #nav li.over ul.shown-sub { left:0; }
 #nav li.over li ul.shown-sub { left:100px; }
 
