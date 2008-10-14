@@ -30,10 +30,10 @@
 /********** < Navigation styles */
 #nav li,
 #nav li a { zoom:1; }
+#nav li { vertical-align:top; }
 /* Show Menu */
 #nav li.over ul.shown-sub { left:0; }
 #nav li.over li ul.shown-sub { left:100px; }
-#nav ul li.parent { margin-bottom:-3px; }
 /********** < Navigation styles */
 
 input.radio { width:13px; height:13px; }
@@ -52,6 +52,7 @@ input.checkbox { width:13px; height:13px; }
 .col3-set,
 .col4-set,
 .messages li,
+.search-autocomplete li,
 .sidebar .mini-products-list li,
 .sidebar .block .actions,
 .sidebar .block-poll li,

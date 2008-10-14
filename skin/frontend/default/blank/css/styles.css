@@ -68,6 +68,7 @@
 .header .welcome-msg { font-weight:bold; text-align:right; }
 .header .links { float:right; }
 .header .form-search { text-align:center; }
+.header .form-search .search-autocomplete { z-index:999; }
 .header .form-search .search-autocomplete ul { border:1px solid #ddd; background-color:#fff; }
 .header .form-search .search-autocomplete li { padding:3px; border-bottom:1px solid #ddd; cursor:pointer; }
 .header .form-search .search-autocomplete li .amount { float:right; font-weight:bold; }
