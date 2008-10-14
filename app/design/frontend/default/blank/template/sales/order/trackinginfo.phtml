@@ -28,7 +28,7 @@
 
 <?php if($this->trackingInfo): ?>
 
-    <b><?php echo $this->trackingInfo->getCarrierTitle() ?></b> - <?php echo $this->trackingInfo->getTracking() ?>
+    <strong><?php echo $this->trackingInfo->getCarrierTitle() ?></strong> - <?php echo $this->trackingInfo->getTracking() ?>
     <div class="info">
         <?php if ($this->trackingInfo->getErrorMessage()): ?>
             <?php echo $this->trackingInfo->getErrorMessage() ?>

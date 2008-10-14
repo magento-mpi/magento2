@@ -69,9 +69,9 @@
 .header .links { float:right; }
 .header .form-search { text-align:center; }
 .header .form-search .search-autocomplete ul { border:1px solid #ddd; background-color:#fff; }
-.header .form-search .search-autocomplete li { padding:3px; border-bottom:1px solid #ddd; }
+.header .form-search .search-autocomplete li { padding:3px; border-bottom:1px solid #ddd; cursor:pointer; }
 .header .form-search .search-autocomplete li .amount { float:right; font-weight:bold; }
-.header .form-search .search-autocomplete li.selected { font-weight:bold; }
+.header .form-search .search-autocomplete li.selected {}
 .header .form-language { text-align:center; }
 
 /********** < Navigation */
@@ -156,7 +156,6 @@ button.disabled span {}
 
 .group-select {}
 .group-select label {}
-.group-select .legend {}
 .group-select li { margin:0 0 5px; }
 .group-select li .input-box { float:left; width:260px; }
 .group-select li input.input-text,
