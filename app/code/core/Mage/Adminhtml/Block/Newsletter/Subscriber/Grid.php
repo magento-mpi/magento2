@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'index'		=> 'website_id',
     		'type'      => 'options',
     		'options'   => $this->_getOptions(
-    		     Mage::getSingleton('core/website')->getCollection()->toOptionArray()
+    		     Mage::getSingleton('core/website')->getCollection()->setLoadDefault(true)->toOptionArray()
     		)
         ));
 
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'index'		=> 'group_id',
     		'type'      => 'options',
     		'options'   => $this->_getOptions(
-    		     Mage::getSingleton('core/store_group')->getCollection()->toOptionArray()
+    		     Mage::getSingleton('core/store_group')->getCollection()->setLoadDefault(true)->toOptionArray()
     		)
         ));
 
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     		'index'		=> 'store_id',
     		'type'      => 'options',
     		'options'   => $this->_getOptions(
-    		     Mage::getSingleton('core/store')->getCollection()->toOptionArray()
+    		     Mage::getSingleton('core/store')->getCollection()->setLoadDefault(true)->toOptionArray()
     		 )
         ));
 

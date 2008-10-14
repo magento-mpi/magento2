@@ -171,7 +171,10 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function showStoreInfo()
     {
-        $this->_select->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('website_id','group_id'));
+        $this->_select->join(array('store'=>$this->_storeTable), 'store.store_id = main_table.store_id', array('group_id'));
+
+        $customerTable = Mage::getSingleton('core/resource')->getTableName('customer/entity');
+        $this->_select->join(array('customer'=>$customerTable), 'customer.entity_id = main_table.customer_id', array('website_id'));
 
         return $this;
     }
