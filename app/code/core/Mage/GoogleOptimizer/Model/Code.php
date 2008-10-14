@@ -25,7 +25,7 @@
  */
 
 /**
- * GoogleOptimizer product model
+ * Google Optimizer Scripts Model
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
@@ -44,24 +44,40 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
         $this->_init('googleoptimizer/code');
     }
 
+    /**
+     * Set entity
+     *
+     * @param Varien_Object $entity
+     * @return Mage_GoogleOptimizer_Model_Code
+     */
     public function setEntity(Varien_Object $entity)
     {
         $this->_entity = $entity;
         return $this;
     }
 
+    /**
+     * Return entity
+     *
+     * @return unknown
+     */
     public function getEntity()
     {
         return $this->_entity;
     }
 
+    /**
+     * Return entity type (product|category|...etc)
+     *
+     * @return string
+     */
     public function getEntityType()
     {
         return $this->_entityType;
     }
 
     /**
-     * Enter description here...
+     * Loading scripts and assigning scripts on entity
      *
      * @param Varien_Object $entity
      * @return Mage_Googleoptimizer_Model_Code
@@ -81,6 +97,11 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Validate sctipts that assigned on entity
+     *
+     * @return bool
+     */
     protected function _validate()
     {
         $entryFlag = false;
@@ -105,7 +126,7 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Save scripts assigned on entity
      *
      * @param Varien_Object $entity
      * @return Mage_Googleoptimizer_Model_Code
@@ -115,11 +136,11 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
         if (is_null($this->getEntity()) || is_null($this->getEntityType())) {
             return $this;
         }
-        if (!$this->getEntity()->getGoogleOptimizerCodes()) {
+        if (!$this->getEntity()->getGoogleOptimizerScripts()) {
             return $this;
         }
 
-        $this->setData($this->getEntity()->getGoogleOptimizerCodes())
+        $this->setData($this->getEntity()->getGoogleOptimizerScripts()->getData())
             ->setEntityId($this->getEntity()->getId())
             ->setEntityType($this->getEntityType())
             ->setStoreId($storeId);
@@ -145,7 +166,7 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Removing scripts assigned to entity
      *
      * @param Varien_Object $entity
      * @return Mage_Googleoptimizer_Model_Code

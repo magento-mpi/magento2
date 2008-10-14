@@ -25,7 +25,7 @@
  */
 
 /**
- *
+ * Google Optimizer resource model
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
@@ -39,11 +39,11 @@ class Mage_GoogleOptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
     }
 
     /**
-     * Enter description here...
+     * Load scripts by entity and store
      *
-     * @param unknown_type $googleOptimizer
-     * @param unknown_type $productId
-     * @return unknown
+     * @param Mage_GoogleOptimizer_Model_Code $object
+     * @param integer $storeId
+     * @return Mage_GoogleOptimizer_Model_Mysql4_Code
      */
     public function loadbyEntityType($object, $storeId)
     {
@@ -82,11 +82,11 @@ class Mage_GoogleOptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
     }
 
     /**
-     * Enter description here...
+     * Delete scripts by entity and store
      *
-     * @param unknown_type $googleoptimizer
-     * @param unknown_type $entity
-     * @return unknown
+     * @param Mage_GoogleOptimizer_Model_Code $object
+     * @param integer $store_id
+     * @return Mage_GoogleOptimizer_Model_Mysql4_Code
      */
     public function deleteByEntityType($object, $store_id)
     {

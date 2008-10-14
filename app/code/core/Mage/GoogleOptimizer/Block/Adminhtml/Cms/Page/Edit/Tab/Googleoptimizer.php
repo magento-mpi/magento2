@@ -31,7 +31,6 @@
  * @package     Mage_GoogleOptimizer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Widget_Form
 {
     protected function _prepareForm()
@@ -160,7 +159,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         if ($this->getCmsPage()->getGoogleoptimizer()) {//if data was set from session after exception
             $googleOptimizer = new Varien_Object($this->getCmsPage()->getGoogleoptimizer());
         } else {
-            $googleOptimizer = $this->getCmsPage()->getGoogleOptimizerCodes();
+            $googleOptimizer = $this->getCmsPage()->getGoogleOptimizerScripts();
         }
         return $googleOptimizer;
     }

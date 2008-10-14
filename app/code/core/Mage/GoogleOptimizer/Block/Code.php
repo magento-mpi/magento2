@@ -26,7 +26,7 @@
 
 
 /**
- *
+ * Google Optimizer Scripts Block
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
@@ -38,16 +38,21 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
     protected $_googleOptmizerModel = null;
     protected $_avaibleScriptTypes = array('control_script', 'tracking_script', 'conversion_script');
 
+    /**
+     * override this method if need something special for type of script
+     *
+     * @return Mage_GoogleOptimizer_Block_Code
+     */
     protected function _initGoogleOptimizerModel()
     {
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Setting google optimizer model
      *
-     * @param unknown_type $model
-     * @return unknown
+     * @param Varien_Object $model
+     * @return Mage_GoogleOptimizer_Block_Code
      */
     protected function _setGoogleOptimizerModel($model)
     {
@@ -56,9 +61,9 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Return google optimizer model
      *
-     * @return unknown
+     * @return Varien_Object
      */
     protected function _getGoogleOptimizerModel()
     {
@@ -71,9 +76,9 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Return script by type $this->_scriptType
      *
-     * @return unknown
+     * @return string
      */
     public function getScriptCode()
     {
@@ -91,10 +96,10 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Check than set script type
      *
-     * @param unknown_type $scriptType
-     * @return unknown
+     * @param string $scriptType
+     * @return Mage_GoogleOptimizer_Block_Code
      */
     public function setScriptType($scriptType)
     {

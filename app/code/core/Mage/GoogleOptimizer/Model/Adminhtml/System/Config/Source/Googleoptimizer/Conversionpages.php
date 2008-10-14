@@ -26,7 +26,7 @@
 
 
 /**
- *
+ * Google Optimizer Source Model
  *
  * @category   Mage
  * @package    Mage_GoogleOptmizer

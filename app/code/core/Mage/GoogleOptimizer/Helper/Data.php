@@ -55,11 +55,11 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         $product        = $params['product'];
 
         if (!$this->isOptimizerActive()
-            || !$product->getGoogleOptimizerCodes()
-            || !$product->getGoogleOptimizerCodes()->getControlScript()) {
+            || !$product->getGoogleOptimizerScripts()
+            || !$product->getGoogleOptimizerScripts()->getControlScript()) {
             return $attributeHtml;
         }
-        if (in_array($attributeName, $product->getGoogleOptimizerCodes()->getAttributes())) {
+        if (in_array($attributeName, $product->getGoogleOptimizerScripts()->getAttributes())) {
             $attributeHtml = '<script>utmx_section("product_'.$attributeName.'_'.$product->getId().'")</script>' . $attributeHtml . '</noscript>';
         }
         return $attributeHtml;
@@ -79,8 +79,8 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         $category       = $params['category'];
 
         if (!$this->isOptimizerActive()
-            || !$category->getGoogleOptimizerCodes()
-            || !$category->getGoogleOptimizerCodes()->getControlScript()) {
+            || !$category->getGoogleOptimizerScripts()
+            || !$category->getGoogleOptimizerScripts()->getControlScript()) {
             return $attributeHtml;
         }
 

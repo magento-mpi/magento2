@@ -25,9 +25,9 @@
  */
 
 /**
- * GoogleOptimizer category model
+ * Google Optimizer Category model
  *
- * @category   Mage_Googleoptimizer
+ * @category   Mage
  * @package    Mage_Googleoptimizer_Model_Code_Category
  * @author     Magento Core Team <core@magentocommerce.com>
  */

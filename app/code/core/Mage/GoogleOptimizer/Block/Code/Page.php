@@ -26,7 +26,7 @@
 
 
 /**
- *
+ * Google Optimizer Page Block
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
@@ -37,7 +37,7 @@ class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Co
     protected function _initGoogleOptimizerModel()
     {
         $cmsPage = Mage::getSingleton('cms/page');
-        $this->_setGoogleOptimizerModel($cmsPage->getGoogleOptimizerCodes());
+        $this->_setGoogleOptimizerModel($cmsPage->getGoogleOptimizerScripts());
         return parent::_initGoogleOptimizerModel();
     }
 }

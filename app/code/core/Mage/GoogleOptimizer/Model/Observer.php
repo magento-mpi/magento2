@@ -25,7 +25,7 @@
  */
 
 /**
- *
+ * Google Optimizer Observer
  *
  * @category    Mage
  * @package     Mage_GoogleOptimizer
@@ -34,51 +34,51 @@
 class Mage_GoogleOptimizer_Model_Observer
 {
     /**
-     * Loading product codes after load product
+     * Loading product scripts after load product
      *
      * @param Varien_Object $observer
      * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function appendToProductGoogleOptimizerCodes($observer)
+    public function appendToProductGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_product')
             ->setEntity($product)
             ->loadScripts($product->getStoreId());
         if ($googleOptimizerModel->getId()) {
-            $product->setGoogleOptimizerCodes($googleOptimizerModel);
+            $product->setGoogleOptimizerScripts($googleOptimizerModel);
         }
         return $this;
     }
 
     /**
-     * Prepare product codes for saving
+     * Prepare product scripts for saving
      *
      * @param Varien_Object $observer
      * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function prepareGoogleOptimizerCodes($observer)
+    public function prepareGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
         $request = $observer->getEvent()->getRequest();
 
         if ($googleOptimizer = $request->getPost('googleoptimizer')) {
-            $product->setGoogleOptimizerCodes($googleOptimizer);
+            $product->setGoogleOptimizerScripts(new Varien_Object($googleOptimizer));
         }
         return $this;
     }
 
     /**
-     * Save product codes after saving product
+     * Save product scripts after saving product
      *
      * @param Varien_Object $observer
      * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function saveProductGoogleOptimizerCodes($observer)
+    public function saveProductGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
 
-        if ($product->getGoogleOptimizerCodes()) {
+        if ($product->getGoogleOptimizerScripts()) {
             $googleOptimizer = Mage::getModel('googleoptimizer/code_product')
                 ->setEntity($product)
                 ->saveScripts($product->getStoreId());
@@ -88,12 +88,12 @@ class Mage_GoogleOptimizer_Model_Observer
     }
 
     /**
-     * Delete Produt Codes after deleteing product
+     * Delete Produt scripts after deleting product
      *
      * @param Varien_Object $observer
      * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function deleteProductGoogleOptimizerCodes($observer)
+    public function deleteProductGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
         $googleOptimizer = Mage::getModel('googleoptimizer/code_product')
@@ -103,12 +103,12 @@ class Mage_GoogleOptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Loading page scripts after load page
      *
      * @param Varien_Object $observer
      * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function appendToPageGoogleOptimizerCodes($observer)
+    public function appendToPageGoogleOptimizerScripts($observer)
     {
         $cmsPage = $observer->getEvent()->getObject();
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_page')
@@ -116,39 +116,39 @@ class Mage_GoogleOptimizer_Model_Observer
             ->loadScripts(0);
 
         if ($googleOptimizerModel->getId()) {
-            $cmsPage->setGoogleOptimizerCodes($googleOptimizerModel);
+            $cmsPage->setGoogleOptimizerScripts($googleOptimizerModel);
         }
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Prepare page scripts for saving
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function preparePageGoogleOptimizerCodes($observer)
+    public function preparePageGoogleOptimizerScripts($observer)
     {
         $cmsPage = $observer->getEvent()->getPage();
         $request = $observer->getEvent()->getRequest();
 
         if ($googleOptimizer = $request->getPost('googleoptimizer')) {
-            $cmsPage->setGoogleOptimizerCodes($googleOptimizer);
+            $cmsPage->setGoogleOptimizerScripts(new Varien_Object($googleOptimizer));
         }
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Save page scripts after saving page
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function savePageGoogleOptimizerCodes($observer)
+    public function savePageGoogleOptimizerScripts($observer)
     {
         $cmsPage = $observer->getEvent()->getObject();
 
-        if ($cmsPage->getGoogleOptimizerCodes()) {
+        if ($cmsPage->getGoogleOptimizerScripts()) {
             $googleOptimizer = Mage::getModel('googleoptimizer/code_page')
                 ->setEntity($cmsPage)
                 ->saveScripts(0);
@@ -158,12 +158,12 @@ class Mage_GoogleOptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Delete page scripts after deleting page
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function deletePageGoogleOptimizerCodes($observer)
+    public function deletePageGoogleOptimizerScripts($observer)
     {
         $cmsPage = $observer->getEvent()->getObject();
         $googleOptimizer = Mage::getModel('googleoptimizer/code_page')
@@ -182,51 +182,51 @@ class Mage_GoogleOptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Loading category scripts after load category
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function appendToCategoryGoogleOptimizerCodes($observer)
+    public function appendToCategoryGoogleOptimizerScripts($observer)
     {
-        $category = $observer->getEvent()->getCategory();//Zend_Debug::dump($category->getStoreId());
+        $category = $observer->getEvent()->getCategory();
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_category')
             ->setEntity($category)
             ->loadScripts($category->getStoreId());
         if ($googleOptimizerModel->getId()) {
-            $category->setGoogleOptimizerCodes($googleOptimizerModel);
+            $category->setGoogleOptimizerScripts($googleOptimizerModel);
         }
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Prepare category scripts for saving
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function prepareCategoryGoogleOptimizerCodes($observer)
+    public function prepareCategoryGoogleOptimizerScripts($observer)
     {
         $category = $observer->getEvent()->getCategory();
         $request = $observer->getEvent()->getRequest();
 
         if ($googleOptimizer = $request->getPost('googleoptimizer')) {
-            $category->setGoogleOptimizerCodes($googleOptimizer);
+            $category->setGoogleOptimizerScripts(new Varien_Object($googleOptimizer));
         }
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Save category scripts after saving category
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function saveCategoryGoogleOptimizerCodes($observer)
+    public function saveCategoryGoogleOptimizerScripts($observer)
     {
         $category = $observer->getEvent()->getCategory();
 
-        if ($category->getGoogleOptimizerCodes()) {
+        if ($category->getGoogleOptimizerScripts()) {
             $googleOptimizer = Mage::getModel('googleoptimizer/code_category')
                 ->setEntity($category)
                 ->saveScripts($category->getStoreId());
@@ -236,12 +236,12 @@ class Mage_GoogleOptimizer_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Delete Produt scripts after deleting product
      *
-     * @param unknown_type $observer
-     * @return unknown
+     * @param Varien_Object $observer
+     * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function deleteCategoryGoogleOptimizerCodes($observer)
+    public function deleteCategoryGoogleOptimizerScripts($observer)
     {
         $category = $observer->getEvent()->getCategory();
         $googleOptimizer = Mage::getModel('googleoptimizer/code_category')

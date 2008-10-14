@@ -26,7 +26,7 @@
 
 
 /**
- *
+ * Google Optimizer collection
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
@@ -37,10 +37,5 @@ class Mage_GoogleOptimizer_Model_Mysql4_Code_Collection extends Mage_Core_Model_
 	protected function _construct()
 	{
 		$this->_init('googleoptimizer/code');
-	}
-
-	public function addFilterByEntityType()
-	{
-        $this->addFieldToFilter();
 	}
 }

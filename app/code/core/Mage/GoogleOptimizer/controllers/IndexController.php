@@ -35,7 +35,7 @@
 class Mage_GoogleOptimizer_IndexController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Retrieve js codes by parsing remote Google Optimizer page
+     * Retrieve js scripts by parsing remote Google Optimizer page
      */
     public function codesAction()
     {

@@ -26,7 +26,7 @@
 
 
 /**
- *
+ * Google Optimizer Category Block
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
@@ -47,6 +47,6 @@ class Mage_GoogleOptimizer_Block_Code_Category extends Mage_GoogleOptimizer_Bloc
 
     public function getGoogleOptimizer()
     {
-        return $this->getCategory()->getGoogleOptimizerCodes();
+        return $this->getCategory()->getGoogleOptimizerScripts();
     }
 }

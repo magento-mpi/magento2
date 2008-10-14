@@ -81,7 +81,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>appendToPageGoogleOptimizerCodes</method>
+                        <method>appendToPageGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </cms_page_load_after>
@@ -90,7 +90,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>appendToProductGoogleOptimizerCodes</method>
+                        <method>appendToProductGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_load_after>
@@ -99,7 +99,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>appendToCategoryGoogleOptimizerCodes</method>
+                        <method>appendToCategoryGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_load_after>
@@ -168,7 +168,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>appendToProductGoogleOptimizerCodes</method>
+                        <method>appendToProductGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_load_after>
@@ -177,7 +177,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>prepareGoogleOptimizerCodes</method>
+                        <method>prepareGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_prepare_save>
@@ -186,7 +186,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>saveProductGoogleOptimizerCodes</method>
+                        <method>saveProductGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_save_after>
@@ -195,7 +195,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>deleteProductGoogleOptimizerCodes</method>
+                        <method>deleteProductGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_product_delete_after>
@@ -204,7 +204,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>prepareCategoryGoogleOptimizerCodes</method>
+                        <method>prepareCategoryGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_prepare_save>
@@ -213,7 +213,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>saveCategoryGoogleOptimizerCodes</method>
+                        <method>saveCategoryGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_save_after>
@@ -222,7 +222,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>deleteCategoryGoogleOptimizerCodes</method>
+                        <method>deleteCategoryGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_delete_after>
@@ -231,7 +231,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>preparePageGoogleOptimizerCodes</method>
+                        <method>preparePageGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </cms_page_prepare_save>
@@ -240,7 +240,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>savePageGoogleOptimizerCodes</method>
+                        <method>savePageGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </cms_page_save_after>
@@ -249,7 +249,7 @@
                     <googleoptimizer_observer>
                         <type>singleton</type>
                         <class>googleoptimizer/observer</class>
-                        <method>deletePageGoogleOptimizerCodes</method>
+                        <method>deletePageGoogleOptimizerScripts</method>
                     </googleoptimizer_observer>
                 </observers>
             </cms_page_delete_after>

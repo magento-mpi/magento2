@@ -23,6 +23,14 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+/**
+ * Google Optimizer Block with additional js scripts in template
+ *
+ * @category   Mage
+ * @package    Mage_GoogleOptimizer
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_GoogleOptimizer_Block_Js extends Mage_Adminhtml_Block_Template
 {
     public function getJsonConversionPagesUrl()

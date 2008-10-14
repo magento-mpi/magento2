@@ -23,6 +23,14 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+/**
+ * Google Optimizer Category Tab
+ *
+ * @category    Mage
+ * @package     Mage_GoogleOptimizer
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Catalog_Form
 {
     public function __construct()
@@ -41,7 +49,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
 
     public function getGoogleOptimizer()
     {
-        return $this->getCategory()->getGoogleOptimizerCodes();
+        return $this->getCategory()->getGoogleOptimizerScripts();
     }
 
     public function _prepareLayout()

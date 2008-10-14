@@ -26,7 +26,8 @@
 
 
 /**
- *
+ * Google Optimizer Block
+ * to display conversion type scripts on pages setted in layout
  *
  * @category   Mage
  * @package    Mage_GoogleOptimizer
