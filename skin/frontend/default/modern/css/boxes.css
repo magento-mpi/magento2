@@ -356,15 +356,9 @@ h1#logo                 { float:left; }
     }
 .mini-search .input-text { width:212px; margin-right:2px; }
 
-.search-autocomplete {
-    border:1px solid #999;
-    background:#f9f5f0;
-    position:absolute;
-    left:45px !important;
-    top:22px !important;
-    width:216px!important;
-    }
+.search-autocomplete { border:1px solid #999; background:#f9f5f0; position:absolute; left:45px !important; top:22px !important; width:216px!important; }
 .search-autocomplete li { border-bottom:1px solid #f4eee7; padding:2px 8px 1px 8px; }
+.search-autocomplete li .amount { float:right; font-weight:bold; }
 .search-autocomplete li.odd { background:#f6f6f6; }
 .search-autocomplete li.selected { background:#ecf9ea; }
 

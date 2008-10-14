@@ -447,18 +447,11 @@ h1#logo {
     }
 .mini-search .input-text { width:212px; margin-right:4px; }
 
-.search-autocomplete {
-    border:1px solid #5c7989;
-    background:#f9f5f0;
-    position:absolute;
-    left:40px;
-    top:22px;
-    width:216px !important;
-    }
+.search-autocomplete { border:1px solid #5c7989; background:#f9f5f0; position:absolute; left:40px; top:22px; width:216px !important;  }
 .search-autocomplete li { border-bottom:1px solid #f4eee7; padding:2px 8px 1px 8px; }
+.search-autocomplete li .amount { float:right; font-weight:bold; }
 .search-autocomplete li.odd { background:#fffefb; }
 .search-autocomplete li.selected { background:#f7e8dd; }
-
 
 
 /********************** Sidebars */

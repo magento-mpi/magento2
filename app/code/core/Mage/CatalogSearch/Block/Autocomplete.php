@@ -51,11 +51,11 @@ class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
 		foreach ($collection as $item) {
 		    if ($item->getQueryText() == $query) {
                 $firstHtml.= '<li title="'.$this->htmlEscape($item->getQueryText()).'" class="'.((++$counter)%2?'odd':'even').'">';
-                $firstHtml.= '<div style="float:right">'.$item->getNumResults().'</div>'.$this->htmlEscape($item->getQueryText()).'</li>';
+                $firstHtml.= '<span class="amount">'.$item->getNumResults().'</span>'.$this->htmlEscape($item->getQueryText()).'</li>';
 		    }
 		    else {
 		        $itemsHtml.= '<li title="'.$this->htmlEscape($item->getQueryText()).'" class="'.((++$counter)%2?'odd':'even').'">';
-                $itemsHtml.= '<div style="float:right">'.$item->getNumResults().'</div>'.$this->htmlEscape($item->getQueryText()).'</li>';
+                $itemsHtml.= '<span class="amount">'.$item->getNumResults().'</span>'.$this->htmlEscape($item->getQueryText()).'</li>';
 		    }
 		}
 
