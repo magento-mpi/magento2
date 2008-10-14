@@ -98,10 +98,20 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      */
     public function capture(Varien_Object $payment, $amount)
     {
+        /*
         try {
             $this->authorize($payment, $amount);
         } catch (Exception $e) {
             // authorization is not expired yet
+        }
+        */
+
+        if ($payment->getOrder()->getPaymentAuthorizationExpiration() < Mage::getModel('core/date')->gmtTimestamp()) {
+            try {
+                $this->authorize($payment, $amount);
+            } catch (Exception $e) {
+                // authorization is not expired yet
+            }
         }
 
         $api = Mage::getModel('googlecheckout/api');

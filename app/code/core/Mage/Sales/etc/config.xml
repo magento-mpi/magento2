@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.21</version>
+            <version>0.9.22</version>
         </Mage_Sales>
     </modules>
     <global>
