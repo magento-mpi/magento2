@@ -394,16 +394,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             ->where("g.linked_product_id = ?", $childId)
             ->where("link_type_id = ?", $groupedLinkTypeId);
 
+        $groupedIds = $this->_getReadAdapter()->fetchCol($groupedSelect);
+
         $configurableSelect = $this->_getReadAdapter()->select()
             ->from(array('c'=>$configurableProductsTable), 'c.parent_id')
             ->where("c.product_id = ?", $childId);
 
-        $select = $this->_getReadAdapter()->select();
-        $select
-            ->from(array('e'=>$this->getTable('catalog/product')), 'DISTINCT(e.entity_id)')
-            ->where('e.entity_id in ('.new Zend_Db_Expr($groupedSelect).' UNION '.new Zend_Db_Expr($configurableSelect).')');
-
-        return $this->_getReadAdapter()->fetchCol($select);
+        $configurableIds = $this->_getReadAdapter()->fetchCol($configurableSelect);
+        return array_merge($groupedIds, $configurableIds);
     }
 
     /**
