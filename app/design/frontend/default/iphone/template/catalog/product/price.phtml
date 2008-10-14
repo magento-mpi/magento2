@@ -91,7 +91,7 @@
             <?php else: ?>
                 <?php
                 $_showPrice = $_inclTax;
-                if (!$this->helper('tax')->displayCartPriceInclTax()) {
+                if (!$this->helper('tax')->displayPriceIncludingTax()) {
                     $_showPrice = $_exclTax;
                 }
                 ?>
