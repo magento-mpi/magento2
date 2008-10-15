@@ -214,6 +214,9 @@ class Mage_CatalogInventory_Model_Observer
             $result = $stockItem->checkQuoteItemQty($qty, $qtyForCheck);
             if (!is_null($result->getItemIsQtyDecimal())) {
                 $item->setIsQtyDecimal($result->getItemIsQtyDecimal());
+                if ($item->getParentItem()) {
+                    $item->getParentItem()->setIsQtyDecimal($result->getItemIsQtyDecimal());
+                }
             }
             if (!is_null($result->getItemQty())) {
                 $item->setData('qty', $result->getItemQty());
@@ -223,6 +226,9 @@ class Mage_CatalogInventory_Model_Observer
             }
             if (!is_null($result->getMessage())) {
                 $item->setMessage($result->getMessage());
+                if ($item->getParentItem()) {
+                    $item->getParentItem()->setMessage($result->getMessage());
+                }
             }
             if (!is_null($result->getItemBackorders())) {
                 $item->setBackorders($result->getItemBackorders());
