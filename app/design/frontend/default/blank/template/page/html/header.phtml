@@ -25,7 +25,7 @@
  */
 ?>
 <div class="header">
-    <h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" onclick="location.href='<?php echo $this->getUrl('') ?>'" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><?php echo $this->getLogoAlt() ?></h1>
+    <h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
     <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
     <?php echo $this->getChildHtml('topLinks') ?>
     <?php echo $this->getChildHtml('topSearch') ?>

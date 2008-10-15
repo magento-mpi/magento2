@@ -65,6 +65,7 @@
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
 .header .logo { background-position:0 0; background-repeat:no-repeat; text-indent:-999em; cursor:pointer; }
+.header .logo a { display:block; width:200px; height:63px; }
 .header .welcome-msg { font-weight:bold; text-align:right; }
 .header .links { float:right; }
 .header .form-search { text-align:center; }
