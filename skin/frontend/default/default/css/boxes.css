@@ -862,7 +862,6 @@ table.recently-list td {width:20%; }
 .product-img-box .more-views ul { margin-left:-9px; }
 .product-img-box .more-views li { float:left; margin:0 0 9px 9px; }
 .product-img-box .more-views li a { float:left; width:56px; height:56px; border:2px solid #ddd; overflow:hidden; }
-.product-img-box .more-views li a img { margin:-32px 0 0 -32px; }
 
 .product-info-box { margin-top:10px; border:1px solid #c4c6c8; margin-top:0; }
 .product-info-box .product-name { margin-bottom:.3em; color:#0a263c; font-size:1.2em; }
