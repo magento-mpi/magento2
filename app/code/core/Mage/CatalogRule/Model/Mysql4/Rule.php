@@ -34,13 +34,18 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $startDate = $object->getFromDate();
-        if ($startDate=='') {
-            //$startDate = Mage::app()->getLocale()->date();
-            $startDate = Mage::getModel('core/date')->gmtDate('Y-m-d');
+        if (!$object->getFromDate()) {
+            $object->setFromDate(new Zend_Date(Mage::getModel('core/date')->gmtTimestamp()));
         }
-        $object->setFromDate($this->formatDate($startDate));
-        $object->setToDate($this->formatDate($object->getToDate()));
+        $object->setFromDate($object->getFromDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+
+        if (!$object->getToDate()) {
+            $object->setToDate(new Zend_Db_Expr('NULL'));
+        }
+        else {
+            $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        }
+
         parent::_beforeSave($object);
     }
 
@@ -61,7 +66,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $fromTime = strtotime($rule->getFromDate());
         $toTime = strtotime($rule->getToDate());
-        $toTime = $toTime ? $toTime+86400 : 0;
+        $toTime = $toTime ? $toTime + 86400 : 0;
 
         $sortOrder = (int)$rule->getSortOrder();
         $actionOperator = $rule->getSimpleAction();

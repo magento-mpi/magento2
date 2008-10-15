@@ -97,6 +97,12 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             if (!$this->getFrontendModel()) {
                 $this->setFrontendModel('eav/entity_attribute_frontend_datetime');
             }
+
+            // save default date value as timestamp
+            if ($defaultValue = $this->getDefaultValue()) {
+                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                $this->setDefaultValue(Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue());
+            }
         }
 
         if ($this->getBackendType() == 'gallery') {

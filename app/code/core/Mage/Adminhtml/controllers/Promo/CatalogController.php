@@ -111,39 +111,23 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             unset($data['rule']);
 
             if (!empty($data['auto_apply'])) {
-	            $autoApply = true;
-	            unset($data['auto_apply']);
+                $autoApply = true;
+                unset($data['auto_apply']);
             } else {
-            	$autoApply = false;
+                $autoApply = false;
             }
 
             $model->loadPost($data);
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
-                if ($this->getRequest()->getParam('discount_amount') < 0) {
-                    Mage::throwException(Mage::helper('salesrule')->__('Invalid discount amount.'));
-                }
-
-                // validate from and to dates
-                $dateValidator = Mage::getModel('core/date');
-                foreach (array('from_date', 'to_date') as $param) {
-                    $value = $this->getRequest()->getParam($param);
-                    if (!empty($value)) {
-                        list($y, $m, $d) = $dateValidator->parseDateTime($value, 'm/d/y');
-                        if (!$dateValidator->checkDateTime($y, $m, $d)) {
-                            Mage::throwException(Mage::helper('salesrule')->__('Invalid date "%s".', $value));
-                        }
-                    }
-                }
-
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rule was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 if ($autoApply) {
-                	$this->_forward('applyRules');
+                    $this->_forward('applyRules');
                 } else {
                     Mage::app()->saveCache(1, 'catalog_rules_dirty');
-                	$this->_redirect('*/*/');
+                    $this->_redirect('*/*/');
                 }
                 return;
             } catch (Exception $e) {
@@ -272,6 +256,6 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
+        return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
     }
 }

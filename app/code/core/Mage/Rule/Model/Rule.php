@@ -24,7 +24,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 {
     protected $_conditions;
@@ -223,6 +222,19 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     protected function _beforeSave()
     {
+        // check if discount amount > 0
+        if ((int)$this->getDiscountAmount() < 0) {
+            Mage::throwException(Mage::helper('rule')->__('Invalid discount amount.'));
+        }
+
+        // convert dates into Zend_Date and hope it will validate 'em
+        foreach (array('from_date', 'to_date') as $dateType) {
+            if ($date = $this->getData($dateType)) {
+                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                $this->setData($dateType, Mage::app()->getLocale()->date($date, $format, null, false));
+            }
+        }
+
         if ($this->getConditions()) {
             $this->setConditionsSerialized(serialize($this->getConditions()->asArray()));
             $this->unsConditions();

@@ -43,14 +43,18 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         parent::__construct($attributes);
         $this->setType('text');
         $this->setExtType('textfield');
+        if (isset($attributes['value'])) {
+            $this->setValue($attributes['value']);
+        }
     }
 
     /**
      * Set date value
      * If Zend_Date instance is provided instead of value, other params will be ignored.
+     * Format and locale must be compatible with Zend_Date
      *
      * @param mixed $value
-     * @param string $format (compatible with Zend_Date)
+     * @param string $format
      * @param string $locale
      * @return Varien_Data_Form_Element_Date
      */
@@ -64,6 +68,10 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             $this->_value = $value;
             return $this;
         }
+        if (preg_match('/^[0-9]+$/', $value)) {
+            $this->_value = new Zend_Date((int)$value);
+            return $this;
+        }
         // last check, if input format was set
         if (null === $format) {
             $format = Varien_Date::DATETIME_INTERNAL_FORMAT;
@@ -71,7 +79,18 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
                 $format = $this->getInputFormat();
             }
         }
-        $this->_value = new Zend_Date($value, $format, $locale);
+        // last check, if locale was set
+        if (null === $locale) {
+            if (!$locale = $this->getLocale()) {
+                $locale = null;
+            }
+        }
+        try {
+            $this->_value = new Zend_Date($value, $format, $locale);
+        }
+        catch (Exception $e) {
+            $this->_value = '';
+        }
         return $this;
     }
 
