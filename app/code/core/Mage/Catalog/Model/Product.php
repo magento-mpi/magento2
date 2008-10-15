@@ -797,13 +797,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         /* @var $newProduct Mage_Catalog_Model_Product */
 
-        $newOptionsArray = array();
-        $newProduct->setCanSaveCustomOptions(true);
-        foreach ($this->getOptions() as $_option) {
-            /* @var $_option Mage_Catalog_Model_Product_Option */
-            $newOptionsArray[] = $_option->prepareOptionForDuplicate();
-        }
-        $newProduct->setProductOptions($newOptionsArray);
+//        $newOptionsArray = array();
+//        $newProduct->setCanSaveCustomOptions(true);
+//        foreach ($this->getOptions() as $_option) {
+//            /* @var $_option Mage_Catalog_Model_Product_Option */
+//            $newOptionsArray[] = $_option->prepareOptionForDuplicate();
+//        }
+//        $newProduct->setProductOptions($newOptionsArray);
 
         /* Prepare Related*/
         $data = array();
@@ -861,9 +861,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
         $newProduct->setGroupedLinkData($data);
 
-        $newId = $newProduct->getId();
-
         $newProduct->save();
+
+        $this->getOptionInstance()->duplicate($this->getId(), $newProduct->getId());
+        $this->getResource()->duplicate($this->getId(), $newProduct->getId());
 
         /*if ($storeIds = $this->getWebsiteIds()) {
             foreach ($storeIds as $storeId) {

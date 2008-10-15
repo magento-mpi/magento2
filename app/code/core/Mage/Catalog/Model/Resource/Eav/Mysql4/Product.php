@@ -418,4 +418,27 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             ->where('category_id=?', $categoryId);
         return $this->_getReadAdapter()->fetchOne($select);
     }
+
+    /**
+     * Duplicate product store values
+     *
+     * @param int $oldId
+     * @param int $newId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
+    public function duplicate($oldId, $newId)
+    {
+        $eavTables = array('datetime', 'decimal', 'int', 'text', 'varchar');
+
+        // duplicate EAV store values
+        foreach ($eavTables as $suffix) {
+            $tableName = $this->getTable('catalog_product_entity_' . $suffix);
+            $sql = 'REPLACE INTO `' . $tableName . '` '
+                . 'SELECT NULL, `entity_type_id`, `attribute_id`, `store_id`, ' . $newId . ', `value`'
+                . 'FROM `' . $tableName . '` WHERE `entity_id`=' . $oldId . ' AND `store_id`>0';
+            $this->_getWriteAdapter()->query($sql);
+        }
+
+        return $this;
+    }
 }

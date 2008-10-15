@@ -388,4 +388,17 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
         return $newOption;
     }
 
+    /**
+     * Duplicate options for product
+     *
+     * @param int $oldProductId
+     * @param int $newProductId
+     * @return Mage_Catalog_Model_Product_Option
+     */
+    public function duplicate($oldProductId, $newProductId)
+    {
+        $this->getResource()->duplicate($this, $oldProductId, $newProductId);
+
+        return $this;
+    }
 }
