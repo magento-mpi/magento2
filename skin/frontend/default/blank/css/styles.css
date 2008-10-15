@@ -130,10 +130,12 @@ input.input-text,select,textarea { border:1px solid #ddd; }
 input.input-text,textarea { padding:2px; }
 select { padding:1px; }
 select option { padding-right:10px; }
+select.multiselect option {}
 textarea { overflow:auto; }
 input.radio { margin-right:3px; }
 input.checkbox { margin-right:3px; }
 input.qty { width:2.5em !important; }
+/*button::-moz-focus-inner { padding:0; border:0; }*/
 button.button { overflow:visible; width:auto; background:#f6f6f6; border:1px solid #717171; cursor:pointer; }
 button.button span { display:block; margin:0; padding:0 8px 1px; font:bold 12px/16px Arial, Helvetica, sans-serif; text-align:center; white-space:nowrap; color:#000; }
 button.disabled {}
@@ -532,7 +534,6 @@ a.minimal-price-link .price { font-weight:normal; }
 .product-options dd input.input-text { width:98%; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
-.product-options dd .multiselect option {}
 .product-options .options-list {}
 .product-options .options-list input.radio { float:left; margin:3px -18px 0 0; }
 .product-options .options-list input.checkbox { float:left; margin:3px -20px 0 0; }

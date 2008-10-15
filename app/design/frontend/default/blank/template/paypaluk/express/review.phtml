@@ -32,7 +32,7 @@
         <h3><?php echo $this->__('Shipping Information') ?></h3>
         <div class="col2-set">
             <div class="col-1">
-                <h4><?php echo $this->__('Shipping Address') ?><span> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
+                <h4><?php echo $this->__('Shipping Address') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
                 <address>
                     <?php echo $this->getShippingAddress()->getFormated(true) ?>
                 </address>
@@ -88,12 +88,12 @@
 
     <div class="block">
         <h3><?php echo $this->__('Billing Information') ?></h3>
-        <h4><?php echo $this->__('Payment Method') ?><span> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+        <h4><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
         <p><?php echo $this->__('PayPal Uk Account') ?></p>
         <?php echo $this->getBillingAddress()->getEmail() ?>
     </div>
 
-    <h3><?php echo $this->__('Items in Your Shopping Cart') ?><span> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
+    <h3><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
 
 
     <div id='details-reload'>

@@ -198,6 +198,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             ->setExtraParams($extra)
             ->setValue($this->getAttributeValue($attribute))
             ->setOptions($options)
+			->setClass('multiselect')
             ->getHtml();
     }
 

@@ -67,8 +67,8 @@
         </ul>
     </fieldset>
 <?php if($this->getShowAddressFields()): ?>
-    <input type="hidden" name="create_address" value="1" />
     <fieldset class="group-select">
+        <input type="hidden" name="create_address" value="1" />
         <h3 class="legend"><?php echo $this->__('Address Information') ?></h3>
         <ul>
             <li>
@@ -117,9 +117,9 @@
                 </div>
             </li>
         </ul>
+        <input type="hidden" name="default_billing" value="1" />
+        <input type="hidden" name="default_shipping" value="1" />
     </fieldset>
-    <input type="hidden" name="default_billing" value="1" />
-    <input type="hidden" name="default_shipping" value="1" />
 <?php endif; ?>
     <fieldset class="group-select">
         <h3 class="legend"><?php echo $this->__('Login Information') ?></h3>
