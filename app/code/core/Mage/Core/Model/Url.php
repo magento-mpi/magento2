@@ -501,6 +501,10 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $this->unsetData('route_params');
 
+        if (isset($routeParams['_direct'])) {
+            return $this->getBaseUrl().$routeParams['_direct'];
+        }
+
         if (!is_null($routePath)) {
             $this->setRoutePath($routePath);
         }
