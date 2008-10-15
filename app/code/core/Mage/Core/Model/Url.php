@@ -652,6 +652,11 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $escapeQuery = false;
 
+        /**
+         * All system params should be unseted before we call getRouteUrl
+         * this method has condition for ading default controller anr actions names
+         * in case when we have params
+         */
         if (isset($routeParams['_fragment'])) {
             $this->setFragment($routeParams['_fragment']);
             unset($routeParams['_fragment']);
@@ -662,21 +667,26 @@ class Mage_Core_Model_Url extends Varien_Object
             unset($routeParams['_escape']);
         }
 
+        $query = null;
+        if (isset($routeParams['_query'])) {
+            $query = $routeParams['_query'];
+            unset($routeParams['_query']);
+        }
+
         $url = $this->getRouteUrl($routePath, $routeParams);
 
         /**
          * Apply query params, need call after getRouteUrl for rewrite _current values
          */
-        if (isset($routeParams['_query'])) {
-            if (is_string($routeParams['_query'])) {
-                $this->setQuery($routeParams['_query']);
-            } elseif (is_array($routeParams['_query'])) {
-                $this->setQueryParams($routeParams['_query'], !empty($routeParams['_current']));
+        if ($query !== null) {
+            if (is_string($query)) {
+                $this->setQuery($query);
+            } elseif (is_array($query)) {
+                $this->setQueryParams($query, !empty($routeParams['_current']));
             }
-            if ($routeParams['_query'] === false) {
+            if ($query === false) {
             	$this->setQueryParams(array());
             }
-            unset($routeParams['_query']);
         }
 
         $session = Mage::getSingleton('core/session');
