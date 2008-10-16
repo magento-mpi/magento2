@@ -58,4 +58,5 @@
 .group-select li:after,
 .form-list li:after,
 .buttons-set:after,
+.buttons-set2:after,
 .page-print .print-head:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
