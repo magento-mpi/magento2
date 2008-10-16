@@ -29,48 +29,22 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Adminhtml_Helper_Rss extends Mage_Core_Helper_Abstract
 {
-    public function authFrontend()
-    {
-        $session = Mage::getSingleton('rss/session');
-        if ($session->isCustomerLoggedIn()) {
-            return;
-        }
-        list($username, $password) = $this->authValidate();
-        $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
-        if ($customer && $customer->getId()) {
-            Mage::getSingleton('rss/session')->settCustomer($customer);
-        } else {
-            $this->authFailed();
-        }
-    }
-
     public function authAdmin($path)
     {
         $session = Mage::getSingleton('rss/session');
         if ($session->isAdminLoggedIn()) {
             return;
         }
-        list($username, $password) = $this->authValidate();
+        list($username, $password) = Mage::helper('core/http')->authValidate();
         $adminSession = Mage::getModel('admin/session');
         $user = $adminSession->login($username, $password);
         //$user = Mage::getModel('admin/user')->login($username, $password);
         if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
         } else {
-            $this->authFailed();
+            Mage::helper('core/http')->authFailed();
         }
-    }
-
-    public function authValidate($headers=null)
-    {
-        $userPass = Mage::helper('core/http')->authValidate($headers);
-        return $userPass;
-    }
-
-    public function authFailed()
-    {
-        Mage::helper('core/http')->authFailed();
     }
 }
