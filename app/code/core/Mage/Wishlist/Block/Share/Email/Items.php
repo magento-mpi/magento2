@@ -66,12 +66,12 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
 
     public function getEscapedDescription(Varien_Object $item)
     {
-        return nl2br($this->htmlEscape($item->getDescription()));
+        return nl2br($this->htmlEscape($item->getWishlistItemDescription()));
     }
 
     public function hasDescription(Varien_Object $item)
     {
-        return trim($item->getDescription())!='';
+        return trim($item->getWishlistItemDescription())!='';
     }
 
     public function getFormatedDate($date)
