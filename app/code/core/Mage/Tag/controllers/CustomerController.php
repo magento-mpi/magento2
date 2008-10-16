@@ -127,7 +127,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 $model = Mage::registry('tagModel');
                 $model->deactivate();
                 $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
-                Mage::getSingleton('tag/session')->addSuccess($this->__('You tag was successfully deleted'));
+                Mage::getSingleton('tag/session')->addSuccess($this->__('Your tag was successfully deleted'));
                 $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 return;
             } catch (Exception $e) {
@@ -210,7 +210,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                     $tagModel->aggregate();
                     $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
                 }
-                $message = ($message) ? $message : $this->__('You tag was successfully saved');
+                $message = ($message) ? $message : $this->__('Your tag was successfully saved');
                 Mage::getSingleton('tag/session')->addSuccess($message);
                 $this->_redirect('*/*/');
                 return;
