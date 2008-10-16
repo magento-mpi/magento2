@@ -53,8 +53,8 @@ Product.Zoom.prototype = {
             this.ceilingZoom = this.imageDim.height / this.containerDim.height;
         }
 
-        if (this.imageDim.width < this.containerDim.width
-            && this.imageDim.height < this.containerDim.height) {
+        if (this.imageDim.width <= this.containerDim.width
+            && this.imageDim.height <= this.containerDim.height) {
             this.trackEl.up().hide();
             this.hintEl.hide();
             this.containerEl.removeClassName('product-image-zoom');
