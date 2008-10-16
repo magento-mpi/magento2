@@ -28,7 +28,7 @@
 <div class="content-header">
 <table cellspacing="0">
     <tr>
-        <td><h3 class="icon-head head-categories"><?php echo $this->getHeader() ?></h3></td>
+        <td><h3 class="icon-head head-categories"><?php echo $this->getHeader() . ($this->getCategoryId() ? ' (' . Mage::helper('catalog')->__('ID: %s', $this->getCategoryId()) . ')' : '') ?></h3></td>
         <td class="form-buttons">
             <?php echo $this->getResetButtonHtml() ?>
             <?php if($this->getCategoryId()): ?>
