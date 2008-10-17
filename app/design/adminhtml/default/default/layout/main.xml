@@ -68,7 +68,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/adminhtml/form.js</script></action>
                 <action method="addJs"><script>mage/adminhtml/accordion.js</script></action>
                 <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
-                <action method="addJs"><script>mage/adminhtml/bundle.js</script></action>
                 <action method="addJs"><script>mage/adminhtml/uploader.js</script></action>
                 <action method="addJs"><script>mage/adminhtml/product.js</script></action>
 
