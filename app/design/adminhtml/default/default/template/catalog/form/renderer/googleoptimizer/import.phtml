@@ -36,7 +36,7 @@
     </td>
     <td class="value" nowrap>
 
-    <input type="text" class="input-text googleoptimizer" onchange="refreshButton(this);" name="target_url" id="target_url"<?php echo $_disabled ?>/>
+    <input type="text" class="input-text googleoptimizer" name="target_url" id="target_url"<?php echo $_disabled ?>/>
 
     </td>
     <td class="scope-label"></td>
@@ -64,7 +64,7 @@ function pushCodes()
     var url = '<?php echo $this->getExportUrl() ?>';
 
     new Ajax.Request(url, {
-        method: 'get',
+        method: 'post',
         parameters: {url: $('target_url').value},
         onSuccess: function(transport) {
             try {
@@ -95,13 +95,6 @@ function pushCodes()
             }
         }
     });
-}
-function refreshButton(elm) {
-    if (elm && elm.value.length > 0) {
-        $('get_codes').disabled = false;
-    } else {
-        $('get_codes').disabled = true;
-    }
 }
 //]]>
 </script>
