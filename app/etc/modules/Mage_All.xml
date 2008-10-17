@@ -34,6 +34,9 @@
         <Mage_Eav>
             <active>true</active>
             <codePool>core</codePool>
+            <depends>
+                <Mage_Core />
+            </depends>
         </Mage_Eav>
         <Mage_Page>
             <active>true</active>
