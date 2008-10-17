@@ -636,7 +636,8 @@ a.minimal-price-link .price { font-weight:normal; }
 .opc .allow .step-title { cursor:pointer; }
 .opc .active {}
 .opc .active .step-title { background-color:#ccc; cursor:default; }
-.opc .step { border-top:1px solid #ddd; padding:10px; }
+.opc .step { border-top:1px solid #ddd; padding:10px; position:relative; }
+.opc .step .tool-tip { right:10px; }
 .opc .order-review {}
 
 /* Multiple Addresses Checkout */
@@ -645,6 +646,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .checkout-progress li.active { border-top-color:#000; color:#000; }
 
 .multiple-checkout { position:relative; }
+.multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:10px; }
 .multiple-checkout .grand-total { font-size:1.5em; text-align:right; }
 .multiple-checkout .grand-total big {}
 .multiple-checkout .grand-total .price {}
