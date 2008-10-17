@@ -223,7 +223,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
 
             try {
-                $validationResult = $customer->validate();
+                $validationResult = $customer->validate() && count($errors) == 0;
                 if (true === $validationResult) {
                     $customer->save();
 
