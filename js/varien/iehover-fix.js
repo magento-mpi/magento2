@@ -41,7 +41,8 @@ ieHover = function() {
     var items, iframe;
     items = $$('#nav ul', '.truncated_full_value .item-options', '.tool-tip');
     $$('#checkout-step-payment', '.tool-tip').each(function(el) {
-        el.setStyle({'visibility':'hidden', 'display':'block'})
+        el.show();
+        el.setStyle({'visibility':'hidden'})
     })
     for (var j=0; j<items.length; j++) {
         iframe = document.createElement('IFRAME');
@@ -53,8 +54,9 @@ ieHover = function() {
         iframe.style.height = items[j].offsetHeight+"px";
         items[j].insertBefore(iframe, items[j].firstChild);
     }
-    $$('#checkout-step-payment', '.tool-tip').each(function(el) {
-        el.setStyle({'visibility':'visible', 'display':'none'})
+    $$('.tool-tip', '#checkout-step-payment').each(function(el) {
+        el.hide();
+        el.setStyle({'visibility':'visible'})
     })
 }
 Event.observe(window, 'load', ieHover);
