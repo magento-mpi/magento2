@@ -31,7 +31,7 @@
  * @see Mage_Checkout_Block_Onepage_Payment_Methods
  */
 ?>
-<dl id="checkout-payment-method-load">
+<dl class="sp-methods" id="checkout-payment-method-load">
 <?php foreach ($this->getMethods() as $_method): $_code = $_method->getCode() ?>
     <dt>
     <?php if( sizeof($this->getMethods()) > 1 ): ?>
@@ -41,9 +41,11 @@
     <?php endif; ?>
         <label for="p_method_<?php echo $_code ?>"><?php echo $_method->getTitle() ?></label>
     </dt>
+    <?php if($html = $this->getChildHtml('payment.method.'.$_code)) : ?>
     <dd>
-        <?php echo $this->getChildHtml('payment.method.'.$_code) ?>
+        <?php echo $html; ?>
     </dd>
+    <?php endif; ?>
 <?php endforeach; ?>
 </dl>
 <script type="text/javascript">payment.init();</script>

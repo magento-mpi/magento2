@@ -91,8 +91,8 @@
         </tr>
         <?php endif; ?>
         <tr>
-            <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Grand Total') ?></td>
-            <td class="a-right"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
+            <td colspan="<?php echo $colspan; ?>" class="a-right"><strong><?php echo $this->__('Grand Total') ?></strong></td>
+            <td class="a-right"><strong><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></strong></td>
         </tr>
     </tfoot>
     <?php $_items = $_order->getItemsCollection(); ?>

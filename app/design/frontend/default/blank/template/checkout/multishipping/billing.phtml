@@ -64,9 +64,11 @@
                 <?php endif;?>
                 <label for="p_method_<?php echo $_code ?>"><?php echo $_method->getTitle() ?></label>
             </dt>
+            <?php if($html = $this->getChildHtml('payment.method.'.$_code)) : ?>
             <dd>
-                <?php echo $this->getChildHtml('payment.method.'.$_code) ?>
+                <?php echo $html; ?>
             </dd>
+            <?php endif; ?>
         <?php endforeach; ?>
         </dl>
         <?php echo $this->getChildHtml('checkout_billing_items') ?>

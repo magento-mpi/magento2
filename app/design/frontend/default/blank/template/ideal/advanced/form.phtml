@@ -26,19 +26,17 @@
 ?>
 <?php $_code=$this->getMethodCode() ?>
 <?php if($_issuers = $this->getIssuerList()):?>
-<fieldset class="form-list">
-    <ul id="payment_form_<?php echo $_code ?>" style="display:none;">
-        <li>
-            <div class="input-box">
-                <label for="<?php echo $_code ?>_ideal_issuer_id"><?php echo $this->__('Issuer') ?> <span class="required">*</span></label><br />
-                <select id="<?php echo $_code ?>_ideal_issuer_id" name="payment[ideal_issuer_id]" class="required-entry">
-                    <option value="">--<?php echo $this->__('Please Select') ?>--</option>
-                <?php foreach ($_issuers as $_id => $_name): ?>
-                    <option value="<?php echo $_id ?>"><?php echo $_name ?></option>
-                <?php endforeach ?>
-                </select>
-            </div>
-        </li>
-    </ul>
-</fieldset>
-<?php endif?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <div class="input-box">
+            <label for="<?php echo $_code ?>_ideal_issuer_id"><?php echo $this->__('Issuer') ?> <span class="required">*</span></label><br />
+            <select id="<?php echo $_code ?>_ideal_issuer_id" name="payment[ideal_issuer_id]" class="required-entry">
+                <option value="">--<?php echo $this->__('Please Select') ?>--</option>
+            <?php foreach ($_issuers as $_id => $_name): ?>
+                <option value="<?php echo $_id ?>"><?php echo $_name ?></option>
+            <?php endforeach ?>
+            </select>
+        </div>
+    </li>
+</ul>
+<?php endif; ?>

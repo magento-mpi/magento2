@@ -24,7 +24,7 @@
 /* IE 6 only */
 .login-page .content { _height:150px; }
 .validation-advice { _height:13px; }
-.one-page-checkout li.section { vertical-align:top; }
+.opc li.section { vertical-align:top; }
 .product-view .product-img-box .more-views li { display:inline; }
 
 /********** < Navigation styles */
@@ -74,8 +74,8 @@ input.checkbox { width:13px; height:13px; }
 .truncated .truncated_full_value,
 .product-review,
 .cart,
-.one-page-checkout .step-title,
-.one-page-checkout .step,
+.opc .step-title,
+.opc .step,
 .checkout-progress,
 .field-100,
 .form-list li,
