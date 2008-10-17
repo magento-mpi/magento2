@@ -213,7 +213,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['VendorEMail'] = '';
         $queryPairs['eMailMessage'] = '';
 
-        $queryPairs['BillingAddress'] = $billing->getFormated();
+        $queryPairs['BillingAddress'] = $billing->format('oneline');
         $queryPairs['BillingPostCode'] = $billing->getPostcode();
 
         if ($shipping) {
