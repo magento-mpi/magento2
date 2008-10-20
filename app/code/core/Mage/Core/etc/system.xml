@@ -481,22 +481,22 @@
                             <show_in_store>1</show_in_store>
                         </active>
                         <file translate="label comment">
-                            <label>File Name</label>
+                            <label>System Log File Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>located in {{base_dir}}/var/log</comment>
+                            <comment>Logging from Mage::log(). File is located in {{base_dir}}/var/log</comment>
                         </file>
                         <exception_file translate="label comment">
-                            <label>Exception Log File Name</label>
+                            <label>Exceptions Log File Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>located in {{base_dir}}/var/log</comment>
+                            <comment>Logging from Mage::logException(). File is located in {{base_dir}}/var/log</comment>
                         </exception_file>
                     </fields>
                 </log>
