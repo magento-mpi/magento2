@@ -63,11 +63,12 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item extends Mage_Core_Model_Mysq
      */
     public function addCatalogInventoryToProductCollection($productCollection)
     {
+        $isStockManagedInConfig = Mage::getStoreConfig('cataloginventory/options/manage_stock');
         $productCollection->joinTable('cataloginventory/stock_item',
             'product_id=entity_id',
             array(
-                'is_saleable'           => '(IF(manage_stock, is_in_stock, 1))',
-                'inventory_in_stock'    => 'is_in_stock'
+                'is_saleable' => new Zend_Db_Expr('(IF(IF(use_config_manage_stock, ' . $isStockManagedInConfig . ', manage_stock), is_in_stock, 1))'),
+                'inventory_in_stock' => 'is_in_stock'
             ),
             null, 'left');
 
