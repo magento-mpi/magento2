@@ -64,7 +64,7 @@ function pushCodes()
     var url = '<?php echo $this->getExportUrl() ?>';
 
     new Ajax.Request(url, {
-        method: 'post',
+        method: 'get',
         parameters: {url: $('target_url').value},
         onSuccess: function(transport) {
             try {
