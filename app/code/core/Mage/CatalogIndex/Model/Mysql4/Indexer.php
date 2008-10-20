@@ -255,7 +255,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             $type = $index['type_id'];
             $id = (is_null($forcedId) ? $index['entity_id'] : $forcedId);
 
-            if ($id && $index['attribute_id'] && $index['value']) {
+            if ($id && $index['attribute_id'] && isset($index['value'])) {
                 $attribute = $this->_loadAttribute($index['attribute_id']);
                 if ($attribute->getFrontendInput() == 'multiselect') {
                     $index['value'] = explode(',', $index['value']);
