@@ -80,56 +80,46 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
      */
     public function getProductUrl($product)
     {
-        $queryParams = '';
-//        $store = Mage::app()->getStore();
-//        if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
-//            $queryParams = '?store='.$store->getCode();
-//        }
+        $cacheUrlKey = 'url_' . ($product->getCategoryId() && !$product->getDoNotUseCategoryId() ? $product->getCategoryId() : 'NONE');
+        $url = $product->getData($cacheUrlKey);
 
-        if ($product->hasData('request_path') && $product->getRequestPath() != '') {
-            $url = $this->getUrlInstance()->getBaseUrl().$product->getRequestPath().$queryParams;
-            return $url;
-        }
+        if (is_null($url)) {
+            if ($product->hasData('request_path') && $product->getRequestPath() != '') {
+                $this->setData($cacheUrlKey, $this->getUrlInstance()->getDirectUrl($product->getRequestPath()));
+                return $this->getData($cacheUrlKey);
+            }
 
-        Varien_Profiler::start('REWRITE: '.__METHOD__);
-        $rewrite = $this->getUrlRewrite();
-        if ($product->getStoreId()) {
-            $rewrite->setStoreId($product->getStoreId());
-        }
+            Varien_Profiler::start('REWRITE: '.__METHOD__);
 
-        $idPath = $idPathProduct = 'product/'.$product->getId();
-        if ($product->getCategoryId() && !$product->getDoNotUseCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
-            $idPath .= '/'.$product->getCategoryId();
-        }
+            $rewrite = $this->getUrlRewrite();
+            if ($product->getStoreId()) {
+                $rewrite->setStoreId($product->getStoreId());
+            }
 
-        $rewrite->loadByIdPath($idPath);
+            $idPath = 'product/'.$product->getId();
+            if ($product->getCategoryId() && !$product->getDoNotUseCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
+                $idPath .= '/'.$product->getCategoryId();
+            }
 
-        if ($rewrite->getId()) {
-            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
+            $rewrite->loadByIdPath($idPath);
+
+            if ($rewrite->getId()) {
+                $this->setData($cacheUrlKey, $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
+                Varien_Profiler::stop('REWRITE: '.__METHOD__);
+                return $this->getData($cacheUrlKey);
+            }
 
             Varien_Profiler::stop('REWRITE: '.__METHOD__);
-            return $url;
+            Varien_Profiler::start('REGULAR: '.__METHOD__);
+
+            $url = $this->getUrlInstance()->getUrl('catalog/product/view', array(
+                'id'        => $product->getId(),
+                's'         => $product->getUrlKey(),
+                'category'  => $product->getCategoryId()
+            ));
+
+            Varien_Profiler::stop('REGULAR: '.__METHOD__);
         }
-//        else {
-//            print $idPathProduct;
-//            $rewrite->loadByIdPath($idPathProduct);
-//            if ($rewrite->getId()) {
-//                $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
-//                Varien_Profiler::stop('REWRITE: '.__METHOD__);
-//                return $url;
-//            }
-//        }
-        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-        Varien_Profiler::start('REGULAR: '.__METHOD__);
-
-        $url = $this->getUrlInstance()->getUrl('catalog/product/view',
-            array(
-                'id'=>$product->getId(),
-                's'=>$product->getUrlKey(),
-                'category'=>$product->getCategoryId()
-            )).$queryParams;
-        Varien_Profiler::stop('REGULAR: '.__METHOD__);
-
         return $url;
     }
 

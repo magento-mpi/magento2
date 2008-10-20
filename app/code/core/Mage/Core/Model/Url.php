@@ -333,7 +333,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getRoutePath($routeParams=array())
     {
         if (!$this->hasData('route_path')) {
-        	$routePath = $this->getRequest()->getAlias(Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+            $routePath = $this->getRequest()->getAlias(Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS);
             if (!empty($routeParams['_use_rewrite'])
                 && ($routePath !== null)) {
                 $this->setData('route_path', $routePath);
@@ -466,7 +466,7 @@ class Mage_Core_Model_Url extends Varien_Object
         }
 
         if (isset($data['_use_rewrite'])) {
-        	unset($data['_use_rewrite']);
+            unset($data['_use_rewrite']);
         }
 
         foreach ($data as $k=>$v) {
@@ -588,11 +588,11 @@ class Mage_Core_Model_Url extends Varien_Object
         $this->unsetData('query');
         if ($useCurrent) {
             $params = $this->_getData('query_params');
-        	foreach ($data as $param => $value) {
-        		$params[$param] = $value;
-        	}
-        	$this->setData('query_params', $params);
-        	return $this;
+            foreach ($data as $param => $value) {
+                $params[$param] = $value;
+            }
+            $this->setData('query_params', $params);
+            return $this;
         }
 
         if ($this->_getData('query_params')==$data) {
@@ -689,14 +689,11 @@ class Mage_Core_Model_Url extends Varien_Object
                 $this->setQueryParams($query, !empty($routeParams['_current']));
             }
             if ($query === false) {
-            	$this->setQueryParams(array());
+                $this->setQueryParams(array());
             }
         }
 
-        $session = Mage::getSingleton('core/session');
-        if ($sessionId = $session->getSessionIdForHost($url)) {
-            $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
-        }
+        $this->_prepareSessionUrl($url);
 
         if ($query = $this->getQuery($escapeQuery)) {
             $url .= '?'.$query;
@@ -706,6 +703,33 @@ class Mage_Core_Model_Url extends Varien_Object
             $url .= '#'.$this->getFragment();
         }
         return $this->escape($url);
+    }
+
+    /**
+     * Check and add session id to URL
+     *
+     * @param string $url
+     * @return Mage_Core_Model_Url
+     */
+    protected function _prepareSessionUrl($url)
+    {
+        $session = Mage::getSingleton('core/session');
+        /* @var $session Mage_Core_Model_Session */
+        if (Mage::app()->getUseSessionVar()) {
+            // secure URL
+            if ($this->getSecure()) {
+                $this->setQueryParam('___SID', 'S');
+            }
+            else {
+                $this->setQueryParam('___SID', 'U');
+            }
+        }
+        else {
+            if ($sessionId = $session->getSessionIdForHost($url)) {
+                $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
+            }
+        }
+        return $this;
     }
 
     public function escape($value)
@@ -727,5 +751,66 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getDirectUrl($url, $params = array()) {
         $params['_direct'] = $url;
         return $this->getUrl('', $params);
+    }
+
+    public function sessionUrlVar($html)
+    {
+        return preg_replace_callback('#(\?|&amp;|&)___SID=([SU])(&amp;|&)?#', array($this, "sessionVarCallback"), $html);
+    }
+
+    /**
+     * Check and return use SID for URL
+     *
+     * @param bool $secure
+     * @return bool
+     */
+    public function useSessionIdForUrl($secure = false)
+    {
+        $key = 'use_session_id_for_url_' . (int)$secure;
+        if (is_null($this->getData($key))) {
+            $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
+            $urlHost = parse_url(Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure), PHP_URL_HOST);
+
+            if ($httpHost != $urlHost) {
+                $this->setData($key, true);
+            }
+            else {
+                $this->setData($key, false);
+            }
+        }
+        return $this->getData($key);
+    }
+
+    /**
+     * Callback function for session replace
+     *
+     * @param array $match
+     * @return string
+     */
+    public function sessionVarCallback($match)
+    {
+        if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
+            $session = Mage::getSingleton('core/session');
+            /* @var $session Mage_Core_Model_Session */
+            return $match[1]
+                . $session->getSessionIdQueryParam()
+                . '=' . $session->getEncryptedSessionId()
+                . (isset($match[3]) ? $match[3] : '');
+        }
+        else {
+            if ($match[1] == '?' && isset($match[3])) {
+                return '?';
+            }
+            elseif ($match[1] == '?' && !isset($match[3])) {
+                return '';
+            }
+            elseif (($match[1] == '&amp;' || $match[1] == '&') && !isset($match[3])) {
+                return '';
+            }
+            elseif (($match[1] == '&amp;' || $match[1] == '&') && isset($match[3])) {
+                return $match[3];
+            }
+        }
+        return '';
     }
 }

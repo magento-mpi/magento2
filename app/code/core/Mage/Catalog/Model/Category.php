@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getSingleton('core/url');
+            self::$_url = Mage::getModel('core/url');
         }
         return self::$_url;
     }
@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getSingleton('core/url_rewrite');
+            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -242,8 +242,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         $url = $this->_getData('url');
         if (is_null($url)) {
-            $queryParams = '';
-
             Varien_Profiler::start('REWRITE: '.__METHOD__);
 
             if ($this->hasData('request_path') && $this->getRequestPath() != '') {

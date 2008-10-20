@@ -183,4 +183,22 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     {
         return $this->_route;
     }
+
+    /**
+     * Retrieve HTTP HOST
+     *
+     * @param bool $trimPort
+     * @return string
+     */
+    public function getHttpHost($trimPort = true)
+    {
+        if (!isset($_SERVER['HTTP_HOST'])) {
+            return false;
+        }
+        if ($trimPort) {
+            $host = split(':', $_SERVER['HTTP_HOST']);
+            return $host[0];
+        }
+        return $_SERVER['HTTP_HOST'];
+    }
 }

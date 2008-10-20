@@ -53,16 +53,10 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getProductUrl($product)
     {
         if ($product instanceof Mage_Catalog_Model_Product) {
-            $urlKey = $product->getUrlKey() ? $product->getUrlKey() : $product->getName();
-            $params = array(
-                's'         => $this->_prepareString($urlKey),
-                'id'        => $product->getId(),
-                'category'  => $product->getCategoryId()
-            );
-            return $this->_getUrl('catalog/product/view', $params);
+            return $product->getProductUrl();
         }
-        if ((int) $product) {
-            return $this->_getUrl('catalog/product/view', array('id'=>$product));
+        elseif (is_numeric($product)) {
+            return Mage::getModel('catalog/product')->load($product)->getProductUrl();
         }
         return false;
     }

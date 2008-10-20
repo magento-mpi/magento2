@@ -207,6 +207,13 @@ class Mage_Core_Model_App
      */
     protected $_updateMode = false;
 
+    /**
+     * Use session var instead of SID for session in URL
+     *
+     * @var bool
+     */
+    protected $_useSessionVar = false;
+
     static protected $_isInstalled = NULL;
 
     /**
@@ -1132,5 +1139,27 @@ class Mage_Core_Model_App
     public function throwStoreException()
     {
         throw new Mage_Core_Model_Store_Exception('');
+    }
+
+    /**
+     * Set use session var instead of SID for URL
+     *
+     * @param bool $var
+     * @return Mage_Core_Model_App
+     */
+    public function setUseSessionVar($var)
+    {
+        $this->_useSessionVar = (bool)$var;
+        return $this;
+    }
+
+    /**
+     * Retrieve use flag session var instead of SID for URL
+     *
+     * @return bool
+     */
+    public function getUseSessionVar()
+    {
+        return $this->_useSessionVar;
     }
 }

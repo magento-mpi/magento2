@@ -41,32 +41,18 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function init($namespace, $sessionName=null)
     {
         parent::init($namespace, $sessionName);
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
-            $this->addHost($hostArr[0]);
-        }
+        $this->addHost(true);
         return $this;
     }
 
     public function getCookieDomain()
     {
         return Mage::getSingleton('core/cookie')->getCookieDomain();
-        $domain = Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN);
-        if (empty($domain) && isset($_SERVER['HTTP_HOST'])) {
-            $domainArr = explode(':', $_SERVER['HTTP_HOST']);
-            $domain = $domainArr[0];
-        }
-        return $domain;
     }
 
     public function getCookiePath()
     {
         return Mage::getSingleton('core/cookie')->getCookiePath();
-        $path = Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH);
-        if (empty($path)) {
-            $path = '/';
-        }
-        return $path;
     }
 
     public function getCookieLifetime()
@@ -194,9 +180,8 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
                 }
             }
         }
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $this->addHost($_SERVER['HTTP_HOST']);
-        }
+
+        $this->addHost(true);
         parent::setSessionId($id);
     }
 
@@ -225,7 +210,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function getSessionIdForHost($urlHost)
     {
-        if (empty($_SERVER['HTTP_HOST'])) {
+        if (!$httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost()) {
             return '';
         }
 
@@ -238,8 +223,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
             $urlHostArr = explode(':', $urlHost);
             $urlHost = $urlHostArr[0];
 
-            $curHostArr = explode(':', $_SERVER['HTTP_HOST']);
-            if ($curHostArr[0]!==$urlHost && !$this->isValidForHost($urlHost)) {
+            if ($httpHost !== $urlHost && !$this->isValidForHost($urlHost)) {
                 $sessionId = $this->getEncryptedSessionId();
             } else {
                 $sessionId = '';
@@ -258,9 +242,18 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
 
     public function addHost($host)
     {
-        $hostArr = explode(':', $host);
+        if ($host === true) {
+            if (!$host = Mage::app()->getFrontController()->getRequest()->getHttpHost()) {
+                return $this;
+            }
+        }
+
+        if (!$host) {
+            return $this;
+        }
+
         $hosts = $this->getSessionHosts();
-        $hosts[$hostArr[0]] = true;
+        $hosts[$host] = true;
         $this->setSessionHosts($hosts);
         return $this;
     }

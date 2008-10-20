@@ -60,6 +60,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected $_customOptions = array();
 
+    /**
+     * Product Url Instance
+     *
+     * @var Mage_Catalog_Model_Product_Url
+     */
     protected $_urlModel = null;
 
     protected static $_url;
@@ -1301,7 +1306,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *  Returns system reserved attribute codes
      *
      *  @param    none
-     *  @return	  array Reserved attribute names
+     *  @return array Reserved attribute names
      */
     public function getReservedAttributes()
     {
@@ -1327,7 +1332,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *  Check whether attribute reserved or not
      *
      *  @param    Mage_Eav_Model_Entity_Attribute $attribute Attribute model object
-     *  @return	  boolean
+     *  @return boolean
      */
     public function isReservedAttribute ($attribute)
     {
