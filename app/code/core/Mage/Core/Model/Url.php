@@ -716,4 +716,16 @@ class Mage_Core_Model_Url extends Varien_Object
         $value = str_replace('<', '%3C', $value);
         return $value;
     }
+
+    /**
+     * Build url by direct url and parameters
+     *
+     * @param string $url
+     * @param array $params
+     * @return string
+     */
+    public function getDirectUrl($url, $params = array()) {
+        $params['_direct'] = $url;
+        return $this->getUrl('', $params);
+    }
 }
