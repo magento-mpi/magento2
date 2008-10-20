@@ -90,6 +90,9 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
      */
     public function getCategoryUrl($category)
     {
+        if ($category instanceof Mage_Catalog_Model_Category) {
+            return $category->getUrl();
+        }
         return Mage::getModel('catalog/category')
             ->setData($category->getData())
             ->getUrl();

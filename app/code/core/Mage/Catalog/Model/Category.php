@@ -71,10 +71,15 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $this->_init('catalog/category');
     }
 
+    /**
+     * Retrieve URL instance
+     *
+     * @return Mage_Core_Model_Url
+     */
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+            self::$_url = Mage::getSingleton('core/url');
         }
         return self::$_url;
     }
@@ -85,7 +90,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+            self::$_urlRewrite = Mage::getSingleton('core/url_rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -238,37 +243,33 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $url = $this->_getData('url');
         if (is_null($url)) {
             $queryParams = '';
-//            $store = Mage::app()->getStore();
-//            if ($store->getId() && Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_STORE_IN_URL)) {
-//                $queryParams = '?store='.$store->getCode();
-//            }
 
-	        if ($this->hasData('request_path') && $this->getRequestPath() != '') {
-	            $url = $this->getUrlInstance()->getBaseUrl().$this->getRequestPath().$queryParams;
-	            $this->setUrl($url);
-	            return $url;
-	        }
+            Varien_Profiler::start('REWRITE: '.__METHOD__);
 
-	        Varien_Profiler::start('REWRITE: '.__METHOD__);
-	        $rewrite = $this->getUrlRewrite();
-	        if ($this->getStoreId()) {
-	            $rewrite->setStoreId($this->getStoreId());
-	        }
-	        $idPath = 'category/'.$this->getId();
+            if ($this->hasData('request_path') && $this->getRequestPath() != '') {
+                $this->setData('url', $this->getUrlInstance()->getDirectUrl($this->getRequestPath()));
+                return $this->getData('url');
+            }
 
-	        $rewrite->loadByIdPath($idPath);
+            Varien_Profiler::stop('REWRITE: '.__METHOD__);
 
-	        if ($rewrite->getId()) {
-	            $url = $this->getUrlInstance()->getBaseUrl().$rewrite->getRequestPath().$queryParams;
-	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
-	            $this->setUrl($url);
-	            return $url;
-	        }
-	        Varien_Profiler::stop('REWRITE: '.__METHOD__);
+            $rewrite = $this->getUrlRewrite();
+            if ($this->getStoreId()) {
+                $rewrite->setStoreId($this->getStoreId());
+            }
+            $idPath = 'category/' . $this->getId();
+            $rewrite->loadByIdPath($idPath);
 
-	        $url = $this->getCategoryIdUrl().$queryParams;
-	        $this->setUrl($url);
-	        return $url;
+            if ($rewrite->getId()) {
+                $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
+                Varien_Profiler::stop('REWRITE: '.__METHOD__);
+                return $this->getData('url');
+            }
+
+            Varien_Profiler::stop('REWRITE: '.__METHOD__);
+
+            $this->setData('url', $this->getCategoryIdUrl());
+            return $this->getData('url');
         }
         return $url;
     }
