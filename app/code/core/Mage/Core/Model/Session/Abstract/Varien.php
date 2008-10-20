@@ -89,12 +89,12 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
     public function revalidateCookie()
     {
-        if (empty($_SESSION['_cookie_revalidate'])) {
+        if (empty($this->_data['_cookie_revalidate'])) {
             $time = time() + round(ini_get('session.gc_maxlifetime') / 4);
-            $_SESSION['_cookie_revalidate'] = $time;
+            $this->_data['_cookie_revalidate'] = $time;
         }
         else {
-            if ($_SESSION['_cookie_revalidate'] < time()) {
+            if ($this->_data['_cookie_revalidate'] < time()) {
                 setcookie(
                     session_name(),
                     session_id(),
@@ -104,7 +104,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 );
 
                 $time = time() + round(ini_get('session.gc_maxlifetime') / 4);
-                $_SESSION['_cookie_revalidate'] = $time;
+                $this->_data['_cookie_revalidate'] = $time;
             }
         }
     }
@@ -113,12 +113,15 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     {
         if (!isset($_SESSION)) {
             $this->start($sessionName);
-            $this->revalidateCookie($namespace);
         }
         if (!isset($_SESSION[$namespace])) {
             $_SESSION[$namespace] = array();
         }
+
         $this->_data = &$_SESSION[$namespace];
+
+        $this->validate();
+        $this->revalidateCookie();
 
         return $this;
     }
@@ -165,5 +168,62 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     public function getSessionSaveMethod()
     {
         return 'files';
+    }
+
+    /**
+     * Validate session
+     *
+     * @param string $namespace
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
+    public function validate()
+    {
+        if (!isset($this->_data['_session_validator_key'])) {
+            $this->_data['_session_validator_key'] = $this->getValidatorKey();
+        }
+        else {
+            if ($this->_data['_session_validator_key'] != $this->getValidatorKey()) {
+                // remove session cookie
+                setcookie(
+                    session_name(),
+                    null,
+                    null,
+                    ini_get('session.cookie_path'),
+                    ini_get('session.cookie_domain')
+                );
+                // throw core session exception
+                throw new Mage_Core_Model_Session_Exception('');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve unique user key for validator
+     *
+     * @return string
+     */
+    public function getValidatorKey()
+    {
+        $parts = array();
+
+        // collect ip data
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $parts[] = $_SERVER['REMOTE_ADDR'];
+        }
+        if (isset($_ENV['HTTP_VIA'])) {
+            $parts[] = $_ENV['HTTP_VIA'];
+        }
+        if (isset($_ENV['HTTP_X_FORWARDED_FOR'])) {
+            $parts[] = $_ENV['HTTP_X_FORWARDED_FOR'];
+        }
+
+        // collect user agent data
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $parts[] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        return sha1(join('-', $parts));
     }
 }
