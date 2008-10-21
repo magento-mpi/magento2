@@ -203,8 +203,13 @@ class Mage_CatalogInventory_Model_Observer
                 Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product is not valid'));
             }
 
+
+            /**
+             * When we work with subitem (as subproduct of bundle or configurable product)
+             */
             if ($item->getParentItem()) {
-                $qtyForCheck = $item->getParentItem()->getQty()*$qty;
+                $qty = $item->getParentItem()->getQty()*$qty;
+                $qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), 0);
             }
             else {
                 $increaseQty = $item->getQtyToAdd() ? $item->getQtyToAdd() : $qty;
@@ -212,15 +217,22 @@ class Mage_CatalogInventory_Model_Observer
             }
 
             $result = $stockItem->checkQuoteItemQty($qty, $qtyForCheck);
+
             if (!is_null($result->getItemIsQtyDecimal())) {
                 $item->setIsQtyDecimal($result->getItemIsQtyDecimal());
                 if ($item->getParentItem()) {
                     $item->getParentItem()->setIsQtyDecimal($result->getItemIsQtyDecimal());
                 }
             }
-            if (!is_null($result->getItemQty())) {
+
+            /**
+             * Just base (parent) item qty can be changed
+             * qty of child products are declared just duering add process
+             */
+            if (!is_null($result->getItemQty()) && !$item->getParentItem()) {
                 $item->setData('qty', $result->getItemQty());
             }
+
             if (!is_null($result->getItemUseOldQty())) {
                 $item->setUseOldQty($result->getItemUseOldQty());
             }
