@@ -25,7 +25,10 @@
 .login-page .content { _height:150px; }
 .validation-advice { _height:13px; }
 .opc li.section { vertical-align:top; }
-.product-view .product-img-box .more-views li { display:inline; }
+
+/* Doubled Margin Fixes */
+.product-view .product-img-box .more-views li,
+.sp-methods select.month { display:inline; }
 
 /********** < Navigation styles */
 #nav li,
@@ -53,12 +56,12 @@ input.checkbox { width:13px; height:13px; }
 .col4-set,
 .messages li,
 .search-autocomplete li,
-.sidebar .mini-products-list li,
-.sidebar .block .actions,
-.sidebar .block-poll li,
-.sidebar .block-related li,
-.sidebar .block-related .item,
-.sidebar .block-reorder li,
+.block-poll li,
+.block-related li,
+.block-related .item,
+.block-reorder li,
+.block .actions,
+.mini-products-list li,
 .title-buttons,
 .pager,
 .sorter,
@@ -76,6 +79,7 @@ input.checkbox { width:13px; height:13px; }
 .cart,
 .opc .step-title,
 .opc .step,
+.sp-methods,
 .checkout-progress,
 .field-100,
 .form-list li,
