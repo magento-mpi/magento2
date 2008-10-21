@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.22</version>
+            <version>0.9.23</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -308,6 +308,7 @@
                 <group_id><to_quote>customer_group_id</to_quote></group_id>
                 <tax_class_id><to_quote>customer_tax_class_id</to_quote></tax_class_id>
                 <taxvat><to_quote>customer_taxvat</to_quote></taxvat>
+                <dob><to_quote>customer_dob</to_quote></dob>
             </customer_account>
 
             <customer_address>
