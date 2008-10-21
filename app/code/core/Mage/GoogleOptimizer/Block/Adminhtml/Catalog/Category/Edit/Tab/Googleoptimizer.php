@@ -131,7 +131,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
                 'name'  => 'conversion_page_url',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
                 'class' => 'input-text',
-                'readonly' => true,
+                'readonly' => 'readonly',
                 'required' => false,
                 'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
             )

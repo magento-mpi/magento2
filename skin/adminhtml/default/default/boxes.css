@@ -324,15 +324,9 @@ label.inline                            { float:none !important; width:auto !imp
 .nested-content .entry-edit .entry-edit { margin-left:0; }
 
 /* Form Elements */
-input.input-text, textarea, select   {
-    border-width:1px;
-    border-style:solid;
-    border-color:#aaa #c8c8c8 #c8c8c8 #aaa;
-    background:#fff;
-    font:12px arial, helvetica, sans-serif;
-    }
-select  { min-height:17px; /* to set the height for empty selects */ }
-input.input-text, textarea      { padding:2px; }
+input.input-text,textarea,select { border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; background:#fff; font:12px arial, helvetica, sans-serif; }
+select { min-height:17px; /* to set the height for empty selects */ }
+input.input-text,textarea       { padding:2px; }
 input.qty                       { width:40px !important; }
 input.item-qty                  { width:22px !important; }
 input.price                     { width:50px !important; text-align:right; }
@@ -373,6 +367,7 @@ select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
 .grid tr.on-mouse .form-list tr { background:#fcf5dd !important; } /* Follows grid row background-color */
 .grid tr .form-list             { margin:8px 0; }
 .field-row                      { display:block; margin-bottom:5px; }
+span.delete-image               { display:block; white-space:nowrap; padding-left:25px; }
 
 /* Back compatibility with span forms */
 .entry-edit .field-row          { display:block; }
@@ -803,9 +798,6 @@ ul.item-options li { padding-left:.7em; }
 
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
-
-#category_info_tabs_general_content .checkbox { float:left; margin:3px 3px 0 25px; }
-
 
 /* Product - Websites */
 .webiste-groups                         { padding:10px 20px; }

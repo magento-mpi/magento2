@@ -108,7 +108,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
                 'name'  => 'conversion_page_url',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
                 'class' => 'input-text',
-                'readonly' => true,
+                'readonly' => 'readonly',
                 'required' => false,
                 'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
             )
