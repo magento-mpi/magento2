@@ -71,7 +71,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
      */
     public function getAttributeLabel($attribute)
     {
-        return Mage::helper('catalogsearch')->__($attribute->getFrontend()->getLabel());
+        return Mage::helper('catalog')->__($attribute->getFrontend()->getLabel());
     }
 
     /**
