@@ -160,10 +160,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             /* @var $orderItem Mage_Sales_Model_Order_Item */
             if (!$orderItem->getParentItem()) {
                 if ($order->getReordered()) {
-                	$qty = $orderItem->getQtyOrdered();
+                    $qty = $orderItem->getQtyOrdered();
                 }
                 else {
-                	$qty = $orderItem->getQtyOrdered() - $orderItem->getQtyShipped() - $orderItem->getQtyInvoiced();
+                    $qty = $orderItem->getQtyOrdered() - $orderItem->getQtyShipped() - $orderItem->getQtyInvoiced();
                 }
 
                 if ($qty > 0) {
@@ -527,6 +527,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             $product = Mage::getModel('catalog/product')
                 ->setStore($this->getSession()->getStore())
+                ->setStoreId($this->getSession()->getStoreId())
                 ->load($product);
         }
 
