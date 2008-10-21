@@ -106,7 +106,7 @@
 {{depend street2}}{{var street2}}{{/depend}}
 {{depend street3}}{{var street3}}{{/depend}}
 {{depend street4}}{{var street4}}{{/depend}}
-{{depend city}}{{var city}},  {{/depend}}{{depend postcode}}{{var postcode}}, {{/depend}}{{var region}}
+{{depend city}}{{var city}},  {{/depend}}{{depend region}}{{var region}}, {{/depend}}{{var postcode}}
 {{var country}}
 T: {{var telephone}}
 {{depend fax}}F: {{var fax}}{{/depend}}
@@ -129,7 +129,7 @@ T: {{var telephone}}
 {{depend street2}}{{var street2}}<br />{{/depend}}
 {{depend street3}}{{var street3}}<br />{{/depend}}
 {{depend street4}}{{var street4}}<br />{{/depend}}
-{{depend city}}{{var city}},  {{/depend}}{{depend postcode}}{{var postcode}}, {{/depend}}{{var region}}<br/>
+{{depend city}}{{var city}},  {{/depend}}{{depend region}}{{var region}}, {{/depend}}{{var postcode}}<br/>
 {{var country}}<br/>
 {{depend telephone}}T: {{var telephone}}{{/depend}}
 {{depend fax}}<br/>F: {{var fax}}{{/depend}}
@@ -144,7 +144,7 @@ T: {{var telephone}}
 {{depend street2}}{{var street2}}|{{/depend}}
 {{depend street3}}{{var street3}}|{{/depend}}
 {{depend street4}}{{var street4}}|{{/depend}}
-{{depend city}}{{var city}},  {{/depend}}{{depend postcode}}{{var postcode}}, {{/depend}}{{var region}}|
+{{depend city}}{{var city}},  {{/depend}}{{depend region}}{{var region}}, {{/depend}}{{var postcode}}|
 {{var country}}|
 {{depend telephone}}T: {{var telephone}}{{/depend}}|
 {{depend fax}}<br/>F: {{var fax}}{{/depend}}|
