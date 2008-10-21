@@ -169,6 +169,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $product = $this->_initProduct();
 
+        Mage::dispatchEvent('catalog_product_new_action', array('product' => $product));
+
         if ($this->getRequest()->getParam('popup')) {
             $this->loadLayout('popup');
         } else {

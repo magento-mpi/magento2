@@ -255,6 +255,15 @@
                     </bundle_observer>
                 </observers>
             </catalog_product_edit_action>
+            <catalog_product_new_action>
+                <observers>
+                    <bundle_observer>
+                        <type>singleton</type>
+                        <class>bundle/observer</class>
+                        <method>setAttributeTabBlock</method>
+                    </bundle_observer>
+                </observers>
+            </catalog_product_new_action>
         </events>
     </adminhtml>
 </config>
