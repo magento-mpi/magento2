@@ -24,6 +24,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+<?php
+/**
+ * @see Mage_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer
+ */
+?>
+
 <?php $_item = $this->getItem() ?>
 <?php $items = $this->getChilds($_item); ?>
 <?php $_count = count ($items) ?>
@@ -57,7 +63,10 @@
     <tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?>>
         <?php if (!$_item->getOrderItem()->getParentItem()): ?>
         <td><h5 class="title"><?php echo $this->htmlEscape($_item->getName()) ?></h5>
-            <div class="nobr"><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo $_item->getSku() ?></div>
+            <div>
+                <strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong>
+                <?php echo implode('<br />', Mage::helper('catalog')->splitSku($_item->getSku())); ?>
+            </div>
         </td>
         <?php else: ?>
         <td><div class="option-value"><?php echo $this->getValueHtml($_item)?></div></td>
