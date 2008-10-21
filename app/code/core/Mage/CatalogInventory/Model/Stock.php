@@ -97,7 +97,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
             if ($item->getStoreId()) {
                 $stockItem->setStoreId($item->getStoreId());
             }
-            if ($stockItem->checkQty($item->getQtyOrdered())) {
+            if ($stockItem->checkQty($item->getQtyOrdered()) || Mage::app()->getStore()->isAdmin()) {
                 $stockItem->subtractQty($item->getQtyOrdered());
                 if ($this->getBackorders() == self::BACKORDERS_NO && $stockItem->getQty() <= $stockItem->getMinQty()) {
                     $this->setIsInStock(false);
