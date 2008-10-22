@@ -297,6 +297,10 @@ class Mage_Core_Model_App
             return $this;
         }
 
+        /**
+         * prevent running a store from another website or store group,
+         * if website or store group was specified explicitly in Mage::run()
+         */
         $curStoreObj = $this->_stores[$this->_currentStore];
         if ($type == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
             $this->_currentStore = $store;
