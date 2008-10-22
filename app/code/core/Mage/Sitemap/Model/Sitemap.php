@@ -80,7 +80,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->setSitemapFilename($this->getSitemapFilename() . '.xml');
         }
 
-        $this->setSitemapPath(rtrim(str_replace(Mage::getBaseDir(), '', $realPath), '/') . '/');
+        $this->setSitemapPath(rtrim(str_replace(str_replace('\\', '/', Mage::getBaseDir()), '', $realPath), '/') . '/');
 
         return parent::_beforeSave();
     }
@@ -99,11 +99,21 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         return $this->_filePath;
     }
 
+    /**
+     * Generate XML file
+     *
+     * @return Mage_Sitemap_Model_Sitemap
+     */
     public function generateXml()
     {
         $io = new Varien_Io_File();
         $io->setAllowCreateFolders(true);
         $io->open(array('path' => $this->getPath()));
+
+        if ($io->fileExists($this->getSitemapFilename()) && !$io->isWriteable($this->getSitemapFilename())) {
+            Mage::throwException(Mage::helper('sitemap')->__('File "%s" don\'t writeable', $this->getSitemapFilename()));
+        }
+
         $io->streamOpen($this->getSitemapFilename());
 
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
