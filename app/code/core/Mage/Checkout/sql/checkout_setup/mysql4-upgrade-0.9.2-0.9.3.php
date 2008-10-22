@@ -29,8 +29,8 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->getConnection()->addColumn($installer->getTable('checkout_agreement'), 'content_height',
-    'varchar(25) NULL DEFAULT NULL AFTER `content`'
+$installer->getConnection()->addColumn($installer->getTable('checkout_agreement'), 'is_html',
+    'tinyint(4) NOT NULL DEFAULT 0 AFTER `is_active`'
 );
 
 $installer->endSetup();
