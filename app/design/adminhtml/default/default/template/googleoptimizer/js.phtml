@@ -27,6 +27,44 @@
 <script type="text/javascript">
 //<![CDATA[
 
+function pushCodes()
+{
+    var url = '<?php echo $this->getExportUrl() ?>';
+
+    new Ajax.Request(url, {
+        method: 'get',
+        parameters: {url: $('target_url').value},
+        onSuccess: function(transport) {
+            try {
+                if (transport.responseText.isJSON())
+                {
+                    if ($('page_type') && $('page_type').value == '') {
+                        alert('Please specify page type first.');
+                        return;
+                    }
+                    var response = transport.responseText.evalJSON();
+                    if ($('page_type')) {
+                        if ($('page_type').value == '<?php echo Mage_GoogleOptimizer_Model_Code_Page::PAGE_TYPE_VARIANT ?>') {
+                            $('<?php echo $this->getTrackingFieldKey() ?>').value = response.code_tracking_variants.unescapeHTML().strip();
+                        } else {
+                            $('<?php echo $this->getControlFieldKey() ?>').value = response.code_control.unescapeHTML().strip();
+                            $('<?php echo $this->getTrackingFieldKey() ?>').value = response.code_tracking_original.unescapeHTML().strip();
+                            $('<?php echo $this->getConversionFieldKey() ?>').value = response.code_tracking_conversion.unescapeHTML().strip();
+                        }
+                    } else {
+                        $('<?php echo $this->getControlFieldKey() ?>').value = response.code_control.unescapeHTML().strip();
+                        $('<?php echo $this->getTrackingFieldKey() ?>').value = response.code_tracking.unescapeHTML().strip();
+                        $('<?php echo $this->getConversionFieldKey() ?>').value = response.code_conversion.unescapeHTML().strip();
+                    }
+                }
+            }
+            catch (e) {
+                alert('Error occurs in scripts importing.');
+            }
+        }
+    });
+}
+
 function googleOptimizerScopeAction()
 {
     $$('.googleoptimizer').each(function(elm){
