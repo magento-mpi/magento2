@@ -425,7 +425,6 @@ h1#logo                 { float:left; }
 .hp-report .product-name a:hover    { text-decoration:none; }
 .hp-report .product-image img       { border-right:1px solid #ddd; border-bottom:1px solid #ddd; }
 .hp-report .generic-product-grid td.last .product-image img { border-right:0; }
-/*.layout-1column .hp-report .product-image img { border:1px solid #ddd !important; }*/
 
 
 /********************** Footer */
