@@ -29,7 +29,6 @@
  * @see Mage_Reports_Block_Product_Viewed
  */
 ?>
-
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
 <div class="hp-report">
     <div class="head-alt">
@@ -41,9 +40,7 @@
             <?php if ($i==4): continue; endif; ?>
             <td>
                 <p class="product-image">
-                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
-                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(170) ?>" width="170" height="170" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
-                    </a>
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(170) ?>" width="170" height="170" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
                 </p>
                 <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
                 <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
@@ -62,8 +59,7 @@
                     <?php endif; ?>
                 </ul>
                 </td>
-        <?php $i++;
-              endforeach; ?>
+        <?php $i++; endforeach; ?>
         <?php for($i;$i%4!=0;$i++): ?>
                 <td class="empty-product">&nbsp;</td>
             <?php endfor ?>
