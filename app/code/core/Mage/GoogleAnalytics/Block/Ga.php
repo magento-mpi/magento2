@@ -158,14 +158,12 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         $this->addText('
 <!-- BEGIN GOOGLE ANALYTICS CODE -->
 <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol)
-? "https://ssl." : "http://www.");
-document.write("\<script src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'>\<\/script>" );
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
 </script>
 <script type="text/javascript">
 var pageTracker = _gat._getTracker("' . $this->getAccount() . '");
-pageTracker._initData();
-pageTracker._trackPageview("' . $this->getPageName() . '");
+pageTracker._trackPageview();
 </script>
 <!-- END GOOGLE ANALYTICS CODE -->
         ');
