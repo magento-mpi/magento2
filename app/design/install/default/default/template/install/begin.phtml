@@ -41,7 +41,7 @@
 
 <p>This Open Software License (the "License") applies to any original work of authorship (the "Original Work") whose owner (the "Licensor") has placed the following licensing notice adjacent to the copyright notice for the Original Work:</p>
 <h5>Licensed under the Open Software License version 3.0</h5>
-<p>Grant of Copyright License. Licensor grants You a worldwide, royalty-free, non-exclusive, sublicensable license, for the duration of the copyright, to do the following:
+<p>Grant of Copyright License. Licensor grants You a worldwide, royalty-free, non-exclusive, sublicensable license, for the duration of the copyright, to do the following:</p>
 <ul class="disc">
     <li>to reproduce the Original Work in copies, either alone or as part of a collective work</li>
     <li>to translate, adapt, alter, transform, modify, or arrange the Original Work, thereby creating derivative works ("Derivative Works") based upon the Original Work</li>
@@ -82,25 +82,29 @@
 </div>
 
 <script type="text/javascript">
+//<![CDATA[
 function changeSubmitStatus(obj) {
     $('submitButton').disabled = !obj.checked;
     if(obj.checked){
-        $('submitButton').setStyle({'background-color':'','border-color':''});
+        $('submitButton').setStyle({'background':'#f18200','borderColor':''});
     }
     else{
-        $('submitButton').setStyle({'background-color':'#BBB','border-color':'#BBB'});
+        $('submitButton').setStyle({'background':'#bbb','borderColor':'#bbb'});
     }
 }
+//]]>
 </script>
     <p>
-        <input type="checkbox" name="agree" value="1" id="agree" onclick="changeSubmitStatus(this)"/>
-        <label for="agree">&nbsp; <?php echo $this->__('I agree to the above terms and conditions') ?>.</label>
+        <input type="checkbox" name="agree" value="1" id="agree" onclick="changeSubmitStatus(this)" class="checkbox" />
+        <label for="agree"><?php echo $this->__('I agree to the above terms and conditions') ?>.</label>
     </p>
     <div class="button-set">
-        <button class="form-button" type="submit" id="submitButton" disabled="true"><span><?php echo $this->__('Continue') ?></span></button>
+        <button class="form-button" type="submit" id="submitButton" disabled="disabled"><span><?php echo $this->__('Continue') ?></span></button>
     </div>
 </form>
 <script type="text/javascript">
+//<![CDATA[
     changeSubmitStatus($('agree'));
+//]]>
 </script>
 <?php endif ?>

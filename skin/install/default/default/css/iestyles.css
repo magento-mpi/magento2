@@ -56,13 +56,10 @@
 .my-review-detail,
 .generic-product-list li { zoom:1; }
 
-.clear {
-	display:block;
-	clear:both;
-	height:0;
-	font-size:0;
-	line-height:0;
-	}
+.clear { display:block; clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
+
+input.radio,
+input.checkbox { width:13px; height:13px; }
 .multi-address-checkout-box .box { zoom:1; }
 .multi-address-checkout-box .legend { zoom:1; position:relative; margin-left:8px;}
 .quick-access li { padding-right:4px; padding-left:6px;}
@@ -72,5 +69,4 @@
 .mini-related-items .product-details { margin-left:76px; }
 .mini-related-items .product-images input { float:left; margin:-4px 2px 0 -4px; }
 .mini-related-items .product-images img { float:left; }
-.header-top-container { position:relative; }
 #nav ul li.parent { margin-bottom:-3px;}
