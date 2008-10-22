@@ -344,12 +344,8 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     {
         $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
         if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-            $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
-            if ($kill->checkIsThisProcess()) {
-                $kill->delete();
-                return $this;
-            }
-        } else if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED) {
+            return $this;
+        } else /*if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED)*/ {
             $flag->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING)->save();
         }
 
@@ -445,6 +441,16 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
             $flag->delete();
         }
+
+        return $this;
+    }
+
+    public function queueIndexing()
+    {
+        $flag = Mage::getModel('catalogindex/catalog_index_flag')
+            ->loadSelf()
+            ->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED)
+            ->save();
 
         return $this;
     }

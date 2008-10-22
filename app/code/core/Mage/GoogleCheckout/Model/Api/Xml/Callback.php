@@ -119,6 +119,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $billingAddress = $quote->getBillingAddress();
         $address = $quote->getShippingAddress();
+
         $googleAddress = $this->getData('root/calculate/addresses/anonymous-address');
 
         $googleAddresses = array();
@@ -178,7 +179,13 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                         $errors[$rate->getCarrierTitle()] = 1;
                     } else {
                         $k = $rate->getCarrierTitle().' - '.$rate->getMethodTitle();
-                        $price = $rate->getPrice();
+
+                        if ($address->getFreeShipping()) {
+                            $price = 0;
+                        } else {
+                            $price = $rate->getPrice();
+                        }
+
                         if ($price) {
                             $price = Mage::helper('tax')->getShippingPrice($price, false, $address);
                         }
@@ -212,8 +219,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                         if ($this->getData('root/calculate/tax/VALUE')=='true') {
                             $address->setShippingMethod($rateCodes[$methodName]);
 
-                            $address->setCollectShippingRates(false)->collectTotals();
-                            $billingAddress->setCollectShippingRates(false)->collectTotals();
+                            $address->setCollectShippingRates(true)->collectTotals();
+                            $billingAddress->setCollectShippingRates(true)->collectTotals();
 
                             $taxAmount = $address->getTaxAmount();
                             $taxAmount += $billingAddress->getTaxAmount();
@@ -228,8 +235,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             } elseif ($this->getData('root/calculate/tax/VALUE')=='true') {
                 $address->setShippingMethod(null);
 
-                $address->setCollectShippingRates(false)->collectTotals();
-                $billingAddress->setCollectShippingRates(false)->collectTotals();
+                $address->setCollectShippingRates(true)->collectTotals();
+                $billingAddress->setCollectShippingRates(true)->collectTotals();
 
                 $taxAmount = $address->getTaxAmount();
                 $taxAmount += $billingAddress->getTaxAmount();
