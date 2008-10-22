@@ -71,6 +71,10 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
 
         this.storeId = parameters['store_id'];
 
+        if ( this.storeId != 0) {
+            $('add_root_category_button').hide();
+        }
+
         if ((typeof parameters['root_visible']) != 'undefined') {
             this.rootVisible = parameters['root_visible']*1;
         }
@@ -121,6 +125,14 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
                 return false;
             }
         }
+
+        if ( newStoreId==0 )    {
+            $('add_root_category_button').show();
+        }
+        else    {
+            $('add_root_category_button').hide();
+        }
+
 
         if (this.cache[this.storeId]) {
             var hash = this.loader.buildHash(this.root);
@@ -355,12 +367,46 @@ Ext.onReady(function()
 
 });
 
+function _recursTree( tree, valToDelete )    {
+    tree.each(function(item, index) {
+        if (item.id == valToDelete) {
+            tree = tree.without( item );
+        }
+        else    {
+            if (item.children)  {
+                item.children = _recursTree(item.children, valToDelete);
+                if (item.children.size()==0)  {
+                    delete item.children;
+                }
+            }
+        }
+
+    });
+    return tree;
+}
+
+function processTreeCache(valToDelete)  {
+    var treeCache = this.tree.cache;
+    var str = '';
+    for (store in treeCache)    {
+        treeCache[store].data = _recursTree( treeCache[store].data, valToDelete);
+    }
+}
+
 function addNew(url, isRoot)
 {
     if (isRoot) {
         tree.currentNodeId = tree.root.id;
     }
     tree.addNodeTo = tree.currentNodeId;
+
+    if (/store\/\d+/.test(url)) {
+        url = url.replace(/store\/\d+/, "store/" + tree.storeId);
+    }
+    else    {
+        url+= "store/" + tree.storeId + "/";
+    }
+
     url+= 'parent/'+tree.currentNodeId;
     updateContent(url);
 }

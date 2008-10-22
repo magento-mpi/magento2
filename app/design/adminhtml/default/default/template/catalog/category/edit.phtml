@@ -91,6 +91,7 @@
         if (tree && editingCategoryBreadcrumbs) {
             // category deleted - delete its node
             if (tree.nodeForDelete) {
+                processTreeCache( tree.nodeForDelete );
                 var parentNode = tree.getNodeById(tree.nodeForDelete).parentNode;
                 parentNode.removeChild(tree.getNodeById(tree.nodeForDelete));
                 tree.nodeForDelete = false;

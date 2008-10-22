@@ -91,6 +91,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $redirect = false;
 
         $storeId = (int) $this->getRequest()->getParam('store');
+        $parentId = (int) $this->getRequest()->getParam('parent');
         $_prevStoreId = Mage::getSingleton('admin/session')
             ->getLastViewedStore(true);
 
@@ -115,7 +116,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
 
-        if ($storeId && !$categoryId) {
+        if ($storeId && !$categoryId && !$parentId) {
             $store = Mage::app()->getStore($storeId);
             $_prevCategoryId = (int) $store->getRootCategoryId();
             $this->getRequest()->setParam('id', $_prevCategoryId);
