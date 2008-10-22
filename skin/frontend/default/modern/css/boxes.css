@@ -60,6 +60,7 @@ table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; 
 input.input-text,
 select,
 textarea                  { border:1px solid #b6b6b6; font:12px arial, helvetica, sans-serif; }
+select option             { padding-right:10px; }
 option, optgroup          { font:12px arial, helvetica, sans-serif; }
 optgroup                  { font-weight:bold; }
 input.input-text,
@@ -101,23 +102,9 @@ input.checkbox            { margin-right:3px; }
 
 /* Form Messages */
 .validation-advice, .required { color:#EB340A; }
-.validation-advice {
-    clear:both;
-    min-height:15px;
-    margin-top:3px;
-    background:url(../images/validation_advice_bg.gif) no-repeat 2px 4px;
-    padding-left:13px;
-    font-size:.95em;
-    font-weight:bold;
-    line-height:1.25em;
-    }
-.validation-failed {
-    border:1px solid #eb340a !important;
-    background:#faebe7 !important;
-    }
-label.required {
-    font-weight:bold;
-    }
+.validation-advice { clear:both; min-height:15px; margin-top:3px; background:url(../images/validation_advice_bg.gif) no-repeat 2px 4px; padding-left:13px; font-size:10px; font-weight:bold; line-height:1.25em; }
+.validation-failed { border:1px solid #eb340a !important; background:#faebe7 !important; }
+label.required { font-weight:bold; }
 p.required { text-align:right; }
 
 
@@ -417,9 +404,8 @@ h1#logo                 { float:left; }
 
 .mini-newsletter                    { margin:8px 0; }
 .mini-newsletter label              { float:left; }
-.mini-newsletter .input-box         { float:left; margin:0 5px; }
+.mini-newsletter .input-box         { float:left; width:186px; margin:0 5px; }
 .mini-newsletter .input-text        { width:180px; }
-.mini-newsletter .validation-advice { width:178px; }
 
 .mini-cart .head                    { background:#679100; }
 .mini-cart .head h4                 { color:#fff; }
@@ -429,6 +415,17 @@ h1#logo                 { float:left; }
 
 .mini-poll td.label                 { font-weight:bold; padding-right:10px; }
 .mini-poll td.item                  { white-space:nowrap; }
+
+.mini-reorder h5                    { border-bottom:1px solid #ddd; margin-bottom:10px; padding-bottom:2px; }
+
+.hp-report                          { width:683px; margin:0 auto; padding:0 0 50px; }
+.hp-report .head-alt                { margin:10px 0 15px; }
+.hp-report .product-name            { font-size:1.1em; font-weight:normal; line-height:1.35; margin-bottom:5px; color:#444; }
+.hp-report .product-name a          { color:#444; text-decoration:underline; }
+.hp-report .product-name a:hover    { text-decoration:none; }
+.hp-report .product-image img       { border-right:1px solid #ddd; border-bottom:1px solid #ddd; }
+.hp-report .generic-product-grid td.last .product-image img { border-right:0; }
+/*.layout-1column .hp-report .product-image img { border:1px solid #ddd !important; }*/
 
 
 /********************** Footer */
@@ -452,7 +449,7 @@ h1#logo                 { float:left; }
 .product-shop                    { float:right; }
 .product-shop .form-button,
 .product-shop .form-button-alt   { margin-right:10px; }
-.out-of-stock                    { padding:0 0 5px; color:#D83820; font-weight:bold; }
+.out-of-stock                    { padding:0 0 5px; margin:0; color:#D83820; font-weight:bold; }
 .product-shop .short-description { width:100%; overflow:hidden; }
 
 
@@ -595,7 +592,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 /* Generic Product Grid */
 .generic-product-grid           { width:100%; }
 .generic-product-grid td        { width:25%; }
-.generic-product-grid td.empty-product{ border-right:0; }
+.generic-product-grid td.empty-product { border-right:0; }
 
 
 /********************** Layered Navigation */
@@ -696,14 +693,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 /* Grid Type */
 .listing-type-grid .product-image img { border:1px solid #dddddd; border-left:0; }
 .listing-type-grid tr.first .product-image img { border-top:none; }
-.listing-type-grid .add-to-compare {
-    display:block;
-    margin:5px 0;
-    background:url(../images/icon_add_to_compare.gif) no-repeat 0 50%;
-    padding-left:22px;
-    color:#6e6969;
-    font-weight:bold;
-    }
+.listing-type-grid .add-to-compare { display:block; margin:5px 0; background:url(../images/icon_add_to_compare.gif) no-repeat 0 50%; padding-left:22px; color:#6e6969; font-weight:bold; }
 .listing-type-grid .rating-box { float:left; margin-left:0; margin-right:5px; }
 .listing-type-grid .actions { margin:10px 0;text-align:center; }
 

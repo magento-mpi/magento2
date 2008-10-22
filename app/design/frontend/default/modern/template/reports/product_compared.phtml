@@ -25,19 +25,17 @@
  */
 ?>
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
-<div class="box base-mini mini-poll">
+<div class="box base-mini">
     <div class="head">
-        <h4><span><?php echo $this->__('Recently Compared Products') ?></span></h4>
+        <h4 class="title"><?php echo $this->__('Recently Compared Products') ?></h4>
     </div>
     <div class="content">
-        <ol  id="recently-compared-items">
+        <ol id="recently-compared-items">
         <?php foreach ($_products as $_item): ?>
-            <li><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>
+            <li class="item"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>
         <?php endforeach; ?>
         </ol>
     </div>
-    <script type="text/javascript">
-    decorateList('recently-compared-items')
-    </script>
+    <script type="text/javascript">decorateList('recently-compared-items')</script>
 </div>
 <?php endif; ?>

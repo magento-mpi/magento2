@@ -70,7 +70,10 @@ input.checkbox { width:13px; height:13px; }
 
 .footer .footer-callout { position:relative; zoom:1; }
 .login-box .content     { height:180px; }
-.col-left, .col-right, .col-main    { display:inline; }
+.col-left, .col-right, .col-main { display:inline; }
+
+/* Doubled Margin Fix */
+.mini-newsletter .input-box { display:inline; }
 
 /* Clearer */
-.clear { clear:both; font-size:0; line-height:0; height:0; visibility:hidden; overflow:hidden; }
+.clear { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
