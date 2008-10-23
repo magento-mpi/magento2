@@ -121,10 +121,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                             continue;
                         }
 
+                        $qty = $selection->getSelectionQty();
                         if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
-                            $qty = 1;
-                        } else {
-                            $qty = $selection->getSelectionQty();
+                            $qty = min(1, $qty);
                         }
 
                         $selectionMinimalPrices[] = $this->getSelectionPrice($product, $selection, $qty);
