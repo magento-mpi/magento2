@@ -1127,7 +1127,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         $errors = array();
         if (count($items) == 0) {
-            $errors[] = Mage::helper('adminhtml')->__('You need specify order items');
+            $errors[] = Mage::helper('adminhtml')->__('You need to specify order items');
         }
 
         if (!$this->getQuote()->isVirtual()) {
