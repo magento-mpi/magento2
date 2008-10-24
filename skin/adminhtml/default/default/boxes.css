@@ -487,7 +487,7 @@ td.divider              { font-size:1px; line-height:0; }
 .wrapper { min-width:960px; }
 .wrapper-popup { min-width:750px; }
 .header { background:url(images/header_top_bg.gif) repeat-x #425e66; text-align:right; }
-.middle { min-height:450px; background:url(images/simple_container_bg.gif) repeat-x #fff; padding:23px 27px 0 27px;  }
+.middle { min-height:450px; background:url(images/simple_container_bg.gif) repeat-x #fff; padding:23px 27px 0 27px; }
 .middle-popup { border-bottom:3px solid #fff; background:url(images/middle_bg.gif) repeat-x 0 100% #fff; padding:0 0 0 0; background:yellow; }
 .container-collapsed { padding:1.8em 2.2em 1.8em 2em; padding-top:0; }
 .columns {background:url(images/side_col_bg.gif) repeat-y 217px 0; }
@@ -575,7 +575,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 .left-col-block { width:200px; }
 
 /* Floating Content Header */ /* Used to make action buttons always within reach */
-.content-header-floating { position:fixed; left:0; top:0; width:100%; display:none; border:0; border-bottom:solid 1px #988753; z-index:100; background:#fdfaa4; opacity:.85; }
+.content-header-floating { display:none; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; background:#fdfaa4; opacity:.85; }
 .content-header-floating .content-header { padding:6px 8px 4px 8px; margin-bottom:0; border:0; }
 .content-header-floating td     { padding-right:20px; }
 .content-header-floating button { margin-top:3px; }
@@ -1163,6 +1163,7 @@ ul.super-product-attributes { padding-left:15px; }
 .normal             { font-weight:normal !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
+.wrapper:after,
 .bundle .option-title:after,
 .columns:after,
 .main-col:after,
