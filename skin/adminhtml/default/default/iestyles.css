@@ -59,7 +59,7 @@ button.disabled:active { filter:alpha(opacity=80); }
 
 /* Opacity fix */
 #loading-mask { filter:alpha(opacity=80); }
-#message-popup-window-mask { filter:alpha(opacity=80); }
+#message-popup-window-mask { filter:alpha(opacity=20); }
 .content-header-floating { filter:alpha(opacity=85); }
 
 /* Scalable Button Override */

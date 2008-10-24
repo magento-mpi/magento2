@@ -40,7 +40,9 @@ AC_FL_RunContent = 0;
 //<![CDATA[
 function openMessagePopupWindow()
 {
-    Position.clone($($$('#html-body .wrapper')[0]), $('message-popup-window-mask'), {offsetLeft:-2});
+    var height = $$('#html-body .wrapper')[0].getHeight();
+    // instead of Element.clonePosition() get height from $$('#html-body .wrapper') and set it for mask block
+    $('message-popup-window-mask').setStyle({'height':height+'px'});
     toggleSelectsUnderBlock($('message-popup-window-mask'), false);
     Element.show('message-popup-window-mask');
 }
