@@ -357,7 +357,7 @@ table.view-by td {
 /* Structure */
 .wrapper { min-width:954px; }
 .header { text-align:left; }
-.header-top { position:relative; z-index:999; width:930px; margin:0 auto; }
+.header-top { position:relative; width:930px; margin:0 auto; }
 .header-nav { width:950px; margin:0 auto; }
 .middle { min-height:400px; width:900px; margin:0 auto; text-align:left; position:relative; }
 .side-col { width:195px; }
