@@ -25,7 +25,7 @@
  */
 ?>
 <div class="content-header">
-    <h3 class="icon-head head-system-email-template"><?php echo $this->getHeaderText() ?></h3></td>
+    <h3 class="icon-head head-system-email-template"><?php echo $this->getHeaderText() ?></h3>
     <p class="content-buttons form-buttons">
                 <?php echo $this->getBackButtonHtml(); ?>
                 <?php echo $this->getResetButtonHtml(); ?>
@@ -49,7 +49,7 @@
             </h4>
             <div class="form-buttons"></div>
         </div>
-        <fieldset>
+        <div class="fieldset">
             <table class="form-list" cellspacing="0">
                 <tbody>
                     <tr>
@@ -78,7 +78,7 @@
                         <td class="value">
                             <select id="locale_select" name="locale" class="select required-entry">
                                 <?php foreach ($this->getLocaleOptions() as $_option): ?>
-                                <option value="<?php echo $_option['value'] ?>" <?php if ($_option['value']==$this->getCurrentLocale()): ?>selected<?php endif; ?>><?php echo $_option['label'] ?></option>
+                                <option value="<?php echo $_option['value'] ?>"<?php if ($_option['value']==$this->getCurrentLocale()): ?> selected="selected"<?php endif; ?>><?php echo $_option['label'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </td>
@@ -86,7 +86,7 @@
                     </tr>
                     <tr>
                         <td class="label">
-                            <label ></label>
+                            <label>&nbsp;</label>
                         </td>
                         <td class="value">
                             <?php echo $this->getLoadButtonHtml() ?>
@@ -95,17 +95,21 @@
                     </tr>
                 </tbody>
             </table>
-        </fieldset>
+        </div>
     </div>
 </form>
 <?php endif ?>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="email_template_edit_form">
-<input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
-<?php echo $this->getFormHtml() ?>
+<fieldset>
+    <input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
+    <?php echo $this->getFormHtml() ?>
+</fieldset>
 </form>
 <form action="<?php echo $this->getPreviewUrl() ?>" method="post" id="email_template_preview_form" target="_blank">
-<input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
-<input type="hidden" id="preview_text" name="text" value="" />
+<div class="no-display">
+    <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
+    <input type="hidden" id="preview_text" name="text" value="" />
+</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

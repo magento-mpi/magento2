@@ -853,9 +853,10 @@ ul.item-options li { padding-left:.7em; }
     }
 .field-row .ratings             { width:120px; float:left; clear:right; }
 .field-row .ratings-container   { width:250px; float:left; }
-.product-review-box             { width:auto; margin:8px 0 13px 0; }
+.product-review-box             { width:450px; }
+.product-review-box table       { width:100%; }
 .product-review-box td,
-.product-review-box th          { text-align:center; }
+.product-review-box th          { text-align:center; padding-right:5px; }
 .product-review-box td.label    { width:100px; text-align:left; }
 
 

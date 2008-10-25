@@ -26,7 +26,7 @@
 ?>
 <?php if($this->getRatingSummary()->getCount()): ?>
     <div class="rating-box">
-        <div class="rating" style="width: <?php echo ceil($this->getRatingSummary()->getSum() / ($this->getRatingSummary()->getCount())) ?>%;"></div>
+        <div class="rating" style="width:<?php echo ceil($this->getRatingSummary()->getSum() / ($this->getRatingSummary()->getCount())) ?>%;"></div>
     </div>
 <?php else: ?>
     <?php echo Mage::helper('rating')->__("Rating isn't Available") ?>
