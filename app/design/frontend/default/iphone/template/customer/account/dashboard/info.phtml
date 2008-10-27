@@ -28,11 +28,11 @@
     <div class="dashboard-block">
         <div class="inner-head">
             <h5><?php echo $this->__('Contact Information') ?></h5>
-            <a href="<?php echo $this->getUrl('customer/account/edit') ?>">Edit</a>
+            <a href="<?php echo $this->getUrl('customer/account/edit') ?>"><?php echo $this->__('Edit') ?></a>
             <div class="clear"></div>
         </div>
         <p style="line-height:14px;">
-            <?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?> 
+            <?php echo $this->htmlEscape($this->getCustomer()->getFirstname()) ?>
             <?php echo $this->htmlEscape($this->getCustomer()->getLastname()) ?><br />
             <?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?><br />
             <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo $this->__('Change Password') ?></a>
@@ -42,7 +42,7 @@
     <div class="dashboard-block">
         <div class="inner-head">
             <h5><?php echo $this->__('Newsletters') ?></h5>
-            <a href="<?php echo $this->getUrl('newsletter/manage') ?>">Edit</a>
+            <a href="<?php echo $this->getUrl('newsletter/manage') ?>"><?php echo $this->__('Edit') ?></a>
             <div class="clear"></div>
         </div>
         <p>
