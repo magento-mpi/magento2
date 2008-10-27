@@ -36,7 +36,7 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
 
     public function showPrefix()
     {
-        return $this->getConfig('prefix_show')!='';
+        return !empty($this->getConfig('prefix_show'));
     }
 
     public function isPrefixRequired()
@@ -59,12 +59,12 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
 
     public function showMiddlename()
     {
-        return $this->getConfig('middlename_show')!='';
+        return !empty($this->getConfig('middlename_show'));
     }
 
     public function showSuffix()
     {
-        return $this->getConfig('suffix_show')!='';
+        return !empty($this->getConfig('suffix_show'));
     }
 
     public function isSuffixRequired()
