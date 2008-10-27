@@ -281,6 +281,13 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Core_Model_Abstract
             $this->getOrder()->getShippingRefunded()+$this->getShippingAmount()
         );
 
+        $this->getOrder()->setBaseShippingTaxRefunded(
+            $this->getOrder()->getBaseShippingTaxRefunded()+$this->getBaseShippingTaxAmount()
+        );
+        $this->getOrder()->setShippingTaxRefunded(
+            $this->getOrder()->getShippingTaxRefunded()+$this->getShippingTaxAmount()
+        );
+
         $this->getOrder()->setAdjustmentPositive(
             $this->getOrder()->getAdjustmentPositive()+$this->getAdjustmentPositive()
         );
