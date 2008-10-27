@@ -50,7 +50,7 @@
         </tr>
         <?php if ($_creditmemo->getDiscountAmount() > 0): ?>
         <tr>
-            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Discount '.($_order->getCouponCode()?'('.$_order->getCouponCode().')':'')) ?></td>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Discount%s', $_order->getCouponCode() ? ' ('.$_order->getCouponCode().')' : '') ?></td>
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice(0.00 - $_creditmemo->getDiscountAmount()) ?></td>
         </tr>
         <?php endif; ?>
