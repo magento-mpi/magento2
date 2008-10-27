@@ -312,6 +312,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : '')
                 ->collectTotals()
                 ->save();
+
             if ($couponCode) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_getSession()->addSuccess(

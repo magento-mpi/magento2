@@ -37,6 +37,11 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     protected $_children    = array();
     protected $_messages    = array();
 
+    /**
+     * Retrieve Quote instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     abstract function getQuote();
 
     protected function _beforeSave()

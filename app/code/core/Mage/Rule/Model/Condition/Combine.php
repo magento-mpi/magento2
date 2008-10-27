@@ -54,11 +54,11 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function getAggregatorSelectOptions()
     {
-    	$opt = array();
-    	foreach ($this->getAggregatorOption() as $k=>$v) {
-    		$opt[] = array('value'=>$k, 'label'=>$v);
-    	}
-    	return $opt;
+        $opt = array();
+        foreach ($this->getAggregatorOption() as $k=>$v) {
+            $opt[] = array('value'=>$k, 'label'=>$v);
+        }
+        return $opt;
     }
 
     public function getAggregatorName()
@@ -75,11 +75,11 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             }
         }
         return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':aggregator', 'select', array(
-    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][aggregator]',
-    		'values'=>$this->getAggregatorSelectOptions(),
-    		'value'=>$this->getAggregator(),
-    		'value_name'=>$this->getAggregatorName(),
-    	))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+            'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][aggregator]',
+            'values'=>$this->getAggregatorSelectOptions(),
+            'value'=>$this->getAggregator(),
+            'value_name'=>$this->getAggregatorName(),
+        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
     }
 /* end aggregator methods */
 
@@ -191,24 +191,24 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function asHtml()
     {
-       	$html = $this->getTypeElement()->getHtml().
-       	    Mage::helper('rule')->__("If %s of these conditions are %s:",
-       	        $this->getAggregatorElement()->getHtml(),
-       	        $this->getValueElement()->getHtml()
-       	    );
-       	if ($this->getId()!='1') {
-       	    $html.= $this->getRemoveLinkHtml();
-       	}
-    	return $html;
+           $html = $this->getTypeElement()->getHtml().
+               Mage::helper('rule')->__("If %s of these conditions are %s:",
+                   $this->getAggregatorElement()->getHtml(),
+                   $this->getValueElement()->getHtml()
+               );
+           if ($this->getId()!='1') {
+               $html.= $this->getRemoveLinkHtml();
+           }
+        return $html;
     }
 
     public function getNewChildElement()
     {
-    	return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':new_child', 'select', array(
-    		'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][new_child]',
-    		'values'=>$this->getNewChildSelectOptions(),
-    		'value_name'=>$this->getNewChildName(),
-    	))->setRenderer(Mage::getBlockSingleton('rule/newchild'));
+        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':new_child', 'select', array(
+            'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][new_child]',
+            'values'=>$this->getNewChildSelectOptions(),
+            'value_name'=>$this->getNewChildName(),
+        ))->setRenderer(Mage::getBlockSingleton('rule/newchild'));
     }
 
     public function asHtmlRecursive()
@@ -238,17 +238,19 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function validate(Varien_Object $object)
     {
-    	if (!$this->getConditions()) {
-    		return true;
-    	}
+        if (!$this->getConditions()) {
+            return true;
+        }
 
-        $all = $this->getAggregator()==='all';
-        $true = (bool)$this->getValue();
+        $all    = $this->getAggregator() === 'all';
+        $true   = (bool)$this->getValue();
+
         foreach ($this->getConditions() as $cond) {
             $validated = $cond->validate($object);
-            if ($all && $validated!==$true) {
+
+            if ($all && $validated !== $true) {
                 return false;
-            } elseif (!$all && $validated===$true) {
+            } elseif (!$all && $validated === $true) {
                 return true;
             }
         }
