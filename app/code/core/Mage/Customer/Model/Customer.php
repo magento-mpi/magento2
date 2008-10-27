@@ -647,11 +647,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $errors = array();
         $helper = Mage::helper('customer');
 
-        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+        if (!Zend_Validate::is( trim($this->getFirstname()) , 'NotEmpty')) {
             $errors[] = $helper->__('First name can\'t be empty');
         }
 
-        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+        if (!Zend_Validate::is( trim($this->getLastname()) , 'NotEmpty')) {
             $errors[] = $helper->__('Last name can\'t be empty');
         }
 
@@ -660,7 +660,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         $password = $this->getPassword();
-        if (!$this->getId() && !Zend_Validate::is($password, 'NotEmpty')) {
+        if (!$this->getId() && !Zend_Validate::is($password , 'NotEmpty')) {
             $errors[] = $helper->__('Password can\'t be empty');
         }
         if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
