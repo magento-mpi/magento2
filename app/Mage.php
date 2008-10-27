@@ -602,7 +602,7 @@ final class Mage {
             }
             catch (Exception $e) {}
 
-            $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+            $baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
             $reportUrl = $baseUrl . '/report/?id='
                 . $reportId . '&s=' . $storeCode;
 
