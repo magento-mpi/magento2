@@ -50,7 +50,7 @@
                 <lastname><to_customer>*</to_customer></lastname>
                 <suffix><to_customer>*</to_customer></suffix>
                 <email><to_customer>*</to_customer></email>
-                <dob><to_customer>*</to_customer></dob>
+                <customer_dob><to_customer>dob</to_customer></customer_dob>
             </checkout_onepage_billing>
         </fieldsets>
         <blocks>
