@@ -111,7 +111,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->open(array('path' => $this->getPath()));
 
         if ($io->fileExists($this->getSitemapFilename()) && !$io->isWriteable($this->getSitemapFilename())) {
-            Mage::throwException(Mage::helper('sitemap')->__('File "%s" don\'t writeable', $this->getSitemapFilename()));
+            Mage::throwException(Mage::helper('sitemap')->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writeable by web server.', $this->getSitemapFilename(), $this->getPath()));
         }
 
         $io->streamOpen($this->getSitemapFilename());
