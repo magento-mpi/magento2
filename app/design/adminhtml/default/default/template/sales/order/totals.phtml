@@ -25,6 +25,7 @@
  */
 ?>
 <?php $_source  = $this->getSource() ?>
+<?php $_order   = $this->getOrder() ?>
 <?php $this->setPriceDataObject($_source) ?>
 <?php $_currency= $this->getCurrency() ?>
 <?php if ($_source): ?>
@@ -89,8 +90,8 @@
         <?php if ((float) $_source->getDiscountAmount()): ?>
         <tr>
             <td class="label">
-                <?php if ($_source->getCouponCode()): ?>
-                    <?php echo Mage::helper('sales')->__('Discount (%s)', $_source->getCouponCode()) ?>
+                <?php if ($_order->getCouponCode()): ?>
+                    <?php echo Mage::helper('sales')->__('Discount (%s)', $_order->getCouponCode()) ?>
                 <?php else: ?>
                     <?php echo Mage::helper('sales')->__('Discount') ?>
                 <?php endif; ?>
