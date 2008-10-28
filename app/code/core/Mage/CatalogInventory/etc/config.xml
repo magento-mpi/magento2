@@ -158,8 +158,29 @@
                     </inventory>
                 </observers>
             </catalog_model_product_duplicate>
+            <admin_system_config_changed_section_cataloginventory>
+                <observers>
+                    <inventory>
+                        <type>singleton</type>
+                        <class>cataloginventory/observer</class>
+                        <method>updateItemsStockUponConfigChange</method>
+                    </inventory>
+                </observers>
+            </admin_system_config_changed_section_cataloginventory>
         </events>
 
+        <catalog>
+            <product>
+                <type>
+                    <simple>
+                        <is_qty>1</is_qty>
+                    </simple>
+                    <virtual>
+                        <is_qty>1</is_qty>
+                    </virtual>
+                </type>
+            </product>
+        </catalog>
     </global>
 
     <frontend>

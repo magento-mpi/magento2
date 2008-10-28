@@ -100,4 +100,19 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item_Collection extends Mage_Core
 		$this->getSelect()->where("qty {$comparsionMethod} ?", $qty);
         return $this;
     }
+
+    /**
+     * Load data
+     *
+     * @return  Varien_Data_Collection_Db
+     */
+    public function load($printQuery = false, $logQuery = false)
+    {
+        if (!$this->isLoaded()) {
+            $this->getSelect()->joinInner(array('_products_table' => $this->getTable('catalog/product')),
+                'main_table.product_id=_products_table.entity_id', 'type_id'
+            );
+        }
+        return parent::load($printQuery, $logQuery);
+    }
 }

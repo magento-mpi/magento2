@@ -363,4 +363,18 @@ class Mage_CatalogInventory_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Update items stock status and low stock date.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function updateItemsStockUponConfigChange($observer)
+    {
+        Mage::getResourceSingleton('cataloginventory/stock')->updateSetOutOfStock();
+        Mage::getResourceSingleton('cataloginventory/stock')->updateSetInStock();
+        Mage::getResourceSingleton('cataloginventory/stock')->updateLowStockDate();
+        return $this;
+    }
 }

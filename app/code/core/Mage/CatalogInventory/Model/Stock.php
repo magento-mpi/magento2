@@ -32,6 +32,10 @@
 class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
 {
     const BACKORDERS_NO     = 0;
+    const BACKORDERS_YES_NONOTIFY = 1;
+    const BACKORDERS_YES_NOTIFY   = 2;
+
+    /* deprecated */
     const BACKORDERS_BELOW  = 1;
     const BACKORDERS_YES    = 2;
 
@@ -94,15 +98,14 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     {
         if ($productId = $item->getProductId()) {
             $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
-            if ($item->getStoreId()) {
-                $stockItem->setStoreId($item->getStoreId());
-            }
-            if ($stockItem->checkQty($item->getQtyOrdered()) || Mage::app()->getStore()->isAdmin()) {
-                $stockItem->subtractQty($item->getQtyOrdered());
-                if ($this->getBackorders() == self::BACKORDERS_NO && $stockItem->getQty() <= $stockItem->getMinQty()) {
-                    $this->setIsInStock(false);
+            if (Mage::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
+                if ($item->getStoreId()) {
+                    $stockItem->setStoreId($item->getStoreId());
                 }
-                $stockItem->save();
+                if ($stockItem->checkQty($item->getQtyOrdered()) || Mage::app()->getStore()->isAdmin()) {
+                    $stockItem->subtractQty($item->getQtyOrdered());
+                    $stockItem->save();
+                }
             }
         }
         else {
@@ -111,17 +114,21 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
         return $this;
     }
 
-
+    /**
+     * Get back to stock (when order is canceled or whatever else)
+     *
+     * @param int $productId
+     * @param numeric $qty
+     * @return Mage_CatalogInventory_Model_Stock
+     */
     public function backItemQty($productId, $qty)
     {
         $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
-        if ($stockItem->getId()) {
+        if ($stockItem->getId() && Mage::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
             $stockItem->addQty($qty);
-            /**
-             * get back in stock (when order is canceled or whatever else)
-             */
             if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {
-                $stockItem->setIsInStock(true);
+                $stockItem->setIsInStock(true)
+                    ->setStockStatusChangedAutomaticallyFlag(true);
             }
             $stockItem->save();
         }
@@ -150,35 +157,5 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     {
         $this->getResource()->setInStockFilterToCollection($collection);
         return $this;
-    }
-
-    public function updateItemsStockAvailability($currentMinQtyValue)
-    {
-        $isStockManagedInConfig = Mage::getStoreConfig('cataloginventory/options/manage_stock');
-        $collection = $this
-                    ->getItemCollection()
-                    ->addFieldToFilter('use_config_min_qty', 1)
-                    ->addFieldToFilter('is_in_stock', 1)
-                    ->addManagedFilter($isStockManagedInConfig)
-                    ->addQtyFilter('<=', $currentMinQtyValue);
-        foreach ($collection as $item) {
-            $item->setStockStatusChangedAutomaticallyFlag(true)
-                ->setIsInStock(false)
-                ->save();
-        }
-
-        $collection = $this
-                    ->getItemCollection()
-                    ->addFieldToFilter('use_config_min_qty', 1)
-                    ->addFieldToFilter('is_in_stock', 0)
-                    ->addFieldToFilter('stock_status_changed_automatically', 1)
-                    ->addManagedFilter($isStockManagedInConfig)
-                    ->addQtyFilter('>', $currentMinQtyValue);
-        foreach ($collection as $item) {
-            $item->setStockStatusChangedAutomaticallyFlag(true)
-                ->setIsInStock(true)
-                ->setForcedMinQty($currentMinQtyValue)
-                ->save();
-        }
     }
 }

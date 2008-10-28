@@ -131,13 +131,24 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
             // custom save logic
             $this->_saveSection();
-
+            $section = $this->getRequest()->getParam('section');
+            $website = $this->getRequest()->getParam('website');
+            $store   = $this->getRequest()->getParam('store');
             Mage::getModel('adminhtml/config_data')
-                ->setSection($this->getRequest()->getParam('section'))
-                ->setWebsite($this->getRequest()->getParam('website'))
-                ->setStore($this->getRequest()->getParam('store'))
+                ->setSection($section)
+                ->setWebsite($website)
+                ->setStore($store)
                 ->setGroups($groups)
                 ->save();
+
+            // reinit configuration
+            Mage::getConfig()->reinit();
+            Mage::app()->reinitStores();
+
+            // website and store codes can be used in event implementation, so set them as well
+            Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
+                array('website' => $website, 'store' => $store)
+            );
 
             $session->addSuccess(Mage::helper('adminhtml')->__('Configuration successfully saved'));
         }

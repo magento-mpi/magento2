@@ -152,9 +152,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getMinQty()
     {
-        if ($this->hasData('forced_min_qty')) {
-            return $this->getForcedMinQty();
-        }
         if ($this->getUseConfigMinQty()) {
             return (float) Mage::getStoreConfig(self::XML_PATH_MIN_QTY);
         }
@@ -177,12 +174,16 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         return $this->getData('max_sale_qty');
     }
 
+    /**
+     *
+     * @return float
+     */
     public function getNotifyStockQty()
     {
         if ($this->getUseConfigNotifyStockQty()) {
             return (float) Mage::getStoreConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
         }
-        return $this->getData('notify_stock_qty');
+        return (float)$this->getData('notify_stock_qty');
     }
 
     /**
@@ -222,8 +223,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     {
         if ($this->getQty() - $qty < 0) {
             switch ($this->getBackorders()) {
-                case Mage_CatalogInventory_Model_Stock::BACKORDERS_BELOW:
-                case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES:
+                case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
+                case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
                     break;
                 default:
                     /*if ($this->getProduct()) {
@@ -316,7 +317,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                         $backorderQty = $qty;
                     }
                     $result->setItemBackorders($backorderQty);
-                    if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES) {
+                    if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY) {
                         $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %d of the items will be backordered.',
                             $backorderQty,
                             $this->getProduct()->getName())
@@ -369,30 +370,38 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
     protected function _beforeSave()
     {
-        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO
-            && $this->getQty() <= $this->getMinQty()) {
-            if(!$this->getProduct() || !$this->getProduct()->isComposite()) {
-                $this->setIsInStock(false);
+        // see if quantity is defined for this item type
+        $typeId = $this->getTypeId();
+        if ($product = $this->getProduct()) {
+            $typeId = $product->getTypeId();
+        }
+        $isQty = Mage::helper('catalogInventory')->isQty($typeId);
+
+        if ($isQty) {
+            if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO
+                && $this->getQty() <= $this->getMinQty()) {
+                $this->setIsInStock(false)
+                    ->setStockStatusChangedAutomaticallyFlag(true);
+            }
+
+            // if qty is below notify qty, update the low stock date to today date otherwise set null
+            $this->setLowStockDate(null);
+            if ((float)$this->getQty() < $this->getNotifyStockQty()) {
+                $this->setLowStockDate(Mage::app()->getLocale()->date(null, null, null, false)
+                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+                );
+            }
+
+            $this->setStockStatusChangedAutomatically(0);
+            if ($this->hasStockStatusChangedAutomaticallyFlag()) {
+                $this->setStockStatusChangedAutomatically((int)$this->getStockStatusChangedAutomaticallyFlag());
             }
         }
-
-        /**
-         * if qty is below notify qty, update the low stock date to today date otherwise set null
-         */
-        if ($this->getNotifyStockQty() && $this->getQty()<$this->getNotifyStockQty()
-            && (!$this->getProduct() || !$this->getProduct()->isSuper())) {
-            $this->setLowStockDate($this->_getResource()->formatDate(time()));
-        } else {
-            $this->setLowStockDate(false);
+        else {
+            $this->setQty(0);
         }
 
-        if ($this->hasStockStatusChangedAutomaticallyFlag()) {
-            $this->setStockStatusChangedAutomatically((int) $this->getStockStatusChangedAutomaticallyFlag());
-        } else {
-            $this->setStockStatusChangedAutomatically(0);
-        }
-
-        Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item'=>$this));
+        Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item' => $this));
         return $this;
     }
 
