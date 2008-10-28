@@ -107,7 +107,7 @@
                 <account></account>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
-                <allowed_methods>E,N,S,G,IE</allowed_methods>
+                <allowed_methods>E,N,S,G,IE,E SAT,E 10:30AM</allowed_methods>
                 <contentdesc>Big Box</contentdesc>
                 <cutoff_cost></cutoff_cost>
                 <dutypaymenttype>R</dutypaymenttype>
@@ -124,6 +124,9 @@
                 <max_package_weight>150</max_package_weight>
                 <handling_type>F</handling_type>
                 <handling_action>O</handling_action>
+                <shipment_days>1,2,3,4,5,6</shipment_days>
+                <intl_shipment_days>1,2,3,4,5</intl_shipment_days>
+                <additional_protection_rounding>0</additional_protection_rounding>
             </dhl>
 
             <fedex>
