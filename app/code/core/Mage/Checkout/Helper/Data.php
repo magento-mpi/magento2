@@ -219,7 +219,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         $maximunQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
         return $isMultiShipping
             && !$quote->hasItemsWithDecimalQty()
-            && $quote->validateMinimumAmount()
+            && $quote->validateMinimumAmount(true)
             && (($quote->getItemsSummaryQty() - $quote->getItemVirtualQty()) > 0)
             && ($quote->getItemsSummaryQty() <= $maximunQty)
         ;

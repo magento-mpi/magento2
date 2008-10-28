@@ -968,11 +968,33 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function validateMinimumAmount()
+    public function validateMinimumAmount($multishipping = false)
     {
-        foreach ($this->getAllAddresses() as $address) {
-            if (!$address->validateMinimumAmount()) {
+        $storeId = $this->getStoreId();
+        $minOrderActive = Mage::getStoreConfigFlag('sales/minimum_order/active', $storeId);
+        $minOrderMulti  = Mage::getStoreConfigFlag('sales/minimum_order/multi_address', $storeId);
+
+        if (!$minOrderActive) {
+            return true;
+        }
+
+        if ($multishipping && !$minOrderMulti) {
+            $baseTotal = 0;
+            foreach ($this->getAllAddresses() as $address) {
+                /* @var $address Mage_Sales_Model_Quote_Address */
+                $baseTotal += $address->getBaseSubtotalWithDiscount();
+            }
+
+            if ($baseTotal < Mage::getStoreConfig('sales/minimum_order/amount', $storeId)) {
                 return false;
+            }
+        }
+        else {
+            foreach ($this->getAllAddresses() as $address) {
+                /* @var $address Mage_Sales_Model_Quote_Address */
+                if (!$address->validateMinimumAmount()) {
+                    return false;
+                }
             }
         }
         return true;
