@@ -582,6 +582,9 @@ a.minimal-price-link .price { font-weight:normal; }
 
 /* Advanced Search */
 .search-summary {}
+
+/* CMS Home Page */
+.cms-home .products-grid td { width:20%; }
 /* ======================================================================================= */
 
 

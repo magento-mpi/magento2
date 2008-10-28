@@ -25,9 +25,10 @@
  */
 ?>
 <?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
-<div class="up-sell">
+<div class="page-title">
     <h2><?php echo $this->__('New Products') ?></h2>
-    <table class="products-grid" id="recently-compared-list-table">
+</div>
+<table class="products-grid" id="new-products-list-table">
     <tr>
     <?php $i=0; foreach ($_products->getItems() as $_product): ?>
         <?php if ($i>5): continue; endif; ?>
@@ -36,9 +37,7 @@
                 <img class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80, 77) ?>" width="80" height="77" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
             </a>
             <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
-
             <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-
             <?php echo $this->getPriceHtml($_product) ?>
             <?php if($_product->isSaleable()): ?>
             <button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
@@ -49,7 +48,7 @@
                 <?php if ($this->helper('wishlist')->isAllow()) : ?>
                     <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
                 <?php endif; ?>
-                <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?><br />
+                <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
                     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                 <?php endif; ?>
             </ul>
@@ -59,6 +58,5 @@
             <td class="empty">&nbsp;</td>
         <?php endfor ?>
     </tr>
-    </table>
-</div>
+</table>
 <?php endif; ?>
