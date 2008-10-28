@@ -41,7 +41,7 @@
         <h4>Skip to Store Area:</h4>
         <ul>
             <li><a href="#main"><?php echo $this->__('Skip to Main Content') ?></a></li>
-            <li><a href="#col-left"><?php echo $this->__('Skip to Left Column') ?></a></li>
+            <li><a href="#col-right"><?php echo $this->__('Skip to Right Column') ?></a></li>
             <li><a href="#footer"><?php echo $this->__('Skip to Footer') ?></a></li>
         </ul>
     </div>
@@ -59,10 +59,12 @@
                 <?php echo $this->getChildHtml('topSearch') ?>
             </div>
             <div class="middle layout-2columns">
-                <div class="col-left sidebar" id="col-left">
-                    <?php echo $this->getChildHtml('left') ?>&nbsp;
-                    <!-- [end] col-left -->
+                <!-- col-right -->
+                <div class="col-right sidebar" id="col-right">
+                    <?php echo $this->getChildHtml('right') ?>&nbsp;
+                    <!-- [end] col-right -->
                 </div>
+                <!-- content -->
                 <div class="col-main" id="main">
                     <?php echo $this->getChildHtml('global_messages') ?>
                     <?php echo $this->getChildHtml('content') ?>
