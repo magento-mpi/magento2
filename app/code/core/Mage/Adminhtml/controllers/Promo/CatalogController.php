@@ -229,15 +229,22 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         $this->getResponse()->setBody($html);
     }
 
+    /**
+     * Apply all active catalog price rules
+     */
     public function applyRulesAction()
     {
         try {
             $resource = Mage::getResourceSingleton('catalogrule/rule');
-            $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
+            $resource->applyAllRulesForDateRange();
             Mage::app()->removeCache('catalog_rules_dirty');
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rules were successfully applied'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(
+                Mage::helper('catalogrule')->__('Rules were successfully applied')
+            );
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalogrule')->__('Unable to apply rules'));
+            Mage::getSingleton('adminhtml/session')->addError(
+                Mage::helper('catalogrule')->__('Unable to apply rules')
+            );
             throw $e;
         }
 

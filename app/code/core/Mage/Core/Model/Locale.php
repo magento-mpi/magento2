@@ -435,6 +435,28 @@ class Mage_Core_Model_Locale
     }
 
     /**
+     * Create Zend_Date object with date converted to store timezone and store Locale
+     *
+     * @param   mixed $store Information about store
+     * @param   string|integer|Zend_Date|array|null $date date in UTC
+     * @param   boolean $includeTime flag for including time to date
+     * @return  Zend_Date
+     */
+    public function storeDate($store=null, $date=null, $includeTime=false)
+    {
+        $store = Mage::app()->getStore($store);
+        $timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        $date = new Zend_Date($date, null, $this->getLocale());
+        $date->setTimezone($timezone);
+        if (!$includeTime) {
+            $date->setHour(0)
+                ->setMinute(0)
+                ->setSecond(0);
+        }
+        return $date;
+    }
+
+    /**
      * Create Zend_Currency object for current locale
      *
      * @param   string $currency

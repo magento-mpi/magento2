@@ -86,7 +86,14 @@ abstract class Mage_Core_Model_Resource_Abstract
         return $this;
     }
 
-    public function formatDate($date)
+    /**
+     * Format date to internal format
+     *
+     * @param   string $date
+     * @param   bool $includeTime
+     * @return  string
+     */
+    public function formatDate($date, $includeTime=true)
     {
     	if (empty($date)) {
     		return new Zend_Db_Expr('NULL');
@@ -94,6 +101,11 @@ abstract class Mage_Core_Model_Resource_Abstract
         if (!is_numeric($date)) {
             $date = strtotime($date);
         }
-        return date('Y-m-d H:i:s', $date);
+        if ($includeTime) {
+            return date('Y-m-d H:i:s', $date);
+        }
+        else {
+            return date('Y-m-d', $date);
+        }
     }
 }

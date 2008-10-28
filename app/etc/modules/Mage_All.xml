@@ -326,6 +326,7 @@
             <depends>
                 <Mage_Catalog />
                 <Mage_Eav />
+                <Mage_CatalogRule />
             </depends>
         </Mage_CatalogIndex>
         <Mage_GoogleOptimizer>
