@@ -65,7 +65,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
 
     protected function _getTaxRateConditions($tableName = 'main_table')
     {
-        return Mage::helper('tax')->getPriceTaxSql($tableName . '.value', $this->getStoreId(), 'IFNULL(tax_class_c.value, tax_class_d.value)');
+        return Mage::helper('tax')->getPriceTaxSql($tableName . '.value', 'IFNULL(tax_class_c.value, tax_class_d.value)');
     }
 
     public function getMaxValue($attribute = null, $entitySelect)
