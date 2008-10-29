@@ -38,6 +38,7 @@ class Varien_Date
      *
      */
     const DATETIME_INTERNAL_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+    const DATE_INTERNAL_FORMAT = 'yyyy-MM-dd';
 
     private static $_convertZendToStrftimeDate = array(
         'yyyy-MM-ddTHH:mm:ssZZZZ' => '%c',

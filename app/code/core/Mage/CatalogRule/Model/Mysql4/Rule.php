@@ -432,7 +432,13 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             throw $e;
         }
 
-        Mage::dispatchEvent('catalogrule_after_apply', array('product'=>$product));
+        $productCondition = Mage::getModel('catalog/product_condition')
+            ->setTable($this->getTable('catalogrule/affected_product'))
+            ->setPkFieldName('product_id');
+        Mage::dispatchEvent('catalogrule_after_apply', array(
+            'product'=>$product,
+            'product_condition' => $productCondition
+        ));
         $write->delete($this->getTable('catalogrule/affected_product'));
         $write->commit();
         return $this;

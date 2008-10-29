@@ -57,7 +57,10 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         if (!is_null($products)) {
             if ($products instanceof Mage_Catalog_Model_Product) {
                 $products = $products->getId();
-            } else if (!is_numeric($products) && !is_array($products)) {
+            } elseif ($products instanceof Mage_Catalog_Model_Product_Condition_Interface) {
+            	$products = $products->getIdsSelect($this->_getWriteAdapter());
+            }
+            else if (!is_numeric($products) && !is_array($products)) {
                 Mage::throwException('Invalid products supplied for indexing');
             }
             $suffix = $this->_getWriteAdapter()->quoteInto('entity_id in (?)', $products);

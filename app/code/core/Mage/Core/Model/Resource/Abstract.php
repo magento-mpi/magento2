@@ -89,15 +89,25 @@ abstract class Mage_Core_Model_Resource_Abstract
     /**
      * Format date to internal format
      *
-     * @param   string $date
+     * @param   string | Zend_Date $date
      * @param   bool $includeTime
      * @return  string
      */
     public function formatDate($date, $includeTime=true)
     {
+        if ($date instanceof Zend_Date) {
+            if ($includeTime) {
+                return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            }
+            else {
+                return $date->toString(Varien_Date::DATE_INTERNAL_FORMAT);
+            }
+        }
+
     	if (empty($date)) {
     		return new Zend_Db_Expr('NULL');
     	}
+
         if (!is_numeric($date)) {
             $date = strtotime($date);
         }

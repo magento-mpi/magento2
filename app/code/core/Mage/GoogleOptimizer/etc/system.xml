@@ -30,7 +30,7 @@
         <google translate="label" module="googleanalytics">
             <groups>
                 <optimizer translate="label">
-                    <label>Google Optimizer</label>
+                    <label>Google Website Optimizer</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>

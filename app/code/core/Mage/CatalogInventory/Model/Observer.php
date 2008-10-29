@@ -209,6 +209,9 @@ class Mage_CatalogInventory_Model_Observer
              */
             if ($item->getParentItem()) {
                 $qty = $item->getParentItem()->getQty()*$qty;
+                /**
+                 * we are using 0 becose original qty was processed
+                 */
                 $qtyForCheck = $this->_getProductQtyForCheck($item->getProduct()->getId(), 0);
             }
             else {

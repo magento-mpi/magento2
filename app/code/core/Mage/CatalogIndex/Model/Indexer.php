@@ -384,7 +384,15 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                 Mage::throwException('Invalid attributes supplied for indexing');
             }
 
-            $this->_getResource()->clear($attributeCodes, $priceAttributeCodes, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, count($priceAttributeCodes)>0, $products, $stores);
+            $this->_getResource()->clear(
+                $attributeCodes,
+                $priceAttributeCodes,
+                count($priceAttributeCodes)>0,
+                count($priceAttributeCodes)>0,
+                count($priceAttributeCodes)>0,
+                $products,
+                $stores
+            );
             foreach ($stores as $store) {
                 $collection = Mage::getModel('catalog/product')
                     ->getCollection()
@@ -398,19 +406,21 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                     $collection->addIdFilter($products->getId());
                 } else if (is_array($products) || is_numeric($products)) {
                     $collection->addIdFilter($products);
+                } elseif ($products instanceof Mage_Catalog_Model_Product_Condition_Interface) {
+                	$products->applyToCollection($collection);
                 }
-                $productIds = $collection->getAllIds();
 
+                $productCount = $collection->getSize();
 
-                if (!$productIds)
+                if (!$productCount) {
                     continue;
+                }
 
                 $step = 1000;
-                $productCount = count($productIds);
                 for ($i=0;$i<$productCount/$step;$i++) {
                     $this->_getResource()->beginTransaction();
 
-                    $stepData = array_slice($productIds, $i*$step, $step);
+                    $stepData = $collection->getAllIds($step, $i*$step);
 
                     if (count($attributeCodes)) {
                         $this->_getResource()->reindexAttributes($stepData, $attributeCodes, $store);
