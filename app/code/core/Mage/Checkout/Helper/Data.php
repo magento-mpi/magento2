@@ -93,10 +93,11 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getPriceInclTax($item)
     {
-        $price = ($item->getCalculationPrice() ? $item->getCalculationPrice() : $item->getPrice());
+        //$price = ($item->getCalculationPrice() ? $item->getCalculationPrice() : $item->getPrice());
         $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
-        $tax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : $item->getTaxAmount());
-        $price = Mage::app()->getStore()->roundPrice($price+($tax/$qty));
+        //$tax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : $item->getTaxAmount());
+        //$price = Mage::app()->getStore()->roundPrice($price+($tax/$qty));
+        $price = Mage::app()->getStore()->roundPrice(($item->getRowTotal()+$item->getTaxAmount())/$qty);
         return $price;
     }
 
