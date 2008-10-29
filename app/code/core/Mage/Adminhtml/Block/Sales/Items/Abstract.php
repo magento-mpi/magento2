@@ -343,7 +343,7 @@ class Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Tem
     public function displayTaxPercent(Varien_Object $item)
     {
         if ($item->getTaxPercent()) {
-            return sprintf('%.2f%%', $item->getTaxPercent());
+            return sprintf('%s%%', $item->getTaxPercent() + 0);
         } else {
             return '0%';
         }
