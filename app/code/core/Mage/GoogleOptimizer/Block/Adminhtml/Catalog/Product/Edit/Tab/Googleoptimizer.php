@@ -43,6 +43,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
+        Mage::helper('googleoptimizer')->setStoreId($this->getProduct()->getStoreId());
+
         $disabledScriptsFields = false;
         $values = array();
         if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
@@ -108,17 +110,27 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             )
         );
 
-        $fieldset->addField('conversion_page_url', 'text',
-            array(
-                'name'  => 'conversion_page_url',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
-                'class' => 'input-text',
-                'readonly' => 'readonly',
-                'required' => false,
-                'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
-            )
-        );
-//        Zend_Debug::dump($this->getProduct()->getAttributes());
+        if ($this->getProduct()->getStoreId() == '0' && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL) && !Mage::app()->isSingleStoreMode()) {
+            $fieldset->addField('conversion_page_url', 'note',
+                array(
+                    'name'  => 'conversion_page_url',
+                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'text' => Mage::helper('googleoptimizer')->__('Please select store view to see the URL')
+                )
+            );
+        } else {
+            $fieldset->addField('conversion_page_url', 'text',
+                array(
+                    'name'  => 'conversion_page_url',
+                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'class' => 'input-text',
+                    'readonly' => 'readonly',
+                    'required' => false,
+                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+                )
+            );
+        }
+
         $attributes = Mage::helper('googleoptimizer')->getProductAttributes($this->getProduct());
         $fieldset->addField('attributes', 'multiselect',
             array(
@@ -128,7 +140,6 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'values' => $attributes,
                 'required' => false,
                 'onchange' => 'googleOptimizerAttributesCheckAction(this)'
-//                'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
             )
         );
 
@@ -192,7 +203,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
     public function canShowTab()
     {
-        if ($this->getProduct()->getAttributeSetId()) {
+        if (Mage::helper('googleoptimizer')->isOptimizerActive() && $this->getProduct()->getAttributeSetId()) {
             return true;
         }
         return false;

@@ -36,6 +36,19 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_ENABLED = 'google/optimizer/active';
     const XML_PATH_ALLOWED_ATTRIBUTES = 'admin/attributes';
 
+    protected $_storeId = null;
+
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
+        return $this;
+    }
+
+    public function getStoreId()
+    {
+        return $this->_storeId;
+    }
+
     public function isOptimizerActive()
     {
         return Mage::app()->getStore()->getConfig(self::XML_PATH_ENABLED);
@@ -105,6 +118,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         $urls = array();
         $choices = Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
             ->toOptionArray();
+        $url = Mage::getModel('core/url');
         foreach ($choices as $choice) {
             $route = '';
             switch ($choice['value']) {
@@ -128,7 +142,8 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
                     break;
             }
             if ($route) {
-                $urls[$choice['value']] = $this->_getUrl($route, array('_secure' => true));
+//                $urls[$choice['value']] = $this->_getUrl($route, array('_secure' => true));
+                $urls[$choice['value']] = $url->setStore($this->getStoreId())->getUrl($route, array('_secure' => true));
             }
         }
         return new Varien_Object($urls);
@@ -137,19 +152,24 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Create array of attributes for variation
-     * that allowed by googleoptimizer config
+     * allowed by googleoptimizer config and user defined attributes
      *
      * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getProductAttributes($product)
+    public function getProductAttributes(Varien_Object $product)
     {
         /** @var $product Mage_Catalog_Model_Product */
         $allowedAttributes = array_keys(Mage::getConfig()->getNode(self::XML_PATH_ALLOWED_ATTRIBUTES)->asArray());
         $productAttributes = $product->getAttributes();
         $optimizerAttributes = array();
         foreach ($productAttributes as $_attributeCode => $_attribute) {
-            if (in_array($_attributeCode, $allowedAttributes)) {
+            if ($_attribute->getIsUserDefined() && $_attribute->getIsVisibleOnFront()) {
+                $optimizerAttributes[] = array(
+                    'label' => $_attribute->getFrontendLabel(),
+                    'value' => $_attributeCode
+                );
+            } elseif (in_array($_attributeCode, $allowedAttributes)) {
                 $optimizerAttributes[] = array(
                     'label' => $_attribute->getFrontendLabel(),
                     'value' => $_attributeCode
