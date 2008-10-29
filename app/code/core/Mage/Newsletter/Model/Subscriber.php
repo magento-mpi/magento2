@@ -356,6 +356,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     {
         $this->loadByCustomer($customer);
 
+        if ($customer->getImportMode()) {
+            $this->setImportMode(true);
+        }
+
         if (!$customer->getIsSubscribed() && !$this->getId()) {
             // If subscription flag not seted or customer not subscriber
             // and no subscribe bellow
@@ -433,6 +437,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendConfirmationRequestEmail()
     {
+        if ($this->getImportMode()) {
+            return $this;
+        }
+
         if(!Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE) || !Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY))  {
             return $this;
         }
@@ -457,6 +465,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendConfirmationSuccessEmail()
     {
+        if ($this->getImportMode()) {
+            return $this;
+        }
+
         if(!Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE) || !Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY))  {
             return $this;
         }
@@ -481,6 +493,9 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
 
     public function sendUnsubscriptionEmail()
     {
+        if ($this->getImportMode()) {
+            return $this;
+        }
         if(!Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE) || !Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY))  {
             return $this;
         }
