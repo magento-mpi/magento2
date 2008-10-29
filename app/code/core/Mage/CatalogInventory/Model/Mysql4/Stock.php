@@ -123,12 +123,12 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
                 AND (use_config_manage_stock = 1 AND 1 = %d OR use_config_manage_stock = 0 AND manage_stock = 1)
                 AND (use_config_backorders = 1 AND %d = %d OR use_config_backorders = 0 AND backorders = %d)
                 AND (use_config_min_qty = 1 AND qty <= %d OR use_config_min_qty = 0 AND qty <= min_qty)
-                AND product_id IN (SELECT entity_id FROM catalog_product_entity WHERE type_id IN (%s))',
+                AND product_id IN (SELECT entity_id FROM %s WHERE type_id IN (%s))',
                 $this->_stock->getId(),
                 $this->_isConfigManageStock,
                 Mage_CatalogInventory_Model_Stock::BACKORDERS_NO, $this->_isConfigBackorders, Mage_CatalogInventory_Model_Stock::BACKORDERS_NO,
                 $this->_configMinQty,
-                $this->_getWriteAdapter()->quote($this->_configTypeIds)
+                $this->getTable('catalog/product'), $this->_getWriteAdapter()->quote($this->_configTypeIds)
         ));
     }
 
@@ -146,11 +146,11 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
                 AND stock_status_changed_automatically = 1
                 AND (use_config_manage_stock = 1 AND 1 = %d OR use_config_manage_stock = 0 AND manage_stock = 1)
                 AND (use_config_min_qty = 1 AND qty > %d OR use_config_min_qty = 0 AND qty > min_qty)
-                AND product_id IN (SELECT entity_id FROM catalog_product_entity WHERE type_id IN (%s))',
+                AND product_id IN (SELECT entity_id FROM %s WHERE type_id IN (%s))',
                 $this->_stock->getId(),
                 $this->_isConfigManageStock,
                 $this->_configMinQty,
-                $this->_getWriteAdapter()->quote($this->_configTypeIds)
+                $this->getTable('catalog/product'), $this->_getWriteAdapter()->quote($this->_configTypeIds)
         ));
     }
 
@@ -171,10 +171,10 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
             ))),
             sprintf('stock_id = %d
                 AND (use_config_manage_stock = 1 AND 1 = %d OR use_config_manage_stock = 0 AND manage_stock = 1)
-                AND product_id IN (SELECT entity_id FROM catalog_product_entity WHERE type_id IN (%s))',
+                AND product_id IN (SELECT entity_id FROM %s WHERE type_id IN (%s))',
                 $this->_stock->getId(),
                 $this->_isConfigManageStock,
-                $this->_getWriteAdapter()->quote($this->_configTypeIds)
+                $this->getTable('catalog/product'), $this->_getWriteAdapter()->quote($this->_configTypeIds)
         ));
     }
 }
