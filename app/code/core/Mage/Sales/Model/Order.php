@@ -1252,6 +1252,16 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return Mage::getBlockSingleton('core/text')->formatDate($this->getCreatedAt(), $format);
     }
 
+    /**
+     * Retrieve created at store date object
+     *
+     * @return Zend_Date
+     */
+    public function getCreatedAtDate()
+    {
+        return Mage::app()->getLocale()->storeDate($this->getStore(), $this->getCreatedAt(), true);
+    }
+
     public function getEmailCustomerNote()
     {
         if ($this->getCustomerNoteNotify()) {

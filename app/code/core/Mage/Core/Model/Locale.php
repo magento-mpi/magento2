@@ -444,8 +444,7 @@ class Mage_Core_Model_Locale
      */
     public function storeDate($store=null, $date=null, $includeTime=false)
     {
-        $store = Mage::app()->getStore($store);
-        $timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        $timezone = Mage::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
         $date = new Zend_Date($date, null, $this->getLocale());
         $date->setTimezone($timezone);
         if (!$includeTime) {
@@ -453,6 +452,7 @@ class Mage_Core_Model_Locale
                 ->setMinute(0)
                 ->setSecond(0);
         }
+//        $date->getTimezone();
         return $date;
     }
 
