@@ -85,11 +85,11 @@
                 <label for="<?php echo $_code ?>_issue"><?php echo $this->__('Switch/Solo/Maestro(UK Domestic) Only') ?> <span class="required">*</span></label><br/>
                 <ul style="margin:5px 0;">
                     <li>
-                        <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?>:</label>
+                        <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?>:</label><br />
                         <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text validate-cybersource-cc-ss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" style="width:3em;" value="" />
                     </li>
                     <li>
-                        <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?>:</label>
+                        <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?>:</label><br />
                         <div class="v-fix">
                             <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="month validate-cybersource-cc-ss">
                             <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
