@@ -24,6 +24,10 @@
 /* IE 6 only */
 .login-page .content { _height:150px; }
 .validation-advice { _height:13px; }
+.error-msg,
+.success-msg,
+.note-msg,
+.notice-msg { _height:24px; }
 .opc li.section { vertical-align:top; }
 
 /* Doubled Margin Fixes */
