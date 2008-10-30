@@ -27,10 +27,10 @@ h1#logo { display:inline; }
 .advanced-search .legend { position:relative; zoom:1; }
 .link-feed { zoom:1; }
 
-/* Min-height for IE */
+/* Min-height for IE6 */
 .login-box .content { height:180px; }
 .content-box { height:250px; }
-#main { height:400px; }
+.middle { height:400px; }
 
 .validation-advice { height:15px; }
 .error-msg, .success-msg, .note-msg { height:23px; }

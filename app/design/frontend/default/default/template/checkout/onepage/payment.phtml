@@ -29,10 +29,10 @@ var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout
 </script>
 <form action="" id="co-payment-form">
     <?php echo $this->getChildHtml('methods') ?>
-    <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none;padding-top:15px;">
-        <a href="#" id="payment-tool-tip-close" class="btn-close">
-            <img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" />
-        </a>
+    <div class="tool-tip" id="payment-tool-tip" style="display:none;">
+        <div class="btn-close">
+            <a href="#" id="payment-tool-tip-close"><img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" /></a>
+        </div>
         <div class="block-content">
         <img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" />
         </div>
@@ -54,8 +54,8 @@ var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout
     function toggleToolTip(event){
         if($('payment-tool-tip')){
             $('payment-tool-tip').setStyle({
-                top: (Event.pointerY(event)-400)+'px',
-                left: (Event.pointerX(event)+100)+'px'
+                //left: (Event.pointerX(event)+100)+'px'
+                top: (Event.pointerY(event)-515)+'px'
             })
             $('payment-tool-tip').toggle();
         }

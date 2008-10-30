@@ -57,10 +57,9 @@
                 <div class="head">
                     <h5><?php echo $this->__('Payment Method') ?></h5>
                 </div>
-                <div class="tool-tip" id="payment-tool-tip" style="left:0;position:absolute;display:none;padding-top:15px;">
-                    <a href="#" id="payment-tool-tip-close" class="btn-close">
-                        <img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" />
-                    </a>
+                <div class="tool-tip" id="payment-tool-tip" style="display:none;">
+                    <div class="btn-close">
+                    <a href="#" id="payment-tool-tip-close"><img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" /></a></div>
                     <div class="block-content">
                     <img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" />
                     </div>
@@ -102,8 +101,8 @@
     function toggleToolTip(event){
         if($('payment-tool-tip')){
             $('payment-tool-tip').setStyle({
-                top: (Event.pointerY(event)-500)+'px',
-                left: (Event.pointerX(event)-800)+'px'
+                //left: (Event.pointerX(event)-800)+'px',
+                top: (Event.pointerY(event)-530)+'px'
             })
             $('payment-tool-tip').toggle();
         }

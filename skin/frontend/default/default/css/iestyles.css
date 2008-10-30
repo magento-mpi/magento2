@@ -67,6 +67,7 @@
 .add-to-holder,
 .advanced-search-summary-box,
 .listing-type-grid .grid-row,
+.one-page-checkout li.section,
 .one-page-checkout .default-box { zoom:1; }
 
 input.radio,
@@ -76,7 +77,7 @@ input.checkbox { width:13px; height:13px; }
 
 #nav ul li { vertical-align:top; }
 
-.one-page-checkout li.section { zoom:1; vertical-align:top; }
+.one-page-checkout li.section { vertical-align:top; }
 
 .product-options dd ul.options-list input.form-radio { margin-top:4px; }
 .multi-address-checkout-box .box { zoom:1; }
