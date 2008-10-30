@@ -427,6 +427,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 }
             }
             $this->_saveRuleProductPrices($dayPrices);
+            $write->commit();
         } catch (Exception $e) {
             $write->rollback();
             throw $e;
@@ -440,7 +441,6 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             'product_condition' => $productCondition
         ));
         $write->delete($this->getTable('catalogrule/affected_product'));
-        $write->commit();
         return $this;
     }
 
