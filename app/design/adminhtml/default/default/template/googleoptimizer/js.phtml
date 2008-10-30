@@ -80,7 +80,7 @@ function googleOptimizerConversionPageAction(elm)
 {
     var urls = <?php echo $this->getJsonConversionPagesUrl() ?>;
     if (elm) {
-        if (elm.value == '') {
+        if (elm.value == '' || elm.value == 'other') {
             $('conversion_page_url').value = '';
             return;
         } else {

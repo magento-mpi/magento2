@@ -128,7 +128,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             )
         );
 
-        if ($this->getCategory()->getStoreId() == '0' && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL) && !Mage::app()->isSingleStoreMode()) {
+        if ($this->getCategory()->getStoreId() == '0' && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
             $fieldset->addField('conversion_page_url', 'note',
                 array(
                     'name'  => 'conversion_page_url',
