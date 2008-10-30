@@ -78,4 +78,17 @@ class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model
         }
         return true;
     }
+
+    /**
+     * Return empty array if attributes is not defined
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        if ($attributes = $this->_getData('attributes')) {
+            return $attributes;
+        }
+        return array();
+    }
 }
