@@ -139,7 +139,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
                 'class' => 'validate-googleoptimizer validate-googleoptimizer-attributes',
                 'values' => $attributes,
                 'required' => false,
-                'onchange' => 'googleOptimizerAttributesCheckAction(this)'
+                'onchange' => 'googleOptimizerAttributesCheckAction(this)',
+                'note' => Mage::helper('googleoptimizer')->__('Limit is 8 attributes only.')
             )
         );
 

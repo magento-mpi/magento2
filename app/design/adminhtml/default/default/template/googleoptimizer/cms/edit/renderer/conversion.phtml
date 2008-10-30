@@ -40,7 +40,7 @@
     <td class="value">
         <input type="text" class="input-text googleoptimizer conversion_urls" readonly="readonly" name="conversion_url_<?php echo $_store->getCode() ?>" id="conversion_url_<?php echo $_store->getCode() ?>"<?php echo $_disabled ?>/>
     </td>
-    <td class="scope-label"></td>
+    <td class="note"><small><?php echo Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form') ?></small></td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
 </tr>
@@ -62,8 +62,6 @@
                 for (var i=0; i<=storeViews.length; i++) {
                     if ($('conversion_url_'+storeViews[i]) && urls[storeViews[i]][elm.value]) {
                         $('conversion_url_'+storeViews[i]).value = urls[storeViews[i]][elm.value];
-//                        $('conversion_url_'+storeViews[i]).focus();
-//                        $('conversion_url_'+storeViews[i]).select();
                     }
                 }
             }
