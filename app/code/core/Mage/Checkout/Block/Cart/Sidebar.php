@@ -95,12 +95,21 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         return $this->_addTax($this->getSubtotal(true));
     }
 
-    private function _addTax($price) {
+    private function _addTax($price, $exclShippingTax=true) {
         $totals = $this->getTotals();
         if (isset($totals['tax'])) {
-            $price += $totals['tax']->getValue();
+            if ($exclShippingTax) {
+                $price += $totals['tax']->getValue()-$this->_getShippingTaxAmount();
+            } else {
+                $price += $totals['tax']->getValue();
+            }
         }
         return $price;
+    }
+
+    protected function _getShippingTaxAmount()
+    {
+        return $this->getQuote()->getShippingAddress()->getShippingTaxAmount();
     }
 
     public function getSummaryCount()
