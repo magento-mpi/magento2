@@ -929,6 +929,7 @@ ul.item-options li { padding-left:.7em; }
 
 /* Addresses */
 .address-list                           { width:28em; padding-right:22px; }
+.address-list address                   { width:100%; overflow:hidden; }
 .address-list .btn-edit-address,
 .address-list .btn-remove-address       { position:absolute; top:8px; }
 .address-list .btn-edit-address         { right:8px; }
