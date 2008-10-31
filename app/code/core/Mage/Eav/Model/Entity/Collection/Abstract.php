@@ -683,7 +683,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     public function setPage($pageNum, $pageSize)
     {
         $this->setCurPage($pageNum)
-            ->getPageSize($pageSize);
+            ->setPageSize($pageSize);
         return $this;
     }
 
