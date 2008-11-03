@@ -47,11 +47,10 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
         $product = Mage::registry('product');
         /* @var $product Mage_Catalog_Model_Product */
         $this->_itemCollection = $product->getUpSellProductCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
-            ->addMinimalPrice()
             ->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds());
+        $this->_addProductAttributesAndPrices($this->_itemCollection);
 
 //        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);

@@ -41,7 +41,7 @@
             <a class="product-image" href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80, 77) ?>" width="80" height="77" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
             <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
             <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-            <?php echo $this->getPriceHtml($_product) ?>
+            <?php echo $this->getPriceHtml($_product, true, '-home-viewed') ?>
             <?php if($_product->isSaleable()): ?>
             <button type="button" class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
             <?php else: ?>

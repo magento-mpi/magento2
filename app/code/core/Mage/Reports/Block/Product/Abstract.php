@@ -46,7 +46,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     protected function _getRecentProductsCollection()
     {
         // get products collection and apply status and visibility filter
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = $this->_addProductAttributesAndPrices(Mage::getModel('catalog/product')->getCollection())
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addUrlRewrite()
             ->setPageSize($this->_pageSize)
