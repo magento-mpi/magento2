@@ -274,6 +274,8 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
 
             $this->getValueInstance()->setOption($this)
                 ->saveValues();
+        } else {
+            Mage::throwException(Mage::helper('catalog')->__('Select type options required values rows.'));
         }
 
         return parent::_afterSave();

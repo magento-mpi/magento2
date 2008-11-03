@@ -310,7 +310,6 @@ if($('option_panel')){
     $('option_panel').remove();
 }
 
-//!!!!!!!!
 productOption.bindRemoveButtons();
 
 if($('<?php echo $this->getAddButtonId() ?>')){
@@ -322,6 +321,28 @@ Validation.addAllThese([
     ['required-option-select', '<?php echo Mage::helper('catalog')->__('Select type of option') ?>', function(v, elm) {
         if (elm.getValue() == '') {
             return false;
+        }
+        if (elm.getValue() == 'drop_down' || elm.getValue() == 'radio'
+            || elm.getValue() == 'checkbox' || elm.getValue() == 'multiple') {
+            var optionContainerElm = elm.up('div.option-box');
+            var selectTypesFlag = false;
+            selectTypeElements = $$('#'+optionContainerElm.id+' .select-type-title');
+            selectTypeElements.each(function(elm){
+                if (elm.id && elm.up('tr').visible()) {
+                    selectTypesFlag = true;
+                }
+            });
+            var rowsContainer = $$('#'+optionContainerElm.id+' div.grid')[0]
+            if (rowsContainer) {
+                rowsContainer.removeClassName('validation-failed');
+            }
+            if ($('advice-container-'+elm.id)) {
+                $('advice-container-'+elm.id).remove();
+            }
+            if (selectTypesFlag == false) {
+                rowsContainer.addClassName('validation-failed');
+                Element.insert(rowsContainer, {'after':'<div id="advice-container-'+elm.id+'" class="validation-advice" style="">Please add rows to option.</div>'});
+            }
         }
         return true;
 }]]);

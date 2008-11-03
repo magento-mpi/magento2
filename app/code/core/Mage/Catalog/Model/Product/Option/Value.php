@@ -119,6 +119,7 @@ class Mage_Catalog_Model_Product_Option_Value extends Mage_Core_Model_Abstract
                 $this->save();
             }
         }//eof foreach()
+        return $this;
     }
 
     /**
