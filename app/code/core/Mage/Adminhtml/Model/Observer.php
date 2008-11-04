@@ -60,7 +60,8 @@ class Mage_Adminhtml_Model_Observer
     {
         $request = Mage::app()->getFrontController()->getRequest();
         if ($key = $request->getParam('massaction_prepare_key')) {
-            $request->setParam($key, split(',', $request->getParam($key)));
+            $value = split(',', $request->getParam($key));
+            $request->setParam($key, $value ? $value : null);
         }
         return $this;
     }
