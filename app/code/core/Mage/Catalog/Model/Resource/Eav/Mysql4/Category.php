@@ -143,14 +143,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         $categoryIds = explode('/', $object->getPath());
 
-
-
-
         $this->refreshProductIndex($categoryIds);
-        //$this->_saveCountChidren($object);
         return parent::_afterSave($object);
     }
 
+    /**
+     * Deprecated since 1.1.7
+     *
+     * @param Varien_Object $object
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category
+     */
     protected function _saveCountChidren($object)
     {
         $chidren = $object->getChildren();
