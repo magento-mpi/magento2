@@ -65,6 +65,11 @@
                         <class>adminhtml/observer</class>
                         <method>bindStore</method>
                     </store>
+                    <massaction>
+                        <type>singleton</type>
+                        <class>adminhtml/observer</class>
+                        <method>massactionPrepareKey</method>
+                    </massaction>
                 </observers>
             </adminhtml_controller_action_predispatch_start>
         </events>

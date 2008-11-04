@@ -73,7 +73,7 @@
 </table>
 <?php if(!$this->getParentBlock()->canDisplayContainer()): ?>
 <script type="text/javascript">
-    <?php echo $this->getJsObjectName() ?>.setGridIds(<?php echo $this->getGridIdsJson() ?>);
+    <?php echo $this->getJsObjectName() ?>.setGridIds('<?php echo $this->getGridIdsJson() ?>');
 </script>
 <?php endif; ?>
 </div>
