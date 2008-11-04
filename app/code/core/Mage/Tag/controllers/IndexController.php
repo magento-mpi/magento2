@@ -39,7 +39,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         if(!Mage::getSingleton('customer/session')->authenticate($this)) {
             return;
         }
-        $tagName    = (string) $this->getRequest()->getQuery('tagName');
+        $tagName    = (string) $this->getRequest()->getQuery('productTagName');
         $productId  = (int)$this->getRequest()->getParam('product');
 
         if(strlen($tagName) && $productId) {
