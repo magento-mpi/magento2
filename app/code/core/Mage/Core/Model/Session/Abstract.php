@@ -32,6 +32,11 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
     const XML_NODE_SESSION_SAVE     = 'global/session_save';
 
+    const XML_PATH_USE_REMOTE_ADDR  = 'web/session/use_remote_addr';
+    const XML_PATH_USE_HTTP_VIA     = 'web/session/use_http_via';
+    const XML_PATH_USE_X_FORWARDED  = 'web/session/use_http_x_forwarded_for';
+    const XML_PATH_USE_USER_AGENT   = 'web/session/use_http_user_agent';
+
     const SESSION_ID_QUERY_PARAM = 'SID';
 
     protected static $_urlHostCache = array();
@@ -61,6 +66,45 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         return $lifetime;
     }
 
+/**
+     * Use REMOTE_ADDR in validator key
+     *
+     * @return bool
+     */
+    public function useValidateRemoteAddr()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_USE_REMOTE_ADDR);
+    }
+
+    /**
+     * Use HTTP_VIA in validator key
+     *
+     * @return bool
+     */
+    public function useValidateHttpVia()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_USE_HTTP_VIA);
+    }
+
+    /**
+     * Use HTTP_X_FORWARDED_FOR in validator key
+     *
+     * @return bool
+     */
+    public function useValidateHttpXForwardedFor()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_USE_X_FORWARDED);
+    }
+
+    /**
+     * Use HTTP_USER_AGENT in validator key
+     *
+     * @return bool
+     */
+    public function useValidateHttpUserAgent()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_USE_USER_AGENT);
+    }
 
     /**
      * Retrieve messages from session

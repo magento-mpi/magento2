@@ -171,6 +171,46 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     }
 
     /**
+     * Use REMOTE_ADDR in validator key
+     *
+     * @return bool
+     */
+    public function useValidateRemoteAddr()
+    {
+        return true;
+    }
+
+    /**
+     * Use HTTP_VIA in validator key
+     *
+     * @return bool
+     */
+    public function useValidateHttpVia()
+    {
+        return true;
+    }
+
+    /**
+     * Use HTTP_X_FORWARDED_FOR in validator key
+     *
+     * @return bool
+     */
+    public function useValidateHttpXForwardedFor()
+    {
+        return true;
+    }
+
+    /**
+     * Use HTTP_USER_AGENT in validator key
+     *
+     * @return bool
+     */
+    public function useValidateHttpUserAgent()
+    {
+        return true;
+    }
+
+    /**
      * Validate session
      *
      * @param string $namespace
@@ -209,18 +249,18 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         $parts = array();
 
         // collect ip data
-        if (isset($_SERVER['REMOTE_ADDR'])) {
+        if ($this->useValidateRemoteAddr() && isset($_SERVER['REMOTE_ADDR'])) {
             $parts[] = $_SERVER['REMOTE_ADDR'];
         }
-        if (isset($_ENV['HTTP_VIA'])) {
+        if ($this->useValidateHttpVia() && isset($_ENV['HTTP_VIA'])) {
             $parts[] = $_ENV['HTTP_VIA'];
         }
-        if (isset($_ENV['HTTP_X_FORWARDED_FOR'])) {
+        if ($this->useValidateHttpXForwardedFor() && isset($_ENV['HTTP_X_FORWARDED_FOR'])) {
             $parts[] = $_ENV['HTTP_X_FORWARDED_FOR'];
         }
 
         // collect user agent data
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        if ($this->useValidateHttpUserAgent() && isset($_SERVER['HTTP_USER_AGENT'])) {
             $parts[] = $_SERVER['HTTP_USER_AGENT'];
         }
 
