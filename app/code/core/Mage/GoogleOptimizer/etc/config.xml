@@ -112,17 +112,17 @@
             <description/>
             <image/>
         </attributes>
-    </admin>
-    <frontend>
         <routers>
             <googleoptimizer>
-                <use>standard</use>
+                <use>admin</use>
                 <args>
                     <module>Mage_GoogleOptimizer</module>
                     <frontName>googleoptimizer</frontName>
                 </args>
             </googleoptimizer>
         </routers>
+    </admin>
+    <frontend>
         <translate>
             <modules>
                 <Mage_GoogleOptimizer>
