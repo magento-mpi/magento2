@@ -527,9 +527,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $wId = Mage::app()->getWebsite()->getId();
         $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $storeDate = Mage::app()->getLocale()->storeDate($this->getStoreId());
 
         $conditions  = "_price_rule.product_id = e.entity_id AND ";
-        $conditions .= "_price_rule.rule_date = '".date('Y-m-d H:i:s', mktime(0, 0, 0))."' AND ";
+
+        $conditions .= "_price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
         $conditions .= "_price_rule.website_id = '{$wId}' AND ";
         $conditions .= "_price_rule.customer_group_id = '{$gId}'";
 
@@ -675,7 +677,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $storeId = Mage::app()->getStore()->getId();
         if ($attribute == 'price' && $storeId != 0) {
-            $customerGroup = Mage::getSingleton('customer/session')->getCustomer()->getCustomerGroupId();
+            $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
             $priceAttributeId = $this->getAttribute('price')->getId();
 
