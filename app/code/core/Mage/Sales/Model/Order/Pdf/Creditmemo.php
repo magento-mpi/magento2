@@ -50,7 +50,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
              $order = $creditmemo->getOrder();
 
             /* Add image */
-            $this->insertLogo($page);
+            $this->insertLogo($page, $creditmemo->getStore());
 
             /* Add address */
             $this->insertAddress($page);

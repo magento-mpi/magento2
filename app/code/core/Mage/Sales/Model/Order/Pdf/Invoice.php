@@ -50,7 +50,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
             $order = $invoice->getOrder();
 
             /* Add image */
-            $this->insertLogo($page);
+            $this->insertLogo($page, $invoice->getStore());
 
             /* Add address */
             $this->insertAddress($page);

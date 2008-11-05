@@ -49,7 +49,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $order = $shipment->getOrder();
 
             /* Add image */
-            $this->insertLogo($page);
+            $this->insertLogo($page, $shipment->getStore());
 
             /* Add address */
             $this->insertAddress($page);

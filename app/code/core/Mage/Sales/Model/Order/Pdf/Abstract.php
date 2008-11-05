@@ -112,11 +112,11 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         return $x + round(($columnWidth - $width) / 2);
     }
 
-    protected function insertLogo(&$page)
+    protected function insertLogo(&$page, $store = null)
     {
         $image = Mage::getStoreConfig('sales/identity/logo');
         if ($image) {
-            $image = Mage::getStoreConfig('system/filesystem/media') . '/sales/store/logo/' . $image;
+            $image = Mage::getStoreConfig('system/filesystem/media', $store) . '/sales/store/logo/' . $image;
             if (is_file($image)) {
 
                 $image = Zend_Pdf_Image::imageWithPath($image);
@@ -235,7 +235,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
         $page->drawRectangle(25, 730, 570, $y);
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-		$this->_setFontRegular($page);
+        $this->_setFontRegular($page);
         $this->y = 720;
 
         foreach ($billingAddress as $value){
@@ -317,16 +317,16 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
                 $this->_setFontRegular($page, 6);
                 foreach ($order->getTracksCollection() as $track) {
 
-                	$CarrierCode = $track->getCarrierCode();
-                	if ($CarrierCode!='custom')
-                	{
-                		$carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);
-                		$carrierTitle = $carrier->getConfigData('title');
-                	}
-                	else
-                	{
-                		$carrierTitle = Mage::helper('sales')->__('Custom Value');
-                	}
+                    $CarrierCode = $track->getCarrierCode();
+                    if ($CarrierCode!='custom')
+                    {
+                        $carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);
+                        $carrierTitle = $carrier->getConfigData('title');
+                    }
+                    else
+                    {
+                        $carrierTitle = Mage::helper('sales')->__('Custom Value');
+                    }
 
                     $truncatedCarrierTitle = substr($carrierTitle, 0, 35) . (strlen($carrierTitle) > 35 ? '...' : '');
                     $truncatedTitle = substr($track->getTitle(), 0, 45) . (strlen($track->getTitle()) > 45 ? '...' : '');
