@@ -437,6 +437,8 @@
         <catalog>
             <recently_products>
                 <scope>website</scope>
+                <viewed_count>5</viewed_count>
+                <compared_count>5</compared_count>
             </recently_products>
         </catalog>
     </default>

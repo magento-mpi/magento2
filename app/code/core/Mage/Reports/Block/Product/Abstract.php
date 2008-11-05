@@ -26,8 +26,20 @@
 
 abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Product_Abstract
 {
-    protected $_pageSize = 5;
     protected $_eventTypeId = 0;
+
+    /**
+     * Retrieve page size (count)
+     *
+     * @return int
+     */
+    protected function getPageSize()
+    {
+        if ($this->hasData('page_size')) {
+            return $this->getData('page_size');
+        }
+        return 5;
+    }
 
     /**
      * Obtain product ids, that must not be included in collection

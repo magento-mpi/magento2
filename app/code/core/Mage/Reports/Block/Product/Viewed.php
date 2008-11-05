@@ -34,7 +34,22 @@
 
 class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstract
 {
+    const XML_PATH_RECENTLY_VIEWED_COUNT    = 'catalog/recently_products/viewed_count';
+
     protected $_eventTypeId = Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW;
+
+    /**
+     * Retrieve page size (count)
+     *
+     * @return int
+     */
+    protected function getPageSize()
+    {
+        if ($this->hasData('page_size')) {
+            return $this->getData('page_size');
+        }
+        return Mage::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
+    }
 
     protected function _getProductsToSkip()
     {

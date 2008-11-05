@@ -70,9 +70,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </grid_per_page_values>
-
-
-
                         <grid_per_page translate="label comment">
                             <label>Products per Page on Grid default value</label>
                             <comment>must be accessible in values list</comment>
@@ -83,7 +80,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </grid_per_page>
-
                         <list_per_page_values translate="label comment">
                             <label>Products per Page on List allow values</label>
                             <comment>comma separated</comment>
@@ -94,7 +90,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </list_per_page_values>
-
                         <list_per_page translate="label comment">
                             <label>Products per Page on List default value</label>
                             <comment>must be accessible in values list</comment>
@@ -130,6 +125,7 @@
                         </placeholder>
                     </fields>
                 </placeholder>
+                
                 <seo translate="label">
                     <label>Search Engine Optimizations</label>
                     <frontend_type>text</frontend_type>
@@ -176,6 +172,7 @@
                         </title_separator>
                     </fields>
                 </seo>
+                
                 <price translate="label">
                     <label>Price</label>
                     <frontend_type>text</frontend_type>
@@ -196,6 +193,7 @@
                         </scope>
                     </fields>
                 </price>
+                
                 <navigation translate="label">
                     <label>Category Top Navigation</label>
                     <frontend_type>text</frontend_type>
