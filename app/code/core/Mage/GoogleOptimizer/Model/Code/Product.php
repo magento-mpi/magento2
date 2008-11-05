@@ -49,11 +49,12 @@ class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model
 
     protected function _beforeSave()
     {
-        if ($attributes = $this->getData('attributes')) {
-            $this->setData('additional_data', serialize(array(
+        if (!($attributes = $this->getData('attributes'))) {
+            $attributes = array();
+        }
+        $this->setData('additional_data', serialize(array(
                 'attributes' => $attributes))
             );
-        }
         parent::_beforeSave();
     }
 
@@ -66,7 +67,12 @@ class Mage_GoogleOptimizer_Model_Code_Product extends Mage_GoogleOptimizer_Model
         $attributesFlag = false;
         if ($attributes = $this->getAttributes()) {
             $attributesCount = 0;
-            if (count($attributes) && count($attributes) <= self::DEFAULT_COUNT_OF_ATTRIBUTES) {
+            foreach ($attributes as $_attributeId=>$_attributeValue) {
+            	if ($_attributeValue != '') {
+                    $attributesCount++;
+            	}
+            }
+            if ($attributesCount && $attributesCount <= self::DEFAULT_COUNT_OF_ATTRIBUTES) {
                 $attributesFlag = true;
             }
         }
