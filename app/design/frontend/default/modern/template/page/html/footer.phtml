@@ -28,7 +28,7 @@
     <p><img src="<?php echo $this->getSkinUrl('images/media/footer_callout.png');?>" alt="" class="footer-callout"/></p>
     <?php echo $this->getChildHtml('store_switcher') ?>
 </div>
-
+    <?php echo $this->getChildHtml('cms_footer_links') ?>
     <?php echo $this->getChildHtml('footer_links') ?>
     <?php echo $this->getChildHtml('newsletter') ?>
 <?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" id="bug_tracking_link"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?><br />

@@ -27,9 +27,9 @@
 -->
 <layout version="0.1.0">
     <default>
-        <!-- reference name="footer_links">
+        <reference name="footer_links">
             <action method="addLink" translate="label title" module="contacts" ifconfig="contacts/contacts/enabled"><label>Contact Us</label><url>contacts</url><title>Contact Us</title><prepare>true</prepare></action>
-        </reference -->
+        </reference>
     </default>
 
     <contacts_index_index>
