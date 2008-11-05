@@ -721,6 +721,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
 .product-info-box               { float:right; width:363px; }
 .product-info-box .product-name { margin-bottom:.3em; color:#0a263c; font-size:1.2em; }
 .product-info-box .price-box    { margin:10px 0; }
+.product-info-box .data-table .price-box { margin:0; padding:0; }
 .product-info-box .ratings      { margin-bottom:1em; }
 .add-to-cart-box                { margin:10px 0; border:1px solid #eee; background-color:#f8f8f8; padding:10px; text-align:right; }
 .add-to-boxes .add-to-cart-box  { text-align:left; }
