@@ -85,7 +85,7 @@
                         <label for="billing:fax"><?php echo $this->__('Fax') ?></label><br />
                         <input type="text" name="billing[fax]" value="<?php echo $this->htmlEscape($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="billing:fax" /></div></li>
                 <?php if(!$this->isCustomerLoggedIn()): ?>
-    
+
     <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
     <?php if ($_dob->isEnabled()): ?>
                 <li>
@@ -93,7 +93,15 @@
                         ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
                 </li>
     <?php endif; ?>
-    
+
+    <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+    <?php if ($_taxvat->isEnabled()): ?>
+                <li>
+                    <?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())
+                        ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                </li>
+    <?php endif ?>
+
                 <li id="register-customer-password">
                     <div class="input-box">
                         <label for="billing:customer_password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br />

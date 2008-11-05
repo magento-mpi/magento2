@@ -126,6 +126,23 @@
                 </div></div><div class="clear"></div>
             </li>
             <?php if(!$this->isCustomerLoggedIn()): ?>
+
+            <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+            <?php if ($_dob->isEnabled()): ?>
+                        <li>
+                            <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())
+                                ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                        </li>
+            <?php endif ?>
+
+            <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+            <?php if ($_taxvat->isEnabled()): ?>
+                        <li>
+                            <?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())
+                                ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                        </li>
+            <?php endif ?>
+
             <li id="register-customer-password">
                 <div class="col2-alt-set"><div class="col-1">
                     <label for="billing:customer_password"><?php echo $this->__('Password') ?> <span class="required">*</span></label>

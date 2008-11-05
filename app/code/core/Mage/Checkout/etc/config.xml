@@ -51,6 +51,7 @@
                 <suffix><to_customer>*</to_customer></suffix>
                 <email><to_customer>*</to_customer></email>
                 <customer_dob><to_customer>dob</to_customer></customer_dob>
+                <customer_taxvat><to_customer>taxvat</to_customer></customer_taxvat>
             </checkout_onepage_billing>
         </fieldsets>
         <blocks>
