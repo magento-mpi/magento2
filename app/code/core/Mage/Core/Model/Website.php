@@ -451,10 +451,10 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      *
      * @return Mage_Core_Model_Website
      */
-    protected function _afterDelte()
+    protected function _afterDelete()
     {
-    	parent::_afterDelte();
-    	Mage::getConfig()->removeCache();
-    	return $this;
+        parent::_afterDelete();
+        Mage::getConfig()->removeCache();
+        return $this;
     }
 }
