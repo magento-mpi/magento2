@@ -212,12 +212,12 @@ VarienRulesForm.prototype = {
         if (children_inputs.length) {
             children_inputs.each(function(el){
                 if (el.id.match(/:type$/)) {
-                    i = 1*el.id.replace(/^.*:.*([0-9]+):.*$/, '$1');
+                    i = 1 * el.id.replace(/^.*:.*?([0-9]+):.*$/, '$1');
                     max_id = i > max_id ? i : max_id;
                 }
             });
         }
-        var new_id = parent_id+'.'+(max_id+1);
+        var new_id = parent_id + '.' + (max_id + 1);
         var new_type = elem.value;
         var new_elem = document.createElement('LI');
         new_elem.className = 'rule-param-wait';
