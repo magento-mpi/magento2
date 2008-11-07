@@ -63,6 +63,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             $check = $stockItem->checkQuoteItemQty($item->getQty(),$item->getQty());
             $item->setMessage($check->getMessage());
             $item->setHasError($check->getHasError());
+            if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
+                $message = $item->getMessage(false);
+                $message[] = Mage::helper('adminhtml')->__('This product is currently has status as disabled');
+                $item->setMessage($message);
+                $item->setHasError(true);
+            }
         }
         return $items;
     }
