@@ -516,4 +516,16 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
         return $this;
     }
+
+    /**
+     * Set Return Path
+     *
+     * @param string $email
+     * @return Mage_Core_Model_Email_Template
+     */
+    public  function setReturnPath($email)
+    {
+        $this->getMail()->setReturnPath($email);
+        return $this;
+    }
 }

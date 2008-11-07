@@ -259,6 +259,9 @@
                 <un_email_identity>support</un_email_identity>
                 <un_email_template>newsletter_subscription_un_email_template</un_email_template>
             </subscription>
+            <sending>
+                <set_return_path>0</set_return_path>
+            </sending>
         </newsletter>
     </default>
 
