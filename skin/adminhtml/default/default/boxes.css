@@ -733,7 +733,7 @@ ul.item-options li { padding-left:.7em; }
 /* Order Totals */
 .order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding:12px 0; background:#fcfac9; text-align:right; }
 .order-totals table                     { border:none; background:none; margin-left:auto; }
-.order-totals table td                  { padding:3px 20px 3px 10px; white-space:nowrap; }
+.order-totals table td                  { padding:3px 20px 3px 10px; }
 .order-totals table td.label            { white-space:normal; padding:3px 10px 3px 20px; }
 .order-totals table td.last             { padding:2px 6px; }
 .order-totals-bottom                    { padding:0 20px; }
