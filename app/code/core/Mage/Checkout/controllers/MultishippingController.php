@@ -70,7 +70,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
     {
         parent::preDispatch();
 
-        if (!Mage::helper('checkout')->isMultishippingCheckoutAvailable()){
+        if (!Mage::helper('checkout')->isMultishippingCheckoutAvailable()) {
             $this->_redirectUrl($this->_getHelper()->getCartUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;

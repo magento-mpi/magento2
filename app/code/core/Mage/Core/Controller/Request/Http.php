@@ -201,4 +201,23 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         }
         return $_SERVER['HTTP_HOST'];
     }
+
+    /**
+     * Set a member of the $_POST superglobal
+     *
+     * @param striing|array $key
+     * @param mixed $value
+     *
+     * @return Mage_Core_Controller_Request_Http
+     */
+    public function setPost($key, $value = null)
+    {
+        if (is_array($key)) {
+            $_POST = $key;
+        }
+        else {
+            $_POST[$key] = $value;
+        }
+        return $this;
+    }
 }
