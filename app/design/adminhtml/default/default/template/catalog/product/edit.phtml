@@ -73,7 +73,8 @@
     };
     function saveAndContinueEdit(urlTemplate) {
         var template = new Template(urlTemplate, productTemplateSyntax);
-        productForm.submit(template.evaluate({tab_id:product_info_tabsJsTabs.activeTab.id}));
+        var url = template.evaluate({tab_id:product_info_tabsJsTabs.activeTab.id});
+        productForm.submit(url);
     }
     function setSettings(urlTemplate, setElement, typeElement) {
         var template = new Template(urlTemplate, productTemplateSyntax);
