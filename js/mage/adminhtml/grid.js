@@ -567,7 +567,7 @@ var varienStringArray = {
     {
         haystack = ',' + haystack + ',';
         haystack = haystack.replace(new RegExp(',' + str + ',', 'g'), ',');
-        return haystack.substr(1, haystack.length - 2);
+        return this.trimComma(haystack);
     },
     add: function(str, haystack)
     {
@@ -575,7 +575,7 @@ var varienStringArray = {
         if (haystack.search(new RegExp(',' + str + ',', 'g'), haystack) === -1) {
             haystack += str + ',';
         }
-        return haystack.substr(1, haystack.length - 2);
+        return this.trimComma(haystack);
     },
     has: function(str, haystack)
     {
@@ -601,5 +601,11 @@ var varienStringArray = {
         for (var i=0; i<haystack.length; i++) {
             fnc(haystack[i]);
         }
+    },
+    trimComma: function(string)
+    {
+        string = string.replace(new RegExp('^(,+)','i'), '');
+        string = string.replace(new RegExp('(,+)$','i'), '');
+        return string;
     }
 };
