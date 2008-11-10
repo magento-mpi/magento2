@@ -90,6 +90,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         $address = $order->getBillingAddress();
 
         $html  = '<script type="text/javascript">' . "\n";
+		$html .= '//<![CDATA[';
         $html .= 'pageTracker._addTrans(';
         $html .= '"' . $order->getIncrementId() . '",';
         $html .= '"' . $order->getAffiliation() . '",';
@@ -113,6 +114,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         }
 
         $html .= 'pageTracker._trackTrans();' . "\n";
+		$html .= '//]]>';
         $html .= '</script>';
 
         return $html;
@@ -162,12 +164,16 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         $this->addText('
 <!-- BEGIN GOOGLE ANALYTICS CODE -->
 <script type="text/javascript">
+//<![CDATA[
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));
+//]]>
 </script>
 <script type="text/javascript">
+//<![CDATA[
 var pageTracker = _gat._getTracker("' . $this->getAccount() . '");
 pageTracker._trackPageview("'.$this->getPageName().'");
+//]]>
 </script>
 <!-- END GOOGLE ANALYTICS CODE -->
         ');
