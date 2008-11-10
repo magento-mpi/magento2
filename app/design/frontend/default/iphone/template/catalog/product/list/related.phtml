@@ -30,7 +30,7 @@
         <h4><?php echo $this->__('Related Products') ?></h4>
     </div>
     <div class="content">
-        <p><strong><?php echo $this->__('Check items to add to the cart or ') ?><a href="#" onclick="selectAllRelated(this);return false;"><?php echo $this->__('select all') ?></a></strong></p>
+        <p><strong><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" onclick="selectAllRelated(this);return false;"><?php echo $this->__('select all') ?></a></strong></p>
         <ol>
         <?php foreach($this->getItems() as $_item): ?>
         <li<?php if($_item->isSuper() || !$_item->isSaleable()): ?> class="super-products"<?php endif; ?>>
