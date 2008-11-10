@@ -170,7 +170,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'title'  => Mage::helper('catalog')->__('Default value'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'value'  => $model->getDefaultValue(),
-            'input_format' => $dateFormatIso,
             'format'       => $dateFormatIso
         ));
 
