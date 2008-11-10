@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         parent::__construct();
         $this->setId('customerGrid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('id');
+        $this->setDefaultSort('entity_id');
     }
 
     protected function _prepareCollection()
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
+        $this->addColumn('entity_id', array(
             'header'    => Mage::helper('customer')->__('ID'),
             'width'     => '50px',
             'index'     => 'entity_id',

@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         $this->setRowClickCallback('order.productGridRowClick.bind(order)');
         $this->setCheckboxCheckCallback('order.productGridCheckboxCheck.bind(order)');
         $this->setRowInitCallback('order.productGridRowInit.bind(order)');
-        $this->setDefaultSort('id');
+        $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
         if ($this->getRequest()->getParam('collapse')) {
             $this->setIsCollapsed(true);
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
+        $this->addColumn('entity_id', array(
             'header'    => Mage::helper('sales')->__('ID'),
             'sortable'  => true,
             'width'     => '60',

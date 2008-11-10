@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         parent::__construct();
         $this->setId('subscriberGrid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('id', 'desc');
+        $this->setDefaultSort('subscriber_id', 'desc');
     }
 
     /**
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
 
-    	$this->addColumn('id', array(
+    	$this->addColumn('subscriber_id', array(
     		'header'	=> Mage::helper('newsletter')->__('ID'),
        		'index'		=> 'subscriber_id'
     	));

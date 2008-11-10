@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
         $this->setId('sales_order_create_customer_grid');
         $this->setRowClickCallback('order.selectCustomer.bind(order)');
         $this->setUseAjax(true);
-        $this->setDefaultSort('id');
+        $this->setDefaultSort('entity_id');
     }
 
     protected function _prepareCollection()
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
+        $this->addColumn('entity_id', array(
             'header'    =>Mage::helper('sales')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id',

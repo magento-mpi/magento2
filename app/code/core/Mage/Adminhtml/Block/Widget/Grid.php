@@ -838,9 +838,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     * Retrieve row identifier
-     *
-     * By default we retrieve row edit url
+     * Deprecated since 1.1.7
      *
      * @return string
      */

@@ -105,9 +105,10 @@ varienGrid.prototype = {
         Element.addClassName(element, 'on-mouse');
 
         if (!Element.hasClassName('pointer')
-            && (this.rowClickCallback !== openGridRow || element.id)) {
-            if(element.id)
-            Element.addClassName(element, 'pointer');
+            && (this.rowClickCallback !== openGridRow || element.title)) {
+            if (element.title) {
+                Element.addClassName(element, 'pointer');
+            }
         }
     },
     rowMouseOut : function(event){
@@ -276,8 +277,8 @@ function openGridRow(grid, event){
         return;
     }
 
-    if(element.id){
-        setLocation(element.id);
+    if(element.title){
+        setLocation(element.title);
     }
 }
 
@@ -296,12 +297,12 @@ varienGridMassaction.prototype = {
         this.setOldCallback('init',      grid.initCallback);
         this.setOldCallback('init_row',  grid.initRowCallback);
         this.setOldCallback('pre_init',  grid.preInitCallback);
-        
+
         this.useAjax        = false;
         this.grid           = grid;
         this.containerId    = containerId;
         this.initMassactionElements();
-        
+
         this.checkedString          = checkedValues;
         this.formFieldName          = formFieldName;
         this.formFieldNameInternal  = formFieldNameInternal;
@@ -373,8 +374,8 @@ varienGridMassaction.prototype = {
                 return;
             }
             var trElement = Event.findElement(evt, 'tr');
-            if (trElement.id) {
-                setLocation(trElement.id);
+            if (trElement.title) {
+                setLocation(trElement.title);
             }
             return;
         }
@@ -506,11 +507,11 @@ varienGridMassaction.prototype = {
         if(this.currentItem.confirm && !window.confirm(this.currentItem.confirm)) {
             return;
         }
-        
+
         this.formHiddens.update('');
         new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: fieldName, value: this.checkedString}));
         new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: 'massaction_prepare_key', value: fieldName}));
-        
+
         if(!this.validator.validate()) {
             return;
         }

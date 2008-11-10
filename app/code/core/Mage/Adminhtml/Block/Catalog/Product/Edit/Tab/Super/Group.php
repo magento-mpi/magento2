@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
     {
         parent::__construct();
         $this->setId('super_product_grid');
-        $this->setDefaultSort('id');
+        $this->setDefaultSort('entity_id');
         $this->setSkipGenerateContent(true);
         $this->setUseAjax(true);
         if ($this->_getProduct()->getId()) {
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             'index'     => 'entity_id'
         ));
 
-        $this->addColumn('id', array(
+        $this->addColumn('entity_id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
