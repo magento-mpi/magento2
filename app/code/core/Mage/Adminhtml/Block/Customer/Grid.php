@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
             ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
-            ->joinAttribute('billing_regione', 'customer_address/region', 'default_billing', null, 'left')
+            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
 
         $this->setCollection($collection);
