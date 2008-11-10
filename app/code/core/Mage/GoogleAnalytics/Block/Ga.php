@@ -139,7 +139,11 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
     public function getPageName()
     {
         if (!$this->hasData('page_name')) {
-            $this->setPageName(Mage::getSingleton('core/url')->escape($this->getRequest()->getPathInfo()));
+            $queryStr = '';
+            if ($request = Mage::app()->getFrontController()->getRequest()) {
+                $queryStr = substr($request->getRequestUri(), strpos($request->getRequestUri(), '?'));
+            }
+            $this->setPageName(Mage::getSingleton('core/url')->escape($this->getRequest()->getPathInfo()) . $queryStr);
         }
         return $this->getData('page_name');
     }
@@ -163,7 +167,7 @@ document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga
 </script>
 <script type="text/javascript">
 var pageTracker = _gat._getTracker("' . $this->getAccount() . '");
-pageTracker._trackPageview();
+pageTracker._trackPageview("'.$this->getPageName().'");
 </script>
 <!-- END GOOGLE ANALYTICS CODE -->
         ');
