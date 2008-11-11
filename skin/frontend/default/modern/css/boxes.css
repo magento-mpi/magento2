@@ -432,9 +432,9 @@ h1#logo                 { float:left; }
 .footer .footer-right           { float:right; width:50%; text-align:right; }
 .footer .footer-callout         { margin-top:-10px; }
 .footer .footer-links           { margin-bottom:10px; }
-.footer .footer-links a         { background:url(../images/links_separator.gif) no-repeat 100% 50%; padding:0 6px 0 5px; }
-.footer .footer-links .first a  { padding-left:0; }
-.footer .footer-links .last a   { padding-right:0; background:none; }
+.footer .footer-links li.last a { padding-right:0; margin-right:0; background:none; }
+.footer ul a                    { background:url(../images/links_separator.gif) no-repeat 100% 50%; padding-right:5px; margin-right:3px; }
+.footer ul,
 .footer li                      { display:inline; }
 .footer a,
 .footer a:hover                 { color:#444; }
