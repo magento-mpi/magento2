@@ -225,6 +225,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
             $this->_data['_session_flash_key']      = $this->getValidatorKey(true);
         }
         else {
+            if (!isset($this->_data['_session_flash_key'])) {
+                $this->_data['_session_flash_key'] = $this->_data['_session_validator_key'];
+            }
             if ($this->_data['_session_validator_key'] != $this->getValidatorKey()
                 && $this->_data['_session_flash_key'] != $this->getValidatorKey()) {
                 // remove session cookie
