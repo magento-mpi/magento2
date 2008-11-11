@@ -433,7 +433,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         $options = array(0);
         $results = $resource->getSelectionsData($productId);
 
-        if (!$attributes[0]['value']) { //dynamic
+        if (!$attributes || !$attributes[0]['value']) { //dynamic
             $dataRetreiver = Mage::getSingleton('catalogindex/data_simple');
 
             $childrenQty = array();
