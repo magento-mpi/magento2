@@ -70,16 +70,16 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
     {
         parent::preDispatch();
 
-        if (!Mage::helper('checkout')->isMultishippingCheckoutAvailable()) {
-            $this->_redirectUrl($this->_getHelper()->getCartUrl());
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
-        }
-
         $action = $this->getRequest()->getActionName();
         if (!preg_match('#^(login|register)#', $action)) {
             if (!Mage::getSingleton('customer/session')->authenticate($this, $this->_getHelper()->getMSLoginUrl())) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            }
+
+            if (!Mage::helper('checkout')->isMultishippingCheckoutAvailable()) {
+                $this->_redirectUrl($this->_getHelper()->getCartUrl());
+                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                return $this;
             }
         }
 
