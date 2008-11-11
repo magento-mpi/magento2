@@ -38,7 +38,7 @@
             <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo $this->__('Change Password') ?></a>
         </p>
     </div>
-
+    <?php if( $this->isNewsletterEnabled() ): ?>
     <div class="dashboard-block">
         <div class="inner-head">
             <h5><?php echo $this->__('Newsletters') ?></h5>
@@ -53,5 +53,6 @@
             <?php endif; ?>
         </p>
     </div>
+    <?php endif; ?>
 </div><div class="clear"></div>
 <br />
