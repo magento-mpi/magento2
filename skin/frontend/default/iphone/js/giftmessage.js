@@ -37,7 +37,7 @@ GiftMessage.prototype = {
         Event.stop(evt);
     },
     initListeners: function () {
-        var items = $(this.buttonId).getElementsByClassName('listen-for-click');
+        var items = Element.select($(this.buttonId), '.listen-for-click');
         items.each(function(item) {
            Event.observe(item, 'click', this.editGiftMessage.bindAsEventListener(this));
            item.controller = this;
@@ -89,12 +89,12 @@ GiftMessageWindow.prototype = {
         }
     },
     initListeners: function() {
-        removeButtons = this.formElement.getElementsByClassName('listen-remove');
+        removeButtons = Element.select(this.formElement, '.listen-remove');
         removeButtons.each(function(item){
             Event.observe(item, 'click', this.remove.bindAsEventListener(this));
         }.bind(this));
 
-        cancelButtons = this.formElement.getElementsByClassName('listen-cancel');
+        cancelButtons = Element.select(this.formElement, '.listen-cancel');
         cancelButtons.each(function(item){
             Event.observe(item, 'click', this.cancel.bindAsEventListener(this));
         }.bind(this));

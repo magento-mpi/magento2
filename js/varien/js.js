@@ -371,12 +371,12 @@ Varien.Tabs.prototype = {
 Varien.DOB = Class.create();
 Varien.DOB.prototype = {
     initialize: function(selector, required) {
-        var el = $$(selector)[0];
-        this.day = $(el).getElementsBySelector('.dob-day input')[0];
-        this.month = $(el).getElementsBySelector('.dob-month input')[0];
-        this.year = $(el).getElementsBySelector('.dob-year input')[0];
-        this.dob = $(el).getElementsBySelector('.dob-full input')[0];
-        this.advice = $(el).getElementsBySelector('.validation-advice')[0];
+        var el        = $$(selector)[0];
+        this.day      = Element.select($(el), '.dob-day input')[0];
+        this.month    = Element.select($(el), '.dob-month input')[0];
+        this.year     = Element.select($(el), '.dob-year input')[0];
+        this.dob      = Element.select($(el), '.dob-full input')[0];
+        this.advice   = Element.select($(el), '.validation-advice')[0];
         this.required = required;
 
         this.day.validate = this.validate.bind(this);
@@ -415,7 +415,12 @@ Varien.DOB.prototype = {
         }
 
         if (error !== false) {
-            this.advice.innerHTML = Translator.translate(error);
+            try {
+                this.advice.innerHTML = Translator.translate(error);
+            }
+            catch (e) {
+                this.advice.innerHTML = error;
+            }
             this.advice.show();
             return false;
         }
