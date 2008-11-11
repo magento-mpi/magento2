@@ -343,7 +343,8 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
             Mage::throwException(Mage::helper('newsletter')->__('Invalid subscription confirmation code'));
         }
 
-        $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();
+        $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)
+            ->save();
         $this->sendUnsubscriptionEmail();
         return $this;
     }
