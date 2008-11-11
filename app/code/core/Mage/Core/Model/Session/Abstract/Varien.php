@@ -27,6 +27,8 @@
 
 class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 {
+    const USER_AGENT_SHOCKWAVE_FLASH    = 'Shockwave Flash';
+
     public function start($sessionName=null)
     {
         if (isset($_SESSION)) {
@@ -219,10 +221,12 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     public function validate()
     {
         if (!isset($this->_data['_session_validator_key'])) {
-            $this->_data['_session_validator_key'] = $this->getValidatorKey();
+            $this->_data['_session_validator_key']  = $this->getValidatorKey();
+            $this->_data['_session_flash_key']      = $this->getValidatorKey(true);
         }
         else {
-            if ($this->_data['_session_validator_key'] != $this->getValidatorKey()) {
+            if ($this->_data['_session_validator_key'] != $this->getValidatorKey()
+                && $this->_data['_session_flash_key'] != $this->getValidatorKey()) {
                 // remove session cookie
                 setcookie(
                     session_name(),
@@ -242,9 +246,10 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     /**
      * Retrieve unique user key for validator
      *
+     * @param bool $flash Generate key using Flash as UserAgent
      * @return string
      */
-    public function getValidatorKey()
+    public function getValidatorKey($flash = false)
     {
         $parts = array();
 
@@ -260,8 +265,13 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         }
 
         // collect user agent data
-        if ($this->useValidateHttpUserAgent() && isset($_SERVER['HTTP_USER_AGENT'])) {
-            $parts[] = $_SERVER['HTTP_USER_AGENT'];
+        if ($this->useValidateHttpUserAgent()) {
+            if ($flash) {
+                $parts[] = self::USER_AGENT_SHOCKWAVE_FLASH;
+            }
+            elseif (!$flash && isset($_SERVER['HTTP_USER_AGENT'])) {
+                $parts[] = $_SERVER['HTTP_USER_AGENT'];
+            }
         }
 
         return sha1(join('-', $parts));
