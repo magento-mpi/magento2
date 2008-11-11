@@ -35,36 +35,27 @@
     <?php echo $this->getChildHtml('head') ?>
 </head>
 <body home="index.php" class="mage-iphone" onload="setTimeout(scrollTo, 0, 0, 1)">
-        <!-- [start] header -->
-        <div class="header">
-            <?php echo $this->getChildHtml('header') ?>
+<div class="header">
+    <?php echo $this->getChildHtml('header') ?>
+</div>
+<div class="middle-container">
+    <div class="middle col-1-layout">
+        <div style="margin-bottom:7px;">
+            <?php echo $this->getChildHtml('breadcrumbs') ?>
+            <div class="clear"></div>
         </div>
-        <!-- [end] header -->
-        <!-- [start] middle -->
-        <div class="middle-container">
-            <div class="middle col-1-layout">
-                <div style="margin-bottom:7px;">
-                    <?php echo $this->getChildHtml('breadcrumbs') ?><div class="clear"></div>
-                </div>
-                <!-- [start] center -->
-                <div class="clear"></div>
-                <div id="main" class="col-main">
-                <!-- [start] content -->
-                    <?php echo $this->getChildHtml('content') ?>
-                <!-- [end] content -->
-                </div>
-                <!-- [end] center -->
-            </div>
+        <div class="clear"></div>
+        <div id="main" class="col-main">
+            <?php echo $this->getChildHtml('content') ?>
         </div>
-        <!-- [end] middle -->
-        <!-- [start] footer -->
-        <div class="footer-container">
-            <div class="footer">
-                <?php echo $this->getChildHtml('footer') ?>
-            </div>
-        </div>
-        <!-- [end] footer -->
-        <?php echo $this->getChildHtml('before_body_end') ?>
-        <?php echo $this->getAbsoluteFooter() ?>
+    </div>
+</div>
+<div class="footer-container">
+    <div class="footer">
+        <?php echo $this->getChildHtml('footer') ?>
+    </div>
+</div>
+<?php echo $this->getChildHtml('before_body_end') ?>
+<?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>

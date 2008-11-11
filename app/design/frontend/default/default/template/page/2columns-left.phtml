@@ -37,41 +37,40 @@
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 <div class="wrapper">
 <?php /*<p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p> */ ?>
-<!-- [start] header -->
+<!-- start header -->
     <div class="header">
         <?php echo $this->getChildHtml('header') ?>
     </div>
-<!-- [end] header -->
+<!-- end header -->
 
-    <!-- [start] middle -->
+    <!-- start middle -->
     <div class="middle-container">
         <div class="middle col-2-left-layout">
             <?php echo $this->getChildHtml('breadcrumbs') ?>
-            <!-- [start] left -->
+            <!-- start left -->
             <div class="col-left side-col">
-                <?php echo $this->getChildHtml('left') ?>
-                &nbsp;
+                <?php echo $this->getChildHtml('left') ?>&nbsp;
             </div>
             <div id="main" class="col-main">
-            <!-- [start] global messages -->
+            <!-- start global messages -->
                 <?php echo $this->getChildHtml('global_messages') ?>
-            <!-- [end] global messages -->
-            <!-- [start] content -->
+            <!-- end global messages -->
+            <!-- start content -->
                 <?php echo $this->getChildHtml('content') ?>
-            <!-- [end] content -->
+            <!-- end content -->
             </div>
         </div>
-            <!-- [end] center -->
+            <!-- end center -->
     </div>
-        <!-- [end] middle -->
+        <!-- end middle -->
 
-        <!-- [start] footer -->
+        <!-- start footer -->
     <div class="footer-container">
         <div class="footer">
-        <?php echo $this->getChildHtml('footer') ?>
+            <?php echo $this->getChildHtml('footer') ?>
         </div>
     </div>
-        <!-- [end] footer -->
+        <!-- end footer -->
 
 <?php echo $this->getChildHtml('before_body_end') ?>
 </div>

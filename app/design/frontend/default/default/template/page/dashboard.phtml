@@ -37,46 +37,45 @@
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 <div class="wrapper">
 <?php /*<p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p> */ ?>
-        <!-- [start] header -->
+        <!-- start header -->
         <div class="header">
             <?php echo $this->getChildHtml('header') ?>
         </div>
-        <!-- [end] header -->
+        <!-- end header -->
 
-        <!-- [start] middle -->
+        <!-- start middle -->
             <div class="middle-container">
                 <div class="middle col-2-right-layout">
-        <!-- [start] center -->
+        <!-- start center -->
                     <div id="main" class="col-main account-main">
-                <!-- [start] global messages -->
+                <!-- start global messages -->
                     <?php echo $this->getChildHtml('global_messages') ?>
-                <!-- [end] global messages -->
+                <!-- end global messages -->
 
-                    <!-- [start] content -->
+                    <!-- start content -->
                             <?php echo $this->getChildHtml('content') ?>
-                    <!-- [end] content -->
+                    <!-- end content -->
 
                     </div>
-        <!-- [end] center -->
+        <!-- end center -->
 
-        <!-- [start] right -->
+        <!-- start right -->
                     <div class="col-right side-col account-side">
                             <?php echo $this->getChildHtml('right') ?>
                     </div>
-        <!-- [end] right -->
+        <!-- end]right -->
 
                 </div>
             </div>
-        <!-- [end] middle -->
+        <!-- end middle -->
 
-        <!-- [start] footer -->
+        <!-- start footer -->
         <div class="footer-container">
-                    <div class="footer">
-            <?php echo $this->getChildHtml('footer') ?>
-                        </div>
+            <div class="footer">
+                <?php echo $this->getChildHtml('footer') ?>
+            </div>
         </div>
-        <!-- [end] footer -->
-
+        <!-- end footer -->
 <?php echo $this->getChildHtml('before_body_end') ?>
 </div>
 <?php echo $this->getAbsoluteFooter() ?>

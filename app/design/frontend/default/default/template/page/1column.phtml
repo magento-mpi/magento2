@@ -36,37 +36,37 @@
 </head>
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 <div class="wrapper">
-        <!-- [start] header -->
+        <!-- start header -->
         <div class="header">
             <?php echo $this->getChildHtml('header') ?>
         </div>
-        <!-- [end] header -->
+        <!-- end header -->
 
-        <!-- [start] middle -->
+        <!-- start middle -->
         <div class="middle-container">
             <div class="middle col-1-layout">
                 <?php echo $this->getChildHtml('breadcrumbs') ?>
-            <!-- [start] center -->
+            <!-- start center -->
                 <div id="main" class="col-main">
 
-                <!-- [start] content -->
+                <!-- start content -->
                     <?php echo $this->getChildHtml('content') ?>
-                <!-- [end] content -->
+                <!-- end content -->
 
                 </div>
-            <!-- [end] center -->
+            <!-- end center -->
 
             </div>
         </div>
-        <!-- [end] middle -->
+        <!-- end middle -->
 
-        <!-- [start] footer -->
+        <!-- start footer -->
         <div class="footer-container">
             <div class="footer">
                 <?php echo $this->getChildHtml('footer') ?>
             </div>
         </div>
-        <!-- [end] footer -->
+        <!-- end footer -->
         <?php echo $this->getChildHtml('before_body_end') ?>
 </div>
 <?php echo $this->getAbsoluteFooter() ?>

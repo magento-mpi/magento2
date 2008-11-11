@@ -47,7 +47,6 @@
     </div>
     <div class="container">
         <?php echo $this->getChildHtml('header') ?>
-        <!-- [end] header -->
         <div class="outline-creator">
             <div class="toplinks-bar">
                 <?php  echo $this->getChildHtml('store_language') ?>
@@ -61,12 +60,10 @@
             <div class="middle layout-2columns">
                 <div class="col-left sidebar" id="col-left">
                     <?php echo $this->getChildHtml('left') ?>&nbsp;
-                    <!-- [end] col-left -->
                 </div>
                 <div class="col-main" id="main">
                     <?php echo $this->getChildHtml('global_messages') ?>
                     <?php echo $this->getChildHtml('content') ?>
-                    <!-- [end] content -->
                 </div>
             </div>
         </div>
@@ -76,5 +73,5 @@
     </div>
     <?php echo $this->getChildHtml('before_body_end') ?>
     <?php echo $this->getAbsoluteFooter() ?>
-    </body>
+</body>
 </html>

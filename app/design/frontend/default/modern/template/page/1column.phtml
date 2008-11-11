@@ -34,7 +34,6 @@
 <head>
     <?php echo $this->getChildHtml('head') ?>
 </head>
-
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 <?php /*<p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p>*/ ?>
     <div class="no-display">
@@ -46,7 +45,6 @@
     </div>
     <div class="container">
         <?php echo $this->getChildHtml('header') ?>
-        <!-- [end] header -->
         <div class="outline-creator">
             <div class="toplinks-bar">
                 <?php  echo $this->getChildHtml('store_language') ?>
@@ -60,7 +58,6 @@
             <div class="middle layout-1column" id="main">
                 <?php echo $this->getChildHtml('global_messages') ?>
                 <?php echo $this->getChildHtml('content') ?>
-                <!-- [end] content -->
             </div>
         </div>
         <div class="footer" id="footer">

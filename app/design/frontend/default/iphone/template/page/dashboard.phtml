@@ -37,46 +37,25 @@
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 <div class="wrapper">
     <!--<p class="demo-notice"><span><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></span></p>-->
-        <!-- [start] header -->
         <div class="header">
             <?php echo $this->getChildHtml('header') ?>
         </div>
-        <!-- [end] header -->
-
-        <!-- [start] middle -->
-            <div class="middle-container">
-                <div class="middle col-2-right-layout">
-        <!-- [start] center -->
-                    <div id="main" class="col-main account-main">
-                <!-- [start] global messages -->
+        <div class="middle-container">
+            <div class="middle col-2-right-layout">
+                <div id="main" class="col-main account-main">
                     <?php echo $this->getChildHtml('global_messages') ?>
-                <!-- [end] global messages -->
-
-                    <!-- [start] content -->
-                            <?php echo $this->getChildHtml('content') ?>
-                    <!-- [end] content -->
-
-                    </div>
-        <!-- [end] center -->
-
-        <!-- [start] right -->
-                    <div class="col-right side-col account-side">
-                            <?php echo $this->getChildHtml('right') ?>
-                    </div>
-        <!-- [end] right -->
-
+                    <?php echo $this->getChildHtml('content') ?>
+                </div>
+                <div class="col-right side-col account-side">
+                    <?php echo $this->getChildHtml('right') ?>
                 </div>
             </div>
-        <!-- [end] middle -->
-
-        <!-- [start] footer -->
-        <div class="footer-container">
-                    <div class="footer">
-            <?php echo $this->getChildHtml('footer') ?>
-                        </div>
         </div>
-        <!-- [end] footer -->
-
+        <div class="footer-container">
+            <div class="footer">
+                <?php echo $this->getChildHtml('footer') ?>
+             </div>
+        </div>
 <?php echo $this->getChildHtml('before_body_end') ?>
 </div>
 <?php echo $this->getAbsoluteFooter() ?>

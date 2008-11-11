@@ -34,12 +34,9 @@
 <head>
     <?php echo $this->getChildHtml('head') ?>
 </head>
-
 <body class="page-popup <?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
-    <!-- [start] content -->
-        <?php echo $this->getChildHtml('content') ?>
-    <!-- [end] content -->
-<?php echo $this->getChildHtml('before_body_end') ?>
-<?php echo $this->getAbsoluteFooter() ?>
+    <?php echo $this->getChildHtml('content') ?>
+    <?php echo $this->getChildHtml('before_body_end') ?>
+    <?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>
