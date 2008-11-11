@@ -118,10 +118,10 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'     => 'billing_country_id',
         ));
 
-        $this->addColumn('billing_regione', array(
+        $this->addColumn('billing_region', array(
             'header'    => Mage::helper('customer')->__('State/Province'),
             'width'     => '100',
-            'index'     => 'billing_regione',
+            'index'     => 'billing_region',
         ));
 
         $this->addColumn('customer_since', array(
