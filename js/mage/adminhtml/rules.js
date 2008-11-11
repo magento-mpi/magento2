@@ -89,19 +89,26 @@ VarienRulesForm.prototype = {
     },
 
     showChooser: function (container, event) {
-    	var chooser = container.up('li').down('.rule-chooser');
-    	if (!chooser) {
-    	    return;
-    	}
-
+        var chooser = container.up('li');
+        if (!chooser) {
+            return;
+        }
+        chooser = chooser.down('.rule-chooser');
+        if (!chooser) {
+            return;
+        }
         this.showChooserElement(chooser);
     },
 
     hideChooser: function (container, event) {
-    	var chooser = container.up('li').down('.rule-chooser');
-    	if (!chooser) {
-    	    return;
-    	}
+        var chooser = container.up('li');
+        if (!chooser) {
+            return;
+        }
+        chooser = chooser.down('.rule-chooser');
+        if (!chooser) {
+            return;
+        }
         chooser.style.display = 'none';
     },
 

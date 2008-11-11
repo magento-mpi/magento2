@@ -210,8 +210,9 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getValue()
     {
         if ($this->getInputType()=='date' && !$this->getIsValueParsed()) {
-            $date = Mage::getSingleton('core/date')->gmtDate('Y-m-d', $this->getData('value'));
-            $this->setValue($date);
+            // date format intentionally hard-coded
+            $this->setValue(Mage::app()->getLocale()->date($this->getData('value'), Varien_Date::DATE_INTERNAL_FORMAT, null, false)
+                ->toString(Varien_Date::DATE_INTERNAL_FORMAT));
             $this->setIsValueParsed(true);
         }
         return $this->getData('value');
@@ -222,10 +223,6 @@ abstract class Mage_Rule_Model_Condition_Abstract
         $value = $this->getValue();
         if (is_null($value) || ''===$value) {
             return '...';
-        }
-
-        if ($this->getInputType()=='date') {
-            return Mage::helper('core')->formatDate($value);
         }
 
         $options = $this->getValueSelectOptions();
@@ -353,21 +350,22 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getValueElement()
     {
-        $value = $this->getData('value');
+        $elementParams = array(
+            'name'               => 'rule['.$this->getPrefix().']['.$this->getId().'][value]',
+            'value'              => $this->getValue(),
+            'values'             => $this->getValueSelectOptions(),
+            'value_name'         => $this->getValueName(),
+            'after_element_html' => $this->getValueAfterElementHtml(),
+            'explicit_apply'     => $this->getExplicitApply(),
+        );
         if ($this->getInputType()=='date') {
-            $value = $this->getValueName();
+            // date format intentionally hard-coded
+            $elementParams['input_format'] = Varien_Date::DATE_INTERNAL_FORMAT;
+            $elementParams['format']       = Varien_Date::DATE_INTERNAL_FORMAT;
         }
-
         return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':value',
             $this->getValueElementType(),
-            array(
-                'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][value]',
-                'value'=>$value,
-                'values'=>$this->getValueSelectOptions(),
-                'value_name'=>$this->getValueName(),
-                'after_element_html'=>$this->getValueAfterElementHtml(),
-                'explicit_apply'=>$this->getExplicitApply(),
-           )
+            $elementParams
         )->setRenderer($this->getValueElementRenderer());
     }
 
