@@ -383,8 +383,8 @@ AdminOrder.prototype = {
 
     selectCustomer : function(grid, event){
         var element = Event.findElement(event, 'tr');
-        if(element.id){
-            this.setCustomerId(element.id);
+        if (element.title){
+            this.setCustomerId(element.title);
         }
     },
 

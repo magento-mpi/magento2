@@ -110,7 +110,15 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
         return parent::_prepareColumns();
     }
 
+    /**
+     * Deprecated since 1.1.7
+     */
     public function getRowId($row)
+    {
+        return $row->getId();
+    }
+
+    public function getRowUrl($row)
     {
         return $row->getId();
     }
