@@ -53,7 +53,7 @@ class Mage_Sales_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_Abst
             $this->insertLogo($page, $invoice->getStore());
 
             /* Add address */
-            $this->insertAddress($page);
+            $this->insertAddress($page, $invoice->getStore());
 
             /* Add head */
             $this->insertOrder($page, $order, Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID, $order->getStoreId()));

@@ -52,7 +52,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $this->insertLogo($page, $shipment->getStore());
 
             /* Add address */
-            $this->insertAddress($page);
+            $this->insertAddress($page, $shipment->getStore());
 
             /* Add head */
             $this->insertOrder($page, $order, Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, $order->getStoreId()));

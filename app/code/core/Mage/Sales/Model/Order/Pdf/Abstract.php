@@ -114,11 +114,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function insertLogo(&$page, $store = null)
     {
-        $image = Mage::getStoreConfig('sales/identity/logo');
+        $image = Mage::getStoreConfig('sales/identity/logo', $store);
         if ($image) {
             $image = Mage::getStoreConfig('system/filesystem/media', $store) . '/sales/store/logo/' . $image;
             if (is_file($image)) {
-
                 $image = Zend_Pdf_Image::imageWithPath($image);
                 $page->drawImage($image, 25, 800, 125, 825);
             }
@@ -126,7 +125,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         //return $page;
     }
 
-    protected function insertAddress(&$page)
+    protected function insertAddress(&$page, $store = null)
     {
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page, 5);
@@ -137,7 +136,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setLineWidth(0);
         $this->y = 820;
-        foreach (explode("\n", Mage::getStoreConfig('sales/identity/address')) as $value){
+        foreach (explode("\n", Mage::getStoreConfig('sales/identity/address', $store)) as $value){
             if ($value!=='') {
                 $page->drawText(trim(strip_tags($value)), 130, $this->y, 'UTF-8');
                 $this->y -=7;
