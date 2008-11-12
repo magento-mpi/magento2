@@ -83,8 +83,15 @@ foreach ($files as $f) {
     $lastModified = max($lastModified, filemtime($p));
 }
 
+//checking if client have older copy then we have on server
+if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $lastModified) {
+    header("HTTP/1.1 304 Not Modified");
+    exit;
+}
+
 // last modified is the max mtime for loaded files
-header('Last-modified: '.gmdate('r', $lastModified));
+header('Cache-Control: must-revalidate');
+header('Last-modified: ' . gmdate('r', $lastModified));
 
 // optional custom content type, can be emulated by index.php/x.js or x.css
 if (is_string($contentType)) {
