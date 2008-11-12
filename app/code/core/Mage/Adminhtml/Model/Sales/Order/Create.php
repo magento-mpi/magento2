@@ -525,10 +525,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $qty = (int) $qty;
         if (!($product instanceof Mage_Catalog_Model_Product)) {
+            $productId = $product;
             $product = Mage::getModel('catalog/product')
                 ->setStore($this->getSession()->getStore())
                 ->setStoreId($this->getSession()->getStoreId())
                 ->load($product);
+            if (!$product->getId()) {
+                Mage::throwException(Mage::helper('adminhtml')->__('Failed to add a product to cart by id "%s"', $productId));
+            }
         }
 
         if ($item = $this->getQuote()->getItemByProduct($product)) {
