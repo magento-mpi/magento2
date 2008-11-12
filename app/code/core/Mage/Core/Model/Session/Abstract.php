@@ -73,7 +73,11 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateRemoteAddr()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_REMOTE_ADDR);
+        $use = Mage::getStoreConfig(self::XML_PATH_USE_REMOTE_ADDR);
+        if (is_null($use)) {
+            return parent::useValidateRemoteAddr();
+        }
+        return (bool)$use;
     }
 
     /**
@@ -83,7 +87,11 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateHttpVia()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_HTTP_VIA);
+        $use = Mage::getStoreConfig(self::XML_PATH_USE_HTTP_VIA);
+        if (is_null($use)) {
+            return parent::useValidateHttpVia();
+        }
+        return (bool)$use;
     }
 
     /**
@@ -93,7 +101,11 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateHttpXForwardedFor()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_X_FORWARDED);
+        $use = Mage::getStoreConfig(self::XML_PATH_USE_X_FORWARDED);
+        if (is_null($use)) {
+            return parent::useValidateHttpXForwardedFor();
+        }
+        return (bool)$use;
     }
 
     /**
@@ -103,7 +115,11 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateHttpUserAgent()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_USER_AGENT);
+        $use = Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT);
+        if (is_null($use)) {
+            return parent::useValidateHttpUserAgent();
+        }
+        return (bool)$use;
     }
 
     /**

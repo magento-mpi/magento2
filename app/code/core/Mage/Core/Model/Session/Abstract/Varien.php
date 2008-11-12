@@ -27,7 +27,12 @@
 
 class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 {
-    const USER_AGENT_SHOCKWAVE_FLASH    = 'Shockwave Flash';
+    const HTTP_USER_AGENT_SHOCKWAVE_FLASH       = 'Shockwave Flash';
+    const VALIDATOR_KEY                         = '_session_validator_data';
+    const VALIDATOR_HTTP_USER_AGENT_KEY         = 'http_user_agent';
+    const VALIDATOR_HTTP_X_FORVARDED_FOR_KEY    = 'http_x_forwarded_for';
+    const VALIDATOR_HTTP_VIA_KEY                = 'http_via';
+    const VALIDATOR_REMOTE_ADDR_KEY             = 'remote_addr';
 
     public function start($sessionName=null)
     {
@@ -220,16 +225,11 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
      */
     public function validate()
     {
-        if (!isset($this->_data['_session_validator_key'])) {
-            $this->_data['_session_validator_key']  = $this->getValidatorKey();
-            $this->_data['_session_flash_key']      = $this->getValidatorKey(true);
+        if (!isset($this->_data[self::VALIDATOR_KEY])) {
+            $this->_data[self::VALIDATOR_KEY] = $this->getValidatorData();
         }
         else {
-            if (!isset($this->_data['_session_flash_key'])) {
-                $this->_data['_session_flash_key'] = $this->_data['_session_validator_key'];
-            }
-            if ($this->_data['_session_validator_key'] != $this->getValidatorKey()
-                && $this->_data['_session_flash_key'] != $this->getValidatorKey()) {
+            if (!$this->_validate()) {
                 // remove session cookie
                 setcookie(
                     session_name(),
@@ -247,36 +247,63 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     }
 
     /**
-     * Retrieve unique user key for validator
+     * Validate data
      *
-     * @param bool $flash Generate key using Flash as UserAgent
-     * @return string
+     * @return bool
      */
-    public function getValidatorKey($flash = false)
+    protected function _validate()
     {
-        $parts = array();
+        $sessionData = $this->_data[self::VALIDATOR_KEY];
+        $validatorData = $this->getValidatorData();
+
+        if ($this->useValidateRemoteAddr() && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]) {
+            return false;
+        }
+        if ($this->useValidateHttpVia() && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]) {
+            return false;
+        }
+        if ($this->useValidateHttpXForwardedFor() && $sessionData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY] != $validatorData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY]) {
+            return false;
+        }
+        if ($this->useValidateHttpUserAgent()
+            && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
+            && self::HTTP_USER_AGENT_SHOCKWAVE_FLASH != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Retrieve unique user data for validator
+     *
+     * @return array
+     */
+    public function getValidatorData()
+    {
+        $parts = array(
+            self::VALIDATOR_REMOTE_ADDR_KEY             => '',
+            self::VALIDATOR_HTTP_VIA_KEY                => '',
+            self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY    => '',
+            self::VALIDATOR_HTTP_USER_AGENT_KEY         => ''
+        );
 
         // collect ip data
-        if ($this->useValidateRemoteAddr() && isset($_SERVER['REMOTE_ADDR'])) {
-            $parts[] = $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $parts[self::VALIDATOR_REMOTE_ADDR_KEY] = (string)$_SERVER['REMOTE_ADDR'];
         }
-        if ($this->useValidateHttpVia() && isset($_ENV['HTTP_VIA'])) {
-            $parts[] = $_ENV['HTTP_VIA'];
+        if (isset($_ENV['HTTP_VIA'])) {
+            $parts[self::VALIDATOR_HTTP_VIA_KEY] = (string)$_ENV['HTTP_VIA'];
         }
-        if ($this->useValidateHttpXForwardedFor() && isset($_ENV['HTTP_X_FORWARDED_FOR'])) {
-            $parts[] = $_ENV['HTTP_X_FORWARDED_FOR'];
+        if (isset($_ENV['HTTP_X_FORWARDED_FOR'])) {
+            $parts[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY] = (string)$_ENV['HTTP_X_FORWARDED_FOR'];
         }
 
         // collect user agent data
-        if ($this->useValidateHttpUserAgent()) {
-            if ($flash) {
-                $parts[] = self::USER_AGENT_SHOCKWAVE_FLASH;
-            }
-            elseif (!$flash && isset($_SERVER['HTTP_USER_AGENT'])) {
-                $parts[] = $_SERVER['HTTP_USER_AGENT'];
-            }
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $parts[self::VALIDATOR_HTTP_USER_AGENT_KEY] = (string)$_SERVER['HTTP_USER_AGENT'];
         }
 
-        return sha1(join('-', $parts));
+        return $parts;
     }
 }
