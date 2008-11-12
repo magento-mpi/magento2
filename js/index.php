@@ -84,6 +84,9 @@ foreach ($files as $f) {
 }
 
 //checking if client have older copy then we have on server
+if (function_exists('date_default_timezone_set')) {
+    date_default_timezone_set('UTC');
+}
 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $lastModified) {
     header("HTTP/1.1 304 Not Modified");
     exit;
