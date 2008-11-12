@@ -413,17 +413,22 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         }
         if (!empty($method)) {
             $excludingTax = $shipping['shipping-cost']['VALUE'];
+            $qAddress->setShippingMethod($method)
+                ->setShippingDescription($shipping['shipping-name']['VALUE'])
+                ->setShippingAmount($excludingTax, true)
+                ->setBaseShippingAmount($excludingTax, true);
+
             if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
                 $includingTax = Mage::helper('tax')->getShippingPrice($excludingTax, true, $qAddress, $qAddress->getQuote()->getCustomerTaxClassId());
                 $shippingTax = $includingTax - $excludingTax;
                 $qAddress->setShippingTaxAmount($shippingTax)
                     ->setBaseShippingTaxAmount($shippingTax);
+            } else {
+                if ($method == 'googlecheckout_carrier') {
+                    $qAddress->setShippingTaxAmount(0)
+                        ->setBaseShippingTaxAmount(0);
+                }
             }
-
-            $qAddress->setShippingMethod($method)
-                ->setShippingDescription($shipping['shipping-name']['VALUE'])
-                ->setShippingAmount($excludingTax, true)
-                ->setBaseShippingAmount($excludingTax, true);
         } else {
             $qAddress->setShippingMethod(null);
         }
