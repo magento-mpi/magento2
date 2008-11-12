@@ -119,7 +119,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <logo translate="label">
+                        <logo translate="label comment">
                             <label>Logo for PDF print-outs (200x50)</label>
                             <frontend_type>image</frontend_type>
                             <backend_model>adminhtml/system_config_backend_image_pdf</backend_model>
@@ -131,7 +131,7 @@
                             <show_in_store>1</show_in_store>
                             <comment>Default logo, will be used in PDF and HTML documents.&lt;br /&gt;(jpeg, tiff, png)</comment>
                         </logo>
-                        <logo_html translate="label">
+                        <logo_html translate="label comment">
                             <label>Logo for HTML print view</label>
                             <frontend_type>image</frontend_type>
                             <backend_model>adminhtml/system_config_backend_image</backend_model>

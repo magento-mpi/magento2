@@ -99,7 +99,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pbx_identifiant>
-                        <pbx_output translate="label">
+                        <pbx_output translate="label comment">
                             <label>Management mode of the intermediary page</label>
                             <comment>Only if you HTML From mode selected</comment>
                             <frontend_type>select</frontend_type>
@@ -109,7 +109,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pbx_output>
-                        <pbx_txt translate="label">
+                        <pbx_txt translate="label comment">
                             <label>Text on the intermediary page</label>
                             <comment>Only if you HTML From mode selected</comment>
                             <frontend_type>text</frontend_type>
@@ -118,7 +118,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pbx_txt>
-                        <pbx_boutpi translate="label">
+                        <pbx_boutpi translate="label comment">
                             <label>Name of the button on the intermediary page</label>
                             <comment>Only if you HTML From mode selected</comment>
                             <frontend_type>text</frontend_type>
@@ -127,7 +127,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pbx_boutpi>
-                        <pbx_bkgd>
+                        <pbx_bkgd translate="label comment">
                             <label>Screen background of the intermediary page</label>
                             <comment>Only if you HTML From mode selected</comment>
                             <frontend_type>image</frontend_type>
@@ -139,7 +139,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pbx_bkgd>
-                        <pbx_wait translate="label">
+                        <pbx_wait translate="label comment">
                             <label>Delay in displaying the intermediary page (in msec)</label>
                             <comment>Only if you HTML From mode selected</comment>
                             <frontend_type>text</frontend_type>

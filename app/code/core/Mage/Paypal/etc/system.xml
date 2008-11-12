@@ -366,7 +366,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_proxy>
-                        <paypal_url translate="label">
+                        <paypal_url translate="label comment">
                             <label>Paypal URL</label>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>

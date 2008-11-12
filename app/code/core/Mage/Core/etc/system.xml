@@ -764,7 +764,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_custom>
-                        <custom translate="label">
+                        <custom translate="label comment">
                             <label>Custom admin URL</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_admin_custom</backend_model>
@@ -889,7 +889,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <base_url translate="label">
+                        <base_url translate="label comment">
                             <label>Base URL</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_baseurl</backend_model>
@@ -899,7 +899,7 @@
                             <show_in_store>1</show_in_store>
                             <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_url>
-                        <base_link_url translate="label">
+                        <base_link_url translate="label comment">
                             <label>Base Link URL</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_baseurl</backend_model>
