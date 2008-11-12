@@ -49,18 +49,21 @@ if(!window.Flex) {
 
             this.flexContainerId = this.containerId + '-flash';
             Element.insert(
-                window.document.body,
-                {'top':'<div id="'+this.flexContainerId+'" class="flex" style="position:absolute;"></div>'}
+                // window.document.body,
+                this.containerId,
+                {'before':'<div id="'+this.flexContainerId+'" class="flex" style="position:relative;"></div>'}
             );
 
             this.flex = new Flex.Object({
-                width:  1,
-                height: 1,
-                src:    uploaderSrc,
-                wmode: 'transparent'
+                left: 100,
+                top: 300,
+                width:  230,
+                height: 20,
+                src:    uploaderSrc
+                // wmode: 'transparent'
             });
-            this.getInnerElement('browse').disabled = true;
-            this.getInnerElement('upload').disabled = true;
+            // this.getInnerElement('browse').disabled = true;
+            // this.getInnerElement('upload').disabled = true;
             this.fileRowTemplate = new Template(
                 this.getInnerElement('template').innerHTML,
                 this.templatesPattern
@@ -75,8 +78,8 @@ if(!window.Flex) {
             if (this.flex.detectFlashVersion(9, 0, 28)) {
                 this.flex.apply(this.flexContainerId);
             } else {
-                this.getInnerElement('browse').hide();
-                this.getInnerElement('upload').hide();
+                // this.getInnerElement('browse').hide();
+                // this.getInnerElement('upload').hide();
                 this.getInnerElement('install-flash').show();
             }
         },
@@ -110,8 +113,8 @@ if(!window.Flex) {
             this.uploader.addEventListener('complete',  this.handleComplete.bind(this));
             this.uploader.addEventListener('progress',  this.handleProgress.bind(this));
             this.uploader.addEventListener('error',     this.handleError.bind(this));
-            this.getInnerElement('browse').disabled = false;
-            this.getInnerElement('upload').disabled = false;
+            // this.getInnerElement('browse').disabled = false;
+            // this.getInnerElement('upload').disabled = false;
         },
         browse: function() {
             this.uploader.browse();
@@ -163,7 +166,7 @@ if(!window.Flex) {
             if (!$(this.getFileId(file))) {
                 Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
             }
-
+// console.log(file.status);
             if (file.status == 'full_complete' && file.response.isJSON()) {
                 var response = file.response.evalJSON();
                 if (typeof response == 'object') {
