@@ -74,7 +74,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
                 break;
             }
         }
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':aggregator', 'select', array(
+        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__aggregator', 'select', array(
             'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][aggregator]',
             'values'=>$this->getAggregatorSelectOptions(),
             'value'=>$this->getAggregator(),
@@ -102,7 +102,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         $conditions[] = $condition;
 
         if (!$condition->getId()) {
-            $condition->setId($this->getId().'.'.sizeof($conditions));
+            $condition->setId($this->getId().'--'.sizeof($conditions));
         }
 
         $this->setData($this->getPrefix(), $conditions);
@@ -204,7 +204,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function getNewChildElement()
     {
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':new_child', 'select', array(
+        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__new_child', 'select', array(
             'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][new_child]',
             'values'=>$this->getNewChildSelectOptions(),
             'value_name'=>$this->getNewChildName(),
@@ -213,7 +213,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function asHtmlRecursive()
     {
-        $html = $this->asHtml().'<ul id="'.$this->getPrefix().':'.$this->getId().':children" class="rule-param-children">';
+        $html = $this->asHtml().'<ul id="'.$this->getPrefix().'__'.$this->getId().'__children" class="rule-param-children">';
         foreach ($this->getConditions() as $cond) {
             $html .= '<li>'.$cond->asHtmlRecursive().'</li>';
         }

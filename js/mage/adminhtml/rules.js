@@ -212,19 +212,19 @@ VarienRulesForm.prototype = {
     },
 
     addRuleNewChild: function (elem) {
-        var parent_id = elem.id.replace(/^.*:(.*):.*$/, '$1');
-        var children_ul = $(elem.id.replace(/[^:]*$/, 'children'));
+        var parent_id = elem.id.replace(/^.*__(.*)__.*$/, '$1');
+        var children_ul = $(elem.id.replace(/__/g, ':').replace(/[^:]*$/, 'children').replace(/:/g, '__'));
         var max_id = 0, i;
-        var children_inputs = Selector.findChildElements(children_ul, $A(['input[type=hidden]']));
+        var children_inputs = Selector.findChildElements(children_ul, $A(['input.hidden']));
         if (children_inputs.length) {
             children_inputs.each(function(el){
-                if (el.id.match(/:type$/)) {
-                    i = 1 * el.id.replace(/^.*:.*?([0-9]+):.*$/, '$1');
+                if (el.id.match(/__type$/)) {
+                    i = 1 * el.id.replace(/^.*__.*?([0-9]+)__.*$/, '$1');
                     max_id = i > max_id ? i : max_id;
                 }
             });
         }
-        var new_id = parent_id + '.' + (max_id + 1);
+        var new_id = parent_id + '--' + (max_id + 1);
         var new_type = elem.value;
         var new_elem = document.createElement('LI');
         new_elem.className = 'rule-param-wait';

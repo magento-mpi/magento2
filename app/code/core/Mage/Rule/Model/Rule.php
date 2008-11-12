@@ -150,7 +150,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         foreach ($rule as $key=>$value) {
             if (($key==='conditions' || $key==='actions') && is_array($value)) {
                 foreach ($value as $id=>$data) {
-                    $path = explode('.', $id);
+                    $path = explode('--', $id);
                     $node =& $arr;
                     for ($i=0, $l=sizeof($path); $i<$l; $i++) {
                         if (!isset($node[$key][$path[$i]])) {

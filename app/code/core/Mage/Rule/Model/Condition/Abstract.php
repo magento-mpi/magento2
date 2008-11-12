@@ -275,10 +275,11 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getTypeElement()
     {
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':type', 'hidden', array(
+        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__type', 'hidden', array(
             'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][type]',
             'value'=>$this->getType(),
             'no_span'=>true,
+            'class' => 'hidden',
         ));
     }
 
@@ -295,7 +296,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
             }
         }
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':attribute', 'select', array(
+        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__attribute', 'select', array(
             'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][attribute]',
             'values'=>$this->getAttributeSelectOptions(),
             'value'=>$this->getAttribute(),
@@ -316,7 +317,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
             }
         }
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':operator', 'select', array(
+        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__operator', 'select', array(
             'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][operator]',
             'values'=>$this->getOperatorSelectOptions(),
             'value'=>$this->getOperator(),
@@ -363,7 +364,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
             $elementParams['input_format'] = Varien_Date::DATE_INTERNAL_FORMAT;
             $elementParams['format']       = Varien_Date::DATE_INTERNAL_FORMAT;
         }
-        return $this->getForm()->addField($this->getPrefix().':'.$this->getId().':value',
+        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__value',
             $this->getValueElementType(),
             $elementParams
         )->setRenderer($this->getValueElementRenderer());
