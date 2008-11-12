@@ -522,6 +522,15 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $msg .= '<br />'.$this->__('Invoice auto-created: %s', '<strong>'.$invoice->getIncrementId().'</strong>');
         }
 
+        foreach ($order->getInvoiceCollection() as $orderInvoice) {
+            $open = Mage_Sales_Model_Order_Invoice::STATE_OPEN;
+            $paid = Mage_Sales_Model_Order_Invoice::STATE_PAID;
+            if ($orderInvoice->getState() == $open && $orderInvoice->getGrandTotal() == $latestCharged) {
+                $orderInvoice->setState($paid)->save();
+                break;
+            }
+        }
+
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
 

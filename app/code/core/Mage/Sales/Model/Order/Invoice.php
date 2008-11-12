@@ -245,7 +245,13 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Core_Model_Abstract
      */
     public function pay()
     {
-        $this->setState(self::STATE_PAID);
+        $invoiceState = self::STATE_PAID;
+        if ($this->getOrder()->getPayment()->hasForcedState()) {
+            $invoiceState = $this->getOrder()->getPayment()->getForcedState();
+        }
+
+        $this->setState($invoiceState);
+
         $this->getOrder()->getPayment()->pay($this);
         $this->getOrder()->setTotalPaid(
             $this->getOrder()->getTotalPaid()+$this->getGrandTotal()

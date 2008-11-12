@@ -116,6 +116,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
 
         $api = Mage::getModel('googlecheckout/api');
         $api->charge($payment->getOrder()->getExtOrderId(), $amount);
+        $payment->setForcedState(Mage_Sales_Model_Order_Invoice::STATE_OPEN);
 
         return $this;
     }
