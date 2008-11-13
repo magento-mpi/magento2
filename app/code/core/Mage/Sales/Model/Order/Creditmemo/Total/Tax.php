@@ -29,8 +29,10 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
 {
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-        $totalTax       = 0;
-        $baseTotalTax   = 0;
+        $shippingTaxAmount     = 0;
+        $baseShippingTaxAmount = 0;
+        $totalTax              = 0;
+        $baseTotalTax          = 0;
 
         foreach ($creditmemo->getAllItems() as $item) {
             if ($item->getOrderItem()->isDummy()) {
