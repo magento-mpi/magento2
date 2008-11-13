@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getValue($key, $default='')
     {
         $value = $this->getData($key);
-        return htmlspecialchars(strlen($value) > 0 ? $value : $default);
+        return $this->htmlEscape(strlen($value) > 0 ? $value : $default);
     }
 
     public function getSelected($key, $value)
@@ -126,8 +126,6 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductAttributeSetFilterOptions()
     {
-    	
-    	
         $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
             ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
             ->load()

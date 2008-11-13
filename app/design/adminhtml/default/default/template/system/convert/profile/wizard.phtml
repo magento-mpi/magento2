@@ -309,6 +309,7 @@ Event.observe(window, 'load', function(){
             <span class="field-row">
                 <label for="parse_enclose"><?php echo $this->__("Enclose Values In:") ?></label>
                 <input class="input-text" style="width:3em" id="parse_enclose" name="gui_data[parse][enclose]" value="<?php echo $this->getValue('gui_data/parse/enclose', '') ?>"/>
+                <?php echo $this->__("Warning! Empty value can cause problems with CSV format.") ?>
             </span>
         </div>
         <span class="field-row">
