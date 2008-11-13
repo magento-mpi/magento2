@@ -42,29 +42,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         $this->_init('googlebase/item');
     }
 
-
-    protected function _beforeSave()
-    {
-        $product = $this->getProduct();
-        if (!($product instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException('Invalid Product Model for Google Base Item');
-        }
-
-        $this->loadByProduct($product);
-
-        if ($this->getId()) {
-            $this->_updateItem();
-        } else {
-            $this->setProductId($product->getId());
-            $this->setStoreId($product->getStoreId());
-            $this->_insertItem();
-        }
-        return $this;
-    }
-
     protected function _beforeDelete()
     {
-        $this->_deleteItem();
+        $this->deleteItem();
         return $this;
     }
 
@@ -100,9 +80,12 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    protected function _insertItem ()
+    public function insertItem ()
     {
+        $this->_checkProduct();
         $product = $this->getProduct();
+        $this->setProductId($product->getId());
+        $this->setStoreId($product->getStoreId());
         $typeModel = $this->_getTypeModel();
         $serviceItem = $this->getServiceItem()
             ->setItem($this)
@@ -121,16 +104,19 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    protected function _updateItem ()
+    public function updateItem ()
     {
-        $product = $this->getProduct();
-        $typeModel = $this->_getTypeModel();
-        $serviceItem = $this->getServiceItem()
-            ->setItem($this)
-            ->setObject($product)
-            ->setAttributeValues($this->_getAttributeValues())
-            ->setItemType($typeModel->getGbaseItemtype())
-            ->update();
+        $this->loadByProduct($product);
+        if ($this->getId()) {
+            $product = $this->getProduct();
+            $typeModel = $this->_getTypeModel();
+            $serviceItem = $this->getServiceItem()
+                ->setItem($this)
+                ->setObject($product)
+                ->setAttributeValues($this->_getAttributeValues())
+                ->setItemType($typeModel->getGbaseItemtype())
+                ->update();
+        }
         return $this;
     }
 
@@ -140,12 +126,57 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    protected function _deleteItem ()
+    public function deleteItem ()
     {
         $serviceItem = $this->getServiceItem()
             ->setItem($this)
             ->delete();
         return $this;
+    }
+
+    /**
+     *  Delete Item from Google Base
+     *
+     *  @param    none
+     *  @return	  Mage_GoogleBase_Model_Item
+     */
+    public function hideItem ()
+    {
+        $serviceItem = $this->getServiceItem()
+            ->setItem($this)
+            ->hide();
+        $this->setIsHidden(1);
+        $this->save();
+        return $this;
+    }
+
+    /**
+     *  Delete Item from Google Base
+     *
+     *  @param    none
+     *  @return	  Mage_GoogleBase_Model_Item
+     */
+    public function activateItem ()
+    {
+        $serviceItem = $this->getServiceItem()
+            ->setItem($this)
+            ->activate();
+        $this->setIsHidden(0);
+        $this->save();
+        return $this;
+    }
+
+    /**
+     *  Description goes here...
+     *
+     *  @param    none
+     *  @return	  void
+     */
+    protected function _checkProduct()
+    {
+        if (!($this->getProduct() instanceof Mage_Catalog_Model_Product)) {
+            Mage::throwException('Invalid Product Model for Google Base Item');
+        }
     }
 
     /**
@@ -190,6 +221,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         }
         $model = Mage::getModel('googlebase/type')->loadByAttributeSetId($attributeSetId);
         $registry[$attributeSetId] = $model;
+        Mage::unregister(self::TYPES_REGISTRY_KEY);
         Mage::register(self::TYPES_REGISTRY_KEY, $registry);
         return $model;
     }
@@ -261,6 +293,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
             ->addAttributeSetFilter($attributeSetId)
             ->load();
         $registry[$attributeSetId] = $collection;
+        Mage::unregister(self::ATTRIBUTES_REGISTRY_KEY);
         Mage::register(self::ATTRIBUTES_REGISTRY_KEY, $registry);
         return $collection;
     }

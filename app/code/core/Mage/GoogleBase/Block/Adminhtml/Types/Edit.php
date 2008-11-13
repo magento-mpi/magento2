@@ -55,9 +55,13 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
                     updateAttributes: function() {
                         if ($("select_attribute_set").value != "" && $("select_itemtype").value != "")
                         {
-                            var elements = [$("select_attribute_set"),$("select_itemtype")].flatten();
-                             $(\'save_button\').disabled = true;
-                            new Ajax.Updater("attributes_details", "'.$this->getUrl('*/*/loadAttributes').'", {parameters:Form.serializeElements(elements), evalScripts:true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
+                            var blocksCount = Element.select($("attributes_details"), "div[id^=gbase_attribute_]").length;
+                            if (blocksCount > 0 && confirm("'.Mage::helper('googlebase')->__('Current Mapping will be reloaded. Continue?').'") || blocksCount == 0)
+                            {
+                                var elements = [$("select_attribute_set"),$("select_itemtype")].flatten();
+                                 $(\'save_button\').disabled = true;
+                                new Ajax.Updater("attributes_details", "'.$this->getUrl('*/*/loadAttributes').'", {parameters:Form.serializeElements(elements), evalScripts:true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
+                            }
                         }
                     }
                 }

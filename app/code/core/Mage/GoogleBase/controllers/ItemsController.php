@@ -86,6 +86,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
                 if ($product->getId()) {
                     Mage::getModel('googlebase/item')
                         ->setProduct($product)
+                        ->insertItem()
                         ->save();
 
                     $totalAdded++;
@@ -96,7 +97,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
                     $this->__('Total of %d product(s) were successfully added to Google Base', $totalAdded)
                 );
             } else {
-                $this->_getSession()->addError($this->__('Please select product(s)'));
+                $this->_getSession()->addError($this->__('No products were added to Google Base'));
             }
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -107,32 +108,88 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function massDeleteAction()
     {
-//        $productIds = $this->getRequest()->getParam('product');
-//        if (!is_array($productIds)) {
-//            $this->_getSession()->addError($this->__('Please select items(s)'));
-//        }
-//        else {
-//            try {
-//                foreach ($productIds as $productId) {
-//                    Mage::getModel('googlebase/item')->loadByProductId($productId)->delete();
-//                }
-//                $this->_getSession()->addSuccess(
-//                    $this->__('Total of %d item(s) were successfully deleted', count($productIds))
-//                );
-//            } catch (Exception $e) {
-//                $this->_getSession()->addError($e->getMessage());
-//            }
-//        }
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $itemIds = $this->getRequest()->getParam('item');
+
+        $totalDeleted = 0;
+
+        try {
+            foreach ($itemIds as $itemId) {
+                $item = Mage::getModel('googlebase/item')->load($itemId);
+                if ($item->getId()) {
+                    $item->delete();
+                    $totalDeleted++;
+                }
+            }
+            if ($totalDeleted > 0) {
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d items(s) were successfully removed from Google Base', $totalDeleted)
+                );
+            } else {
+                $this->_getSession()->addError($this->__('No items were deleted from Google Base'));
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+
         $this->_redirect('*/*/index', array('store'=>$storeId));
     }
 
     public function massPublishAction ()
     {
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $itemIds = $this->getRequest()->getParam('item');
+
+        $totalPublished = 0;
+
+        try {
+            foreach ($itemIds as $itemId) {
+                $item = Mage::getModel('googlebase/item')->load($itemId);
+                if ($item->getId()) {
+                    $item->activateItem();
+                    $totalPublished++;
+                }
+            }
+            if ($totalPublished > 0) {
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d items(s) were successfully published', $totalPublished)
+                );
+            } else {
+                $this->_getSession()->addError($this->__('No items were published'));
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+
         $this->_redirect('*/*/index', array('store'=>$storeId));
     }
 
     public function massHideAction ()
     {
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $itemIds = $this->getRequest()->getParam('item');
+
+        $totalHidden = 0;
+
+        try {
+            foreach ($itemIds as $itemId) {
+                $item = Mage::getModel('googlebase/item')->load($itemId);
+                if ($item->getId()) {
+                    $item->hideItem();
+                    $totalHidden++;
+                }
+            }
+            if ($totalHidden > 0) {
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d items(s) were successfully saved as Inactive items', $totalHidden)
+                );
+            } else {
+                $this->_getSession()->addError($this->__('No items were saved as Inactive items'));
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+
         $this->_redirect('*/*/index', array('store'=>$storeId));
     }
 }

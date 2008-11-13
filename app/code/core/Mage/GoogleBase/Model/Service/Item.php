@@ -102,14 +102,14 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     public function insert()
     {
         $this->_checkItem();
-        
+
         $service = $this->getService();
         $entry = $service->newItemEntry();
         $entry->setItemType( $this->_getItemType() );
         $this->setEntry($entry);
         $this->_prepareEnrtyForSave();
         $createdEntry = $service->insertGbaseItem($this->getEntry(), $this->getDryRun());
-        
+
         $entryId = $createdEntry->getId();
         $published = $this->_gBaseDate2DateTime($createdEntry->getPublished()->getText());
         $this->getItem()
@@ -133,7 +133,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     public function update()
     {
         $this->_checkItem();
-        
+
         $service = $this->getService();
         $entry = $service->getGbaseItemEntry( $this->getItem()->getGbaseItemId() );
         $this->setEntry($entry);
@@ -150,7 +150,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     public function delete()
     {
         $this->_checkItem();
-        
+
         $service = $this->getService();
         $entry = $service->getGbaseItemEntry( $this->getItem()->getGbaseItemId() );
         return $service->deleteGbaseItem($entry, $this->getDryRun());
@@ -162,46 +162,46 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      *  @param    none
      *  @return	  string
      */
-    public function hide() 
+    public function hide()
     {
         $this->_saveDraft(true);
         return $this;
     }
-    
+
     /**
-     * 
-     * access  public      
-     * param   string $string 
+     *
+     * access  public
+     * param   string $string
      * return  string
      */
-    public function activate() 
+    public function activate()
     {
         $this->_saveDraft(false);
         return $this;
     }
-    
+
     /**
-     * 
-     * access  public      
-     * param   string $string 
+     *
+     * access  public
+     * param   string $string
      * return  string
      */
-    protected function _saveDraft ($yes = true) 
+    protected function _saveDraft ($yes = true)
     {
         $this->_checkItem();
-        
+
         $service = $this->getService();
         $entry = $service->getGbaseItemEntry( $this->getItem()->getGbaseItemId() );
 
         $draftText = $yes ? 'yes' : 'no';
         $draft = $service->newDraft($draftText);
         $control = $service->newControl($draft);
-        
+
         $entry->setControl($control);
         $entry->save();
         return $this;
     }
-    
+
     /**
      *  Prepare Entry data and attributes before saving in Google Base
      *
@@ -249,26 +249,26 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $service = $this->getService();
         $object = $this->getObject();
         $entry = $this->getEntry();
-    
+
         $title = $service->newTitle()->setText( $object->getName() );
         $entry->setTitle($title);
-        
-        if ($object->getUrl()) {
+
+        if ($object->getProductUrl()) {
             $link = $service->newLink();
-            $link->href = $object->getUrl();
+            $link->href = $object->getProductUrl();
             $link->title = $title->getText();
             $entry->setLink(array($link));
         }
-        
+
         if ($object->getDescription()) {
             $content = $service->newContent()->setText( $object->getDescription() );
             $entry->setContent($content);
         }
-        
+
         if ($object->getImageUrl()) {
             $entry->addGbaseAttribute('image_link', $object->getImageUrl(),'url');
         }
-        
+
         if ($this->_getItemType() == 'products') {
         	$quantity = $object->getQty() ? $object->getQty() : 1;
         	$entry->addGbaseAttribute('quantity', $quantity, 'int');
@@ -293,13 +293,13 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      *  @param    none
      *  @return	  void
      */
-    protected function _checkItem() 
+    protected function _checkItem()
     {
         if (!($this->getItem() instanceof Mage_GoogleBase_Model_Item)) {
             Mage::throwException('Item model is not specified to delete Google Base entry');
         }
     }
-    
+
     /**
      *  Prepare string
      *
@@ -312,14 +312,14 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $string = preg_replace('/_{2,}/','_',$string);
         return trim($string,'_');
     }
-    
+
     /**
-     * 
-     * access  public      
-     * param   string $string 
+     *
+     * access  public
+     * param   string $string
      * return  string
      */
-    protected function _gBaseDate2DateTime ($gBaseDate) 
+    protected function _gBaseDate2DateTime ($gBaseDate)
     {
     	return date('Y-m-d H:i:s', strtotime($gBaseDate));
     }

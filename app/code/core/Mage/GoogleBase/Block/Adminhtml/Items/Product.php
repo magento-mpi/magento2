@@ -144,7 +144,12 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
         $collection = Mage::getResourceModel('googlebase/item_collection')
             ->addStoreFilterId($this->_getStore()->getId())
             ->load();
-       return $collection->getLoadedIds();
+        $productIds = array();
+        foreach ($collection as $item) {
+            $productIds[] = $item->getProductId();
+
+        }
+        return $productIds;
     }
 
     public function _getStore()

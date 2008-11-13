@@ -32,14 +32,13 @@
  * @package    Mage_GoogleBase
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected function _construct() 
-    {
-    	parent::_construct();
-    	$this->setRowIdFieldName('item_id');
-    }
-    
+	protected function _construct()
+	{
+		$this->_init('googlebase/item');
+	}
+
     protected function _initSelect()
     {
         parent::_initSelect();
@@ -49,75 +48,44 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Re
 
     public function addStoreFilterId($storeId)
     {
-        $this->getSelect()->where('items.store_id=?', $storeId);
+        $this->getSelect()->where('main_table.store_id=?', $storeId);
         return $this;
     }
 
-    public function setOrder($attribute, $dir='desc')
+    public function addFieldToFilter($field, $condition=null)
     {
-        if (in_array($attribute, $this->_getAllJoinFeilds())) {
-            $this->getSelect()->order($attribute . ' ' . $dir);
-        } else {
-            parent::setOrder($attribute, $dir);
-        }
-        return $this;
-    }
-
-    public function addAttributeToFilter($attribute, $condition=null, $joinType='inner')
-    {
-        if (in_array($attribute, $this->_getAllJoinFeilds())) {
-            $conditionSql = $this->_getConditionSql($attribute, $condition);
+        if ($field == 'name') {
+            $conditionSql = $this->_getConditionSql('p.value', $condition);
             $this->getSelect()->where($conditionSql);
         } else {
-            parent::addAttributeToFilter($attribute, $condition, $joinType);
+            parent::addFieldToFilter($field, $condition);
         }
-        return $this;
     }
 
     protected function _joinTables()
     {
-        $this->addAttributeToSelect('name');
+        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
+        $table = $attribute->getBackend()->getTable();
+        $joinCondition = sprintf('p.entity_type_id=%d
+            AND p.attribute_id=%d
+            AND main_table.product_id=p.entity_id',
+//            AND p.store_id=main_table.store_id
+            $entityType->getEntityTypeId(),
+            $attribute->getAttributeId()
+        );
 
         $this->getSelect()
             ->join(
-                array('items' => $this->getTable('googlebase/items')),
-                'e.entity_id=items.product_id',
-                $this->_getJoinFields('items'))
+                array('p' => $attribute->getBackend()->getTable()),
+                $joinCondition,
+                array('name' => 'p.value'));
+
+        $this->getSelect()
             ->joinLeft(
                 array('types' => $this->getTable('googlebase/types')),
-                'items.type_id=types.type_id',
-                $this->_getJoinFields('types'));
-        
-        return $this;
-    }
-    
-    protected function _getJoinFields ($tableAlias) 
-    {
-        $joinFields = array(
-            'items' => array(
-                'item_id'           => 'item_id', 
-                'gbase_item_id'     => 'gbase_item_id', 
-                'item_type_id'      => 'items.type_id', 
-                'published'         => 'published', 
-                'expires'           => 'expires', 
-                'impr'              => 'impr', 
-                'clicks'            => 'clicks', 
-                'views'             => 'views'
-            ),
+                'main_table.type_id=types.type_id');
 
-            'types' => array(
-                'gbase_itemtype'    => 'types.gbase_itemtype'
-            )
-        );
-        
-        return isset($joinFields[$tableAlias]) ? $joinFields[$tableAlias] : array();
-    }
-    
-    protected function _getAllJoinFeilds () 
-    {
-        return array_merge(
-            array_keys($this->_getJoinFields('items')),
-            array_keys($this->_getJoinFields('types'))
-        );
+        return $this;
     }
 }

@@ -60,21 +60,21 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'width' => '30%',
                 'index'     => 'name',
         ));
-        
+
         $this->addColumn('gbase_item_id',
             array(
                 'header'=> Mage::helper('googlebase')->__('Base Item ID'),
                 'width' => '150px',
                 'index'     => 'gbase_item_id',
         ));
-        
+
         $this->addColumn('gbase_itemtype',
             array(
                 'header'=> Mage::helper('googlebase')->__('Base Item Type'),
                 'width' => '150px',
                 'index'     => 'gbase_itemtype',
         ));
-        
+
 //        $this->addColumn('published',
 //            array(
 //                'header'=> Mage::helper('googlebase')->__('Published'),
@@ -82,7 +82,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 //                'width' => '100px',
 //                'index'     => 'published',
 //        ));
-        
+
         $this->addColumn('expires',
             array(
                 'header'=> Mage::helper('googlebase')->__('Expires'),
@@ -90,14 +90,14 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'width' => '100px',
                 'index'     => 'expires',
         ));
-        
+
         $this->addColumn('impr',
             array(
                 'header'=> Mage::helper('googlebase')->__('Impr.'),
                 'width' => '150px',
                 'index'     => 'impr',
         ));
-        
+
         $this->addColumn('clicks',
             array(
                 'header'=> Mage::helper('googlebase')->__('Clicks'),
@@ -111,14 +111,24 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'width' => '150px',
                 'index'     => 'views',
         ));
-        
+
+        $this->addColumn('active',
+            array(
+                'header'    => Mage::helper('googlebase')->__('Active'),
+                'width'     => '150px',
+                'type'      => 'options',
+                'width'     => '70px',
+                'options'   => Mage::getSingleton('googlebase/source_statuses')->getStatuses(),
+                'index'     => 'is_hidden',
+        ));
+
         return parent::_prepareColumns();
     }
 
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()->setFormFieldName('product');
+        $this->setMassactionIdField('item_id');
+        $this->getMassactionBlock()->setFormFieldName('item');
 //        $this->setMassactionIdFieldOnlyIndexValue(true);
 //
         $this->getMassactionBlock()->addItem('delete', array(
@@ -133,8 +143,8 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->getMassactionBlock()->addItem('unpublish', array(
-             'label'    => Mage::helper('googlebase')->__('Unpublish'),
-             'url'      => $this->getUrl('*/*/massUnpublish', array('_current'=>true))
+             'label'    => Mage::helper('googlebase')->__('Hide'),
+             'url'      => $this->getUrl('*/*/massHide', array('_current'=>true))
         ));
         return $this;
     }
