@@ -69,8 +69,8 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
         $table = $attribute->getBackend()->getTable();
         $joinCondition = sprintf('p.entity_type_id=%d
             AND p.attribute_id=%d
+            AND p.store_id=main_table.store_id
             AND main_table.product_id=p.entity_id',
-//            AND p.store_id=main_table.store_id
             $entityType->getEntityTypeId(),
             $attribute->getAttributeId()
         );
