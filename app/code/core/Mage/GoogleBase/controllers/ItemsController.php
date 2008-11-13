@@ -1,0 +1,138 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * GoogleBase Admin Items Controller
+ *
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @name       Mage_GoogleBase_ItemTypesController
+ * @author     Magento Core Team <core@magentocommerce.com>
+*/
+class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
+{
+    protected function _initAction()
+    {
+        $this->loadLayout()
+            ->_setActiveMenu('catalog/googlebase')
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Base'), Mage::helper('adminhtml')->__('Google Base'));
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function indexAction()
+    {
+        $this->_initAction()
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items'), Mage::helper('adminhtml')->__('Items'))
+            ->_setActiveMenu('googlebase/items')
+            ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_items'))
+            ->renderLayout();
+        if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
+            $switchBlock->setDefaultStoreName($this->__('Default Values'))
+                ->setWebsiteIds($product->getWebsiteIds())
+                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)));
+        }
+    }
+
+    public function gridAction()
+    {
+        return $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('googlebase/adminhtml_items_item')
+                ->setIndex($this->getRequest()->getParam('index'))
+                ->toHtml()
+           );
+    }
+
+    public function massAddAction ()
+    {
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $productIds = $this->getRequest()->getParam('product');
+
+        $totalAdded = 0;
+
+        try {
+            foreach ($productIds as $productId) {
+                $product = Mage::getSingleton('catalog/product')
+                    ->setStoreId($storeId)
+                    ->load($productId);
+
+                if ($product->getId()) {
+                    Mage::getModel('googlebase/item')
+                        ->setProduct($product)
+                        ->save();
+
+                    $totalAdded++;
+                }
+            }
+            if ($totalAdded > 0) {
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d product(s) were successfully added to Google Base', $totalAdded)
+                );
+            } else {
+                $this->_getSession()->addError($this->__('Please select product(s)'));
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+
+        $this->_redirect('*/*/index', array('store'=>$storeId));
+    }
+
+    public function massDeleteAction()
+    {
+//        $productIds = $this->getRequest()->getParam('product');
+//        if (!is_array($productIds)) {
+//            $this->_getSession()->addError($this->__('Please select items(s)'));
+//        }
+//        else {
+//            try {
+//                foreach ($productIds as $productId) {
+//                    Mage::getModel('googlebase/item')->loadByProductId($productId)->delete();
+//                }
+//                $this->_getSession()->addSuccess(
+//                    $this->__('Total of %d item(s) were successfully deleted', count($productIds))
+//                );
+//            } catch (Exception $e) {
+//                $this->_getSession()->addError($e->getMessage());
+//            }
+//        }
+        $this->_redirect('*/*/index', array('store'=>$storeId));
+    }
+
+    public function massPublishAction ()
+    {
+        $this->_redirect('*/*/index', array('store'=>$storeId));
+    }
+
+    public function massHideAction ()
+    {
+        $this->_redirect('*/*/index', array('store'=>$storeId));
+    }
+}
