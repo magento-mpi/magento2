@@ -111,14 +111,14 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $createdEntry = $service->insertGbaseItem($this->getEntry(), $this->getDryRun());
 
         $entryId = $createdEntry->getId();
-        $published = $this->_gBaseDate2DateTime($createdEntry->getPublished()->getText());
+        $published = $this->gBaseDate2DateTime($createdEntry->getPublished()->getText());
         $this->getItem()
             ->setGbaseItemId($entryId)
             ->setPublished($published);
 
         $expirationsArr = $createdEntry->getGbaseAttribute('expiration_date');
         if (is_array($expirationsArr) && is_object($expirationsArr[0])) {
-        	$expires = $this->_gBaseDate2DateTime($expirationsArr[0]->getText());
+        	$expires = $this->gBaseDate2DateTime($expirationsArr[0]->getText());
         	$this->getItem()->setExpires($expires);
         }
 
@@ -319,7 +319,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      * param   string $string
      * return  string
      */
-    protected function _gBaseDate2DateTime ($gBaseDate)
+    public function gBaseDate2DateTime ($gBaseDate)
     {
     	return date('Y-m-d H:i:s', strtotime($gBaseDate));
     }

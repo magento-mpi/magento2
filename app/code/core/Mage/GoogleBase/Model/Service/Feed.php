@@ -34,6 +34,7 @@
 class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
 {
     const ITEM_TYPES_LOCATION = 'http://www.google.com/base/feeds/itemtypes';
+    const ITEMS_LOCATION = 'http://www.google.com/base/feeds/items';
 
     /**
      *  Google Base Feed Instance
@@ -47,6 +48,33 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
         $service = $this->getService();
         $feed = $service->getFeed($query);
         return $feed;
+    }
+
+    /**
+     *  Description goes here...
+     *
+     *  @param    none
+     *  @return	  void
+     */
+    public function getItemsStatsArray()
+    {
+        $feed = $this->getFeed(self::ITEMS_LOCATION);
+        $result = array();
+        foreach ($feed as $entry) {
+            $draft = 'no';
+            if (is_object($entry->getControl()) && is_object($entry->getControl()->getDraft())) {
+                $draft = $entry->getControl()->getDraft()->getText();
+            }
+            $data = array(
+                'draft'     => ($draft == 'yes' ? 1 : 0)
+            );
+//            $expiresArr = $entry->getGbaseAttribute('expiration_date');
+//            if (isset($expiresArr[0]) && is_object($expiresArr[0])) {
+//                $data['expires'] = Mage::getSingleton('googlebase/service_item')->gBaseDate2DateTime($expiresArr[0]->getText());
+//            }
+            $result[$entry->getId()->getText()] = $data;
+        }
+        return $result;
     }
 
     /**
@@ -64,6 +92,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
         $feed = $this->getFeed($location);
 
         $collection = new Varien_Data_Collection();
+        $collection->setOrder('name', 'asc');
         foreach ($feed->entries as $entry) {
             $itemType = $entry->extensionElements[0]->text;
             $item = new Varien_Object();

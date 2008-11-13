@@ -42,12 +42,6 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         $this->_init('googlebase/item');
     }
 
-    protected function _beforeDelete()
-    {
-        $this->deleteItem();
-        return $this;
-    }
-
     /**
      *  Load Item Model by Product
      *

@@ -117,6 +117,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             foreach ($itemIds as $itemId) {
                 $item = Mage::getModel('googlebase/item')->load($itemId);
                 if ($item->getId()) {
+                    $item->deleteItem();
                     $item->delete();
                     $totalDeleted++;
                 }
@@ -191,5 +192,52 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->_redirect('*/*/index', array('store'=>$storeId));
+    }
+
+    /**
+     *  Description goes here...
+     *
+     *  @param    none
+     *  @return	  void
+     */
+    public function refreshAction()
+    {
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $totalUpdated = 0;
+        $totalDeleted = 0;
+
+        try {
+            $existing = array();
+            $collection = Mage::getResourceModel('googlebase/item_collection')->load();
+            foreach ($collection as $item) {
+                $existing[$item->getGbaseItemId()] = array(
+                    'id'    => $item->getId(),
+                    'is_hidden' => $item->getIsHidden(),
+                );
+            }
+
+            $stats = Mage::getModel('googlebase/service_feed')->getItemsStatsArray();
+            foreach ($existing as $entryId => $data) {
+                if (!isset($stats[$entryId])) {
+                    Mage::getModel('googlebase/item')->load($existing[$entryId]['id'])->delete();
+                    $totalDeleted++;
+                }
+                if (isset($stats[$entryId]) && $stats[$entryId]['draft'] != $existing[$entryId]['is_hidden']) {
+                    Mage::getModel('googlebase/item')
+                        ->load($existing[$entryId]['id'])
+                        ->setIsHidden($stats[$entryId]['draft'])
+                        ->save();
+                    $totalUpdated++;
+                }
+            }
+            $this->_getSession()->addSuccess(
+                $this->__('Total of %d items(s) were successfully deleted, Total of %d items(s) were successfully updated', $totalDeleted, $totalUpdated)
+            );
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+
+        $this->_redirect('*/*/index', array('store'=>$storeId));
+
     }
 }

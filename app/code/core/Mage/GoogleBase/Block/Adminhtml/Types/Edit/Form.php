@@ -47,7 +47,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
             'legend'    => Mage::helper('googlebase')->__('Attribute Set and Item Type')
         ));
 
-        $fieldset->addField('select_attribute_set', 'select', array(
+        $attributeSelect = $fieldset->addField('select_attribute_set', 'select', array(
             'label'     => $this->__('Attribute Set'),
             'title'     => $this->__('Attribute Set'),
             'name'      => 'attribute_set_id',
@@ -55,8 +55,12 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
             'options'   => $this->_getAttributeSetsArray(),
             'value'     => $itemType->getAttributeSetId(),
         ));
-        
-        $fieldset->addField('select_itemtype', 'select', array(
+        if ($itemType->getAttributeSetId()) {
+            $attributeSelect->setValue($itemType->getAttributeSetId())
+                ->setDisabled(true);
+        }
+
+        $itemTypeSelect = $field = $fieldset->addField('select_itemtype', 'select', array(
             'label'     => $this->__('Google Base Item Type'),
             'title'     => $this->__('Google Base Item Type'),
             'name'      => 'gbase_itemtype',
@@ -64,6 +68,10 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
             'options'   => $this->_getGbaseItemTypesArray(),
             'value'     => $itemType->getGbaseItemtype(),
         ));
+        if ($itemType->getGbaseItemtype()) {
+            $itemTypeSelect->setValue($itemType->getGbaseItemtype())
+                ->setDisabled(true);
+        }
 
         $attributesBlock = $this->getLayout()->createBlock('googlebase/adminhtml_types_edit_attributes');
         if ($itemType->getId()) {

@@ -41,6 +41,19 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
         $this->setId('items');
         $this->setUseAjax(true);
     }
+    public function getMainButtonsHtml()
+    {
+        $html = parent::getMainButtonsHtml();
+
+        $refreshButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setData(array(
+                'label'     => Mage::helper('adminhtml')->__('Refresh'),
+                'onclick'   => "setLocation('".$this->getUrl('*/*/refresh')."')",
+                'class'   => 'task'
+            ))->toHtml();
+
+        return $refreshButtonHtml . $html;
+    }
 
     protected function _prepareCollection()
     {
