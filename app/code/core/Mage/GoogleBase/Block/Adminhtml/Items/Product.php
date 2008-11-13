@@ -141,14 +141,14 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
 
     protected function _getBaseProductIds()
     {
-        $collection = Mage::getResourceModel('googlebase/item_collection')
-            ->addStoreFilterId($this->_getStore()->getId())
-            ->load();
+//        $collection = Mage::getResourceModel('googlebase/item_collection')
+//            ->addStoreFilterId($this->_getStore()->getId())
+//            ->load();
         $productIds = array();
-        foreach ($collection as $item) {
-            $productIds[] = $item->getProductId();
-
-        }
+//        foreach ($collection as $item) {
+//            $productIds[] = $item->getProductId();
+//
+//        }
         return $productIds;
     }
 

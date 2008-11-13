@@ -43,7 +43,7 @@ class Mage_GoogleBase_Model_Observer
     {
         if (Mage::getStoreConfigFlag('google/googlebase/observed')) {
             $product = $observer->getEvent()->getProduct();
-            Mage::getModel('googlebase/item')->setProduct($product)->save();
+            Mage::getModel('googlebase/item')->setProduct($product)->updateItem();
         }
     }
 

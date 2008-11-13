@@ -58,8 +58,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
     {
         $addButtonData = array(
             'id'    => 'products_grid_button',
-            'label' => Mage::helper('googlebase')->__('Add New Items to Base'),
-            'class' => 'add',
+            'label' => Mage::helper('googlebase')->__('View Available Products'),
         );
         return $this->getLayout()
             ->createBlock('adminhtml/widget_button')

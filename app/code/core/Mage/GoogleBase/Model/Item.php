@@ -106,9 +106,10 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function updateItem ()
     {
+        $this->_checkProduct();
+        $product = $this->getProduct();
         $this->loadByProduct($product);
         if ($this->getId()) {
-            $product = $this->getProduct();
             $typeModel = $this->_getTypeModel();
             $serviceItem = $this->getServiceItem()
                 ->setItem($this)

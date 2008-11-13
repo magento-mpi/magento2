@@ -62,29 +62,48 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
         }
     }
 
+//     $this->getSelect()->joinLeft(array('option_value_default' => $this->getTable('bundle/option_value')),
+//                '`main_table`.`option_id` = `option_value_default`.`option_id` and `option_value_default`.`store_id` = "0"',
+//                array())
+//            ->from('', array('default_title' => 'option_value_default.title'));
+//
+//        if ($storeId !== null) {
+//            $this->getSelect()
+//                ->from('', array('title' => 'IFNULL(`option_value`.`title`, `option_value_default`.`title`)'))
+//                ->joinLeft(array('option_value' => $this->getTable('bundle/option_value')),
+//                    '`main_table`.`option_id` = `option_value`.`option_id` and `option_value`.`store_id` = "' . $storeId . '"',
+//                    array());
+//        }
     protected function _joinTables()
     {
         $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
         $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
         $table = $attribute->getBackend()->getTable();
-        $joinCondition = sprintf('p.entity_type_id=%d
-            AND p.attribute_id=%d
-            AND p.store_id=main_table.store_id
-            AND main_table.product_id=p.entity_id',
-            $entityType->getEntityTypeId(),
+
+        $joinConditionDefault = sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
+            $attribute->getAttributeId()
+        );
+        $joinCondition = sprintf("p.attribute_id=%d AND p.store_id=main_table.store_id AND main_table.product_id=p.entity_id",
             $attribute->getAttributeId()
         );
 
         $this->getSelect()
-            ->join(
+            ->joinLeft(
+                array('p_d' => $attribute->getBackend()->getTable()),
+                $joinConditionDefault,
+                array());
+
+        $this->getSelect()
+            ->joinLeft(
                 array('p' => $attribute->getBackend()->getTable()),
                 $joinCondition,
-                array('name' => 'p.value'));
+                array('name' => new Zend_Db_Expr('IFNULL(p.value, p_d.value)')));
 
         $this->getSelect()
             ->joinLeft(
                 array('types' => $this->getTable('googlebase/types')),
-                'main_table.type_id=types.type_id');
+                'main_table.type_id=types.type_id',
+                array('gbase_itemtype' =>  new Zend_Db_Expr('IFNULL(types.gbase_itemtype, \''.Mage_GoogleBase_Model_Service_Item::DEFAULT_ITEM_TYPE .'\')')));
 
         return $this;
     }

@@ -66,11 +66,16 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
 
     public function newAction()
     {
-        $this->_initItemType();
-        $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('googlebase')->__('New Item Type'), Mage::helper('adminhtml')->__('New Item Type'))
-            ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
-            ->renderLayout();
+        try {
+            $this->_initItemType();
+            $this->_initAction()
+                ->_addBreadcrumb(Mage::helper('googlebase')->__('New Item Type'), Mage::helper('adminhtml')->__('New Item Type'))
+                ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
+                ->renderLayout();
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/index');
+        }
     }
 
     public function editAction()
@@ -78,23 +83,28 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
         $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('googlebase/type');
 
-        if ($id) {
-            $model->load($id);
-            $collection = Mage::getResourceModel('googlebase/attribute_collection')
-                ->addAttributeSetFilter($model->getAttributeSetId())
-                ->load();
-            foreach ($collection as $attribute) {
-                $result[] = $attribute->getData();
+        try {
+            if ($id) {
+                $model->load($id);
+                $collection = Mage::getResourceModel('googlebase/attribute_collection')
+                    ->addAttributeSetFilter($model->getAttributeSetId())
+                    ->load();
+                foreach ($collection as $attribute) {
+                    $result[] = $attribute->getData();
+                }
             }
+
+            Mage::register('current_item_type', $model);
+            Mage::register('attributes', $result);
+
+            $this->_initAction()
+                ->_addBreadcrumb($id ? Mage::helper('googlebase')->__('Edit Item Type') : Mage::helper('googlebase')->__('New Item Type'), $id ? Mage::helper('adminhtml')->__('Edit Item Type') : Mage::helper('adminhtml')->__('New Item Type'))
+                ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
+                ->renderLayout();
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/index');
         }
-
-        Mage::register('current_item_type', $model);
-        Mage::register('attributes', $result);
-
-        $this->_initAction()
-            ->_addBreadcrumb($id ? Mage::helper('googlebase')->__('Edit Item Type') : Mage::helper('googlebase')->__('New Item Type'), $id ? Mage::helper('adminhtml')->__('Edit Item Type') : Mage::helper('adminhtml')->__('New Item Type'))
-            ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_types_edit'))
-            ->renderLayout();
    }
 
     /**
@@ -141,12 +151,10 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
             }
 
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('googlebase')->__('Item type was successfully saved'));
-            $this->getResponse()->setRedirect($this->getUrl('*/types'));
-            return;
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            return;
         }
+        $this->_redirect('*/*/index');
     }
 
     /**
@@ -157,13 +165,17 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
      */
     public function deleteAction ()
     {
-        $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('googlebase/type');
-        $model->load($id);
-        if ($model->getTypeId()) {
-            $model->delete();
+        try {
+            $id = $this->getRequest()->getParam('id');
+            $model = Mage::getModel('googlebase/type');
+            $model->load($id);
+            if ($model->getTypeId()) {
+                $model->delete();
+            }
+            $this->_getSession()->addSuccess($this->__('Item Type was deleted'));
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         }
-        $this->_getSession()->addSuccess($this->__('Item Type was deleted'));
         $this->_redirect('*/*/index');
     }
 
@@ -175,12 +187,17 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
      */
     public function loadAttributesAction ()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('googlebase/adminhtml_types_edit_attributes')
-                ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
-                ->setGbaseItemtype($this->getRequest()->getParam('gbase_itemtype'))
-                ->setAttributeSetSelected(true)
-                ->toHtml()
-        );
+        try {
+            $this->getResponse()->setBody(
+                $this->getLayout()->createBlock('googlebase/adminhtml_types_edit_attributes')
+                    ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
+                    ->setGbaseItemtype($this->getRequest()->getParam('gbase_itemtype'))
+                    ->setAttributeSetSelected(true)
+                    ->toHtml()
+            );
+        } catch (Exception $e) {
+            // just need to output text with error
+            $this->_getSession()->addError($e->getMessage());
+        }
     }
 }
