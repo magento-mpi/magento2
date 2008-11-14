@@ -75,8 +75,14 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
         return $this->_attributes[$entityType];
     }
 
-    public function getValue($key, $default='')
+    public function getValue($key, $default='', $defaultNew = null)
     {
+        if (null !== $defaultNew) {
+            if (0 == $this->getProfileId()) {
+                $default = $defaultNew;
+            }
+        }
+
         $value = $this->getData($key);
         return $this->htmlEscape(strlen($value) > 0 ? $value : $default);
     }
