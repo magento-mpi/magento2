@@ -67,7 +67,7 @@
     function changeLocale(event){
         var elem = Event.element(event);
         if(elem){
-            setLocation('<?php echo $this->getChangeUrl() ?>locale/'+elem.value+'/?timezone='+$('timezone').value+'&currency='+$('currency').value);
+            setLocation('<?php echo $this->getChangeUrl() ?>locale/'+elem.value+'/?timezone='+$('timezone').value+'&amp;currency='+$('currency').value);
         }
     }
     var dataForm = new VarienForm('form-validate');
