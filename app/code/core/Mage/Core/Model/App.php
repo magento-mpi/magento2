@@ -874,7 +874,7 @@ class Mage_Core_Model_App
     protected function _getCacheTags($tags=array())
     {
         foreach ($tags as $index=>$value) {
-        	$tags[$index] = $this->_getCacheId($value);
+            $tags[$index] = $this->_getCacheId($value);
         }
         return $tags;
     }
@@ -902,10 +902,17 @@ class Mage_Core_Model_App
                     'file_name_prefix'=>'mage',
                 );
             }
+            $lifetime = Mage::getConfig()->getNode('global/cache/lifetime');
+            if ($lifetime !== false) {
+                $lifetime = (int) $lifetime;
+            }
+            else {
+                $lifetime = 7200;
+            }
             $this->_cache = Zend_Cache::factory('Core', $backend,
                 array(
                     'caching'=>true,
-                    'lifetime'=>7200,
+                    'lifetime'=>$lifetime,
                     'automatic_cleaning_factor'=>0,
                 ),
                 $backendAttributes
