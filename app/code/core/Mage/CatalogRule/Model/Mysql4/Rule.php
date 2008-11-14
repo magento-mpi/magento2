@@ -483,7 +483,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         }
 
         $productPrice = max($productPrice, 0);
-        return $productPrice;
+        return Mage::app()->getStore()->roundPrice($productPrice);
     }
 
     /**
