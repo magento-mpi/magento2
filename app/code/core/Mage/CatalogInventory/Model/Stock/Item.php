@@ -33,14 +33,19 @@
  */
 class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_MIN_QTY              = 'cataloginventory/options/min_qty';
-    const XML_PATH_MIN_SALE_QTY         = 'cataloginventory/options/min_sale_qty';
-    const XML_PATH_MAX_SALE_QTY         = 'cataloginventory/options/max_sale_qty';
-    const XML_PATH_BACKORDERS           = 'cataloginventory/options/backorders';
-    const XML_PATH_CAN_SUBTRACT         = 'cataloginventory/options/can_subtract';
-    const XML_PATH_CAN_BACK_IN_STOCK    = 'cataloginventory/options/can_back_in_stock';
-    const XML_PATH_NOTIFY_STOCK_QTY     = 'cataloginventory/options/notify_stock_qty';
-    const XML_PATH_MANAGE_STOCK         = 'cataloginventory/options/manage_stock';
+    const XML_PATH_GLOBAL            = 'cataloginventory/options/';
+    const XML_PATH_CAN_SUBTRACT      = 'cataloginventory/options/can_subtract';
+    const XML_PATH_CAN_BACK_IN_STOCK = 'cataloginventory/options/can_back_in_stock';
+
+    const XML_PATH_ITEM             = 'cataloginventory/item_options/';
+    const XML_PATH_MIN_QTY          = 'cataloginventory/item_options/min_qty';
+    const XML_PATH_MIN_SALE_QTY     = 'cataloginventory/item_options/min_sale_qty';
+    const XML_PATH_MAX_SALE_QTY     = 'cataloginventory/item_options/max_sale_qty';
+    const XML_PATH_BACKORDERS       = 'cataloginventory/item_options/backorders';
+    const XML_PATH_NOTIFY_STOCK_QTY = 'cataloginventory/item_options/notify_stock_qty';
+    const XML_PATH_MANAGE_STOCK     = 'cataloginventory/item_options/manage_stock';
+
+    // cataloginventory/cart_options/...
 
     protected function _construct()
     {
@@ -245,8 +250,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     /**
      * Checking quote item quantity
      *
-     * @param   mixed $qty
-     * @param   mixed $summaryQty
+     * @param   mixed $qty - quantity of this item
+     * @param   mixed $summaryQty - a compounded summary quantity of items
      * @return  Varien_Object
      */
     public function checkQuoteItemQty($qty, $summaryQty)
@@ -285,7 +290,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
 
-        if ($this->getMinSaleQty() && $summaryQty < $this->getMinSaleQty()) {
+        if ($this->getMinSaleQty() && ($qty) < $this->getMinSaleQty()) {
             $result->setHasError(true)
                 ->setMessage(Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1))
                 ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity'))
@@ -293,7 +298,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
 
-        if ($this->getMaxSaleQty() && $summaryQty>$this->getMaxSaleQty()) {
+        if ($this->getMaxSaleQty() && ($qty) > $this->getMaxSaleQty()) {
             $result->setHasError(true)
                 ->setMessage(Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1))
                 ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products can not be ordered in requested quantity'))

@@ -92,9 +92,7 @@ class Mage_Bundle_Model_Observer
             ->joinTable('bundle/option', 'parent_id=entity_id', array('option_id' => 'option_id'))
             ->joinTable('bundle/selection', 'option_id=option_id', array('product_id' => 'product_id'), '{{table}}.product_id='.$product->getId());
 
-        $ids = Mage::getSingleton('checkout/cart')->getProductIds();
-        $ids = array_merge($ids, $collection->getAllIds());
-
+        $ids = $collection->getAllIds();
         if (count($ids)) {
             $bundles->addIdFilter($ids, true);
         }

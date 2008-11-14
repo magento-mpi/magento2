@@ -61,7 +61,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
         $collection = $this->_addProductAttributesAndPrices(Mage::getModel('catalog/product')->getCollection())
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addUrlRewrite()
-            ->setPageSize($this->_pageSize)
+            ->setPageSize($this->getPageSize())
             ->setCurPage(1)
         ;
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);

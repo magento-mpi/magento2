@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.7.3</version>
+            <version>0.7.4</version>
         </Mage_CatalogInventory>
     </modules>
     <global>
@@ -229,15 +229,17 @@
     <default>
         <cataloginventory>
             <options>
-                <manage_stock>1</manage_stock>
-                <backorders>0</backorders>
                 <can_subtract>1</can_subtract>
                 <can_back_in_stock>1</can_back_in_stock>
+            </options>
+            <item_options>
+                <manage_stock>1</manage_stock>
+                <backorders>0</backorders>
                 <max_sale_qty>10000</max_sale_qty>
                 <min_sale_qty>1</min_sale_qty>
                 <min_qty>0</min_qty>
                 <notify_stock_qty>1</notify_stock_qty>
-            </options>
+            </item_options>
         </cataloginventory>
     </default>
 </config>

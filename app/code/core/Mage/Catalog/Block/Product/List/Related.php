@@ -45,7 +45,10 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
             ->addAttributeToSelect('required_options')
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
-            ->addExcludeProductFilter(Mage::getSingleton('checkout/cart')->getProductIds());
+        ;
+        Mage::getResourceSingleton('checkout/cart')->addExcludeProductFilter($this->_itemCollection,
+            Mage::getSingleton('checkout/session')->getQuoteId()
+        );
         $this->_addProductAttributesAndPrices($this->_itemCollection);
 
 //        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
