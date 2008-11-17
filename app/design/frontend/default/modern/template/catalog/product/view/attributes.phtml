@@ -30,13 +30,17 @@
  * @see Mage_Catalog_Block_Product_View_Attributes
  */
 ?>
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct()
+?>
 <?php if($_additional = $this->getAdditionalData()): ?>
 <div class="collateral-box attribute-specs">
     <table cellspacing="0" class="data-table" id="product-attribute-specs-table">
     <?php foreach ($_additional as $_data): ?>
     <tr>
         <td class="label"><?php echo $this->__($_data['label']) ?></td>
-        <td class="data"><?php echo $_data['value'] ?></td>
+        <td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></td>
     </tr>
     <?php endforeach; ?>
     </table>
