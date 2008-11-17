@@ -764,11 +764,17 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function getItemsCollection()
+    public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_item_collection')
                 ->setOrderFilter($this->getId());
+            if ($filterByTypes) {
+                $this->_items->filterByTypes($filterByTypes);
+            }
+            if ($nonChildrenOnly) {
+                $this->_items->filterByParent();
+            }
 
             if ($this->getId()) {
                 foreach ($this->_items as $item) {

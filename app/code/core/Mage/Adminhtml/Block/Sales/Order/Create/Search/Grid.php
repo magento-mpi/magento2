@@ -94,9 +94,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->addAttributeToFilter('type_id', array(
-                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-                Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+            ->addAttributeToFilter('type_id', array_keys(
+                Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
             ))
             ->addStoreFilter();
 

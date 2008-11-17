@@ -161,7 +161,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->getSession()->setCustomerId($order->getCustomerId());
         $this->getSession()->setStoreId($order->getStoreId());
 
-        foreach ($order->getItemsCollection() as $orderItem) {
+        foreach ($order->getItemsCollection(
+            array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
+            true
+            ) as $orderItem) {
             /* @var $orderItem Mage_Sales_Model_Order_Item */
             if (!$orderItem->getParentItem()) {
                 if ($order->getReordered()) {
