@@ -136,7 +136,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             array(
                 'name'  => 'attributes',
                 'label' => Mage::helper('googleoptimizer')->__('Attributes'),
-                'class' => 'validate-googleoptimizer validate-googleoptimizer-attributes',
+                'class' => 'googleoptimizer validate-googleoptimizer validate-googleoptimizer-attributes',
                 'values' => $attributes,
                 'required' => false,
                 'onchange' => 'googleOptimizerAttributesCheckAction(this)',
