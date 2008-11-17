@@ -745,7 +745,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession->addException($e, $this->__('There was an error while updating product(s) status'));
+            $this->_getSession()->addException($e, $this->__('There was an error while updating product(s) status'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
