@@ -30,7 +30,7 @@
         <payment>
             <groups>
                 <paypal_direct translate="label" module="paypal">
-                    <label>PayPal Direct (Website Payments Pro)</label>
+                    <label>PayPal Website Payments Pro - Direct Payments</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>101</sort_order>
                     <show_in_default>1</show_in_default>
@@ -110,7 +110,7 @@
                     </fields>
                 </paypal_direct>
                 <paypal_express translate="label" module="paypal">
-                    <label>Paypal Express (Website Payments Pro)</label>
+                    <label>PayPal Express Checkout</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>101</sort_order>
                     <show_in_default>1</show_in_default>
@@ -181,7 +181,7 @@
                     </fields>
                 </paypal_express>
                 <paypal_standard translate="label" module="paypal">
-                     <label>PayPal Standard (Website Payments Standard)</label>
+                    <label>PayPal Website Payments Standard</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>102</sort_order>
                     <show_in_default>1</show_in_default>
@@ -281,7 +281,7 @@
             <show_in_store>0</show_in_store>
             <groups>
                 <wpp translate="label">
-                    <label>Website Payments Pro (Express, Direct)</label>
+                    <label>Website Payments Pro and Express Checkout (API Signature)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>

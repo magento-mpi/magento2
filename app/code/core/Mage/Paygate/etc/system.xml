@@ -198,7 +198,7 @@
                     </fields>
                 </authorizenet>
                 <verisign translate="label" module="paygate">
-                    <label>PayflowPro</label>
+                    <label>Payflow Pro</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
