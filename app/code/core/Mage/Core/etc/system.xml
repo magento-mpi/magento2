@@ -1025,7 +1025,7 @@
                     </fields>
                 </cookie>
                 <session translate="label">
-                    <label>Session Validate Settings</label>
+                    <label>Session Validation Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>60</sort_order>
                     <show_in_default>1</show_in_default>
