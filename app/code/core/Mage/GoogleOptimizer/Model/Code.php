@@ -154,12 +154,6 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
             $this->deleteScripts($storeId);
             return $this;
         }
-        // first saving of scripts in store different from default, need to save for default store too
-//        if ($this->getStoreId() != '0' && !$this->getCodeId() && !$this->getStoreFlag()) {
-//            $clone = clone $this;
-//            $clone->setStoreId(0)
-//                ->save();
-//        }
 
         $this->save();
         return $this;

@@ -70,7 +70,8 @@ class Mage_GoogleOptimizer_Model_Mysql4_Code extends Mage_Core_Model_Mysql4_Abst
                         'additional_data' => new Zend_Db_Expr("IFNULL(_store_table.additional_data, _default_table.additional_data)")))
                 ->where('_default_table.entity_id=?', $object->getEntity()->getId())
                 ->where('_default_table.entity_type=?', $object->getEntityType())
-                ->where('_default_table.store_id=?', 0)
+                ->where('_default_table.store_id IN (0, ?)', $storeId)
+                ->order('_default_table.store_id DESC')
                 ->limit(1);
             $data = $read->fetchRow($select);
             if ($data) {
