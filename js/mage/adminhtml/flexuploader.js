@@ -37,7 +37,7 @@ if(!window.Flex) {
         fileProgressTemplate:null,
         templatesPattern: /(^|.|\r|\n)(\{\{(.*?)\}\})/,
         onFilesComplete: false,
-        onFileProgress: false,
+        onFileProgress: true,
         onFileRemove: false,
         initialize: function(containerId, uploaderSrc, config) {
             this.containerId = containerId;
@@ -138,7 +138,7 @@ if(!window.Flex) {
         },
         handleProgress: function (event) {
             var file = event.getData().file;
-            this.updateFile();
+            this.updateFile(file);
             if (this.onFileProgress) {
                 this.onFileProgress(file);
             }
