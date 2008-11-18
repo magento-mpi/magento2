@@ -60,7 +60,11 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
-        Mage::helper('googleoptimizer')->setStoreId($this->getCategory()->getStoreId());
+        if ($this->getCategory()->getStoreId() == '0') {
+            Mage::helper('googleoptimizer')->setStoreId(Mage::app()->getDefaultStoreView());
+        } else {
+            Mage::helper('googleoptimizer')->setStoreId($this->getCategory()->getStoreId());
+        }
 
         $disabledScriptsFields = false;
         $values = array();
@@ -86,6 +90,38 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
                     )
                 )->setIsChecked($checkedUseDefault);
             }
+        }
+
+        $fieldset->addField('conversion_page', 'select',
+            array(
+                'name'  => 'conversion_page',
+                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
+                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'class' => 'select googleoptimizer validate-googleoptimizer',
+                'required' => false,
+                'onchange' => 'googleOptimizerConversionPageAction(this)'
+            )
+        );
+        //Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+        if ($this->getCategory()->getStoreId() == '0' && !Mage::app()->isSingleStoreMode()) {
+            $fieldset->addField('conversion_page_url', 'note',
+                array(
+                    'name'  => 'conversion_page_url',
+                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'text' => Mage::helper('googleoptimizer')->__('Please select store view to see the URL')
+                )
+            );
+        } else {
+            $fieldset->addField('conversion_page_url', 'text',
+                array(
+                    'name'  => 'conversion_page_url',
+                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'class' => 'input-text',
+                    'readonly' => 'readonly',
+                    'required' => false,
+                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+                )
+            );
         }
 
         $fieldset->addField('export_controls', 'text', array('name'  => 'export_controls',));
@@ -116,38 +152,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
                 'required' => false,
             )
         );
-
-        $fieldset->addField('conversion_page', 'select',
-            array(
-                'name'  => 'conversion_page',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
-                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
-                'class' => 'select googleoptimizer validate-googleoptimizer',
-                'required' => false,
-                'onchange' => 'googleOptimizerConversionPageAction(this)'
-            )
-        );
-
-        if ($this->getCategory()->getStoreId() == '0' && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
-            $fieldset->addField('conversion_page_url', 'note',
-                array(
-                    'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
-                    'text' => Mage::helper('googleoptimizer')->__('Please select store view to see the URL')
-                )
-            );
-        } else {
-            $fieldset->addField('conversion_page_url', 'text',
-                array(
-                    'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
-                    'class' => 'input-text',
-                    'readonly' => 'readonly',
-                    'required' => false,
-                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
-                )
-            );
-        }
 
         if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
             && $this->getGoogleOptimizer()

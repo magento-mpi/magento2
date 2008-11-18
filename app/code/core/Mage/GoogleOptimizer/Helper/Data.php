@@ -36,6 +36,8 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_ENABLED = 'google/optimizer/active';
     const XML_PATH_ALLOWED_ATTRIBUTES = 'admin/attributes';
 
+    const MAX_ATTRIBUTE_LENGTH_LIMIT = 25;
+
     protected $_storeId = null;
 
     public function setStoreId($storeId)
@@ -73,7 +75,13 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             return $attributeHtml;
         }
         if (in_array($attributeName, $product->getGoogleOptimizerScripts()->getAttributes())) {
-            $attributeHtml = '<script>utmx_section("product_'.$attributeName.'_'.$product->getId().'")</script>' . $attributeHtml . '</noscript>';
+            $newAttributeName = 'product_'.$attributeName.'_'.$product->getId();
+            if (strlen($newAttributeName) > self::MAX_ATTRIBUTE_LENGTH_LIMIT) {
+                $newAttributeName = 'product_';
+                $newAttributeName .= substr($attributeName, 0, (self::MAX_ATTRIBUTE_LENGTH_LIMIT - strlen('product__'.$product->getId())));
+                $newAttributeName .= '_'.$product->getId();
+            }
+            $attributeHtml = '<script>utmx_section("'.$newAttributeName.'")</script>' . $attributeHtml . '</noscript>';
         }
         return $attributeHtml;
     }
@@ -97,7 +105,14 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             return $attributeHtml;
         }
 
-        $attributeHtml = '<script>utmx_section("category_'.$attributeName.'_'.$category->getId().'")</script>' . $attributeHtml . '</noscript>';
+        $newAttributeName = 'product_'.$attributeName.'_'.$category->getId();
+        if (strlen($newAttributeName) > self::MAX_ATTRIBUTE_LENGTH_LIMIT) {
+            $newAttributeName = 'category_';
+            $newAttributeName .= substr($attributeName, 0, (self::MAX_ATTRIBUTE_LENGTH_LIMIT - strlen('category__'.$category->getId())));
+            $newAttributeName .= '_'.$category->getId();
+        }
+
+        $attributeHtml = '<script>utmx_section("'.$newAttributeName.'")</script>' . $attributeHtml . '</noscript>';
         return $attributeHtml;
     }
 
@@ -119,6 +134,8 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
         $choices = Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
             ->toOptionArray();
         $url = Mage::getModel('core/url');
+        $session = Mage::getSingleton('core/session')->setSkipSessionIdFlag(true);
+        $store = Mage::app()->getStore($this->getStoreId());
         foreach ($choices as $choice) {
             $route = '';
             switch ($choice['value']) {
@@ -142,13 +159,23 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
                     break;
             }
             if ($route) {
-//                $urls[$choice['value']] = $this->_getUrl($route, array('_secure' => true));
-                $urls[$choice['value']] = $url->setStore($this->getStoreId())->getUrl($route, array('_secure' => true));
+                $_query = array();
+                $_path = Mage_Core_Model_Url::XML_PATH_UNSECURE_URL;
+                if (Mage::getConfig()->shouldUrlBeSecure('/' . $route)) {
+                    $_path = Mage_Core_Model_Url::XML_PATH_SECURE_URL;
+                }
+                $storeBaseUrl = $store->getConfig($_path);
+                $websiteBaseUrl = $store->getWebsite()->getConfig($_path);
+                $defaultBaseUrl = Mage::app()->getStore(0)->getConfig($_path);
+                if ($storeBaseUrl == $websiteBaseUrl && !Mage::app()->isSingleStoreMode()) {
+                    $_query = array('__store' => $store->getCode());
+                }
+                $urls[$choice['value']] = $url->setStore($this->getStoreId())->getUrl($route, array('_secure' => true, '_query' => $_query));
             }
         }
+        $session->setSkipSessionIdFlag(false);
         return new Varien_Object($urls);
     }
-
 
     /**
      * Create array of attributes for variation

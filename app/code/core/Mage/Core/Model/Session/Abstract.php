@@ -45,6 +45,8 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
 
     protected static $_encryptedSessionId;
 
+    protected $_skipSessionIdFlag = false;
+
     public function init($namespace, $sessionName=null)
     {
         parent::init($namespace, $sessionName);
@@ -280,6 +282,28 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     }
 
     /**
+     * Set skip flag if need skip generating of _GET session_id_key param
+     *
+     * @param bool $flag
+     * @return Mage_Core_Model_Session_Abstract
+     */
+    public function setSkipSessionIdFlag($flag)
+    {
+        $this->_skipSessionIdFlag = $flag;
+        return $this;
+    }
+
+    /**
+     * Retrieve session id skip flag
+     *
+     * @return bool
+     */
+    public function getSkipSessionIdFlag()
+    {
+        return $this->_skipSessionIdFlag;
+    }
+
+    /**
      * If the host was switched but session cookie won't recognize it - add session id to query
      *
      * @param string $urlHost can be host or url
@@ -287,6 +311,10 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function getSessionIdForHost($urlHost)
     {
+        if ($this->getSkipSessionIdFlag() === true) {
+            return '';
+        }
+
         if (!$httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost()) {
             return '';
         }
