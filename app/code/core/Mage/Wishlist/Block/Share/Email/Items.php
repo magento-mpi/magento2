@@ -55,7 +55,10 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
                 //->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
-                ->addStoreFilter()
+                ->addStoreFilter();
+            Mage::getSingleton('catalog/product_visibility')
+                ->addVisibleInSiteFilterToCollection(Mage::registry('wishlist')->getProductCollection());
+            Mage::registry('wishlist')->getProductCollection()
                 ->load();
 
             $this->_wishlistLoaded = true;
