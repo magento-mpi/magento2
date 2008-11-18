@@ -51,10 +51,10 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Description goes here...
+     *  Retrieve Items Statistics (expires, clicks, views, impr. etc.)
      *
      *  @param    none
-     *  @return	  void
+     *  @return	  array
      */
     public function getItemsStatsArray()
     {
@@ -78,61 +78,62 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Returns Google Base recommended Item Types Collection
+     *  Returns Google Base recommended Item Types
      *
      *  @param    none
-     *  @return	  Varien_Data_Collection
+     *  @return	  array
      */
-    public function getItemTypesCollection ()
+    public function getItemTypes ()
     {
-        if ($this->_itemTypesCollection instanceof Varien_Data_Collection) {
-            return $this->_itemTypesCollection;
+        if (is_array($this->_itemTypes)) {
+            return $this->_itemTypes;
         }
         $location = self::ITEM_TYPES_LOCATION . '/' . Mage::app()->getLocale()->getLocale();
         $feed = $this->getFeed($location);
 
-        $collection = new Varien_Data_Collection();
-        $collection->setOrder('name', 'asc');
+        $itemTypes = array();
         foreach ($feed->entries as $entry) {
-            $itemType = $entry->extensionElements[0]->text;
+            $type = $entry->extensionElements[0]->text;
             $item = new Varien_Object();
-            $item->setId($itemType);
+            $item->setId($type);
             $item->setName($entry->title->text);
             $item->setLocation($entry->id->text);
-            $collection->addItem($item);
+            $itemTypes[$type] = $item;
 
-            $attributesArr = $entry->extensionElements[1]->extensionElements;
-            $attributesCollection = new Varien_Data_Collection();
-            $item->setAttributesCollection($attributesCollection);
-            if (is_array($attributesArr)) {
-                foreach($attributesArr as $attr) {
+            $typeAttributes = $entry->extensionElements[1]->extensionElements;
+            $attributes = array();
+            if (is_array($typeAttributes)) {
+                foreach($typeAttributes as $attr) {
                     $name = $attr->extensionAttributes['name']['value'];
                     $type = $attr->extensionAttributes['type']['value'];
                     $attribute = new Varien_Object();
                     $attribute->setId($name);
                     $attribute->setName($name);
                     $attribute->setType($type);
-                    $attributesCollection->addItem($attribute);
+                    $attributes[$name] = $attribute;
                 }
             }
+            ksort($attributes);
+            $item->setAttributes($attributes);
         }
-        $this->_itemTypesCollection = $collection;
-        return $collection;
+        ksort($itemTypes);
+        $this->_itemTypes = $itemTypes;
+        return $itemTypes;
     }
 
     /**
-     *  Returns Google Base Attributes Collection
+     *  Returns Google Base Attributes
      *
-     *  @param    string $itemType Google Base Item Type
-     *  @return	  Varien_Data_Collection
+     *  @param    string $type Google Base Item Type
+     *  @return	  array
      */
-    public function getAttributesCollection ($itemType)
+    public function getAttributes ($type)
     {
-        $itemTypesCollection = $this->getItemTypesCollection();
-        $collectionItem = $itemTypesCollection->getItemById($itemType);
-        if ($collectionItem === null) {
+        $itemTypes = $this->getItemTypes();
+        if (isset($itemTypes[$type]) && $itemTypes[$type] instanceof Varien_Object) {
+            return $itemTypes[$type]->getAttributes();
+        } else {
             Mage::throwException('No such Item Type "%s" in Google Base to retrieve attributes', $itemType);
         }
-        return $collectionItem->getAttributesCollection();
     }
 }

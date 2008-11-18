@@ -25,7 +25,7 @@
  */
 
 /**
- * Google Base Attributes Model
+ * Attributes Model
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -38,14 +38,18 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
      *
      * @var array
      */
-    protected $_ignoredAttributeCodes = array('entity_id', 'attribute_set_id', 'entity_type_id');
+    protected $_ignoredAttributeCodes = array(
+        'custom_design','custom_design_from','custom_design_to','custom_layout_update',
+        'gift_message_available','news_from_date','news_to_date','options_container',
+        'price_view','sku_type'
+    );
 
     /**
      * Default ignored attribute types
      *
      * @var array
      */
-    protected $_ignoredAttributeTypes = array();
+    protected $_ignoredAttributeTypes = array('hidden', 'media_image', 'image', 'gallery');
 
     protected function _construct()
     {
@@ -57,15 +61,19 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
         $attributes = Mage::getModel('catalog/product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
-        $result = array();
 
+        $result = array();
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            if ( (!$attribute->getId() || $attribute->isInSet($setId))
-                && $this->_isAllowedAttribute($attribute)) {
-
-                $result[] = $attribute;
+            if ($attribute->isInSet($setId) && $this->_isAllowedAttribute($attribute)) {
+                $list[$attribute->getAttributeId()] = $attribute;
+                $titles[$attribute->getAttributeId()] = $attribute->getFrontendLabel();
             }
+        }
+        asort($titles);
+        $result = array();
+        foreach ($titles as $attributeId => $label) {
+            $result[$attributeId] = $list[$attributeId];
         }
         return $result;
     }
@@ -77,16 +85,11 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
      * @param array $attributes
      * @return boolean
      */
-    protected function _isAllowedAttribute($attribute, $attributes = null)
+    protected function _isAllowedAttribute($attribute)
     {
-        if (is_array($attributes)
-            && !( in_array($attribute->getAttributeCode(), $attributes)
-                  || in_array($attribute->getAttributeId(), $attributes))) {
-            return false;
-        }
-
         return !in_array($attribute->getFrontendInput(), $this->_ignoredAttributeTypes)
-               && !in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes);
+               && !in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes)
+               && $attribute->getFrontendLabel() != "";
     }
 
     /**

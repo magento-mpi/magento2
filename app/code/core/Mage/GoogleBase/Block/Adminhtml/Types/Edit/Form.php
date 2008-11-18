@@ -121,10 +121,10 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
     }
     protected function _getGbaseItemTypesArray()
     {
-        $collection = Mage::getModel('googlebase/service_feed')->getItemTypesCollection();
+        $itemTypes = Mage::getModel('googlebase/service_feed')->getItemTypes();
         $result = array('' => '');
-        foreach ($collection as $itemType) {
-            $result[$itemType->getId()] = $itemType->getName();
+        foreach ($itemTypes as $type) {
+            $result[$type->getId()] = $type->getName();
         }
         return $result;
     }

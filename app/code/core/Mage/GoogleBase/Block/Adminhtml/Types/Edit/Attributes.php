@@ -73,13 +73,14 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
 
     public function getGbaseAttributesSelectHtml()
     {
-        $options = Mage::getModel('googlebase/service_feed')
-            ->getAttributesCollection($this->getGbaseItemtype())
-            ->toOptionArray();
-        array_unshift($options, array(
-            'value' => '',
-            'label' => $this->__('New attribute, no mapping')
-        ));
+        $options = array('' => $this->__('Custom attribute, no mapping'));
+
+        $attributes = Mage::getModel('googlebase/service_feed')
+            ->getAttributes($this->getGbaseItemtype());
+        foreach ($attributes as $attr) {
+            $options[$attr->getId()] = $attr->getName();
+        }
+
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gbase_attribute]')
@@ -113,7 +114,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
 
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $result[$attribute->getAttributeId()] = $attribute->getName();
+            $result[$attribute->getAttributeId()] = $attribute->getFrontendLabel();
         }
         return $result;
     }
