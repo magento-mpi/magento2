@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             if ($nonEditableTypes) {
                 $this->_updateButton('order_edit', 'onclick',
                     'if (!confirm(\'' . Mage::helper('sales')->__(
-                        'This order contains items (%s) that cannot be added to order from admin interface and will be lost.',
+                        'This order contains items (%s) that cannot be added to order from admin interface and will not be put to new order.',
                         implode(', ', $nonEditableTypes)
                     ) . '\')) return false;' . $onclickJs
                 );
