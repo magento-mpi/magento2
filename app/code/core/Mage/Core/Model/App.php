@@ -656,6 +656,23 @@ class Mage_Core_Model_App
         return $this->_store;
     }
 
+    /**
+     * Retrieve default store for default group and website
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getDefaultStoreView()
+    {
+        foreach ($this->getWebsites() as $_website) {
+            if ($_website->getIsDefault()) {
+                if ($_defaultStore = $this->getGroup($_website->getDefaultGroupId())->getDefaultStore()) {
+                    return $_defaultStore;
+                }
+            }
+        }
+        return null;
+    }
+
     public function getDistroLocaleCode()
     {
         return self::DISTRO_LOCALE_CODE;
