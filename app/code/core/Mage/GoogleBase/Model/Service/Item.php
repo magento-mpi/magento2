@@ -102,27 +102,23 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     public function insert()
     {
         $this->_checkItem();
-
         $service = $this->getService();
         $entry = $service->newItemEntry();
-        $entry->setItemType( $this->_getItemType() );
         $this->setEntry($entry);
         $this->_prepareEnrtyForSave();
-        $createdEntry = $service->insertGbaseItem($this->getEntry(), $this->getDryRun());
-
-        $entryId = $createdEntry->getId();
-        $published = $this->gBaseDate2DateTime($createdEntry->getPublished()->getText());
+        $this->getEntry()->setItemType($this->_getItemType());
+        $entry = $service->insertGbaseItem($this->getEntry());
+        $this->setEntry($entry);
+        $entryId = $this->getEntry()->getId();
+        $published = $this->gBaseDate2DateTime($this->getEntry()->getPublished()->getText());
         $this->getItem()
             ->setGbaseItemId($entryId)
             ->setPublished($published);
 
-        $expirationsArr = $createdEntry->getGbaseAttribute('expiration_date');
-        if (is_array($expirationsArr) && is_object($expirationsArr[0])) {
-        	$expires = $this->gBaseDate2DateTime($expirationsArr[0]->getText());
+        if ($expires = $this->_getAttributeValue('expiration_date')) {
+        	$expires = $this->gBaseDate2DateTime($expires);
         	$this->getItem()->setExpires($expires);
         }
-
-        return $createdEntry;
     }
 
     /**
@@ -133,13 +129,12 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     public function update()
     {
         $this->_checkItem();
-
         $service = $this->getService();
         $entry = $service->getGbaseItemEntry( $this->getItem()->getGbaseItemId() );
         $this->setEntry($entry);
         $this->_prepareEnrtyForSave();
-        $updatedEntry = $service->updateGbaseItem($this->getEntry(), $this->getDryRun());
-        return $updatedEntry;
+        $entry = $service->updateGbaseItem($this->getEntry());
+
     }
 
     /**
@@ -220,19 +215,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $attributes = $this->getAttributeValues();
         if (is_array($attributes) && count($attributes)) {
             foreach ($attributes as $name => $data) {
-
                 $name = $this->_normalizeString($name);
                 $value = isset($data['value']) ? $data['value'] : '';
                 $type  = isset($data['type']) && $data['type'] ? $data['type'] : self::DEFAULT_ATTRIBUTE_TYPE;
-
-                $gBaseItemAttribute = $entry->getGbaseAttribute($name);
-
-                if ($value && isset($gBaseItemAttribute[0]) && is_object($gBaseItemAttribute[0])) {
-                    $gBaseItemAttribute[0]->text = $value;
-                }
-                elseif ($value && $type) {
-                    $entry->addGbaseAttribute($name, $value, $type);
-                }
+                $this->_setAttribute($name, $value, $type);
             }
         }
         return $this;
@@ -250,14 +236,22 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $object = $this->getObject();
         $entry = $this->getEntry();
 
-        $title = $service->newTitle()->setText( $object->getName() );
-        $entry->setTitle($title);
+        if ($object->getName()) {
+            $title = $service->newTitle()->setText( $object->getName() );
+            $entry->setTitle($title);
+        }
 
-        if ($object->getProductUrl()) {
+        if ($object->getUrl()) {
+            $links = $entry->getLink();
             $link = $service->newLink();
-            $link->href = $object->getProductUrl();
-            $link->title = $title->getText();
-            $entry->setLink(array($link));
+//            $link->setHref($object->getUrl());
+            $link->setHref('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
+            $link->setRel('alternate');
+            if ($object->getName()) {
+                $link->setTitle($object->getName());
+            }
+            $links[0] = $link;
+            $entry->setLink($links);
         }
 
         if ($object->getDescription()) {
@@ -265,16 +259,53 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
             $entry->setContent($content);
         }
 
-        if ($object->getImageUrl()) {
-            $entry->addGbaseAttribute('image_link', $object->getImageUrl(),'url');
-        }
-
         if ($this->_getItemType() == 'products') {
-        	$quantity = $object->getQty() ? $object->getQty() : 1;
-        	$entry->addGbaseAttribute('quantity', $quantity, 'int');
+        	$quantity = $object->getQuantity() ? max(1, (int)$object->getQuantity()) : 1;
+        	$this->_setAttribute('quantity', $quantity, 'int');
+        }
+        if ($object->getImageUrl()) {
+            $this->_setAttribute('image_link', $object->getImageUrl(), 'url');
         }
 
         return $this;
+    }
+
+    /**
+     *  Set Google Base Item Attribute
+     *
+     *  @param    string $attribute Google Base attribute name
+     *  @param    string $value Google Base attribute value
+     *  @param    string $type Google Base attribute type
+     *
+     *  @return	  Mage_GoogleBase_Model_Service_Item
+     */
+    protected function _setAttribute($attribute, $value, $type = 'text')
+    {
+        $entry = $this->getEntry();
+        $gBaseAttribute = $entry->getGbaseAttribute($attribute);
+        if (isset($gBaseAttribute[0]) && is_object($gBaseAttribute[0])) {
+            $gBaseAttribute[0]->text = $value;
+        } else {
+            $entry->addGbaseAttribute($attribute, $value, $type);
+        }
+        return $this;
+    }
+
+    /**
+     *  Return Google Base Item Attribute Value
+     *
+     *  @param    string $attribute Google Base attribute name
+     *
+     *  @return	  string|null Attribute value
+     */
+    protected function _getAttributeValue($attribute)
+    {
+        $entry = $this->getEntry();
+        $attributeArr = $entry->getGbaseAttribute($attribute);
+        if (is_array($attributeArr) && is_object($attributeArr[0])) {
+            return $attributeArr[0]->getText();
+        }
+        return null;
     }
 
     /**

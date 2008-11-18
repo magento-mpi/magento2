@@ -24,7 +24,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Google Base items collection
  *
@@ -52,6 +51,12 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
         return $this;
     }
 
+    public function addProductFilterId($productId)
+    {
+        $this->getSelect()->where('main_table.product_id=?', $productId);
+        return $this;
+    }
+
     public function addFieldToFilter($field, $condition=null)
     {
         if ($field == 'name') {
@@ -62,18 +67,12 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
         }
     }
 
-//     $this->getSelect()->joinLeft(array('option_value_default' => $this->getTable('bundle/option_value')),
-//                '`main_table`.`option_id` = `option_value_default`.`option_id` and `option_value_default`.`store_id` = "0"',
-//                array())
-//            ->from('', array('default_title' => 'option_value_default.title'));
-//
-//        if ($storeId !== null) {
-//            $this->getSelect()
-//                ->from('', array('title' => 'IFNULL(`option_value`.`title`, `option_value_default`.`title`)'))
-//                ->joinLeft(array('option_value' => $this->getTable('bundle/option_value')),
-//                    '`main_table`.`option_id` = `option_value`.`option_id` and `option_value`.`store_id` = "' . $storeId . '"',
-//                    array());
-//        }
+    /**
+     *  Join product and type data
+     *
+     *  @param    none
+     *  @return	  Mage_GoogleBase_Model_Mysql4_Item_Collection
+     */
     protected function _joinTables()
     {
         $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');

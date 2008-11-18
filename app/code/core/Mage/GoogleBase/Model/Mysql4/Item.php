@@ -25,7 +25,7 @@
  */
 
 /**
- * Google Base resource model
+ * Google Base Item resource model
  *
  * @category   Mage
  * @package    Mage_GoogleBase

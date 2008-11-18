@@ -25,7 +25,7 @@
  */
 
 /**
- * GoogleBase selection products grid
+ * Products Grid to add to Google Base
  *
  * @category    Mage
  * @package     Mage_GoogleBase
@@ -65,7 +65,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
             $collection->addStoreFilter($store);
         }
 
-        if ($excludeIds = $this->_getBaseProductIds()) {
+        if ($excludeIds = $this->_getGoogleBaseProductIds()) {
             $collection->addIdFilter($excludeIds, true);
         }
 
@@ -128,7 +128,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('add', array(
-             'label'    => Mage::helper('googlebase')->__('Add to Google Base'),
+             'label'    => $this->__('Add to Google Base'),
              'url'      => $this->getUrl('*/*/massAdd', array('_current'=>true)),
         ));
         return $this;
@@ -139,16 +139,15 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
         return $this->getUrl('googlebase/selection/grid', array('index' => $this->getIndex(),'_current'=>true));
     }
 
-    protected function _getBaseProductIds()
+    protected function _getGoogleBaseProductIds()
     {
-//        $collection = Mage::getResourceModel('googlebase/item_collection')
-//            ->addStoreFilterId($this->_getStore()->getId())
-//            ->load();
+        $collection = Mage::getResourceModel('googlebase/item_collection')
+            ->addStoreFilterId($this->_getStore()->getId())
+            ->load();
         $productIds = array();
-//        foreach ($collection as $item) {
-//            $productIds[] = $item->getProductId();
-//
-//        }
+        foreach ($collection as $item) {
+            $productIds[] = $item->getProductId();
+        }
         return $productIds;
     }
 
@@ -158,4 +157,3 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
         return Mage::app()->getStore($storeId);
     }
 }
-

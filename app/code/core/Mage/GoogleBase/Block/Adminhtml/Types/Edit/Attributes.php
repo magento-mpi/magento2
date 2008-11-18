@@ -25,7 +25,7 @@
  */
 
 /**
- * Attributes box for Google Base
+ * Attributes box for Google Base attributes mapping
  *
  * @category    Mage
  * @package     Mage_GoogleBase
@@ -38,7 +38,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $this->setTemplate('googlebase/types/edit/attributes.phtml');
     }
 
-    protected function _prepareLayout ()
+    protected function _prepareLayout()
     {
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -52,7 +52,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Remove'),
+                    'label' => Mage::helper('googlebase')->__('Remove'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'gBaseAttribute.remove(event)'
                 ))
@@ -76,6 +76,10 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $options = Mage::getModel('googlebase/service_feed')
             ->getAttributesCollection($this->getGbaseItemtype())
             ->toOptionArray();
+        array_unshift($options, array(
+            'value' => '',
+            'label' => $this->__('New attribute, no mapping')
+        ));
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gbase_attribute]')
@@ -114,7 +118,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         return $result;
     }
 
-    protected function _toJson ($data)
+    protected function _toJson($data)
     {
         return Zend_Json::encode($data);
     }

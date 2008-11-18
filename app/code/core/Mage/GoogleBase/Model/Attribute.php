@@ -67,7 +67,6 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
                 $result[] = $attribute;
             }
         }
-
         return $result;
     }
 
@@ -101,6 +100,7 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
         $typesMapping = array(
             'date'       => 'dateTime',
             'price'      => 'floatUnit',
+            'decimal'      => 'numberUnit',
         );
         $gType = isset($typesMapping[$frontendInput])
             ? $typesMapping[$frontendInput]

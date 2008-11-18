@@ -84,6 +84,7 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
         $model = Mage::getModel('googlebase/type');
 
         try {
+            $result = array();
             if ($id) {
                 $model->load($id);
                 $collection = Mage::getResourceModel('googlebase/attribute_collection')

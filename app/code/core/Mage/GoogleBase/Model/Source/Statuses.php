@@ -24,7 +24,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Google Base Item statues Source
+ *
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_GoogleBase_Model_Source_Statuses
 {
     public function getStatuses()

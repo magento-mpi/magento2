@@ -40,13 +40,22 @@ class Mage_GoogleBase_Model_Mysql4_Type_Collection extends Mage_Core_Model_Mysql
 		$this->_init('googlebase/type');
 	}
 
-	public function addAttributeSet ()
+	protected function _initSelect()
+	{
+	    parent::_initSelect();
+	    $this->_joinAttributeSet();
+	    return $this;
+	}
+
+	/**
+	 *  Add total count of Items for each type
+	 *
+	 *  @param    none
+	 *  @return	  Mage_GoogleBase_Model_Mysql4_Type_Collection
+	 */
+	public function addItemsCount()
 	{
         $this->getSelect()
-            ->join(
-                array('set'=>$this->getTable('eav/attribute_set')),
-                'main_table.attribute_set_id=set.attribute_set_id',
-                array('attribute_set_name' => 'set.attribute_set_name'))
             ->joinLeft(
                 array('items'=>$this->getTable('googlebase/items')),
                 'main_table.type_id=items.type_id',
@@ -55,12 +64,19 @@ class Mage_GoogleBase_Model_Mysql4_Type_Collection extends Mage_Core_Model_Mysql
         return $this;
 	}
 
-    public function load($printQuery = false, $logQuery = false)
-    {
-        if ($this->isLoaded()) {
-            return $this;
-        }
-        parent::load($printQuery, $logQuery);
+	/**
+	 *  Join Attribute Set data
+	 *
+	 *  @param    none
+	 *  @return	  Mage_GoogleBase_Model_Mysql4_Type_Collection
+	 */
+	protected function _joinAttributeSet()
+	{
+        $this->getSelect()
+            ->join(
+                array('set'=>$this->getTable('eav/attribute_set')),
+                'main_table.attribute_set_id=set.attribute_set_id',
+                array('attribute_set_name' => 'set.attribute_set_name'));
         return $this;
-    }
+	}
 }

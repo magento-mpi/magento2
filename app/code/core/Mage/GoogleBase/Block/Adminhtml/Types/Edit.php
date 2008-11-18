@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml Mage_GoogleBase type form block
+ * Adminhtml Google Base Types Mapping form block
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -42,9 +42,9 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
         $this->_mode = 'edit';
         $model = Mage::registry('current_item_type');
         $this->_removeButton('reset');
-        $this->_updateButton('save', 'label', Mage::helper('googlebase')->__('Save Mapping'));
+        $this->_updateButton('save', 'label', $this->__('Save Mapping'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', Mage::helper('googlebase')->__('Delete Mapping'));
+        $this->_updateButton('delete', 'label', $this->__('Delete Mapping'));
         if(!$model->getId()) {
             $this->_removeButton('delete');
         }
@@ -56,7 +56,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
                         if ($("select_attribute_set").value != "" && $("select_itemtype").value != "")
                         {
                             var blocksCount = Element.select($("attributes_details"), "div[id^=gbase_attribute_]").length;
-                            if (blocksCount > 0 && confirm("'.Mage::helper('googlebase')->__('Current Mapping will be reloaded. Continue?').'") || blocksCount == 0)
+                            if (blocksCount > 0 && confirm("'.$this->__('Current Mapping will be reloaded. Continue?').'") || blocksCount == 0)
                             {
                                 var elements = [$("select_attribute_set"),$("select_itemtype")].flatten();
                                  $(\'save_button\').disabled = true;
@@ -81,9 +81,9 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
     public function getHeaderText()
     {
         if(!is_null(Mage::registry('current_item_type')->getId())) {
-            return Mage::helper('googlebase')->__('Edit Item Type "%s"', $this->htmlEscape(Mage::registry('current_item_type')->getGbaseItemtype()));
+            return $this->__('Edit Item Type "%s"', $this->htmlEscape(Mage::registry('current_item_type')->getGbaseItemtype()));
         } else {
-            return Mage::helper('googlebase')->__('New Item Type');
+            return $this->__('New Item Type');
         }
     }
 

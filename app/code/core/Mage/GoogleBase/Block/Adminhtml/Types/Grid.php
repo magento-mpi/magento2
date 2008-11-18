@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml GoogleBase Item Types grid
+ * Adminhtml Google Base Item Types Mapping grid
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -33,8 +33,6 @@
  */
 class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
-
     public function __construct()
     {
         parent::__construct();
@@ -45,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/type_collection')->addAttributeSet();
+        $collection = Mage::getResourceModel('googlebase/type_collection')->addItemsCount();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -55,13 +53,13 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
     {
         $this->addColumn('attribute_set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attributes Set'),
+                'header'=> $this->__('Attributes Set'),
                 'width' => '150px',
                 'index'     => 'attribute_set_name',
         ));
         $this->addColumn('gbase_itemtype',
             array(
-                'header'=> Mage::helper('catalog')->__('Google Base Item type'),
+                'header'=> $this->__('Google Base Item type'),
                 'width' => '150px',
                 'index'     => 'gbase_itemtype',
         ));
@@ -72,7 +70,6 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
                 'width' => '150px',
                 'index'     => 'items_total',
         ));
-
 
         return parent::_prepareColumns();
     }

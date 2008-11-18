@@ -24,14 +24,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
+/**
+ * Google Data Api authorization types Source
+ *
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_GoogleBase_Model_Source_Authtype
 {
     public function toOptionArray()
     {
         return array(
-            array('value'=>'authsub', 'label'=>Mage::helper('googlebase')->__('AuthSub')),
-            array('value'=>'clientlogin', 'label'=>Mage::helper('googlebase')->__('ClientLogin')),
+            array('value' => 'authsub', 'label' => Mage::helper('googlebase')->__('AuthSub')),
+            array('value' => 'clientlogin', 'label' => Mage::helper('googlebase')->__('ClientLogin'))
         );
     }
 }

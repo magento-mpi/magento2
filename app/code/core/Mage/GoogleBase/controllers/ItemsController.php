@@ -53,11 +53,6 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             ->_setActiveMenu('googlebase/items')
             ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_items'))
             ->renderLayout();
-        if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
-            $switchBlock->setDefaultStoreName($this->__('Default Values'))
-                ->setWebsiteIds($product->getWebsiteIds())
-                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)));
-        }
     }
 
     public function gridAction()
@@ -100,7 +95,8 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
                 $this->_getSession()->addError($this->__('No products were added to Google Base'));
             }
         } catch (Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $response = print_r($e->getResponse(),1);
+            $this->_getSession()->addError($e->getMessage() . $response);
         }
 
         $this->_redirect('*/*/index', array('store'=>$storeId));
@@ -208,7 +204,11 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
         try {
             $existing = array();
-            $collection = Mage::getResourceModel('googlebase/item_collection')->load();
+
+            $collection = Mage::getResourceModel('googlebase/item_collection')
+                ->addStoreFilterId($storeId)
+                ->load();
+
             foreach ($collection as $item) {
                 $existing[$item->getGbaseItemId()] = array(
                     'id'    => $item->getId(),

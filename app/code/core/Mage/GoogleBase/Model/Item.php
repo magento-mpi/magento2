@@ -43,21 +43,6 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Load Item Model by Product
-     *
-     *  @param    Mage_Catalog_Model_Product $product
-     *  @return	  Mage_GoogleBase_Model_Item
-     */
-    public function loadByProduct($product)
-    {
-        if (!$this->getProduct()) {
-            $this->setProduct($product);
-        }
-        $this->getResource()->loadByProduct($this);
-        return $this;
-    }
-
-    /**
      *  Return Service Item Instance
      *
      *  @param    none
@@ -76,18 +61,16 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function insertItem ()
     {
-        $this->_checkProduct();
-        $product = $this->getProduct();
-        $this->setProductId($product->getId());
-        $this->setStoreId($product->getStoreId());
+        $this->_checkProduct()
+            ->_prepareProductObject();
+
         $typeModel = $this->_getTypeModel();
         $serviceItem = $this->getServiceItem()
             ->setItem($this)
-            ->setObject($product)
+            ->setObject($this->getProduct())
             ->setAttributeValues($this->_getAttributeValues())
             ->setItemType($typeModel->getGbaseItemtype())
             ->insert();
-
         $this->setTypeId($typeModel->getTypeId());
         return $this;
     }
@@ -100,14 +83,14 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function updateItem ()
     {
-        $this->_checkProduct();
-        $product = $this->getProduct();
-        $this->loadByProduct($product);
+        $this->_checkProduct()
+            ->_prepareProductObject();
+        $this->loadByProduct($this->getProduct());
         if ($this->getId()) {
             $typeModel = $this->_getTypeModel();
             $serviceItem = $this->getServiceItem()
                 ->setItem($this)
-                ->setObject($product)
+                ->setObject($this->getProduct())
                 ->setAttributeValues($this->_getAttributeValues())
                 ->setItemType($typeModel->getGbaseItemtype())
                 ->update();
@@ -162,16 +145,77 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Description goes here...
+     *  Load Item Model by Product
+     *
+     *  @param    Mage_Catalog_Model_Product $product
+     *  @return	  Mage_GoogleBase_Model_Item
+     */
+    public function loadByProduct($product)
+    {
+        if (!$this->getProduct()) {
+            $this->setProduct($product);
+        }
+        $this->getResource()->loadByProduct($this);
+        return $this;
+    }
+
+    /**
+     *  Product Setter
+     *
+     *  @param    Mage_Catalog_Model_Product
+     *  @return	  Mage_GoogleBase_Model_Item
+     */
+    public function setProduct ($product)
+    {
+        if (!($product instanceof Mage_Catalog_Model_Product)) {
+            Mage::throwException('Invalid Product Model for Google Base Item');
+        }
+        $this->setData('product', $product);
+        $this->setProductId($product->getId());
+        $this->setStoreId($product->getStoreId());
+        return $this;
+    }
+
+
+    /**
+     *  Check product instance
      *
      *  @param    none
-     *  @return	  void
+     *  @return	  Mage_GoogleBase_Model_Item
      */
     protected function _checkProduct()
     {
         if (!($this->getProduct() instanceof Mage_Catalog_Model_Product)) {
             Mage::throwException('Invalid Product Model for Google Base Item');
         }
+        return $this;
+    }
+
+    /**
+     *  Copy Product object and assign additional data to the copy
+     *
+     *  @param    none
+     *  @return	  Mage_GoogleBase_Model_Item
+     */
+    protected function _prepareProductObject()
+    {
+        $product = clone $this->getProduct();
+
+        $url = $product->getProductUrl();
+        if (!Mage::getStoreConfigFlag('web/url/use_store')) {
+            $urlInfo = parse_url($url);
+            $store = $product->getStore()->getCode();
+            if (isset($urlInfo['query']) && $urlInfo['query'] != '') {
+                $url .= '&___store=' . $store;
+            } else {
+                $url .= '?___store=' . $store;
+            }
+        }
+        $product->setUrl($url)
+            ->setQuantity( $this->getProduct()->getStockItem()->getQty() )
+            ->setImageUrl( Mage::helper('catalog/product')->getImageUrl($product) );
+        $this->setProduct($product);
+        return $this;
     }
 
     /**
@@ -190,12 +234,23 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
             if (isset($productAttributes[$attributeId])) {
                 $productAttribute = $productAttributes[$attributeId];
                 $name = $attribute->getGbaseAttribute();
+                if (!$name) {
+                    $model = Mage::getModel('catalog/resource_eav_attribute')->load($attributeId);
+                    if ($model->getId()) {
+                        $name = $model->getAttributeCode();
+                    }
+                }
                 $value = $productAttribute['value'];
                 $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute['frontend_input']);
-                $result[$name] = array(
-                    'value'     => $value,
-                    'type'      => $type
-                );
+                if ($type == 'text') {
+                    $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute['backend_type']);
+                }
+                if ($name && $value && $type) {
+                    $result[$name] = array(
+                        'value'     => $value,
+                        'type'      => $type
+                    );
+                }
             }
         }
         return $result;
@@ -253,7 +308,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  void
      */
-    protected function _getMediaImages ()
+    protected function _getProductImages ()
     {
         $product = $this->getProduct();
         $galleryData = $product->getData('media_gallery');

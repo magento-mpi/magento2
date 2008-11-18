@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml GoogleBase Item Types Block
+ * Adminhtml GoogleBase Item Types Grid
  *
  * @category   Mage
  * @package    Mage_GoogleBase

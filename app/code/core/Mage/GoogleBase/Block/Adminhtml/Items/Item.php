@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml GoogleBase Item Types grid
+ * Google Base Items
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -33,26 +33,11 @@
  */
 class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Widget_Grid
 {
-
-
     public function __construct()
     {
         parent::__construct();
         $this->setId('items');
         $this->setUseAjax(true);
-    }
-    public function getMainButtonsHtml()
-    {
-        $html = parent::getMainButtonsHtml();
-
-        $refreshButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Refresh'),
-                'onclick'   => "setLocation('".$this->getUrl('*/*/refresh')."')",
-                'class'   => 'task'
-            ))->toHtml();
-
-        return $refreshButtonHtml . $html;
     }
 
     protected function _prepareCollection()
@@ -69,28 +54,30 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
     {
         $this->addColumn('name',
             array(
-                'header'=> Mage::helper('googlebase')->__('Product Name'),
+                'header'=> $this->__('Product Name'),
                 'width' => '30%',
                 'index'     => 'name',
         ));
 
         $this->addColumn('gbase_item_id',
             array(
-                'header'=> Mage::helper('googlebase')->__('Base Item ID'),
+                'header'=> $this->__('Google Base ID'),
                 'width' => '150px',
                 'index'     => 'gbase_item_id',
+                'renderer'  => 'googlebase/adminhtml_items_renderer_id',
+
         ));
 
         $this->addColumn('gbase_itemtype',
             array(
-                'header'=> Mage::helper('googlebase')->__('Base Item Type'),
+                'header'=> $this->__('Google Base Item Type'),
                 'width' => '150px',
                 'index'     => 'gbase_itemtype',
         ));
 
 //        $this->addColumn('published',
 //            array(
-//                'header'=> Mage::helper('googlebase')->__('Published'),
+//                'header'=> $this->__('Published'),
 //                'type' => 'datetime',
 //                'width' => '100px',
 //                'index'     => 'published',
@@ -98,7 +85,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('expires',
             array(
-                'header'=> Mage::helper('googlebase')->__('Expires'),
+                'header'=> $this->__('Expires'),
                 'type' => 'datetime',
                 'width' => '100px',
                 'index'     => 'expires',
@@ -106,28 +93,28 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('impr',
             array(
-                'header'=> Mage::helper('googlebase')->__('Impr.'),
+                'header'=> $this->__('Impr.'),
                 'width' => '150px',
                 'index'     => 'impr',
         ));
 
         $this->addColumn('clicks',
             array(
-                'header'=> Mage::helper('googlebase')->__('Clicks'),
+                'header'=> $this->__('Clicks'),
                 'width' => '150px',
                 'index'     => 'clicks',
         ));
 
         $this->addColumn('views',
             array(
-                'header'=> Mage::helper('googlebase')->__('Page views'),
+                'header'=> $this->__('Page views'),
                 'width' => '150px',
                 'index'     => 'views',
         ));
 
         $this->addColumn('active',
             array(
-                'header'    => Mage::helper('googlebase')->__('Active'),
+                'header'    => $this->__('Active'),
                 'width'     => '150px',
                 'type'      => 'options',
                 'width'     => '70px',
@@ -142,29 +129,45 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
     {
         $this->setMassactionIdField('item_id');
         $this->getMassactionBlock()->setFormFieldName('item');
-//        $this->setMassactionIdFieldOnlyIndexValue(true);
-//
+
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('googlebase')->__('Delete'),
+             'label'    => $this->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete', array('_current'=>true)),
-             'confirm'  => Mage::helper('googlebase')->__('Are you sure?')
+             'confirm'  => $this->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('publish', array(
-             'label'    => Mage::helper('googlebase')->__('Publish'),
+             'label'    => $this->__('Publish'),
              'url'      => $this->getUrl('*/*/massPublish', array('_current'=>true))
         ));
 
         $this->getMassactionBlock()->addItem('unpublish', array(
-             'label'    => Mage::helper('googlebase')->__('Hide'),
+             'label'    => $this->__('Hide'),
              'url'      => $this->getUrl('*/*/massHide', array('_current'=>true))
         ));
         return $this;
     }
 
-    public function getRowUrl($row)
+    public function getSynchronizeButtonHtml()
     {
-        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
+        $confirmMsg = $this->__('This action will update items statistics and remove the items which are not available in Google Base. Continue?');
+
+        $refreshButtonHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setData(array(
+                'label'     => $this->__('Synchronize'),
+                'onclick'   => "if(confirm('".$confirmMsg."'))
+                                {
+                                    setLocation('".$this->getUrl('*/*/refresh', array('_current'=>true))."');
+                                }",
+                'class'     => 'task'
+            ))->toHtml();
+
+        return $refreshButtonHtml;
+    }
+
+    public function getMainButtonsHtml()
+    {
+        return $this->getSynchronizeButtonHtml() . parent::getMainButtonsHtml();
     }
 
     public function getGridUrl()

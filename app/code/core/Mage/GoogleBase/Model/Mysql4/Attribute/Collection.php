@@ -24,9 +24,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * GoogleBase Attribute collection
+ * GoogleBase Attributes collection
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -45,7 +44,7 @@ class Mage_GoogleBase_Model_Mysql4_Attribute_Collection extends Mage_Core_Model_
 		$this->_init('googlebase/attribute');
 	}
 
-	public function addAttributeSetFilter ($attributeSetId)
+	public function addAttributeSetFilter($attributeSetId)
 	{
 	    if (!$this->getJoinAttributeSetFlag()) {
 	        return $this;
@@ -54,7 +53,7 @@ class Mage_GoogleBase_Model_Mysql4_Attribute_Collection extends Mage_Core_Model_
 	    return $this;
 	}
 
-	public function addTypeFilter ($type_id)
+	public function addTypeFilter($type_id)
 	{
 	    $this->getSelect()->where('main_table.type_id = ?', $type_id);
 	    return $this;
@@ -72,7 +71,7 @@ class Mage_GoogleBase_Model_Mysql4_Attribute_Collection extends Mage_Core_Model_
         return $this;
     }
 
-    protected function _joinAttributeSet ()
+    protected function _joinAttributeSet()
 	{
         $this->getSelect()
             ->joinInner(
@@ -82,12 +81,12 @@ class Mage_GoogleBase_Model_Mysql4_Attribute_Collection extends Mage_Core_Model_
         return $this;
 	}
 
-	public function getJoinAttributeSetFlag ()
+	public function getJoinAttributeSetFlag()
 	{
 	    return $this->_joinAttributeSetFlag;
 	}
 
-	public function setJoinAttributeSetFlag ($flag)
+	public function setJoinAttributeSetFlag($flag)
 	{
 	    return $this->_joinAttributeSetFlag = (bool)$flag;
 	}

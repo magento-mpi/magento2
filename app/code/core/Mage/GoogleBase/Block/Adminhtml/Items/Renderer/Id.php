@@ -19,23 +19,42 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptimizer
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Google Base Type resource model
+ * Adminhtml Google Base Item Id Renderer
  *
  * @category   Mage
- * @package    Mage_GoogleBase
+ * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleBase_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstract
+class Mage_GoogleBase_Block_Adminhtml_Items_Renderer_Id
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    protected function _construct()
+    /**
+     * Renders Google Base Item Id
+     *
+     * @param   Varien_Object $row
+     * @return  string
+     */
+    public function render(Varien_Object $row)
     {
-        $this->_init('googlebase/types', 'type_id');
-    }
+        $baseUrl = 'http://www.google.com/base/step2offer?docId=';
 
+        $itemUrl = $row->getData($this->getColumn()->getIndex());
+        $urlParts = parse_url($itemUrl);
+        if (isset($urlParts['path'])) {
+            $pathParts = explode('/', $urlParts['path']);
+            $itemId = $pathParts[count($pathParts) - 1];
+        } else {
+            $itemId = $itemUrl;
+        }
+        $title = $this->__('View Item in Google Base');
+
+        return sprintf('<a href="%s" alt="%s" title="%s" target="_blank">%s</a>', $baseUrl . $itemId, $title, $title, $itemId);
+    }
 }

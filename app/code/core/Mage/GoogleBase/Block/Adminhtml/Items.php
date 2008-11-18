@@ -26,7 +26,7 @@
 
 
 /**
- * Adminhtml GoogleBase Items list
+ * Adminhtml Google Base Items Grids Container
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -41,24 +41,26 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
         $this->setTemplate('googlebase/items.phtml');
     }
 
-    protected function _prepareLayout ()
+    protected function _prepareLayout()
     {
         $this->setChild('item', $this->getLayout()->createBlock('googlebase/adminhtml_items_item'));
         $this->setChild('product', $this->getLayout()->createBlock('googlebase/adminhtml_items_product'));
         if (!Mage::app()->isSingleStoreMode()) {
             $this->setChild('store_switcher',
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
+                    ->setDefaultStoreName('')
+//                    ->setStoreIds(array(3,2,4))
                     ->setUseConfirm(false)
                     ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
             );
         }
     }
 
-    public function getAddButtonHtml ()
+    public function getAddButtonHtml()
     {
         $addButtonData = array(
             'id'    => 'products_grid_button',
-            'label' => Mage::helper('googlebase')->__('View Available Products'),
+            'label' => $this->__('View Available Products'),
         );
         return $this->getLayout()
             ->createBlock('adminhtml/widget_button')

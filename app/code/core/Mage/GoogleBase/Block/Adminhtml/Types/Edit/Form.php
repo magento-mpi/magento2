@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml Mage_GoogleBase type form block
+ * Adminhtml Google Base types mapping form block
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -34,9 +34,6 @@
 
 class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Prepare form for render
-     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -44,7 +41,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
         $itemType = Mage::registry('current_item_type');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('googlebase')->__('Attribute Set and Item Type')
+            'legend'    => $this->__('Attribute Set and Item Type')
         ));
 
         $attributeSelect = $fieldset->addField('select_attribute_set', 'select', array(
@@ -105,10 +102,20 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
         $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
             ->setEntityTypeFilter($entityType->getId());
 
+        $ids = array();
+        $itemType = Mage::registry('current_item_type');
+        if (!$itemType->getId()) {
+            $typesCollection = Mage::getResourceModel('googlebase/type_collection')->load();
+            foreach ($typesCollection as $type) {
+                $ids[] = $type->getAttributeSetId();
+            }
+        }
+
         $result = array('' => '');
         foreach ($collection as $attributeSet) {
-            $result[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
-
+            if (!in_array($attributeSet->getId(), $ids)) {
+                $result[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
+            }
         }
         return $result;
     }
@@ -122,7 +129,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
         return $result;
     }
 
-    public function getItemType ()
+    public function getItemType()
     {
         return Mage::registry('current_item_type');
     }
