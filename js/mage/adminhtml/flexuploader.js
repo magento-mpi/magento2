@@ -166,7 +166,6 @@ if(!window.Flex) {
             if (!$(this.getFileId(file))) {
                 Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
             }
-// console.log(file.status);
             if (file.status == 'full_complete' && file.response.isJSON()) {
                 var response = file.response.evalJSON();
                 if (typeof response == 'object') {
@@ -179,6 +178,10 @@ if(!window.Flex) {
                             + "; expires=" + date.toGMTString()
                             + (response.cookie.path.blank() ? "" : "; path=" + response.cookie.path)
                             + (response.cookie.domain.blank() ? "" : "; domain=" + response.cookie.domain);
+                    }
+                    if (typeof response.error != 'undefined') {
+                        file.status = 'error';
+                        file.errorText = response.error;
                     }
                 }
             }
@@ -198,7 +201,8 @@ if(!window.Flex) {
                 $(this.getFileId(file)).addClassName('error');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
-                progress.update(this.errorText(file));
+                var errorText = file.errorText ? file.errorText : this.errorText(file);
+                progress.update(errorText);
                 this.getDeleteButton(file).show();
             } else if (file.status=='full_complete') {
                 $(this.getFileId(file)).addClassName('complete');
