@@ -27,7 +27,6 @@
 
 class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 {
-    const HTTP_USER_AGENT_SHOCKWAVE_FLASH       = 'Shockwave Flash';
     const VALIDATOR_KEY                         = '_session_validator_data';
     const VALIDATOR_HTTP_USER_AGENT_KEY         = 'http_user_agent';
     const VALIDATOR_HTTP_X_FORVARDED_FOR_KEY    = 'http_x_forwarded_for';
@@ -218,6 +217,16 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     }
 
     /**
+     * Retrieve skip User Agent validation strings (Flash etc)
+     *
+     * @return array
+     */
+    public function getValidateHttpUserAgentSkip()
+    {
+        return array();
+    }
+
+    /**
      * Validate session
      *
      * @param string $namespace
@@ -267,7 +276,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         }
         if ($this->useValidateHttpUserAgent()
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
-            && self::HTTP_USER_AGENT_SHOCKWAVE_FLASH != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]) {
+            && !in_array($validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY], $this->getValidateHttpUserAgentSkip())) {
             return false;
         }
 

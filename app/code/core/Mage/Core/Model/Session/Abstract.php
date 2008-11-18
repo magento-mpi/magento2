@@ -37,6 +37,8 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_USE_X_FORWARDED  = 'web/session/use_http_x_forwarded_for';
     const XML_PATH_USE_USER_AGENT   = 'web/session/use_http_user_agent';
 
+    const XML_NODE_USET_AGENT_SKIP  = 'global/session/validation/http_user_agent_skip';
+
     const SESSION_ID_QUERY_PARAM = 'SID';
 
     protected static $_urlHostCache = array();
@@ -120,6 +122,21 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
             return parent::useValidateHttpUserAgent();
         }
         return (bool)$use;
+    }
+
+    /**
+     * Retrieve skip User Agent validation strings (Flash etc)
+     *
+     * @return array
+     */
+    public function getValidateHttpUserAgentSkip()
+    {
+        $userAgents = array();
+        $skip = Mage::getConfig()->getNode(self::XML_NODE_USET_AGENT_SKIP);
+        foreach ($skip->children() as $userAgent) {
+            $userAgents[] = (string)$userAgent;
+        }
+        return $userAgents;
     }
 
     /**

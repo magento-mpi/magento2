@@ -72,6 +72,14 @@
                 <collections translate="label" module="core"><label>Collections Data</label></collections>
             </types>
         </cache>
+        <session>
+            <validation>
+                <http_user_agent_skip>
+                    <flash>Shockwave Flash</flash>
+                    <flash_10_mac>Adobe Flash Player 10</flash_10_mac>
+                </http_user_agent_skip>
+            </validation>
+        </session>
     </global>
     <frontend>
         <routers>
@@ -143,7 +151,6 @@
                 <deprecation>0</deprecation>
             </js>
         </dev>
-
 
         <system>
             <smtp>
