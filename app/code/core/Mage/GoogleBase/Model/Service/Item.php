@@ -242,11 +242,16 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         }
 
         if ($object->getUrl()) {
+//            $object->setUrl('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
+//            $object->setUrl('http://demo.magentocommerce.com/acer-ferrari-3200-notebook-computer-pc.html');
             $links = $entry->getLink();
+            if (!is_array($links)) {
+                $links = array();
+            }
             $link = $service->newLink();
-//            $link->setHref($object->getUrl());
-            $link->setHref('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
+            $link->setHref($object->getUrl());
             $link->setRel('alternate');
+            $link->setType('text/html');
             if ($object->getName()) {
                 $link->setTitle($object->getName());
             }
