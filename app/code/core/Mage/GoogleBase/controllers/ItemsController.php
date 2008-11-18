@@ -67,7 +67,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function massAddAction ()
     {
-        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $storeId = $this->_getStore()->getId();
         $productIds = $this->getRequest()->getParam('product');
 
         $totalAdded = 0;
@@ -95,8 +95,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
                 $this->_getSession()->addError($this->__('No products were added to Google Base'));
             }
         } catch (Exception $e) {
-            $response = print_r($e->getResponse(),1);
-            $this->_getSession()->addError($e->getMessage() . $response);
+            $this->_getSession()->addError($e->getMessage());
         }
 
         $this->_redirect('*/*/index', array('store'=>$storeId));
@@ -104,7 +103,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function massDeleteAction()
     {
-        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $storeId = $this->_getStore()->getId();
         $itemIds = $this->getRequest()->getParam('item');
 
         $totalDeleted = 0;
@@ -134,7 +133,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function massPublishAction ()
     {
-        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $storeId = $this->_getStore()->getId();
         $itemIds = $this->getRequest()->getParam('item');
 
         $totalPublished = 0;
@@ -163,7 +162,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function massHideAction ()
     {
-        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $storeId = $this->_getStore()->getId();
         $itemIds = $this->getRequest()->getParam('item');
 
         $totalHidden = 0;
@@ -198,7 +197,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
      */
     public function refreshAction()
     {
-        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        $storeId = $this->_getStore()->getId();
         $totalUpdated = 0;
         $totalDeleted = 0;
 
@@ -238,6 +237,14 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->_redirect('*/*/index', array('store'=>$storeId));
+    }
 
+    public function _getStore()
+    {
+        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        if ($storeId == 0) {
+            return Mage::app()->getDefaultStoreView();
+        }
+        return Mage::app()->getStore($storeId);
     }
 }

@@ -46,10 +46,10 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
         $this->setChild('item', $this->getLayout()->createBlock('googlebase/adminhtml_items_item'));
         $this->setChild('product', $this->getLayout()->createBlock('googlebase/adminhtml_items_product'));
         if (!Mage::app()->isSingleStoreMode()) {
+            $_defaultStoreName = Mage::app()->getDefaultStoreView()->getName();
             $this->setChild('store_switcher',
                 $this->getLayout()->createBlock('adminhtml/store_switcher')
-                    ->setDefaultStoreName('')
-//                    ->setStoreIds(array(3,2,4))
+                    ->setDefaultStoreName($this->__('Default Store (%s)', $_defaultStoreName))
                     ->setUseConfirm(false)
                     ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
             );
@@ -70,5 +70,14 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
     public function getStoreSwitcherHtml()
     {
         return $this->getChildHtml('store_switcher');
+    }
+
+    public function getStore()
+    {
+        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        if ($storeId == 0) {
+            return Mage::app()->getDefaultStoreView();
+        }
+        return Mage::app()->getStore($storeId);
     }
 }

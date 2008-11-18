@@ -151,9 +151,8 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
         return $productIds;
     }
 
-    public function _getStore()
+    protected function _getStore()
     {
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return Mage::app()->getStore($storeId);
+        return $this->getParentBlock()->getStore();
     }
 }

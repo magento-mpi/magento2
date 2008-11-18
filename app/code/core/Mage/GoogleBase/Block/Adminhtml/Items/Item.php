@@ -175,9 +175,8 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
         return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
-    public function _getStore()
+    protected function _getStore()
     {
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return Mage::app()->getStore($storeId);
+        return $this->getParentBlock()->getStore();
     }
 }
