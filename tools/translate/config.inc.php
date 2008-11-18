@@ -140,6 +140,10 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/GoogleAnalytics/',
         'app/design/frontend/default/default/layout/googleanalytics.xml',
     ),
+    'Mage_GoogleBase' => array(
+        'app/code/core/Mage/GoogleBase/',
+        'app/design/adminhtml/default/default/template/googlebase/',
+    ),
     'Mage_GoogleCheckout' => array(
         'app/code/core/Mage/GoogleCheckout/',
         'app/design/frontend/default/default/layout/googlecheckout.xml',
@@ -304,6 +308,7 @@ $CONFIG['helpers']  = array(
     'flo2cash'          => 'Mage_Flo2Cash',
     'giftmessage'       => 'Mage_GiftMessage',
     'googleanalytics'   => 'Mage_GoogleAnalytics',
+    'googlebase'        => 'Mage_GoogleBase',
     'googlecheckout'    => 'Mage_GoogleCheckout',
     'googleoptimizer'   => 'Mage_GoogleOptimizer',
     'ideal'             => 'Mage_Ideal',
