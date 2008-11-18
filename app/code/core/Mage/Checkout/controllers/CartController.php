@@ -179,7 +179,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if ($this->_getSession()->getUseNotice(true)) {
                 $this->_getSession()->addNotice($e->getMessage());
             } else {
-                foreach (explode("\n", $e->getMessage()) as $message) {
+                $messages = array_unique(explode("\n", $e->getMessage()));
+                foreach ($messages as $message) {
                     $this->_getSession()->addError($message);
                 }
             }
