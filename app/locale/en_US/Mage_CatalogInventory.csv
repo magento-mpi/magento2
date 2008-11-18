@@ -1,4 +1,5 @@
 "%s is not correct comparsion method.","%s is not correct comparsion method."
+"<strong>Please note</strong>, that these Settings are applicable to cart line Items, not the whole Cart.","<strong>Please note</strong>, that these Settings are applicable to cart line Items, not the whole Cart."
 "Allow Qty Below 0","Allow Qty Below 0"
 "Allow Qty Below 0 and Notify Customer","Allow Qty Below 0 and Notify Customer"
 "Backorders","Backorders"
@@ -21,6 +22,7 @@
 "Some of the products are currently out of stock","Some of the products are currently out of stock"
 "Some of the products can not be ordered in requested quantity","Some of the products can not be ordered in requested quantity"
 "Some of the products cannot be ordered in the requested quantity","Some of the products cannot be ordered in the requested quantity"
+"Stock Options","Stock Options"
 "Stock item for Product in option is not valid","Stock item for Product in option is not valid"
 "Stock item for Product is not valid","Stock item for Product is not valid"
 "The maximum quantity allowed for purchase is %s.","The maximum quantity allowed for purchase is %s."
