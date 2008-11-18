@@ -56,7 +56,7 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
     {
         $select = $this->getReadConnection()->select()
             ->from(array('o' => $this->getTable('sales/order_item')), new Zend_Db_Expr('o.product_type, COUNT(*)'))
-            ->joinInner(array('p' => 'catalog_product_entity'), 'o.product_id=p.entity_id', array())
+            ->joinInner(array('p' => $this->getTable('catalog/product')), 'o.product_id=p.entity_id', array())
             ->where('o.order_id=?', $orderId)
             ->group('(1)')
         ;
