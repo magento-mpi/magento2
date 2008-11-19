@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Mage_Adm
      * @param Mage_Catalog_Model_Product $item
      * @return int
      */
-    public function getIdentifierId(Mage_Catalog_Model_Product $item)
+    public function getIdentifierId($item)
     {
         return $item->getId();
     }
