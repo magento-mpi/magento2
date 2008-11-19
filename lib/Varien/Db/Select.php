@@ -68,9 +68,8 @@ class Varien_Db_Select extends Zend_Db_Select
                 foreach ($this->_parts[self::COLUMNS] as $columnEntry) {
                     list($correlationName, $column) = $columnEntry;
                     if ($column instanceof Zend_Db_Expr) {
-                        if (strpos($column, $tableId . '.') !== false
-                            || strpos($column, $tableId . '.') !== false
-                            || strpos($column, $tableProp['tableName'] . '.') !== false) {
+                        if ($this->_findTableInCond($tableId, $column)
+                            || $this->_findTableInCond($tableProp['tableName'], $column)) {
                             $useJoin = true;
                         }
                     }
@@ -81,8 +80,8 @@ class Varien_Db_Select extends Zend_Db_Select
                     }
                 }
                 foreach ($this->_parts[self::WHERE] as $where) {
-                    if (strpos($where, $tableId . '.') !== false
-                        || strpos($where, $tableProp['tableName'] . '.') !== false) {
+                    if ($this->_findTableInCond($tableId, $where)
+                        || $this->_findTableInCond($tableProp['tableName'], $where)) {
                         $useJoin = true;
                     }
                 }
@@ -95,8 +94,8 @@ class Varien_Db_Select extends Zend_Db_Select
                         continue;
                     }
                     if (!empty($table['joinCondition'])) {
-                        if (strpos($table['joinCondition'], $tableId . '.') !== false
-                        || strpos($table['joinCondition'], $tableProp['tableName'] . '.') !== false) {
+                        if ($this->_findTableInCond($tableId, $table['joinCondition'])
+                        || $this->_findTableInCond($tableProp['tableName'], $table['joinCondition'])) {
                             $useJoin = true;
                             $joinInTables[] = $tableCorrelationName;
                         }
@@ -141,5 +140,48 @@ class Varien_Db_Select extends Zend_Db_Select
         }
 
         return $this;
+    }
+
+    /**
+     * Find table name in condition (where, column)
+     *
+     * @param string $table
+     * @param string $cond
+     * @return bool
+     */
+    protected function _findTableInCond($table, $cond)
+    {
+        $quote = $this->_adapter->getQuoteIdentifierSymbol();
+
+        if (strpos($cond, $quote . $table . $quote . '.') !== false) {
+            return true;
+        }
+
+        $position = 0;
+        $result   = 0;
+        $needle   = array();
+        while (is_integer($result)) {
+            $result = strpos($cond, $table . '.', $position);
+
+            if (is_integer($result)) {
+                $needle[] = $result;
+                $position = ($result + strlen($table) + 1);
+            }
+        }
+
+        if (!$needle) {
+            return false;
+        }
+
+        foreach ($needle as $position) {
+            if ($position == 0) {
+                return true;
+            }
+            if (!preg_match('#[a-z0-9_]#is', substr($cond, $position - 1, 1))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
