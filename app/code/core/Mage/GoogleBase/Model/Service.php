@@ -45,15 +45,15 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
         $pass = Mage::getStoreConfig('google/googlebase/password');
 
         // Create an authenticated HTTP client
-        $error = 'Unable to connect to Google Base. Please, check Account settings in configuration. Reason: ';
+        $errorMsg = Mage::helper('googlebase')->__('Unable to connect to Google Base. Please, check Account settings in configuration.');
         try {
             $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Gbase::AUTH_SERVICE_NAME);
         } catch (Zend_Gdata_App_AuthException $e) {
-            Mage::throwException($error . $e->getMessage());
+            Mage::throwException($errorMsg . Mage::helper('googlebase')->__('Error: %s', $e->getMessage()));
         } catch (Zend_Gdata_App_HttpException $e) {
-            Mage::throwException($error . $e->getMessage());
+            Mage::throwException($errorMsg . Mage::helper('googlebase')->__('Error: %s', $e->getMessage()));
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
-            Mage::throwException($error . $e->getMessage());
+            Mage::throwException($errorMsg . Mage::helper('googlebase')->__('Error: %s', $e->getMessage()));
         }
 
         return $client;
@@ -62,7 +62,7 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
     /**
      *  Retutn Google Base Service Instance
      *
-     *  @return	  Zend_Gdata_Gbase
+     *  @return Zend_Gdata_Gbase
      */
     public function getService()
     {

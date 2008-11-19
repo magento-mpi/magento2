@@ -40,7 +40,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      *  Google Base Feed Instance
      *
      *  @param    none
-     *  @return	  Zend_Gdata_Feed
+     *  @return Zend_Gdata_Feed
      */
     public function getFeed($location = null)
     {
@@ -54,7 +54,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      *  Retrieve Items Statistics (expires, clicks, views, impr. etc.)
      *
      *  @param    none
-     *  @return	  array
+     *  @return array
      */
     public function getItemsStatsArray()
     {
@@ -141,8 +141,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
         $itemTypes = $this->getItemTypes();
         if (isset($itemTypes[$type]) && $itemTypes[$type] instanceof Varien_Object) {
             return $itemTypes[$type]->getAttributes();
-        } else {
-            Mage::throwException('No such Item Type "%s" in Google Base to retrieve attributes', $itemType);
         }
+        Mage::throwException(Mage::helper('googlebase')->__('No such Item Type "%s" in Google Base to retrieve attributes', $type));
     }
 }

@@ -168,7 +168,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     public function setProduct($product)
     {
         if (!($product instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException('Invalid Product Model for Google Base Item');
+            Mage::throwException(Mage::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
         }
         $this->setData('product', $product);
         $this->setProductId($product->getId());
@@ -186,7 +186,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     protected function _checkProduct()
     {
         if (!($this->getProduct() instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException('Invalid Product Model for Google Base Item');
+            Mage::throwException(Mage::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
         }
         return $this;
     }

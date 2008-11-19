@@ -204,7 +204,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     {
         $object = $this->getObject();
         if (!($object instanceof Varien_Object)) {
-            Mage::throwException('Object model is not specified to save Google Base entry');
+            Mage::throwException(Mage::helper('googlebase')->__('Object model is not specified to save Google Base entry'));
         }
 
         $this->_setUniversalData();
@@ -328,7 +328,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     protected function _checkItem()
     {
         if (!($this->getItem() instanceof Mage_GoogleBase_Model_Item)) {
-            Mage::throwException('Item model is not specified to delete Google Base entry');
+            Mage::throwException(Mage::helper('googlebase')->__('Item model is not specified to delete Google Base entry'));
         }
     }
 
@@ -348,14 +348,16 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Convert Google Base date format to database datetime
+     *  Convert Google Base date format to unix timestamp
      *  Ex. 2008-12-08T16:57:23Z -> 2008-12-08 16:57:23
      *
      *  @param    string Google Base datetime
-     *  @return	  string db datetime
+     *  @return int
      */
     public function gBaseDate2DateTime($gBaseDate)
     {
-    	return date('Y-m-d H:i:s', strtotime($gBaseDate));
+        return Mage::getSingleton('core/date')->timestamp($gBaseDate);
+        //ex return Y-m-d H:i:s format in current timezone use next code
+        // return Mage::getSingleton('core/date')->date(null, Mage::getSingleton('core/date')->timestamp($gBaseDate));
     }
 }
