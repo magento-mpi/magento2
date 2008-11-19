@@ -34,12 +34,12 @@
 class Mage_GoogleBase_Model_Observer
 {
     /**
-     *  Save/update product item in Google Base
+     *  Update product item in Google Base
      *
      * @param Varien_Object $observer
      * @return Mage_GoogleBase_Model_Observer
      */
-    public function saveProductItem ($observer)
+    public function saveProductItem($observer)
     {
         if (Mage::getStoreConfigFlag('google/googlebase/observed')) {
             $product = $observer->getEvent()->getProduct();
@@ -54,6 +54,7 @@ class Mage_GoogleBase_Model_Observer
                 Mage::getModel('googlebase/item')->setProduct($product)->updateItem();
             }
         }
+        return $this;
     }
 
     /**
@@ -62,7 +63,7 @@ class Mage_GoogleBase_Model_Observer
      * @param Varien_Object $observer
      * @return Mage_GoogleBase_Model_Observer
      */
-    public function deleteProductItem ($observer)
+    public function deleteProductItem($observer)
     {
         if (Mage::getStoreConfigFlag('google/googlebase/observed')) {
             $product = $observer->getEvent()->getProduct();
@@ -71,11 +72,9 @@ class Mage_GoogleBase_Model_Observer
                 ->addProductFilterId($product->getId())
                 ->load();
             foreach ($collection as $item) {
-                $product = Mage::getSingleton('catalog/product')
-                    ->setStoreId($item->getStoreId())
-                    ->load($item->getProductId());
                 $item->deleteItem()->delete();
             }
         }
+        return $this;
     }
 }

@@ -93,21 +93,24 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Google Base Attribute Type By Attribute backend_type
+     *  Return Google Base Attribute Type By Product Attribute
      *
-     *  @param    string $backendType
-     *  @return	  string
+     *  @param    Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *  @return	  string Google Base Attribute Type
      */
-    public function getGbaseAttributeType ($frontendInput)
+    public function getGbaseAttributeType($attribute)
     {
         $typesMapping = array(
-            'date'       => 'dateTime',
+//            'date'       => 'dateTime',
             'price'      => 'floatUnit',
-            'decimal'      => 'numberUnit',
+            'decimal'    => 'numberUnit',
         );
-        $gType = isset($typesMapping[$frontendInput])
-            ? $typesMapping[$frontendInput]
-            : Mage_GoogleBase_Model_Service_Item::DEFAULT_ATTRIBUTE_TYPE;
-        return $gType;
+        if (isset($typesMapping[$attribute->getFrontendInput()])) {
+            return $typesMapping[$attribute->getFrontendInput()];
+        } elseif (isset($typesMapping[$attribute->getBackendType()])) {
+            return $typesMapping[$attribute->getBackendType()];
+        } else {
+            return Mage_GoogleBase_Model_Service_Item::DEFAULT_ATTRIBUTE_TYPE;
+        }
     }
 }

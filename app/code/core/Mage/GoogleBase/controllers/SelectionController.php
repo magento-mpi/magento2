@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml selection grid controller
+ * GoogleBase Products selection grid controller
  *
  * @category    Mage
  * @package     Mage_GoogleBase

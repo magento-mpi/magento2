@@ -43,9 +43,6 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
-    /**
-     *
-     */
     public function indexAction()
     {
         $this->_initAction()
@@ -65,7 +62,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
            );
     }
 
-    public function massAddAction ()
+    public function massAddAction()
     {
         $storeId = $this->_getStore()->getId();
         $productIds = $this->getRequest()->getParam('product');
@@ -131,7 +128,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         $this->_redirect('*/*/index', array('store'=>$storeId));
     }
 
-    public function massPublishAction ()
+    public function massPublishAction()
     {
         $storeId = $this->_getStore()->getId();
         $itemIds = $this->getRequest()->getParam('item');
@@ -160,7 +157,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         $this->_redirect('*/*/index', array('store'=>$storeId));
     }
 
-    public function massHideAction ()
+    public function massHideAction()
     {
         $storeId = $this->_getStore()->getId();
         $itemIds = $this->getRequest()->getParam('item');
@@ -190,10 +187,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
-     *  Description goes here...
-     *
-     *  @param    none
-     *  @return	  void
+     *  Update items statistics and remove the items which are not available in Google Base
      */
     public function refreshAction()
     {
@@ -202,12 +196,11 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         $totalDeleted = 0;
 
         try {
-            $existing = array();
-
             $collection = Mage::getResourceModel('googlebase/item_collection')
                 ->addStoreFilterId($storeId)
                 ->load();
 
+            $existing = array();
             foreach ($collection as $item) {
                 $existing[$item->getGbaseItemId()] = array(
                     'id'    => $item->getId(),
@@ -216,18 +209,27 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             }
 
             $stats = Mage::getModel('googlebase/service_feed')->getItemsStatsArray();
-            foreach ($existing as $entryId => $data) {
+
+            foreach ($existing as $entryId => $itemInfo) {
+
+                $item = Mage::getModel('googlebase/item')->load($itemInfo['id']);
+
                 if (!isset($stats[$entryId])) {
-                    Mage::getModel('googlebase/item')->load($existing[$entryId]['id'])->delete();
+                    $item->delete();
                     $totalDeleted++;
+                    continue;
                 }
-                if (isset($stats[$entryId]) && $stats[$entryId]['draft'] != $existing[$entryId]['is_hidden']) {
-                    Mage::getModel('googlebase/item')
-                        ->load($existing[$entryId]['id'])
-                        ->setIsHidden($stats[$entryId]['draft'])
-                        ->save();
-                    $totalUpdated++;
+
+                if ($stats[$entryId]['draft'] != $itemInfo['is_hidden']) {
+                    $item->setIsHidden($stats[$entryId]['draft']);
                 }
+
+                if (isset($stats[$entryId]['expires'])) {
+                    $item->setExpires($stats[$entryId]['expires']);
+                }
+
+                $item->save();
+                $totalUpdated++;
             }
             $this->_getSession()->addSuccess(
                 $this->__('Total of %d items(s) were successfully deleted, Total of %d items(s) were successfully updated', $totalDeleted, $totalUpdated)

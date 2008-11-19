@@ -59,7 +59,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    public function insertItem ()
+    public function insertItem()
     {
         $this->_checkProduct()
             ->_prepareProductObject();
@@ -81,7 +81,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    public function updateItem ()
+    public function updateItem()
     {
         $this->_checkProduct()
             ->_prepareProductObject();
@@ -104,7 +104,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    public function deleteItem ()
+    public function deleteItem()
     {
         $serviceItem = $this->getServiceItem()
             ->setItem($this)
@@ -118,7 +118,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    public function hideItem ()
+    public function hideItem()
     {
         $serviceItem = $this->getServiceItem()
             ->setItem($this)
@@ -134,7 +134,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    public function activateItem ()
+    public function activateItem()
     {
         $serviceItem = $this->getServiceItem()
             ->setItem($this)
@@ -165,7 +165,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      *  @param    Mage_Catalog_Model_Product
      *  @return	  Mage_GoogleBase_Model_Item
      */
-    public function setProduct ($product)
+    public function setProduct($product)
     {
         if (!($product instanceof Mage_Catalog_Model_Product)) {
             Mage::throwException('Invalid Product Model for Google Base Item');
@@ -230,21 +230,21 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         $productAttributes = $this->_getProductAttributes();
 
         foreach ($this->_getAttributesCollection() as $attribute) {
+
             $attributeId = $attribute->getAttributeId();
+
             if (isset($productAttributes[$attributeId])) {
                 $productAttribute = $productAttributes[$attributeId];
-                $name = $attribute->getGbaseAttribute();
-                if (!$name) {
-                    $model = Mage::getModel('catalog/resource_eav_attribute')->load($attributeId);
-                    if ($model->getId()) {
-                        $name = $model->getAttributeCode();
-                    }
+
+                if ($attribute->getGbaseAttribute()) {
+                    $name = $attribute->getGbaseAttribute();
+                } else {
+                    $name = $this->_getAttributeLabel($productAttribute, $this->getProduct()->getStoreId());
                 }
-                $value = $productAttribute['value'];
-                $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute['frontend_input']);
-                if ($type == 'text') {
-                    $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute['backend_type']);
-                }
+
+                $value = $productAttribute->getGbaseValue();
+                $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute);
+
                 if ($name && $value && $type) {
                     $result[$name] = array(
                         'value'     => $value,
@@ -254,6 +254,31 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
             }
         }
         return $result;
+    }
+
+    /**
+     *  Return Product Attribute Store Label
+     *
+     *  @param    Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *  @param    int $storeId Store View Id
+     *  @return	  string Attribute Store View Label or Attribute code
+     */
+    protected function _getAttributeLabel($attribute, $storeId)
+    {
+        $frontendLabel = $attribute->getFrontend()->getLabel();
+        if (is_array($frontendLabel)) {
+            $frontendLabel = array_shift($frontendLabel);
+        }
+        if (!$this->_translations) {
+            $this->_translations = Mage::getModel('core/translate_string')
+               ->load(Mage_Catalog_Model_Entity_Attribute::MODULE_NAME.Mage_Core_Model_Translate::SCOPE_SEPARATOR.$frontendLabel)
+               ->getStoreTranslations();
+        }
+        if (isset($this->_translations[$storeId])) {
+            return $this->_translations[$storeId];
+        } else {
+            return $attribute->getAttributeCode();
+        }
     }
 
     /**
@@ -290,25 +315,20 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         foreach ($attributes as $attribute) {
             $value = $attribute->getFrontend()->getValue($product);
             if (is_string($value) && strlen($value) && $product->hasData($attribute->getAttributeCode())) {
-                $result[$attribute->getAttributeId()] = array(
-                   'label'          => $attribute->getFrontend()->getLabel(),
-                   'value'          => $value,
-                   'code'           => $attribute->getAttributeCode(),
-                   'backend_type'   => $attribute->getBackendType(),
-                   'frontend_input' => $attribute->getFrontendInput()
-                );
+                $attribute->setGbaseValue($value);
+                $result[$attribute->getAttributeId()] = $attribute;
             }
         }
         return $result;
     }
 
     /**
-     *  Media files
+     *  Get Product Media files info
      *
      *  @param    none
-     *  @return	  void
+     *  @return	  array Media files info
      */
-    protected function _getProductImages ()
+    protected function _getProductImages()
     {
         $product = $this->getProduct();
         $galleryData = $product->getData('media_gallery');

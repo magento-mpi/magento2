@@ -37,9 +37,9 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
      *  Retutn Google Base Client Instance
      *
      *  @param    none
-     *  @return	  void
+     *  @return	  Zend_Http_Client
      */
-    public function getClient ()
+    public function getClient()
     {
         $user = Mage::getStoreConfig('google/googlebase/login');
         $pass = Mage::getStoreConfig('google/googlebase/password');
@@ -92,7 +92,7 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
      *  @param    none
      *  @return	  boolean
      */
-    public function getDryRun ()
+    public function getDryRun()
     {
         return $this->getDataSetDefault('dry_run', false);
     }

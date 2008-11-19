@@ -38,7 +38,7 @@ class Mage_GoogleBase_Model_Type extends Mage_Core_Model_Abstract
         $this->_init('googlebase/type');
     }
 
-    public function loadByAttributeSetId ($attributeSetId)
+    public function loadByAttributeSetId($attributeSetId)
     {
         return $this->load($attributeSetId, 'attribute_set_id');
     }

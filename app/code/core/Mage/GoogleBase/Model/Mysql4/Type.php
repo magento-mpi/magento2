@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptimizer
+ * @package    Mage_GoogleBase
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -37,5 +37,4 @@ class Mage_GoogleBase_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('googlebase/types', 'type_id');
     }
-
 }

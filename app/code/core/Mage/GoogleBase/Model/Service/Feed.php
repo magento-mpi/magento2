@@ -42,7 +42,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      *  @param    none
      *  @return	  Zend_Gdata_Feed
      */
-    public function getFeed ($location = null)
+    public function getFeed($location = null)
     {
         $query = new Zend_Gdata_Query($location);
         $service = $this->getService();
@@ -68,10 +68,19 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
             $data = array(
                 'draft'     => ($draft == 'yes' ? 1 : 0)
             );
-//            $expiresArr = $entry->getGbaseAttribute('expiration_date');
-//            if (isset($expiresArr[0]) && is_object($expiresArr[0])) {
-//                $data['expires'] = Mage::getSingleton('googlebase/service_item')->gBaseDate2DateTime($expiresArr[0]->getText());
-//            }
+            $elements = $entry->getExtensionElements();
+            foreach ($elements as $el) {
+                switch ($el->rootElement) {
+                    case 'expiration_date':
+                        $data['expires'] = Mage::getSingleton('googlebase/service_item')
+                            ->gBaseDate2DateTime($el->getText());
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
             $result[$entry->getId()->getText()] = $data;
         }
         return $result;
@@ -83,7 +92,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      *  @param    none
      *  @return	  array
      */
-    public function getItemTypes ()
+    public function getItemTypes()
     {
         if (is_array($this->_itemTypes)) {
             return $this->_itemTypes;
@@ -127,7 +136,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      *  @param    string $type Google Base Item Type
      *  @return	  array
      */
-    public function getAttributes ($type)
+    public function getAttributes($type)
     {
         $itemTypes = $this->getItemTypes();
         if (isset($itemTypes[$type]) && $itemTypes[$type] instanceof Varien_Object) {

@@ -19,13 +19,13 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleOptimizer
+ * @package    Mage_GoogleBase
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Google Base resource model
+ * Google Base Attributes resource model
  *
  * @category   Mage
  * @package    Mage_GoogleBase
@@ -37,5 +37,4 @@ class Mage_GoogleBase_Model_Mysql4_Attribute extends Mage_Core_Model_Mysql4_Abst
     {
         $this->_init('googlebase/attributes', 'id');
     }
-
 }

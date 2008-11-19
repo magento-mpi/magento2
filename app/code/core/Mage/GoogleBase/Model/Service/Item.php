@@ -152,10 +152,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Hide Google Base Item
+     *  Hide item in Google Base
      *
-     *  @param    none
-     *  @return	  string
+     *  @return	  Mage_GoogleBase_Model_Service_Item
      */
     public function hide()
     {
@@ -164,10 +163,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
+     *  Publish item in Google Base
      *
-     * access  public
-     * param   string $string
-     * return  string
+     *  @return	  Mage_GoogleBase_Model_Service_Item
      */
     public function activate()
     {
@@ -176,12 +174,12 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
+     *  Update item Control property
      *
-     * access  public
-     * param   string $string
-     * return  string
+     *  @param    boolean Save as draft or not
+     *  @return	  Mage_GoogleBase_Model_Service_Item
      */
-    protected function _saveDraft ($yes = true)
+    protected function _saveDraft($yes = true)
     {
         $this->_checkItem();
 
@@ -230,7 +228,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      *  @param    none
      *  @return	  Mage_GoogleBase_Model_Service_Item
      */
-    protected function _setUniversalData ()
+    protected function _setUniversalData()
     {
         $service = $this->getService();
         $object = $this->getObject();
@@ -243,7 +241,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
 
         if ($object->getUrl()) {
 //            $object->setUrl('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
-//            $object->setUrl('http://demo.magentocommerce.com/acer-ferrari-3200-notebook-computer-pc.html');
             $links = $entry->getLink();
             if (!is_array($links)) {
                 $links = array();
@@ -300,7 +297,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      *  Return Google Base Item Attribute Value
      *
      *  @param    string $attribute Google Base attribute name
-     *
      *  @return	  string|null Attribute value
      */
     protected function _getAttributeValue($attribute)
@@ -337,25 +333,28 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Prepare string
+     *  Prepare Google Base attribute name before save
      *
-     *  @param    string
-     *  @return	  string
+     *  @param    string Attribute name
+     *  @return	  string Normalized attribute name
      */
     protected function _normalizeString($string)
     {
+        return preg_replace('/\s+/', '_', $string);
+
         $string = preg_replace('/([^a-z^0-9^_])+/','_',strtolower($string));
         $string = preg_replace('/_{2,}/','_',$string);
         return trim($string,'_');
     }
 
     /**
+     *  Convert Google Base date format to database datetime
+     *  Ex. 2008-12-08T16:57:23Z -> 2008-12-08 16:57:23
      *
-     * access  public
-     * param   string $string
-     * return  string
+     *  @param    string Google Base datetime
+     *  @return	  string db datetime
      */
-    public function gBaseDate2DateTime ($gBaseDate)
+    public function gBaseDate2DateTime($gBaseDate)
     {
     	return date('Y-m-d H:i:s', strtotime($gBaseDate));
     }
