@@ -37,7 +37,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('catalog/googlebase')
+            ->_setActiveMenu('catalog/googlebase/items')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'))
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Google Base'), Mage::helper('adminhtml')->__('Google Base'));
         return $this;
@@ -46,8 +46,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items'), Mage::helper('adminhtml')->__('Items'))
-            ->_setActiveMenu('googlebase/items')
+            ->_addBreadcrumb(Mage::helper('googlebase')->__('Items'), Mage::helper('googlebase')->__('Items'))
             ->_addContent($this->getLayout()->createBlock('googlebase/adminhtml_items'))
             ->renderLayout();
     }
