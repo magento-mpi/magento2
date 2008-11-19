@@ -63,7 +63,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
             ->_prepareProductObject();
 
         $typeModel = $this->_getTypeModel();
-        $serviceItem = $this->getServiceItem()
+        $this->getServiceItem()
             ->setItem($this)
             ->setObject($this->getProduct())
             ->setAttributeValues($this->_getAttributeValues())
@@ -85,7 +85,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         $this->loadByProduct($this->getProduct());
         if ($this->getId()) {
             $typeModel = $this->_getTypeModel();
-            $serviceItem = $this->getServiceItem()
+            $this->getServiceItem()
                 ->setItem($this)
                 ->setObject($this->getProduct())
                 ->setAttributeValues($this->_getAttributeValues())
@@ -102,9 +102,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function deleteItem()
     {
-        $serviceItem = $this->getServiceItem()
-            ->setItem($this)
-            ->delete();
+        $this->getServiceItem()->setItem($this)->delete();
         return $this;
     }
 
@@ -115,9 +113,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function hideItem()
     {
-        $serviceItem = $this->getServiceItem()
-            ->setItem($this)
-            ->hide();
+        $this->getServiceItem()->setItem($this)->hide();
         $this->setIsHidden(1);
         $this->save();
         return $this;
@@ -130,9 +126,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function activateItem()
     {
-        $serviceItem = $this->getServiceItem()
-            ->setItem($this)
-            ->activate();
+        $this->getServiceItem()->setItem($this)->activate();
         $this->setIsHidden(0);
         $this->save();
         return $this;

@@ -57,7 +57,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
                 ->setDisabled(true);
         }
 
-        $itemTypeSelect = $field = $fieldset->addField('select_itemtype', 'select', array(
+        $itemTypeSelect = $fieldset->addField('select_itemtype', 'select', array(
             'label'     => $this->__('Google Base Item Type'),
             'title'     => $this->__('Google Base Item Type'),
             'name'      => 'gbase_itemtype',

@@ -209,7 +209,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
 
         $this->_setUniversalData();
 
-        $entry = $this->getEntry();
         $attributes = $this->getAttributeValues();
         if (is_array($attributes) && count($attributes)) {
             foreach ($attributes as $name => $data) {
@@ -239,7 +238,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         }
 
         if ($object->getUrl()) {
-//            $object->setUrl('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
             $links = $entry->getLink();
             if (!is_array($links)) {
                 $links = array();
@@ -340,9 +338,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     {
         return preg_replace('/\s+/', '_', $string);
 
-        $string = preg_replace('/([^a-z^0-9^_])+/','_',strtolower($string));
-        $string = preg_replace('/_{2,}/','_',$string);
-        return trim($string,'_');
+//        $string = preg_replace('/([^a-z^0-9^_])+/','_',strtolower($string));
+//        $string = preg_replace('/_{2,}/','_',$string);
+//        return trim($string,'_');
     }
 
     /**
