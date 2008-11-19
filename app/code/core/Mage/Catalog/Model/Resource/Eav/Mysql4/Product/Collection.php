@@ -369,21 +369,43 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
-     * Render SQL for retrieve product count
+     * Get SQL for get record count
      *
-     * @return string
+     * @return Varien_Db_Select
      */
     public function getSelectCountSql()
     {
+        $this->_renderFilters();
+
         $countSelect = clone $this->getSelect();
         $countSelect->reset(Zend_Db_Select::ORDER);
         $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(Zend_Db_Select::COLUMNS);
 
-        $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', 'select count(DISTINCT e.entity_id) from ', $sql);
-        return $sql;
+        $countSelect->from('', 'COUNT(DISTINCT e.entity_id)');
+        $countSelect->resetJoinLeft();
+
+        return $countSelect;
+    }
+
+    /**
+     * Retrive all ids for collection
+     *
+     * @return array
+     */
+    public function getAllIds($limit=null, $offset=null)
+    {
+        $idsSelect = clone $this->getSelect();
+        $idsSelect->reset(Zend_Db_Select::ORDER);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $idsSelect->reset(Zend_Db_Select::COLUMNS);
+        $idsSelect->from(null, 'e.'.$this->getEntity()->getIdFieldName());
+        $idsSelect->limit($limit, $offset);
+        $idsSelect->resetJoinLeft();
+
+        return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
     }
 
     /**
