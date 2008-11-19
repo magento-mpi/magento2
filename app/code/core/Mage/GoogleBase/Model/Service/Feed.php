@@ -37,24 +37,21 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
     const ITEMS_LOCATION = 'http://www.google.com/base/feeds/items';
 
     /**
-     *  Google Base Feed Instance
+     * Google Base Feed Instance
      *
-     *  @param    none
-     *  @return Zend_Gdata_Feed
+     * @param string $location
+     * @return Zend_Gdata_Feed
      */
     public function getFeed($location = null)
     {
         $query = new Zend_Gdata_Query($location);
-        $service = $this->getService();
-        $feed = $service->getFeed($query);
-        return $feed;
+        return $this->getService()->getFeed($query);
     }
 
     /**
-     *  Retrieve Items Statistics (expires, clicks, views, impr. etc.)
+     * Retrieve Items Statistics (expires, clicks, views, impr. etc.)
      *
-     *  @param    none
-     *  @return array
+     * @return array
      */
     public function getItemsStatsArray()
     {
@@ -87,10 +84,9 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Returns Google Base recommended Item Types
+     * Returns Google Base recommended Item Types
      *
-     *  @param    none
-     *  @return	  array
+     * @return array
      */
     public function getItemTypes()
     {
@@ -131,10 +127,10 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Returns Google Base Attributes
+     * Returns Google Base Attributes
      *
-     *  @param    string $type Google Base Item Type
-     *  @return	  array
+     * @param string $type Google Base Item Type
+     * @return array
      */
     public function getAttributes($type)
     {

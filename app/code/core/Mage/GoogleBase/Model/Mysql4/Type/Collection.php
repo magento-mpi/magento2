@@ -47,10 +47,9 @@ class Mage_GoogleBase_Model_Mysql4_Type_Collection extends Mage_Core_Model_Mysql
 	}
 
 	/**
-	 *  Add total count of Items for each type
+	 * Add total count of Items for each type
 	 *
-	 *  @param    none
-	 *  @return	  Mage_GoogleBase_Model_Mysql4_Type_Collection
+	 * @return Mage_GoogleBase_Model_Mysql4_Type_Collection
 	 */
 	public function addItemsCount()
 	{
@@ -64,10 +63,9 @@ class Mage_GoogleBase_Model_Mysql4_Type_Collection extends Mage_Core_Model_Mysql
 	}
 
 	/**
-	 *  Join Attribute Set data
+	 * Join Attribute Set data
 	 *
-	 *  @param    none
-	 *  @return	  Mage_GoogleBase_Model_Mysql4_Type_Collection
+	 * @return Mage_GoogleBase_Model_Mysql4_Type_Collection
 	 */
 	protected function _joinAttributeSet()
 	{

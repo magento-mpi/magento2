@@ -34,10 +34,9 @@
 class Mage_GoogleBase_Model_Service extends Varien_Object
 {
     /**
-     *  Retutn Google Base Client Instance
+     * Retutn Google Base Client Instance
      *
-     *  @param    none
-     *  @return	  Zend_Http_Client
+     * @return Zend_Http_Client
      */
     public function getClient()
     {
@@ -60,9 +59,9 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
     }
 
     /**
-     *  Retutn Google Base Service Instance
+     * Retutn Google Base Service Instance
      *
-     *  @return Zend_Gdata_Gbase
+     * @return Zend_Gdata_Gbase
      */
     public function getService()
     {
@@ -74,10 +73,9 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
     }
 
     /**
-     *  Authorize Google Account
+     * Authorize Google Account
      *
-     *  @param    none
-     *  @return	  Zend_Gdata_Gbase
+     * @return Zend_Gdata_Gbase
      */
     protected function _connect()
     {
@@ -87,10 +85,9 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
     }
 
     /**
-     *  Get Dry Run mode
+     * Get Dry Run mode
      *
-     *  @param    none
-     *  @return	  boolean
+     * @return boolean
      */
     public function getDryRun()
     {

@@ -43,10 +43,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Service Item Instance
+     * Return Service Item Instance
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     public function getServiceItem()
     {
@@ -54,10 +53,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Save item to Google Base
+     * Save item to Google Base
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     public function insertItem()
     {
@@ -76,10 +74,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Update Item data
+     * Update Item data
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     public function updateItem()
     {
@@ -99,10 +96,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Delete Item from Google Base
+     * Delete Item from Google Base
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     public function deleteItem()
     {
@@ -113,10 +109,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Delete Item from Google Base
+     * Delete Item from Google Base
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     *  @return Mage_GoogleBase_Model_Item
      */
     public function hideItem()
     {
@@ -129,10 +124,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Delete Item from Google Base
+     * Delete Item from Google Base
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     public function activateItem()
     {
@@ -145,10 +139,10 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Load Item Model by Product
+     * Load Item Model by Product
      *
-     *  @param    Mage_Catalog_Model_Product $product
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_GoogleBase_Model_Item
      */
     public function loadByProduct($product)
     {
@@ -160,10 +154,10 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Product Setter
+     * Product Setter
      *
-     *  @param    Mage_Catalog_Model_Product
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @param Mage_Catalog_Model_Product
+     * @return Mage_GoogleBase_Model_Item
      */
     public function setProduct($product)
     {
@@ -176,12 +170,10 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         return $this;
     }
 
-
     /**
-     *  Check product instance
+     * Check product instance
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     protected function _checkProduct()
     {
@@ -192,10 +184,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Copy Product object and assign additional data to the copy
+     * Copy Product object and assign additional data to the copy
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     protected function _prepareProductObject()
     {
@@ -219,10 +210,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Product attribute values array
+     * Return Product attribute values array
      *
-     *  @param    none
-     *  @return	  array Product attribute values
+     * @return array Product attribute values
      */
     protected function _getAttributeValues()
     {
@@ -257,11 +247,11 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Product Attribute Store Label
+     * Return Product Attribute Store Label
      *
-     *  @param    Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     *  @param    int $storeId Store View Id
-     *  @return	  string Attribute Store View Label or Attribute code
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param int $storeId Store View Id
+     * @return string Attribute Store View Label or Attribute code
      */
     protected function _getAttributeLabel($attribute, $storeId)
     {
@@ -282,10 +272,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Google Base Item Type Model for current Product Attribute Set
+     * Return Google Base Item Type Model for current Product Attribute Set
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Type
+     * @return Mage_GoogleBase_Model_Type
      */
     protected function _getTypeModel()
     {
@@ -302,10 +291,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Product attributes array
+     * Return Product attributes array
      *
-     *  @param    none
-     *  @return	  array Product attributes
+     * @return array Product attributes
      */
     protected function _getProductAttributes()
     {
@@ -323,10 +311,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Get Product Media files info
+     * Get Product Media files info
      *
-     *  @param    none
-     *  @return	  array Media files info
+     * @return array Media files info
      */
     protected function _getProductImages()
     {
@@ -347,10 +334,9 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return attribute collection for current Product Attribute Set
+     * Return attribute collection for current Product Attribute Set
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Mysql4_Attribute_Collection
+     * @return Mage_GoogleBase_Model_Mysql4_Attribute_Collection
      */
     protected function _getAttributesCollection()
     {

@@ -68,10 +68,9 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
     }
 
     /**
-     *  Join product and type data
+     * Join product and type data
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Mysql4_Item_Collection
+     * @return Mage_GoogleBase_Model_Mysql4_Item_Collection
      */
     protected function _joinTables()
     {

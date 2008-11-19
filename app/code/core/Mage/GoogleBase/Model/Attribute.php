@@ -93,10 +93,10 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
     }
 
     /**
-     *  Return Google Base Attribute Type By Product Attribute
+     * Return Google Base Attribute Type By Product Attribute
      *
-     *  @param    Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     *  @return	  string Google Base Attribute Type
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @return string Google Base Attribute Type
      */
     public function getGbaseAttributeType($attribute)
     {

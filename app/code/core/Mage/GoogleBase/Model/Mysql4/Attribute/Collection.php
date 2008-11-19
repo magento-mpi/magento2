@@ -34,7 +34,7 @@
 class Mage_GoogleBase_Model_Mysql4_Attribute_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 	/**
-	 *  Whether to join attribute_set_id to attributes or not
+	 * Whether to join attribute_set_id to attributes or not
 	 */
     protected $_joinAttributeSetFlag = true;
 

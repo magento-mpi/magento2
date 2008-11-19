@@ -39,10 +39,10 @@ class Mage_GoogleBase_Model_Mysql4_Item extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
-     *  Load Item model by product
+     * Load Item model by product
      *
-     *  @param    Mage_GoogleBase_Model_Item $model
-     *  @return	  Mage_GoogleBase_Model_Mysql4_Item
+     * @param Mage_GoogleBase_Model_Item $model
+     * @return Mage_GoogleBase_Model_Mysql4_Item
      */
     public function loadByProduct($model)
     {

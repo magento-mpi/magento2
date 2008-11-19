@@ -51,10 +51,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     protected $_item = null;
 
     /**
-     *  $_object Setter
+     * $_object Setter
      *
-     *  @param    Varien_Object $object
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @param Varien_Object $object
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     public function setObject($object)
     {
@@ -63,9 +63,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  $_object Getter
+     * $_object Getter
      *
-     *  @return	  Varien_Object
+     * @return Varien_Object
      */
     public function getObject()
     {
@@ -73,10 +73,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  $_item Setter
+     * $_item Setter
      *
-     *  @param    Mage_GoogleBase_Model_Item $item
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @param Mage_GoogleBase_Model_Item $item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     public function setItem($item)
     {
@@ -85,9 +85,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  $_item Getter
+     * $_item Getter
      *
-     *  @return	  Mage_GoogleBase_Model_Item
+     * @return Mage_GoogleBase_Model_Item
      */
     public function getItem()
     {
@@ -95,9 +95,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Insert Item into Google Base
+     * Insert Item into Google Base
      *
-     *  @return	  Zend_Gdata_Gbase_ItemEntry
+     * @return Zend_Gdata_Gbase_ItemEntry
      */
     public function insert()
     {
@@ -122,9 +122,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Update Item data in Google Base
+     * Update Item data in Google Base
      *
-     *  @return	  Zend_Gdata_Gbase_ItemEntry
+     * @return Zend_Gdata_Gbase_ItemEntry
      */
     public function update()
     {
@@ -138,9 +138,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Delete Item from Google Base
+     * Delete Item from Google Base
      *
-     *  @return	  Zend_Gdata_Gbase_ItemFeed
+     * @return Zend_Gdata_Gbase_ItemFeed
      */
     public function delete()
     {
@@ -152,9 +152,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Hide item in Google Base
+     * Hide item in Google Base
      *
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     public function hide()
     {
@@ -163,9 +163,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Publish item in Google Base
+     * Publish item in Google Base
      *
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     public function activate()
     {
@@ -174,10 +174,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Update item Control property
+     * Update item Control property
      *
-     *  @param    boolean Save as draft or not
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @param boolean Save as draft or not
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     protected function _saveDraft($yes = true)
     {
@@ -196,9 +196,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Prepare Entry data and attributes before saving in Google Base
+     * Prepare Entry data and attributes before saving in Google Base
      *
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     protected function _prepareEnrtyForSave()
     {
@@ -223,10 +223,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Assign values to universal attribute of entry
+     * Assign values to universal attribute of entry
      *
-     *  @param    none
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     protected function _setUniversalData()
     {
@@ -273,13 +272,13 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Set Google Base Item Attribute
+     * Set Google Base Item Attribute
      *
-     *  @param    string $attribute Google Base attribute name
-     *  @param    string $value Google Base attribute value
-     *  @param    string $type Google Base attribute type
+     * @param string $attribute Google Base attribute name
+     * @param string $value Google Base attribute value
+     * @param string $type Google Base attribute type
      *
-     *  @return	  Mage_GoogleBase_Model_Service_Item
+     * @return Mage_GoogleBase_Model_Service_Item
      */
     protected function _setAttribute($attribute, $value, $type = 'text')
     {
@@ -294,10 +293,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Return Google Base Item Attribute Value
+     * Return Google Base Item Attribute Value
      *
-     *  @param    string $attribute Google Base attribute name
-     *  @return	  string|null Attribute value
+     * @param string $attribute Google Base attribute name
+     * @return string|null Attribute value
      */
     protected function _getAttributeValue($attribute)
     {
@@ -310,9 +309,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Return assign item type or default item type
+     * Return assign item type or default item type
      *
-     *  @return	  string Google Base Item Type
+     * @return string Google Base Item Type
      */
     protected function _getItemType()
     {
@@ -320,10 +319,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Check Item Instance
+     * Check Item Instance
      *
-     *  @param    none
-     *  @return	  void
+     * @return void
      */
     protected function _checkItem()
     {
@@ -333,10 +331,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Prepare Google Base attribute name before save
+     * Prepare Google Base attribute name before save
      *
-     *  @param    string Attribute name
-     *  @return	  string Normalized attribute name
+     * @param string Attribute name
+     * @return string Normalized attribute name
      */
     protected function _normalizeString($string)
     {
@@ -348,11 +346,11 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
-     *  Convert Google Base date format to unix timestamp
-     *  Ex. 2008-12-08T16:57:23Z -> 2008-12-08 16:57:23
+     * Convert Google Base date format to unix timestamp
+     * Ex. 2008-12-08T16:57:23Z -> 2008-12-08 16:57:23
      *
-     *  @param    string Google Base datetime
-     *  @return int
+     * @param string Google Base datetime
+     * @return int
      */
     public function gBaseDate2DateTime($gBaseDate)
     {

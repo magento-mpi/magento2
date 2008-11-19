@@ -34,7 +34,7 @@
 class Mage_GoogleBase_Model_Observer
 {
     /**
-     *  Update product item in Google Base
+     * Update product item in Google Base
      *
      * @param Varien_Object $observer
      * @return Mage_GoogleBase_Model_Observer
@@ -58,7 +58,7 @@ class Mage_GoogleBase_Model_Observer
     }
 
     /**
-     *  Delete product item from Google Base
+     * Delete product item from Google Base
      *
      * @param Varien_Object $observer
      * @return Mage_GoogleBase_Model_Observer
