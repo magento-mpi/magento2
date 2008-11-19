@@ -60,6 +60,15 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
+    /**
+     * Grid for AJAX request
+     */
+    public function gridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('googlebase/adminhtml_types_grid')->toHtml()
+        );
+    }
     public function newAction()
     {
         try {
