@@ -53,22 +53,23 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
     {
         $this->addColumn('attribute_set_name',
             array(
-                'header'=> $this->__('Attributes Set'),
-                'width' => '150px',
+                'header'    => $this->__('Attributes Set'),
+                'width'     => '150px',
                 'index'     => 'attribute_set_name',
         ));
         $this->addColumn('gbase_itemtype',
             array(
-                'header'=> $this->__('Google Base Item type'),
-                'width' => '150px',
+                'header'    => $this->__('Google Base Item type'),
+                'width'     => '150px',
                 'index'     => 'gbase_itemtype',
         ));
 
         $this->addColumn('items_total',
             array(
-                'header'=> Mage::helper('catalog')->__('Total Qty Base Items'),
-                'width' => '150px',
+                'header'    => Mage::helper('catalog')->__('Total Qty Base Items'),
+                'width'     => '150px',
                 'index'     => 'items_total',
+                'filter'    => false
         ));
 
         return parent::_prepareColumns();
