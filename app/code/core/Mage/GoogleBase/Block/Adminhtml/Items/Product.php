@@ -57,8 +57,8 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
-            ->addAttributeToSelect('attribute_set_id')
-            ->addFilterByRequiredOptions();
+            ->addAttributeToSelect('attribute_set_id');
+//            ->addFilterByRequiredOptions();
 
         $store = $this->_getStore();
         if ($store->getId()) {
