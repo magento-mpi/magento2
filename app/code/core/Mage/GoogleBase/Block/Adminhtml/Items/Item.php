@@ -54,15 +54,15 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
     {
         $this->addColumn('name',
             array(
-                'header'=> $this->__('Product Name'),
-                'width' => '30%',
+                'header'    => $this->__('Product Name'),
+                'width'     => '30%',
                 'index'     => 'name',
         ));
 
         $this->addColumn('gbase_item_id',
             array(
-                'header'=> $this->__('Google Base ID'),
-                'width' => '150px',
+                'header'    => $this->__('Google Base ID'),
+                'width'     => '150px',
                 'index'     => 'gbase_item_id',
                 'renderer'  => 'googlebase/adminhtml_items_renderer_id',
 
@@ -70,8 +70,8 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('gbase_itemtype',
             array(
-                'header'=> $this->__('Google Base Item Type'),
-                'width' => '150px',
+                'header'    => $this->__('Google Base Item Type'),
+                'width'     => '150px',
                 'index'     => 'gbase_itemtype',
         ));
 
@@ -85,31 +85,34 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('expires',
             array(
-                'header'=> $this->__('Expires'),
-                'type' => 'datetime',
-                'width' => '100px',
+                'header'    => $this->__('Expires'),
+                'type'      => 'datetime',
+                'width'     => '100px',
                 'index'     => 'expires',
         ));
 
         $this->addColumn('impr',
             array(
-                'header'=> $this->__('Impr.'),
-                'width' => '150px',
+                'header'    => $this->__('Impr.'),
+                'width'     => '150px',
                 'index'     => 'impr',
+                'filter'    => false,
         ));
 
         $this->addColumn('clicks',
             array(
-                'header'=> $this->__('Clicks'),
-                'width' => '150px',
+                'header'    => $this->__('Clicks'),
+                'width'     => '150px',
                 'index'     => 'clicks',
+                'filter'    => false,
         ));
 
         $this->addColumn('views',
             array(
-                'header'=> $this->__('Page views'),
-                'width' => '150px',
+                'header'    => $this->__('Page views'),
+                'width'     => '150px',
                 'index'     => 'views',
+                'filter'    => false,
         ));
 
         $this->addColumn('active',
