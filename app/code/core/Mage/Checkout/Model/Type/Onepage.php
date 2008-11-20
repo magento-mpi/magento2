@@ -225,7 +225,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         // invoke customer model, if it is registering
-        if ($address->getCustomerPassword()) {
+        if ($address->getCustomerPassword() && 'register' == $this->getQuote()->getCheckoutMethod()) {
             // set customer password hash for further usage
             $customer = Mage::getModel('customer/customer');
             $this->getQuote()->setPasswordHash($customer->encryptPassword($address->getCustomerPassword()));
