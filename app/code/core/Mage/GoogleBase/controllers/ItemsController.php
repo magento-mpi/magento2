@@ -207,7 +207,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
                 );
             }
 
-            $stats = Mage::getModel('googlebase/service_feed')->getItemsStatsArray();
+            $stats = Mage::getModel('googlebase/service_feed')->getItemsStatsArray($storeId);
 
             foreach ($existing as $entryId => $itemInfo) {
 
