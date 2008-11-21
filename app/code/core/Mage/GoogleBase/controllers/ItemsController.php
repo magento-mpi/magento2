@@ -248,4 +248,9 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         }
         return Mage::app()->getStore($storeId);
     }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/googlebase/items');
+    }
 }
