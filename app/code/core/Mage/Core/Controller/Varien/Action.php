@@ -365,7 +365,7 @@ abstract class Mage_Core_Controller_Varien_Action
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!Mage::app()->isInstalled()) {
+            if (!Mage::isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;

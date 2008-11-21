@@ -214,8 +214,6 @@ class Mage_Core_Model_App
      */
     protected $_useSessionVar = false;
 
-    static protected $_isInstalled = NULL;
-
     /**
      * Constructor
      *
@@ -242,7 +240,7 @@ class Mage_Core_Model_App
         $this->_config = Mage::getConfig();
         $this->_config->init($options);
 
-        if ($this->isInstalled()) {
+        if (Mage::isInstalled($options)) {
             $this->_initStores();
 
             if (empty($code) && !is_null($this->_website)) {
@@ -440,7 +438,7 @@ class Mage_Core_Model_App
      */
     public function isSingleStoreMode()
     {
-        if (!$this->isInstalled()) {
+        if (!Mage::isInstalled()) {
             return false;
         }
         return $this->_isSingleStore;
@@ -563,7 +561,7 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
-        if (!$this->isInstalled() || $this->getUpdateMode()) {
+        if (!Mage::isInstalled() || $this->getUpdateMode()) {
             return $this->_getDefaultStore();
         }
 
@@ -852,18 +850,12 @@ class Mage_Core_Model_App
     /**
      * Retrieve application installation flag
      *
+     * @deprecated since 1.2
      * @return bool
      */
     public function isInstalled()
     {
-        if (self::$_isInstalled === null) {
-            $installDate = Mage::getConfig()->getNode(self::XML_PATH_INSTALL_DATE);
-            $installDate = (string)$installDate;
-            if ($installDate && strtotime($installDate)) {
-                self::$_isInstalled = true;
-            }
-        }
-        return self::$_isInstalled;
+        return Mage::isInstalled();
     }
 
     /**

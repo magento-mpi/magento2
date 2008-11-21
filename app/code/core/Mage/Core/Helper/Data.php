@@ -157,7 +157,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function encrypt($data)
     {
-        if (!Mage::app()->isInstalled()) {
+        if (!Mage::isInstalled()) {
             return $data;
         }
         $result = base64_encode($this->_getCrypt()->encrypt((string)$data));
@@ -172,7 +172,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decrypt($data)
     {
-        if (!Mage::app()->isInstalled()) {
+        if (!Mage::isInstalled()) {
             return $data;
         }
         $result = trim($this->_getCrypt()->decrypt(base64_decode((string)$data)));

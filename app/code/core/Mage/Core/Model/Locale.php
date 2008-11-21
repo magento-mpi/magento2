@@ -340,7 +340,7 @@ class Mage_Core_Model_Locale
     public function getAllowCurrencies()
     {
         $data = array();
-        if (Mage::app()->isInstalled()) {
+        if (Mage::isInstalled()) {
             $data = Mage::app()->getStore()->getConfig(self::XML_PATH_ALLOW_CURRENCIES_INSTALLED);
             return explode(',', $data);
         }

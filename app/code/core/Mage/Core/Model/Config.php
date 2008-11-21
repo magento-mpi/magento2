@@ -143,7 +143,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             );
         }
 
-        if (Mage::app()->isInstalled()) {
+        if (Mage::isInstalled()) {
             if (Mage::app()->useCache('config')) {
                 Varien_Profiler::start('config/load-cache');
                 $loaded = $this->loadCache();
