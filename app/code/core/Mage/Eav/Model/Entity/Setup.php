@@ -655,4 +655,14 @@ CONSTRAINT `FK_{$baseName}_{$type}_store` FOREIGN KEY (`store_id`) REFERENCES `c
         return $this;
     }
 
+    /**
+     * Get identifiers of all attribute sets
+     *
+     * @return array
+     */
+    public function getAllAttributeSetIds()
+    {
+        $sql = "SELECT `attribute_set_id` FROM `{$this->getTable('eav/attribute_set')}`";
+        return $this->_conn->fetchCol($sql);
+    }
 }
