@@ -191,6 +191,9 @@
             <base>
                 <active>0</active>
             </base>
+            <googlebase>
+                <target_country>US</target_country>
+            </googlebase>
         </google>
     </default>
 </config>
