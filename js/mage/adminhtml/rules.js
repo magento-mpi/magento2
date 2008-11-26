@@ -144,7 +144,7 @@ VarienRulesForm.prototype = {
     	var elem = Element.down(elemContainer, 'input.input-text');
     	if (elem) {
     	    elem.focus();
-        	if (elem && elem.id && elem.id.match(/:value$/)) {
+        	if (elem && elem.id && elem.id.match(/__value$/)) {
         	    this.updateElement = elem;
                 //this.showChooser(container, event);
         	}
