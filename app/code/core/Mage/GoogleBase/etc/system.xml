@@ -39,7 +39,6 @@
                     <fields>
                         <login translate="label comment">
                             <label>Account login</label>
-                            <comment>Do "Synchronize" action after you change Google Account.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
