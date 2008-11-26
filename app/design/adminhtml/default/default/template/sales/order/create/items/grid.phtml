@@ -42,7 +42,7 @@
         <?php echo $this->getButtonHtml($this->helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?>
     </p>
     <?php endif; ?>
-    <div class="grid" id="order:items_grid">
+    <div class="grid" id="order-items_grid">
         <table cellspacing="0" class="data order-tables">
             <col />
             <col width="100" />
@@ -206,7 +206,7 @@
             <td rowspan="2" class="a-right"><?php echo $this->getButtonHtml($this->helper('sales')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?></td>
         </tr>
         <tr>
-            <td><div id="order:coupons"><?php echo $this->getChildHtml('coupons') ?></div></td>
+            <td><div id="order-coupons"><?php echo $this->getChildHtml('coupons') ?></div></td>
         </tr>
     </table>
     <br/>
