@@ -64,6 +64,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $this->_ajaxRedirectResponse();
             exit;
         }
+        Mage::getSingleton('core/translate_inline')->setIsAjaxRequest(true);
     }
 
     protected function _getShippingMethodsHtml()
