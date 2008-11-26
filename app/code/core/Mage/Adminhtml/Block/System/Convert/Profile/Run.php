@@ -65,7 +65,6 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
             echo '<li style="background-color:#FFD;">';
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Warning: Please don't close window during importing/exporting data");
-            echo '</li>';
         } else {
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("No profile loaded...");
@@ -142,8 +141,8 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                             'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
                         ),
                         'template' => '<li style="#{style}" id="#{id}">'
-                                    . '<img src="#{image}" class="v-middle" style="margin-right:5px"/>'
-                                    . '<span class="text">#{text}</span>'
+                                    . '<img id="#{id}_img" src="#{image}" class="v-middle" style="margin-right:5px"/>'
+                                    . '<span id="#{id}_status" class="text">#{text}</span>'
                                     . '</li>',
                         'text'     => $this->__('Processed <strong>%s%% %s/%d</strong> records', '#{percent}', '#{updated}', $countItems),
                         'successText'  => $this->__('Imported <strong>%s</strong> records', '#{updated}')
@@ -164,8 +163,7 @@ function addImportData(data) {
 
 function execImportData() {
     if (importData.length == 0) {
-
-        $("updatedRows").down("img").src = config.styles.message.icon;
+        $("updatedRows_img").src = config.styles.message.icon;
         $("updatedRows").style.backgroundColor = config.styles.message.bg;
         Element.insert($("liFinished"), {before: config.tpl.evaluate({
             style: "background-color:"+config.styles.message.bg,
@@ -249,8 +247,7 @@ function addProfileRow(data) {
             countOfError ++;
         }
     }
-    $("updatedRows").down(".text").update(config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}));
-
+    $("updatedRows_status").update(config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}));
 }
 </script>
 ';
