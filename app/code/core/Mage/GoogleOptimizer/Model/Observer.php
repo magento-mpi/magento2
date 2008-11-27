@@ -52,6 +52,16 @@ class Mage_GoogleOptimizer_Model_Observer
     }
 
     /**
+     *  @deprecated please use prepareProductGoogleOptimizerScripts method instead
+     *
+     * @param unknown_type $observer
+     */
+    public function prepareProductGoogleOptimizerScripts($observer)
+    {
+        $this->prepareProductGoogleOptimizerScripts($observer);
+    }
+
+    /**
      * Prepare product scripts for saving
      *
      * @param Varien_Object $observer
