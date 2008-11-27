@@ -425,10 +425,15 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                     'name'      => $this->getMassactionBlock()->getFormFieldName(),
                     'align'     => 'center',
                     'is_system' => true
-                ))
-                ->setSelected($this->getMassactionBlock()->getSelected())
-                ->setGrid($this)
-                ->setId($columnId);
+                ));
+
+        if ($this->getNoFilterMassactionColumn()) {
+            $massactionColumn->setData('filter', false);
+        }
+
+        $massactionColumn->setSelected($this->getMassactionBlock()->getSelected())
+            ->setGrid($this)
+            ->setId($columnId);
 
         $oldColumns = $this->_columns;
         $this->_columns = array();
