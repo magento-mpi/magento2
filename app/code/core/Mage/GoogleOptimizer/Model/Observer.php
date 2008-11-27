@@ -57,7 +57,7 @@ class Mage_GoogleOptimizer_Model_Observer
      * @param Varien_Object $observer
      * @return Mage_Googleoptimizer_Model_Observer
      */
-    public function prepareGoogleOptimizerScripts($observer)
+    public function prepareProductGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
         $request = $observer->getEvent()->getRequest();
