@@ -141,9 +141,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             $this->_savePath($object);
             //$this->save($object);
         }
-        $categoryIds = explode('/', $object->getPath());
-
-        $this->refreshProductIndex($categoryIds);
         return parent::_afterSave($object);
     }
 
@@ -237,7 +234,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         $insert = array_diff_key($products, $oldProducts);
         $delete = array_diff_key($oldProducts, $products);
+        /**
+         * Find product ids which are presented in both arrays
+         */
         $update = array_intersect_key($products, $oldProducts);
+        /**
+         * Use for update just products with changed position
+         */
+        $update = array_diff_assoc($update, $oldProducts);
 
         $write = $this->getWriteConnection();
         $updateProducts = array();
@@ -306,6 +310,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         if (!empty($insert) || !empty($update) || !empty($delete)) {
             $category->setIsChangedProductList(true);
+            $categoryIds = explode('/', $category->getPath());
+            $this->refreshProductIndex($categoryIds);
         }
 
         return $this;
