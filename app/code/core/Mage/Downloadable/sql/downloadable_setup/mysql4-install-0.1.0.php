@@ -24,14 +24,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Downloadable Type Model
- *
- * @category    Mage
- * @package     Mage_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
-{
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
+$installer->startSetup();
+
+$fieldList = array('price','special_price','special_from_date','special_to_date',
+    'minimal_price','cost','tier_price','weight','tax_class_id');
+foreach ($fieldList as $field) {
+    $applyTo = split(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
+    if (!in_array('downloadable', $applyTo)) {
+        $applyTo[] = 'downloadable';
+        $installer->updateAttribute('catalog_product', $field, 'apply_to', join(',', $applyTo));
+    }
 }
+
+$installer->endSetup();

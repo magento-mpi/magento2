@@ -32,15 +32,86 @@
         </Mage_Downloadable>
     </modules>
     <global>
+        <models>
+            <downloadable>
+                <class>Mage_Downloadable_Model</class>
+                <resourceModel>Downloadable_mysql4</resourceModel>
+            </downloadable>
+
+            <downloadable_mysql4>
+                <class>Mage_Downloadable_Model_Mysql4</class>
+                <entities>
+                </entities>
+            </downloadable_mysql4>
+        </models>
+        <resources>
+            <downloadable_setup>
+                <setup>
+                    <module>Mage_Downloadable</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </downloadable_setup>
+            <downloadable_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </downloadable_write>
+            <downloadable_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </downloadable_read>
+        </resources>
         <catalog>
             <product>
                 <type>
                     <downloadable translate="label" module="downloadable">
                         <label>Downloadable</label>
                         <model>downloadable/product_type</model>
+                        <price_model>downloadable/product_price</price_model>
+                        <index_data_retreiver>downloadable/catalogIndex_data_downloadable</index_data_retreiver>
                     </downloadable>
                 </type>
             </product>
         </catalog>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Downloadable>
+                    <files>
+                        <default>Mage_Downloadable.csv</default>
+                    </files>
+                </Mage_Downloadable>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <downloadable>
+                    <file>downloadable.xml</file>
+                </downloadable>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Mage_Downloadable>
+                    <files>
+                        <default>Mage_Downloadable.csv</default>
+                    </files>
+                </Mage_Downloadable>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <downloadable>
+                    <file>downloadable.xml</file>
+                </downloadable>
+            </updates>
+        </layout>
+    </frontend>
 </config>

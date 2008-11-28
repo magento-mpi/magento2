@@ -25,13 +25,12 @@
  */
 
 /**
- * Downloadable Type Model
+ * Downloadable Price Model
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
+class Mage_Downloadable_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Price
 {
-
 }

@@ -25,13 +25,22 @@
  */
 
 /**
- * Downloadable Type Model
+ * Downloadable product data retreiver
  *
- * @category    Mage
- * @package     Mage_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category Mage
+ * @package Mage_Downloadable
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
+class Mage_Downloadable_Model_CatalogIndex_Data_Downloadable extends Mage_CatalogIndex_Model_Data_Virtual
 {
-
+    /**
+     * Retreive product type code
+     *
+     * @return string
+     */
+    public function getTypeCode()
+    {
+        return 'downloadable';
+        return Mage_Catalog_Model_Product_Type::TYPE_SIMPLE;
+    }
 }
