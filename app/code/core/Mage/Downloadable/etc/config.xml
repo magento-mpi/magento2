@@ -44,6 +44,11 @@
                 </entities>
             </downloadable_mysql4>
         </models>
+        <blocks>
+            <downloadable>
+                <class>Mage_Downloadable_Block</class>
+            </downloadable>
+        </blocks>
         <resources>
             <downloadable_setup>
                 <setup>
@@ -97,6 +102,15 @@
         </layout>
     </adminhtml>
     <frontend>
+        <routers>
+            <downloadable>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Downloadable</module>
+                    <frontName>downloadable</frontName>
+                </args>
+            </downloadable>
+        </routers>
         <translate>
             <modules>
                 <Mage_Downloadable>

@@ -27,6 +27,13 @@
 
 -->
 <layout version="0.1.0">
+    <downloadable_customer_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="downloadable/customer_order_list" name="customer_order_list" template="downloadable/customer/order/list.phtml">
+            </block>
+        </reference>
+    </downloadable_customer_index>
 
     <checkout_cart_index>
         <reference name="checkout.cart">
