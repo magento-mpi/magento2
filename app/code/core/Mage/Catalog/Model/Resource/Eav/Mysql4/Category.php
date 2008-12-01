@@ -495,7 +495,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
              FROM {$this->getTable('catalog/category_product')}
             WHERE category_id IN(
                 SELECT entity_id FROM {$this->getTable('catalog/category')}
-                WHERE path LIKE '{$category['path']}%'
+                WHERE entity_id = {$category['entity_id']} OR path LIKE '{$category['path']}/%'
             )
             GROUP BY product_id
             ORDER BY is_parent desc";
