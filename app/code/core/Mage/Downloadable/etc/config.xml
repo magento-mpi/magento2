@@ -101,6 +101,12 @@
                 </downloadable>
             </updates>
         </layout>
+
+<!--
+        <events>
+        </events>
+-->
+
     </adminhtml>
     <frontend>
         <routers>
@@ -129,4 +135,15 @@
             </updates>
         </layout>
     </frontend>
+    <admin>
+        <routers>
+            <downloadable>
+                <use>admin</use>
+                <args>
+                    <module>Mage_Downloadable</module>
+                    <frontName>downloadable</frontName>
+                </args>
+            </downloadable>
+        </routers>
+    </admin>
 </config>

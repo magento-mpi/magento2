@@ -379,7 +379,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Load bundle items fieldset
+     * Deprecated since 1.2
      *
      */
     public function bundlesAction()

@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -20,19 +19,26 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   design_default
- * @package    Mage_Downloadable
+ * @package    Mage_Bundle
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+?>
+
+<?php
+/**
+ * @see Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
+ */
+?>
+
+<div id="alert_messages_block"><?php echo $this->getMessageHtml() ?></div>
+
+<div>
+    <h4 class="icon-head head-edit-form"><?php echo Mage::helper('productalert')->__('Downloadable Information') ?></h4>
+</div>
+<div class="clear"></div>
+<?php echo $this->getChildHtml('accordion') ?>
+
+<!--
+<div><input type="hidden" name="affect_downloadable_information" value="1" /></div>
 -->
-
-<layout>
-
-    <adminhtml_catalog_product_downloadable>
-        <reference name="product_tabs">
-            <action method="addTab"><name>downloadable_items</name><block>downloadable/adminhtml_catalog_product_edit_tab_downloadable</block></action>
-            <action method="bindShadowTabs"><first>downloadable_items</first><second>customer_options</second></action>
-        </reference>
-    </adminhtml_catalog_product_downloadable>
-
-</layout>
