@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Downloadable>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Mage_Downloadable>
     </modules>
     <global>
@@ -74,8 +74,9 @@
             <product>
                 <type>
                     <downloadable translate="label" module="downloadable">
-                        <label>Downloadable</label>
+                        <label>Downloadable Product</label>
                         <model>downloadable/product_type</model>
+                        <is_qty>1</is_qty>
                         <price_model>downloadable/product_price</price_model>
                         <index_data_retreiver>downloadable/catalogIndex_data_downloadable</index_data_retreiver>
                     </downloadable>
