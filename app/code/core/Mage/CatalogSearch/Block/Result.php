@@ -36,6 +36,11 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 {
     protected $_productCollection;
 
+    /**
+     * Retrieve query model object
+     *
+     * @return Mage_CatalogSearch_Model_Query
+     */
     protected function _getQuery()
     {
         return $this->helper('catalogSearch')->getQuery();
@@ -96,10 +101,14 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     {
         if (is_null($this->_productCollection)) {
             $this->_productCollection = $this->_getQuery()->getResultCollection()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
+                ->setStore(Mage::app()->getStore())
+                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addUrlRewrite();
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
+
+            //print $this->_productCollection->getSelect()->__toString();
         }
 
         return $this->_productCollection;

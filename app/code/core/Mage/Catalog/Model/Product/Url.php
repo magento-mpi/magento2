@@ -98,6 +98,9 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
             if ($product->getStoreId()) {
                 $rewrite->setStoreId($product->getStoreId());
             }
+            else {
+                $rewrite->setStoreId(Mage::app()->getStore()->getId());
+            }
 
             $idPath = 'product/'.$product->getId();
             if ($product->getCategoryId() && !$product->getDoNotUseCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
