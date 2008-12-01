@@ -24,32 +24,12 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-
-<?php echo $this->getCaptchaHtml() ?>
-
-<?php echo $this->getStoreSwitcherHtml() ?>
-
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <div style="float: right;"></div>
-        <h4 class="fieldset-legend"><?php echo $this->__('Google Base Items') ?></h4>
-    </div>
-    <?php echo $this->getChildHtml('item') ?>
-</div>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <div style="float: right;"><?php echo $this->getAddButtonHtml() ?></div>
-        <h4 class="fieldset-legend"><?php echo $this->__('Available Products') ?></h4>
-    </div>
-    <?php echo $this->getChildHtml('product') ?>
-</div>
-
-
-<script type="text/javascript">
-var productsGridElement = $('<?php echo $this->getChild('product')->getId() ?>');
-productsGridElement.hide();
-$('products_grid_button').observe('click', function (event) {
-    var element = event.element();
-    productsGridElement.visible() ? productsGridElement.hide() : productsGridElement.show();
-});
-</script>
+<?php if( $this->getGbaseCaptchaToken() && $this->getGbaseCaptchaUrl()): ?>
+<ul class="messages">
+    <li class="error-msg">
+        <ul>
+            <li><img src="<?php echo $this->getGbaseCaptchaUrl() ?>"> <input type="text" id="user_confirm"> <?php echo $this->getConfirmButtonHtml() ?></li>
+        </ul>
+    </li>
+</ul>
+<?php endif; ?>
