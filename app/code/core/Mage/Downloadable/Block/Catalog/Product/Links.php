@@ -25,36 +25,29 @@
  */
 
 /**
- * Downloadable Type Model
+ * Downloadable Product Links part block
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Core_Block_Template
+class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_Product_Abstract
 {
+    /**
+     * Get downloadable product links
+     *
+     * @return array
+     */
     public function getLinks()
     {
-        return array(
-            '1' => new Varien_Object(array(
-                'label' => 'Link1',
-                'url'	=> $this->getUrl('*/*/*', array('link'=>1))
-            )),
-            '2' => new Varien_Object(array(
-                'label' => 'Link2',
-                'url'   => $this->getUrl('*/*/*', array('link'=>2))
-            )),
-            '3' => new Varien_Object(array(
-                'label' => 'Link3',
-                'url'   => $this->getUrl('*/*/*', array('link'=>3))
-            )),
-            '4' => new Varien_Object(array(
-                'label' => 'Link4',
-                'url'   => $this->getUrl('*/*/*', array('link'=>4))
-            ))
-        );
+        return $this->getProduct()->getTypeInstance()->getLinks();
     }
 
+    /**
+     * Return true if current downloadable product has "allow separated buying" status
+     *
+     * @return array
+     */
     public function getIsAllowSeparateLinks()
     {
         return true;

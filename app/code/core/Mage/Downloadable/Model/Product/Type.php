@@ -33,18 +33,31 @@
  */
 class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
 {
-	/**
-     * Return true if product has options
-     *
-     * @return bool
-     */
-    public function hasOptions()
-    {
-        return true;
 
-        if ($this->getProduct()->getHasOptions()) {
-            return true;
-        }
-        return false;
+    /**
+     * Get downloadable product links
+     *
+     * @return array
+     */
+    public function getLinks()
+    {
+        return array(
+            '1' => new Varien_Object(array(
+                'label' => 'Link1',
+                'url'   => Mage::getUrl('*/*/*', array('link'=>1))
+            )),
+            '2' => new Varien_Object(array(
+                'label' => 'Link2',
+                'url'   => Mage::getUrl('*/*/*', array('link'=>2))
+            )),
+            '3' => new Varien_Object(array(
+                'label' => 'Link3',
+                'url'   => Mage::getUrl('*/*/*', array('link'=>3))
+            )),
+            '4' => new Varien_Object(array(
+                'label' => 'Link4',
+                'url'   => Mage::getUrl('*/*/*', array('link'=>4))
+            ))
+        );
     }
 }
