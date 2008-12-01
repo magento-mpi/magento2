@@ -44,7 +44,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      *
      * @var bool
      */
-    protected $_debug               = false;
+    protected $_debug               = true;
 
     /**
      * Path to SQL debug data log
@@ -172,7 +172,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         if (!$this->_connectionFlagsSet) {
             $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-            #$this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+            $this->_connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             $this->_connectionFlagsSet = true;
         }
     }
@@ -183,9 +183,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $retry = false;
             $tries = 0;
             try {
-                $this->_debugTimer();
-                $result = $this->getConnection()->query($sql);
-                $this->_debugStat(self::DEBUG_QUERY, $sql, array(), $result);
+                $result = $this->query($sql);
             } catch (PDOException $e) {
                 if ($e->getMessage()=='SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
                     $retry = true;
@@ -449,17 +447,62 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      * @param string $oldColumnName
      * @param string $newColumnName
      * @param string $definition
+     * @param bool $showStatus
+     *
+     * @return mixed
      */
-    public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition)
+    public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition,  $showStatus = false)
     {
         if (!$this->tableColumnExists($tableName, $oldColumnName)) {
             Mage::throwException('Column "' . $oldColumnName . '" does not exists on table "' . $tableName . '"');
         }
 
         $sql = 'ALTER TABLE ' . $this->quoteIdentifier($tableName)
-            . 'CHANGE COLUMN ' . $this->quoteIdentifier($oldColumnName)
+            . ' CHANGE COLUMN ' . $this->quoteIdentifier($oldColumnName)
             . ' ' . $this->quoteIdentifier($newColumnName) . ' ' . $definition;
-        return $this->raw_query($sql);
+        $result = $this->raw_query($sql);
+        if ($showStatus) {
+            $this->showTableStatus($tableName);
+        }
+        return $result;
+    }
+
+    /**
+     * Modify column defination or position
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * @param string $definition
+     * @param bool $showStatus
+     *
+     * @return mixed
+     */
+    public function modifyColumn($tableName, $columnName, $definition, $showStatus = false)
+    {
+        if (!$this->tableColumnExists($tableName, $columnName)) {
+            Mage::throwException('Column "' . $columnName . '" does not exists on table "' . $tableName . '"');
+        }
+
+        $sql = 'ALTER TABLE ' . $this->quoteIdentifier($tableName)
+            . ' MODIFY COLUMN ' . $this->quoteIdentifier($columnName)
+            . ' ' . $definition;
+        $result = $this->raw_query($sql);
+        if ($showStatus) {
+            $this->showTableStatus($tableName);
+        }
+        return $result;
+    }
+
+    /**
+     * Show table status
+     *
+     * @param string $tableName
+     * @return array
+     */
+    public function showTableStatus($tableName)
+    {
+        $sql = $this->quoteInto('SHOW TABLE STATUS LIKE ?', $tableName);
+        return $this->raw_fetchRow($sql);
     }
 
     public function getKeyList($tableName)
