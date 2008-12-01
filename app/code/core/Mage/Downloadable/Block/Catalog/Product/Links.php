@@ -31,20 +31,32 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
+class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Core_Block_Template
 {
-	/**
-     * Return true if product has options
-     *
-     * @return bool
-     */
-    public function hasOptions()
+    public function getLinks()
+    {
+        return array(
+            '1' => new Varien_Object(array(
+                'label' => 'Link1',
+                'url'	=> $this->getUrl('*/*/*', array('link'=>1))
+            )),
+            '2' => new Varien_Object(array(
+                'label' => 'Link2',
+                'url'   => $this->getUrl('*/*/*', array('link'=>2))
+            )),
+            '3' => new Varien_Object(array(
+                'label' => 'Link3',
+                'url'   => $this->getUrl('*/*/*', array('link'=>3))
+            )),
+            '4' => new Varien_Object(array(
+                'label' => 'Link4',
+                'url'   => $this->getUrl('*/*/*', array('link'=>4))
+            ))
+        );
+    }
+
+    public function getIsAllowSeparateLinks()
     {
         return true;
-
-        if ($this->getProduct()->getHasOptions()) {
-            return true;
-        }
-        return false;
     }
 }

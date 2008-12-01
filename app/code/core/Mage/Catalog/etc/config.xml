@@ -236,6 +236,11 @@
                         <label>Virtual Product</label>
                         <model>catalog/product_type_virtual</model>
                     </virtual>
+                    <downloadable translate="label" module="catalog">
+                        <label>Downloadable Product</label>
+                        <model>downloadable/catalog_product_type</model>
+                        <price_model>downloadable/catalog_product_price</price_model>
+                    </downloadable>
                 </type>
                 <design>
                     <options_container>

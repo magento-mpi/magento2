@@ -52,5 +52,13 @@
             <action method="addItemRender"><type>downloadable</type><block>sales/order_item_renderer_default</block><template>downloadable/sales/order/items/renderer.phtml</template></action>
         </reference>
     </sales_order_view>
+    
+    <PRODUCT_TYPE_downloadable>
+        <reference name="product.info">
+            <block type="downloadable/catalog_product_type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
+            	<block type="downloadable/catalog_product_links" name="product.info.links" as="downloadable_links" before="-" template="downloadable/catalog/product/links.phtml"/>
+            </block>
+        </reference>
+    </PRODUCT_TYPE_downloadable>
 
 </layout>

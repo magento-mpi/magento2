@@ -41,6 +41,7 @@ class Mage_Catalog_Model_Product_Type
     const TYPE_CONFIGURABLE = 'configurable';
     const TYPE_GROUPED      = 'grouped';
     const TYPE_VIRTUAL      = 'virtual';
+    const TYPE_DOWNLOADABLE = 'downloadable';
 
     const DEFAULT_TYPE      = 'simple';
     const DEFAULT_TYPE_MODEL    = 'catalog/product_type_simple';
