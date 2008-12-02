@@ -36,10 +36,15 @@
   <?php  else :?>
   <?php echo $this->__('Your order # is: %s', $this->getOrderId()) ?>.<br/>
   <?php endif;?>
-    
+
     <?php echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?><br/>
     <?php if ($this->canPrint()) :?>
     <?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+    <?php endif;?>
+
+    <?php if ($this->issetDownloadableProduct() && $this->canPrint()) :?>
+    <br/>
+    <?php echo $this->__('Go to <a href="%s">%s</a>',Mage::getUrl('downloadable/customer/products'),'My Downloadable Products'); ?>
     <?php endif;?>
 </p>
 <div class="button-set">

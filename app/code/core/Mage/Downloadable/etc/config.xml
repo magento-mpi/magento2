@@ -94,6 +94,25 @@
                 </Mage_Downloadable>
             </modules>
         </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <downloadable>
+                                            <title>Downloadabble product Section</title>
+                                        </downloadable>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
         <layout>
             <updates>
                 <downloadable>
@@ -134,6 +153,17 @@
                 </downloadable>
             </updates>
         </layout>
+        <events>
+            <checkout_type_onepage_save_order_after>
+                <observers>
+                    <controller_action_predispatch>
+                        <type>singleton</type>
+                        <class>downloadable/observer</class>
+                        <method>issetDownloadableProduct</method>
+                    </controller_action_predispatch>
+                </observers>
+            </checkout_type_onepage_save_order_after>
+        </events>
     </frontend>
     <admin>
         <routers>

@@ -33,5 +33,15 @@
  */
 class Mage_Downloadable_Model_Observer
 {
+    public function issetDownloadableProduct($object)
+    {
+        $quote = $object->getEvent()->getQuote();
+        foreach ($quote->getItemsCollection() as $_item) {
+            if ($_item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+                 Mage::getSingleton('customer/session')->setIssetDownloadabbleProduct(true);
+                 break;
+             }
+         }
+    }
 
 }
