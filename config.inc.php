@@ -117,6 +117,12 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/directory/',
         'app/design/frontend/default/default/layout/directory.xml',
     ),
+    'Mage_Downloadable' => array(
+        'app/code/core/Mage/Downloadable/',
+        'app/design/frontend/default/default/template/downloadable/',
+        'app/design/frontend/default/default/layout/downloadable.xml',
+        'app/design/adminhtml/default/default/template/downloadable/',
+    ),
     'Mage_Eav' => array(
         'app/code/core/Mage/Eav/',
     ),
@@ -303,6 +309,7 @@ $CONFIG['helpers']  = array(
     'cybersource'       => 'Mage_Cybersource',
     'dataflow'          => 'Mage_Dataflow',
     'directory'         => 'Mage_Directory',
+    'downloadable'      => 'Mage_Downloadable',
     'eav'               => 'Mage_Eav',
     'eway'              => 'Mage_Eway',
     'flo2cash'          => 'Mage_Flo2Cash',
