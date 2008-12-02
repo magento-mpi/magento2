@@ -18,16 +18,18 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Downloadable
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Downloadable
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 $installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
 $installer->startSetup();
 
+// make attribute 'weight' not applicable to downloadable products
 $applyTo = split(',', $installer->getAttribute('catalog_product', 'weight', 'apply_to'));
 if (in_array('downloadable', $applyTo)) {
     $newApplyTo = array();
@@ -38,6 +40,8 @@ if (in_array('downloadable', $applyTo)) {
     }
     $installer->updateAttribute('catalog_product', 'weight', 'apply_to', join(',', $newApplyTo));
 }
+
+// remove 'weight' values for downloadable products if there were any created
 $attributeId = $installer->getAttributeId('catalog_product', 'weight');
 $installer->run("
     DELETE FROM {$installer->getTable('catalog/product_entity_decimal')}
