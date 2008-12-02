@@ -34,7 +34,7 @@
 class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Action
 {
 
-    public function indexAction()
+    public function productsAction()
     {
         $this->loadLayout();
         $this->renderLayout();

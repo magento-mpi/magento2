@@ -19,21 +19,23 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Mage_Downloadable
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    design_default
+ * @package     Mage_Downloadable
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
 -->
 <layout version="0.1.0">
-    <downloadable_customer_index>
+    <downloadable_customer_products>
         <update handle="customer_account"/>
         <reference name="content">
-            <block type="downloadable/customer_order_list" name="customer_order_list" template="downloadable/customer/order/list.phtml">
-            </block>
+            <block type="downloadable/customer_products_list" name="downloadable_customer_products_list" template="downloadable/customer/products/list.phtml" />
         </reference>
-    </downloadable_customer_index>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="downloadable"><title>My Downloadable Products</title></action>
+        </reference>
+    </downloadable_customer_products>
 
     <checkout_cart_index>
         <reference name="checkout.cart">
@@ -47,12 +49,19 @@
         </reference>
     </checkout_onepage_review>
 
+    <customer_account>
+        <!-- Mage_Downloadable -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="downloadable"><name>downloadable_products</name><path>downloadable/customer/products</path><label>My Downloadable Products</label></action>
+        </reference>
+    </customer_account>
+
     <sales_order_view>
         <reference name="order_items">
             <action method="addItemRender"><type>downloadable</type><block>sales/order_item_renderer_default</block><template>downloadable/sales/order/items/renderer.phtml</template></action>
         </reference>
     </sales_order_view>
-    
+
     <PRODUCT_TYPE_downloadable>
         <reference name="product.info">
             <block type="downloadable/catalog_product_type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
