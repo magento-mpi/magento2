@@ -32,18 +32,22 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
-<?php $_links = $this->getLinks() ?>
+<?php $_links = $this->getOptions() ?>
 <?php $_allowSeparateLinks = $this->getIsAllowSeparateLinks() ?>
-<?php if (count($_links)): ?>
+
+<?php if ($_product->isSaleable() && count($_links)):?>
     <dl class="item-options">
         <dt>Links</dt>
-    <?php foreach ($_links as $link): ?>
-            <dd>
-                <a href="<?php echo $link->getUrl() ?>"><?php echo $link->getLabel() ?></a>
-                <?php if ($_allowSeparateLinks):?>
-                <input type="checkbox" value="<?php echo $this->getId() ?>" <?php if ($link->getIsChecked()):?>checked="checked"<?php endif; ?>>
-                <?php endif; ?>
-            </dd>
+    <?php foreach($_links as $_link): ?>
+        <dd<?php if ($_link->decoratedIsLast){?> class="last"<?php }?>>
+            <a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a>
+            <?php if ($_allowSeparateLinks):?>
+            <input type="checkbox" value="<?php echo $_link->getId() ?>" <?php if ($_link->getIsChecked()):?>checked="checked"<?php endif; ?>>
+            <?php endif; ?>
+        </dd>
     <?php endforeach; ?>
     </dl>
-<?php endif; ?>
+    <script type="text/javascript">
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+    </script>
+<?php endif;?>

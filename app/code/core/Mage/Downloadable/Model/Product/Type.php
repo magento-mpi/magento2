@@ -35,11 +35,11 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
 {
 
     /**
-     * Get downloadable product links
+     * Get downloadable product options
      *
      * @return array
      */
-    public function getLinks()
+    public function getOptions()
     {
         return array(
             '1' => new Varien_Object(array(
@@ -59,5 +59,42 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 'url'   => Mage::getUrl('*/*/*', array('link'=>4))
             ))
         );
+    }
+
+    public function hasOptions()
+    {
+        return count($this->getOptions())>0;
+    }
+
+    /**
+     * Get downloadable product links
+     *
+     * @return array
+     */
+    public function getSamples()
+    {
+        return array(
+            '1' => new Varien_Object(array(
+                'label' => 'Sample1',
+                'url'   => Mage::getUrl('*/*/*', array('sample'=>1))
+            )),
+            '2' => new Varien_Object(array(
+                'label' => 'Sample2',
+                'url'   => Mage::getUrl('*/*/*', array('sample'=>2))
+            )),
+            '3' => new Varien_Object(array(
+                'label' => 'Sample3',
+                'url'   => Mage::getUrl('*/*/*', array('sample'=>3))
+            )),
+            '4' => new Varien_Object(array(
+                'label' => 'Sample4',
+                'url'   => Mage::getUrl('*/*/*', array('sample'=>4))
+            ))
+        );
+    }
+
+    public function hasSamples()
+    {
+        return count($this->getSamples())>0;
     }
 }

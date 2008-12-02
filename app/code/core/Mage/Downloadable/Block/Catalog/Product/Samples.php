@@ -25,37 +25,27 @@
  */
 
 /**
- * Downloadable Product Links part block
+ * Downloadable Product Samples part block
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_Product_Abstract
+class Mage_Downloadable_Block_Catalog_Product_Samples extends Mage_Catalog_Block_Product_Abstract
 {
 
-    public function hasOptions()
+    public function hasSamples()
     {
-        return count($this->getOptions())>0;
+        return count($this->getSamples())>0;
     }
 
     /**
-     * Get downloadable product options
+     * Get downloadable product samples
      *
      * @return array
      */
-    public function getOptions()
+    public function getSamples()
     {
-        return $this->getProduct()->getTypeInstance()->getOptions();
-    }
-
-    /**
-     * Return true if current downloadable product has "allow separated buying" status
-     *
-     * @return array
-     */
-    public function getIsAllowSeparateLinks()
-    {
-        return true;
+        return $this->getProduct()->getTypeInstance()->getSamples();
     }
 }

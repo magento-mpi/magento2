@@ -56,8 +56,11 @@
     <PRODUCT_TYPE_downloadable>
         <reference name="product.info">
             <block type="downloadable/catalog_product_type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
-            	<block type="downloadable/catalog_product_links" name="product.info.links" as="downloadable_links" before="-" template="downloadable/catalog/product/links.phtml"/>
+                <block type="downloadable/catalog_product_samples" name="product.info.downloadable.samples" as="samples" template="downloadable/catalog/product/samples.phtml"/>
             </block>
+        </reference>
+        <reference name="product.info.options.wrapper">
+            <block type="downloadable/catalog_product_links" name="product.info.options.downloadable" as="options_downloadable" before="-" template="downloadable/catalog/product/links.phtml"/>
         </reference>
     </PRODUCT_TYPE_downloadable>
 
