@@ -282,8 +282,12 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             );
             $this->_getSession()->addSuccess($this->__('Captcha confirmed successfully'));
 
+        } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+            $this->_getSession()->addError($this->__('Captcha confirmation error: %s', $e->getMessage()));
+            $this->_redirectToCaptcha($e);
+            return;
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Captcha challenge error: %s', $e->getMessage()));
+            $this->_getSession()->addError($this->__('Captcha confirmation error: %s', $e->getMessage()));
         }
 
         $this->_redirect('*/*/index', array('store'=>$storeId));
