@@ -4,10 +4,10 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
+ * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,18 +18,30 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design_default
+ * @category    Mage
  * @package     Mage_Downloadable
  * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<?php
+
 /**
- * @see Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples
+ * Downloadable link model
+ *
+ * @category    Mage
+ * @package     Mage_Downloadable
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-?>
-<?php $_product = $this->getProduct() ?>
-<fieldset>
-    &nbsp;
-</fieldset>
+class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
+{
+
+    /**
+     * Enter description here...
+     *
+     */
+    protected function _construct()
+    {
+        $this->_init('downloadable/link');
+        parent::_construct();
+    }
+
+}

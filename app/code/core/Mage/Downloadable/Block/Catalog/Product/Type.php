@@ -144,4 +144,5 @@ class Mage_Downloadable_Block_Catalog_Product_Type extends Mage_Catalog_Block_Pr
 
         return $price;
     }
+
 }

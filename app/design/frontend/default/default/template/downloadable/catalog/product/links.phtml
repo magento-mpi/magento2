@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Mage
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    design_default
+ * @package     Mage
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
 
@@ -31,21 +31,32 @@
  * @see Mage_Downloadable_Block_Catalog_Product_Links
  */
 ?>
-<?php $_product = $this->getProduct() ?>
-<?php $_links = $this->getOptions() ?>
-<?php $_allowSeparateLinks = $this->getIsAllowSeparateLinks() ?>
+<?php $_linksPurchasedSeparately = $this->getLinksPurchasedSeparately() ?>
+<?php if ($this->getProduct()->isSaleable() && $_linksPurchasedSeparately && $this->hasLinks()):?>
+    <dl>
+        <?php $_links = $this->getLinks(); ?>
+        <?php $_isRequired = $this->getLinkSelectionRequired(); ?>
+        <dt><label><?php echo $this->__('Links') ?><?php if ($_isRequired): ?><span class="required">&nbsp;*</span><?php endif; ?></label></dt>
+        <dd<?php /* if ($_option->decoratedIsLast){?> class="last"<?php } */ ?>>
+            <ul id="downloadable-links-list" class="options-list">
+            <?php foreach ($_links as $_link): ?>
+                <li>
+                    <input type="checkbox" class="checkbox<?php if($this->getLinkSelectionRequired()):?> validate-one-required-by-name<?php endif; ?> product-custom-option" onclick="opConfig.reloadPrice()" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $_link->getId() ?>" />
+                    <span class="label"><label for="links_<?php echo $_link->getId() ?>"><?php echo $_link->getTitle() ?> <?php echo $this->_formatPrice(array('is_percent' => false, 'pricing_value' => $_link->getPrice(true))); ?></label></span>
+                    <?php if ($_isRequired): ?>
+                        <script type="text/javascript">
+                            $('links_<?php echo $_link->getId() ?>').advaiceContainer = 'links-<?php echo $_link->getId() ?>-container';
+                            $('links_<?php echo $_link->getId() ?>').callbackFunction = 'validateOptionsCallback';
+                        </script>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
 
-<?php if ($_product->isSaleable() && count($_links)):?>
-    <dl class="item-options">
-        <dt>Links</dt>
-    <?php foreach($_links as $_link): ?>
-        <dd<?php if ($_link->decoratedIsLast){?> class="last"<?php }?>>
-            <a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a>
-            <?php if ($_allowSeparateLinks):?>
-            <input type="checkbox" value="<?php echo $_link->getId() ?>" <?php if ($_link->getIsChecked()):?>checked="checked"<?php endif; ?>>
-            <?php endif; ?>
+            <?php if ($_isRequired): ?>
+                <span id="options-<?php echo $_option->getId() ?>-container"></span>
+            <?php endif;?>
         </dd>
-    <?php endforeach; ?>
     </dl>
     <script type="text/javascript">
         var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);

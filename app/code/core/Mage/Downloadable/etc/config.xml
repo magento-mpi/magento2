@@ -35,12 +35,26 @@
         <models>
             <downloadable>
                 <class>Mage_Downloadable_Model</class>
-                <resourceModel>Downloadable_mysql4</resourceModel>
+                <resourceModel>downloadable_mysql4</resourceModel>
             </downloadable>
-
             <downloadable_mysql4>
                 <class>Mage_Downloadable_Model_Mysql4</class>
                 <entities>
+                    <link>
+                        <table>downloadable_link</table>
+                    </link>
+                    <link_title>
+                        <table>downloadable_link_title</table>
+                    </link_title>
+                    <link_price>
+                        <table>downloadable_link_price</table>
+                    </link_price>
+                    <sample>
+                        <table>downloadable_sample</table>
+                    </sample>
+                    <sample_title>
+                        <table>downloadable_sample_title</table>
+                    </sample_title>
                 </entities>
             </downloadable_mysql4>
         </models>

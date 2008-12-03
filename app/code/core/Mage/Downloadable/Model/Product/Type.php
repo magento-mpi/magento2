@@ -18,14 +18,14 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Downloadable
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Downloadable
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Downloadable Type Model
+ * Downloadable product type model
  *
  * @category    Mage
  * @package     Mage_Downloadable
@@ -33,13 +33,15 @@
  */
 class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
 {
+
     const TYPE_DOWNLOADABLE = 'downloadable';
+
     /**
-     * Get downloadable product options
+     * Get downloadable product links
      *
      * @return array
      */
-    public function getOptions()
+    public function getLinks()
     {
         return array(
             '1' => new Varien_Object(array(
@@ -61,13 +63,38 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         );
     }
 
-    public function hasOptions()
+    /**
+     * Check if product has links
+     *
+     * @return boolean
+     */
+    public function hasLinks()
     {
-        return count($this->getOptions())>0;
+        return count($this->getLinks()) > 0;
     }
 
     /**
-     * Get downloadable product links
+     * Check if product has options
+     *
+     * @return boolean
+     */
+    public function hasOptions()
+    {
+        return $this->getProduct()->getLinksPurchasedSeparately() || parent::hasOptions();
+    }
+
+    /**
+     * Check if product cannot be purchased with no links selected
+     *
+     * @return boolean
+     */
+    public function getLinkSelectionRequired()
+    {
+        return $this->getProduct()->getLinksPurchasedSeparately() && (0 == $this->getProduct()->getPrice());
+    }
+
+    /**
+     * Get downloadable product samples
      *
      * @return array
      */
@@ -93,8 +120,14 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         );
     }
 
+    /**
+     * Check if product has samples
+     *
+     * @return boolean
+     */
     public function hasSamples()
     {
-        return count($this->getSamples())>0;
+        return count($this->getSamples()) > 0;
     }
+
 }

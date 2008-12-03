@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Downloadable
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Downloadable
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
@@ -34,28 +34,44 @@
 class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_Product_Abstract
 {
 
-    public function hasOptions()
+    /**
+     * Enter description here...
+     *
+     * @return boolean
+     */
+    public function getLinksPurchasedSeparately()
     {
-        return count($this->getOptions())>0;
+        return $this->getProduct()->getLinksPurchasedSeparately();
     }
 
     /**
-     * Get downloadable product options
+     * Enter description here...
      *
-     * @return array
+     * @return boolean
      */
-    public function getOptions()
+    public function getLinkSelectionRequired()
     {
-        return $this->getProduct()->getTypeInstance()->getOptions();
+        return $this->getProduct()->getTypeInstance()->getLinkSelectionRequired();
     }
 
     /**
-     * Return true if current downloadable product has "allow separated buying" status
+     * Enter description here...
+     *
+     * @return boolean
+     */
+    public function hasLinks()
+    {
+        return $this->getProduct()->getTypeInstance()->hasLinks();
+    }
+
+    /**
+     * Enter description here...
      *
      * @return array
      */
-    public function getIsAllowSeparateLinks()
+    public function getLinks()
     {
-        return true;
+        return $this->getProduct()->getTypeInstance()->getLinks();
     }
+
 }

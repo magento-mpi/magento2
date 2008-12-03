@@ -25,33 +25,22 @@
  */
 
 /**
- * Downloadable Product Samples part block
+ * Downloadable samples resource collection
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Catalog_Product_Samples extends Mage_Catalog_Block_Product_Abstract
+class Mage_Downloadable_Model_Mysql4_Sample_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 
     /**
      * Enter description here...
      *
-     * @return boolean
      */
-    public function hasSamples()
+    protected function _construct()
     {
-        return $this->getProduct()->getTypeInstance()->hasSamples();
-    }
-
-    /**
-     * Get downloadable product samples
-     *
-     * @return array
-     */
-    public function getSamples()
-    {
-        return $this->getProduct()->getTypeInstance()->getSamples();
+        $this->_init('downloadable/sample');
     }
 
 }
