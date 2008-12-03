@@ -33,61 +33,108 @@
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable extends Mage_Adminhtml_Block_Widget implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Reference to product objects that is being edited
+     *
+     * @var Mage_Catalog_Model_Product
+     */
     protected $_product = null;
 
+    /**
+     * Class constructor
+     *
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('downloadable/product/edit/downloadable.phtml');
     }
 
+    /**
+     * Get tab URL
+     *
+     * @return string
+     */
     public function getTabUrl()
     {
         return $this->getUrl('downloadable/product_edit/form', array('_current' => true));
     }
 
+    /**
+     * Get tab class
+     *
+     * @return string
+     */
     public function getTabClass()
     {
         return 'ajax';
     }
 
+    /**
+     * Get tab label
+     *
+     * @return string
+     */
     public function getTabLabel()
     {
         return Mage::helper('downloadable')->__('Downloadable Information');
     }
+
+    /**
+     * Get tab title
+     *
+     * @return string
+     */
     public function getTabTitle()
     {
         return Mage::helper('downloadable')->__('Downloadable Information');
     }
+
+    /**
+     * Check if tab can be displayed
+     *
+     * @return boolean
+     */
     public function canShowTab()
     {
         return true;
     }
+
+    /**
+     * Check if tab is hidden
+     *
+     * @return boolean
+     */
     public function isHidden()
     {
         return false;
     }
 
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion')
             ->setId('downloadableInfo');
 
-
         $accordion->addItem('samples', array(
             'title'   => Mage::helper('adminhtml')->__('Samples'),
-            'content' => 'and this probably should not be opened by default', // $this->getLayout()->createBlock('...')->toHtml() . '<br />',
-            'open'    => false
+            'content' => $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable_samples')->toHtml(),
+            'open'    => false,
         ));
 
         $accordion->addItem('links', array(
             'title'   => Mage::helper('adminhtml')->__('Links'),
-            'content' => $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable_links')->toHtml(), // $this->getLayout()->createBlock('...')->toHtml(),
-            'open'    => true
+            'content' => $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable_links')->toHtml(),
+            'open'    => true,
         ));
 
         $this->setChild('accordion', $accordion);
 
         return parent::_toHtml();
     }
+
 }
