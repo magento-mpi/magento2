@@ -33,7 +33,7 @@ $conn = $installer->getConnection();
 $installer->startSetup();
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('downloadable_sample')}` (
+CREATE TABLE `{$installer->getTable('downloadable/sample')}` (
   `sample_id` int(10) unsigned NOT NULL auto_increment,
   `product_id` int(10) unsigned NOT NULL default '0',
   `sample_file` varchar(255) NOT NULL default '',
@@ -44,11 +44,11 @@ CREATE TABLE `{$installer->getTable('downloadable_sample')}` (
 ");
 
 $conn->addConstraint(
-    'FK_DOWNLODABLE_SAMPLE_PRODUCT', $installer->getTable('downloadable_sample'), 'product_id', $installer->getTable('catalog_product_entity'), 'entity_id'
+    'FK_DOWNLODABLE_SAMPLE_PRODUCT', $installer->getTable('downloadable/_sample'), 'product_id', $installer->getTable('catalog/product_entity'), 'entity_id'
 );
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('downloadable_sample_title')}` (
+CREATE TABLE `{$installer->getTable('downloadable/sample_title')}` (
   `title_id` int(10) unsigned NOT NULL auto_increment,
   `sample_id` int(10) unsigned NOT NULL default '0',
   `store_id` smallint(5) unsigned NOT NULL default '0',
@@ -60,14 +60,14 @@ CREATE TABLE `{$installer->getTable('downloadable_sample_title')}` (
 ");
 
 $conn->addConstraint(
-    'FK_DOWNLOADABLE_SAMPLE_TITLE_SAMPLE', $installer->getTable('downloadable_sample_title'), 'sample_id', $installer->getTable('downloadable_sample'), 'sample_id'
+    'FK_DOWNLOADABLE_SAMPLE_TITLE_SAMPLE', $installer->getTable('downloadable/sample_title'), 'sample_id', $installer->getTable('downloadable/sample'), 'sample_id'
 );
 $conn->addConstraint(
-    'FK_DOWNLOADABLE_SAMPLE_TITLE_STORE', $installer->getTable('downloadable_sample_title'), 'store_id', $installer->getTable('core_store'), 'store_id'
+    'FK_DOWNLOADABLE_SAMPLE_TITLE_STORE', $installer->getTable('downloadable/sample_title'), 'store_id', $installer->getTable('core/store'), 'store_id'
 );
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('downloadable_link')}` (
+CREATE TABLE `{$installer->getTable('downloadable/link')}` (
   `link_id` int(10) unsigned NOT NULL auto_increment,
   `product_id` int(10) unsigned NOT NULL default '0',
   `sort_order` int(10) unsigned NOT NULL default '0',
@@ -82,11 +82,11 @@ CREATE TABLE `{$installer->getTable('downloadable_link')}` (
 ");
 
 $conn->addConstraint(
-    'FK_DOWNLODABLE_LINK_PRODUCT', $installer->getTable('downloadable_link'), 'product_id', $installer->getTable('catalog_product_entity'), 'entity_id'
+    'FK_DOWNLODABLE_LINK_PRODUCT', $installer->getTable('downloadable/link'), 'product_id', $installer->getTable('catalog/product'), 'entity_id'
 );
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('downloadable_link_title')}` (
+CREATE TABLE `{$installer->getTable('downloadable/link_title')}` (
   `title_id` int(10) unsigned NOT NULL auto_increment,
   `link_id` int(10) unsigned NOT NULL default '0',
   `store_id` smallint(5) unsigned NOT NULL default '0',
@@ -98,14 +98,14 @@ CREATE TABLE `{$installer->getTable('downloadable_link_title')}` (
 ");
 
 $conn->addConstraint(
-    'FK_DOWNLOADABLE_LINK_TITLE_LINK', $installer->getTable('downloadable_link_title'), 'link_id', $installer->getTable('downloadable_link'), 'link_id'
+    'FK_DOWNLOADABLE_LINK_TITLE_LINK', $installer->getTable('downloadable/link_title'), 'link_id', $installer->getTable('downloadable/link'), 'link_id'
 );
 $conn->addConstraint(
-    'FK_DOWNLOADABLE_LINK_TITLE_STORE', $installer->getTable('downloadable_link_title'), 'store_id', $installer->getTable('core_store'), 'store_id'
+    'FK_DOWNLOADABLE_LINK_TITLE_STORE', $installer->getTable('downloadable/link_title'), 'store_id', $installer->getTable('core/store'), 'store_id'
 );
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('downloadable_link_price')}` (
+CREATE TABLE `{$installer->getTable('downloadable/link_price')}` (
   `price_id` int(10) unsigned NOT NULL auto_increment,
   `link_id` int(10) unsigned NOT NULL default '0',
   `website_id` smallint(5) unsigned NOT NULL default '0',
@@ -117,10 +117,10 @@ CREATE TABLE `{$installer->getTable('downloadable_link_price')}` (
 ");
 
 $conn->addConstraint(
-    'FK_DOWNLOADABLE_LINK_PRICE_LINK', $installer->getTable('downloadable_link_price'), 'link_id', $installer->getTable('downloadable_link'), 'link_id'
+    'FK_DOWNLOADABLE_LINK_PRICE_LINK', $installer->getTable('downloadable/link_price'), 'link_id', $installer->getTable('downloadable/link'), 'link_id'
 );
 $conn->addConstraint(
-    'FK_DOWNLOADABLE_LINK_PRICE_WEBSITE', $installer->getTable('downloadable_link_price'), 'website_id', $installer->getTable('core_website'), 'website_id'
+    'FK_DOWNLOADABLE_LINK_PRICE_WEBSITE', $installer->getTable('downloadable/link_price'), 'website_id', $installer->getTable('core/website'), 'website_id'
 );
 
 $installer->endSetup();

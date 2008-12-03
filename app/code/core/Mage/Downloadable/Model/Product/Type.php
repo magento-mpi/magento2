@@ -130,4 +130,33 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         return count($this->getSamples()) > 0;
     }
 
+    public function save()
+    {
+        parent::save();
+
+        $product = $this->getProduct();
+
+        if ($data = $product->getDownloadableData()) {
+
+            foreach ($data['sample'] as $sampleItem) {
+                $sampleModel = Mage::getModel('downloadable/sample')
+                    ->setData($sampleItem)
+                    ->setProductId($product->getId())
+                    ->setStoreId($product->getStoreId());
+                $sampleModel->save();
+            }
+
+            foreach ($data['link'] as $linkItem) {
+                $linkModel = Mage::getModel('downloadable/link')
+                    ->setData($linkItem)
+                    ->setProductId($product->getId())
+                    ->setStoreId($product->getStoreId())
+                    ->setWebsiteId($product->getStore()->getWebsiteId());
+                $linkModel->save();
+            }
+        }
+
+        return $this;
+    }
+
 }

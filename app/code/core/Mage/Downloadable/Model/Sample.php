@@ -44,4 +44,10 @@ class Mage_Downloadable_Model_Sample extends Mage_Core_Model_Abstract
         parent::_construct();
     }
 
+    protected function _afterSave()
+    {
+        $this->getResource()->saveItemTitle($this);
+        return parent::_afterSave();
+    }
+
 }

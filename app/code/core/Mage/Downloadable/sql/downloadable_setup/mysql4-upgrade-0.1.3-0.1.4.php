@@ -24,30 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Downloadable link model
- *
- * @category    Mage
- * @package     Mage_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
-{
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
-    /**
-     * Enter description here...
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('downloadable/link');
-        parent::_construct();
-    }
+$installer->startSetup();
 
-    protected function _afterSave()
-    {
-        $this->getResource()->saveItemTitleAndPrice($this);
-        return parent::_afterSave();
-    }
+$installer->getConnection()->addColumn($installer->getTable('downloadable/sample'), 'sample_url', "varchar(255) NOT NULL default '' AFTER `product_id`");
 
-}
+$installer->endSetup();

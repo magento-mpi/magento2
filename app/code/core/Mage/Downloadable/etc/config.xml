@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Downloadable>
-            <version>0.1.3</version>
+            <version>0.1.4</version>
         </Mage_Downloadable>
     </modules>
     <global>
@@ -134,12 +134,17 @@
                 </downloadable>
             </updates>
         </layout>
-
-<!--
         <events>
+            <catalog_product_prepare_save>
+                <observers>
+                    <downloadable_observer>
+                        <type>singleton</type>
+                        <class>downloadable/observer</class>
+                        <method>prepareProductSave</method>
+                    </downloadable_observer>
+                </observers>
+            </catalog_product_prepare_save>
         </events>
--->
-
     </adminhtml>
     <frontend>
         <routers>

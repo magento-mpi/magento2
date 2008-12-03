@@ -53,4 +53,15 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         return Mage::registry('current_product');
     }
 
+    public function getAddButtonHtml()
+    {
+        $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setData(array(
+                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'class' => 'add',
+            ));
+
+        return $addButton->toHtml();
+    }
+
 }

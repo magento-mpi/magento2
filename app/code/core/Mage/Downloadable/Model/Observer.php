@@ -33,6 +33,12 @@
  */
 class Mage_Downloadable_Model_Observer
 {
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $object
+     * @return Mage_Downloadable_Model_Observer
+     */
     public function issetDownloadableProduct($object)
     {
         $quote = $object->getEvent()->getQuote();
@@ -42,6 +48,25 @@ class Mage_Downloadable_Model_Observer
                  break;
              }
          }
+         return $this;
     }
 
+
+    /**
+     * Prepare product to save
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Downloadable_Model_Observer
+     */
+    public function prepareProductSave($observer)
+    {
+        $request = $observer->getEvent()->getRequest();
+        $product = $observer->getEvent()->getProduct();
+
+        if ($downloadable = $request->getPost('downloadable')) {
+            $product->setDownloadableData($downloadable);
+        }
+
+        return $this;
+    }
 }
