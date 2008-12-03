@@ -74,4 +74,38 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         return $this->getProduct()->getTypeInstance()->getLinks();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Downloadable_Model_Link $link
+     * @return string
+     */
+    public function getFormattedLinkPrice($link)
+    {
+        $price = $link->getPrice();
+
+        if (0 == $price) {
+            return '';
+        }
+
+        $_priceInclTax = Mage::helper('tax')->getPrice($link->getProduct(), $price, true);
+        $_priceExclTax = Mage::helper('tax')->getPrice($link->getProduct(), $price);
+
+        $priceStr = '<span class="price-notice">';
+        if (Mage::helper('tax')->displayPriceIncludingTax()) {
+            $priceStr .= $this->helper('core')->currency($_priceInclTax, true, true);
+        } elseif (Mage::helper('tax')->displayPriceExcludingTax()) {
+            $priceStr .= $this->helper('core')->currency($_priceExclTax, true, true);
+        } elseif (Mage::helper('tax')->displayBothPrices()) {
+            $priceStr .= $this->helper('core')->currency($_priceExclTax, true, true);
+            if ($_priceInclTax != $_priceExclTax) {
+                $priceStr .= ' ('.$sign.$this->helper('core')
+                    ->currency($_priceInclTax, true, $flag).' '.$this->__('Incl. Tax').')';
+            }
+        }
+        $priceStr .= '</span>';
+
+        return $priceStr;
+    }
+
 }
