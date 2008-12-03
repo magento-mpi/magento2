@@ -33,8 +33,6 @@
  */
 class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Abstract
 {
-    protected $_idsAreInitialized;
-
     protected function _construct()
     {
         $this->_init('catalogsearch/fulltext', 'product_id');
@@ -65,18 +63,16 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     {
         $this->cleanIndex($storeId);
 
-        $_allProductIds = $this->_getSearchableProductIds();
-        $_superProductIds = $this->_getSuperProductIds();
-
-        foreach ($_allProductIds as $productId) {
+        $stmt = $this->_getSearchableProductsStatement($storeId);
+        while ($row = $stmt->fetch()) {
 
             $childIds = null;
-            if (in_array($productId, $_superProductIds)) {
-                $childIds = $this->_getProductChildIds($productId);
+            if ($this->_isSuperType($row['type_id'])) {
+                $childIds = $this->_getProductChildIds($row['entity_id'], $row['type_id']);
             }
 
-            $index = $this->_prepareIndexValue($productId, $storeId, $childIds);
-            $this->_saveRowIndexData($productId, $storeId, $index);
+            $index = $this->_prepareIndexValue($row['entity_id'], $storeId, $childIds);
+            $this->_saveRowIndexData($row['entity_id'], $storeId, $index);
         }
 
         return $this;
@@ -200,83 +196,96 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
+     * Retrive all product ids and initialize searchable and super ids
+     *
+     * @param int $storeId Store View Id
+     * @return Zend_Db_Statement
+     */
+    protected function _getSearchableProductsStatement($storeId)
+    {
+        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $visibility = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'visibility');
+        $status = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'status');
+
+        $select = $this->_getReadAdapter()->select();
+        $select->from(
+                array('e' => $this->getTable('catalog/product')),
+                array('entity_id', 'type_id')
+            )
+            ->joinInner(array('visibility' => $visibility->getBackend()->getTable()),
+                'e.entity_id=visibility.entity_id',
+                array()
+            )
+            ->joinInner(array('status' => $status->getBackend()->getTable()),
+                'e.entity_id=status.entity_id',
+                array()
+            )
+            ->where('visibility.attribute_id=?', $visibility->getAttributeId())
+            ->where('visibility.value IN(?)', array(3,4))
+            ->where('visibility.store_id=?', $storeId)
+            ->where('status.attribute_id=?', $status->getAttributeId())
+            ->where('status.value=?', '1')
+            ->where('status.store_id=?', $storeId);
+
+        return $select->query();
+    }
+
+    /**
      * Return all product children ids
      *
      * @param int $productId Product Entity Id
+     * @param string $typeId Super Product Link Type
      * @return array
      */
-    protected function _getProductChildIds($productId)
+    protected function _getProductChildIds($productId, $typeId)
     {
-        return array();
-    }
-
-    /**
-     * Return all searchable product ids
-     *
-     * @return array Product Entity Ids
-     */
-    protected function _getSearchableProductIds()
-    {
-        $this->_initProductIds();
-        return $this->_searchableProductIds;
-    }
-
-    /**
-     * Return all product ids which have children products
-     *
-     * @return array Product Entity Ids
-     */
-    protected function _getSuperProductIds()
-    {
-        $this->_initProductIds();
-        return $this->_superProductIds;
-    }
-
-    /**
-     * Retrive all product ids and initialize searchable and super ids
-     *
-     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
-     */
-    protected function _initProductIds()
-    {
-        if (!$this->_idsAreInitialized) {
-
-            $this->_searchableProductIds = array();
-            $this->_superProductIds = array();
-
-            $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-            $visibility = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'visibility');
-            $status = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'status');
-
-            $select = $this->_getReadAdapter()->select();
-            $select->from(
-                    array('e' => $this->getTable('catalog/product')),
-                    array('entity_id', 'type_id')
-                )
-                ->joinInner(array('visibility' => $visibility->getBackend()->getTable()),
-                    'e.entity_id=visibility.entity_id',
-                    array()
-                )
-                ->joinInner(array('status' => $status->getBackend()->getTable()),
-                    'e.entity_id=status.entity_id',
-                    array()
-                )
-                ->where('visibility.attribute_id=?', $visibility->getAttributeId())
-                ->where('visibility.value IN(?)', array(3,4))
-                ->where('status.attribute_id=?', $status->getAttributeId())
-                ->where('status.value=?', '1');
-
-            $rows = $this->_getReadAdapter()->fetchPairs($select);
-            foreach ($rows as $productId => $typeId) {
-                $this->_searchableProductIds[] = $productId;
-                if ($this->_isSuperType($typeId)) {
-                    $this->_superProductIds[] = $productId;
-                }
-            }
-
-            $this->_idsAreInitialized = true;
+        $where = null;
+        switch ($typeId) {
+            case 'grouped':
+                $table = 'catalog/product_link';
+                $parentId = $productId;
+                $parentFieldName = 'product_id';
+                $childFieldName = 'linked_product_id';
+                $where = 'link_type_id=3';
+                break;
+            case 'configurable':
+                $table = 'catalog/product_super_link';
+                $parentId = $productId;
+                $parentFieldName = 'parent_id';
+                $childFieldName = 'product_id';
+                break;
+            case 'bundle':
+                $table = 'bundle/selection';
+                $parentId = $productId;
+                $parentFieldName = 'parent_product_id';
+                $childFieldName = 'product_id';
+                break;
+            default:
+                return array();
+                break;
         }
-        return $this;
+        return $this->_getLinkedIds($table, $parentId, $parentFieldName, $childFieldName, $where);
+    }
+
+    /**
+     * Retrieve child-linked product ids
+     *
+     * @param string $table Table of links parent-child
+     * @param int $parentId Parent product Id value
+     * @param string $parentFieldName Field name of parent product Id
+     * @param string $childFieldName Field name of linked product Id
+     * @param string $where Additional condition to select query
+     * @return array Linked products ids
+     */
+    public function _getLinkedIds($table, $parentId, $parentFieldName, $childFieldName, $where = null)
+    {
+        $select = $this->_getReadAdapter()->select();
+        $select->from(array('main' => $this->getTable($table)), array($childFieldName))
+            ->where("{$parentFieldName}=?", $parentId);
+        if ($where !== null) {
+            $select->where($where);
+        }
+        return $this->_getReadAdapter()->fetchCol($select);
     }
 
     /**
