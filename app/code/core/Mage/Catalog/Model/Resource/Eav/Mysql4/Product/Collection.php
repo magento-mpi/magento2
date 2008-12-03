@@ -698,13 +698,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function setOrder($attribute, $dir='desc')
     {
         $storeId = Mage::app()->getStore()->getId();
+        $websiteId = Mage::app()->getStore()->getWebsiteId();
+
         if ($attribute == 'price' && $storeId != 0) {
             $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
-
             $priceAttributeId = $this->getAttribute('price')->getId();
 
             $entityCondition = '_price_order_table.entity_id = e.entity_id';
-            $storeCondition = $this->getConnection()->quoteInto('_price_order_table.store_id = ?', $storeId);
+            $storeCondition = $this->getConnection()->quoteInto('_price_order_table.website_id = ?', $websiteId);
             $groupCondition = $this->getConnection()->quoteInto('_price_order_table.customer_group_id = ?', $customerGroup);
             $attributeCondition = $this->getConnection()->quoteInto('_price_order_table.attribute_id = ?', $priceAttributeId);
 

@@ -87,4 +87,24 @@ class Mage_Tax_Model_Observer
             }
         }
     }
+
+    public function joinTaxClassTables(Varien_Event_Observer $observer)
+    {
+        $select = $observer->getEvent()->getSelect();
+        $table = $observer->getEvent()->getTable();
+        $storeId = $observer->getEvent()->getStoreId();
+
+        Mage::helper('tax')->joinTaxClass($select, $storeId, $table);
+    }
+
+    public function assignAdditionalCalculations(Varien_Event_Observer $observer)
+    {
+        $table = $observer->getEvent()->getTable();
+        $response = $observer->getEvent()->getResponseObject();
+
+        $additionalCalculations = $response->getAdditionalCalculations();
+        $additionalCalculations[] = Mage::helper('tax')->getPriceTaxSql($table . '.value', 'IFNULL(tax_class_c.value, tax_class_d.value)');
+
+        $response->setAdditionalCalculations($additionalCalculations);
+    }
 }

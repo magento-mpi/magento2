@@ -413,7 +413,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $store = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
-            $store = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
+            $store = Mage::app()->getStore($wId)->getId();
+            $wId = Mage::app()->getStore($wId)->getWebsiteId();
+            //$store = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
         $storeDate = Mage::app()->getLocale()->storeDate($store);
 

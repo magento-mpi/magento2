@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_CatalogIndex>
-            <version>0.7.7</version>
+            <version>0.7.9</version>
         </Mage_CatalogIndex>
     </modules>
 
@@ -71,6 +71,7 @@
             <catalogindex_setup>
                 <setup>
                     <module>Mage_CatalogIndex</module>
+                    <class>Mage_CatalogIndex_Model_Mysql4_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

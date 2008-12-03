@@ -25,36 +25,15 @@
  */
 
 
-/**
- * Index resource model abstraction
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_CatalogIndex_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_Abstract
-{
-    protected $_storeId = 0;
-    protected $_websiteId = null;
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-    protected function _construct() {
-        return parent::_construct();
-    }
+$installer->startSetup();
 
-    public function setStoreId($storeId)
-    {
-        $this->_storeId = $storeId;
-    }
+$installer->getConnection()->addColumn($installer->getTable('catalogindex_price'), 'website_id', 'smallint(5) unsigned');
+$installer->getConnection()->addColumn($installer->getTable('catalogindex_minimal_price'), 'website_id', 'smallint(5) unsigned');
 
-    public function getStoreId()
-    {
-        return $this->_storeId;
-    }
+$installer->convertStoreToWebsite($installer->getTable('catalogindex_minimal_price'));
+$installer->convertStoreToWebsite($installer->getTable('catalogindex_price'));
 
-    public function getWebsiteId()
-    {
-        if (is_null($this->_websiteId)) {
-            $result = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
-            $this->_websiteId = $result;
-        }
-        return $this->_websiteId;
-    }
-}
+$installer->endSetup();
