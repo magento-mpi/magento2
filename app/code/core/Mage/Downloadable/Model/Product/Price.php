@@ -33,5 +33,25 @@
  */
 class Mage_Downloadable_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Price
 {
+    public function getFinalPrice($qty=null, $product)
+    {
+        if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
+            return $product->getCalculatedFinalPrice();
+        }
 
+        $finalPrice = parent::getFinalPrice($qty, $product);
+        if ($linksIds = $product->getCustomOption('downloadable_link_ids')) {
+            $linkPrice = 0;
+            $links = $product->getTypeInstance()->getLinks();
+            foreach (explode(',', $linksIds->getValue()) as $linkId) {
+                if (isset($links[$linkId])) {
+                    $linkPrice += $links[$linkId]->getPrice();
+                }
+            }
+            $finalPrice += $linkPrice;
+        }
+
+        $product->setData('final_price', $finalPrice);
+        return max(0, $product->getData('final_price'));
+    }
 }

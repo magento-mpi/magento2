@@ -25,38 +25,26 @@
  */
 
 /**
- * Downloadable sample model
+ * Shopping cart downloadable item render block
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Sample extends Mage_Core_Model_Abstract
+class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
 {
-
-    /**
-     * Enter description here...
-     *
-     */
-    protected function _construct()
+    public function getLinks()
     {
-        $this->_init('downloadable/sample');
-        parent::_construct();
-    }
-
-    protected function _afterSave()
-    {
-        $this->getResource()->saveItemTitle($this);
-        return parent::_afterSave();
-    }
-
-    public function getUrl()
-    {
-        if ($this->getSampleUrl()) {
-            return $this->getSampleUrl();
-        } else {
-            return $this->getSampleFile();
+        if ($linkIds = $this->getItem()->getOptionByCode('downloadable_link_ids'))
+        {
+            $productLinks = $this->getProduct()->getTypeInstance()->getLinks();
+            $itemLinks = array();
+            foreach (explode(',', $linkIds->getValue()) as $linkId) {
+                if (isset($productLinks[$linkId])) {
+                    $itemLinks[] = $productLinks[$linkId];
+                }
+            }
         }
+        return $itemLinks;
     }
-
 }

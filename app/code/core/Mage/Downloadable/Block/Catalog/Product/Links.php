@@ -91,7 +91,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         $_priceInclTax = Mage::helper('tax')->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = Mage::helper('tax')->getPrice($link->getProduct(), $price);
 
-        $priceStr = '<span class="price-notice">';
+        $priceStr = '<span class="price-notice">+';
         if (Mage::helper('tax')->displayPriceIncludingTax()) {
             $priceStr .= $this->helper('core')->currency($_priceInclTax, true, true);
         } elseif (Mage::helper('tax')->displayPriceExcludingTax()) {
@@ -99,13 +99,24 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         } elseif (Mage::helper('tax')->displayBothPrices()) {
             $priceStr .= $this->helper('core')->currency($_priceExclTax, true, true);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' ('.$sign.$this->helper('core')
+                $priceStr .= ' (+'.$this->helper('core')
                     ->currency($_priceInclTax, true, $flag).' '.$this->__('Incl. Tax').')';
             }
         }
         $priceStr .= '</span>';
 
         return $priceStr;
+    }
+
+    public function getJsonConfig()
+    {
+        $config = array();
+
+        foreach ($this->getLinks() as $link) {
+            $config[$link->getId()] = Mage::helper('core')->currency($link->getPrice(), false, false);
+        }
+
+        return Zend_Json::encode($config);
     }
 
 }

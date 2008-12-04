@@ -36,6 +36,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
 
     const TYPE_DOWNLOADABLE = 'downloadable';
 
+    protected $_sampleCollection = null;
+    protected $_linkCollection   = null;
+
     /**
      * Get downloadable product links
      *
@@ -43,24 +46,20 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function getLinks()
     {
-        return array(
-            0 => new Varien_Object(array(
-                'title' => 'Link1',
-                'sample_url'   => Mage::getUrl('*/*/*', array('link'=>1))
-            )),
-            1 => new Varien_Object(array(
-                'title' => 'Link2',
-                'sample_url'   => Mage::getUrl('*/*/*', array('link'=>2))
-            )),
-            2 => new Varien_Object(array(
-                'title' => 'Link3',
-                'sample_url'   => Mage::getUrl('*/*/*', array('link'=>3))
-            )),
-            3 => new Varien_Object(array(
-                'title' => 'Link4',
-                'sample_url'   => Mage::getUrl('*/*/*', array('link'=>4))
-            ))
-        );
+        $product = $this->getProduct();
+        if (is_null($product->getDownloadableLinks())) {
+            $_linkCollection = Mage::getModel('downloadable/link')->getCollection()
+                ->addProductToFilter($product->getId())
+                ->addTitleToResult($product->getStoreId())
+                ->addPriceToResult($product->getStore()->getWebsiteId());
+            $linksCollectionById = array();
+            foreach ($_linkCollection as $link) {
+                $link->setProduct($product);
+                $linksCollectionById[$link->getId()] = $link;
+            }
+            $product->setDownloadableLinks($linksCollectionById);
+        }
+        return $product->getDownloadableLinks();
     }
 
     /**
@@ -80,6 +79,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function hasOptions()
     {
+        return true;
         return $this->getProduct()->getLinksPurchasedSeparately() || parent::hasOptions();
     }
 
@@ -90,6 +90,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function getLinkSelectionRequired()
     {
+        return true;
         return $this->getProduct()->getLinksPurchasedSeparately() && (0 == $this->getProduct()->getPrice());
     }
 
@@ -100,24 +101,14 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function getSamples()
     {
-        return array(
-            '1' => new Varien_Object(array(
-                'label' => 'Sample1',
-                'url'   => Mage::getUrl('*/*/*', array('sample'=>1))
-            )),
-            '2' => new Varien_Object(array(
-                'label' => 'Sample2',
-                'url'   => Mage::getUrl('*/*/*', array('sample'=>2))
-            )),
-            '3' => new Varien_Object(array(
-                'label' => 'Sample3',
-                'url'   => Mage::getUrl('*/*/*', array('sample'=>3))
-            )),
-            '4' => new Varien_Object(array(
-                'label' => 'Sample4',
-                'url'   => Mage::getUrl('*/*/*', array('sample'=>4))
-            ))
-        );
+        if (is_null($this->_sampleCollection)) {
+            $product = $this->getProduct();
+            $this->_sampleCollection = Mage::getModel('downloadable/sample')->getCollection()
+                ->addProductToFilter($product->getId())
+                ->addTitleToResult($product->getStoreId());
+        }
+
+        return $this->_sampleCollection;
     }
 
     /**
@@ -157,6 +148,31 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         }
 
         return $this;
+    }
+
+    public function prepareForCart(Varien_Object $buyRequest)
+    {
+        $result = parent::prepareForCart($buyRequest);
+
+        if (is_string($result)) {
+            return $result;
+        }
+        $preparedLinks = array();
+        if ($links = $buyRequest->getLinks()) {
+            foreach ($this->getLinks() as $link) {
+                if (in_array($link->getId(), $links)) {
+                    $preparedLinks[] = $link->getId();
+                }
+            }
+        }
+        if ($preparedLinks) {
+            $this->getProduct()->addCustomOption('downloadable_link_ids', implode(',', $preparedLinks));
+            return $result;
+        }
+        if ($this->getLinkSelectionRequired()) {
+            return Mage::helper('downloadable')->__('Please specify product link(s).');
+        }
+        return $result;
     }
 
 }

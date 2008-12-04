@@ -69,4 +69,5 @@ class Mage_Downloadable_Model_Observer
 
         return $this;
     }
+
 }

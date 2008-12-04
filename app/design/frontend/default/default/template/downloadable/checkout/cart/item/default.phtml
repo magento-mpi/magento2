@@ -54,14 +54,14 @@
 
 
         <!-- downloadable -->
-
+        <?php if ($links = $this->getLinks()): ?>
         <dl class="item-options">
             <dt>Links</dt>
-            <dd>Track #1</dd>
-            <dd>Track #2</dd>
-            <dd>Track #3</dd>
+            <?php foreach ($links as $link): ?>
+                <dd><?php echo $link->getTitle() ?></dd>
+            <?php endforeach; ?>
         </dl>
-
+        <?php endif; ?>
         <!-- EOF downloadable -->
 
         <?php if ($messages = $this->getMessages()): ?>
