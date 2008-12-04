@@ -101,6 +101,9 @@
                     <category_product_index>
                         <table>catalog_category_product_index</table>
                     </category_product_index>
+                    <category_tree>
+                        <table>catalog_category_tree</table>
+                    </category_tree>
                     <compare_item>
                         <table>catalog_compare_item</table>
                     </compare_item>

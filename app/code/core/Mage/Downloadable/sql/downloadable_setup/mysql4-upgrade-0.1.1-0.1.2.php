@@ -44,7 +44,7 @@ CREATE TABLE `{$installer->getTable('downloadable/sample')}` (
 ");
 
 $conn->addConstraint(
-    'FK_DOWNLODABLE_SAMPLE_PRODUCT', $installer->getTable('downloadable/sample'), 'product_id', $installer->getTable('catalog/product_entity'), 'entity_id'
+    'FK_DOWNLODABLE_SAMPLE_PRODUCT', $installer->getTable('downloadable/sample'), 'product_id', $installer->getTable('catalog/product'), 'entity_id'
 );
 
 $installer->run("

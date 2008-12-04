@@ -45,9 +45,9 @@ if (in_array('downloadable', $applyTo)) {
 // remove 'weight' values for downloadable products if there were any created
 $attributeId = $installer->getAttributeId('catalog_product', 'weight');
 $installer->run("
-    DELETE FROM {$installer->getTable('catalog/product_entity_decimal')}
+    DELETE FROM {$installer->getTable('catalog_product_entity_decimal')}
     WHERE (entity_id in (
-        SELECT entity_id FROM {$installer->getTable('catalog/product_entity')} WHERE type_id = 'downloadable'
+        SELECT entity_id FROM {$installer->getTable('catalog/product')} WHERE type_id = 'downloadable'
     )) and attribute_id = {$attributeId}
 ");
 
