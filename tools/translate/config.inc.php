@@ -42,6 +42,10 @@ $CONFIG['translates'] = array(
     'Mage_AdminNotification' => array(
         'app/code/core/Mage/AdminNotification/',
     ),
+    'Mage_Api' => array(
+        'app/code/core/Mage/Api/',
+        'app/design/adminhtml/default/default/template/',
+    ),
     'Mage_Backup' => array(
         'app/code/core/Mage/Backup/',
     ),
@@ -174,10 +178,19 @@ $CONFIG['translates'] = array(
     'Mage_Log' => array(
         'app/code/core/Mage/Log/',
     ),
+    'Mage_Media' => array(
+        'app/code/core/Mage/Media/',
+    ),
     'Mage_Newsletter' => array(
         'app/code/core/Mage/Newsletter/',
         'app/design/frontend/default/default/template/newsletter/',
         'app/design/frontend/default/default/layout/newsletter.xml',
+    ),
+    'Mage_Oscommerce' => array(
+        'app/code/core/Mage/Oscommerce/',
+        'app/design/frontend/default/default/template/oscommerce/',
+        'app/design/frontend/default/default/layout/oscommerce.xml',
+        'app/design/adminhtml/default/default/template/oscommerce/',
     ),
     'Mage_Page' => array(
         'app/code/core/Mage/Page/',
@@ -267,6 +280,9 @@ $CONFIG['translates'] = array(
     'Mage_Sitemap' => array(
         'app/code/core/Mage/Sitemap/',
     ),
+    'Mage_Strikeiron' => array(
+        'app/code/core/Mage/Strikeiron/',
+    ),
     'Mage_Tag' => array(
         'app/code/core/Mage/Tag/',
         'app/design/frontend/default/default/template/tag/',
@@ -292,6 +308,7 @@ $CONFIG['translates'] = array(
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
+    'api'               => 'Mage_Api',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',
     'catalog'           => 'Mage_Catalog',
@@ -343,6 +360,7 @@ $CONFIG['helpers']  = array(
     'sendfriend'        => 'Mage_Sendfriend',
     'shipping'          => 'Mage_Shipping',
     'sitemap'           => 'Mage_Sitemap',
+    'strikeiron'        => 'Mage_Strikeiron',
     'tag'               => 'Mage_Tag',
     'tax'               => 'Mage_Tax',
     'usa'               => 'Mage_Usa',

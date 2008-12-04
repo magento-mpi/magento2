@@ -136,7 +136,7 @@ Something like this is to be added to resolve bug #4890
                             <children>
                                 <config>
                                     <children>
-                                        <google>
+                                        <google translate="title" module="googlecheckout">
                                             <title>Google API</title>
                                         </google>
                                     </children>

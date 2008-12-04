@@ -123,6 +123,21 @@
                 </children>
             </catalog>
         </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <catalog>
+                            <children>
+                                <search translate="title" module="catalogsearch">
+                                    <title>Search</title>
+                                </search>
+                            </children>
+                        </catalog>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
 
     <default>

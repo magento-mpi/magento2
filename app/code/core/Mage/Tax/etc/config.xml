@@ -168,27 +168,27 @@
                     <children>
                         <sales>
                             <children>
-                                <tax>
+                                <tax translate="title" module="tax">
                                     <title>Tax</title>
                                     <sort_order>500</sort_order>
                                     <children>
-                                        <classes_customer>
+                                        <classes_customer translate="title">
                                             <title>Customer Tax Classes</title>
                                             <sort_order>0</sort_order>
                                         </classes_customer>
-                                        <classes_product>
+                                        <classes_product translate="title">
                                             <title>Product Tax Classes</title>
                                             <sort_order>10</sort_order>
                                         </classes_product>
-                                        <import_export>
+                                        <import_export translate="title">
                                             <title>Import / Export Tax Rates</title>
                                             <sort_order>20</sort_order>
                                         </import_export>
-                                        <rates>
+                                        <rates translate="title">
                                             <title>Manage Tax Zones &amp; Rates</title>
                                             <sort_order>30</sort_order>
                                         </rates>
-                                        <rules>
+                                        <rules translate="title">
                                             <title>Manage Tax Rules</title>
                                             <sort_order>40</sort_order>
                                         </rules>
@@ -196,6 +196,18 @@
                                 </tax>
                             </children>
                         </sales>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <tax translate="title">
+                                            <title>Tax Section</title>
+                                            <sort_order>55</sort_order>
+                                        </tax>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
                     </children>
                 </admin>
             </resources>

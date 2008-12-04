@@ -202,8 +202,8 @@ function parseFile($fileName, $basicModuleName)
                 $basicModuleName = $match[1];
             }
         }
-        /** Mage::helper('helper_name')->__ */
-        if (preg_match_all('/Mage\:\:helper\(\\\'([a-z_]+)\\\'\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\2.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
+        /** Mage::helper('helper_name')->__ or $this->helper('helper_name')->__ */
+        if (preg_match_all('/helper\(\\\'([a-z_]+)\\\'\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\2.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match_helper'] ++;
 
