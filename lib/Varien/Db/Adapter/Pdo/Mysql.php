@@ -183,7 +183,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $retry = false;
             $tries = 0;
             try {
-                $result = $this->query($sql);
+                $result = $this->getConnection()->query($sql);
             } catch (PDOException $e) {
                 if ($e->getMessage()=='SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
                     $retry = true;
