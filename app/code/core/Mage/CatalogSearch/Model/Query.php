@@ -76,4 +76,12 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
         }
         return $collection;
     }
+
+    public function loadByQuery($text)
+    {
+        $this->_getResource()->loadByQuery($this,$text);
+        $this->_afterLoad();
+        $this->setOrigData();
+        return $this;
+    }
 }
