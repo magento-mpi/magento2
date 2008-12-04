@@ -42,7 +42,7 @@
             <?php foreach ($_links as $_link): ?>
                 <li>
                     <input type="checkbox" class="checkbox<?php if($this->getLinkSelectionRequired()):?> validate-one-required-by-name<?php endif; ?> product-custom-option" onclick="opConfig.reloadPrice()" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $_link->getId() ?>" />
-                    <span class="label"><label for="links_<?php echo $_link->getId() ?>"><?php echo $_link->getTitle() ?> <?php echo $this->_formatPrice(array('is_percent' => false, 'pricing_value' => $_link->getPrice(true))); ?></label></span>
+                    <span class="label"><label for="links_<?php echo $_link->getId() ?>"><?php echo $_link->getTitle() ?> <?php echo $this->getFormattedLinkPrice($_link); ?></label></span>
                     <?php if ($_isRequired): ?>
                         <script type="text/javascript">
                             $('links_<?php echo $_link->getId() ?>').advaiceContainer = 'links-<?php echo $_link->getId() ?>-container';
