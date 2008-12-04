@@ -270,4 +270,26 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
             ->addTaxPercents()
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
     }
+
+    /**
+     * Retrieve given media attribute label or product name if no label
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $mediaAttributeCode
+     *
+     * @return string
+     */
+    public function getImageLabel($product=null, $mediaAttributeCode='image')
+    {
+        if (is_null($product)) {
+            $product = $this->getProduct();
+        }
+
+        $label = $product->getData($mediaAttributeCode.'_label');
+        if (empty($label)) {
+            $label = $product->getName();
+        }
+
+        return $label;
+    }
 }

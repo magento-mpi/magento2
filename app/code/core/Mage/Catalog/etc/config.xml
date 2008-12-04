@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.53</version>
+            <version>0.7.54</version>
         </Mage_Catalog>
     </modules>
 
@@ -539,6 +539,9 @@
                     <image />
                     <thumbnail />
                     <small_image />
+                    <image_label />
+                    <thumbnail_label />
+                    <small_image_label />
                     <tax_class_id />
                     <status />
                 </attributes>
