@@ -605,6 +605,8 @@ AdminOrder.prototype = {
         if (!params.currency_id) {
             params.currency_id = this.currencyId;
         }
+        if (!params.form_key) {
+            params.form_key = FORM_KEY;
         var data = this.serializeData('order-billing_method');
         if (data) {
             data.each(function(value) {

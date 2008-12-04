@@ -31,6 +31,7 @@
     payment.switchMethod = order.switchPaymentMethod.bind(order);
 </script>
 <form id="edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post">
+    <?php echo $this->getBlockHtml('formkey')?>
     <div id="order-messages">
         <?php echo $this->getChildHtml('messages') ?>
     </div>

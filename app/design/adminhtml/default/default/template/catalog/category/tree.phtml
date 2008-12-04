@@ -112,11 +112,17 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
             if (category_info_tabsJsTabs.activeTab) {
                 var params = {active_tab_id:category_info_tabsJsTabs.activeTab.id};
             }
+            else {
+                var params = {};
+            }
+        }
+        if (!params.form_key) {
+            params.form_key = FORM_KEY;
         }
         var result = new Ajax.Request(
             url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ),
             {
-               parameters:  params || {},
+               parameters:  params,
                method:      'post'
             }
         );
@@ -211,7 +217,7 @@ function reRenderTree(event, switcher)
         // load from cache
         // load from ajax
         new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
-            parameters : {store : newStoreId},
+            parameters : {store: newStoreId, form_key: FROM_KEY},
             method     : 'post',
             onComplete : function(transport) {
                 var response = eval('(' + transport.responseText + ')');
@@ -391,7 +397,7 @@ function addNew(url, isRoot)
 
 function categoryMove(obj)
 {
-    var data = {id: obj.dropNode.id}
+    var data = {id: obj.dropNode.id, form_key: FORM_KEY};
 
     data.point = obj.point;
     switch (obj.point) {

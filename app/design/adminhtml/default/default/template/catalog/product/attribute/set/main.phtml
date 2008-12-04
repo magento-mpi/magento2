@@ -306,6 +306,9 @@
                             return;
                         }
                         editSet.req.attribute_set_name = $('attribute_set_name').value;
+                        if (!editSet.req.form_key) {
+                            editSet.req.form_key = FORM_KEY;
+                        }
                         var req = {data : Ext.util.JSON.encode(editSet.req)};
                         var con = new Ext.lib.Ajax.request('POST', '<?php echo $this->getMoveUrl() ?>', {success:editSet.success,failure:editSet.failure}, req);
                     },

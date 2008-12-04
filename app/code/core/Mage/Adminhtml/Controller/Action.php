@@ -122,6 +122,21 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
         parent::preDispatch();
 
+        if ($this->getRequest()->isPost() && !$this->_validateFormKey()) {
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
+            if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
+                $this->getResponse()->setBody(Zend_Json::encode(array(
+                    'error' => true,
+                    'error_msg' => Mage::helper('adminhtml')->__('Invalid Form Key')
+                )));
+            }
+            else {
+                $this->_redirectReferer();
+            }
+            return $this;
+        }
+
         if ($this->getRequest()->isDispatched()
             && $this->getRequest()->getActionName()!=='denied'
             && !$this->_isAllowed()) {

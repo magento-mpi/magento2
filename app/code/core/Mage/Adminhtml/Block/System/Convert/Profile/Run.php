@@ -172,6 +172,8 @@ function execImportData() {
             id: "updatedFinish"
         })});
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId())) .'", {
+            method: "post",
+            parameters: {form_key: FORM_KEY},
             onComplete: function(transport) {
                 if (transport.responseText.isJSON()) {
                     var response = transport.responseText.evalJSON();
@@ -208,6 +210,9 @@ function sendImportData(data) {
         })});
     }
     countOfStartedProfiles++;
+    if (!data.form_key) {
+        data.form_key = FORM_KEY;
+    }
 
     new Ajax.Request("'.$this->getUrl('*/*/batchRun').'", {
       method: "post",

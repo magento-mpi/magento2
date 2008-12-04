@@ -147,6 +147,12 @@ varienGrid.prototype = {
         }
     },
     reload : function(url){
+        if (!this.reloadParams) {
+            this.reloadParams = {form_key: FORM_KEY};
+        }
+        else {
+            this.reloadParams.form_key = FORM_KEY;
+        }
         url = url || this.url;
         if(this.useAjax){
             new Ajax.Updater(

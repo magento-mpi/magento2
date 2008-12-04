@@ -78,7 +78,7 @@ VarienRulesForm.prototype = {
 	    }
 	    new Ajax.Updater(chooser, chooser.getAttribute('url'), {
             evalScripts: true,
-            parameters: { 'selected[]':this.chooserSelectedItems.keys() },
+            parameters: {'form_key': FORM_KEY, 'selected[]':this.chooserSelectedItems.keys() },
             onSuccess: this._processSuccess.bind(this) && this.showChooserLoaded.bind(this, chooser),
             onFailure: this._processFailure.bind(this)
 	    });
@@ -233,7 +233,7 @@ VarienRulesForm.prototype = {
 
         new Ajax.Updater(new_elem, this.newChildUrl, {
             evalScripts: true,
-            parameters: { type:new_type.replace('/','-'), id:new_id },
+            parameters: {form_key: FORM_KEY, type:new_type.replace('/','-'), id:new_id },
             onComplete: this.onAddNewChildComplete.bind(this, new_elem),
             onSuccess: this._processSuccess.bind(this),
             onFailure: this._processFailure.bind(this)

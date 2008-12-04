@@ -60,6 +60,13 @@
      * Update category content area
      */
     function updateContent(url, params, refreshTree) {
+        if (!params) {
+            params = {};
+        }
+        if (!params.form_key) {
+            params.form_key = FORM_KEY;
+        }
+
        /*if(params.node_name)
        {
            var currentNode = tree.getNodeById(tree.currentNodeId);
@@ -70,7 +77,7 @@
             categoryContainer,
             url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ),
             {
-                parameters:  params || {},
+                parameters:  params,
                 method:      'post',
                 loaderArea:  categoryContainer,
                 onSuccess: function(transport) {
