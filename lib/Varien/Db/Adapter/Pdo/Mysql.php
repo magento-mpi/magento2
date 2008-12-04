@@ -44,7 +44,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      *
      * @var bool
      */
-    protected $_debug               = true;
+    protected $_debug               = false;
+
+    /**
+     * Minimum query duration time to be logged
+     *
+     * @var unknown_type
+     */
+    protected $_logQueryTime        = 0.05;
 
     /**
      * Path to SQL debug data log
@@ -589,6 +596,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $code = '## ' . getmypid() . ' ## ';
         $nl   = "\n";
         $time = sprintf('%.4f', microtime(true) - $this->_debugTimer);
+
+        if ($time < $this->_logQueryTime) {
+            return $this;
+        }
         switch ($type) {
             case self::DEBUG_CONNECT:
                 $code .= 'CONNECT' . $nl;
