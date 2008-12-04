@@ -196,12 +196,43 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         $product = $this->getProduct();
 
-            // try to add custom options
+        // try to add custom options
         $options = $this->_prepareOptionsForCart($buyRequest->getOptions());
         if (is_string($options)) {
             return $options;
         }
         $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
+
+        $superProductConfig = $buyRequest->getSuperProductConfig();
+        if (!empty($superProductConfig['product_id'])
+            && !empty($superProductConfig['product_type'])) {
+            $superProductId = (int) $superProductConfig['product_id'];
+            if ($superProductId) {
+                if (!$superProduct = Mage::registry('used_super_product')) {
+                    $superProduct = Mage::getModel('catalog/product')->load($superProductId);
+                    Mage::register('used_super_product', $superProduct);
+                }
+                if (!$superProduct->getId()) {
+                    return array();
+                }
+                $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds();
+                if (!in_array($product->getId(), $assocProductIds)) {
+                    return Mage::helper('catalog')->__('Product %s has no longer related to grouped product %s', $product->getName(), $superProduct->getName());
+                }
+                $productType = $superProductConfig['product_type'];
+                $product->addCustomOption('product_type', $productType, $superProduct);
+
+                $product->addCustomOption('info_buyRequest',
+                    serialize(array(
+                        'super_product_config' => array(
+                            'product_type'=>$productType,
+                            'product_id'=>$superProduct->getId()
+                        )
+                    ))
+                );
+            }
+        }
+
         if ($options) {
             $optionIds = array_keys($options);
             $product->addCustomOption('option_ids', implode(',', $optionIds));
@@ -328,6 +359,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     );
                 }
             }
+        }
+
+        if ($productTypeConfig = $this->getProduct()->getCustomOption('product_type')) {
+            $optionArr['super_product_config'] = array(
+                'product_code'  => $productTypeConfig->getCode(),
+                'product_type'  => $productTypeConfig->getValue(),
+                'product_id'    => $productTypeConfig->getProductId()
+            );
         }
 
         return $optionArr;
