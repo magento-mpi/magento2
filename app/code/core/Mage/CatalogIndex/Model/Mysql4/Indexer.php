@@ -260,7 +260,11 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $websiteId = null;
         if ($storeIsWebsite) {
             $storeField = 'website_id';
-            $websiteId = $store->getWebsiteId();
+            if ($store instanceof Mage_Core_Model_Store) {
+                $websiteId = $store->getWebsiteId();
+            } else {
+                $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+            }            
         }
 
         $this->_beginInsert($table, array('entity_id', 'attribute_id', 'value', $storeField));
