@@ -36,9 +36,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
 
     const TYPE_DOWNLOADABLE = 'downloadable';
 
-    protected $_sampleCollection = null;
-    protected $_linkCollection   = null;
-
     /**
      * Get downloadable product links
      *
@@ -101,14 +98,15 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function getSamples()
     {
-        if (is_null($this->_sampleCollection)) {
-            $product = $this->getProduct();
-            $this->_sampleCollection = Mage::getModel('downloadable/sample')->getCollection()
+        $product = $this->getProduct();
+        if (is_null($product->getDownloadableSamples())) {
+            $_sampleCollection = Mage::getModel('downloadable/sample')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId());
+            $product->setDownloadableSamples($_sampleCollection);
         }
 
-        return $this->_sampleCollection;
+        return $product->getDownloadableSamples();
     }
 
     /**
