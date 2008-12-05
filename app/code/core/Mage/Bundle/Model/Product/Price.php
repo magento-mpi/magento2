@@ -94,10 +94,13 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
         $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+        $product->setFinalPrice($finalPrice);
+
+        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
+
+        $finalPrice = $product->getData('final_price');
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
 
-        $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
         return max(0, $product->getData('final_price'));
     }
 
