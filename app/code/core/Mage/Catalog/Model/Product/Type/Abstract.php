@@ -201,8 +201,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (is_string($options)) {
             return $options;
         }
-        $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
-
+        // try to found super product configuration
+        // (if product was buying within grouped product)
         $superProductConfig = $buyRequest->getSuperProductConfig();
         if (!empty($superProductConfig['product_id'])
             && !empty($superProductConfig['product_type'])) {
@@ -212,26 +212,23 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     $superProduct = Mage::getModel('catalog/product')->load($superProductId);
                     Mage::register('used_super_product', $superProduct);
                 }
-                if (!$superProduct->getId()) {
-                    return array();
-                }
-                $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds();
-                if (!in_array($product->getId(), $assocProductIds)) {
-                    return Mage::helper('catalog')->__('Product %s has no longer related to grouped product %s', $product->getName(), $superProduct->getName());
-                }
-                $productType = $superProductConfig['product_type'];
-                $product->addCustomOption('product_type', $productType, $superProduct);
+                if ($superProduct->getId()) {
+                    $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds();
+                    if (in_array($product->getId(), $assocProductIds)) {
+                        $productType = $superProductConfig['product_type'];
+                        $product->addCustomOption('product_type', $productType, $superProduct);
 
-                $product->addCustomOption('info_buyRequest',
-                    serialize(array(
-                        'super_product_config' => array(
-                            'product_type'=>$productType,
-                            'product_id'=>$superProduct->getId()
-                        )
-                    ))
-                );
+                        $buyRequest->setData('super_product_config', array(
+                                'product_type'  => $productType,
+                                'product_id'    => $superProduct->getId()
+                            )
+                        );
+                    }
+                }
             }
         }
+
+        $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
 
         if ($options) {
             $optionIds = array_keys($options);
