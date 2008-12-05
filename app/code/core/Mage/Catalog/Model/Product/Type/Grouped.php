@@ -40,6 +40,21 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     protected $_isComposite = true;
 
     /**
+     * Return relation info about used products
+     *
+     * @return Varien_Object Object with information data
+     */
+    public function getRelationInfo()
+    {
+        $info = new Varien_Object();
+        $info->setTable('catalog/product_link')
+            ->setParentFieldName('product_id')
+            ->setChildFieldName('linked_product_id')
+            ->setWhere('link_type_id=' . Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+        return $info;
+    }
+
+    /**
      * Retrieve array of associated products
      *
      * @return array

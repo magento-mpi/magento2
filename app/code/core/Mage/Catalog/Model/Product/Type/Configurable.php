@@ -51,6 +51,20 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     protected $_isComposite = true;
 
     /**
+     * Return relation info about used products
+     *
+     * @return Varien_Object Object with information data
+     */
+    public function getRelationInfo()
+    {
+        $info = new Varien_Object();
+        $info->setTable('catalog/product_super_link')
+            ->setParentFieldName('parent_id')
+            ->setChildFieldName('product_id');
+        return $info;
+    }
+
+    /**
      * Retrieve product type attributes
      *
      * @return array

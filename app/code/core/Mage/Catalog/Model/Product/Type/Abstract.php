@@ -86,6 +86,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
+     * Return relation info about used products for specific type instance
+     *
+     * @return Varien_Object Object with information data
+     */
+    public function getRelationInfo()
+    {
+        return new Varien_Object();
+    }
+
+    /**
      * Get array of product set attributes
      *
      * @return array

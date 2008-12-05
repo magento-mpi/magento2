@@ -47,6 +47,20 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     protected $_optionsCount = null;
 
     /**
+     * Return relation info about used products
+     *
+     * @return Varien_Object Object with information data
+     */
+    public function getRelationInfo()
+    {
+        $info = new Varien_Object();
+        $info->setTable('bundle/selection')
+            ->setParentFieldName('parent_product_id')
+            ->setChildFieldName('product_id');
+        return $info;
+    }
+
+    /**
      * Return product sku based on sku_type attribute
      *
      * @return string
