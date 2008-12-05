@@ -52,7 +52,7 @@
             if (checkbox.checked) {
                 checkBoxes.set(checkbox.value, checkbox.checked);
             } else {
-            	checkBoxes.remove(checkbox.value);
+            	checkBoxes.unset(checkbox.value);
             }
 
             $('in_role_user').value = checkBoxes.toQueryString();
