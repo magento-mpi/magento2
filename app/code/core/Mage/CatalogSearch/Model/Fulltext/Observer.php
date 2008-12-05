@@ -43,7 +43,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getResourceModel('catalogsearch/fulltext')
+        Mage::getModel('catalogsearch/fulltext')
             ->rebuildIndex($product->getStoreId(), $product->getId());
 
         return $this;
@@ -59,7 +59,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getResourceModel('catalogsearch/fulltext')
+        Mage::getModel('catalogsearch/fulltext')
             ->cleanIndex(null, $product->getId());
 
         return $this;

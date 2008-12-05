@@ -71,12 +71,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
 
         $stmt = $this->_getSearchableProductsStatement($storeId, $productId);
         while ($row = $stmt->fetch()) {
-
-            $childIds = null;
-            if ($this->_isSuperType($row['type_id'])) {
-                $childIds = $this->_getProductChildIds($row['entity_id'], $row['type_id']);
-            }
-
+            $childIds = $this->_getProductChildIds($row['entity_id'], $row['type_id']);
             $index = $this->_prepareIndexValue($row['entity_id'], $storeId, $childIds);
             $this->_saveRowIndexData($row['entity_id'], $storeId, $index);
         }
@@ -243,7 +238,10 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     protected function _getSearchableProductsStatement($storeId, $productId = null)
     {
         $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+
         $visibility = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'visibility');
+        $visibilityValues = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
+
         $status = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'status');
 
         $select = $this->_getReadAdapter()->select();
@@ -260,7 +258,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 array()
             )
             ->where('visibility.attribute_id=?', $visibility->getAttributeId())
-            ->where('visibility.value IN(?)', array(3,4))
+            ->where('visibility.value IN(?)', $visibilityValues)
             ->where('visibility.store_id=?', $storeId)
             ->where('status.attribute_id=?', $status->getAttributeId())
             ->where('status.value=?', '1')
@@ -283,32 +281,21 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     protected function _getProductChildIds($productId, $typeId)
     {
-        $where = null;
-        switch ($typeId) {
-            case 'grouped':
-                $table = 'catalog/product_link';
-                $parentId = $productId;
-                $parentFieldName = 'product_id';
-                $childFieldName = 'linked_product_id';
-                $where = 'link_type_id=3';
-                break;
-            case 'configurable':
-                $table = 'catalog/product_super_link';
-                $parentId = $productId;
-                $parentFieldName = 'parent_id';
-                $childFieldName = 'product_id';
-                break;
-            case 'bundle':
-                $table = 'bundle/selection';
-                $parentId = $productId;
-                $parentFieldName = 'parent_product_id';
-                $childFieldName = 'product_id';
-                break;
-            default:
-                return array();
-                break;
+        $productEmulator = new Varien_Object();
+        $productEmulator->setTypeId($typeId);
+        $typeInstance = Mage::getSingleton('catalog/product_type')->factory($productEmulator);
+        /* @var $typeInstance Mage_Catalog_Model_Product_Type_Abstract */
+        if ($typeInstance->isComposite()) {
+            $relation = $typeInstance->getRelationInfo();
+            return $this->_getLinkedIds(
+                $relation->getTable(),
+                $productId,
+                $relation->getParentFieldName(),
+                $relation->getChildFieldName(),
+                $relation->getWhere()
+            );
         }
-        return $this->_getLinkedIds($table, $parentId, $parentFieldName, $childFieldName, $where);
+        return null;
     }
 
     /**
@@ -323,6 +310,9 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     public function _getLinkedIds($table, $parentId, $parentFieldName, $childFieldName, $where = null)
     {
+        if ( !($table && $parentFieldName && $childFieldName) ) {
+            return null;
+        }
         $select = $this->_getReadAdapter()->select();
         $select->from(array('main' => $this->getTable($table)), array($childFieldName))
             ->where("{$parentFieldName}=?", $parentId);
@@ -330,16 +320,5 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $select->where($where);
         }
         return $this->_getReadAdapter()->fetchCol($select);
-    }
-
-    /**
-     * Check product type
-     *
-     * @param string $typeId Product Type Id
-     * @return boolean
-     */
-    protected function _isSuperType($typeId)
-    {
-        return in_array($typeId, array('grouped', 'configurable', 'bundle'));
     }
 }

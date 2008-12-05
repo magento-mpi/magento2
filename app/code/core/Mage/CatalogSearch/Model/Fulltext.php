@@ -37,4 +37,42 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
     {
         $this->_init('catalogsearch/fulltext');
     }
+
+    /**
+     * Regenerate all Stores index
+     *
+     * Examples:
+     * (null, null) => Regenerate index for all stores
+     * (1, null)    => Regenerate index for store Id=1
+     * (1, 2)       => Regenerate index for product Id=2 and its store view Id=1
+     * (null, 2)    => Regenerate index for all store views of product Id=2
+     *
+     * @param int $storeId Store View Id
+     * @param int $productId Product Entity Id
+     * @return Mage_CatalogSearch_Model_Fulltext
+     */
+    public function rebuildIndex($storeId = null, $productId = null)
+    {
+        $this->getResource()->rebuildIndex($storeId, $productId);
+        return $this;
+    }
+
+    /**
+     * Delete index data
+     *
+     * Examples:
+     * (null, null) => Clean index of all stores
+     * (1, null)    => Clean index of store Id=1
+     * (1, 2)       => Clean index of product Id=2 and its store view Id=1
+     * (null, 2)    => Clean index of all store views of product Id=2
+     *
+     * @param int $storeId Store View Id
+     * @param int $productId Product Entity Id
+     * @return Mage_CatalogSearch_Model_Fulltext
+     */
+    public function cleanIndex($storeId = null, $productId = null)
+    {
+        $this->getResource()->cleanIndex($storeId, $productId);
+        return $this;
+    }
 }
