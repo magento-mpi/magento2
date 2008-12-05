@@ -100,10 +100,15 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $this->_productCollection = $this->_getQuery()->getResultCollection()
+
+            $this->_productCollection = Mage::getResourceModel('catalogsearch/fulltext_collection')
+                ->addSearchFilter($this->helper('catalogSearch')->getEscapedQueryText())
                 ->setStore(Mage::app()->getStore())
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addUrlRewrite();
+
+//            $this->_productCollection = $this->_getQuery()->getResultCollection()
+//                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);

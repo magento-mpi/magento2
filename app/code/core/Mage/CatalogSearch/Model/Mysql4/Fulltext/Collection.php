@@ -40,6 +40,12 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
         return $this;
     }
 
+    /**
+     * Retrieve product entity ids using Full-Text Search ordered by relevance
+     *
+     * @param   string $query
+     * @return  array Product Ids
+     */
     protected function _getSearchEntityIds($query)
     {
         $matchCondition = $this->getConnection()->quoteInto('MATCH (`data_index`) AGAINST (?)', $query);
@@ -53,7 +59,4 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
             ->order('relev DESC');
         return $this->getConnection()->fetchCol($select);
     }
-
-
-
 }

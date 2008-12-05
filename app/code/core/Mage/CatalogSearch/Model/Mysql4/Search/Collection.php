@@ -83,6 +83,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
 
     protected function _getSearchEntityIdsSql($query)
     {
+//        logme(mageDebugBacktrace(1,0,1));
         $tables = array();
         $selects = array();
         /**
@@ -129,6 +130,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
         }
         //die(print_r($selects));
         $sql = implode(' UNION ', $selects);
+        logme($sql);
         return $sql;
     }
 
