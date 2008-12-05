@@ -170,11 +170,17 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             return $result;
         }
         $preparedLinks = array();
-        if ($links = $buyRequest->getLinks()) {
-            foreach ($this->getLinks() as $link) {
-                if (in_array($link->getId(), $links)) {
-                    $preparedLinks[] = $link->getId();
+        if ($this->getProduct()->getLinksPurchasedSeparately()) {
+            if ($links = $buyRequest->getLinks()) {
+                foreach ($this->getLinks() as $link) {
+                    if (in_array($link->getId(), $links)) {
+                        $preparedLinks[] = $link->getId();
+                    }
                 }
+            }
+        } else {
+            foreach ($this->getLinks() as $link) {
+                $preparedLinks[] = $link->getId();
             }
         }
         if ($preparedLinks) {
@@ -185,6 +191,22 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             return Mage::helper('downloadable')->__('Please specify product link(s).');
         }
         return $result;
+    }
+
+    public function getOrderOptions()
+    {
+        $options = parent::getOrderOptions();
+        if ($linkIds = $this->getProduct()->getCustomOption('downloadable_link_ids')) {
+            $linkOptions = array();
+            $links = $this->getLinks();
+            foreach (explode(',', $linkIds->getValue()) as $linkId) {
+                if (isset($links[$linkId])) {
+                    $linkOptions[] = $linkId;
+                }
+            }
+            $options = array_merge($options, array('links' => $linkOptions));
+        }
+        return $options;
     }
 
 }

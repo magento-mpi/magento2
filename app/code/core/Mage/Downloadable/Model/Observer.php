@@ -33,25 +33,6 @@
  */
 class Mage_Downloadable_Model_Observer
 {
-
-    /**
-     * Enter description here...
-     *
-     * @param   Varien_Object $object
-     * @return  Mage_Downloadable_Model_Observer
-     */
-    public function issetDownloadableProduct($object)
-    {
-        $quote = $object->getEvent()->getQuote();
-        foreach ($quote->getItemsCollection() as $_item) {
-            if ($_item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
-                 Mage::getSingleton('customer/session')->setIssetDownloadableProduct(true);
-                 break;
-             }
-         }
-         return $this;
-    }
-
     /**
      * Prepare product to save
      *
@@ -65,6 +46,42 @@ class Mage_Downloadable_Model_Observer
 
         if ($downloadable = $request->getPost('downloadable')) {
             $product->setDownloadableData($downloadable);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Downloadable_Model_Observer
+     */
+    public function saveDownloadableOrderItem($observer)
+    {
+        $orderItem = $observer->getEvent()->getItem();
+        $product = Mage::getModel('catalog/product')
+            ->load($orderItem->getProductId());
+        if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            $links = $product->getTypeInstance()->getLinks();
+            if ($linkIds = $orderItem->getProductOptionByCode('links')) {
+                foreach ($linkIds as $linkId) {
+                    if (isset($links[$linkId])) {
+                        $linkPurchased = Mage::getModel('downloadable/link_purchased')
+                            ->setOrderItemId($orderItem->getId())
+                            ->setOrderId($orderItem->getOrder()->getId())
+                            ->setLinkId($links[$linkId]->getId())
+                            ->setLinkTitle($links[$linkId]->getTitle())
+                            ->setLinkUrl($links[$linkId]->getLinkUrl())
+                            ->setLinkFile($links[$linkId]->getLinkFile())
+                            ->setNumberOfDownloadsBought($links[$linkId]->getNumberOfDownloads())
+                            ->setStatus(Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING)
+                            ->setProductName($product->getName())
+                            ->setProductSku($product->getSku())
+                            ->save();
+                    }
+                }
+            }
         }
 
         return $this;

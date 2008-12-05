@@ -24,33 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Shopping cart downloadable item render block
- *
- * @category    Mage
- * @package     Mage_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
-{
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
-    /**
-     * Enter description here...
-     *
-     * @return array
-     */
-    public function getLinks()
-    {
-        $itemLinks = array();
-        if ($linkIds = $this->getItem()->getOptionByCode('downloadable_link_ids')) {
-            $productLinks = $this->getProduct()->getTypeInstance()->getLinks();
-            foreach (explode(',', $linkIds->getValue()) as $linkId) {
-                if (isset($productLinks[$linkId])) {
-                    $itemLinks[] = $productLinks[$linkId];
-                }
-            }
-        }
-        return $itemLinks;
-    }
+$installer->startSetup();
 
-}
+$installer->getConnection()->addColumn($installer->getTable('downloadable/link'), 'link_url', "varchar(255) NOT NULL default '' AFTER `is_shareable`");
+
+$installer->endSetup();

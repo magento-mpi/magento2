@@ -25,32 +25,30 @@
  */
 
 /**
- * Shopping cart downloadable item render block
+ * Downloadable links purchased model
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
+class Mage_Downloadable_Model_Link_Purchased extends Mage_Core_Model_Abstract
 {
+    const LINK_STATUS_PENDING   = 'pending';
+    const LINK_STATUS_AVAILABLE = 'available';
+    const LINK_STATUS_DOWNLOAD  = 'download';
+    const LINK_STATUS_EXPIRED   = 'expired';
+
+    protected $_orderItem = null;
+    protected $_product = null;
 
     /**
      * Enter description here...
      *
-     * @return array
      */
-    public function getLinks()
+    protected function _construct()
     {
-        $itemLinks = array();
-        if ($linkIds = $this->getItem()->getOptionByCode('downloadable_link_ids')) {
-            $productLinks = $this->getProduct()->getTypeInstance()->getLinks();
-            foreach (explode(',', $linkIds->getValue()) as $linkId) {
-                if (isset($productLinks[$linkId])) {
-                    $itemLinks[] = $productLinks[$linkId];
-                }
-            }
-        }
-        return $itemLinks;
+        $this->_init('downloadable/link_purchased');
+        parent::_construct();
     }
 
 }

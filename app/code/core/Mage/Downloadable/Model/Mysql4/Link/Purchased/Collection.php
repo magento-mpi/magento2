@@ -25,32 +25,21 @@
  */
 
 /**
- * Shopping cart downloadable item render block
+ * Downloadable links resource collection
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
+class Mage_Downloadable_Model_Mysql4_Link_Purchased_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 
     /**
      * Enter description here...
      *
-     * @return array
      */
-    public function getLinks()
+    protected function _construct()
     {
-        $itemLinks = array();
-        if ($linkIds = $this->getItem()->getOptionByCode('downloadable_link_ids')) {
-            $productLinks = $this->getProduct()->getTypeInstance()->getLinks();
-            foreach (explode(',', $linkIds->getValue()) as $linkId) {
-                if (isset($productLinks[$linkId])) {
-                    $itemLinks[] = $productLinks[$linkId];
-                }
-            }
-        }
-        return $itemLinks;
+        $this->_init('downloadable/link_purchased');
     }
-
 }
