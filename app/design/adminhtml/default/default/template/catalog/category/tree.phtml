@@ -265,7 +265,7 @@ function _renderNewTree(config, storeParam)
 Ext.onReady(function()
 {
     categoryLoader = new Ext.tree.TreeLoader({
-       dataUrl: '<?php echo $this->getLoadTreeUrl() ?>'
+       dataUrl: '<?php echo $this->getLoadTreeUrl() ?>1'
     });
 
     categoryLoader.createNode = function(config) {
@@ -325,7 +325,7 @@ Ext.onReady(function()
     };
 
     categoryLoader.toArray = function(attributes) {
-        var data = {};
+        var data = {form_key: FORM_KEY};
         for (var key in attributes) {
             var value = attributes[key];
             data[key] = value;
@@ -337,6 +337,7 @@ Ext.onReady(function()
     categoryLoader.on("beforeload", function(treeLoader, node) {
         treeLoader.baseParams.id = node.attributes.id;
         treeLoader.baseParams.store = node.attributes.store;
+        treeLoader.baseParams.form_key = FORM_KEY;
     });
 
     categoryLoader.on("load", function(treeLoader, node, config) {
