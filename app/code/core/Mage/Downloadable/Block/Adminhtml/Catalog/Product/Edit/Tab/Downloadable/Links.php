@@ -33,8 +33,18 @@
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links extends Mage_Adminhtml_Block_Template
 {
+
+    /**
+     * Enter description here...
+     *
+     * @var unknown_type
+     */
     protected $_purchasedSeparatelyAttribute = null;
 
+    /**
+     * Class constructor
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -42,7 +52,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     }
 
     /**
-     * return product model
+     * Get product that is being edited
      *
      * @return Mage_Catalog_Model_Product
      */
@@ -51,18 +61,28 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         return Mage::registry('current_product');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Eav_Model_Entity_Attribute
+     */
     public function getPurchasedSeparatelyAttribute()
     {
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $attribute = Mage::getModel('eav/entity_attribute')
+            $this->_purchasedSeparatelyAttribute = Mage::getModel('eav/entity_attribute')
                 ->loadByCode('catalog_product', $_attributeCode);
         }
 
         return $this->_purchasedSeparatelyAttribute;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getPurchasedSeparatelySelect()
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')

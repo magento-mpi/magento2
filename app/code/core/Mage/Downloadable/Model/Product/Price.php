@@ -33,6 +33,14 @@
  */
 class Mage_Downloadable_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Price
 {
+
+    /**
+     * Enter description here...
+     *
+     * @param integer $qty
+     * @param Mage_Catalog_Model_Product $product
+     * @return float
+     */
     public function getFinalPrice($qty=null, $product)
     {
         if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
@@ -40,18 +48,25 @@ class Mage_Downloadable_Model_Product_Price extends Mage_Catalog_Model_Product_T
         }
 
         $finalPrice = parent::getFinalPrice($qty, $product);
-        if ($linksIds = $product->getCustomOption('downloadable_link_ids')) {
-            $linkPrice = 0;
-            $links = $product->getTypeInstance()->getLinks();
-            foreach (explode(',', $linksIds->getValue()) as $linkId) {
-                if (isset($links[$linkId])) {
-                    $linkPrice += $links[$linkId]->getPrice();
+
+        /**
+         * links prices are added to base product price only if they can be purchased separately
+         */
+        if ($product->getLinksPurchasedSeparately()) {
+            if ($linksIds = $product->getCustomOption('downloadable_link_ids')) {
+                $linkPrice = 0;
+                $links = $product->getTypeInstance()->getLinks();
+                foreach (explode(',', $linksIds->getValue()) as $linkId) {
+                    if (isset($links[$linkId])) {
+                        $linkPrice += $links[$linkId]->getPrice();
+                    }
                 }
+                $finalPrice += $linkPrice;
             }
-            $finalPrice += $linkPrice;
         }
 
         $product->setData('final_price', $finalPrice);
         return max(0, $product->getData('final_price'));
     }
+
 }

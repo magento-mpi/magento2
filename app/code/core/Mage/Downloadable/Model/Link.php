@@ -44,6 +44,11 @@ class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
         parent::_construct();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Downloadable_Model_Link
+     */
     protected function _afterSave()
     {
         $this->getResource()->saveItemTitleAndPrice($this);

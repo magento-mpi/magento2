@@ -25,47 +25,37 @@
  */
 
 /**
- * Adminhtml catalog product downloadable items tab links section
+ * Download controller
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples extends Mage_Adminhtml_Block_Template
+class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Action
 {
 
     /**
-     * Class constructor
+     * Download sample action
+     *
      */
-    public function __construct()
+    public function sampleAction()
     {
-        parent::__construct();
-        $this->setTemplate('downloadable/product/edit/downloadable/samples.phtml');
     }
 
     /**
-     * Get model of the product that is being edited
+     * Download link action
      *
-     * @return Mage_Catalog_Model_Product
      */
-    public function getProduct()
+    public function linkAction()
     {
-        return Mage::registry('current_product');
     }
 
     /**
-     * Enter description here...
+     * Download link's sample action
      *
-     * @return string
      */
-    public function getAddButtonHtml()
+    public function linkSampleAction()
     {
-        $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->setData(array(
-                'label' => Mage::helper('downloadable')->__('Add New Row'),
-                'class' => 'add',
-            ));
-        return $addButton->toHtml();
     }
 
 }

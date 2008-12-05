@@ -44,12 +44,22 @@ class Mage_Downloadable_Model_Sample extends Mage_Core_Model_Abstract
         parent::_construct();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Downloadable_Model_Sample
+     */
     protected function _afterSave()
     {
         $this->getResource()->saveItemTitle($this);
         return parent::_afterSave();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getUrl()
     {
         if ($this->getSampleUrl()) {

@@ -33,10 +33,15 @@
  */
 class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
 {
+
+    /**
+     * Enter description here...
+     *
+     * @return array
+     */
     public function getLinks()
     {
-        if ($linkIds = $this->getItem()->getOptionByCode('downloadable_link_ids'))
-        {
+        if ($linkIds = $this->getItem()->getOptionByCode('downloadable_link_ids')) {
             $productLinks = $this->getProduct()->getTypeInstance()->getLinks();
             $itemLinks = array();
             foreach (explode(',', $linkIds->getValue()) as $linkId) {
@@ -47,4 +52,5 @@ class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_
         }
         return $itemLinks;
     }
+
 }

@@ -33,6 +33,11 @@
  */
 class Mage_Downloadable_Model_Mysql4_Sample extends Mage_Core_Model_Mysql4_Abstract
 {
+
+    /**
+     * Varien class constructor
+     *
+     */
     protected function  _construct()
     {
         $this->_init('downloadable/sample', 'sample_id');
@@ -70,4 +75,5 @@ class Mage_Downloadable_Model_Mysql4_Sample extends Mage_Core_Model_Mysql4_Abstr
         }
         return $this;
     }
+
 }

@@ -24,6 +24,11 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php
+/**
+ * @see Mage_Downloadable_Block_Customer_Products_List
+ */
+?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php $_items = $this->getItems(); ?>
 <div class="page-head">
@@ -45,9 +50,9 @@
         <?php foreach ($_items as $_item): ?>
             <tr>
                 <td><a href="<?php echo $this->getOrderViewUrl($_item) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $_item->getRealOrderId() ?></a></td>
-                <td><?php echo $this->formatDate($_item->getCreatedAt()) ?></td>
-                <td><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $_item->getProductName() ?></a> - <a href="<?php echo $_item->getDownloadUrl() ?>"><?php echo $_item->getLinkTitle() ?></a></td>
-                <td><em><?php echo $_item->getItemStatus() ?></em></td>
+                <td><?php echo $this->formatDate($_item->getOrderDate()) ?></td>
+                <td><?php echo $_item->getProductName() ?> - <a href="<?php echo $_item->getDownloadUrl() ?>"><?php echo $_item->getLinkTitle() ?></a></td>
+                <td><em><?php echo $_item->getLinkStatus() ?></em></td>
                 <td><?php echo $_item->getRemainingDownloads() ?></td>
             </tr>
         <?php endforeach; ?>

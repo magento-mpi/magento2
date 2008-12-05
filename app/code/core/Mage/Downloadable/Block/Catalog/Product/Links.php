@@ -108,6 +108,11 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         return $priceStr;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getJsonConfig()
     {
         $config = array();

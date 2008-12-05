@@ -34,6 +34,24 @@
 class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Action
 {
 
+    /**
+     * Check customer authentication
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!$this->getRequest()->isDispatched()) {
+            return;
+        }
+        if (!$this->_getSession()->authenticate($this)) {
+            $this->setFlag('', 'no-dispatch', true);
+        }
+    }
+
+    /**
+     * Display downloadable links bought by customer
+     *
+     */
     public function productsAction()
     {
         $this->loadLayout();

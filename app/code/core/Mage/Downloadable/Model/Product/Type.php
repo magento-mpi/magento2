@@ -44,6 +44,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     public function getLinks()
     {
         $product = $this->getProduct();
+        /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableLinks())) {
             $_linkCollection = Mage::getModel('downloadable/link')->getCollection()
                 ->addProductToFilter($product->getId())
@@ -51,6 +52,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 ->addPriceToResult($product->getStore()->getWebsiteId());
             $linksCollectionById = array();
             foreach ($_linkCollection as $link) {
+                /* @var Mage_Downloadable_Model_Link $link */
                 $link->setProduct($product);
                 $linksCollectionById[$link->getId()] = $link;
             }
@@ -87,18 +89,18 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function getLinkSelectionRequired()
     {
-        return true;
-        return $this->getProduct()->getLinksPurchasedSeparately() && (0 == $this->getProduct()->getPrice());
+        return $this->getProduct()->getLinksPurchasedSeparately();
     }
 
     /**
      * Get downloadable product samples
      *
-     * @return array
+     * @return Mage_Downloadable_Model_Mysql4_Sample_Collection
      */
     public function getSamples()
     {
         $product = $this->getProduct();
+        /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableSamples())) {
             $_sampleCollection = Mage::getModel('downloadable/sample')->getCollection()
                 ->addProductToFilter($product->getId())
@@ -119,11 +121,17 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         return count($this->getSamples()) > 0;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Downloadable_Model_Product_Type
+     */
     public function save()
     {
         parent::save();
 
         $product = $this->getProduct();
+        /* @var Mage_Catalog_Model_Product $product */
 
         if ($data = $product->getDownloadableData()) {
 
@@ -148,6 +156,12 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Object $buyRequest
+     * @return array|string
+     */
     public function prepareForCart(Varien_Object $buyRequest)
     {
         $result = parent::prepareForCart($buyRequest);

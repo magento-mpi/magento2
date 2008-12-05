@@ -34,6 +34,10 @@
 class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Controller_Action
 {
 
+    /**
+     * Varien class constructor
+     *
+     */
     protected function _construct()
     {
         $this->setUsedModuleName('Mage_Downloadable');

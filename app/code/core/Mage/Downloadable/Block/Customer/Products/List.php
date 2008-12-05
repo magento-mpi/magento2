@@ -25,7 +25,7 @@
  */
 
 /**
- * Sales order history block
+ * Block to display downloadable links bought by customer
  *
  * @category    Mage
  * @package     Mage_Downloadable
@@ -33,10 +33,15 @@
  */
 class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Template
 {
+
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
 
+        // TODO replace this with appropriate collection
         $items = Mage::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
@@ -49,6 +54,11 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         $this->setItems($items);
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Downloadable_Block_Customer_Products_List
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -60,11 +70,21 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         return $this;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getOrderViewUrl($order)
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('customer/account/');

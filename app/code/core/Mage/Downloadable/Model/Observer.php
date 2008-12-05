@@ -33,30 +33,30 @@
  */
 class Mage_Downloadable_Model_Observer
 {
+
     /**
      * Enter description here...
      *
-     * @param Varien_Object $object
-     * @return Mage_Downloadable_Model_Observer
+     * @param   Varien_Object $object
+     * @return  Mage_Downloadable_Model_Observer
      */
     public function issetDownloadableProduct($object)
     {
         $quote = $object->getEvent()->getQuote();
         foreach ($quote->getItemsCollection() as $_item) {
             if ($_item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
-                 Mage::getSingleton('customer/session')->setIssetDownloadabbleProduct(true);
+                 Mage::getSingleton('customer/session')->setIssetDownloadableProduct(true);
                  break;
              }
          }
          return $this;
     }
 
-
     /**
      * Prepare product to save
      *
-     * @param Varien_Object $observer
-     * @return Mage_Downloadable_Model_Observer
+     * @param   Varien_Object $observer
+     * @return  Mage_Downloadable_Model_Observer
      */
     public function prepareProductSave($observer)
     {
