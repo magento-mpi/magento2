@@ -607,6 +607,7 @@ AdminOrder.prototype = {
         }
         if (!params.form_key) {
             params.form_key = FORM_KEY;
+        }
         var data = this.serializeData('order-billing_method');
         if (data) {
             data.each(function(value) {
