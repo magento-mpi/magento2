@@ -66,10 +66,14 @@ class Mage_Tax_Model_Observer
         $taxes = $order->getAppliedTaxes();
         foreach ($taxes as $row) {
             foreach ($row['rates'] as $tax) {
-                if ($row['percent'] == 0 || $tax['percent'] == 0) {
-                    continue;
+                if (is_null($row['percent'])) {
+                    $baseRealAmount = $row['base_amount'];
+                } else {
+                    if ($row['percent'] == 0 || $tax['percent'] == 0) {
+                        continue;
+                    }
+                    $baseRealAmount = $row['base_amount']/$row['percent']*$tax['percent'];
                 }
-                $baseRealAmount = $row['base_amount']/$row['percent']*$tax['percent'];
                 $data = array(
                             'order_id'=>$order->getId(),
                             'code'=>$tax['code'],

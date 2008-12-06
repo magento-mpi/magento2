@@ -103,49 +103,59 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'values'=> $scopes
         ));
 
+        $inputTypes = array(
+            array(
+                'value' => 'text',
+                'label' => Mage::helper('catalog')->__('Text Field')
+            ),
+            array(
+                'value' => 'textarea',
+                'label' => Mage::helper('catalog')->__('Text Area')
+            ),
+            array(
+                'value' => 'date',
+                'label' => Mage::helper('catalog')->__('Date')
+            ),
+            array(
+                'value' => 'boolean',
+                'label' => Mage::helper('catalog')->__('Yes/No')
+            ),
+            array(
+                'value' => 'multiselect',
+                'label' => Mage::helper('catalog')->__('Multiple Select')
+            ),
+            array(
+                'value' => 'select',
+                'label' => Mage::helper('catalog')->__('Dropdown')
+            ),
+            array(
+                'value' => 'price',
+                'label' => Mage::helper('catalog')->__('Price')
+            ),
+            array(
+                'value' => 'gallery',
+                'label' => Mage::helper('catalog')->__('Gallery')
+            ),
+            array(
+                'value' => 'media_image',
+                'label' => Mage::helper('catalog')->__('Media Image')
+            ),
+        );
+
+        $response = new Varien_Object();
+        $response->setTypes(array());
+        Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+
+        foreach ($response->getTypes() as $type) {
+            $inputTypes[] = $type;
+        }
+
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
             'label' => Mage::helper('catalog')->__('Catalog Input Type for Store Owner'),
             'title' => Mage::helper('catalog')->__('Catalog Input Type for Store Owner'),
             'value' => 'text',
-            'values'=>  array(
-                array(
-                    'value' => 'text',
-                    'label' => Mage::helper('catalog')->__('Text Field')
-                ),
-                array(
-                    'value' => 'textarea',
-                    'label' => Mage::helper('catalog')->__('Text Area')
-                ),
-                array(
-                    'value' => 'date',
-                    'label' => Mage::helper('catalog')->__('Date')
-                ),
-                array(
-                    'value' => 'boolean',
-                    'label' => Mage::helper('catalog')->__('Yes/No')
-                ),
-                array(
-                    'value' => 'multiselect',
-                    'label' => Mage::helper('catalog')->__('Multiple Select')
-                ),
-                array(
-                    'value' => 'select',
-                    'label' => Mage::helper('catalog')->__('Dropdown')
-                ),
-                array(
-                    'value' => 'price',
-                    'label' => Mage::helper('catalog')->__('Price')
-                ),
-                array(
-                    'value' => 'gallery',
-                    'label' => Mage::helper('catalog')->__('Gallery')
-                ),
-                array(
-                    'value' => 'media_image',
-                    'label' => Mage::helper('catalog')->__('Media Image')
-                ),
-            )
+            'values'=> $inputTypes
         ));
 
         $fieldset->addField('default_value_text', 'text', array(

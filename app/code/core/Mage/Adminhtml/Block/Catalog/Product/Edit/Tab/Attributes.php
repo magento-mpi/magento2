@@ -95,6 +95,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 }
             }
 
+            Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
+
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
             $this->setForm($form);

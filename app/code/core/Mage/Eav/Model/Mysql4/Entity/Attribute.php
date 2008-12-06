@@ -358,4 +358,21 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
         return $this->_getReadAdapter()->fetchOne($select);
     }
+
+    public function getAttributeCodesByFrontendType($type)
+    {
+        $select = $this->_getReadAdapter()->select();
+        $select
+            ->from($this->getTable('eav/attribute'), 'attribute_code')
+            ->where('frontend_input = ?', $type);
+
+        $result = $this->_getReadAdapter()->fetchCol($select);
+
+        if ($result) {
+            return $result;
+        } else {
+            return array();
+        }
+    }
+
 }

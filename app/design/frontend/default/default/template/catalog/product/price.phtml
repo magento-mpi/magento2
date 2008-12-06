@@ -48,6 +48,26 @@
     <?php $_regularPrice = $this->helper('tax')->getPrice($_product, $_product->getPrice(), $simplePricesTax) ?>
     <?php $_finalPrice = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice()) ?>
     <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice(), true) ?>
+    <?php $_weeeDisplayType = Mage::helper('weee')->getPriceDisplayType(); ?>
+    <?php $weeeAmount = Mage::helper('weee')->getAmount($_product); ?>
+    <?php
+        switch ($_weeeDisplayType) {
+            case 0:
+            case 1:
+            $_oprice = $_price;
+            $_oregularPrice = $_regularPrice;
+            $_ofinalPrice = $_finalPrice;
+            $_ofinalPriceInclTax = $_finalPriceInclTax;
+            $_ominimalPrice = $_minimalPrice;
+
+            $_price += $weeeAmount;
+            $_regularPrice += $weeeAmount;
+            $_finalPrice += $weeeAmount;
+            $_finalPriceInclTax += $weeeAmount;
+            $_minimalPrice += $weeeAmount;
+            break;
+        }
+    ?>
 
     <?php if ($_finalPrice == $_price): ?>
 
@@ -59,9 +79,21 @@
             <span class="price-including-tax">
                 <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_finalPriceInclTax,true,false) ?></span>
+                <?php if ($_weeeDisplayType == 1) { ?>
+                <span class="label"><?php echo Mage::helper('tax')->__('Incl. WEEE Tax:') ?></span>
+                <span class="price" id="weee-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($weeeAmount,true,false) ?></span>
+                <?php } ?>
             </span>
         <?php else: ?>
         <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_price,true,true) ?></span>
+                <?php if ($_weeeDisplayType == 1) { ?>
+                <br />
+                <span class="weee"><small><?php echo Mage::helper('core')->currency($_oprice,true,true); ?> + <?php echo Mage::helper('core')->currency($weeeAmount,true,true); ?> <?php echo $this->__('of WEEE tax'); ?></small></span>
+                <?php } else if ($_weeeDisplayType == 2) { ?>
+                <br />
+                <span class="weee"><small><?php echo $this->__('WEEE tax'); ?>: <?php echo Mage::helper('core')->currency($weeeAmount,true,true); ?></small></span><br />
+                <span class="weee"><small><?php echo $this->__('Incl. WEEE tax'); ?>: <?php echo Mage::helper('core')->currency($_price+$weeeAmount,true,true); ?></small></span>
+                <?php } ?>
         <?php endif; ?>
 
     <?php else: /* if ($_finalPrice == $_price): */ ?>

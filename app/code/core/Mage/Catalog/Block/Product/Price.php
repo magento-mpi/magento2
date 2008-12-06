@@ -78,21 +78,23 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
         if (is_array($prices)) {
             foreach ($prices as $price) {
                 $price['price_qty'] = $price['price_qty']*1;
+
                 if ($product->getPrice() != $product->getFinalPrice()) {
-                    if ($price['price']<$product->getFinalPrice()) {
-                        $price['savePercent'] = ceil(100 - (( 100/$product->getFinalPrice() ) * $price['price'] ));
-                        $price['formated_price'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])));
-                        $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)));
-                        $res[] = $price;
-                    }
+                    $productPrice = $product->getFinalPrice();
+                } else {
+                    $productPrice = $product->getPrice();
                 }
-                else {
-                    if ($price['price']<$product->getPrice()) {
-                        $price['savePercent'] = ceil(100 - (( 100/$product->getPrice() ) * $price['price'] ));
-                        $price['formated_price'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])));
-                        $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)));
-                        $res[] = $price;
-                    }
+
+                if ($price['price']<$productPrice) {
+                    $price['savePercent'] = ceil(100 - (( 100/$productPrice ) * $price['price'] ));
+                    $price['formated_price'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])));
+                    $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)));
+
+
+                    $weeeAmount = Mage::helper('weee')->getAmount($product);
+                    $price['formated_price_incl_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])+$weeeAmount));
+                    $price['formated_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice($weeeAmount));
+                    $res[] = $price;
                 }
             }
         }

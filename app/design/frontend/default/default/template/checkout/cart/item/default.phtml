@@ -25,12 +25,14 @@
  */
 ?>
 <?php $_item = $this->getItem()?>
+<?php $_weeeDisplayType = Mage::helper('weee')->getPriceDisplayType(); ?>
+<?php $weeeAmount = Mage::helper('weee')->getAmount($_item->getProduct()); ?>
+<?php $rowWeeeAmount = Mage::helper('weee')->getAmount($_item->getProduct())*$_item->getQty(); ?>
 <tr>
     <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" /></a></td>
     <td><a href="<?php echo $this->getProductUrl() ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" /></a></td>
     <td class="attributes-col">
         <h4 class="title"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h4>
-
         <!-- item custom options -->
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
@@ -72,7 +74,23 @@
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right">
-        <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
+        <?php if ($_weeeDisplayType == 0) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)+$weeeAmount); ?>
+        <?php } else if ($_weeeDisplayType == 1) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)+$weeeAmount); ?>
+            <br />
+            <span class="weee"><small>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
+            +
+            <?php echo Mage::helper('core')->currency($weeeAmount,true,true); ?> <?php echo $this->__('of WEEE tax'); ?></small></span>
+        <?php } else if ($_weeeDisplayType == 2) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
+            <br />
+            <span class="weee"><small><?php echo $this->__('WEEE tax'); ?>: <?php echo Mage::helper('core')->currency($weeeAmount,true,true); ?></small></span><br />
+            <span class="weee"><small><?php echo $this->__('Incl. WEEE tax'); ?>: <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)+$weeeAmount); ?></small></span>
+        <?php } else if ($_weeeDisplayType == 3) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
+        <?php } ?>
     </td>
     <?php endif; ?>
     <td class="a-center">
@@ -85,7 +103,23 @@
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right">
-        <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
+        <?php if ($_weeeDisplayType == 0) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)+$rowWeeeAmount); ?>
+        <?php } else if ($_weeeDisplayType == 1) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)+$rowWeeeAmount); ?>
+            <br />
+            <span class="weee"><small>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
+            +
+            <?php echo Mage::helper('core')->currency($rowWeeeAmount,true,true); ?> <?php echo $this->__('of WEEE tax'); ?></small></span>
+        <?php } else if ($_weeeDisplayType == 2) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
+            <br />
+            <span class="weee"><small><?php echo $this->__('WEEE tax'); ?>: <?php echo Mage::helper('core')->currency($rowWeeeAmount,true,true); ?></small></span><br />
+            <span class="weee"><small><?php echo $this->__('Incl. WEEE tax'); ?>: <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)+$weeeAmount); ?></small></span>
+        <?php } else if ($_weeeDisplayType == 3) { ?>
+            <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
+        <?php } ?>        
     </td>
     <?php endif; ?>
 </tr>

@@ -32,6 +32,7 @@
 $_product = $this->getProduct();
 $_tierPrices = $this->getTierPrices();
 $_finalPriceInclTax = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice(), true);
+$_weeeDisplayType = Mage::helper('weee')->getPriceDisplayType();
 ?>
 <?php if (count($_tierPrices) > 0): ?>
     <?php if ($this->getInGrouped()): ?>
@@ -53,7 +54,33 @@ $_finalPriceInclTax = $this->helper('tax')->getPrice($_product, $_product->getFi
             <?php if ($this->helper('tax')->displayBothPrices() && $_price['formated_price'] != $_price['formated_price_incl_tax']): ?>
                 <li><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax) each', $_price['price_qty'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
             <?php else: ?>
-                <li><?php echo $this->__('Buy %1$s for %2$s each', $_price['price_qty'], $_price['formated_price']) ?>
+
+                <?php
+                switch ($_weeeDisplayType) {
+                    case 0:
+                        ?>
+                        <li><?php echo $this->__('Buy %1$s for %2$s each', $_price['price_qty'], $_price['formated_price_incl_weee']) ?>
+                        <?php
+                    break;
+                    case 1:
+                        ?>
+                        <li><?php echo $this->__('Buy %1$s for %2$s each (%3$s + %4$s of WEEE tax)', $_price['price_qty'], $_price['formated_price_incl_weee'], $_price['formated_price'], $_price['formated_weee']) ?>
+                        <?php
+                    break;
+
+                    case 2:
+                        ?>
+                        <li><?php echo $this->__('Buy %1$s for %3$s each (WEEE tax: %4$s, incl. WEEE tax: %2$s)', $_price['price_qty'], $_price['formated_price_incl_weee'], $_price['formated_price'], $_price['formated_weee']) ?>
+                        <?php
+                    break;
+
+                    case 3:
+                        ?>
+                        <li><?php echo $this->__('Buy %1$s for %2$s each', $_price['price_qty'], $_price['formated_price']) ?>
+                        <?php
+                    break;
+                }
+                ?>
             <?php endif; ?>
             <?php if(($_product->getPrice() == $_product->getFinalPrice() && $_product->getPrice() > $_price['price'])
             || ($_product->getPrice() != $_product->getFinalPrice() &&  $_product->getFinalPrice() > $_price['price'])): ?>

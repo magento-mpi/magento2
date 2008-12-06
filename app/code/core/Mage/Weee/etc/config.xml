@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Mage
+ * @package    Mage_Weee
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Mage_Weee>
+            <version>0.3</version>
+        </Mage_Weee>
+    </modules>
+
+    <global>
+        <models>
+            <weee>
+                <class>Mage_Weee_Model</class>
+                <resourceModel>weee_mysql4</resourceModel>
+            </weee>
+
+            <weee_mysql4>
+                <class>Mage_Weee_Model_Mysql4</class>
+                <entities>
+                    <tax>
+                        <table>weee_tax</table>
+                    </tax>
+                </entities>
+            </weee_mysql4>
+        </models>
+
+        <resources>
+            <weee_setup>
+                <setup>
+                    <module>Mage_Weee</module>
+                    <class>Mage_Weee_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </weee_setup>
+            <weee_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </weee_write>
+            <weee_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </weee_read>
+        </resources>
+
+        <blocks>
+            <weee><class>Mage_Weee_Block</class></weee>
+        </blocks>
+
+        <events>
+            <adminhtml_catalog_product_edit_prepare_form>
+                <observers>
+                    <weee>
+                        <type>singleton</type>
+                        <class>weee/observer</class>
+                        <method>setWeeeRendererInForm</method>
+                    </weee>
+                </observers>
+            </adminhtml_catalog_product_edit_prepare_form>
+            <adminhtml_catalog_product_form_prepare_excluded_field_list>
+                <observers>
+                    <weee>
+                        <type>singleton</type>
+                        <class>weee/observer</class>
+                        <method>updateExcludedFieldList</method>
+                    </weee>
+                </observers>
+            </adminhtml_catalog_product_form_prepare_excluded_field_list>
+            <catalogindex_prepare_price_select>
+                <observers>
+                    <weee>
+                        <type>model</type>
+                        <class>weee/observer</class>
+                        <method>prepareCatalogIndexSelect</method>
+                    </weee>
+                </observers>
+            </catalogindex_prepare_price_select>
+            <catalogindex_prepare_additional_price_calculations>
+                <observers>
+                    <weee>
+                        <type>model</type>
+                        <class>weee/observer</class>
+                        <method>prepareCatalogIndexAdditionalCalculations</method>
+                    </weee>
+                </observers>
+            </catalogindex_prepare_additional_price_calculations>
+
+            <adminhtml_product_attribute_types>
+                <observers>
+                    <weee>
+                        <type>model</type>
+                        <class>weee/observer</class>
+                        <method>addWeeeTaxAttributeType</method>
+                    </weee>
+                </observers>
+            </adminhtml_product_attribute_types>
+            <catalog_entity_attribute_save_before>
+                <observers>
+                    <weee>
+                        <type>model</type>
+                        <class>weee/observer</class>
+                        <method>assignBackendModelToAttribute</method>
+                    </weee>
+                </observers>
+            </catalog_entity_attribute_save_before>
+        </events>
+    </global>
+</config>

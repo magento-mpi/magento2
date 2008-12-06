@@ -81,6 +81,13 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                         $address->setBaseGrandTotal($address->getBaseGrandTotal() - ($item->getBaseDiscountAmount()-$baseDiscountBefore));
                     }
 
+                    $weeeTax = Mage::helper('weee')->getAmount($item->getProduct());
+                    $address->setTaxAmount($address->getTaxAmount() + $weeeTax*$item->getQty());
+                    $address->setBaseTaxAmount($address->getBaseTaxAmount() + $weeeTax*$item->getQty());
+
+                    $applied = $taxCalculationModel->getAppliedRates($request);
+                    $applied = Mage::helper('weee')->mergeAppliedRates($applied, $item, $item->getProduct());
+
                     $this->_saveAppliedTaxes(
                        $address,
                        $taxCalculationModel->getAppliedRates($request),
@@ -112,9 +119,16 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
 
+                $weeeTax = Mage::helper('weee')->getAmount($item->getProduct());
+                $address->setTaxAmount($address->getTaxAmount() + $weeeTax*$item->getQty());
+                $address->setBaseTaxAmount($address->getBaseTaxAmount() + $weeeTax*$item->getQty());
+
+                $applied = $taxCalculationModel->getAppliedRates($request);
+                $applied = Mage::helper('weee')->mergeAppliedRates($applied, $item, $item->getProduct());
+
                 $this->_saveAppliedTaxes(
                    $address,
-                   $taxCalculationModel->getAppliedRates($request),
+                   $applied,
                    $item->getTaxAmount(),
                    $item->getBaseTaxAmount(),
                    $rate
@@ -174,12 +188,21 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $previouslyAppliedTaxes[$row['id']] = $row;
             }
 
+            if (!is_null($row['percent'])) {
+                $row['percent'] = $row['percent'] ? $row['percent'] : 1;
+                $rate = $rate ? $rate : 1;
 
-            $row['percent'] = $row['percent'] ? $row['percent'] : 1;
-            $rate = $rate ? $rate : 1;
+                $appliedAmount = $amount/$rate*$row['percent'];
+                $baseAppliedAmount = $baseAmount/$rate*$row['percent'];
+            } else {
+                $appliedAmount = 0;
+                $baseAppliedAmount = 0;
+                foreach ($row['rates'] as $rate) {
+                    $appliedAmount += $rate['amount'];
+                    $baseAppliedAmount += $rate['base_amount'];
+                }
+            }
 
-            $appliedAmount = $amount/$rate*$row['percent'];
-            $baseAppliedAmount = $baseAmount/$rate*$row['percent'];
 
             if ($appliedAmount || $previouslyAppliedTaxes[$row['id']]['amount']) {
                 $previouslyAppliedTaxes[$row['id']]['amount'] += $appliedAmount;

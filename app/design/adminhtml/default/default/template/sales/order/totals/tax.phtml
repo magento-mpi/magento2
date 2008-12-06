@@ -9,7 +9,11 @@
 
         <?php foreach ($rates as $rate): ?>
         <tr class="tax-details<?php if ($isTop): echo ' tax-details-first'; endif; ?>" style="display:none;">
-            <td class="label"><?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br /></td>
+            <?php if ($rate['percent']): ?>
+                <td class="label"><?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br /></td>
+            <?php else: ?>
+                <td class="label"><?php echo $rate['title']; ?><br /></td>
+            <?php endif; ?>
             <?php if ($isFirst): ?>
                 <td rowspan="<?php echo count($rates); ?>"><?php echo $this->displayAmount($amount, $baseAmount); ?></td>
             <?php endif; ?>
