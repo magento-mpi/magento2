@@ -307,6 +307,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     public function couponPostAction()
     {
+        /**
+         * No reason continue with empty shopping cart
+         */
+        if (!$this->_getCart()->getQuote()->getItemsCount()) {
+            $this->_goBack();
+            return;
+        }
+
         $couponCode = (string) $this->getRequest()->getParam('coupon_code');
         if ($this->getRequest()->getParam('remove') == 1) {
             $couponCode = '';
