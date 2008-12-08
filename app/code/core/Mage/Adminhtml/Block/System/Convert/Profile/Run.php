@@ -43,6 +43,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         $profile = $this->getProfile();
 
         echo '<html><head>';
+        echo '<script type="text/javascript">var FORM_KEY = "'.Mage::getSingleton('core/session')->getFormKey().'";</script>';
 
         $headBlock = $this->getLayout()->createBlock('page/html_head');
         $headBlock->addJs('prototype/prototype.js');
@@ -173,7 +174,7 @@ function execImportData() {
         })});
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $batchModel->getId())) .'", {
             method: "post",
-            parameters: {form_key: FORM_KEY},
+            parameters: {form_key: "'.$this.'"},
             onComplete: function(transport) {
                 if (transport.responseText.isJSON()) {
                     var response = transport.responseText.evalJSON();
