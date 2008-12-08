@@ -65,6 +65,11 @@ class Mage_Catalog_Block_Product_View_Attributes extends Mage_Core_Block_Templat
                 // TODO this is temporary skipping eco taxes
                 if (is_string($value)) {
                     if (strlen($value) && $product->hasData($attribute->getAttributeCode())) {
+                        if ($attribute->getFrontendInput() == 'price') {
+                            $value = Mage::app()->getStore()->convertPrice($value,true);
+                        } else {
+                            $value = $this->htmlEscape($value);
+                        }
                         $data[$attribute->getAttributeCode()] = array(
                            'label' => $attribute->getFrontend()->getLabel(),
                            'value' => $value,
