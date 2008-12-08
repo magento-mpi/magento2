@@ -40,17 +40,10 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     public function __construct()
     {
         parent::__construct();
-
-        // TODO replace this with appropriate collection
-        $items = Mage::getResourceModel('sales/order_collection')
-            ->addAttributeToSelect('*')
-            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
-            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-            ->addAttributeToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-            ->addAttributeToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
-            ->addAttributeToSort('created_at', 'desc')
-        ;
-
+        $session = Mage::getSingleton('customer/session');
+        $items = Mage::getResourceModel('downloadable/link_purchased_collection')
+            ->addFieldToFilter('customer_id', $session->getCustomerId())
+            ->addOrder('created_at', 'desc');
         $this->setItems($items);
     }
 
@@ -75,9 +68,9 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
      *
      * @return string
      */
-    public function getOrderViewUrl($order)
+    public function getOrderViewUrl($orderId)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/view', array('order_id' => $orderId));
     }
 
     /**
@@ -88,6 +81,20 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     public function getBackUrl()
     {
         return $this->getUrl('customer/account/');
+    }
+
+    public function getRemainingDownloads($item)
+    {
+        if ($item->getNumberOfDownloadsBought()) {
+            $downloads = $item->getNumberOfDownloadsBought() - $item->getNumberOfDownloadsUsed();
+            return $downloads;
+        }
+        return Mage::helper('downloadable')->__('Unlimited');
+    }
+
+    public function getDownloadUrl($item)
+    {
+        return $this->getUrl('*/*/*');
     }
 
 }

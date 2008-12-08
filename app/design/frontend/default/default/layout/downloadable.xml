@@ -27,6 +27,13 @@
 
 -->
 <layout version="0.1.0">
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="downloadable"><name>downloadable_products</name><path>downloadable/customer/products</path><label>My Downloadable Products</label></action>
+        </reference>
+    </customer_account>
+
     <downloadable_customer_products>
         <update handle="customer_account"/>
         <reference name="content">
@@ -51,7 +58,7 @@
 
     <checkout_onepage_success>
         <reference name="checkout.success">
-            <block type="downloadable/checkout_onepage_success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
+            <block type="downloadable/checkout_success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
         </reference>
     </checkout_onepage_success>
 
@@ -75,16 +82,9 @@
 
     <checkout_multishipping_success>
         <reference name="checkout_success">
-            <block type="downloadable/checkout_multishipping_success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
+            <block type="downloadable/checkout_success" name="downloadable.checkout.success" template="downloadable/checkout/success.phtml"/>
         </reference>
     </checkout_multishipping_success>
-
-    <customer_account>
-        <!-- Mage_Downloadable -->
-        <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="downloadable"><name>downloadable_products</name><path>downloadable/customer/products</path><label>My Downloadable Products</label></action>
-        </reference>
-    </customer_account>
 
     <sales_order_view>
         <reference name="order_items">

@@ -52,7 +52,7 @@ class Mage_Downloadable_Model_Observer
     }
 
     /**
-     * Enter description here...
+     * Save data from order to purchased links
      *
      * @param Varien_Object $observer
      * @return Mage_Downloadable_Model_Observer
@@ -67,23 +67,55 @@ class Mage_Downloadable_Model_Observer
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchased = Mage::getModel('downloadable/link_purchased')
-                            ->setOrderItemId($orderItem->getId())
-                            ->setOrderId($orderItem->getOrder()->getId())
-                            ->setLinkId($links[$linkId]->getId())
-                            ->setLinkTitle($links[$linkId]->getTitle())
-                            ->setLinkUrl($links[$linkId]->getLinkUrl())
-                            ->setLinkFile($links[$linkId]->getLinkFile())
-                            ->setNumberOfDownloadsBought($links[$linkId]->getNumberOfDownloads())
+                        $linkPurchased = Mage::getModel('downloadable/link_purchased');
+                        Mage::helper('core')->copyFieldset(
+                            'downloadable_sales_copy_order_item',
+                            'to_downloadable',
+                            $orderItem,
+                            $linkPurchased
+                        );
+                        Mage::helper('core')->copyFieldset(
+                            'downloadable_sales_copy_order',
+                            'to_downloadable',
+                            $orderItem->getOrder(),
+                            $linkPurchased
+                        );
+                        Mage::helper('core')->copyFieldset(
+                            'downloadable_sales_copy_link',
+                            'to_purchased',
+                            $links[$linkId],
+                            $linkPurchased
+                        );
+                        $numberOfDownloads = $links[$linkId]->getNumberOfDownloads()*$orderItem->getQtyOrdered();
+                        $linkPurchased->setNumberOfDownloadsBought($numberOfDownloads)
                             ->setStatus(Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING)
-                            ->setProductName($product->getName())
-                            ->setProductSku($product->getSku())
                             ->save();
                     }
                 }
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Set checkout session flag if order has downloadable product(s)
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Downloadable_Model_Observer
+     */
+    public function setHasDownloadableProducts($observer)
+    {
+        $session = Mage::getSingleton('checkout/session');
+        if (!$session->getHasDownloadableProducts()) {
+            $order = $observer->getEvent()->getOrder();
+            foreach ($order->getAllVisibleItems() as $item) {
+                if ($item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+                    $session->setHasDownloadableProducts(true);
+                    break;
+                }
+            }
+        }
         return $this;
     }
 

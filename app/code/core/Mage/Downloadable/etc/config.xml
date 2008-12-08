@@ -28,10 +28,30 @@
 <config>
     <modules>
         <Mage_Downloadable>
-            <version>0.1.6</version>
+            <version>0.1.7</version>
         </Mage_Downloadable>
     </modules>
     <global>
+        <fieldsets>
+            <downloadable_sales_copy_order>
+                <entity_id><to_downloadable>order_id</to_downloadable></entity_id>
+                <increment_id><to_downloadable>order_increment_id</to_downloadable></increment_id>
+                <created_at><to_downloadable>*</to_downloadable></created_at>
+                <updated_at><to_downloadable>*</to_downloadable></updated_at>
+                <customer_id><to_downloadable>*</to_downloadable></customer_id>
+            </downloadable_sales_copy_order>
+            <downloadable_sales_copy_order_item>
+                <item_id><to_downloadable>order_item_id</to_downloadable></item_id>
+                <name><to_downloadable>product_name</to_downloadable></name>
+                <sku><to_downloadable>product_sku</to_downloadable></sku>
+            </downloadable_sales_copy_order_item>
+            <downloadable_sales_copy_link>
+                <link_id><to_purchased>*</to_purchased></link_id>
+                <title><to_purchased>link_title</to_purchased></title>
+                <link_url><to_purchased>*</to_purchased></link_url>
+                <link_file><to_purchased>*</to_purchased></link_file>
+            </downloadable_sales_copy_link>
+        </fieldsets>
         <models>
             <downloadable>
                 <class>Mage_Downloadable_Model</class>
@@ -188,6 +208,24 @@
                     </downloadable_observer>
                 </observers>
             </sales_order_item_save_after>
+            <checkout_type_onepage_save_order_after>
+                <observers>
+                    <checkout_type_onepage_save_order_after>
+                        <type>singleton</type>
+                        <class>downloadable/observer</class>
+                        <method>setHasDownloadableProducts</method>
+                    </checkout_type_onepage_save_order_after>
+                </observers>
+            </checkout_type_onepage_save_order_after>
+            <checkout_type_multishipping_create_orders_single>
+                <observers>
+                    <checkout_type_multishipping_create_orders_single>
+                        <type>singleton</type>
+                        <class>downloadable/observer</class>
+                        <method>setHasDownloadableProducts</method>
+                    </checkout_type_multishipping_create_orders_single>
+                </observers>
+            </checkout_type_multishipping_create_orders_single>
         </events>
     </frontend>
     <admin>
