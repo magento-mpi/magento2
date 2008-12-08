@@ -179,15 +179,6 @@
             </updates>
         </layout>
         <events>
-            <checkout_type_onepage_save_order_after>
-                <observers>
-                    <checkout_type_onepage_save_order_after>
-                        <type>singleton</type>
-                        <class>downloadable/observer</class>
-                        <method>issetDownloadableProduct</method>
-                    </checkout_type_onepage_save_order_after>
-                </observers>
-            </checkout_type_onepage_save_order_after>
             <sales_order_item_save_after>
                 <observers>
                     <downloadable_observer>
