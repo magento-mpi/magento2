@@ -45,9 +45,39 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
     /**
      * Download link action
      *
+     * @todo get link and type
      */
     public function linkAction()
     {
+        // check access and etc
+
+        $helper = Mage::helper('downloadable/download');
+        /* @var $helper Mage_Downloadable_Helper_Download */
+
+        /**
+         * @todo next line
+         */
+        $helper->setResource('LINK_TO_FILE', Mage_Downloadable_Helper_Download::LINK_TYPE_URL);
+
+        $fileName       = $helper->getFilename();
+        $contentType    = $helper->getContentType();
+
+        $this->getResponse()
+            ->setHttpResponseCode(200)
+            ->setHeader('Pragma', 'public', true)
+            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+            ->setHeader('Content-type', $contentType, true);
+        if ($fileSize = $helper->getFilesize()) {
+            $this->getResponse()
+                ->setHeader('Content-Length', $fileSize);
+        }
+        $this->getResponse()
+            ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
+            ->clearBody();
+        $this->getResponse()
+            ->sendHeaders();
+
+        $helper->output();
     }
 
     /**
