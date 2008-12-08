@@ -251,6 +251,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 $write->quoteInto('product_id in(?)', array_keys($delete)) .
                 $write->quoteInto(' AND category_id=?', $catId)
             );
+
+            /**
+             * Delete association rewrites
+             */
+            Mage::getResourceSingleton('catalog/url')->deleteCategoryProductRewrites($catId, array_keys($delete));
+
             $select = $write->select()
                 ->from($prodTable, array('entity_id', 'category_ids'))
                 ->where('entity_id IN (?)', array_keys($delete));

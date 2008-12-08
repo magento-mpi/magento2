@@ -766,6 +766,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
     }
 
+    /**
+     * Delete rewrites for associated to category products
+     *
+     * @param   int $categoryId
+     * @param   array $productIds
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
+    public function deleteCategoryProductRewrites($categoryId, $productIds)
+    {
+        $condition = $this->_getWriteAdapter()->quoteInto('category_id=?', $categoryId);
+        $condition = $this->_getWriteAdapter()->quoteInto(
+            $condition.' AND product_id IN (?)',
+            $productIds
+        );
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $condition);
+        return $this;
+    }
+
 
 //    protected $_rewrite = array();
 //    protected $_catRoots = array();
