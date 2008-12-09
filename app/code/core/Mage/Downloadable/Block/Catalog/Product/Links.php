@@ -124,4 +124,9 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         return Zend_Json::encode($config);
     }
 
+    public function getLinkSamlpeUrl($link)
+    {
+        return $this->getUrl('downloadable/download/linkSample', array('link_id' => $link->getId()));
+    }
+
 }

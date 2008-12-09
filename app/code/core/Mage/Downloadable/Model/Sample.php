@@ -45,6 +45,16 @@ class Mage_Downloadable_Model_Sample extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return sample files path
+     *
+     * @return string
+     */
+    public static function getSampleDir()
+    {
+        return Mage::getBaseDir();
+    }
+
+    /**
      * Enter description here...
      *
      * @return Mage_Downloadable_Model_Sample

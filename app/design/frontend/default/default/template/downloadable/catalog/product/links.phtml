@@ -48,7 +48,7 @@
                         <label for="links_<?php echo $_link->getId() ?>">
                             <?php echo $_link->getTitle() ?>
                             <?php if ($_link->getSampleFile()): ?>
-                                &nbsp;(<a href="<?php echo $_link->getSampleFile() ?>"><?php echo Mage::helper('downloadable')->__('sample') ?></a>)
+                                &nbsp;(<a href="<?php echo $this->getLinkSamlpeUrl($_link) ?>"><?php echo Mage::helper('downloadable')->__('sample') ?></a>)
                             <?php endif; ?>
                             <?php if ($_linksPurchasedSeparately): ?>
                                 <?php echo $this->getFormattedLinkPrice($_link); ?>

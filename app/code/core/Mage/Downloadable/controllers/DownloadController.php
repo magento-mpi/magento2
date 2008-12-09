@@ -35,11 +35,106 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
 {
 
     /**
+     * Return customer session object
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getCustomerSession()
+    {
+        return Mage::getSingleton('customer/session');
+    }
+
+    protected function _processDownload($resource, $resourceType)
+    {
+        $helper = Mage::helper('downloadable/download');
+        /* @var $helper Mage_Downloadable_Helper_Download */
+
+        $helper->setResource($resource, $resourceType);
+
+        $fileName       = $helper->getFilename();
+        $contentType    = $helper->getContentType();
+
+        $this->getResponse()
+        ->setHttpResponseCode(200)
+        ->setHeader('Pragma', 'public', true)
+        ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+        ->setHeader('Content-type', $contentType, true);
+        if ($fileSize = $helper->getFilesize()) {
+            $this->getResponse()
+            ->setHeader('Content-Length', $fileSize);
+        }
+        $this->getResponse()
+        ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
+        ->clearBody();
+        $this->getResponse()
+        ->sendHeaders();
+
+        $helper->output();
+    }
+
+    /**
      * Download sample action
      *
      */
     public function sampleAction()
     {
+        $sampleId = $this->getRequest()->getParam('sample_id', 0);
+        $sample = Mage::getModel('downloadable/sample')->load($sampleId);
+        if ($sample->getId()) {
+            $resource = $sample->getSampleUrl();
+            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            if ($sample->getSampleFile()) {
+                $resource = Mage_Downloadable_Model_Sample::getSampleDir() . '/' . $sample->getSampleFile();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
+            }
+            try {
+                $this->_processDownload($resource, $resourceType);
+            } catch (Mage_Core_Exception $e) {
+                return ;
+            }
+        }
+        return ;
+    }
+
+    /**
+     * Download link's sample action
+     *
+     */
+    public function linkSampleAction()
+    {
+        $linkId = $this->getRequest()->getParam('link_id', 0);
+        $link = Mage::getModel('downloadable/link')->load($linkId);
+        if ($link->getId() && $link->getSampleFile()) {
+            try {
+                $this->_processDownload(
+                    Mage_Downloadable_Model_Link::getLinkDir() . '/' . $link->getSampleFile(),
+                    Mage_Downloadable_Helper_Download::LINK_TYPE_FILE
+                );
+            } catch (Mage_Core_Exception $e) {
+                return ;
+            }
+        }
+        return ;
+    }
+
+    public function shareableLinkAction()
+    {
+        $linkId = $this->getRequest()->getParam('link_id', 0);
+        $link = Mage::getModel('downloadable/link')->load($linkId);
+        if ($link->getId()) {
+            $resource = $link->getLinkUrl();
+            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            if ($link->getLinkFile()) {
+                $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $link->getLinkFile();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
+            }
+            try {
+                $this->_processDownload($resource, $resourceType);
+            } catch (Mage_Core_Exception $e) {
+                return ;
+            }
+        }
+        return ;
     }
 
     /**
@@ -49,43 +144,42 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
      */
     public function linkAction()
     {
-        // check access and etc
-
-        $helper = Mage::helper('downloadable/download');
-        /* @var $helper Mage_Downloadable_Helper_Download */
-
-        /**
-         * @todo next line
-         */
-        $helper->setResource('LINK_TO_FILE', Mage_Downloadable_Helper_Download::LINK_TYPE_URL);
-
-        $fileName       = $helper->getFilename();
-        $contentType    = $helper->getContentType();
-
-        $this->getResponse()
-            ->setHttpResponseCode(200)
-            ->setHeader('Pragma', 'public', true)
-            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-            ->setHeader('Content-type', $contentType, true);
-        if ($fileSize = $helper->getFilesize()) {
-            $this->getResponse()
-                ->setHeader('Content-Length', $fileSize);
+        $id = $this->getRequest()->getParam('id', 0);
+        $linkPurchased = Mage::getModel('downloadable/link_purchased')->load($id);
+        if (!$linkPurchased->getIsShareable()) {
+            if (!$this->_getCustomerSession()->getCustomerId()) {
+                $this->_getCustomerSession()->authenticate($this);
+                return ;
+            }
         }
-        $this->getResponse()
-            ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
-            ->clearBody();
-        $this->getResponse()
-            ->sendHeaders();
+        $downloadsLeft = $linkPurchased->getNumberOfDownloadsBought() - $linkPurchased->getNumberOfDownloadsUsed();
+        if ($linkPurchased->getStatus() == Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_AVAILABLE
+            && ($downloadsLeft || $linkPurchased->getNumberOfDownloadsBought() == 0)) {
+            $resource = $linkPurchased->getLinkUrl();
+            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            if ($linkPurchased->getLinkFile()) {
+                $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $linkPurchased->getLinkFile();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
+            }
+            try {
+                $this->_processDownload($resource, $resourceType);
+                $linkPurchased->setNumberOfDownloadsUsed(
+                    $linkPurchased->getNumberOfDownloadsUsed()+1
+                );
+                if ($linkPurchased->getNumberOfDownloadsBought() != 0
+                    && !($linkPurchased->getNumberOfDownloadsBought() - $linkPurchased->getNumberOfDownloadsUsed())) {
+                    $linkPurchased->setStatus(Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED);
+                }
+            }
+            catch (Mage_Core_Exception $e) {
+                // show page
+                // Sorry, the was an error getting requested content. Please contact store owner
+                return ;
+            }
+        }
 
-        $helper->output();
-    }
-
-    /**
-     * Download link's sample action
-     *
-     */
-    public function linkSampleAction()
-    {
+        $linkPurchased->save();
+        return ;
     }
 
 }

@@ -24,39 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Downloadable Product Samples part block
- *
- * @category    Mage
- * @package     Mage_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Downloadable_Block_Catalog_Product_Samples extends Mage_Catalog_Block_Product_Abstract
-{
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
-    /**
-     * Enter description here...
-     *
-     * @return boolean
-     */
-    public function hasSamples()
-    {
-        return $this->getProduct()->getTypeInstance()->hasSamples();
-    }
+$installer->startSetup();
 
-    /**
-     * Get downloadable product samples
-     *
-     * @return array
-     */
-    public function getSamples()
-    {
-        return $this->getProduct()->getTypeInstance()->getSamples();
-    }
+$installer->getConnection()->addColumn($installer->getTable('downloadable/link_purchased'), 'is_shareable', "smallint(1) unsigned NOT NULL default '0' AFTER `link_title`");
 
-    public function getSampleUrl($sample)
-    {
-        return $this->getUrl('downloadable/download/sample', array('sample_id' => $sample->getId()));
-    }
-
-}
+$installer->endSetup();

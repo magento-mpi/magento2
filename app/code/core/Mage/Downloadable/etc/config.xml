@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Downloadable>
-            <version>0.1.7</version>
+            <version>0.1.8</version>
         </Mage_Downloadable>
     </modules>
     <global>
@@ -48,6 +48,7 @@
             <downloadable_sales_copy_link>
                 <link_id><to_purchased>*</to_purchased></link_id>
                 <title><to_purchased>link_title</to_purchased></title>
+                <is_shareable><to_purchased>*</to_purchased></is_shareable>
                 <link_url><to_purchased>*</to_purchased></link_url>
                 <link_file><to_purchased>*</to_purchased></link_file>
             </downloadable_sales_copy_link>

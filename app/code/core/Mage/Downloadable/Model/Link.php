@@ -45,6 +45,16 @@ class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return link files path
+     *
+     * @return string
+     */
+    public static function getLinkDir()
+    {
+        return Mage::getBaseDir();
+    }
+
+    /**
      * Enter description here...
      *
      * @return Mage_Downloadable_Model_Link

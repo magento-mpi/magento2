@@ -38,7 +38,7 @@
         <?php $_samples = $this->getSamples() ?>
         <?php foreach ($_samples as $_sample): ?>
             <dd>
-                <a href="<?php echo $_sample->getUrl() ?>"><?php echo $_sample->getTitle() ?></a>
+                <a href="<?php echo $this->getSampleUrl($_sample) ?>"><?php echo $_sample->getTitle() ?></a>
             </dd>
         <?php endforeach; ?>
     </dl>
