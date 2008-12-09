@@ -231,6 +231,25 @@ class Varien_Io_File extends Varien_Io_Abstract
     }
 
     /**
+     * Retrieve open file statistic
+     *
+     * @param string $part the part of statistic
+     * @param mixed $default default value for part
+     * @return array|bool
+     */
+    public function streamStat($part = null, $default = null)
+    {
+        if (!$this->_streamHandler) {
+            return false;
+        }
+        $stat = @fstat($this->_streamHandler);
+        if (!is_null($part)) {
+            return isset($stat[$part]) ? $stat[$part] : $default;
+        }
+        return $stat;
+    }
+
+    /**
      * Retrieve stream methods exception
      *
      * @return Exception
