@@ -61,6 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes exte
             }
         }
 
+        Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
         $form->addValues($values);
         $form->setFieldNameSuffix('product');
         $this->setForm($form);
