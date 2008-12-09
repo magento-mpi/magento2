@@ -52,4 +52,41 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getModel('weee/tax')->mergeAppliedRates($applied, $item, $product);
     }
+
+    public function typeOfDisplay($product, $compareTo = null, $zone = null)
+    {
+        $type = 0;
+        switch ($zone) {
+            case 'product_view':
+            $type = $this->getPriceDisplayType();
+            break;
+
+            case 'product_list':
+            $type = $this->getListPriceDisplayType();
+            break;
+
+            case 'sales':
+            $type = $this->getSalesPriceDisplayType();
+            break;
+
+            default:
+            if (Mage::registry('current_product')) {
+                $type = $this->getPriceDisplayType();
+            } else {
+                $type = $this->getListPriceDisplayType();
+            }
+            break;
+        }
+
+        if (is_null($compareTo)) {
+            return $type;
+        } else {
+            return $type == $compareTo;
+        }
+    }
+
+    public function getProductWeeeAttributes($product)
+    {
+        return Mage::getModel('weee/tax')->getProductWeeeAttributes($product);
+    }
 }
