@@ -407,7 +407,7 @@ Varien.DOB.prototype = {
             } else if (this.year.value<1900 || this.year.value>date.getFullYear()) {
                 error = 'Please enter a valid year (1900-'+date.getFullYear()+').';
             } else {
-                this.dob.value = this.format.replace('%m', this.month.value).replace('%d', this.day.value).replace('%y', this.year.value);
+                this.dob.value = this.format.replace(/(%m|%b|%B)/, this.month.value).replace(/(%d|%e)/, this.day.value).replace(/%y|%Y/, this.year.value);
                 var test = new Date(this.dob.value);
                 if (isNaN(test)) {
                     error = 'Please enter a valid date.';
