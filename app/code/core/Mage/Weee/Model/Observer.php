@@ -139,7 +139,21 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
         $response = $observer->getEvent()->getResponse();
         $types = $response->getTypes();
-        $types[] = array('value' => 'weee', 'label' => Mage::helper('weee')->__('WEEE Tax'));
+        $types[] = array(
+            'value' => 'weee',
+            'label' => Mage::helper('weee')->__('WEEE Tax'),
+            'hide_fields' => array(
+                'is_unique',
+                'is_required',
+                'frontend_class',
+                'is_configurable',
+
+                '_scope',
+                '_default_value',
+                '_front_fieldset',
+            )
+        );
+
         $response->setTypes($types);
     }
 

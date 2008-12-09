@@ -146,9 +146,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $response->setTypes(array());
         Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
 
+        $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
             $inputTypes[] = $type;
+            if (isset($type['hide_fields'])) {
+                $_hiddenFields[$type['value']] = $type['hide_fields'];
+            }
         }
+        Mage::register('attribute_type_hidden_fields', $_hiddenFields);
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
