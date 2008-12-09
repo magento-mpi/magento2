@@ -34,14 +34,14 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig('tax/weee/display');
     }
 
-    public function getProductListDisplayType()
+    public function getListPriceDisplayType()
     {
-        return Mage::getStoreConfig('tax/weee/display');
+        return Mage::getStoreConfig('tax/weee/display_list');
     }
 
-    public function getSalesDisplayType()
+    public function getSalesPriceDisplayType()
     {
-        return Mage::getStoreConfig('tax/weee/display');
+        return Mage::getStoreConfig('tax/weee/display_sales');
     }
 
     public function getAmount($product) {

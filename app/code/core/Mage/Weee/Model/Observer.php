@@ -101,7 +101,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             $order = array($tableAlias.'.state DESC', $tableAlias.'.website_id DESC');
 
             $attributeSelect->order($order);
-            $select->joinLeft(array($tableAlias=>$attributeSelect), $table.'.entity_id = '.$tableAlias.'.entity_id');
+            $select->joinLeft(array($tableAlias=>$attributeSelect), $table.'.entity_id = '.$tableAlias.'.entity_id', array());
         }
 
     }
