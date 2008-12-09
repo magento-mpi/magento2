@@ -25,13 +25,16 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         $this->_init('weee/tax', 'weee/tax');
     }
 
-    public function getWeeeAmount($product)
+    public function getWeeeAmount($product, $shipping = null, $billing = null, $website = null)
     {
         $amount = 0;
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        if (is_null($website)) {
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
+        } else {
+            $websiteId = $website;
+        }
 
-
-        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
+        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
         $attributes = $this->getWeeeAttributeCodes();
 
         foreach ($attributes as $attribute) {
@@ -69,15 +72,20 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return $amount;
     }
 
-    public function mergeAppliedRates($applied, $item, $product)
+    public function mergeAppliedRates($applied, $item, $product, $shipping = null, $billing = null, $website = null)
     {
+        if (is_null($website)) {
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
+        } else {
+            $websiteId = $website;
+        }
+
         $productAttributes = $product->getTypeInstance()->getSetAttributes();
         $attributes = $this->getWeeeAttributeCodes();
         foreach ($attributes as $k=>$attribute) {
             $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
             $tableAlias = $attribute;
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
-            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
+            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
             $attributeSelect = $this->getResource()->getReadConnection()->select();
             $attributeSelect->from(array($tableAlias=>$this->getResource()->getTable('weee/tax')), 'value');
     
