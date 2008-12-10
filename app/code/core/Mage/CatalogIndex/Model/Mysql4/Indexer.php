@@ -53,6 +53,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     public function clear($eav = true, $price = true, $minimal = true, $finalPrice = true, $tierPrice = true, $products = null, $store = null)
     {
         $suffix = '';
+        $priceSuffix = '';
         $tables = array('eav'=>'catalogindex/eav', 'price'=>'catalogindex/price');
         if (!is_null($products)) {
             if ($products instanceof Mage_Catalog_Model_Product) {
