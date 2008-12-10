@@ -30,61 +30,101 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
-<fieldset>
-<table class="form-list" cellspacing="0">
-    <tbody>
-        <tr>
-            <td class="label">
-                <label for="name"><?php echo Mage::helper('downloadable')->__('Links can be purchased separately') ?></label>
-            </td>
-            <td class="value">
-                <?php echo $this->getPurchasedSeparatelySelect() ?>
-            </td>
-            <td class="scope-label">[GLOBAL]</td>
-            <td>
-                <small> </small>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<div>
-<table cellpadding="0" cellspacing="0">
-    <thead>
-        <tr>
-            <th><?php echo Mage::helper('downloadable')->__('Title') ?> <span class="required">*</span></th>
-            <th><?php echo Mage::helper('downloadable')->__('Price') ?></th>
-            <th><?php echo Mage::helper('downloadable')->__('Number of Downloads') ?></th>
-            <th><?php echo Mage::helper('downloadable')->__('Shareable') ?></th>
-            <th><?php echo Mage::helper('downloadable')->__('Sort Order') ?></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input type="text" class="required-entry input-text" name="downloadable[link][0][title]" value=""></td>
-            <td><input type="text" class="required-entry input-text" name="downloadable[link][0][price]" value=""></td>
-            <td><input type="text" name="downloadable[link][0][number_of_downloads]"></td>
-            <td>
-                <select name="downloadable[link][0][is_shareable]">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </td>
-            <td><input type="text" name="downloadable[link][0][sort_order]" value=""></td>
-        </tr>
-        <tr>
-            <td><input type="text" class="required-entry input-text" name="downloadable[link][1][title]" value=""></td>
-            <td><input type="text" class="required-entry input-text" name="downloadable[link][1][price]" value=""></td>
-            <td><input type="text" name="downloadable[link][1][number_of_downloads]" value=""></td>
-            <td>
-                <select name="downloadable[link][1][is_shareable]">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </td>
-            <td><input type="text" name="downloadable[link][1][sort_order]" value=""></td>
-
-        </tr>
-    </tbody>
-</table>
+<div class="fieldset">
+    <table cellspacing="0" class="form-list">
+        <tbody>
+            <tr class="headings">
+                <td class="label">
+                    <label for="name"><?php echo Mage::helper('downloadable')->__('Links can be purchased separately') ?></label>
+                </td>
+                <td class="value">
+                    <?php echo $this->getPurchasedSeparatelySelect() ?>
+                </td>
+                <td class="scope-label">[GLOBAL]</td>
+                <td><small>&nbsp;</small></td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <div class="grid">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="data">
+                <col />
+                <col />
+                <col />
+                <col />
+                <col width="205" />
+                <col width="205" />
+                <col width="1" />
+                <col width="1" />
+                <thead>
+                    <tr class="headings">
+                        <th><?php echo Mage::helper('downloadable')->__('Title') ?> <span class="required">*</span></th>
+                        <th><?php echo Mage::helper('downloadable')->__('Price') ?></th>
+                        <th><span class="nobr"><?php echo Mage::helper('downloadable')->__('Max. Downloads') ?></span></th>
+                        <th><?php echo Mage::helper('downloadable')->__('Shareable') ?></th>
+                        <th><?php echo Mage::helper('downloadable')->__('Sample') ?></th>
+                        <th><?php echo Mage::helper('downloadable')->__('File') ?></th>
+                        <th><span class="nobr"><?php echo Mage::helper('downloadable')->__('Sort Order') ?></span></th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[link][0][title]" value="" /></div></td>
+                        <td class="input-price"><input type="text" class="required-entry input-text" name="downloadable[link][0][price]" value="" /> [USD]</td>
+                        <td><input type="text" name="downloadable[link][0][number_of_downloads]" class="input-text downloads" />
+                        <p><input type="checkbox" class="checkbox" /> <label>Unlimited</label></p></td>
+                        <td class="a-center">
+                            <select name="downloadable[link][0][is_shareable]">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                                <option value="2">Use config</option>
+                            </select>
+                        </td>
+                        <td class="files">
+                            <p><label><input type="radio"  class="radio"/> File:</label> <input type="file" size="7" name="downloadable[sample][1][sample_file]" value="" class="input-file" /></p>
+                            <p><label><input type="radio" class="radio" /> URL</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
+                        </td>
+                        <td class="files">
+                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="7" name="downloadable[sample][1][sample_file]" value="" class="input-file" /></p>
+                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
+                        </td>
+                        <td class="a-center"><input type="text" name="downloadable[link][1][sort_order]" value="" class="input-text sort" /></td>
+                        <td>
+                            <button type="button" class="scalable delete icon-btn"><span>Delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[link][1][title]" value="" /></div>
+                        </td>
+                        <td class="input-price">
+                            <input type="text" class="required-entry input-text" name="downloadable[link][1][price]" value="" /> [USD]
+                        </td>
+                        <td>
+                            <input type="text" name="downloadable[link][1][number_of_downloads]" value="" class="input-text downloads" />
+                            <p><input type="checkbox" class="checkbox" /> <label>Unlimited</label></p></td>
+                        <td>
+                            <select name="downloadable[link][1][is_shareable]">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                                <option value="2">Use config</option>
+                            </select>
+                        </td>
+                        <td class="files">
+                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="7" name="downloadable[sample][1][sample_file]" value="" class="input-file" /></p>
+                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text url" name="downloadable[sample][0][sample_url]" value="" /></p>
+                        </td>
+                        <td class="files">
+                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="7" name="downloadable[sample][1][sample_file]" value="" class="input-file" /></p>
+                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
+                        </td>
+                        <td class="a-center"><input type="text" name="downloadable[link][1][sort_order]" value="" class="input-text sort" /></td>
+                        <td><button type="button" class="scalable delete icon-btn"><span>Delete</span></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-</fieldset>

@@ -30,32 +30,52 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
-<fieldset>
-<div class="right"><?php echo $this->getAddButtonHtml() ?></div>
-<div>
-<table cellpadding="0" cellspacing="0">
-    <thead>
-        <tr>
-            <th><?php echo Mage::helper('downloadable')->__('Title') ?> <span class="required">*</span></th>
-            <th><?php echo Mage::helper('downloadable')->__('Url') ?></th>
-            <th><?php echo Mage::helper('downloadable')->__('File') ?></th>
-            <th><?php echo Mage::helper('downloadable')->__('Sort Order') ?></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input type="text" class="required-entry input-text" name="downloadable[sample][0][title]" value=""></td>
-            <td><input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value=""></td>
-            <td><input type="file" name="downloadable[sample][0][sample_file]"></td>
-            <td><input type="text" name="downloadable[sample][0][sort_order]" value=""></td>
-        </tr>
-        <tr>
-            <td><input type="text" class="required-entry input-text" name="downloadable[sample][1][title]" value=""></td>
-            <td><input type="text" class="required-entry input-text" name="downloadable[sample][1][sample_url]" value=""></td>
-            <td><input type="file" name="downloadable[sample][1][sample_file]" value=""></td>
-            <td><input type="text" name="downloadable[sample][1][sort_order]" value=""></td>
-        </tr>
-    </tbody>
-</table>
+<div class="fieldset">
+    <div class="grid">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="data">
+                <col />
+                <col width="420" />
+                <col width="1" />
+                <col width="1" />
+                <thead>
+                    <tr class="headings">
+                        <th><?php echo Mage::helper('downloadable')->__('Title') ?> <span class="required">*</span></th>
+                        <th><?php echo Mage::helper('downloadable')->__('File') ?></th>
+                        <th><span class="nobr"><?php echo Mage::helper('downloadable')->__('Sort Order') ?></span></th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td><div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[sample][0][title]" value="" /></div></td>
+                        <td class="files files-wide">
+                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="43" name="downloadable[sample][0][sample_file]" value="" class="input-file" /></p>
+                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
+                        </td>
+                        <td class="a-center"><input type="text" name="downloadable[sample][0][sort_order]" value="" class="input-text sort" /></td>
+                        <td>
+                            <button type="button" class="scalable delete icon-btn"><span>Delete</span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[sample][0][title]" value="" /></div></td>
+                        <td class="files files-wide">
+                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="43" name="downloadable[sample][0][sample_file]" value="" class="input-file" /></p>
+                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
+                        </td>
+                        <td class="a-center"><input type="text" name="downloadable[sample][0][sort_order]" value="" class="input-text sort" /></td>
+                        <td>
+                            <button type="button" class="scalable delete icon-btn"><span>Delete</span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-</fieldset>
