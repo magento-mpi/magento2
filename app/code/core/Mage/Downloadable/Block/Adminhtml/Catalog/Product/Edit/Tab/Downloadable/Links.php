@@ -58,7 +58,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return Mage::registry('product');
     }
 
     /**

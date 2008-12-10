@@ -24,6 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once 'Mage/Adminhtml/controllers/Catalog/ProductController.php';
+
 /**
  * Adminhtml downloadable product edit
  *
@@ -31,7 +33,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Controller_Action
+class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Catalog_ProductController
 {
 
     /**
@@ -49,6 +51,7 @@ class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Controller
      */
     public function formAction()
     {
+        $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable', 'admin.product.downloadable.information')
                 ->toHtml()

@@ -119,4 +119,33 @@ class Mage_Downloadable_Model_Observer
         return $this;
     }
 
+    /**
+     * Set status of link
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Downloadable_Model_Observer
+     */
+    public function setLinkStatus($observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        /** @var $order Mage_Sales_Model_Order */
+        $status = '';
+        if ($order->getState() == Mage_Sales_Model_Order::STATE_COMPLETE) {
+            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_AVAILABLE;
+        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_NEW
+            || $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT
+            || $order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
+            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING;
+        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED || $order->getState() == Mage_Sales_Model_Order::STATE_CLOSED) {
+            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED;
+        }
+        $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_collection')
+            ->addFieldToFilter('order_id', $order->getId());
+        foreach ($linkPurchased as $link) {
+            $link->setStatus($status);
+            $link->save();
+        }
+        return $this;
+    }
+
 }

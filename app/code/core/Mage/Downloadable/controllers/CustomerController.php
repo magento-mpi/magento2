@@ -55,6 +55,7 @@ class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Ac
     public function productsAction()
     {
         $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
     }
 

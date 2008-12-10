@@ -51,31 +51,74 @@
                         <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
                     </tr>
                 </tfoot>
-                <tbody>
-                    <tr>
-                        <td><div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[sample][0][title]" value="" /></div></td>
-                        <td class="files files-wide">
-                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="43" name="downloadable[sample][0][sample_file]" value="" class="input-file" /></p>
-                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
-                        </td>
-                        <td class="a-center"><input type="text" name="downloadable[sample][0][sort_order]" value="" class="input-text sort" /></td>
-                        <td>
-                            <button type="button" class="scalable delete icon-btn"><span>Delete</span></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[sample][0][title]" value="" /></div></td>
-                        <td class="files files-wide">
-                            <p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="43" name="downloadable[sample][0][sample_file]" value="" class="input-file" /></p>
-                            <p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][0][sample_url]" value="" /></p>
-                        </td>
-                        <td class="a-center"><input type="text" name="downloadable[sample][0][sort_order]" value="" class="input-text sort" /></td>
-                        <td>
-                            <button type="button" class="scalable delete icon-btn"><span>Delete</span></button>
-                        </td>
-                    </tr>
+                <tbody id="sample_items_body">
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+//<![CDATA[>
+var sampleTemplate = '<tr>' +
+                        '<td><div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[sample][{{id}}][title]" value="{{title}}" /></div></td>' +
+                        '<td class="files files-wide">' +
+                            '<p><label><input type="radio" class="radio" name="downloadable[sample][{{id}}][type]" value="file" /> File:</label> <input type="file" size="43" name="downloadable[sample][{{id}}][sample_file]" value="" class="input-file" /></p>' +
+                            '<p><label><input type="radio" class="radio" name="downloadable[sample][{{id}}][type]" value="url" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+                        '</td>' +
+                        '<td class="a-center"><input type="text" name="downloadable[sample][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>' +
+                        '<td>' +
+                            '<button type="button" class="scalable delete icon-btn delete-sample-item" id="delete-sample-item"><span>Delete</span></button>' +
+                        '</td>' +
+                    '</tr>';
+
+var sampleItems = {
+    tbody : $('sample_items_body'),
+    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    templateText : sampleTemplate,
+    itemCount : 0,
+    add : function(data) {
+        this.template = new Template(this.templateText, this.templateSyntax);
+
+        if(!data.id){
+            data = {};
+            data.id  = this.itemCount;
+//            data.type = '';
+//            data.option_id = 0;
+        } else {
+            this.itemCount = data.item_count;
+        }
+
+        Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+        this.itemCount++;
+        this.bindRemoveButtons();
+    },
+    remove : function(event){
+        var element = $(Event.findElement(event, 'tr'));
+        if(element){
+            element.remove();
+        }
+    },
+    bindRemoveButtons : function(){
+        var buttons = $$('tbody#sample_items_body .delete-sample-item');
+        for(var i=0;i<buttons.length;i++){
+            if(!$(buttons[i]).binded){
+                $(buttons[i]).binded = true;
+                Event.observe(buttons[i], 'click', this.remove.bind(this));
+            }
+        }
+    }
+}
+
+sampleItems.bindRemoveButtons();
+
+if($('add_sample_item')){
+    Event.observe('add_sample_item', 'click', sampleItems.add.bind(sampleItems));
+}
+
+<?php foreach ($this->getSampleData() as $item): ?>
+    sampleItems.add(<?php echo $item->toJson() ?>);
+<?php endforeach; ?>
+
+//]]>
+</script>

@@ -48,6 +48,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable ex
     public function __construct()
     {
         parent::__construct();
+//        $this->setSkipGenerateContent(true);
         $this->setTemplate('downloadable/product/edit/downloadable.phtml');
     }
 
@@ -56,20 +57,20 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable ex
      *
      * @return string
      */
-    public function getTabUrl()
-    {
-        return $this->getUrl('downloadable/product_edit/form', array('_current' => true));
-    }
+//    public function getTabUrl()
+//    {
+//        return $this->getUrl('downloadable/product_edit/form', array('_current' => true));
+//    }
 
     /**
      * Get tab class
      *
      * @return string
      */
-    public function getTabClass()
-    {
-        return 'ajax';
-    }
+//    public function getTabClass()
+//    {
+//        return 'ajax';
+//    }
 
     /**
      * Get tab label
@@ -127,11 +128,11 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable ex
             'open'    => false,
         ));
 
-        $accordion->addItem('links', array(
-            'title'   => Mage::helper('adminhtml')->__('Links'),
-            'content' => $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable_links')->toHtml(),
-            'open'    => true,
-        ));
+//        $accordion->addItem('links', array(
+//            'title'   => Mage::helper('adminhtml')->__('Links'),
+//            'content' => $this->getLayout()->createBlock('downloadable/adminhtml_catalog_product_edit_tab_downloadable_links')->toHtml(),
+//            'open'    => true,
+//        ));
 
         $this->setChild('accordion', $accordion);
 

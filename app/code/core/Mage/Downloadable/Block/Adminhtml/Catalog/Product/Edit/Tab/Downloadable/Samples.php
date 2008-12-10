@@ -63,9 +63,27 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
                 'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'id' => 'add_sample_item',
                 'class' => 'add',
             ));
         return $addButton->toHtml();
+    }
+
+    public function getSampleData()
+    {
+        $samplesArr = array();
+        $samples = $this->getProduct()->getTypeInstance()->getSamples();
+        foreach ($samples as $item) {
+            $tmpSampleItem = array(
+                'id' => $item->getId(),
+                'title' => $item->getTitle(),
+                'sample_url' => $item->getSampleUrl(),
+                'sort_order' => $item->getSortOrder()
+            );
+            $samplesArr[] = new Varien_Object($tmpSampleItem);
+        }
+
+        return $samplesArr;
     }
 
 }

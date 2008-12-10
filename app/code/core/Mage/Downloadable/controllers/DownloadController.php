@@ -35,6 +35,16 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
 {
 
     /**
+     * Return core session object
+     *
+     * @return Mage_Core_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('core/session');
+    }
+
+    /**
      * Return customer session object
      *
      * @return Mage_Customer_Model_Session
@@ -55,19 +65,19 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $contentType    = $helper->getContentType();
 
         $this->getResponse()
-        ->setHttpResponseCode(200)
-        ->setHeader('Pragma', 'public', true)
-        ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-        ->setHeader('Content-type', $contentType, true);
+            ->setHttpResponseCode(200)
+            ->setHeader('Pragma', 'public', true)
+            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+            ->setHeader('Content-type', $contentType, true);
         if ($fileSize = $helper->getFilesize()) {
             $this->getResponse()
             ->setHeader('Content-Length', $fileSize);
         }
         $this->getResponse()
-        ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
-        ->clearBody();
-        $this->getResponse()
-        ->sendHeaders();
+            ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
+            ->clearBody();
+            $this->getResponse()
+            ->sendHeaders();
 
         $helper->output();
     }
@@ -90,10 +100,10 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
-                return ;
+                $this->_getSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
             }
         }
-        return ;
+        return $this->_redirectReferer();
     }
 
     /**
@@ -111,30 +121,10 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
                     Mage_Downloadable_Helper_Download::LINK_TYPE_FILE
                 );
             } catch (Mage_Core_Exception $e) {
-                return ;
+                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
             }
         }
-        return ;
-    }
-
-    public function shareableLinkAction()
-    {
-        $linkId = $this->getRequest()->getParam('link_id', 0);
-        $link = Mage::getModel('downloadable/link')->load($linkId);
-        if ($link->getId()) {
-            $resource = $link->getLinkUrl();
-            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
-            if ($link->getLinkFile()) {
-                $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $link->getLinkFile();
-                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
-            }
-            try {
-                $this->_processDownload($resource, $resourceType);
-            } catch (Mage_Core_Exception $e) {
-                return ;
-            }
-        }
-        return ;
+        return $this->_redirectReferer();
     }
 
     /**
@@ -148,6 +138,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $linkPurchased = Mage::getModel('downloadable/link_purchased')->load($id);
         if (!$linkPurchased->getIsShareable()) {
             if (!$this->_getCustomerSession()->getCustomerId()) {
+                $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Please log in first.'));
                 $this->_getCustomerSession()->authenticate($this);
                 return ;
             }
@@ -170,16 +161,19 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
                     && !($linkPurchased->getNumberOfDownloadsBought() - $linkPurchased->getNumberOfDownloadsUsed())) {
                     $linkPurchased->setStatus(Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED);
                 }
+                $linkPurchased->save();
             }
-            catch (Mage_Core_Exception $e) {
-                // show page
-                // Sorry, the was an error getting requested content. Please contact store owner
-                return ;
+            catch (Exception $e) {
+                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
             }
+        } elseif ($linkPurchased->getStatus() == Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED) {
+            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is expiry.'));
+        } elseif ($linkPurchased->getStatus() == Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING) {
+            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is not available.'));
+        } else {
+            $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
         }
-
-        $linkPurchased->save();
-        return ;
+        return $this->_redirect('*/customer/products');
     }
 
 }
