@@ -217,7 +217,7 @@ function reRenderTree(event, switcher)
         // load from cache
         // load from ajax
         new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
-            parameters : {store: newStoreId, form_key: FROM_KEY},
+            parameters : {store: newStoreId, form_key: FORM_KEY},
             method     : 'post',
             onComplete : function(transport) {
                 var response = eval('(' + transport.responseText + ')');
