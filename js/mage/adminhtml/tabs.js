@@ -175,7 +175,7 @@ varienTabs.prototype = {
         var tabContentElement = $(this.getTabContentElementId(tab));
         if (tabContentElement && Element.hasClassName(tab, 'ajax') && Element.hasClassName(tab, 'notloaded')) {
             new Ajax.Updater(tabContentElement.id, tab.href, {
-                parameters: {form_key: FROM_KEY},
+                parameters: {form_key: FORM_KEY},
                 onComplete : function () {
                     if (!Element.hasClassName(tab, 'ajax only')) {
                         Element.removeClassName(tab, 'notloaded');
