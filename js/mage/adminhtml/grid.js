@@ -598,6 +598,8 @@ var varienStringArray = {
         }
         if (match = haystack.match(new RegExp(',', 'g'))) {
             return match.length + 1;
+        } else if (haystack.length != 0) {
+            return 1;
         }
         return 0;
     },
