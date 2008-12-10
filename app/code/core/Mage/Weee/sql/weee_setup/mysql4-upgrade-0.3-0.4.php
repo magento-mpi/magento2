@@ -19,19 +19,17 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Weee
+ * @package    Mage_Catalog
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Weee_Model_Mysql4_Setup */
 
-/**
- * Weee tax setup
- *
- * @category   Mage
- * @package    Mage_Weee
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Weee_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
-{
-}
+$installer->startSetup();
+
+$installer->addAttribute('quote_item', 'weee_tax_applied', array('type'=>'text'));
+$installer->addAttribute('order_item', 'weee_tax_applied', array('type'=>'text'));
+
+$installer->endSetup();

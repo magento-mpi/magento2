@@ -89,4 +89,15 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getModel('weee/tax')->getProductWeeeAttributes($product);
     }
+
+    public function getApplied($item)
+    {
+        return unserialize($item->getWeeeTaxApplied());
+    }
+
+    public function setApplied($item, $value)
+    {
+        $item->setWeeeTaxApplied(serialize($value));
+        return $this;
+    }
 }

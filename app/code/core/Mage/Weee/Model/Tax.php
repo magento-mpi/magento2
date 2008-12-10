@@ -79,6 +79,8 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         } else {
             $websiteId = $website;
         }
+        $productTaxes = array();
+        $total = 0;
 
         $productAttributes = $product->getTypeInstance()->getSetAttributes();
         $attributes = $this->getWeeeAttributeCodes();
@@ -111,7 +113,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
             $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
             if ($value) {
                 $title = $productAttributes[$attribute]->getFrontend()->getLabel();
-
+                $productTaxes[] = array('title'=>$title, 'amount'=>$value, 'row_amount'=>$value*$item->getQty());
                 $applied[] = array(
                     'id'=>$attribute,
                     'percent'=>null,
@@ -126,8 +128,12 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                         'priority'=>-1000+$k,
                     ))
                 );
+                $total += $value;
             }
         }
+        $item->setWeeeTaxAppliedAmount($total);
+        $item->setWeeeTaxAppliedRowAmount($total*$item->getQty());
+        Mage::helper('weee')->setApplied($item, $productTaxes);
 
         return $applied;
     }

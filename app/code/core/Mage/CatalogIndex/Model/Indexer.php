@@ -328,7 +328,17 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             );
 
             foreach ($websites as $website) {
-                $store = Mage::app()->getWebsite($website)->getDefaultGroup()->getDefaultStore();
+                $ws = Mage::app()->getWebsite($website);
+                if (!$ws) {
+                    continue;
+                }
+
+                $group = $ws->getDefaultGroup();
+                if (!$group) {
+                    continue;
+                }
+
+                $store = $group->getDefaultStore();
                 foreach ($this->_getPriorifiedProductTypes() as $type) {
                     $collection = $this->_getProductCollection($store, $products);
                     $collection->addAttributeToFilter('status', array('in'=>Mage::getModel('catalog/product_status')->getSaleableStatusIds()));
