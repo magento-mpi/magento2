@@ -124,7 +124,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
             if ($variable === true) {
                 $query = "DELETE FROM {$this->getTable($table)} ";
-                if ($suffix) {
+                if ($suffixToInsert) {
                     $query .= "WHERE {$suffixToInsert}";
                 }
 
@@ -132,7 +132,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             } else if (is_array($variable) && count($variable)) {
                 $query  = "DELETE FROM {$this->getTable($table)} WHERE ";
                 $query .= $this->_getWriteAdapter()->quoteInto("attribute_id in (?)", $variable);
-                if ($suffix) {
+                if ($suffixToInsert) {
                     $query .= " AND {$suffixToInsert}";
                 }
 
