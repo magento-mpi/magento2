@@ -28,13 +28,58 @@
 /**
  * Catalog view layer model
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @category    Mage
+ * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Layer extends Varien_Object
 {
     protected $_productCollections = array();
+
+    /**
+     * Key which can be used for load/save aggregation data
+     *
+     * @var string
+     */
+    protected $_stateKey = null;
+
+    /**
+     * Get data aggregation object
+     *
+     * @return Mage_CatalogIndex_Model_Aggregation
+     */
+    public function getAggregator()
+    {
+        return Mage::getSingleton('catalogindex/aggregation');
+    }
+
+    /**
+     * Get layer state key
+     *
+     * @return string
+     */
+    public function getStateKey()
+    {
+        if ($this->_stateKey === null) {
+            $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
+                . '_CAT_'.$this->getCurrentCategory()->getId();
+        }
+        return $this->_stateKey;
+    }
+
+    /**
+     * Get default tags for current layer state
+     *
+     * @param   array $additionalTags
+     * @return  array
+     */
+    public function getStateTags(array $additionalTags = array())
+    {
+        $additionalTags = array_merge($additionalTags, array(
+            Mage_Catalog_Model_Category::CACHE_TAG.$this->getCurrentCategory()->getId()
+        ));
+        return $additionalTags;
+    }
 
     /**
      * Retrieve current layer product collection
@@ -86,6 +131,14 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function apply()
     {
+        $stateSuffix = '';
+        foreach ($this->getState()->getFilters() as $filterItem) {
+            $stateSuffix.= '_'.$filterItem->getFilter()->getRequestVar()
+                . '_' . $filterItem->getValueString();
+        }
+        if (!empty($stateSuffix)) {
+            $this->_stateKey = $this->getStateKey().$stateSuffix;
+        }
         return $this;
     }
 
@@ -146,20 +199,21 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     }
 
     /**
-     * Enter description here...
+     * Get collection of all filterable attributes for layer products set
      *
      * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
      */
     public function getFilterableAttributes()
     {
         $entity = $this->getProductCollection()->getEntity();
-        $setIds = $this->getProductCollection()->getSetIds();
+        $setIds = $this->_getSetIds();
 
         if (!$setIds)
             return array();
 
         $collection = Mage::getModel('eav/entity_attribute')->getCollection()
             ->setItemObjectClass('catalog/resource_eav_attribute');
+
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
         $collection->setEntityTypeFilter($entity->getTypeId())
@@ -191,4 +245,20 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         return $state;
     }
 
+    /**
+     * Get attribute sets idendifiers of current product set
+     *
+     * @return array
+     */
+    protected function _getSetIds()
+    {
+        $key = $this->getStateKey().'_SET_IDS';
+        $setIds = $this->getAggregator()->getCacheData($key);
+
+        if ($setIds === null) {
+            $setIds = $this->getProductCollection()->getSetIds();
+            $this->getAggregator()->saveCacheData($setIds, $key, $this->getStateTags());
+        }
+        return $setIds;
+    }
 }

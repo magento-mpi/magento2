@@ -36,10 +36,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     protected $_productWebsiteTable;
     protected $_productCategoryTable;
-
     protected $_addUrlRewrite = false;
     protected $_urlRewriteCategory = '';
-
     protected $_addMinimalPrice = false;
     protected $_addFinalPrice = false;
     protected $_allIdsCache = null;
@@ -85,7 +83,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return parent::addAttributeToSelect($attribute, $joinType);
     }
 
-
+    /**
+     * Add tax calss id attribute to select and join price rules data if needed
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     protected function _beforeLoad()
     {
         if ($this->_addFinalPrice) {
@@ -93,11 +95,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
         $this->addAttributeToSelect('tax_class_id');
 
-        parent::_beforeLoad();
+        return parent::_beforeLoad();
     }
 
     /**
      * Processing collection items after loading
+     * Adding url rewrites, minimal prices, final prices, tax percents
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
@@ -115,6 +118,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->_addTaxPercents) {
             $this->_addTaxPercents();
         }
+
         if (count($this)>0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         }
@@ -225,22 +229,27 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
+    /**
+     * Specify category filter for product collection
+     *
+     * @param   Mage_Catalog_Model_Category $category
+     * @param   bool $renderAlias instruction for build category table alias based on category id
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
     {
         if ($category->getIsAnchor()) {
-            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id=?', $category->getId());
-        }
-        else {
-            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id=? AND {{table}}.is_parent=1', $category->getId());
+            $categoryCondition = $this->getConnection()->quoteInto(
+                '{{table}}.category_id=?',
+                $category->getId()
+            );
+        } else {
+            $categoryCondition = $this->getConnection()->quoteInto(
+                '{{table}}.category_id=? AND {{table}}.is_parent=1',
+                $category->getId()
+            );
         }
 
-//        if ($category->getIsAnchor()) {
-//            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id IN (?)', explode(',', $category->getAllChildren()));
-//            $this->getSelect()->group('e.entity_id');
-//        }
-//        else {
-//            $categoryCondition = $this->getConnection()->quoteInto('{{table}}.category_id=?', $category->getId());
-//        }
         if ($renderAlias) {
             $alias = 'category_'.$category->getId();
         }
@@ -248,10 +257,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $alias = 'position';
         }
 
-        $this->joinField($alias, 'catalog/category_product_index', 'position', 'product_id=entity_id', $categoryCondition);
+        $this->joinField(
+            $alias,
+            'catalog/category_product_index',
+            'position',
+            'product_id=entity_id',
+            $categoryCondition
+        );
         return $this;
     }
 
+    /**
+     * Join minimal price attribute to result
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     public function joinMinimalPrice()
     {
         $this->addAttributeToSelect('price')
@@ -428,10 +448,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 );
 
             if ($category->getIsAnchor()) {
-                $select->where($this->getConnection()->quoteInto('category_count_table.category_id IN(?)', explode(',', $category->getAllChildren())));
+                $select->where($this->getConnection()->quoteInto(
+                    'category_count_table.category_id IN(?)',
+                    explode(',', $category->getAllChildren())
+                ));
             }
             else {
-                $select->where($this->getConnection()->quoteInto('category_count_table.category_id=?', $category->getId()));
+                $select->where($this->getConnection()->quoteInto(
+                    'category_count_table.category_id=?',
+                    $category->getId()
+                ));
             }
 
             $category->setProductCount((int) $this->getConnection()->fetchOne($select));
@@ -456,7 +482,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function joinUrlRewrite()
     {
-        $this->joinTable('core/url_rewrite', 'entity_id=entity_id', array('request_path'), '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT, 'left');
+        $this->joinTable(
+            'core/url_rewrite',
+            'entity_id=entity_id',
+            array('request_path'),
+            '{{table}}.type='.Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT,
+            'left'
+        );
 
         return $this;
     }
@@ -465,7 +497,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        //~ $this->_urlRewriteCategory = $categoryId;
         $this->_urlRewriteCategory = Mage::getStoreConfig('catalog/seo/product_use_categories') ? $categoryId : 0;
         return $this;
     }
@@ -545,6 +576,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
+    /**
+     * Join prices from price rules to products collection
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     protected function _joinPriceRules()
     {
         $wId = Mage::app()->getWebsite()->getId();
@@ -552,15 +588,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $storeDate = Mage::app()->getLocale()->storeDate($this->getStoreId());
 
         $conditions  = "_price_rule.product_id = e.entity_id AND ";
-
         $conditions .= "_price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
         $conditions .= "_price_rule.website_id = '{$wId}' AND ";
         $conditions .= "_price_rule.customer_group_id = '{$gId}'";
 
-        //$productIds = $this->getAllIds();
-        $productIds = $this->getAllIdsCache();
-        $this->getSelect()
-            ->joinLeft(array('_price_rule'=>$this->getTable('catalogrule/rule_product_price')), $conditions, array('_rule_price'=>'rule_price'));
+        $this->getSelect()->joinLeft(
+            array('_price_rule'=>$this->getTable('catalogrule/rule_product_price')),
+            $conditions,
+            array('_rule_price'=>'rule_price')
+        );
+        return $this;
     }
 
     protected function _addFinalPrice()
@@ -705,9 +742,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $priceAttributeId = $this->getAttribute('price')->getId();
 
             $entityCondition = '_price_order_table.entity_id = e.entity_id';
-            $storeCondition = $this->getConnection()->quoteInto('_price_order_table.website_id = ?', $websiteId);
-            $groupCondition = $this->getConnection()->quoteInto('_price_order_table.customer_group_id = ?', $customerGroup);
-            $attributeCondition = $this->getConnection()->quoteInto('_price_order_table.attribute_id = ?', $priceAttributeId);
+            $storeCondition = $this->getConnection()->quoteInto(
+                '_price_order_table.website_id = ?',
+                $websiteId
+            );
+            $groupCondition = $this->getConnection()->quoteInto(
+                '_price_order_table.customer_group_id = ?',
+                $customerGroup
+            );
+            $attributeCondition = $this->getConnection()->quoteInto(
+                '_price_order_table.attribute_id = ?',
+                $priceAttributeId
+            );
 
             $this->getSelect()->joinLeft(
                 array('_price_order_table'=>$this->getTable('catalogindex/price')),

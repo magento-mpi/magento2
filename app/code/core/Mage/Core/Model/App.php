@@ -983,11 +983,10 @@ class Mage_Core_Model_App
             $tags = $this->_getCacheTags($tags);
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
         } else {
-            /*$cacheDir = Mage::getConfig()->getOptions()->getCacheDir();
-            mageDelTree($cacheDir);
-            mkdir($cacheDir, 0777);*/
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_ALL);
         }
+
+        Mage::dispatchEvent('application_clean_cache', array('tags' => $tags));
         return $this;
     }
 
