@@ -29,7 +29,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Action
 {
@@ -182,6 +182,20 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                         $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while refreshed Layered Navigation Indices. Please try again later'));
                     }
                     break;
+
+                case 'rebuild_search_index':
+                    try {
+                        Mage::getSingleton('catalogsearch/fulltext')->rebuildIndex();
+                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Search Index were rebuilded successfully'));
+                    }
+                    catch (Mage_Core_Exception $e) {
+                        $this->_getSession()->addError($e->getMessage());
+                    }
+                    catch (Exception $e) {
+                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while rebuilded Search Index. Please try again later'));
+                    }
+                    break;
+
                 default:
                     break;
             }

@@ -31,6 +31,10 @@
  */
 class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
 {
+    const XML_PATH_MIN_QUERY_LENGTH     = 'catalog/search/min_query_length';
+    const XML_PATH_MAX_QUERY_LENGTH     = 'catalog/search/max_query_length';
+    const XML_PATH_MAX_QUERY_WORDS      = 'catalog/search/max_query_words';
+
     protected function _construct()
     {
         $this->_init('catalogsearch/query');
@@ -100,5 +104,45 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve Store Id
+     *
+     * @return int
+     */
+    public function getStoreId()
+    {
+        return $this->getData('store_id');
+    }
+
+    /**
+     * Retrieve minimum query length
+     *
+     * @return int
+     */
+    public function getMinQueryLenght()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_MIN_QUERY_LENGTH, $this->getStoreId());
+    }
+
+    /**
+     * Retrieve maximum query length
+     *
+     * @return int
+     */
+    public function getMaxQueryLenght()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_MAX_QUERY_LENGTH, $this->getStoreId());
+    }
+
+    /**
+     * Retrieve maximum query words for like search
+     *
+     * @return int
+     */
+    public function getMaxQueryWords()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_MAX_QUERY_WORDS, $this->getStoreId());
     }
 }

@@ -199,6 +199,13 @@
                 <search_terms>1</search_terms>
                 <site_map>1</site_map>
             </seo>
+            <search>
+                <min_query_length>1</min_query_length>
+                <max_query_length>128</max_query_length>
+                <max_query_words>10</max_query_words>
+                <search_type>1</search_type>
+                <use_layered_navigation>1</use_layered_navigation>
+            </search>
         </catalog>
     </default>
 </config>

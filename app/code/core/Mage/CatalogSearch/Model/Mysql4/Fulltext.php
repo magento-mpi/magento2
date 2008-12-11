@@ -162,7 +162,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $this->_saveProductIndexes($storeId, $productIndexes);
         }
 
-        $this->_resetSearchResults();
+        $this->resetSearchResults();
 
         return $this;
     }
@@ -208,7 +208,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      *
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
-    protected function _resetSearchResults()
+    protected function resetSearchResults()
     {
         $this->beginTransaction();
         try {
@@ -250,22 +250,56 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     /**
      * Prepare results for query
      *
+     * @param Mage_CatalogSearch_Model_Fulltext $object
      * @param string $queryText
      * @param Mage_CatalogSearch_Model_Query $query
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
-    public function prepareResult($queryText, $query)
+    public function prepareResult($object, $queryText, $query)
     {
         if (!$query->getIsProcessed()) {
+            $searchType = $object->getSearchType($query->getStoreId());
+
+            $stringHelper = Mage::helper('core/string');
+            /* @var $stringHelper Mage_Core_Helper_String */
+
             $bind = array(
-                ':query'     => $queryText,
-                ':like'      => '%' . $queryText . '%',
+                ':query'     => $queryText
             );
+            $like = array();
+
+            $fulltextCond   = '';
+            $likeCond       = '';
+            $separateCond   = '';
+
+            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
+                || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+                $words = $stringHelper->splitWords($queryText, true, $query->getMaxQueryWords());
+                $likeI = 0;
+                foreach ($words as $word) {
+                    $like[] = '`data_index` LIKE :likew' . $likeI;
+                    $bind[':likew' . $likeI] = '%' . $word . '%';
+                    $likeI ++;
+                }
+                if ($like) {
+                    $likeCond = '(' . join(' AND ', $like) . ')';
+                }
+            }
+            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
+                || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+                    $fulltextCond = 'MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE)';
+                }
+            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+                $separateCond = ' OR ';
+            }
 
             $sql = sprintf("REPLACE INTO `{$this->getTable('catalogsearch/result')}` "
                 . "(SELECT '%d', `product_id`, MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE) "
-                . "FROM `{$this->getMainTable()}` WHERE (MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE) OR `data_index` LIKE :like) AND `store_id`='%d')",
+                . "FROM `{$this->getMainTable()}` WHERE (%s%s%s) AND `store_id`='%d')",
                 $query->getId(),
+                $fulltextCond,
+                $separateCond,
+                $likeCond,
                 $query->getStoreId()
             );
 
