@@ -208,7 +208,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      *
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
-    protected function resetSearchResults()
+    public function resetSearchResults()
     {
         $this->beginTransaction();
         try {
@@ -496,7 +496,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $attribute->setStoreId($storeId);
             $value = $attribute->getSource()->getOptionText($value);
         }
-        return trim(stripslashes($value));
+        return preg_replace("#\s+#si", " ", trim(strip_tags($value)));
     }
 
     /**
