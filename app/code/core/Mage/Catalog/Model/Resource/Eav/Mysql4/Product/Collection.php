@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
-     * Add tax calss id attribute to select and join price rules data if needed
+     * Add tax class id attribute to select and join price rules data if needed
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
@@ -715,7 +715,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
-     * Set cillection product visibility filter for enabled products
+     * Set product visibility filter for enabled products
      *
      * @param   array $visibility
      * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection

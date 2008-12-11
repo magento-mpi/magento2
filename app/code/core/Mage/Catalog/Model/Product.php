@@ -781,7 +781,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Create duplicate
      *
-     * @return unknown
+     * @return Mage_Catalog_Model_Product
      */
     public function duplicate()
     {
@@ -871,6 +871,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getOptionInstance()->duplicate($this->getId(), $newProduct->getId());
         $this->getResource()->duplicate($this->getId(), $newProduct->getId());
 
+        // TODO - duplicate product on all stores of the websites it is associated with
         /*if ($storeIds = $this->getWebsiteIds()) {
             foreach ($storeIds as $storeId) {
                 $this->setStoreId($storeId)
