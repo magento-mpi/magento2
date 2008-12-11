@@ -33,54 +33,200 @@
  */
 class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Searchable attributes cache
+     *
+     * @var array
+     */
+    protected $_searchableAttributes = null;
+
+    /**
+     * Index values separator
+     *
+     * @var string
+     */
+    protected $_separator = ' ';
+
+    /**
+     * Product Type Instances cache
+     *
+     * @var array
+     */
+    protected $_productTypes = array();
+
+    /**
+     * Init resource model
+     */
     protected function _construct()
     {
         $this->_init('catalogsearch/fulltext', 'product_id');
     }
 
     /**
-     * Regenerate all Stores index
+     * Regenerate search index for store(s)
      *
      * @param int $storeId Store View Id
-     * @param int $productId Product Entity Id
+     * @param int|array $productIds Product Entity Id(s)
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
-    public function rebuildIndex($storeId = null, $productId = null)
+    public function rebuildIndex($storeId = null, $productIds = null)
     {
-        if ($storeId === null) {
-            foreach (Mage::app()->getStores() as $store) {
-                $this->_rebuildStoreIndex($store->getId(), $productId);
+        if (is_null($storeId)) {
+            foreach (Mage::app()->getStores(false) as $store) {
+                $this->_rebuildStoreIndex($store->getId(), $productIds);
             }
         } else {
-            $this->_rebuildStoreIndex($storeId, $productId);
+            $this->_rebuildStoreIndex($storeId, $productIds);
         }
-
         return $this;
     }
 
     /**
-     * Regenerate index for specific store
+     * Regenerate search index for specific store
      *
      * @param int $storeId Store View Id
-     * @param int $productId Product Entity Id
+     * @param int|array $productIds Product Entity Id
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
-    protected function _rebuildStoreIndex($storeId, $productId = null)
+    protected function _rebuildStoreIndex($storeId, $productIds = null)
     {
-        $this->cleanIndex($storeId, $productId);
+        $this->cleanIndex($storeId, $productIds);
 
-        $stmt = $this->_getSearchableProductsStatement($storeId, $productId);
-        while ($row = $stmt->fetch()) {
-            $childIds = $this->_getProductChildIds($row['entity_id'], $row['type_id']);
-            $index = $this->_prepareIndexValue($row['entity_id'], $storeId, $childIds);
-            $this->_saveRowIndexData($row['entity_id'], $storeId, $index);
+        // preparesearchable attributes
+        $staticFields   = array();
+        foreach ($this->_getSearchableAttributes('static') as $attribute) {
+            $staticFields[] = $attribute->getAttributeCode();
+        }
+        $dynamicFields  = array(
+            'int'       => array_keys($this->_getSearchableAttributes('int')),
+            'varchar'   => array_keys($this->_getSearchableAttributes('varchar')),
+            'text'      => array_keys($this->_getSearchableAttributes('text')),
+        );
+
+        // status and visibility filter
+        $visibility     = $this->_getSearchableAttribute('visibility');
+        $status         = $this->_getSearchableAttribute('status');
+        $visibilityVals = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
+        $statusVals     = Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+
+        $lastProductId = 0;
+        while (true) {
+            $products = $this->_getSearchableProducts($storeId, $staticFields, $productIds, $lastProductId);
+            if (!$products) {
+                break;
+            }
+
+            $productAttributes  = array();
+            $productRelations   = array();
+            foreach ($products as $productData) {
+                $lastProductId = $productData['entity_id'];
+                $productAttributes[$productData['entity_id']] = $productData['entity_id'];
+                $productChilds = $this->_getProductChildIds($productData['entity_id'], $productData['type_id']);
+                $productRelations[$productData['entity_id']] = $productChilds;
+                if ($productChilds) {
+                    foreach ($productChilds as $productChildId) {
+                        $productAttributes[$productChildId] = $productChildId;
+                    }
+                }
+            }
+
+            $productIndexes     = array();
+            $productAttributes  = $this->_getProductAttributes($storeId, $productAttributes, $dynamicFields);
+            foreach ($products as $productData) {
+                if (!isset($productAttributes[$productData['entity_id']])) {
+                    continue;
+                }
+                $protductAttr = $productAttributes[$productData['entity_id']];
+                if (!isset($protductAttr[$visibility->getId()]) || !in_array($protductAttr[$visibility->getId()], $visibilityVals)) {
+                    continue;
+                }
+                if (!isset($protductAttr[$status->getId()]) || !in_array($protductAttr[$status->getId()], $statusVals)) {
+                    continue;
+                }
+
+                $productIndex = array(
+                    $productData['entity_id'] => $protductAttr
+                );
+                if ($productChilds = $productRelations[$productData['entity_id']]) {
+                    foreach ($productChilds as $productChildId) {
+                        if (isset($productAttributes[$productChildId])) {
+                            $productIndex[$productChildId] = $productChildId;
+                        }
+                    }
+                }
+
+                $index = $this->_prepareProductIndex($productIndex, $productData, $storeId);
+                $productIndexes[$productData['entity_id']] = $index;
+                //$this->_saveProductIndex($productData['entity_id'], $storeId, $index);
+            }
+            $this->_saveProductIndexes($storeId, $productIndexes);
+        }
+
+        $this->_resetSearchResults();
+
+        return $this;
+    }
+
+    /**
+     * Retrieve searchable products per store
+     *
+     * @param int $storeId
+     * @param array $staticFields
+     * @param array|int $productIds
+     * @param int $lastProductId
+     * @param int $limit
+     * @return array
+     */
+    protected function _getSearchableProducts($storeId, array $staticFields, $productIds = null, $lastProductId = 0, $limit = 100)
+    {
+        $entityType = $this->getEavConfig()->getEntityType('catalog_product');
+        $store      = Mage::app()->getStore($storeId);
+
+        $select = $this->_getReadAdapter()->select()
+            ->from(
+                array('e' => $this->getTable('catalog/product')),
+                array_merge(array('entity_id', 'type_id'), $staticFields))
+            ->joinInner(
+                array('website' => $this->getTable('catalog/product_website')),
+                $this->_getReadAdapter()->quoteInto('website.product_id=e.entity_id AND website.website_id=?', $store->getWebsiteId()),
+                array()
+            );
+
+        if (!is_null($productIds)) {
+            $select->where('e.entity_id IN(?)', $productIds);
+        }
+
+        $select->where('e.entity_id>?', $lastProductId)
+            ->limit($limit)
+            ->order('e.entity_id');
+
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
+
+    /**
+     * Reset search results
+     *
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
+     */
+    protected function _resetSearchResults()
+    {
+        $this->beginTransaction();
+        try {
+            $this->_getWriteAdapter()->update($this->getTable('catalogsearch/search_query'), array('is_processed' => 0));
+            $this->_getWriteAdapter()->query("TRUNCATE TABLE {$this->getTable('catalogsearch/result')}");
+
+            $this->commit();
+        }
+        catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
         }
 
         return $this;
     }
 
     /**
-     * Delete index data
+     * Delete search index data for store
      *
      * @param int $storeId Store View Id
      * @param int $productId Product Entity Id
@@ -88,188 +234,155 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
-        $conditions = array('1');
+        $where = array();
 
-        if ($storeId !== null) {
-            $conditions[] = $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId);
+        if (!is_null($storeId)) {
+            $where[] = $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId);
         }
-        if ($productId !== null) {
-            $conditions[] = $this->_getWriteAdapter()->quoteInto('product_id=?', $productId);
+        if (!is_null($productId)) {
+            $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $storeId);
         }
 
-        $where = implode(' AND ', $conditions);
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         return $this;
     }
 
     /**
-     * TODO: multi-line inserts
-     * Save prepared index data
+     * Prepare results for query
      *
-     * @param array $data Prepared data
+     * @param string $queryText
+     * @param Mage_CatalogSearch_Model_Query $query
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
-    protected function _saveRowIndexData($productId, $storeId, $index)
+    public function prepareResult($queryText, $query)
     {
-        $row = array(
-            'product_id'   => $productId,
-            'store_id'     => $storeId,
-            'data_index'   => $index
-        );
-        $this->_getWriteAdapter()->insert($this->getMainTable(), $row);
+        if (!$query->getIsProcessed()) {
+            $bind = array(
+                ':query'     => $queryText,
+                ':like'      => '%' . $queryText . '%',
+            );
+
+            $sql = sprintf("REPLACE INTO `{$this->getTable('catalogsearch/result')}` "
+                . "(SELECT '%d', `product_id`, MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE) "
+                . "FROM `{$this->getMainTable()}` WHERE (MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE) OR `data_index` LIKE :like) AND `store_id`='%d')",
+                $query->getId(),
+                $query->getStoreId()
+            );
+
+            $this->_getWriteAdapter()->query($sql, $bind);
+
+            $query->setIsProcessed(1);
+        }
 
         return $this;
     }
 
     /**
-     * Prepare value for data_index column
+     * Retrieve EAV Config Singleton
      *
-     * @param int $productId Product Entity Id
-     * @param int $storeId Store View Id
-     * @param array $childIds Array of product children ids
-     * @return string Data index value ready to save
+     * @return Mage_Eav_Model_Config
      */
-    protected function _prepareIndexValue($productId, $storeId, $childIds = null)
+    public function getEavConfig()
     {
-        if (is_array($childIds)) {
-            $productIds = array_merge(array($productId), $childIds);
-        } else {
-            $productIds = array($productId);
-        }
-
-        $sql = $this->_getFullSourceSql($productIds, $storeId);
-        $values = $this->_getReadAdapter()->fetchAll($sql);
-
-        $separator = ',';
-        $indexData = '';
-        foreach ($values as $row) {
-            $indexData .= $this->_getAttributeValue($row['attribute_id'], $row['value'], $storeId) . $separator;
-        }
-
-        return rtrim($indexData, $separator);
+        return Mage::getSingleton('eav/config');
     }
 
     /**
-     * Prepare attribute value
+     * Retrieve Searchable attributes
      *
-     * @param int $attributeId
-     * @param string $value
-     * @param int $storeId Store View Id
-     * @return string
+     * @return array
      */
-    protected function _getAttributeValue($attributeId, $value, $storeId)
+    protected function _getSearchableAttributes($backendType = null)
     {
-        /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = Mage::getSingleton('catalog/resource_eav_attribute')
-            ->setStoreId($storeId)
-            ->load($attributeId);
-
-        $sourceModel = $attribute->getSourceModel();
-        if ($sourceModel) {
-            $model = Mage::getModel($sourceModel);
-            if (!is_object($model)) {
-                return $value;
+        if (is_null($this->_searchableAttributes)) {
+            $this->_searchableAttributes = array();
+            $entityType = $this->getEavConfig()->getEntityType('catalog_product');
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getTable('eav/attribute'), array('attribute_code'))
+                ->where('entity_type_id=?', $entityType->getEntityTypeId())
+                ->where('is_searchable=?', 1);
+            $attributeCodes = array_merge($this->_getReadAdapter()->fetchCol($select), array('status', 'visibility'));
+            $this->getEavConfig()->preloadAttributes($entityType, $attributeCodes);
+            foreach ($attributeCodes as $attributeCode) {
+                $attribute = $this->getEavConfig()->getAttribute($entityType, $attributeCode);
+                $this->_searchableAttributes[$attribute->getId()] = $attribute;
             }
-
-            $_textValue = $model->setAttribute($attribute)->getOptionText($value);
-
-            if (is_array($_textValue)) {
-                return implode(',', $_textValue);
+        }
+        if (!is_null($backendType)) {
+            $attributes = array();
+            foreach ($this->_searchableAttributes as $attribute) {
+                if ($attribute->getBackendType() == $backendType) {
+                    $attributes[$attribute->getId()] = $attribute;
+                }
             }
-            return $_textValue;
+            return $attributes;
         }
-        return $value;
+        return $this->_searchableAttributes;
     }
 
     /**
-     * Return final sql query for retrieving attributes values
+     * Retrieve searchable attribute by Id or code
      *
-     * @param int|array $productId Product Entity Id
-     * @param int $storeId Store View Id
-     * @return string Sql query ready to use
+     * @param int|string $attribute
+     * @return Mage_Eav_Model_Entity_Attribute
      */
-    protected function _getFullSourceSql($productId, $storeId)
+    protected function _getSearchableAttribute($attribute)
     {
-        $unions = array(
-            $this->_prepareTypedSelect($productId, 'int', $storeId)->__toString(),
-            $this->_prepareTypedSelect($productId, 'text', $storeId)->__toString(),
-            $this->_prepareTypedSelect($productId, 'varchar', $storeId)->__toString()
-        );
-        return '(' . implode(') UNION (', $unions) . ')';
+        $attributes = $this->_getSearchableAttributes();
+        if (is_numeric($attribute)) {
+            if (isset($attributes[$attribute])) {
+                return $attributes[$attribute];
+            }
+        }
+        elseif (is_string($attribute)) {
+            foreach ($attributes as $attributeModel) {
+                if ($attributeModel->getAttributeCode() == $attribute) {
+                    return $attributeModel;
+                }
+            }
+        }
+        return $this->getEavConfig()->getAttribute($attribute);
     }
 
     /**
-     * Prepare select object for specific backend type
+     * Load product(s) attributes
      *
-     * @param int|array $productId Product Entity Id
-     * @param string $backendType Attributes Backend Type
-     * @param int $storeId Store View Id
-     * @return Zend_Db_Select
+     * @param int $storeId
+     * @param array $productIds
+     * @param array $atributeTypes
+     *
+     * @return array
      */
-    protected function _prepareTypedSelect ($productId, $backendType, $storeId)
+    protected function _getProductAttributes($storeId, array $productIds, array $atributeTypes)
     {
-        if (!is_array($productId)) {
-            $productId = array($productId);
+        $result  = array();
+        $selects = array();
+        foreach ($atributeTypes as $backendType => $attributeIds) {
+            if ($attributeIds) {
+                $tableName = $this->getTable('catalog/product') . '_' . $backendType;
+                $selects[] = $this->_getReadAdapter()->select()
+                    ->from(
+                        array('t_default' => $tableName),
+                        array('entity_id', 'attribute_id'))
+                    ->joinLeft(
+                        array('t_store' => $tableName),
+                        $this->_getReadAdapter()->quoteInto("t_default.entity_type_id=t_store.entity_type_id AND t_default.attribute_id=t_store.attribute_id AND t_store.store_id=?", $storeId),
+                        array('value'=>'IFNULL(t_store.value, t_default.value)'))
+                    ->where('t_default.store_id=?', 0)
+                    ->where('t_default.attribute_id IN(?)', $attributeIds)
+                    ->where('t_default.entity_id IN(?)', $productIds);
+            }
         }
 
-        $select = $this->_getReadAdapter()->select();
-        $select->from(
-                array('main' => $this->getTable('catalog/product') . '_' . $backendType),
-                array('attribute_id', 'store_id', 'entity_id', 'value')
-            )
-            ->joinInner(array('eav' => $this->getTable('eav/attribute')),
-                'main.attribute_id = eav.attribute_id',
-                array('source_model')
-            )
-            ->where('eav.is_searchable=?', '1')
-            ->where('main.entity_id IN(?)', $productId)
-            ->where('main.store_id=?', $storeId);
-
-        return $select;
-    }
-
-    /**
-     * Retrive all product ids and initialize searchable and super ids
-     *
-     * @param int $storeId Store View Id
-     * @param int|array $productId Product Entity Id
-     * @return Zend_Db_Statement
-     */
-    protected function _getSearchableProductsStatement($storeId, $productId = null)
-    {
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-
-        $visibility = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'visibility');
-        $visibilityValues = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
-
-        $status = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'status');
-
-        $select = $this->_getReadAdapter()->select();
-        $select->from(
-                array('e' => $this->getTable('catalog/product')),
-                array('entity_id', 'type_id')
-            )
-            ->joinInner(array('visibility' => $visibility->getBackend()->getTable()),
-                'e.entity_id=visibility.entity_id',
-                array()
-            )
-            ->joinInner(array('status' => $status->getBackend()->getTable()),
-                'e.entity_id=status.entity_id',
-                array()
-            )
-            ->where('visibility.attribute_id=?', $visibility->getAttributeId())
-            ->where('visibility.value IN(?)', $visibilityValues)
-            ->where('visibility.store_id=?', $storeId)
-            ->where('status.attribute_id=?', $status->getAttributeId())
-            ->where('status.value=?', '1')
-            ->where('status.store_id=?', $storeId);
-
-        if ($productId != null) {
-            $productId = is_array($productId) ? $productId : array($productId);
-            $select->where('e.entity_id IN(?)', $productId);
+        if ($selects) {
+            $select = '('.join(')UNION(', $selects).')';
+            $query = $this->_getReadAdapter()->query($select);
+            while ($row = $query->fetch()) {
+                $result[$row['entity_id']][$row['attribute_id']] = $row['value'];
+            }
         }
 
-        return $select->query();
+        return $result;
     }
 
     /**
@@ -281,44 +394,121 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     protected function _getProductChildIds($productId, $typeId)
     {
-        $productEmulator = new Varien_Object();
-        $productEmulator->setTypeId($typeId);
-        $typeInstance = Mage::getSingleton('catalog/product_type')->factory($productEmulator);
-        /* @var $typeInstance Mage_Catalog_Model_Product_Type_Abstract */
-        if ($typeInstance->isComposite()) {
-            $relation = $typeInstance->getRelationInfo();
-            return $this->_getLinkedIds(
-                $relation->getTable(),
-                $productId,
-                $relation->getParentFieldName(),
-                $relation->getChildFieldName(),
-                $relation->getWhere()
-            );
+        if (!isset($this->_productTypes[$typeId])) {
+            $productEmulator = new Varien_Object();
+            $productEmulator->setTypeId($typeId);
+
+            $typeInstance = Mage::getSingleton('catalog/product_type')->factory($productEmulator);
+            $this->_productTypes[$typeId] = $typeInstance->isComposite() ? $typeInstance->getRelationInfo() : false;
         }
+
+        $relation = $this->_productTypes[$typeId];
+        if ($relation && $relation->getTable() && $relation->getParentFieldName() && $relation->getChildFieldName()) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(
+                    array('main' => $this->getTable($relation->getTable())),
+                    array($relation->getChildFieldName()))
+                ->where("{$relation->getParentFieldName()}=?", $productId);
+            if (!is_null($relation->getWhere())) {
+                $select->where($relation->getWhere());
+            }
+            return $this->_getReadAdapter()->fetchCol($select);
+        }
+
         return null;
     }
 
     /**
-     * Retrieve child-linked product ids
+     * Prepare Fulltext index value for product
      *
-     * @param string $table Table of links parent-child
-     * @param int $parentId Parent product Id value
-     * @param string $parentFieldName Field name of parent product Id
-     * @param string $childFieldName Field name of linked product Id
-     * @param string $where Additional condition to select query
-     * @return array Linked products ids
+     * @param array $indexData
+     * @param array $productData
+     * @return string
      */
-    public function _getLinkedIds($table, $parentId, $parentFieldName, $childFieldName, $where = null)
+    protected function _prepareProductIndex($indexData, $productData, $storeId)
     {
-        if ( !($table && $parentFieldName && $childFieldName) ) {
+        $index = array();
+        foreach ($this->_getSearchableAttributes('static') as $attribute) {
+            if (isset($productData[$attribute->getAttributeCode()])) {
+                if ($value = $this->_getAttributeValue($attribute->getId(), $productData[$attribute->getAttributeCode()], $storeId)) {
+                    $index[] = $value;
+                }
+            }
+        }
+        foreach ($indexData as $attributeData) {
+            foreach ($attributeData as $attributeId => $attributeValue) {
+                if ($value = $this->_getAttributeValue($attributeId, $attributeValue, $storeId)) {
+                    $index[] = $value;
+                }
+            }
+        }
+        return join($this->_separator, $index);
+    }
+
+    /**
+     * Retrieve attribute source value for search
+     *
+     * @param int $attributeId
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function _getAttributeValue($attributeId, $value, $storeId)
+    {
+        $attribute = $this->_getSearchableAttribute($attributeId);
+        if (!$attribute->getIsSearchable()) {
             return null;
         }
-        $select = $this->_getReadAdapter()->select();
-        $select->from(array('main' => $this->getTable($table)), array($childFieldName))
-            ->where("{$parentFieldName}=?", $parentId);
-        if ($where !== null) {
-            $select->where($where);
+        if ($attribute->usesSource()) {
+            $attribute->setStoreId($storeId);
+            $value = $attribute->getSource()->getOptionText($value);
         }
-        return $this->_getReadAdapter()->fetchCol($select);
+        return trim(stripslashes($value));
+    }
+
+    /**
+     * Save Product index
+     *
+     * @param int $productId
+     * @param int $storeId
+     * @param string $index
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
+     */
+    protected function _saveProductIndex($productId, $storeId, $index)
+    {
+        $this->_getWriteAdapter()->insert($this->getMainTable(), array(
+            'product_id'    => $productId,
+            'store_id'      => $storeId,
+            'data_index'    => $index
+        ));
+        return $this;
+    }
+
+    /**
+     * Save Multiply Product indexes
+     *
+     * @param int $storeId
+     * @param array $productIndexes
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
+     */
+    protected function _saveProductIndexes($storeId, $productIndexes)
+    {
+        $values = array();
+        $bind   = array();
+        foreach ($productIndexes as $productId => &$index) {
+            $values[] = sprintf('(%s,%s,%s)',
+                $this->_getWriteAdapter()->quoteInto('?', $productId),
+                $this->_getWriteAdapter()->quoteInto('?', $storeId),
+                '?'
+            );
+            $bind[] = $index;
+        }
+
+        if ($values) {
+            $sql = "REPLACE INTO `{$this->getMainTable()}` VALUES"
+                . join(',', $values);
+            $this->_getWriteAdapter()->query($sql, $bind);
+        }
+
+        return $this;
     }
 }

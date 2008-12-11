@@ -75,4 +75,23 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
         $this->getResource()->cleanIndex($storeId, $productId);
         return $this;
     }
+
+    /**
+     * Prepare results for query
+     *
+     * @param string $queryText
+     * @param Mage_CatalogSearch_Model_Query $query
+     * @return Mage_CatalogSearch_Model_Fulltext
+     */
+    public function prepareResult($queryText = null, $query = null)
+    {
+        if (is_null($queryText)) {
+            $queryText = Mage::helper('catalogSearch')->getEscapedQueryText();
+        }
+        if (!$query instanceof Mage_CatalogSearch_Model_Query) {
+            $query = Mage::helper('catalogSearch')->getQuery();
+        }
+        $this->getResource()->prepareResult($queryText, $query);
+        return $this;
+    }
 }

@@ -34,6 +34,11 @@
  */
 class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
 {
+    /**
+     * Catalog Product collection
+     *
+     * @var Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
+     */
     protected $_productCollection;
 
     /**
@@ -46,6 +51,11 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         return $this->helper('catalogSearch')->getQuery();
     }
 
+    /**
+     * Prepare layout
+     *
+     * @return Mage_CatalogSearch_Block_Result
+     */
     protected function _prepareLayout()
     {
         $title = $this->__("Search results for: '%s'", $this->helper('catalogSearch')->getEscapedQueryText());
@@ -66,27 +76,62 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         return parent::_prepareLayout();
     }
 
-    public function setListOrders() {
-        $this->getChild('search_result_list')
-            ->setAvailableOrders(array(
-                'name'  => $this->__('Name'),
-                'price' => $this->__('Price'))
-            );
+    /**
+     * Retrieve search list toolbar block
+     *
+     * @return Mage_Catalog_Block_Product_List_Toolbar
+     */
+    public function getListBlock()
+    {
+        return $this->getChild('search_result_list');
     }
 
+    /**
+     * Set search available list orders
+     *
+     * @return Mage_CatalogSearch_Block_Result
+     */
+    public function setListOrders() {
+        $this->getListBlock()
+            ->setAvailableOrders(array(
+                'relevance' => $this->__('Relevance'),
+                'name'      => $this->__('Name'),
+                'price'     => $this->__('Price'),
+            ))
+            ->setDefaultDirection('desc');
+        return $this;
+    }
+
+    /**
+     * Set available view mode
+     *
+     * @return Mage_CatalogSearch_Block_Result
+     */
     public function setListModes() {
-        $this->getChild('search_result_list')
+        $this->getListBlock()
             ->setModes(array(
                 'grid' => $this->__('Grid'),
                 'list' => $this->__('List'))
             );
+        return $this;
     }
 
+    /**
+     * Set Search Result collection
+     *
+     * @return Mage_CatalogSearch_Block_Result
+     */
     public function setListCollection() {
-        $this->getChild('search_result_list')
+        $this->getListBlock()
            ->setCollection($this->_getProductCollection());
+       return $this;
     }
 
+    /**
+     * Retrieve Search result list HTML output
+     *
+     * @return string
+     */
     public function getProductListHtml()
     {
         return $this->getChildHtml('search_result_list');
@@ -95,7 +140,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     /**
      * Retrieve loaded category collection
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
      */
     protected function _getProductCollection()
     {
@@ -107,18 +152,18 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addUrlRewrite();
 
-//            $this->_productCollection = $this->_getQuery()->getResultCollection()
-//                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
-
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
             Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
-
-            //print $this->_productCollection->getSelect()->__toString();
         }
 
         return $this->_productCollection;
     }
 
+    /**
+     * Retrieve search result count
+     *
+     * @return string
+     */
     public function getResultCount()
     {
         if (!$this->getData('result_count')) {

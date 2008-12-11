@@ -84,4 +84,21 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
         $this->setOrigData();
         return $this;
     }
+
+    /**
+     * Prepare save query for result
+     *
+     * @return Mage_CatalogSearch_Model_Query
+     */
+    public function prepare()
+    {
+        if (!$this->getId()) {
+            $this->setIsActive(0);
+            $this->setIsProcessed(0);
+            $this->save();
+            $this->setIsActive(1);
+        }
+
+        return $this;
+    }
 }

@@ -29,34 +29,50 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
     extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
     /**
+     * Retrieve query model object
+     *
+     * @return Mage_CatalogSearch_Model_Query
+     */
+    protected function _getQuery()
+    {
+        return Mage::helper('catalogSearch')->getQuery();
+    }
+
+    /**
      * Add search query filter
      *
-     * @param   string $query
+     * @param   Mage_CatalogSearch_Model_Query $query
      * @return  Mage_CatalogSearch_Model_Mysql4_Search_Collection
      */
     public function addSearchFilter($query)
     {
-        $this->addFieldToFilter('entity_id', array('in' => $this->_getSearchEntityIds($query)));
+        Mage::getSingleton('catalogsearch/fulltext')->prepareResult();
+
+        $this->getSelect()->joinInner(
+            array('search_result' => $this->getTable('catalogsearch/result')),
+            $this->getConnection()->quoteInto('search_result.product_id=e.entity_id AND search_result.query_id=?', $this->_getQuery()->getId()),
+            array('relevance' => 'relevance')
+        );
+
         return $this;
     }
 
     /**
-     * Retrieve product entity ids using Full-Text Search ordered by relevance
+     * Set Order field
      *
-     * @param   string $query
-     * @return  array Product Ids
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
      */
-    protected function _getSearchEntityIds($query)
+    public function setOrder($attribute, $dir='desc')
     {
-        $matchCondition = $this->getConnection()->quoteInto('MATCH (`data_index`) AGAINST (?)', $query);
-        $select = $this->getConnection()->select()
-            ->from(
-                array('main' => $this->getTable('catalogsearch/fulltext')),
-                array('product_id', 'relev' => new Zend_Db_Expr($matchCondition))
-            )
-            ->where($matchCondition)
-            ->where('main.store_id=?', $this->getStoreId())
-            ->order('relev DESC');
-        return $this->getConnection()->fetchCol($select);
+        if ($attribute == 'relevance') {
+            $this->getSelect()->order("relevance {$dir}");
+        }
+        else {
+            parent::setOrder($attribute, $dir);
+        }
+
+        return $this;
     }
 }

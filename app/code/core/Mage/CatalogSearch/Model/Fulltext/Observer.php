@@ -44,7 +44,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         $product = $observer->getEvent()->getProduct();
 
         Mage::getModel('catalogsearch/fulltext')
-            ->rebuildIndex($product->getStoreId(), $product->getId());
+            ->rebuildIndex(null, $product->getId());
 
         return $this;
     }
@@ -85,6 +85,8 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      */
     public function refreshIndexAfterImport($observer)
     {
+        Mage::getModel('catalogsearch/fulltext')
+            ->rebuildIndex();
         return $this;
     }
 }

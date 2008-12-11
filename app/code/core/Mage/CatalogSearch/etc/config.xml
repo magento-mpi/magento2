@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_CatalogSearch>
-            <version>0.7.5</version>
+            <version>0.7.6</version>
         </Mage_CatalogSearch>
     </modules>
     <global>
@@ -42,8 +42,11 @@
                 <class>Mage_CatalogSearch_Model_Mysql4</class>
                 <entities>
                     <search_query>
-                      <table>catalogsearch_query</table>
+                        <table>catalogsearch_query</table>
                     </search_query>
+                    <result>
+                        <table>catalogsearch_result</table>
+                    </result>
                     <fulltext>
                         <table>catalogsearch_fulltext</table>
                     </fulltext>
@@ -94,24 +97,24 @@
                     </catalogsearch>
                 </observers>
             </catalog_product_delete_after_done>
-            <catalog_entity_attribute_save_after>
-                <observers>
-                    <catalogsearch>
-                        <type>singleton</type>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>refreshIndexByAttribute</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_entity_attribute_save_after>
-            <catalog_entity_attribute_delete_after>
-                <observers>
-                    <catalogsearch>
-                        <type>singleton</type>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>refreshIndexByAttribute</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_entity_attribute_delete_after>
+<!--            <catalog_entity_attribute_save_after>-->
+<!--                <observers>-->
+<!--                    <catalogsearch>-->
+<!--                        <type>singleton</type>-->
+<!--                        <class>catalogsearch/fulltext_observer</class>-->
+<!--                        <method>refreshIndexByAttribute</method>-->
+<!--                    </catalogsearch>-->
+<!--                </observers>-->
+<!--            </catalog_entity_attribute_save_after>-->
+<!--            <catalog_entity_attribute_delete_after>-->
+<!--                <observers>-->
+<!--                    <catalogsearch>-->
+<!--                        <type>singleton</type>-->
+<!--                        <class>catalogsearch/fulltext_observer</class>-->
+<!--                        <method>refreshIndexByAttribute</method>-->
+<!--                    </catalogsearch>-->
+<!--                </observers>-->
+<!--            </catalog_entity_attribute_delete_after>-->
             <catalog_product_import_after>
                 <observers>
                     <catalogsearch>
