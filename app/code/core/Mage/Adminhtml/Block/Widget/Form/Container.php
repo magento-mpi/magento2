@@ -163,10 +163,10 @@ class Mage_Adminhtml_Block_Widget_Form_Container extends Mage_Adminhtml_Block_Wi
      * @param Varien_Object $object
      * @return Mage_Adminhtml_Block_Widget_Form_Container
      */
-    public function setFormDataObject($object)
+    public function setDataObject($object)
     {
-        $this->getChild('form')->setFormDataObject($object);
-        return $this->setData('form_data_object', $object);
+        $this->getChild('form')->setDataObject($object);
+        return $this->setData('data_object', $object);
     }
 
 }

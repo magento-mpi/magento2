@@ -246,7 +246,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 ->setFormActionUrl($this->getUrl('*/*/deleteWebsitePost'))
                 ->setBackUrl($this->getUrl('*/*/editWebsite', array('website_id' => $itemId)))
                 ->setStoreTypeTitle(Mage::helper('core')->__('Website'))
-                ->setFormDataObject($model)
+                ->setDataObject($model)
             )
             ->renderLayout();
     }
@@ -274,7 +274,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 ->setFormActionUrl($this->getUrl('*/*/deleteGroupPost'))
                 ->setBackUrl($this->getUrl('*/*/editGroup', array('group_id' => $itemId)))
                 ->setStoreTypeTitle(Mage::helper('core')->__('Store'))
-                ->setFormDataObject($model)
+                ->setDataObject($model)
             )
             ->renderLayout();
     }
@@ -303,7 +303,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 ->setFormActionUrl($this->getUrl('*/*/deleteStorePost'))
                 ->setBackUrl($this->getUrl('*/*/editStore', array('store_id' => $itemId)))
                 ->setStoreTypeTitle(Mage::helper('core')->__('Store View'))
-                ->setFormDataObject($model)
+                ->setDataObject($model)
             )
             ->renderLayout();
     }
