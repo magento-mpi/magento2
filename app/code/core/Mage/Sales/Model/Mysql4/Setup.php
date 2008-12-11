@@ -111,11 +111,14 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'reserved_order_id' => array('type'=>'static'),
 
                     'coupon_code'           => array('type'=>'static'),
+                    'global_currency_code'    => array('type'=>'static'),
                     'base_currency_code'    => array('type'=>'static'),
                     'store_currency_code'   => array('type'=>'static'),
                     'quote_currency_code'   => array('type'=>'static'),
                     'store_to_base_rate'    => array('type'=>'static'),
                     'store_to_quote_rate'   => array('type'=>'static'),
+                    'base_to_global_rate'    => array('type'=>'static'),
+                    'base_to_quote_rate'   => array('type'=>'static'),
 
                     'items_count'=> array('type'=>'static'),
                     'items_qty'=> array('type'=>'static'),
@@ -354,11 +357,14 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'applied_rule_ids'  => array(),
                     'giftcert_code'     => array(),
 
+                    'global_currency_code'   => array(),
                     'base_currency_code'    => array(),
                     'store_currency_code'   => array(),
                     'order_currency_code'   => array(),
                     'store_to_base_rate'    => array('type'=>'decimal'),
                     'store_to_order_rate'   => array('type'=>'decimal'),
+                    'base_to_global_rate'    => array('type'=>'decimal'),
+                    'base_to_order_rate'   => array('type'=>'decimal'),
 
                     'is_virtual'        => array('type'=>'int'),
                     'is_multi_payment'  => array('type'=>'int'),
@@ -631,11 +637,14 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'billing_address_id'    => array('type'=>'int'),
                     'shipping_address_id'   => array('type'=>'int'),
 
+                    'global_currency_code'    => array(),
                     'base_currency_code'    => array(),
                     'store_currency_code'   => array(),
                     'order_currency_code'   => array(),
                     'store_to_base_rate'    => array('type'=>'decimal'),
                     'store_to_order_rate'   => array('type'=>'decimal'),
+                    'base_to_global_rate'    => array('type'=>'decimal'),
+                    'base_to_order_rate'   => array('type'=>'decimal'),
 
                     'subtotal'          => array('type'=>'decimal'),
                     'discount_amount'   => array('type'=>'decimal'),
@@ -802,11 +811,14 @@ class Mage_Sales_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
                     'billing_address_id'    => array('type'=>'int'),
                     'shipping_address_id'   => array('type'=>'int'),
 
+                    'global_currency_code'    => array(),
                     'base_currency_code'    => array(),
                     'store_currency_code'   => array(),
                     'order_currency_code'   => array(),
                     'store_to_base_rate'    => array('type'=>'decimal'),
                     'store_to_order_rate'   => array('type'=>'decimal'),
+                    'base_to_global_rate'    => array('type'=>'decimal'),
+                    'base_to_order_rate'   => array('type'=>'decimal'),
 
                     'subtotal'          => array('type'=>'decimal'),
                     'discount_amount'   => array('type'=>'decimal'),

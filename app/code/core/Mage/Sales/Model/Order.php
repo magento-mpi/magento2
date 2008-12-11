@@ -79,7 +79,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
     protected $_creditmemos;
     protected $_relatedObjects = array();
     protected $_orderCurrency = null;
-    protected $_storeCurrency = null;
+    protected $_baseCurrency = null;
 
     /**
      * Initialize resource model
@@ -1049,23 +1049,33 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      *
      * @return Mage_Directory_Model_Currency
      */
-    public function getStoreCurrency()
+    public function getBaseCurrency()
     {
-        if (is_null($this->_storeCurrency)) {
-            $this->_storeCurrency = Mage::getModel('directory/currency')->load($this->getStoreCurrencyCode());
+        if (is_null($this->_baseCurrency)) {
+            $this->_baseCurrency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
         }
-        return $this->_storeCurrency;
+        return $this->_baseCurrency;
     }
 
+    /**
+     * Retrieve order website currency for working with base prices
+     * Deprecated method, please use getBaseCurrency instead.
+     *
+     * @return Mage_Directory_Model_Currency
+     */
+    public function getStoreCurrency()
+    {
+        return $this->getStoreCurrency();
+    }
 
     public function formatBasePrice($price)
     {
-        return $this->getStoreCurrency()->format($price);
+        return $this->getBaseCurrency()->format($price);
     }
 
     public function isCurrencyDifferent()
     {
-        return $this->getOrderCurrencyCode() != $this->getStoreCurrencyCode();
+        return $this->getOrderCurrencyCode() != $this->getBaseCurrencyCode();
     }
 
     /**
@@ -1364,7 +1374,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
         $this->_creditmemos = null;
         $this->_relatedObjects = array();
         $this->_orderCurrency = null;
-        $this->_storeCurrency = null;
+        $this->_baseCurrency = null;
 
         return $this;
     }
