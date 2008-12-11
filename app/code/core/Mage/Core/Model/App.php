@@ -148,21 +148,21 @@ class Mage_Core_Model_App
      *
      * @var array
      */
-    protected $_websites;
+    protected $_websites = array();
 
     /**
      * Groups cache
      *
      * @var array
      */
-    protected $_groups;
+    protected $_groups = array();
 
     /**
      * Stores cache
      *
      * @var array
      */
-    protected $_stores;
+    protected $_stores = array();
 
     /**
      * is a single store mode
