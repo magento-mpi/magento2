@@ -76,4 +76,39 @@ class Mage_Downloadable_Model_Mysql4_Sample extends Mage_Core_Model_Mysql4_Abstr
         return $this;
     }
 
+    public function deleteItems($items)
+    {
+        if ($items instanceof Mage_Downloadable_Model_Sample) {
+            $this->_getReadAdapter()->delete(
+                $this->getTable('downloadable/sample'),
+                $this->_getReadAdapter()->quoteInto('sample_id = ?', $items->getId())
+            );
+            $this->_getReadAdapter()->delete(
+                $this->getTable('downloadable/sample_title'),
+                $this->_getReadAdapter()->quoteInto('sample_id = ?', $items->getId())
+            );
+        }
+        elseif (is_array($items)) {
+            $this->_getWriteAdapter()->delete(
+                $this->getTable('downloadable/sample'),
+                $this->_getReadAdapter()->quoteInto('sample_id in (?)', $items)
+            );
+            $this->_getWriteAdapter()->delete(
+                $this->getTable('downloadable/sample_title'),
+                $this->_getReadAdapter()->quoteInto('sample_id in (?)', $items)
+            );
+        }
+        else {
+            $this->_getReadAdapter()->delete(
+                $this->getTable('downloadable/sample'),
+                $this->_getReadAdapter()->quoteInto('sample_id = ?', $items)
+            );
+            $this->_getReadAdapter()->delete(
+                $this->getTable('downloadable/sample_title'),
+                $this->_getReadAdapter()->quoteInto('sample_id = ?', $items)
+            );
+        }
+        return $this;
+    }
+
 }

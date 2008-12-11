@@ -75,7 +75,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         $samples = $this->getProduct()->getTypeInstance()->getSamples();
         foreach ($samples as $item) {
             $tmpSampleItem = array(
-                'id' => $item->getId(),
+                'sample_id' => $item->getId(),
                 'title' => $item->getTitle(),
                 'sample_url' => $item->getSampleUrl(),
                 'sort_order' => $item->getSortOrder()

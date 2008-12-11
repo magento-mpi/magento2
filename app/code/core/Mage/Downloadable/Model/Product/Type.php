@@ -136,12 +136,26 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         if ($data = $product->getDownloadableData()) {
 
             if (isset($data['sample'])) {
+                $_deleteItems = array();
                 foreach ($data['sample'] as $sampleItem) {
-                    $sampleModel = Mage::getModel('downloadable/sample')
-                        ->setData($sampleItem)
-                        ->setProductId($product->getId())
-                        ->setStoreId($product->getStoreId());
-                    $sampleModel->save();
+                    if ($sampleItem['is_delete'] == '1') {
+                        if ($sampleItem['sample_id']) {
+                            $_deleteItems[] = $sampleItem['sample_id'];
+                        }
+                    } else {
+                        unset($sampleItem['is_delete']);
+                        if (!$sampleItem['sample_id']) {
+                            unset($sampleItem['sample_id']);
+                        }
+                        $sampleModel = Mage::getModel('downloadable/sample')
+                            ->setData($sampleItem)
+                            ->setProductId($product->getId())
+                            ->setStoreId($product->getStoreId());
+                        $sampleModel->save();
+                    }
+                }
+                if ($_deleteItems) {
+                    Mage::getResourceModel('downloadable/sample')->deleteItems($_deleteItems);
                 }
             }
             if (isset($data['link'])) {
