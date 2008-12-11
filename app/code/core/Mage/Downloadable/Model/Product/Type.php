@@ -134,7 +134,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         /* @var Mage_Catalog_Model_Product $product */
 
         if ($data = $product->getDownloadableData()) {
-
             if (isset($data['sample'])) {
                 $_deleteItems = array();
                 foreach ($data['sample'] as $sampleItem) {
@@ -159,13 +158,30 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 }
             }
             if (isset($data['link'])) {
+                $_deleteItems = array();
                 foreach ($data['link'] as $linkItem) {
-                    $linkModel = Mage::getModel('downloadable/link')
-                        ->setData($linkItem)
-                        ->setProductId($product->getId())
-                        ->setStoreId($product->getStoreId())
-                        ->setWebsiteId($product->getStore()->getWebsiteId());
-                    $linkModel->save();
+                    if ($linkItem['is_delete'] == '1') {
+                        if ($linkItem['link_id']) {
+                            $_deleteItems[] = $linkItem['link_id'];
+                        }
+                    } else {
+                        unset($linkItem['is_delete']);
+                        if (!$linkItem['link_id']) {
+                            unset($linkItem['link_id']);
+                        }
+                        $linkModel = Mage::getModel('downloadable/link')
+                            ->setData($linkItem)
+                            ->setProductId($product->getId())
+                            ->setStoreId($product->getStoreId())
+                            ->setWebsiteId($product->getStore()->getWebsiteId());
+                        if ($linkModel->getIsUnlimited()) {
+                            $linkModel->setNumberOfDownloads(0);
+                        }
+                        $linkModel->save();
+                    }
+                }
+                if ($_deleteItems) {
+                    Mage::getResourceModel('downloadable/link')->deleteItems($_deleteItems);
                 }
             }
         }

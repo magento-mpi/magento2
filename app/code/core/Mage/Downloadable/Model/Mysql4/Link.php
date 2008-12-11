@@ -99,4 +99,27 @@ class Mage_Downloadable_Model_Mysql4_Link extends Mage_Core_Model_Mysql4_Abstrac
         return $this;
     }
 
+    public function deleteItems($items)
+    {
+		$where = '';
+        if ($items instanceof Mage_Downloadable_Model_Link) {
+            $where = $this->_getReadAdapter()->quoteInto('link_id = ?', $items->getId());
+        }
+        elseif (is_array($items)) {
+            $where = $this->_getReadAdapter()->quoteInto('link_id in (?)', $items);
+        }
+        else {
+            $where = $this->_getReadAdapter()->quoteInto('sample_id = ?', $items);
+        }
+        if ($where) {
+            $this->_getWriteAdapter()->delete(
+                $this->getTable('downloadable/link'), $where);
+            $this->_getWriteAdapter()->delete(
+	            $this->getTable('downloadable/link_title'), $where);
+	        $this->_getWriteAdapter()->delete(
+                $this->getTable('downloadable/link_price'),$where);
+        }
+        return $this;
+    }
+
 }

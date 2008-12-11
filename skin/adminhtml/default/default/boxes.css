@@ -939,6 +939,7 @@ td.files input.input-text { width:135px !important; }
 td.files label { float:left; width:50px; }
 td.files-wide input.input-text { width:350px !important; }
 td.input-price { white-space:nowrap; }
+td.input-price .validation-advice { white-space:normal; }
 td.input-price input.input-text { width:4em !important; }
 input.sort { width:4em !important; }
 input.downloads { width:6.5em !important; }

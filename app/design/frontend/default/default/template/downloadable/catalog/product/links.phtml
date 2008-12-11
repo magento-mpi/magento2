@@ -47,7 +47,7 @@
                     <span class="label">
                         <label for="links_<?php echo $_link->getId() ?>">
                             <?php echo $_link->getTitle() ?>
-                            <?php if ($_link->getSampleFile()): ?>
+                            <?php if ($_link->getSampleFile() || $_link->getSampleUrl()): ?>
                                 &nbsp;(<a href="<?php echo $this->getLinkSamlpeUrl($_link) ?>"><?php echo Mage::helper('downloadable')->__('sample') ?></a>)
                             <?php endif; ?>
                             <?php if ($_linksPurchasedSeparately): ?>

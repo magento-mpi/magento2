@@ -93,4 +93,43 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         return $select->getHtml();
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getAddButtonHtml()
+    {
+        $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setData(array(
+                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'id' => 'add_link_item',
+                'class' => 'add',
+            ));
+        return $addButton->toHtml();
+    }
+
+    public function getLinkData()
+    {
+        $linkArr = array();
+        $links = $this->getProduct()->getTypeInstance()->getLinks();
+        foreach ($links as $item) {
+            $tmpLinkItem = array(
+                'link_id' => $item->getId(),
+                'title' => $item->getTitle(),
+                'price' => $item->getPrice(),
+                'number_of_downloads' => $item->getNumberOfDownloads(),
+                'is_shareable' => $item->getIsShareable(),
+                'link_url' => $item->getLinkUrl(),
+                'sample_url' => $item->getSampleUrl(),
+                'sort_order' => $item->getSortOrder()
+            );
+            if ($item->getNumberOfDownloads() == '0') {
+                $tmpLinkItem['is_unlimited'] = ' checked="checked"';
+            }
+            $linkArr[] = new Varien_Object($tmpLinkItem);
+        }
+        return $linkArr;
+    }
+
 }

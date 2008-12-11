@@ -63,7 +63,7 @@ var sampleTemplate = '<tr>' +
                         '<td>' +
                             '<input type="hidden" class="__delete__" name="downloadable[sample][{{id}}][is_delete]" value="" />' +
                             '<input type="hidden" name="downloadable[sample][{{id}}][sample_id]" value="{{sample_id}}" />' +
-                            '<div class="field-100"><input type="text" class="required-entry input-text" name="downloadable[sample][{{id}}][title]" value="{{title}}" /></div>' +
+                            '<input type="text" class="required-entry input-text" name="downloadable[sample][{{id}}][title]" value="{{title}}" />' +
                         '</td>' +
                         '<td class="files files-wide">' +
                             '<p><label><input type="radio" class="radio" name="downloadable[sample][{{id}}][type]" value="file" /> File:</label> <input type="file" size="43" name="downloadable[sample][{{id}}][sample_file]" value="" class="input-file" /></p>' +
@@ -71,7 +71,7 @@ var sampleTemplate = '<tr>' +
                         '</td>' +
                         '<td class="a-center"><input type="text" name="downloadable[sample][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>' +
                         '<td>' +
-                            '<button type="button" class="scalable delete icon-btn delete-sample-item" id="delete-sample-item"><span>Delete</span></button>' +
+                            '<button type="button" class="scalable delete icon-btn delete-sample-item"><span>Delete</span></button>' +
                         '</td>' +
                     '</tr>';
 
@@ -86,8 +86,6 @@ var sampleItems = {
         if(!data.sample_id){
             data = {};
             data.sample_id  = 0;
-        } else {
-//            this.itemCount = data.item_count;
         }
         data.id = this.itemCount;
         Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});

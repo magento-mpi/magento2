@@ -114,12 +114,15 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
     {
         $linkId = $this->getRequest()->getParam('link_id', 0);
         $link = Mage::getModel('downloadable/link')->load($linkId);
-        if ($link->getId() && $link->getSampleFile()) {
+        if ($link->getId()) {
+            $resource = $link->getSampleUrl();
+            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            if ($link->getSampleFile()) {
+                $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $link->getSampleFile();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
+            }
             try {
-                $this->_processDownload(
-                    Mage_Downloadable_Model_Link::getLinkDir() . '/' . $link->getSampleFile(),
-                    Mage_Downloadable_Helper_Download::LINK_TYPE_FILE
-                );
+                $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
                 $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
             }
@@ -129,8 +132,6 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
 
     /**
      * Download link action
-     *
-     * @todo get link and type
      */
     public function linkAction()
     {
