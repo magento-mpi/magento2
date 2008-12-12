@@ -122,6 +122,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         return Mage::helper('catalog')->__('%s - %s', $fromPrice, $toPrice);
     }
 
+    /**
+     * Get price aggreagation data cache key
+     *
+     * @return string
+     */
     protected function _getCacheKey()
     {
         $key = $this->getLayer()->getStateKey()
@@ -134,6 +139,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
         return $key;
     }
 
+    /**
+     * Get data for build price filter items
+     *
+     * @return array
+     */
     protected function _getItemsData()
     {
         $key = $this->_getCacheKey();

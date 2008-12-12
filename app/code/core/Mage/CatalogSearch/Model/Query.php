@@ -31,6 +31,7 @@
  */
 class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
 {
+    const CACHE_TAG                     = 'SEARCH_QUERY';
     const XML_PATH_MIN_QUERY_LENGTH     = 'catalog/search/min_query_length';
     const XML_PATH_MAX_QUERY_LENGTH     = 'catalog/search/max_query_length';
     const XML_PATH_MAX_QUERY_WORDS      = 'catalog/search/max_query_words';

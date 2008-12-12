@@ -122,12 +122,14 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function processPriceScopeChange(Varien_Event_Observer $observer)
     {
-        $this->_getIndexer()->plainReindex(
-            null,
-            Mage_CatalogIndex_Model_Indexer::REINDEX_TYPE_PRICE
-        );
-
-        $this->clearPriceAggregation();
+        $configOption   = $observer->getEvent()->getOption();
+        if ($configOption->isValueChanged()) {
+            $this->_getIndexer()->plainReindex(
+                null,
+                Mage_CatalogIndex_Model_Indexer::REINDEX_TYPE_PRICE
+            );
+            $this->clearPriceAggregation();
+        }
         return $this;
     }
 
@@ -283,6 +285,19 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
     {
         $this->_getAggregator()->clearCacheData(array(
             Mage_Catalog_Model_Product_Type_Price::CACHE_TAG
+        ));
+        return $this;
+    }
+
+    /**
+     * Clear layer navigation cache for search results
+     *
+     * @return Mage_CatalogIndex_Model_Observer
+     */
+    public function clearSearchLayerCache()
+    {
+        $this->_getAggregator()->clearCacheData(array(
+            Mage_CatalogSearch_Model_Query::CACHE_TAG
         ));
         return $this;
     }

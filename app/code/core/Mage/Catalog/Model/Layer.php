@@ -218,15 +218,27 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection->getSelect()->distinct(true);
         $collection->setEntityTypeFilter($entity->getTypeId())
             ->setAttributeSetFilter($setIds)
-            ->addIsFilterableFilter()
-            ->setOrder('position', 'ASC')
-            ->load();
+            ->setOrder('position', 'ASC');
+        $collection = $this->_prepareAttributeCollection($collection);
+        $collection->load();
 
         foreach ($collection as $item) {
             Mage::getResourceSingleton('catalog/product')->getAttribute($item);
             $item->setEntity($entity);
         }
 
+        return $collection;
+    }
+
+    /**
+     * Add filters to attribute collection
+     *
+     * @param   Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection
+     * @return  Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     */
+    protected function _prepareAttributeCollection($collection)
+    {
+        $collection->addIsFilterableFilter();
         return $collection;
     }
 

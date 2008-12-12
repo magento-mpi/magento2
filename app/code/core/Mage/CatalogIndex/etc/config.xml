@@ -186,6 +186,7 @@
                     </catalogindex>
                 </observers>
             </catalog_category_save_after>
+            <!-- Change tax configuration in admin-->
             <admin_system_config_changed_section_tax>
                 <observers>
                     <catalogindex>
@@ -195,6 +196,7 @@
                     </catalogindex>
                 </observers>
             </admin_system_config_changed_section_tax>
+            <!-- Change tax settings like tax rates, tax rules -->
             <tax_settings_change_after>
                 <observers>
                     <catalogindex>
@@ -204,6 +206,16 @@
                     </catalogindex>
                 </observers>
             </tax_settings_change_after>
+            <!-- Reset search results for query (rtom table catalogsearch_result) -->
+            <catalogsearch_reset_search_result>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>clearSearchLayerCache</method>
+                    </catalogindex>
+                </observers>
+            </catalogsearch_reset_search_result>
         </events>
         <cache>
             <types>

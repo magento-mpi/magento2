@@ -56,10 +56,10 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
             /**
              * Revert path ids
              */
-        	$pathIds = array_reverse($this->_appliedCategory->getPathIds());
-        	$curCategoryId = $this->getLayer()->getCurrentCategory()->getId();
+            $pathIds = array_reverse($this->_appliedCategory->getPathIds());
+            $curCategoryId = $this->getLayer()->getCurrentCategory()->getId();
             if (isset($pathIds[1]) && $pathIds[1] != $curCategoryId) {
-            	return $pathIds[1];
+                return $pathIds[1];
             }
         }
         return null;
@@ -124,7 +124,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
                 return $category;
             }
         }
-        return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+        return $this->getLayer()->getCurrentCategory();
     }
 
     /**
@@ -149,7 +149,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
                 ->addIdFilter($categoty->getChildren())
                 ->load();
 
-            Mage::getSingleton('catalog/layer')->getProductCollection()
+            $this->getLayer()->getProductCollection()
                 ->addCountToCategories($collection);
 
             $data=array();

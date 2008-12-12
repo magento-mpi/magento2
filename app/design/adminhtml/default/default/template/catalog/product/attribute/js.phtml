@@ -66,6 +66,9 @@ function bindAttributeInputType()
         if($('is_filterable')){
             $('is_filterable').disabled = false;
         }
+        if($('is_filterable_in_search')){
+            $('is_filterable_in_search').disabled = false;
+        }
         if($('backend_type') && $('backend_type').options){
             for(var i=0;i<$('backend_type').options.length;i++){
                 if($('backend_type').options[i].value=='int') $('backend_type').selectedIndex = i;
@@ -76,6 +79,9 @@ function bindAttributeInputType()
         if($('is_filterable')){
             $('is_filterable').selectedIndex=0;
             $('is_filterable').disabled = true;
+        }
+        if($('is_filterable_in_search')){
+            $('is_filterable_in_search').disabled = true;
         }
     }
     switchIsFilterable();
@@ -156,7 +162,7 @@ function switchDefaultValueField()
                     <?php elseif ($one == '_default_value'): ?>
                         defaultValueTextVisibility =
                         defaultValueTextareaVisibility =
-                        defaultValueDateVisibility = 
+                        defaultValueDateVisibility =
                         defaultValueYesnoVisibility = false;
                     <?php elseif ($one == '_scope'): ?>
                         scopeVisibility = false;

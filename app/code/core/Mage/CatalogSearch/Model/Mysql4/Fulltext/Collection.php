@@ -50,7 +50,10 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
 
         $this->getSelect()->joinInner(
             array('search_result' => $this->getTable('catalogsearch/result')),
-            $this->getConnection()->quoteInto('search_result.product_id=e.entity_id AND search_result.query_id=?', $this->_getQuery()->getId()),
+            $this->getConnection()->quoteInto(
+                'search_result.product_id=e.entity_id AND search_result.query_id=?',
+                $this->_getQuery()->getId()
+            ),
             array('relevance' => 'relevance')
         );
 
@@ -72,7 +75,6 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
         else {
             parent::setOrder($attribute, $dir);
         }
-
         return $this;
     }
 }

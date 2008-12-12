@@ -308,6 +308,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             ),
         ));
 
+        $fieldset->addField('is_filterable_in_search', 'select', array(
+            'name' => 'is_filterable_in_search',
+            'label' => Mage::helper('catalog')->__("Use In Search Results Layered Navigation"),
+            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'values' => $yesno,
+        ));
+
         $fieldset->addField('position', 'text', array(
             'name' => 'position',
             'label' => Mage::helper('catalog')->__('Position'),
