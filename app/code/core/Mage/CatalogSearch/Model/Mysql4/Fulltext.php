@@ -222,6 +222,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             throw $e;
         }
 
+        Mage::dispatchEvent('catalogsearch_reset_search_result');
+
         return $this;
     }
 
@@ -287,9 +289,9 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             }
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
-                    $fulltextCond = 'MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE)';
-                }
-            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+                $fulltextCond = 'MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE)';
+            }
+            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE && $likeCond) {
                 $separateCond = ' OR ';
             }
 
