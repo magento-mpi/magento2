@@ -122,6 +122,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     public function buildEntityPriceFilter($attributes, $values, &$filteredAttributes, $productCollection)
     {
+        $additionalCalculations = array();
         $filter = array();
         $store = Mage::app()->getStore()->getId();
         $website = Mage::app()->getStore()->getWebsiteId();
@@ -136,7 +137,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                     /* @var $indexer Mage_CatalogIndex_Model_Indexer_Abstract */
                     if ($indexer->isAttributeIndexable($attribute)) {
                         if ($values[$code]) {
-                            if (isset($values[$code]['from']) && isset($values[$code]['to']) && (!$values[$code]['from'] && !$values[$code]['to'])){
+                            if (isset($values[$code]['from']) && isset($values[$code]['to']) && (strlen($values[$code]['from']) == 0 && strlen($values[$code]['to']) == 0)){
                                 continue;
                             }
                             $table = $indexer->getResource()->getMainTable();
@@ -145,38 +146,38 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                 $filter[$code]->from($table, array('entity_id'));
                                 $filter[$code]->distinct(true);
 
-                                Mage::helper('tax')->joinTaxClass($filter[$code], $store, $table);
+                                $response = new Varien_Object();
+                                $response->setAdditionalCalculations(array());
+                                $args = array(
+                                    'select'=>$filter[$code],
+                                    'table'=>$table,
+                                    'store_id'=>$store,
+                                    'response_object'=>$response,
+                                );
+                                Mage::dispatchEvent('catalogindex_prepare_price_select', $args);
+                                $additionalCalculations[$code] = $response->getAdditionalCalculations();
 
                                 if ($indexer->isAttributeIdUsed()) {
                                     $filter[$code]->where("$table.attribute_id = ?", $attribute->getId());
                                 }
                             }
                             if (is_array($values[$code])) {
-                                $additionalCalculations = '';
                                 $rateConversion = 1;
                                 $filter[$code]->distinct(true);
 
-                                $additionalCalculations = Mage::helper('tax')
-                                    ->getPriceTaxSql("$table.value", 'IFNULL(tax_class_c.value, tax_class_d.value)');
                                 if (isset($values[$code]['from']) && isset($values[$code]['to'])) {
-
-                                    if ($values[$code]['from']) {
-                                        if (isset($values[$code]['currency'])) {
-                                            $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($values[$code]['currency']);
-                                        } else {
-                                            $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($currentStoreCurrency);
-                                        }
-                                        $filter[$code]->where("($table.value{$additionalCalculations})*{$rateConversion} >= ?", $values[$code]['from']);
+                                    if (isset($values[$code]['currency'])) {
+                                        $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($values[$code]['currency']);
+                                    } else {
+                                        $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($currentStoreCurrency);
                                     }
 
+                                    if (strlen($values[$code]['from'])>0) {
+                                        $filter[$code]->where("($table.value".implode('', $additionalCalculations[$code]).")*{$rateConversion} >= ?", $values[$code]['from']);
+                                    }
 
-                                    if ($values[$code]['to']) {
-                                        if (isset($values[$code]['currency'])) {
-                                            $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($values[$code]['currency']);
-                                        } else {
-                                            $rateConversion = $this->_getBaseToSpecifiedCurrencyRate($currentStoreCurrency);
-                                        }
-                                        $filter[$code]->where("($table.value{$additionalCalculations})*{$rateConversion} <= ?", $values[$code]['to']);
+                                    if (strlen($values[$code]['to'])>0) {
+                                        $filter[$code]->where("($table.value".implode('', $additionalCalculations[$code]).")*{$rateConversion} <= ?", $values[$code]['to']);
                                     }
                                 }
                             }

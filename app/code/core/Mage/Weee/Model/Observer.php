@@ -71,6 +71,16 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
 
+        $response = $observer->getEvent()->getResponseObject();
+
+        $additionalCalculations = $response->getAdditionalCalculations();
+
+        $attributes = Mage::getModel('weee/tax')->getWeeeAttributeCodes();
+        foreach ($attributes as $attribute) {
+            $tableAlias = "weee_{$attribute}_table";
+            $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
+        }
+        $response->setAdditionalCalculations($additionalCalculations);
 
         $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
         $attributes = array();
@@ -109,28 +119,6 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
     protected function _getSelect()
     {
         return Mage::getModel('weee/tax')->getResource()->getReadConnection()->select();
-    }
-
-    public function prepareCatalogIndexAdditionalCalculations(Varien_Event_Observer $observer)
-    {
-        switch(Mage::helper('weee')->getListPriceDisplayType()) {
-            case 2:
-            case 3:
-                return;
-        }
-        // catalogindex_prepare_additional_price_calculations
-
-        $table = $observer->getEvent()->getTable();
-        $response = $observer->getEvent()->getResponseObject();
-
-        $additionalCalculations = $response->getAdditionalCalculations();
-
-        $attributes = Mage::getModel('weee/tax')->getWeeeAttributeCodes();
-        foreach ($attributes as $attribute) {
-            $tableAlias = "weee_{$attribute}_table";
-            $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
-        }
-        $response->setAdditionalCalculations($additionalCalculations);
     }
 
     public function addWeeeTaxAttributeType(Varien_Event_Observer $observer)

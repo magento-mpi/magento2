@@ -120,19 +120,10 @@
                     <tax>
                         <type>model</type>
                         <class>tax/observer</class>
-                        <method>joinTaxClassTables</method>
+                        <method>prepareCatalogIndexPriceSelect</method>
                     </tax>
                 </observers>
             </catalogindex_prepare_price_select>
-            <catalogindex_prepare_additional_price_calculations>
-                <observers>
-                    <tax>
-                        <type>model</type>
-                        <class>tax/observer</class>
-                        <method>assignAdditionalCalculations</method>
-                    </tax>
-                </observers>
-            </catalogindex_prepare_additional_price_calculations>
         </events>
     </global>
     <adminhtml>

@@ -103,15 +103,6 @@
                     </weee>
                 </observers>
             </catalogindex_prepare_price_select>
-            <catalogindex_prepare_additional_price_calculations>
-                <observers>
-                    <weee>
-                        <type>model</type>
-                        <class>weee/observer</class>
-                        <method>prepareCatalogIndexAdditionalCalculations</method>
-                    </weee>
-                </observers>
-            </catalogindex_prepare_additional_price_calculations>
 
             <adminhtml_product_attribute_types>
                 <observers>

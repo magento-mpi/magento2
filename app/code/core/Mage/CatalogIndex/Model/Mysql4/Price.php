@@ -86,7 +86,6 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             'response_object'=>$response,
         );
         Mage::dispatchEvent('catalogindex_prepare_price_select', $args);
-        Mage::dispatchEvent('catalogindex_prepare_additional_price_calculations', $args);
 
         $select
             ->from('', "MAX(price_table.value".implode('', $response->getAdditionalCalculations()).")")
@@ -119,7 +118,6 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             'response_object'=>$response,
         );
         Mage::dispatchEvent('catalogindex_prepare_price_select', $args);
-        Mage::dispatchEvent('catalogindex_prepare_additional_price_calculations', $args);
 
         $fields = array('count'=>'COUNT(DISTINCT price_table.entity_id)', 'range'=>"FLOOR(((price_table.value".implode('', $response->getAdditionalCalculations()).")*{$this->getRate()})/{$range})+1");
 
@@ -152,7 +150,6 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             'response_object'=>$response,
         );
         Mage::dispatchEvent('catalogindex_prepare_price_select', $args);
-        Mage::dispatchEvent('catalogindex_prepare_additional_price_calculations', $args);
 
         $select
             ->distinct(true)
