@@ -82,6 +82,11 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 $session->setIsFirstVisit(true);
                 $session->setUser($user);
                 $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
+                if ($request) {
+                    header('Location: ' . $request->getRequestUri());
+                    exit;
+                }
+
             } else {
                 if ($request && !$request->getParam('messageSent')) {
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
