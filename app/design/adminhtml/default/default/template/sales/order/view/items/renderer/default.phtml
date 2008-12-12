@@ -105,7 +105,10 @@
               <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
                   <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('core')->currency($tax['amount'],true,true); ?></small></span><br />
               <?php endforeach; ?>
+              <span class="nobr">
+              <?php echo Mage::helper('weee')->__('Total'); ?>:
               <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)+$_item->getWeeeTaxAppliedAmount()); ?>
+              </span>
           <?php else: // excl. ?>
               <?php echo $this->displayPriceInclTax($_item); ?>
           <?php endif; ?>
@@ -147,7 +150,10 @@
               <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
                   <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('core')->currency($tax['row_amount'],true,true); ?></small></span><br />
               <?php endforeach; ?>
+              <span class="nobr">
+              <?php echo Mage::helper('weee')->__('Total'); ?>:
               <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)+$_item->getWeeeTaxAppliedRowAmount()); ?>
+              </span>
           <?php else: // excl. ?>
               <?php echo $this->displaySubtotalInclTax($_item); ?>
           <?php endif; ?>

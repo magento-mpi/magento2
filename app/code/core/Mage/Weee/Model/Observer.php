@@ -141,7 +141,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $types = $response->getTypes();
         $types[] = array(
             'value' => 'weee',
-            'label' => Mage::helper('weee')->__('WEEE Tax'),
+            'label' => Mage::helper('weee')->__('Fixed product tax'),
             'hide_fields' => array(
                 'is_unique',
                 'is_required',

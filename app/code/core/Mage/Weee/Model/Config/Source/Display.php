@@ -29,10 +29,10 @@ class Mage_Weee_Model_Config_Source_Display
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('weee')->__('WEEE included only')),
-            array('value'=>1, 'label'=>Mage::helper('weee')->__('WEEE included and WEEE tax')),
-            array('value'=>2, 'label'=>Mage::helper('weee')->__('WEEE excluded, WEEE tax, then the final price')),
-            array('value'=>3, 'label'=>Mage::helper('weee')->__('WEEE excluded')),
+            array('value'=>0, 'label'=>Mage::helper('weee')->__('Including tax only')),
+            array('value'=>1, 'label'=>Mage::helper('weee')->__('Tax included and tax description')),
+            array('value'=>2, 'label'=>Mage::helper('weee')->__('Tax excluded, tax description, final price')),
+            array('value'=>3, 'label'=>Mage::helper('weee')->__('Excluding tax')),
         );
     }
 

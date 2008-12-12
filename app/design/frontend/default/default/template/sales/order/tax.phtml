@@ -39,7 +39,11 @@
         <?php foreach ($rates as $rate): ?>
         <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' tax-details-first'; endif; ?>" style="display:none;">
             <td class="a-right" colspan="4">
-                <?php echo $rate['title']; ?> - <?php echo $rate['percent']; ?>%<br />
+                <?php echo $rate['title']; ?>
+                <?php if ($rate['percent']): ?>
+                    (<?php echo $rate['percent']; ?>%)
+                <?php endif; ?>
+                <br />
             </td>
             <?php if ($isFirst): ?>
                 <td class="a-right" rowspan="<?php echo count($rates); ?>">

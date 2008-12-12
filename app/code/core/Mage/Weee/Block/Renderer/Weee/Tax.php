@@ -103,7 +103,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     {
         if (is_null($this->_countries)) {
             $this->_countries = Mage::getModel('adminhtml/system_config_source_country')
-                ->toOptionArray(true);
+                ->toOptionArray();
         }
 
         return $this->_countries;
@@ -140,7 +140,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Add WEEE Tax'),
+                    'label'     => Mage::helper('catalog')->__('Add Tax'),
                     'onclick'   => 'weeeTaxControl_'.$this->getElement()->getHtmlId().'.addItem()',
                     'class' => 'add'
                 )));
