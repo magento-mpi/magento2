@@ -58,7 +58,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
     public function prepareCatalogIndexSelect(Varien_Event_Observer $observer)
     {
-        switch(Mage::helper('weee')->getPriceDisplayType()) {
+        switch(Mage::helper('weee')->getListPriceDisplayType()) {
             case 2:
             case 3:
                 return;
@@ -113,7 +113,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
     public function prepareCatalogIndexAdditionalCalculations(Varien_Event_Observer $observer)
     {
-        switch(Mage::helper('weee')->getPriceDisplayType()) {
+        switch(Mage::helper('weee')->getListPriceDisplayType()) {
             case 2:
             case 3:
                 return;
