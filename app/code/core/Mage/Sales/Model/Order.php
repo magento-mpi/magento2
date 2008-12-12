@@ -1278,7 +1278,7 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
      */
     public function getCreatedAtDate()
     {
-        return Mage::app()->getLocale()->storeDate($this->getStore(), $this->getCreatedAt(), true);
+        return Mage::app()->getLocale()->storeDate($this->getStore(), $this->_getResource()->mktime(($this->getCreatedAt())), true);
     }
 
     public function getEmailCustomerNote()
