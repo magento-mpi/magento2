@@ -81,8 +81,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
         }
 
         if (is_null($this->_available)) {
-            $firstVisit = Mage::getSingleton('admin/session')->getData('is_first_visit', true);
-            if (!$firstVisit) {
+            if (!Mage::getSingleton('admin/session')->isFirstPageAfterLogin()) {
                 $this->_available = false;
                 return false;
             }
