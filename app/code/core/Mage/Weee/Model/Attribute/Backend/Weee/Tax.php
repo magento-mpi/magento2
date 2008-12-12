@@ -96,6 +96,12 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
 
     public function afterSave($object)
     {
+        $orig = $object->getOrigData($this->getAttribute()->getName());
+        $current = $object->getData($this->getAttribute()->getName());
+        if ($orig == $current) {
+            return $this;
+        }
+
         $this->_getResource()->deleteProductData($object, $this->getAttribute());
         $taxes = $object->getData($this->getAttribute()->getName());
 
