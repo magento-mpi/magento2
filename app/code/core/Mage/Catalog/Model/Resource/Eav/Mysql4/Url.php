@@ -302,7 +302,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 'entity_type_id' => $attribute->getEntityTypeId(),
                 'attribute_id'   => $attribute->getId(),
                 'table'          => $attribute->getBackend()->getTable(),
-                'is_global'      => $attribute->getIsGlobal()
+                'is_global'      => $attribute->getIsGlobal(),
+                'is_static'      => $attribute->isStatic()
             );
             unset($attribute);
         }
@@ -312,14 +313,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
 
         $attributeTable = $this->_categoryAttributes[$attributeCode]['table'];
-        if ($this->_categoryAttributes[$attributeCode]['is_global'] || $storeId == 0) {
+        if ($this->_categoryAttributes[$attributeCode]['is_static']) {
+            $select = $this->_getWriteAdapter()->select()
+                ->from(
+                    $this->getTable('catalog/category'),
+                    array('value'=>$attributeCode, 'entity_id'=>'entity_id')
+                )
+                ->where('entity_id IN(?)', $categoryIds);
+        } elseif ($this->_categoryAttributes[$attributeCode]['is_global'] || $storeId == 0) {
             $select = $this->_getWriteAdapter()->select()
                 ->from($attributeTable, array('entity_id', 'value'))
                 ->where('attribute_id = ?', $this->_categoryAttributes[$attributeCode]['attribute_id'])
                 ->where('store_id=?', 0)
                 ->where('entity_id IN(?)', $categoryIds);
-        }
-        else {
+        } else {
             $select = $this->_getWriteAdapter()->select()
                 ->from(array('t1'=>$attributeTable), array('entity_id', 'IFNULL(t2.value, t1.value) as value'))
                 ->joinLeft(
