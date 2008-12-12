@@ -1,5 +1,6 @@
 " The customer doesn\'t exist in the system anymore"," The customer doesn\'t exist in the system anymore"
 """%s"" coupon code is not valid.","""%s"" coupon code is not valid."
+"%s / %s rate:","%s / %s rate:"
 "%s for %s","%s for %s"
 "%s order(s) successfully canceled","%s order(s) successfully canceled"
 "%s order(s) successfully put on hold","%s order(s) successfully put on hold"
