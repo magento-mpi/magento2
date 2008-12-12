@@ -47,27 +47,27 @@
             </tr>
             <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
                 <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>>
-                <select disabled="no-template" class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[__index__][website_id]" id="<?php echo $_htmlId ?>_weee_tax_row___index___website">
+                <select disabled="no-template" class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[__index__][website_id]" id="#{prefix}_weee_tax_row___index___website">
                     <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
                     <option value="<?php echo $_websiteId ?>"><?php echo $_info['name'] ?><?php if (!empty($_info['currency'])): ?> [<?php echo $_info['currency'] ?>]<?php endif; ?></option>
                     <?php endforeach ?>
                 </select>
                 </td>
                 <td class="nobr">
-                <select disabled="no-template" class="<?php echo $_htmlClass ?> country required-entry" name="<?php echo $_htmlName ?>[__index__][country]" id="<?php echo $_htmlId ?>_weee_tax_row___index___country" style="width: 100%">
+                <select disabled="no-template" class="<?php echo $_htmlClass ?> country required-entry" name="<?php echo $_htmlName ?>[__index__][country]" id="#{prefix}_weee_tax_row___index___country" style="width: 100%">
                     <?php foreach ($this->getCountries() as $_country): ?>
                     <option value="<?php echo $_country['value'] ?>"><?php echo htmlspecialchars($_country['label']) ?></option>
                     <?php endforeach ?>
                 </select>
                 <br />
-                <select disabled="no-template" class="<?php echo $_htmlClass ?> state" name="<?php echo $_htmlName ?>[__index__][state]" id="<?php echo $_htmlId ?>_weee_tax_row___index___state" style="width: 100%">
+                <select disabled="no-template" class="<?php echo $_htmlClass ?> state" name="<?php echo $_htmlName ?>[__index__][state]" id="#{prefix}_weee_tax_row___index___state" style="width: 100%">
                     <option value="">*</option>
                 </select>
                 </td>
                 <td>
                     <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'" />
                 </td>
-                <td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value="" /><button title="Delete WEEE Tax" class="scalable delete icon-btn delete-product-option" onclick="weeeTaxControl_<?php echo $_htmlId; ?>.deleteItem(event);return false"><span>Delete</span></button></td>
+                <td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value="" /><button title="Delete WEEE Tax" class="scalable delete icon-btn delete-product-option" onclick="weeeTaxControl.deleteItem('<?php echo $_htmlId ?>', event);return false"><span>Delete</span></button></td>
             </tr>
         </thead>
         <tfoot>
@@ -82,34 +82,38 @@
 
 <script type="text/javascript">
 //<![CDATA[
-    var weeeTaxControl_<?php echo $_htmlId ?> = {
+    var weeeTaxControl = {
         template : new Template('<tr>' + $('<?php echo $_htmlId ?>_add_template').innerHTML.replace(/__index__/g, '#{index}').replace(/ disabled="?no-template"?/g, '').replace(/ disabled/g, '').replace(/="'([^']*)'"/g, '="$1"') + '</tr>'),
         itemsCount : 0,
         deleteButton: false,
         addItem  : function () {
             var data = {};
+            data.prefix = '';
             data.website_id = 0;
             data.country    = '';
             data.state      = '';
             data.price      = '';
             data.index      = this.itemsCount++;
-            if(arguments.length == 4) {
-                data.website_id = arguments[0];
-                data.country    = arguments[1];
-                data.state      = arguments[2];
-                data.price      = arguments[3];
+            if(arguments.length == 5) {
+                data.prefix     = arguments[0];
+                data.website_id = arguments[1];
+                data.country    = arguments[2];
+                data.state      = arguments[3];
+                data.price      = arguments[4];
+            } else if (arguments.length == 1) {
+                data.prefix     = arguments[0];
             }
-            Element.insert($('<?php echo $_htmlId ?>_container'), {'bottom':this.template.evaluate(data)});
+            Element.insert($(data.prefix + '_container'), {'bottom':this.template.evaluate(data)});
 
-            $('<?php echo $_htmlId ?>_weee_tax_row_'+data.index+'_country').value = data.country;
-            $('<?php echo $_htmlId ?>_weee_tax_row_'+data.index+'_website').value = data.website_id;
+            $(data.prefix + '_weee_tax_row_'+data.index+'_country').value = data.country;
+            $(data.prefix + '_weee_tax_row_'+data.index+'_website').value = data.website_id;
 
-            updater = new RegionUpdater('<?php echo $_htmlId ?>_weee_tax_row_'+data.index+'_country', null, '<?php echo $_htmlId ?>_weee_tax_row_'+data.index+'_state', <?php echo $this->helper('directory')->getRegionJson() ?>, 'disable', true);
+            updater = new RegionUpdater(data.prefix + '_weee_tax_row_'+data.index+'_country', null, data.prefix + '_weee_tax_row_'+data.index+'_state', <?php echo $this->helper('directory')->getRegionJson() ?>, 'disable', true);
             updater.update();
 
-            $('<?php echo $_htmlId ?>_weee_tax_row_'+data.index+'_state').value   = data.state;
+            $(data.prefix + '_weee_tax_row_'+data.index+'_state').value   = data.state;
         },
-        deleteItem : function(event) {
+        deleteItem : function(prefix, event) {
             var tr = Event.findElement(event, 'tr');
             if (tr) {
                 Element.select(tr, '.delete').each(function(elem){elem.value='1'});
@@ -120,7 +124,7 @@
         }
     }
     <?php foreach ($this->getValues() as $_item): ?>
-    weeeTaxControl_<?php echo $_htmlId ?>.addItem('<?php echo $_item['website_id'] ?>', '<?php echo $_item['country'] ?>', '<?php echo $_item['state'] ?>', '<?php echo sprintf('%.2f', $_item['value']) ?>');
+    weeeTaxControl.addItem('<?php echo $_htmlId ?>', '<?php echo $_item['website_id'] ?>', '<?php echo $_item['country'] ?>', '<?php echo $_item['state'] ?>', '<?php echo sprintf('%.2f', $_item['value']) ?>');
     <?php endforeach; ?>
 
 //]]>
