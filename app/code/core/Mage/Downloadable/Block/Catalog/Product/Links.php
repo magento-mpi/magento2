@@ -129,4 +129,27 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         return $this->getUrl('downloadable/download/linkSample', array('link_id' => $link->getId()));
     }
 
+    /**
+     * Return title of links section
+     *
+     * @return string
+     */
+    public function getLinksTitle()
+    {
+        if ($this->getProduct()->getLinksTitle()) {
+            return $this->getProduct()->getLinksTitle();
+        }
+        return Mage::getStoreConfig('downloadable/options/links_title');
+    }
+
+    /**
+     * Return true if target of link new window
+     *
+     * @return bool
+     */
+    public function getIsOpenInNewWindow()
+    {
+        return Mage::getStoreConfigFlag('downloadable/options/links_target_new_window');
+    }
+
 }

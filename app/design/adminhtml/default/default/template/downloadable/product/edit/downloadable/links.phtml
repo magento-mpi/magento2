@@ -33,6 +33,25 @@
 <?php $_product = $this->getProduct()?>
 <div class="fieldset">
 <table cellspacing="0" class="form-list">
+    <tbody>
+        <tr class="headings">
+            <td class="label"><label for="name"><?php echo Mage::helper('downloadable')->__('Title')?></label>
+            </td>
+            <td class="value">
+                <input type="text" class="input-text" name="product[links_title]" value="<?php echo $_product->getId()?$_product->getLinksTitle():$this->getLinksTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?> />
+            </td>
+            <td class="scope-label">[STORE VIEW]</td>
+            <td class="value use-default">
+            <?php if($_product->getStoreId()): ?>
+                <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
+                <label class="normal" for="link_title_default">Use Default Value</label>
+            <?php endif; ?>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table cellspacing="0" class="form-list">
 	<tbody>
 		<tr class="headings">
 			<td class="label"><label for="name"><?php echo Mage::helper('downloadable')->__('Links can be purchased separately')?></label>
@@ -89,8 +108,12 @@ var linkTemplate = '<tr>' +
         '<input type="hidden" class="__delete__" name="downloadable[link][{{id}}][is_delete]" value="" />' +
         '<input type="hidden" name="downloadable[link][{{id}}][link_id]" value="{{link_id}}" />' +
         '<input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][title]" value="{{title}}" />' +
+        '<?php echo $_product->getStoreId()?'<input type="checkbox" id="downloadable_link_{{id}}_title" name="downloadable[link][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_link_{{id}}_title">Use Default Value</label>':'' ?>' +
     '</td>' +
-    '<td class="input-price"><input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][price]" value="{{price}}" /> [<?php echo Mage::app()->getBaseCurrencyCode() ?>]</td>' +
+    '<td class="input-price">' +
+        '<input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][price]" value="{{price}}" /> [<?php echo Mage::app()->getBaseCurrencyCode() ?>]' +
+        '<?php echo $_product->getStoreId() && $this->getIsPriceWebsiteScope()?'<br /><input type="checkbox" id="downloadable_link_{{id}}_price" name="downloadable[link][{{id}}][use_default_price]" value="1" /><label class="normal" for="downloadable_link_{{id}}_price">Use Default Value</label>':'' ?>' +
+    '</td>' +
     '<td><input type="text" name="downloadable[link][{{id}}][number_of_downloads]" class="input-text downloads" value="{{number_of_downloads}}" />' +
     '<p><input type="checkbox" class="checkbox" name="downloadable[link][{{id}}][is_unlimited]" value="1" {{is_unlimited}} /> <label>Unlimited</label></p></td>' +
     '<td class="a-center">' +
@@ -125,9 +148,44 @@ var linkItems = {
         if(!data.link_id){
             data = {};
             data.link_id  = 0;
+            data.number_of_downloads = '<?php echo $this->getConfigMaxDownloads() ?>';
         }
         data.id = this.itemCount;
         Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+        scopeTitle = $('downloadable_link_'+data.id+'_title');
+        if (scopeTitle) {
+        	Event.observe(scopeTitle, 'click', function(event){
+                scopeElm = $(Event.findElement(event, 'input'));
+        		titleField = scopeElm.up(0).down('input[type="text"]');
+                if (titleField.disabled == true) {
+                    titleField.disabled = false;
+                } else {
+                	titleField.disabled = true;
+                }
+            });
+        }
+        if (!data.store_title && scopeTitle) {
+        	scopeTitle.up(0).down('input[type="text"]').disabled = true;
+        	scopeTitle.checked = true;
+        }
+
+        scopePrice = $('downloadable_link_'+data.id+'_price');
+        if (scopePrice) {
+        	Event.observe(scopePrice, 'click', function(event){
+                scopeElm = $(Event.findElement(event, 'input'));
+                priceField = scopeElm.up(0).down('input[type="text"]');
+                if (priceField.disabled == true) {
+                    priceField.disabled = false;
+                } else {
+                    priceField.disabled = true;
+                }
+            });
+        }
+        if (!data.website_price && scopePrice) {
+        	scopePrice.up(0).down('input[type="text"]').disabled = true;
+            scopePrice.checked = true;
+        }
 
         if (data.is_shareable) {
             options = $('downloadable_link _'+data.id+'_shareable').options;

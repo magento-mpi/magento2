@@ -80,10 +80,23 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_url' => $item->getSampleUrl(),
                 'sort_order' => $item->getSortOrder()
             );
+            if ($this->getProduct() && $item->getStoreTitle()) {
+                $tmpSampleItem['store_title'] = $item->getStoreTitle();
+            }
             $samplesArr[] = new Varien_Object($tmpSampleItem);
         }
 
         return $samplesArr;
+    }
+
+    public function getUsedDefault()
+    {
+        return is_null($this->getProduct()->getAttributeDefaultValue('samples_title'));
+    }
+
+    public function getSamplesTitle()
+    {
+        return Mage::getStoreConfig('downloadable/options/samples_title');
     }
 
 }

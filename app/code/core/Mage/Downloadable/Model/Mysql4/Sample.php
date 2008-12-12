@@ -56,22 +56,26 @@ class Mage_Downloadable_Model_Mysql4_Sample extends Mage_Core_Model_Mysql4_Abstr
             ->where('sample_id = ?', $sampleObject->getId())
             ->where('store_id = ?', $sampleObject->getStoreId());
         if ($this->_getReadAdapter()->fetchOne($stmt)) {
-            $this->_getWriteAdapter()->update(
-                $this->getTable('downloadable/sample_title'),
-                array(
-                    'title' => $sampleObject->getTitle(),
-                ),
-                $this->_getReadAdapter()->quoteInto('sample_id = ?', $sampleObject->getId()) .
-                    ' AND ' .
-                    $this->_getReadAdapter()->quoteInto('store_id = ?', $sampleObject->getStoreId()));
+            $where = $this->_getReadAdapter()->quoteInto('sample_id = ?', $sampleObject->getId()) .
+                ' AND ' . $this->_getReadAdapter()->quoteInto('store_id = ?', $sampleObject->getStoreId());
+            if ($sampleObject->getUseDefaultTitle()) {
+                $this->_getWriteAdapter()->delete(
+                    $this->getTable('downloadable/sample_title'), $where);
+            } else {
+                $this->_getWriteAdapter()->update(
+                    $this->getTable('downloadable/sample_title'),
+                    array('title' => $sampleObject->getTitle()), $where);
+            }
         } else {
-            $this->_getWriteAdapter()->insert(
-                $this->getTable('downloadable/sample_title'),
-                array(
-                    'sample_id' => $sampleObject->getId(),
-                    'store_id' => $sampleObject->getStoreId(),
-                    'title' => $sampleObject->getTitle(),
-                ));
+            if (!$sampleObject->getUseDefaultTitle()) {
+                $this->_getWriteAdapter()->insert(
+                    $this->getTable('downloadable/sample_title'),
+                    array(
+                        'sample_id' => $sampleObject->getId(),
+                        'store_id' => $sampleObject->getStoreId(),
+                        'title' => $sampleObject->getTitle(),
+                    ));
+            }
         }
         return $this;
     }

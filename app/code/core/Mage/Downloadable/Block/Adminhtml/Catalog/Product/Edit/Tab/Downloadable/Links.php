@@ -109,15 +109,45 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         return $addButton->toHtml();
     }
 
+    public function getLinksTitle()
+    {
+        return Mage::getStoreConfig('downloadable/options/links_title');
+    }
+
+    public function getUsedDefault()
+    {
+        return is_null($this->getProduct()->getAttributeDefaultValue('links_title'));
+    }
+
+    /**
+     * Return true if price in website scope
+     *
+     * @return bool
+     */
+    public function getIsPriceWebsiteScope()
+    {
+        $scope =  (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return array of links
+     *
+     * @return array
+     */
     public function getLinkData()
     {
         $linkArr = array();
         $links = $this->getProduct()->getTypeInstance()->getLinks();
+        $priceWebsiteScope = $this->getIsPriceWebsiteScope();
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
                 'title' => $item->getTitle(),
-                'price' => $item->getPrice(),
+                'price' => $this->getPriceValue($item->getPrice()),
                 'number_of_downloads' => $item->getNumberOfDownloads(),
                 'is_shareable' => $item->getIsShareable(),
                 'link_url' => $item->getLinkUrl(),
@@ -127,9 +157,31 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             if ($item->getNumberOfDownloads() == '0') {
                 $tmpLinkItem['is_unlimited'] = ' checked="checked"';
             }
+            if ($this->getProduct()->getStoreId() && $item->getStoreTitle()) {
+                $tmpLinkItem['store_title'] = $item->getStoreTitle();
+            }
+            if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
+                $tmpLinkItem['website_price'] = $item->getWebsitePrice();
+            }
             $linkArr[] = new Varien_Object($tmpLinkItem);
         }
         return $linkArr;
+    }
+
+    /**
+     * Return formated price with two digits after decimal point
+     *
+     * @param decimal $value
+     * @return decimal
+     */
+    public function getPriceValue($value)
+    {
+        return number_format($value, 2, null, '');
+    }
+
+    public function getConfigMaxDownloads()
+    {
+        return Mage::getStoreConfig('downloadable/options/downloads_number');
     }
 
 }

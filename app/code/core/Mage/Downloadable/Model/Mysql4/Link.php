@@ -56,22 +56,26 @@ class Mage_Downloadable_Model_Mysql4_Link extends Mage_Core_Model_Mysql4_Abstrac
             ->where('link_id = ?', $linkObject->getId())
             ->where('store_id = ?', $linkObject->getStoreId());
         if ($this->_getReadAdapter()->fetchOne($stmt)) {
-            $this->_getWriteAdapter()->update(
-                $this->getTable('downloadable/link_title'),
-                array(
-                    'title' => $linkObject->getTitle(),
-                ),
-                $this->_getReadAdapter()->quoteInto('link_id = ?', $linkObject->getId()) .
-                    ' AND ' .
-                    $this->_getReadAdapter()->quoteInto('store_id = ?', $linkObject->getStoreId()));
+            $where = $this->_getReadAdapter()->quoteInto('link_id = ?', $linkObject->getId()) .
+                ' AND ' . $this->_getReadAdapter()->quoteInto('store_id = ?', $linkObject->getStoreId());
+            if ($linkObject->getUseDefaultTitle()) {
+                $this->_getWriteAdapter()->delete(
+                    $this->getTable('downloadable/link_title'), $where);
+            } else {
+                $this->_getWriteAdapter()->update(
+                    $this->getTable('downloadable/link_title'),
+                    array('title' => $linkObject->getTitle()), $where);
+            }
         } else {
-            $this->_getWriteAdapter()->insert(
-                $this->getTable('downloadable/link_title'),
-                array(
-                    'link_id' => $linkObject->getId(),
-                    'store_id' => $linkObject->getStoreId(),
-                    'title' => $linkObject->getTitle(),
-                ));
+            if (!$linkObject->getUseDefaultTitle()) {
+                $this->_getWriteAdapter()->insert(
+                    $this->getTable('downloadable/link_title'),
+                    array(
+                        'link_id' => $linkObject->getId(),
+                        'store_id' => $linkObject->getStoreId(),
+                        'title' => $linkObject->getTitle(),
+                    ));
+            }
         }
         $stmt = null;
         $stmt = $this->_getReadAdapter()->select()
@@ -79,22 +83,26 @@ class Mage_Downloadable_Model_Mysql4_Link extends Mage_Core_Model_Mysql4_Abstrac
             ->where('link_id = ?', $linkObject->getId())
             ->where('website_id = ?', $linkObject->getWebsiteId());
         if ($this->_getReadAdapter()->fetchOne($stmt)) {
-            $this->_getWriteAdapter()->update(
-                $this->getTable('downloadable/link_price'),
-                array(
-                    'price' => $linkObject->getPrice()
-                ),
-                $this->_getReadAdapter()->quoteInto('link_id = ?', $linkObject->getId()) .
-                    ' AND ' .
-                    $this->_getReadAdapter()->quoteInto('website_id = ?', $linkObject->getWebsiteId()));
+            $where = $this->_getReadAdapter()->quoteInto('link_id = ?', $linkObject->getId()) .
+                ' AND ' . $this->_getReadAdapter()->quoteInto('website_id = ?', $linkObject->getWebsiteId());
+            if ($linkObject->getUseDefaultPrice()) {
+                $this->_getReadAdapter()->delete(
+                    $this->getTable('downloadable/link_price'), $where);
+            } else {
+                $this->_getWriteAdapter()->update(
+                    $this->getTable('downloadable/link_price'),
+                    array('price' => $linkObject->getPrice()), $where);
+            }
         } else {
-            $this->_getWriteAdapter()->insert(
-                $this->getTable('downloadable/link_price'),
-                array(
-                    'link_id' => $linkObject->getId(),
-                    'website_id' => $linkObject->getWebsiteId(),
-                    'price' => $linkObject->getPrice()
-                ));
+            if (!$linkObject->getUseDefaultPrice()) {
+                $this->_getWriteAdapter()->insert(
+                    $this->getTable('downloadable/link_price'),
+                    array(
+                        'link_id' => $linkObject->getId(),
+                        'website_id' => $linkObject->getWebsiteId(),
+                        'price' => $linkObject->getPrice()
+                    ));
+            }
         }
         return $this;
     }

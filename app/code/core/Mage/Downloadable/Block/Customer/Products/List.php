@@ -64,8 +64,9 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     }
 
     /**
-     * Enter description here...
+     * Return order view url
      *
+     * @param integer $orderId
      * @return string
      */
     public function getOrderViewUrl($orderId)
@@ -83,6 +84,11 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         return $this->getUrl('customer/account/');
     }
 
+    /**
+     * Return number of left downloads or unlimited
+     *
+     * @return string
+     */
     public function getRemainingDownloads($item)
     {
         if ($item->getNumberOfDownloadsBought()) {
@@ -92,9 +98,25 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         return Mage::helper('downloadable')->__('Unlimited');
     }
 
+    /**
+     * Return url to download link
+     *
+     * @param Mage_Downloadable_Model_Link_Purchased $item
+     * @return string
+     */
     public function getDownloadUrl($item)
     {
         return $this->getUrl('*/download/link', array('id' => $item->getId()));
+    }
+
+    /**
+     * Return true if target of link new window
+     *
+     * @return bool
+     */
+    public function getIsOpenInNewWindow()
+    {
+        return Mage::getStoreConfigFlag('downloadable/options/links_target_new_window');
     }
 
 }

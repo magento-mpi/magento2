@@ -63,6 +63,31 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </shareable>
+                        <samples_title translate="label">
+                            <label>Default Sample Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </samples_title>
+                        <links_title translate="label">
+                            <label>Default Link Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </links_title>
+                        <links_target_new_window translate="label">
+                            <label>Open Links in New Window</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </links_target_new_window>
                     </fields>
                 </downloadable>
             </groups>

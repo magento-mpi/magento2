@@ -137,7 +137,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
     {
         $id = $this->getRequest()->getParam('id', 0);
         $linkPurchased = Mage::getModel('downloadable/link_purchased')->load($id);
-        if (!$linkPurchased->getIsShareable()) {
+        if (!Mage::helper('downloadable')->getIsShareable($linkPurchased)) {
             if (!$this->_getCustomerSession()->getCustomerId()) {
                 $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Please log in first.'));
                 $this->_getCustomerSession()->authenticate($this);
