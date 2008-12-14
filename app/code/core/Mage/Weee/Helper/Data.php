@@ -48,9 +48,9 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website);
     }
 
-    public function mergeAppliedRates($applied, $item, $product, $shipping = null, $billing = null, $website = null)
+    public function getAppliedRates($item, $shipping = null, $billing = null, $website = null)
     {
-        return Mage::getModel('weee/tax')->mergeAppliedRates($applied, $item, $product, $shipping, $billing, $website);
+        return Mage::getModel('weee/tax')->getAppliedRates($item, $shipping, $billing, $website);
     }
 
     public function typeOfDisplay($product, $compareTo = null, $zone = null)

@@ -82,25 +82,6 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                         $address->setBaseGrandTotal($address->getBaseGrandTotal() - ($item->getBaseDiscountAmount()-$baseDiscountBefore));
                     }
 
-                    $weeeTax = Mage::helper('weee')->getAmount(
-                        $item->getProduct(),
-                        $address,
-                        $address->getQuote()->getBillingAddress(),
-                        $store->getWebsiteId()
-                    );
-                    $address->setTaxAmount($address->getTaxAmount() + $weeeTax*$item->getQty());
-                    $address->setBaseTaxAmount($address->getBaseTaxAmount() + $weeeTax*$item->getQty());
-
-                    $applied = $taxCalculationModel->getAppliedRates($request);
-                    $applied = Mage::helper('weee')->mergeAppliedRates(
-                        $applied,
-                        $item,
-                        $item->getProduct(),
-                        $address,
-                        $address->getQuote()->getBillingAddress(),
-                        $store->getWebsiteId()
-                    );
-
                     $this->_saveAppliedTaxes(
                        $address,
                        $taxCalculationModel->getAppliedRates($request),
@@ -132,25 +113,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
                 $address->setTaxAmount($address->getTaxAmount() + $item->getTaxAmount());
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseTaxAmount());
 
-                $weeeTax = Mage::helper('weee')->getAmount(
-                    $item->getProduct(),
-                    $address,
-                    $address->getQuote()->getBillingAddress(),
-                    $store->getWebsiteId()
-                );
-                $address->setTaxAmount($address->getTaxAmount() + $weeeTax*$item->getQty());
-                $address->setBaseTaxAmount($address->getBaseTaxAmount() + $weeeTax*$item->getQty());
-
                 $applied = $taxCalculationModel->getAppliedRates($request);
-                $applied = Mage::helper('weee')->mergeAppliedRates(
-                    $applied,
-                    $item,
-                    $item->getProduct(),
-                    $address,
-                    $address->getQuote()->getBillingAddress(),
-                    $store->getWebsiteId()
-                );
-
                 $this->_saveAppliedTaxes(
                    $address,
                    $applied,

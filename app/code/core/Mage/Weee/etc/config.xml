@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Weee>
-            <version>0.5</version>
+            <version>0.7</version>
         </Mage_Weee>
     </modules>
 
@@ -125,10 +125,89 @@
         </events>
         <fieldsets>
             <sales_convert_quote_item>
-                <weee_tax_applied><to_order_item>*</to_order_item></weee_tax_applied>
-                <weee_tax_applied_amount><to_order_item>*</to_order_item></weee_tax_applied_amount>
-                <weee_tax_applied_row_amount><to_order_item>*</to_order_item></weee_tax_applied_row_amount>
+                <weee_tax_applied>
+                    <to_order_item>*</to_order_item>
+                </weee_tax_applied>
+                <weee_tax_applied_amount>
+                    <to_order_item>*</to_order_item>
+                </weee_tax_applied_amount>
+                <weee_tax_applied_row_amount>
+                    <to_order_item>*</to_order_item>
+                </weee_tax_applied_row_amount>
+                <base_weee_tax_applied_amount>
+                    <to_order_item>*</to_order_item>
+                </base_weee_tax_applied_amount>
+                <base_weee_tax_applied_row_amount>
+                    <to_order_item>*</to_order_item>
+                </base_weee_tax_applied_row_amount>
             </sales_convert_quote_item>
+
+            <sales_convert_order_item>
+                <weee_tax_applied>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </weee_tax_applied>
+                <weee_tax_applied_amount>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </weee_tax_applied_amount>
+                <weee_tax_applied_row_amount>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </weee_tax_applied_row_amount>
+                <base_weee_tax_applied_amount>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </base_weee_tax_applied_amount>
+                <base_weee_tax_applied_row_amount>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </base_weee_tax_applied_row_amount>
+            </sales_convert_order_item>
         </fieldsets>
+
+        <sales>
+            <quote>
+                <totals>
+                    <weee>
+                        <class>weee/total_quote_weee</class>
+                        <after>subtotal,shipping,tax</after>
+                        <before>grand_total</before>
+                    </weee>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <weee>
+                        <class>weee/total_invoice_weee</class>
+                        <after>subtotal,tax</after>
+                        <before>grand_total</before>
+                    </weee>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <weee>
+                        <class>weee/total_creditmemo_weee</class>
+                        <after>subtotal,tax</after>
+                        <before>grand_total</before>
+                    </weee>
+                </totals>
+            </order_creditmemo>
+        </sales>
     </global>
+    <default>
+        <sales>
+            <totals_sort>
+                <weee>50</weee>
+            </totals_sort>
+        </sales>
+        <tax>
+            <weee>
+                <display>0</display>
+                <display_list>0</display_list>
+                <display_sales>0</display_sales>
+            </weee>
+        </tax>
+    </default>
 </config>

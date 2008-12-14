@@ -72,7 +72,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return $amount;
     }
 
-    public function mergeAppliedRates($applied, $item, $product, $shipping = null, $billing = null, $website = null)
+    public function getAppliedRates($item, $shipping = null, $billing = null, $website = null)
     {
         if (is_null($website)) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();
@@ -81,6 +81,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         }
         $productTaxes = array();
         $total = 0;
+        $product = $item->getProduct();
 
         $productAttributes = $product->getTypeInstance()->getSetAttributes();
         $attributes = $this->getWeeeAttributeCodes();
