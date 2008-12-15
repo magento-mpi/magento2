@@ -407,8 +407,9 @@ Varien.DOB.prototype = {
             } else if (this.year.value<1900 || this.year.value>date.getFullYear()) {
                 error = 'Please enter a valid year (1900-'+date.getFullYear()+').';
             } else {
-                this.dob.value = this.format.replace(/(%m|%b|%B)/, this.month.value).replace(/(%d|%e)/, this.day.value).replace(/%y|%Y/, this.year.value);
-                var test = new Date(this.dob.value);
+                this.dob.value = this.format.replace(/(%m|%b)/i, this.month.value).replace(/(%d|%e)/i, this.day.value).replace(/%y/i, this.year.value);
+                var testDOB = this.month.value + '/' + this.day.value + '/'+ this.year.value;
+                var test = new Date(testDOB);
                 if (isNaN(test)) {
                     error = 'Please enter a valid date.';
                 }
