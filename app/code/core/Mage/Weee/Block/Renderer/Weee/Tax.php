@@ -121,14 +121,22 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         );
 
         if (!Mage::app()->isSingleStoreMode() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
-            foreach (Mage::app()->getWebsites() as $website) {
-                if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
-                    continue;
-                }
+            if ($storeId = $this->getProduct()->getStoreId()) {
+                $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
                     'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
+            } else {
+                foreach (Mage::app()->getWebsites() as $website) {
+                    if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
+                        continue;
+                    }
+                    $websites[$website->getId()] = array(
+                        'name'      => $website->getName(),
+                        'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    );
+                }
             }
         }
         $this->_websites = $websites;

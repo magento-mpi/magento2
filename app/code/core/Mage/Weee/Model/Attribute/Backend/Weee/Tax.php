@@ -49,13 +49,8 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
                 continue;
             }
 
-            /* @todo state uniq check */
-
             $state = isset($tax['state']) ? $tax['state'] : '*';
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
-//            $key2 = implode('-', array(0, $tax['country'], $state));
-//            $key3 = implode('-', array(0, $tax['country'], '*'));
-//            $key4 = implode('-', array($tax['website_id'], $tax['country'], '*'));
 
             if (!empty($dup[$key1])) {
                 Mage::throwException(
