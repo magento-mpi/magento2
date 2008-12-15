@@ -269,14 +269,16 @@
         </routers>
     </admin>
     <default>
-        <downloadable>
-            <options>
-                <downloads_number>0</downloads_number>
-                <order_status>complete</order_status>
-                <samples_title>Samples</samples_title>
-                <links_title>Links</links_title>
-                <links_target_new_window>0</links_target_new_window>
-            </options>
-        </downloadable>
+        <catalog>
+            <downloadable>
+                <options>
+                    <downloads_number>0</downloads_number>
+                    <order_status>complete</order_status>
+                    <samples_title>Samples</samples_title>
+                    <links_title>Links</links_title>
+                    <links_target_new_window>0</links_target_new_window>
+                </options>
+            </downloadable>
+        </catalog>
     </default>
 </config>

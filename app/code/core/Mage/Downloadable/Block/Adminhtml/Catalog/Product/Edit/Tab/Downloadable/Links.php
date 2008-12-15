@@ -111,7 +111,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
 
     public function getLinksTitle()
     {
-        return Mage::getStoreConfig('downloadable/options/links_title');
+        return Mage::getStoreConfig('catalog/downloadable/options/links_title');
     }
 
     public function getUsedDefault()
@@ -181,7 +181,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
 
     public function getConfigMaxDownloads()
     {
-        return Mage::getStoreConfig('downloadable/options/downloads_number');
+        return Mage::getStoreConfig('catalog/downloadable/options/downloads_number');
     }
 
 }

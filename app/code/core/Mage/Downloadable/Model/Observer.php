@@ -141,7 +141,7 @@ class Mage_Downloadable_Model_Observer
             $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED;
         }
 //        $status = '';
-//        $orderStatusToEnable = Mage::getStoreConfig('downloadable/options/order_status');
+//        $orderStatusToEnable = Mage::getStoreConfig('catalog/downloadable/options/order_status');
 //        if ($order->getStatus() == $orderStatusToEnable) {
 //            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_AVAILABLE;
 //        }

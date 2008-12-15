@@ -96,7 +96,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
 
     public function getSamplesTitle()
     {
-        return Mage::getStoreConfig('downloadable/options/samples_title');
+        return Mage::getStoreConfig('catalog/downloadable/options/samples_title');
     }
 
 }

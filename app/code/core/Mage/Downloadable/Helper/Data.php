@@ -48,7 +48,7 @@ class Mage_Downloadable_Helper_Data extends Mage_Core_Helper_Abstract
                 $shareable = (bool) $link->getIsShareable();
                 break;
             case Mage_Downloadable_Model_Link::LINK_SHAREABLE_CONFIG:
-                $shareable = (bool) Mage::getStoreConfigFlag('downloadable/options/shareable');
+                $shareable = (bool) Mage::getStoreConfigFlag('catalog/downloadable/options/shareable');
         }
         return $shareable;
     }

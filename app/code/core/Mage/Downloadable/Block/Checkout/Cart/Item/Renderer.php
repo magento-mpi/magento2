@@ -63,7 +63,7 @@ class Mage_Downloadable_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return Mage::getStoreConfig('downloadable/options/links_title');
+        return Mage::getStoreConfig('catalog/downloadable/options/links_title');
     }
 
 }

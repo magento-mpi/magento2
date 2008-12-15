@@ -116,7 +116,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag('downloadable/options/links_target_new_window');
+        return Mage::getStoreConfigFlag('catalog/downloadable/options/links_target_new_window');
     }
 
 }
