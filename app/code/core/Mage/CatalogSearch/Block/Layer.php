@@ -43,7 +43,11 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        if (Mage::app()->getStore()->getConfig(Mage_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER)) {
+        $availableResCount = (int) Mage::app()->getStore()
+            ->getConfig(Mage_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT );
+
+        if (!$availableResCount
+            || ($availableResCount>=$this->getLayer()->getProductCollection()->getSize())) {
             return parent::canShowBlock();
         }
         return false;

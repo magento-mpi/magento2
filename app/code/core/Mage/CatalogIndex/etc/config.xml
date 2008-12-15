@@ -218,9 +218,11 @@
             </catalogsearch_reset_search_result>
         </events>
         <cache>
-            <types>
-                <layered_navigation translate="label" module="catalogindex"><label>Layered Navigation</label></layered_navigation>
-            </types>
+            <betatypes>
+                <layered_navigation translate="label" module="catalogindex">
+                    <label>Layered Navigation</label>
+                </layered_navigation>
+            </betatypes>
         </cache>
     </global>
 

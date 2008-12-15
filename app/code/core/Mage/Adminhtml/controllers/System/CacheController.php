@@ -87,6 +87,15 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
             }
         }
 
+        $beta = $this->getRequest()->getPost('beta');
+        foreach (Mage::helper('core')->getCacheBetaTypes() as $type=>$label) {
+            if (empty($beta[$type])) {
+                $clean[] = $type;
+            } else {
+                $enable[$type] = 1;
+            }
+        }
+
         if (!empty($clean)) {
             Mage::app()->cleanCache($clean);
         }

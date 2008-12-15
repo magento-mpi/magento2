@@ -299,10 +299,30 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $allow;
     }
 
+    /**
+     * Get information about available cache types
+     *
+     * @return array
+     */
     public function getCacheTypes()
     {
         $types = array();
         $config = Mage::getConfig()->getNode('global/cache/types');
+        foreach ($config->children() as $type=>$node) {
+            $types[$type] = (string)$node->label;
+        }
+        return $types;
+    }
+
+    /**
+     * Get information about available cache beta types
+     *
+     * @return array
+     */
+    public function getCacheBetaTypes()
+    {
+        $types = array();
+        $config = Mage::getConfig()->getNode('global/cache/betatypes');
         foreach ($config->children() as $type=>$node) {
             $types[$type] = (string)$node->label;
         }
