@@ -180,6 +180,7 @@ class Mage_CatalogIndex_Model_Mysql4_Aggregation extends Mage_Core_Model_Mysql4_
     protected function _addTags($tags)
     {
         if (is_array($tags)) {
+            $tags = array_unique($tags);
             foreach ($tags as $index => $tag) {
                 $tags[$index] = $this->_getWriteAdapter()->quote($tag);
             }
