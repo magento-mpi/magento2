@@ -196,6 +196,8 @@
             </order_creditmemo>
         </sales>
     </global>
+
+
     <default>
         <sales>
             <totals_sort>
@@ -210,4 +212,14 @@
             </weee>
         </tax>
     </default>
+
+    <frontend>
+        <layout>
+             <updates>
+                  <weee>
+                        <file>weee.xml</file>
+                  </weee>
+             </updates>
+        </layout>
+    </frontend>
 </config>

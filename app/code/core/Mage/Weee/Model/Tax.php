@@ -80,7 +80,10 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
             $websiteId = $website;
         }
         $productTaxes = array();
+
+        $baseTotal = 0;
         $total = 0;
+
         $product = $item->getProduct();
 
         $productAttributes = $product->getTypeInstance()->getSetAttributes();
@@ -111,17 +114,25 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
             $order = array($tableAlias.'.state DESC', $tableAlias.'.website_id DESC');
     
             $attributeSelect->order($order);
-            $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
-            if ($value) {
+            $baseValue = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
+            if ($baseValue) {
+                $value = $item->getStore()->convertPrice($baseValue);
                 $title = $productAttributes[$attribute]->getFrontend()->getLabel();
-                $productTaxes[] = array('title'=>$title, 'amount'=>$value, 'row_amount'=>$value*$item->getQty());
+                $productTaxes[] = array(
+                    'title'=>$title,
+                    'base_amount'=>$baseValue,
+                    'amount'=>$value,
+                    'row_amount'=>$value*$item->getQty(),
+                    'base_row_amount'=>$baseValue*$item->getQty()
+                );
+
                 $applied[] = array(
                     'id'=>$attribute,
                     'percent'=>null,
                     'rates' => array(array(
                         'amount'=>$value*$item->getQty(),
-                        'base_amount'=>$value*$item->getQty(),
-                        'base_real_amount'=>$value*$item->getQty(),
+                        'base_amount'=>$baseValue*$item->getQty(),
+                        'base_real_amount'=>$baseValue*$item->getQty(),
                         'code'=>$attribute,
                         'title'=>$title,
                         'percent'=>null,
@@ -129,11 +140,16 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                         'priority'=>-1000+$k,
                     ))
                 );
+                $baseTotal += $baseValue;
                 $total += $value;
             }
         }
+        $item->setBaseWeeeTaxAppliedAmount($baseTotal);
+        $item->setBaseWeeeTaxAppliedRowAmount($baseTotal*$item->getQty());
+
         $item->setWeeeTaxAppliedAmount($total);
         $item->setWeeeTaxAppliedRowAmount($total*$item->getQty());
+
         Mage::helper('weee')->setApplied($item, $productTaxes);
 
         return $applied;

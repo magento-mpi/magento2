@@ -84,7 +84,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
                     $baseTotalWeeeTax += $child->getBaseWeeeTaxAppliedRowAmount();
 
                     $address->setTaxAmount($address->getTaxAmount() + $child->getWeeeTaxAppliedRowAmount());
-                    $address->setBaseTaxAmount($address->getBaseTaxAmount() + $child->getWeeeTaxAppliedRowAmount());
+                    $address->setBaseTaxAmount($address->getBaseTaxAmount() + $child->getBaseWeeeTaxAppliedRowAmount());
                 }
             }
             else {
