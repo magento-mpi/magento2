@@ -28,131 +28,11 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
     public function getWeeeAmount($product, $shipping = null, $billing = null, $website = null)
     {
         $amount = 0;
-        if (is_null($website)) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
-        } else {
-            $websiteId = $website;
-        }
-
-        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
-        $attributes = $this->getWeeeAttributeCodes();
-
+        $attributes = $this->getProductWeeeAttributes($product, $shipping, $billing, $website);
         foreach ($attributes as $attribute) {
-            $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
-            $tableAlias = "weee_{$attribute}_table";
-            $attributeSelect = $this->getResource()->getReadConnection()->select();
-            $attributeSelect->from(array($tableAlias=>$this->getResource()->getTable('weee/tax')), 'value');
-    
-            $on = array();
-            $on[] = "{$tableAlias}.attribute_id = '{$attributeId}'";
-            $on[] = "({$tableAlias}.website_id in ('{$websiteId}', 0))";
-
-            $country = $rateRequest->getCountryId();
-            $on[] = "({$tableAlias}.country = '{$country}')";
-
-            $region = $rateRequest->getRegionId();
-            $on[] = "({$tableAlias}.state in ('{$region}', '*'))";
-
-            foreach ($on as $one) {
-                $attributeSelect->where($one);
-            }
-            $attributeSelect->where('entity_id = ?', $product->getId());
-            $attributeSelect->limit(1);
-
-            $order = array($tableAlias.'.state DESC', $tableAlias.'.website_id DESC');
-
-            $attributeSelect->order($order);
-        
-            $value = $this->getResource()->fetchOne($attributeSelect);
-            if ($value) {
-                $amount += $value;
-            }
+            $amount += $attribute->getAmount();
         }
-
         return $amount;
-    }
-
-    public function getAppliedRates($item, $shipping = null, $billing = null, $website = null)
-    {
-        if (is_null($website)) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
-        } else {
-            $websiteId = $website;
-        }
-        $productTaxes = array();
-
-        $baseTotal = 0;
-        $total = 0;
-
-        $product = $item->getProduct();
-
-        $productAttributes = $product->getTypeInstance()->getSetAttributes();
-        $attributes = $this->getWeeeAttributeCodes();
-        foreach ($attributes as $k=>$attribute) {
-            $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
-            $tableAlias = $attribute;
-            $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
-            $attributeSelect = $this->getResource()->getReadConnection()->select();
-            $attributeSelect->from(array($tableAlias=>$this->getResource()->getTable('weee/tax')), 'value');
-    
-            $on = array();
-            $on[] = "{$tableAlias}.attribute_id = '{$attributeId}'";
-            $on[] = "({$tableAlias}.website_id in ('{$websiteId}', 0))";
-    
-            $country = $rateRequest->getCountryId();
-            $on[] = "({$tableAlias}.country = '{$country}')";
-    
-            $region = $rateRequest->getRegionId();
-            $on[] = "({$tableAlias}.state in ('{$region}', '*'))";
-    
-            foreach ($on as $one) {
-                $attributeSelect->where($one);
-            }
-            $attributeSelect->where('entity_id = ?', $product->getId());
-            $attributeSelect->limit(1);
-    
-            $order = array($tableAlias.'.state DESC', $tableAlias.'.website_id DESC');
-    
-            $attributeSelect->order($order);
-            $baseValue = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
-            if ($baseValue) {
-                $value = $item->getStore()->convertPrice($baseValue);
-                $title = $productAttributes[$attribute]->getFrontend()->getLabel();
-                $productTaxes[] = array(
-                    'title'=>$title,
-                    'base_amount'=>$baseValue,
-                    'amount'=>$value,
-                    'row_amount'=>$value*$item->getQty(),
-                    'base_row_amount'=>$baseValue*$item->getQty()
-                );
-
-                $applied[] = array(
-                    'id'=>$attribute,
-                    'percent'=>null,
-                    'rates' => array(array(
-                        'amount'=>$value*$item->getQty(),
-                        'base_amount'=>$baseValue*$item->getQty(),
-                        'base_real_amount'=>$baseValue*$item->getQty(),
-                        'code'=>$attribute,
-                        'title'=>$title,
-                        'percent'=>null,
-                        'position'=>1,
-                        'priority'=>-1000+$k,
-                    ))
-                );
-                $baseTotal += $baseValue;
-                $total += $value;
-            }
-        }
-        $item->setBaseWeeeTaxAppliedAmount($baseTotal);
-        $item->setBaseWeeeTaxAppliedRowAmount($baseTotal*$item->getQty());
-
-        $item->setWeeeTaxAppliedAmount($total);
-        $item->setWeeeTaxAppliedRowAmount($total*$item->getQty());
-
-        Mage::helper('weee')->setApplied($item, $productTaxes);
-
-        return $applied;
     }
 
     public function getWeeeAttributeCodes()
@@ -165,18 +45,18 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
     }
 
-    public function getProductWeeeAttributes($product)
+    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null)
     {
         $result = array();
+
+        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
+
         $productAttributes = $product->getTypeInstance()->getSetAttributes();
         $allWeee = Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
         foreach ($productAttributes as $code=>$attribute) {
             if (in_array($code, $allWeee)) {
-
-
                 $attributeId = $attribute->getId();
-                $websiteId = Mage::app()->getStore()->getWebsiteId();
-                $rateRequest = Mage::getModel('tax/calculation')->getRateRequest();
 
                 $attributeSelect = $this->getResource()->getReadConnection()->select();
                 $attributeSelect->from($this->getResource()->getTable('weee/tax'), 'value');
@@ -203,7 +83,10 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
                 if ($value) {
                     $one = new Varien_Object();
-                    $one->setName($attribute->getFrontend()->getLabel())->setAmount($value);
+                    $one->setName($attribute->getFrontend()->getLabel())
+                        ->setAmount($value)
+                        ->setCode($attribute->getAttributeCode());
+
                     $result[] = $one;
                 }
             }

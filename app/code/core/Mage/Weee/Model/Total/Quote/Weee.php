@@ -36,92 +36,131 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
         $totalWeeeTax = 0;
         $baseTotalWeeeTax = 0;
 
-        $store = $address->getQuote()->getStore();
-
         $items = $address->getAllItems();
         if (!count($items)) {
             return $this;
         }
 
-        $request = Mage::getSingleton('tax/calculation')->getRateRequest($address, $address->getQuote()->getBillingAddress(), null, $store);
-
         foreach ($items as $item) {
-            /**
-             * Child item's tax we calculate for parent
-             */
             if ($item->getParentItemId()) {
                 continue;
             }
-            /**
-             * We calculate parent tax amount as sum of children's tax amounts
-             */
 
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
-                    $weeeTax = Mage::helper('weee')->getAmount(
-                        $child->getProduct(),
-                        $address,
-                        $address->getQuote()->getBillingAddress(),
-                        $store->getWebsiteId()
-                    );
-
-                    $applied = Mage::helper('weee')->getAppliedRates(
-                        $child,
-                        $address,
-                        $address->getQuote()->getBillingAddress(),
-                        $store->getWebsiteId()
-                    );
-
-                    $this->_saveAppliedTaxes(
-                       $address,
-                       $applied,
-                       $child->getWeeeTaxAppliedAmount(),
-                       $child->getBaseWeeeTaxAppliedAmount(),
-                       null
-                    );
+                    $this->_processItem($address, $child);
 
                     $totalWeeeTax += $child->getWeeeTaxAppliedRowAmount();
                     $baseTotalWeeeTax += $child->getBaseWeeeTaxAppliedRowAmount();
-
-                    $address->setTaxAmount($address->getTaxAmount() + $child->getWeeeTaxAppliedRowAmount());
-                    $address->setBaseTaxAmount($address->getBaseTaxAmount() + $child->getBaseWeeeTaxAppliedRowAmount());
                 }
-            }
-            else {
-                $weeeTax = Mage::helper('weee')->getAmount(
-                    $item->getProduct(),
-                    $address,
-                    $address->getQuote()->getBillingAddress(),
-                    $store->getWebsiteId()
-                );
-
-                $applied = Mage::helper('weee')->getAppliedRates(
-                    $item,
-                    $address,
-                    $address->getQuote()->getBillingAddress(),
-                    $store->getWebsiteId()
-                );
-
-                $this->_saveAppliedTaxes(
-                   $address,
-                   $applied,
-                   $item->getWeeeTaxAppliedAmount(),
-                   $item->getBaseWeeeTaxAppliedAmount(),
-                   null
-                );
-
+            } else {
+                $this->_processItem($address, $item);
 
                 $totalWeeeTax += $item->getWeeeTaxAppliedRowAmount();
                 $baseTotalWeeeTax += $item->getBaseWeeeTaxAppliedRowAmount();
-
-                $address->setTaxAmount($address->getTaxAmount() + $item->getWeeeTaxAppliedRowAmount());
-                $address->setBaseTaxAmount($address->getBaseTaxAmount() + $item->getBaseWeeeTaxAppliedRowAmount());
             }
         }
+
+        $address->setTaxAmount($address->getTaxAmount() + $totalWeeeTax);
+        $address->setBaseTaxAmount($address->getBaseTaxAmount() + $baseTotalWeeeTax);
 
         $address->setGrandTotal($address->getGrandTotal() + $totalWeeeTax);
         $address->setBaseGrandTotal($address->getBaseGrandTotal() + $baseTotalWeeeTax);
         return $this;
+    }
+
+    protected function _processItem(Mage_Sales_Model_Quote_Address $address, $item)
+    {
+        $item->setBaseWeeeTaxAppliedAmount(0);
+        $item->setBaseWeeeTaxAppliedRowAmount(0);
+
+        $item->setWeeeTaxAppliedAmount(0);
+        $item->setWeeeTaxAppliedRowAmount(0);
+
+        $store = $address->getQuote()->getStore();
+
+        $attributes = Mage::helper('weee')->getProductWeeeAttributes(
+            $item->getProduct(),
+            $address,
+            $address->getQuote()->getBillingAddress(),
+            $store->getWebsiteId()
+        );
+
+        $applied = array();
+        $productTaxes = array();
+
+        foreach ($attributes as $k=>$attribute) {
+            $baseValue = $attribute->getAmount();
+            $value = $store->convertPrice($baseValue);
+
+            $rowValue = $value*$item->getQty();
+            $baseRowValue = $baseValue*$item->getQty();
+
+            $title = $attribute->getName();
+
+            if ($item->getDiscountPercent() && Mage::helper('weee')->isDiscounted()) {
+                $valueDiscount = $value/100*$item->getDiscountPercent();
+                $baseValueDiscount = $baseValue/100*$item->getDiscountPercent();
+
+                $rowValueDiscount = $rowValue/100*$item->getDiscountPercent();
+                $baseRowValueDiscount = $baseRowValue/100*$item->getDiscountPercent();
+
+
+//                $value        = $store->roundPrice($value-$valueDiscount);
+//                $baseValue    = $store->roundPrice($baseValue-$baseValueDiscount);
+//                $rowValue     = $store->roundPrice($rowValue-$rowValueDiscount);
+//                $baseRowValue = $store->roundPrice($baseRowValue-$baseRowValueDiscount);
+
+
+                $address->setDiscountAmount($address->getDiscountAmount()+$rowValueDiscount);
+                $address->setBaseDiscountAmount($address->getBaseDiscountAmount()+$baseRowValueDiscount);
+                
+                $address->setGrandTotal($address->getGrandTotal() - $rowValueDiscount);
+                $address->setBaseGrandTotal($address->getBaseGrandTotal() - $baseRowValueDiscount);
+            }
+
+            $productTaxes[] = array(
+                'title'=>$title,
+                'base_amount'=>$baseValue,
+                'amount'=>$value,
+                'row_amount'=>$rowValue,
+                'base_row_amount'=>$baseRowValue
+            );
+
+            $applied[] = array(
+                'id'=>$attribute->getCode(),
+                'percent'=>null,
+                'rates' => array(array(
+                    'amount'=>$rowValue,
+                    'base_amount'=>$baseRowValue,
+                    'base_real_amount'=>$baseRowValue,
+                    'code'=>$attribute->getCode(),
+                    'title'=>$title,
+                    'percent'=>null,
+                    'position'=>1,
+                    'priority'=>-1000+$k,
+                ))
+            );
+
+
+            $item->setBaseWeeeTaxAppliedAmount($item->getBaseWeeeTaxAppliedAmount() + $baseValue);
+            $item->setBaseWeeeTaxAppliedRowAmount($item->getBaseWeeeTaxAppliedRowAmount() + $baseRowValue);
+
+            $item->setWeeeTaxAppliedAmount($item->getWeeeTaxAppliedAmount() + $value);
+            $item->setWeeeTaxAppliedRowAmount($item->getWeeeTaxAppliedRowAmount() + $rowValue);
+        }
+
+        Mage::helper('weee')->setApplied($item, $productTaxes);
+
+        if ($applied) {
+            $this->_saveAppliedTaxes(
+               $address,
+               $applied,
+               $item->getWeeeTaxAppliedAmount(),
+               $item->getBaseWeeeTaxAppliedAmount(),
+               null
+            );
+        }
     }
 
     public function fetch(Mage_Sales_Model_Quote_Address $address)

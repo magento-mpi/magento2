@@ -48,11 +48,6 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website);
     }
 
-    public function getAppliedRates($item, $shipping = null, $billing = null, $website = null)
-    {
-        return Mage::getModel('weee/tax')->getAppliedRates($item, $shipping, $billing, $website);
-    }
-
     public function typeOfDisplay($product, $compareTo = null, $zone = null)
     {
         $type = 0;
@@ -85,9 +80,9 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
-    public function getProductWeeeAttributes($product)
+    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null)
     {
-        return Mage::getModel('weee/tax')->getProductWeeeAttributes($product);
+        return Mage::getModel('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website);
     }
 
     public function getApplied($item)
@@ -99,5 +94,10 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $item->setWeeeTaxApplied(serialize($value));
         return $this;
+    }
+
+    public function isDiscounted()
+    {
+        return Mage::getStoreConfigFlag('tax/weee/discount');
     }
 }
