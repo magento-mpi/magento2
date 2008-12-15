@@ -28,16 +28,4 @@ $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
-
-$installer->run("
-
-CREATE TABLE {$this->getTable('catalogsearch_fulltext')} (
-    `product_id` int(10) unsigned NOT NULL,
-    `store_id` smallint (5) unsigned NOT NULL,
-    `data_index` longtext NOT NULL,
-    FULLTEXT KEY (`data_index`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-    ");
-
 $installer->endSetup();

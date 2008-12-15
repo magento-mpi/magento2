@@ -97,24 +97,24 @@
                     </catalogsearch>
                 </observers>
             </catalog_product_delete_after_done>
-<!--            <catalog_entity_attribute_save_after>-->
-<!--                <observers>-->
-<!--                    <catalogsearch>-->
-<!--                        <type>singleton</type>-->
-<!--                        <class>catalogsearch/fulltext_observer</class>-->
-<!--                        <method>refreshIndexByAttribute</method>-->
-<!--                    </catalogsearch>-->
-<!--                </observers>-->
-<!--            </catalog_entity_attribute_save_after>-->
-<!--            <catalog_entity_attribute_delete_after>-->
-<!--                <observers>-->
-<!--                    <catalogsearch>-->
-<!--                        <type>singleton</type>-->
-<!--                        <class>catalogsearch/fulltext_observer</class>-->
-<!--                        <method>refreshIndexByAttribute</method>-->
-<!--                    </catalogsearch>-->
-<!--                </observers>-->
-<!--            </catalog_entity_attribute_delete_after>-->
+            <catalog_entity_attribute_save_after>
+                <observers>
+                    <catalogsearch>
+                        <type>singleton</type>
+                        <class>catalogsearch/fulltext_observer</class>
+                        <method>eavAttributeChange</method>
+                    </catalogsearch>
+                </observers>
+            </catalog_entity_attribute_save_after>
+            <catalog_entity_attribute_delete_after>
+                <observers>
+                    <catalogsearch>
+                        <type>singleton</type>
+                        <class>catalogsearch/fulltext_observer</class>
+                        <method>eavAttributeChange</method>
+                    </catalogsearch>
+                </observers>
+            </catalog_entity_attribute_delete_after>
             <catalog_product_import_after>
                 <observers>
                     <catalogsearch>

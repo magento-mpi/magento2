@@ -25,8 +25,31 @@
  */
 
 
+/**
+ * EAV Entity attribute model
+ *
+ * @category   Mage
+ * @package    Mage_Eav
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Abstract
 {
+    /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'eav_entity_attribute';
+
+    /**
+     * Parameter name in event
+     *
+     * In observe method you can use $observer->getEvent()->getAttribute() in this case
+     *
+     * @var string
+     */
+    protected $_eventObject = 'attribute';
+
     const CACHE_TAG         = 'EAV_ATTRIBUTE';
     protected $_cacheTag    = 'EAV_ATTRIBUTE';
 

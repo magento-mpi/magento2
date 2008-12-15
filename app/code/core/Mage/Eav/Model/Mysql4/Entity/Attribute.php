@@ -314,9 +314,9 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
                     }
                 }
 
-                $attribute = Mage::getModel('eav/entity_attribute')->load($object->getId());
-                $attribute->setDefaultValue(implode(',', $attributeDefaultValue));
-                $attribute->save();
+                $write->update($this->getMainTable(), array(
+                    'default_value' => implode(',', $attributeDefaultValue)
+                ), $write->quoteInto($this->getIdFieldName() . '=?', $object->getId()));
             }
         }
         return $this;

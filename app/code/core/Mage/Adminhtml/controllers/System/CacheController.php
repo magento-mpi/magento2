@@ -116,7 +116,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                     try {
                         Mage::getModel('catalog/product_image')->clearCache();
                         $this->_getSession()->addSuccess(
-                            Mage::helper('adminhtml')->__('Image cache were cleared successfully')
+                            Mage::helper('adminhtml')->__('Image cache was cleared successfully')
                         );
                     }
                     catch (Mage_Core_Exception $e) {
@@ -186,7 +186,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                 case 'rebuild_search_index':
                     try {
                         Mage::getSingleton('catalogsearch/fulltext')->rebuildIndex();
-                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Search Index were rebuilded successfully'));
+                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Search Index was rebuilded successfully'));
                     }
                     catch (Mage_Core_Exception $e) {
                         $this->_getSession()->addError($e->getMessage());

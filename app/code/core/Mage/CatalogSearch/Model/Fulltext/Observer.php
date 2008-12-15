@@ -44,7 +44,8 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         $product = $observer->getEvent()->getProduct();
 
         Mage::getModel('catalogsearch/fulltext')
-            ->rebuildIndex(null, $product->getId());
+            ->rebuildIndex(null, $product->getId())
+            ->resetSearchResults();
 
         return $this;
     }
@@ -60,7 +61,8 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         $product = $observer->getEvent()->getProduct();
 
         Mage::getModel('catalogsearch/fulltext')
-            ->cleanIndex(null, $product->getId());
+            ->cleanIndex(null, $product->getId())
+            ->resetSearchResults();
 
         return $this;
     }
@@ -68,12 +70,41 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Update all attribute-dependant index
      *
-     * @param Varien_Object $observer
+     * @param Varien_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function refreshIndexByAttribute($observer)
+    public function eavAttributeChange($observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
+        /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        /* @var $entityType Mage_Eav_Model_Entity_Type */
+
+        if ($attribute->getEntityTypeId() != $entityType->getId()) {
+            return $this;
+        }
+        $delete = $observer->getEventName() == 'eav_entity_attribute_delete_after';
+
+        if (!$delete && !$attribute->dataHasChangedFor('is_searchable')) {
+            return $this;
+        }
+
+        $showNotice = false;
+        if ($delete) {
+            if ($attribute->getIsSearchable()) {
+                $showNotice = true;
+            }
+        }
+        elseif ($attribute->dataHasChangedFor('is_searchable')) {
+            $showNotice = true;
+        }
+
+        if ($showNotice) {
+            Mage::getSingleton('adminhtml/session')->addNotice(
+                Mage::helper('catalogsearch')->__('Attribute setting change related with Search Index. Please run <a href="%s">Rebuild Search Index</a> process', Mage::getUrl('adminhtml/system_cache'))
+            );
+        }
+
         return $this;
     }
 

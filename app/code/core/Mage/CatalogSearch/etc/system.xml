@@ -76,13 +76,13 @@
                             <show_in_store>1</show_in_store>
                         </max_query_length>
                         <max_query_words translate="label comment">
-                            <label>Maximum Words Length</label>
+                            <label>Maximum Query Words Count</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>actual only for "Like" Search type</comment>
+                            <comment>Actual only for "Like" Search type</comment>
                         </max_query_words>
                         <search_type translate="label">
                             <label>Search Type</label>
@@ -93,7 +93,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <!--<comment>After change type please run reindex "Rebuild Search Index" process</comment>-->
                         </search_type>
                         <use_layered_navigation translate="label">
                             <label>Use Layered Navigation For Results</label>

@@ -33,8 +33,14 @@ $connection = $installer->getConnection();
 $installer->startSetup();
 
 $installer->run("
-TRUNCATE TABLE `{$installer->getTable('catalogsearch_fulltext')}`;
-ALTER TABLE `{$installer->getTable('catalogsearch_fulltext')}` ADD PRIMARY KEY(`product_id`,`store_id`);
+DROP TABLE IF EXISTS `{$installer->getTable('catalogsearch_fulltext')}`;
+CREATE TABLE `{$installer->getTable('catalogsearch_fulltext')}` (
+  `product_id` int(10) unsigned NOT NULL,
+  `store_id` smallint(5) unsigned NOT NULL,
+  `data_index` longtext NOT NULL,
+  PRIMARY KEY (`product_id`,`store_id`),
+  FULLTEXT KEY `data_index` (`data_index`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('catalogsearch_result')}` (
   `query_id` int(10) unsigned NOT NULL,

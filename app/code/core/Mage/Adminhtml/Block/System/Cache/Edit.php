@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
                 ),
             ),
             'rebuild_search_index'      => array(
-                'label'     => Mage::helper('adminhtml')->__('Rebuild Search Index'),
+                'label'     => Mage::helper('adminhtml')->__('Search Index'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_search_index',
