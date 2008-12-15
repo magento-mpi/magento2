@@ -242,7 +242,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $where[] = $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId);
         }
         if (!is_null($productId)) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $storeId);
+            $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $productId);
         }
 
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);

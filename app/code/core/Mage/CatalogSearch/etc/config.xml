@@ -88,7 +88,7 @@
                     </catalogsearch>
                 </observers>
             </catalog_product_save_after>
-            <catalog_product_delete_after_done>
+            <catalog_product_delete_after>
                 <observers>
                     <catalogsearch>
                         <type>singleton</type>
@@ -96,7 +96,7 @@
                         <method>cleanProductIndex</method>
                     </catalogsearch>
                 </observers>
-            </catalog_product_delete_after_done>
+            </catalog_product_delete_after>
             <catalog_entity_attribute_save_after>
                 <observers>
                     <catalogsearch>
