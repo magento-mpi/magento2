@@ -43,7 +43,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
             $email     = (string) $this->getRequest()->getPost('email');
 
             try {
-                if (!Zend_Validate_EmailAddress::isValid($email)) {
+                if (!Zend_Validate::is($email, 'EmailAddress')) {
                     Mage::throwException($this->__('Please enter a valid email address'));
                 }
 
