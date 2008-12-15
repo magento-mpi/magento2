@@ -92,7 +92,8 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
 
 
                     $weeeAmount = Mage::helper('weee')->getAmount($product);
-                    $price['formated_price_incl_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])+$weeeAmount));
+                    $price['formated_price_incl_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)+$weeeAmount));
+                    $price['formated_price_incl_weee_only'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])+$weeeAmount));
                     $price['formated_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice($weeeAmount));
                     $res[] = $price;
                 }
