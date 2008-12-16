@@ -31,6 +31,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
     const XML_NODE_SESSION_SAVE     = 'global/session_save';
+    const XML_NODE_SESSION_SAVE_PATH    = 'global/session_save_path';
 
     const XML_PATH_USE_REMOTE_ADDR  = 'web/session/use_remote_addr';
     const XML_PATH_USE_HTTP_VIA     = 'web/session/use_http_via';
@@ -398,4 +399,18 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         }
         return parent::getSessionSaveMethod();
     }
+
+    /**
+     * Get sesssion save path
+     *
+     * @return string
+     */
+    public function getSessionSavePath()
+    {
+        if (Mage::isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+            return $sessionSavePath;
+        }
+        return parent::getSessionSavePath();
+    }
+
 }

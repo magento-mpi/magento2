@@ -18,24 +18,24 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Core
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Core
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 
 /**
  * Application model
  *
  * Application should have: areas, store, locale, translator, design package
  *
- * @category   Mage
- * @package    Mage_Core
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_App
 {
+
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
@@ -900,15 +900,33 @@ class Mage_Core_Model_App
             if (extension_loaded('apc') && ini_get('apc.enabled') && $backend=='apc') {
                 $backend = 'Apc';
                 $backendAttributes = array(
-                    'cache_prefix'  => (string)Mage::getConfig()->getNode('global/cache/prefix')
+                    'cache_prefix' => (string)Mage::getConfig()->getNode('global/cache/prefix')
                 );
+            } elseif ('memcached' == $backend && extension_loaded('memcache')) {
+                $backend = 'Memcached';
+                $memcachedConfig = Mage::getConfig()->getNode('global/cache/memcached');
+                $backendAttributes = array(
+                    'compression'               => (bool)$memcachedConfig->compression,
+                    'cache_dir'                 => (string)$memcachedConfig->cache_dir,
+                    'hashed_directory_level'    => (string)$memcachedConfig->hashed_directory_level,
+                    'hashed_directory_umask'    => (string)$memcachedConfig->hashed_directory_umask,
+                    'file_name_prefix'          => (string)$memcachedConfig->file_name_prefix,
+                    'servers'                   => array(),
+                );
+                foreach ($memcachedConfig->servers->children() as $serverConfig) {
+                    $backendAttributes['servers'][] = array(
+                        'host'          => (string)$serverConfig->host,
+                        'port'          => (string)$serverConfig->port,
+                        'persistent'    => (string)$serverConfig->persistent,
+                    );
+                }
             } else {
                 $backend = 'File';
                 $backendAttributes = array(
-                    'cache_dir'=>Mage::getBaseDir('cache'),
-                    'hashed_directory_level'=>1,
-                    'hashed_directory_umask'=>0777,
-                    'file_name_prefix'=>'mage',
+                    'cache_dir'                 => Mage::getBaseDir('cache'),
+                    'hashed_directory_level'    => 1,
+                    'hashed_directory_umask'    => 0777,
+                    'file_name_prefix'          => 'mage',
                 );
             }
             $lifetime = Mage::getConfig()->getNode('global/cache/lifetime');
@@ -920,9 +938,9 @@ class Mage_Core_Model_App
             }
             $this->_cache = Zend_Cache::factory('Core', $backend,
                 array(
-                    'caching'=>true,
-                    'lifetime'=>$lifetime,
-                    'automatic_cleaning_factor'=>0,
+                    'caching'                   => true,
+                    'lifetime'                  => $lifetime,
+                    'automatic_cleaning_factor' => 0,
                 ),
                 $backendAttributes
             );
@@ -1181,4 +1199,5 @@ class Mage_Core_Model_App
     {
         return $this->_useSessionVar;
     }
+
 }
