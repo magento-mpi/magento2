@@ -153,4 +153,13 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             $object->setBackendModel($backendModel);
         }
     }
+
+    public function updateElementTypes(Varien_Event_Observer $observer)
+    {
+        $response = $observer->getEvent()->getResponse();
+        $types = $response->getTypes();
+        $types['weee'] = Mage::getConfig()->getBlockClassName('weee/element_weee_tax');
+        $response->setTypes($types);
+        return $this;
+    }
 }

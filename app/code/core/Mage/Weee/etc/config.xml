@@ -122,6 +122,16 @@
                     </weee>
                 </observers>
             </catalog_entity_attribute_save_before>
+
+            <adminhtml_catalog_product_edit_element_types>
+                <observers>
+                    <weee>
+                        <type>singleton</type>
+                        <class>weee/observer</class>
+                        <method>updateElementTypes</method>
+                    </weee>
+                </observers>
+            </adminhtml_catalog_product_edit_element_types>
         </events>
         <fieldsets>
             <sales_convert_quote_item>
