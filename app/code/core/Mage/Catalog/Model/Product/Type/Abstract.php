@@ -515,9 +515,28 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param $store int|Mage_Core_Model_Store
      * @return Mage_Catalog_Model_Product_Type_Configurable
      */
-    public function setStoreFilter($store=null) {
+    public function setStoreFilter($store=null)
+    {
         $this->_storeFilter = $store;
         return $this;
     }
 
+    /**
+     * Implementation of product specify logic of which product needs to be assigned to option.
+     * For example if product which was added to option already removed from catalog.
+     *
+     * @param Mage_Catalog_Model_Product $optionProduct
+     * @param Mage_Sales_Model_Quote_Item_Option $option
+     * @return Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function assignProductToOption($optionProduct, $option)
+    {
+        if ($optionProduct) {
+            $option->setProduct($optionProduct);
+        } else {
+            $option->setProduct($this->getProduct());
+        }
+
+        return $this;
+    }
 }
