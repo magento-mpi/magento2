@@ -250,28 +250,46 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         return $this;
     }
 
+    /**
+     * Specify session identifier
+     *
+     * @param   string|null $id
+     * @return  Mage_Core_Model_Session_Abstract
+     */
     public function setSessionId($id=null)
     {
         if (is_null($id)) {
             if (isset($_GET[self::SESSION_ID_QUERY_PARAM])) {
-                if ($tryId = Mage::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
-                    $id = $tryId;
-                }
+                $id = $_GET[self::SESSION_ID_QUERY_PARAM];
+                /**
+                 * No reason use crypt key for session
+                 */
+//                if ($tryId = Mage::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
+//                    $id = $tryId;
+//                }
             }
         }
 
         $this->addHost(true);
-        parent::setSessionId($id);
+        return parent::setSessionId($id);
     }
 
+    /**
+     * Get ecrypted session identifuer
+     * No reason use crypt key for session id encryption
+     * we can use session identifier as is
+     *
+     * @return string
+     */
     public function getEncryptedSessionId()
     {
         if (!self::$_encryptedSessionId) {
-            $helper = Mage::helper('core');
-            if (!$helper) {
-                return $this;
-            }
-            self::$_encryptedSessionId = $helper->encrypt($this->getSessionId());
+//            $helper = Mage::helper('core');
+//            if (!$helper) {
+//                return $this;
+//            }
+//            self::$_encryptedSessionId = $helper->encrypt($this->getSessionId());
+            self::$_encryptedSessionId = $this->getSessionId();
         }
         return self::$_encryptedSessionId;
     }
