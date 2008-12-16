@@ -91,9 +91,10 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $sampleId = $this->getRequest()->getParam('sample_id', 0);
         $sample = Mage::getModel('downloadable/sample')->load($sampleId);
         if ($sample->getId()) {
-            $resource = $sample->getSampleUrl();
-            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
-            if ($sample->getSampleFile()) {
+            if ($sample->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_URL) {
+                $resource = $sample->getSampleUrl();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            } elseif ($sample->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
                 $resource = Mage_Downloadable_Model_Sample::getSampleDir() . '/' . $sample->getSampleFile();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
             }
@@ -115,9 +116,10 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $linkId = $this->getRequest()->getParam('link_id', 0);
         $link = Mage::getModel('downloadable/link')->load($linkId);
         if ($link->getId()) {
-            $resource = $link->getSampleUrl();
-            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
-            if ($link->getSampleFile()) {
+            if ($link->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_URL) {
+                $resource = $link->getSampleUrl();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            } elseif ($link->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
                 $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $link->getSampleFile();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
             }
@@ -136,40 +138,41 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
     public function linkAction()
     {
         $id = $this->getRequest()->getParam('id', 0);
-        $linkPurchased = Mage::getModel('downloadable/link_purchased')->load($id);
-        if (!Mage::helper('downloadable')->getIsShareable($linkPurchased)) {
+        $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')->load($id);
+        if (!Mage::helper('downloadable')->getIsShareable($linkPurchasedItem)) {
             if (!$this->_getCustomerSession()->getCustomerId()) {
-                $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Please log in first.'));
+                $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Please log in to download your product or purchase a product.'));
                 $this->_getCustomerSession()->authenticate($this);
                 return ;
             }
         }
-        $downloadsLeft = $linkPurchased->getNumberOfDownloadsBought() - $linkPurchased->getNumberOfDownloadsUsed();
-        if ($linkPurchased->getStatus() == Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_AVAILABLE
-            && ($downloadsLeft || $linkPurchased->getNumberOfDownloadsBought() == 0)) {
-            $resource = $linkPurchased->getLinkUrl();
-            $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
-            if ($linkPurchased->getLinkFile()) {
-                $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $linkPurchased->getLinkFile();
+        $downloadsLeft = $linkPurchasedItem->getNumberOfDownloadsBought() - $linkPurchasedItem->getNumberOfDownloadsUsed();
+        if ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE
+            && ($downloadsLeft || $linkPurchasedItem->getNumberOfDownloadsBought() == 0)) {
+            if ($linkPurchasedItem->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_URL) {
+                $resource = $linkPurchasedItem->getLinkUrl();
+                $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
+            } elseif ($linkPurchasedItem->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
+                $resource = Mage_Downloadable_Model_Link::getLinkDir() . '/' . $linkPurchasedItem->getLinkFile();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
             }
             try {
                 $this->_processDownload($resource, $resourceType);
-                $linkPurchased->setNumberOfDownloadsUsed(
-                    $linkPurchased->getNumberOfDownloadsUsed()+1
+                $linkPurchasedItem->setNumberOfDownloadsUsed(
+                    $linkPurchasedItem->getNumberOfDownloadsUsed()+1
                 );
-                if ($linkPurchased->getNumberOfDownloadsBought() != 0
-                    && !($linkPurchased->getNumberOfDownloadsBought() - $linkPurchased->getNumberOfDownloadsUsed())) {
-                    $linkPurchased->setStatus(Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED);
+                if ($linkPurchasedItem->getNumberOfDownloadsBought() != 0
+                    && !($linkPurchasedItem->getNumberOfDownloadsBought() - $linkPurchasedItem->getNumberOfDownloadsUsed())) {
+                    $linkPurchasedItem->setStatus(Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED);
                 }
-                $linkPurchased->save();
+                $linkPurchasedItem->save();
             }
             catch (Exception $e) {
                 $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
             }
-        } elseif ($linkPurchased->getStatus() == Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED) {
-            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is expiry.'));
-        } elseif ($linkPurchased->getStatus() == Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING) {
+        } elseif ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
+            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is expired.'));
+        } elseif ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING) {
             $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is not available.'));
         } else {
             $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));

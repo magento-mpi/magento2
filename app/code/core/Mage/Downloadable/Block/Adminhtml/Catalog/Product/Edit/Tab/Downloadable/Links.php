@@ -33,7 +33,6 @@
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links extends Mage_Adminhtml_Block_Template
 {
-
     /**
      * Enter description here...
      *
@@ -111,7 +110,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
 
     public function getLinksTitle()
     {
-        return Mage::getStoreConfig('catalog/downloadable/options/links_title');
+        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     public function getUsedDefault()
@@ -150,8 +149,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                 'price' => $this->getPriceValue($item->getPrice()),
                 'number_of_downloads' => $item->getNumberOfDownloads(),
                 'is_shareable' => $item->getIsShareable(),
+                'link_file' => $item->getLinkFile(),
                 'link_url' => $item->getLinkUrl(),
+                'link_type' => $item->getLinkType(),
+                'sample_file' => $item->getSampleFile(),
                 'sample_url' => $item->getSampleUrl(),
+                'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder()
             );
             if ($item->getNumberOfDownloads() == '0') {
@@ -181,7 +184,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
 
     public function getConfigMaxDownloads()
     {
-        return Mage::getStoreConfig('catalog/downloadable/options/downloads_number');
+        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
     }
 
 }

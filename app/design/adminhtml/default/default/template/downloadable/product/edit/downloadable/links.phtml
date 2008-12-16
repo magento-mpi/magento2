@@ -40,7 +40,7 @@
             <td class="value">
                 <input type="text" class="input-text" name="product[links_title]" value="<?php echo $_product->getId()?$_product->getLinksTitle():$this->getLinksTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?> />
             </td>
-            <td class="scope-label">[STORE VIEW]</td>
+            <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()): ?>[STORE VIEW]<?php endif; ?></td>
             <td class="value use-default">
             <?php if($_product->getStoreId()): ?>
                 <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
@@ -59,7 +59,7 @@
 			<td class="value">
                     <?php echo $this->getPurchasedSeparatelySelect()?>
                 </td>
-			<td class="scope-label">[GLOBAL]</td>
+			<td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()): ?>[GLOBAL]<?php endif; ?></td>
 			<td><small>&nbsp;</small></td>
 		</tr>
 	</tbody>
@@ -124,12 +124,14 @@ var linkTemplate = '<tr>' +
         '</select>' +
     '</td>' +
     '<td class="files">' +
-        '<p><label><input type="radio"  class="radio"/> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][sample_file]" value="" class="input-file" /></p>' +
-        '<p><label><input type="radio" class="radio" /> URL</label> <input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+        '<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_file" name="downloadable[link][{{id}}][sample_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][sample_file]" value="" class="validate-downloadable-link-sample-file input-file" /></p>' +
+        '<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_url" name="downloadable[link][{{id}}][sample_type]" value="url" /> URL</label> <input type="text" class="validate-downloadable-link-sample-url input-text" name="downloadable[link][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+        '<p><span id="downloadable_link_{{id}}_sample_container"></span></p>' +
     '</td>' +
     '<td class="files">' +
-        '<p><label><input type="radio" class="radio" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][link_file]" value="" class="input-file" /></p>' +
-        '<p><label><input type="radio" class="radio" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][link_url]" value="{{link_url}}" /></p>' +
+        '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_file" name="downloadable[link][{{id}}][link_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][link_file]" value="" class=" validate-downloadable-fileinput-file" /></p>' +
+        '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_url" name="downloadable[link][{{id}}][link_type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[link][{{id}}][link_url]" value="{{link_url}}" /></p>' +
+        '<p><span id="downloadable_link_{{id}}_link_container"></span></p>' +
     '</td>' +
     '<td class="a-center"><input type="text" name="downloadable[link][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>' +
     '<td>' +
@@ -196,6 +198,21 @@ var linkItems = {
             }
         }
 
+        linkFile = $('downloadable_link_'+data.id+'_link_file');
+        linkUrl = $('downloadable_link_'+data.id+'_link_url');
+        linkFile.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+        linkUrl.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+        if (data.link_type == 'url') {
+            linkUrl.checked = true;
+        } else if (data.link_type == 'file') {
+            linkFile.checked = true;
+        }
+        if (data.link_type == 'url') {
+            $('downloadable_link_'+data.id+'_sample_url').checked = true;
+        } else if (data.link_type == 'file') {
+            $('downloadable_link_'+data.id+'_sample_file').checked = true;
+        }
+
         this.itemCount++;
         this.bindRemoveButtons();
     },
@@ -228,5 +245,29 @@ if($('add_link_item')){
 <?php foreach ($this->getLinkData() as $item): ?>
     linkItems.add(<?php echo $item->toJson()?>);
 <?php endforeach; ?>
+
+Validation.addAllThese([
+    ['validate-downloadable-link-sample-file', 'Please specify File.', function(v,element) {
+            return true;
+        }]
+    ]);
+Validation.addAllThese([
+    ['validate-downloadable-link-sample-url', 'Please specify Sample type.', function(v,element) {
+            if (v != '') {
+                linkTypeUrl = element.up(0).down('input[value="url"]');
+                if (linkTypeUrl.checked) {
+                    return true;
+                }
+                linkTypeFile = element.up(0).down('input[value="file"]');
+                //linkTypeFile.down('input[type="text"]').value != ''
+                //get flag from uploader
+                if (0) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }]
+    ]);
 //]]>
 </script>

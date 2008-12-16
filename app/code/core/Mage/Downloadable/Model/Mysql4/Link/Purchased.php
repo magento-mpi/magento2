@@ -25,7 +25,7 @@
  */
 
 /**
- * Downloadable Product  Samples resource model
+ * Downloadable Product link purchased resource model
  *
  * @category   Mage
  * @package    Mage_Downloadable

@@ -39,3 +39,21 @@
 <!--
 <div><input type="hidden" name="affect_downloadable_information" value="1" /></div>
 -->
+<script type="text/javascript">
+//<![CDATA[>
+Validation.addAllThese([
+    ['validate-downloadable-file', 'Please specify File.', function(v,element) {
+            return true;
+        }]
+    ]);
+Validation.addAllThese([
+    ['validate-downloadable-url', 'Please specify Url.', function(v,element) {
+            linkType = element.up(0).down('input[value="url"]');
+            if (linkType.checked && v == '') {
+                return false;
+            }
+            return true;
+        }]
+    ]);
+//]]>
+</script>

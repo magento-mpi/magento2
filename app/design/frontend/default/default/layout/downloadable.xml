@@ -100,9 +100,35 @@
 
     <sales_order_creditmemo>
         <reference name="creditmemo_items">
-            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_item_renderer_downloadable</block><template>downloadable/sales/order/invoice/items/renderer/downloadable.phtml</template></action>
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_item_renderer_downloadable</block><template>downloadable/sales/order/creditmemo/items/renderer/downloadable.phtml</template></action>
         </reference>
     </sales_order_creditmemo>
+
+<!--
+Print pages
+-->
+
+    <sales_order_print>
+        <reference name="sales.order.print">
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_item_renderer_downloadable</block><template>downloadable/sales/order/items/renderer/downloadable.phtml</template></action>
+        </reference>
+    </sales_order_print>
+
+    <sales_order_printinvoice>
+        <reference name="sales.order.print.invoice">
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_item_renderer_downloadable</block><template>downloadable/sales/order/invoice/items/renderer/downloadable.phtml</template></action>
+        </reference>
+    </sales_order_printinvoice>
+
+    <sales_order_printcreditmemo>
+        <reference name="sales.order.print.creditmemo">
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_item_renderer_downloadable</block><template>downloadable/sales/order/creditmemo/items/renderer/downloadable.phtml</template></action>
+        </reference>
+    </sales_order_printcreditmemo>
+
+<!--
+EOF Print pages
+-->
 
     <PRODUCT_TYPE_downloadable>
         <reference name="product.info">

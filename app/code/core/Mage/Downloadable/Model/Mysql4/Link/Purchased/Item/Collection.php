@@ -25,40 +25,22 @@
  */
 
 /**
- * Downloadable order item render block
+ * Downloadable links purchased items resource collection
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends Mage_Sales_Block_Order_Item_Renderer_Default
+class Mage_Downloadable_Model_Mysql4_Link_Purchased_Item_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_purchasedLinks = null;
 
     /**
      * Enter description here...
      *
-     * @return unknown
      */
-    public function getLinks()
+    protected function _construct()
     {
-        if (is_null($this->_purchasedLinks)) {
-            $this->_purchasedLinks = Mage::getModel('downloadable/link_purchased')
-                ->load($this->getOrderItem()->getOrder()->getId(), 'order_id');
-            $purchasedItems = Mage::getModel('downloadable/link_purchased_item')->getCollection()
-                ->addFieldToFilter('purchased_id', $this->_purchasedLinks->getPurchasedId());
-            $this->_purchasedLinks->setPurchasedItems($purchasedItems);
-        }
-
-        return $this->_purchasedLinks;
-    }
-
-    public function getLinksTitle()
-    {
-        if ($this->getLinks()->getLinkSectionTitle()) {
-            return $this->getLinks()->getLinkSectionTitle();
-        }
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        $this->_init('downloadable/link_purchased_item');
     }
 
 }

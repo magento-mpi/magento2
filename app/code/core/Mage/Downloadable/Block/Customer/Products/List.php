@@ -41,10 +41,18 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     {
         parent::__construct();
         $session = Mage::getSingleton('customer/session');
-        $items = Mage::getResourceModel('downloadable/link_purchased_collection')
+        $purchased = Mage::getResourceModel('downloadable/link_purchased_collection')
             ->addFieldToFilter('customer_id', $session->getCustomerId())
             ->addOrder('created_at', 'desc');
-        $this->setItems($items);
+        $this->setPurchased($purchased);
+        $purchasedIds = array();
+        foreach ($purchased as $_item) {
+            $purchasedIds[] = $_item->getId();
+        }
+        $purchasedItems = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+            ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
+            ->setOrder('item_id', 'desc');
+        $this->setItems($purchasedItems);
     }
 
     /**
@@ -60,6 +68,9 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
             ->setCollection($this->getItems());
         $this->setChild('pager', $pager);
         $this->getItems()->load();
+        foreach ($this->getItems() as $item) {
+            $item->setPurchased($this->getPurchased()->getItemById($item->getPurchasedId()));
+        }
         return $this;
     }
 
@@ -106,7 +117,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
      */
     public function getDownloadUrl($item)
     {
-        return $this->getUrl('*/download/link', array('id' => $item->getId()));
+        return $this->getUrl('*/download/link', array('id' => $item->getItemId()));
     }
 
     /**
@@ -116,7 +127,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag('catalog/downloadable/options/links_target_new_window');
+        return Mage::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
 }

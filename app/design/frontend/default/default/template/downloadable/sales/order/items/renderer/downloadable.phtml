@@ -54,8 +54,8 @@
         <!-- downloadable -->
         <?php if ($links = $this->getLinks()): ?>
             <dl class="item-options">
-                <dt><?php echo Mage::helper('downloadable')->__('Links') ?></dt>
-                <?php foreach ($links as $link): ?>
+                <dt><?php echo $this->getLinksTitle() ?></dt>
+                <?php foreach ($links->getPurchasedItems() as $link): ?>
                     <dd><?php echo $link->getLinkTitle() ?></dd>
                 <?php endforeach; ?>
                 </dt>

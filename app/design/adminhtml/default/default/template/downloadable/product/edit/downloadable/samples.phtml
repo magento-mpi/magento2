@@ -39,7 +39,7 @@
                 <td class="value">
                     <input type="text" class="input-text" name="product[samples_title]" value="<?php echo $_product->getId()?$_product->getSamplesTitle():$this->getSamplesTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?> />
                 </td>
-                <td class="scope-label">[STORE VIEW]</td>
+                <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()): ?>[STORE VIEW]<?php endif; ?></td>
                 <td class="value use-default">
                 <?php if($_product->getStoreId()): ?>
                     <input id="sample_title_default" type="checkbox" name="use_default[]" value="samples_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
@@ -86,8 +86,9 @@ var sampleTemplate = '<tr>' +
                             '<?php echo $_product->getStoreId()?'<br /><input type="checkbox" id="downloadable_sample_{{id}}_title" name="downloadable[sample][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_sample_{{id}}_title">Use Default Value</label>':'' ?>'+
                         '</td>' +
                         '<td class="files files-wide">' +
-                            '<p><label><input type="radio" class="radio" name="downloadable[sample][{{id}}][type]" value="file" /> File:</label> <input type="file" size="43" name="downloadable[sample][{{id}}][sample_file]" value="" class="input-file" /></p>' +
-                            '<p><label><input type="radio" class="radio" name="downloadable[sample][{{id}}][type]" value="url" /> URL:</label> <input type="text" class="required-entry input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+                            '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_file" name="downloadable[sample][{{id}}][sample_type]" value="file" /> File:</label> <input type="file" size="43" name="downloadable[sample][{{id}}][sample_file]" value="" class="validate-downloadable-file input-file" /></p>' +
+                            '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_url" name="downloadable[sample][{{id}}][sample_type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+                            '<p><span id="downloadable_sample_{{id}}_container"></span></p>' +
                         '</td>' +
                         '<td class="a-center"><input type="text" name="downloadable[sample][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>' +
                         '<td>' +
@@ -125,6 +126,16 @@ var sampleItems = {
         if (!data.store_title && scopeTitle) {
         	scopeTitle.up(0).down('input[type="text"]').disabled = true;
             scopeTitle.checked = true;
+        }
+
+        sampleFile = $('downloadable_sample_'+data.id+'_file');
+        sampleUrl = $('downloadable_sample_'+data.id+'_url');
+        sampleFile.advaiceContainer = 'downloadable_sample_'+data.id+'_container';
+        sampleUrl.advaiceContainer = 'downloadable_sample_'+data.id+'_container';
+        if (data.sample_type == 'url') {
+            sampleUrl.checked = true;
+        } else if (data.sample_type == 'file') {
+            sampleFile.checked = true;
         }
 
         this.itemCount++;

@@ -33,7 +33,6 @@
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples extends Mage_Adminhtml_Block_Template
 {
-
     /**
      * Class constructor
      */
@@ -77,7 +76,9 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             $tmpSampleItem = array(
                 'sample_id' => $item->getId(),
                 'title' => $item->getTitle(),
+                'sample_file' => $item->getSampleFile(),
                 'sample_url' => $item->getSampleUrl(),
+                'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder()
             );
             if ($this->getProduct() && $item->getStoreTitle()) {
@@ -96,7 +97,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
 
     public function getSamplesTitle()
     {
-        return Mage::getStoreConfig('catalog/downloadable/options/samples_title');
+        return Mage::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
 }

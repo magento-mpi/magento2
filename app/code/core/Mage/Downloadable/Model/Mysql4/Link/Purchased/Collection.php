@@ -25,7 +25,7 @@
  */
 
 /**
- * Downloadable links resource collection
+ * Downloadable links purchased resource collection
  *
  * @category    Mage
  * @package     Mage_Downloadable
@@ -41,5 +41,13 @@ class Mage_Downloadable_Model_Mysql4_Link_Purchased_Collection extends Mage_Core
     protected function _construct()
     {
         $this->_init('downloadable/link_purchased');
+    }
+
+    public function addPurchasedItemsToResult()
+    {
+        $this->getSelect()
+            ->join(array('purchased_items'=>$this->getTable('downloadable/link_purchased_item')),
+                '`purchased_items`.purchased_id=`main_table`.purchased_id');
+        return $this;
     }
 }

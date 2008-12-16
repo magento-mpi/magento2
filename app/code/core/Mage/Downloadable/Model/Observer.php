@@ -66,30 +66,42 @@ class Mage_Downloadable_Model_Observer
         if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance()->getLinks();
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
+                $linkPurchased = Mage::getModel('downloadable/link_purchased');
+                Mage::helper('core')->copyFieldset(
+                    'downloadable_sales_copy_order',
+                    'to_downloadable',
+                    $orderItem->getOrder(),
+                    $linkPurchased
+                );
+                Mage::helper('core')->copyFieldset(
+                    'downloadable_sales_copy_order_item',
+                    'to_downloadable',
+                    $orderItem,
+                    $linkPurchased
+                );
+                $linkSectionTitle = (
+                    $product->getLinksTitle()?
+                        $product->getLinksTitle():Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                );
+                $linkPurchased->setLinkSectionTitle($linkSectionTitle)
+                    ->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchased = Mage::getModel('downloadable/link_purchased');
-                        Mage::helper('core')->copyFieldset(
-                            'downloadable_sales_copy_order_item',
-                            'to_downloadable',
-                            $orderItem,
-                            $linkPurchased
-                        );
-                        Mage::helper('core')->copyFieldset(
-                            'downloadable_sales_copy_order',
-                            'to_downloadable',
-                            $orderItem->getOrder(),
-                            $linkPurchased
-                        );
+                        $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')
+                            ->setPurchasedId($linkPurchased->getId())
+                            ->setOrderItemId($orderItem->getId());
+
                         Mage::helper('core')->copyFieldset(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],
-                            $linkPurchased
+                            $linkPurchasedItem
                         );
                         $numberOfDownloads = $links[$linkId]->getNumberOfDownloads()*$orderItem->getQtyOrdered();
-                        $linkPurchased->setNumberOfDownloadsBought($numberOfDownloads)
-                            ->setStatus(Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING)
+                        $linkPurchasedItem->setNumberOfDownloadsBought($numberOfDownloads)
+                            ->setStatus(Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING)
+                            ->setCreatedAt($orderItem->getCreatedAt())
+                            ->setUpdatedAt($orderItem->getUpdatedAt())
                             ->save();
                     }
                 }
@@ -131,28 +143,29 @@ class Mage_Downloadable_Model_Observer
         $order = $observer->getEvent()->getOrder();
         /** @var $order Mage_Sales_Model_Order */
         $status = '';
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_COMPLETE) {
-            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_AVAILABLE;
-        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_NEW
-            || $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT
-            || $order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
+        $orderStatusToEnable = Mage::getStoreConfig(Mage_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_STATUS);
+        if ($order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
             $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_PENDING;
-        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED || $order->getState() == Mage_Sales_Model_Order::STATE_CLOSED) {
-            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_EXPIRED;
+        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED
+            || $order->getState() == Mage_Sales_Model_Order::STATE_CLOSED) {
+            $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED;
+        } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_COMPLETE) {
+            if ($order->getStatus() == $orderStatusToEnable) {
+                $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE;
+            }
         }
-//        $status = '';
-//        $orderStatusToEnable = Mage::getStoreConfig('catalog/downloadable/options/order_status');
-//        if ($order->getStatus() == $orderStatusToEnable) {
-//            $status = Mage_Downloadable_Model_Link_Purchased::LINK_STATUS_AVAILABLE;
-//        }
-//        if ($status) {
-            $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_collection')
-                ->addFieldToFilter('order_id', $order->getId());
+        if ($status) {
+            $orderItemsIds = array();
+            foreach ($order->getAllItems() as $item) {
+                $orderItemsIds[] = $item->getId();
+            }
+            $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+                ->addFieldToFilter('order_item_id', array('in'=>$orderItemsIds));
             foreach ($linkPurchased as $link) {
                 $link->setStatus($status);
                 $link->save();
             }
-//        }
+        }
         return $this;
     }
 
