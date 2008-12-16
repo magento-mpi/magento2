@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Downloadable>
-            <version>0.1.11</version>
+            <version>0.1.12</version>
         </Mage_Downloadable>
     </modules>
     <global>
@@ -41,11 +41,11 @@
                 <customer_id><to_downloadable>*</to_downloadable></customer_id>
             </downloadable_sales_copy_order>
             <downloadable_sales_copy_order_item>
-                <!--<item_id><to_downloadable>order_item_id</to_downloadable></item_id>-->
                 <name><to_downloadable>product_name</to_downloadable></name>
                 <sku><to_downloadable>product_sku</to_downloadable></sku>
             </downloadable_sales_copy_order_item>
             <downloadable_sales_copy_link>
+                <product_id><to_purchased>*</to_purchased></product_id>
                 <link_id><to_purchased>*</to_purchased></link_id>
                 <title><to_purchased>link_title</to_purchased></title>
                 <is_shareable><to_purchased>*</to_purchased></is_shareable>

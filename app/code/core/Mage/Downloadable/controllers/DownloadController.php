@@ -101,7 +101,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
+                $this->_getSession()->addError(Mage::helper('downloadable')->__('Sorry, there was an error getting requested content. Please contact store owner.'));
             }
         }
         return $this->_redirectReferer();
@@ -126,7 +126,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
-                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
+                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, there was an error getting requested content. Please contact store owner.'));
             }
         }
         return $this->_redirectReferer();
@@ -141,7 +141,16 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')->load($id);
         if (!Mage::helper('downloadable')->getIsShareable($linkPurchasedItem)) {
             if (!$this->_getCustomerSession()->getCustomerId()) {
-                $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Please log in to download your product or purchase a product.'));
+                $product = Mage::getModel('catalog/product')->load($linkPurchasedItem->getProductId());
+                if ($product->getId()) {
+                    $notice = Mage::helper('downloadable')->__(
+                        'Please log in to download your product or purchase a <a href="%s">%s</a>.',
+                        $product->getProductUrl(), $product->getName()
+                    );
+                } else {
+                    $notice = Mage::helper('downloadable')->__('Please log in to download your product.');
+                }
+                $this->_getCustomerSession()->addNotice($notice);
                 $this->_getCustomerSession()->authenticate($this);
                 return ;
             }
@@ -168,14 +177,14 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
                 $linkPurchasedItem->save();
             }
             catch (Exception $e) {
-                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
+                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, there was an error getting requested content. Please contact store owner.'));
             }
         } elseif ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
             $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is expired.'));
         } elseif ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING) {
             $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is not available.'));
         } else {
-            $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
+            $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, there was an error getting requested content. Please contact store owner.'));
         }
         return $this->_redirect('*/customer/products');
     }
