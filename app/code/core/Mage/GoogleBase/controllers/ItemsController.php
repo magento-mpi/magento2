@@ -64,6 +64,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function gridAction()
     {
+        $this->loadLayout();
         return $this->getResponse()->setBody(
             $this->getLayout()
                 ->createBlock('googlebase/adminhtml_items_item')
