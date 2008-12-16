@@ -83,7 +83,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
                 if ($value) {
                     $one = new Varien_Object();
-                    $one->setName($attribute->getFrontend()->getLabel())
+                    $one->setName(Mage::helper('catalog')->__($attribute->getFrontend()->getLabel()))
                         ->setAmount($value)
                         ->setCode($attribute->getAttributeCode());
 
