@@ -129,6 +129,10 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
     }
 
+    public function getOriginalAmount($product) {
+        return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1), true);
+    }
+
     public function processTierPrices($product, &$tierPrices)
     {
         $weeeAmount = $this->getAmountForDisplay($product);

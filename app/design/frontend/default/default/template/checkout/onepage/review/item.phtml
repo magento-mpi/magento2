@@ -63,7 +63,7 @@
                 <small>
                 <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getPriceInclTax($_item)); ?>
                 <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
-                    <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount'],true,true); ?></span><br />
+                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount'],true,true); ?></span><br />
                 <?php endforeach; ?>
                 </small>
             </div>
@@ -74,7 +74,7 @@
             <div class="cart-tax-info" id="unit-item-tax-details<?php echo $_item->getId(); ?>" style="display: none;">
                 <small>
                 <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
-                    <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount_incl_tax'],true,true); ?></span><br />
+                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['amount_incl_tax'],true,true); ?></span><br />
                 <?php endforeach; ?>
                 </small>
             </div>
@@ -109,7 +109,7 @@
                 <small>
                 <?php echo $this->helper('checkout')->formatPrice($this->helper('checkout')->getSubtotalInclTax($_item)); ?>
                 <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
-                    <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount'],true,true); ?></span><br />
+                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount'],true,true); ?></span><br />
                 <?php endforeach; ?>
                 </small>
             </div>
@@ -120,7 +120,7 @@
             <div class="cart-tax-info" id="subtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display: none;">
                 <small>
                 <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
-                    <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount_incl_tax'],true,true); ?></span><br />
+                    <span class="nobr"><?php echo $tax['title']; ?>: <?php echo Mage::helper('checkout')->formatPrice($tax['row_amount_incl_tax'],true,true); ?></span><br />
                 <?php endforeach; ?>
                 </small>
             </div>

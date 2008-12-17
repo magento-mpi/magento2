@@ -63,7 +63,6 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             case 3:
                 return;
         }
-        // catalogindex_prepare_price_select
 
         $select = $observer->getEvent()->getSelect();
         $table = $observer->getEvent()->getTable();
@@ -78,6 +77,30 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $attributes = Mage::getModel('weee/tax')->getWeeeAttributeCodes();
         foreach ($attributes as $attribute) {
             $tableAlias = "weee_{$attribute}_table";
+/*
+            if (Mage::helper('weee')->getListPriceDisplayType() == 1) {
+                if (Mage::helper('weee')->isTaxable() && Mage::helper('weee')->isDiscounted()) {
+                    // - discount
+                    // - tax
+                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
+                } else if (Mage::helper('weee')->isTaxable()) {
+                    // - tax
+                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
+                } else if (Mage::helper('weee')->isDiscounted()) {
+                    // - discount
+                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
+                } else {
+                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
+                }
+            } else {
+                if (Mage::helper('weee')->isDiscounted()) {
+                    // - discount
+                    $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
+                } else {
+                    $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
+                }
+            }
+*/
             $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
         }
         $response->setAdditionalCalculations($additionalCalculations);
@@ -113,7 +136,6 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             $attributeSelect->order($order);
             $select->joinLeft(array($tableAlias=>$attributeSelect), $table.'.entity_id = '.$tableAlias.'.entity_id', array());
         }
-
     }
 
     protected function _getSelect()
