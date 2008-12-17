@@ -457,10 +457,10 @@ class Mage_Core_Model_Locale
     }
 
     /**
-     * Create Zend_Currency object for current locale
+     * Create Mage_Core_Model_Locale_Currency object for current locale
      *
      * @param   string $currency
-     * @return  Zend_Currency
+     * @return  Mage_Core_Model_Locale_Currency
      */
     public function currency($currency)
     {
