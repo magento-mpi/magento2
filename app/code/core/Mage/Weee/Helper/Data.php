@@ -49,8 +49,8 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig('tax/weee/display_email');
     }
 
-    public function getAmount($product, $shipping = null, $billing = null, $website = null) {
-        return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website);
+    public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false) {
+        return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
     }
 
     public function typeOfDisplay($product, $compareTo = null, $zone = null)
@@ -81,13 +81,17 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_null($compareTo)) {
             return $type;
         } else {
-            return $type == $compareTo;
+            if (is_array($compareTo)) {
+                return in_array($type, $compareTo);
+            } else {
+                return $type == $compareTo;
+            }
         }
     }
 
-    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null)
+    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
-        return Mage::getModel('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website);
+        return Mage::getModel('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
     }
 
     public function getApplied($item)
@@ -114,5 +118,25 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function includeInSubtotal()
     {
         return Mage::getStoreConfigFlag('tax/weee/include_in_subtotal');
+    }
+
+    public function getProductWeeeAttributesForDisplay($product)
+    {
+        return $this->getProductWeeeAttributes($product, null, null, null, $this->typeOfDisplay($product, 1));
+    }
+
+    public function getAmountForDisplay($product) {
+        return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+    }
+
+    public function processTierPrices($product, &$tierPrices)
+    {
+        $weeeAmount = $this->getAmountForDisplay($product);
+        foreach ($tierPrices as &$tier) {
+            $tier['formated_price_incl_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $tier['website_price'], true)+$weeeAmount));
+            $tier['formated_price_incl_weee_only'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $tier['website_price'])+$weeeAmount));
+            $tier['formated_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice($weeeAmount));
+        }
+        return $this;
     }
 }

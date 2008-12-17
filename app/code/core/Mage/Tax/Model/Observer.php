@@ -74,10 +74,12 @@ class Mage_Tax_Model_Observer
                     }
                     $baseRealAmount = $row['base_amount']/$row['percent']*$tax['percent'];
                 }
+                $hidden = (isset($row['hidden']) ? $row['hidden'] : 0);
                 $data = array(
                             'order_id'=>$order->getId(),
                             'code'=>$tax['code'],
                             'title'=>$tax['title'],
+                            'hidden'=>$hidden,
                             'percent'=>$tax['percent'],
                             'priority'=>$tax['priority'],
                             'position'=>$tax['position'],

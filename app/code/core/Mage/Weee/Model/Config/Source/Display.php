@@ -30,7 +30,8 @@ class Mage_Weee_Model_Config_Source_Display
     {
         return array(
             array('value'=>0, 'label'=>Mage::helper('weee')->__('Including tax only')),
-            array('value'=>1, 'label'=>Mage::helper('weee')->__('Tax included and tax description')),
+            array('value'=>1, 'label'=>Mage::helper('weee')->__('Tax included and tax description [excl. FPT tax]')),
+            array('value'=>4, 'label'=>Mage::helper('weee')->__('Tax included and tax description [incl. FPT tax]')),
             array('value'=>2, 'label'=>Mage::helper('weee')->__('Tax excluded, tax description, final price')),
             array('value'=>3, 'label'=>Mage::helper('weee')->__('Excluding tax')),
         );
