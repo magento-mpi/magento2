@@ -93,7 +93,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                     $taxAmount = $amount = 0;
                     $amount = $value;
 
-                    if ($calculateTax && $product->getTaxPercent()) {
+                    if ($calculateTax && $product->getTaxPercent() && Mage::helper('weee')->isTaxable()) {
                         $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$product->getTaxPercent())*$product->getTaxPercent());
                         $amount = $value - $taxAmount;
                     }
