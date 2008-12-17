@@ -141,7 +141,6 @@
             <depends>
                 <Mage_Rule />
                 <Mage_Catalog />
-                <Mage_Catalog />
             </depends>
         </Mage_SalesRule>
         <Mage_Checkout>
@@ -156,6 +155,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Core />
+                <Mage_Catalog />
             </depends>
         </Mage_Shipping>
         <Mage_Payment>
@@ -163,6 +163,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Core />
+                <Mage_Catalog />
             </depends>
         </Mage_Payment>
         <Mage_Usa>
@@ -199,6 +200,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Sales />
+                <Mage_Payment />
             </depends>
         </Mage_GoogleCheckout>
         <Mage_Log>
@@ -245,20 +247,12 @@
                 <Mage_Catalog />
             </depends>
         </Mage_Tag>
-        <!--<Mage_Permissions>
-            <active>true</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Core />
-            </depends>
-        </Mage_Permissions>-->
         <Mage_Cms>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
                 <Mage_Core/>
             </depends>
-
         </Mage_Cms>
         <Mage_Reports>
             <active>true</active>
@@ -307,7 +301,6 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Catalog />
-                <Mage_Sales />
             </depends>
         </Mage_CatalogInventory>
         <Mage_GiftMessage>
