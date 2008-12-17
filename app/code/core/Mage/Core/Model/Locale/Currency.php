@@ -66,7 +66,7 @@ class Mage_Core_Model_Locale_Currency extends Zend_Currency
         }
 
         // select currency symbol if needed
-        if ($options['symbol_choice']) {
+        if (isset($options['symbol_choice']) && $options['symbol_choice']) {
             $symbols = explode('|', $options['symbol']);
             if (is_array($symbols)) {
                 foreach ($symbols as $symbol) {
