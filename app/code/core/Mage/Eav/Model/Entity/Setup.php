@@ -660,9 +660,13 @@ CONSTRAINT `FK_{$baseName}_{$type}_store` FOREIGN KEY (`store_id`) REFERENCES `c
      *
      * @return array
      */
-    public function getAllAttributeSetIds()
+    public function getAllAttributeSetIds($entityTypeId=null)
     {
-        $sql = "SELECT `attribute_set_id` FROM `{$this->getTable('eav/attribute_set')}`";
+        $where = '';
+        if (!is_null($entityTypeId)) {
+            $where = " WHERE `entity_type_id` = '" . $this->getEntityTypeId($entityTypeId) . "'";
+        }
+        $sql = "SELECT `attribute_set_id` FROM `{$this->getTable('eav/attribute_set')}`" . $where;
         return $this->_conn->fetchCol($sql);
     }
 }
