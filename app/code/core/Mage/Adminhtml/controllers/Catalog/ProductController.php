@@ -559,8 +559,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $redirectBack = true;
             }
             catch (Exception $e) {
-//                $this->_getSession()->addException($e, $this->__('Product saving error.'));
-                $this->_getSession()->addException($e, $e->getMessage());
+                $this->_getSession()->addException($e, $this->__('Product saving error.'));
                 $redirectBack = true;
             }
         }
