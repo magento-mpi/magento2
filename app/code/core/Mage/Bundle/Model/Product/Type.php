@@ -275,6 +275,44 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     }
 
     /**
+     * Method is needed for specific actions to change given quote options values
+     * according current product type logic
+     * Example: the cataloginventory validation of decimal qty can change qty to int,
+     * so need to change quote item qty option value too.
+     *
+     * @param   array           $options
+     * @param   Varien_Object   $option
+     * @param   mixed           $value
+     *
+     * @return  object          Mage_Bundle_Model_Product_Type
+     */
+    public function updateQtyOption($options, Varien_Object $option, $value)
+    {
+        $optionProduct = $option->getProduct();
+
+        $optionCollection = $this->getOptionsCollection();
+
+        $selections = $this->getSelectionsCollection($optionCollection->getAllIds());
+
+        foreach ($selections as $selection) {
+            if ($selection->getProductId() == $optionProduct->getId()) {
+                foreach ($options as &$option) {
+                    if ($option->getCode() == 'selection_qty_'.$selection->getSelectionId()) {
+                        $option->setValue($value);
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    public function checkQuoteItemQty($qty)
+    {
+        return intval($qty);
+    }
+
+    /**
      * Checking if we can sale this bundle
      *
      * @return bool
@@ -592,7 +630,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return $optionArr;
     }
 
-    public function shakeSelections($a, $b) {
+    public function shakeSelections($a, $b)
+    {
         $aPosition = ($a->getOption()->getPosition()+1)*($a->getPosition()+1);
         $bPosition = ($b->getOption()->getPosition()+1)*($b->getPosition()+1);
         if ($aPosition == $bPosition) {
@@ -615,6 +654,16 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             return true;
         }
         return false;
+    }
+
+    /**
+     * Allow for updates of chidren qty's
+     *
+     * @return boolean true
+     */
+    public function getForceChildItemQtyChanges()
+    {
+        return true;
     }
 
 }

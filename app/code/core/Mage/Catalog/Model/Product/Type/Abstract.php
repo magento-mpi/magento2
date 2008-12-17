@@ -224,9 +224,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             && !empty($superProductConfig['product_type'])) {
             $superProductId = (int) $superProductConfig['product_id'];
             if ($superProductId) {
-                if (!$superProduct = Mage::registry('used_super_product')) {
+                if (!$superProduct = Mage::registry('used_super_product_'.$superProductId)) {
                     $superProduct = Mage::getModel('catalog/product')->load($superProductId);
-                    Mage::register('used_super_product', $superProduct);
+                    Mage::register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
                     $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds();
@@ -487,6 +487,23 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
+     * Method is needed for specific actions to change given quote options values
+     * according current product type logic
+     * Example: the cataloginventory validation of decimal qty can change qty to int,
+     * so need to change quote item qty option value too.
+     *
+     * @param array         $options
+     * @param Varien_Object $option
+     * @param mixed         $value
+     *
+     * @return object       Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function updateQtyOption($options, Varien_Object $option, $value)
+    {
+        return $this;
+    }
+
+    /**
      * Check if product has required options
      *
      * @return bool
@@ -519,6 +536,22 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         $this->_storeFilter = $store;
         return $this;
+    }
+
+    /**
+     * Allow for updates of chidren qty's
+     * (applicable for complicated product types. As default returns false)
+     *
+     * @return boolean false
+     */
+    public function getForceChildItemQtyChanges()
+    {
+        return false;
+    }
+
+    public function checkQuoteItemQty($qty)
+    {
+        return null;
     }
 
     /**

@@ -161,6 +161,11 @@ class Mage_CatalogInventory_Model_Observer
          * Check item for options
          */
         if (($options = $quoteItem->getQtyOptions()) && $qty > 0) {
+            $qty = $quoteItem->getProduct()->getTypeInstance()->checkQuoteItemQty($qty);
+            if (!is_null($qty)) {
+                $quoteItem->setData('qty', $qty);
+            }
+
             foreach ($options as $option) {
                 /* @var $option Mage_Sales_Model_Quote_Item_Option */
                 $optionQty = $qty * $option->getValue();
@@ -185,6 +190,10 @@ class Mage_CatalogInventory_Model_Observer
                 }
                 if (!is_null($result->getItemBackorders())) {
                     $option->setBackorders($result->getItemBackorders());
+                }
+
+                if ($result->getHasQtyOptionUpdate()) {
+                    $quoteItem->updateQtyOption($option, $result->getItemQty());
                 }
 
                 if ($result->getHasError()) {
@@ -232,7 +241,10 @@ class Mage_CatalogInventory_Model_Observer
              * Just base (parent) item qty can be changed
              * qty of child products are declared just duering add process
              */
-            if (!is_null($result->getItemQty()) && !$quoteItem->getParentItem()) {
+            if (!is_null($result->getItemQty())
+                && (!$quoteItem->getParentItem()
+                    || $quoteItem->getParentItem()->getProduct()->getTypeInstance()
+                        ->getForceChildItemQtyChanges())) {
                 $quoteItem->setData('qty', $result->getItemQty());
             }
 
