@@ -215,7 +215,7 @@ AdminOrder.prototype = {
 
     loadShippingRates : function(){
         this.isShippingMethodReseted = false;
-        this.loadArea(['shipping_method'], true, {collect_shipping_rates: 1});
+        this.loadArea(['shipping_method', 'totals'], true, {collect_shipping_rates: 1});
     },
 
     setShippingMethod : function(method){
