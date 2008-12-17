@@ -36,6 +36,7 @@
             <sales_copy_order>
                 <customer_email><to_edit>*</to_edit></customer_email>
                 <customer_group_id><to_edit>*</to_edit></customer_group_id>
+                <gift_message_id><to_edit>*</to_edit></gift_message_id>
             </sales_copy_order>
             <sales_copy_order_billing_address>
                 <prefix><to_order>*</to_order></prefix>
