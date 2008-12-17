@@ -40,6 +40,20 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     protected $_connectionFlagsSet  = false;
 
     /**
+     * SQL bind params
+     *
+     * @var array
+     */
+    protected $_bindParams          = array();
+
+    /**
+     * Autoincrement for bind value
+     *
+     * @var int
+     */
+    protected $_bindIncrement       = 0;
+
+    /**
      * Write SQL debug data to file
      *
      * @var bool
@@ -232,6 +246,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     {
         $this->_debugTimer();
         try {
+            if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
+                $this->_bindParams = $bind;
+                $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#', array($this, 'proccessBindCallback'), $sql);
+                $bind = $this->_bindParams;
+            }
             $result = parent::query($sql, $bind);
         }
         catch (Exception $e) {
@@ -240,6 +259,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
         $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
         return $result;
+    }
+
+    public function proccessBindCallback($matches)
+    {
+        if (isset($matches[6]) && (
+            strpos($matches[6], "'") !== false ||
+            strpos($matches[6], ":") !== false ||
+            strpos($matches[6], "?") !== false)) {
+            $bindName = ':_mage_bind_var_' . ( ++ $this->_bindIncrement );
+            $this->_bindParams[$bindName] = $matches[6];
+            return ' ' . $bindName;
+        }
+        return $matches[0];
     }
 
     public function multi_query($sql)
