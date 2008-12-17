@@ -44,6 +44,11 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig('tax/weee/display_sales');
     }
 
+    public function getEmailPriceDisplayType()
+    {
+        return Mage::getStoreConfig('tax/weee/display_email');
+    }
+
     public function getAmount($product, $shipping = null, $billing = null, $website = null) {
         return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website);
     }
@@ -99,5 +104,15 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function isDiscounted()
     {
         return Mage::getStoreConfigFlag('tax/weee/discount');
+    }
+
+    public function isTaxable()
+    {
+        return Mage::getStoreConfigFlag('tax/weee/apply_vat');
+    }
+
+    public function includeInSubtotal()
+    {
+        return Mage::getStoreConfigFlag('tax/weee/include_in_subtotal');
     }
 }

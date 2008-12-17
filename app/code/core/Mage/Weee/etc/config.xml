@@ -219,7 +219,10 @@
                 <display>0</display>
                 <display_list>0</display_list>
                 <display_sales>0</display_sales>
+                <display_email>0</display_email>
                 <discount>0</discount>
+                <apply_vat>0</apply_vat>
+                <include_in_subtotal>0</include_in_subtotal>
             </weee>
         </tax>
     </default>
