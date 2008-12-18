@@ -49,7 +49,7 @@ class Mage_Sales_Model_Mysql4_Quote_Address_Collection extends Mage_Core_Model_M
      */
     public function setQuoteFilter($quoteId)
     {
-        $this->addFieldToFilter('quote_id', $quoteId ? $quoteId : array('isnull' => 1));
+        $this->addFieldToFilter('quote_id', $quoteId ? $quoteId : array('null' => 1));
         return $this;
     }
 }
