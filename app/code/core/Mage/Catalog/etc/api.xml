@@ -168,6 +168,7 @@
                     </getSpecialPrice>
                     <setSpecialPrice translate="title" module="catalog">
                         <title>Set special price</title>
+                        <acl>catalog/product/update</acl>
                     </setSpecialPrice>
                 </methods>
                 <faults module="catalog">
@@ -318,7 +319,7 @@
                     </info>
                     <update translate="title" module="catalog">
                         <title>Update product tier prices</title>
-                        <acl>catalog/product/update</acl>
+                        <acl>catalog/product/update_tier_price</acl>
                     </update>
                 </methods>
                 <faults module="catalog">
@@ -440,6 +441,9 @@
                             <delete translate="title" module="catalog">
                                 <title>Delete</title>
                             </delete>
+                            <update_tier_price translate="title" module="catalog">
+                                <title>Update Tier Price</title>
+                            </update_tier_price>
                             <link translate="title" module="catalog">
                                 <title>Link (Related, Up sell, Cross sell)</title>
                                 <assign translate="title" module="catalog">

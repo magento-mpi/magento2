@@ -198,47 +198,49 @@
             <order_invoice>sales_order_invoice</order_invoice>
         </resources_alias>
         <acl>
-            <all>
-                <sales translate="title" module="sales">
-                    <title>Sales</title>
-                    <order translate="title" module="sales">
-                        <title>Order</title>
-                        <change translate="title" module="sales">
-                            <title>Change status, add comments</title>
-                        </change>
-                        <shipment translate="title" module="sales">
-                            <title>Order shipments</title>
-                            <create translate="title" module="sales">
-                                <title>Create</title>
-                            </create>
-                            <comment translate="title" module="sales">
-                                <title>Comments</title>
-                            </comment>
-                            <track translate="title" module="sales">
-                                <title>Tracking</title>
-                            </track>
-                        </shipment>
-                        <invoice translate="title" module="sales">
-                            <title>Order invoice</title>
-                            <create translate="title" module="sales">
-                                <title>Create</title>
-                            </create>
-                            <comment translate="title" module="sales">
-                                <title>Comments</title>
-                            </comment>
-                            <capture translate="title" module="sales">
-                                <title>Capture</title>
-                            </capture>
-                            <void translate="title" module="sales">
-                                <title>Void</title>
-                            </void>
-                            <cancel translate="title" module="sales">
-                                <title>Cancel</title>
-                            </cancel>
-                        </invoice>
-                    </order>
-                </sales>
-            </all>
+            <resources>
+                <all>
+                    <sales translate="title" module="sales">
+                        <title>Sales</title>
+                        <order translate="title" module="sales">
+                            <title>Order</title>
+                            <change translate="title" module="sales">
+                                <title>Change status, add comments</title>
+                            </change>
+                            <shipment translate="title" module="sales">
+                                <title>Order shipments</title>
+                                <create translate="title" module="sales">
+                                    <title>Create</title>
+                                </create>
+                                <comment translate="title" module="sales">
+                                    <title>Comments</title>
+                                </comment>
+                                <track translate="title" module="sales">
+                                    <title>Tracking</title>
+                                </track>
+                            </shipment>
+                            <invoice translate="title" module="sales">
+                                <title>Order invoice</title>
+                                <create translate="title" module="sales">
+                                    <title>Create</title>
+                                </create>
+                                <comment translate="title" module="sales">
+                                    <title>Comments</title>
+                                </comment>
+                                <capture translate="title" module="sales">
+                                    <title>Capture</title>
+                                </capture>
+                                <void translate="title" module="sales">
+                                    <title>Void</title>
+                                </void>
+                                <cancel translate="title" module="sales">
+                                    <title>Cancel</title>
+                                </cancel>
+                            </invoice>
+                        </order>
+                    </sales>
+                </all>
+            </resources>
         </acl>
     </api>
 </config>
