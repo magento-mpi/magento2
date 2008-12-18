@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Weee>
-            <version>0.9</version>
+            <version>0.11</version>
         </Mage_Weee>
     </modules>
 
@@ -45,6 +45,9 @@
                     <tax>
                         <table>weee_tax</table>
                     </tax>
+                    <discount>
+                        <table>weee_discount</table>
+                    </discount>
                 </entities>
             </weee_mysql4>
         </models>
@@ -132,6 +135,16 @@
                     </weee>
                 </observers>
             </adminhtml_catalog_product_edit_element_types>
+
+            <catalogrule_after_apply>
+                <observers>
+                    <weee>
+                        <type>singleton</type>
+                        <class>weee/observer</class>
+                        <method>updateDiscountPercents</method>
+                    </weee>
+                </observers>
+            </catalogrule_after_apply>
         </events>
         <fieldsets>
             <sales_convert_quote_item>
@@ -150,6 +163,18 @@
                 <base_weee_tax_applied_row_amount>
                     <to_order_item>*</to_order_item>
                 </base_weee_tax_applied_row_amount>
+                <weee_tax_disposition>
+                    <to_order_item>*</to_order_item>
+                </weee_tax_disposition>
+                <base_weee_tax_disposition>
+                    <to_order_item>*</to_order_item>
+                </base_weee_tax_disposition>
+                <row_weee_tax_disposition>
+                    <to_order_item>*</to_order_item>
+                </row_weee_tax_disposition>
+                <base_row_weee_tax_disposition>
+                    <to_order_item>*</to_order_item>
+                </base_row_weee_tax_disposition>
             </sales_convert_quote_item>
 
             <sales_convert_order_item>
@@ -173,6 +198,22 @@
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
                 </base_weee_tax_applied_row_amount>
+                <weee_tax_disposition>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </weee_tax_disposition>
+                <base_weee_tax_disposition>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </base_weee_tax_disposition>
+                <row_weee_tax_disposition>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </row_weee_tax_disposition>
+                <base_row_weee_tax_disposition>
+                    <to_cm_item>*</to_cm_item>
+                    <to_invoice_item>*</to_invoice_item>
+                </base_row_weee_tax_disposition>
             </sales_convert_order_item>
         </fieldsets>
 

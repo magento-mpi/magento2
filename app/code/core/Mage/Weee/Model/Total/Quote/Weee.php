@@ -75,6 +75,12 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
         /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
 
+        $item->setBaseWeeeTaxDisposition(0);
+        $item->setWeeeTaxDisposition(0);
+
+        $item->setBaseRowWeeeTaxDisposition(0);
+        $item->setRowWeeeTaxDisposition(0);
+
         $item->setBaseWeeeTaxAppliedAmount(0);
         $item->setBaseWeeeTaxAppliedRowAmount(0);
 
@@ -147,6 +153,11 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
 
                 $rowValue -= $baseDisposition;
                 $baseRowValue -= $disposition;
+
+                $item->setWeeeTaxDisposition($item->getWeeeTaxDisposition() + $oneDisposition);
+                $item->setBaseWeeeTaxDisposition($item->getBaseWeeeTaxDisposition() + $baseOneDisposition);
+                $item->setRowWeeeTaxDisposition($item->getRowWeeeTaxDisposition() + $disposition);
+                $item->setBaseRowWeeeTaxDisposition($item->getBaseRowWeeeTaxDisposition() + $baseDisposition);
 
                 $item->setTaxBeforeDiscount($item->getTaxBeforeDiscount() + $disposition);
                 $item->setBaseTaxBeforeDiscount($item->getBaseTaxBeforeDiscount() + $baseDisposition);

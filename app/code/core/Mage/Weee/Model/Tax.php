@@ -130,4 +130,10 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         }
         return min(100, max(0, $result));
     }
+
+    public function updateDiscountPercents()
+    {
+        $this->getResource()->updateDiscountPercents();
+        return $this;
+    }
 }

@@ -69,39 +69,30 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $storeId = $observer->getEvent()->getStoreId();
 
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
         $response = $observer->getEvent()->getResponseObject();
 
         $additionalCalculations = $response->getAdditionalCalculations();
 
         $attributes = Mage::getModel('weee/tax')->getWeeeAttributeCodes();
+        if ($attributes && Mage::helper('weee')->isDiscounted()) {
+            $discountField = 'IFNULL(_discount_percent.value, 0)';
+            $joinConditions = array(
+                "_discount_percent.entity_id = {$table}.entity_id",
+                "_discount_percent.website_id = '{$websiteId}'",
+                "_discount_percent.customer_group_id = '{$customerGroupId}'",
+            );
+            $select->joinLeft(array('_discount_percent'=>Mage::getModel('weee/tax')->getResource()->getTable('weee/discount')), implode(' AND ', $joinConditions), array());
+        }
         foreach ($attributes as $attribute) {
             $tableAlias = "weee_{$attribute}_table";
-/*
-            if (Mage::helper('weee')->getListPriceDisplayType() == 1) {
-                if (Mage::helper('weee')->isTaxable() && Mage::helper('weee')->isDiscounted()) {
-                    // - discount
-                    // - tax
-                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
-                } else if (Mage::helper('weee')->isTaxable()) {
-                    // - tax
-                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
-                } else if (Mage::helper('weee')->isDiscounted()) {
-                    // - discount
-                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
-                } else {
-                    $additionalCalculations[] = "+((IFNULL({$tableAlias}.value, 0)))";
-                }
+
+            if (Mage::helper('weee')->isDiscounted()) {
+                $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0)*(1-({$discountField}/100)))";
             } else {
-                if (Mage::helper('weee')->isDiscounted()) {
-                    // - discount
-                    $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
-                } else {
-                    $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
-                }
+                $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
             }
-*/
-            $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
         }
         $response->setAdditionalCalculations($additionalCalculations);
 
@@ -182,6 +173,12 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $types = $response->getTypes();
         $types['weee'] = Mage::getConfig()->getBlockClassName('weee/element_weee_tax');
         $response->setTypes($types);
+        return $this;
+    }
+
+    public function updateDiscountPercents(Varien_Event_Observer $observer)
+    {
+        Mage::getModel('weee/tax')->updateDiscountPercents();
         return $this;
     }
 }
