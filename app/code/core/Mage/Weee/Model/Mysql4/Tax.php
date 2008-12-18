@@ -39,14 +39,14 @@ class Mage_Weee_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract {
 
     public function updateDiscountPercents()
     {
-        $all = $this->_getReadAdapter()->select()->from($this->getTable('catalogrule/affected_product'), 'product_id');
-        $this->_getWriteAdapter()->delete($this->getTable('weee/discount'), array($this->_getWriteAdapter()->quoteInto('entity_id IN (?)', $all)));
-
+//        $all = $this->_getReadAdapter()->select()->from($this->getTable('catalogrule/affected_product'), 'product_id');
+//        $this->_getWriteAdapter()->delete($this->getTable('weee/discount'), array($this->_getWriteAdapter()->quoteInto('entity_id IN (?)', $all)));
+        $this->_getWriteAdapter()->delete($this->getTable('weee/discount'));
         $now = strtotime(now());
 
         $select = $this->_getReadAdapter()->select();
         $select->from(array('data'=>$this->getTable('catalogrule/rule_product')))
-            ->join(array('filter'=>$this->getTable('catalogrule/affected_product')), 'data.product_id = filter.product_id', array())
+//            ->join(array('filter'=>$this->getTable('catalogrule/affected_product')), 'data.product_id = filter.product_id', array())
             ->where('(from_time <= ? OR from_time = 0)', $now)
             ->where('(to_time >= ? OR to_time = 0)', $now)
             ->order(array('data.website_id', 'data.customer_group_id', 'data.product_id', 'data.sort_order'));
