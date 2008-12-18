@@ -174,4 +174,27 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
         }
         return $this->getData('result_count');
     }
+
+    /**
+     * Retrieve No Result or Minimum query length Text
+     *
+     * @return string
+     */
+    public function getNoResultText()
+    {
+        if (Mage::helper('catalogSearch')->isMinQueryLength()) {
+            return Mage::helper('catalogSearch')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLenght());
+        }
+        return $this->_getData('no_result_text');
+    }
+
+    /**
+     * Retrieve Note messages
+     *
+     * @return array
+     */
+    public function getNoteMessages()
+    {
+        return Mage::helper('catalogSearch')->getNoteMessages();
+    }
 }
