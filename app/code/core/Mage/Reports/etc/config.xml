@@ -233,6 +233,10 @@
                                 <title>Low stock</title>
                                 <action>adminhtml/report_product/lowstock</action>
                             </lowstock>
+                            <downloads translate="title" module="reports">
+                                <title>Downloads</title>
+                                <action>adminhtml/report_product/downloads</action>
+                            </downloads>
                         </children>
                     </products>
                     <customers translate="title" module="reports">
@@ -363,6 +367,9 @@
                                         <lowstock translate="title">
                                             <title>Low stock</title>
                                         </lowstock>
+                                        <downloads translate="title">
+                                            <title>Downloads</title>
+                                        </downloads>
                                     </children>
                                 </products>
                                 <customers translate="title">
