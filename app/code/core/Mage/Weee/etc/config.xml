@@ -169,12 +169,12 @@
                 <base_weee_tax_disposition>
                     <to_order_item>*</to_order_item>
                 </base_weee_tax_disposition>
-                <row_weee_tax_disposition>
+                <weee_tax_row_disposition>
                     <to_order_item>*</to_order_item>
-                </row_weee_tax_disposition>
-                <base_row_weee_tax_disposition>
+                </weee_tax_row_disposition>
+                <base_weee_tax_row_disposition>
                     <to_order_item>*</to_order_item>
-                </base_row_weee_tax_disposition>
+                </base_weee_tax_row_disposition>
             </sales_convert_quote_item>
 
             <sales_convert_order_item>
@@ -206,14 +206,14 @@
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
                 </base_weee_tax_disposition>
-                <row_weee_tax_disposition>
+                <weee_tax_row_disposition>
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
-                </row_weee_tax_disposition>
-                <base_row_weee_tax_disposition>
+                </weee_tax_row_disposition>
+                <base_weee_tax_row_disposition>
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
-                </base_row_weee_tax_disposition>
+                </base_weee_tax_row_disposition>
             </sales_convert_order_item>
         </fieldsets>
 

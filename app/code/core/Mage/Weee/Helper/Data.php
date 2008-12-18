@@ -29,51 +29,55 @@
  */
 class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public function getPriceDisplayType()
+    public function getPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display');
+        return Mage::getStoreConfig('tax/weee/display', $store);
     }
 
-    public function getListPriceDisplayType()
+    public function getListPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_list');
+        return Mage::getStoreConfig('tax/weee/display_list', $store);
     }
 
-    public function getSalesPriceDisplayType()
+    public function getSalesPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_sales');
+        return Mage::getStoreConfig('tax/weee/display_sales', $store);
     }
 
-    public function getEmailPriceDisplayType()
+    public function getEmailPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_email');
+        return Mage::getStoreConfig('tax/weee/display_email', $store);
     }
 
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false) {
         return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
     }
 
-    public function typeOfDisplay($product, $compareTo = null, $zone = null)
+    public function typeOfDisplay($product, $compareTo = null, $zone = null, $store = null)
     {
         $type = 0;
         switch ($zone) {
             case 'product_view':
-            $type = $this->getPriceDisplayType();
+            $type = $this->getPriceDisplayType($store);
             break;
 
             case 'product_list':
-            $type = $this->getListPriceDisplayType();
+            $type = $this->getListPriceDisplayType($store);
             break;
 
             case 'sales':
-            $type = $this->getSalesPriceDisplayType();
+            $type = $this->getSalesPriceDisplayType($store);
+            break;
+
+            case 'email':
+            $type = $this->getEmailPriceDisplayType($store);
             break;
 
             default:
             if (Mage::registry('current_product')) {
-                $type = $this->getPriceDisplayType();
+                $type = $this->getPriceDisplayType($store);
             } else {
-                $type = $this->getListPriceDisplayType();
+                $type = $this->getListPriceDisplayType($store);
             }
             break;
         }
@@ -105,19 +109,19 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return $this;
     }
 
-    public function isDiscounted()
+    public function isDiscounted($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/discount');
+        return Mage::getStoreConfigFlag('tax/weee/discount', $store);
     }
 
-    public function isTaxable()
+    public function isTaxable($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/apply_vat');
+        return Mage::getStoreConfigFlag('tax/weee/apply_vat', $store);
     }
 
-    public function includeInSubtotal()
+    public function includeInSubtotal($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/include_in_subtotal');
+        return Mage::getStoreConfigFlag('tax/weee/include_in_subtotal', $store);
     }
 
     public function getProductWeeeAttributesForDisplay($product)
@@ -130,7 +134,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     public function getOriginalAmount($product) {
-        return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1), true);
+        return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
     }
 
     public function processTierPrices($product, &$tierPrices)

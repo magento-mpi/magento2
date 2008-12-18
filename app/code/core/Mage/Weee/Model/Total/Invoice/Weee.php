@@ -29,6 +29,8 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
 {
     public function collect(Mage_Sales_Model_Order_Invoice $invoice)
     {
+        $store = $invoice->getStore();
+
         $totalTax = 0;
         $baseTotalTax = 0;
 
@@ -46,14 +48,32 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
 
                 $item->setWeeeTaxAppliedRowAmount($weeeTaxAmount);
                 $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeTaxAmount);
+                $newApplied = array();
+                $applied = Mage::helper('weee')->getApplied($item);
+                foreach ($applied as $one) {
+                    $one['base_row_amount'] = $one['base_amount']*$item->getQty();
+                    $one['row_amount'] = $one['amount']*$item->getQty();
+                    $one['base_row_amount_incl_tax'] = $one['base_amount_incl_tax']*$item->getQty();
+                    $one['row_amount_incl_tax'] = $one['amount_incl_tax']*$item->getQty();
+
+                    $newApplied[] = $one;
+                }
+                Mage::helper('weee')->setApplied($item, $newApplied);
+
+                $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
+                $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
 
                 $totalTax += $weeeTaxAmount;
                 $baseTotalTax += $baseWeeeTaxAmount;
             }
         }
-
-        $invoice->setTaxAmount($invoice->getTaxAmount() + $totalTax);
-        $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseTotalTax);
+        if (Mage::helper('weee')->includeInSubtotal($store)) {
+            $invoice->setSubtotal($invoice->getSubtotal() + $totalTax);
+            $invoice->setBaseSubtotal($invoice->getBaseSubtotal() + $baseTotalTax);
+        } else {
+            $invoice->setTaxAmount($invoice->getTaxAmount() + $totalTax);
+            $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseTotalTax);
+        }
 
         $invoice->setGrandTotal($invoice->getGrandTotal() + $totalTax);
         $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseTotalTax);

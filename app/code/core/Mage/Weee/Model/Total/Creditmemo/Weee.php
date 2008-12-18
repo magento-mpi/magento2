@@ -29,6 +29,8 @@ class Mage_Weee_Model_Total_Creditmemo_Weee extends Mage_Sales_Model_Order_Credi
 {
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
+        $store = $creditmemo->getStore();
+
         $totalTax              = 0;
         $baseTotalTax          = 0;
 
@@ -38,14 +40,32 @@ class Mage_Weee_Model_Total_Creditmemo_Weee extends Mage_Sales_Model_Order_Credi
             }
             $orderItemQty = $item->getOrderItem()->getQtyOrdered();
 
-            if ($orderItemQty) {
-                $totalTax += $item->getWeeeTaxAppliedAmount()*$item->getQty();
-                $baseTotalTax += $item->getBaseWeeeTaxAppliedAmount()*$item->getQty();
+            $totalTax += $item->getWeeeTaxAppliedAmount()*$item->getQty();
+            $baseTotalTax += $item->getBaseWeeeTaxAppliedAmount()*$item->getQty();
+
+            $newApplied = array();
+            $applied = Mage::helper('weee')->getApplied($item);
+            foreach ($applied as $one) {
+                $one['base_row_amount'] = $one['base_amount']*$item->getQty();
+                $one['row_amount'] = $one['amount']*$item->getQty();
+                $one['base_row_amount_incl_tax'] = $one['base_amount_incl_tax']*$item->getQty();
+                $one['row_amount_incl_tax'] = $one['amount_incl_tax']*$item->getQty();
+
+                $newApplied[] = $one;
             }
+            Mage::helper('weee')->setApplied($item, $newApplied);
+
+            $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
+            $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
         }
 
-        $creditmemo->setTaxAmount($creditmemo->getTaxAmount() + $totalTax);
-        $creditmemo->setBaseTaxAmount($creditmemo->getBaseTaxAmount() +$baseTotalTax);
+        if (Mage::helper('weee')->includeInSubtotal($store)) {
+            $creditmemo->setSubtotal($creditmemo->getSubtotal() + $totalTax);
+            $creditmemo->setBaseSubtotal($creditmemo->getBaseSubtotal() + $baseTotalTax);
+        } else {
+            $creditmemo->setTaxAmount($creditmemo->getTaxAmount() + $totalTax);
+            $creditmemo->setBaseTaxAmount($creditmemo->getBaseTaxAmount() + $baseTotalTax);
+        }
 
         $creditmemo->setGrandTotal($creditmemo->getGrandTotal() + $totalTax);
         $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() + $baseTotalTax);

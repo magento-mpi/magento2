@@ -33,5 +33,9 @@ $installer->getConnection()->changeColumn($this->getTable('sales_flat_quote_item
     'weee_tax_applied', 'weee_tax_applied',
     'text CHARACTER SET utf8'
 );
+$installer->getConnection()->changeColumn($this->getTable('sales_flat_order_item'),
+    'weee_tax_applied', 'weee_tax_applied',
+    'text CHARACTER SET utf8'
+);
 
 $installer->endSetup();

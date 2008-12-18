@@ -49,8 +49,10 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
     {
         $result = array();
 
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        $websiteId = Mage::app()->getWebsite($website)->getId();
+        $store = Mage::app()->getWebsite($website)->getDefaultGroup()->getDefaultStore();
         $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
+        $defaultRateRequest = Mage::getModel('tax/calculation')->getRateRequest(false, false, false, $store);
         $discountPercent = 0;
         if (!$ignoreDiscount && Mage::helper('weee')->isDiscounted()) {
             $discountPercent = $this->_getDiscountPercentForProduct($product);
@@ -93,8 +95,11 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                     $taxAmount = $amount = 0;
                     $amount = $value;
 
-                    if ($calculateTax && $product->getTaxPercent() && Mage::helper('weee')->isTaxable()) {
-                        $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$product->getTaxPercent())*$product->getTaxPercent());
+                    if ($calculateTax && Mage::helper('weee')->isTaxable()) {
+                        $defaultPercent = Mage::getModel('tax/calculation')->getRate($defaultRateRequest->setProductClassId($product->getTaxClassId()));
+                        $currentPercent = $product->getTaxPercent();
+
+                        $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$defaultPercent)*$currentPercent);
                         $amount = $value - $taxAmount;
                     }
 

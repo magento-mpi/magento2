@@ -74,20 +74,19 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
         $taxCalculationModel = Mage::getSingleton('tax/calculation');
         /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
+        $defaultRateRequest = $taxCalculationModel->getRateRequest(false, false, false, $store);
 
         $item->setBaseWeeeTaxDisposition(0);
         $item->setWeeeTaxDisposition(0);
 
-        $item->setBaseRowWeeeTaxDisposition(0);
-        $item->setRowWeeeTaxDisposition(0);
+        $item->setBaseWeeeTaxRowDisposition(0);
+        $item->setWeeeTaxRowDisposition(0);
 
         $item->setBaseWeeeTaxAppliedAmount(0);
         $item->setBaseWeeeTaxAppliedRowAmount(0);
 
         $item->setWeeeTaxAppliedAmount(0);
         $item->setWeeeTaxAppliedRowAmount(0);
-
-        $store = $address->getQuote()->getStore();
 
         $attributes = Mage::helper('weee')->getProductWeeeAttributes(
             $item->getProduct(),
@@ -131,15 +130,18 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
 
             $oneDisposition = $baseOneDisposition = $disposition = $baseDisposition = 0;
 
-            if ($item->getTaxPercent() && Mage::helper('weee')->isTaxable($store)) {
+            if (Mage::helper('weee')->isTaxable($store)) {
+                $currentPercent = $item->getTaxPercent();
+                $defaultPercent = $taxCalculationModel->getRate($defaultRateRequest->setProductClassId($item->getTaxClassId()));
+
                 $valueBeforeVAT = $rowValue;
                 $baseValueBeforeVAT = $baseRowValue;
 
-                $oneDisposition = $store->roundPrice($value/(100+$item->getTaxPercent())*$item->getTaxPercent());
-                $baseOneDisposition = $store->roundPrice($baseValue/(100+$item->getTaxPercent())*$item->getTaxPercent());
+                $oneDisposition = $store->roundPrice($value/(100+$defaultPercent)*$currentPercent);
+                $baseOneDisposition = $store->roundPrice($baseValue/(100+$defaultPercent)*$currentPercent);
 
-                $disposition = $store->roundPrice($rowValue/(100+$item->getTaxPercent())*$item->getTaxPercent());
-                $baseDisposition = $store->roundPrice($baseRowValue/(100+$item->getTaxPercent())*$item->getTaxPercent());
+                $disposition = $store->roundPrice($rowValue/(100+$defaultPercent)*$currentPercent);
+                $baseDisposition = $store->roundPrice($baseRowValue/(100+$defaultPercent)*$currentPercent);
 
                 //$totalWeeeTax += $disposition;
                 //$baseTotalWeeeTax += $baseDisposition;
@@ -156,8 +158,8 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
 
                 $item->setWeeeTaxDisposition($item->getWeeeTaxDisposition() + $oneDisposition);
                 $item->setBaseWeeeTaxDisposition($item->getBaseWeeeTaxDisposition() + $baseOneDisposition);
-                $item->setRowWeeeTaxDisposition($item->getRowWeeeTaxDisposition() + $disposition);
-                $item->setBaseRowWeeeTaxDisposition($item->getBaseRowWeeeTaxDisposition() + $baseDisposition);
+                $item->setWeeeTaxRowDisposition($item->getWeeeTaxRowDisposition() + $disposition);
+                $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxRowDisposition() + $baseDisposition);
 
                 $item->setTaxBeforeDiscount($item->getTaxBeforeDiscount() + $disposition);
                 $item->setBaseTaxBeforeDiscount($item->getBaseTaxBeforeDiscount() + $baseDisposition);
@@ -182,6 +184,9 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
             if (Mage::helper('weee')->includeInSubtotal($store)) {
                 $address->setSubtotal($address->getSubtotal() + $rowValue);
                 $address->setBaseSubtotal($address->getBaseSubtotal() + $baseRowValue);
+
+                $address->setSubtotalWithDiscount($address->getSubtotalWithDiscount() + $rowValue);
+                $address->setBaseSubtotalWithDiscount($address->getBaseSubtotalWithDiscount() + $baseRowValue);
             } else {
                 $address->setTaxAmount($address->getTaxAmount() + $rowValue);
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $baseRowValue);
