@@ -45,16 +45,24 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
     }
 
-    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTax = false, $ignoreDiscount = false)
+    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTax = null, $ignoreDiscount = false)
     {
         $result = array();
 
         $websiteId = Mage::app()->getWebsite($website)->getId();
         $store = Mage::app()->getWebsite($website)->getDefaultGroup()->getDefaultStore();
-        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing);
+
+        if ($shipping) {
+            $customerTaxClass = $shipping->getQuote()->getCustomerTaxClassId();
+        } else {
+            $customerTaxClass = null;
+        }
+
+        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing, $customerTaxClass, $store);
         $defaultRateRequest = Mage::getModel('tax/calculation')->getRateRequest(false, false, false, $store);
+
         $discountPercent = 0;
-        if (!$ignoreDiscount && Mage::helper('weee')->isDiscounted()) {
+        if (!$ignoreDiscount && Mage::helper('weee')->isDiscounted($store)) {
             $discountPercent = $this->_getDiscountPercentForProduct($product);
         }
 
@@ -95,7 +103,7 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                     $taxAmount = $amount = 0;
                     $amount = $value;
 
-                    if ($calculateTax && Mage::helper('weee')->isTaxable()) {
+                    if ($calculateTax && Mage::helper('weee')->isTaxable($store)) {
                         $defaultPercent = Mage::getModel('tax/calculation')->getRate($defaultRateRequest->setProductClassId($product->getTaxClassId()));
                         $currentPercent = $product->getTaxPercent();
 

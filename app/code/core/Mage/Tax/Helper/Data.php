@@ -211,7 +211,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         if ($taxClassId && $priceIncludesTax) {
-            $request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+            $request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false, $store);
             $includingPercent = Mage::getSingleton('tax/calculation')->getRate($request->setProductClassId($taxClassId));
         }
 

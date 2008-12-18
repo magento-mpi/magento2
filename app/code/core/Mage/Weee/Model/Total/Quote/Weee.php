@@ -107,7 +107,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
 
             $title = $attribute->getName();
 
-            if ($item->getDiscountPercent() && Mage::helper('weee')->isDiscounted()) {
+            if ($item->getDiscountPercent() && Mage::helper('weee')->isDiscounted($store)) {
                 $valueDiscount = $value/100*$item->getDiscountPercent();
                 $baseValueDiscount = $baseValue/100*$item->getDiscountPercent();
 
@@ -132,7 +132,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
 
             if (Mage::helper('weee')->isTaxable($store)) {
                 $currentPercent = $item->getTaxPercent();
-                $defaultPercent = $taxCalculationModel->getRate($defaultRateRequest->setProductClassId($item->getTaxClassId()));
+                $defaultPercent = $taxCalculationModel->getRate($defaultRateRequest->setProductClassId($item->getProduct()->getTaxClassId()));
 
                 $valueBeforeVAT = $rowValue;
                 $baseValueBeforeVAT = $baseRowValue;
