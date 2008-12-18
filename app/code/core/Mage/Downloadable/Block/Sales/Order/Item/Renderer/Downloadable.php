@@ -42,21 +42,19 @@ class Mage_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends Mag
      */
     public function getLinks()
     {
-        if (is_null($this->_purchasedLinks)) {
             $this->_purchasedLinks = Mage::getModel('downloadable/link_purchased')
                 ->load($this->getOrderItem()->getOrder()->getId(), 'order_id');
             $purchasedItems = Mage::getModel('downloadable/link_purchased_item')->getCollection()
-                ->addFieldToFilter('purchased_id', $this->_purchasedLinks->getPurchasedId());
+                ->addFieldToFilter('order_item_id', $this->getOrderItem()->getId());
             $this->_purchasedLinks->setPurchasedItems($purchasedItems);
-        }
 
         return $this->_purchasedLinks;
     }
 
     public function getLinksTitle()
     {
-        if ($this->getLinks()->getLinkSectionTitle()) {
-            return $this->getLinks()->getLinkSectionTitle();
+        if ($this->_purchasedLinks->getLinkSectionTitle()) {
+            return $this->_purchasedLinks->getLinkSectionTitle();
         }
         return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }

@@ -130,6 +130,28 @@ Print pages
 EOF Print pages
 -->
 
+<!--
+Emails
+-->
+
+    <sales_email_order_items>
+        <reference name="items">
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_email_items_order_downloadable</block><template>downloadable/email/order/items/order/downloadable.phtml</template></action>
+        </reference>
+    </sales_email_order_items>
+
+    <sales_email_order_invoice_items>
+        <reference name="items">
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_email_items_downloadable</block><template>downloadable/email/order/items/invoice/downloadable.phtml</template></action>
+        </reference>
+    </sales_email_order_invoice_items>
+
+    <sales_email_order_creditmemo_items>
+        <reference name="items">
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_email_items_downloadable</block><template>downloadable/email/order/items/creditmemo/downloadable.phtml</template></action>
+        </reference>
+    </sales_email_order_creditmemo_items>
+
     <PRODUCT_TYPE_downloadable>
         <reference name="product.info">
             <block type="downloadable/catalog_product_view_type" name="product.info.downloadable" as="product_type_data" template="downloadable/catalog/product/type.phtml">
