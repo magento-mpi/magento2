@@ -282,7 +282,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                                     break;
                                 case '1y':
                                 case '2y':
-                                    $formats = Mage::app()->getLocale()->getLocale()->getTranslationList('datetime');
+                                    $formats = Mage::app()->getLocale()->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
                                     $format = str_replace(array("yyyy", "yy", "MM"), array("Y", "y", "m"), $format);
                                     $this->_axisLabels[$idx][$_index] = date($format, strtotime($_label));

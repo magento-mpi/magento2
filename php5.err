@@ -1,0 +1,6 @@
+[18-Dec-2008 18:36:38] PHP Fatal error:  Using $this when not in object context in D:\home\localhost\magento\lib\Varien\Locale.php on line 47
+[18-Dec-2008 18:37:18] PHP Fatal error:  Undefined class constant '_locale' in D:\home\localhost\magento\lib\Varien\Locale.php on line 47
+[18-Dec-2008 18:38:01] PHP Fatal error:  Access to undeclared static property: Varien_Locale::$_locale in D:\home\localhost\magento\lib\Varien\Locale.php on line 47
+[18-Dec-2008 18:42:55] PHP Fatal error:  Using $this when not in object context in D:\home\localhost\magento\lib\Varien\Locale.php on line 62
+[18-Dec-2008 18:43:08] PHP Fatal error:  Using $this when not in object context in D:\home\localhost\magento\lib\Varien\Locale.php on line 62
+[18-Dec-2008 18:46:59] PHP Fatal error:  Access to undeclared static property: Varien_Locale::$_localeData in D:\home\localhost\magento\lib\Varien\Locale.php on line 54

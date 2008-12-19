@@ -872,6 +872,9 @@ class Zend_Locale
             }
 
             if (($locale === 'auto') or ($locale === null)) {
+//                echo get_class();
+//                mageDebugBacktrace();
+//                die();
                 $locale = self::$_auto;
             }
 
