@@ -77,7 +77,6 @@
         </div>
     </div>
 </div>
-<input type="hidden" id="<?php echo $this->getHtmlId() ?>_save" name="downloadable[sample][100][file]" value="<?php echo $this->htmlEscape($this->getFilesJson()) ?>" />
 <script type="text/javascript">
 //<![CDATA[>
 var sampleTemplate = '<tr>' +
@@ -87,8 +86,7 @@ var sampleTemplate = '<tr>' +
                             '<input type="text" class="required-entry input-text" name="downloadable[sample][{{id}}][title]" value="{{title}}" />' +
                             '<?php echo $_product->getStoreId()?'<br /><input type="checkbox" id="downloadable_sample_{{id}}_title" name="downloadable[sample][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_sample_{{id}}_title">Use Default Value</label>':'' ?>'+
                         '</td>' +
-                        '<td class="files files-wide" id="<?php echo $this->getHtmlId() ?>_files_browser">' +
-                            '<!--<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_file" name="downloadable[sample][{{id}}][sample_type]" value="file" /> File:</label> <input type="file" size="43" name="downloadable[sample][{{id}}][sample_file]" value="" class="validate-downloadable-file input-file" /></p>-->' +
+                        '<td class="files files-wide">' +
                             '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_url" name="downloadable[sample][{{id}}][sample_type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
                             '<p><span id="downloadable_sample_{{id}}_container"></span></p>' +
                         '</td>' +
@@ -97,31 +95,10 @@ var sampleTemplate = '<tr>' +
                             '<button type="button" class="scalable delete icon-btn delete-sample-item"><span>Delete</span></button>' +
                         '</td>' +
                     '</tr>';
-var uploaderTemplate = '<div id="<?php echo $this->getHtmlId() ?>" class="uploader">'+
-                                '<div class="buttons">'+
-                                    '<div id="<?php echo $this->getHtmlId() ?>-install-flash" style="display:none">'+
-                                        '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="clear"></div>'+
-                                '<div class="no-display" id="<?php echo $this->getHtmlId() ?>-template">'+
-                                    '<div id="{{id}}" class="file-row">'+
-                                        '<span class="file-info">{{name}} ({{size}})</span>'+
-                                        '<span class="delete-button"><button id="{{id}}-delete" type="button" class="scalable delete" onclick="<?php echo $this->getJsObjectName() ?>.removeFile(\'{{fileId}}\')" style=""><span>Remove</span></button></span>'+
-                                        '<span class="progress-text"></span>'+
-                                        '<div class="clear"></div>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="no-display" id="<?php echo $this->getHtmlId() ?>-template-progress">'+
-                                    '{{percent}}% {{uploaded}} / {{total}}'+
-                                '</div>'+
-                            '</div>';
-
 var sampleItems = {
     tbody : $('sample_items_body'),
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : sampleTemplate,
-    uploaderText: uploaderTemplate,
     itemCount : 0,
     add : function(data) {
         this.template = new Template(this.templateText, this.templateSyntax);
@@ -158,12 +135,12 @@ var sampleItems = {
             sampleFile.checked = true;
         }
 
-        Element.insert(
+        new Downloadable.FileUploader(
+            data.id,
             sampleUrl.up('td'),
-            {'top' : this.uploaderText}
+            'downloadable[sample]['+data.id+'][file]',
+            'downloadable_sample_'+data.id+'_file'
         );
-
-        new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
 
         this.itemCount++;
         this.bindRemoveButtons();
@@ -199,8 +176,8 @@ if($('add_sample_item')){
 <?php endforeach; ?>
 
 
-var <?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
+//var <?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
 
-var <?php echo $this->getJsObjectName('uploaded'); ?> = new Downloadable.Files('<?php echo $this->getHtmlId() ?>', <?php echo $this->getJsObjectName() ?>, {});
+//var <?php echo $this->getJsObjectName('uploaded'); ?> = new Downloadable.Files('<?php echo $this->getHtmlId() ?>', <?php echo $this->getJsObjectName() ?>, {});
 //]]>
 </script>

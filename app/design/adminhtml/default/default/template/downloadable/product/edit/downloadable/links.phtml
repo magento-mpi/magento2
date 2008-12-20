@@ -124,12 +124,12 @@ var linkTemplate = '<tr>' +
         '</select>' +
     '</td>' +
     '<td class="files">' +
-        '<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_file" name="downloadable[link][{{id}}][sample_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][sample_file]" value="" class="validate-downloadable-link-sample-file input-file" /></p>' +
+        '<!--<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_file" name="downloadable[link][{{id}}][sample_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][sample_file]" value="" class="validate-downloadable-link-sample-file input-file" /></p>-->' +
         '<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_url" name="downloadable[link][{{id}}][sample_type]" value="url" /> URL</label> <input type="text" class="validate-downloadable-link-sample-url input-text" name="downloadable[link][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
         '<p><span id="downloadable_link_{{id}}_sample_container"></span></p>' +
     '</td>' +
     '<td class="files">' +
-        '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_file" name="downloadable[link][{{id}}][link_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][link_file]" value="" class=" validate-downloadable-fileinput-file" /></p>' +
+        '<!--<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_file" name="downloadable[link][{{id}}][link_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][link_file]" value="" class=" validate-downloadable-fileinput-file" /></p>-->' +
         '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_url" name="downloadable[link][{{id}}][link_type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[link][{{id}}][link_url]" value="{{link_url}}" /></p>' +
         '<p><span id="downloadable_link_{{id}}_link_container"></span></p>' +
     '</td>' +
@@ -198,9 +198,9 @@ var linkItems = {
             }
         }
 
-        linkFile = $('downloadable_link_'+data.id+'_link_file');
+//        linkFile = $('downloadable_link_'+data.id+'_link_file');
         linkUrl = $('downloadable_link_'+data.id+'_link_url');
-        linkFile.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+//        linkFile.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
         linkUrl.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
         if (data.link_type == 'url') {
             linkUrl.checked = true;
@@ -212,6 +212,22 @@ var linkItems = {
         } else if (data.link_type == 'file') {
             $('downloadable_link_'+data.id+'_sample_file').checked = true;
         }
+
+        // link sample file
+        new Downloadable.FileUploader(
+            data.id,
+            $('downloadable_link_'+data.id+'_sample_url').up('td'),
+            'downloadable[link]['+data.id+'][sample_file]',
+            'downloadable_link_'+data.id+'_sample_file'
+        );
+
+        // link file
+        new Downloadable.FileUploader(
+            data.id,
+            linkUrl.up('td'),
+            'downloadable[link]['+data.id+'][link_file]',
+            'downloadable_link_'+data.id+'_link_file'
+        );
 
         this.itemCount++;
         this.bindRemoveButtons();

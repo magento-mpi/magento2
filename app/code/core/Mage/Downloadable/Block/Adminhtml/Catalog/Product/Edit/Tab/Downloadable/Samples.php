@@ -33,72 +33,13 @@
  */
 class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples extends Mage_Adminhtml_Block_Widget
 {
-    protected $_config = null;
     /**
      * Class constructor
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setId($this->getId() . '_SamplesUploader');
         $this->setTemplate('downloadable/product/edit/downloadable/samples.phtml');
-//        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'));
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type'=>'samples')));
-        $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
-        $this->getConfig()->setFileField('samples');
-        $this->getConfig()->setFilters(array(
-            'images' => array(
-                'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
-                'files' => array('*.gif', '*.jpg', '*.png')
-            ),
-//            'media' => array(
-//                'label' => Mage::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
-//                'files' => array('*.avi', '*.flv', '*.swf')
-//            ),
-//            'all'    => array(
-//                'label' => Mage::helper('adminhtml')->__('All Files'),
-//                'files' => array('*.*')
-//            )
-        ));
-    }
-
-    protected function _prepareLayout()
-    {
-//        $this->setChild(
-//            'browse_button',
-//            $this->getLayout()->createBlock('adminhtml/widget_button')
-//                ->addData(array(
-//                    'id'      => $this->_getButtonId('browse'),
-//                    'label'   => Mage::helper('adminhtml')->__('Browse Files...'),
-//                    'type'    => 'button',
-//                    'onclick' => $this->getJsObjectName() . '.browse()'
-//                ))
-//        );
-//
-//        $this->setChild(
-//            'upload_button',
-//            $this->getLayout()->createBlock('adminhtml/widget_button')
-//                ->addData(array(
-//                    'id'      => $this->_getButtonId('upload'),
-//                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
-//                    'type'    => 'button',
-//                    'onclick' => $this->getJsObjectName() . '.upload()'
-//                ))
-//        );
-
-        $this->setChild(
-            'delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->addData(array(
-                    'id'      => '{{id}}-delete',
-                    'class'   => 'delete',
-                    'type'    => 'button',
-                    'label'   => Mage::helper('adminhtml')->__('Remove'),
-                    'onclick' => $this->getJsObjectName() . ".removeFile('{{fileId}}')"
-                ))
-        );
-
-        return parent::_prepareLayout();
     }
 
     /**
@@ -138,7 +79,8 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_file' => $item->getSampleFile(),
                 'sample_url' => $item->getSampleUrl(),
                 'sample_type' => $item->getSampleType(),
-                'sort_order' => $item->getSortOrder()
+                'sort_order' => $item->getSortOrder(),
+                'file_save' => array()
             );
             if ($this->getProduct() && $item->getStoreTitle()) {
                 $tmpSampleItem['store_title'] = $item->getStoreTitle();
@@ -157,45 +99,6 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     public function getSamplesTitle()
     {
         return Mage::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
-    }
-
-    public function getDeleteButtonHtml()
-    {
-        return $this->getChildHtml('delete_button');
-    }
-
-    /**
-     * Retrive uploader js object name
-     *
-     * @return string
-     */
-    public function getJsObjectName($name='')
-    {
-        return $this->getHtmlId() . $name . 'JsObject';
-    }
-
-    /**
-     * Retrive config json
-     *
-     * @return string
-     */
-    public function getConfigJson()
-    {
-        return Zend_Json::encode($this->getConfig()->getData());
-    }
-
-    /**
-     * Retrive config object
-     *
-     * @return Varien_Config
-     */
-    public function getConfig()
-    {
-        if(is_null($this->_config)) {
-            $this->_config = new Varien_Object();
-        }
-
-        return $this->_config;
     }
 
     public function getFilesJson()
