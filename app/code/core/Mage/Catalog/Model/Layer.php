@@ -112,7 +112,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
-            ->addStoreFilter();
+            ->addStoreFilter()
+            ;
 
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
@@ -223,11 +224,23 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         $collection->load();
 
         foreach ($collection as $item) {
-            Mage::getResourceSingleton('catalog/product')->getAttribute($item);
+            $this->_prepareAttribute($item);
             $item->setEntity($entity);
         }
 
         return $collection;
+    }
+
+    /**
+     * Prepare attribute for use in layered navigation
+     *
+     * @param   Mage_Eav_Model_Entity_Attribute $attribute
+     * @return  Mage_Eav_Model_Entity_Attribute
+     */
+    protected function _prepareAttribute($attribute)
+    {
+        Mage::getResourceSingleton('catalog/product')->getAttribute($attribute);
+        return $attribute;
     }
 
     /**

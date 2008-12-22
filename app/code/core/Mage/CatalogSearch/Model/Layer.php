@@ -107,4 +107,17 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
         $collection->addIsFilterableInSearchFilter();
         return $collection;
     }
+
+    /**
+     * Prepare attribute for use in layered navigation
+     *
+     * @param   Mage_Eav_Model_Entity_Attribute $attribute
+     * @return  Mage_Eav_Model_Entity_Attribute
+     */
+    protected function _prepareAttribute($attribute)
+    {
+        $attribute = parent::_prepareAttribute($attribute);
+        $attribute->setIsFilterable(Mage_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS);
+        return $attribute;
+    }
 }
