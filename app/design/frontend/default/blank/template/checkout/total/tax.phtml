@@ -25,7 +25,7 @@
  */
 ?>
 <?php global $taxIter; $taxIter++; ?>
-<?php if ($this->helper('tax')->displayFullSummary()): ?>
+<?php if ($this->helper('tax')->displayFullSummary() && $this->getTotal()->getValue()!=0): ?>
 <?php $isTop = 1; ?>
             <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
                 <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
@@ -54,7 +54,7 @@
                 <?php endforeach; ?>
             <?php endforeach; ?>
 <?php endif;?>
-<tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total" onclick="expandDetails(this, '.tax-details-<?php echo $taxIter;?>')"<?php endif; ?>>
+<tr<?php if ($this->helper('tax')->displayFullSummary() && $this->getTotal()->getValue()!=0): ?> class="tax-total" onclick="expandDetails(this, '.tax-details-<?php echo $taxIter;?>')"<?php endif; ?>>
     <td class="a-right" colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>">
         <?php if ($this->helper('tax')->displayFullSummary()): ?>
             <div class="tax-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
