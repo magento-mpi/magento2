@@ -52,7 +52,7 @@ class Zend_Currency
      *
      * @var string
      */
-    private $_locale = null;
+    protected $_locale = null;
 
     /**
      * Options array
@@ -183,6 +183,8 @@ class Zend_Currency
             $value = Zend_Locale_Format::convertNumerals($value, 'Latn', $options['script']);
         }
 
+        $this->_processSymbolChoice($options);
+
         // Get the sign to be placed next to the number
         if (is_numeric($options['display']) === false) {
             $sign = ' ' . $options['display'] . ' ';
@@ -206,14 +208,61 @@ class Zend_Currency
             }
         }
 
-        // Place the sign next to the number
-        if ($options['position'] === self::RIGHT) {
-            $value = $value . $sign;
-        } else if ($options['position'] === self::LEFT) {
-            $value = $sign . $value;
-        }
+        $value = $this->_concatSign($value, $sign, $options);
 
         return trim($value);
+    }
+
+    /**
+     * Place the sign next to the number
+     *
+     * @param string $value
+     * @param string $sign
+     * @param array $options
+     * @return string
+     */
+    protected function _concatSign($value, $sign, $options)
+    {
+        if ($options['position'] === self::RIGHT) {
+            $result = $value . $sign;
+        } else if ($options['position'] === self::LEFT) {
+            $result = $sign . $value;
+        }
+        return $result;
+    }
+
+    /**
+     * Select currency symbol if multiple symbols were specified
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _processSymbolChoice($options)
+    {
+        if (isset($options['symbol_choice']) && $options['symbol_choice']) {
+            $symbols = explode('|', $options['symbol']);
+            if (is_array($symbols)) {
+                foreach ($symbols as $symbol) {
+                    $type = $position = null;
+                    if (($tmp = iconv_strpos($symbol, '≤')) !== false) {
+                        $type = 1;
+                        $position = $tmp;
+                    }
+                    if (($tmp = iconv_strpos($symbol, '<')) !== false) {
+                        $type = 2;
+                        $position = $tmp;
+                    }
+                    if (!is_null($position)) {
+                        $number = iconv_substr($symbol, 0, $position);
+                        $sign = iconv_substr($symbol, $position+1);
+                        if (($type == 1 && $number <= $value) || ($type == 2 && $number < $value)) {
+                            $options['symbol'] = $sign;
+                        }
+                    }
+                }
+            }
+        }
+        return $options;
     }
 
     /**
@@ -238,7 +287,7 @@ class Zend_Currency
      * @throws Zend_Currency_Exception When locale contains no region
      * @return string The extracted locale representation as string
      */
-    private function _checkParams($currency = null, $locale = null)
+    protected function _checkParams($currency = null, $locale = null)
     {
         // Manage the params
         if ((empty($locale)) and (!empty($currency)) and
@@ -526,7 +575,7 @@ class Zend_Currency
      * @throws Zend_Currency_Exception On unknown options
      * @return array
      */
-    private function _checkOptions(array $options = array())
+    protected function _checkOptions(array $options = array())
     {
         if (count($options) === 0) {
             return $this->_options;
