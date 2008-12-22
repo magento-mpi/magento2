@@ -26,22 +26,22 @@
 
 $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
-//Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
+
 $installer->startSetup();
 
-$installer->addAttribute('catalog_product', 'is_allow_googlecheckout', array(
+$installer->addAttribute('catalog_product', 'disable_googlecheckout', array(
         'type'              => 'int',
         'backend'           => '',
         'frontend'          => '',
-        'label'             => 'Is allow to checkout with Google Checkout',
-        'input'             => '',
+        'label'             => 'Disable Google Checkout',
+        'input'             => 'select',
         'class'             => '',
-        'source'            => '',
+        'source'            => 'eav/entity_attribute_source_boolean',
         'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => true,
-        'required'          => true,
+        'required'          => false,
         'user_defined'      => false,
-        'default'           => '',
+        'default'           => '0',
         'searchable'        => false,
         'filterable'        => false,
         'comparable'        => false,
@@ -51,11 +51,10 @@ $installer->addAttribute('catalog_product', 'is_allow_googlecheckout', array(
         'is_configurable'   => false
     ));
 
-$attributeId = $installer->getAttributeId('catalog_product', 'is_allow_googlecheckout');
+$attributeId = $installer->getAttributeId('catalog_product', 'disable_googlecheckout');
 
 foreach ($installer->getAllAttributeSetIds('catalog_product') as $attributeSetId) {
     $attributeGroupId = $installer->getAttributeGroupId('catalog_product', $attributeSetId, 'Prices');
     $installer->addAttributeToSet('catalog_product', $attributeSetId, $attributeGroupId, $attributeId);
 }
-
 $installer->endSetup();
