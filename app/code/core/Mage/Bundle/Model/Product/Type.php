@@ -307,7 +307,13 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return $this;
     }
 
-    public function checkQuoteItemQty($qty)
+    /**
+     * Prepare Quote Item Quantity
+     *
+     * @param mixed $qty
+     * @return int
+     */
+    public function prepareQuoteItemQty($qty)
     {
         return intval($qty);
     }

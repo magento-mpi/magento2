@@ -549,9 +549,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         return false;
     }
 
-    public function checkQuoteItemQty($qty)
+    /**
+     * Prepare Quote Item Quantity
+     *
+     * @param mixed $qty
+     * @return float
+     */
+    public function prepareQuoteItemQty($qty)
     {
-        return null;
+        return floatval($qty);
     }
 
     /**
