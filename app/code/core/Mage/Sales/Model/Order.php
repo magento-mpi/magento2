@@ -522,6 +522,13 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
             $this->setShippingCanceled($this->getShippingAmount() - $this->getShippingInvoiced());
             $this->setBaseShippingCanceled($this->getBaseShippingAmount() - $this->getBaseShippingInvoiced());
 
+            $this->setDiscountCanceled(
+                $this->getDiscountAmount() - $this->getDiscountInvoiced() + $this->getDiscountRefunded()
+            );
+            $this->setBaseDiscountCanceled(
+                $this->getBaseDiscountAmount() - $this->getBaseDiscountInvoiced() + $this->getBaseDiscountRefunded()
+            );
+
             $this->setState($cancelState, true);
         }
         return $this;
