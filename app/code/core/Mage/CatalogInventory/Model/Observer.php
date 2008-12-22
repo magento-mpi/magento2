@@ -161,9 +161,9 @@ class Mage_CatalogInventory_Model_Observer
          * Check item for options
          */
         if (($options = $quoteItem->getQtyOptions()) && $qty > 0) {
-            $qty = $quoteItem->getProduct()->getTypeInstance()->checkQuoteItemQty($qty);
-            if (!is_null($qty)) {
-                $quoteItem->setData('qty', $qty);
+            $_qty = $quoteItem->getProduct()->getTypeInstance()->checkQuoteItemQty($qty);
+            if (!is_null($_qty)) {
+                $quoteItem->setData('qty', $_qty);
             }
 
             foreach ($options as $option) {
