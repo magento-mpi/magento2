@@ -57,7 +57,7 @@ if(!window.Flex) {
             this.flex = new Flex.Object({
                 left: 100,
                 top: 300,
-                width:  230,
+                width:  350,
                 height: 20,
                 src:    uploaderSrc
                 // wmode: 'transparent'
@@ -82,6 +82,7 @@ if(!window.Flex) {
                 // this.getInnerElement('upload').hide();
                 this.getInnerElement('install-flash').show();
             }
+            
         },
         getInnerElement: function(elementName) {
             return $(this.containerId + '-' + elementName);
@@ -113,8 +114,10 @@ if(!window.Flex) {
             this.uploader.addEventListener('complete',  this.handleComplete.bind(this));
             this.uploader.addEventListener('progress',  this.handleProgress.bind(this));
             this.uploader.addEventListener('error',     this.handleError.bind(this));
+            this.uploader.addEventListener('remove',    this.handleRemove.bind(this));
             // this.getInnerElement('browse').disabled = false;
             // this.getInnerElement('upload').disabled = false;
+            // this.flex.getBridge().showRemoveButton();
         },
         browse: function() {
             this.uploader.browse();
@@ -154,6 +157,13 @@ if(!window.Flex) {
             }
         },
         handleRemove: function (event) {
+            alert('handleRemove');
+            this.flex.getBridge().hideUpload(); 
+            // iterate through files and run the following
+                //$(this.getFileId(id)).remove();
+                //if (this.onFileRemove) {
+                //    this.onFileRemove(id);
+                //}
             this.files = this.uploader.getFilesInfo();
             this.updateFiles();
         },
