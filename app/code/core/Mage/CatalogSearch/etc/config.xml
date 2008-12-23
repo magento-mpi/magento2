@@ -124,6 +124,15 @@
                     </catalogsearch>
                 </observers>
             </catalog_product_import_after>
+            <store_add>
+                <observers>
+                    <catalogsearch>
+                        <type>singleton</type>
+                        <class>catalogsearch/fulltext_observer</class>
+                        <method>refreshStoreIndex</method>
+                    </catalogsearch>
+                </observers>
+            </store_add>
         </events>
         <blocks>
             <catalogsearch><class>Mage_CatalogSearch_Block</class></catalogsearch>

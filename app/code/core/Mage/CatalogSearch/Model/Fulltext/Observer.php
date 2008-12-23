@@ -120,4 +120,17 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
             ->rebuildIndex();
         return $this;
     }
+
+    /**
+     * Refresh fulltext index when we add new store
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogSearch_Model_Fulltext_Observer
+     */
+    public function refreshStoreIndex($observer)
+    {
+        $storeId = $observer->getEvent()->getStore()->getId();
+        Mage::getModel('catalogsearch/fulltext')->rebuildIndex($storeId);
+        return $this;
+    }
 }

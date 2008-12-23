@@ -94,6 +94,12 @@ class Mage_Tax_Model_Observer
         }
     }
 
+    /**
+     * Prepare select which is using to select index data for layered navigation
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_Tax_Model_Observer
+     */
     public function prepareCatalogIndexPriceSelect(Varien_Event_Observer $observer)
     {
         $table = $observer->getEvent()->getTable();
@@ -101,11 +107,17 @@ class Mage_Tax_Model_Observer
         $select = $observer->getEvent()->getSelect();
         $storeId = $observer->getEvent()->getStoreId();
 
-        Mage::helper('tax')->joinTaxClass($select, $storeId, $table);
-
         $additionalCalculations = $response->getAdditionalCalculations();
-        $additionalCalculations[] = Mage::helper('tax')->getPriceTaxSql($table . '.value', 'IFNULL(tax_class_c.value, tax_class_d.value)');
+        $calculation = Mage::helper('tax')->getPriceTaxSql(
+            $table . '.value', 'IFNULL(tax_class_c.value, tax_class_d.value)'
+        );
 
-        $response->setAdditionalCalculations($additionalCalculations);
+        if (!empty($calculation)) {
+            $additionalCalculations[] = $calculation;
+            $response->setAdditionalCalculations($additionalCalculations);
+            Mage::helper('tax')->joinTaxClass($select, $storeId, $table);
+        }
+
+        return $this;
     }
 }
