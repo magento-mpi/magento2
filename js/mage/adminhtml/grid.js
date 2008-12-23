@@ -294,6 +294,7 @@ varienGridMassaction.prototype = {
     checkedValues: $H({}),
     checkedString: '',
     oldCallbacks: {},
+    errorText:'',
     items: {},
     gridIds: [],
     currentItem: false,
@@ -501,6 +502,11 @@ varienGridMassaction.prototype = {
         }
     },
     apply: function() {
+        if(varienStringArray.count(this.checkedString) == 0) {
+                alert(this.errorText);
+                return;
+            }
+
         var item = this.getSelectedItem();
         if(!item) {
             this.validator.validate();
