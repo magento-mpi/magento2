@@ -51,13 +51,16 @@ if(!window.Flex) {
             Element.insert(
                 // window.document.body,
                 this.containerId,
-                {'before':'<div id="'+this.flexContainerId+'" class="flex" style="position:relative;"></div>'}
+                {'before':'<div id="'+this.flexContainerId+'" class="flex" style="position:relative;float:right;"></div>'}
             );
-
+            flexWidth = 230;
+            if (this.config.width) {
+                flexWidth = this.config.width;
+            }
             this.flex = new Flex.Object({
                 left: 100,
                 top: 300,
-                width:  350,
+                width:  flexWidth,
                 height: 20,
                 src:    uploaderSrc
                 // wmode: 'transparent'
@@ -82,7 +85,7 @@ if(!window.Flex) {
                 // this.getInnerElement('upload').hide();
                 this.getInnerElement('install-flash').show();
             }
-            
+
         },
         getInnerElement: function(elementName) {
             return $(this.containerId + '-' + elementName);
@@ -114,7 +117,10 @@ if(!window.Flex) {
             this.uploader.addEventListener('complete',  this.handleComplete.bind(this));
             this.uploader.addEventListener('progress',  this.handleProgress.bind(this));
             this.uploader.addEventListener('error',     this.handleError.bind(this));
-            this.uploader.addEventListener('removeall', this.handleRemove.bind(this));
+            this.uploader.addEventListener('removeall', this.handleRemoveAll.bind(this));
+            if (this.config.hide_upload_button) {
+                this.flex.getBridge().hideUploadButton();
+            }
             // this.getInnerElement('browse').disabled = false;
             // this.getInnerElement('upload').disabled = false;
         },
@@ -137,6 +143,9 @@ if(!window.Flex) {
             this.files = event.getData().files;
             this.updateFiles();
             this.getInnerElement('upload').show();
+            if (this.onFileSelect) {
+                this.onFileSelect();
+            }
         },
         handleProgress: function (event) {
             var file = event.getData().file;
@@ -155,13 +164,17 @@ if(!window.Flex) {
                 this.onFilesComplete(this.files);
             }
         },
-        handleRemove: function (event) {
+        handleRemoveAll: function (event) {
             this.files.each(function(file) {
                 $(this.getFileId(file.id)).remove();
-                if (this.onFileRemove) {
-                    this.onFileRemove(file.id);
-                }
             }.bind(this));
+            if (this.onFileRemoveAll) {
+                this.onFileRemoveAll();
+            }
+            this.files = this.uploader.getFilesInfo();
+            this.updateFiles();
+        },
+        handleRemove: function (event) {
             this.files = this.uploader.getFilesInfo();
             this.updateFiles();
         },
@@ -172,7 +185,17 @@ if(!window.Flex) {
         },
         updateFile:  function (file) {
             if (!$(this.getFileId(file))) {
-                Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
+                if (this.config.replace_browse_with_remove) {
+                    $(this.containerId+'-new').show();
+                    $(this.containerId+'-new').innerHTML = this.fileRowTemplate.evaluate(this.getFileVars(file));
+//                    $(this.containerId+'-old').hide();
+                    this.flex.getBridge().hideBrowseButton();
+                    this.flex.getBridge().showRemoveButton();
+                    $(this.flexContainerId).style.width = '110px';
+                } else {
+                    Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
+                }
+//                Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
             }
             if (file.status == 'full_complete' && file.response.isJSON()) {
                 var response = file.response.evalJSON();
@@ -187,7 +210,7 @@ if(!window.Flex) {
                             + (response.cookie.path.blank() ? "" : "; path=" + response.cookie.path)
                             + (response.cookie.domain.blank() ? "" : "; domain=" + response.cookie.domain);
                     }
-                    if (typeof response.error != 'undefined') {
+                    if (typeof response.error != 'undefined' && response.error != 0) {
                         file.status = 'error';
                         file.errorText = response.error;
                     }
@@ -204,18 +227,32 @@ if(!window.Flex) {
                 } else {
                     progress.update('');
                 }
+                if (this.config.replace_browse_with_remove) {
+                    $(this.flexContainerId).style.width = '0px';
+                    this.flex.getBridge().hideRemoveButton();
+                }
                 this.getDeleteButton(file).hide();
             } else if (file.status=='error') {
                 $(this.getFileId(file)).addClassName('error');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('new');
                 var errorText = file.errorText ? file.errorText : this.errorText(file);
+                if (this.config.replace_browse_with_remove) {
+                    $(this.flexContainerId).style.width = '110px';
+                    this.flex.getBridge().showBrowseButton();
+                    this.flex.getBridge().hideRemoveButton();
+                }
                 progress.update(errorText);
                 this.getDeleteButton(file).show();
             } else if (file.status=='full_complete') {
                 $(this.getFileId(file)).addClassName('complete');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('error');
+                if (this.config.replace_browse_with_remove) {
+                    $(this.flexContainerId).style.width = '110px';
+                    this.flex.getBridge().showBrowseButton();
+                    this.flex.getBridge().hideRemoveButton();
+                }
                 progress.update(this.translate('Complete'));
             }
         },

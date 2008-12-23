@@ -141,45 +141,4 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable ex
         return parent::_toHtml();
     }
 
-    /**
-     * Retrive config json
-     *
-     * @return string
-     */
-    public function getConfigJson()
-    {
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type'=>'samples')));
-        $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
-        $this->getConfig()->setFileField('samples');
-        $this->getConfig()->setFilters(array(
-            'images' => array(
-                'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
-                'files' => array('*.gif', '*.jpg', '*.png')
-            ),
-//            'media' => array(
-//                'label' => Mage::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
-//                'files' => array('*.avi', '*.flv', '*.swf')
-//            ),
-//            'all'    => array(
-//                'label' => Mage::helper('adminhtml')->__('All Files'),
-//                'files' => array('*.*')
-//            )
-        ));
-        return Zend_Json::encode($this->getConfig()->getData());
-    }
-
-    /**
-     * Retrive config object
-     *
-     * @return Varien_Config
-     */
-    public function getConfig()
-    {
-        if(is_null($this->_config)) {
-            $this->_config = new Varien_Object();
-        }
-
-        return $this->_config;
-    }
-
 }

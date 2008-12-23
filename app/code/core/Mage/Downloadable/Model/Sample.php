@@ -80,4 +80,14 @@ class Mage_Downloadable_Model_Sample extends Mage_Core_Model_Abstract
         }
     }
 
+    public static function getBaseTmpPath()
+    {
+        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'samples';
+    }
+
+    public static function getBasePath()
+    {
+        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'samples';
+    }
+
 }

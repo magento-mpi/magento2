@@ -33,74 +33,85 @@
 <script type="text/javascript">
 //<![CDATA[>
 
-var uploaderTemplate = '<input type="hidden" id="[[idName]]_save" name="[[fileValueName]]" value="[[fileValue]]" />' +
-                        '<div id="[[idName]]_list"></div>' +
-                        '<div id="[[idName]]" class="uploader">' +
-                            '<div class="buttons">' +
-                                '<div id="[[idName]]_file-install-flash" style="display:none">' +
-                                    '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +
+var uploaderTemplate =          '<div class="no-display" id="[[idName]]-template">' +
+                                    '<div id="{{id}}" class="file-row" style="width:400px;margin-left:40px;">' +
+                                        '<span class="file-info">{{name}} ({{size}})</span>' +
+                                        '<!--<span class="delete-button"><button id="{{id}}-delete" type="button" class="scalable delete" onclick="[[uploaderObj]].removeFile(\'{{fileId}}\')" style=""><span>Remove</span></button></span>-->' +
+                                        '<span class="progress-text"></span>' +
+                                        '<div class="clear"></div>' +
+                                    '</div>' +
                                 '</div>' +
-                            '</div>' +
-                            '<div class="clear"></div>' +
-                            '<div class="no-display" id="[[idName]]-template">' +
-                                '<div id="{{id}}" class="file-row">' +
-                                    '<span class="file-info">{{name}} ({{size}})</span>' +
-                                    '<span class="delete-button"><button id="{{id}}-delete" type="button" class="scalable delete" onclick="[[uploaderObj]].removeFile(\'{{fileId}}\')" style=""><span>Remove</span></button></span>' +
-                                    '<span class="progress-text"></span>' +
-                                    '<div class="clear"></div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="no-display" id="[[idName]]-template-progress">' +
-                                '{{percent}}% {{uploaded}} / {{total}}' +
-                            '</div>' +
-                        '</div>';
+                                '<div class="no-display" id="[[idName]]-template-progress">' +
+                                    '{{percent}}% {{uploaded}} / {{total}}' +
+                                '</div>';
 
-var fileListTemplate = '<b>{{name}}</b> ({{size}})';
+var fileListTemplate = '<b>{{file}}</b> ({{size}})';
 
 var Downloadable = {
     uploaderObj : $H({}),
-    setUploaderObj : function(key, obj){
-        return this.uploaderObj.set(key, obj);
+    objCount : 0,
+    setUploaderObj : function(type, key, obj){
+        if (!this.uploaderObj.get(type)) {
+            this.uploaderObj.set(type, $H({}));
+        }
+        this.uploaderObj.get(type).set(key, obj);
     },
-    getUploaderObj : function(key){
+    getUploaderObj : function(type, key){
         try {
-            return this.uploaderObj.get(key);
+            return this.uploaderObj.get(type).get(key);
         } catch (e) {
 
+        }
+    },
+    massUploadByType : function(type){
+        try {
+            this.uploaderObj.get(type).each(function(item){
+                item.value.upload();
+            });
+        } catch (e) {
         }
     }
 };
 
 Downloadable.FileUploader = Class.create();
 Downloadable.FileUploader.prototype = {
+    type : null,
     key : null, //key, identifier of uploader obj
     elmContainer : null, //insert Flex object and templates to elmContainer
     fileValueName : null, //name of field of JSON data of saved file
+    fileValue : null,
     idName : null, //id name of elements for unique uploader
     uploaderText: uploaderTemplate,
     uploaderSyntax : /(^|.|\r|\n)(\[\[(\w+)\]\])/,
     uploaderObj : $H({}),
-    initialize: function (key, elmContainer, fileValueName, idName) {
+    config : null,
+    initialize: function (type, key, elmContainer, fileValueName, fileValue ,idName, config) {
+        this.type = type;
         this.key = key;
         this.elmContainer = elmContainer;
         this.fileValueName = fileValueName;
+        this.fileValue = fileValue;
         this.idName = idName;
+        this.config = config;
         uploaderTemplate = new Template(this.uploaderText, this.uploaderSyntax);
         Element.insert(
             elmContainer,
             {'top' : uploaderTemplate.evaluate({
                     'idName' : this.idName,
                     'fileValueName' : this.fileValueName,
-                    'fileValue' : '[]',
-                    'uploaderObj' : 'Downloadable.getUploaderObj('+this.key+')'
+                    'uploaderObj' : 'Downloadable.getUploaderObj(\''+this.type+'\', \''+this.key+'\')'
                 })
             }
         );
+        if ($(this.idName+'_save')) {
+            $(this.idName+'_save').value = this.fileValue.toJSON();
+        }
         Downloadable.setUploaderObj(
-            key,
-            new Flex.Uploader(this.idName, '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>)
+            this.type,
+            this.key,
+            new Flex.Uploader(this.idName, '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', this.config)
         );
-        new Downloadable.FileList(this.idName, Downloadable.getUploaderObj(key));
+        new Downloadable.FileList(this.idName, Downloadable.getUploaderObj(type, key));
     }
 }
 
@@ -121,6 +132,16 @@ Downloadable.FileList.prototype = {
         this.file = this.getElement('save').value.evalJSON();
         this.listTemplate = new Template(this.fileListTemplate, this.templatePattern);
         this.updateFiles();
+        this.uploader.onFileRemoveAll = this.handleFileRemoveAll.bind(this);
+        this.uploader.onFileSelect = this.handleFileSelect.bind(this);
+    },
+    handleFileRemoveAll: function(fileId) {
+        $(this.containerId+'-new').hide();
+        $(this.containerId+'-old').show();
+    },
+    handleFileSelect: function() {
+//        alert(this.containerId+'_type');
+        $(this.containerId+'_type').checked = true;
     },
     getElement: function (name) {
         return $(this.containerId + '_' + name);
@@ -139,9 +160,9 @@ Downloadable.FileList.prototype = {
            }
            var newFile = {};
            newFile.file = response.file;
-           newFile.name = response.name;
-           newFile.size = this.uploader.formatSize(response.size);
-           this.file.push(newFile);
+//           newFile.name = response.name;
+           newFile.size = response.size;
+           this.file[0] = newFile;
            this.uploader.removeFile(item.id);
         }.bind(this));
         this.updateFiles();
@@ -149,7 +170,10 @@ Downloadable.FileList.prototype = {
     updateFiles: function() {
         this.getElement('save').value = this.file.toJSON();
         this.file.each(function(row){
-            this.getElement('list').innerHTML = this.listTemplate.evaluate(row);
+            row.size = this.uploader.formatSize(row.size);
+            $(this.containerId + '-old').innerHTML = this.listTemplate.evaluate(row);
+            $(this.containerId + '-new').hide();
+            $(this.containerId + '-old').show();
         }.bind(this));
     }
 }
@@ -157,6 +181,10 @@ Downloadable.FileList.prototype = {
 
 Validation.addAllThese([
     ['validate-downloadable-file', 'Please specify File.', function(v,element) {
+            linkType = element.up(0).down('input[value="file"]');
+            if (linkType.checked && (v == '' || v == '[]')) {
+                return false;
+            }
             return true;
         }]
     ]);

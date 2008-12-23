@@ -36,18 +36,23 @@ class Mage_Downloadable_FileController extends Mage_Adminhtml_Controller_Action
     public function uploadAction()
     {
         $type = $this->getRequest()->getParam('type');
+        $tmpPath = '';
+        if ($type == 'samples') {
+            $tmpPath = Mage_Downloadable_Model_Sample::getBaseTmpPath();
+        } elseif ($type == 'links') {
+            $tmpPath = Mage_Downloadable_Model_Link::getBaseTmpPath();
+        } elseif ($type == 'link_samples') {
+            $tmpPath = Mage_Downloadable_Model_Link::getBaseSampleTmpPath();
+        }
         $result = array();
         try {
             $uploader = new Varien_File_Uploader($type);
-            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+//            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
-            $result = $uploader->save(
-                Mage::getSingleton('catalog/product_media_config')->getBaseTmpMediaPath()
-            );
-//file_put_contents('/home/ruslan.voitenko/dev/magento.1.x.x/upload.txt', print_r($result, true));
-            $result['url'] = Mage::getSingleton('catalog/product_media_config')->getTmpMediaUrl($result['file']);
-            $result['file'] = $result['file'] . '.tmp';
+            $result = $uploader->save($tmpPath);
+//file_put_contents('/home/ruslan.voitenko/dev/magento.1.x.x/upload2.txt', print_r($tmpPath, true));
+//            $result['file'] = $result['file'] . '.tmp';
             $result['cookie'] = array(
                 'name'     => session_name(),
                 'value'    => $this->_getSession()->getSessionId(),

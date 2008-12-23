@@ -90,8 +90,7 @@
 	</thead>
 	<tfoot>
 		<tr>
-			<td colspan="8" class="a-right"><?php
-echo $this->getAddButtonHtml()?></td>
+			<td colspan="8" class="a-right"><p class=""><?php echo $this->getUploadButtonHtml() ?>&nbsp;<?php echo $this->getAddButtonHtml()?></p></td>
 		</tr>
 	</tfoot>
 	<tbody id="link_items_body">
@@ -124,13 +123,45 @@ var linkTemplate = '<tr>' +
         '</select>' +
     '</td>' +
     '<td class="files">' +
-        '<!--<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_file" name="downloadable[link][{{id}}][sample_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][sample_file]" value="" class="validate-downloadable-link-sample-file input-file" /></p>-->' +
-        '<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_url" name="downloadable[link][{{id}}][sample_type]" value="url" /> URL</label> <input type="text" class="validate-downloadable-link-sample-url input-text" name="downloadable[link][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+        '<div style="margin-right:5px;">' +
+            '<div style="float:left"><label>'+
+                '<input type="radio" class="radio" id="downloadable_link_{{id}}_sample_file_type" name="downloadable[link][{{id}}][sample][type]" value="file" /> File:' +
+            '</label></div>'+
+            '<input type="hidden" id="downloadable_link_{{id}}_sample_file_save" name="downloadable[link][{{id}}][sample][file]" value="{{sample_file_save}}" />' +
+            '<div id="downloadable_link_{{id}}_sample_file" class="uploader">' +
+                '<div id="downloadable_link_{{id}}_sample_file-old" style="margin-right:120px;"></div>' +
+                '<div id="downloadable_link_{{id}}_sample_file-new" style="margin-right:120px;"></div>' +
+                '<div class="buttons">' +
+                    '<div id="downloadable_link_{{id}}_sample_file-install-flash" style="display:none">' +
+                        '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="clear"></div>' +
+            '</div>'+
+        '</div>' +
+        '<div class="clear"></div>' +
+        '<p><label><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_url_type" name="downloadable[link][{{id}}][sample]" value="url" /> URL</label> <input type="text" class="validate-downloadable-link-sample-url input-text" name="downloadable[link][{{id}}][sample][url]" value="{{sample_url}}" /></p>' +
         '<p><span id="downloadable_link_{{id}}_sample_container"></span></p>' +
     '</td>' +
     '<td class="files">' +
-        '<!--<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_file" name="downloadable[link][{{id}}][link_type]" value="file" /> File:</label> <input type="file" size="7" name="downloadable[link][{{id}}][link_file]" value="" class=" validate-downloadable-fileinput-file" /></p>-->' +
-        '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_link_url" name="downloadable[link][{{id}}][link_type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[link][{{id}}][link_url]" value="{{link_url}}" /></p>' +
+        '<div style="margin-right:5px;">' +
+            '<div style="float:left"><label>'+
+                '<input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_file_type" name="downloadable[link][{{id}}][type]" value="file" /> File:' +
+            '</label></div>'+
+            '<input type="hidden" class="validate-downloadable-file" id="downloadable_link_{{id}}_file_save" name="downloadable[link][{{id}}][file]" value="{{file_save}}" />' +
+            '<div id="downloadable_link_{{id}}_file" class="uploader">' +
+                '<div id="downloadable_link_{{id}}_file-old" style="margin-right:120px;"></div>' +
+                '<div id="downloadable_link_{{id}}_file-new" style="margin-right:120px;"></div>' +
+                '<div class="buttons">' +
+                    '<div id="downloadable_link_{{id}}_file-install-flash" style="display:none">' +
+                        '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="clear"></div>' +
+            '</div>'+
+        '</div>' +
+        '<div class="clear"></div>' +
+        '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_url_type" name="downloadable[link][{{id}}][type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[link][{{id}}][link_url]" value="{{link_url}}" /></p>' +
         '<p><span id="downloadable_link_{{id}}_link_container"></span></p>' +
     '</td>' +
     '<td class="a-center"><input type="text" name="downloadable[link][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>' +
@@ -198,36 +229,51 @@ var linkItems = {
             }
         }
 
-//        linkFile = $('downloadable_link_'+data.id+'_link_file');
-        linkUrl = $('downloadable_link_'+data.id+'_link_url');
-//        linkFile.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+        linkUrl = $('downloadable_link_'+data.id+'_url_type');
+
+        if (!data.file_save) {
+            data.file_save = [];
+        }
+        if (!data.sample_file_save) {
+            data.sample_file_save = [];
+        }
+
+        // link sample file
+        new Downloadable.FileUploader(
+            'linkssample',
+            'linkssample_'+data.id,
+            $('downloadable_link_'+data.id+'_sample_url_type').up('td'),
+            'downloadable[link]['+data.id+'][sample]',
+            data.sample_file_save,
+            'downloadable_link_'+data.id+'_sample_file',
+            <?php echo $this->getConfigJson('link_samples') ?>
+        );
+        // link file
+        new Downloadable.FileUploader(
+            'links',
+            'links_'+data.id,
+            linkUrl.up('td'),
+            'downloadable[link]['+data.id+']',
+            data.file_save,
+            'downloadable_link_'+data.id+'_file',
+            <?php echo $this->getConfigJson() ?>
+        );
+
+        linkFile = $('downloadable_link_'+data.id+'_file_type');
+        linkFile.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
         linkUrl.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+
         if (data.link_type == 'url') {
             linkUrl.checked = true;
         } else if (data.link_type == 'file') {
             linkFile.checked = true;
         }
-        if (data.link_type == 'url') {
-            $('downloadable_link_'+data.id+'_sample_url').checked = true;
-        } else if (data.link_type == 'file') {
-            $('downloadable_link_'+data.id+'_sample_file').checked = true;
-        }
 
-        // link sample file
-        new Downloadable.FileUploader(
-            data.id,
-            $('downloadable_link_'+data.id+'_sample_url').up('td'),
-            'downloadable[link]['+data.id+'][sample_file]',
-            'downloadable_link_'+data.id+'_sample_file'
-        );
-
-        // link file
-        new Downloadable.FileUploader(
-            data.id,
-            linkUrl.up('td'),
-            'downloadable[link]['+data.id+'][link_file]',
-            'downloadable_link_'+data.id+'_link_file'
-        );
+//        if (data.link_type == 'url') {
+//            $('downloadable_link_'+data.id+'_sample_url').checked = true;
+//        } else if (data.link_type == 'file') {
+//            $('downloadable_link_'+data.id+'_sample_file').checked = true;
+//        }
 
         this.itemCount++;
         this.bindRemoveButtons();

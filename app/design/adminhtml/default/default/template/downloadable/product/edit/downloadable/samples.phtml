@@ -68,7 +68,9 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
+                        <td colspan="4" class="a-right"><p class="form-buttons"><?php echo $this->getUploadButtonHtml() ?>&nbsp;<?php echo $this->getAddButtonHtml() ?></p></td>
+                    </tr>
+                    <tr>
                     </tr>
                 </tfoot>
                 <tbody id="sample_items_body">
@@ -87,7 +89,24 @@ var sampleTemplate = '<tr>' +
                             '<?php echo $_product->getStoreId()?'<br /><input type="checkbox" id="downloadable_sample_{{id}}_title" name="downloadable[sample][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_sample_{{id}}_title">Use Default Value</label>':'' ?>'+
                         '</td>' +
                         '<td class="files files-wide">' +
-                            '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_url" name="downloadable[sample][{{id}}][sample_type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
+                            '<div style="margin-right:5px;">' +
+                                '<div style="float:left"><label>'+
+                                    '<input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_file_type" name="downloadable[sample][{{id}}][type]" value="file" /> File:' +
+                                '</label></div>'+
+                                '<input type="hidden" class="validate-downloadable-file" id="downloadable_sample_{{id}}_file_save" name="downloadable[sample][{{id}}][file]" value="{{file_save}}" />' +
+                                '<div id="downloadable_sample_{{id}}_file" class="uploader">' +
+                                    '<div id="downloadable_sample_{{id}}_file-old" style="margin-right:120px;"></div>' +
+                                    '<div id="downloadable_sample_{{id}}_file-new" style="margin-right:120px;"></div>' +
+                                    '<div class="buttons">' +
+                                        '<div id="downloadable_sample_{{id}}_file-install-flash" style="display:none">' +
+                                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="clear"></div>' +
+                                '</div>'+
+                            '</div>' +
+                            '<div class="clear"></div>' +
+                            '<p><label><input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_url_type" name="downloadable[sample][{{id}}][type]" value="url" /> URL:</label> <input type="text" class="validate-downloadable-url input-text" name="downloadable[sample][{{id}}][sample_url]" value="{{sample_url}}" /></p>' +
                             '<p><span id="downloadable_sample_{{id}}_container"></span></p>' +
                         '</td>' +
                         '<td class="a-center"><input type="text" name="downloadable[sample][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>' +
@@ -127,20 +146,28 @@ var sampleItems = {
             scopeTitle.checked = true;
         }
 
-        sampleUrl = $('downloadable_sample_'+data.id+'_url');
+        sampleUrl = $('downloadable_sample_'+data.id+'_url_type');
+
+        if (!data.file_save) {
+            data.file_save = [];
+        }
+        new Downloadable.FileUploader(
+            'samples',
+            data.id,
+            sampleUrl.up('td').down('div.uploader'),
+            'downloadable[sample]['+data.id+']',
+            data.file_save,
+            'downloadable_sample_'+data.id+'_file',
+            <?php echo $this->getConfigJson() ?>
+        );
         sampleUrl.advaiceContainer = 'downloadable_sample_'+data.id+'_container';
+        sampleFile = $('downloadable_sample_'+data.id+'_file_type');
+        sampleFile.advaiceContainer = 'downloadable_sample_'+data.id+'_container';
         if (data.sample_type == 'url') {
             sampleUrl.checked = true;
         } else if (data.sample_type == 'file') {
             sampleFile.checked = true;
         }
-
-        new Downloadable.FileUploader(
-            data.id,
-            sampleUrl.up('td'),
-            'downloadable[sample]['+data.id+'][file]',
-            'downloadable_sample_'+data.id+'_file'
-        );
 
         this.itemCount++;
         this.bindRemoveButtons();
@@ -175,9 +202,5 @@ if($('add_sample_item')){
     sampleItems.add(<?php echo $item->toJson() ?>);
 <?php endforeach; ?>
 
-
-//var <?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
-
-//var <?php echo $this->getJsObjectName('uploaded'); ?> = new Downloadable.Files('<?php echo $this->getHtmlId() ?>', <?php echo $this->getJsObjectName() ?>, {});
 //]]>
 </script>

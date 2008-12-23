@@ -137,6 +137,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             if (isset($data['sample'])) {
                 $_deleteItems = array();
                 foreach ($data['sample'] as $sampleItem) {
+//                    Zend_Debug::dump($sampleItem);die();
                     if ($sampleItem['is_delete'] == '1') {
                         if ($sampleItem['sample_id']) {
                             $_deleteItems[] = $sampleItem['sample_id'];
@@ -146,11 +147,31 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         if (!$sampleItem['sample_id']) {
                             unset($sampleItem['sample_id']);
                         }
-                        $sampleModel = Mage::getModel('downloadable/sample')
-                            ->setData($sampleItem)
+                        $sampleModel = Mage::getModel('downloadable/sample');
+
+                        if (isset($sampleItem['file'])) {
+                            $files = Zend_Json::decode($sampleItem['file']);
+                            unset($sampleItem['file']);
+                        }
+
+                        $sampleModel->setData($sampleItem)
+                            ->setSampleType($sampleItem['type'])
                             ->setProductId($product->getId())
                             ->setStoreId($product->getStoreId());
+
+                        $sampleModel->setSampleFile($files[0]['file']);
+
                         $sampleModel->save();
+
+                        try {
+                            $this->_moveFileFromTmp(
+                                Mage_Downloadable_Model_Sample::getBaseTmpPath(),
+                                Mage_Downloadable_Model_Sample::getBasePath(),
+                                $files[0]['file']
+                            );
+                        } catch (Exception $e) {
+                            Zend_Debug::dump($e);die();
+                        }
                     }
                 }
                 if ($_deleteItems) {
@@ -160,6 +181,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             if (isset($data['link'])) {
                 $_deleteItems = array();
                 foreach ($data['link'] as $linkItem) {
+//                    Zend_Debug::dump($linkItem);die();
                     if ($linkItem['is_delete'] == '1') {
                         if ($linkItem['link_id']) {
                             $_deleteItems[] = $linkItem['link_id'];
@@ -169,15 +191,58 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         if (!$linkItem['link_id']) {
                             unset($linkItem['link_id']);
                         }
+                        if (isset($linkItem['file'])) {
+                            $files = Zend_Json::decode($linkItem['file']);
+                            unset($linkItem['file']);
+                        }
+                        $sample = array();
+                        if (isset($linkItem['sample'])) {
+                            $sample = $linkItem['sample'];
+                            unset($linkItem['sample']);
+                        }
                         $linkModel = Mage::getModel('downloadable/link')
                             ->setData($linkItem)
+                            ->setLinkType($linkItem['type'])
                             ->setProductId($product->getId())
                             ->setStoreId($product->getStoreId())
                             ->setWebsiteId($product->getStore()->getWebsiteId());
                         if ($linkModel->getIsUnlimited()) {
                             $linkModel->setNumberOfDownloads(0);
                         }
+                        if (isset($files[0])) {
+                            $linkModel->setLinkFile($files[0]['file']);
+                        }
+                        $sampleFile = array();
+                        if ($sample && isset($sample['type'])) {
+                            $linkModel->setSampleUrl($sample['url'])
+                                ->setSampleType($sample['type']);
+                            $sampleFile = Zend_Json::decode($sample['file']);
+                            if (isset($sampleFile[0])) {
+                                $linkModel->setSampleFile($sampleFile[0]['file']);
+                            }
+                        }
                         $linkModel->save();
+
+                        try {
+                            $this->_moveFileFromTmp(
+                                Mage_Downloadable_Model_Link::getBaseTmpPath(),
+                                Mage_Downloadable_Model_Link::getBasePath(),
+                                $files[0]['file']
+                            );
+                        } catch (Exception $e) {
+                            Zend_Debug::dump($e);die();
+                        }
+                        if (isset($sampleFile[0])) {
+                            try {
+                                $this->_moveFileFromTmp(
+                                    Mage_Downloadable_Model_Link::getBaseSampleTmpPath(),
+                                    Mage_Downloadable_Model_Link::getBaseSamplePath(),
+                                    $sampleFile[0]['file']
+                                );
+                            } catch (Exception $e) {
+                                Zend_Debug::dump($e);die();
+                            }
+                        }
                     }
                 }
                 if ($_deleteItems) {
@@ -188,6 +253,67 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
 
         return $this;
     }
+
+    protected function _moveFileFromTmp($baseTmpPath, $basePath, $file)
+    {
+        $ioObject = new Varien_Io_File();
+        $destDirectory = dirname($this->getFilePath($basePath, $file));
+        try {
+            $ioObject->open(array('path'=>$destDirectory));
+        } catch (Exception $e) {
+            $ioObject->mkdir($destDirectory, 0777, true);
+            $ioObject->open(array('path'=>$destDirectory));
+        }
+
+        if (strrpos($file, '.tmp') == strlen($file)-4) {
+            $file = substr($file, 0, strlen($file)-4);
+        }
+
+        $destFile = dirname($file) . $ioObject->dirsep()
+                  . Varien_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
+        $result = $ioObject->mv(
+            $this->getTmpFilePath($baseTmpPath, $file),
+            $this->getFilePath($basePath, $destFile)
+        );
+        return str_replace($ioObject->dirsep(), '/', $destFile);
+    }
+
+    public function getFilePath($path, $file)
+    {
+        $file = $this->_prepareFileForPath($file);
+
+        if(substr($file, 0, 1) == DS) {
+            return $path . DS . substr($file, 1);
+        }
+
+        return $path . DS . $file;
+    }
+
+    public function getTmpFilePath($path, $file)
+    {
+        $file = $this->_prepareFileForPath($file);
+
+        if(substr($file, 0, 1) == DS) {
+            return $path . DS . substr($file, 1);
+        }
+
+        return $path . DS . $file;
+    }
+
+    protected function _prepareFileForPath($file)
+    {
+        return str_replace('/', DS, $file);
+    }
+
+//    public function getBaseTmpPath()
+//    {
+//        return Mage::getBaseDir() . DS . 'downloadable' . DS . 'tmp';
+//    }
+//
+//    public function getBasePath()
+//    {
+//        return Mage::getBaseDir() . DS . 'downloadable' . DS . 'files';
+//    }
 
     /**
      * Enter description here...

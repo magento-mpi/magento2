@@ -149,13 +149,22 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                 'price' => $this->getPriceValue($item->getPrice()),
                 'number_of_downloads' => $item->getNumberOfDownloads(),
                 'is_shareable' => $item->getIsShareable(),
-                'link_file' => $item->getLinkFile(),
                 'link_url' => $item->getLinkUrl(),
                 'link_type' => $item->getLinkType(),
                 'sample_file' => $item->getSampleFile(),
                 'sample_url' => $item->getSampleUrl(),
                 'sample_type' => $item->getSampleType(),
-                'sort_order' => $item->getSortOrder()
+                'sort_order' => $item->getSortOrder(),
+                'file_save' => array(
+                    array(
+                        'file' => $item->getLinkFile(),
+                        'size' => '4656'
+                    )),
+                'sample_file_save' => array(
+                    array(
+                        'file' => $item->getSampleFile(),
+                        'size' => '654'
+                    ))
             );
             if ($item->getNumberOfDownloads() == '0') {
                 $tmpLinkItem['is_unlimited'] = ' checked="checked"';
@@ -185,6 +194,61 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     public function getConfigMaxDownloads()
     {
         return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
+    }
+
+     protected function _prepareLayout()
+    {
+        $this->setChild(
+            'upload_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->addData(array(
+                    'id'      => '',
+                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'type'    => 'button',
+                    'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
+                ))
+        );
+    }
+
+    public function getUploadButtonHtml()
+    {
+        return $this->getChild('upload_button')->toHtml();
+    }
+
+    /**
+     * Retrive config json
+     *
+     * @return string
+     */
+    public function getConfigJson($type='links')
+    {
+        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type'=>$type)));
+        $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
+        $this->getConfig()->setFileField($type);
+        $this->getConfig()->setFilters(array(
+            'all'    => array(
+                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'files' => array('*.*')
+            )
+        ));
+        $this->getConfig()->setReplaceBrowseWithRemove(true);
+        $this->getConfig()->setWidth('110');
+        $this->getConfig()->setHideUploadButton(true);
+        return Zend_Json::encode($this->getConfig()->getData());
+    }
+
+    /**
+     * Retrive config object
+     *
+     * @return Varien_Config
+     */
+    public function getConfig()
+    {
+        if(is_null($this->_config)) {
+            $this->_config = new Varien_Object();
+        }
+
+        return $this->_config;
     }
 
 }
