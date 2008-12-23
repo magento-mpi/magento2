@@ -44,6 +44,6 @@ $installer->getConnection()->addColumn(
     "TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1'"
 );
 $installer->run("
-    UPDATE `{$table}` SET is_filterable_in_search=is_filterable
+    UPDATE `{$table}` SET is_filterable_in_search=(is_filterable!=0)
 ");
 $installer->endSetup();

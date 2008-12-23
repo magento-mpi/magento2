@@ -103,7 +103,10 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
             $data = array();
 
             foreach ($options as $option) {
-                if (strlen($option['value'])) {
+                if (is_array($option['value'])) {
+                    continue;
+                }
+                if (Mage::helper('core/string')->strlen($option['value'])) {
                     // Check filter type
                     if ($attribute->getIsFilterable() == self::OPTIONS_ONLY_WITH_RESULTS) {
                         if (!empty($optionsCount[$option['value']])) {
