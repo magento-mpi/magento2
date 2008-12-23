@@ -74,7 +74,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
             ->setHeader('Content-Length', $fileSize);
         }
         $this->getResponse()
-            ->setHeader('Content-Disposition', 'attachment; filename='.$fileName)
+            ->setHeader('Content-Disposition', $helper->getContentDisposition() . '; filename='.$fileName);
             ->clearBody();
             $this->getResponse()
             ->sendHeaders();

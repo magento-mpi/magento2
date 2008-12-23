@@ -55,14 +55,14 @@
             </downloadable_sales_copy_link>
         </fieldsets>
         <sales>
-	        <quote>
-		        <item>
-			        <product_attributes>
+            <quote>
+                <item>
+                    <product_attributes>
                         <links_purchased_separately/>
                         <links_title/>
-			        </product_attributes>
-		        </item>
-	        </quote>
+                    </product_attributes>
+                </item>
+            </quote>
         </sales>
         <models>
             <downloadable>
@@ -280,6 +280,7 @@
                 <samples_title>Samples</samples_title>
                 <links_title>Links</links_title>
                 <links_target_new_window>0</links_target_new_window>
+                <content_disposition>attachment</content_disposition>
             </downloadable>
         </catalog>
     </default>

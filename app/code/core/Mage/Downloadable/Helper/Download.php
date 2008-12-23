@@ -36,6 +36,8 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
     const LINK_TYPE_URL         = 'url';
     const LINK_TYPE_FILE        = 'file';
 
+    const XML_PATH_CONTENT_DISPOSITION  = 'catalog/downloadable/content_disposition';
+
     /**
      * Type of link
      *
@@ -278,5 +280,16 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 print fgets($handle, 1024);
             }
         }
+    }
+
+    /**
+     * Use Content-Disposition: attachment
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function getContentDisposition($store = null)
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_CONTENT_DISPOSITION, $store);
     }
 }
