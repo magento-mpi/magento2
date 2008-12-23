@@ -294,11 +294,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
 
                     }
 
-                    if ($directUrl) {
-                        $tmpstring = implode('|', $this->_axisLabels[$idx]);
-                    } else {
-                        $tmpstring = str_replace('/', '\\', implode('|', $this->_axisLabels[$idx]));
-                    }
+                    $tmpstring = implode('|', $this->_axisLabels[$idx]);
 
                     $valueBuffer[] = $indexid . ":|" . $tmpstring;
                     if (sizeof($this->_axisLabels[$idx]) > 1) {
@@ -336,9 +332,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             }
             return self::API_URL . '?' . implode('&', $p);
         } else {
-            foreach ($params as $name => $value) {
-                $params[$name] = urlencode($value);
-            }
+            $params = array('ga' => urlencode(base64_encode(serialize($params))));
             return $this->getUrl('*/*/tunnel', $params);
         }
     }
