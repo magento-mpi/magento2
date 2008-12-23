@@ -330,6 +330,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         return $this;
     }
 
+    /**
+     * Add group By customer attribute
+     *
+     * @return Mage_Reports_Model_Mysql4_Order_Collection
+     */
     public function groupByCustomer()
     {
         $this->groupByAttribute('customer_id');
@@ -337,6 +342,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         return $this;
     }
 
+    /**
+     * Join Customer Name (concat)
+     *
+     * @return Mage_Reports_Model_Mysql4_Order_Collection
+     */
     public function joinCustomerName()
     {
         //TODO: add full name logic
@@ -346,6 +356,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         return $this;
     }
 
+    /**
+     * Add Order count field to select
+     *
+     * @return Mage_Reports_Model_Mysql4_Order_Collection
+     */
     public function addOrdersCount()
     {
         $this->getSelect()
@@ -354,6 +369,12 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         return $this;
     }
 
+    /**
+     * Add summary average totals
+     *
+     * @param int $storeId
+     * @return Mage_Reports_Model_Mysql4_Order_Collection
+     */
     public function addSumAvgTotals($storeId = 0)
     {
         if ($storeId == 0) {
@@ -366,11 +387,11 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             $attr = $order->getAttribute('base_to_global_rate');
             /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
             $attrId = $attr->getAttributeId();
-            $baseToGlobalRateTableName = $attr->getBackend()->getTable();
+            $attributeTableName = $attr->getBackend()->getTable();
             $baseToGlobalRateTableName = $attr->getBackend()->isStatic() ? 'base_to_global_rate' : 'value';
 
             $this->getSelect()
-                ->joinLeft(array('_b2gr_'.$baseToGlobalRateTableName => $baseToGlobalRateTableName),
+                ->joinLeft(array('_b2gr_'.$baseToGlobalRateTableName => $attributeTableName),
                     "_b2gr_{$baseToGlobalRateTableName}.entity_id=e.entity_id AND ".
                     "_b2gr_{$baseToGlobalRateTableName}.attribute_id={$attrId}", array());
 
@@ -394,6 +415,12 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         return $this;
     }
 
+    /**
+     * Sort order by total amount
+     *
+     * @param string $dir
+     * @return Mage_Reports_Model_Mysql4_Order_Collection
+     */
     public function orderByTotalAmount($dir = 'desc')
     {
         $this->getSelect()
