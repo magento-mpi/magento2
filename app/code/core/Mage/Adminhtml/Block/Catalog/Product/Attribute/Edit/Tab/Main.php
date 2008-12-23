@@ -146,14 +146,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $response->setTypes(array());
         Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
 
+        $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
             $inputTypes[] = $type;
             if (isset($type['hide_fields'])) {
                 $_hiddenFields[$type['value']] = $type['hide_fields'];
             }
+            if (isset($type['disabled_types'])) {
+                $_disabledTypes[$type['value']] = $type['disabled_types'];
+            }
         }
         Mage::register('attribute_type_hidden_fields', $_hiddenFields);
+        Mage::register('attribute_type_disabled_types', $_disabledTypes);
+
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',

@@ -29,11 +29,11 @@ class Mage_Weee_Model_Config_Source_Display
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('weee')->__('Including tax only')),
-            array('value'=>1, 'label'=>Mage::helper('weee')->__('Tax included and tax description [excl. FPT tax]')),
-            array('value'=>4, 'label'=>Mage::helper('weee')->__('Tax included and tax description [incl. FPT tax]')),
-            array('value'=>2, 'label'=>Mage::helper('weee')->__('Tax excluded, tax description, final price')),
-            array('value'=>3, 'label'=>Mage::helper('weee')->__('Excluding tax')),
+            array('value'=>0, 'label'=>Mage::helper('weee')->__('Including FPT only')),
+            array('value'=>1, 'label'=>Mage::helper('weee')->__('Including FPT and FPT description [excl. FPT VAT]')),
+            array('value'=>4, 'label'=>Mage::helper('weee')->__('Including FPT and FPT description [incl. FPT VAT]')),
+            array('value'=>2, 'label'=>Mage::helper('weee')->__('Excluding FPT, FPT description, final price')),
+            array('value'=>3, 'label'=>Mage::helper('weee')->__('Excluding FPT')),
         );
     }
 

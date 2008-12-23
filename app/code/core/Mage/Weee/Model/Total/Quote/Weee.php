@@ -46,9 +46,12 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
                 continue;
             }
 
+            $this->_resetItemData($item);
+
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
-                    $this->_processItem($address, $child);
+                    $this->_resetItemData($child);
+                    $this->_processItem($address, $child, true);
 
                     $totalWeeeTax += $child->getWeeeTaxAppliedRowAmount();
                     $baseTotalWeeeTax += $child->getBaseWeeeTaxAppliedRowAmount();
@@ -66,7 +69,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
         return $this;
     }
 
-    protected function _processItem(Mage_Sales_Model_Quote_Address $address, $item)
+    protected function _processItem(Mage_Sales_Model_Quote_Address $address, $item, $updateParent = false)
     {
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
         $store = $address->getQuote()->getStore();
@@ -75,18 +78,6 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
         /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
         $defaultRateRequest = $taxCalculationModel->getRateRequest(false, false, false, $store);
-
-        $item->setBaseWeeeTaxDisposition(0);
-        $item->setWeeeTaxDisposition(0);
-
-        $item->setBaseWeeeTaxRowDisposition(0);
-        $item->setWeeeTaxRowDisposition(0);
-
-        $item->setBaseWeeeTaxAppliedAmount(0);
-        $item->setBaseWeeeTaxAppliedRowAmount(0);
-
-        $item->setWeeeTaxAppliedAmount(0);
-        $item->setWeeeTaxAppliedRowAmount(0);
 
         $attributes = Mage::helper('weee')->getProductWeeeAttributes(
             $item->getProduct(),
@@ -231,7 +222,23 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
             $item->setWeeeTaxAppliedRowAmount($item->getWeeeTaxAppliedRowAmount() + $rowValue);
         }
 
-        Mage::helper('weee')->setApplied($item, $productTaxes);
+        Mage::helper('weee')->setApplied($item, array_merge(Mage::helper('weee')->getApplied($item), $productTaxes));
+
+        if ($updateParent) {
+            $parent = $item->getParentItem();
+
+            $parent->setBaseWeeeTaxDisposition($parent->getBaseWeeeTaxDisposition() + $item->getBaseWeeeTaxDisposition());
+            $parent->setWeeeTaxDisposition($parent->getWeeeTaxDisposition() + $item->getWeeeTaxDisposition());
+
+            $parent->setBaseWeeeTaxRowDisposition($parent->getBaseWeeeTaxRowDisposition() + $item->getBaseWeeeTaxRowDisposition());
+            $parent->setWeeeTaxRowDisposition($parent->getWeeeTaxRowDisposition() + $item->getWeeeTaxRowDisposition());
+
+            $parent->setBaseWeeeTaxAppliedAmount($parent->getBaseWeeeTaxAppliedAmount() + $item->getBaseWeeeTaxAppliedAmount());
+            $parent->setBaseWeeeTaxAppliedRowAmount($parent->getBaseWeeeTaxAppliedRowAmount() + $item->getBaseWeeeTaxAppliedRowAmount());
+
+            $parent->setWeeeTaxAppliedAmount($parent->getWeeeTaxAppliedAmount() + $item->getWeeeTaxAppliedAmount());
+            $parent->setWeeeTaxAppliedRowAmount($parent->getWeeeTaxAppliedRowAmount() + $item->getWeeeTaxAppliedRowAmount());
+        }
 
         if ($applied) {
             $this->_saveAppliedTaxes(
@@ -242,6 +249,23 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Sales_Model_Quote_Address_To
                null
             );
         }
+    }
+
+    protected function _resetItemData($item)
+    {
+        Mage::helper('weee')->setApplied($item, array());
+
+        $item->setBaseWeeeTaxDisposition(0);
+        $item->setWeeeTaxDisposition(0);
+
+        $item->setBaseWeeeTaxRowDisposition(0);
+        $item->setWeeeTaxRowDisposition(0);
+
+        $item->setBaseWeeeTaxAppliedAmount(0);
+        $item->setBaseWeeeTaxAppliedRowAmount(0);
+
+        $item->setWeeeTaxAppliedAmount(0);
+        $item->setWeeeTaxAppliedRowAmount(0);
     }
 
     public function fetch(Mage_Sales_Model_Quote_Address $address)

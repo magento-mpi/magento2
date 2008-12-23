@@ -152,6 +152,10 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
                 '_scope',
                 '_default_value',
                 '_front_fieldset',
+            ),
+            'disabled_types' => array(
+                'bundle',
+                'grouped',
             )
         );
 
@@ -164,6 +168,16 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $object = $observer->getEvent()->getAttribute();
         if ($object->getFrontendInput() == 'weee') {
             $object->setBackendModel($backendModel);
+            if (!$object->getApplyTo()) {
+                $applyTo = array();
+                foreach (Mage_Catalog_Model_Product_Type::getOptions() as $option) {
+                    if ($option['value'] == 'bundle' || $option['value'] == 'grouped') {
+                        continue;
+                    }
+                    $applyTo[] = $option['value'];
+                }
+                $object->setApplyTo($applyTo);
+            }
         }
     }
 

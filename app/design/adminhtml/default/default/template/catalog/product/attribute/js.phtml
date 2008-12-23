@@ -98,6 +98,17 @@ function switchIsFilterable()
     }
 }
 
+function disableApplyToValue(value)
+{
+    var applyToSelect = $('apply_to');
+    for (i=0;i<applyToSelect.options.length;i++) {
+        if (value == applyToSelect.options[i].value) {
+            applyToSelect.options[i].disabled = true;
+            applyToSelect.options[i].selected = false;
+        }
+    }
+}
+
 function switchDefaultValueField()
 {
     if (!$('frontend_input')) {
@@ -141,6 +152,22 @@ function switchDefaultValueField()
         default:
             defaultValueTextVisibility = true;
             break;
+    }
+
+    var applyToSelect = $('apply_to');
+    switch (currentValue) {
+        <?php foreach (Mage::helper('catalog')->getAttributeDisabledTypes() as $type=>$disabled): ?>
+            case '<?php echo $type; ?>':
+            <?php foreach ($disabled as $one): ?>
+                disableApplyToValue('<?php echo $one; ?>');
+            <?php endforeach; ?>
+            break;
+        <?php endforeach; ?>
+        default:
+        for (i=0;i<applyToSelect.options.length;i++) {
+            applyToSelect.options[i].disabled = false;
+        }
+        break;
     }
 
     switch (currentValue) {
