@@ -69,14 +69,19 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
             ->setHeader('Pragma', 'public', true)
             ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
             ->setHeader('Content-type', $contentType, true);
+
         if ($fileSize = $helper->getFilesize()) {
             $this->getResponse()
-            ->setHeader('Content-Length', $fileSize);
+                ->setHeader('Content-Length', $fileSize);
         }
-        $this->getResponse()
-            ->setHeader('Content-Disposition', $helper->getContentDisposition() . '; filename='.$fileName)
-            ->clearBody();
+
+        if ($contentDisposition = $helper->getContentDisposition()) {
             $this->getResponse()
+                ->setHeader('Content-Disposition', $contentDisposition . '; filename='.$fileName);
+        }
+
+        $this->getResponse()
+            ->clearBody()
             ->sendHeaders();
 
         $helper->output();
