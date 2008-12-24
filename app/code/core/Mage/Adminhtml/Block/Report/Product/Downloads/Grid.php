@@ -67,14 +67,14 @@ class Mage_Adminhtml_Block_Report_Product_Downloads_Grid extends Mage_Adminhtml_
 
     protected function _prepareColumns()
     {
-        $this->addColumn('link_title', array(
-            'header'    => Mage::helper('reports')->__('Link'),
-            'index'     => 'link_title'
-        ));
-
         $this->addColumn('name', array(
             'header'    => Mage::helper('reports')->__('Product Name'),
             'index'     => 'name'
+        ));
+
+        $this->addColumn('link_title', array(
+            'header'    => Mage::helper('reports')->__('Link'),
+            'index'     => 'link_title'
         ));
 
         $this->addColumn('sku', array(
