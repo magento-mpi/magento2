@@ -101,7 +101,9 @@ foreach ($files as $f) {
     }
 
     // append file contents
-    $out .= file_get_contents($fileRealPath);
+    // we must have blank line at the end of all files but if somebody forget to add it
+    // we need add it here
+    $out .= file_get_contents($fileRealPath) . "\n";
     $lastModified = max($lastModified, filemtime($fileRealPath));
 }
 

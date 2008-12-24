@@ -1,3 +1,4 @@
+/**************************** WEEE STUFF ********************************/
 function taxToggle(details, switcher, expandedClassName)
 {
     if ($(details).style.display == 'none') {
