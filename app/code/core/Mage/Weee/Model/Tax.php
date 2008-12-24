@@ -20,6 +20,8 @@
 
 class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
 {
+    protected $_allAttributes = null;
+
     protected function _construct()
     {
         $this->_init('weee/tax', 'weee/tax');
@@ -42,12 +44,19 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
 
     public function getWeeeTaxAttributeCodes()
     {
-        return Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
+        if (is_null($this->_allAttributes)) {
+            $this->_allAttributes = Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
+        }
+        return $this->_allAttributes;
     }
 
     public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTax = null, $ignoreDiscount = false)
     {
         $result = array();
+        $allWeee = $this->getWeeeTaxAttributeCodes();
+        if (!$allWeee) {
+            return $result;
+        }
 
         $websiteId = Mage::app()->getWebsite($website)->getId();
         $store = Mage::app()->getWebsite($website)->getDefaultGroup()->getDefaultStore();
@@ -67,7 +76,6 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         }
 
         $productAttributes = $product->getTypeInstance()->getSetAttributes();
-        $allWeee = Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
         foreach ($productAttributes as $code=>$attribute) {
             if (in_array($code, $allWeee)) {
                 $attributeId = $attribute->getId();

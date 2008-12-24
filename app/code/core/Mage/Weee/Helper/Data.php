@@ -29,28 +29,90 @@
  */
 class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    protected $_storeDisplayConfig = array();
+
     public function getPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display', $store);
+        if (!is_null($store)) {
+            if ($store instanceof Mage_Core_Model_Store) {
+                $key = $store->getId();
+            } else {
+                $key = $store;
+            }
+        } else {
+            $key = 'current';
+        }
+
+        if (!isset($this->_storeDisplayConfig[$key])) {
+            $value = Mage::getStoreConfig('tax/weee/display', $store);
+            $this->_storeDisplayConfig[$key] = $value;
+        }
+
+        return $this->_storeDisplayConfig[$key];
     }
 
     public function getListPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_list', $store);
+        if (!is_null($store)) {
+            if ($store instanceof Mage_Core_Model_Store) {
+                $key = $store->getId();
+            } else {
+                $key = $store;
+            }
+        } else {
+            $key = 'current';
+        }
+
+        if (!isset($this->_storeDisplayConfig[$key])) {
+            $value = Mage::getStoreConfig('tax/weee/display_list', $store);
+            $this->_storeDisplayConfig[$key] = $value;
+        }
+
+        return $this->_storeDisplayConfig[$key];
     }
 
     public function getSalesPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_sales', $store);
+        if (!is_null($store)) {
+            if ($store instanceof Mage_Core_Model_Store) {
+                $key = $store->getId();
+            } else {
+                $key = $store;
+            }
+        } else {
+            $key = 'current';
+        }
+
+        if (!isset($this->_storeDisplayConfig[$key])) {
+            $value = Mage::getStoreConfig('tax/weee/display_sales', $store);
+            $this->_storeDisplayConfig[$key] = $value;
+        }
+
+        return $this->_storeDisplayConfig[$key];
     }
 
     public function getEmailPriceDisplayType($store = null)
     {
-        return Mage::getStoreConfig('tax/weee/display_email', $store);
+        if (!is_null($store)) {
+            if ($store instanceof Mage_Core_Model_Store) {
+                $key = $store->getId();
+            } else {
+                $key = $store;
+            }
+        } else {
+            $key = 'current';
+        }
+
+        if (!isset($this->_storeDisplayConfig[$key])) {
+            $value = Mage::getStoreConfig('tax/weee/display_email', $store);
+            $this->_storeDisplayConfig[$key] = $value;
+        }
+
+        return $this->_storeDisplayConfig[$key];
     }
 
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false) {
-        return Mage::getModel('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
+        return Mage::getSingleton('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
     }
 
     public function typeOfDisplay($product, $compareTo = null, $zone = null, $store = null)
@@ -95,11 +157,25 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
-        return Mage::getModel('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
+        return Mage::getSingleton('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
     }
 
     public function getApplied($item)
     {
+/*
+        if ($item instanceof Mage_Sales_Model_Quote_Item_Abstract) {
+            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+                $result = array();
+                foreach ($item->getChildren() as $child) {
+                    $childData = $this->getApplied($child);
+                    if (is_array($childData)) {
+                        $result = array_merge($result, $childData);
+                    }
+                }
+                return $result;
+            }
+        }
+*/
         return unserialize($item->getWeeeTaxApplied());
     }
 
@@ -130,11 +206,11 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     public function getAmountForDisplay($product) {
-        return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+        return Mage::getSingleton('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
     }
 
     public function getOriginalAmount($product) {
-        return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
+        return Mage::getSingleton('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
     }
 
     public function processTierPrices($product, &$tierPrices)
