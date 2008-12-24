@@ -174,7 +174,9 @@ class Mage_CatalogInventory_Model_Observer
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product in option is not valid'));
                 }
+
                 $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $increaseOptionQty);
+
                 $result = $stockItem->checkQuoteItemQty($optionQty, $qtyForCheck);
 
                 if (!is_null($result->getItemIsQtyDecimal())) {
@@ -191,7 +193,7 @@ class Mage_CatalogInventory_Model_Observer
                 }
 
                 if ($result->getHasQtyOptionUpdate()) {
-                    $quoteItem->updateQtyOption($option, $result->getItemQty());
+                    $quoteItem->updateQtyOption($option, $result->getItemQty() / $qty);
                 }
 
                 if ($result->getHasError()) {
