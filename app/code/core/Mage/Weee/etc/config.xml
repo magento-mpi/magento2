@@ -257,6 +257,7 @@
         </sales>
         <tax>
             <weee>
+                <enable>0</enable>
                 <display>0</display>
                 <display_list>0</display_list>
                 <display_sales>0</display_sales>

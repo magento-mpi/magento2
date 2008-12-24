@@ -42,6 +42,11 @@ class Mage_GoogleOptimizer_Model_Observer
     public function appendToProductGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
+
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+            return $this;
+        }
+
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_product')
             ->setEntity($product)
             ->loadScripts($product->getStoreId());
@@ -200,6 +205,11 @@ class Mage_GoogleOptimizer_Model_Observer
     public function appendToCategoryGoogleOptimizerScripts($observer)
     {
         $category = $observer->getEvent()->getCategory();
+
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+            return $this;
+        }
+
         $googleOptimizerModel = Mage::getModel('googleoptimizer/code_category')
             ->setEntity($category)
             ->loadScripts($category->getStoreId());
@@ -235,6 +245,10 @@ class Mage_GoogleOptimizer_Model_Observer
     public function saveCategoryGoogleOptimizerScripts($observer)
     {
         $category = $observer->getEvent()->getCategory();
+
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+            return $this;
+        }
 
         if ($category->getGoogleOptimizerScripts()) {
             $googleOptimizer = Mage::getModel('googleoptimizer/code_category')

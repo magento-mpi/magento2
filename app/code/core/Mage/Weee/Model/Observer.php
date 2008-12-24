@@ -58,10 +58,14 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
     public function prepareCatalogIndexSelect(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('weee')->isEnabled($observer->getEvent()->getStoreId())) {
+            return $this;
+        }
+
         switch(Mage::helper('weee')->getListPriceDisplayType()) {
             case 2:
             case 3:
-                return;
+                return $this;
         }
 
         $select = $observer->getEvent()->getSelect();
@@ -101,12 +105,12 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $attributes = Mage::getModel('weee/tax')->getWeeeTaxAttributeCodes();
         foreach ($attributes as $attribute) {
             $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
-    
+
             $tableAlias = "weee_{$attribute}_table";
             $on = array();
             $on[] = "{$tableAlias}.attribute_id = '{$attributeId}'";
             $on[] = "({$tableAlias}.website_id in ('{$websiteId}', 0))";
-    
+
             $country = $rateRequest->getCountryId();
             $on[] = "({$tableAlias}.country = '{$country}')";
 

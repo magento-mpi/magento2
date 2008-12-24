@@ -29,6 +29,9 @@
  */
 class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
 {
+
+    const XML_PATH_FPT_ENABLED  = 'tax/weee/enable';
+
     protected $_storeDisplayConfig = array();
 
     public function getPriceDisplayType($store = null)
@@ -205,12 +208,21 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getProductWeeeAttributes($product, null, null, null, $this->typeOfDisplay($product, 1));
     }
 
-    public function getAmountForDisplay($product) {
-        return Mage::getSingleton('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+
+    public function getAmountForDisplay($product)
+    {
+        if ($this->isEnabled()) {
+            return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+        }
+        return 0;
     }
 
-    public function getOriginalAmount($product) {
-        return Mage::getSingleton('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
+    public function getOriginalAmount($product)
+    {
+        if ($this->isEnabled()) {
+            return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
+        }
+        return 0;
     }
 
     public function processTierPrices($product, &$tierPrices)
@@ -222,5 +234,15 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
             $tier['formated_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice($weeeAmount));
         }
         return $this;
+    }
+
+    /**
+     * Check if fixed taxes are used in system
+     *
+     * @return bool
+     */
+    public function isEnabled($store = null)
+    {
+        return Mage::getStoreConfig(self::XML_PATH_FPT_ENABLED, $store);
     }
 }
