@@ -52,7 +52,7 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
                   . Varien_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
         $result = $ioObject->mv(
             $this->getTmpFilePath($baseTmpPath, $file),
-            $basePathFile
+            $this->getFilePath($basePath, $file)
         );
         return str_replace($ioObject->dirsep(), '/', $destFile);
     }
