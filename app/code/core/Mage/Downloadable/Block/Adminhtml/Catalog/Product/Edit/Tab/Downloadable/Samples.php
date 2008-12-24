@@ -136,7 +136,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type'=>'samples')));
+        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type' => 'samples', '_secure' => true)));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(
@@ -146,7 +146,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             )
         ));
         $this->getConfig()->setReplaceBrowseWithRemove(true);
-        $this->getConfig()->setWidth('40');
+        $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
         return Zend_Json::encode($this->getConfig()->getData());
     }

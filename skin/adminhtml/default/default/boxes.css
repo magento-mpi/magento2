@@ -1023,40 +1023,21 @@ ul.config-tabs a.last span  { background-image:none; }
 ul.super-product-attributes { padding-left:15px; }
 
 /** Media Library **/
-.uploader .file-row {
-    width:600px;
-    padding:0.5em 0.6em;
-    margin:0.5em 0.6em;
-    border:1px solid #ccc;
-    background-color:#f9f9f9;
-    vertical-align:middle;
-}
-
-.uploader .file-row-narrow { width: auto; margin-left:40px; }
+.uploader .file-row { width:600px; padding:0.5em 0.6em; margin:0.5em 0.6em; border:1px solid #ccc; background-color:#f9f9f9; vertical-align:middle; }
+.uploader .file-row-narrow { width: auto; margin: 0 0 2px 40px; }
 .uploader .file-row .file-info { float:left; }
 /*.uploader .file-row .file-info-name { with: 80%; overflow: hidden; }
 .uploader .file-row .file-info-size { width: 20%; }*/
-.uploader .file-row-info { margin: 0 50px 0 10px; }
+.uploader .file-row-info { margin: 0 0 0 10px; }
 .uploader .file-row-info .file-info-name  { font-weight:bold; }
 .uploader .file-row .progress-text { float:right; font-weight:bold; }
 .uploader .file-row .delete-button { float:right; }
 .uploader .buttons { float:left; }
 .uploader .flex { float:right; }
 .uploader .progress { border:1px solid #f0e6b7; background-color:#feffcc; }
-
-.uploader .error {
-    border:1px solid #aa1717;
-    background-color:#ffe6de;
-}
-
-.uploader .error .progress-text {
-    padding-right:10px;
-}
-
-.uploader .complete {
-    border:1px solid #90c898;
-    background-color:#e5ffed;
-}
+.uploader .error { border:1px solid #aa1717; background-color:#ffe6de; }
+.uploader .error .progress-text { padding-right:10px; }
+.uploader .complete { border:1px solid #90c898; background-color:#e5ffed; }
 
 .grid tr.read { background:#fff !important; }
 .grid tr.unread { background:#fcf6f5 !important; }
