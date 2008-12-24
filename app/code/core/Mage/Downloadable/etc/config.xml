@@ -279,8 +279,8 @@
                 <order_status>complete</order_status>
                 <samples_title>Samples</samples_title>
                 <links_title>Links</links_title>
-                <links_target_new_window>0</links_target_new_window>
-                <content_disposition>attachment</content_disposition>
+                <links_target_new_window>1</links_target_new_window>
+                <content_disposition>inline</content_disposition>
             </downloadable>
         </catalog>
     </default>
