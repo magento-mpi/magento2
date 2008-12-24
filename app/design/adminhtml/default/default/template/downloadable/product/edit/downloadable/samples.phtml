@@ -134,10 +134,10 @@ var sampleItems = {
         	Event.observe(scopeTitle, 'click', function(event){
                 scopeElm = $(Event.findElement(event, 'input'));
                 titleField = scopeElm.up(0).down('input[type="text"]');
-                if (titleField.disabled == true) {
-                    titleField.disabled = false;
-                } else {
+                if (scopeElm.checked == true) {
                     titleField.disabled = true;
+                } else {
+                    titleField.disabled = false;
                 }
             });
         }

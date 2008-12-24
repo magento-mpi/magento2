@@ -169,7 +169,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         $sampleModel->save();
                         if ($sampleModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && $fileStatusNew) {
                             try {
-                                $this->_moveFileFromTmp(
+                                Mage::helper('downloadable/file')->moveFileFromTmp(
                                     Mage_Downloadable_Model_Sample::getBaseTmpPath(),
                                     Mage_Downloadable_Model_Sample::getBasePath(),
                                     $files[0]['file']
@@ -230,7 +230,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             }
                             $sampleFile = Zend_Json::decode($sample['file']);
                             if ($sample['type'] == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && isset($sampleFile[0])) {
-                                $linkModel->setSampleFile($sampleFile[0]['file']);
+                                $linkModel->setSampleFile($sampleFile[0]['file'])
+                                    ->setSampleType($sample['type']);
                                 if ($sampleFile[0]['status'] == 'new') {
                                     $sampleFileNew = true;
                                 }
@@ -239,7 +240,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         $linkModel->save();
                         if ($linkModel->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && $fileStatusNew) {
                             try {
-                                $this->_moveFileFromTmp(
+                                Mage::helper('downloadable/file')->moveFileFromTmp(
                                     Mage_Downloadable_Model_Link::getBaseTmpPath(),
                                     Mage_Downloadable_Model_Link::getBasePath(),
                                     $files[0]['file']
@@ -250,7 +251,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         }
                         if ($linkModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && $sampleFileNew) {
                             try {
-                                $this->_moveFileFromTmp(
+                                Mage::helper('downloadable/file')->moveFileFromTmp(
                                     Mage_Downloadable_Model_Link::getBaseSampleTmpPath(),
                                     Mage_Downloadable_Model_Link::getBaseSamplePath(),
                                     $sampleFile[0]['file']
@@ -269,67 +270,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
 
         return $this;
     }
-
-    protected function _moveFileFromTmp($baseTmpPath, $basePath, $file)
-    {
-        $ioObject = new Varien_Io_File();
-        $destDirectory = dirname($this->getFilePath($basePath, $file));
-        try {
-            $ioObject->open(array('path'=>$destDirectory));
-        } catch (Exception $e) {
-            $ioObject->mkdir($destDirectory, 0777, true);
-            $ioObject->open(array('path'=>$destDirectory));
-        }
-
-        if (strrpos($file, '.tmp') == strlen($file)-4) {
-            $file = substr($file, 0, strlen($file)-4);
-        }
-
-        $destFile = dirname($file) . $ioObject->dirsep()
-                  . Varien_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
-        $result = $ioObject->mv(
-            $this->getTmpFilePath($baseTmpPath, $file),
-            $this->getFilePath($basePath, $destFile)
-        );
-        return str_replace($ioObject->dirsep(), '/', $destFile);
-    }
-
-    public function getFilePath($path, $file)
-    {
-        $file = $this->_prepareFileForPath($file);
-
-        if(substr($file, 0, 1) == DS) {
-            return $path . DS . substr($file, 1);
-        }
-
-        return $path . DS . $file;
-    }
-
-    public function getTmpFilePath($path, $file)
-    {
-        $file = $this->_prepareFileForPath($file);
-
-        if(substr($file, 0, 1) == DS) {
-            return $path . DS . substr($file, 1);
-        }
-
-        return $path . DS . $file;
-    }
-
-    protected function _prepareFileForPath($file)
-    {
-        return str_replace('/', DS, $file);
-    }
-
-//    public function getBaseTmpPath()
-//    {
-//        return Mage::getBaseDir() . DS . 'downloadable' . DS . 'tmp';
-//    }
-//
-//    public function getBasePath()
-//    {
-//        return Mage::getBaseDir() . DS . 'downloadable' . DS . 'files';
-//    }
 
     /**
      * Enter description here...

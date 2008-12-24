@@ -191,10 +191,10 @@ var linkItems = {
         	Event.observe(scopeTitle, 'click', function(event){
                 scopeElm = $(Event.findElement(event, 'input'));
         		titleField = scopeElm.up(0).down('input[type="text"]');
-                if (titleField.disabled == true) {
-                    titleField.disabled = false;
+                if (scopeElm.checked == true) {
+                    titleField.disabled = true;
                 } else {
-                	titleField.disabled = true;
+                	titleField.disabled = false;
                 }
             });
         }
@@ -208,10 +208,10 @@ var linkItems = {
         	Event.observe(scopePrice, 'click', function(event){
                 scopeElm = $(Event.findElement(event, 'input'));
                 priceField = scopeElm.up(0).down('input[type="text"]');
-                if (priceField.disabled == true) {
-                    priceField.disabled = false;
-                } else {
+                if (scopeElm.checked == true) {
                     priceField.disabled = true;
+                } else {
+                    priceField.disabled = false;
                 }
             });
         }
@@ -219,10 +219,18 @@ var linkItems = {
         	scopePrice.up(0).down('input[type="text"]').disabled = true;
             scopePrice.checked = true;
         }
-
-//        if (data.is_unlimited) {
-//            $('downloadable_link_'+data.id+'_downloads').disabled = true;
-//        }
+        downloadsElm = $('downloadable_link_'+data.id+'_downloads');
+        isUnlimitedElm = $('downloadable_link_'+data.id+'_is_unlimited');
+        if (data.is_unlimited) {
+            downloadsElm.disabled = true;
+        }
+        Event.observe(isUnlimitedElm, 'click', function(event){
+            if (isUnlimitedElm.checked == true) {
+                downloadsElm.disabled = true;
+            } else {
+                downloadsElm.disabled = false;
+            }
+        });
 
         if (data.is_shareable) {
             options = $('downloadable_link _'+data.id+'_shareable').options;
@@ -275,7 +283,7 @@ var linkItems = {
             linkFile.checked = true;
         }
 
-//        sampleFile = $('downloadable_link_'+data.id+'_sample_file_type');
+        sampleFile = $('downloadable_link_'+data.id+'_sample_file_type');
 //        sampleFile.advaiceContainer = 'downloadable_link_'+data.id+'_sample_container';
 //        sampleUrl.advaiceContainer = 'downloadable_link_'+data.id+'_sample_container';
 
