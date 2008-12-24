@@ -188,10 +188,10 @@ if(!window.Flex) {
                 if (this.config.replace_browse_with_remove) {
                     $(this.containerId+'-new').show();
                     $(this.containerId+'-new').innerHTML = this.fileRowTemplate.evaluate(this.getFileVars(file));
-//                    $(this.containerId+'-old').hide();
+                    $(this.containerId+'-old').hide();
                     this.flex.getBridge().hideBrowseButton();
                     this.flex.getBridge().showRemoveButton();
-                    $(this.flexContainerId).style.width = '110px';
+                    $(this.flexContainerId).style.width = '40px';
                 } else {
                     Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
                 }
@@ -238,7 +238,7 @@ if(!window.Flex) {
                 $(this.getFileId(file)).removeClassName('new');
                 var errorText = file.errorText ? file.errorText : this.errorText(file);
                 if (this.config.replace_browse_with_remove) {
-                    $(this.flexContainerId).style.width = '110px';
+                    $(this.flexContainerId).style.width = '40px';
                     this.flex.getBridge().showBrowseButton();
                     this.flex.getBridge().hideRemoveButton();
                 }
@@ -249,7 +249,7 @@ if(!window.Flex) {
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('error');
                 if (this.config.replace_browse_with_remove) {
-                    $(this.flexContainerId).style.width = '110px';
+                    $(this.flexContainerId).style.width = '40px';
                     this.flex.getBridge().showBrowseButton();
                     this.flex.getBridge().hideRemoveButton();
                 }

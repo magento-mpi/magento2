@@ -90,13 +90,13 @@ var sampleTemplate = '<tr>' +
                         '</td>' +
                         '<td class="files files-wide">' +
                             '<div style="margin-right:5px;">' +
-                                '<div style="float:left"><label>'+
+                                '<div><label>'+
                                     '<input type="radio" class="radio validate-one-required-by-name" id="downloadable_sample_{{id}}_file_type" name="downloadable[sample][{{id}}][type]" value="file" /> File:' +
                                 '</label></div>'+
                                 '<input type="hidden" class="validate-downloadable-file" id="downloadable_sample_{{id}}_file_save" name="downloadable[sample][{{id}}][file]" value="{{file_save}}" />' +
                                 '<div id="downloadable_sample_{{id}}_file" class="uploader">' +
-                                    '<div id="downloadable_sample_{{id}}_file-old" style="margin-right:120px;"></div>' +
-                                    '<div id="downloadable_sample_{{id}}_file-new" style="margin-right:120px;"></div>' +
+                                    '<div id="downloadable_sample_{{id}}_file-old" class="file-row-info"></div>' +
+                                    '<div id="downloadable_sample_{{id}}_file-new" class="file-row-info"></div>' +
                                     '<div class="buttons">' +
                                         '<div id="downloadable_sample_{{id}}_file-install-flash" style="display:none">' +
                                             '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +

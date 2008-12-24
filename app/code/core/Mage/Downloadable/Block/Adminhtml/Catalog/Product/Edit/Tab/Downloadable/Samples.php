@@ -80,14 +80,15 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            if ($item->getSampleFile()) {
+            $file = $this->getProduct()->getTypeInstance()->getFilePath(
+                Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
+            );
+            if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'size' => filesize(
-                            $this->getProduct()->getTypeInstance()->getFilePath(
-                                Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
-                            ))
+                        'size' => filesize($file),
+                        'status' => 'old'
                     ));
             }
             if ($this->getProduct() && $item->getStoreTitle()) {
@@ -145,7 +146,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             )
         ));
         $this->getConfig()->setReplaceBrowseWithRemove(true);
-        $this->getConfig()->setWidth('110');
+        $this->getConfig()->setWidth('40');
         $this->getConfig()->setHideUploadButton(true);
         return Zend_Json::encode($this->getConfig()->getData());
     }

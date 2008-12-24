@@ -1032,32 +1032,17 @@ ul.super-product-attributes { padding-left:15px; }
     vertical-align:middle;
 }
 
-.uploader .file-row .file-info {
-    float:left;
-}
-
-
-.uploader .file-row .progress-text {
-    float:right;
-    font-weight:bold;
-}
-
-.uploader .file-row .delete-button {
-    float:right;
-}
-
-.uploader .buttons {
-    float:left;
-}
-
-.uploader .flex {
-    float:right;
-}
-
-.uploader .progress {
-    border:1px solid #f0e6b7;
-    background-color:#feffcc;
-}
+.uploader .file-row-narrow { width: auto; margin-left:40px; }
+.uploader .file-row .file-info { float:left; }
+/*.uploader .file-row .file-info-name { with: 80%; overflow: hidden; }
+.uploader .file-row .file-info-size { width: 20%; }*/
+.uploader .file-row-info { margin: 0 50px 0 10px; }
+.uploader .file-row-info .file-info-name  { font-weight:bold; }
+.uploader .file-row .progress-text { float:right; font-weight:bold; }
+.uploader .file-row .delete-button { float:right; }
+.uploader .buttons { float:left; }
+.uploader .flex { float:right; }
+.uploader .progress { border:1px solid #f0e6b7; background-color:#feffcc; }
 
 .uploader .error {
     border:1px solid #aa1717;

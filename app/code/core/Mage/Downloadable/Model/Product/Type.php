@@ -148,7 +148,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             unset($sampleItem['sample_id']);
                         }
                         $sampleModel = Mage::getModel('downloadable/sample');
-
+                        $files = array();
                         if (isset($sampleItem['file'])) {
                             $files = Zend_Json::decode($sampleItem['file']);
                             unset($sampleItem['file']);
@@ -158,19 +158,25 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             ->setSampleType($sampleItem['type'])
                             ->setProductId($product->getId())
                             ->setStoreId($product->getStoreId());
-
-                        $sampleModel->setSampleFile($files[0]['file']);
+                        $fileStatusNew = false;
+                        if (isset($files[0]) && $sampleModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
+                            $sampleModel->setSampleFile($files[0]['file']);
+                            if ($files[0]['status'] == 'new') {
+                                $fileStatusNew = true;
+                            }
+                        }
 
                         $sampleModel->save();
-
-                        try {
-                            $this->_moveFileFromTmp(
-                                Mage_Downloadable_Model_Sample::getBaseTmpPath(),
-                                Mage_Downloadable_Model_Sample::getBasePath(),
-                                $files[0]['file']
-                            );
-                        } catch (Exception $e) {
-                            Zend_Debug::dump($e);die();
+                        if ($sampleModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && $fileStatusNew) {
+                            try {
+                                $this->_moveFileFromTmp(
+                                    Mage_Downloadable_Model_Sample::getBaseTmpPath(),
+                                    Mage_Downloadable_Model_Sample::getBasePath(),
+                                    $files[0]['file']
+                                );
+                            } catch (Exception $e) {
+                                Mage::throwException(Mage::helper('downloadable')->__('An error occurred while saving the file(s).'));
+                            }
                         }
                     }
                 }
@@ -181,7 +187,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             if (isset($data['link'])) {
                 $_deleteItems = array();
                 foreach ($data['link'] as $linkItem) {
-//                    Zend_Debug::dump($linkItem);die();
                     if ($linkItem['is_delete'] == '1') {
                         if ($linkItem['link_id']) {
                             $_deleteItems[] = $linkItem['link_id'];
@@ -191,6 +196,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         if (!$linkItem['link_id']) {
                             unset($linkItem['link_id']);
                         }
+                        $files = array();
                         if (isset($linkItem['file'])) {
                             $files = Zend_Json::decode($linkItem['file']);
                             unset($linkItem['file']);
@@ -209,30 +215,40 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         if ($linkModel->getIsUnlimited()) {
                             $linkModel->setNumberOfDownloads(0);
                         }
-                        if (isset($files[0])) {
+                        $fileStatusNew = false;
+                        if (isset($files[0]) && $linkModel->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
                             $linkModel->setLinkFile($files[0]['file']);
+                            if ($files[0]['status'] == 'new') {
+                                $fileStatusNew = true;
+                            }
                         }
-                        $sampleFile = array();
+                        $sampleFileNew = false;
                         if ($sample && isset($sample['type'])) {
-                            $linkModel->setSampleUrl($sample['url'])
-                                ->setSampleType($sample['type']);
+                            if ($sample['type'] == 'url' && $sample['url'] != '') {
+                                $linkModel->setSampleUrl($sample['url'])
+                                    ->setSampleType($sample['type']);
+                            }
                             $sampleFile = Zend_Json::decode($sample['file']);
-                            if (isset($sampleFile[0])) {
+                            if ($sample['type'] == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && isset($sampleFile[0])) {
                                 $linkModel->setSampleFile($sampleFile[0]['file']);
+                                if ($sampleFile[0]['status'] == 'new') {
+                                    $sampleFileNew = true;
+                                }
                             }
                         }
                         $linkModel->save();
-
-                        try {
-                            $this->_moveFileFromTmp(
-                                Mage_Downloadable_Model_Link::getBaseTmpPath(),
-                                Mage_Downloadable_Model_Link::getBasePath(),
-                                $files[0]['file']
-                            );
-                        } catch (Exception $e) {
-                            Zend_Debug::dump($e);die();
+                        if ($linkModel->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && $fileStatusNew) {
+                            try {
+                                $this->_moveFileFromTmp(
+                                    Mage_Downloadable_Model_Link::getBaseTmpPath(),
+                                    Mage_Downloadable_Model_Link::getBasePath(),
+                                    $files[0]['file']
+                                );
+                            } catch (Exception $e) {
+                                Mage::throwException(Mage::helper('downloadable')->__('An error occurred while saving the file(s).'));
+                            }
                         }
-                        if (isset($sampleFile[0])) {
+                        if ($linkModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE && $sampleFileNew) {
                             try {
                                 $this->_moveFileFromTmp(
                                     Mage_Downloadable_Model_Link::getBaseSampleTmpPath(),
@@ -240,7 +256,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                                     $sampleFile[0]['file']
                                 );
                             } catch (Exception $e) {
-                                Zend_Debug::dump($e);die();
+                                Mage::throwException(Mage::helper('downloadable')->__('An error occurred while saving the file(s).'));
                             }
                         }
                     }

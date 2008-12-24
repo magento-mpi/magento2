@@ -154,18 +154,30 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                 'sample_file' => $item->getSampleFile(),
                 'sample_url' => $item->getSampleUrl(),
                 'sample_type' => $item->getSampleType(),
-                'sort_order' => $item->getSortOrder(),
-                'file_save' => array(
+                'sort_order' => $item->getSortOrder()
+            );
+            $file = $this->getProduct()->getTypeInstance()->getFilePath(
+                Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
+            );
+            if ($item->getLinkFile() && is_file($file)) {
+                $tmpLinkItem['file_save'] = array(
                     array(
                         'file' => $item->getLinkFile(),
-                        'size' => '4656'
-                    )),
-                'sample_file_save' => array(
+                        'size' => filesize($file),
+                        'status' => 'old'
+                    ));
+            }
+            $sampleFile = $this->getProduct()->getTypeInstance()->getFilePath(
+                Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
+            );
+            if ($item->getSampleFile() && is_file($sampleFile)) {
+                $tmpLinkItem['sample_file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'size' => '654'
-                    ))
-            );
+                        'size' => filesize($sampleFile),
+                        'status' => 'old'
+                    ));
+            }
             if ($item->getNumberOfDownloads() == '0') {
                 $tmpLinkItem['is_unlimited'] = ' checked="checked"';
             }
@@ -232,7 +244,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             )
         ));
         $this->getConfig()->setReplaceBrowseWithRemove(true);
-        $this->getConfig()->setWidth('110');
+        $this->getConfig()->setWidth('40');
         $this->getConfig()->setHideUploadButton(true);
         return Zend_Json::encode($this->getConfig()->getData());
     }
