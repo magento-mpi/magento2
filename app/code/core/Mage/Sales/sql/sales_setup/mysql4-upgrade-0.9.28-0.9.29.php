@@ -59,18 +59,21 @@ $ordersTable = $installer->getTable($ordersEntity['entity_table']);
 
 // Update discount_refunded (base_discount_refunded)
 $entityTypeId = $installer->getEntityTypeId('creditmemo');
-$orderAttribute = Mage::getModel('eav/config')->getAttribute($entityTypeId, 'order_id');
-$discountAttribute = Mage::getModel('eav/config')->getAttribute($entityTypeId, 'discount_amount');
-$baseDiscountAttribute = Mage::getModel('eav/config')->getAttribute($entityTypeId, 'base_discount_amount');
+$orderAttributeId = $installer->getAttributeId($entityTypeId, 'order_id');
+$orderAttributeTable = $installer->getAttributeTable($entityTypeId, 'order_id');
+$discountAttributeId = $installer->getAttributeId($entityTypeId, 'discount_amount');
+$discountAttributeTable = $installer->getAttributeTable($entityTypeId, 'discount_amount');
+$baseDiscountAttributeId = $installer->getAttributeId($entityTypeId, 'base_discount_amount');
+$baseDiscountAttributeTable = $installer->getAttributeTable($entityTypeId, 'base_discount_amount');
 
 $preparedSql = sprintf($sql,
-    $orderAttribute->getBackend()->getTable(),
-    $discountAttribute->getBackend()->getTable(),
-    $discountAttribute->getAttributeId(),
-    $baseDiscountAttribute->getBackend()->getTable(),
-    $baseDiscountAttribute->getAttributeId(),
+    $orderAttributeTable,
+    $discountAttributeTable,
+    $discountAttributeId,
+    $baseDiscountAttributeTable,
+    $baseDiscountAttributeId,
     $entityTypeId,
-    $orderAttribute->getAttributeId()
+    $orderAttributeId
 );
 
 $stmt = $installer->getConnection()->query($preparedSql);
@@ -88,18 +91,21 @@ while($row = $stmt->fetch()) {
 
 // Update discount_invoiced (base_discount_invoiced)
 $entityTypeId = $installer->getEntityTypeId('invoice');
-$orderAttribute = Mage::getModel('eav/config')->getAttribute($entityTypeId, 'order_id');
-$discountAttribute = Mage::getModel('eav/config')->getAttribute($entityTypeId, 'discount_amount');
-$baseDiscountAttribute = Mage::getModel('eav/config')->getAttribute($entityTypeId, 'base_discount_amount');
+$orderAttributeId = $installer->getAttributeId($entityTypeId, 'order_id');
+$orderAttributeTable = $installer->getAttributeTable($entityTypeId, 'order_id');
+$discountAttributeId = $installer->getAttributeId($entityTypeId, 'discount_amount');
+$discountAttributeTable = $installer->getAttributeTable($entityTypeId, 'discount_amount');
+$baseDiscountAttributeId = $installer->getAttributeId($entityTypeId, 'base_discount_amount');
+$baseDiscountAttributeTable = $installer->getAttributeTable($entityTypeId, 'base_discount_amount');
 
 $preparedSql = sprintf($sql,
-    $orderAttribute->getBackend()->getTable(),
-    $discountAttribute->getBackend()->getTable(),
-    $discountAttribute->getAttributeId(),
-    $baseDiscountAttribute->getBackend()->getTable(),
-    $baseDiscountAttribute->getAttributeId(),
+    $orderAttributeTable,
+    $discountAttributeTable,
+    $discountAttributeId,
+    $baseDiscountAttributeTable,
+    $baseDiscountAttributeId,
     $entityTypeId,
-    $orderAttribute->getAttributeId()
+    $orderAttributeId
 );
 
 $stmt = $installer->getConnection()->query($preparedSql);
@@ -116,14 +122,15 @@ while($row = $stmt->fetch()) {
 }
 
 // Update discount_canceled (base_discount_canceled)
-$statusAttribute = Mage::getModel('eav/config')->getAttribute($ordersEntity['entity_type_id'], 'status');
+$statusAttributeId = $installer->getAttributeId($ordersEntity['entity_type_id'], 'status');
+$statusAttributeTable = $installer->getAttributeTable($ordersEntity['entity_type_id'], 'status');
 $select = $installer->getConnection()->select()
     ->from(
-        array('s' => $statusAttribute->getBackend()->getTable()),
+        array('s' => $statusAttributeTable),
         array('order_id' => 's.entity_id')
     )
-    ->where('s.attribute_id=?', $statusAttribute->getAttributeId())
-    ->where('s.entity_type_id=?', $statusAttribute->getEntityTypeId())
+    ->where('s.attribute_id=?', $statusAttributeId)
+    ->where('s.entity_type_id=?', $ordersEntity['entity_type_id'])
     ->where('s.value=?', Mage_Sales_Model_Order::STATE_CANCELED);
 
 $stmt = $installer->getConnection()->query($select);
@@ -131,8 +138,8 @@ while($row = $stmt->fetch()) {
     $entityId = $row['order_id'];
     $installer->run("
         UPDATE `{$ordersTable}` SET
-            `discount_canceled`=`discount_amount`-`discount_invoiced`+`discount_refunded`,
-            `base_discount_canceled`=`base_discount_amount`-`base_discount_invoiced`+`base_discount_refunded`
+            `discount_canceled`=`discount_amount`-`discount_invoiced`,
+            `base_discount_canceled`=`base_discount_amount`-`base_discount_invoiced`
         WHERE `entity_id`='{$entityId}'
     ");
 }

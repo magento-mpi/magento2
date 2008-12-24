@@ -471,6 +471,45 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         return $id;
     }
 
+    /**
+     * Return table name for eav attribute
+     *
+     * @param int|string $entityTypeId Entity Type id or Entity Type code
+     * @param int|string $id Attribute id or Attribute code
+     * @return string
+     */
+    public function getAttributeTable($entityTypeId, $id)
+    {
+        $entityKeyName = is_numeric($entityTypeId) ? 'entity_type_id' : 'entity_type_code';
+        $attributeKeyName = is_numeric($id) ? 'attribute_id' : 'attribute_code';
+
+        $select = $this->_conn->select()
+            ->from(
+                array('e' => $this->getTable('eav/entity_type')),
+                array('e.entity_table')
+            )
+            ->from(
+                array('a' => $this->getTable('eav/attribute')),
+                array('a.backend_type')
+            )
+            ->where('a.entity_type_id=e.entity_type_id')
+            ->where("e.{$entityKeyName}=?", $entityTypeId)
+            ->where("a.{$attributeKeyName}=?", $id)
+            ->limit(1);
+
+        $stmt = $this->_conn->query($select);
+
+        if ($stmt->rowCount() == 1) {
+            $row = $stmt->fetchObject();
+            $table = $this->getTable($row->entity_table);
+            if ($row->backend_type && $row->backend_type != 'static') {
+                $table .= '_' . $row->backend_type;
+            }
+            return $table;
+        }
+        return false;
+    }
+
     public function removeAttribute($entityTypeId, $code)
     {
         if ($attributeId = $this->getAttributeId($entityTypeId, $code)) {
