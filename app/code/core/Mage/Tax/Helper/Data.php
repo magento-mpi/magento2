@@ -351,6 +351,10 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getPriceTaxSql($priceField, $taxClassField)
     {
+        if (!$this->priceIncludesTax() && $this->displayPriceExcludingTax()) {
+            return '';
+        }
+
         $request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
         $defaultTaxes = Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses($request);
 
