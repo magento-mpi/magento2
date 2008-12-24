@@ -59,4 +59,9 @@ class Mage_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable extends
         }
         return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
+
+    public function getPurchasedLinkUrl($item)
+    {
+        return $this->getUrl('downloadable/download/link', array('id' => $item->getId(), '_secure' => true));
+    }
 }
