@@ -16,7 +16,7 @@
  * @package    Zend_Locale
  * @subpackage Format
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Format.php 12057 2008-10-21 17:19:43Z thomas $
+ * @version    $Id: Format.php 13375 2008-12-19 14:16:40Z thomas $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -597,8 +597,15 @@ class Zend_Locale_Format
      */
     public static function isInteger($value, array $options = array())
     {
-        $options['precision'] = 0;
-        return self::isNumber($value, $options);
+        if (!self::isNumber($value, $options)) {
+            return false;
+        }
+
+        if (self::getInteger($value, $options) == self::getFloat($value, $options)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 13136 2008-12-10 18:36:46Z doctorrock83 $
+ * @version    $Id: Abstract.php 13354 2008-12-18 19:37:47Z mikaelkael $
  */
 
 
@@ -190,7 +190,7 @@ abstract class Zend_Db_Adapter_Abstract
 
         $options = array(
             Zend_Db::CASE_FOLDING           => $this->_caseFolding,
-            Zend_DB::AUTO_QUOTE_IDENTIFIERS => $this->_autoQuoteIdentifiers
+            Zend_Db::AUTO_QUOTE_IDENTIFIERS => $this->_autoQuoteIdentifiers
         );
         $driverOptions = array();
 
@@ -1051,7 +1051,7 @@ abstract class Zend_Db_Adapter_Abstract
     /**
      * called when object is getting serialized
      * This disconnects the DB object that cant be serialized
-     * 
+     *
      * @throws Zend_Db_Adapter_Exception
      * @return array
      */
@@ -1068,7 +1068,7 @@ abstract class Zend_Db_Adapter_Abstract
 
     /**
      * called when object is getting unserialized
-     * 
+     *
      * @return void
      */
     public function __wakeup()

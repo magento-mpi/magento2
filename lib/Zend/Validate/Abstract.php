@@ -17,7 +17,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 13114 2008-12-09 15:03:40Z thomas $
+ * @version    $Id: Abstract.php 13350 2008-12-18 15:24:27Z alexander $
  */
 
 
@@ -198,11 +198,21 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
             }
         }
 
+        if (is_object($value)) {
+        	if (!in_array('__toString', get_class_methods($value))) {
+        		$value = get_class($value) . ' object';
+        	} else {
+        		$value = $value->__toString();
+        	}
+        } else {
+        	$value = (string)$value;
+        }
+
         if ($this->getObscureValue()) {
             $value = str_repeat('*', strlen($value));
         }
 
-        $message = @str_replace('%value%', (string) $value, $message);
+        $message = str_replace('%value%', (string) $value, $message);
         foreach ($this->_messageVariables as $ident => $property) {
             $message = str_replace("%$ident%", (string) $this->$property, $message);
         }

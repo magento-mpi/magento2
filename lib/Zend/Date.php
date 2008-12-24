@@ -16,7 +16,7 @@
  * @package   Zend_Date
  * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Date.php 13257 2008-12-15 11:54:41Z thomas $
+ * @version   $Id: Date.php 13373 2008-12-19 12:22:49Z thomas $
  */
 
 /**
@@ -164,13 +164,6 @@ class Zend_Date extends Zend_Date_DateObject
         } else if (($part !== null) and (Zend_Locale::isLocale($part, null, false))) {
             $locale = $part;
             $part   = null;
-        }
-
-        if (empty($locale)) {
-            require_once 'Zend/Registry.php';
-            if (Zend_Registry::isRegistered('Zend_Locale') === true) {
-                $locale = Zend_Registry::get('Zend_Locale');
-            }
         }
 
         $this->setLocale($locale);
@@ -4511,16 +4504,13 @@ class Zend_Date extends Zend_Date_DateObject
      */
     public function setLocale($locale = null)
     {
-        if (!Zend_Locale::isLocale($locale, true, false)) {
-            if (!Zend_Locale::isLocale($locale, false, false)) {
-                require_once 'Zend/Date/Exception.php';
-                throw new Zend_Date_Exception("Given locale ({$locale}) does not exist", (string) $locale);
-            }
-
-            $locale = new Zend_Locale($locale);
+        try {
+            $this->_locale = Zend_Locale::findLocale($locale);
+        } catch (Zend_Locale_Exception $e) {
+            require_once 'Zend/Date/Exception.php';
+            throw new Zend_Date_Exception($e->getMessage());
         }
 
-        $this->_locale = (string) $locale;
         return $this;
     }
 
@@ -4557,23 +4547,8 @@ class Zend_Date extends Zend_Date_DateObject
             $format = null;
         }
 
-        if (empty($locale)) {
-            require_once 'Zend/Registry.php';
-            if (Zend_Registry::isRegistered('Zend_Locale') === true) {
-                $locale = Zend_Registry::get('Zend_Locale');
-            }
-        }
+        $locale = Zend_Locale::findLocale($locale);
 
-        if (!Zend_Locale::isLocale($locale, true, false)) {
-            if (!Zend_Locale::isLocale($locale, false, false)) {
-                require_once 'Zend/Date/Exception.php';
-                throw new Zend_Date_Exception("Given locale ({$locale}) does not exist", (string) $locale);
-            }
-
-            $locale = new Zend_Locale($locale);
-        }
-
-        $locale = (string) $locale;
         if ($format === null) {
             $format = Zend_Locale_Format::getDateFormat($locale);
         } else if (self::$_options['format_type'] == 'php') {

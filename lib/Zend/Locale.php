@@ -16,7 +16,7 @@
  * @package   Zend_Locale
  * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Locale.php 12781 2008-11-23 09:27:46Z thomas $
+ * @version   $Id: Locale.php 13368 2008-12-19 10:48:07Z thomas $
  */
 
 /**
@@ -759,6 +759,46 @@ class Zend_Locale
     }
 
     /**
+     * Finds the proper locale based on the input
+     * Checks if it exists, degrades it when necessary
+     * Detects registry locale and when all fails tries to detect a automatic locale
+     * Returns the found locale as string
+     *
+     * @param string $locale
+     * @throws Zend_Locale_Exception When the given locale is no locale or the autodetection fails
+     * @return string
+     */
+    public static function findLocale($locale = null)
+    {
+        if ($locale === null) {
+            require_once 'Zend/Registry.php';
+            if (Zend_Registry::isRegistered('Zend_Locale')) {
+                $locale = Zend_Registry::get('Zend_Locale');
+            }
+        }
+
+        require_once 'Zend/Locale.php';
+        if ($locale === null) {
+            $locale = new Zend_Locale();
+        }
+
+        if (!Zend_Locale::isLocale($locale, true, false)) {
+            if (!Zend_Locale::isLocale($locale, false, false)) {
+                require_once 'Zend/Locale/Exception.php';
+                throw new Zend_Locale_Exception("The locale '$locale' is no known locale");
+            }
+
+            $locale = new Zend_Locale($locale);
+        }
+
+        if ($locale instanceof Zend_Locale) {
+            $locale = $locale->toString();
+        }
+
+        return $locale;
+    }
+
+    /**
      * Returns a list of all known locales where the locale is the key
      * Only real locales are returned, the internal locales 'root', 'auto', 'browser'
      * and 'environment' are suppressed
@@ -872,9 +912,6 @@ class Zend_Locale
             }
 
             if (($locale === 'auto') or ($locale === null)) {
-//                echo get_class();
-//                mageDebugBacktrace();
-//                die();
                 $locale = self::$_auto;
             }
 
