@@ -145,11 +145,11 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
     public function getPageName()
     {
         if (!$this->hasData('page_name')) {
-            $queryStr = '';
-            if ($this->getRequest() && $this->getRequest()->getQuery()) {
-                $queryStr = '?' . http_build_query($this->getRequest()->getQuery());
-            }
-            $this->setPageName(Mage::getSingleton('core/url')->escape($this->getRequest()->getRequestUri() . $queryStr));
+            //$queryStr = '';
+            //if ($this->getRequest() && $this->getRequest()->getQuery()) {
+            //    $queryStr = '?' . http_build_query($this->getRequest()->getQuery());
+            //}
+            $this->setPageName(Mage::getSingleton('core/url')->escape($_SERVER['REQUEST_URI']));
         }
         return $this->getData('page_name');
     }
