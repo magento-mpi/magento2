@@ -30,16 +30,8 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
--- DROP TABLE IF EXISTS {$this->getTable('sendfriend_log')};
-CREATE TABLE {$this->getTable('sendfriend_log')} (
-  `log_id` int(11) NOT NULL auto_increment,
-  `ip` int(11) NOT NULL default '0',
-  `time` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`log_id`),
-  KEY `ip` (`ip`),
-  KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
+ALTER TABLE `{$this->getTable('sendfriend/sendfriend')}`
+    MODIFY COLUMN `ip` int (11) unsigned DEFAULT '0' NOT NULL;
 ");
 
 $installer->endSetup();
-
