@@ -34,6 +34,12 @@
  */
 class Mage_Reports_Model_Mysql4_Tax_Collection extends Mage_Sales_Model_Entity_Order_Collection
 {
+    public function _construct()
+    {
+        parent::_construct();
+        $this->setRowIdFieldName('tax_id');
+    }
+
     public function setDateRange($from, $to)
     {
         $this->_reset();
