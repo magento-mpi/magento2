@@ -142,6 +142,7 @@ if(!window.Flex) {
         },
         handleSelect: function (event) {
             this.files = event.getData().files;
+            this.checkFileSize();
             this.updateFiles();
             this.getInnerElement('upload').show();
             if (this.onFileSelect) {
@@ -246,9 +247,9 @@ if(!window.Flex) {
                 } else {
                     this.getDeleteButton(file).show();
                 }
-                
+
                 progress.update(errorText);
-                
+
             } else if (file.status=='full_complete') {
                 $(this.getFileId(file)).addClassName('complete');
                 $(this.getFileId(file)).removeClassName('progress');
@@ -293,6 +294,24 @@ if(!window.Flex) {
         },
         round: function(number) {
             return Math.round(number*100)/100;
+        },
+        checkFileSize: function() {
+            newFiles = [];
+            hasTooBigFiles = false;
+            this.files.each(function(file){
+                if (file.size > maxUploadFileSizeInBytes) {
+                    hasTooBigFiles = true;
+                    this.uploader.removeFile(file.id)
+                } else {
+                    newFiles.push(file)
+                }
+            }.bind(this));
+            this.files = newFiles;
+            if (hasTooBigFiles) {
+                alert(
+                    this.translate('Maximum allowed file size for upload is')+' '+maxUploadFileSize+".\n"+this.translate('Please check your server PHP settings.')
+                );
+            }
         },
         translate: function(text) {
             try {
