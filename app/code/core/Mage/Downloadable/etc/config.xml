@@ -135,6 +135,14 @@
                 </type>
             </product>
         </catalog>
+        <pdf>
+            <invoice>
+                <downloadable>downloadable/sales_order_pdf_items_invoice</downloadable>
+            </invoice>
+            <creditmemo>
+                <downloadable>downloadable/sales_order_pdf_items_creditmemo</downloadable>
+            </creditmemo>
+        </pdf>
     </global>
     <adminhtml>
         <translate>
