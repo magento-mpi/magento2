@@ -49,7 +49,7 @@ var uploaderTemplate = '<div class="no-display" id="[[idName]]-template">' +
                             '</div>';
 
 var fileListTemplate = '<span class="file-info">' +
-                            '<span class="file-info-name">{{file}}</span>' +
+                            '<span class="file-info-name">{{name}}</span>' +
                             ' ' +
                             '<span class="file-info-size">({{size}})</span>' +
                         '</span>';
@@ -177,6 +177,7 @@ Downloadable.FileList.prototype = {
            }
            var newFile = {};
            newFile.file = response.file;
+           newFile.name = response.name;
            newFile.size = response.size;
            newFile.status = 'new';
            this.file[0] = newFile;
@@ -195,11 +196,16 @@ Downloadable.FileList.prototype = {
     }
 }
 
+var alertDisaplyCount = false;
 
 Validation.addAllThese([
     ['validate-downloadable-file', 'Please specify File.', function(v,element) {
             linkType = element.up(0).down('input[value="file"]');
             if (linkType.checked && (v == '' || v == '[]')) {
+                if (!alertDisaplyCount) {
+//                    alertDisaplyCount = true;
+//                    alert('asdf');
+                }
                 return false;
             }
             return true;
@@ -221,6 +227,9 @@ Validation.addAllThese([
 
 <div class="entry-edit">
 <?php echo $this->getChildHtml('accordion') ?>
+</div>
+<div style="display:none">
+    <div id="custom-advice-container"></div>
 </div>
 <!--
 <div><input type="hidden" name="affect_downloadable_information" value="1" /></div>
