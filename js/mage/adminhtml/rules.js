@@ -179,19 +179,21 @@ VarienRulesForm.prototype = {
 
         if (!container.hasClassName('rule-param-new-child')) {
             elem = Element.down(container, 'select');
-            var selectedOptions = [];
-            for (i=0; i<elem.options.length; i++) {
-                if (elem.options[i].selected) {
-                    selectedOptions.push(elem.options[i].text);
+            if (elem && elem.options) {
+                var selectedOptions = [];
+                for (i=0; i<elem.options.length; i++) {
+                    if (elem.options[i].selected) {
+                        selectedOptions.push(elem.options[i].text);
+                    }
                 }
-            }
 
-            var str = selectedOptions.join(', ');
-            label.innerHTML = str!='' ? str : '...';
-//            if (elem && elem.selectedIndex>=0) {
-//                var str = elem.options[elem.selectedIndex].text;
-//                label.innerHTML = str!='' ? str : '...';
-//            }
+                var str = selectedOptions.join(', ');
+                label.innerHTML = str!='' ? str : '...';
+//              if (elem && elem.selectedIndex>=0) {
+//                  var str = elem.options[elem.selectedIndex].text;
+//                  label.innerHTML = str!='' ? str : '...';
+//              }
+            }
 
             elem = Element.down(container, 'input.input-text');
             if (elem) {
