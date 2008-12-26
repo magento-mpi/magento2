@@ -26,9 +26,9 @@
 ?>
 <table id="details-table" class="data-table">
     <col />
-    <col width="70" />
-    <col width="30" />
-    <col width="70" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
@@ -40,7 +40,7 @@
     <tfoot>
     <?php foreach ($this->getTotals() as $_total): ?>
         <tr>
-            <td colspan="3"><?php echo $_total->getTitle() ?></td>
+            <th colspan="3"><?php echo $_total->getTitle() ?></th>
             <td><?php echo $this->helper('checkout')->formatPrice($_total->getValue()) ?></td>
         </tr>
     <?php endforeach; ?>
