@@ -37,20 +37,6 @@
             <th><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
-    <tbody>
-    <?php foreach ($this->getItems() as $_item): ?>
-        <?php if ($_item->getParentItem()) continue ?>
-        <tr>
-            <td>
-                <<?php echo $_item->getProduct()->getName() ?>
-                <?php echo $_item->getProduct()->getDescription() ?>
-            </td>
-            <td><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()); ?></td>
-            <td><?php echo $_item->getQty() ?></td>
-            <td><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()); ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
     <tfoot>
     <?php foreach ($this->getTotals() as $_total): ?>
         <tr>
@@ -59,4 +45,18 @@
         </tr>
     <?php endforeach; ?>
     </tfoot>
+    <tbody>
+    <?php foreach ($this->getItems() as $_item): ?>
+        <?php if ($_item->getParentItem()) continue ?>
+        <tr>
+            <td>
+                <?php echo $_item->getProduct()->getName() ?>
+                <?php echo $_item->getProduct()->getDescription() ?>
+            </td>
+            <td><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()); ?></td>
+            <td><?php echo $_item->getQty() ?></td>
+            <td><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
 </table>
