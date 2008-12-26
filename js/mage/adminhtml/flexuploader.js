@@ -118,10 +118,6 @@ if(!window.Flex) {
             this.uploader.addEventListener('progress',  this.handleProgress.bind(this));
             this.uploader.addEventListener('error',     this.handleError.bind(this));
             this.uploader.addEventListener('removeall', this.handleRemoveAll.bind(this));
-            if (this.config.hide_upload_button) {
-                this.flex.getBridge().setType(2);
-                this.flex.getBridge().hideButton('upload');
-            }
             // this.getInnerElement('browse').disabled = false;
             // this.getInnerElement('upload').disabled = false;
         },
@@ -191,13 +187,10 @@ if(!window.Flex) {
                     $(this.containerId+'-new').show();
                     $(this.containerId+'-new').innerHTML = this.fileRowTemplate.evaluate(this.getFileVars(file));
                     $(this.containerId+'-old').hide();
-                    this.flex.getBridge().hideButton('browse');
-                    this.flex.getBridge().showButton('remove');
-                    $(this.flexContainerId).style.width = '32px';
+                    this.flex.getBridge().hideBrowseButton();
                 } else {
                     Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
                 }
-//                Element.insert(this.container, {bottom: this.fileRowTemplate.evaluate(this.getFileVars(file))});
             }
             if (file.status == 'full_complete' && file.response.isJSON()) {
                 var response = file.response.evalJSON();
@@ -218,6 +211,10 @@ if(!window.Flex) {
                     }
                 }
             }
+            
+            if (file.status == 'full_complete' && !file.response.isJSON()) {
+                file.status = 'error';
+            }
 
             var progress = $(this.getFileId(file)).getElementsByClassName('progress-text')[0];
             if ((file.status=='progress') || (file.status=='complete')) {
@@ -229,10 +226,7 @@ if(!window.Flex) {
                 } else {
                     progress.update('');
                 }
-                if (this.config.replace_browse_with_remove) {
-//                    $(this.flexContainerId).style.width = '0px';
-//                    this.flex.getBridge().hideButton('remove');
-                } else {
+                if (! this.config.replace_browse_with_remove) {
                     this.getDeleteButton(file).hide();
                 }
             } else if (file.status=='error') {
@@ -241,9 +235,7 @@ if(!window.Flex) {
                 $(this.getFileId(file)).removeClassName('new');
                 var errorText = file.errorText ? file.errorText : this.errorText(file);
                 if (this.config.replace_browse_with_remove) {
-                    $(this.flexContainerId).style.width = '32px';
-                    this.flex.getBridge().showButton('browse');
-                    this.flex.getBridge().hideButton('remove');
+                    this.flex.getBridge().hideBrowseButton();
                 } else {
                     this.getDeleteButton(file).show();
                 }
@@ -254,11 +246,6 @@ if(!window.Flex) {
                 $(this.getFileId(file)).addClassName('complete');
                 $(this.getFileId(file)).removeClassName('progress');
                 $(this.getFileId(file)).removeClassName('error');
-                if (this.config.replace_browse_with_remove) {
-                    $(this.flexContainerId).style.width = '32px';
-                    this.flex.getBridge().showButton('browse');
-                    this.flex.getBridge().hideButton('remove');
-                }
                 progress.update(this.translate('Complete'));
             }
         },

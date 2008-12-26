@@ -67,9 +67,9 @@ var Downloadable = {
         try {
             return this.uploaderObj.get(type).get(key);
         } catch (e) {
-            if (console) {
+            try {
                 console.log(e);
-            } else {
+            } catch (e2) {
                 alert(e.name + '\n' + e.message);
             }
         }
@@ -80,9 +80,9 @@ var Downloadable = {
                 item.value.upload();
             });
         } catch (e) {
-            if (console) {
+            try {
                 console.log(e);
-            } else {
+            } catch (e2) {
                 alert(e.name + '\n' + e.message);
             }
         }
@@ -156,7 +156,6 @@ Downloadable.FileList.prototype = {
         $(this.containerId+'-old').show();
     },
     handleFileSelect: function() {
-//        alert(this.containerId+'_type');
         $(this.containerId+'_type').checked = true;
     },
     getElement: function (name) {
@@ -165,11 +164,11 @@ Downloadable.FileList.prototype = {
     handleUploadComplete: function (files) {
         files.each(function(item) {
            if (!item.response.isJSON()) {
-               if (console) {
-                   console.log(item.response);
-               } else {
+                try {
+                    console.log(item.response);
+                } catch (e2) {
                     alert(item.response);
-               }
+                }
                return;
            }
            var response = item.response.evalJSON();
