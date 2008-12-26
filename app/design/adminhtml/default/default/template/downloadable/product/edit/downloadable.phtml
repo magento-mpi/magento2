@@ -67,7 +67,11 @@ var Downloadable = {
         try {
             return this.uploaderObj.get(type).get(key);
         } catch (e) {
-
+            if (console) {
+                console.log(e);
+            } else {
+                alert(e.name + '\n' + e.message);
+            }
         }
     },
     massUploadByType : function(type){
@@ -76,7 +80,11 @@ var Downloadable = {
                 item.value.upload();
             });
         } catch (e) {
-            console.log(e);
+            if (console) {
+                console.log(e);
+            } else {
+                alert(e.name + '\n' + e.message);
+            }
         }
     }
 };
@@ -117,7 +125,7 @@ Downloadable.FileUploader.prototype = {
         Downloadable.setUploaderObj(
             this.type,
             this.key,
-            new Flex.Uploader(this.idName, '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', this.config)
+            new Flex.Uploader(this.idName, '<?php echo $this->getSkinUrl('media/uploaderSingle.swf') ?>', this.config)
         );
         new Downloadable.FileList(this.idName, Downloadable.getUploaderObj(type, key));
     }
@@ -159,6 +167,8 @@ Downloadable.FileList.prototype = {
            if (!item.response.isJSON()) {
                if (console) {
                    console.log(item.response);
+               } else {
+                    alert(item.response);
                }
                return;
            }

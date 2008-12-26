@@ -80,9 +80,11 @@ Product.Gallery.prototype = {
     handleUploadComplete: function (files) {
         files.each(function(item) {
            if (!item.response.isJSON()) {
-               if (console) {
+                if (console) {
                    console.log(item.response);
-               }
+                } else {
+                    alert(item.response);
+                }
                return;
            }
            var response = item.response.evalJSON();
@@ -187,6 +189,8 @@ Product.Gallery.prototype = {
         if(!elems[0]) {
             if (console) {
                 console.log(selector);
+            } else {
+                alert(selector);
             }
         }
 
