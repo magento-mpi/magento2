@@ -931,6 +931,25 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Escape html entities with the exception of $allowedTags
+     *
+     * @param   mixed $data
+     * @param   array $allowedTags
+     * @return  mixed
+     */
+    public function htmlEscapeAdvanced($data, $allowedTags = array('b','br','strong','i','u'))
+    {
+        if (!is_array($allowedTags) || empty($allowedTags)) {
+            return self::htmlEscape($data);
+        }
+        $allowed = implode('|', $allowedTags);
+        $data = preg_replace('/<([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)>/si', '##$1$2$3##', $data);
+        $data = self::htmlEscape($data);
+        $data = preg_replace('/##([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)##/si', '<$1$2$3>', $data);
+        return $data;
+    }
+
+    /**
      * Escape quotes in java scripts
      *
      * @param mixed $data
