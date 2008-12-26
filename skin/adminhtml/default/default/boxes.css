@@ -336,6 +336,7 @@ input.price                     { width:50px !important; text-align:right; }
 select optgroup                 { font-style:normal; }
 select optgroup option          { padding-left:10px; }
 select optgroup option.even     { background:#f6f6f6; } /* Zebra even-row */
+select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd; }
 .field-100 { background-color:#fff; border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; padding:2px; }
 .field-100 textarea,
 .field-100 input.input-text { float:left; width:100% !important; border:0 !important; padding:0 !important; }
@@ -877,7 +878,8 @@ ul.item-options li { padding-left:.7em; }
 .rule-param .label:hover        { font-weight:bold; color:blue; }
 .rule-param .element            { display:none; }
 .rule-param input,
-.rule-param select              { width:auto !important; }
+.rule-param select              { width:auto !important; min-width:170px; }
+.rule-param select.multiselect  { vertical-align:top; }
 .rule-param-edit .label         { display:none; }
 .rule-param-edit .element       { display:inline; }
 .rule-param-add                 { font-weight:normal; color:green; text-decoration:none; }
