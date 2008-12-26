@@ -153,10 +153,17 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
             $this->_setFreeMethodRequest($freeMethod);
 
             $result = $this->_getQuotes();
-            if ($result && ($rates = $result->getAllRates())
-                && count($rates)>0
-                && $rates[0] instanceof Mage_Shipping_Model_Rate_Result_Method) {
-                $price = $rates[0]->getPrice();
+            if ($result && ($rates = $result->getAllRates()) && count($rates)>0) {
+                if ((count($rates) == 1) && ($rates[0] instanceof Mage_Shipping_Model_Rate_Result_Method)) {
+                    $price = $rates[0]->getPrice();
+                }
+                if (count($rates) > 1) {
+                    foreach ($rates as $rate) {
+                    	if ($rate instanceof Mage_Shipping_Model_Rate_Result_Method && $rate->getMethod() == $freeMethod) {
+                            $price = $rate->getPrice();
+                    	}
+                    }
+                }
             }
         }
         $this->_result->getRateById($freeRateId)->setPrice($price);
