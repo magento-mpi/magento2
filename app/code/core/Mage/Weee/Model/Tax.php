@@ -44,6 +44,10 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
 
     public function getWeeeTaxAttributeCodes()
     {
+        if (!Mage::helper('weee')->isEnabled()) {
+            return array();
+        }
+
         if (is_null($this->_allAttributes)) {
             $this->_allAttributes = Mage::getModel('eav/entity_attribute')->getAttributeCodesByFrontendType('weee');
         }
