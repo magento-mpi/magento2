@@ -159,9 +159,9 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
                 }
                 if (count($rates) > 1) {
                     foreach ($rates as $rate) {
-                    	if ($rate instanceof Mage_Shipping_Model_Rate_Result_Method && $rate->getMethod() == $freeMethod) {
+                        if ($rate instanceof Mage_Shipping_Model_Rate_Result_Method && $rate->getMethod() == $freeMethod) {
                             $price = $rate->getPrice();
-                    	}
+                        }
                     }
                 }
             }
@@ -242,7 +242,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
         $this->_numBoxes = 1;
         $weight = $this->convertWeightToLbs($weight);
         $maxPackageWeight = $this->getConfigData('max_package_weight');
-        if($weight > $maxPackageWeight) {
+        if($weight > $maxPackageWeight && $maxPackageWeight != 0) {
             $this->_numBoxes = ceil($weight/$maxPackageWeight);
             $weight = $weight/$this->_numBoxes;
         }
