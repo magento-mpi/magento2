@@ -108,14 +108,14 @@ class Mage_Core_Model_Translate
      * @param   string $area
      * @return  Mage_Core_Model_Translate
      */
-    public function init($area)
+    public function init($area, $forceReload = false)
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
 
         $this->_translateInline = Mage::getSingleton('core/translate_inline')
             ->isAllowed($area=='adminhtml' ? 'admin' : null);
-
-        if ($this->_data = $this->_loadCache()) {
+        
+        if ($this->_data = $this->_loadCache() && !$forceReload) {
             if ($this->_canUseCache()) {
                 return $this;
             }
@@ -126,13 +126,13 @@ class Mage_Core_Model_Translate
 
         foreach ($this->getModulesConfig() as $moduleName=>$info) {
             $info = $info->asArray();
-            $this->_loadModuleTranslation($moduleName, $info['files']);
+            $this->_loadModuleTranslation($moduleName, $info['files'], $forceReload);
         }
+        
+        $this->_loadThemeTranslation($forceReload);
+        $this->_loadDbTranslation($forceReload);
 
-        $this->_loadThemeTranslation();
-        $this->_loadDbTranslation();
-
-        if ($this->_canUseCache()) {
+        if ($this->_canUseCache() && !$forceReload) {
             $this->_saveCache();
         }
 
@@ -202,11 +202,11 @@ class Mage_Core_Model_Translate
      * @param   string $files
      * @return  Mage_Core_Model_Translate
      */
-    protected function _loadModuleTranslation($moduleName, $files)
+    protected function _loadModuleTranslation($moduleName, $files, $forceReload=false)
     {
         foreach ($files as $file) {
             $file = $this->_getModuleFilePath($moduleName, $file);
-            $this->_addData($this->_getFileData($file), $moduleName);
+            $this->_addData($this->_getFileData($file), $moduleName, $forceReload);
         }
         return $this;
     }
@@ -218,12 +218,12 @@ class Mage_Core_Model_Translate
      * @param string $scope
      * @return Mage_Core_Model_Translate
      */
-    protected function _addData($data, $scope)
+    protected function _addData($data, $scope, $forceReload=false)
     {
         foreach ($data as $key => $value) {
             $key    = $this->_prepareDataString($key);
             $value  = $this->_prepareDataString($value);
-            if ($scope && isset($this->_dataScope[$key])) {
+            if ($scope && isset($this->_dataScope[$key]) && !$forceReload ) {
                 /**
                  * Checking previos value
                  */
@@ -255,10 +255,10 @@ class Mage_Core_Model_Translate
      *
      * @return Mage_Core_Model_Translate
      */
-    protected function _loadThemeTranslation()
+    protected function _loadThemeTranslation($forceReload = false)
     {
         $file = Mage::getDesign()->getLocaleFileName('translate.csv');
-        $this->_addData($this->_getFileData($file), false);
+        $this->_addData($this->_getFileData($file), false, $forceReload);
         return $this;
     }
 
@@ -267,10 +267,10 @@ class Mage_Core_Model_Translate
      *
      * @return Mage_Core_Model_Translate
      */
-    protected function _loadDbTranslation()
+    protected function _loadDbTranslation($forceReload = false)
     {
         $arr = $this->getResource()->getTranslationArray();
-        $this->_addData($arr, $this->getConfig(self::CONFIG_KEY_STORE));
+        $this->_addData($arr, $this->getConfig(self::CONFIG_KEY_STORE), $forceReload);
         return $this;
     }
 
@@ -331,7 +331,13 @@ class Mage_Core_Model_Translate
         }
         return $this->_locale;
     }
-
+    
+    public function setLocale( $locale )
+    {
+        $this->_locale = $locale;
+        return $this;
+    }
+    
     /**
      * Retrieve DB resource model
      *
