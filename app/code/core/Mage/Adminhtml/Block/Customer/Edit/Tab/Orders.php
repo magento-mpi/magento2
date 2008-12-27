@@ -64,7 +64,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Orders extends Mage_Adminhtml_Block
 
             ->addAttributeToFilter('customer_id', Mage::registry('current_customer')->getEntityId())
         ;
-        $collection->load(true);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
