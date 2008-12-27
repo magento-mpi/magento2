@@ -342,6 +342,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         Mage::getSingleton('checkout/session')
             ->setLastQuoteId($quote->getId())
             ->setLastOrderId($order->getId())
+            ->setLastSuccessQuoteId($quote->getId())
             ->setLastRealOrderId($order->getIncrementId());
 
         if ($emailAllowed) {
