@@ -73,13 +73,14 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     /**
      * Retrieve collection of suggest queries
      *
-     * @return Varien_Data_Collection_Db
+     * @return Mage_CatalogSearch_Model_Mysql4_Query_Collection
      */
     public function getSuggestCollection()
     {
         $collection = $this->getData('suggest_collection');
         if (is_null($collection)) {
             $collection = Mage::getResourceModel('catalogsearch/query_collection')
+                ->setStoreId($this->getStoreId())
                 ->setQueryFilter($this->getQueryText());
             $this->setData('suggest_collection', $collection);
         }
