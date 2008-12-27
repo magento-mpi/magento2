@@ -37,14 +37,14 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return $amount;
     }
 
-    public function getWeeeAttributeCodes()
+    public function getWeeeAttributeCodes($forceEnabled = false)
     {
-        return $this->getWeeeTaxAttributeCodes();
+        return $this->getWeeeTaxAttributeCodes($forceEnabled);
     }
 
-    public function getWeeeTaxAttributeCodes()
+    public function getWeeeTaxAttributeCodes($forceEnabled = false)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        if (!$forceEnabled && !Mage::helper('weee')->isEnabled()) {
             return array();
         }
 
