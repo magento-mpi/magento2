@@ -151,7 +151,7 @@ var linkTemplate = '<tr>' +
             '<input type="hidden" class="validate-downloadable-file" id="downloadable_link_{{id}}_file_save" name="downloadable[link][{{id}}][file]" value="{{file_save}}" />' +
             '<div id="downloadable_link_{{id}}_file" class="uploader">' +
                 '<div id="downloadable_link_{{id}}_file-old" class="file-row-info"></div>' +
-                '<div id="downloadable_link_{{id}}_file-new" class="file-row-info"></div>' +
+                '<div id="downloadable_link_{{id}}_file-new" class="file-row-info new-file"></div>' +
                 '<div class="buttons">' +
                     '<div id="downloadable_link_{{id}}_file-install-flash" style="display:none">' +
                         '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +
@@ -176,6 +176,7 @@ var linkItems = {
     templateText : linkTemplate,
     itemCount : 0,
     add : function(data) {
+        alertAlreadyDisplayed = false;
         this.template = new Template(this.templateText, this.templateSyntax);
 
         if(!data.link_id){
@@ -298,6 +299,7 @@ var linkItems = {
     },
     remove : function(event){
         var element = $(Event.findElement(event, 'tr'));
+        alertAlreadyDisplayed = false;
         if(element){
             element.down('input[type="hidden"].__delete__').value = '1';
             element.addClassName('no-display');

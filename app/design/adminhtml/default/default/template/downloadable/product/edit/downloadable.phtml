@@ -196,21 +196,23 @@ Downloadable.FileList.prototype = {
     }
 }
 
-var alertDisaplyCount = false;
+var alertAlreadyDisplayed = false;
 
 Validation.addAllThese([
-    ['validate-downloadable-file', 'Please specify File.', function(v,element) {
+    ['validate-downloadable-file', 'Please upload a file.', function(v,element) {
             linkType = element.up(0).down('input[value="file"]');
             if (linkType.checked && (v == '' || v == '[]')) {
-                if (!alertDisaplyCount) {
-//                    alertDisaplyCount = true;
-//                    alert('asdf');
+                newFileContainer = element.up(0).down('div.new-file');
+                if (!alertAlreadyDisplayed && (newFileContainer.empty() || newFileContainer.style.display != 'none')) {
+                    alertAlreadyDisplayed = true;
+                    alert('There are files that were selected but not uploaded yet. Please upload or remove them first');
                 }
                 return false;
             }
             return true;
         }]
     ]);
+
 Validation.addAllThese([
     ['validate-downloadable-url', 'Please specify Url.', function(v,element) {
             linkType = element.up(0).down('input[value="url"]');

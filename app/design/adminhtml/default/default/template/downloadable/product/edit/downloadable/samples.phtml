@@ -96,7 +96,7 @@ var sampleTemplate = '<tr>' +
                                 '<input type="hidden" class="validate-downloadable-file" id="downloadable_sample_{{id}}_file_save" name="downloadable[sample][{{id}}][file]" value="{{file_save}}" />' +
                                 '<div id="downloadable_sample_{{id}}_file" class="uploader">' +
                                     '<div id="downloadable_sample_{{id}}_file-old" class="file-row-info"></div>' +
-                                    '<div id="downloadable_sample_{{id}}_file-new" class="file-row-info"></div>' +
+                                    '<div id="downloadable_sample_{{id}}_file-new" class="file-row-info new-file"></div>' +
                                     '<div class="buttons">' +
                                         '<div id="downloadable_sample_{{id}}_file-install-flash" style="display:none">' +
                                             '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>' +
@@ -120,6 +120,7 @@ var sampleItems = {
     templateText : sampleTemplate,
     itemCount : 0,
     add : function(data) {
+        alertAlreadyDisplayed = false;
         this.template = new Template(this.templateText, this.templateSyntax);
 
         if(!data.sample_id){
@@ -163,6 +164,8 @@ var sampleItems = {
         sampleUrl.advaiceContainer = 'downloadable_sample_'+data.id+'_container';
         sampleFile = $('downloadable_sample_'+data.id+'_file_type');
         sampleFile.advaiceContainer = 'downloadable_sample_'+data.id+'_container';
+        $('downloadable_sample_'+data.id+'_file_save').advaiceContainer = 'downloadable_sample_'+data.id+'_container';
+//        $('downloadable_sample_'+data.id+'_file_save').advaiceContainer = 'custom-advice-container';
         if (data.sample_type == 'url') {
             sampleUrl.checked = true;
         } else if (data.sample_type == 'file') {
@@ -174,6 +177,7 @@ var sampleItems = {
     },
     remove : function(event){
         var element = $(Event.findElement(event, 'tr'));
+        alertAlreadyDisplayed = false;
         if(element){
             element.down('input[type="hidden"].__delete__').value = '1';
             element.addClassName('no-display');
