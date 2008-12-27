@@ -75,7 +75,7 @@ class Mage_Core_Model_Translate
      *
      * @var array
      */
-    protected $_data;
+    protected $_data = array();
 
     /**
      * Translation data for data scope (per module)
@@ -114,8 +114,8 @@ class Mage_Core_Model_Translate
 
         $this->_translateInline = Mage::getSingleton('core/translate_inline')
             ->isAllowed($area=='adminhtml' ? 'admin' : null);
-        
-        if ($this->_data = $this->_loadCache() && !$forceReload) {
+
+        if (($this->_data = $this->_loadCache()) && !$forceReload) {
             if ($this->_canUseCache()) {
                 return $this;
             }
@@ -128,7 +128,7 @@ class Mage_Core_Model_Translate
             $info = $info->asArray();
             $this->_loadModuleTranslation($moduleName, $info['files'], $forceReload);
         }
-        
+
         $this->_loadThemeTranslation($forceReload);
         $this->_loadDbTranslation($forceReload);
 
@@ -331,13 +331,13 @@ class Mage_Core_Model_Translate
         }
         return $this->_locale;
     }
-    
+
     public function setLocale( $locale )
     {
         $this->_locale = $locale;
         return $this;
     }
-    
+
     /**
      * Retrieve DB resource model
      *
