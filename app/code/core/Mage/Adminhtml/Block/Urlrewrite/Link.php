@@ -25,41 +25,24 @@
  */
 
 /**
- * Block for Urlrewrites grid container
+ * Label & link block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Urlrewrite_Link extends Mage_Core_Block_Abstract
 {
     /**
-     * Part for generating apropriate grid block name
+     * Render output
      *
-     * @var string
-     */
-    protected $_controller = 'urlrewrite';
-
-    /**
-     * Set custom labels and headers
-     *
-     */
-    public function __construct()
-    {
-        $this->_headerText = Mage::helper('adminhtml')->__('Url Rewrite Management');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Urlrewrite');
-        parent::__construct();
-    }
-
-    /**
-     * Customize grid row URLs
-     *
-     * @see Mage_Adminhtml_Block_Urlrewrite_Selector
      * @return string
      */
-    public function getCreateUrl()
+    protected function _toHtml()
     {
-        $modes = array_keys(Mage::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
-        return $this->getUrl('*/*/edit') . array_shift($modes);
+        if ($this->getItem()) {
+            return '<p>' . $this->getLabel() . ' <a href="' . $this->getItemUrl() . '">'
+                . $this->htmlEscape($this->getItem()->getName()) . '</a></p>';
+        }
     }
 }

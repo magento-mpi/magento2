@@ -25,41 +25,64 @@
  */
 
 /**
- * Block for Urlrewrites grid container
+ * Modes selector for Urlrewrites modes
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
 {
     /**
-     * Part for generating apropriate grid block name
+     * List of available modes from source model
+     * key => label
      *
-     * @var string
+     * @var array
      */
-    protected $_controller = 'urlrewrite';
+    protected $_modes;
 
     /**
-     * Set custom labels and headers
+     * Set block template and get available modes
      *
      */
     public function __construct()
     {
-        $this->_headerText = Mage::helper('adminhtml')->__('Url Rewrite Management');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Urlrewrite');
-        parent::__construct();
+        $this->setTemplate('urlrewrite/selector.phtml');
+        $this->_modes = array(
+            'category' => Mage::helper('adminhtml')->__('For category'),
+            'product'  => Mage::helper('adminhtml')->__('For product'),
+            'id'       => Mage::helper('adminhtml')->__('Custom'),
+        );
     }
 
     /**
-     * Customize grid row URLs
+     * Available modes getter
      *
-     * @see Mage_Adminhtml_Block_Urlrewrite_Selector
-     * @return string
+     * @return array
      */
-    public function getCreateUrl()
+    public function getModes()
     {
-        $modes = array_keys(Mage::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
-        return $this->getUrl('*/*/edit') . array_shift($modes);
+        return $this->_modes;
+    }
+
+    /**
+     * Label getter
+     *
+     * @return array
+     */
+    public function getSelectorLabel()
+    {
+        return Mage::helper('adminhtml')->__('Create Urlrewrite:');
+    }
+
+    /**
+     * Check whether selection is in specified mode
+     *
+     * @param string $mode
+     * @return bool
+     */
+    public function isMode($mode)
+    {
+        return $this->getRequest()->has($mode);
     }
 }
