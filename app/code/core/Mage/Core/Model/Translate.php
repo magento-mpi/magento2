@@ -115,7 +115,7 @@ class Mage_Core_Model_Translate
         $this->_translateInline = Mage::getSingleton('core/translate_inline')
             ->isAllowed($area=='adminhtml' ? 'admin' : null);
 
-        if (($this->_data = $this->_loadCache()) && !$forceReload) {
+        if (!$forceReload && ($this->_data = $this->_loadCache())) {
             if ($this->_canUseCache()) {
                 return $this;
             }
@@ -132,7 +132,7 @@ class Mage_Core_Model_Translate
         $this->_loadThemeTranslation($forceReload);
         $this->_loadDbTranslation($forceReload);
 
-        if ($this->_canUseCache() && !$forceReload) {
+        if (!$forceReload && $this->_canUseCache()) {
             $this->_saveCache();
         }
 
