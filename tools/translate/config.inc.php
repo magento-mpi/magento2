@@ -294,6 +294,11 @@ $CONFIG['translates'] = array(
     'Mage_Usa' => array(
         'app/code/core/Mage/Usa/',
     ),
+    'Mage_Weee' => array(
+        'app/code/core/Mage/Weee/',
+        'app/design/frontend/default/default/template/weee/',
+        'app/design/frontend/default/default/layout/weee.xml',
+    ),
     'Mage_Wishlist' => array(
         'app/code/core/Mage/Wishlist/',
         'app/design/frontend/default/default/template/wishlist/',
@@ -364,5 +369,6 @@ $CONFIG['helpers']  = array(
     'tag'               => 'Mage_Tag',
     'tax'               => 'Mage_Tax',
     'usa'               => 'Mage_Usa',
+    'weee'              => 'Mage_Weee',
     'wishlist'          => 'Mage_Wishlist',
 );
