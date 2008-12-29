@@ -39,6 +39,7 @@ if(!window.Flex) {
         onFilesComplete: false,
         onFileProgress: true,
         onFileRemove: false,
+        onContainerHideBefore:null,
         initialize: function(containerId, uploaderSrc, config) {
             this.containerId = containerId;
             this.container   = $(containerId);
@@ -85,7 +86,7 @@ if(!window.Flex) {
                 // this.getInnerElement('upload').hide();
                 this.getInnerElement('install-flash').show();
             }
-
+            this.onContainerHideBefore = this.handleContainerHideBefore.bind(this);
         },
         getInnerElement: function(elementName) {
             return $(this.containerId + '-' + elementName);
@@ -135,6 +136,15 @@ if(!window.Flex) {
             if (this.onFileRemove) {
                 this.onFileRemove(id);
             }
+            this.files = this.uploader.getFilesInfo();
+            this.updateFiles();
+        },
+        removeAllFiles: function() {
+            this.files.each(function(file) {
+                this.removeFile(file.id);
+            }.bind(this));
+            this.files = this.uploader.getFilesInfo();
+            this.updateFiles();
         },
         handleSelect: function (event) {
             this.files = event.getData().files;
@@ -335,6 +345,23 @@ if(!window.Flex) {
             }
 
             return error;
+        },
+        handleContainerHideBefore: function(container) {
+            if (container && Element.descendantOf(this.container, container) && !this.checkAllComplete()) {
+                if (! confirm('There are files that were selected but not uploaded yet. After switching to another tab you selections will be lost. Continue ?')) {
+                    return 'cannotchange';
+                } else {
+                    this.removeAllFiles();
+                }
+            }
+        },
+        checkAllComplete: function() {
+            if (this.files) {
+                return !this.files.any(function(file) {
+                    return (file.status !== 'full_complete')
+                });
+            }
+            return true;
         }
     }
 }
