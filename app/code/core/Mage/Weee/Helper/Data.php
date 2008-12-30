@@ -178,6 +178,13 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
 
+        /**
+         * if order item data is old enough then weee_tax_applied cab be
+         * not valid serialized data
+         */
+        if (empty($item->getWeeeTaxApplied())){
+            return array();
+        }
         return unserialize($item->getWeeeTaxApplied());
     }
 
