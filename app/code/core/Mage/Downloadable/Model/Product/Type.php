@@ -324,4 +324,19 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         return $options;
     }
 
+    /**
+     * Add filter by links_purchased_separately attribute to product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection Product Collection
+     * @param boolean $purchasedSeparately Whether links can be purchased separately or not
+     * @return Mage_Downloadable_Model_Product_Type
+     */
+    public function addPurchasedFilterToProductCollection($collection, $purchasedSeparately = false)
+    {
+        $collection->addAttributeToFilter('links_purchased_separately',
+            array(array('eq'=>(int)$purchasedSeparately), array('null'=>true)),
+            'left');
+
+        return $this;
+    }
 }
