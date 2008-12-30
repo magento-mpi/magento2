@@ -271,6 +271,16 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Retrieve cookie object
+     *
+     * @return Mage_Core_Model_Cookie
+     */
+    public function getCookie()
+    {
+        return Mage::getSingleton('core/cookie');
+    }
+
+    /**
      * Check get store
      *
      * @return Mage_Core_Model_App
@@ -280,6 +290,10 @@ class Mage_Core_Model_App
         if (empty($_GET)) {
             return $this;
         }
+
+        /**
+         * @todo check XML_PATH_STORE_IN_URL
+         */
 
         if (!isset($_GET['___store'])) {
             return $this;
@@ -311,9 +325,7 @@ class Mage_Core_Model_App
         }
 
         if ($this->_currentStore == $store) {
-            $cookie = Mage::getSingleton('core/cookie');
-            /* @var $cookie Mage_Core_Model_Cookie */
-            $cookie->set('store', $this->_currentStore);
+            $this->getCookie()->set('store', $this->_currentStore, true);
         }
         return $this;
     }
@@ -326,13 +338,11 @@ class Mage_Core_Model_App
      */
     protected function _checkCookieStore($type)
     {
-        if (empty($_COOKIE)) {
+        if (!$this->getCookie()->get()) {
             return $this;
         }
-        $cookie = Mage::getSingleton('core/cookie');
-        /* @var $cookie Mage_Core_Model_Cookie */
 
-        $store  = $cookie->get('store');
+        $store  = $this->getCookie()->get('store');
         if ($store && isset($this->_stores[$store])
             && $this->_stores[$store]->getId()
             && $this->_stores[$store]->getIsActive()) {

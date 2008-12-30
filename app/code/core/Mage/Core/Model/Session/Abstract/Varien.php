@@ -61,23 +61,31 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 break;
         }
 
-        if (intval($this->getCookieLifetime()) > 0) {
-            ini_set('session.gc_maxlifetime', $this->getCookieLifetime());
-            ini_set('session.cookie_lifetime', $this->getCookieLifetime());
-        } else {
-            /*
-            * if cookie life time is empty or 0, we put 0
-            * session will be time out when we close the browser
-            */
-            ini_set('session.gc_maxlifetime', 3600);
-            ini_set('session.cookie_lifetime', 3600);
-        }
-        if (!is_null($this->getCookiePath())) {
-            ini_set('session.cookie_path', $this->getCookiePath());
-        }
-        if (!is_null($this->getCookieDomain()) && strpos($this->getCookieDomain(), '.')!==false) {
-            ini_set('session.cookie_domain', $this->getCookieDomain());
-        }
+//        if (intval($this->getCookieLifetime()) > 0) {
+//            ini_set('session.gc_maxlifetime', $this->getCookieLifetime());
+//            ini_set('session.cookie_lifetime', $this->getCookieLifetime());
+//        } else {
+//            /*
+//            * if cookie life time is empty or 0, we put 0
+//            * session will be time out when we close the browser
+//            */
+//            ini_set('session.gc_maxlifetime', 3600);
+//            ini_set('session.cookie_lifetime', 3600);
+//        }
+//        if (!is_null($this->getCookiePath())) {
+//            ini_set('session.cookie_path', $this->getCookiePath());
+//        }
+//        if (!is_null($this->getCookieDomain()) && strpos($this->getCookieDomain(), '.')!==false) {
+//            ini_set('session.cookie_domain', $this->getCookieDomain());
+//        }
+
+        session_set_cookie_params(
+            $this->getCookie()->getLifetime(),
+            $this->getCookie()->getPath(),
+            $this->getCookie()->getDomain(),
+            $this->getCookie()->isSecure(),
+            $this->getCookie()->getHttponly()
+        );
 
         if (!empty($sessionName)) {
             session_name($sessionName);
@@ -99,6 +107,16 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         return $this;
     }
 
+    /**
+     * Retrieve cookie object
+     *
+     * @return Mage_Core_Model_Cookie
+     */
+    public function getCookie()
+    {
+        return Mage::getSingleton('core/cookie');
+    }
+
     public function revalidateCookie()
     {
         if (empty($this->_data['_cookie_revalidate'])) {
@@ -108,13 +126,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         else {
             if ($this->_data['_cookie_revalidate'] < time()) {
                 if (!headers_sent()) {
-                    setcookie(
-                        session_name(),
-                        session_id(),
-                        time() + ini_get('session.gc_maxlifetime'),
-                        ini_get('session.cookie_path'),
-                        ini_get('session.cookie_domain')
-                    );
+                    $this->getCookie()->set(session_name(), session_id());
 
                     $time = time() + round(ini_get('session.gc_maxlifetime') / 4);
                     $this->_data['_cookie_revalidate'] = $time;
@@ -257,16 +269,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         }
         else {
             if (!$this->_validate()) {
-                if (!headers_sent()) {
-                    // remove session cookie
-                    setcookie(
-                        session_name(),
-                        null,
-                        null,
-                        ini_get('session.cookie_path'),
-                        ini_get('session.cookie_domain')
-                    );
-                }
+                $this->getCookie()->delete(session_name());
                 // throw core session exception
                 throw new Mage_Core_Model_Session_Exception('');
             }
@@ -297,6 +300,13 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         if ($this->useValidateHttpUserAgent()
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
             && !in_array($validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY], $this->getValidateHttpUserAgentSkip())) {
+//            print '<pre>';
+//            var_dump(
+//                $this->useValidateHttpUserAgent(),
+//                $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY],
+//                $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY],
+//                $this->getValidateHttpUserAgentSkip());
+//            die();
             return false;
         }
 
