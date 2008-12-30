@@ -117,7 +117,7 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
 
     protected function _getFileTypeByExt($ext)
     {
-        $type = Mage::getConfig()->getNode('mime/types/x' . $ext);
+        $type = Mage::getConfig()->getNode('global/mime/types/x' . $ext);
         if ($type) {
             return $type;
         }
