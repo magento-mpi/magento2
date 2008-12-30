@@ -124,7 +124,7 @@ class Mage_Downloadable_Model_Observer
         $session = Mage::getSingleton('checkout/session');
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
-            foreach ($order->getAllVisibleItems() as $item) {
+            foreach ($order->getAllItems() as $item) {
                 if ($item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
                     $session->setHasDownloadableProducts(true);
                     break;

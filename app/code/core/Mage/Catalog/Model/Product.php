@@ -304,7 +304,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         $hasOptions         = false;
         $hasRequiredOptions = false;
-        $this->canAffectOptions($this->_canAffectOptions && $this->getCanSaveCustomOptions());
+
+        $this->canAffectOptions($this->_canAffectOptions || $this->getCanSaveCustomOptions());
         if ($this->getCanSaveCustomOptions()) {
             $options = $this->getProductOptions();
             if (is_array($options)) {
@@ -340,7 +341,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setHasOptions(false);
             $this->setRequiredOptions(false);
         }
-
         parent::_beforeSave();
     }
 

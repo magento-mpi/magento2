@@ -414,10 +414,19 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
                     $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
 
-                    $subProduct->setParentProductId($product->getId())
+                    $_result = $subProduct->getTypeInstance()->prepareForCart($buyRequest);
+                    if (is_string($_result) && !is_array($_result)) {
+                        return $_result;
+                    }
+
+                    if (!isset($_result[0])) {
+                        return Mage::helper('checkout')->__('Can not add item to shopping cart');
+                    }
+
+                    $_result[0]->setParentProductId($product->getId())
                         ->setCartQty(1);
 
-                    $result[] = $subProduct;
+                    $result[] = $_result[0];
 
                     return $result;
                 }

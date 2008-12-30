@@ -509,14 +509,23 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 );
 
                 //if (!$product->getPriceType()) {
-                $result[] = $selection->setParentProductId($product->getId())
+                $_result = $selection->getTypeInstance()->prepareForCart($buyRequest);
+                if (is_string($_result) && !is_array($_result)) {
+                    return $_result;
+                }
+
+                if (!isset($_result[0])) {
+                    return Mage::helper('checkout')->__('Can not add item to shopping cart');
+                }
+
+                $result[] = $_result[0]->setParentProductId($product->getId())
                     ->addCustomOption('bundle_option_ids', serialize($optionIds))
                     ->addCustomOption('bundle_selection_attributes', serialize($attributes))
                     ->setCartQty($qty);
                 //}
 
-                $selectionIds[] = $selection->getSelectionId();
-                $uniqueKey[] = $selection->getSelectionId();
+                $selectionIds[] = $_result[0]->getSelectionId();
+                $uniqueKey[] = $_result[0]->getSelectionId();
                 $uniqueKey[] = $qty;
             }
             /**

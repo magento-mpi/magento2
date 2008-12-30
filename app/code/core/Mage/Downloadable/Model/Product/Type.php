@@ -78,8 +78,21 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function hasOptions()
     {
-        return true;
+        //return true;
         return $this->getProduct()->getLinksPurchasedSeparately() || parent::hasOptions();
+    }
+
+    /**
+     * Check if product has required options
+     *
+     * @return bool
+     */
+    public function hasRequiredOptions()
+    {
+        if (parent::hasRequiredOptions() || $this->getProduct()->getLinksPurchasedSeparately()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -137,7 +150,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             if (isset($data['sample'])) {
                 $_deleteItems = array();
                 foreach ($data['sample'] as $sampleItem) {
-//                    Zend_Debug::dump($sampleItem);die();
                     if ($sampleItem['is_delete'] == '1') {
                         if ($sampleItem['sample_id']) {
                             $_deleteItems[] = $sampleItem['sample_id'];
@@ -324,19 +336,25 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         return $options;
     }
 
-    /**
-     * Add filter by links_purchased_separately attribute to product collection
-     *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection Product Collection
-     * @param boolean $purchasedSeparately Whether links can be purchased separately or not
-     * @return Mage_Downloadable_Model_Product_Type
-     */
-    public function addPurchasedFilterToProductCollection($collection, $purchasedSeparately = false)
-    {
-        $collection->addAttributeToFilter('links_purchased_separately',
-            array(array('eq'=>(int)$purchasedSeparately), array('null'=>true)),
-            'left');
 
-        return $this;
+
+    /**
+     * Setting flag if dowenloadable product can be or not in complex product
+     * based on link can be purchased separately or not
+     *
+     */
+    public function beforeSave()
+    {
+        parent::beforeSave();
+
+        $this->getProduct()->canAffectOptions(true);
+
+        if ($this->getLinkSelectionRequired()) {
+            $this->getProduct()->setTypeHasOptions(true);
+            $this->getProduct()->setTypeHasRequiredOptions(true);
+        } else {
+            $this->getProduct()->setTypeHasOptions(false);
+            $this->getProduct()->setTypeHasRequiredOptions(false);
+        }
     }
 }
