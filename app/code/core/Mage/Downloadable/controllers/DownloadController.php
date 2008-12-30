@@ -171,7 +171,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
                 $this->_getCustomerSession()->setBeforeAuthUrl(Mage::getUrl('downloadable/customer/products/'), array('_secure' => true));
                 return ;
             }
-            $linkPurchased = Mage::getModel('downloadable/link_purchased')->load($linkPurchasedItem);
+            $linkPurchased = Mage::getModel('downloadable/link_purchased')->load($linkPurchasedItem->getPurchasedId());
             if ($linkPurchased->getCustomerId() != $customerId) {
                 $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__("Requested link doesn't exist."));
                 return $this->_redirect('*/customer/products');
