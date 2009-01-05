@@ -505,6 +505,8 @@ Product.OptionsPrice.prototype = {
         this.optionPrices = {};
         this.containers = {};
 
+        this.displayZeroPrice   = true;
+
         this.initPrices();
     },
 
@@ -601,7 +603,13 @@ Product.OptionsPrice.prototype = {
                 }
 
                 if (price < 0) price = 0;
-                formattedPrice = this.formatPrice(price);
+
+                if (price > 0 || this.displayZeroPrice) {
+                    formattedPrice = this.formatPrice(price);
+                } else {
+                    formattedPrice = '';
+                }
+
                 if ($(pair.value).select('.price')[0]) {
                     $(pair.value).select('.price')[0].innerHTML = formattedPrice;
                     if ($(pair.value+this.duplicateIdSuffix) && $(pair.value+this.duplicateIdSuffix).select('.price')[0]) {
