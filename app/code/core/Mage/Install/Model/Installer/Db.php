@@ -56,11 +56,11 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
 
         try {
             $connection = Mage::getSingleton('core/resource')->createConnection('install', $this->_getConnenctionType(), $config);
-            $variables  = $connection->fetchPairs("SHOW VARIABLES WHERE `Variable_Name` LIKE 'have_innodb' OR `Variable_Name` LIKE 'version'");
+            $variables  = $connection->fetchPairs("SHOW VARIABLES");
 
             $version = isset($variables['version']) ? $variables['version'] : 'undefined';
             $match = array();
-            if (preg_match("([0-9\.]+)", $version, $match)) {
+            if (preg_match("#^([0-9\.]+)#", $version, $match)) {
                 $version = $match[0];
             }
             $requiredVersion = (string)Mage::getSingleton('install/config')->getNode('check/mysql/version');
