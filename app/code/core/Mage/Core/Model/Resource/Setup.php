@@ -296,8 +296,11 @@ class Mage_Core_Model_Resource_Setup
             $modifyVersion = $resourceFile['toVersion'];
         }
 
-        if ($modifyVersion != $toVersion) {
+        if ($actionType == 'upgrade' && $modifyVersion != $toVersion) {
             Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
+        }
+        else {
+            $toVersion = $modifyVersion;
         }
 
         self::$_hadUpdates = true;
