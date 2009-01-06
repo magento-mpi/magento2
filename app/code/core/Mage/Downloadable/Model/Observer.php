@@ -145,25 +145,41 @@ class Mage_Downloadable_Model_Observer
         $order = $observer->getEvent()->getOrder();
         /** @var $order Mage_Sales_Model_Order */
         $status = '';
-        $orderStatusToEnable = Mage::getStoreConfig(Mage_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_STATUS);
+        $orderItemsIds = array();
+        $orderItemStatusToEnable = Mage::getStoreConfig(Mage_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS);
         if ($order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
             $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING;
         } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED
             || $order->getState() == Mage_Sales_Model_Order::STATE_CLOSED) {
             $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED;
-        } elseif ($order->getStatus() == $orderStatusToEnable) {
-            $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE;
-        }
-        if ($status) {
-            $orderItemsIds = array();
+        } else {
             foreach ($order->getAllItems() as $item) {
-                $orderItemsIds[] = $item->getId();
+                if ($item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+                    if ($item->getStatusId() == $orderItemStatusToEnable) {
+                        $orderItemsIds[] = $item->getId();
+                    }
+                }
             }
+            if ($orderItemsIds) {
+                $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE;
+            }
+        }
+        if (!$orderItemsIds && $status) {
+            foreach ($order->getAllItems() as $item) {
+                if ($item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+                    $orderItemsIds[] = $item->getId();
+                }
+            }
+        }
+
+        if ($orderItemsIds) {
             $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_item_collection')
-                ->addFieldToFilter('order_item_id', array('in'=>$orderItemsIds));
+                    ->addFieldToFilter('order_item_id', array('in'=>$orderItemsIds));
             foreach ($linkPurchased as $link) {
-                $link->setStatus($status);
-                $link->save();
+                if ($link->getStatus() != Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
+                    $link->setStatus($status)
+                        ->save();
+                }
             }
         }
         return $this;

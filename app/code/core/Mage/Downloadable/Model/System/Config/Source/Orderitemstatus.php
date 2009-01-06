@@ -25,28 +25,25 @@
  */
 
 /**
- * Downloadable links purchased item model
+ * Downloadable Order Item Status Source
  *
  * @category    Mage
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Link_Purchased_Item extends Mage_Core_Model_Abstract
+class Mage_Downloadable_Model_System_Config_Source_Orderitemstatus
 {
-    const XML_PATH_ORDER_ITEM_STATUS = 'catalog/downloadable/order_item_status';
-
-    const LINK_STATUS_PENDING   = 'pending';
-    const LINK_STATUS_AVAILABLE = 'available';
-    const LINK_STATUS_EXPIRED   = 'expired';
-
-    /**
-     * Enter description here...
-     *
-     */
-    protected function _construct()
+    public function toOptionArray()
     {
-        $this->_init('downloadable/link_purchased_item');
-        parent::_construct();
+        return array(
+            array(
+                'value' => Mage_Sales_Model_Order_Item::STATUS_PENDING,
+                'label' => Mage::helper('downloadable')->__('Pending')
+            ),
+            array(
+                'value' => Mage_Sales_Model_Order_Item::STATUS_INVOICED,
+                'label' => Mage::helper('downloadable')->__('Invoiced')
+            )
+        );
     }
-
 }
