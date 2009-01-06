@@ -86,6 +86,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setName('product[links_purchased_separately]')
+            ->setId('downloadable_link_purchase_type')
             ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray())
             ->setValue($this->getProduct()->getLinksPurchasedSeparately());
 

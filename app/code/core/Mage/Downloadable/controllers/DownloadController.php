@@ -97,6 +97,8 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $sampleId = $this->getRequest()->getParam('sample_id', 0);
         $sample = Mage::getModel('downloadable/sample')->load($sampleId);
         if ($sample->getId()) {
+            $resource = '';
+            $resourceType = '';
             if ($sample->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_URL) {
                 $resource = $sample->getSampleUrl();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
@@ -125,6 +127,8 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $linkId = $this->getRequest()->getParam('link_id', 0);
         $link = Mage::getModel('downloadable/link')->load($linkId);
         if ($link->getId()) {
+            $resource = '';
+            $resourceType = '';
             if ($link->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_URL) {
                 $resource = $link->getSampleUrl();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
@@ -180,6 +184,8 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
         $downloadsLeft = $linkPurchasedItem->getNumberOfDownloadsBought() - $linkPurchasedItem->getNumberOfDownloadsUsed();
         if ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE
             && ($downloadsLeft || $linkPurchasedItem->getNumberOfDownloadsBought() == 0)) {
+            $resource = '';
+            $resourceType = '';
             if ($linkPurchasedItem->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_URL) {
                 $resource = $linkPurchasedItem->getLinkUrl();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
