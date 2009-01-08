@@ -654,6 +654,9 @@ class Tools_Db_Repair_Mysql4
         $this->_checkType($type);
 
         $sql = "ALTER TABLE `{$this->getTable($table, $type)}` DEFAULT CHARACTER SET={$charset}";
+        if ($collate) {
+            $sql .= " COLLATE {$collate}";
+        }
         $this->sqlQuery($sql, $type);
 
         return $this;
@@ -1293,6 +1296,7 @@ class Tools_Db_Repair_Action
      * @var array
      */
     protected $_session;
+
     /**
      * Init class
      */
@@ -1310,6 +1314,11 @@ class Tools_Db_Repair_Action
         }
     }
 
+    /**
+     * Show Configuration Page
+     *
+     * @return Tools_Db_Repair_Action
+     */
     public function configAction()
     {
         $this->_helper->printHtmlHeader();
@@ -1331,12 +1340,13 @@ class Tools_Db_Repair_Action
         $this->_helper->printHtmlFormFoot();
         $this->_helper->printHtmlFooter();
 
-
         return $this;
     }
 
     /**
+     * Show Confirmation Page
      *
+     * @return Tools_Db_Repair_Action
      */
     public function confirmAction($compare = array())
     {
@@ -1364,6 +1374,11 @@ class Tools_Db_Repair_Action
         return $this;
     }
 
+    /**
+     * Show Repair Database Page
+     *
+     * @return Tools_Db_Repair_Action
+     */
     public function repairAction()
     {
         $actionList = array(
@@ -1389,7 +1404,7 @@ class Tools_Db_Repair_Action
             else {
                 // check charset
                 if ($tableProp['charset'] != $corruptedTables[$table]['charset']) {
-                    $actionList['engine'][] = array(
+                    $actionList['charset'][] = array(
                         'msg'     => sprintf('Change charset on table "%s" from %s to %s',
                             $table,
                             $corruptedTables[$table]['charset'],
@@ -1581,11 +1596,11 @@ class Tools_Db_Repair_Action
             $this->_helper->printHtmlMessage($error, 'error');
         }
         if ($success) {
-            $this->_helper->printHtmlFieldsetHead('Different resource version');
+            $this->_helper->printHtmlFieldsetHead('Repair Log');
             $this->_helper->printHtmlList($success);
             $this->_helper->printHtmlFieldsetFoot();
         }
-        else {
+        elseif (!$error) {
             $this->_helper->printHtmlNote('Corrupted Database don\'t need changes');
         }
         $this->_helper->printHtmlContainerFoot();
@@ -1597,6 +1612,11 @@ class Tools_Db_Repair_Action
         return $this;
     }
 
+    /**
+     * Run action
+     *
+     * @return Tools_Db_Repair_Action
+     */
     public function run()
     {
         if ($this->_session['step'] == 1) {
@@ -1661,8 +1681,11 @@ class Tools_Db_Repair_Action
             }
             return $this->repairAction();
         }
+        return $this;
     }
 }
+
+@set_time_limit(0);
 
 $repairDb = new Tools_Db_Repair_Action();
 $repairDb->run();
