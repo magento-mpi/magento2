@@ -81,7 +81,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
             if (is_array($regionCode)) {
                 $this->_select->where("region.code IN ('".implode("','", $regionCode)."')");
             } else {
-                $this->_select->where("{region.code = '{$regionCode}'");
+                $this->_select->where("region.code = '{$regionCode}'");
             }
         }
         return $this;
