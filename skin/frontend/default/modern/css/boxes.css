@@ -866,7 +866,7 @@ td.attributes-col h4.title a        { font-weight:bold; }
 .checkout-types li              { clear:both;  margin-bottom:5px; }
 .cart-shipping-block h4         { margin:0; float:none; }
 .cart-collateral .input-text    { width:264px; }
-.cart-collateral select         { width:270px; }
+.cart-collateral select         { width:270px; vertical-align:top; }
 .grand_total {
     width:auto;
     margin-top:15px;
