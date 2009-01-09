@@ -92,6 +92,9 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
      */
     public function getBackUrl()
     {
+        if ($this->getRefererUrl()) {
+            return $this->getRefererUrl();
+        }
         return $this->getUrl('customer/account/');
     }
 
