@@ -260,6 +260,12 @@ tr.show-details td {}
 tr.tax-details td { background-color:#f6f6f6; }
 tr.tax-details-first td {}
 
+/* Shopping cart tax info */
+.cart-tax-info, .cart-price { padding-right:20px; }
+.cart-tax-total { cursor:pointer; }
+.cart-tax-total { padding-right:20px; background:url(../images/bg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
+.cart-tax-total-expanded { background-position:100% -52px; }
+
 /* Lists Decoration */
 li.odd {}
 li.even { background-color:#f6f6f6; }

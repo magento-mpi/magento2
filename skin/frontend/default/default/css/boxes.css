@@ -1031,8 +1031,8 @@ td.attributes-col h4.title a { font-weight:bold; }
 /* Shopping cart tax info */
 .cart-tax-info, .cart-price { padding-right:20px; }
 .cart-tax-total { cursor:pointer; }
-.cart-tax-total { padding-right:20px; background:url(../images/bg_collapse.gif) right 5px no-repeat; cursor:pointer; }
-.cart-tax-total-expanded { background-position:right -52px; }
+.cart-tax-total { padding-right:20px; background:url(../images/bg_collapse.gif) 100% 5px no-repeat; cursor:pointer; }
+.cart-tax-total-expanded { background-position:100% -52px; }
 
 
 .shopping-cart-collaterals {
