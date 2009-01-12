@@ -221,6 +221,9 @@ class Mage_Core_Model_Translate
     protected function _addData($data, $scope, $forceReload=false)
     {
         foreach ($data as $key => $value) {
+            if ($key === $value) {
+                continue;
+            }
             $key    = $this->_prepareDataString($key);
             $value  = $this->_prepareDataString($value);
             if ($scope && isset($this->_dataScope[$key]) && !$forceReload ) {
@@ -530,9 +533,13 @@ class Mage_Core_Model_Translate
         return $this;
     }
 
+    /**
+     * Check cache usage availability
+     *
+     * @return bool
+     */
     protected function _canUseCache()
     {
-        //return $this->_useCache;
         return Mage::app()->useCache('translate');
     }
 
