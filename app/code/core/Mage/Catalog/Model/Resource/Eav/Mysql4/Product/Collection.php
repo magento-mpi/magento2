@@ -283,6 +283,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             array('position'=>'position')
         );
         $this->_categoryIndexJoined = true;
+        $this->_joinFields['position'] = array('table'=>$alias, 'field'=>'position' );
 //        $this->joinField(
 //            $alias,
 //            'catalog/category_product_index',
