@@ -153,10 +153,10 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
     public function linkAction()
     {
         $id = $this->getRequest()->getParam('id', 0);
-        $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')->load($id);
-        if ( $linkPurchasedItem->getId() != $id ) {
-                $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__("Requested link doesn't exist."));
-                return $this->_redirect('*/customer/products');
+        $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')->load($id, 'link_hash');
+        if (! $linkPurchasedItem->getId() ) {
+            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__("Requested link doesn't exist."));
+            return $this->_redirect('*/customer/products');
         }
         if (!Mage::helper('downloadable')->getIsShareable($linkPurchasedItem)) {
             $customerId = $this->_getCustomerSession()->getCustomerId();

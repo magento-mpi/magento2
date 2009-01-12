@@ -99,8 +99,10 @@ class Mage_Downloadable_Model_Observer
                             $links[$linkId],
                             $linkPurchasedItem
                         );
+                        $linkHash = strtr(base64_encode(microtime() . $linkPurchased->getId() . $orderItem->getId() . $product->getId()), '+/=', '-_,');
                         $numberOfDownloads = $links[$linkId]->getNumberOfDownloads()*$orderItem->getQtyOrdered();
-                        $linkPurchasedItem->setNumberOfDownloadsBought($numberOfDownloads)
+                        $linkPurchasedItem->setLinkHash($linkHash)
+                            ->setNumberOfDownloadsBought($numberOfDownloads)
                             ->setStatus(Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING)
                             ->setCreatedAt($orderItem->getCreatedAt())
                             ->setUpdatedAt($orderItem->getUpdatedAt())
