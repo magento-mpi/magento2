@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package    Mage_AmazonCheckout
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Mage_AmazonCheckout>
+            <version>0.1.0</version>
+        </Mage_AmazonCheckout>
+    </modules>
+    <global>
+        <!--<sales>
+	        <quote>
+		        <item>
+			        <product_attributes>
+                        <disable_amazoncheckout/>
+			        </product_attributes>
+		        </item>
+	        </quote>
+        </sales>-->
+        <models>
+            <amazoncheckout>
+                <class>Mage_AmazonCheckout_Model</class>
+                <resourceModel>amazoncheckout_mysql4</resourceModel>
+            </amazoncheckout>
+            <amazoncheckout_mysql4>
+                <class>Mage_AmazonCheckout_Model_Mysql4</class>
+                <!--<entities>
+                    <api_debug><table>amazoncheckout_api_debug</table></api_debug>
+                </entities>-->
+            </amazoncheckout_mysql4>
+        </models>
+        <helpers>
+            <amazoncheckout>
+                <class>Mage_AmazonCheckout_Helper</class>
+            </amazoncheckout>
+        </helpers>
+        <resources>
+            <amazoncheckout_setup>
+                <setup>
+                    <module>Mage_AmazonCheckout</module>
+                    <class>Mage_AmazonCheckout_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amazoncheckout_setup>
+            <amazoncheckout_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </amazoncheckout_write>
+            <amazoncheckout_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </amazoncheckout_read>
+        </resources>
+        <blocks>
+            <amazoncheckout><class>Mage_AmazonCheckout_Block</class></amazoncheckout>
+        </blocks>
+    </global>
+<!--
+Something like this is to be added to resolve bug #4890
+<global>
+        <rewrite>
+            <amazoncheckout>
+                <core>
+                <from>/^.*?amazoncheckout\/api/</from>
+                <to>amazoncheckout/api</to>
+            </amazoncheckout>
+        </rewrite>
+</global>
+-->
+    <frontend>
+        <!--<secure_url>
+            <amazoncheckout_redirect>/amazoncheckout/redirect/</amazoncheckout_redirect>
+            <amazoncheckout_beacon>/amazoncheckout/api/beacon/</amazoncheckout_beacon>
+        </secure_url>-->
+        <translate>
+            <modules>
+                <Mage_AmazonCheckout>
+                    <files>
+                        <default>Mage_AmazonCheckout.csv</default>
+                    </files>
+                </Mage_AmazonCheckout>
+            </modules>
+        </translate>
+        <routers>
+            <amazoncheckout>
+                <use>standard</use>
+                <args>
+                    <module>Mage_AmazonCheckout</module>
+                    <frontName>amazoncheckout</frontName>
+                </args>
+            </amazoncheckout>
+        </routers>
+        <layout>
+            <updates>
+                <amazoncheckout>
+                    <file>amazoncheckout.xml</file>
+                </amazoncheckout>
+            </updates>
+        </layout>
+    </frontend>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_AmazonCheckout>
+                    <files>
+                        <default>Mage_AmazonCheckout.csv</default>
+                    </files>
+                </Mage_AmazonCheckout>
+            </modules>
+        </translate>
+        <!--<acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <amazon translate="title" module="amazoncheckout">
+                                            <title>Amazon API</title>
+                                        </amazon>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>-->
+        <!--<events>
+            <sales_order_shipment_track_save_after>
+                <observers>
+                    <amazoncheckout>
+                        <type>model</type>
+                        <class>amazoncheckout/observer</class>
+                        <method>salesOrderShipmentTrackSaveAfter</method>
+                    </amazoncheckout>
+                </observers>
+            </sales_order_shipment_track_save_after>
+            <sales_order_shipment_save_after>
+                <observers>
+                    <amazoncheckout>
+                        <type>model</type>
+                        <class>amazoncheckout/observer</class>
+                        <method>salesOrderShipmentSaveAfter</method>
+                    </amazoncheckout>
+                </observers>
+            </sales_order_shipment_save_after>
+        </events>-->
+    </adminhtml>
+
+    <default>
+        <carriers>
+            <amazoncheckout>
+                <active>1</active>
+                <model>amazoncheckout/shipping</model>
+            </amazoncheckout>
+        </carriers>
+        <payment>
+            <amazoncheckout>
+                <active>1</active>
+                <model>amazoncheckout/payment</model>
+                <title>Checkout by Amazon</title>
+            </amazoncheckout>
+        </payment>
+        <!--<amazon>
+            <checkout>
+                <merchant_id backend_model="adminhtml/system_config_backend_encrypted"/>
+                <merchant_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <use_secure_callback_url>0</use_secure_callback_url>
+                <disable_default_tax_tables>0</disable_default_tax_tables>
+            </checkout>
+            <checkout_shipping_carrier>
+                <address_category>COMMERCIAL</address_category>
+                <default_price>0</default_price>
+                <default_height>10</default_height>
+                <default_length>10</default_length>
+                <default_width>10</default_width>
+            </checkout_shipping_carrier>
+            <checkout_shipping_flatrate>
+                <sallowspecific_1>0</sallowspecific_1>
+                <sallowspecific_2>0</sallowspecific_2>
+                <sallowspecific_3>0</sallowspecific_3>
+            </checkout_shipping_flatrate>
+        </amazon>-->
+    </default>
+</config>

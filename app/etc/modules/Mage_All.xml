@@ -388,5 +388,13 @@
                 <Mage_Catalog />
             </depends>
         </Mage_GoogleBase>
+        <Mage_AmazonCheckout>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Sales />
+                <Mage_Payment />
+            </depends>
+        </Mage_AmazonCheckout>
     </modules>
 </config>
