@@ -120,7 +120,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->addFieldToFilter('type_id', $allowProductTypes)
             ->addFilterByRequiredOptions();
 
-        Mage::getModel('downloadable/product_type')->addPurchasedFilterToProductCollection($collection);
         Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
 
         foreach ($product->getTypeInstance()->getUsedProductAttributes() as $attribute) {
