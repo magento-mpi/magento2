@@ -78,7 +78,7 @@ class Mage_Core_Model_Cookie
      */
     protected function _getRequest()
     {
-        return Mage::app()->getFrontController()->getRequest();
+        return Mage::app()->getRequest();
     }
 
     /**
@@ -88,7 +88,7 @@ class Mage_Core_Model_Cookie
      */
     protected function _getResponse()
     {
-        return Mage::app()->getFrontController()->getResponse();
+        return Mage::app()->getResponse();
     }
 
     /**
