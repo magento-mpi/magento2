@@ -19,13 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GooglePayments
+ * @package    Mage_AmazonPayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_AmazonPayments_Model_Payment extends Mage_Payment_Model_Method_Abstract
+class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Abstract
 {
+    /**
+     * Payment module of Checkout by Amazon
+     *
+     */
+
     protected $_code  = 'amazonpayments';
     protected $_formBlockType = 'amazonpayments/form';
 
