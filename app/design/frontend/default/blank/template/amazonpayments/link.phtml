@@ -19,23 +19,23 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   design_blank
- * @package    Mage_AmazonCheckout
+ * @package    Mage_AmazonPayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
 /**
- * @see Mage_AmazonCheckout_Block_Link
+ * @see Mage_AmazonPayments_Block_Link
  */
 ?>
 <li>
     <?php if ($this->getIsDisabled()): ?>
-    <img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazoncheckout')->__('Fast checkout through Amazon');?>" />
+    <img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Fast checkout through Amazon');?>" />
     <?php else: ?>
     <form method="post" action="<?php echo $this->getCheckoutUrl();?>"<?php if($this->getIsActiveAanalytics()):?> onsubmit="setUrchinInputCode(pageTracker)"<?php endif;?>>
         <fieldset>
             <input type="hidden" name="analyticsdata" value="" />
-            <input type="image" src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazoncheckout')->__('Fast checkout through Amazon');?>" <? echo $this->getIsDisabled()?'disabled="disabled"':'' ?> />
+            <input type="image" src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Fast checkout through Amazon');?>" <? echo $this->getIsDisabled()?'disabled="disabled"':'' ?> />
         </fieldset>
     </form>
     <?php endif; ?>

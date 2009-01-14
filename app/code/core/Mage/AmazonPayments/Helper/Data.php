@@ -29,7 +29,7 @@
  * Amazon Checlout Data Helper
  *
  * @category   Mage
- * @package    Mage_AmazonCheclout
+ * @package    Mage_AmazonPayments
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Helper_Data extends Mage_Core_Helper_Abstract

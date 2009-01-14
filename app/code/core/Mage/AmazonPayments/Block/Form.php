@@ -25,7 +25,7 @@
  */
 
 /**
- * AmazonCheckout Form Block
+ * Amazon Payments Form Block
  *
  * @category    Mage
  * @package     Mage_AmazonPayments

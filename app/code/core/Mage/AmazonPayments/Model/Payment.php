@@ -32,11 +32,6 @@ class Mage_AmazonPayments_Model_Payment extends Mage_Payment_Model_Method_Abstra
     const ACTION_AUTHORIZE = 0;
     const ACTION_AUTHORIZE_CAPTURE = 1;
 
-    public function __construct()
-    {
-        echo 'hello';
-    }
-
     public function getOrderPlaceRedirectUrl()
     {
         return $this->getRedirectUrl();
@@ -44,11 +39,7 @@ class Mage_AmazonPayments_Model_Payment extends Mage_Payment_Model_Method_Abstra
 
     public function getRedirectUrl()
     {
-        #Mage::exception($this, 'worldpay');
-        #throw new Exception('qwe')
-        die('test2');
         $_url = Mage::getUrl('amazonepayments/redirect');
-        echo "url: {$_url}<br />";
         return $_url;
     }
 }
