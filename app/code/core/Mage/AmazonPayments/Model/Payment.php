@@ -19,13 +19,36 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_AmazonCheckout
+ * @package    Mage_GooglePayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_AmazonCheckout_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_AmazonPayments_Model_Payment extends Mage_Payment_Model_Method_Abstract
 {
+    protected $_code  = 'amazonpayments';
+    protected $_formBlockType = 'amazonpayments/form';
 
+    const ACTION_AUTHORIZE = 0;
+    const ACTION_AUTHORIZE_CAPTURE = 1;
+
+    public function __construct()
+    {
+        echo 'hello';
+    }
+
+    public function getOrderPlaceRedirectUrl()
+    {
+        return $this->getRedirectUrl();
+    }
+
+    public function getRedirectUrl()
+    {
+        #Mage::exception($this, 'worldpay');
+        #throw new Exception('qwe')
+        die('test2');
+        $_url = Mage::getUrl('amazonepayments/redirect');
+        echo "url: {$_url}<br />";
+        return $_url;
+    }
 }

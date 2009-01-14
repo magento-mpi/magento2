@@ -19,21 +19,15 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleCheckout
+ * @package    Mage_AmazonPayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_AmazonCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstract
+class Mage_AmazonPayments_RedirectController extends Mage_Core_Controller_Front_Action
 {
-    const ACTION_AUTHORIZE = 0;
-    const ACTION_AUTHORIZE_CAPTURE = 1;
-
-    protected $_code  = 'amazoncheckout';
-    protected $_formBlockType = 'amazoncheckout/form';
-
-    public function getRedirectUrl()
+    public function indexAction()
     {
-        return Mage::getUrl('amazonecheckout/redirect');
+        echo 'Mage_AmazonPayments_RedirectController index';
     }
 }
