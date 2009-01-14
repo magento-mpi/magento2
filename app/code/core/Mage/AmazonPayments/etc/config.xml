@@ -162,7 +162,7 @@ Something like this is to be added to resolve bug #4890
         <payment>
             <amazonpayments>
                 <active>1</active>
-                <model>amazonpayments/payment</model>
+                <model>amazonpayments/payment_cba</model>
                 <title>Checkout by Amazon</title>
                 <!--<code>amazonpayments</code>-->
             </amazonpayments>
