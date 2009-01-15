@@ -793,7 +793,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 array()
             );
             $this->getSelect()->order('_price_order_table.value ' . $dir);
-            $this->getSelect()->group('e.entity_id');
+
+            /**
+             * Distinct we are using for remove duplicates of products which have
+             * several rows in price index (like grouped products)
+             */
+            $this->getSelect()->distinct(true);
         } else {
             parent::setOrder($attribute, $dir);
         }
