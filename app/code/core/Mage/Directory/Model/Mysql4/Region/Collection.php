@@ -91,7 +91,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
     {
         if (!empty($regionName)) {
             if (is_array($regionName)) {
-                $this->_select->where("region.default_name in ('".implode("','", $regionName)."'");
+                $this->_select->where("region.default_name in ('".implode("','", $regionName)."')");
             } else {
                 $this->_select->where("region.default_name = '{$regionName}'");
             }
