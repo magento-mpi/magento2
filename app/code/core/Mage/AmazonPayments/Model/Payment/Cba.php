@@ -28,23 +28,88 @@ class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Ab
 {
     /**
      * Payment module of Checkout by Amazon
-     *
+     * CBA - Checkout By Amazon
      */
 
-    protected $_code  = 'amazonpayments';
-    protected $_formBlockType = 'amazonpayments/form';
+    protected $_code  = 'amazon_cba';
+    protected $_formBlockType = 'amazonpayments/form/cba';
+    #protected $_formBlockType = 'amazonpayments/form';
 
     const ACTION_AUTHORIZE = 0;
     const ACTION_AUTHORIZE_CAPTURE = 1;
 
+    /**
+     * Get checkout session namespace
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    public function getCheckout()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
     public function getOrderPlaceRedirectUrl()
     {
-        return $this->getRedirectUrl();
+        echo "getOrderPlaceRedirectUrl\n";
+        return false; #$this->getRedirectUrl();
+    }
+
+    public function getCheckoutRedirectUrl()
+    {
+        echo "getCheckoutRedirectUrl\n";
+        return false; #$this->getRedirectUrl();
     }
 
     public function getRedirectUrl()
     {
+        echo "getRedirectUrl\n";
         $_url = Mage::getUrl('amazonepayments/redirect');
-        return $_url;
+        return false;
+    }
+
+
+    public function canCapture()
+    {
+        return true;
+    }
+
+    /**
+     * initialize payment transaction in case
+     * we doing checkout through onepage checkout
+     */
+    public function initialize($paymentAction, $stateObject)
+    {
+        $address = $this->getQuote()->getBillingAddress();
+
+        $_quote = $this->getQuote();
+
+        $this->getApi()
+            ->setPaymentType($paymentAction)
+            ->setAmount($address->getBaseGrandTotal())
+            ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
+            ->setBillingAddress($address)
+            ->setCardId($this->getQuote()->getReservedOrderId())
+            ->setCustomerName($this->getQuote()->getCustomer()->getName());
+            #->callSetExpressCheckout();
+
+        #$this->throwError();
+
+        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+        $stateObject->setStatus('pending_worldpay');
+        $stateObject->setIsNotified(false);
+
+        Mage::getSingleton('worldpay/session')->unsExpressCheckoutMethod();
+
+        return $this;
+    }
+
+    /**
+     * Rewrite standard logic
+     *
+     * @return bool
+     */
+    public function isInitializeNeeded()
+    {
+        return true;
     }
 }

@@ -137,43 +137,24 @@ Something like this is to be added to resolve bug #4890
                 </Mage_AmazonPayments>
             </modules>
         </translate>
-        <!--<acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <amazon translate="title" module="amazonpayments">
-                                            <title>Amazon API</title>
-                                        </amazon>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>-->
     </adminhtml>
 
     <default>
         <payment>
-            <amazonpayments>
-                <active>1</active>
+            <amazon_cba>
+                <active>0</active>
                 <model>amazonpayments/payment_cba</model>
                 <title>Checkout by Amazon</title>
-                <!--<code>amazonpayments</code>-->
+                <order_status>pending</order_status>
+                <allowspecific>0</allowspecific>
+            </amazon_cba>
+            <amazonpayments>
+                <active>0</active>
+                <model>amazonpayments/payment_cba</model>
+                <title>Another Payment by Amazon</title>
+                <order_status>pending</order_status>
+                <allowspecific>0</allowspecific>
             </amazonpayments>
         </payment>
-        <!--<amazon>
-            <payments>
-                <merchant_id backend_model="adminhtml/system_config_backend_encrypted"/>
-                <merchant_key backend_model="adminhtml/system_config_backend_encrypted"/>
-                <use_secure_callback_url>0</use_secure_callback_url>
-                <disable_default_tax_tables>0</disable_default_tax_tables>
-            </payments>
-        </amazon>-->
     </default>
 </config>
