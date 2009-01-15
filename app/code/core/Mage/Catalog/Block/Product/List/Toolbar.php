@@ -291,7 +291,8 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         }
         return $this->getPagerUrl(array(
             $this->getOrderVarName()=>$order,
-            $this->getDirectionVarName()=>$direction
+            $this->getDirectionVarName()=>$direction,
+            $this->getPageVarName() => null
         ));
     }
 
@@ -519,5 +520,19 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
 
         $limits = array_keys($limits);
         return $limits[0];
+    }
+
+    /**
+     * Retrieve Limit Pager URL
+     *
+     * @param int $limit
+     * @return string
+     */
+    public function getLimitUrl($limit)
+    {
+        return $this->getPagerUrl(array(
+            $this->getLimitVarName() => $limit,
+            $this->getPageVarName() => null
+        ));
     }
 }
