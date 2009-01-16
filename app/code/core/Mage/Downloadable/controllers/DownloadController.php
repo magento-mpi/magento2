@@ -212,7 +212,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
                 );
             }
         } elseif ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
-            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is expired.'));
+            $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link has expired.'));
         } elseif ($linkPurchasedItem->getStatus() == Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING) {
             $this->_getCustomerSession()->addNotice(Mage::helper('downloadable')->__('Link is not available.'));
         } else {
