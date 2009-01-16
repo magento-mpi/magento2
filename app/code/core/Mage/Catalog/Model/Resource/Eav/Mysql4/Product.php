@@ -279,7 +279,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 //                );
 //                $this->_getWriteAdapter()->insert($this->getTable('catalog/category_product_index'), $data);
 //            }
+        } else {
+            $this->_getWriteAdapter()->delete(
+                $this->getTable('catalog/category_product_index'),
+                $this->_getWriteAdapter()->quoteInto('product_id=?', $product->getId())
+            );
         }
+        
 
         /**
          * Refresh enabled products index (visibility state)
