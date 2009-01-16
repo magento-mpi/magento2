@@ -24,33 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Adminhtml GoogleBase Item Types Grid
- *
- * @category   Mage
- * @package    Mage_GoogleBase
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
-class Mage_GoogleBase_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Widget_Grid_Container
-{
-    public function __construct()
-    {
-        $this->_blockGroup = 'googlebase';
-        $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('googlebase')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('googlebase')->__('Manage Attribute Mapping');
-        parent::__construct();
-    }
-
-//    public function getGridHtml()
-//    {
-//        $_storeSwitcherHtml = $this->getLayout()->createBlock('googlebase/adminhtml_store_switcher')->toHtml();
-//        return $_storeSwitcherHtml . parent::getGridHtml();
-//    }
-//
-//    public function getCreateUrl()
-//    {
-//        return $this->getUrl('*/*/new', array('_current'=>true));
-//    }
-}
+$installer->getConnection()->addColumn($this->getTable('googlebase/types'), 'target_country', "varchar(2) not null default 'US'");

@@ -19,38 +19,31 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_GoogleBase
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Adminhtml GoogleBase Item Types Grid
+ * Adminhtml Google Base Item Type Country Renderer
  *
  * @category   Mage
- * @package    Mage_GoogleBase
+ * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_GoogleBase_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_GoogleBase_Block_Adminhtml_Types_Renderer_Country
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function __construct()
+    /**
+     * Renders Google Base Item Id
+     *
+     * @param   Varien_Object $row
+     * @return  string
+     */
+    public function render(Varien_Object $row)
     {
-        $this->_blockGroup = 'googlebase';
-        $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('googlebase')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('googlebase')->__('Manage Attribute Mapping');
-        parent::__construct();
+        $iso = $row->getData($this->getColumn()->getIndex());
+        return Mage::getSingleton('googlebase/config')->getCountryInfo($iso, 'name');
     }
-
-//    public function getGridHtml()
-//    {
-//        $_storeSwitcherHtml = $this->getLayout()->createBlock('googlebase/adminhtml_store_switcher')->toHtml();
-//        return $_storeSwitcherHtml . parent::getGridHtml();
-//    }
-//
-//    public function getCreateUrl()
-//    {
-//        return $this->getUrl('*/*/new', array('_current'=>true));
-//    }
 }

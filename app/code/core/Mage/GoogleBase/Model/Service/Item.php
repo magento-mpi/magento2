@@ -251,6 +251,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         }
 
         if ($object->getUrl()) {
+            $object->setUrl('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
             $links = $entry->getLink();
             if (!is_array($links)) {
                 $links = array();
@@ -280,9 +281,9 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
             $this->_setAttribute('image_link', $object->getImageUrl(), 'url');
         }
 
-        if ($country = Mage::getStoreConfig('google/googlebase/target_country', $this->getStoreId())) {
-            $this->_setAttribute('target_country', $country, 'text');
-        }
+        $targetCountry = $this->getConfig()->getTargetCountry($this->getStoreId());
+        $this->_setAttribute('target_country', $targetCountry, 'text');
+        $this->_setAttribute('item_language', $this->getConfig()->getCountryInfo($targetCountry, 'language'), 'text');
 
         return $this;
     }
@@ -331,7 +332,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      */
     protected function _getItemType()
     {
-        return $this->getItemType() ? $this->getItemType() : self::DEFAULT_ITEM_TYPE;
+        return $this->getItemType() ? $this->getItemType() : $this->getConfig()->getDefaultItemType($this->getStoreId());
     }
 
     /**

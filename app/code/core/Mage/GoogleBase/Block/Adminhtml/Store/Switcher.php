@@ -25,32 +25,20 @@
  */
 
 /**
- * Adminhtml GoogleBase Item Types Grid
+ * Adminhtml GoogleBase Store Switcher
  *
  * @category   Mage
  * @package    Mage_GoogleBase
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_GoogleBase_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_GoogleBase_Block_Adminhtml_Store_Switcher extends Mage_Adminhtml_Block_Store_Switcher
 {
     public function __construct()
     {
-        $this->_blockGroup = 'googlebase';
-        $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('googlebase')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('googlebase')->__('Manage Attribute Mapping');
         parent::__construct();
+        $this->setDefaultStoreName($this->__('Default Store (%s)', Mage::app()->getDefaultStoreView()->getName()))
+            ->setUseConfirm(false)
+            ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)));
     }
-
-//    public function getGridHtml()
-//    {
-//        $_storeSwitcherHtml = $this->getLayout()->createBlock('googlebase/adminhtml_store_switcher')->toHtml();
-//        return $_storeSwitcherHtml . parent::getGridHtml();
-//    }
-//
-//    public function getCreateUrl()
-//    {
-//        return $this->getUrl('*/*/new', array('_current'=>true));
-//    }
 }
