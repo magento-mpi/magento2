@@ -55,6 +55,36 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     }
 
     /**
+     * Retrieve Required children ids
+     * Return grouped array, ex array(
+     *   group => array(ids)
+     * )
+     *
+     * @param int $parentId
+     * @param bool $required
+     * @return array
+     */
+    public function getChildrenIds($parentId, $required = true)
+    {
+        return Mage::getResourceSingleton('catalog/product_link')
+            ->getChildrenIds($parentId,
+                Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+    }
+
+    /**
+     * Retrieve parent ids array by requered child
+     *
+     * @param int $childId
+     * @return array
+     */
+    public function getParentIdsByRequiredChild($childId)
+    {
+        return Mage::getResourceSingleton('catalog/product_link')
+            ->getParentIdsByChild($childId,
+                Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+    }
+
+    /**
      * Retrieve array of associated products
      *
      * @return array
@@ -158,8 +188,8 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function isSalable()
     {
-        $salable = $this->getProduct()->getIsSalable();
-        if (!is_null($salable) && !$salable) {
+        $salable = parent::isSalable();
+        if (!is_null($salable)) {
             return $salable;
         }
 

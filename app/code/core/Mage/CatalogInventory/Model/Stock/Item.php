@@ -142,11 +142,14 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     {
         if (!$this->getId() || !$this->getProductId()) {
             $this->_getResource()->loadByProductId($this, $product->getId());
+            $this->setOrigData();
         }
 
         $product->setStockItem($this);
         $this->setProduct($product);
-        $product->setIsSalable($this->getIsInStock());
+        $product->setIsInStock($this->getIsInStock());
+        Mage::getSingleton('cataloginventory/stock_status')
+            ->assignProduct($product, $this->getStockId(), $this->getStockStatus());
         return $this;
     }
 
@@ -397,6 +400,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         else {
             $this->setQty(0);
+        }
+
+        if (($product && $product->dataHasChangedFor('status'))
+            OR $this->dataHasChangedFor('is_in_stock')
+            OR $this->dataHasChangedFor('manage_stock')) {
+            Mage::getSingleton('cataloginventory/stock_status')
+                ->changeItemStatus($this);
         }
 
         Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item' => $this));

@@ -61,6 +61,34 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     }
 
     /**
+     * Retrieve Required children ids
+     * Return grouped array, ex array(
+     *   group => array(ids)
+     * )
+     *
+     * @param int $parentId
+     * @param bool $required
+     * @return array
+     */
+    public function getChildrenIds($parentId, $required = true)
+    {
+        return Mage::getResourceSingleton('bundle/selection')
+            ->getChildrenIds($parentId, $required);
+    }
+
+    /**
+     * Retrieve parent ids array by requered child
+     *
+     * @param int $childId
+     * @return array
+     */
+    public function getParentIdsByChild($childId)
+    {
+        return Mage::getResourceSingleton('bundle/selection')
+            ->getParentIdsByChild($childId);
+    }
+
+    /**
      * Return product sku based on sku_type attribute
      *
      * @return string
@@ -328,8 +356,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function isSalable()
     {
-        if (!parent::isSalable()) {
-            return false;
+        $salable = parent::isSalable();
+        if (!is_null($salable)) {
+            return $salable;
         }
 
         $optionCollection = $this->getOptionsCollection();

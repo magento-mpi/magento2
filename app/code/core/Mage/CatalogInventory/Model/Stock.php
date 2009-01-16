@@ -64,6 +64,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     {
         $items = $this->getItemCollection()
             ->addProductsFilter($productCollection)
+            ->joinStockStatus($productCollection->getStoreId())
             ->load();
         foreach ($items as $item) {
             foreach($productCollection as $product){

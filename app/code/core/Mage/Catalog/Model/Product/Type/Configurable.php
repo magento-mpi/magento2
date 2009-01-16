@@ -65,6 +65,34 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
+     * Retrieve Required children ids
+     * Return grouped array, ex array(
+     *   group => array(ids)
+     * )
+     *
+     * @param int $parentId
+     * @param bool $required
+     * @return array
+     */
+    public function getChildrenIds($parentId, $required = true)
+    {
+        return Mage::getResourceSingleton('catalog/product_type_configurable')
+            ->getChildrenIds($parentId, $required);
+    }
+
+    /**
+     * Retrieve parent ids array by requered child
+     *
+     * @param int $childId
+     * @return array
+     */
+    public function getParentIdsByChild($childId)
+    {
+        return Mage::getResourceSingleton('catalog/product_type_configurable')
+            ->getParentIdsByChild($childId);
+    }
+
+    /**
      * Retrieve product type attributes
      *
      * @return array
@@ -329,8 +357,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function isSalable()
     {
-        $salable = $this->getProduct()->getIsSalable();
-        if (!is_null($salable) && !$salable) {
+        $salable = parent::isSalable();
+        if (!is_null($salable)) {
             return $salable;
         }
 
