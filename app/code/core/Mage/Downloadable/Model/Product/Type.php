@@ -333,6 +333,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             }
             $options = array_merge($options, array('links' => $linkOptions));
         }
+        $options = array_merge($options, array(
+            'is_downloadable' => true,
+            'real_product_type' => self::TYPE_DOWNLOADABLE
+        ));
         return $options;
     }
 

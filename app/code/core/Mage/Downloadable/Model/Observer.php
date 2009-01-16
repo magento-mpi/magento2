@@ -130,7 +130,8 @@ class Mage_Downloadable_Model_Observer
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+                if ($item->getProductType() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+                    || $item->getProductOptionByCode('is_downloadable')) {
                     $session->setHasDownloadableProducts(true);
                     break;
                 }
