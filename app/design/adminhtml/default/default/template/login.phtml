@@ -44,7 +44,7 @@
     <div class="login-container">
         <div class="login-box">
             <form method="post" action="" id="loginForm">
-                <fieldset class="login-form">
+                <div class="login-form">
                     <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
                     <h2><?php echo Mage::helper('adminhtml')->__('Log in to Admin Panel') ?></h2>
                     <div id="messages">
@@ -55,10 +55,10 @@
                     <div class="input-box input-right"><label for="login"><?php echo Mage::helper('adminhtml')->__('Password:') ?></label><br/>
                         <input type="password" id="login" name="login[password]" class="required-entry input-text" value="" /></div>
                     <div class="clear"></div>
-                    <div class="form-buttons" style="margin-right:8px;">
+                    <div class="form-buttons">
                         <a class="left" href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/index/forgotpassword') ?>"><?php echo Mage::helper('adminhtml')->__('Forgot your password?') ?></a>
                         <input type="submit" onclick="loginForm.submit()" class="form-button" value="<?php echo Mage::helper('adminhtml')->__('Login') ?>" title="<?php echo Mage::helper('adminhtml')->__('Login') ?>"/></div>
-                </fieldset>
+                </div>
                 <p class="legal"><?php echo Mage::helper('adminhtml')->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></p>
             </form>
             <div class="bottom"></div>
