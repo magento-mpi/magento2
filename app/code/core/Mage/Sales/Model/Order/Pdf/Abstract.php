@@ -491,6 +491,19 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         return $this->_renderers[$type]['renderer'];
     }
 
+    /**
+     * Public method of protected @see _getRenderer()
+     *
+     * Retrieve renderer model
+     *
+     * @param string $type
+     * @return Mage_Sales_Model_Order_Pdf_Items_Abstract
+     */
+    public function getRenderer($type)
+    {
+        return $this->_getRenderer($type);
+    }
+
     protected function _drawItem(Varien_Object $item, Zend_Pdf_Page $page, Mage_Sales_Model_Order $order)
     {
         $type = $item->getOrderItem()->getProductType();
@@ -499,6 +512,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $renderer->setItem($item);
         $renderer->setPdf($this);
         $renderer->setPage($page);
+        $renderer->setRenderedModel($this);
 
         $renderer->draw();
     }
