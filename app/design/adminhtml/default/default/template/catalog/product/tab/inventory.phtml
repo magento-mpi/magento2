@@ -159,7 +159,7 @@
             return;
         }
         for(field in cataloginventoryNotManagestockFields) {
-            if (el == $(field).up(1)) {
+            if ($(field) && ($(field).up(1) == el)) {
                 return;
             }
         }
