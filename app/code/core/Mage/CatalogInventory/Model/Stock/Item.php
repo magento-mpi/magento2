@@ -288,19 +288,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $result->setOrigQty($origQty);
         }
 
-        if (!$this->getManageStock()) {
-            return $result;
-        }
-
-        if (!$this->getIsInStock()) {
-            $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('This product is currently out of stock.'))
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products are currently out of stock'))
-                ->setQuoteMessageIndex('stock');
-            $result->setItemUseOldQty(true);
-            return $result;
-        }
-
         if ($this->getMinSaleQty() && ($qty) < $this->getMinSaleQty()) {
             $result->setHasError(true)
                 ->setMessage(Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1))
@@ -314,6 +301,19 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 ->setMessage(Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1))
                 ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products can not be ordered in requested quantity'))
                 ->setQuoteMessageIndex('qty');
+            return $result;
+        }
+
+        if (!$this->getManageStock()) {
+            return $result;
+        }
+
+        if (!$this->getIsInStock()) {
+            $result->setHasError(true)
+                ->setMessage(Mage::helper('cataloginventory')->__('This product is currently out of stock.'))
+                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products are currently out of stock'))
+                ->setQuoteMessageIndex('stock');
+            $result->setItemUseOldQty(true);
             return $result;
         }
 
