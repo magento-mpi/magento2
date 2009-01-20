@@ -73,6 +73,16 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
     }
 
     /**
+     * Retutn Google Base Anonymous Client Instance
+     *
+     * @return Zend_Gdata_Gbase
+     */
+    public function getGuestService()
+    {
+        return new Zend_Gdata_Gbase(new Zend_Http_Client());
+    }
+
+    /**
      * Google Base Config
      *
      * @return Mage_GoogleBase_Model_Config

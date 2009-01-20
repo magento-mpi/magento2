@@ -93,7 +93,8 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
     {
         $locale = Mage::getSingleton('googlebase/config')->getCountryInfo($targetCountry, 'locale');
         $location = self::ITEM_TYPES_LOCATION . '/' . $locale;
-        $feed = $this->getFeed($location);
+
+        $feed = $this->getGuestService()->getFeed($location);
 
         $itemTypes = array();
         foreach ($feed->entries as $entry) {
