@@ -384,7 +384,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             }
             $this->getOnepage()->saveOrder();
             $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
-
             $result['success'] = true;
             $result['error']   = false;
         }
