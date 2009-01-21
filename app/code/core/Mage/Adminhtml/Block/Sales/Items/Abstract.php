@@ -181,7 +181,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
     {
         if ($item->getOrderItem()) {
             $block = $this->getColumnRenderer($column, $item->getOrderItem()->getProductType());
-        } elseif ($item->getRealProductType()) {
+        } else {
             $block = $this->getColumnRenderer($column, $item->getProductType());
         }
 
