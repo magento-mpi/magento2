@@ -25,10 +25,11 @@
  */
 ?>
 <fieldset class="form-list">
-    <?php $_code=$this->getMethodCode() ?>
+    <?php
+    $_code=$this->getMethodCode() ?>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
         <li>
-            <?php echo $this->__('You will be redirected to Checkout by Amazon website when you place an order.') ?>
+            <?php echo $this->__('Your billing address will be ignored and you will be redirected to Checkout by Amazon website.') ?>
         </li>
     </ul>
 </fieldset>

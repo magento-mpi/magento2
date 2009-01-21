@@ -27,4 +27,16 @@
 
 -->
 <layout version="0.1.0">
+
+<!--
+Shopping cart
+-->
+
+    <checkout_cart_index>
+        <!-- Mage_AmazonPayments -->
+        <reference name="checkout.cart.methods">
+            <block type="amazonpayments/link_shortcut" name="checkout.cart.methods.amazon_cba" template="amazonpayments/link.phtml"/>
+        </reference>
+    </checkout_cart_index>
+
 </layout>
