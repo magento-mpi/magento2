@@ -467,6 +467,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $select     = clone $this->getSelect();
             $select->reset(Zend_Db_Select::COLUMNS);
             $select->reset(Zend_Db_Select::GROUP);
+            $select->reset(Zend_Db_Select::ORDER);
             $select->distinct(false);
             $select->join(
                     array('category_count_table' => $this->_productCategoryTable),
