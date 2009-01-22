@@ -123,11 +123,23 @@ EOT;
 
     protected function _getDigitalContentXml($item)
     {
-        return '';
-        if (!$item->getIsVirtual()) {
+        $active = Mage::getStoreConfigFlag('google/checkout_shipping_virtual/active', $this->getQuote()->getStoreId());
+        $schedule = Mage::getStoreConfig('google/checkout_shipping_virtual/schedule', $this->getQuote()->getStoreId());
+        $method = Mage::getStoreConfig('google/checkout_shipping_virtual/method', $this->getQuote()->getStoreId());
+
+        if (!$active) {
             return '';
         }
-        $xml = '<digital-content><email-delivery>true</email-delivery></digital-content>';
+
+        $xml = "<display-disposition>{$schedule}</display-disposition>";
+
+        if ($method == 'email') {
+            $xml .= "<email-delivery>true</email-delivery>";
+        } elseif ($method == 'key_url') {
+        } elseif ($method == 'description_based') {
+        }
+
+        $xml = "<digital-content>{$xml}</digital-content>";
 
         return $xml;
     }
