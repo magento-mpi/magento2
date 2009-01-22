@@ -123,13 +123,17 @@ EOT;
 
     protected function _getDigitalContentXml($item)
     {
-        $active = Mage::getStoreConfigFlag('google/checkout_shipping_virtual/active', $this->getQuote()->getStoreId());
-        $schedule = Mage::getStoreConfig('google/checkout_shipping_virtual/schedule', $this->getQuote()->getStoreId());
-        $method = Mage::getStoreConfig('google/checkout_shipping_virtual/method', $this->getQuote()->getStoreId());
+        if (!$item->getIsVirtual()) {
+            return '';
+        }
 
+        $active = Mage::getStoreConfigFlag('google/checkout_shipping_virtual/active', $this->getQuote()->getStoreId());
         if (!$active) {
             return '';
         }
+
+        $schedule = Mage::getStoreConfig('google/checkout_shipping_virtual/schedule', $this->getQuote()->getStoreId());
+        $method = Mage::getStoreConfig('google/checkout_shipping_virtual/method', $this->getQuote()->getStoreId());
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
