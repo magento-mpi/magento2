@@ -31,73 +31,71 @@
  */
 class Mage_AmazonPayments_Model_Api extends Mage_AmazonPayments_Model_Api_Abstract
 {
+    protected static $HMAC_SHA1_ALGORITHM = "sha1";
 
     public function getAmazonRedirectUrl()
     {
-        return Mage::getStoreConfig('payment/amazon_cba/redirect_url');
+        $_url = Mage::getStoreConfig('payment/amazon_cba/redirect_url');
+        $_merchantId = Mage::getStoreConfig('payment/amazon_cba/merchant_id');
+        return $_url.$_merchantId;
     }
 
     /**
-     * SetCbaCheckout API call
+     * Computes RFC 2104-compliant HMAC signature.
      *
-     * An express checkout transaction starts with a token, that
-     * identifies to PayPal your transaction
-     * In this example, when the script sees a token, the script
-     * knows that the buyer has already authorized payment through
-     * paypal.  If no token was found, the action is to send the buyer
-     * to PayPal to first authorize payment
+     * @param data Array
+     *            The data to be signed.
+     * @param key String
+     *            The signing key, a.k.a. the AWS secret key.
+     * @return The base64-encoded RFC 2104-compliant HMAC signature.
      */
-    public function callSetCbaCheckout()
+    public function calculateSignature($data, $secretKey)
     {
-        //------------------------------------------------------------------------------------------------------------------------------------
-        // Construct the parameter string that describes the SetExpressCheckout API call
 
-        $nvpArr = array(
-            'PAYMENTACTION' => $this->getPaymentType(),
-            'AMT'           => $this->getAmount(),
-            'CURRENCYCODE'  => $this->getCurrencyCode(),
-            'RETURNURL'     => $this->getReturnUrl(),
-            'CANCELURL'     => $this->getCancelUrl(),
-            'INVNUM'        => $this->getInvNum()
+        $stringData = '';
+        foreach ($data as $key => $value) {
+            $stringData .= $key.'='.rawurlencode($value).'&';
+        }
+
+        // compute the hmac on input data bytes, make sure to set returning raw hmac to be true
+        $rawHmac = hash_hmac(self::$HMAC_SHA1_ALGORITHM, $stringData, $secretKey, true);
+
+        // base64-encode the raw hmac
+        return base64_encode($rawHmac);
+    }
+
+    /**
+     *
+     */
+    public function getAmazonCbaOrderDetails($amazonOrderId)
+    {
+        $_merchantId = Mage::getStoreConfig('payment/amazon_cba/merchant_id');
+        $options = array(
+            'merchantIdentifier' => $_merchantId,
+            'merchantName' => Mage::getStoreConfig('payment/amazon_cba/merchant_name'),
         );
+        $_soap = $this->getSoapApi($options);
 
-        if ($this->getPageStyle()) {
-            $nvpArr = array_merge($nvpArr, array(
-                'PAGESTYLE' => $this->getPageStyle()
-            ));
-        }
+        $_options = array(
+                'merchant'           => $_merchantId,
+                'documentIdentifier' => $amazonOrderId,
+            );
 
-        $this->setUserAction(self::USER_ACTION_CONTINUE);
+        /*$document = $_soap->getDocument($_options);
+        echo '<pre> document:'."\n";
+        print_r($document);
+        echo '</pre>'."\n";*/
+    }
 
-        // for mark SetExpressCheckout API call
-        if ($a = $this->getShippingAddress()) {
-            $nvpArr = array_merge($nvpArr, array(
-                'ADDROVERRIDE'      => 1,
-                'SHIPTONAME'        => $a->getName(),
-                'SHIPTOSTREET'      => $a->getStreet(1),
-                'SHIPTOSTREET2'     => $a->getStreet(2),
-                'SHIPTOCITY'        => $a->getCity(),
-                'SHIPTOSTATE'       => $a->getRegionCode(),
-                'SHIPTOCOUNTRYCODE' => $a->getCountry(),
-                'SHIPTOZIP'         => $a->getPostcode(),
-                'PHONENUM'          => $a->getTelephone(),
-            ));
-            $this->setUserAction(self::USER_ACTION_COMMIT);
-        }
-
-        //'---------------------------------------------------------------------------------------------------------------
-        //' Make the API call to PayPal
-        //' If the API call succeded, then redirect the buyer to PayPal to begin to authorize payment.
-        //' If an error occured, show the resulting errors
-        //'---------------------------------------------------------------------------------------------------------------
-        $resArr = $this->call('SetExpressCheckout', $nvpArr);
-
-        if (false===$resArr) {
-            return false;
-        }
-
-        $this->setToken($resArr['TOKEN']);
-        $this->setRedirectUrl($this->getPaypalUrl());
-        return $resArr;
+    /**
+     * Getting Soap Api object
+     *
+     * @param   array $options
+     * @return  Mage_Cybersource_Model_Api_ExtendedSoapClient
+     */
+    protected function getSoapApi($options = array())
+    {
+        $wsdl = Mage::getBaseDir() . Mage::getStoreConfig('payment/amazon_cba/wsdl');
+        return new Mage_AmazonPayments_Model_Api_ExtendedSoapClient($wsdl, $options);
     }
 }

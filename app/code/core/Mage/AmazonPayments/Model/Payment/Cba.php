@@ -24,7 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Abstract
+class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Abstract
 {
     /**
      * Payment module of Checkout by Amazon
@@ -38,6 +38,16 @@ class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Ab
     const ACTION_AUTHORIZE = 0;
     const ACTION_AUTHORIZE_CAPTURE = 1;
     const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
+
+    /**
+     * Return true if the method can be used at this time
+     *
+     * @return bool
+     */
+    public function isAvailable($quote=null)
+    {
+        return Mage::getStoreConfig('payment/amazon_cba/active');
+    }
 
     /**
      * Get checkout session namespace
@@ -158,19 +168,7 @@ class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Ab
         }
         //getQuoteCurrencyCode
         $currency_code = $_quote->getBaseCurrencyCode();
-        /*
-        //we validate currency before sending to Amazon so following code is obsolete
 
-        if (!in_array($currency_code,$this->_allowCurrencyCode)) {
-            //if currency code is not allowed currency code, use USD as default
-            $storeCurrency = Mage::getSingleton('directory/currency')
-                ->load($_quote->getStoreCurrencyCode());
-            $amount = $storeCurrency->convert($amount, 'USD');
-            $currency_code='USD';
-        }
-        */
-
-        #Mage_Sales_Model_Quote
         $sArr = array();
         $i = 1;
         $_merchant_id = $this->getMerchantId();
@@ -178,63 +176,27 @@ class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Ab
             $sArr = array_merge($sArr, array(
                 "item_merchant_id_{$i}"         => Mage::getStoreConfig('payment/amazon_cba/merchant_id'),
                 "item_title_{$i}"               => $_item->getName(),
-                "item_description_{$i}"         => $_item->getDescription(),
+                "item_description_{$i}"         => $_item->getProduct()->getDescription(),
                 "item_price_{$i}"               => $_item->getPrice(),
                 "item_quantity_{$i}"            => $_item->getQty(),
                 "item_sku_{$i}"                 => $_item->getSku(),
                 #"item_category_{$i}"            => $_item->getProduct()->getData('category_ids'),
-                "item_tax_rate_{$i}"            => $_item->getTaxAmount(),
-                #"item_tax_state_region_{$i}"    => $_item->get
-                #"item_promotion_type_{$i}"      => $_item->get
-                "item_weight_{$i}"              => $_item->getWeight(),
             ));
+            #if ($_item->hasTaxAmount() && $_item->getTaxAmount()) {
+            #   $sArr["item_tax_rate_{$i}"] = $_item->getTaxAmount();
+            #}
+            #if ($_item->hasWeight() && $_item->getWeight()) {
+            #   $sArr["item_weight_{$i}"] = $_item->getWeight();
+            #}
+            $i++;
         }
-
-        /*echo '<pre> quote:'."\n";
-        print_r($_quote->getData());
-        echo '</pre>'."\n";*/
-
-        /*'business'          => Mage::getStoreConfig('paypal/wps/business_account'),
-        'return'            => Mage::getUrl('paypal/standard/success',array('_secure' => true)),
-        'cancel_return'     => Mage::getUrl('paypal/standard/cancel',array('_secure' => false)),
-        'notify_url'        => Mage::getUrl('paypal/standard/ipn'),*/
 
         $sArr = array_merge($sArr, array(
-            'currency_code'                     => $currency_code,
-            'tax_rate'                          => 1,
-            'invoice'                           => $this->getCheckout()->getLastRealOrderId(),
-            'address_override'                  => 1,
-            'first_name'                        => $a->getFirstname(),
-            'last_name'                         => $a->getLastname(),
-            'address1'                          => $a->getStreet(1),
-            'address2'                          => $a->getStreet(2),
-            'city'                              => $a->getCity(),
-            'state'                             => $a->getRegionCode(),
-            'country'                           => $a->getCountry(),
-            'zip'                               => $a->getPostcode(),
-            #'tax_rate'                          => '0.8',
-            #'tax_state_region'                  => 'LA',
-            #'is_shipping_taxed'                 => 'no',
-            #'tax_state_region'                  => 'LA',
-            #'shipping_method_service_level_1'   => 'standard',
-            #'shipping_method_region_1'          => 'us_full_50_states',
-            #'shipping_method_price_type_1'      => 'weight_based',
-            #'shipping_method_price_per_shipment_amount_1'      => '7.49',
-            #'shipping_method_price_per_unit_rate_1'      => '5.00',
+            'aws_access_key_id' => Mage::getStoreConfig('payment/amazon_cba/accesskey_id'),
+            'currency_code'     => $currency_code,
+            'form_key'          => Mage::getSingleton('core/session')->getFormKey(),
 
-            #'cart_promotion_1'                  => '.05',
-            #'cart_promotion_type_1'             => 'discount_rate',
-
-            #'weight_unit'                       => 'lb',
         ));
-        /*
-        $logoUrl = Mage::getStoreConfig('paypal/wps/logo_url');
-        if($logoUrl){
-             $sArr = array_merge($sArr, array(
-                  'cpp_header_image' => $logoUrl
-             ));
-        }
-        */
 
         if($this->getConfigData('payment_action')==self::PAYMENT_TYPE_AUTH){
              $sArr = array_merge($sArr, array(
@@ -242,88 +204,18 @@ class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Ab
              ));
         }
 
-        /*
-        $transaciton_type = $this->getConfigData('transaction_type');
-        //O=aggregate cart amount to paypal
-        //I=individual items to paypal
-        if ($transaciton_type=='O') {
-            $businessName = Mage::getStoreConfig('paypal/wps/business_name');
-            $storeName = Mage::getStoreConfig('store/system/name');
-            $amount = ($a->getBaseSubtotal()+$b->getBaseSubtotal())-($a->getBaseDiscountAmount()+$b->getBaseDiscountAmount());
-            $sArr = array_merge($sArr, array(
-                    'cmd'           => '_ext-enter',
-                    'redirect_cmd'  => '_xclick',
-                    'item_name'     => $businessName ? $businessName : $storeName,
-                    'amount'        => sprintf('%.2f', $amount),
-                ));
-            $_shippingTax = $_quote->getShippingAddress()->getBaseTaxAmount();
-            $_billingTax = $_quote->getBillingAddress()->getBaseTaxAmount();
-            $tax = sprintf('%.2f', $_shippingTax + $_billingTax);
-            if ($tax>0) {
-                  $sArr = array_merge($sArr, array(
-                        'tax' => $tax
-                  ));
-            }
 
-        } else {
-            $sArr = array_merge($sArr, array(
-                'cmd'       => '_cart',
-                'upload'       => '1',
-            ));
-            $items = $_quote->getAllItems();
-            if ($items) {
-                $i = 1;
-                foreach($items as $item){
-                    if ($item->getParentItem()) {
-                        continue;
-                    }
-                    //echo "<pre>"; print_r($item->getData()); echo"</pre>";
-                    $sArr = array_merge($sArr, array(
-                        'item_name_'.$i      => $item->getName(),
-                        'item_number_'.$i      => $item->getSku(),
-                        'quantity_'.$i      => $item->getQty(),
-                        'amount_'.$i      => sprintf('%.2f', ($item->getBaseCalculationPrice() - $item->getBaseDiscountAmount())),
-                    ));
-                    if($item->getBaseTaxAmount()>0){
-                        $sArr = array_merge($sArr, array(
-                        'tax_'.$i      => sprintf('%.2f',$item->getBaseTaxAmount()/$item->getQty()),
-                        ));
-                    }
-                    $i++;
-                }
-           }
-        }
-
-        $totalArr = $a->getTotals();
-        $shipping = sprintf('%.2f', $_quote->getShippingAddress()->getBaseShippingAmount());
-        if ($shipping>0 && !$_quote->getIsVirtual()) {
-          if ($transaciton_type=='O') {
-              $sArr = array_merge($sArr, array(
-                    'shipping' => $shipping
-              ));
-          } else {
-              $shippingTax = $_quote->getShippingAddress()->getBaseShippingTaxAmount();
-              $sArr = array_merge($sArr, array(
-                    'item_name_'.$i   => $totalArr['shipping']->getTitle(),
-                    'quantity_'.$i    => 1,
-                    'amount_'.$i      => sprintf('%.2f',$shipping),
-                    'tax_'.$i         => sprintf('%.2f',$shippingTax),
-              ));
-              $i++;
-          }
-        }
-        */
-
-        $sReq = '';
+        ksort($sArr);
         $rArr = array();
         foreach ($sArr as $k=>$v) {
-            /*
-            replacing & char with and. otherwise it will break the post
-            */
+            /** replacing & char with and. otherwise it will break the post */
             $value =  str_replace("&","and",$v);
             $rArr[$k] =  $value;
-            $sReq .= '&'.$k.'='.$value;
         }
+        $secretKeyID = Mage::getStoreConfig('payment/amazon_cba/secretkey_id');
+
+        $rArr['merchant_signature'] = $this->getApi()->calculateSignature($rArr, $secretKeyID);
+        unset($rArr['form_key']);
 
         /*if ($this->getDebug() && $sReq) {
             $sReq = substr($sReq, 1);
@@ -332,13 +224,19 @@ class Mage_AmazonPayments_Model_Payment_CBA extends Mage_Payment_Model_Method_Ab
                     ->setRequestBody($sReq)
                     ->save();
         }*/
-        /*echo '<pre> rArr:'."\n";
-        print_r($rArr);
-        echo '</pre>'."\n";*/
 
         return $rArr;
     }
 
+    /**
+     * Return Checkout by Amazon order dateils, connecting to Amazon
+     *
+     */
+    public function getAmazonOrderDetails()
+    {
+        $_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
+        $this->getApi()->getAmazonCbaOrderDetails($_amazonOrderId);
+    }
 
     public function canCapture()
     {

@@ -149,18 +149,14 @@ Something like this is to be added to resolve bug #4890
                 <order_status>pending</order_status>
                 <allowspecific>0</allowspecific>
                 <payment_action>Authorization</payment_action>
-                <merchant_id>0ZB09TFJVDZEZ0B9PQ02</merchant_id>
-                <merchant_key>0ZB09TFJVDZEZ0B9PQ02</merchant_key>
-                <redirect_url>https://payments.amazon.com/checkout/0ZB09TFJVDZEZ0B9PQ02</redirect_url>
+                <merchant_id>A2ZZYWSJ0WMID8</merchant_id>
+                <merchant_name>Varien</merchant_name>
+                <accesskey_id>0RE4EZZ3H1P6ZHMK79G2</accesskey_id>
+                <secretkey_id>4lbOblPfI+7kA2vM5Oixwf0gbwPoYBjEGt9YGhoN</secretkey_id>
+                <redirect_url>https://payments.amazon.com/checkout/</redirect_url>
                 <button_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</button_url>
+                <wsdl>/media/wsdl/amazon_cba_merchant-interface-mime.wsdl</wsdl>
             </amazon_cba>
-            <!--<amazonpayments>
-                <active>0</active>
-                <model>amazonpayments/payment_cba</model>
-                <title>Another Payment by Amazon</title>
-                <order_status>pending</order_status>
-                <allowspecific>0</allowspecific>
-            </amazonpayments>-->
         </payment>
     </default>
 </config>

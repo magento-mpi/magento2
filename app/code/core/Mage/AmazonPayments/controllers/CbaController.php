@@ -41,8 +41,9 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
      */
     public function shortcutAction()
     {
-        #echo 'Mage_AmazonPayments_CbaController shortcut<br />';
-
+        if (!$this->getCba()->isAvailable()) {
+            $this->_redirect('checkout/cart/');
+        }
         $this->getCba()->shortcutSetCbaCheckout();
         $this->getResponse()->setRedirect($this->getCba()->getRedirectUrl());
     }
@@ -53,9 +54,47 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
      */
     public function redirectAction()
     {
+        if (!$this->getCba()->isAvailable()) {
+            $this->_redirect('checkout/cart/');
+        }
         $session = Mage::getSingleton('checkout/session');
         $session->setAmazonCbaQuoteId($session->getQuoteId());
         $this->getResponse()->setBody($this->getLayout()->createBlock('amazonpayments/cba_redirect')->toHtml());
         $session->unsQuoteId();
+    }
+
+    /**
+     * When a customer has checkout on Amazon and return with Success
+     *
+     */
+    public function successAction()
+    {
+        $session = Mage::getSingleton('checkout/session');
+        $amazonCbaQuoteId = $session->getAmazonCbaQuoteId();
+        //echo "amazonCbaQuoteId: {$amazonCbaQuoteId}<br />";
+
+        /*
+        $_requestParams = Mage::app()->getRequest()->getParams();
+        Array
+        (
+            [amznPmtsOrderIds] => 102-7389301-2720225
+            [showAmznPmtsTYPopup] => 1
+            [merchName] => Varien
+            [amznPmtsYALink] => http://kv.no-ip.org/dev/andrey.babich/magento/index.php/amazonpayments/cba/return/?amznPmtsOrderIds=102-7389301-272022&
+        )
+        */
+
+        $amazonOrderDetails = $this->getCba()->getAmazonOrderDetails();
+
+        $this->_redirect('checkout/onepage/success');
+    }
+
+    /**
+     * When a customer has checkout on Amazon and return with Cancel
+     *
+     */
+    public function cancelAction()
+    {
+        $this->_redirect('checkout/cart/');
     }
 }
