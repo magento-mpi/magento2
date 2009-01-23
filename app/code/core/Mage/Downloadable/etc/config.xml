@@ -143,11 +143,11 @@
                             <downloadable />
                         </allow_product_types>
                     </configurable>
-                    <!--<grouped>
+                    <grouped>
                         <allow_product_types>
                             <downloadable />
                         </allow_product_types>
-                    </grouped>-->
+                    </grouped>
                 </type>
             </product>
         </catalog>
