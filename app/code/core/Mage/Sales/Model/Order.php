@@ -1342,7 +1342,10 @@ class Mage_Sales_Model_Order extends Mage_Core_Model_Abstract
                     $this->setState(self::STATE_COMPLETE, true);
                 }
             }
-            else {
+            /**
+             * Order can be closed just in case when we have refunded amount
+             */
+            elseif(floatval($this->getTotalRefunded())) {
                 if ($this->getState() !== self::STATE_CLOSED) {
                     $this->setState(self::STATE_CLOSED, true);
                 }
