@@ -43,7 +43,7 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive($product->getStoreId())) {
             return $this;
         }
 
@@ -206,7 +206,7 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $category = $observer->getEvent()->getCategory();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
             return $this;
         }
 
@@ -246,7 +246,7 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $category = $observer->getEvent()->getCategory();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (!Mage::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
             return $this;
         }
 
