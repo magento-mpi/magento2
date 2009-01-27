@@ -167,12 +167,8 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function changeItemStatus(Mage_CatalogInventory_Model_Stock_Item $item)
     {
-        if ($product = $item->getProduct()) {
-            $productId      = $product->getId();
-            $productType    = $product->getTypeId();
-        }
-        else {
-            $productId      = $item->getProductId();
+        $productId  = $item->getProductId();
+        if (!$productType = $item->getProductTypeId()) {
             $productType    = $this->getProductType($productId);
         }
 

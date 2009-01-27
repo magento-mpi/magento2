@@ -66,7 +66,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $optionIds = unserialize($customOption->getValue());
             $customOption = $product->getCustomOption('bundle_selection_ids');
             $selectionIds = unserialize($customOption->getValue());
-            $selections = $product->getTypeInstance()->getSelectionsByIds($selectionIds);
+            $selections = $product->getTypeInstance(true)->getSelectionsByIds($selectionIds, $product);
             foreach ($selections->getItems() as $selection) {
                 if ($selection->isSalable()) {
                     $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
@@ -214,13 +214,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getOptions($product)
     {
-        $product->getTypeInstance()->setStoreFilter($product->getStoreId());
+        $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
 
-        $optionCollection = $product->getTypeInstance()->getOptionsCollection();
+        $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
 
-        $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
-                $product->getTypeInstance()->getOptionsIds()
-            );
+        $selectionCollection = $product->getTypeInstance(true)->getSelectionsCollection(
+            $product->getTypeInstance(true)->getOptionsIds($product),
+            $product
+        );
 
         return $optionCollection->appendSelections($selectionCollection, false, false);
     }

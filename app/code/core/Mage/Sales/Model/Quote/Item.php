@@ -400,8 +400,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $options[$optionProduct->getId()]->setValue($value);
         }
 
-        $this->getProduct()->getTypeInstance()
-            ->updateQtyOption($this->getOptions(), $option, $value);
+        $this->getProduct()->getTypeInstance(true)
+            ->updateQtyOption($this->getOptions(), $option, $value, $this->getProduct());
 
         return $this;
     }

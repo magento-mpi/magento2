@@ -73,6 +73,8 @@
                 );
                 Mage::dispatchEvent('catalog_product_compare_add_product', array('product'=>$product));
             }
+
+            Mage::helper('catalog/product_compare')->calculate();
         }
 
         $this->_redirectReferer();
@@ -104,6 +106,7 @@
                         $this->__('Product %s successfully removed from compare list', $product->getName())
                     );
                     Mage::dispatchEvent('catalog_product_compare_remove_product', array('product'=>$item));
+                    Mage::helper('catalog/product_compare')->calculate();
                 }
             }
         }
@@ -130,6 +133,7 @@
         try {
             $items->clear();
             $session->addSuccess($this->__('Compare list successfully cleared'));
+            Mage::helper('catalog/product_compare')->calculate();
         }
         catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());

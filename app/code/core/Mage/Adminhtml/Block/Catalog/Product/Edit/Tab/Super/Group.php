@@ -171,7 +171,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
     {
         $products = $this->getRequest()->getPost('products', null);
         if (!is_array($products)) {
-            $products = $this->_getProduct()->getTypeInstance()->getAssociatedProductIds();
+            $products = $this->_getProduct()->getTypeInstance(true)->getAssociatedProductIds($this->_getProduct());
         }
         return $products;
     }

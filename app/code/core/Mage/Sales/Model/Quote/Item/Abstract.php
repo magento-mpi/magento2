@@ -177,7 +177,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
         }
 
         try {
-            $this->getProduct()->getTypeInstance()->checkProductBuyState();
+            $this->getProduct()->getTypeInstance(true)->checkProductBuyState($this->getProduct());
         } catch (Mage_Core_Exception $e) {
             $this->setHasError(true);
             $this->setMessage($e->getMessage());

@@ -112,12 +112,19 @@ class Mage_CatalogInventory_Model_Observer
         return $this;
     }
 
+    /**
+     * Prepare stock item data for save
+     *
+     * @param Mage_CatalogInventory_Model_Stock_Item $item
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_CatalogInventory_Model_Observer
+     */
     protected function _prepareItemForSave($item, $product)
     {
         $item->addData($product->getStockData())
+            ->setProduct($product)
             ->setProductId($product->getId())
-            ->setStockId($item->getStockId())
-            ->setProduct($product);
+            ->setStockId($item->getStockId());
         if (!is_null($product->getData('stock_data/min_qty'))
             && is_null($product->getData('stock_data/use_config_min_qty'))) {
             $item->setData('use_config_min_qty', false);
@@ -165,7 +172,7 @@ class Mage_CatalogInventory_Model_Observer
          * Check item for options
          */
         if (($options = $quoteItem->getQtyOptions()) && $qty > 0) {
-            $qty = $quoteItem->getProduct()->getTypeInstance()->prepareQuoteItemQty($qty);
+            $qty = $quoteItem->getProduct()->getTypeInstance(true)->prepareQuoteItemQty($qty, $quoteItem->getProduct());
             $quoteItem->setData('qty', $qty);
 
             foreach ($options as $option) {
@@ -251,8 +258,8 @@ class Mage_CatalogInventory_Model_Observer
              */
             if ($result->getHasQtyOptionUpdate()
                 && (!$quoteItem->getParentItem()
-                    || $quoteItem->getParentItem()->getProduct()->getTypeInstance()
-                        ->getForceChildItemQtyChanges())) {
+                    || $quoteItem->getParentItem()->getProduct()->getTypeInstance(true)
+                        ->getForceChildItemQtyChanges($quoteItem->getParentItem()->getProduct()))) {
                 $quoteItem->setData('qty', $result->getOrigQty());
             }
 

@@ -645,7 +645,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote'));
         }
 
-        $cartCandidates = $product->getTypeInstance()->prepareForCart($request);
+        $cartCandidates = $product->getTypeInstance(true)
+            ->prepareForCart($request, $product);
 
         /**
          * Error message
@@ -1067,7 +1068,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             if ($_item->getParentItemId()) {
                 continue;
             }
-            if ($_item->getProduct()->getTypeInstance()->isVirtual()) {
+            if ($_item->getProduct()->isVirtual()) {
                 $hasVirtual = true;
             }
         }

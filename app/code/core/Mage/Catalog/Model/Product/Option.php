@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Option
      */
-    public function setProduct(Mage_Catalog_Model_Product $product)
+    public function setProduct(Mage_Catalog_Model_Product $product = null)
     {
         $this->_product = $product;
         return $this;

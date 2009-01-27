@@ -36,13 +36,44 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Product model instance
      *
+     * @deprecated if use as singleton
      * @var Mage_Catalog_Model_Product
      */
     protected $_product;
+
+    /**
+     * Product type instance id
+     *
+     * @var string
+     */
     protected $_typeId;
+
+    /**
+     * @deprecated
+     *
+     * @var array
+     */
     protected $_setAttributes;
+
+    /**
+     * @deprecated
+     *
+     * @var array
+     */
     protected $_editableAttributes;
+
+    /**
+     * Is a compotite product type
+     *
+     * @var bool
+     */
     protected $_isComposite = false;
+
+    /**
+     * @deprecated
+     *
+     * @var int
+     */
     protected $_storeFilter     = null;
 
     const CALCULATE_CHILD = 0;
@@ -82,10 +113,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Retrieve catalog product object
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product
      */
-    public function getProduct()
+    public function getProduct($product = null)
     {
+        if (is_object($product)) {
+            return $product;
+        }
         return $this->_product;
     }
 
@@ -128,34 +163,47 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Get array of product set attributes
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getSetAttributes()
+    public function getSetAttributes($product = null)
     {
-        if (is_null($this->_setAttributes)) {
-            $attributes = $this->getProduct()->getResource()
-                ->loadAllAttributes($this->getProduct())
+        $cacheKey = '_cache_set_attributes';
+        if (!$this->getProduct($product)->hasData($cacheKey)) {
+            $attributes = $this->getProduct($product)->getResource()
+                ->loadAllAttributes($this->getProduct($product))
                 ->getAttributesByCode();
-            $this->_setAttributes = array();
+            $setAttributes = array();
+            $attributeSetId = $this->getProduct($product)->getAttributeSetId();
             foreach ($attributes as $attribute) {
-                if ($attribute->isInSet($this->getProduct()->getAttributeSetId())) {
-                    $attribute->setDataObject($this->getProduct());
-                    $this->_setAttributes[$attribute->getAttributeCode()] = $attribute;
+                if ($attribute->isInSet($attributeSetId)) {
+                    $attribute->setGroupSortPath($attribute->getData(
+                        "attribute_set_info/{$attributeSetId}/group_sort"
+                    ));
+                    $attribute->setSortPath($attribute->getData(
+                        "attribute_set_info/{$attributeSetId}/sort"
+                    ));
+                    $setAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
 
-            uasort($this->_setAttributes, array($this, 'attributesCompare'));
+            uasort($setAttributes, array($this, 'attributesCompare'));
+            $this->getProduct($product)->setData($cacheKey, $setAttributes);
         }
-        return $this->_setAttributes;
+        return $this->getProduct($product)->getData($cacheKey);
     }
 
+    /**
+     * Compare attribues sorting
+     *
+     * @param Mage_Catalog_Model_Entity_Attribute $attribute1
+     * @param Mage_Catalog_Model_Entity_Attribute $attribute2
+     * @return int
+     */
     public function attributesCompare($attribute1, $attribute2)
     {
-        $sortPath      = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/sort';
-        $groupSortPath = 'attribute_set_info/' . $this->getProduct()->getAttributeSetId() . '/group_sort';
-
-        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
-        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
+        $sort1 =  ($attribute1->getGroupSortPath() * 1000) + ($attribute1->getSortPath() * 0.0001);
+        $sort2 =  ($attribute2->getGroupSortPath() * 1000) + ($attribute2->getSortPath() * 0.0001);
 
         if ($sort1 > $sort2) {
             return 1;
@@ -169,21 +217,24 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Retrieve product type attributes
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return array
      */
-    public function getEditableAttributes()
+    public function getEditableAttributes($product = null)
     {
-        if (is_null($this->_editableAttributes)) {
-            $this->_editableAttributes = array();
-            foreach ($this->getSetAttributes() as $attributeCode => $attribute) {
+        $cacheKey = '_cache_editable_attributes';
+        if (!$this->getProduct($product)->hasData($cacheKey)) {
+            $editableAttributes = array();
+            foreach ($this->getSetAttributes($product) as $attributeCode => $attribute) {
                 if (!is_array($attribute->getApplyTo())
                     || count($attribute->getApplyTo())==0
-                    || in_array($this->getProduct()->getTypeId(), $attribute->getApplyTo())) {
-                    $this->_editableAttributes[$attributeCode] = $attribute;
+                    || in_array($this->getProduct($product)->getTypeId(), $attribute->getApplyTo())) {
+                    $editableAttributes[$attributeCode] = $attribute;
                 }
             }
+            $this->getProduct($product)->setData($cacheKey, $editableAttributes);
         }
-        return $this->_editableAttributes;
+        return $this->getProduct($product)->getData($cacheKey);
     }
 
     /**
@@ -192,9 +243,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param   int $attributeId
      * @return  Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function getAttributeById($attributeId)
+    public function getAttributeById($attributeId, $product = null)
     {
-        foreach ($this->getSetAttributes() as $attribute) {
+        foreach ($this->getSetAttributes($product) as $attribute) {
             if ($attribute->getId() == $attributeId) {
                 return $attribute;
             }
@@ -205,9 +256,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check is virtual product
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isVirtual()
+    public function isVirtual($product = null)
     {
         return false;
     }
@@ -215,13 +267,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check is product available for sale
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isSalable()
+    public function isSalable($product = null)
     {
-        $salable = $this->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
-        if ($salable && $this->getProduct()->hasData('is_salable')) {
-            $salable = $this->getProduct()->getData('is_salable');
+        $salable = $this->getProduct($product)->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+        if ($salable && $this->getProduct($product)->hasData('is_salable')) {
+            $salable = $this->getProduct($product)->getData('is_salable');
         }
         elseif ($salable && $this->isComposite()) {
             $salable = null;
@@ -234,15 +287,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Initialize product(s) for add to cart process
      *
      * @param   Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
      * @return  array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest)
+    public function prepareForCart(Varien_Object $buyRequest, $product = null)
     {
-        $product = $this->getProduct();
+        $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
 
         // try to add custom options
-        $options = $this->_prepareOptionsForCart($buyRequest->getOptions());
+        $options = $this->_prepareOptionsForCart($buyRequest->getOptions(), $product);
         if (is_string($options)) {
             return $options;
         }
@@ -258,7 +312,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     Mage::register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
-                    $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds();
+                    $assocProductIds = $superProduct->getTypeInstance(true)->getAssociatedProductIds($superProduct);
                     if (in_array($product->getId(), $assocProductIds)) {
                         $productType = $superProductConfig['product_type'];
                         $product->addCustomOption('product_type', $productType, $superProduct);
@@ -292,15 +346,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Check custom defined options for product
      *
      * @param   array $options
+     * @param Mage_Catalog_Model_Product $product
      * @return  array || string
      */
-    protected function _prepareOptionsForCart($options)
+    protected function _prepareOptionsForCart($options, $product = null)
     {
         $newOptions = array();
 
-        foreach ($this->getProduct()->getOptions() as $_option) {
+        foreach ($this->getProduct($product)->getOptions() as $_option) {
             /* @var $_option Mage_Catalog_Model_Product_Option */
-            if (!isset($options[$_option->getId()]) && $_option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
+            if (!isset($options[$_option->getId()]) && $_option->getIsRequire() && !$this->getProduct($product)->getSkipCheckRequiredOption()) {
                 return Mage::helper('catalog')->__('Please specify the product required option(s)');
             }
             if (!isset($options[$_option->getId()])) {
@@ -330,7 +385,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     continue;
                 }
                 $valuesCollection = $_option->getOptionValuesByOptionId(
-                        $options[$_option->getId()], $this->getProduct()->getStoreId()
+                        $options[$_option->getId()], $this->getProduct($product)->getStoreId()
                     )->load();
 
                 if ($valuesCollection->count() != count($options[$_option->getId()])) {
@@ -349,15 +404,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check if product can be bought
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
      * @throws Mage_Core_Exception
      */
-    public function checkProductBuyState()
+    public function checkProductBuyState($product = null)
     {
-        if (!$this->getProduct()->getSkipCheckRequiredOption()) {
-            foreach ($this->getProduct()->getOptions() as $option) {
-                if ($option->getIsRequire() && (!$this->getProduct()->getCustomOption('option_'.$option->getId())
-                || strlen($this->getProduct()->getCustomOption('option_'.$option->getId())->getValue()) == 0)) {
+        if (!$this->getProduct($product)->getSkipCheckRequiredOption()) {
+            foreach ($this->getProduct($product)->getOptions() as $option) {
+                if ($option->getIsRequire() && (!$this->getProduct($product)->getCustomOption('option_'.$option->getId())
+                || strlen($this->getProduct($product)->getCustomOption('option_'.$option->getId())->getValue()) == 0)) {
                     Mage::throwException(
                         Mage::helper('catalog')->__('Product has required options')
                     );
@@ -373,21 +429,22 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @return attay
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
      */
-    public function getOrderOptions()
+    public function getOrderOptions($product = null)
     {
         $optionArr = array();
-        if ($info = $this->getProduct()->getCustomOption('info_buyRequest')) {
+        if ($info = $this->getProduct($product)->getCustomOption('info_buyRequest')) {
             $optionArr['info_buyRequest'] = unserialize($info->getValue());
         }
 
-        if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
+        if ($optionIds = $this->getProduct($product)->getCustomOption('option_ids')) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
-                if ($option = $this->getProduct()->getOptionById($optionId)) {
+                if ($option = $this->getProduct($product)->getOptionById($optionId)) {
                     $formatedValue = '';
                     $optionGroup = $option->getGroupByType($option->getType());
-                    $optionValue = $this->getProduct()->getCustomOption('option_'.$option->getId())->getValue();
+                    $optionValue = $this->getProduct($product)->getCustomOption('option_'.$option->getId())->getValue();
                     if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
                         || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
                         foreach (explode(',', $optionValue) as $value) {
@@ -409,7 +466,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             }
         }
 
-        if ($productTypeConfig = $this->getProduct()->getCustomOption('product_type')) {
+        if ($productTypeConfig = $this->getProduct($product)->getCustomOption('product_type')) {
             $optionArr['super_product_config'] = array(
                 'product_code'  => $productTypeConfig->getCode(),
                 'product_type'  => $productTypeConfig->getValue(),
@@ -423,9 +480,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Save type related data
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
      */
-    public function save()
+    public function save($product = null)
     {
         return $this;
     }
@@ -433,20 +491,22 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Before save type related data
      *
-     * @return unknown
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Type_Abstract
      */
-    public function beforeSave()
+    public function beforeSave($product = null)
     {
-        $this->getProduct()->canAffectOptions(true);
+        $this->getProduct($product)->canAffectOptions(true);
         return $this;
     }
 
     /**
      * Check if product is composite (grouped, configurable, etc)
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function isComposite()
+    public function isComposite($product = null)
     {
         return $this->_isComposite;
     }
@@ -454,18 +514,19 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Default action to get sku of product
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return string
      */
-    public function getSku()
+    public function getSku($product = null)
     {
         $skuDelimiter = '-';
-        $sku = $this->getProduct()->getData('sku');
-        if ($optionIds = $this->getProduct()->getCustomOption('option_ids')) {
+        $sku = $this->getProduct($product)->getData('sku');
+        if ($optionIds = $this->getProduct($product)->getCustomOption('option_ids')) {
             $optionIds = split(',', $optionIds->getValue());
             foreach ($optionIds as $optionId) {
-                $productOption = $this->getProduct()->getOptionById($optionId);
-                if ($productOption = $this->getProduct()->getOptionById($optionId)) {
-                    $optionValue   = $this->getProduct()->getCustomOption('option_' . $optionId)->getValue();
+                $productOption = $this->getProduct($product)->getOptionById($optionId);
+                if ($productOption = $this->getProduct($product)->getOptionById($optionId)) {
+                    $optionValue   = $this->getProduct($product)->getCustomOption('option_' . $optionId)->getValue();
 
                     if ($productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
                         || $productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
@@ -495,21 +556,23 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Default action to get weight of product
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return decimal
      */
-    public function getWeight()
+    public function getWeight($product = null)
     {
-        return $this->getProduct()->getData('weight');
+        return $this->getProduct($product)->getData('weight');
     }
 
     /**
      * Return true if product has options
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function hasOptions()
+    public function hasOptions($product = null)
     {
-        if ($this->getProduct()->getHasOptions()) {
+        if ($this->getProduct($product)->getHasOptions()) {
             return true;
         }
         return false;
@@ -527,7 +590,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @return object       Mage_Catalog_Model_Product_Type_Abstract
      */
-    public function updateQtyOption($options, Varien_Object $option, $value)
+    public function updateQtyOption($options, Varien_Object $option, $value, $product = null)
     {
         return $this;
     }
@@ -535,11 +598,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check if product has required options
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return bool
      */
-    public function hasRequiredOptions()
+    public function hasRequiredOptions($product = null)
     {
-        if ($this->getProduct()->getRequiredOptions()) {
+        if ($this->getProduct($product)->getRequiredOptions()) {
             return true;
         }
         return false;
@@ -550,9 +614,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @return int|Mage_Core_Model_Store
      */
-    public function getStoreFilter()
+    public function getStoreFilter($product = null)
     {
-        return $this->_storeFilter;
+        $cacheKey = '_cache_instance_store_filter';
+        return $this->getProduct($product)->getData($cacheKey);
     }
 
     /**
@@ -561,9 +626,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param $store int|Mage_Core_Model_Store
      * @return Mage_Catalog_Model_Product_Type_Configurable
      */
-    public function setStoreFilter($store=null)
+    public function setStoreFilter($store=null, $product = null)
     {
-        $this->_storeFilter = $store;
+        $cacheKey = '_cache_instance_store_filter';
+        $this->getProduct($product)->setData($cacheKey, $store);
         return $this;
     }
 
@@ -573,7 +639,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @return boolean false
      */
-    public function getForceChildItemQtyChanges()
+    public function getForceChildItemQtyChanges($product = null)
     {
         return false;
     }
@@ -584,7 +650,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * @param mixed $qty
      * @return float
      */
-    public function prepareQuoteItemQty($qty)
+    public function prepareQuoteItemQty($qty, $product = null)
     {
         return floatval($qty);
     }
@@ -595,14 +661,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @param Mage_Catalog_Model_Product $optionProduct
      * @param Mage_Sales_Model_Quote_Item_Option $option
+     * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
      */
-    public function assignProductToOption($optionProduct, $option)
+    public function assignProductToOption($optionProduct, $option, $product = null)
     {
         if ($optionProduct) {
             $option->setProduct($optionProduct);
         } else {
-            $option->setProduct($this->getProduct());
+            $option->setProduct($this->getProduct($product));
         }
 
         return $this;

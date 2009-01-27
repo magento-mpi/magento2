@@ -1066,7 +1066,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 /* @var $item Mage_Sales_Model_Quote_Item */
                 $orderItem = $quoteConvert->itemToOrderItem($item);
                 $options = array();
-                if ($productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions()) {
+                if ($productOptions = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct())) {
                     $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
                     $options = $productOptions;
                 }
@@ -1089,7 +1089,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 /* @var $item Mage_Sales_Model_Quote_Item */
                 $orderItem = $quoteConvert->itemToOrderItem($item);
                 $options = array();
-                if ($productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions()) {
+                if ($productOptions = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct())) {
                     $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
                     $options = $productOptions;
                 }

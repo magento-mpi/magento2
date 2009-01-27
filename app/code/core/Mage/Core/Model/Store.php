@@ -390,7 +390,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     public function isAdmin()
     {
-        return !$this->getId();
+        return $this->getId() == Mage_Core_Model_App::ADMIN_STORE_ID;
     }
 
     public function isCurrentlySecure()

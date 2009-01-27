@@ -83,7 +83,7 @@
     {
         $this->_attributes = array();
         foreach($this->getItems() as $item) {
-            foreach ($item->getTypeInstance()->getSetAttributes() as $attribute) {
+            foreach ($item->getTypeInstance(true)->getSetAttributes($item) as $attribute) {
                 if ($attribute->getIsComparable()
                     && !isset($this->_attributes[$attribute->getAttributeCode()])
                     && $item->getData($attribute->getAttributeCode())!==null) {

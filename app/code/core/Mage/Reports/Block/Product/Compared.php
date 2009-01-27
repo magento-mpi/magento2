@@ -51,6 +51,11 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
         return Mage::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
     }
 
+    /**
+     * Retrieve Product Ids to skip
+     *
+     * @return array
+     */
     protected function _getProductsToSkip()
     {
         $ids = array();
@@ -63,11 +68,22 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
         return $ids;
     }
 
+    /**
+     * Check session has compared products
+     *
+     * @return bool
+     */
     protected function _hasComparedProductsBefore()
     {
         return Mage::getSingleton('reports/session')->getData('compared_products');
     }
 
+    /**
+     * Prepare to html
+     * check has compared products
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         if ($this->_hasComparedProductsBefore() === false) {
