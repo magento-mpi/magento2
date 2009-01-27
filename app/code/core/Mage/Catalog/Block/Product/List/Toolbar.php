@@ -360,7 +360,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
      */
     public function getModeUrl($mode)
     {
-        return $this->getPagerUrl(array($this->getModeVarName()=>$mode));
+        return $this->getPagerUrl( array($this->getModeVarName()=>$mode, $this->getPageVarName() => null) );
     }
 
     /**
