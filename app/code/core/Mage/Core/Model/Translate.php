@@ -33,6 +33,7 @@ class Mage_Core_Model_Translate
 {
     const CSV_SEPARATOR     = ',';
     const SCOPE_SEPARATOR   = '::';
+    const CACHE_TAG         = 'translate';
 
     const CONFIG_KEY_AREA   = 'area';
     const CONFIG_KEY_LOCALE = 'locale';
@@ -529,7 +530,7 @@ class Mage_Core_Model_Translate
         if (!$this->_canUseCache()) {
             return $this;
         }
-        Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array('translate'), null);
+        Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array(self::CACHE_TAG), null);
         return $this;
     }
 
