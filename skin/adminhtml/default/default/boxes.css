@@ -1158,7 +1158,7 @@ ul.super-product-attributes { padding-left:15px; }
 .normal             { font-weight:normal !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
-.form-buttons:after,
+.login-form .form-buttons:after,
 .wrapper:after,
 .bundle .option-title:after,
 .columns:after,
