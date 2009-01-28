@@ -173,7 +173,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
         }
 
         $status     = (int)$item->getIsInStock();
-        $qty        = $item->getQty();
+        $qty        = (int)$item->getQty();
 
         $this->_processChildren($productId, $productType, $qty, $status, $item->getStockId());
         $this->_processParents($productId, $item->getStockId());
