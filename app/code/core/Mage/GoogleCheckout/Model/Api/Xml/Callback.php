@@ -294,7 +294,12 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $order = $convertQuote->toOrder($quote);
 
-        $convertQuote->addressToOrder($quote->getShippingAddress(), $order);
+        if ($quote->isVirtual()) {
+            $convertQuote->addressToOrder($quote->getBillingAddress(), $order);
+        } else {
+            $convertQuote->addressToOrder($quote->getShippingAddress(), $order);
+        }
+
 
         $order->setExtOrderId($this->getGoogleOrderNumber());
         $order->setExtCustomerId($this->getData('root/buyer-id/VALUE'));
@@ -310,7 +315,9 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         }
 
         $order->setBillingAddress($convertQuote->addressToOrderAddress($quote->getBillingAddress()));
-        $order->setShippingAddress($convertQuote->addressToOrderAddress($quote->getShippingAddress()));
+        if (!$quote->isVirtual()) {
+            $order->setShippingAddress($convertQuote->addressToOrderAddress($quote->getShippingAddress()));
+        }
         #$order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
 
         foreach ($quote->getAllItems() as $item) {

@@ -80,7 +80,6 @@ EOT;
             }
             $taxClass = ($item->getTaxClassId() == 0 ? 'none' : $item->getTaxClassId());
             $weight = (float) $item->getWeight();
-            $digital = $item->getIsVirtual() ? 'true' : 'false';
 
             $xml .= <<<EOT
             <item>
@@ -91,7 +90,7 @@ EOT;
                 <quantity>{$item->getQty()}</quantity>
                 <item-weight unit="{$weightUnit}" value="{$weight}" />
                 <tax-table-selector>{$taxClass}</tax-table-selector>
-                {$this->_getDigitalContentXml($item)}
+                {$this->_getDigitalContentXml($item->getIsVirtual())}
                 {$this->_getMerchantPrivateItemDataXml($item)}
             </item>
 
@@ -111,6 +110,7 @@ EOT;
                 <quantity>1</quantity>
                 <item-weight unit="{$weightUnit}" value="0.00" />
                 <tax-table-selector>none</tax-table-selector>
+                {$this->_getDigitalContentXml($this->getQuote()->isVirtual())}
             </item>
 
 EOT;
@@ -121,9 +121,9 @@ EOT;
         return $xml;
     }
 
-    protected function _getDigitalContentXml($item)
+    protected function _getDigitalContentXml($isVirtual)
     {
-        if (!$item->getIsVirtual()) {
+        if (!$isVirtual) {
             return '';
         }
 
@@ -150,11 +150,7 @@ EOT;
 
     protected function _getMerchantPrivateItemDataXml($item)
     {
-        $xml = <<<EOT
-            <merchant-private-item-data>
-                <quote-item-id>{$item->getId()}</quote-item-id>
-            </merchant-private-item-data>
-EOT;
+        $xml = "<merchant-private-item-data><quote-item-id>{$item->getId()}</quote-item-id></merchant-private-item-data>";
         return $xml;
     }
     protected function _getMerchantPrivateDataXml()
