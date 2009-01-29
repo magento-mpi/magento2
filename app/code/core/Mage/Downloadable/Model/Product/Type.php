@@ -309,7 +309,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $preparedLinks = array();
         if ($this->getProduct($product)->getLinksPurchasedSeparately()) {
             if ($links = $buyRequest->getLinks()) {
-                foreach ($this->getLinks() as $link) {
+                foreach ($this->getLinks($product) as $link) {
                     if (in_array($link->getId(), $links)) {
                         $preparedLinks[] = $link->getId();
                     }
