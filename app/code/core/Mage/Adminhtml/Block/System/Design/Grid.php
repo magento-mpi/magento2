@@ -52,6 +52,7 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
                 'header'    => Mage::helper('catalog')->__('Store'),
                 'width'     => '100px',
                 'type'      => 'store',
+                'store_view'=> true,
                 'index'     => 'store_id',
             ));
         }
