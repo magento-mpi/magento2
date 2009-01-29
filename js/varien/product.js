@@ -568,7 +568,7 @@ Product.OptionsPrice.prototype = {
                     var excl = price - tax;
                     var incl = excl*(1+(this.currentTax/100));
                 } else {
-                    var tax = price * (this.defaultTax / 100);
+                    var tax = price * (this.currentTax / 100);
                     var excl = price;
                     var incl = excl + tax;
                 }
