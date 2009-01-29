@@ -95,7 +95,7 @@ class Mage_AmazonPayments_Model_Api extends Mage_AmazonPayments_Model_Api_Abstra
      */
     protected function getSoapApi($options = array())
     {
-        $wsdl = Mage::getBaseDir() . Mage::getStoreConfig('payment/amazon_cba/wsdl');
+        $wsdl = Mage::getStoreConfig('payment/amazonpayments_cba/wsdl');
         return new Mage_AmazonPayments_Model_Api_ExtendedSoapClient($wsdl, $options);
     }
 }

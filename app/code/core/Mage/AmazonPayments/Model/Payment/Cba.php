@@ -31,7 +31,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      * CBA - Checkout By Amazon
      */
 
-    protected $_code  = 'amazon_cba';
+    protected $_code  = 'amazonpayments_cba';
     protected $_formBlockType = 'amazonpayments/cba_form';
     protected $_api;
 
@@ -46,7 +46,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     public function isAvailable($quote=null)
     {
-        return Mage::getStoreConfig('payment/amazon_cba/active');
+        return Mage::getStoreConfig('payment/amazonpayments_cba/active');
     }
 
     /**
@@ -115,7 +115,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     }
 
     /**
-     * Getting amazon_cba action url
+     * Getting amazonpayments_cba action url
      *
      * @return string
      */
@@ -174,7 +174,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $_merchant_id = $this->getMerchantId();
         foreach ($_quote->getAllVisibleItems() as $_item) {
             $sArr = array_merge($sArr, array(
-                "item_merchant_id_{$i}"         => Mage::getStoreConfig('payment/amazon_cba/merchant_id'),
+                "item_merchant_id_{$i}"         => Mage::getStoreConfig('payment/amazonpayments_cba/merchant_id'),
                 "item_title_{$i}"               => $_item->getName(),
                 "item_description_{$i}"         => $_item->getProduct()->getDescription(),
                 "item_price_{$i}"               => $_item->getPrice(),
@@ -192,7 +192,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         }
 
         $sArr = array_merge($sArr, array(
-            'aws_access_key_id' => Mage::getStoreConfig('payment/amazon_cba/accesskey_id'),
+            'aws_access_key_id' => Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'),
             'currency_code'     => $currency_code,
             'form_key'          => Mage::getSingleton('core/session')->getFormKey(),
 
@@ -212,7 +212,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             $value =  str_replace("&","and",$v);
             $rArr[$k] =  $value;
         }
-        $secretKeyID = Mage::getStoreConfig('payment/amazon_cba/secretkey_id');
+        $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
 
         $rArr['merchant_signature'] = $this->getApi()->calculateSignature($rArr, $secretKeyID);
         unset($rArr['form_key']);
@@ -229,13 +229,34 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     }
 
     /**
-     * Return Checkout by Amazon order dateils, connecting to Amazon
+     * Return Checkout by Amazon order datails, connecting to Amazon
      *
      */
     public function getAmazonOrderDetails()
     {
         $_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
+        echo "_amazonOrderId: {$_amazonOrderId}<br />\n";
         $this->getApi()->getAmazonCbaOrderDetails($_amazonOrderId);
+    }
+
+    /**
+     * Return Checkout by Amazon order datails, connecting to Amazon
+     *
+     */
+    public function returnAmazon()
+    {
+        $_requestParams = Mage::app()->getRequest()->getParams();
+        $_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
+
+        $quote = $this->getCheckout()->getQuote();
+        $quote->getPayment()
+            ->setMethod('amazonpayments_cba')
+            ->setAmazonOrderId($_amazonOrderId)
+            ->setReturnRequest(serialize($_requestParams))
+            ->save();
+
+        #echo "_amazonOrderId: {$_amazonOrderId}<br />\n";
+        #$this->getApi()->getAmazonCbaOrderDetails($_amazonOrderId);
     }
 
     public function canCapture()
@@ -263,11 +284,11 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
 
         #$this->throwError();
 
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-        $stateObject->setStatus('pending_worldpay');
+        $stateObject->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
+        $stateObject->setStatus('Processing');
         $stateObject->setIsNotified(false);
 
-        Mage::getSingleton('worldpay/session')->unsExpressCheckoutMethod();
+        Mage::getSingleton('amazonpayments/session')->unsExpressCheckoutMethod();
 
         return $this;
     }
