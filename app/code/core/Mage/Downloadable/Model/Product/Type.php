@@ -316,7 +316,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 }
             }
         } else {
-            foreach ($this->getLinks() as $link) {
+            foreach ($this->getLinks($product) as $link) {
                 $preparedLinks[] = $link->getId();
             }
         }
@@ -342,7 +342,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $options = parent::getOrderOptions($product);
         if ($linkIds = $this->getProduct($product)->getCustomOption('downloadable_link_ids')) {
             $linkOptions = array();
-            $links = $this->getLinks();
+            $links = $this->getLinks($product);
             foreach (explode(',', $linkIds->getValue()) as $linkId) {
                 if (isset($links[$linkId])) {
                     $linkOptions[] = $linkId;
