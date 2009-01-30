@@ -294,7 +294,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $yShipments = $this->y;
 
 
-            $totalShippingChargesText = "(" . Mage::helper('sales')->__('Total Shipping Charges') . " " . $order->formatPriceTxt($order->getBaseShippingAmount()) . ")";
+            $totalShippingChargesText = "(" . Mage::helper('sales')->__('Total Shipping Charges') . " " . $order->formatPriceTxt($order->getShippingAmount()) . ")";
 
             $page->drawText($totalShippingChargesText, 285, $yShipments-7, 'UTF-8');
             $yShipments -=10;
