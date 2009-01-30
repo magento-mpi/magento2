@@ -232,7 +232,7 @@ class Mage_Core_Model_Cookie
      * @param int|bool $httponly
      * @return Mage_Core_Model_Cookie
      */
-    public function delete($name, $path = null, $domain = null, $secure = null, $httponly)
+    public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
     {
         /**
          * Check headers sent
