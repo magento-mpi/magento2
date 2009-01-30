@@ -33,6 +33,12 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     const VALIDATOR_HTTP_VIA_KEY                = 'http_via';
     const VALIDATOR_REMOTE_ADDR_KEY             = 'remote_addr';
 
+    /**
+     * Conigure and start session
+     *
+     * @param string $sessionName
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
     public function start($sessionName=null)
     {
         if (isset($_SESSION)) {
@@ -61,24 +67,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 break;
         }
 
-//        if (intval($this->getCookieLifetime()) > 0) {
-//            ini_set('session.gc_maxlifetime', $this->getCookieLifetime());
-//            ini_set('session.cookie_lifetime', $this->getCookieLifetime());
-//        } else {
-//            /*
-//            * if cookie life time is empty or 0, we put 0
-//            * session will be time out when we close the browser
-//            */
-//            ini_set('session.gc_maxlifetime', 3600);
-//            ini_set('session.cookie_lifetime', 3600);
-//        }
-//        if (!is_null($this->getCookiePath())) {
-//            ini_set('session.cookie_path', $this->getCookiePath());
-//        }
-//        if (!is_null($this->getCookieDomain()) && strpos($this->getCookieDomain(), '.')!==false) {
-//            ini_set('session.cookie_domain', $this->getCookieDomain());
-//        }
-
+        // set session cookie params
         session_set_cookie_params(
             $this->getCookie()->getLifetime(),
             $this->getCookie()->getPath(),
@@ -117,8 +106,16 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         return Mage::getSingleton('core/cookie');
     }
 
+    /**
+     * Revalidate cookie
+     *
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
     public function revalidateCookie()
     {
+        if (!$this->getCookie()->getLifetime()) {
+            return $this;
+        }
         if (empty($this->_data['_cookie_revalidate'])) {
             $time = time() + round(ini_get('session.gc_maxlifetime') / 4);
             $this->_data['_cookie_revalidate'] = $time;
@@ -128,13 +125,22 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 if (!headers_sent()) {
                     $this->getCookie()->set(session_name(), session_id());
 
-                    $time = time() + round(ini_get('session.gc_maxlifetime') / 4);
+                    $time = time() + round($this->getCookie()->getLifetime() / 4);
                     $this->_data['_cookie_revalidate'] = $time;
                 }
             }
         }
+
+        return $this;
     }
 
+    /**
+     * Init session with namespace
+     *
+     * @param string $namespace
+     * @param string $sessionName
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
     public function init($namespace, $sessionName=null)
     {
         if (!isset($_SESSION)) {
@@ -152,7 +158,14 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         return $this;
     }
 
-    public function getData($key='', $clear=false)
+    /**
+     * Additional get data with clear mode
+     *
+     * @param string $key
+     * @param bool $clear
+     * @return mixed
+     */
+    public function getData($key='', $clear = false)
     {
         $data = parent::getData($key);
         if ($clear && isset($this->_data[$key])) {
@@ -161,11 +174,22 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         return $data;
     }
 
+    /**
+     * Retrieve session Id
+     *
+     * @return string
+     */
     public function getSessionId()
     {
         return session_id();
     }
 
+    /**
+     * Set custom session id
+     *
+     * @param string $id
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
     public function setSessionId($id=null)
     {
         if (!is_null($id) && preg_match('#^[0-9a-zA-Z,-]+$#', $id)) {
@@ -174,12 +198,22 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         return $this;
     }
 
+    /**
+     * Unset all data
+     *
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
     public function unsetAll()
     {
         $this->unsetData();
         return $this;
     }
 
+    /**
+     * Alias for unsetAll
+     *
+     * @return Mage_Core_Model_Session_Abstract_Varien
+     */
     public function clear()
     {
         return $this->unsetAll();
@@ -300,13 +334,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         if ($this->useValidateHttpUserAgent()
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
             && !in_array($validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY], $this->getValidateHttpUserAgentSkip())) {
-//            print '<pre>';
-//            var_dump(
-//                $this->useValidateHttpUserAgent(),
-//                $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY],
-//                $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY],
-//                $this->getValidateHttpUserAgentSkip());
-//            die();
             return false;
         }
 

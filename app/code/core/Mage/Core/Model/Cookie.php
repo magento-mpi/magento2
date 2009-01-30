@@ -149,12 +149,16 @@ class Mage_Core_Model_Cookie
 
     /**
      * Is https secure request
+     * Use secure on adminhtml only
      *
      * @return bool
      */
     public function isSecure()
     {
-        return $this->_getRequest()->isSecure();
+        if ($this->getStore()->isAdmin()) {
+            return $this->_getRequest()->isSecure();
+        }
+        return false;
     }
 
     /**
@@ -202,8 +206,6 @@ class Mage_Core_Model_Cookie
             $httponly = $this->getHttponly();
         }
 
-        $this->delete($name, $path, $domain, $secure, $httponly);
-
         setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 
         return $this;
@@ -227,9 +229,10 @@ class Mage_Core_Model_Cookie
      * @param string $path
      * @param string $domain
      * @param int|bool $secure
+     * @param int|bool $httponly
      * @return Mage_Core_Model_Cookie
      */
-    public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
+    public function delete($name, $path = null, $domain = null, $secure = null, $httponly)
     {
         /**
          * Check headers sent
@@ -247,8 +250,11 @@ class Mage_Core_Model_Cookie
         if (is_null($secure)) {
             $secure = $this->isSecure();
         }
+        if (is_null($httponly)) {
+            $httponly = $this->getHttponly();
+        }
 
-        setcookie($name, null, null, $path, $domain, $secure);
+        setcookie($name, null, null, $path, $domain, $secure, $httponly);
         return $this;
     }
 }
