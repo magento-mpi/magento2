@@ -321,6 +321,14 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Process Parents by child
+     *
+     * @param int $productId
+     * @param int $stockId
+     * @param int $websiteId
+     * @return Mage_CatalogInventory_Model_Stock_Status
+     */
     protected function _processParents($productId, $stockId = 1, $websiteId = null)
     {
         $parentIds = array();

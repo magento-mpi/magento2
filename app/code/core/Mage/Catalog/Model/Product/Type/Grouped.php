@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      * @param int $childId
      * @return array
      */
-    public function getParentIdsByRequiredChild($childId)
+    public function getParentIdsByChild($childId)
     {
         return Mage::getResourceSingleton('catalog/product_link')
             ->getParentIdsByChild($childId,
