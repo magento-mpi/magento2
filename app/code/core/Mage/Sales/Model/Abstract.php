@@ -24,56 +24,47 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_Sales_Model_Order_Shipment_Comment extends Mage_Sales_Model_Abstract
+/**
+ * Sales abstract model
+ * Provide date processing functionality
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+abstract class Mage_Sales_Model_Abstract extends Mage_Core_Model_Abstract
 {
     /**
-     * Shipment instance
+     * Get object store identifier
      *
-     * @var Mage_Sales_Model_Order_Shipment
+     * @return int | string | Mage_Core_Model_Store
      */
-    protected $_shipment;
+    abstract public function getStore();
 
     /**
-     * Initialize resource model
+     * Get object created at date affected current active store timezone
+     *
+     * @return Zend_Date
      */
-    protected function _construct()
+    public function getCreatedAtDate()
     {
-        $this->_init('sales/order_shipment_comment');
+        return Mage::app()->getLocale()->date(
+            $this->_getResource()->mktime(($this->getCreatedAt())),
+            null,
+            null,
+            true
+        );
     }
 
     /**
-     * Declare Shipment instance
+     * Get object created at date affected with object store timezone
      *
-     * @param   Mage_Sales_Model_Order_Shipment $shipment
-     * @return  Mage_Sales_Model_Order_Shipment_Comment
+     * @return Zend_Date
      */
-    public function setShipment(Mage_Sales_Model_Order_Shipment $shipment)
+    public function getCreatedAtStoreDate()
     {
-        $this->_shipment = $shipment;
-        return $this;
-    }
-
-    /**
-     * Retrieve Shipment instance
-     *
-     * @return Mage_Sales_Model_Order_Shipment
-     */
-    public function getShipment()
-    {
-        return $this->_shipment;
-    }
-
-    /**
-     * Get store object
-     *
-     * @return Mage_Core_Model_Store
-     */
-    public function getStore()
-    {
-        if ($this->getShipment()) {
-            return $this->getShipment()->getStore();
-        }
-        return Mage::app()->getStore();
+        return Mage::app()->getLocale()->storeDate(
+            $this->getStore(),
+            $this->_getResource()->mktime(($this->getCreatedAt())),
+            true
+        );
     }
 }
