@@ -251,7 +251,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         }
 
         if ($object->getUrl()) {
-            $object->setUrl('http://demo.magentocommerce.com/sony-vaio-vgn-txn27n-b-11-1-notebook-pc.html');
             $links = $entry->getLink();
             if (!is_array($links)) {
                 $links = array();
