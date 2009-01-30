@@ -160,6 +160,9 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         return true;
     }
 
+    /**
+     * TODO: unify _saveRelations() and add() methods, they make same things
+     */
     public function _saveRelations(Mage_Core_Model_Abstract $user)
     {
         $rolesIds = $user->getRoleIds();
@@ -175,11 +178,10 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
             foreach ($rolesIds as $rid) {
                 $rid = intval($rid);
                 if ($rid > 0) {
-                    //$row = $this->load($user, $rid);
+                    $row = Mage::getModel('admin/role')->load($rid)->getData();
                 } else {
                     $row = array('tree_level' => 0);
                 }
-                $row = array('tree_level' => 0);
 
                 $data = array(
                     'parent_id'     => $rid,
@@ -213,8 +215,8 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         return (($roles = $read->fetchCol($select)) ? $roles : array());
     }
 
-    public function add(Mage_Core_Model_Abstract $user) {
-
+    public function add(Mage_Core_Model_Abstract $user)
+    {
         $dbh = $this->_getWriteAdapter();
 
         $aRoles = $this->hasAssigned2Role($user);
@@ -242,7 +244,8 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
-    public function deleteFromRole(Mage_Core_Model_Abstract $user) {
+    public function deleteFromRole(Mage_Core_Model_Abstract $user)
+    {
         if ( $user->getUserId() <= 0 ) {
             return $this;
         }
