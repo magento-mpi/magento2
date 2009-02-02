@@ -545,7 +545,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $sortBy = Mage::getSingleton('catalog/config')
                 ->getProductListDefaultSortBy($this->getStoreId());
         }
-        $available = $this->getAvailableSortBy();
+        $available = $this->getAvailableSortByOptions();
         if (!isset($available[$sortBy])) {
             $sortBy = array_keys($available);
             $sortBy = $sortBy[0];
