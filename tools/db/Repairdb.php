@@ -1074,7 +1074,8 @@ HTML;
 function repairContinue()
 {
     document.getElementById('button-continue').disabled = true;
-    return true;
+    document.getElementById('frm_db_repair').submit();
+    return false;
 }
 </script>
 JAVASCRIPT;
