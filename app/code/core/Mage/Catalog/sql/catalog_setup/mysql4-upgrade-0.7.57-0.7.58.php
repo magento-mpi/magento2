@@ -124,6 +124,7 @@ $installer->addAttribute($entityTypeId, 'available_sort_by', array(
     'required'      => 1,
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'visible'       => 1,
+    'input_renderer'=> 'adminhtml/catalog_category_helper_sortby_available',
 ));
 $installer->addAttribute($entityTypeId, 'default_sort_by', array(
     'input'         => 'select',
