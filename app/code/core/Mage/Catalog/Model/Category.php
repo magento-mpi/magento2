@@ -511,6 +511,20 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Retrieve Available int Product Listing sort by
+     *
+     * @return null|array
+     */
+    public function getAvailableSortBy()
+    {
+        $available = $this->getData('available_sort_by');
+        if ($available && !is_array($available)) {
+            $available = split(',', $available);
+        }
+        return $available;
+    }
+
+    /**
      * Retrieve Available Product Listing  Sort By
      * code as key, value - name
      *
@@ -520,8 +534,8 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         $availableSortBy = array();
         $defaultSortBy   = Mage::getSingleton('catalog/config')
             ->getAttributeUsedForSortByArray();
-        if ($this->getData('available_sort_by')) {
-            foreach ($this->getData('available_sort_by') as $sortBy) {
+        if ($this->getAvailableSortBy()) {
+            foreach ($this->getAvailableSortBy() as $sortBy) {
                 if (isset($defaultSortBy[$sortBy])) {
                     $availableSortBy[$sortBy] = $defaultSortBy[$sortBy];
                 }
