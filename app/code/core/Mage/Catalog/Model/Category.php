@@ -509,4 +509,49 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
         return $this->getData('product_count');
     }
+
+    /**
+     * Retrieve Available Product Listing  Sort By
+     * code as key, value - name
+     *
+     * @return array
+     */
+    public function getAvailableSortByOptions() {
+        $availableSortBy = array();
+        $defaultSortBy   = Mage::getSingleton('catalog/config')
+            ->getAttributeUsedForSortByArray();
+        if ($this->getData('available_sort_by')) {
+            foreach ($this->getData('available_sort_by') as $sortBy) {
+                if (isset($defaultSortBy[$sortBy])) {
+                    $availableSortBy[$sortBy] = $defaultSortBy[$sortBy];
+                }
+            }
+        }
+
+        if (!$availableSortBy) {
+            $availableSortBy = $defaultSortBy;
+        }
+
+        return $availableSortBy;
+    }
+
+    /**
+     * Retrieve Product Listing Default Sort By
+     *
+     * @return string
+     */
+    public function getDefaultSortBy() {
+        if (!$sortBy = $this->getData('default_sort_by')) {
+            $sortBy = Mage::getSingleton('catalog/config')
+                ->getProductListDefaultSortBy($this->getStoreId());
+        }
+        $available = $this->getAvailableSortBy();
+        if (!isset($available[$sortBy])) {
+            $sortBy = array_keys($available);
+            $sortBy = $sortBy[0];
+        }
+
+        return $sortBy;
+    }
+
 }

@@ -1370,7 +1370,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getReservedAttributes()
     {
         if ($this->_reservedAttributes === null) {
-            $_reserved = array();
+            $_reserved = array('position');
             $methods = get_class_methods(__CLASS__);
             foreach ($methods as $method) {
                 if (preg_match('/^get([A-Z]{1}.+)/', $method, $matches)) {
