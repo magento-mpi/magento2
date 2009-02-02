@@ -20,7 +20,7 @@
  *
  * @category   Mage
  * @package    tools
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -421,7 +421,7 @@ class Tools_Db_Repair_Mysql4
 
         // collect CONSTRAINT
         $regExp  = '#,\s+CONSTRAINT `([^`]*)` FOREIGN KEY \(`([^`]*)`\) '
-            . 'REFERENCES `([^`]*)` \(`([^`]*)`\)'
+            . 'REFERENCES (`[^`]*\.)?`([^`]*)` \(`([^`]*)`\)'
             . '( ON DELETE (RESTRICT|CASCADE|SET NULL|NO ACTION))?'
             . '( ON UPDATE (RESTRICT|CASCADE|SET NULL|NO ACTION))?#';
         $matches = array();
@@ -429,12 +429,13 @@ class Tools_Db_Repair_Mysql4
         foreach ($matches as $match) {
             $tableProp['constraints'][strtoupper($match[1])] = array(
                 'fk_name'   => strtoupper($match[1]),
+                'ref_db'    => isset($match[3]) ? $match[3] : null,
                 'pri_table' => $table,
                 'pri_field' => $match[2],
-                'ref_table' => substr($match[3], strlen($prefix)),
-                'ref_field' => $match[4],
-                'on_delete' => isset($match[5]) ? $match[6] : '',
-                'on_update' => isset($match[7]) ? $match[8] : ''
+                'ref_table' => substr($match[4], strlen($prefix)),
+                'ref_field' => $match[5],
+                'on_delete' => isset($match[6]) ? $match[7] : '',
+                'on_update' => isset($match[8]) ? $match[9] : ''
             );
         }
 
@@ -526,6 +527,24 @@ class Tools_Db_Repair_Mysql4
             $sql .= ' ON UPDATE ' . strtoupper($config['on_update']);
         }
 
+        $this->sqlQuery($sql, $type);
+
+        return $this;
+    }
+
+    /**
+     * Drop Foreign Key from table
+     *
+     * @param string $table
+     * @param string $foreignKey
+     * @param string $type
+     */
+    public function dropConstraint($table, $foreignKey, $type)
+    {
+        $this->_checkConnection();
+        $this->_checkType($type);
+
+        $sql = "ALTER TABLE `{$table}` DROP FOREIGN KEY `{$foreignKey}`";
         $this->sqlQuery($sql, $type);
 
         return $this;
@@ -1387,6 +1406,7 @@ class Tools_Db_Repair_Action
             'column'     => array(),
             'index'      => array(),
             'table'      => array(),
+            'invalid_fk' => array(),
             'constraint' => array()
         );
 
@@ -1470,6 +1490,20 @@ class Tools_Db_Repair_Action
                         'table'  => $table,
                         'action' => $keyActionList
                     );
+                }
+
+                foreach ($corruptedTables[$table]['constraints'] as $fk => $fkProp) {
+                    if ($fkProp['ref_db']) {
+                        $actionList['invalid_fk'][] = array(
+                            'msg'    => sprintf('Remove invalid foreign key(s) "%s" from table "%s"',
+                                join(', ', array_keys($constraintList)),
+                                $table
+                            ),
+                            'table'      => $table,
+                            'constraint' => $fkProp['fk_name']
+                        );
+                        unset($corruptedTables[$table]['constraints'][$fk]);
+                    }
                 }
 
                 // validate foreign keys
@@ -1569,6 +1603,19 @@ class Tools_Db_Repair_Action
             }
         }
 
+        foreach ($actionList['invalid_fk'] as $actionProp) {
+            $this->_resource->begin($type);
+            try {
+                $this->_resource->dropConstraint($actionProp['table'], $actionProp['constraint'], $type);
+                $this->_resource->commit($type);
+                $success[] = $actionProp['msg'];
+            }
+            catch (Exception $e) {
+                $this->_resource->rollback($type);
+                $error[] = $e->getMessage();
+            }
+        }
+
         foreach ($actionList['constraint'] as $actionProp) {
             $this->_resource->begin($type);
             try {
@@ -1646,6 +1693,7 @@ class Tools_Db_Repair_Action
                 catch (Exception $e) {
                     $this->_session['errors'] = array($e->getMessage());
                     $this->configAction();
+                    return $this;
                 }
             }
             return $this->configAction();
