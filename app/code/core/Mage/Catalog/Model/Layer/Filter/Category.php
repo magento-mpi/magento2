@@ -141,21 +141,24 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
 
         if ($data === null) {
             $categoty   = $this->getCategory();
-            $collection = Mage::getResourceModel('catalog/category_collection')
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('all_children')
-                ->addAttributeToSelect('is_anchor')
-                ->addAttributeToFilter('is_active', 1)
-                ->addAttributeToSort('position', 'asc')
-                ->joinUrlRewrite()
-                ->addIdFilter($categoty->getChildren())
-                ->load();
-
+            /** @var $categoty Mage_Catalog_Model_Categeory */
+            if (Mage::helper('catalog/category_flat')->isEnabled()) {
+                $categories = $categoty->getChildrenCategories();
+            } else {
+                $categories = Mage::getResourceModel('catalog/category_collection')
+                    ->addAttributeToSelect('name')
+                    ->addAttributeToSelect('all_children')
+                    ->addAttributeToSelect('is_anchor')
+                    ->addAttributeToFilter('is_active', 1)
+                    ->addAttributeToSort('position', 'asc')
+                    ->joinUrlRewrite()
+                    ->addIdFilter($categoty->getChildren())
+                    ->load();
+            }
             $this->getLayer()->getProductCollection()
-                ->addCountToCategories($collection);
-
+                ->addCountToCategories($categories);
             $data=array();
-            foreach ($collection as $category) {
+            foreach ($categories as $category) {
                 if ($category->getIsActive() && $category->getProductCount()) {
                     $data[] = array(
                         'label' => $category->getName(),

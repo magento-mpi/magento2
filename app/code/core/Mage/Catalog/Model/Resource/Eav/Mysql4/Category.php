@@ -766,4 +766,79 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         return $this;
     }
+
+    /**
+     * Return parent categories of category
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return array
+     */
+    public function getParentCategories($category)
+    {
+        $pathIds = array_reverse(explode(',', $category->getPathInStore()));
+        $categories = Mage::getResourceModel('catalog/category_collection')
+            ->setStore(Mage::app()->getStore())
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('url_key')
+            ->addFieldToFilter('entity_id', array('in'=>$pathIds))
+            ->addFieldToFilter('is_active', 1)
+            ->load()
+            ->getItems();
+        return $categories;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return unknown
+     */
+    public function getChildrenCategories($category)
+    {
+//        Zend_Debug::dump('EAV::getChildrenCategories');
+        $collection = Mage::getModel('catalog/category')->getCollection();
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+        $collection->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('is_anchor')
+            ->addAttributeToFilter('is_active', 1)
+            ->addIdFilter($category->getChildren())
+            ->setOrder('position', 'ASC')
+            ->joinUrlRewrite()
+            ->load();
+        return $collection;
+    }
+
+    /**
+     * Return children ids of category
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return array
+     */
+    public function getChildren($category)
+    {
+        $this->_getTree()->load();
+        return $this->_getTree()->getChildren($category->getId(), false);
+    }
+
+    /**
+     * Return all children ids of category (with category id)
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return array
+     */
+    public function getAllChildren($category)
+    {
+        $this->_getTree()->load();
+        $children = $this->_getTree()->getChildren($category->getId());
+
+        $myId = array($category->getId());
+        if (is_array($children)) {
+            $children = array_merge($myId, $children);
+        } else {
+            $children = $myId;
+        }
+
+        return $children;
+    }
 }

@@ -68,7 +68,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('catalog/category');
+        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+            $this->_init('catalog/category_flat');
+        } else {
+            $this->_init('catalog/category');
+        }
     }
 
     /**
@@ -230,9 +234,19 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         return $layout;
     }
 
+    /**
+     * Return store id.
+     *
+     * If store id is underfined for category return current active store id
+     *
+     * @return integer
+     */
     public function getStoreId()
     {
-        return $this->_getData('store_id');
+        if ($this->hasData('store_id')) {
+            return $this->_getData('store_id');
+        }
+        return Mage::app()->getStore()->getId();
     }
 
     /**
@@ -385,6 +399,15 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getAllChildren($asArray = false)
     {
+        $children = $this->getResource()->getAllChildren($this);
+        if ($asArray) {
+            return $children;
+        } else {
+            return implode(',', $children);
+        }
+
+
+
         $this->getTreeModelInstance()->load();
         $children = $this->getTreeModelInstance()->getChildren($this->getId());
 
@@ -403,8 +426,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     public function getChildren()
     {
-        $this->getTreeModelInstance()->load();
-        return implode(',', $this->getTreeModelInstance()->getChildren($this->getId(), false));
+        return implode(',', $this->getResource()->getChildren($this));
     }
 
     public function getPathInStore()
@@ -508,6 +530,31 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $this->setData('product_count', $count);
         }
         return $this->getData('product_count');
+    }
+
+    /**
+     * Return parent categories of current category
+     *
+     * @return array
+     */
+    public function getParentCategories()
+    {
+        return $this->getResource()->getParentCategories($this);
+    }
+
+    /**
+     * Retuen children categories of current category
+     *
+     * @return array
+     */
+    public function getChildrenCategories()
+    {
+        return $this->getResource()->getChildrenCategories($this);
+    }
+
+    public function isInCategories()
+    {
+        return $this->getResource()->isInCategories($this);
     }
 
     /**

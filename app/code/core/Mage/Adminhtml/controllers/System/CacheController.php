@@ -217,6 +217,17 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                         $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while rebuilded CatalogInventory Stock Status. Please try again later'));
                     }
                     break;
+                case 'rebuild_flat_catalog_category':
+                    try {
+                        Mage::getResourceModel('catalog/category_flat')->rebuild();
+                    }
+                    catch (Mage_Core_Exception $e) {
+                        $this->_getSession()->addError($e->getMessage());
+                    }
+                    catch (Exception $e) {
+                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while rebuilded Flat Catalog Category'));
+                    }
+                    break;
 
                 default:
                     break;

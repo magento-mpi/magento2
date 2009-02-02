@@ -111,8 +111,15 @@ class Mage_Catalog_Model_Observer
             $categoryId, $prevParentId, $parentId
         ));
         $model = Mage::getModel('catalog/category')->load($prevParentId)->save();
+        $prevParentPath = $model->getPath();
         $model = Mage::getModel('catalog/category')->load($parentId)->save();
+        $parentPath = $model->getPath();
         $model = null;
+        $flatEnabled = true;
+        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            Mage::getResourceModel('catalog/category_flat')->synchronize($category, true, $prevParentPath, $parentPath);
+        }
         return $this;
     }
 
@@ -138,6 +145,21 @@ class Mage_Catalog_Model_Observer
     public function catalogProductCompareClean(Varien_Event_Observer $observer)
     {
         Mage::getModel('catalog/product_compare_item')->clean();
+        return $this;
+    }
+
+    /**
+     * After save event of category
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Catalog_Model_Observer
+     */
+    public function categorySaveAfter($observer)
+    {
+        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
+            $category = $observer->getEvent()->getCategory();
+            $flat = Mage::getResourceModel('catalog/category_flat')->synchronize($category);
+        }
         return $this;
     }
 }

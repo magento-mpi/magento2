@@ -463,33 +463,76 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addCountToCategories($categoryCollection)
     {
+        $isAnchor = array();
+        $isNotAnchor = array();
         foreach ($categoryCollection as $category) {
-            $select     = clone $this->getSelect();
-            $select->reset(Zend_Db_Select::COLUMNS);
-            $select->reset(Zend_Db_Select::GROUP);
-            $select->reset(Zend_Db_Select::ORDER);
-            $select->distinct(false);
-            $select->join(
-                    array('category_count_table' => $this->_productCategoryTable),
-                    'category_count_table.product_id=e.entity_id',
-                    array('count_in_category'=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'))
-                );
-
             if ($category->getIsAnchor()) {
-                $select->where($this->getConnection()->quoteInto(
-                    'category_count_table.category_id IN(?)',
-                    explode(',', $category->getAllChildren())
-                ));
+                $isAnchor[] = $category->getId();
+            } else {
+                $isNotAnchor[] = $category->getId();
             }
-            else {
-                $select->where($this->getConnection()->quoteInto(
-                    'category_count_table.category_id=?',
-                    $category->getId()
-                ));
-            }
-
-            $category->setProductCount((int) $this->getConnection()->fetchOne($select));
         }
+        $productCounts = array();
+        if ($isAnchor || $isNotAnchor) {
+            $select = clone $this->getSelect();
+            $select->reset(Zend_Db_Select::COLUMNS)
+                ->reset(Zend_Db_Select::GROUP)
+                ->reset(Zend_Db_Select::ORDER)
+                ->distinct(false)
+                ->join(array('count_table' => $this->getTable('catalog/category_product_index')),
+                    'count_table.product_id = e.entity_id',
+                    array('count_table.category_id', 'product_count' => new Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)'))
+                )
+                ->where('count_table.store_id = ?', $this->getStoreId())
+                ->group('count_table.category_id');
+            if ($isAnchor) {
+                $anchorStmt = clone $select;
+                $anchorStmt->where('count_table.category_id in (?)', $isAnchor);
+                $productCounts += $this->getConnection()->fetchPairs($anchorStmt, array('category_id'=>'product_count'));
+                $anchorStmt = null;
+            }
+            if ($isNotAnchor) {
+                $notAnchorStmt = clone $select;
+                $notAnchorStmt->where('count_table.category_id in (?)', $isNotAnchor);
+                $productCounts += $this->getConnection()->fetchPairs($notAnchorStmt, array('category_id'=>'product_count'));
+                $notAnchorStmt = null;
+            }
+            $select = null;
+        }
+
+        foreach ($categoryCollection as $category) {
+            $_count = 0;
+            if (isset($productCounts[$category->getId()])) {
+                $_count = $productCounts[$category->getId()];
+            }
+            $category->setProductCount($_count);
+        }
+//        foreach ($categoryCollection as $category) {
+//            $select     = clone $this->getSelect();
+//            $select->reset(Zend_Db_Select::COLUMNS);
+//            $select->reset(Zend_Db_Select::GROUP);
+//            $select->reset(Zend_Db_Select::ORDER);
+//            $select->distinct(false);
+//            $select->join(
+//                    array('category_count_table' => $this->_productCategoryTable),
+//                    'category_count_table.product_id=e.entity_id',
+//                    array('count_in_category'=>new Zend_Db_Expr('COUNT(DISTINCT e.entity_id)'))
+//                );
+//
+//            if ($category->getIsAnchor()) {
+//                $select->where($this->getConnection()->quoteInto(
+//                    'category_count_table.category_id IN(?)',
+//                    explode(',', $category->getAllChildren())
+//                ));
+//            }
+//            else {
+//                $select->where($this->getConnection()->quoteInto(
+//                    'category_count_table.category_id=?',
+//                    $category->getId()
+//                ));
+//            }
+//            $category->setProductCount((int) $this->getConnection()->fetchOne($select));
+//        }
         return $this;
     }
 
