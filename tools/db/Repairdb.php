@@ -77,10 +77,10 @@ class Tools_Db_Repair_Mysql4
         }
 
         if (!$connection = @mysql_connect($config['hostname'], $config['username'], $config['password'], true)) {
-            throw new Exception(sprintf('Error %s database connection: #%d, %s', $type, mysql_errno(), mysql_error()));
+            throw new Exception(sprintf('%s database connection error: #%d %s', ucfirst($type), mysql_errno(), mysql_error()));
         }
         if (!@mysql_select_db($config['database'], $connection)) {
-            throw new Exception(sprintf('Error %s database select database (%s): #%d, %s', $config['database'], $type, mysql_errno(), mysql_error()));
+            throw new Exception(sprintf('Cannot select %s database (%s): #%d, %s', $type, $config['database'], mysql_errno(), mysql_error()));
         }
         mysql_query('SET NAMES utf8', $connection);
 
@@ -97,10 +97,10 @@ class Tools_Db_Repair_Mysql4
     protected function _checkConnection()
     {
         if (is_null($this->_corrupted)) {
-            throw new Exception(sprintf('Invalid connection for %s database', self::TYPE_CORRUPTED));
+            throw new Exception(sprintf('Invalid %s database connection', self::TYPE_CORRUPTED));
         }
         if (is_null($this->_reference)) {
-            throw new Exception(sprintf('Invalid connection for %s database', self::TYPE_REFERENCE));
+            throw new Exception(sprintf('Invalid %s database connection', self::TYPE_REFERENCE));
         }
         return true;
     }
@@ -212,10 +212,10 @@ class Tools_Db_Repair_Mysql4
     public function compareResource()
     {
         if (!$this->tableExists('core_resource', self::TYPE_CORRUPTED)) {
-            throw new Exception(sprintf('%s database is not valid Magento database', self::TYPE_CORRUPTED));
+            throw new Exception(sprintf('%s DB doesn\'t seem to be a valid Magento database', self::TYPE_CORRUPTED));
         }
         if (!$this->tableExists('core_resource', self::TYPE_REFERENCE)) {
-            throw new Exception(sprintf('%s database is not valid Magento database', self::TYPE_REFERENCE));
+            throw new Exception(sprintf('%s DB doesn\'t seem to be a valid Magento database', self::TYPE_REFERENCE));
         }
 
         $corrupted = $reference = array();
@@ -235,10 +235,10 @@ class Tools_Db_Repair_Mysql4
         $compare = array();
         foreach ($reference as $k => $v) {
             if (!isset($corrupted[$k])) {
-                $compare[] = sprintf('In corrupted database module "%s" is not installed', $k);
+                $compare[] = sprintf('Module "%s" is not installed in corrupted DB', $k);
             }
             elseif ($corrupted[$k] != $v) {
-                $compare[] = sprintf('In corrupted database module "%s" has version %s (version %s installed in reference DB)', $k, $corrupted[$k], $v);
+                $compare[] = sprintf('Module "%s" has wrong version %s in corrupted DB (reference DB contains "%s" ver. %s)', $k, $corrupted[$k], $k, $v);
             }
         }
 
@@ -494,7 +494,7 @@ class Tools_Db_Repair_Mysql4
         $required = array('fk_name', 'pri_table', 'pri_field', 'ref_table', 'ref_field', 'on_update', 'on_delete');
         foreach ($required as $field) {
             if (!array_key_exists($field, $config)) {
-                throw new Exception(sprintf('Invalid required config parameter "%s" for create CONSTRAINT', $field));
+                throw new Exception(sprintf('Cannot create CONSTRAINT: invalid required config parameter "%s"', $field));
             }
         }
 
@@ -570,7 +570,7 @@ class Tools_Db_Repair_Mysql4
         $required = array('type', 'is_null', 'default');
         foreach ($required as $field) {
             if (!array_key_exists($field, $config)) {
-                throw new Exception(sprintf('Invalid required config parameter "%s" for create COLUMN', $field));
+                throw new Exception(sprintf('Cannot create COLUMN: invalid required config parameter "%s"', $field));
             }
         }
 
@@ -611,7 +611,7 @@ class Tools_Db_Repair_Mysql4
         $required = array('type', 'name', 'fields');
         foreach ($required as $field) {
             if (!array_key_exists($field, $config)) {
-                throw new Exception(sprintf('Invalid required config parameter "%s" for create KEY', $field));
+                throw new Exception(sprintf('Cannot create KEY: invalid required config parameter "%s"', $field));
             }
         }
 
@@ -1066,6 +1066,9 @@ HTML;
 HTML;
     }
 
+    /**
+     * Print configuration block
+     */
     public function printHtmlConfigurationBlock()
     {
         echo <<<HTML
@@ -1155,6 +1158,7 @@ HTML;
     <div class="legend">{$legend}</div>
 HTML;
     }
+
     /**
      * Print HTML Fieldset footer fragment
      */
@@ -1185,6 +1189,11 @@ HTML;
         echo "</ul>";
     }
 
+    /**
+     * Print note
+     *
+     * @param string $text
+     */
     public function printHtmlNote($text)
     {
         $text = str_replace("\n", "<br />", htmlspecialchars($text));
@@ -1193,6 +1202,9 @@ HTML;
 HTML;
     }
 
+    /**
+     * Print hidden form field
+     */
     public function printHtmlFormHidden()
     {
         echo <<<HTML
@@ -1237,7 +1249,7 @@ HTML;
     }
 
     /**
-     * Check is submit POST form
+     * Check if form is submitted
      *
      * @return bool
      */
@@ -1362,8 +1374,8 @@ class Tools_Db_Repair_Action
 
         $this->_helper->printHtmlContainerHead();
         $this->_helper->printHtmlPageHead('Confirmation');
-        $this->_helper->printHtmlNote('Reference and Corruptet databases has one or more installed module defferent version. You are sure continue?');
-        $this->_helper->printHtmlFieldsetHead('Different resource version');
+        $this->_helper->printHtmlNote('Some modules have different versions in corrupted and reference databases. Are you sure you want to continue?');
+        $this->_helper->printHtmlFieldsetHead('Module versions differences');
         $this->_helper->printHtmlList($compare);
         $this->_helper->printHtmlFieldsetFoot();
         $this->_helper->printHtmlButtonSet(false);
@@ -1421,7 +1433,7 @@ class Tools_Db_Repair_Action
                 // check storage
                 if ($tableProp['engine'] != $corruptedTables[$table]['engine']) {
                     $actionList['engine'][] = array(
-                        'msg'    => sprintf('Change storage engine on table "%s" from %s to %s',
+                        'msg'    => sprintf('Change storage engine type on table "%s" from %s to %s',
                             $table,
                             $corruptedTables[$table]['engine'],
                             $tableProp['engine']
@@ -1620,7 +1632,7 @@ class Tools_Db_Repair_Action
         $this->_helper->printHtmlContainerHead();
         $this->_helper->printHtmlPageHead('Repair Corrupted Database');
         if (!$error) {
-            $this->_helper->printHtmlMessage('Repair finished successfully', 'success');
+            $this->_helper->printHtmlMessage('Database repair finished successfully', 'success');
         } else {
             $this->_helper->printHtmlMessage($error, 'error');
         }
@@ -1630,7 +1642,7 @@ class Tools_Db_Repair_Action
             $this->_helper->printHtmlFieldsetFoot();
         }
         elseif (!$error) {
-            $this->_helper->printHtmlNote('Corrupted Database don\'t need changes');
+            $this->_helper->printHtmlNote('Corrupted Database doesn\'t require any changes');
         }
         $this->_helper->printHtmlContainerFoot();
 
@@ -1670,7 +1682,7 @@ class Tools_Db_Repair_Action
                     $this->_resource->setConnection($this->_helper->getPost('corrupted', array()), Tools_Db_Repair_Mysql4::TYPE_CORRUPTED);
                     $this->_resource->setConnection($this->_helper->getPost('reference', array()), Tools_Db_Repair_Mysql4::TYPE_REFERENCE);
                     if (!$this->_resource->checkInnodbSupport(Tools_Db_Repair_Mysql4::TYPE_CORRUPTED)) {
-                        throw new Exception('Corrupted database not supported InnoDB storage');
+                        throw new Exception('Corrupted database doesn\'t support InnoDB storage engine');
                     }
 
                     $this->_session['db_config_corrupted'] = $this->_helper->getPost('corrupted', array());
