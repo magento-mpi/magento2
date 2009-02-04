@@ -321,7 +321,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      * If attribute is not found false is returned
      *
      * @param string|integer|Mage_Core_Model_Config_Element $attribute
-     * @return boolean|Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
     public function getAttribute($attribute)
     {

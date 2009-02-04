@@ -849,4 +849,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         return $this;
     }
+
+/**
+     * Add attribute to sort order
+     *
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addAttributeToSort($attribute, $dir='asc')
+    {
+        $attrInstance = $this->getEntity()->getAttribute($attribute);
+        if ($attrInstance->usesSource()) {
+            $attrInstance->getSource()
+                ->addValueSortToCollection($this, $dir);
+            return $this;
+        }
+
+        return parent::addAttributeToSort($attribute, $dir);
+    }
 }

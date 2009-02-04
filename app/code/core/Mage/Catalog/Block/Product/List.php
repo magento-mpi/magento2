@@ -35,6 +35,11 @@
 class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstract
 {
     protected $_defaultToolbarBlock = 'catalog/product_list_toolbar';
+    /**
+     * Product Collection
+     *
+     * @var Mage_Eav_Model_Entity_Collection_Abstract
+     */
     protected $_productCollection;
 
     /**
@@ -73,14 +78,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
                 }
             }
             $this->_productCollection = $layer->getProductCollection();
-
-            if ($sortField = $this->getSortBy()) {
-                $sortOrder = 'asc';
-                if (strtolower($this->getSortOrder()) == 'desc') {
-                    $sortOrder = 'desc';
-                }
-                $this->_productCollection->addAttributeToSort($sortField, $sortOrder);
-            }
 
             $this->prepareSortableFieldsByCategory($layer->getCurrentCategory());
 
