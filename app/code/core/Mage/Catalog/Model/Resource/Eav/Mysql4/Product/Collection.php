@@ -860,7 +860,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addAttributeToSort($attribute, $dir='asc')
     {
         $attrInstance = $this->getEntity()->getAttribute($attribute);
-        if ($attrInstance->usesSource()) {
+        if ($attrInstance && $attrInstance->usesSource()) {
             $attrInstance->getSource()
                 ->addValueSortToCollection($this, $dir);
             return $this;
