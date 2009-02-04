@@ -49,7 +49,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option extends Mage_Core_Model_Mysq
      */
     public function addOptionValueToCollection($collection, $attribute, $valueExpr) {
         $attributeCode  = $attribute->getAttributeCode();
-        $attributeValue = $attributeCode . '_value';
         $optionTable1   = $attributeCode . '_option_value_t1';
         $optionTable2   = $attributeCode . '_option_value_t2';
 

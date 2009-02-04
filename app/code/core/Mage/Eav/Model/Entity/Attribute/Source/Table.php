@@ -113,9 +113,8 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
     {
         $valueTable1    = $this->getAttribute()->getAttributeCode() . '_t1';
         $valueTable2    = $this->getAttribute()->getAttributeCode() . '_t2';
-        $valueName      = $this->getAttribute()->getAttributeCode() . '_value';
         $collection->getSelect()
-            ->join(
+            ->joinLeft(
                 array($valueTable1 => $this->getAttribute()->getBackend()->getTable()),
                 "`e`.`entity_id`=`{$valueTable1}`.`entity_id`"
                 . " AND `{$valueTable1}`.`attribute_id`='{$this->getAttribute()->getId()}'"
