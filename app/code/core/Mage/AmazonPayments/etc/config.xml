@@ -141,9 +141,10 @@ Something like this is to be added to resolve bug #4890
 
     <default>
         <payment>
+            
             <amazonpayments_cba>
                 <payment_action>Authorization</payment_action>
-                <active>0</active>
+                <active>1</active>
                 <model>amazonpayments/payment_cba</model>
                 <title>Checkout by Amazon</title>
                 <order_status>pending</order_status>
@@ -158,6 +159,34 @@ Something like this is to be added to resolve bug #4890
                 <button_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</button_url>
                 <wsdl>https://merchant-api.amazon.com/gateway/merchant-interface-mime/</wsdl>
             </amazonpayments_cba>
+            
+            <amazonpayments_asp>
+                <model>amazonpayments/payment_asp</model>
+                <title>Amazon Simple Pay</title>
+                <active>1</active>
+                
+                <types>IPN</types>
+                <allowspecific>0</allowspecific>
+                <order_status>pending</order_status>
+                <merchant_name>Varien</merchant_name>
+                <wsdl>/media/wsdl/amazon_cba_merchant-interface-mime.wsdl</wsdl>
+                <payment_action>Authorization</payment_action>
+                
+                <sandbox_flag>1</sandbox_flag>
+                <pay_service_url>https://authorize.payments.amazon.com/pba/paypipeline</pay_service_url>
+                <sandbox_pay_service_url>https://authorize.payments-sandbox.amazon.com/pba/paypipeline</sandbox_pay_service_url>
+                <access_key>1VZ8ZAV29R24E44ZMX82</access_key>
+                <secret_key>DkY4MYLYX2359/7Wo8ILdN1GHc2lK77goDQGS64R</secret_key>
+                <service_button_image_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</service_button_image_url>
+                <request_signature_param_name>signature</request_signature_param_name>
+                <immediate_return>1</immediate_return>
+                <process_immediate>1</process_immediate>
+                <collect_shipping_address>0</collect_shipping_address>
+                <payment_description>MAGENTO ASP PAYMANT</payment_description>
+
+                
+            </amazonpayments_asp>
+            
         </payment>
     </default>
 </config>
