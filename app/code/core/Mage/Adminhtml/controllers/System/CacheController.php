@@ -195,26 +195,26 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                 case 'rebuild_search_index':
                     try {
                         Mage::getSingleton('catalogsearch/fulltext')->rebuildIndex();
-                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Search Index was rebuilded successfully'));
+                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Search Index was rebuilt successfully'));
                     }
                     catch (Mage_Core_Exception $e) {
                         $this->_getSession()->addError($e->getMessage());
                     }
                     catch (Exception $e) {
-                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while rebuilded Search Index. Please try again later'));
+                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Search Index rebuild error. Please try again later'));
                     }
                     break;
 
                 case 'rebuild_inventory_stock_status':
                     try {
                         Mage::getSingleton('cataloginventory/stock_status')->rebuild();
-                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('CatalogInventory Stock Status was rebuilded successfully'));
+                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('CatalogInventory Stock Status was rebuilt successfully'));
                     }
                     catch (Mage_Core_Exception $e) {
                         $this->_getSession()->addError($e->getMessage());
                     }
                     catch (Exception $e) {
-                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while rebuilded CatalogInventory Stock Status. Please try again later'));
+                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('CatalogInventory Stock Status rebuild error. Please try again later'));
                     }
                     break;
                 case 'rebuild_flat_catalog_category':
@@ -226,7 +226,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                         $this->_getSession()->addError($e->getMessage());
                     }
                     catch (Exception $e) {
-                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while rebuilded Flat Catalog Category'));
+                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Flat Catalog Category rebuild error'));
                     }
                     break;
 
