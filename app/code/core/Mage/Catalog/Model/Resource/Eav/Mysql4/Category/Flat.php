@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             $storeId = intval($storeId);
         }
         if ($this->getUseStoreTables() && $storeId) {
-            $table .= '_'.Mage::app()->getStore($storeId)->getCode();
+            $table .= '_store_'.$storeId;
         }
         return $table;
     }
@@ -295,6 +295,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
 
     protected function _getTableSqlSchema($storeId = 0)
     {
+        $storeId = Mage::app()->getStore($storeId)->getId();
         $schema = "CREATE TABLE `{$this->getMainStoreTable($storeId)}` (
                 `entity_id` int(10) unsigned not null,
                 `store_id` smallint(5) unsigned not null default '0',
@@ -309,8 +310,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 KEY `CATEGORY_FLAT_STORE_ID` (`store_id`),
                 KEY `path` (`path`),
                 KEY `IDX_LEVEL` (`level`),
-                CONSTRAINT `FK_CATEGORY_FLAT_CATEGORY_ID` FOREIGN KEY (`entity_id`) REFERENCES `{$this->getTable('catalog/category')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                CONSTRAINT `FK_CATEGORY_FLAT_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `{$this->getTable('core/store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
+                CONSTRAINT `FK_CATEGORY_FLAT_CATEGORY_ID_STORE_{$storeId}` FOREIGN KEY (`entity_id`)
+                    REFERENCES `{$this->getTable('catalog/category')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                CONSTRAINT `FK_CATEGORY_FLAT_STORE_ID_STORE_{$storeId}` FOREIGN KEY (`store_id`)
+                    REFERENCES `{$this->getTable('core/store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
         return $schema;
     }
