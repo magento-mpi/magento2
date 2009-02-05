@@ -38,6 +38,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
 
     protected $_nodes = array();
 
+    protected $_isRebuilded = null;
+
     protected function  _construct()
     {
         $this->_init('catalog/category_flat', 'entity_id');
@@ -271,16 +273,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         return array();
     }
 
+    /**
+     * Check if category flat data is rebuilded
+     *
+     * @return bool
+     */
     public function isRebuilded()
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable(), new Zend_Db_Expr('COUNT(entity_id)'));
-        try {
-            $_isRebuileded = (bool) $this->_getReadAdapter()->fetchOne($select);
-        } catch (Exception $e) {
-            return false;
+        if ($this->_isRebuilded === null) {
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getMainTable(), 'entity_id')
+                ->limit(1);
+            try {
+                $this->_isRebuilded = (bool) $this->_getReadAdapter()->fetchOne($select);
+            } catch (Exception $e) {
+                $this->_isRebuilded = false;
+            }
         }
-        return $_isRebuileded;
+        return $this->_isRebuilded;
     }
 
     protected function _getTableSqlSchema($storeId = 0)
