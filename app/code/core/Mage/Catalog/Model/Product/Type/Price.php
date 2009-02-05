@@ -189,8 +189,8 @@ class Mage_Catalog_Model_Product_Type_Price
         $specialPrice = $product->getSpecialPrice();
         if (is_numeric($specialPrice)) {
             $storeDate  = Mage::app()->getLocale()->storeDate($product->getStore());
-            $fromDate   = Mage::app()->getLocale()->date($product->getSpecialFromDate(), null, null, false);
-            $toDate     = Mage::app()->getLocale()->date($product->getSpecialToDate(), null, null, false);
+            $fromDate   = Mage::app()->getLocale()->date($product->getSpecialFromDate(), Varien_Date::DATE_INTERNAL_FORMAT, null, false);
+            $toDate     = Mage::app()->getLocale()->date($product->getSpecialToDate(), Varien_Date::DATE_INTERNAL_FORMAT, null, false);
 
             if ($product->getSpecialFromDate() && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
             } elseif ($product->getSpecialToDate() && $storeDate->compare($toDate, Zend_Date::DATES)>0) {
@@ -321,8 +321,8 @@ class Mage_Catalog_Model_Product_Type_Price
         }
         $finalPrice = $basePrice;
 
-        $fromDate   = Mage::app()->getLocale()->date($specialPriceFrom, null, null, false);
-        $toDate     = Mage::app()->getLocale()->date($specialPriceTo, null, null, false);
+        $fromDate   = Mage::app()->getLocale()->date($specialPriceFrom, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
+        $toDate     = Mage::app()->getLocale()->date($specialPriceTo, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
 
         if ($specialPrice !== null && $specialPrice !== false) {
             if ($specialPriceFrom && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
