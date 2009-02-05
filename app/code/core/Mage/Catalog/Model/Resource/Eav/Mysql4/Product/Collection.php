@@ -603,7 +603,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
             foreach ($this->getConnection()->fetchAll($select) as $row) {
                 if (!isset($urlRewrites[$row['product_id']])) {
-                	$urlRewrites[$row['product_id']] = $row['request_path'];
+                    $urlRewrites[$row['product_id']] = $row['request_path'];
                 }
             }
 
