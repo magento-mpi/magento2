@@ -552,9 +552,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         return $this->getResource()->getChildrenCategories($this);
     }
 
-    public function isInCategories()
+    public function isInRootCategoryList()
     {
-        return $this->getResource()->isInCategories($this);
+        return $this->getResource()->isInRootCategoryList($this);
     }
 
     /**

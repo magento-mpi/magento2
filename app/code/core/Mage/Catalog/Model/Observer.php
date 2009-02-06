@@ -120,13 +120,11 @@ class Mage_Catalog_Model_Observer
             $categoryId, $prevParentId, $parentId
         ));
         $model = Mage::getModel('catalog/category')->load($prevParentId)->save();
-        $prevParentPath = $model->getPath();
         $model = Mage::getModel('catalog/category')->load($parentId)->save();
         $parentPath = $model->getPath();
         $model = null;
-        $flatEnabled = true;
         if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-            Mage::getResourceModel('catalog/category_flat')->move($prevParentPath, $parentPath);
+            Mage::getResourceModel('catalog/category_flat')->move($categoryId, $prevParentId, $parentId);
         }
         return $this;
     }

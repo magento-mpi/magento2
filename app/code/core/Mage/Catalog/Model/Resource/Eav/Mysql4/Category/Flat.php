@@ -90,14 +90,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             }
         }
         $select = $_conn->select()
-            ->from(array('main_table'=>$this->getMainStoreTable(Mage::app()->getStore()->getId())))
+            ->from(array('main_table'=>$this->getMainStoreTable($storeId)))
             ->joinLeft(
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.store_id = ?', $storeId)
             ->where('main_table.is_active = ?', '1')
-            ->order('main_table.position ASC');
+            ->order('main_table.position', 'ASC');
 
         if ($parentPath) {
             $select->where($_conn->quoteInto("main_table.path like ?", "$parentPath/%"));
@@ -113,71 +113,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             $nodes[$node['id']] = Mage::getModel('catalog/category')->setData($node);
         }
         return $nodes;
-    }
-
-    /**
-     * Load nodes by parent id
-     *
-     * @param integer $parentId
-     * @param integer $recursionLevel
-     * @param integer $storeId
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
-     */
-    public function loadNodes($parentId, $recursionLevel = 0, $storeId = 0)
-    {
-//        Varien_Profiler::start('CATALOG_FLAT: '.__METHOD__);
-        if (!$this->_loaded) {
-            $_conn = $this->_getReadAdapter();
-            $startLevel = 1;
-            $parentPath = '';
-            $selectParent = $_conn->select()
-                ->from($this->getMainStoreTable())
-                ->where('entity_id = ?', $parentId)
-                ->where('store_id = ?', '0');
-            $parentNode = $_conn->fetchRow($selectParent);
-            if ($parentNode) {
-                $parentPath = $parentNode['path'];
-                $startLevel = $parentNode['level'];
-            }
-            $this->_nodes[$parentNode['entity_id']] = new Varien_Object($parentNode);
-            $select = $_conn->select()
-                ->from(array('main_table'=>$this->getMainStoreTable(Mage::app()->getStore()->getId())))
-                ->joinLeft(
-                    array('url_rewrite'=>$this->getTable('core/url_rewrite')),
-                    'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
-                    array('request_path' => 'url_rewrite.request_path'))
-                ->where('main_table.store_id = ?', $storeId)
-                ->where('main_table.is_active = ?', '1')
-                ->order('main_table.position ASC');
-
-            if ($parentPath) {
-                $select->where($_conn->quoteInto("main_table.path like ?", "$parentPath/%"));
-            }
-            if ($recursionLevel != 0) {
-                $select->where("main_table.level <= ?", $startLevel + $recursionLevel);
-            }
-//Zend_Debug::dump($select->__toString());die();
-            $arrNodes = $_conn->fetchAll($select);
-
-            $childrenItems = array();
-
-            foreach ($arrNodes as $nodeInfo) {
-                $pathToParent = explode('/', $nodeInfo['path']);
-                array_pop($pathToParent);
-                $pathToParent = implode('/', $pathToParent);
-                $nodeInfo['id'] = $nodeInfo['entity_id'];
-                $category = Mage::getModel('catalog/category')->setData($nodeInfo);
-                $childrenItems[$pathToParent][] = $category;
-            }
-            $this->addChildNodes($childrenItems, $parentPath, &$this->_nodes[$parentNode['entity_id']]);
-            $childrenNodes = $this->_nodes[$parentNode['entity_id']];
-            if ($childrenNodes->getChildrenNodes()) {
-                $this->_nodes = $childrenNodes->getChildrenNodes();
-            }
-            $this->_loaded = true;
-        }
-//        Varien_Profiler::stop('CATALOG_FLAT: '.__METHOD__);
-        return $this;
     }
 
     /**
@@ -432,6 +367,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      *
      * @param string $prevParentPath
      * @param string $parentPath
+     * @param array $storeIds
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
      */
     protected function _move($prevParentPath, $parentPath)
@@ -444,23 +380,27 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             'children_count',
             'updated_at'
         );
-        $update = "UPDATE {$this->getMainStoreTable()}, {$this->getTable('catalog/category')} SET";
-        foreach ($_staticFields as $field) {
-            $update .= " {$this->getMainStoreTable()}.".$field."={$this->getTable('catalog/category')}.".$field.",";
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('core/store'), 'store_id');
+        $stores = $this->_getReadAdapter()->fetchAll($select);
+        foreach ($stores as $store) {
+            $update = "UPDATE {$this->getMainStoreTable($store['store_id'])}, {$this->getTable('catalog/category')} SET";
+            foreach ($_staticFields as $field) {
+                $update .= " {$this->getMainStoreTable($store['store_id'])}.".$field."={$this->getTable('catalog/category')}.".$field.",";
+            }
+            $update = substr($update, 0, -1);
+            $update .= " WHERE {$this->getMainStoreTable($store['store_id'])}.entity_id = {$this->getTable('catalog/category')}.entity_id AND " .
+                "({$this->getTable('catalog/category')}.path like '$parentPath/%' OR " .
+                "{$this->getTable('catalog/category')}.path like '$prevParentPath/%')";
+            $this->_getWriteAdapter()->query($update);
         }
-        $update = substr($update, 0, -1);
-        $update .= " WHERE {$this->getMainStoreTable()}.entity_id = {$this->getTable('catalog/category')}.entity_id AND " .
-            "({$this->getTable('catalog/category')}.path like '$parentPath/%' OR " .
-            "{$this->getTable('catalog/category')}.path like '$prevParentPath/%')";
-        $this->_getWriteAdapter()->query($update);
-
         return $this;
     }
 
     /**
      * Synchronize flat data with eav model.
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Mage_Catalog_Model_Category|array $category
      * @param array $storeIds
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
      */
@@ -510,15 +450,51 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                     ->load($category->getId());
                 $_tmpCategory->setStoreId($storeId);
                 $this->_synchronize($_tmpCategory);
-                $_tmpCategory = null;
             }
+            $_tmpCategory = null;
         }
         return $this;
     }
 
-    public function move($prevParentPath, $parentPath)
+    /**
+     *
+     * @param integer $categoryId
+     * @param integer $prevParentId
+     * @param integer $parentId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    public function move($categoryId, $prevParentId, $parentId)
     {
-        $this->_move($prevParentPath, $parentPath);
+        $prevParent = Mage::getModel('catalog/category')->load($prevParentId);
+        foreach ($prevParent->getStoreIds() as $storeId) {
+            $this->_getWriteAdapter()->delete(
+                $this->getMainStoreTable($storeId),
+                $this->_getReadAdapter()->quoteInto('entity_id = ?', $categoryId)
+            );
+        }
+        $categoryPath = $this->_getReadAdapter()->fetchOne("
+            SELECT
+                path
+            FROM
+                {$this->getTable('catalog/category')}
+            WHERE
+                entity_id = '$categoryId'
+        ");
+        $_categories = Mage::getModel('catalog/category')->getCollection()
+            ->setStoreId(0)
+            ->addAttributeToSelect('*')
+            ->addAttributeToFilter(array(
+                array('attribute' => 'path', 'like' => "{$categoryPath}/%"),
+                array('attribute' => 'path', 'eq' => "{$categoryPath}")
+            ))
+            ->load();
+        foreach ($_categories as $_category) {
+            foreach ($_category->getStoreIds() as $storeId) {
+                $_category->setStoreId($storeId);
+                $this->_synchronize($_category);
+            }
+        }
+//        $this->_move2($categoryId, $prevParentPath, $parentPath);
         return $this;
     }
 
@@ -558,15 +534,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function getChildrenAmount($category, $isActiveFlag = true)
     {
+        $_table = $this->getMainStoreTable($category->getStoreId());
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable($category->getStoreId()), "COUNT({$this->getMainStoreTable($category->getStoreId())}.entity_id)")
-            ->where("{$this->getMainStoreTable($category->getStoreId())}.path LIKE ?", $category->getPath() . '/%')
-            ->where("{$this->getMainStoreTable($category->getStoreId())}.store_id = ?", $category->getStoreId())
-            ->where("{$this->getMainStoreTable($category->getStoreId())}.is_active = ?", (int) $isActiveFlag);
+            ->from($_table, "COUNT({$_table}.entity_id)")
+            ->where("{$_table}.path LIKE ?", $category->getPath() . '/%')
+            ->where("{$_table}.store_id = ?", $category->getStoreId())
+            ->where("{$_table}.is_active = ?", (int) $isActiveFlag);
         return (int) $this->_getReadAdapter()->fetchOne($select);
     }
 
-/**
+    /**
      * Get products count in category
      *
      * @param Mage_Catalog_Model_Category $category
@@ -620,6 +597,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         }
         $categories = $this->_loadNodes($category, 1, $category->getStoreId());
         return $categories;
+    }
+
+    /**
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return boolean
+     */
+    public function isInRootCategoryList($category)
+    {
+        $innerSelect = $this->_getReadAdapter()->select()
+            ->from($this->getMainStoreTable(), new Zend_Db_Expr("CONCAT(path, '/%')"))
+            ->where('entity_id = ?', Mage::app()->getStore()->getRootCategoryId());
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainStoreTable(), 'entity_id')
+            ->where('entity_id = ?', $category->getId())
+            ->where(new Zend_Db_Expr("path LIKE ({$innerSelect->__toString()})"));
+        return (bool) $this->_getReadAdapter()->fetchOne($select);
     }
 
     /**

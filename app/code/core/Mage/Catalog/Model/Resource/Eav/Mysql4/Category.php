@@ -841,4 +841,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         return $children;
     }
+
+    public function isInRootCategoryList($category)
+    {
+        $tree = $this->_getTree();
+        $tree->load();
+        $children = $tree->getChildren(Mage::app()->getStore()->getRootCategoryId(), true);
+        if (!in_array($category->getId(), $children)) {
+            return false;
+        }
+        return true;
+    }
 }
