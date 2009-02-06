@@ -943,4 +943,17 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
+
+    /**
+     * Get customer created at date timestamp
+     *
+     * @return int
+     */
+    public function getCreatedAtTimestamp()
+    {
+        if ($date = $this->getCreatedAt()) {
+            return $this->_getResource()->mktime($date);
+        }
+        return null;
+    }
 }
