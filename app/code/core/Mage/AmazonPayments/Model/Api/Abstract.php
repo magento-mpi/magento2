@@ -40,37 +40,37 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
 
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function setPaymentCode($paymentCode)
     {
         if(is_null($this->paymentCode)) {
-	        $this->paymentCode = $paymentCode;
-	        $this->setData(Mage::getStoreConfig('payment/' . $paymentCode));
+            $this->paymentCode = $paymentCode;
+            $this->setData(Mage::getStoreConfig('payment/' . $paymentCode));
         }
     }
-    
-    
+
+
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function getPayServiceUrl()
     {
-    	if ($this->getSandboxFlag()) {
-        	return $this->getSandboxPayServiceUrl();
-        } 
-    	return $this->getPayServiceUrl();
+        if ($this->getSandboxFlag()) {
+            return $this->getData('sandbox_pay_service_url');
+        }
+        return $this->getData('pay_service_url');
     }
-    
+
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function getConfigData($key, $default = false)
@@ -84,59 +84,59 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
         }
         return $this->getData($key);
     }
-        
+
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function checkSignParams($params)
     {
-    	if (is_array($params) && isset($params[$this->getRequestSignatureParamName()])) {
-	        $paramSignature = $params[$this->getRequestSignatureParamName()];
-	        unset($params[$this->getRequestSignatureParamName()]);
-	        $generateSignature = $this->_getSignatureForArray($params, $this->getSecretKey());
-	        return $paramSignature == $generateSignature; 
+        if (is_array($params) && isset($params[$this->getRequestSignatureParamName()])) {
+            $paramSignature = $params[$this->getRequestSignatureParamName()];
+            unset($params[$this->getRequestSignatureParamName()]);
+            $generateSignature = $this->_getSignatureForArray($params, $this->getSecretKey());
+            return $paramSignature == $generateSignature;
         }
 
         return false;
-    }  
-    
+    }
+
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function signParams($params)
     {
-    	$signature = $this->_getSignatureForArray($params, $this->getSecretKey());
-    	$params[$this->getRequestSignatureParamName()] = $signature;  
-    	return $params;
-    }  
+        $signature = $this->_getSignatureForArray($params, $this->getSecretKey());
+        $params[$this->getRequestSignatureParamName()] = $signature;
+        return $params;
+    }
 
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     private function _getSignatureForArray($array, $secretKey)
     {
         ksort($array);
-	    $tmpString = '';
-	    foreach ($array as $paramName => $paramValue) {
-	       $tmpString = $tmpString . $paramName . $paramValue;
-	    }
-        return $this->_getSignatureForString($tmpString, $secretKey); 
+        $tmpString = '';
+        foreach ($array as $paramName => $paramValue) {
+           $tmpString = $tmpString . $paramName . $paramValue;
+        }
+        return $this->_getSignatureForString($tmpString, $secretKey);
     }
-    
-    
+
+
     /**
      * Getter for $this->_currentAffiliatId
-     *     
-     * @param Varien_Event_Observer $observer 
+     *
+     * @param Varien_Event_Observer $observer
      * @return string
      */
     private function _getSignatureForString ($string, $secretKey)
@@ -144,5 +144,5 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
         $rawHmac = hash_hmac(self::$HMAC_SHA1_ALGORITHM, $string, $secretKey, true);
         return base64_encode($rawHmac);
     }
-       
+
 }
