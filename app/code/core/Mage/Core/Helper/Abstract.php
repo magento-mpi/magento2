@@ -157,13 +157,17 @@ abstract class Mage_Core_Helper_Abstract
             }
         } else {
             // process single item
-            if (is_array($allowedTags) and !empty($allowedTags)) {
-                $allowed = implode('|', $allowedTags);
-                $result = preg_replace('/<([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)>/si', '##$1$2$3##', $data);
-                $result = htmlspecialchars($result);
-                $result = preg_replace('/##([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)##/si', '<$1$2$3>', $result);
+            if (strlen($data)) {
+                if (is_array($allowedTags) and !empty($allowedTags)) {
+                    $allowed = implode('|', $allowedTags);
+                    $result = preg_replace('/<([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)>/si', '##$1$2$3##', $data);
+                    $result = htmlspecialchars($result);
+                    $result = preg_replace('/##([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)##/si', '<$1$2$3>', $result);
+                } else {
+                    $result = htmlspecialchars($data);
+                }
             } else {
-                $result = htmlspecialchars($data);
+                $result = $data;
             }
         }
         return $result;
