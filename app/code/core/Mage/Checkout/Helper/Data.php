@@ -105,7 +105,12 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getSubtotalInclTax($item)
     {
-        if (!Mage::helper('tax')->applyTaxAfterDiscount($item->getQuote()->getStore()) and $item->getTaxBeforeDiscount()) {
+        if ($item instanceof Mage_Sales_Model_Order_Item) {
+            $store = $item->getOrder()->getStore();
+        } else {
+            $store = $item->getQuote()->getStore();
+        }
+        if (!Mage::helper('tax')->applyTaxAfterDiscount($store) and $item->getTaxBeforeDiscount()) {
             $tax = $item->getTaxBeforeDiscount();
         } else {
             $tax = $item->getTaxAmount();
