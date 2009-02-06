@@ -90,16 +90,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
-     * Check whether invoice is created automatically or not
-     *
-     * @return boolean
-     */
-    public function canCreateInvoice()
-    {
-        return $this->getMethodInstance()->getConfigData('auto_invoice_active');
-    }
-
-    /**
      * Place payment information
      *
      * This method are colling when order will be place
@@ -158,16 +148,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                         break;
                 }
             }
-        }
-
-        if ($this->canCreateInvoice()) {
-            $invoice = $this->getOrder()->prepareInvoice();
-            $invoice->register();
-            if ($methodInstance->canCapture()) {
-                $invoice->capture();
-            }
-            $this->getOrder()->setIsInProcess(true);
-            $this->getOrder()->addRelatedObject($invoice);
         }
 
         $orderIsNotified = null;
@@ -273,7 +253,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         $invoice = $this->getOrder()->prepareInvoice();
 
-        $invoice->register()->capture();
+        $invoice->register();
+        if ($this->getMethodInstance()->canCapture()) {
+            $invoice->capture();
+        }
 
         $this->getOrder()->addRelatedObject($invoice);
         return $invoice;
