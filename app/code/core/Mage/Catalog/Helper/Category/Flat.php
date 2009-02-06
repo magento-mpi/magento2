@@ -44,12 +44,12 @@ class Mage_Catalog_Helper_Category_Flat extends Mage_Core_Helper_Abstract
     public function isEnabled($skipAdminCheck = false)
     {
         $flatFlag = Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
-        $isRebuilded = Mage::getResourceSingleton('catalog/category_flat')->isRebuilded();
+        $isRebuilt = Mage::getResourceSingleton('catalog/category_flat')->isRebuilt();
         $isFront = !Mage::app()->getStore()->isAdmin();
         if ($skipAdminCheck === true) {
             $isFront = true;
         }
 
-        return (boolean) $flatFlag && $isRebuilded && $isFront;
+        return (boolean) $flatFlag && $isRebuilt && $isFront;
     }
 }

@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
 
     protected $_nodes = array();
 
-    protected $_isRebuilded = null;
+    protected $_isRebuilt = null;
 
     protected function  _construct()
     {
@@ -213,19 +213,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      *
      * @return bool
      */
-    public function isRebuilded()
+    public function isRebuilt()
     {
-        if ($this->_isRebuilded === null) {
+        if ($this->_isRebuilt === null) {
             $select = $this->_getReadAdapter()->select()
                 ->from($this->getMainTable(), 'entity_id')
                 ->limit(1);
             try {
-                $this->_isRebuilded = (bool) $this->_getReadAdapter()->fetchOne($select);
+                $this->_isRebuilt = (bool) $this->_getReadAdapter()->fetchOne($select);
             } catch (Exception $e) {
-                $this->_isRebuilded = false;
+                $this->_isRebuilt = false;
             }
         }
-        return $this->_isRebuilded;
+        return $this->_isRebuilt;
     }
 
     protected function _getTableSqlSchema($storeId = 0)
