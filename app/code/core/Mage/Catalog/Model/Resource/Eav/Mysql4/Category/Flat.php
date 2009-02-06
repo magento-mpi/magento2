@@ -209,7 +209,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
-     * Check if category flat data is rebuilded
+     * Check if category flat data is rebuilt
      *
      * @return bool
      */
@@ -261,18 +261,103 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     public function rebuild()
     {
         $_read  = $this->_getReadAdapter();
-        $_write = $this->_getWriteAdapter();
-        $_read->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable()}`");
-        $_read->query($this->_getTableSqlSchema());
-        $stores = array();
+//        $_write = $this->_getWriteAdapter();
+//        $_read->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable()}`");
+//        $_read->query($this->_getTableSqlSchema());
+//        $stores = array();
+//        if ($this->getUseStoreTables()) {
+//            $selectStores = $_read->select()
+//                ->from($this->getTable('core/store'), 'store_id');
+//            $stores = $_read->fetchAll($selectStores);
+//            foreach ($stores as $store) {
+//                $_read->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable($store['store_id'])}`");
+//                $_write->query($this->_getTableSqlSchema($store['store_id']));
+//            }
+//        }
         if ($this->getUseStoreTables()) {
+            $stores = array();
             $selectStores = $_read->select()
                 ->from($this->getTable('core/store'), 'store_id');
             $stores = $_read->fetchAll($selectStores);
+            $this->_createTable($stores);
+        } else {
+            $this->_createTable(0);
+        }
+//        $selectAttribute = $_read->select()
+//            ->from($this->getTable('eav/entity_type'), array())
+//            ->join(
+//                $this->getTable('eav/attribute'),
+//                $this->getTable('eav/attribute').'.entity_type_id = '.$this->getTable('eav/entity_type').'.entity_type_id',
+//                $this->getTable('eav/attribute').'.*'
+//            )
+//            ->where($this->getTable('eav/entity_type').'.entity_type_code=?', 'catalog_category');
+//        $resultAttribute = $_read->fetchAll($selectAttribute);
+//        foreach ($resultAttribute as $attribute) {
+//            $type = '';
+//            switch ($attribute['backend_type']) {
+//                case 'varchar':
+//                    $type = 'varchar(255) not null default \'\'';
+//                    break;
+//                case 'int':
+//                    $type = 'int(10) not null default \'0\'';
+//                    break;
+//                case 'text':
+//                    $type = 'text';
+//                    break;
+//                case 'datetime':
+//                    $type = 'datetime not null default \'0000-00-00 00:00:00\'';
+//                    break;
+//                case 'decimal':
+//                    $type = 'decimal(10,2) not null default \'0.00\'';
+//                    break;
+//            }
+//            if ($type) {
+//                $_write->addColumn($this->getMainStoreTable(), $attribute['attribute_code'], $type);
+//                if ($this->getUseStoreTables()) {
+//                    foreach ($stores as $store) {
+//                        $_write->addColumn($this->getMainStoreTable($store['store_id']), $attribute['attribute_code'], $type);
+//                    }
+//                }
+//            }
+//        }
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('catalog/category'), 'entity_id');
+        $_categories = $this->_getReadAdapter()->fetchAll($select);
+        foreach ($_categories as $_category) {
             foreach ($stores as $store) {
-                $_read->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable($store['store_id'])}`");
-                $_write->query($this->_getTableSqlSchema($store['store_id']));
+                $_tmpCategory = Mage::getModel('catalog/category')
+                    ->setStoreId($store['store_id'])
+                    ->load($_category['entity_id']);
+                if ($_tmpCategory->getId()) {
+                    $this->_synchronize($_tmpCategory, 'insert');
+                }
             }
+        }
+        $_tmpCategory = null;
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param array|integer $stores
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    protected function _createTable($stores)
+    {
+        if (!is_array($stores)) {
+            $stores = (int) $stores;
+        }
+        $_read  = $this->_getReadAdapter();
+        $_write = $this->_getWriteAdapter();
+        if ($this->getUseStoreTables() && is_array($stores)) {
+            foreach ($stores as $store) {
+                $_read->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable($store)}`");
+                $_read->query($this->_getTableSqlSchema($store));
+            }
+        } else {
+            $_read->query("DROP TABLE IF EXISTS `{$this->getMainStoreTable($stores)}`");
+            $_read->query($this->_getTableSqlSchema($stores));
         }
         $selectAttribute = $_read->select()
             ->from($this->getTable('eav/entity_type'), array())
@@ -303,21 +388,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                     break;
             }
             if ($type) {
-                $_write->addColumn($this->getMainStoreTable(), $attribute['attribute_code'], $type);
-                if ($this->getUseStoreTables()) {
+                if ($this->getUseStoreTables() && is_array($stores)) {
                     foreach ($stores as $store) {
                         $_write->addColumn($this->getMainStoreTable($store['store_id']), $attribute['attribute_code'], $type);
                     }
+                } else {
+                    $_write->addColumn($this->getMainStoreTable($stores), $attribute['attribute_code'], $type);
                 }
-            }
-        }
-        $_categories = Mage::getModel('catalog/category')->getCollection()
-            ->addAttributeToSelect('*')
-            ->load();
-        foreach ($_categories as $_category) {
-            foreach ($_category->getStoreIds() as $_storeId) {
-                $_category->setStoreId($_storeId);
-                $this->_synchronize($_category, 'insert');
             }
         }
         return $this;
@@ -426,23 +503,26 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                     {$storesCondition}
             ");
             foreach ($stores as $store) {
-                $_categories = Mage::getModel('catalog/category')->getCollection()
-                    ->setStoreId($store['store_id'])
-                    ->addAttributeToSelect('*')
-                    ->addAttributeToFilter(array(
-                        array('attribute' => 'path', 'like' => "{$store['root_path']}/%"),
-                        array('attribute' => 'path', 'eq' => "{$store['root_path']}")
-                    ))
-                    ->load();
+                $select = $this->_getReadAdapter()->select()
+                    ->from($this->getTable('catalog/category'), 'entity_id')
+                    ->where('path LIKE ?', "{$store['root_path']}/%")
+                    ->orWhere('path = ?', $store['root_path']);
+                $_categories = $this->_getReadAdapter()->fetchAll($select);
+                if (!$this->_getReadAdapter()->showTableStatus($this->getMainStoreTable($store['store_id']))) {
+                    $this->_createTable($store['store_id']);
+                }
                 $this->_getWriteAdapter()->delete(
                     $this->getMainStoreTable($store['store_id']),
                     $this->_getReadAdapter()->quoteInto('store_id = ?', $store['store_id'])
                 );
                 foreach ($_categories as $_category) {
-                    $_category->setStoreId($store['store_id']);
-                    $this->_synchronize($_category, 'insert');
+                    $_tmpCategory = Mage::getModel('catalog/category')
+                        ->setStoreId($store['store_id'])
+                        ->load($_category['entity_id']);
+                    $this->_synchronize($_tmpCategory, 'insert');
                 }
             }
+            $_tmpCategory = null;
         } elseif ($category instanceof Mage_Catalog_Model_Category) {
             foreach ($category->getStoreIds() as $storeId) {
                 $_tmpCategory = Mage::getModel('catalog/category')
@@ -457,6 +537,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
+     * Synchronize flat data with eav after moving category
      *
      * @param integer $categoryId
      * @param integer $prevParentId
@@ -480,21 +561,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             WHERE
                 entity_id = '$categoryId'
         ");
-        $_categories = Mage::getModel('catalog/category')->getCollection()
-            ->setStoreId(0)
-            ->addAttributeToSelect('*')
-            ->addAttributeToFilter(array(
-                array('attribute' => 'path', 'like' => "{$categoryPath}/%"),
-                array('attribute' => 'path', 'eq' => "{$categoryPath}")
-            ))
-            ->load();
+        $stores = Mage::getModel('catalog/category')->load($parentId)->getStoreIds();
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('catalog/category'), 'entity_id')
+            ->where('path LIKE ?', "$categoryPath/%")
+            ->orWhere('path = ?', $categoryPath);
+        $_categories = $this->_getReadAdapter()->fetchAll($select);
         foreach ($_categories as $_category) {
-            foreach ($_category->getStoreIds() as $storeId) {
-                $_category->setStoreId($storeId);
-                $this->_synchronize($_category);
+            foreach ($stores as $storeId) {
+                $_tmpCategory = Mage::getModel('catalog/category')
+                    ->setStoreId($storeId)
+                    ->load($_category['entity_id']);
+                $this->_synchronize($_tmpCategory);
             }
         }
-//        $this->_move2($categoryId, $prevParentPath, $parentPath);
+        $_tmpCategory = null;
+//        $this->_move($categoryId, $prevParentPath, $parentPath);
         return $this;
     }
 
@@ -623,7 +705,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      * @param integer $level
      * @return array
      */
-    public function getChildren($category, $level = 1, $isActive = true)
+    public function getChildren($category, $recursive = true, $isActive = true)
     {
         Varien_Profiler::start('CATALOG_FLAT_getChildren:');
 //        $_categories = $this->_getNodesOrLoad($category);
@@ -631,8 +713,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainStoreTable($category->getStoreId()), 'entity_id')
             ->where('path LIKE ?', "{$category->getPath()}/%");
-        if ($level) {
-            $select->where('level <= ?', $category->getLevel() + $level);
+        if (!$recursive) {
+            $select->where('level <= ?', $category->getLevel() + 1);
         }
         if ($isActive) {
             $select->where('is_active = ?', '1');
@@ -660,7 +742,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function getAllChildren($category)
     {
-        $categoriesIds = $this->getChildren($category, 0);
+        $categoriesIds = $this->getChildren($category);
         $myId = array($category->getId());
         $categoriesIds = array_merge($myId, $categoriesIds);
 

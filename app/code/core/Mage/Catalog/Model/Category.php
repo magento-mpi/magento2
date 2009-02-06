@@ -426,7 +426,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     public function getChildren()
     {
-        return implode(',', $this->getResource()->getChildren($this));
+        return implode(',', $this->getResource()->getChildren($this, false));
     }
 
     public function getPathInStore()
