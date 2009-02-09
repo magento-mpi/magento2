@@ -533,6 +533,21 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Enter description here...
+     *
+     * @param unknown_type $sorted
+     * @param unknown_type $asCollection
+     * @param unknown_type $toLoad
+     * @return unknown_type
+     */
+    public function getCategories($parent, $recursionLevel = 0, $sorted=false, $asCollection=false, $toLoad=true)
+    {
+        $categories = $this->getResource()
+            ->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
+        return $categories;
+    }
+
+    /**
      * Return parent categories of current category
      *
      * @return array

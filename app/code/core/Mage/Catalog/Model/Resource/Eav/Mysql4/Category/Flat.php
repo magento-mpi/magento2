@@ -163,11 +163,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     /**
      * Return sorted array of nodes
      *
+     * @param integer|null $parentId
+     * @param integer $recursionLevel
+     * @param integer $storeId
      * @return array
      */
-    public function getNodes($parentId = null, $recursionLevel = 0, $storeId = null)
+    public function getNodes($parentId = null, $recursionLevel = 0, $storeId = 0)
     {
         if (!$this->_loaded) {
+            if (is_null($parentId)) {
+                $parentId = Mage::app()->getStore()->getId();
+            }
             $selectParent = $this->_getReadAdapter()->select()
                 ->from($this->getMainStoreTable())
                 ->where('entity_id = ?', $parentId)
@@ -193,6 +199,35 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             }
         }
         return $this->_nodes;
+    }
+
+    /**
+     * Return array or collection of categories
+     *
+     * @param integer $parent
+     * @param integer $recursionLevel
+     * @param boolean|string $sorted
+     * @param boolean $asCollection
+     * @param boolean $toLoad
+     * @return array|Varien_Data_Collection
+     */
+    public function getCategories($parent, $recursionLevel = 0, $sorted=false, $asCollection=false, $toLoad=true)
+    {
+        if ($asCollection) {
+            $parentPath = $this->_getReadAdapter()->fetchOne(new Zend_Db_Expr("
+                SELECT path FROM {$this->getMainStoreTable()} WHERE entity_id = {$parent} AND store_id = 0
+            "));
+            $collection = Mage::getModel('catalog/category')->getCollection()
+                ->addParentPathFilter($parentPath)
+                ->addStoreFilter()
+                ->addSortedField($sorted);
+//            Zend_Debug::dump($collection->getSelect()->__toString());
+            if ($toLoad) {
+                return $collection->load();
+            }
+            return $collection;
+        }
+        return $this->getNodes($parent, $recursionLevel, Mage::app()->getStore()->getId());
     }
 
     /**

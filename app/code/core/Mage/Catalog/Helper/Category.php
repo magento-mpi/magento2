@@ -66,24 +66,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
 
         $recursionLevel = max(0, (int) Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
 
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
-            return $category->getResource()->getNodes($parent, $recursionLevel, $category->getStoreId());
-        } else {
-            $tree = $category->getTreeModel();
-            /* @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
-
-            $nodes = $tree->loadNode($parent)
-                ->loadChildren($recursionLevel)
-                ->getChildren();
-
-            $tree->addCollectionData(null, $sorted, $parent, $toLoad, true);
-
-            if ($asCollection) {
-                return $tree->getCollection();
-            } else {
-                return $nodes;
-            }
-        }
+        return $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
     }
 
     /**

@@ -768,6 +768,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     }
 
     /**
+     * Retrieve categories
+     *
+     * @param integer $parent
+     * @param integer $recursionLevel
+     * @param boolean|string $sorted
+     * @param boolean $asCollection
+     * @param boolean $toLoad
+     * @return Varien_Data_Tree_Node_Collection|Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
+    public function getCategories($parent, $recursionLevel = 0, $sorted=false, $asCollection=false, $toLoad=true)
+    {
+        $tree = Mage::getResourceModel('catalog/category_tree');
+        /** @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
+        $nodes = $tree->loadNode($parent)
+            ->loadChildren($recursionLevel)
+            ->getChildren();
+
+        $tree->addCollectionData(null, $sorted, $parent, $toLoad, true);
+
+        if ($asCollection) {
+            return $tree->getCollection();
+        }
+        return $nodes;
+    }
+
+    /**
      * Return parent categories of category
      *
      * @param Mage_Catalog_Model_Category $category
