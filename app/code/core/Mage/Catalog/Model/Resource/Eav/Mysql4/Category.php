@@ -875,6 +875,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 //        return $children;
     }
 
+    /**
+     * Check is category in list of store categories
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return boolean
+     */
     public function isInRootCategoryList($category)
     {
         $innerSelect = $this->_getReadAdapter()->select()

@@ -45,6 +45,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         $this->_init('catalog/category_flat', 'entity_id');
     }
 
+    /**
+     * Return name of table for given $storeId.
+     *
+     * @param integer $storeId
+     * @return string
+     */
     public function getMainStoreTable($storeId = 0)
     {
         $table = $this->getMainTable();
@@ -57,10 +63,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         return $table;
     }
 
+    /**
+     * Return true if need use for each store different table of flat categoris data.
+     *
+     * @return boolean
+     */
     public function getUseStoreTables()
     {
         return true;
-        Mage::app()->getConfig()->getNode('/asdf');
     }
 
     /**
@@ -105,7 +115,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         if ($recursionLevel != 0) {
             $select->where("main_table.level <= ?", $startLevel + $recursionLevel);
         }
-//        Zend_Debug::dump($select->__toString());
+
         $arrNodes = $_conn->fetchAll($select);
         $nodes = array();
         foreach ($arrNodes as $node) {
@@ -534,7 +544,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here...
+     * Prepare array of category data to insert or update.
+     *
+     * array(
+     *  'field_name' => 'value'
+     * )
      *
      * @param Mage_Catalog_Model_Category $category
      * @param array $replaceFields
@@ -635,6 +649,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
+     * Check is category in list of store categories
      *
      * @param Mage_Catalog_Model_Category $category
      * @return boolean
