@@ -142,19 +142,16 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
         if ($data === null) {
             $categoty   = $this->getCategory();
             /** @var $categoty Mage_Catalog_Model_Categeory */
-            if (Mage::helper('catalog/category_flat')->isEnabled()) {
-                $categories = $categoty->getChildrenCategories();
-            } else {
-                $categories = Mage::getResourceModel('catalog/category_collection')
-                    ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('all_children')
-                    ->addAttributeToSelect('is_anchor')
-                    ->addAttributeToFilter('is_active', 1)
-                    ->addAttributeToSort('position', 'asc')
-                    ->joinUrlRewrite()
-                    ->addIdFilter($categoty->getChildren())
-                    ->load();
-            }
+            $categories = $categoty->getChildrenCategories();
+//            $categories = Mage::getResourceModel('catalog/category_collection')
+//                ->addAttributeToSelect('name')
+//                ->addAttributeToSelect('all_children')
+//                ->addAttributeToSelect('is_anchor')
+//                ->addAttributeToFilter('is_active', 1)
+//                ->addAttributeToSort('position', 'asc')
+//                ->joinUrlRewrite()
+//                ->addIdFilter($categoty->getChildren())
+//                ->load();
             $this->getLayer()->getProductCollection()
                 ->addCountToCategories($categories);
             $data=array();

@@ -795,11 +795,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getChildrenCategories($category)
     {
-//        Zend_Debug::dump('EAV::getChildrenCategories');
-        $collection = Mage::getModel('catalog/category')->getCollection();
+        $collection = $category->getCollection();
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
         $collection->addAttributeToSelect('url_key')
             ->addAttributeToSelect('name')
+            ->addAttributeToSelect('all_children')
             ->addAttributeToSelect('is_anchor')
             ->addAttributeToFilter('is_active', 1)
             ->addIdFilter($category->getChildren())
@@ -818,13 +818,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getChildren($category, $recursive = true)
     {
+        $attributeId = $this->_getIsActiveAttributeId();
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'entity_id')
+            ->from(array('m' => $this->getEntityTable()), 'entity_id')
+            ->joinLeft(
+                array('d' => $this->getEntityTable() . '_int'),
+                "d.attribute_id = '{$attributeId}' AND d.store_id = 0 AND d.entity_id = m.entity_id",
+                array()
+            )
+            ->joinLeft(
+                array('c' => $this->getEntityTable() . '_int'),
+                "c.attribute_id = '{$attributeId}' AND c.store_id = '{$category->getStoreId()}' AND c.entity_id = m.entity_id",
+                array()
+            )
+            ->where('(IFNULL(c.value, d.value) = ?)', '1')
             ->where('path LIKE ?', "{$category->getPath()}/%");
         if (!$recursive) {
             $select->where('level <= ?', $category->getLevel() + 1);
         }
-        $select->where('is_active = ?', '1');
         $_categories = $this->_getReadAdapter()->fetchAll($select);
         $categoriesIds = array();
         foreach ($_categories as $_category) {
@@ -867,10 +878,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     public function isInRootCategoryList($category)
     {
         $innerSelect = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), new Zend_Db_Expr("CONCAT(path, '/%')"))
+            ->from($this->getEntityTable(), new Zend_Db_Expr("CONCAT(path, '/%')"))
             ->where('entity_id = ?', Mage::app()->getStore()->getRootCategoryId());
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'entity_id')
+            ->from($this->getEntityTable(), 'entity_id')
             ->where('entity_id = ?', $category->getId())
             ->where(new Zend_Db_Expr("path LIKE ({$innerSelect->__toString()})"));
         return (bool) $this->_getReadAdapter()->fetchOne($select);
