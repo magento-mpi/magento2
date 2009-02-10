@@ -34,6 +34,11 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+    /**
+     * Store id of application
+     *
+     * @var integer
+     */
     protected $_storeId = null;
 
     protected function _construct()
@@ -50,12 +55,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
         return $this;
     }
 
+    /**
+     * Set store id
+     *
+     * @param integer $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
     public function setStoreId($storeId)
     {
         $this->_storeId = $storeId;
         return $this;
     }
 
+    /**
+     * Return store id.
+     * If store id is not set yet, return store of application
+     *
+     * @return integer
+     */
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
@@ -64,18 +81,35 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
         return $this->_storeId;
     }
 
+    /**
+     * Add filter by path to collection
+     *
+     * @param string $parent
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
     public function addParentPathFilter($parent)
     {
         $this->addFieldToFilter('path', array('like' => "{$parent}/%"));
         return $this;
     }
 
+    /**
+     * Add store filter
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
     public function addStoreFilter()
     {
         $this->addFieldToFilter('store_id', $this->getStoreId());
         return $this;
     }
 
+    /**
+     * Set field to sort by
+     *
+     * @param string $sorted
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
     public function addSortedField($sorted)
     {
         if (is_string($sorted)) {
