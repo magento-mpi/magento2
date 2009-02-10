@@ -271,8 +271,10 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
             $entry->setContent($content);
         }
 
-        if ($this->_getItemType() == 'products') {
-        	$quantity = $object->getQuantity() ? max(1, (int)$object->getQuantity()) : 1;
+        if ($this->_getItemType() == $this->getConfig()->getDefaultItemType($this->getStoreId())) {
+            $this->_setAttribute('price', sprintf('%.2f', $object->getPrice()), 'floatUnit');
+
+            $quantity = $object->getQuantity() ? max(1, (int)$object->getQuantity()) : 1;
         	$this->_setAttribute('quantity', $quantity, 'int');
         }
 
