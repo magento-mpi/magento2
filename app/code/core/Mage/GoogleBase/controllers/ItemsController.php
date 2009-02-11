@@ -60,7 +60,7 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
             $_countryInfo = $this->_getConfig()->getTargetCountryInfo($this->_getStore()->getId());
             $this->_getSession()->addNotice(
                 $this->__(
-                    "Base Currency in System Configuration doesn't eqaul %s for %s. Items price may be incorrectly displayed in Google Base.",
+                    "Base Currency should be set to %s for %s in system configuration. Otherwise item prices won't be correct in Google Base.",
                     $_countryInfo['currency_name'],
                     $_countryInfo['name']
                 )
