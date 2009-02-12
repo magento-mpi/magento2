@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'qty',
-            'width'     => '60px',
+            'width'     => '1',
             'editable'  => true
         ));
 
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'position',
-            'width'     => '60px',
+            'width'     => '1',
             'editable'  => true,
             'edit_only' => !$this->_getProduct()->getId()
         ));
