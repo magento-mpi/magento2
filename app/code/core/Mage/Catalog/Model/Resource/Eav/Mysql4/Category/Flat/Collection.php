@@ -119,4 +119,56 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
         }
         return $this;
     }
+
+    public function addIsActiveFilter()
+    {
+        $this->addFieldToFilter('is_active', 1);
+        return $this;
+    }
+
+    public function addNameToResult()
+    {
+        return $this;
+    }
+
+    public function addUrlRewriteToResult()
+    {
+        $storeId = Mage::app()->getStore()->getId();
+        $this->getSelect()->joinLeft(
+            array('url_rewrite' => $this->getTable('core/url_rewrite')),
+            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
+            array('request_path')
+        );
+        return $this;
+    }
+
+    public function addPathsFilter($paths)
+    {
+        if (!is_array($paths)) {
+            $paths = array($paths);
+        }
+        $select = $this->getSelect();
+        $orWhere = false;
+        foreach ($paths as $path) {
+            if ($orWhere) {
+                $select->orWhere('path LIKE ?', "$path%");
+            } else {
+                $select->where('path LIKE ?', "$path%");
+                $orWhere = true;
+            }
+        }
+        return $this;
+    }
+
+    public function addLevelFilter($level)
+    {
+        $this->getSelect()->where('level <= ?', $level);
+        return $this;
+    }
+
+    public function addOrderField($field)
+    {
+        $this->setOrder($field, 'ASC');
+        return $this;
+    }
 }

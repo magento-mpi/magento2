@@ -547,6 +547,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         return $categories;
     }
 
+    public function getCategoreisByPaths($paths, $level = 0)
+    {
+        $collection = $this->getCollection();
+        $collection->getCategoriesByPaths($paths, $level);
+        return $collection;
+        return $this->getCollection()->getCategoriesByPaths($paths, $level);
+    }
+
     /**
      * Return parent categories of current category
      *

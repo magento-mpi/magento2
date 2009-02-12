@@ -253,4 +253,53 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
         );
         return $this;
     }
+
+    public function addIsActiveFilter()
+    {
+        $this->addAttributeToFilter('is_active', 1);
+        return $this;
+    }
+
+    public function addNameToResult()
+    {
+        $this->addAttributeToSelect('name');
+        return $this;
+    }
+
+    public function addUrlRewriteToResult()
+    {
+        $this->joinUrlRewrite();
+        return $this;
+    }
+
+    public function addPathsFilter($paths)
+    {
+        if (!is_array($paths)) {
+            $paths = array($paths);
+        }
+        $select = $this->getSelect();
+        $orWhere = false;
+        foreach ($paths as $path) {
+            if ($orWhere) {
+                $select->orWhere('e.path LIKE ?', "$path%");
+            } else {
+                $select->where('e.path LIKE ?', "$path%");
+                $orWhere = true;
+            }
+        }
+        return $this;
+    }
+
+    public function addLevelFilter($level)
+    {
+        $this->getSelect()->where('e.level <= ?', $level);
+        return $this;
+    }
+
+    public function addOrderField($field)
+    {
+        $this->setOrder($field, 'ASC');
+        return $this;
+    }
+
 }

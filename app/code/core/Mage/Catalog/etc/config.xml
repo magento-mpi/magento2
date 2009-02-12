@@ -544,6 +544,10 @@
                 <flat_catalog_category>0</flat_catalog_category>
                 <default_sort_by>position</default_sort_by>
             </frontend>
+            <sitemap>
+                <tree_mode>0</tree_mode>
+                <lines_perpage>30</lines_perpage>
+            </sitemap>
             <price>
                 <scope>0</scope>
             </price>
