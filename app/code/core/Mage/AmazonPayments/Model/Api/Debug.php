@@ -19,39 +19,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Paypal
+ * @package    Mage_AmazonPayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Paypal shortcut link
+ * AmazonPayments Api Debug Model
  *
  * @category   Mage
- * @package    Mage_Paypal
+ * @package    Mage_AmazonPayments
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AmazonPayments_Block_Link_Shortcut extends Mage_Core_Block_Template
+class Mage_AmazonPayments_Model_Api_Debug extends Mage_Core_Model_Abstract
 {
-    public function getCheckoutUrl()
+    protected function _construct()
     {
-        #return $this->getUrl('amazonpayments/cba', array('_secure'=>true));
-        return $this->getUrl('amazonpayments/cba/shortcut');
-    }
-
-    public function getImageUrl()
-    {
-        return Mage::getStoreConfig('payment/amazonpayments_cba/button_url');
-        #return 'http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-large.gif';
-    }
-
-    public function _toHtml()
-    {
-        if (Mage::getStoreConfigFlag('payment/amazonpayments_cba/active')
-            && Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount()) {
-            return parent::_toHtml();
-        }
-
-        return '';
+        $this->_init('amazonpayments/api_debug');
     }
 }

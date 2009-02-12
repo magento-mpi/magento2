@@ -35,6 +35,16 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     protected $_formBlockType = 'amazonpayments/cba_form';
     protected $_api;
 
+    protected $_isGateway               = false;
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = false;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = false;
+    protected $_canVoid                 = false;
+    protected $_canUseInternal          = false;
+    protected $_canUseCheckout          = false;
+    protected $_canUseForMultishipping  = false;
+
     const ACTION_AUTHORIZE = 0;
     const ACTION_AUTHORIZE_CAPTURE = 1;
     const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
@@ -67,7 +77,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     public function getApi()
     {
         if (!$this->_api) {
-            $this->_api = Mage::getSingleton('amazonpayments/api');
+            $this->_api = Mage::getSingleton('amazonpayments/api_cba');
+            $this->_api->setPaymentCode($this->getCode());
         }
         return $this->_api;
     }
@@ -80,18 +91,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     public function getSession()
     {
         return Mage::getSingleton('amazonpayments/session');
-    }
-
-    public function getOrderPlaceRedirectUrl()
-    {
-        echo "getOrderPlaceRedirectUrl\n";
-        return false;
-    }
-
-    public function getCheckoutRedirectUrl()
-    {
-        #echo "getCheckoutRedirectUrl\n";
-        return false;
     }
 
     /**
@@ -123,38 +122,79 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     {
         $paymentAction = Mage::getStoreConfig('payment/amazon_cna/payment_action');
         if (!$paymentAction) {
-            $paymentAction = Mage_AmazonPayments_Model_Api::PAYMENT_TYPE_AUTH;
+            $paymentAction = Mage_AmazonPayments_Model_Api_Cba::PAYMENT_TYPE_AUTH;
         }
         return $paymentAction;
     }
 
     /**
-     * Making API call to start transaction from shopping cart
+     * Handle Callback from CBA and calculate Shipping, Taxes in case XML-based shopping cart
      *
-     * @return Mage_AmazonPayment_Model_Payment_Cba
      */
-    public function shortcutSetCbaCheckout()
+    public function handleCallback($_request)
     {
-        $_quote = $this->getCheckout()->getQuote();
+        $xmlRequest = urldecode($_request['order-calculations-request']);
 
-        $this->getCheckout()->getQuote()->reserveOrderId()->save();
+        $response = '';
 
-        $this->getApi()
-            ->setPaymentType($this->getPaymentAction())
-            ->setAmount($_quote->getBaseGrandTotal())
-            ->setCurrencyCode($_quote->getBaseCurrencyCode())
-            ->setInvNum($_quote->getReservedOrderId());
-            #->callSetCbaCheckout();
+        $session = $this->getCheckout();
+        $xml = $this->getApi()->handleXmlCallback($xmlRequest, $session);
 
-        $this->catchError();
+        if ($this->getDebug()) {
+            $debug = Mage::getModel('amazonpayments/api_debug')
+                ->setRequestBody(serialize($_request))
+                ->save();
+        }
 
-        $this->getSession()->setExpressCheckoutMethod('shortcut');
+        if ($xml) {
+            $xmlText = $xml->asXML();
+            $response .= 'order-calculations-response='.urlencode($xmlText);
+            #$response .= 'order-calculations-response='.base64_encode($xmlText);
 
-        return $this;
+            $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
+
+            $_signature = $this->getApi()->calculateSignature($xmlText, $secretKeyID);
+
+            if ($_signature) {
+                $response .= '&Signature='.urlencode($_signature);
+                #$response .= '&Signature='.$_signature;
+            }
+            $response .= '&aws-access-key-id='.Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id');
+
+            if ($this->getDebug()) {
+                $debug = Mage::getModel('amazonpayments/api_debug')
+                    ->setResponseBody($response)
+                    ->save();
+            }
+        }
+        return $response;
     }
 
+    public function callbackXmlError(Exception $e)
+    {
+        $_xml = $this->getApi()->callbackXmlError($e);
+        $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
+        $_signature = $this->getApi()->calculateSignature($_xml->asXml(), $secretKeyID);
+
+        $response = 'order-calculations-response='.urlencode($_xml->asXML())
+                .'&Signature='.urlencode($_signature)
+                .'&aws-access-key-id='.Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id');
+        if ($this->getDebug()) {
+            $debug = Mage::getModel('amazonpayments/api_debug')
+                ->setResponseBody($response)
+                ->save();
+        }
+        return $response;
+    }
+
+    /**
+     * Prepare fields for Html-based cart signed form for CBA
+     *
+     * @return array
+     */
     public function getCheckoutFormFields()
     {
+        $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
         $_quote = $this->getCheckout()->getQuote();
         /**
          * @var $_quote Mage_Sales_Model_Quote
@@ -195,7 +235,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             'aws_access_key_id' => Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'),
             'currency_code'     => $currency_code,
             'form_key'          => Mage::getSingleton('core/session')->getFormKey(),
-
         ));
 
         if($this->getConfigData('payment_action')==self::PAYMENT_TYPE_AUTH){
@@ -204,7 +243,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
              ));
         }
 
-
         ksort($sArr);
         $rArr = array();
         foreach ($sArr as $k=>$v) {
@@ -212,7 +250,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             $value =  str_replace("&","and",$v);
             $rArr[$k] =  $value;
         }
-        $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
 
         $rArr['merchant_signature'] = $this->getApi()->calculateSignature($rArr, $secretKeyID);
         unset($rArr['form_key']);
@@ -224,12 +261,40 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     ->setRequestBody($sReq)
                     ->save();
         }*/
-
         return $rArr;
     }
 
     /**
-     * Return Checkout by Amazon order datails, connecting to Amazon
+     * Prepare fields for XML-based signed cart form for CBA
+     *
+     * @return array
+     */
+    public function getCheckoutXmlFormFields()
+    {
+        $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
+        $_quote = $this->getCheckout()->getQuote();
+
+        $xml = $this->getApi()->getXmlCart($_quote);
+
+        $xmlCart = array('order-input' =>
+            "type:merchant-signed-order/aws-accesskey/1;"
+            ."order:".base64_encode($xml).";"
+            ."signature:{$this->getApi()->calculateSignature($xml, $secretKeyID)};"
+            ."aws-access-key-id:".Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id')
+            );
+        if ($this->getDebug()) {
+            $debug = Mage::getModel('amazonpayments/api_debug')
+                ->setResponseBody(serialize($xmlCart))
+                ->save();
+        }
+        #echo "xml: {$xml}<br />\n"
+        #    ."secretKeyID: {$secretKeyID}<br />\n";
+
+        return $xmlCart;
+    }
+
+    /**
+     * Return Checkout by Amazon order details, connecting to Amazon
      *
      */
     public function getAmazonOrderDetails()
@@ -240,7 +305,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     }
 
     /**
-     * Return Checkout by Amazon order datails, connecting to Amazon
+     * Return CBA order details in case Html-based shopping cart commited to Amazon
      *
      */
     public function returnAmazon()
@@ -259,40 +324,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         #$this->getApi()->getAmazonCbaOrderDetails($_amazonOrderId);
     }
 
-    public function canCapture()
-    {
-        return true;
-    }
-
-    /**
-     * initialize payment transaction in case
-     * we doing checkout through onepage checkout
-     */
-    public function initialize($paymentAction, $stateObject)
-    {
-        $_quote = $this->getCheckout()->getQuote();
-        $address = $_quote->getBillingAddress();
-
-        $this->getApi()
-            ->setPaymentType($paymentAction)
-            ->setAmount($address->getBaseGrandTotal())
-            ->setCurrencyCode($_quote->getBaseCurrencyCode())
-            ->setBillingAddress($address)
-            ->setCardId($_quote->getReservedOrderId())
-            ->setCustomerName($_quote->getCustomer()->getName());
-            #->callSetExpressCheckout();
-
-        #$this->throwError();
-
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
-        $stateObject->setStatus('Processing');
-        $stateObject->setIsNotified(false);
-
-        Mage::getSingleton('amazonpayments/session')->unsExpressCheckoutMethod();
-
-        return $this;
-    }
-
     /**
      * Rewrite standard logic
      *
@@ -300,52 +331,16 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     public function isInitializeNeeded()
     {
-        return true;
+        return false;
     }
 
     /**
-     * Processing error from amazon
+     * Get debug flag
      *
-     * @return Mage_AmazonPayments_Model_Payment_Cba
+     * @return string
      */
-    public function catchError()
+    public function getDebug()
     {
-        if ($this->getApi()->getError()) {
-            $s = $this->getCheckout();
-            $e = $this->getApi()->getError();
-            switch ($e['type']) {
-                case 'CURL':
-                    $s->addError(Mage::helper('amazonpayments')->__('There was an error connecting to the Amazon server: %s', $e['message']));
-                    break;
-
-                case 'API':
-                    $s->addError(Mage::helper('amazonpayments')->__('There was an error during communication with Amazon: %s - %s', $e['short_message'], $e['long_message']));
-                    break;
-            }
-        }
-        return $this;
-    }
-    /**
-     * Works same as catchError method but instead of saving
-     * error message in session throws exception
-     *
-     * @return Mage_AmazonPayments_Model_Payment_Cba
-     */
-    public function throwError()
-    {
-        if ($this->getApi()->getError()) {
-            $s = $this->getCheckout();
-            $e = $this->getApi()->getError();
-            switch ($e['type']) {
-                case 'CURL':
-                    Mage::throwException(Mage::helper('amazonpayments')->__('There was an error connecting to the Amazon server: %s', $e['message']));
-                    break;
-
-                case 'API':
-                    Mage::throwException(Mage::helper('amazonpayments')->__('There was an error during communication with Amazon: %s - %s', $e['short_message'], $e['long_message']));
-                    break;
-            }
-        }
-        return $this;
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/debug_flag');
     }
 }

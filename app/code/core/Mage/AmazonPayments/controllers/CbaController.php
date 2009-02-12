@@ -27,6 +27,93 @@
 class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Test Action for Calculation Callback
+     *
+     */
+    public function indexAction()
+    {
+        $html = "\n"
+            .'<form method="post" action="http://kv.no-ip.org/dev/andrey.babich/magento/index.php/amazonpayments/cba/callback/"><table>'."\n"
+            .'<tr><td>Signature</td><td><input type="input" size="60" name="Signature" value="92z5BOJa36KYt4oVfkp+gZhDJx0="></td></tr>'."\n"
+            .'<tr><td>UUID</td><td><input type="input" size="60" name="UUID" value="a8463aad-88d7-4922-830c-a23d4a677d04"></td></tr>'."\n"
+            .'<tr><td>order-calculations-request</td><td><textarea name="order-calculations-request" cols="80" rows="40">'."\n"
+            .'<?xml version="1.0" encoding="UTF-8"?>
+<OrderCalculationsRequest xmlns="http://payments.amazon.com/checkout/2008-11-30/">
+     <CallbackReferenceId>2-90aec5b2-cd93-4cd4-af5c-86df5c469963</CallbackReferenceId>
+       <OrderCalculationCallbacks>
+       <CalculateTaxRates>true</CalculateTaxRates>
+       <CalculatePromotions>true</CalculatePromotions>
+       <CalculateShippingRates>true</CalculateShippingRates>
+       <OrderCallbackEndpoint>http://kv.no-ip.org/dev/andrey.babich/magento/index.php/amazonpayments/cba/success/</OrderCallbackEndpoint>
+       <ProcessOrderOnCallbackFailure>false</ProcessOrderOnCallbackFailure>
+      </OrderCalculationCallbacks>
+<IntegratorId>A2ZZYWSJ0WMID8</IntegratorId>
+<IntegratorName>Varien</IntegratorName>
+<Cart>
+      <Items>
+      <Item>
+       <SKU>product_1</SKU>
+       <MerchantId>A2ZZYWSJ0WMID8</MerchantId>
+       <Title>Product 1</Title>
+       <Price>
+        <Amount>1.0500</Amount>
+        <CurrencyCode>USD</CurrencyCode>
+       </Price>
+       <Quantity>2</Quantity>
+       <Weight>
+         <Amount>1</Amount>
+          <Unit>lb</Unit>
+        </Weight>
+      </Item>
+      <Item>
+       <SKU>product_2</SKU>
+       <MerchantId>A2ZZYWSJ0WMID8</MerchantId>
+       <Title>Product 2</Title>
+       <Price>
+        <Amount>2.4000</Amount>
+        <CurrencyCode>USD</CurrencyCode>
+       </Price>
+       <Quantity>1</Quantity>
+       <Weight>
+         <Amount>1</Amount>
+          <Unit>lb</Unit>
+        </Weight>
+      </Item>
+      </Items>
+</Cart>
+<CallbackOrders>
+     <CallbackOrder>
+      <Address>
+       <AddressId>d89f3a35931c386956c1a402a8e09941</AddressId>
+       <AddressFieldOne>Temerjazevska 66/1</AddressFieldOne>
+       <AddressFieldTwo/>
+       <AddressFieldThree/>
+       <City>NY</City>
+       <State>NY</State>
+       <PostalCode>10001</PostalCode>
+       <CountryCode>US</CountryCode>
+      </Address>
+      <CallbackOrderItems>
+       <CallbackOrderItem>
+        <SKU>product_1</SKU>
+       </CallbackOrderItem>
+       <CallbackOrderItem>
+        <SKU>product_2</SKU>
+       </CallbackOrderItem>
+      </CallbackOrderItems>
+     </CallbackOrder>
+</CallbackOrders>
+</OrderCalculationsRequest>'
+            .'</textarea></td></tr>'."\n"
+            .'<tr><td>Timestamp</td><td><input type="input" size="60" name="Timestamp" value="2009-02-05T%2012%3A58%3A24.292Z"></td></tr>'."\n"
+            .'<tr><td rowspan="2"><input type="submit" name="submit" value="submit"></td></tr>'."\n"
+            ."</table></form>\n"
+            ."\n";
+        echo $html;
+        return true;
+    }
+
+    /**
      * Get checkout session namespace
      *
      * @return Mage_Checkout_Model_Session
@@ -47,22 +134,10 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
     }
 
     /**
-     * When a customer clicks Checkout with Amazon button on shopping cart
-     */
-    public function shortcutAction()
-    {
-        if (!$this->getCba()->isAvailable()) {
-            $this->_redirect('checkout/cart/');
-        }
-        $this->getCba()->shortcutSetCbaCheckout();
-        $this->getResponse()->setRedirect($this->getCba()->getRedirectUrl());
-    }
-
-    /**
-     * When a customer chooses Checkout by Amazon on Checkout/Payment page
+     * When a customer chooses Checkout by Amazon on Shopping Cart page
      *
      */
-    public function redirectAction()
+    public function shortcutAction()
     {
         if (!$this->getCba()->isAvailable()) {
             $this->_redirect('checkout/cart/');
@@ -70,12 +145,6 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
         $session = $this->getCheckout();
         $_quote = $this->getCheckout()->getQuote();
         $payment = $this->getCheckout()->getQuote()->getPayment();
-
-        /*echo '<pre> quote:'."\n";
-        print_r($_quote->getData());
-        echo " payment:\n";
-        print_r($payment->getData());
-        echo '</pre>'."\n";*/
 
         $this->getResponse()->setBody($this->getLayout()->createBlock('amazonpayments/cba_redirect')->toHtml());
         $session->unsQuoteId();
@@ -96,45 +165,44 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
             [merchName] => Varien
             [amznPmtsYALink] => http://kv.no-ip.org/dev/andrey.babich/magento/index.php/amazonpayments/cba/return/?amznPmtsOrderIds=102-7389301-272022&
         )*/
+        $_request = Mage::app()->getRequest()->getParams();
+        $referenceId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
 
         $this->getCba()->returnAmazon();
 
         $quote = $this->getCheckout()->getQuote();
-        #$payment = $this->getCheckout()->getQuote()->getPayment();
-        /*echo '<pre>'."\n";
-        echo " quote:\n";
-        print_r($quote->getData());
-        echo " payment:\n";
-        print_r($quote->getPayment()->getData());
-        echo '</pre>'."\n";*/
 
         $billing = $quote->getBillingAddress();
         $shipping = $quote->getShippingAddress();
 
         $convertQuote = Mage::getModel('sales/convert_quote');
         /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-        $order = Mage::getModel('sales/order');
+
+        //$order = $convertQuote->toOrder($quote);
+
+        $order = $convertQuote->addressToOrder($billing);
         /* @var $order Mage_Sales_Model_Order */
 
+        // add payment information to order
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
         $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
         $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
-        // add payment information to order
+        #$order->setReferenceId($referenceId);
 
+        // add items to order
         foreach ($quote->getAllItems() as $item) {
             $order->addItem($convertQuote->itemToOrderItem($item));
         }
-        // add items to order
-        #$order->save();
 
         $order->place();
 
-        if (isset($customer) && $customer && $quote->getCheckoutMethod()=='register') {
-            $customer->save();
-            $customer->setDefaultBilling($customerBilling->getId());
-            $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
-            $customer->setDefaultShipping($customerShippingId);
-            $customer->save();
+        $customer = $quote->getCustomer();
+        if (isset($customer) && $customer) { // && $quote->getCheckoutMethod()=='register') {
+            #$customer->save();
+            #$customer->setDefaultBilling($customerBilling->getId());
+            #$customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
+            #$customer->setDefaultShipping($customerShippingId);
+            #$customer->save();
 
             $order->setCustomerId($customer->getId())
                 ->setCustomerEmail($customer->getEmail())
@@ -146,8 +214,8 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
                 ->setCustomerGroupId($customer->getGroupId())
                 ->setCustomerTaxClassId($customer->getTaxClassId());
 
-            $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
-            $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
+            #$billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
+            #$shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
         }
 
         $order->save();
@@ -163,19 +231,58 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
 
         $order->sendNewOrderEmail();
 
-        #$payPalSession->unsExpressCheckoutMethod();
+        if ($this->getCba()->getDebug()) {
+            $debug = Mage::getModel('amazonpayments/api_debug')
+                ->setRequestBody(serialize($_request))
+                ->save();
+        }
 
         $this->_redirect('checkout/onepage/success');
+    }
 
-        #$amazonOrderDetails = $this->getCba()->getAmazonOrderDetails();
-        #echo "amazonOrderDetails<br />\n";
+    /**
+     * When Amazon return callback request for calculation shipping, taxes and etc.
+     *
+     */
+    public function callbackAction()
+    {
+        $response = '';
+        $session = Mage::getSingleton('checkout/session');
+        if (!$session->getQuote()->hasItems()) {
+            $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+        }
 
-        #$payment = Mage::getSingleton('checkout/session')->getQuote()->getPayment();
-        #echo ($payment && $payment->getAmazonOrderId());
+        $_request = Mage::app()->getRequest()->getParams();
 
-        #die('success');
+        try {
 
-        #$this->_redirect('checkout/onepage/success');
+            // Check incoming signature
+            // incoming and generated (by the guide) not equal
+            /*$_uuid = Mage::app()->getRequest()->getParam('UUID');
+            $_signature = Mage::app()->getRequest()->getParam('Signature');
+            $_timestamp = Mage::app()->getRequest()->getParam('Timestamp');
+
+            $_uuid = urldecode($_uuid);
+            $_timestamp = urldecode($_timestamp);
+            echo "UUID: {$_uuid}<br />\n";
+            echo "timestamp: ". $_timestamp ."<br /><br />\n\n";
+            $_sign = $this->getCba()->getApi()->calculateSignature($_uuid.$_timestamp, Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id'));
+            echo "sign: {$_sign}<br />\n";
+            echo "sign: {$_signature}<br />\n";*/
+            // -- end -- Check incoming signature --
+
+            if ($_request) {
+                $response = $this->getCba()->handleCallback($_request);
+            } else {
+                $e = new Exception('Inavlid Shipping Address');
+            }
+        }
+        catch (Exception $e) {
+            // Return Xml with Error
+            $response = $this->getCba()->callbackXmlError($e);
+        }
+        echo $response;
+        return true;
     }
 
     /**
@@ -186,121 +293,6 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
     {
         #die('cancel');
         $this->_redirect('checkout/cart/');
-    }
-
-    /**
-     * Action executed when 'Place Order' button pressed on review page
-     *
-     */
-    public function saveOrderAction()
-    {
-        /**
-         * 1- create order
-         * 2- place order (call doexpress checkout)
-         * 3- save order
-         */
-        $error_message = '';
-        $payPalSession = Mage::getSingleton('paypal/session');
-
-        try {
-            $address = $this->getReview()->getQuote()->getShippingAddress();
-            if (!$address->getShippingMethod()) {
-                if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
-                    $this->getReview()->saveShippingMethod($shippingMethod);
-                } else if (!$this->getReview()->getQuote()->getIsVirtual()) {
-                    $payPalSession->addError(Mage::helper('paypal')->__('Please select a valid shipping method'));
-                    $this->_redirect('paypal/express/review');
-                    return;
-                }
-            }
-
-            $billing = $this->getReview()->getQuote()->getBillingAddress();
-            $shipping = $this->getReview()->getQuote()->getShippingAddress();
-
-            $convertQuote = Mage::getModel('sales/convert_quote');
-            /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-            $order = Mage::getModel('sales/order');
-            /* @var $order Mage_Sales_Model_Order */
-
-            if ($this->getReview()->getQuote()->isVirtual()) {
-                $order = $convertQuote->addressToOrder($billing);
-            } else {
-                $order = $convertQuote->addressToOrder($shipping);
-            }
-
-            $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
-            $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
-            $order->setPayment($convertQuote->paymentToOrderPayment($this->getReview()->getQuote()->getPayment()));
-
-            foreach ($this->getReview()->getQuote()->getAllItems() as $item) {
-                $order->addItem($convertQuote->itemToOrderItem($item));
-            }
-
-            /**
-             * We can use configuration data for declare new order status
-             */
-            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getReview()->getQuote()));
-
-            //customer checkout from shopping cart page
-            if (!$order->getCustomerEmail()) {
-                $order->setCustomerEmail($shipping->getEmail());
-            }
-
-            $order->place();
-
-            if (isset($customer) && $customer && $this->getReview()->getQuote()->getCheckoutMethod()=='register') {
-                $customer->save();
-                $customer->setDefaultBilling($customerBilling->getId());
-                $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
-                $customer->setDefaultShipping($customerShippingId);
-                $customer->save();
-
-                $order->setCustomerId($customer->getId())
-                    ->setCustomerEmail($customer->getEmail())
-                    ->setCustomerPrefix($customer->getPrefix())
-                    ->setCustomerFirstname($customer->getFirstname())
-                    ->setCustomerMiddlename($customer->getMiddlename())
-                    ->setCustomerLastname($customer->getLastname())
-                    ->setCustomerSuffix($customer->getSuffix())
-                    ->setCustomerGroupId($customer->getGroupId())
-                    ->setCustomerTaxClassId($customer->getTaxClassId());
-
-                $billing->setCustomerId($customer->getId())->setCustomerAddressId($customerBilling->getId());
-                $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
-            }
-
-        } catch (Mage_Core_Exception $e){
-            $error_message = $e->getMessage();
-        } catch (Exception $e){
-            if (isset($order)) {
-                $error_message = $order->getErrors();
-            } else {
-                $error_message = $e->getMessage();
-            }
-        }
-
-        if ($error_message) {
-            $payPalSession->addError($e->getMessage());
-            $this->_redirect('paypal/express/review');
-            return;
-        }
-
-        $order->save();
-
-        $this->getReview()->getQuote()->setIsActive(false);
-        $this->getReview()->getQuote()->save();
-
-        $orderId = $order->getIncrementId();
-        $this->getReview()->getCheckout()->setLastQuoteId($this->getReview()->getQuote()->getId());
-        $this->getReview()->getCheckout()->setLastSuccessQuoteId($this->getReview()->getQuote()->getId());
-        $this->getReview()->getCheckout()->setLastOrderId($order->getId());
-        $this->getReview()->getCheckout()->setLastRealOrderId($order->getIncrementId());
-
-        $order->sendNewOrderEmail();
-
-        $payPalSession->unsExpressCheckoutMethod();
-
-        $this->_redirect('checkout/onepage/success');
     }
 
 }
