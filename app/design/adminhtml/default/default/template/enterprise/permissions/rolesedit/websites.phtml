@@ -1,0 +1,75 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Enterprise
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * @see Enterprise_Permissions_Block_Permissions_Tab_Rolesedit_Websites
+ */
+?>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Websites') ?></h4>
+    </div>
+    <fieldset>
+
+        <span class="field-row">
+            <label for="all_websites"><?php echo $this->__('Websites / Stores') ?></label>
+            <select id="all_websites" name="permissions_is_all_sites" onchange="$('websites_container').toggle()" class="select">
+                <option value="0"><?php echo $this->__('Custom') ?></option>
+                <option value="1" <?php echo ($this->getIsEverythingAllowed() ? 'selected' : '') ?>><?php echo $this->__('All') ?></option>
+            </select>
+        </span>
+
+        <div id="websites_container">
+            <ul>
+            <?php foreach ($this->getWebsites() as $websiteId => $website): ?>
+                <li>
+                <input type="checkbox" name="website_ids[]" value="<?php echo $websiteId ?>" id="permissions_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getWebsiteIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_website_<?php echo $websiteId ?>">
+                    <?php echo $website->getName() ?>
+                </label>
+                <?php if (count($website->getGroups())): ?>
+                    <ul style="margin-left:1.5em">
+                    <?php foreach ($website->getGroups() as $group): ?>
+                        <li>
+                        <input type="checkbox" name="store_group_ids[]" value="<?php echo $group->getId() ?>" id="permissions_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getStoreGroupIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_store_group_<?php echo $group->getId() ?>">
+                            <?php echo $group->getName() ?>
+                        </label>
+                        </li>
+                    <?php endforeach;?>
+                    </ul>
+                <?php endif; ?>
+                </li>
+            <?php endforeach;?>
+            </ul>
+        </div>
+        <?php if ($this->getIsEverythingAllowed()):?>
+        <script type="text/javascript">
+            $('websites_container').toggle();
+        </script>
+        <?php endif;?>
+    </fieldset>
+</div>

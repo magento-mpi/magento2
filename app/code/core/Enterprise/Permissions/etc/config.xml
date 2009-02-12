@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Permissions
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Permissions>
+             <version>0.0.1</version>
+        </Enterprise_Permissions>
+    </modules>
+    <global>
+        <models>
+            <permissions>
+                <class>Enterprise_Permissions_Model</class>
+                <resourceModel>permissions_mysql4</resourceModel>
+            </permissions>
+            <permissions_mysql4>
+                <class>Enterprise_Permissions_Model_Mysql4</class>
+            </permissions_mysql4>
+        </models>
+        <blocks>
+            <permissions>
+                <class>Enterprise_Permissions_Block</class>
+            </permissions>
+        </blocks>
+        <helpers>
+            <permissions>
+                <class>Enterprise_Permissions_Helper</class>
+            </permissions>
+        </helpers>
+        <resources>
+            <permissions_setup>
+                <setup>
+                    <module>Enterprise_Permissions</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </permissions_setup>
+            <permissions_write>
+                <use>core_write</use>
+            </permissions_write>
+            <permissions_read>
+                <use>core_read</use>
+            </permissions_read>
+        </resources>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <permissions>
+                    <file>permissions.xml</file>
+                </permissions>
+            </updates>
+        </layout>
+        <events>
+            <admin_roles_load_after>
+                <observers>
+                    <enterprise_permissions>
+                        <type>singleton</type>
+                        <class>permissions/observer</class>
+                        <method>addDataAfterRoleLoad</method>
+                    </enterprise_permissions>
+                </observers>
+            </admin_roles_load_after>
+            <admin_roles_save_before>
+                <observers>
+                    <enterprise_permissions>
+                        <type>singleton</type>
+                        <class>permissions/observer</class>
+                        <method>setDataBeforeRoleSave</method>
+                    </enterprise_permissions>
+                </observers>
+            </admin_roles_save_before>
+            <admin_permissions_role_prepare_save>
+                <observers>
+                    <enterprise_permissions>
+                        <type>singleton</type>
+                        <class>permissions/observer</class>
+                        <method>prepareRoleSave</method>
+                    </enterprise_permissions>
+                </observers>
+            </admin_permissions_role_prepare_save>
+        </events>
+    </adminhtml>
+</config>

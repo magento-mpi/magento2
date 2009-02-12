@@ -39,6 +39,11 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     const XML_PATH_STARTUP_PAGE             = 'admin/startup/page';
 
     /**
+     * @var Mage_Admin_Model_Roles
+     */
+    protected $_role;
+
+    /**
      * Varien constructor
      */
     protected function _construct()
@@ -110,7 +115,24 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 
     public function getRoles()
     {
-        return $this->_getResource()->_getRoles($this);
+        return $this->_getResource()->getRoles($this);
+    }
+
+    /**
+     * Get admin role model
+     *
+     * @return Mage_Admin_Model_Roles
+     */
+    public function getRole()
+    {
+        if (null === $this->_role) {
+            $this->_role = Mage::getModel('admin/roles');
+            $roles = $this->getRoles();
+            if ($roles && isset($roles[0]) && $roles[0]) {
+                $this->_role->load($roles[0]);
+            }
+        }
+        return $this->_role;
     }
 
     public function deleteFromRole()
