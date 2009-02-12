@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
      *
      * @return Mage_Catalog_Block_Layer_View
      */
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $stateBlock = $this->getLayout()->createBlock('catalog/layer_state')
             ->setLayer($this->getLayer());

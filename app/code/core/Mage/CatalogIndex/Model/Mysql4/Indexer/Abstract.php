@@ -73,11 +73,6 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer_Abstract extends Mage_Core_Model_My
         $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
     }
 
-    protected function _construct()
-    {
-        return parent::_construct();
-    }
-
     public function loadAttributeCodesByCondition($conditions)
     {
         $table = $this->getTable('eav/attribute');
