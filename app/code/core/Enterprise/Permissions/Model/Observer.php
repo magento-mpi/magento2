@@ -70,7 +70,8 @@ class Enterprise_Permissions_Model_Observer
 
             // set either the set store group ids or all of allowed websites
             if ($object->getData('store_group_ids') != '') {
-                $object->setStoreGroupIds(explode(',', $object->getData('store_group_ids')));
+                $storeGroupIds = explode(',', $object->getData('store_group_ids'));
+                $object->setStoreGroupIds($storeGroupIds);
             }
             else {
                 if ($websiteIds) {
