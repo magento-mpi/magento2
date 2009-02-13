@@ -165,11 +165,14 @@ Something like this is to be added to resolve bug #4890
             <amazonpayments_asp>
                 <model>amazonpayments/payment_asp</model>
                 <title>Amazon Simple Pay</title>
-                <active>1</active>
+                <active>0</active>
 
                 <types>IPN</types>
                 <allowspecific>0</allowspecific>
-                <order_status>pending</order_status>
+                
+                <order_status>new</order_status>
+                <order_state>new</order_state>
+                
                 <merchant_name>Varien</merchant_name>
                 <wsdl>/media/wsdl/amazon_cba_merchant-interface-mime.wsdl</wsdl>
                 <payment_action>Authorization</payment_action>
@@ -182,8 +185,8 @@ Something like this is to be added to resolve bug #4890
                 <service_button_image_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</service_button_image_url>
                 <request_signature_param_name>signature</request_signature_param_name>
                 <immediate_return>1</immediate_return>
-                <process_immediate>1</process_immediate>
-                <collect_shipping_address>0</collect_shipping_address>
+                <process_immediate>0</process_immediate>
+                <collect_shipping_address>1</collect_shipping_address>
                 <payment_description>MAGENTO ASP PAYMANT</payment_description>
 
 
