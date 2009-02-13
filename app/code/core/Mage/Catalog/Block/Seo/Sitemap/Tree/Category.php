@@ -98,7 +98,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
         $tmpCollection = Mage::getModel('catalog/category')->getCollection()
             ->addIsActiveFilter()
             ->addPathsFilter($this->_storeRootCategoryPath . '/')
-            ->addLevelFilter(1)
+            ->addLevelFilter($this->_storeRootCategoryLevel + 1)
             ->addOrderField('path');
         $count = 0;
         $page = 1;
