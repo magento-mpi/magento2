@@ -529,6 +529,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     $product->addCustomOption('product_qty_'.$subProduct->getId(), 1, $subProduct);
                     $product->addCustomOption('simple_product', $subProduct->getId(), $subProduct);
 
+
                     $_result = $subProduct->getTypeInstance(true)->prepareForCart($buyRequest, $subProduct);
                     if (is_string($_result) && !is_array($_result)) {
                         return $_result;
@@ -536,6 +537,19 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
                     if (!isset($_result[0])) {
                         return Mage::helper('checkout')->__('Can not add item to shopping cart');
+                    }
+
+                    /**
+                     * Adding parent product custom options to child product
+                     * to be sure that it will be unique as its parent
+                     */
+                    if ($optionIds = $product->getCustomOption('option_ids')) {
+                        $optionIds = explode(',', $optionIds->getValue());
+                        foreach ($optionIds as $optionId) {
+                            if ($option = $product->getCustomOption('option_' . $optionId)) {
+                                $_result[0]->addCustomOption('option_' . $optionId, $option->getValue());
+                            }
+                        }
                     }
 
                     $_result[0]->setParentProductId($product->getId())
