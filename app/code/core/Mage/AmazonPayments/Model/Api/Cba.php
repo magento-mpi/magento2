@@ -71,23 +71,6 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     }
 
     /**
-     * Return CBA Payment url in depends on Sand-box flag
-     *
-     * @return string
-     */
-    /*public function getCbaPaymentUrl()
-    {
-        echo "url: ".$this->getPayServiceUrl();
-        #return $this->getPayServiceUrl();
-
-        /*if ($this->getSandboxFlag()) {
-            $_url = $this->getConfigData('sandbox_pay_service_url');
-        } else {
-            $_url = $this->getConfigData('pay_service_url');
-        }* /
-        #return $_url;
-    }*/
-    /**
      * Computes RFC 2104-compliant HMAC signature.
      *
      * @param data Array
@@ -254,12 +237,12 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                     ."       <Unit>lb</Unit>\n"
                     ."     </Weight>\n"
                     #."     <TaxTableId>tax_{$_item->getSku()}</TaxTableId>\n"
-                  /*."     <ShippingMethodIds>\n"
-                    ."       <ShippingMethodId>item-shipping-method-1</ShippingMethodId>\n"
-                    ."       <ShippingMethodId>item-shipping-method-2</ShippingMethodId>\n"
-                    ."       <ShippingMethodId>item-shipping-method-3</ShippingMethodId>\n"
-                    ."       <ShippingMethodId>item-shipping-method-4</ShippingMethodId>\n"
-                    ."     </ShippingMethodIds>\n"*/
+                  ."     <ShippingMethodIds>\n"
+                    ."       <ShippingMethodId>US Standard</ShippingMethodId>\n"
+                    ."       <ShippingMethodId>US Expedited</ShippingMethodId>\n"
+                    ."       <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
+                    ."       <ShippingMethodId>US One-Day</ShippingMethodId>\n"
+                    ."     </ShippingMethodIds>\n"
                     ."   </Item>\n";
 
                     #$_taxTable["tax_{$_item->getSku()}"] = round($_item->getTaxAmount(), 2);
@@ -284,23 +267,23 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
             $_xml .= "  </TaxTables>\n";
         }*/
 
-        /*$_xml .= ""
+        $_xml .= ""
                 ." <ShippingMethods>\n"
                 ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>item-shipping-method-1</ShippingMethodId>\n"
+                ."      <ShippingMethodId>US Standard</ShippingMethodId>\n"
                 ."      <ServiceLevel>Standard</ServiceLevel>\n"
                 ."      <Rate>\n"
-                ."        <WeightBased>\n"
+                ."        <ItemQuantityBased>\n"
                 ."          <Amount>5.00</Amount>\n"
                 ."          <CurrencyCode>USD</CurrencyCode>\n"
-                ."        </WeightBased>\n"
+                ."        </ItemQuantityBased>\n"
                 ."      </Rate>\n"
                 ."      <IncludedRegions>\n"
                 ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
                 ."      </IncludedRegions>\n"
                 ."    </ShippingMethod>\n"
                 ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>item-shipping-method-2</ShippingMethodId>\n"
+                ."      <ShippingMethodId>US Expedited</ShippingMethodId>\n"
                 ."      <ServiceLevel>Expedited</ServiceLevel>\n"
                 ."      <Rate>\n"
                 ."        <ItemQuantityBased>\n"
@@ -313,7 +296,7 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                 ."      </IncludedRegions>\n"
                 ."    </ShippingMethod>\n"
                 ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>item-shipping-method-3</ShippingMethodId>\n"
+                ."      <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
                 ."      <ServiceLevel>TwoDay</ServiceLevel>\n"
                 ."      <Rate>\n"
                 ."        <ItemQuantityBased>\n"
@@ -326,7 +309,7 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                 ."      </IncludedRegions>\n"
                 ."    </ShippingMethod>\n"
                 ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>item-shipping-method-4</ShippingMethodId>\n"
+                ."      <ShippingMethodId>US One-Day</ShippingMethodId>\n"
                 ."      <ServiceLevel>OneDay</ServiceLevel>\n"
                 ."      <Rate>\n"
                 ."        <ItemQuantityBased>\n"
@@ -338,7 +321,7 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                 ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
                 ."      </IncludedRegions>\n"
                 ."    </ShippingMethod>\n"
-                ." </ShippingMethods>\n";*/
+                ." </ShippingMethods>\n";
 
         $_xml .= " <IntegratorId>{$this->getIntegratorId()}</IntegratorId>\n"
                 ." <IntegratorName>Varien</IntegratorName>\n";
@@ -350,7 +333,7 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
                 ." </OrderCalculationCallbacks>\n";
         $_xml .= "</Order>\n";
-        #echo $_xml;
+        #echo "xml: {$_xml}<br />\n";
         return $_xml;
     }
 
@@ -379,7 +362,7 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
         $address = $quote->getShippingAddress();
 
         #$data = $this->parseRequest($xmlRequest);
-        $_address = $this->parseRequestAddress($xmlRequest);
+        $_address = $this->_parseRequestAddress($xmlRequest);
         $this->_address = $_address;
 
         $regionModel = Mage::getModel('directory/region')->loadByCode($_address['regionCode'], $_address['countryCode']);
@@ -450,7 +433,8 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
             }
         }
 
-        $xml = $this->_generateXmlResponse($quote);
+        $_items = $this->_parseRequestItems($xmlRequest);
+        $xml = $this->_generateXmlResponse($quote, $_items);
 
         $session->getQuote()
             ->setForcedCurrency($currency)
@@ -464,7 +448,7 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
      *
      * @param array $responseArr
      */
-    public function parseRequestAddress($xmlResponse)
+    protected function _parseRequestAddress($xmlResponse)
     {
         $address = array();
         if (strlen(trim($xmlResponse)) > 0) {
@@ -493,35 +477,70 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
     }
 
     /**
+     * Return items SKUs from Amazon request
+     *
+     * @param array $responseArr
+     */
+    protected function _parseRequestItems($xmlResponse)
+    {
+        $items = array();
+        if (strlen(trim($xmlResponse)) > 0) {
+            $xml = new Varien_Simplexml_Config();
+            $xml->loadString($xmlResponse);
+            $itemsXml = $xml->getNode("Cart/Items");
+
+            foreach ($itemsXml as $_item) {
+                $_itemArr = $_item->asArray();
+                $items[$_itemArr['Item']['SKU']] = $_itemArr['Item']['SKU'];
+            }
+        } else {
+            return false;
+        }
+        return $items;
+    }
+
+    /**
      * Generate XML Responce for Amazon with Shipping, Taxes, Promotions
      *
      * @return string xml
      */
-    protected function _generateXmlResponse($quote)
+    protected function _generateXmlResponse($quote, $items = array())
     {
 
         $_xmlString = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
-<OrderCalculationsRequest xmlns="http://payments.amazon.com/checkout/2008-11-30/">
-</OrderCalculationsRequest>
+<OrderCalculationsResponse xmlns="http://payments.amazon.com/checkout/2008-11-30/">
+</OrderCalculationsResponse>
 XML;
 
         $xml = new SimpleXMLElement($_xmlString);
 
-        /*$_carriersTest = array(
-            'US Standard' => array(
+        $_carriersAmazon = array(
+            'Standard' => array(
                     'code'      => 'US Standard',
                     'title'     => 'Standard',
                     'price'     => '3.49',
                     'currency'  => 'USD',
                 ),
-            'US Expedited' => array(
+            'Expedited' => array(
                     'code'      => 'US Expedited',
                     'title'     => 'Expedited',
                     'price'     => '5.49',
                     'currency'  => 'USD',
                 ),
-            );*/
+            'TwoDay' => array(
+                    'code'      => 'US Two-Day',
+                    'title'     => 'TwoDay',
+                    'price'     => '6.49',
+                    'currency'  => 'USD',
+                ),
+            'OneDay' => array(
+                    'code'      => 'US One-Day',
+                    'title'     => 'OneDay',
+                    'price'     => '7.49',
+                    'currency'  => 'USD',
+                ),
+            );
 
         if (count($this->_carriers) > 0) {
             $_xmlResponse = $xml->addChild('Response');
@@ -532,21 +551,21 @@ XML;
             $_xmlAddressId = $_xmlAddress->addChild('AddressId', $this->_address['addressId']);
 
             $_xmlCallbackOrderItems = $_xmlCallbackOrder->addChild('CallbackOrderItems');
-            foreach ($quote->getAllItems() as $_item) {
-                $taxAmountTable['tax_'.$_item->getSku()] = $_item->getTaxAmount();
+            #foreach ($quote->getAllVisibleItems() as $_itemSku) {
+            foreach ($items as $_itemSku) {
+                #$taxAmountTable['tax_'.$_itemSku] = $_item->getTaxAmount();
 
                 $_xmlCallbackOrderItem = $_xmlCallbackOrderItems->addChild('CallbackOrderItem');
-                $_xmlCallbackOrderItem->addChild('SKU', $_item->getSku());
+                $_xmlCallbackOrderItem->addChild('SKU', $_itemSku);
                 #$_xmlCallbackOrderItem->addChild('TaxTableId', 'tax_'.$_item->getSku());
-                $_xmlShippingMethodIds = $_xmlCallbackOrderItem->addChild('ShippingMethodIds');
-                foreach ($this->_carriers as $_carrier) {
-                    $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
-                }
 
-                /*$_xmlShippingMethodIds = $_xmlCallbackOrderItem->addChild('ShippingMethodIds');
-                foreach ($_carriersTest as $_carrier) {
+                $_xmlShippingMethodIds = $_xmlCallbackOrderItem->addChild('ShippingMethodIds');
+                /*foreach ($this->_carriers as $_carrier) {
                     $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
                 }*/
+                foreach ($_carriersAmazon as $_carrier) {
+                    $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
+                }
             }
 
             /*$_xmlTaxTables = $xml->addChild('TaxTables');
@@ -561,19 +580,7 @@ XML;
             }*/
 
             $_xmlShippingMethods = $xml->addChild('ShippingMethods');
-            foreach ($this->_carriers as $_carrier) {
-                $_xmlShippingMethod = $_xmlShippingMethods->addChild('ShippingMethod');
-
-                $_xmlShippingMethod->addChild('ShippingMethodId', $_carrier['code']);
-                $_xmlShippingMethod->addChild('ServiceLevel', $_carrier['title']);
-
-                $_xmlShippingMethodRate = $_xmlShippingMethod->addChild('Rate');
-                $_xmlShippingMethodRateItem = $_xmlShippingMethodRate->addChild('ItemQuantityBased');
-                $_xmlShippingMethodRateItem->addChild('Amount', $_carrier['price']);
-                $_xmlShippingMethodRateItem->addChild('CurrencyCode', $_carrier['currency']);
-            }
-
-            /*foreach ($_carriersTest as $_carrier) {
+            /*foreach ($this->_carriers as $_carrier) {
                 $_xmlShippingMethod = $_xmlShippingMethods->addChild('ShippingMethod');
 
                 $_xmlShippingMethod->addChild('ShippingMethodId', $_carrier['code']);
@@ -584,9 +591,25 @@ XML;
                 $_xmlShippingMethodRateItem->addChild('Amount', $_carrier['price']);
                 $_xmlShippingMethodRateItem->addChild('CurrencyCode', $_carrier['currency']);
             }*/
+            foreach ($_carriersAmazon as $_carrier) {
+                $_xmlShippingMethod = $_xmlShippingMethods->addChild('ShippingMethod');
+
+                $_xmlShippingMethod->addChild('ShippingMethodId', $_carrier['code']);
+                $_xmlShippingMethod->addChild('ServiceLevel', $_carrier['title']);
+
+                $_xmlShippingMethodRate = $_xmlShippingMethod->addChild('Rate');
+                // Posible values: ShipmentBased | WeightBased | ItemQuantityBased
+                $_xmlShippingMethodRateItem = $_xmlShippingMethodRate->addChild('ItemQuantityBased');
+                $_xmlShippingMethodRateItem->addChild('Amount', $_carrier['price']);
+                $_xmlShippingMethodRateItem->addChild('CurrencyCode', $_carrier['currency']);
+
+                $_xmlShippingMethodIncludedRegions = $_xmlShippingMethod->addChild('IncludedRegions');
+                #$_xmlShippingMethodIncludedRegions->addChild('PredefinedRegion', 'USAll');
+                $_xmlShippingMethodIncludedRegions->addChild('USZipRegion', '10001');
+            }
         }
 
-        /*echo $xml->asXML();
+        /*echo "asXml: {$xml->asXML()}<br />\n";
         echo '<pre> xml:'."\n";
         print_r($xml);
         echo '</pre>'."\n";*/

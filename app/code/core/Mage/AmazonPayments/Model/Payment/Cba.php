@@ -133,37 +133,45 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     public function handleCallback($_request)
     {
-        $xmlRequest = urldecode($_request['order-calculations-request']);
-
         $response = '';
 
-        $session = $this->getCheckout();
-        $xml = $this->getApi()->handleXmlCallback($xmlRequest, $session);
+        if (!empty($_request['order-calculations-request'])) {
+            $xmlRequest = urldecode($_request['order-calculations-request']);
 
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('amazonpayments/api_debug')
-                ->setRequestBody(serialize($_request))
-                ->save();
-        }
-
-        if ($xml) {
-            $xmlText = $xml->asXML();
-            $response .= 'order-calculations-response='.urlencode($xmlText);
-            #$response .= 'order-calculations-response='.base64_encode($xmlText);
-
-            $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
-
-            $_signature = $this->getApi()->calculateSignature($xmlText, $secretKeyID);
-
-            if ($_signature) {
-                $response .= '&Signature='.urlencode($_signature);
-                #$response .= '&Signature='.$_signature;
-            }
-            $response .= '&aws-access-key-id='.Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id');
+            $session = $this->getCheckout();
+            $xml = $this->getApi()->handleXmlCallback($xmlRequest, $session);
 
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setResponseBody($response)
+                    ->setRequestBody(serialize($_request))
+                    ->save();
+            }
+
+            if ($xml) {
+                $xmlText = $xml->asXML();
+                $response .= 'order-calculations-response='.urlencode($xmlText);
+                #$response .= 'order-calculations-response='.base64_encode($xmlText);
+
+                $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
+
+                $_signature = $this->getApi()->calculateSignature($xmlText, $secretKeyID);
+
+                if ($_signature) {
+                    $response .= '&Signature='.urlencode($_signature);
+                    #$response .= '&Signature='.$_signature;
+                }
+                $response .= '&aws-access-key-id='.Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id');
+
+                if ($this->getDebug()) {
+                    $debug = Mage::getModel('amazonpayments/api_debug')
+                        ->setResponseBody($response)
+                        ->save();
+                }
+            }
+        } else {
+            if ($this->getDebug()) {
+                $debug = Mage::getModel('amazonpayments/api_debug')
+                    ->setRequestBody(serialize($_request))
                     ->save();
             }
         }
