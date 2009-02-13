@@ -201,6 +201,7 @@
                         <currency>USD</currency>
                         <currency_name>US Dollar</currency_name>
                         <default_item_type>products</default_item_type>
+                        <price_attribute_name>price</price_attribute_name>
                     </US>
                     <GB translate="name currency_name">
                         <name>United Kingdom</name>
@@ -209,6 +210,7 @@
                         <currency>GBP</currency>
                         <currency_name>British Pound Sterling</currency_name>
                         <default_item_type>products</default_item_type>
+                        <price_attribute_name>price</price_attribute_name>
                     </GB>
                     <DE translate="name currency_name">
                         <name>Germany</name>
@@ -217,6 +219,7 @@
                         <currency>EUR</currency>
                         <currency_name>Euro</currency_name>
                         <default_item_type>produkte</default_item_type>
+                        <price_attribute_name>preis</price_attribute_name>
                     </DE>
                 </allowed_countries>
             </googlebase>
