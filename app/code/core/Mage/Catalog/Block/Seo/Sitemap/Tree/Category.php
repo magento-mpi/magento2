@@ -135,15 +135,11 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
      */
     public function getTreeCollection()
     {
-        $level = max(0, (int) Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
         $collection = Mage::getModel('catalog/category')->getCollection()
             ->addNameToResult()
             ->addUrlRewriteToResult()
             ->addIsActiveFilter()
             ->addOrderField('path');
-        if ($level) {
-            $collection->addLevelFilter($this->_storeRootCategoryLevel + $level);
-        }
         return $collection;
     }
 
@@ -170,11 +166,6 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
         $this->_to = $_to;
         $this->_from = $_to - $collection->count();
         return $this;
-    }
-
-    public function drawItem()
-    {
-
     }
 
 }
