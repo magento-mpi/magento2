@@ -150,4 +150,27 @@ class Enterprise_Permissions_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Enter description here...
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Permissions_Model_Observer
+     */
+    public function checkConfigAccess($observer)
+    {
+        if( !Mage::helper('permissions')->isSuperAdmin() ) {
+            $website = $observer->getEvent()->getWebsite();
+            $store   = $observer->getEvent()->getStore();
+            if( !Mage::helper('permissions')->hasConfigAccess($website, $store) ) {
+                if( $url = Mage::helper('permissions')->getConfigRedirectUrl() ) {
+                    $observer->getEvent()->getResponse()->setRedirect($url);
+                } else {
+                    $observer->getEvent()->getResponse()->setRedirect(Mage::getUrl('adminhtml/index/denied'));
+                }
+            }
+        }
+
+        return $this;
+    }
 }

@@ -33,4 +33,11 @@
             <block type="permissions/permissions_tab_rolesedit_websites" as="websites" template="enterprise/permissions/rolesedit/websites.phtml"/>
         </reference>
     </adminhtml_permissions_role_editrole>
+
+    <adminhtml_system_config_edit>
+        <reference name="left">
+            <remove name="adminhtml.system.config.switcher"/>
+            <block type="permissions/system_config_switcher" name="enterprise.system.config.switcher" template="enterprise/system/config/switcher.phtml" before="-"/>
+        </reference>
+    </adminhtml_system_config_edit>
 </layout>
