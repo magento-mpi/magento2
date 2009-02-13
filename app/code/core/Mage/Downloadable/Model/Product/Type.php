@@ -306,6 +306,10 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         if (is_string($result)) {
             return $result;
         }
+        // if adding product from admin area we add all links to product
+        if ($product->getSkipCheckRequiredOption()) {
+            $this->getProduct($product)->setLinksPurchasedSeparately(false);
+        }
         $preparedLinks = array();
         if ($this->getProduct($product)->getLinksPurchasedSeparately()) {
             if ($links = $buyRequest->getLinks()) {
