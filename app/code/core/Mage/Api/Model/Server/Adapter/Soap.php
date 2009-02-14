@@ -153,7 +153,6 @@ class Mage_Api_Model_Server_Adapter_Soap
     /**
      *  Check whether Soap extension is loaded
      *
-     *  @param    none
      *  @return	  boolean
      */
     protected function _extensionLoaded()

@@ -107,7 +107,6 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
     /**
      *  Check session expiration
      *
-     *  @param    none
      *  @return	  boolean
      */
     protected function _isSessionExpired ()

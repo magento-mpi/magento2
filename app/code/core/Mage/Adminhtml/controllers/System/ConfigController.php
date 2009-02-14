@@ -177,9 +177,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     /**
      *  Custom save logic for section
-     *
-     *  @param    none
-     *  @return	  void
      */
     protected function _saveSection ()
     {
@@ -191,9 +188,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
     /**
      *  Description goes here...
-     *
-     *  @param    none
-     *  @return	  void
      */
     protected function _saveAdvanced ()
     {

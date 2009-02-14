@@ -544,7 +544,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      *  Return FeDex currency ISO code by Magento Base Currency Code
      *
-     *  @param    none
      *  @return	  string 3-digit currency code
      */
     public function getCurrencyCode ()
@@ -760,4 +759,5 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         }
         return $arr;
     }
+
 }

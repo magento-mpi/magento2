@@ -203,9 +203,6 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     /**
      *  Init stores
-     *
-     *  @param    none
-     *  @return	  void
      */
     protected function _initStores ()
     {
