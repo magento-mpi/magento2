@@ -35,9 +35,9 @@
         <sales>
 	        <quote>
 		        <item>
-			        <product_attributes>
-                        <disable_googlecheckout/>
-			        </product_attributes>
+                    <product_attributes>
+                        <enable_googlecheckout/>
+                    </product_attributes>
 		        </item>
 	        </quote>
         </sales>
