@@ -605,6 +605,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     $child->isDeleted(true);
                 }
             }
+            Mage::dispatchEvent('sales_quote_remove_item', array('quote_item' => $item));
         }
         return $this;
     }
@@ -620,6 +621,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $item->setQuote($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
+            Mage::dispatchEvent('sales_quote_add_item', array('quote_item' => $item));
         }
         return $this;
     }
@@ -1128,9 +1130,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if ($code) {
             $addressHasCoupon = false;
             foreach ($this->getAllAddresses() as $address) {
-            	if ($address->hasCouponCode()) {
-            	    $addressHasCoupon = true;
-            	}
+                if ($address->hasCouponCode()) {
+                    $addressHasCoupon = true;
+                }
             }
             if (!$addressHasCoupon) {
                 $this->setCouponCode('');
