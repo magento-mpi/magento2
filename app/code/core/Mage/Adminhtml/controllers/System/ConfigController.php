@@ -64,15 +64,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        Mage::dispatchEvent('admin_system_config_edit', array(
-                'request'  => $this->getRequest(),
-                'response' => $this->getResponse(),
-                'current'  => $current,
-                'website'  => $website,
-                'store'    => $store,
-            )
-        );
-
         $configFields = Mage::getSingleton('adminhtml/config');
 
 
