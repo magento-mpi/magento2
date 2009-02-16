@@ -91,6 +91,58 @@ class Enterprise_Permissions_Model_Validator
         return $this;
     }
 
+    public function catalogProductList($observer)
+    {
+        if( !Mage::helper('permissions')->isSuperAdmin() ) {
+            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
+            if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
+                $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+
+                if( sizeof($allowedStores) > 0 ) {
+                    $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
+                    $params = $observer->getEvent()->getControllerAction()->getRequest()->getParams();
+                    $params['store'] = $store->getId();
+
+                    $url = Mage::getUrl('adminhtml/catalog_product/index/', $params);
+                } else {
+                    $url = false;
+                }
+                if( $url ) {
+                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
+                } else {
+                    $this->_raiseDenied($observer);
+                }
+            }
+        }
+        return $this;
+    }
+
+    public function catalogProductAttributesEdit($observer)
+    {
+        if( !Mage::helper('permissions')->isSuperAdmin() ) {
+            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
+            if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
+                $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+
+                if( sizeof($allowedStores) > 0 ) {
+                    $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
+                    $params = $observer->getEvent()->getControllerAction()->getRequest()->getParams();
+                    $params['store'] = $store->getId();
+
+                    $url = Mage::getUrl('adminhtml/catalog_product_action_attribute/edit/', $params);
+                } else {
+                    $url = false;
+                }
+                if( $url ) {
+                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
+                } else {
+                    $this->_raiseDenied($observer);
+                }
+            }
+        }
+        return $this;
+    }
+
     public function catalogProductSave($observer)
     {
         if( !Mage::helper('permissions')->isSuperAdmin() ) {

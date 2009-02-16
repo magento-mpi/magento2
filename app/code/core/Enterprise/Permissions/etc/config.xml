@@ -126,9 +126,15 @@
                 <adminhtml_catalog_product_edit>
                     <call>permissions/validator::catalogProductEdit</call>
                 </adminhtml_catalog_product_edit>
+                <adminhtml_catalog_product_index>
+                    <call>permissions/validator::catalogProductList</call>
+                </adminhtml_catalog_product_index>
                 <adminhtml_catalog_product_save>
                     <call>permissions/validator::catalogProductSave</call>
                 </adminhtml_catalog_product_save>
+                <adminhtml_catalog_product_action_attribute_edit>
+                    <call>permissions/validator::catalogProductAttributesEdit</call>
+                </adminhtml_catalog_product_action_attribute_edit>
             </admin_predispatch_observers>
             <catalog_form_renderer_fieldset_element>permissions/catalog_form_renderer_fieldset_element</catalog_form_renderer_fieldset_element>
         </settings>

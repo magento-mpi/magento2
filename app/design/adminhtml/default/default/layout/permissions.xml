@@ -47,4 +47,20 @@
             <block type="permissions/store_switcher" name="permissions_store_switcher" template="enterprise/store/switcher.phtml" before="-"></block>
         </reference>
     </adminhtml_catalog_product_edit>
+
+    <adminhtml_catalog_product_index>
+        <reference name="content">
+            <remove name="store_switcher"/>
+            <block type="permissions/store_switcher" name="permissions_store_switcher" as="store_switcher" template="enterprise/store/switcher.phtml">
+                <action method="setUseConfirm"><params>0</params></action>
+            </block>
+        </reference>
+    </adminhtml_catalog_product_index>
+
+    <adminhtml_catalog_product_action_attribute_edit>
+        <reference name="left">
+            <remove name="store_switcher"/>
+            <block type="permissions/store_switcher" name="permissions_store_switcher" template="enterprise/store/switcher.phtml" before="-"></block>
+        </reference>
+    </adminhtml_catalog_product_action_attribute_edit>
 </layout>

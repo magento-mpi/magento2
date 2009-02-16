@@ -54,7 +54,7 @@ class Enterprise_Permissions_Block_Catalog_Form_Renderer_Fieldset_Element extend
 
     public function isGlobal()
     {
-        if ($this->getAttribute()->isScopeGlobal()) {
+        if ($this->getAttribute() && $this->getAttribute()->isScopeGlobal()) {
             return true;
         } else {
             return false;
