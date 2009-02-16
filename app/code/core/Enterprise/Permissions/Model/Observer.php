@@ -158,18 +158,17 @@ class Enterprise_Permissions_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Permissions_Model_Observer
      */
-    public function checkConfigAccess($observer)
+    public function validateAccess($observer)
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
-            $website = $observer->getEvent()->getWebsite();
-            $store   = $observer->getEvent()->getStore();
-            if( !Mage::helper('permissions')->hasConfigAccess($website, $store) ) {
-                if( $url = Mage::helper('permissions')->getConfigRedirectUrl() ) {
-                    $observer->getEvent()->getResponse()->setRedirect($url);
-                } else {
-                    $observer->getEvent()->getResponse()->setRedirect(Mage::getUrl('adminhtml/index/denied'));
-                }
-            }
+        $action = $observer->getEvent()->getControllerAction();
+        $validators = Mage::getConfig()->getNode('global/settings/admin_predispatch_observers')->asArray();
+        $actionName = $observer->getEvent()->getControllerAction()->getFullActionName();
+
+        if( array_key_exists($actionName, $validators) ) {
+            $callArray = explode('::', $validators[$actionName]['call']);
+            $callModel = Mage::getModel(array_shift($callArray));
+            $callMethod = array_shift($callArray);
+            call_user_func(array($callModel, $callMethod), $observer);
         }
 
         return $this;

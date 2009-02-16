@@ -49,10 +49,6 @@ class Enterprise_Permissions_Block_System_Config_Switcher extends Mage_Adminhtml
         }
 
         foreach ($storeModel->getWebsiteCollection() as $website) {
-            if(!$this->helper('permissions')->isSuperAdmin()
-               && !in_array($website->getId(), $this->helper('permissions')->getAllowedWebsites())) {
-                continue;
-            }
             $websiteShow = false;
             foreach ($storeModel->getGroupCollection() as $group) {
                 if ($group->getWebsiteId() != $website->getId()) {
@@ -63,6 +59,12 @@ class Enterprise_Permissions_Block_System_Config_Switcher extends Mage_Adminhtml
                     if ($store->getGroupId() != $group->getId()) {
                         continue;
                     }
+
+                    if(!$this->helper('permissions')->isSuperAdmin()
+                       && !in_array($store->getId(), $this->helper('permissions')->getAllowedStoreViews())) {
+                        continue;
+                    }
+
                     if (!$websiteShow) {
                         $websiteShow = true;
                         $options['website_' . $website->getCode()] = array(

@@ -68,6 +68,16 @@
                 <use>core_read</use>
             </permissions_read>
         </resources>
+        <settings>
+            <admin_predispatch_observers>
+                <adminhtml_system_config_edit>
+                    <call>permissions/validator::systemConfigEdit</call>
+                </adminhtml_system_config_edit>
+                <adminhtml_system_config_save>
+                    <call>permissions/validator::systemConfigSave</call>
+                </adminhtml_system_config_save>
+            </admin_predispatch_observers>
+        </settings>
     </global>
     <adminhtml>
         <layout>
@@ -105,15 +115,15 @@
                     </enterprise_permissions>
                 </observers>
             </admin_permissions_role_prepare_save>
-            <admin_system_config_edit>
+            <controller_action_predispatch_adminhtml>
                 <observers>
                     <enterprise_permissions>
                         <type>singleton</type>
                         <class>permissions/observer</class>
-                        <method>checkConfigAccess</method>
+                        <method>validateAccess</method>
                     </enterprise_permissions>
                 </observers>
-            </admin_system_config_edit>
+            </controller_action_predispatch_adminhtml>
         </events>
     </adminhtml>
 </config>
