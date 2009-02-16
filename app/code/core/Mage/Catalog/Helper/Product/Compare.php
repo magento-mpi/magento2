@@ -172,6 +172,13 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     public function calculate()
     {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()
+            and !Mage::getSingleton('log/visitor')->hasCatalogCompareItemsCount()
+        ) {
+            Mage::getSingleton('log/visitor')->setCatalogCompareItemsCount(0);
+            return $this;
+        }
+
         $itemCollection = Mage::getResourceModel('catalog/product_compare_item_collection');
         /* @var $itemCollection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection */
         $itemCollection->setStoreId(Mage::app()->getStore()->getId());
