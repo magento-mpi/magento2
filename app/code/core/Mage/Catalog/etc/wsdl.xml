@@ -51,7 +51,7 @@
             <element name="special_to_date" type="xsd:string" minOccurs="0"/>
             <element name="tax_class_id" type="xsd:string" minOccurs="0"/>
             <element name="tier_price" type="typens:ArrayOfString" minOccurs="0"/>
-            <element name="disable_googlecheckout" type="xsd:string" minOccurs="0"/>
+            <element name="enable_googlecheckout" type="xsd:string" minOccurs="0"/>
             <element name="meta_title" type="xsd:string" minOccurs="0"/>
             <element name="meta_keyword" type="xsd:string" minOccurs="0"/>
             <element name="meta_description" type="xsd:string" minOccurs="0"/>
