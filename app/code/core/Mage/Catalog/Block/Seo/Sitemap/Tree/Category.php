@@ -168,4 +168,16 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
         return $this;
     }
 
+    /**
+     * Return level of indent
+     *
+     * @param Mage_Catalog_Model_Category $item
+     * @param integer $delta
+     * @return integer
+     */
+    public function getLevel($item, $delta = 1)
+    {
+        return (int) ($item->getLevel() - $this->_storeRootCategoryLevel - 1) * $delta;
+    }
+
 }
