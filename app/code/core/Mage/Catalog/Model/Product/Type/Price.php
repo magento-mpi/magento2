@@ -306,33 +306,58 @@ class Mage_Catalog_Model_Product_Type_Price
         return $price;
     }
 
+    /**
+     * Calculate product price based on special price data and price rules
+     *
+     * @param   float $basePrice
+     * @param   float $specialPrice
+     * @param   string $specialPriceFrom
+     * @param   string $specialPriceTo
+     * @param   float|null|false $rulePrice
+     * @param   mixed $wId
+     * @param   mixed $gId
+     * @param   null|int $productId
+     * @return  float
+     */
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
+        Varien_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
         if ($wId instanceof Mage_Core_Model_Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
             $sId = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
-        $storeDate = Mage::app()->getLocale()->storeDate($sId);
 
+        $finalPrice = $basePrice;
         if ($gId instanceof Mage_Customer_Model_Group) {
             $gId = $gId->getId();
         }
-        $finalPrice = $basePrice;
 
-        $fromDate   = Mage::app()->getLocale()->date($specialPriceFrom, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
-        $toDate     = Mage::app()->getLocale()->date($specialPriceTo, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
+        $storeDate = false;
 
-        if ($specialPrice !== null && $specialPrice !== false) {
-            if ($specialPriceFrom && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
-            } elseif ($specialPriceTo && $storeDate->compare($toDate, Zend_Date::DATES)>0) {
-            } else {
-               $finalPrice = min($finalPrice, $specialPrice);
+        /**
+         * If special price exist
+         */
+        if ($specialPrice) {
+            $storeDate = Mage::app()->getLocale()->storeDate($sId);
+
+            $fromDate   = Mage::app()->getLocale()->date($specialPriceFrom, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
+            $toDate     = Mage::app()->getLocale()->date($specialPriceTo, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
+
+            if ($specialPrice !== null && $specialPrice !== false) {
+                if ($specialPriceFrom && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
+                } elseif ($specialPriceTo && $storeDate->compare($toDate, Zend_Date::DATES)>0) {
+                } else {
+                   $finalPrice = min($finalPrice, $specialPrice);
+                }
             }
         }
 
         if ($rulePrice === false) {
+            if (!$storeDate) {
+            	$storeDate = Mage::app()->getLocale()->storeDate($sId);
+            }
             $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($storeDate, $wId, $gId, $productId);
         }
         if ($rulePrice !== null && $rulePrice !== false) {
@@ -340,7 +365,7 @@ class Mage_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = max($finalPrice, 0);
-
+        Varien_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
         return $finalPrice;
     }
 }
