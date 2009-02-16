@@ -43,22 +43,22 @@ class Enterprise_Permissions_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getAllowedStoreViews()
     {
-        return ( array ) Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreIds();
+        return (array) Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreIds();
     }
 
-    public function hasConfigAccess($website=null, $store=null)
+    public function hasScopeAccess($website=null, $store=null)
     {
         $allowed = false;
 
         if( !is_null($store) && $store ){
-            $model = Mage::getModel('core/store')->load($store);
+            $model = Mage::app()->getStore($store);
             if( $model->getStoreId() && in_array($model->getStoreId(), $this->getAllowedStoreViews()) ) {
                 $allowed = true;
             }
         }
 
         if( !is_null($website) && $website ){
-            $model = Mage::getModel('core/website')->load($website);
+            $model = Mage::app()->getWebsite($website);
             if( $model->getWebsiteId() && in_array($model->getWebsiteId(), $this->getAllowedWebsites()) ) {
                 $allowed = true;
             }

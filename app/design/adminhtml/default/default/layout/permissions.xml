@@ -40,4 +40,11 @@
             <block type="permissions/system_config_switcher" name="enterprise.system.config.switcher" template="enterprise/system/config/switcher.phtml" before="-"/>
         </reference>
     </adminhtml_system_config_edit>
+
+    <adminhtml_catalog_product_edit>
+        <reference name="left">
+            <remove name="store_switcher"/>
+            <block type="permissions/store_switcher" name="permissions_store_switcher" template="enterprise/store/switcher.phtml" before="-"></block>
+        </reference>
+    </adminhtml_catalog_product_edit>
 </layout>

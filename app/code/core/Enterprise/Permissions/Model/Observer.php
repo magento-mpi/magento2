@@ -161,7 +161,7 @@ class Enterprise_Permissions_Model_Observer
     public function validateAccess($observer)
     {
         $action = $observer->getEvent()->getControllerAction();
-        $validators = Mage::getConfig()->getNode('global/settings/admin_predispatch_observers')->asArray();
+        $validators = Mage::getConfig()->getNode('adminhtml/settings/admin_predispatch_observers')->asArray();
         $actionName = $observer->getEvent()->getControllerAction()->getFullActionName();
 
         if( array_key_exists($actionName, $validators) ) {
