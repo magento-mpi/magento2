@@ -160,7 +160,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     $response .= '&Signature='.urlencode($_signature);
                     #$response .= '&Signature='.$_signature;
                 }
-                $response .= '&aws-access-key-id='.Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id');
+                $response .= '&aws-access-key-id='.urlencode(Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'));
 
                 if ($this->getDebug()) {
                     $debug = Mage::getModel('amazonpayments/api_debug')
@@ -186,7 +186,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
 
         $response = 'order-calculations-response='.urlencode($_xml->asXML())
                 .'&Signature='.urlencode($_signature)
-                .'&aws-access-key-id='.Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id');
+                .'&aws-access-key-id='.urlencode(Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'));
         if ($this->getDebug()) {
             $debug = Mage::getModel('amazonpayments/api_debug')
                 ->setResponseBody($response)

@@ -101,6 +101,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     }
 
     /**
+     * Getting information about existing orders (not using now)
      *
      */
     public function getAmazonCbaOrderDetails($amazonOrderId)
@@ -115,7 +116,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             'password' => 'varien1975',
         );
 
-        $_soap = $this->getSoapApi(array_merge($merchant, $loginOptions));
+        $_soap = $this->_getSoapApi(array_merge($merchant, $loginOptions));
 
         /*$_options = array(
                 'merchant'           => $_merchantId,
@@ -197,9 +198,8 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
      * @param   array $options
      * @return  Mage_Cybersource_Model_Api_ExtendedSoapClient
      */
-    protected function getSoapApi($options = array())
+    protected function _getSoapApi($options = array())
     {
-        #$wsdl = Mage::getBaseDir() . Mage::getStoreConfig('payment/amazonpayments_cba/wsdl');
         $wsdl = Mage::getStoreConfig('payment/amazonpayments_cba/wsdl');
         return new Mage_AmazonPayments_Model_Api_ExtendedSoapClient($wsdl, $options);
     }
@@ -220,9 +220,6 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
             $_taxTable = array();
 
             foreach ($quote->getAllVisibleItems() as $_item) {
-                /*echo '<pre> item:'."\n";
-                print_r($_item->getData());
-                echo '</pre>'."\n";*/
                 $_xml .= "   <Item>\n"
                     ."    <SKU>{$_item->getSku()}</SKU>\n"
                     ."    <MerchantId>{$this->getMerchantId()}</MerchantId>\n"
@@ -333,7 +330,6 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
                 ." </OrderCalculationCallbacks>\n";
         $_xml .= "</Order>\n";
-        #echo "xml: {$_xml}<br />\n";
         return $_xml;
     }
 
