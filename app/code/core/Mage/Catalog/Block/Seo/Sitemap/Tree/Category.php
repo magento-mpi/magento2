@@ -57,6 +57,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
             ->load(Mage::app()->getStore()->getRootCategoryId());
         $this->_storeRootCategoryPath = $parent->getPath();
         $this->_storeRootCategoryLevel = $parent->getLevel();
+        $this->prepareCategoriesToPages();
         $collection = $this->getTreeCollection();
         $this->setCollection($collection);
         return $this;
@@ -72,7 +73,6 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
         $pager = $this->getLayout()->getBlock($pagerName);
         /* @var $pager Mage_Catalog_Block_Seo_Sitemap_Tree_Pager */
         if ($pager) {
-            $this->prepareCategoriesToPages();
             $pager->setAvailableLimit(array(50 => 50));
             $pager->setTotalNum($this->_total);
             $pager->setLastPageNum(count($this->_categoriesToPages));
@@ -104,9 +104,6 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
         $page = 1;
         $categories = array();
         foreach ($tmpCollection as $item) {
-            if (!$item->getIsActive()) {
-                continue;
-            }
             $children = $item->getChildrenCount()+1;
             $this->_total += $children;
             if (($children+$count) >= $linesPerPage) {
