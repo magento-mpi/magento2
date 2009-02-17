@@ -49,7 +49,7 @@
     </adminhtml_catalog_product_edit>
 
     <adminhtml_catalog_product_index>
-        <reference name="content">
+        <reference name="products_list">
             <remove name="store_switcher"/>
             <block type="permissions/store_switcher" name="permissions_store_switcher" as="store_switcher" template="enterprise/store/switcher.phtml">
                 <action method="setUseConfirm"><params>0</params></action>
@@ -57,10 +57,25 @@
         </reference>
     </adminhtml_catalog_product_index>
 
+    <adminhtml_dashboard_index>
+        <reference name="dashboard">
+            <remove name="store_switcher"/>
+            <block type="permissions/store_switcher" name="permissions_store_switcher" as="store_switcher" template="enterprise/store/switcher.phtml">
+                <action method="setUseConfirm"><params>0</params></action>
+            </block>
+        </reference>
+    </adminhtml_dashboard_index>
+
     <adminhtml_catalog_product_action_attribute_edit>
         <reference name="left">
             <remove name="store_switcher"/>
             <block type="permissions/store_switcher" name="permissions_store_switcher" template="enterprise/store/switcher.phtml" before="-"></block>
+
+            <remove name="attributes_tabs"/>
+            <block type="adminhtml/catalog_product_edit_action_attribute_tabs" name="permissions_attributes_tabs" as="attributes_tabs">
+                <block type="adminhtml/catalog_product_edit_action_attribute_tab_attributes" name="tab_attributes"/>
+                <action method="addTab"><name>attributes</name><block>tab_attributes</block></action>
+            </block>
         </reference>
     </adminhtml_catalog_product_action_attribute_edit>
 </layout>

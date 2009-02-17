@@ -66,84 +66,47 @@ class Enterprise_Permissions_Model_Validator
 
     public function catalogProductEdit($observer)
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
-            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
-            if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
-                $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
-
-                if( sizeof($allowedStores) > 0 ) {
-                    $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
-                    $params = $observer->getEvent()->getControllerAction()->getRequest()->getParams();
-                    $params['store'] = $store->getId();
-
-                    $url = Mage::getUrl('adminhtml/catalog_product/edit/', $params);
-                } else {
-                    $url = false;
-                }
-                if( $url ) {
-                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
-                } else {
-                    $this->_raiseDenied($observer);
-                }
-            }
-        }
-
+        $this->_validateScope($observer, 'adminhtml/catalog_product/edit/');
         return $this;
     }
 
     public function catalogProductList($observer)
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
-            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
-            if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
-                $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
-
-                if( sizeof($allowedStores) > 0 ) {
-                    $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
-                    $params = $observer->getEvent()->getControllerAction()->getRequest()->getParams();
-                    $params['store'] = $store->getId();
-
-                    $url = Mage::getUrl('adminhtml/catalog_product/index/', $params);
-                } else {
-                    $url = false;
-                }
-                if( $url ) {
-                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
-                } else {
-                    $this->_raiseDenied($observer);
-                }
-            }
-        }
+        $this->_validateScope($observer, 'adminhtml/catalog_product/index/');
         return $this;
     }
 
     public function catalogProductAttributesEdit($observer)
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
-            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
-            if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
-                $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
-
-                if( sizeof($allowedStores) > 0 ) {
-                    $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
-                    $params = $observer->getEvent()->getControllerAction()->getRequest()->getParams();
-                    $params['store'] = $store->getId();
-
-                    $url = Mage::getUrl('adminhtml/catalog_product_action_attribute/edit/', $params);
-                } else {
-                    $url = false;
-                }
-                if( $url ) {
-                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
-                } else {
-                    $this->_raiseDenied($observer);
-                }
-            }
-        }
+        $this->_validateScope($observer, 'adminhtml/catalog_product_action_attribute/edit/');
         return $this;
     }
 
     public function catalogProductSave($observer)
+    {
+        $this->_validateScope($observer, 'adminhtml/catalog_product/edit/');
+        return $this;
+    }
+
+    public function dashboardView($observer)
+    {
+        $this->_validateScope($observer);
+        return $this;
+    }
+
+    public function catalogCategoryEdit($observer)
+    {
+        $store = (int) $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
+        if( $store <= 0 ) {
+            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
+        }
+        $parent = Mage::app()->getStore($store)->getRootCategoryId();
+        $this->_validateScope($observer, false, array('id' => $parent, '_current' => true));
+        return $this;
+    }
+
+    protected function _validateScope($observer, $redirectUri=false, $urlParams=false)
     {
         if( !Mage::helper('permissions')->isSuperAdmin() ) {
             $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
@@ -158,7 +121,11 @@ class Enterprise_Permissions_Model_Validator
                         'id' => $observer->getEvent()->getControllerAction()->getRequest()->getParam('id')
                     );
 
-                    $url = Mage::getUrl('adminhtml/catalog_product/edit/', $params);
+                    if( $urlParams && is_array($urlParams) ) {
+                        $params = array_merge($params, $urlParams);
+                    }
+
+                    $url = Mage::getUrl( $redirectUri ? $redirectUri : '*/*/*', $params);
                 } else {
                     $url = false;
                 }
@@ -169,7 +136,6 @@ class Enterprise_Permissions_Model_Validator
                 }
             }
         }
-
         return $this;
     }
 

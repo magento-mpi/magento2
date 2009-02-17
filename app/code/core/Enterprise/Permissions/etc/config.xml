@@ -45,6 +45,12 @@
             <permissions>
                 <class>Enterprise_Permissions_Block</class>
             </permissions>
+            <adminhtml>
+                <rewrite>
+                    <catalog_category_tree>Enterprise_Permissions_Block_Catalog_Category_Tree</catalog_category_tree>
+                    <catalog_product_edit_action_attribute_tab_attributes>Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes</catalog_product_edit_action_attribute_tab_attributes>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <permissions>
@@ -135,6 +141,12 @@
                 <adminhtml_catalog_product_action_attribute_edit>
                     <call>permissions/validator::catalogProductAttributesEdit</call>
                 </adminhtml_catalog_product_action_attribute_edit>
+                <adminhtml_dashboard_index>
+                    <call>permissions/validator::dashboardView</call>
+                </adminhtml_dashboard_index>
+                <adminhtml_catalog_category_edit>
+                    <call>permissions/validator::catalogCategoryEdit</call>
+                </adminhtml_catalog_category_edit>
             </admin_predispatch_observers>
             <catalog_form_renderer_fieldset_element>permissions/catalog_form_renderer_fieldset_element</catalog_form_renderer_fieldset_element>
         </settings>

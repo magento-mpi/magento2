@@ -32,9 +32,7 @@
             <?php echo $this->getAddSubButtonHtml() ?>
         <?php endif; ?>
     </div>
-    <?php if( !$this->isSingleStoreMode() ): ?>
-    <?php echo $this->getChildHtml('store_switcher');?>
-    <?php endif;?>
+    <?php echo $this->getStoreSwitcherHtml();?>
     <div class="tree-actions">
         <?php if($this->getRoot()): ?>
             <?php //echo $this->getCollapseButtonHtml() ?>

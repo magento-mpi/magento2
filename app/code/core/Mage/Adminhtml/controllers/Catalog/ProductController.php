@@ -154,11 +154,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->_setActiveMenu('catalog/products');
-
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/catalog_product')
-        );
-
         $this->renderLayout();
     }
 

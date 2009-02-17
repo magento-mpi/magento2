@@ -124,12 +124,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         return $this->getChildHtml('collapse_button');
     }
 
-    public function isSingleStoreMode()
+    public function getStoreSwitcherHtml()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
-               return false;
-        }
-        return true;
+        return $this->getChildHtml('store_switcher');
     }
 
     public function getLoadTreeUrl($expanded=null)
