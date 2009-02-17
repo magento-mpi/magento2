@@ -33,6 +33,21 @@
     </modules>
     <global>
         <models>
+          <logging_mysql4>
+            <class>Enterprise_Logging_Model_Mysql4</class>
+            <entities>
+              <configuration>
+                <table>enterprise_logging_config</table>
+              </configuration>
+              <user_log>
+                <table>enterprise_user_log</table>
+              </user_log>
+            </entities>
+          </logging_mysql4>
+          <logging>
+                <class>Enterprise_Logging_Model</class>
+                <resourceModel>logging_mysql4</resourceModel>
+          </logging>
         </models>
         <blocks>
           <logging>
@@ -52,15 +67,29 @@
                 </connection>
             </logging_setup>
             <logging_write>
+              <connection>
                 <use>core_write</use>
+              </connection>
             </logging_write>
             <logging_read>
+              <connection>
                 <use>core_read</use>
+              </connection>
             </logging_read>
         </resources>
     </global>
     <adminhtml>
         <events>
+            <on_product_view_after>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventAfterProductView</method>
+                    </enterprise_logging>
+                </observers>
+            </on_product_view_after>
+
         </events>
         <menu>
           <system>
@@ -84,18 +113,98 @@
             </children>
           </system>
         </menu>
+        <layout>
+            <updates>
+                <events>
+                    <file>enterprise/events.xml</file>
+                </events>
+            </updates>
+        </layout>
+
     </adminhtml>
     <enterprise>
       <logging>
         <events>
-          <products>
+          <products module="Logging" translate="Label">
+            <label>Products</label>
             <code>10</code>
             <actions>
-              <action>view</action>
-              <action>delete</action>
-              <action>save</action>
+              <view />
+              <delete />
+              <save />
             </actions>
           </products>
+
+          <categories module="Logging" translate="Label">
+            <label>Categories</label>
+            <code>20</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </categories>
+
+          <customers module="Logging" translate="Label">
+            <label>Customers</label>
+            <code>30</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </customers>
+
+          <cmspages module="Logging" translate="Label">
+            <label>Cms Pages</label>
+            <code>40</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </cmspages>
+
+          <cmsblocks module="Logging" translate="Label">
+            <label>Cms Blocks</label>
+            <code>50</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </cmsblocks>
+
+          <adminlogin module="Logging" translate="Label">
+            <label>Admin Login</label>
+            <code>60</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </adminlogin>
+
+          <systemconfiguration module="Logging" translate="Label">
+            <label>System Configuration</label>
+            <code>70</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </systemconfiguration>
+
+          <reports module="Logging" translate="Label">
+            <label>Reports</label>
+            <code>80</code>
+            <actions>
+              <view />
+              <delete />
+              <save />
+            </actions>
+          </reports>
+
         </events>
       </logging>
     </enterprise>
