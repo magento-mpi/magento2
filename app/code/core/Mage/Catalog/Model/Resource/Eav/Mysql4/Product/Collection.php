@@ -109,6 +109,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
         $this->addAttributeToSelect('tax_class_id');
 
+        Mage::dispatchEvent('catalog_product_collection_load_before', array('collection'=>$this));
+
         return parent::_beforeLoad();
     }
 
