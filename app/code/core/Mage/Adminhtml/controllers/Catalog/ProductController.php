@@ -193,7 +193,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function editAction()
     {
         $product = $this->_initProduct();
-
         Mage::dispatchEvent('catalog_product_edit_action', array('product' => $product));
 
         $_additionalLayoutPart = '';
@@ -220,6 +219,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->renderLayout();
+        Mage::dispatchEvent('on_product_view_after', array('product' => $product));
     }
 
     /**
