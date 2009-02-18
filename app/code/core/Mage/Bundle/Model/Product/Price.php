@@ -500,8 +500,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         $toDate     = Mage::app()->getLocale()->date($specialPriceTo, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
 
         if ($specialPrice !== null && $specialPrice !== false) {
-            if ($specialPriceFrom && $storeDate->compare($fromDate)<0) {
-            } elseif ($specialPriceTo && $storeDate->compare($toDate)>0) {
+            if ($specialPriceFrom && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
+            } elseif ($specialPriceTo && $storeDate->compare($toDate, Zend_Date::DATES)>0) {
             } else {
                 // special price in percents
                 $specialPrice = ($finalPrice*$specialPrice)/100;
