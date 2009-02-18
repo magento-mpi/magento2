@@ -100,13 +100,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             }
         }
         $select = $_conn->select()
-            ->from(array('main_table'=>$this->getMainStoreTable($storeId)))
+            ->from(array('main_table'=>$this->getMainStoreTable($storeId)), array('main_table.entity_id', 'main_table.name', 'main_table.path', 'main_table.is_active', 'main_table.is_anchor'))
             ->joinLeft(
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.store_id = ?', $storeId)
             ->where('main_table.is_active = ?', '1')
+            ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
 
         if ($parentPath) {
@@ -218,6 +219,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 SELECT path FROM {$this->getMainStoreTable()} WHERE entity_id = {$parent} AND store_id = 0
             "));
             $collection = Mage::getModel('catalog/category')->getCollection()
+                ->addNameToResult()
+                ->addUrlRewriteToResult()
                 ->addParentPathFilter($parentPath)
                 ->addStoreFilter()
                 ->addSortedField($sorted);
@@ -242,10 +245,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         if (is_null($nodes)) {
             $nodes = $this->getNodes();
         }
+        if (isset($nodes[$nodeId])) {
+            return $nodes[$nodeId];
+        }
         foreach ($nodes as $node) {
-            if ($node->getId() == $nodeId) {
-                return $node;
-            }
+//            if ($node->getId() == $nodeId) {
+//                return $node;
+//            }
             if ($node->getChildrenNodes()) {
                 return $this->getNodeById($nodeId, $node->getChildrenNodes());
             }
@@ -675,9 +681,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function getChildrenCategories($category)
     {
+        return array();
         $node = $this->getNodeById($category->getId());
-        if ($node && $children = $node->getChildrenNodes()) {
-            return $children;
+        if ($node && $node->getChildrenNodes()) {
+            return $node->getChildrenNodes();
         }
         $categories = $this->_loadNodes($category, 1, $category->getStoreId());
         return $categories;

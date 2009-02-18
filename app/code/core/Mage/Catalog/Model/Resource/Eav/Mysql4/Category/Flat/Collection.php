@@ -100,7 +100,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
      */
     public function addStoreFilter()
     {
-        $this->addFieldToFilter('store_id', $this->getStoreId());
+        $this->addFieldToFilter('main_table.store_id', $this->getStoreId());
         return $this;
     }
 
@@ -128,6 +128,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
 
     public function addNameToResult()
     {
+        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        $this->getSelect()->columns(array('main_table.name', 'main_table.level'));
         return $this;
     }
 
@@ -151,9 +153,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
         $orWhere = false;
         foreach ($paths as $path) {
             if ($orWhere) {
-                $select->orWhere('path LIKE ?', "$path%");
+                $select->orWhere('main_table.path LIKE ?', "$path%");
             } else {
-                $select->where('path LIKE ?', "$path%");
+                $select->where('main_table.path LIKE ?', "$path%");
                 $orWhere = true;
             }
         }
@@ -162,13 +164,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
 
     public function addLevelFilter($level)
     {
-        $this->getSelect()->where('level <= ?', $level);
+        $this->getSelect()->where('main_table.level <= ?', $level);
         return $this;
     }
 
     public function addOrderField($field)
     {
-        $this->setOrder($field, 'ASC');
+        $this->setOrder('main_table.' . $field, 'ASC');
         return $this;
     }
 }
