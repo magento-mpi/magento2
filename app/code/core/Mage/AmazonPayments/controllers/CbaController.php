@@ -233,7 +233,8 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
 
         if ($this->getCba()->getDebug()) {
             $debug = Mage::getModel('amazonpayments/api_debug')
-                ->setRequestBody(serialize($_request))
+                ->setRequestBody(print_r($_request, 1))
+                ->setResponseBody(time().' success')
                 ->save();
         }
 

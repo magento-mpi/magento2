@@ -143,7 +143,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
 
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setRequestBody(serialize($_request))
+                    ->setRequestBody(print_r($_request, 1))
+                    ->setResponseBody('Unix timestamp: '.time().' - non-empty order-calculations-request')
                     ->save();
             }
 
@@ -165,13 +166,15 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 if ($this->getDebug()) {
                     $debug = Mage::getModel('amazonpayments/api_debug')
                         ->setResponseBody($response)
+                        ->setRequestBody('Unix timestamp: '.time())
                         ->save();
                 }
             }
         } else {
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setRequestBody(serialize($_request))
+                    ->setRequestBody(print_r($_request, 1))
+                    ->setResponseBody('Unix timestamp: '.time().' - empty order-calculations-request')
                     ->save();
             }
         }
@@ -190,6 +193,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         if ($this->getDebug()) {
             $debug = Mage::getModel('amazonpayments/api_debug')
                 ->setResponseBody($response)
+                ->setRequestBody('Unix timestamp: '.time())
                 ->save();
         }
         return $response;
@@ -267,6 +271,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             $debug = Mage::getModel('paypal/api_debug')
                     ->setApiEndpoint($this->getPaypalUrl())
                     ->setRequestBody($sReq)
+                    ->setResponseBody('Unix timestamp: '.time())
                     ->save();
         }*/
         return $rArr;
@@ -292,7 +297,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             );
         if ($this->getDebug()) {
             $debug = Mage::getModel('amazonpayments/api_debug')
-                ->setResponseBody(serialize($xmlCart))
+                ->setResponseBody(print_r($xmlCart, 1)."\norder:".$xml)
+                ->setRequestBody('Unix timestamp: '.time() .' xml cart')
                 ->save();
         }
         #echo "xml: {$xml}<br />\n"
