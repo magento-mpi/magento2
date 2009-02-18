@@ -33,6 +33,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
 {
     protected $_itemCollection;
     protected $_hasItems = null;
+    protected $_urlParams = null;
 
     /**
      * Retrieve compare list url
@@ -55,6 +56,24 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
     }
 
     /**
+     * Get parameters used for build add product to compare list urls
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  array
+     */
+    protected function _getUrlParams($product)
+    {
+        if ($this->_urlParams === null) {
+        	$this->_urlParams = array(
+        	   'product' => null,
+        	   Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+        	);
+        }
+        $this->_urlParams['product'] = $product->getId();
+        return $this->_urlParams;
+    }
+
+    /**
      * Retrieve url for adding product to conpare list
      *
      * @param   Mage_Catalog_Model_Product $product
@@ -62,15 +81,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     public function getAddUrl($product)
     {
-//        if ($product->isSuper()) {
-//            return false;
-//        }
-
-        $params = array(
-            'product'=>$product->getId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-        );
-        return $this->_getUrl('catalog/product_compare/add', $params);
+        return $this->_getUrl('catalog/product_compare/add', $this->_getUrlParams($product));
     }
 
     /**

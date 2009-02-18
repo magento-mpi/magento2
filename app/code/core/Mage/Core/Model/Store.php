@@ -84,6 +84,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     protected $_session;
 
+    protected $_isAdminSecure = null;
+    protected $_isFrontSecure = null;
+
     protected function _construct()
     {
         $this->_init('core/store');
@@ -388,9 +391,47 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $url;
     }
 
+    /**
+     * Get store identifier
+     *
+     * @return  int
+     */
+    public function getId()
+    {
+        return $this->_getData('store_id');
+    }
+
+    /**
+     * Check if store is admin store
+     *
+     * @return unknown
+     */
     public function isAdmin()
     {
         return $this->getId() == Mage_Core_Model_App::ADMIN_STORE_ID;
+    }
+
+
+    public function isAdminUrlSecure()
+    {
+        if ($this->_isAdminSecure === null) {
+        	$this->_isAdminSecure = Mage::getStoreConfigFlag(
+        	   Mage_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN,
+        	   $this->getId()
+        	);
+        }
+        return $this->_isAdminSecure;
+    }
+
+    public function isFrontUrlSecure()
+    {
+        if ($this->_isFrontSecure === null) {
+        	$this->_isFrontSecure = Mage::getStoreConfigFlag(
+        	   Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
+        	   $this->getId()
+        	);
+        }
+        return $this->_isFrontSecure;
     }
 
     public function isCurrentlySecure()
