@@ -66,7 +66,22 @@ class Enterprise_Permissions_Model_Validator
 
     public function catalogProductEdit($observer)
     {
+        if( !$observer->getControllerAction()->getRequest()->getParam('id') ) {
+            $this->catalogProductNew($observer);
+        }
         $this->_validateScope($observer, 'adminhtml/catalog_product/edit/');
+        return $this;
+    }
+
+    public function catalogProductNew($observer)
+    {
+        if( !Mage::helper('permissions')->hasAnyWebsiteScopeAccess() ) {
+            $this->_redirect($observer, '*/catalog_product/index');
+        }
+
+        if( !$observer->getControllerAction()->getRequest()->getParam('store') ) {
+            $this->_redirect($observer, '*/*/*');
+        }
         return $this;
     }
 
@@ -84,6 +99,15 @@ class Enterprise_Permissions_Model_Validator
 
     public function catalogProductSave($observer)
     {
+        $post = $observer->getControllerAction()->getRequest()->getPost();
+        if( !$observer->getControllerAction()->getRequest()->getParam('id')
+            && array_key_exists('product', $post)
+            && (!isset( $post['product']['website_ids'] )
+            || sizeof(is_array($post['product']['website_ids']) == 0 )) ) {
+
+            $post['product']['website_ids'] = Mage::helper('permissions')->getAllowedWebsites();
+            $observer->getControllerAction()->getRequest()->setPost($post);
+        }
         $this->_validateScope($observer, 'adminhtml/catalog_product/edit/');
         return $this;
     }
@@ -112,31 +136,36 @@ class Enterprise_Permissions_Model_Validator
             $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
 
             if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
-                $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
-
-                if( sizeof($allowedStores) > 0 ) {
-                    $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
-                    $params = array(
-                        'store' => $store->getId(),
-                        'id' => $observer->getEvent()->getControllerAction()->getRequest()->getParam('id')
-                    );
-
-                    if( $urlParams && is_array($urlParams) ) {
-                        $params = array_merge($params, $urlParams);
-                    }
-
-                    $url = Mage::getUrl( $redirectUri ? $redirectUri : '*/*/*', $params);
-                } else {
-                    $url = false;
-                }
-                if( $url ) {
-                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
-                } else {
-                    $this->_raiseDenied($observer);
-                }
+                $this->_redirect($observer, $redirectUri, $urlParams);
             }
         }
         return $this;
+    }
+
+    protected function _redirect($observer, $redirectUri=false, $urlParams=false)
+    {
+        $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+
+        if( sizeof($allowedStores) > 0 ) {
+            $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
+            $params = array(
+                'store' => $store->getId(),
+                'id' => $observer->getEvent()->getControllerAction()->getRequest()->getParam('id')
+            );
+
+            if( $urlParams && is_array($urlParams) ) {
+                $params = array_merge($params, $urlParams);
+            }
+
+            $url = Mage::getUrl( $redirectUri ? $redirectUri : '*/*/*', $params);
+        } else {
+            $url = false;
+        }
+        if( $url ) {
+            $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
+        } else {
+            $this->_raiseDenied($observer);
+        }
     }
 
     protected function _raiseDenied($observer)

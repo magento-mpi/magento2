@@ -45,19 +45,27 @@ class Enterprise_Permissions_Block_Catalog_Form_Renderer_Fieldset_Element extend
             $this->getElement()->setDisabled(true);
         }
 
-        if( $this->isGlobal() && !$this->helper('permissions')->isSuperAdmin() ) {
+        if( $this->isDisabled() && !$this->helper('permissions')->isSuperAdmin() ) {
             $this->getElement()->setDisabled(true);
         }
 
         return $this;
     }
 
-    public function isGlobal()
+    public function isDisabled()
     {
+        $disabled = false;
         if ($this->getAttribute() && $this->getAttribute()->isScopeGlobal()) {
-            return true;
-        } else {
-            return false;
+            $disabled = true;
         }
+
+        $productWebsites = (array) $this->getDataObject()->getWebsiteIds();
+        $userWebsites = Mage::helper('permissions')->getAllowedWebsites();
+
+        if( sizeof($productWebsites) > 0 && sizeof(array_diff($productWebsites, $userWebsites)) == 0 ) {
+            $disabled = false;
+        }
+
+        return $disabled;
     }
 }

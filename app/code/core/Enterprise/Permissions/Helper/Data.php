@@ -67,6 +67,15 @@ class Enterprise_Permissions_Helper_Data extends Mage_Core_Helper_Abstract
         return $allowed;
     }
 
+    public function hasAnyWebsiteScopeAccess()
+    {
+        if( sizeof(Mage::helper('permissions')->getAllowedWebsites()) > 0 ) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getConfigRedirectUrl()
     {
         $allowedWebsites = $this->getAllowedWebsites();
@@ -76,7 +85,6 @@ class Enterprise_Permissions_Helper_Data extends Mage_Core_Helper_Abstract
             $website = Mage::getModel('core/website')->load(array_shift($allowedWebsites));
             return Mage::getUrl('adminhtml/system_config/edit/', array('website' => $website->getCode()));
         }
-
 
         if( sizeof($allowedStores) > 0 ) {
             $store = Mage::getModel('core/store')->load(array_shift($allowedStores));

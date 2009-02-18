@@ -40,6 +40,11 @@
             <permissions_mysql4>
                 <class>Enterprise_Permissions_Model_Mysql4</class>
             </permissions_mysql4>
+            <adminhtml>
+                <rewrite>
+                    <system_store>Enterprise_Permissions_Model_System_Store</system_store>
+                </rewrite>
+            </adminhtml>
         </models>
         <blocks>
             <permissions>
@@ -48,6 +53,8 @@
             <adminhtml>
                 <rewrite>
                     <catalog_category_tree>Enterprise_Permissions_Block_Catalog_Category_Tree</catalog_category_tree>
+                    <catalog_product_edit_tabs>Enterprise_Permissions_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
+                    <catalog_product>Enterprise_Permissions_Block_Catalog_Product</catalog_product>
                     <catalog_product_edit_action_attribute_tab_attributes>Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes</catalog_product_edit_action_attribute_tab_attributes>
                 </rewrite>
             </adminhtml>
@@ -129,6 +136,9 @@
                 <adminhtml_system_config_save>
                     <call>permissions/validator::systemConfigSave</call>
                 </adminhtml_system_config_save>
+                <adminhtml_catalog_product_new>
+                    <call>permissions/validator::catalogProductNew</call>
+                </adminhtml_catalog_product_new>
                 <adminhtml_catalog_product_edit>
                     <call>permissions/validator::catalogProductEdit</call>
                 </adminhtml_catalog_product_edit>
@@ -148,7 +158,9 @@
                     <call>permissions/validator::catalogCategoryEdit</call>
                 </adminhtml_catalog_category_edit>
             </admin_predispatch_observers>
-            <catalog_form_renderer_fieldset_element>permissions/catalog_form_renderer_fieldset_element</catalog_form_renderer_fieldset_element>
+            <catalog_form_renderer_fieldset_element>
+                <adminhtml_catalog_product_edit>permissions/catalog_form_renderer_fieldset_element</adminhtml_catalog_product_edit>
+            </catalog_form_renderer_fieldset_element>
         </settings>
     </adminhtml>
 </config>

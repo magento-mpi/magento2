@@ -109,10 +109,16 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         foreach (Mage::getModel('core/store')->getCollection() as $store) {
             $this->_storeCollection[$store->getId()] = $store;
         }
+        $this->_cleanupStoreCollection();
         return $this;
     }
 
-    public function getStoreValuesForForm($empty = false, $all = false)
+    protected function _cleanupStoreCollection()
+    {
+        return $this;
+    }
+
+    protected function _getDefaultStoreOptions($empty=false, $all=false)
     {
         $options = array();
         if ($empty) {
@@ -127,6 +133,13 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
                 'value' => 0
             );
         }
+
+        return $options;
+    }
+
+    public function getStoreValuesForForm($empty = false, $all = false)
+    {
+        $options = $this->_getDefaultStoreOptions($empty, $all);
 
         foreach ($this->_websiteCollection as $website) {
             $websiteShow = false;
