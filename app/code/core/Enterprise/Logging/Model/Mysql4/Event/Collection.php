@@ -10,7 +10,8 @@ class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_
           join('admin_user', 'main_table.user_id=admin_user.user_id');
         parent::load($printQuery, $logQuery);
         foreach($this->_items as &$item) {
-            $item->setIp(long2ip($item->getIp()));
+            $ip = long2ip($item->getIp());
+            $item->setIp($ip);
             $item->setEventLabel('product');
         }
     }

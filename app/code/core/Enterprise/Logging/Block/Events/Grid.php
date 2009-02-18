@@ -101,6 +101,13 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'filter'    => false
         ));
 
+        $this->addColumn('info', array(
+            'header'    => 'Info',
+            'index'     => 'info',
+            'type'      => 'string',
+            'sortable'  => false,
+            'filter'    => false
+        ));
 
         return $this;
     }
