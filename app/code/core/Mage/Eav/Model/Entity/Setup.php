@@ -1048,11 +1048,7 @@ CONSTRAINT `FK_{$baseName}_{$type}_store` FOREIGN KEY (`store_id`) REFERENCES `c
      * @return array
      */
     protected function _getAttributeTableFields() {
-        if (is_null($this->_attributeTableFields)) {
-            $this->_attributeTableFields = $this->getConnection()
-                ->describeTable($this->getTable('eav/attribute'));
-        }
-        return $this->_attributeTableFields;
+        return $this->getConnection()->describeTable($this->getTable('eav/attribute'));
     }
 
     /**
