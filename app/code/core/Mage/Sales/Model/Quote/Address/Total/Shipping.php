@@ -69,7 +69,7 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                         continue;
                     }
                     $addressQty += $item->getQty()*$child->getQty();
-                    $rowWeight = 0;
+
                     if (!$item->getProduct()->getWeightType()) {
                         $itemWeight = $child->getWeight();
                         $itemQty    = $item->getQty()*$child->getQty();
@@ -87,8 +87,8 @@ class Mage_Sales_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quo
                             }
                         }
                         $freeMethodWeight += $rowWeight;
+                        $item->setRowWeight($rowWeight);
                     }
-                    $item->setRowWeight($rowWeight);
                 }
                 if ($item->getProduct()->getWeightType()) {
                     $itemWeight = $item->getWeight();
