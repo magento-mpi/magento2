@@ -1,11 +1,11 @@
 <h4>Logging configuration</h4>
 <form method=post action="/logging/configuration/save">
-
+<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
 <div class="fieldset ">
 <table class="form-list">
 <?php
 foreach ($this->getEvents() as $event) {
-   echo "<tr> <td class='label'>".$event->getName()."</td><td> <input type='checkbox' name='event[".$event->getName()."]' ".($event->getChecked() ? 'checked' : '')."> </td> </tr>";
+   echo "<tr> <td class='label'>".$event->getName()."</td><td> <input type='checkbox' name='event[".$event->getCode()."]' ".($event->getChecked() ? 'checked' : '')."> </td> </tr>";
 }
 ?>
 <tr><td colspan=2 align=center><input type=submit value="Submit"></td></tr>
