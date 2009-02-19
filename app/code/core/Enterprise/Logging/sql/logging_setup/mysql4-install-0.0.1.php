@@ -35,7 +35,7 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->run("CREATE TABLE `enterprise_user_log` (
+$installer->run("CREATE TABLE `".$this->getTable('logging/user_log')."` (
   `log_id` int(11) NOT NULL auto_increment,
   `ip` bigint(20) unsigned NOT NULL default '0',
   `event_code` tinyint(3) unsigned NOT NULL default '0',
@@ -43,15 +43,15 @@ $installer->run("CREATE TABLE `enterprise_user_log` (
   `user_id` int(11) NOT NULL default '0',
   `action` char(20) NOT NULL default '-',
   `info` varchar(255) NOT NULL default '-',
-  PRIMARY KEY  (`log_id`)"
+  PRIMARY KEY  (`log_id`))"
 );
 
-$installer->run("CREATE TABLE enterprise_logging_config (
+$installer->run("CREATE TABLE `".$this->getTable('logging/configuration')."` (
    event_code TINYINT UNSIGNED NOT NULL DEFAULT '0' PRIMARY KEY,
    is_active TINYINT NOT NULL DEFAULT '0'
    );"
 );
 
-$installer->run("INSERT INTO enterprise_logging_config (event_code) VALUES (10), (20), (30), (40), (50), (60), (70), (80)");
+$installer->run("INSERT INTO ".$this->getTable('logging/configuration')." (event_code) VALUES (10), (20), (30), (40), (50), (60), (70), (80)");
 
 $installer->endSetup();
