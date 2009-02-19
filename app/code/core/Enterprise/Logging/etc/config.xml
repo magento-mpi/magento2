@@ -90,6 +90,16 @@
                 </observers>
             </on_product_view_after>
 
+            <on_admin_login_after>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventAfterLogin</method>
+                    </enterprise_logging>
+                </observers>
+            </on_admin_login_after>
+
         </events>
         <menu>
           <system>

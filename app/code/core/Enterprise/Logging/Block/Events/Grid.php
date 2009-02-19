@@ -35,7 +35,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->setDefaultSort('date');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
-        $this->setUseAjax(false);
+        $this->setUseAjax(true);
 
         /*
         $this->setSaveParametersInSession(true);
@@ -68,7 +68,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('time', array(
-            'header'    => 'time',
+            'header'    => 'Time',
             'index'     => 'time',
             'type'      => 'datetime',
         ));
@@ -83,12 +83,13 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'header'    => 'Event',
             'index'     => 'event_label',
             'type'      => 'text',
+            'sortable'  => false,
         ));
 
         $this->addColumn('user', array(
             'header'    => 'User',
             'index'     => 'username',
-            'type'      => 'string',
+            'type'      => 'text',
             'sortable'  => false,
             'filter'    => false
         ));
@@ -96,15 +97,15 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->addColumn('action', array(
             'header'    => 'Action',
             'index'     => 'action',
-            'type'      => 'string',
-            'sortable'  => false,
+            'type'      => 'text',
+            'sortable'  => true,
             'filter'    => false
         ));
 
         $this->addColumn('info', array(
             'header'    => 'Info',
             'index'     => 'info',
-            'type'      => 'string',
+            'type'      => 'text',
             'sortable'  => false,
             'filter'    => false
         ));
