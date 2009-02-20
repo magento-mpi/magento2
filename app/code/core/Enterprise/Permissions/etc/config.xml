@@ -54,6 +54,7 @@
                 <rewrite>
                     <catalog_category_tree>Enterprise_Permissions_Block_Catalog_Category_Tree</catalog_category_tree>
                     <catalog_product_edit_tabs>Enterprise_Permissions_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
+                    <catalog_product_edit_tab_websites>Enterprise_Permissions_Block_Catalog_Product_Edit_Tab_Websites</catalog_product_edit_tab_websites>
                     <catalog_product>Enterprise_Permissions_Block_Catalog_Product</catalog_product>
                     <catalog_product_edit_action_attribute_tab_attributes>Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes</catalog_product_edit_action_attribute_tab_attributes>
                 </rewrite>
@@ -161,6 +162,34 @@
             <catalog_form_renderer_fieldset_element>
                 <adminhtml_catalog_product_edit>permissions/catalog_form_renderer_fieldset_element</adminhtml_catalog_product_edit>
             </catalog_form_renderer_fieldset_element>
+            <adminhtml_widget_grid>
+                <filters>
+                    <adminhtml_catalog_product_crosssell>
+                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
+                    </adminhtml_catalog_product_crosssell>
+                    <adminhtml_catalog_product_related>
+                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
+                    </adminhtml_catalog_product_related>
+                    <adminhtml_catalog_product_upsell>
+                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
+                    </adminhtml_catalog_product_upsell>
+                    <adminhtml_catalog_product_reviews>
+                        <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
+                    </adminhtml_catalog_product_reviews>
+                    <adminhtml_catalog_product_review_reviewGrid>
+                        <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
+                    </adminhtml_catalog_product_review_reviewGrid>
+                    <adminhtml_catalog_product_tagGrid>
+                        <website_filter>permissions/validator::filterCatalogProductTagGrid</website_filter>
+                    </adminhtml_catalog_product_tagGrid>
+                    <adminhtml_catalog_product_gridOnly>
+                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
+                    </adminhtml_catalog_product_gridOnly>
+                    <adminhtml_customer_index>
+                        <website_filter>permissions/validator::filterCustomerGrid</website_filter>
+                    </adminhtml_customer_index>
+                </filters>
+            </adminhtml_widget_grid>
         </settings>
     </adminhtml>
 </config>

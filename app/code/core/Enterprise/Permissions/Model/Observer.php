@@ -168,7 +168,8 @@ class Enterprise_Permissions_Model_Observer
             $callArray = explode('::', $validators[$actionName]['call']);
             $callModel = Mage::getModel(array_shift($callArray));
             $callMethod = array_shift($callArray);
-            call_user_func(array($callModel, $callMethod), $observer);
+            call_user_func(array($callModel, 'init'), $observer);
+            call_user_func(array($callModel, $callMethod));
         }
 
         return $this;

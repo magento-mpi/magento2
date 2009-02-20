@@ -45,21 +45,16 @@ class Mage_Adminhtml_Block_Catalog_Form extends Mage_Adminhtml_Block_Widget_Form
     {
         Varien_Data_Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                ($value = $this->_getConfigValue(self::XML_PATH_DEFAULT_RENDERER_ELEMENT . $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET)
+                ($value = $this->_getConfigValueByFullActionName(self::XML_PATH_DEFAULT_RENDERER_ELEMENT, $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET)
         );
         Varien_Data_Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
-                ($value = $this->_getConfigValue(self::XML_PATH_DEFAULT_RENDERER_FIELDSET . $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET)
+                ($value = $this->_getConfigValueByFullActionName(self::XML_PATH_DEFAULT_RENDERER_FIELDSET, $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET)
         );
+
         Varien_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                ($value = $this->_getConfigValue(self::XML_PATH_DEFAULT_RENDERER_FIELDSET_ELEMENT . $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET_ELEMENT)
+                ($value = $this->_getConfigValueByFullActionName(self::XML_PATH_DEFAULT_RENDERER_FIELDSET_ELEMENT, $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET_ELEMENT)
         );
-    }
-
-    protected function _getConfigValue($path)
-    {
-        $value = (string) Mage::getConfig()->getNode($path);
-        return strlen($value) > 0 ? $value : false;
     }
 }

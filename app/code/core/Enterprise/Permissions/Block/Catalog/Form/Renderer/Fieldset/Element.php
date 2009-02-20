@@ -59,7 +59,7 @@ class Enterprise_Permissions_Block_Catalog_Form_Renderer_Fieldset_Element extend
             $disabled = true;
         }
 
-        $productWebsites = (array) $this->getDataObject()->getWebsiteIds();
+        $productWebsites = (array) ($this->getDataObject()) ? $this->getDataObject()->getWebsiteIds() : array();
         $userWebsites = Mage::helper('permissions')->getAllowedWebsites();
 
         if( sizeof($productWebsites) > 0 && sizeof(array_diff($productWebsites, $userWebsites)) == 0 ) {

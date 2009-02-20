@@ -33,6 +33,8 @@
  */
 class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 {
+    const ADMINHTML_WIDGET_GRID_FILTERS = 'adminhtml/settings/adminhtml_widget_grid/filters/';
+
     /**
      * Columns array
      *
@@ -344,6 +346,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         if ($this->getCollection()) {
 
+            $this->_applyCollectionFiltersByFullActionName();
+
             $this->_preparePage();
 
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
@@ -468,6 +472,34 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected function _afterLoadCollection()
     {
         return $this;
+    }
+
+    protected function _applyCollectionFiltersByFullActionName()
+    {
+        $collection = $this->getCollection();
+        /* @var $filters Mage_Core_Model_Config_Element */
+        $configPath = self::ADMINHTML_WIDGET_GRID_FILTERS;
+        $filters = $this->_getConfigValueByFullActionName(self::ADMINHTML_WIDGET_GRID_FILTERS, $this->getAction()->getFullActionName());
+        if( !$filters ) {
+            return $this;
+        }
+
+        if( sizeof($filters) > 0 && $filters->hasChildren() ) {
+            foreach ($filters->children() as $filter) {
+                $filter = (string) $filter;
+                try{
+                    $callArray = explode('::', $filter);
+                    $callModel = Mage::getModel(array_shift($callArray));
+                    $callMethod = array_shift($callArray);
+                    $collection = call_user_func(array($callModel, $callMethod), $this->getCollection(), $this->getAction()->getRequest());
+                } catch (Exception $e) {
+                    #throw new Exception("Unable to call '{$filter}' as specified in config path '{$configPath}'");
+                    throw new Exception($e->getMessage());
+                }
+            }
+        }
+
+        $this->setCollection($collection);
     }
 
     public function getVarNameLimit()

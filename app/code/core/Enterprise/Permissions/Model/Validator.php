@@ -26,16 +26,28 @@
 
 class Enterprise_Permissions_Model_Validator
 {
-    public function systemConfigEdit($observer)
+    protected $_observer;
+
+    public function init($observer)
+    {
+        $this->_observer = $observer;
+    }
+
+    protected function _getObserver()
+    {
+        return $this->_observer;
+    }
+
+    public function systemConfigEdit()
     {
         if( !Mage::helper('permissions')->isSuperAdmin() ) {
-            $website = $observer->getEvent()->getControllerAction()->getRequest()->getParam('website');
-            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
+            $website = $this->_getObserver()->getEvent()->getControllerAction()->getRequest()->getParam('website');
+            $store = $this->_getObserver()->getEvent()->getControllerAction()->getRequest()->getParam('store');
             if( !Mage::helper('permissions')->hasScopeAccess($website, $store) ) {
                 if( $url = Mage::helper('permissions')->getConfigRedirectUrl() ) {
-                    $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
+                    $this->_getObserver()->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
                 } else {
-                    $this->_raiseDenied($observer);
+                    $this->_raiseDenied();
                 }
             }
         }
@@ -43,106 +55,162 @@ class Enterprise_Permissions_Model_Validator
         return $this;
     }
 
-    public function systemConfigSave($observer)
+    public function systemConfigSave()
     {
         if( Mage::helper('permissions')->isSuperAdmin() ) {
             return $this;
         }
 
-        $request = $observer->getEvent()->getControllerAction()->getRequest();
+        $request = $this->_getObserver()->getEvent()->getControllerAction()->getRequest();
 
         if( $request->getParam('store') && !Mage::helper('permissions')->hasScopeAccess(null, $request->getParam('store')) ) {
-            $this->_raiseDenied($observer);
+            $this->_raiseDenied();
             return $this;
         }
 
         if( $request->getParam('website') && !Mage::helper('permissions')->hasScopeAccess($request->getParam('website'), null) ) {
-            $this->_raiseDenied($observer);
+            $this->_raiseDenied();
             return $this;
         }
 
         return $this;
     }
 
-    public function catalogProductEdit($observer)
+    public function catalogProductEdit()
     {
-        if( !$observer->getControllerAction()->getRequest()->getParam('id') ) {
-            $this->catalogProductNew($observer);
+        if( !$this->_getObserver()->getControllerAction()->getRequest()->getParam('id') ) {
+            $this->catalogProductNew();
         }
-        $this->_validateScope($observer, 'adminhtml/catalog_product/edit/');
+        $this->_validateScope('adminhtml/catalog_product/edit/');
         return $this;
     }
 
-    public function catalogProductNew($observer)
+    public function catalogProductNew()
     {
         if( !Mage::helper('permissions')->hasAnyWebsiteScopeAccess() ) {
-            $this->_redirect($observer, '*/catalog_product/index');
+            $this->_redirect('*/catalog_product/index');
         }
 
-        if( !$observer->getControllerAction()->getRequest()->getParam('store') ) {
-            $this->_redirect($observer, '*/*/*');
+        if( !$this->_getObserver()->getControllerAction()->getRequest()->getParam('store') ) {
+            $this->_redirect('*/*/*');
         }
         return $this;
     }
 
-    public function catalogProductList($observer)
+    public function catalogProductList()
     {
-        $this->_validateScope($observer, 'adminhtml/catalog_product/index/');
+        $this->_validateScope('adminhtml/catalog_product/index/');
         return $this;
     }
 
-    public function catalogProductAttributesEdit($observer)
+    public function catalogProductAttributesEdit()
     {
-        $this->_validateScope($observer, 'adminhtml/catalog_product_action_attribute/edit/');
+        $this->_validateScope('adminhtml/catalog_product_action_attribute/edit/');
         return $this;
     }
 
-    public function catalogProductSave($observer)
+    public function catalogProductSave()
     {
-        $post = $observer->getControllerAction()->getRequest()->getPost();
-        if( !$observer->getControllerAction()->getRequest()->getParam('id')
-            && array_key_exists('product', $post)
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $this;
+        }
+
+        $post = $this->_getObserver()->getControllerAction()->getRequest()->getPost();
+        if( !$this->_getObserver()->getControllerAction()->getRequest()->getParam('id')
+            && (array_key_exists('product', $post)
             && (!isset( $post['product']['website_ids'] )
-            || sizeof(is_array($post['product']['website_ids']) == 0 )) ) {
+            || sizeof(is_array($post['product']['website_ids']) == 0 ))) ) {
 
             $post['product']['website_ids'] = Mage::helper('permissions')->getAllowedWebsites();
-            $observer->getControllerAction()->getRequest()->setPost($post);
+        } else {
+            $productId = $this->_getObserver()->getControllerAction()->getRequest()->getParam('id');
+            $product = Mage::getModel('catalog/product')->load($productId);
+            $websiteIds = $product->getWebsiteIds();
+            $notAllowedWebsites = array_diff($websiteIds, Mage::helper('permissions')->getAllowedWebsites());
+            if( isset($post['product']['website_ids']) && is_array($post['product']['website_ids']) && is_array($notAllowedWebsites) ) {
+                $post['product']['website_ids'] = array_merge($notAllowedWebsites, $post['product']['website_ids']);
+            } else {
+                $post['product']['website_ids'] = $notAllowedWebsites;
+            }
         }
-        $this->_validateScope($observer, 'adminhtml/catalog_product/edit/');
+
+        $this->_getObserver()->getControllerAction()->getRequest()->setPost($post);
+
+        $this->_validateScope('adminhtml/catalog_product/edit/');
         return $this;
     }
 
-    public function dashboardView($observer)
+    public function dashboardView()
     {
-        $this->_validateScope($observer);
+        $this->_validateScope();
         return $this;
     }
 
-    public function catalogCategoryEdit($observer)
+    public function catalogCategoryEdit()
     {
-        $store = (int) $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $this;
+        }
+        $store = (int) $this->_getObserver()->getEvent()->getControllerAction()->getRequest()->getParam('store');
         if( $store <= 0 ) {
             $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
             $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
         }
         $parent = Mage::app()->getStore($store)->getRootCategoryId();
-        $this->_validateScope($observer, false, array('id' => $parent, '_current' => true));
+        $this->_validateScope(false, array('id' => $parent, '_current' => true));
         return $this;
     }
 
-    protected function _validateScope($observer, $redirectUri=false, $urlParams=false)
+    public function filterCustomerGrid($collection, $request)
+    {
+        /*if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+        $collection->addFieldToFilter('website_id', $request->getParam('store'));*/
+        return $collection;
+    }
+
+    public function filterCatalogProductGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+        $collection->addStoreFilter($request->getParam('store'));
+        return $collection;
+    }
+
+    public function filterCatalogProductTagGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+        $collection->addStoreFilter($request->getParam('store'));
+        return $collection;
+    }
+
+    public function filterCatalogProductReviewGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        $collection->addStoreFilter($request->getParam('store'));
+        return $collection;
+    }
+
+    protected function _validateScope($redirectUri=false, $urlParams=false)
     {
         if( !Mage::helper('permissions')->isSuperAdmin() ) {
-            $store = $observer->getEvent()->getControllerAction()->getRequest()->getParam('store');
+            $store = $this->_getObserver()->getEvent()->getControllerAction()->getRequest()->getParam('store');
 
             if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
-                $this->_redirect($observer, $redirectUri, $urlParams);
+                $this->_redirect($redirectUri, $urlParams);
             }
         }
         return $this;
     }
 
-    protected function _redirect($observer, $redirectUri=false, $urlParams=false)
+    protected function _redirect($redirectUri=false, $urlParams=false)
     {
         $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
 
@@ -150,7 +218,7 @@ class Enterprise_Permissions_Model_Validator
             $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
             $params = array(
                 'store' => $store->getId(),
-                'id' => $observer->getEvent()->getControllerAction()->getRequest()->getParam('id')
+                'id' => $this->_getObserver()->getEvent()->getControllerAction()->getRequest()->getParam('id')
             );
 
             if( $urlParams && is_array($urlParams) ) {
@@ -162,14 +230,18 @@ class Enterprise_Permissions_Model_Validator
             $url = false;
         }
         if( $url ) {
-            $observer->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
+            $this->_getObserver()->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
         } else {
-            $this->_raiseDenied($observer);
+            $this->_raiseDenied();
         }
     }
 
-    protected function _raiseDenied($observer)
+    protected function _raiseDenied()
     {
-        $observer->getEvent()->getControllerAction()->getResponse()->setRedirect(Mage::getUrl('adminhtml/index/denied'));
+        $this->_getObserver()
+             ->getEvent()
+             ->getControllerAction()
+             ->getResponse()
+             ->setRedirect(Mage::getUrl('adminhtml/index/denied'));
     }
 }

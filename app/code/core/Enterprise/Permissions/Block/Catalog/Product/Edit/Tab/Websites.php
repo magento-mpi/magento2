@@ -24,18 +24,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Permissions_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs
+class Enterprise_Permissions_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites
 {
-    protected function _enabledWebsites()
+    public function getWebsiteIds()
     {
         if( Mage::helper('permissions')->isSuperAdmin() ) {
-            return true;
+            return parent::getWesiteIds();
         }
-
-        if( sizeof(Mage::helper('permissions')->getAllowedWebsites()) > 0 ) {
-            return true;
-        }
-
-        return false;
+        return Mage::helper('permissions')->getAllowedWebsites();
     }
 }
