@@ -83,7 +83,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstr
      */
     protected function _toHtml()
     {
-        if ($this->_hasViewedProductsBefore() === false) {
+        if (!$this->_hasViewedProductsBefore()) {
             return '';
         }
 

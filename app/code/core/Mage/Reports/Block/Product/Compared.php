@@ -59,11 +59,13 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
     protected function _getProductsToSkip()
     {
         $ids = array();
-        foreach (Mage::helper('catalog/product_compare')->getItemCollection() as $_item) {
-            $ids[] = $_item->getId();
-        }
-        if (($product = Mage::registry('product')) && $product->getId()) {
-            $ids[] = $product->getId();
+        if (Mage::helper('catalog/product_compare')->getItemCount()) {
+            foreach (Mage::helper('catalog/product_compare')->getItemCollection() as $_item) {
+                $ids[] = $_item->getId();
+            }
+            if (($product = Mage::registry('product')) && $product->getId()) {
+                $ids[] = $product->getId();
+            }
         }
         return $ids;
     }
@@ -86,7 +88,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
      */
     protected function _toHtml()
     {
-        if ($this->_hasComparedProductsBefore() === false) {
+        if (!$this->_hasComparedProductsBefore()) {
             return '';
         }
 
