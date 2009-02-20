@@ -151,6 +151,7 @@ class Mage_productAlert_Model_Observer
                         $alert->setPrice($product->getFinalPrice());
                         $alert->setLastSendDate(Mage::getModel('core/date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
+                        $alert->setStatus(1);
                         $alert->save();
                     }
                 }
@@ -191,6 +192,7 @@ class Mage_productAlert_Model_Observer
                 $collection = Mage::getModel('productalert/stock')
                     ->getCollection()
                     ->addWebsiteFilter($website->getId())
+                    ->addStatusFilter(0)
                     ->setCustomerOrder();
             }
             catch (Exception $e) {
