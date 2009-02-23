@@ -81,6 +81,11 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    /**
+     * Return current category
+     *
+     * @return Mage_Catalog_Model_Category
+     */
     public function getCategory()
     {
         return Mage::registry('current_category');
