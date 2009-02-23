@@ -658,13 +658,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     {
         $categories = array();
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable($category->getStoreId()))
-            ->where('entity_id in (?)', array_reverse(explode(',', $category->getPathInStore())))
-            ->where('store_id = ?', $category->getStoreId());
+            ->from(array('main_table' => $this->getMainStoreTable($category->getStoreId())), array('main_table.entity_id', 'main_table.name'))
+            ->joinLeft(
+                array('url_rewrite'=>$this->getTable('core/url_rewrite')),
+                'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$category->getStoreId().'" AND url_rewrite.id_path LIKE "category/%"',
+                array('request_path' => 'url_rewrite.request_path'))
+            ->where('main_table.entity_id IN (?)', array_reverse(explode(',', $category->getPathInStore())))
+            ->where('main_table.store_id = ?', $category->getStoreId());
         if ($isActive) {
-            $select->where('is_active = ?', '1');
+            $select->where('main_table.is_active = ?', '1');
         }
-        $select->order('path', 'ASC');
+        $select->order('main_table.path', 'ASC');
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
