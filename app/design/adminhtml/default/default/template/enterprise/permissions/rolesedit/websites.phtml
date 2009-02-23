@@ -48,14 +48,14 @@
             <ul>
             <?php foreach ($this->getWebsites() as $websiteId => $website): ?>
                 <li>
-                <input type="checkbox" name="website_ids[]" value="<?php echo $websiteId ?>" id="permissions_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getWebsiteIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_website_<?php echo $websiteId ?>">
+                <input class="permissions_website" type="checkbox" name="website_ids[]" value="<?php echo $websiteId ?>" id="permissions_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getWebsiteIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_website_<?php echo $websiteId ?>">
                     <?php echo $website->getName() ?>
                 </label>
                 <?php if (count($website->getGroups())): ?>
                     <ul style="margin-left:1.5em">
                     <?php foreach ($website->getGroups() as $group): ?>
                         <li>
-                        <input type="checkbox" name="store_group_ids[]" value="<?php echo $group->getId() ?>" id="permissions_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getStoreGroupIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_store_group_<?php echo $group->getId() ?>">
+                        <input class="permissions_store_group" type="checkbox" name="store_group_ids[]" value="<?php echo $group->getId() ?>" id="permissions_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getStoreGroupIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_store_group_<?php echo $group->getId() ?>">
                             <?php echo $group->getName() ?>
                         </label>
                         </li>
@@ -71,5 +71,44 @@
             $('websites_container').toggle();
         </script>
         <?php endif;?>
+        <script type="text/javascript">
+        var roleWebsitesController = Class.create();
+        roleWebsitesController.prototype = {
+            initialize : function() {
+                this.websites = [];
+                $('websites_container').select('input.permissions_website').each(function(website) {
+                    this.websites.push(website);
+                    Event.observe(website, 'click', this.isWebsiteChecked.bind(this));
+                }.bind(this));
+
+                this.stores = [];
+                $('websites_container').select('input.permissions_store_group').each(function(store) {
+                    this.stores.push(store);
+                }.bind(this));
+            },
+
+            isWebsiteChecked : function() {
+                for (var k in this.websites) {
+                    if (this.websites[k].checked) {
+                        // disable checkboxes of all stores if any of a website is checked
+                        this.disableStores(true);
+                        return true;
+                    }
+                }
+                // enable checkboxes of all stores if all of websites are not checked
+                this.disableStores(false);
+                return false;
+            },
+
+            disableStores : function(isDisabled) {
+                for (var k in this.stores) {
+                    this.stores[k].disabled = isDisabled;
+                }
+            }
+        }
+
+        rwc = new roleWebsitesController();
+        rwc.isWebsiteChecked();
+        </script>
     </fieldset>
 </div>

@@ -65,7 +65,7 @@ class Enterprise_Permissions_Block_Permissions_Tab_Rolesedit_Websites extends Ma
      */
     public function getWebsites()
     {
-        return Mage::app()->getWebsites(true);
+        return Mage::app()->getWebsites();
     }
 
     /**

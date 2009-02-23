@@ -55,7 +55,7 @@ class Enterprise_Permissions_Model_Observer
 
         if ($isAllPermissions) {
             // set all website ids
-            $object->setWebsiteIds(array_keys(Mage::app()->getWebsites(true)));
+            $object->setWebsiteIds(array_keys(Mage::app()->getWebsites()));
 
             // set all store groups
             foreach ($this->_getAllStoreGroups() as $storeGroup) {
@@ -87,12 +87,21 @@ class Enterprise_Permissions_Model_Observer
 
         // determine and set store ids
         $storeIds = array();
-        foreach (Mage::app()->getStores(true) as $store) {
+        foreach (Mage::app()->getStores() as $store) {
             if (in_array($store->getGroupId(), $storeGroupIds)) {
                 $storeIds[] = $store->getId();
             }
         }
         $object->setStoreIds($storeIds);
+
+        // set relevant website ids from allowed store group ids
+        $relevantWebsites = array();
+        foreach ($this->_getAllStoreGroups() as $storeGroup) {
+            if (in_array($storeGroup->getId(), $storeGroupIds)) {
+                $relevantWebsites[] = $storeGroup->getWebsite()->getId();
+            }
+        }
+        $object->setRelevantWebsites(array_values(array_unique($relevantWebsites)));
 
         return $this;
     }
@@ -105,7 +114,7 @@ class Enterprise_Permissions_Model_Observer
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getModel('core/store_group')->getCollection()->setLoadDefault(true);
+            $this->_storeGroupCollection = Mage::getModel('core/store_group')->getCollection();
         }
         return $this->_storeGroupCollection;
     }
@@ -121,6 +130,10 @@ class Enterprise_Permissions_Model_Observer
         $object = $observer->getEvent()->getObject();
         $websiteIds    = $object->getWebsiteIds();
         $storeGroupIds = $object->getStoreGroupIds();
+
+        // validate 'em
+        // TODO
+
         if (is_array($websiteIds)) {
             $object->setWebsiteIds(implode(',', $websiteIds));
         }
