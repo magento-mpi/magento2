@@ -69,7 +69,16 @@ class Enterprise_Permissions_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function hasAnyWebsiteScopeAccess()
     {
-        if( sizeof(Mage::helper('permissions')->getAllowedWebsites()) > 0 ) {
+        if( sizeof($this->getAllowedWebsites()) > 0 ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasAnyStoreScopeAccess()
+    {
+        if( sizeof($this->getAllowedStoreViews()) > 0 ) {
             return true;
         }
 

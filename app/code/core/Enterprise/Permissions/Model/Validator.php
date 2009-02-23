@@ -161,12 +161,25 @@ class Enterprise_Permissions_Model_Validator
         return $this;
     }
 
+    public function salesOrderList()
+    {
+        if( !Mage::helper('permissions')->hasAnyStoreScopeAccess() ) {
+            $this->_raiseDenied();
+        }
+        return $this;
+    }
+
     public function filterCustomerGrid($collection, $request)
     {
-        /*if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
             return $collection;
         }
-        $collection->addFieldToFilter('website_id', $request->getParam('store'));*/
+
+        if( !Mage::helper('permissions')->hasAnyWebsiteScopeAccess() ) {
+            $this->_raiseDenied();
+            return $this;
+        }
+        $collection->addAttributeToFilter('website_id', array('IN' => Mage::helper('permissions')->getAllowedWebsites() ));
         return $collection;
     }
 
@@ -195,6 +208,84 @@ class Enterprise_Permissions_Model_Validator
         }
 
         $collection->addStoreFilter($request->getParam('store'));
+        return $collection;
+    }
+
+    public function filterSalesOrderGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
+            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $storeId = $request->getParam('store') ? $request->getParam('store') : array('IN' => $allowedStores);
+            $collection->addAttributeToFilter('store_id', $storeId);
+        }
+
+        return $collection;
+    }
+
+    public function filterSalesInvoiceGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+
+        return $collection;
+    }
+
+    public function filterSalesShipmentGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+
+        return $collection;
+    }
+
+    public function filterSalesCreditmemoGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+
+        return $collection;
+    }
+
+    public function filterUrlrewriteGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
+            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $storeId = $request->getParam('store') ? $request->getParam('store') : array('IN' => $allowedStores);
+            $collection->addFieldToFilter('store_id', $storeId);
+        }
+
+        return $collection;
+    }
+
+    public function filterCatalogSearchGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
+            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $storeId = $request->getParam('store') ? $request->getParam('store') : array('IN' => $allowedStores);
+            $collection->addFieldToFilter('store_id', $storeId);
+        }
+
         return $collection;
     }
 

@@ -119,6 +119,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected $_filterVisibility = true;
 
+    protected $_filterValues = false;
+
     /**
      * Massage block visibility
      *
@@ -312,6 +314,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _setFilterValues($data)
     {
+        $this->_filterValues = $data;
         foreach ($this->getColumns() as $columnId => $column) {
             if (isset($data[$columnId]) && (!empty($data[$columnId]) || strlen($data[$columnId]) > 0) && $column->getFilter()) {
                 $column->getFilter()->setValue($data[$columnId]);
@@ -346,8 +349,6 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         if ($this->getCollection()) {
 
-            $this->_applyCollectionFiltersByFullActionName();
-
             $this->_preparePage();
 
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
@@ -368,6 +369,8 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             } else if(0 !== sizeof($this->_defaultFilter)) {
                 $this->_setFilterValues($this->_defaultFilter);
             }
+
+            $this->_applyCollectionFiltersByFullActionName();
 
             if (isset($this->_columns[$columnId]) && $this->_columns[$columnId]->getIndex()) {
                 $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
@@ -491,7 +494,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                     $callArray = explode('::', $filter);
                     $callModel = Mage::getModel(array_shift($callArray));
                     $callMethod = array_shift($callArray);
-                    $collection = call_user_func(array($callModel, $callMethod), $this->getCollection(), $this->getAction()->getRequest());
+                    $collection = call_user_func(array($callModel, $callMethod), $this->getCollection(), $this->getAction()->getRequest(), $this->_filterValues);
                 } catch (Exception $e) {
                     #throw new Exception("Unable to call '{$filter}' as specified in config path '{$configPath}'");
                     throw new Exception($e->getMessage());

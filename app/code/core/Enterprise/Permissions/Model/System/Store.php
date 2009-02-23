@@ -26,7 +26,7 @@
 
 class Enterprise_Permissions_Model_System_Store extends Mage_Adminhtml_Model_System_Store
 {
-    protected function _cleanupStoreCollection()
+    protected function _cleanupCollection()
     {
         if( Mage::helper('permissions')->isSuperAdmin() ) {
             return $this;
@@ -41,7 +41,30 @@ class Enterprise_Permissions_Model_System_Store extends Mage_Adminhtml_Model_Sys
             }
         }
 
+        if( is_array($this->_groupCollection) ) {
+            $allowedGroups = Mage::helper('permissions')->getAllowedStoreGroups();
+            foreach ($this->_groupCollection as $groupId => $group) {
+                if( !in_array($groupId, $allowedGroups) ) {
+                    unset($this->_groupCollection[$groupId]);
+                }
+            }
+        }
+
+        if( is_array($this->_websiteCollection) ) {
+            $allowedWebsites = Mage::helper('permissions')->getAllowedWebsites();
+            foreach ($this->_websiteCollection as $websiteId => $website) {
+                if( !in_array($websiteId, $allowedWebsites) ) {
+                    unset($this->_websiteCollection[$websiteId]);
+                }
+            }
+        }
+
         return $this;
+    }
+
+    protected function _forceDisableWebsitesAll()
+    {
+        return true;
     }
 
     protected function _getDefaultStoreOptions($empty=false, $all=false)

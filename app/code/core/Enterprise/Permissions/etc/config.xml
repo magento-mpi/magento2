@@ -43,6 +43,7 @@
             <adminhtml>
                 <rewrite>
                     <system_store>Enterprise_Permissions_Model_System_Store</system_store>
+                    <system_config_source_website>Enterprise_Permissions_Model_System_Config_Source_Website</system_config_source_website>
                 </rewrite>
             </adminhtml>
         </models>
@@ -158,6 +159,9 @@
                 <adminhtml_catalog_category_edit>
                     <call>permissions/validator::catalogCategoryEdit</call>
                 </adminhtml_catalog_category_edit>
+                <adminhtml_sales_order_index>
+                    <call>permissions/validator::salesOrderList</call>
+                </adminhtml_sales_order_index>
             </admin_predispatch_observers>
             <catalog_form_renderer_fieldset_element>
                 <adminhtml_catalog_product_edit>permissions/catalog_form_renderer_fieldset_element</adminhtml_catalog_product_edit>
@@ -188,6 +192,33 @@
                     <adminhtml_customer_index>
                         <website_filter>permissions/validator::filterCustomerGrid</website_filter>
                     </adminhtml_customer_index>
+                    <adminhtml_customer_exportCsv>
+                        <website_filter>permissions/validator::filterCustomerGrid</website_filter>
+                    </adminhtml_customer_exportCsv>
+                    <adminhtml_customer_exportXml>
+                        <website_filter>permissions/validator::filterCustomerGrid</website_filter>
+                    </adminhtml_customer_exportXml>
+                    <adminhtml_sales_order_index>
+                        <website_filter>permissions/validator::filterSalesOrderGrid</website_filter>
+                    </adminhtml_sales_order_index>
+                    <adminhtml_sales_order_grid>
+                        <website_filter>permissions/validator::filterSalesOrderGrid</website_filter>
+                    </adminhtml_sales_order_grid>
+                    <adminhtml_sales_invoice_index>
+                        <website_filter>permissions/validator::filterSalesInvoiceGrid</website_filter>
+                    </adminhtml_sales_invoice_index>
+                    <adminhtml_sales_shipment_index>
+                        <website_filter>permissions/validator::filterSalesShipmentGrid</website_filter>
+                    </adminhtml_sales_shipment_index>
+                    <adminhtml_sales_creditmemo_index>
+                        <website_filter>permissions/validator::filterSalesCreditmemoGrid</website_filter>
+                    </adminhtml_sales_creditmemo_index>
+                    <adminhtml_urlrewrite_index>
+                        <website_filter>permissions/validator::filterUrlrewriteGrid</website_filter>
+                    </adminhtml_urlrewrite_index>
+                    <adminhtml_catalog_search_index>
+                        <website_filter>permissions/validator::filterCatalogSearchGrid</website_filter>
+                    </adminhtml_catalog_search_index>
                 </filters>
             </adminhtml_widget_grid>
         </settings>

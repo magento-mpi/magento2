@@ -18,34 +18,22 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category   Enterprise
+ * @package    Enterprise_Permissions
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
-class Mage_Adminhtml_Model_System_Config_Source_Website
+class Enterprise_Permissions_Model_System_Config_Source_Website extends Mage_Adminhtml_Model_System_Config_Source_Website
 {
-    protected $_options;
-
-    public function toOptionArray()
-    {
-        if (!$this->_options) {
-            $this->_options = array();
-            foreach (Mage::getConfig()->getNode('websites')->children() as $code=>$config) {
-                $id = (string)$config->system->website->id;
-                $name = (string)$config->system->website->name;
-                if ($id!=0) {
-                    $this->_options[] = array('value'=>$id, 'label'=>$name);
-                }
-            }
-        }
-        return $this->_cleanupOptions($this->_options);
-    }
-
     protected function _cleanupOptions($options)
     {
+        foreach( $options as $key => $option ) {
+            if( !in_array($option['value'], Mage::helper('permissions')->getAllowedWebsites()) ) {
+                unset($options[$key]);
+            }
+        }
         return $options;
     }
 }
