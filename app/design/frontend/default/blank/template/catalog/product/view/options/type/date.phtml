@@ -18,20 +18,25 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_blank
+ * @category   design_default
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
 <?php $_option = $this->getOption() ?>
-<dt><label><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label></dt>
+<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label>
+    <?php echo $this->getFormatedPrice() ?></dt>
+<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-        || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
-<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>><?php echo $this->__('Date') ?>&nbsp;<?php echo $this->getCalendarHtml() ?></dd>
+    || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
+    <?php echo Mage::helper('catalog')->__('Date')?>: <?php echo $this->getDateHtml() ?>
 <?php endif; ?>
+
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-        || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
-<dd <?php if ($_option->decoratedIsLast){?> class="last"<?php }?>><?php echo $this->__('Time') ?> <?php echo $this->getTimeHtml() ?>
-    <?php //echo $this->__('Time') ?> <!--<input type="text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?>" name="options[<?php echo $_option->getId() ?>]" value="" />--></dd>
+    || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
+    <?php echo Mage::helper('catalog')->__('Time')?>: <?php echo $this->getTimeHtml() ?>
 <?php endif; ?>
+
+</dd>
