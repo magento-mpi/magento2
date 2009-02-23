@@ -176,4 +176,50 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->_forward('noRoute');
         }
     }
+
+    /**
+     * Custom options downloader
+     */
+    public function downloadCustomOptionAction ()
+    {
+        $quoteItemOptionId = $this->getRequest()->getParam('id');
+        $secretKey = $this->getRequest()->getParam('key');
+        $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
+
+        if ($option->getId()) {
+
+            try {
+                $info = unserialize($option->getValue());
+
+                if ($secretKey != $info['secret_key']) {
+                    throw new Exception();
+                }
+
+                if (!is_file($info['path']) || !is_readable($info['path'])) {
+                    throw new Exception();
+                }
+
+                $this->getResponse()
+                    ->setHttpResponseCode(200)
+                    ->setHeader('Pragma', 'public', true)
+                    ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+                    ->setHeader('Content-type', $info['type'], true)
+                    ->setHeader('Content-Length', $info['size'])
+                    ->setHeader('Content-Disposition', 'attachment' . '; filename='.$info['title']);
+
+                $this->getResponse()
+                    ->clearBody();
+                $this->getResponse()
+                    ->sendHeaders();
+
+                readfile($info['path']);
+
+            } catch (Exception $e) {
+                $this->_forward('noRoute');
+            }
+
+        } else {
+            $this->_forward('noRoute');
+        }
+    }
 }

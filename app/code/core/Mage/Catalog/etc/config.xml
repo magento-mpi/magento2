@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.59</version>
+            <version>0.7.60</version>
         </Mage_Catalog>
     </modules>
 
@@ -274,6 +274,15 @@
                                     </area>
                                 </types>
                             </text>
+                            <file translate="label" module="adminhtml">
+                                <label>File</label>
+                                <render>adminhtml/catalog_product_edit_tab_options_type_file</render>
+                                <types>
+                                    <file translate="label" module="adminhtml">
+                                        <label>File</label>
+                                    </file>
+                                </types>
+                            </file>
                             <select translate="label" module="adminhtml">
                                 <label>Select</label>
                                 <render>adminhtml/catalog_product_edit_tab_options_type_select</render>
@@ -292,6 +301,21 @@
                                     </multiple>
                                 </types>
                             </select>
+                            <date translate="label" module="adminhtml">
+                                <label>Date</label>
+                                <render>adminhtml/catalog_product_edit_tab_options_type_date</render>
+                                <types>
+                                    <date translate="label" module="adminhtml">
+                                        <label>Date</label>
+                                    </date>
+                                    <date_time translate="label" module="adminhtml">
+                                        <label>Date &amp; Time</label>
+                                    </date_time>
+                                    <time translate="label" module="adminhtml">
+                                        <label>Time</label>
+                                    </time>
+                                </types>
+                            </date>
                         </groups>
                     </custom>
                 </options>
@@ -566,6 +590,11 @@
                 <product_use_categories>1</product_use_categories>
                 <title_separator>-</title_separator>
             </seo>
+            <custom_options>
+                <date_fields_order>m,d,y</date_fields_order>
+                <time_format>12h</time_format>
+                <forbidden_extensions>php,exe</forbidden_extensions>
+            </custom_options>
 <!--
             <layer>
                 <configurable_children>1</configurable_children>

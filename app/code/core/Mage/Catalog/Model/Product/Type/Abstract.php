@@ -227,7 +227,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $editableAttributes = array();
             foreach ($this->getSetAttributes($product) as $attributeCode => $attribute) {
                 if (!is_array($attribute->getApplyTo())
-                    || count($attribute->getApplyTo())== 0
+                    || count($attribute->getApplyTo())==0
                     || in_array($this->getProduct($product)->getTypeId(), $attribute->getApplyTo())) {
                     $editableAttributes[$attributeCode] = $attribute;
                 }
@@ -294,9 +294,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
-
         // try to add custom options
-        $options = $this->_prepareOptionsForCart($buyRequest->getOptions(), $product);
+        $options = $this->_prepareOptionsForCart($buyRequest, $product);
         if (is_string($options)) {
             return $options;
         }
@@ -345,59 +344,26 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Check custom defined options for product
      *
-     * @param   array $options
+     * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @return  array || string
      */
-    protected function _prepareOptionsForCart($options, $product = null)
+    protected function _prepareOptionsForCart(Varien_Object $buyRequest, $product = null)
     {
         $newOptions = array();
-
         foreach ($this->getProduct($product)->getOptions() as $_option) {
             /* @var $_option Mage_Catalog_Model_Product_Option */
-            if (!isset($options[$_option->getId()]) && $_option->getIsRequire() && !$this->getProduct($product)->getSkipCheckRequiredOption()) {
-                return Mage::helper('catalog')->__('Please specify the product required option(s)');
-            }
-            if (!isset($options[$_option->getId()])) {
-                continue;
-            }
-            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_TEXT) {
-                $options[$_option->getId()] = trim($options[$_option->getId()]);
-                if (strlen($options[$_option->getId()]) == 0 && $_option->getIsRequire()) {
-                    return Mage::helper('catalog')->__('Please specify the product required option(s)');
-                }
-                if (strlen($options[$_option->getId()]) > $_option->getMaxCharacters() && $_option->getMaxCharacters() > 0) {
-                    return Mage::helper('catalog')->__('Length of text is too long');
-                }
-                if (strlen($options[$_option->getId()]) == 0) continue;
-            }
-            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_FILE) {
+            $group = $_option->groupFactory($_option->getType())
+                ->setOption($_option)
+                ->setProduct($this->getProduct($product))
+                ->setRequest($buyRequest)
+                ->validateUserValue($buyRequest->getOptions());
 
+            $preparedValue = $group->prepareForCart();
+            if ($preparedValue !== null) {
+                $newOptions[$_option->getId()] = $preparedValue;
             }
-            if ($_option->getGroupByType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE) {
-
-            }
-
-            if ($_option->getGroupbyType($_option->getType()) == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                if (($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN
-                    || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO)
-                    && strlen($options[$_option->getId()])== 0) {
-                    continue;
-                }
-                $valuesCollection = $_option->getOptionValuesByOptionId(
-                        $options[$_option->getId()], $this->getProduct($product)->getStoreId()
-                    )->load();
-
-                if ($valuesCollection->count() != count($options[$_option->getId()])) {
-                    return Mage::helper('catalog')->__('Please specify the product required option(s)');
-                }
-            }
-            if (is_array($options[$_option->getId()])) {
-                $options[$_option->getId()] = implode(',', $options[$_option->getId()]);
-            }
-            $newOptions[$_option->getId()] = $options[$_option->getId()];
         }
-
         return $newOptions;
     }
 
@@ -442,25 +408,19 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if ($optionIds = $this->getProduct($product)->getCustomOption('option_ids')) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $this->getProduct($product)->getOptionById($optionId)) {
-                    $formatedValue = '';
-                    $optionGroup = $option->getGroupByType($option->getType());
-                    $optionValue = $this->getProduct($product)->getCustomOption('option_'.$option->getId())->getValue();
-                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
-                        || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
-                        foreach (explode(',', $optionValue) as $value) {
-                            $formatedValue .= $option->getValueById($value)->getTitle() . ', ';
-                        }
-                        $formatedValue = Mage::helper('core/string')->substr($formatedValue, 0, -2);
-                    } elseif ($optionGroup == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                        $formatedValue = $option->getValueById($optionValue)->getTitle();
-                    } else {
-                        $formatedValue = $optionValue;
-                    }
+
+                    $quoteItemOption = $this->getProduct($product)->getCustomOption('option_'.$option->getId());
+
+                    $group = $option->groupFactory($option->getType())
+                        ->setOption($option)
+                        ->setProduct($this->getProduct())
+                        ->setQuoteItemOption($quoteItemOption);
+
                     $optionArr['options'][] = array(
                         'label' => $option->getTitle(),
-                        'value' => $formatedValue,
+                        'value' => $group->getFormattedOptionValue($quoteItemOption->getValue()),
                         'option_id' => $option->getId(),
-                        'option_value' => $optionValue
+                        'option_value' => $quoteItemOption->getValue()
                     );
                 }
             }
@@ -512,20 +472,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Setting specified product type variables
-     *
-     * @param array $config
-     * @return Mage_Catalog_Model_Product_Type_Abstract
-     */
-    public function setConfig($config)
-    {
-        if (isset($config['composite'])) {
-            $this->_isComposite = (bool) $config['composite'];
-        }
-        return $this;
-    }
-
-    /**
      * Default action to get sku of product
      *
      * @param Mage_Catalog_Model_Product $product
@@ -536,29 +482,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $skuDelimiter = '-';
         $sku = $this->getProduct($product)->getData('sku');
         if ($optionIds = $this->getProduct($product)->getCustomOption('option_ids')) {
-            $optionIds = split(',', $optionIds->getValue());
-            foreach ($optionIds as $optionId) {
-                $productOption = $this->getProduct($product)->getOptionById($optionId);
-                if ($productOption = $this->getProduct($product)->getOptionById($optionId)) {
-                    $optionValue   = $this->getProduct($product)->getCustomOption('option_' . $optionId)->getValue();
+            foreach (explode(',', $optionIds->getValue()) as $optionId) {
+                if ($option = $this->getProduct($product)->getOptionById($optionId)) {
 
-                    if ($productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
-                        || $productOption->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
-                        foreach(split(',', $optionValue) as $value) {
-                            if ($optionSku = $productOption->getValueById($value)->getSku()) {
-                                $sku .= $skuDelimiter . $optionSku;
-                            }
-                        }
-                        $optionSku = null;
-                    }
-                    elseif ($productOption->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                        $optionSku = $productOption->getValueById($optionValue)->getSku();
-                    }
-                    else {
-                        $optionSku = $productOption->getSku();
-                    }
+                    $quoteItemOption = $this->getProduct($product)->getCustomOption('option_'.$optionId);
 
-                    if (!empty($optionSku)) {
+                    $group = $option->groupFactory($option->getType())
+                        ->setOption($option);
+
+                    if ($optionSku = $group->getOptionSku($quoteItemOption->getValue(), $skuDelimiter)) {
                         $sku .= $skuDelimiter . $optionSku;
                     }
                 }

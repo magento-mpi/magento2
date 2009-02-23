@@ -19,16 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
-
-$installer->startSetup();
-$installer->getConnection()->addColumn($installer->getTable('catalog/product_option'), 'image_size_x', 'smallint unsigned not null after `file_extension`');
-$installer->getConnection()->addColumn($installer->getTable('catalog/product_option'), 'image_size_y', 'smallint unsigned not null after `image_size_x`');
-$installer->endSetup();
+class Mage_Adminhtml_Model_System_Config_Source_Catalog_TimeFormat
+{
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => '12h', 'label' => Mage::helper('adminhtml')->__('12h AM/PM')),
+            array('value' => '24h', 'label' => Mage::helper('adminhtml')->__('24h')),
+        );
+    }
+}

@@ -260,50 +260,18 @@ class Mage_Catalog_Model_Product_Type_Price
             $basePrice = $finalPrice;
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $product->getOptionById($optionId)) {
-                    $optionValue = $product->getCustomOption('option_'.$option->getId())->getValue();
-                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX
-                        || $option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE) {
-                        foreach(split(',', $optionValue) as $value) {
-                            $finalPrice += $this->_getPricingOptionValue(array(
-                                'is_percent' => ($option->getValueById($value)->getPriceType() == 'percent')? true:false,
-                                'pricing_value' => $option->getValueById($value)->getPrice()
-                            ), $basePrice);
-                        }
-                    } elseif ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
-                        $finalPrice += $this->_getPricingOptionValue(array(
-                            'is_percent' => ($option->getValueById($optionValue)->getPriceType() == 'percent')? true:false,
-                            'pricing_value' => $option->getValueById($optionValue)->getPrice()
-                        ), $basePrice);
-                    } else {
-                        $finalPrice += $this->_getPricingOptionValue(array(
-                            'is_percent' => ($option->getPriceType() == 'percent')? true:false,
-                            'pricing_value' => $option->getPrice()
-                        ), $basePrice);
-                    }
+
+                    $quoteItemOption = $product->getCustomOption('option_'.$option->getId());
+                    $group = $option->groupFactory($option->getType())
+                        ->setOption($option)
+                        ->setQuoteItemOption($quoteItemOption);
+
+                    $finalPrice += $group->getOptionPrice($quoteItemOption->getValue(), $basePrice);
                 }
             }
         }
 
         return $finalPrice;
-    }
-
-    /**
-     * Get product pricing option value
-     *
-     * @param array $value
-     * @param double $basePrice
-     * @return double
-     */
-    protected function _getPricingOptionValue($value, $basePrice)
-    {
-        if($value['is_percent']) {
-            $ratio = $value['pricing_value']/100;
-            $price = $basePrice * $ratio;
-        } else {
-            $price = $value['pricing_value'];
-        }
-
-        return $price;
     }
 
     /**

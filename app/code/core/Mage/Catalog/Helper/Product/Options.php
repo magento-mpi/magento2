@@ -24,11 +24,27 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
 
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
-
-$installer->startSetup();
-$installer->getConnection()->addColumn($installer->getTable('catalog/product_option'), 'image_size_x', 'smallint unsigned not null after `file_extension`');
-$installer->getConnection()->addColumn($installer->getTable('catalog/product_option'), 'image_size_y', 'smallint unsigned not null after `image_size_x`');
-$installer->endSetup();
+/**
+ * Catalog Product Custom Options helper
+ *
+ * @category   Mage
+ * @package    Mage_Catalog
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Catalog_Helper_Product_Options extends Mage_Core_Helper_Abstract
+{
+    /**
+     * Simplest way to check if we format our option value using HTML
+     *
+     * @param string $optionValue
+     * @return boolean
+     */
+    public function isHtmlFormattedOptionValue($optionValue)
+    {
+        if (strlen($optionValue) == strlen(strip_tags($optionValue))) {
+            return false;
+        }
+        return true;
+    }
+}
