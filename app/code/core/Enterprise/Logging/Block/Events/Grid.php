@@ -47,6 +47,11 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->setRowClickCallback('importFileRowClick');
 	//$this->setRowInitCallback('importRowsInit');
         //$this->setCheckboxCheckCallback('registerFile');
+        $this->setColumnRenderers(
+            array(
+                'long2ip' => 'logging/events_grid_renderer_ip',
+                'eventlabel' => 'logging/events_grid_renderer_eventlabel'
+            ));
     }
 
 
@@ -76,13 +81,13 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->addColumn('ip', array(
             'header'    => 'IP',
             'index'     => 'ip',
-            'type'      => 'text',
+            'type'      => 'long2ip',
         ));
 
         $this->addColumn('event', array(
             'header'    => 'Event',
             'index'     => 'event_label',
-            'type'      => 'text',
+            'type'      => 'eventlabel',
             'sortable'  => false,
         ));
 

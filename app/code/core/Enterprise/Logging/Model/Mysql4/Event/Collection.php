@@ -10,15 +10,10 @@ class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_
           joinLeft('admin_user', 'main_table.user_id=admin_user.user_id');
         parent::load($printQuery, $logQuery);
         foreach($this->_items as &$item) {
-            $ip = long2ip($item->getIp());
-            if(!$item->getIpConverted()) {
-                $item->setIp($ip);
-                $item->setIpConverted(true);
-            }
             $node = Mage::getConfig()->getNode('enterprise/logging/events');
             $code = $item->getEventCode();
             foreach($node->children() as $child) {
-                if($code == $child->code) {
+                if($code == $child->getName()) {
                     $item->setEventLabel((string)$child->label);
                 }
             }

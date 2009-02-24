@@ -36,9 +36,6 @@
           <logging_mysql4>
             <class>Enterprise_Logging_Model_Mysql4</class>
             <entities>
-              <configuration>
-                <table>enterprise_logging_config</table>
-              </configuration>
               <user_log>
                 <table>enterprise_user_log</table>
               </user_log>
@@ -55,6 +52,9 @@
           </logging>
         </blocks>
         <helpers>
+          <logging>
+            <class>Enterprise_Logging_Helper</class>
+          </logging>
         </helpers>
         <resources>
             <logging_setup>
@@ -89,7 +89,7 @@
                     </enterprise_logging>
                 </observers>
             </on_product_view_after>
-
+            
             <on_admin_login_after>
                 <observers>
                     <enterprise_logging>
@@ -100,11 +100,31 @@
                 </observers>
             </on_admin_login_after>
 
+            <on_product_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnProductSave</method>
+                    </enterprise_logging>
+                </observers>
+            </on_product_save>
+
+            <on_product_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnProductDelete</method>
+                    </enterprise_logging>
+                </observers>
+            </on_product_delete>
+
         </events>
         <menu>
           <system>
             <children>
-              <logging translate="title">
+              <enterprise translate="title">
                  <title>Admin Logging</title>
                  <sort_order>21</sort_order>
                  <children>
@@ -113,16 +133,31 @@
                      <sort_order>10</sort_order>
                      <action>logging/events</action>
                    </logs>
-                   <configuration>
-                     <title>Configuration</title>
-                     <sort_order>20</sort_order>
-                     <action>logging/configuration</action>
-                   </configuration>
                  </children>
-              </logging>
+              </enterprise>
             </children>
           </system>
         </menu>
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <system>
+                  <children>
+                    <config>
+                      <children>
+                        <logging>
+                          <title>Enterprise</title>
+                        </logging>
+                      </children>
+                    </config>
+                  </children>
+                </system>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+
         <layout>
             <updates>
                 <events>
@@ -130,8 +165,8 @@
                 </events>
             </updates>
         </layout>
-
     </adminhtml>
+
     <enterprise>
       <logging>
         <events>
@@ -139,9 +174,17 @@
             <label>Products</label>
             <code>10</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+              <view>
+                <success>Product (sku=%s) viewed successfully</success>
+              </view>
+              <delete>
+                <success>Product (sku=%s) deleted successfully</success>
+                <fail>Product (sku=%s) was failed to delete</fail>
+              </delete>
+              <save>
+                <success>Product (sku=%s) saved successfully</success>
+                <fail>Product (sku=%s) was failed to save</fail>
+              </save>
             </actions>
           </products>
 
@@ -149,9 +192,21 @@
             <label>Categories</label>
             <code>20</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+              <view>
+                <success>"Category (%s) viewd successfully"</success>
+              </view>
+              <delete>
+                <success>"Category (%s) deleted successfully"</success>
+                <fail>"Category (%s) was failed to delete"</fail>
+              </delete>
+              <save>
+                <success>"Category (%s) saved successfully"</success>
+                <fail>"Category (%s) was failed to save"</fail>
+              </save>
+              <save>
+                <success>"Category (%s) moved successfully"</success>
+                <fail>"Category (%s) was failed to move"</fail>
+              </save>
             </actions>
           </categories>
 
@@ -159,9 +214,6 @@
             <label>Customers</label>
             <code>30</code>
             <actions>
-              <view />
-              <delete />
-              <save />
             </actions>
           </customers>
 
@@ -218,6 +270,7 @@
         </events>
       </logging>
     </enterprise>
+
     <admin>
         <routers>
             <logging>
@@ -230,6 +283,44 @@
                 </args>
             </logging>
         </routers>
+        <menu>
+          <system>
+            <children>
+              <logging translate="title">
+                 <title>Admin Logging</title>
+                 <sort_order>21</sort_order>
+                 <children>
+                   <logs translate="title">
+                     <title>Events</title>
+                     <sort_order>10</sort_order>
+                     <action>logging/events</action>
+                   </logs>
+                 </children>
+              </logging>
+            </children>
+          </system>
+        </menu>
+        <acl>
+          <resources>
+            <admin>
+                <system>
+                    <config>
+                        <logging />
+                    </config>
+                </system>
+            </admin>
+          </resources>
+        </acl>
+
     </admin>
 
+    <default>
+      <logging>
+        <enabled>
+          <products>1</products>
+          <categories>0</categories>
+          <adminlogin>1</adminlogin>
+        </enabled>
+      </logging>
+    </default>
 </config>
