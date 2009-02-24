@@ -109,26 +109,24 @@ class Enterprise_Logging_Model_Observer
     public function addEventAfterLogin($observer) 
     {
         $event = Mage::getModel('logging/event');
-        if(!$event->isActive('products'))
+        if(!$event->isActive('adminlogin'))
             return true;
 
         $id = $observer->getUserId();
         $action = 'login';
         
         $ip = $_SERVER['REMOTE_ADDR'];
-        $info = "";
-        if($id > 0) {
-            $info = sprintf("Successfully logged in, with login=%s, password=%s, uid=%s", $observer->getUsername(), $observer->getPassword(), $id);        
-        } else {
-            $info = sprintf("Failed to login, with login=%s, password=%s", $observer->getUsername(), $observer->getPassword());
-        }
+        $username = $observer->getUsername();
+        $success = ($id > 0);
+        $info = array($username);
 
         $event = Mage::getModel('logging/event');
-        $event->setIp(ip2long($ip));
+        $event->setIp($ip);
         $event->setUserId($id);
+        $event->setEventCode('adminlogin');
         $event->setAction($action);
+        $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setEvent('admin login');
         $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
         $event->save();
     }
