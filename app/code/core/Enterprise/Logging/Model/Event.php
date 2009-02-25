@@ -24,20 +24,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract 
+class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->_init('logging/event');
     }
 
-    public function isActive($code) 
+    public function isActive($code)
     {
         /**
          * Note that /default/logging/enabled/products - is an indicator if the products should be logged
          * but /enterprise/logging/event/products - is a node where event info stored.
          */
-        $node = Mage::getConfig()->getNode('default/logging/enabled/'.$code);        
+        $node = Mage::getConfig()->getNode('default/logging/enabled/'.$code);
         return ( (string)$node == '1' ? true : false);
     }
 
@@ -46,7 +46,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         $action = $this->getAction();
         $success = $this->getSuccess() ? 'success' : 'fail';
 
-        $node = Mage::getConfig()->getNode('enterprise/logging/events/'.$code.'/actions/'.$action.'/'.$success);        
+        $node = Mage::getConfig()->getNode('enterprise/logging/events/'.$code.'/actions/'.$action.'/'.$success);
         $string = (string)$node;
         if(is_array($info)) {
             $args = array_unshift($info, $string);
@@ -56,10 +56,10 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
                 Mage::throwException("Wrong parameters passed to event info. ".$string.";");
             }
         }
-        parent::setInfo($string);
+        //parent::setInfo($string);
     }
 
     public function setIp($ip) {
-        parent::setIp(ip2long($ip));
+        //parent::setIp(ip2long($ip));
     }
 }
