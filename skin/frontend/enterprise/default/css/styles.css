@@ -95,6 +95,7 @@ button.disabled span {}
 .form-list select { width:256px; }
 .form-list li.add-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.add-row .btn-remove { font-size:0; line-height:0; padding:5px 5px 0 0; text-align:right; }
+.form-list .range input.input-text { width:96px; }
 
 .group-select {}
 .group-select li { margin:0 0 5px; }
