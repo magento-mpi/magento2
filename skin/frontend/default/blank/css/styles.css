@@ -94,6 +94,7 @@ button.disabled span {}
 .form-list select { width:256px; }
 .form-list li.add-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.add-row .btn-remove { font-size:0; line-height:0; padding:5px 5px 0 0; text-align:right; }
+.form-list .range input.input-text { width:96px; }
 
 .group-select {}
 .group-select li { margin:0 0 5px; }
@@ -258,46 +259,37 @@ dd.even { background-color:#f6f6f6; }
 #nav { font-size:12px; border:1px solid #ddd; padding:5px 0; margin:10px 0; }
 
 /* All Levels */
-#nav li { position:relative; text-align:left; }
+#nav li { text-align:left; position:relative; }
 #nav li.over { z-index:999; }
-#nav a,
-#nav a:hover { display:block; line-height:1.3em; text-decoration:none; }
-#nav span { display:block; cursor:pointer; white-space:nowrap; }
-#nav li ul span { white-space:normal; }
-#nav li li.parent {}
-
-/* 0 Level */
-#nav li { float:left; }
-#nav li.active a { color:#2a2824; }
-#nav a { float:left; padding:5px 12px 6px 8px; color:#898885; font-weight:bold; }
-#nav li.over a,
-#nav a:hover { color:#2a2824; }
+#nav li.parent {}
+#nav li a { display:block; text-decoration:none; }
+#nav li a:hover { text-decoration:none; }
+#nav li a span { display:block; white-space:nowrap; cursor:pointer; }
+#nav li ul a span { white-space:normal; }
 
 /* 1st Level */
-#nav ul li,
-#nav ul li.active { float:none; margin:0; padding-bottom:1px; background:#ddd; }
-#nav ul li.over {}
-#nav ul li.last { background:#656461; padding-bottom:0; }
+#nav li { float:left; }
+#nav li a { float:left; padding:5px 10px; font-weight:bold; color:#888; }
+#nav li a:hover { color:#000; }
+#nav li.over a,
+#nav li.active a { color:#000; }
 
-#nav ul a,
-#nav ul a:hover { float:none; padding:0; background:none; }
-#nav ul li a { font-weight:normal !important; }
+/* 2nd Level */
+#nav ul { position:absolute; width:15em; top:25px; left:-10000px; border:1px solid #ddd; background:#fafafa; }
+#nav ul li { float:none; border-bottom:1px solid #ddd; }
+#nav ul li.last { border-bottom:0; }
+#nav ul li a { float:none; padding:3px 9px; font-weight:normal; color:#888 !important; }
+#nav ul li a:hover { color:#000 !important; }
+#nav ul li.active > a,
+#nav ul li.over > a  { font-weight:bold; color:#000 !important; }
 
-/* 2nd leven */
-#nav ul { position:absolute; width:15em; top:25px; left:-10000px; border:1px solid #ddd; }
-
-/* 3rd+ Level */
-#nav ul ul { top:5px; }
+/* 3rd+ leven */
+#nav ul ul { top:7px; }
 
 /* Show Menu */
 #nav li.over > ul { left:0; }
 #nav li.over > ul li.over > ul { left:100px; }
 #nav li.over ul ul { left:-10000px; }
-
-#nav ul li a { background:#f6f6f6; color:#898885; }
-#nav ul li a:hover { background:#ccc; color:#fff !important; }
-#nav ul span,
-#nav ul li.last li span { padding:3px 15px 4px 15px; }
 /********** Navigation > */
 /* ======================================================================================= */
 
