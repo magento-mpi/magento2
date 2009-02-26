@@ -32,7 +32,8 @@
  */
 ?>
 <?php if(count($this->getGroups())>1): ?>
-<fieldset class="store-switcher">
+<fieldset class="switcher-store">
+    <legend><?php echo $this->__('Select Store') ?>:</legend>
     <label for="select-store"><?php echo $this->__('Select Store') ?>:</label>
     <select id="select-store" onchange="location.href=this.value">
     <?php /*foreach ($this->getStores() as $_store): ?>

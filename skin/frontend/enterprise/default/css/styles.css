@@ -255,7 +255,7 @@ dd.even { background-color:#f6f6f6; }
 .header .welcome-msg { font-weight:bold; margin-bottom:3px; color:#333; }
 .header ul.links li a { color:#666; } 
 .header .switcher-language { display:inline; }
-.header .switcher-language label { font-weight:bold; }
+.header .switcher-language label { font-weight:bold; vertical-align:middle; }
 .header .switcher-language select { padding:0; margin-bottom:1px; }
 
 .header-panel { background:#fafafa; border-top:1px solid #e8e8e8; }
@@ -779,4 +779,8 @@ a.minimal-price-link .price { font-weight:normal; }
 .footer ul li { display:inline; }
 .footer ul li.last .separator { display:none; }
 .footer address { margin-top:6px; }
+
+.footer .switcher-store { float:right; }
+.footer .switcher-store label { font-weight:bold; vertical-align:middle; }
+.footer .switcher-store select { padding:0; margin-bottom:1px; }
 /* ======================================================================================= */
