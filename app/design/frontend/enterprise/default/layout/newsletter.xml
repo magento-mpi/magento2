@@ -54,9 +54,6 @@ Customer account pages, rendered for all tabs in dashboard
 
     <customer_account_index>
 
-        <reference name="right">
-            <action method="unsetChild"><name>right.newsletter</name></action>
-        </reference>
     </customer_account_index>
 
     <newsletter_manage_index>
