@@ -35,11 +35,12 @@
 .sp-methods select.month { display:inline; }
 
 /********** < Navigation styles */
+#nav { padding:0; }
 #nav li,
 #nav li a { zoom:1; }
 #nav li { vertical-align:top; }
 /* Show Menu */
-#nav li.over ul.shown-sub { left:0; }
+#nav li.over ul.shown-sub { left:-15px; }
 #nav li.over li ul.shown-sub { left:100px; }
 /********** < Navigation styles */
 
