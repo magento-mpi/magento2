@@ -26,22 +26,22 @@
 .page { width:950px; margin:0 auto; text-align:left; }
 .page-print { background:#fff; padding:20px; text-align:left; }
 .page-popup { padding:20px; text-align:left; }
-.main { margin:10px 0; }
+.main { margin:16px 0 14px; min-height:450px; }
 
 /* Base Columns */ 
-.col-left { float:left; width:195px; }
+.col-left { float:left; width:195px; padding:1px 0 0; }
 .col-main { float:left; width:736px; }
-.col-right { float:right; width:195px; }
+.col-right { float:right; width:195px; padding:1px 0 0; }
 
 /* 1 Column Layout */
-.col1-layout .col-main { float:none; width:auto; }
+.col1-layout .col-main { float:none; width:auto; padding:20px 20px; }
 
 /* 2 Columns Layout */
 .col2-left-layout .col-main { float:right; }
 .col2-right-layout .col-main {}
 
 /* 3 Columns Layout */
-.col3-layout .col-main { width:484px; margin-left:10px; }
+.col3-layout .col-main { width:534px; margin-left:13px; }
 
 /* Content Columns */
 .col2-set .col-1 { float:left; width:49%; }
@@ -114,10 +114,12 @@ button.disabled span {}
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; text-align:right; }
 
 /* Form Validation */
-.validation-advice { clear:both; min-height:13px; margin:3px 0 0; padding-left:17px; font-size:10px; line-height:13px; background:url(../images/validation_advice_bg.gif) 2px 1px no-repeat; color:#f00; }
-.validation-failed { border:1px dashed #f00 !important; background:#faebe7 !important; }
+.validation-advice { clear:both; min-height:13px; margin:3px 0 0; padding-left:17px; font-size:10px; line-height:13px; background:url(../images/validation_advice_bg.gif) 2px 1px no-repeat; color:#d91a00; }
+.validation-failed { border:1px solid #f47d4e !important; background:#fff7f5 !important; }
+input.input-text.validation-failed,
+textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
 .validation-passed {}
-.required { color:#f00; }
+.required { color:#d91a00; }
 p.required { font-size:10px; text-align:right; }
 /* Expiration date and CVV number validation fix */
 .v-fix { float:left; }
@@ -145,7 +147,8 @@ p.required { font-size:10px; text-align:right; }
 .breadcrumbs li { display:inline; }
 
 /* Page Heading */
-.page-title { border-bottom:1px solid #ddd; padding:0 0 5px; margin:0 0 10px; }
+.page-title { margin-bottom:20px; }
+.page-title h2 { font:normal 22px/1.15 Arial, Helvetica, sans-serif; color:#222; }
 .title-buttons { text-align:right; }
 .title-buttons h2,
 .title-buttons h3,
@@ -316,13 +319,16 @@ dd.even { background-color:#f6f6f6; }
 
 
 /* Sidebar =============================================================================== */
-.block { border:1px solid #ddd; margin:0 0 10px; }
-.block .block-title { border-bottom:1px solid #ddd; padding:0 10px; }
-.block .block-title h2 { font-size:16px; font-weight:bold; line-height:1.5; }
-.block h3 { font-size:14px; line-height:1.5; }
-.block .block-content { padding:10px; }
-.block .actions { text-align:right; }
-.block .actions a { float:left; }
+/* Genetal Block */
+.block { border:1px solid #ddd; margin-top:-1px; }
+.block .block-title { background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; }
+.block .block-title h2 { font-size:13px; font-weight:bold; line-height:1.25; background:url(../images/bkg_block-collapse.gif) 100% -86px no-repeat; padding:2px 21px 3px 9px; color:#555; cursor:pointer; }
+.block h3 { font-size:1em; }
+.block .block-content { border-top:1px solid #ddd; padding:11px 9px; color:#555; }
+.block .actions { margin:13px 0 0; }
+.block .actions a {}
+.sidebar .collapsed .block-title h2 { background-position:100% 7px; }
+.sidebar .collapsed .block-content { display:none; }
 
 /* Block: Account */
 .block-account {}
@@ -337,7 +343,6 @@ dd.even { background-color:#f6f6f6; }
 .block-layered-nav .currently {}
 
 /* Block: Cart */
-.block-cart {}
 .block-cart .amount {}
 .block-cart .subtotal { text-align:center; }
 
@@ -366,8 +371,8 @@ dd.even { background-color:#f6f6f6; }
 .block-recent {}
 
 /* Block: Poll */
-.block-poll {}
-.block-poll input.radio { float:left; margin:3px -18px 0 0; }
+.block-poll li { margin:5px 0; }
+.block-poll input.radio { float:left; margin:0 -18px 0 0; }
 .block-poll .label { display:block; margin-left:18px; }
 .block-poll .answer {}
 .block-poll .votes { font-weight:bold; }
@@ -386,8 +391,8 @@ dd.even { background-color:#f6f6f6; }
 .block-reorder .label { display:block; margin-left:20px; }
 
 /* Block: Banner */
-.block-banner {}
-.block-banner .block-content { text-align:center; }
+.block-banner { border:0; margin:10px 0; }
+.block-banner .block-content { border-top:0; padding:0; background:#cbcbcb; text-align:center; }
 
 /* Block: Checkout Progress */
 .block-progress {}

@@ -22,6 +22,7 @@
  */
  
 /* IE 6 only */
+.main { _height:450px; }
 .validation-advice { _height:13px; }
 .error-msg,
 .success-msg,
