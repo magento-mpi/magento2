@@ -24,31 +24,15 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="block block-subscribe">
-    <div class="block-title">
-        <h2><?php echo $this->__('Newsletter') ?><a name="newsletter-box"></a></h2>
-    </div>
+<div class="footer-panel">
     <form action="<?php echo $this->getUrl('newsletter/subscriber/new') ?>" method="post" id="newsletter-validate-detail">
-        <fieldset class="block-content">
-            <legend><?php echo $this->__('Newsletter') ?></legend>
-            <?php /*
-            <?php if( $message = $this->getErrorMessage() ): ?>
-                <p class="error"><?php echo $message ?></p>
-            <?php endif; ?>
-            <?php if( $message = $this->getSuccessMessage() ): ?>
-                <p class="success"><?php echo $message ?></p>
-            <?php endif; ?>
-            */ ?>
-            <label for="newsletter"><?php echo $this->__('Sign up for our newsletter:') ?></label>
-            <div class="input-box">
-               <input name="email" type="text" id="newsletter" class="input-text required-entry validate-email" />
-            </div>
-            <button type="submit" class="button"><span><?php echo $this->__('Subscribe') ?></span></button>
-        </fieldset>
+        <div class="form-subscribe">
+            <label for="newsletter"><?php echo $this->__('Sign up for our weekly newsletter:') ?></label>&nbsp;&nbsp;<input name="email" type="text" id="newsletter" value="Enter your email address" onclick="this.value=='Enter your email address'?this.value='':''" onblur="this.value==''?this.value='Enter your email address':''" class="input-text required-entry validate-email" />&nbsp;<button type="submit" class="button btn-small"><span><?php echo $this->__('Subscribe') ?></span></button>&nbsp;<small><?php echo $this->__('Don\'t worry - Your email is strictly for our store use only!'); ?></small>
+        </div>
     </form>
-<script type="text/javascript">
-//<![CDATA[
-    var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
-//]]>
-</script>
+	<script type="text/javascript">
+    //<![CDATA[
+        var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+    //]]>
+    </script>
 </div>

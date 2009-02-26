@@ -24,6 +24,10 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->getChildHtml() ?>
-<?php /*<p><?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" onclick="this.target='_blank'"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?></p>*/ ?>
-<address><?php echo $this->getCopyright() ?></address>
+<?php echo $this->getChildHtml('newsletter') ?>
+<div class="footer">
+	<?php echo $this->getChildHtml('cms_footer_links') ?>
+    <?php echo $this->getChildHtml('footer_links') ?>
+    <?php /*<p><?php echo $this->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" onclick="this.target='_blank'"><strong><?php echo $this->__('Report All Bugs') ?></strong></a> <?php echo $this->__('(ver. %s)', Mage::getVersion()) ?></p>*/ ?>
+    <address><?php echo $this->getCopyright() ?></address>
+</div>
