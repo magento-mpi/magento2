@@ -45,16 +45,16 @@
 
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
-button.button { background-position:0 0; }
-button.button span {background-position:100% 0; position:relative; }
-button.button,
-button.button span { height:21px; }
+button.button span { position:relative; }
+button.button { height:23px; _overflow-y:hidden; }
+button.btn-small { height:17px; }
 
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
 /* Clears and hasLayout fixes */
 .header,
+.header-container .panel,
 #nav,
 .main,
 .footer,
