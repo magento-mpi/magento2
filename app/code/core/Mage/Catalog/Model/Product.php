@@ -91,8 +91,20 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_urlModel = Mage::getSingleton('catalog/product_url');
         $this->_init('catalog/product');
+    }
+
+    /**
+     * Get product url model
+     *
+     * @return Mage_Catalog_Model_Product_Url
+     */
+    public function getUrlModel()
+    {
+        if ($this->_urlModel === null) {
+            $this->_urlModel = Mage::getSingleton('catalog/product_url');
+        }
+        return $this;
     }
 
     /**
@@ -106,6 +118,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this;
     }
 
+    /**
+     * Get product name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->_getData('name');
@@ -121,11 +138,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getPriceModel()->getPrice($this);
     }
 
+    /**
+     * Get product type identifier
+     *
+     * @return int
+     */
     public function getTypeId()
     {
         return $this->_getData('type_id');
     }
 
+    /**
+     * Get product status
+     *
+     * @return int
+     */
     public function getStatus()
     {
         return $this->_getData('status');
@@ -281,6 +308,11 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getData('website_ids');
     }
 
+    /**
+     * Get all sore ids where product is presented
+     *
+     * @return array
+     */
     public function getStoreIds()
     {
         if (!$this->hasStoreIds()) {
@@ -324,7 +356,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     /**
      * Check product options and type options and save them, too
-     *
      */
     protected function _beforeSave()
     {
@@ -339,7 +370,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         /**
          * $this->_canAffectOptions - set by type instance only
-         * $this->getCanSaveCustomOptions() - set either in controller when "Custom Options" ajax tab is loaded, or in type instance as well
+         * $this->getCanSaveCustomOptions() - set either in controller when "Custom Options" ajax tab is loaded,
+         * or in type instance as well
          */
         $this->canAffectOptions($this->_canAffectOptions && $this->getCanSaveCustomOptions());
         if ($this->getCanSaveCustomOptions()) {
@@ -384,8 +416,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * Check/set if options can be affected when saving product
      * If value specified, it will be set.
      *
-     * @param bool $value
-     * @return bool
+     * @param   bool $value
+     * @return  bool
      */
     public function canAffectOptions($value = null)
     {
@@ -398,7 +430,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Saving product type related data
      *
-     * @return unknown
+     * @return Mage_Catalog_Model_Product
      */
     protected function _afterSave()
     {
@@ -406,21 +438,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getTypeInstance(true)->save($this);
 
         /**
-         * Product Custom Options
+         * Product Options
          */
-        /* @var $optionModel Mage_Catalog_Model_Product_Option */
-//        $options = $this->getProductOptions();
-//        if (is_array($options)) {
-//            foreach ($this->getProductOptions() as $option) {
-//                $this->getOptionInstance()->addOption($option);
-//            }
-//        }
         $this->getOptionInstance()->setProduct($this)
             ->saveOptions();
 
         parent::_afterSave();
     }
 
+    /**
+     * Clear chache related with product and protect delete from not admin
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     protected function _beforeDelete()
     {
         $this->cleanCache();
@@ -429,30 +459,41 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * deprecated
-     * @see Mage_Sales_Model_Observer::substractQtyFromQuotes()
+     * Load product options if they exists
+     *
+     * @return Mage_Catalog_Model_Product
      */
-    protected function _substractQtyFromQuotes()
-    {
-        // kept for legacy purposes
-    }
-
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        foreach ($this->getProductOptionsCollection() as $option) {
-            $option->setProduct($this);
-            $this->addOption($option);
+        /**
+         * Load product options
+         */
+        if ($this->getHasOptions()) {
+            foreach ($this->getProductOptionsCollection() as $option) {
+                $option->setProduct($this);
+                $this->addOption($option);
+            }
         }
-
         return $this;
     }
 
+    /**
+     * Clear cache related with product id
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function cleanCache()
     {
         Mage::app()->cleanCache('catalog_product_'.$this->getId());
+        return $this;
     }
 
+    /**
+     * Get product price model
+     *
+     * @return Mage_Catalog_Model_Product_Type_Price
+     */
     public function getPriceModel()
     {
         return Mage::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
@@ -508,6 +549,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getFinalPrice($qty=null)
     {
+        $price = $this->_getData('final_price');
+        if ($price !== null) {
+            return $price;
+        }
         return $this->getPriceModel()->getFinalPrice($qty, $this);
     }
 
@@ -1047,12 +1092,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getProductUrl($useSid = true)
     {
-        return $this->_urlModel->getProductUrl($this, $useSid);
+        return $this->getUrlModel()->getProductUrl($this, $useSid);
     }
 
     public function formatUrlKey($str)
     {
-        return $this->_urlModel->formatUrlKey($str);
+        return $this->getUrlModel()->formatUrlKey($str);
     }
 
     /**
@@ -1063,7 +1108,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getUrlPath($category=null)
     {
-        return $this->_urlModel->getUrlPath($this, $category);
+        return $this->getUrlModel()->getUrlPath($this, $category);
     }
 
     public function addAttributeUpdate($code, $value, $store)
@@ -1416,5 +1461,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * @deprecated
+     * @see Mage_Sales_Model_Observer::substractQtyFromQuotes()
+     */
+    protected function _substractQtyFromQuotes()
+    {
+        // kept for legacy purposes
     }
 }

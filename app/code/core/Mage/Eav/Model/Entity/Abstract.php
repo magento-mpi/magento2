@@ -392,13 +392,11 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         $this->_attributesByCode[$attributeCode] = $attribute;
 
-        if ($attribute->getBackend()->isStatic()) {
+        if ($attribute->isStatic()) {
             $this->_staticAttributes[$attributeCode] = $attribute;
         } else {
             $this->_attributesById[$attribute->getId()] = $attribute;
-
-            $attributeTable = $attribute->getBackend()->getTable();
-            $this->_attributesByTable[$attributeTable][$attributeCode] = $attribute;
+            $this->_attributesByTable[$attribute->getBackendTable()][$attributeCode] = $attribute;
         }
         return $this;
     }
@@ -751,6 +749,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function load($object, $entityId, $attributes=array())
     {
+        Varien_Profiler::start('__EAV_LOAD_MODEL__');
         /**
          * Load object base row data
          */
@@ -772,6 +771,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
         /**
          * Load data for entity attributes
          */
+        Varien_Profiler::start('__EAV_LOAD_MODEL_ATTRIBUTES__');
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
             $select = $this->_getLoadAttributesSelect($object, $table);
             $values = $this->_getReadAdapter()->fetchAll($select);
@@ -780,9 +780,14 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 $this->_setAttribteValue($object, $valueRow);
             }
         }
+        Varien_Profiler::stop('__EAV_LOAD_MODEL_ATTRIBUTES__');
 
         $object->setOrigData();
+        Varien_Profiler::start('__EAV_LOAD_MODEL_AFTER_LOAD__');
         $this->_afterLoad($object);
+        Varien_Profiler::stop('__EAV_LOAD_MODEL_AFTER_LOAD__');
+
+        Varien_Profiler::stop('__EAV_LOAD_MODEL__');
         return $this;
     }
 
@@ -1303,6 +1308,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _afterSetConfig()
     {
+        Varien_Profiler::start(__METHOD__);
+
         //return;
         $defaultAttributes = $this->_getDefaultAttributes();
         $defaultAttributes[] = $this->getEntityIdField();
@@ -1318,6 +1325,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 $this->addAttribute($attribute);
             }
         }
+        Varien_Profiler::stop(__METHOD__);
     }
 
 }

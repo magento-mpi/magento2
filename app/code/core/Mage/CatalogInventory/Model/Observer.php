@@ -56,9 +56,28 @@ class Mage_CatalogInventory_Model_Observer
         return $this;
     }
 
-    public function addInventoryDataToCollection($observer)
+    /**
+     * Add information about producs stock status to collection
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function addStockStatusToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
+        Mage::getModel('cataloginventory/stock_status')->addStockStatusToProducts($productCollection);
+        return $this;
+    }
+
+    /**
+     * Add Stock items to product collection
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_CatalogInventory_Model_Observer
+     */
+    public function addInventoryDataToCollection($observer)
+    {
+        $productCollection = $observer->getEvent()->getProductCollection();
         Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
         return $this;
     }

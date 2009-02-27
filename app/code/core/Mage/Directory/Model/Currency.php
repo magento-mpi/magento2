@@ -155,7 +155,9 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 
     public function formatTxt($price, $options=array())
     {
-        $price = Mage::app()->getLocale()->getNumber($price);
+        if (!is_numeric($price)) {
+            $price = Mage::app()->getLocale()->getNumber($price);
+        }
         /**
          * Fix problem with 12 000 000, 1 200 000
          */

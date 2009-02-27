@@ -44,20 +44,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_addTaxPercents = false;
     protected $_categoryIndexJoined = false;
 
-    public function __construct($resource=null)
-    {
-        /**
-         * Preload attributes for EAV optimization
-         */
-        $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-        $attributes = array_merge($attributes, array(
-            'tax_class_id', 'tier_price'
-        ));
-
-        Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $attributes);
-        parent::__construct($resource);
-    }
-
     /**
      * Initialize resources
      */
@@ -91,9 +77,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addAttributeToSelect($attribute, $joinType=false)
     {
-        if (is_array($attribute)) {
-            Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $attribute);
-        }
+//        if (is_array($attribute)) {
+//            Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $attribute);
+//        }
         return parent::addAttributeToSelect($attribute, $joinType);
     }
 
@@ -107,10 +93,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->_addFinalPrice) {
             $this->_joinPriceRules();
         }
-        $this->addAttributeToSelect('tax_class_id');
-
         Mage::dispatchEvent('catalog_product_collection_load_before', array('collection'=>$this));
-
         return parent::_beforeLoad();
     }
 
@@ -131,10 +114,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->_addFinalPrice) {
            $this->_addFinalPrice();
         }
-        if ($this->_addTaxPercents) {
-            $this->_addTaxPercents();
-        }
-
         if (count($this)>0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         }
@@ -658,8 +637,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $wId = Mage::app()->getWebsite()->getId();
         $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $storeDate = Mage::app()->getLocale()->storeDate($this->getStoreId());
 
+        $storeDate = Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
         $conditions  = "_price_rule.product_id = e.entity_id AND ";
         $conditions .= "_price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
         $conditions .= "_price_rule.website_id = '{$wId}' AND ";
@@ -725,14 +704,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
     }
 
-    public function addTaxPercents(){
+    /**
+     * Add requere tax percent flag for product collection
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addTaxPercents()
+    {
         $this->_addTaxPercents = true;
-        $this->addAttributeToSelect('tax_class_id');
-
         return $this;
     }
 
-    protected function _addTaxPercents(){
+    /**
+     * Get require tax percent flag value
+     *
+     * @return bool
+     */
+    public function requireTaxPercent()
+    {
+        return $this->_addTaxPercents;
+    }
+
+    /**
+     * @deprecated from 1.3.0
+     */
+    protected function _addTaxPercents()
+    {
         $classToRate = array();
         $request = Mage::getSingleton('tax/calculation')->getRateRequest();
         foreach ($this as &$item) {
@@ -852,7 +849,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
-/**
+    /**
      * Add attribute to sort order
      *
      * @param string $attribute
@@ -861,11 +858,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addAttributeToSort($attribute, $dir='asc')
     {
-        $attrInstance = $this->getEntity()->getAttribute($attribute);
-        if ($attrInstance && $attrInstance->usesSource()) {
-            $attrInstance->getSource()
-                ->addValueSortToCollection($this, $dir);
-            return $this;
+        if ($attribute !== 'position') {
+            $attrInstance = $this->getEntity()->getAttribute($attribute);
+            if ($attrInstance && $attrInstance->usesSource()) {
+                $attrInstance->getSource()
+                    ->addValueSortToCollection($this, $dir);
+                return $this;
+            }
         }
 
         return parent::addAttributeToSort($attribute, $dir);

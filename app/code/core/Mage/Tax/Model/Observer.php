@@ -120,4 +120,35 @@ class Mage_Tax_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Add tax percent values to product collection items
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Mage_Tax_Model_Observer
+     */
+    public function addTaxPercentToProductCollection($observer)
+    {
+        $helper = Mage::helper('tax');
+        if (!$helper->needPriceConversion()) {
+            return $this;
+        }
+
+        $collection = $observer->getEvent()->getCollection();
+        if ($collection->requireTaxPercent()) {
+            $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+            foreach ($collection as $item) {
+                if (null === $item->getTaxClassId()) {
+                    $item->setTaxClassId($item->getMinimalTaxClassId());
+                }
+                if (!isset($classToRate[$item->getTaxClassId()])) {
+                    $request->setProductClassId($item->getTaxClassId());
+                    $classToRate[$item->getTaxClassId()] = Mage::getSingleton('tax/calculation')->getRate($request);
+                }
+                $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
+            }
+
+        }
+        return $this;
+    }
 }

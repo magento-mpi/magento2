@@ -479,8 +479,24 @@ class Mage_Core_Model_Locale
                 ->setMinute(0)
                 ->setSecond(0);
         }
-//        $date->getTimezone();
         return $date;
+    }
+
+    /**
+     * Get store timestamp
+     * Timstamp will be builded with store timezone settings
+     *
+     * @param   mixed $store
+     * @return  int
+     */
+    public function storeTimeStamp($store=null)
+    {
+        $timezone = Mage::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        $currentTimezone = @date_default_timezone_get();
+        @date_default_timezone_set($timezone);
+        $date = date('Y-m-d H:i:s');
+        @date_default_timezone_set($currentTimezone);
+        return strtotime($date);
     }
 
     /**
