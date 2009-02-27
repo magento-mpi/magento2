@@ -103,6 +103,7 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
             if ($shipment = Mage::getModel('sales/order_shipment')->load($shipmentId)) {
                 if ($shipment->getStoreId()) {
                     Mage::app()->setCurrentStore($shipment->getStoreId());
+                    Mage::app()->getLocale()->emulate($shipment->getStoreId());
                 }
                 $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf(array($shipment));
                 $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
