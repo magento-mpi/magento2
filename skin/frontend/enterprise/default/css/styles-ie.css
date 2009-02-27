@@ -51,13 +51,16 @@ button.button span { position:relative; }
 button.button { height:23px; _overflow-y:hidden; }
 button.btn-small { height:17px; }
 
+.header-panel .form-search,
+.footer-panel { padding-top:3px; }
+
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
 /* Clears and hasLayout fixes */
 .block-cart .block-content .item,
 .header,
-.header-container .panel,
+.header-panel,
 #nav,
 .main,
 .footer-panel,

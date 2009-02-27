@@ -261,8 +261,8 @@ dd.even { background-color:#f6f6f6; }
 .header .switcher-language label { font-weight:bold; vertical-align:middle; }
 .header .switcher-language select { padding:0; margin-bottom:1px; }
 
-.header-panel { background:#fafafa; border-top:1px solid #e8e8e8; }
-.header-panel .form-search { padding:5px 10px 5px; float:left; }
+.header-panel { background:#fafafa; border-top:1px solid #e8e8e8; height:27px; }
+.header-panel .form-search { padding:5px 10px 0; float:left; }
 .header-panel .form-search label { font-weight:bold; text-transform:uppercase; vertical-align:middle; color:#111; }
 .header-panel .form-search input.input-text { width:192px; padding:0 2px; }
 .header-panel .form-search button.button { margin:0 2px; }
@@ -323,7 +323,7 @@ dd.even { background-color:#f6f6f6; }
 .block { border:1px solid #ddd; margin-top:-1px; }
 .block .block-title { background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; }
 .block .block-title h2 { font:bold 13px/1.25 Arial, Helvetica, sans-serif; background:url(../images/bkg_block-collapse.gif) 100% -86px no-repeat; padding:2px 21px 3px 9px; color:#555; cursor:pointer; }
-.block h3 { font-size:1em; }
+.block h3 { font-size:1em; font-weight:bold; color:#555; }
 .block .block-content { border-top:1px solid #ddd; padding:11px 9px; color:#555; }
 .block .actions { margin:13px 0 0; }
 .block .actions a {}
