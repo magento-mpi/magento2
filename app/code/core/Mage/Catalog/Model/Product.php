@@ -104,7 +104,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if ($this->_urlModel === null) {
             $this->_urlModel = Mage::getSingleton('catalog/product_url');
         }
-        return $this;
+        return $this->_urlModel;
     }
 
     /**
