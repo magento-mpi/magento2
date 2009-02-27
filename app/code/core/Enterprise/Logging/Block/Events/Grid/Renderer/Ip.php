@@ -25,6 +25,14 @@
  */
 class Enterprise_Logging_Block_Events_Grid_Renderer_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * replacing ip from long to 4-digits value.
+     *
+     * @param Varien_Object row   row with 'ip' item
+     *
+     * @return string - replaced ip value.
+     */
+
     public function render(Varien_Object $row)
     {
     	return long2ip($row->getData($this->getColumn()->getIndex()));

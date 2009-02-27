@@ -27,6 +27,9 @@
  */
 class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -37,16 +40,9 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
 
-        /*
-        $this->setSaveParametersInSession(true);
-        $this->setUseAjax(true);
-        */
-
         $this->setTemplate('enterprise/logging/events/grid.phtml');
 
         $this->setRowClickCallback('importFileRowClick');
-	//$this->setRowInitCallback('importRowsInit');
-        //$this->setCheckboxCheckCallback('registerFile');
         $this->setColumnRenderers(
             array(
                 'long2ip' => 'logging/events_grid_renderer_ip',
@@ -54,6 +50,9 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             ));
     }
 
+    /**
+     * PrepareCollection method.
+     */
 
     protected function _prepareCollection()
     {
@@ -62,6 +61,9 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         return parent::_prepareCollection();
     }
 
+    /**
+     * Return grids url
+     */
     public function getGridUrl()
     {
         return $this->getUrl('logging/events/grid', array('_current'=>true));
@@ -86,7 +88,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
 
         $this->addColumn('event', array(
             'header'    => 'Event',
-            'index'     => 'event_label',
+            'index'     => 'event_code',
             'type'      => 'eventlabel',
             'sortable'  => false,
         ));

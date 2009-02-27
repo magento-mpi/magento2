@@ -24,6 +24,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Enterprise_Logging Observer class. 
+ * It processes all events storing, by handling an actions from core.
+ * 
+ * Typical procedure is next:
+ * 1) Check if event dispatching enabled in system config, by calling model->isActive('event-name')
+ * 2) Get data from observer object 
+ * 3) Get IP and user_id
+ * 4) Get success
+ * 5) Set data to event. Note that 'info' must be after event_code, action, success. Those data are neccessary for retrieve info pattern
+ *
+ */
+
 class Enterprise_Logging_Model_Observer
 {
     /**
@@ -59,6 +72,12 @@ class Enterprise_Logging_Model_Observer
         $event->save();
     }
 
+    /**
+     * Store event on product save (catalog_product/edit/id)
+     *
+     * @param Varien_Object $observer  expected product variable setted
+     *
+     */
     public function addEventOnProductSave($observer)
     {
         $event = Mage::getModel('logging/event');
@@ -82,6 +101,12 @@ class Enterprise_Logging_Model_Observer
         $event->save();
     }
 
+    /**
+     * Store event on product view (catalog_product/edit/id)
+     *
+     * @param Varien_Object $observer  expected product variable setted
+     *
+     */
     public function addEventOnProductDelete($observer)
     {
         $event = Mage::getModel('logging/event');
@@ -105,7 +130,12 @@ class Enterprise_Logging_Model_Observer
         $event->save();
     }
 
-
+    /**
+     * Store event after login. Event throwed by Admin/Model/User
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
     public function addEventAfterLogin($observer) 
     {
         $event = Mage::getModel('logging/event');
@@ -130,4 +160,61 @@ class Enterprise_Logging_Model_Observer
         $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
         $event->save();
     }
+
+    /**
+     * Store event on category save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCategorySave($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('categories'))
+            return true;
+        $action = 'save';
+
+	    
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();        
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = ($obsrever->getStatus() == 'success' ? 1 : 0);
+	$category = $observer->getCategory();
+        $info = array($category->getName());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('categories');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    public function addEventOnCategoryView($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('categories'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+	$category = $observer->getCategory();
+        $info = array($category->getName());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('categories');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+
 }

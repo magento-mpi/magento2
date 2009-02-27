@@ -25,6 +25,15 @@
  */
 class Enterprise_Logging_Block_Events_Grid_Renderer_Eventlabel extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+
+     /**
+     * Replacing event_code by event_label from config
+     *
+     * @param Varien_Object row   row with 'event_code' item
+     *
+     * @return string - replaced ip value.
+     */
+
     public function render(Varien_Object $row)
     {
         $code = $row->getData($this->getColumn()->getIndex());

@@ -80,6 +80,27 @@
     </global>
     <adminhtml>
         <events>
+	    <on_save_category>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCategorySave</method>
+                    </enterprise_logging>
+                </observers>
+	    </on_save_category>
+
+	    <on_view_category>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCategoryView</method>
+                    </enterprise_logging>
+                </observers>
+	    </on_view_category>
+
+
             <on_product_view_after>
                 <observers>
                     <enterprise_logging>
@@ -119,7 +140,6 @@
                     </enterprise_logging>
                 </observers>
             </on_product_delete>
-
         </events>
         <menu>
           <system>
@@ -241,9 +261,9 @@
             <label>Admin Login</label>
             <code>60</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+	      <login>
+		<success>User %s successfully logged in</success>
+	      </login>
             </actions>
           </adminlogin>
 

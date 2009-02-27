@@ -26,11 +26,18 @@
 
 class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
 {
+    /** 
+     * Constructor
+     */
     public function __construct()
     {
         $this->_init('logging/event');
     }
 
+
+    /**
+     * Filter for active flag
+     */
     public function isActive($code)
     {
         /**
@@ -41,11 +48,21 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         return ( (string)$node == '1' ? true : false);
     }
 
-    public function setInfo($info) {
+    /**
+     * Filter for info
+     *
+     * Takes an array of paramaters required to build info message. Message is stored in config, in 
+     * path like: enterprise/logging/events/products/actions/success, in sprintf format.
+     * Assumed, that parameters in info, follows in order they are required in pattern string
+     *
+     * @param array info
+     * @return null
+     */
+    public function setInfo($info) 
+    {
         $code = $this->getEventCode();
         $action = $this->getAction();
         $success = $this->getSuccess() ? 'success' : 'fail';
-
         $node = Mage::getConfig()->getNode('enterprise/logging/events/'.$code.'/actions/'.$action.'/'.$success);
         $string = (string)$node;
         if(is_array($info)) {
@@ -56,10 +73,14 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
                 Mage::throwException("Wrong parameters passed to event info. ".$string.";");
             }
         }
-        //parent::setInfo($string);
+        parent::setInfo($string);
     }
 
-    public function setIp($ip) {
-        //parent::setIp(ip2long($ip));
+    /**
+     * Simple filter for ip
+     */
+    public function setIp($ip) 
+    {
+        parent::setIp(ip2long($ip));
     }
 }
