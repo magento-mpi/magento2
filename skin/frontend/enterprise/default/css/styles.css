@@ -26,7 +26,7 @@
 .page { width:950px; margin:0 auto; text-align:left; }
 .page-print { background:#fff; padding:20px; text-align:left; }
 .page-popup { padding:20px; text-align:left; }
-.main { margin:16px 0 14px; min-height:450px; }
+.main { margin:16px 0 14px; min-height:500px; }
 
 /* Base Columns */ 
 .col-left { float:left; width:195px; padding:1px 0 0; }
@@ -74,8 +74,8 @@ input.checkbox { margin-right:3px; }
 input.qty { width:2.5em !important; }
 button.button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
 button.button { overflow:visible; width:auto; border:0; background:none; cursor:pointer; -webkit-border-fit:lines; /* <- Safari & Google Chrome Fix */ }
-button.button span { float:left; padding:0 10px; border:1px solid #b1b1b1; background:url(../images/bkg_button.gif) 0 100% repeat-x; font:bold 12px/21px Arial, Helvetica, sans-serif; text-align:center; text-transform:uppercase; white-space:nowrap; color:#444; }
-button.btn-small span { font-size:11px; line-height:15px; }
+button.button span { float:left; padding:0 13px; border:1px solid #b1b1b1; background:url(../images/bkg_button.gif) 0 100% repeat-x; font:bold 12px/21px Arial, Helvetica, sans-serif; text-align:center; text-transform:uppercase; white-space:nowrap; color:#444; }
+button.btn-small span { font-size:11px; line-height:15px; padding:0 9px; }
 button.disabled {}
 button.disabled span {}
 /* Input & Textarea stretched for 100% */
@@ -107,9 +107,9 @@ button.disabled span {}
 .group-select .input-box textarea { width:250px; }
 .group-select .input-box select { width:256px; }
 
-.buttons-set { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; }
-.buttons-set .back-link { float:left; }
-.buttons-set button.button { float:right; }
+.buttons-set { clear:both; margin:15px 0 0; }
+/*.buttons-set .back-link { float:left; }
+.buttons-set button.button { float:right; }*/
 
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; text-align:right; }
 
@@ -119,8 +119,8 @@ button.disabled span {}
 input.input-text.validation-failed,
 textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
 .validation-passed {}
-.required { color:#d91a00; }
-p.required { font-size:10px; text-align:right; }
+.required { color:#f15c22; }
+p.required { font-size:10px; text-align:right; color:#f02800; }
 /* Expiration date and CVV number validation fix */
 .v-fix { float:left; }
 .v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
@@ -322,7 +322,7 @@ dd.even { background-color:#f6f6f6; }
 /* Genetal Block */
 .block { border:1px solid #ddd; margin-top:-1px; }
 .block .block-title { background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; }
-.block .block-title h2 { font-size:13px; font-weight:bold; line-height:1.25; background:url(../images/bkg_block-collapse.gif) 100% -86px no-repeat; padding:2px 21px 3px 9px; color:#555; cursor:pointer; }
+.block .block-title h2 { font:bold 13px/1.25 Arial, Helvetica, sans-serif; background:url(../images/bkg_block-collapse.gif) 100% -86px no-repeat; padding:2px 21px 3px 9px; color:#555; cursor:pointer; }
 .block h3 { font-size:1em; }
 .block .block-content { border-top:1px solid #ddd; padding:11px 9px; color:#555; }
 .block .actions { margin:13px 0 0; }
@@ -721,9 +721,11 @@ a.minimal-price-link .price { font-weight:normal; }
 
 
 /* Account Login/Create Pages ============================================================ */
-.account-login {}
-.account-login .new-users {}
-.account-login .registered-users {}
+.account-login { position:relative; }
+.account-login .col2-set { overflow:hidden; border-bottom:1px solid #e2e2e2; }
+.account-login .new-users,
+.account-login .registered-users { width:381px; padding:30px 32px 1000px; margin-bottom:-970px; border:1px solid #e2e2e2; border-bottom:0; background:#fdfdfd url(../images/btn_google_checkout.gif) 0 100% no-repeat; }
+.account-login .spacer { position:absolute; top:100%; left:447px; margin-top:-1px; width:16px; height:3px; font-size:0; line-height:0; background:#fff; overflow:hidden; }
 
 .account-create {}
 /* Account Login/Create Pages ============================================================ */

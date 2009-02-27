@@ -39,14 +39,11 @@
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <fieldset>
             <legend>Login or Create an Account</legend>
+            <div class="spacer"></div>
             <div class="col2-set">
-                <div class="col-1 new-users">
-                    <h3><?php echo $this->__('New Customers') ?></h3>
-                    <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
-                </div>
-                <div class="col-2 registered-users">
+                <div class="col-1 registered-users">
                     <h3><?php echo $this->__('Registered Customers') ?></h3>
-                    <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
+                    <p><?php echo $this->__('If you have an account with us, log in using your email address.') ?></p>
                     <ul class="form-list">
                         <li>
                             <label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
@@ -58,18 +55,16 @@
                         </li>
                     </ul>
                     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-                </div>
-            </div>
-            <div class="col2-set">
-                <div class="col-1">
-                    <div class="buttons-set">
-                        <button type="button" class="button" onclick="window.location='<?php echo $this->getCreateAccountUrl() ?>';"><span><?php echo $this->__('Create an Account') ?></span></button>
-                    </div>
-                </div>
-                <div class="col-2">
                     <div class="buttons-set">
                         <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
                         <button class="button" type="submit" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button>
+                    </div>
+                </div>
+                <div class="col-2 new-users">
+                    <h3><?php echo $this->__('New Customers') ?></h3>
+                    <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
+                    <div class="buttons-set">
+                        <button type="button" class="button" onclick="window.location='<?php echo $this->getCreateAccountUrl() ?>';"><span><?php echo $this->__('Register') ?></span></button>
                     </div>
                 </div>
             </div>
