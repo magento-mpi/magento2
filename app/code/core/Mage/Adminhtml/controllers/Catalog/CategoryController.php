@@ -131,7 +131,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (!($category = $this->_initCategory(true))) {
             return;
         }
-
+	Mage::dispatchEvent('on_view_category', array('category' => $category));
         /**
          * Check if we have data in session (if duering category save was exceprion)
          */
@@ -269,11 +269,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
                 $refreshTree = 'true';
+		Mage::dispatchEvent('on_save_category', array('status' => 'success', 'category' => $category));
             }
             catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())
                     ->setCategoryData($data);
                 $refreshTree = 'false';
+		Mage::dispatchEvent('on_save_category', array('status' => 'fail', 'category' => $category));
             }
         }
         $url = $this->getUrl('*/*/edit', array('_current' => true, 'id' => $category->getId()));

@@ -547,6 +547,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     }
                 }
                 $this->_getSession()->addSuccess($this->__('Product was successfully saved.'));
+		Mage::dispatchEvent('on_product_save', array('product' => $product));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
