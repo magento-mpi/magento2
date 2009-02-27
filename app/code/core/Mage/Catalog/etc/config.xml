@@ -186,7 +186,7 @@
                     <category_flat>
                         <table>catalog_category_flat</table>
                     </category_flat>
-                    
+
                     <product_flat>
                         <table>catalog_product_flat</table>
                     </product_flat>
@@ -573,6 +573,15 @@
                     </catalog>
                 </observers>
             </customer_login>
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <catalog>
+                        <type>model</type>
+                        <class>catalog/product_option_observer</class>
+                        <method>copyQuoteFilesToOrderFiles</method>
+                    </catalog>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
         </events>
         <translate>
             <modules>

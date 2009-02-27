@@ -76,8 +76,9 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             ->createBlock('core/html_date')
             ->setId('options_'.$this->getOption()->getId().'_date')
             ->setName('options['.$this->getOption()->getId().'][date]')
-            ->setClass('input-text'.$require)
+            ->setClass('product-custom-option datetime-picker input-text'.$require)
             ->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'))
+            ->setExtraParams('onchange="opConfig.reloadPrice()"')
             ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
 
         return $calendar->getHtml();
@@ -167,8 +168,8 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
     {
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
-            ->setClass($this->getOption()->getIsRequire() ? ' required-entry' : '')
-            ->setExtraParams('style="width:auto;"')
+            ->setClass('product-custom-option datetime-picker'.($this->getOption()->getIsRequire() ? ' required-entry' : ''))
+            ->setExtraParams('style="width:auto;" onchange="opConfig.reloadPrice()"')
             ->setName('options[' . $this->getOption()->getId() . '][' . $name . ']');
         if (!is_null($value)) {
             $select->setValue($value);

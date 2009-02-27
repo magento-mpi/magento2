@@ -47,9 +47,16 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
         // Set option value from request (Admin/Front reorders)
         if (isset($values[$option->getId()]) && is_array($values[$option->getId()])) {
-            $ok = isset($values[$option->getId()]['path']) && isset($values[$option->getId()]['size'])
-                && is_file($values[$option->getId()]['path']) && is_readable($values[$option->getId()]['path'])
-                && filesize($values[$option->getId()]['path']) == $values[$option->getId()]['size'];
+            if (isset($values[$option->getId()]['order_path'])) {
+                $orderFileFullPath = Mage::getBaseDir() . $values[$option->getId()]['order_path'];
+            } else {
+                $this->setUserValue(null);
+                return $this;
+            }
+
+            $ok = is_file($orderFileFullPath) && is_readable($orderFileFullPath)
+                && isset($values[$option->getId()]['secret_key'])
+                && substr(md5(file_get_contents($orderFileFullPath)), 0, 20) == $values[$option->getId()]['secret_key'];
 
             $this->setUserValue($ok ? $values[$option->getId()] : null);
             return $this;
@@ -65,7 +72,6 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $file = 'options_' . $option->getId() . '_file';
 
         try {
-
             $runValidation = $option->getIsRequire() || $upload->isUploaded($file);
             if (!$runValidation) {
                 $this->setUserValue(null);
@@ -79,9 +85,6 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $this->setIsValid(false);
             Mage::throwException(Mage::helper('catalog')->__("Files upload failed"));
         }
-
-        $this->_createTargetDir();
-        $upload->setDestination($this->getTargetDir());
 
         /**
          * Option Validations
@@ -114,19 +117,35 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
          * Upload process
          */
 
+        $this->_initFilesystem();
+
         if ($upload->isUploaded($file) && $upload->isValid($file)) {
+
             $extension = pathinfo(strtolower($fileInfo['name']), PATHINFO_EXTENSION);
-            $targetFileName = mt_rand(100, 999) . uniqid() . '.' . $extension;
+
+            $fileName = Varien_File_Uploader::getCorrectFileName($fileInfo['name']);
+            $dispersion = Varien_File_Uploader::getDispretionPath($fileName);
+
+            $filePath = $dispersion;
+            $destination = $this->getQuoteTargetDir() . $filePath;
+            $this->_createWriteableDir($destination);
+            $upload->setDestination($destination);
+
+            $fileHash = md5(file_get_contents($fileInfo['tmp_name']));
+            $filePath .= DS . $fileHash . '.' . $extension;
+
+            $fileFullPath = $this->getQuoteTargetDir() . $filePath;
+
             $upload->addFilter('Rename', array(
-                'target' => $this->getTargetDir() . DS . $targetFileName,
-                'overwrite' => false
+                'target' => $fileFullPath,
+                'overwrite' => true
             ));
             if (!$upload->receive()) {
                 $this->setIsValid(false);
                 Mage::throwException(Mage::helper('catalog')->__("File upload failed"));
             }
 
-            $_imageSize = @getimagesize($this->getTargetDir() . DS . $targetFileName);
+            $_imageSize = @getimagesize($fileFullPath);
             if (is_array($_imageSize) && count($_imageSize) > 0) {
                 $_width = $_imageSize[0];
                 $_height = $_imageSize[1];
@@ -138,12 +157,13 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $this->setUserValue(array(
                 'type'          => $fileInfo['type'],
                 'title'         => $fileInfo['name'],
-                'name'          => $targetFileName,
-                'path'          => $this->getTargetDir() . DS . $targetFileName,
+                'quote_path'    => $this->getQuoteTargetDir(true) . $filePath,
+                'order_path'    => $this->getOrderTargetDir(true) . $filePath,
+                'fullpath'      => $fileFullPath,
                 'size'          => $fileInfo['size'],
                 'width'         => $_width,
                 'height'        => $_height,
-                'secret_key'    => mt_rand(1000000000, 100000000000)
+                'secret_key'    => substr($fileHash, 0, 20)
             ));
 
         } elseif ($upload->getErrors()) {
@@ -299,13 +319,99 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     }
 
     /**
-     * Destination directory full path
+     * Quote item to order item copy process
      *
+     * @return Mage_Catalog_Model_Product_Option_Type_File
+     */
+    public function copyQuoteToOrder()
+    {
+        $quoteOption = $this->getQuoteItemOption();
+        try {
+            $value = unserialize($quoteOption->getValue());
+            if (!isset($value['quote_path'])) {
+                throw new Exception();
+            }
+            $quoteFileFullPath = Mage::getBaseDir() . $value['quote_path'];
+            if (!is_file($quoteFileFullPath) || !is_readable($quoteFileFullPath)) {
+                throw new Exception();
+            }
+            $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
+            $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
+            $this->_createWriteableDir($dir);
+            @copy($quoteFileFullPath, $orderFileFullPath);
+        } catch (Exception $e) {
+            return $this;
+        }
+        return $this;
+    }
+
+    /**
+     * Main Destination directory
+     *
+     * @param boolean $relative If true - returns relative path to the webroot
      * @return string
      */
-    public function getTargetDir()
+    public function getTargetDir($relative = false)
     {
-        return Mage::getBaseDir('media') . DS . 'custom_options';
+        $fullPath = Mage::getBaseDir('media') . DS . 'custom_options';
+        return $relative ? str_replace(Mage::getBaseDir(), '', $fullPath) : $fullPath;
+    }
+
+    /**
+     * Quote items destination directory
+     *
+     * @param boolean $relative If true - returns relative path to the webroot
+     * @return string
+     */
+    public function getQuoteTargetDir($relative = false)
+    {
+        return $this->getTargetDir($relative) . DS . 'quote';
+    }
+
+    /**
+     * Order items destination directory
+     *
+     * @param boolean $relative If true - returns relative path to the webroot
+     * @return string
+     */
+    public function getOrderTargetDir($relative = false)
+    {
+        return $this->getTargetDir($relative) . DS . 'order';
+    }
+
+    /**
+     * Directory structure initializing
+     */
+    protected function _initFilesystem()
+    {
+        $this->_createWriteableDir($this->getTargetDir());
+        $this->_createWriteableDir($this->getQuoteTargetDir());
+        $this->_createWriteableDir($this->getOrderTargetDir());
+
+        // Directory listing and hotlink secure
+        $io = new Varien_Io_File();
+        $io->cd($this->getTargetDir());
+        if (!$io->fileExists($this->getTargetDir() . DS . '.htaccess')) {
+            $io->streamOpen($this->getTargetDir() . DS . '.htaccess');
+            $io->streamLock(true);
+            $io->streamWrite("Order deny,allow\nDeny from all");
+            $io->streamUnlock();
+            $io->streamClose();
+        }
+    }
+
+    /**
+     * Create Writeable directory if it doesn't exist
+     *
+     * @param string Absolute directory path
+     * @return void
+     */
+    protected function _createWriteableDir($path)
+    {
+        $io = new Varien_Io_File();
+        if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
+            Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable directory '%s'", $path));
+        }
     }
 
     /**
@@ -315,24 +421,10 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     protected function _getOptionDownloadUrl($sekretKey)
     {
-        return Mage::getUrl('catalog/product/downloadCustomOption', array(
+        return Mage::getUrl('sales/download/downloadCustomOption', array(
             'id'  => $this->getQuoteItemOption()->getId(),
             'key' => $sekretKey
         ));
-    }
-
-    /**
-     * Create destination directory for files uloading
-     *
-     * @throws Mage_Core_Exception
-     * @return void
-     */
-    protected function _createTargetDir()
-    {
-        $io = new Varien_Io_File();
-        if (!$io->isWriteable($this->getTargetDir()) && !$io->mkdir($this->getTargetDir())) {
-            Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable destination directory"));
-        }
     }
 
     /**

@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
         $dateValid = true;
         if ($this->_dateExists()) {
             if ($this->useCalendar()) {
-                $dateValid = isset($value['date']) && $value['date'] != '';
+                $dateValid = isset($value['date']) && preg_match('/^[0-9]{1,4}.+[0-9]{1,4}.+[0-9]{1,4}$/', $value['date']);
             } else {
                 $dateValid = isset($value['day']) && isset($value['month']) && isset($value['year'])
                     && $value['day'] > 0 && $value['month'] > 0 && $value['year'] > 0;
@@ -65,7 +65,20 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
 
         $isValid = $dateValid && $timeValid;
 
-        if (!$isValid && $option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
+        if ($isValid) {
+            $this->setUserValue(
+                array(
+                    'date' => isset($value['date']) ? $value['date'] : '',
+                    'year' => isset($value['year']) ? intval($value['year']) : 0,
+                    'month' => isset($value['month']) ? intval($value['month']) : 0,
+                    'day' => isset($value['day']) ? intval($value['day']) : 0,
+                    'hour' => isset($value['hour']) ? intval($value['hour']) : 0,
+                    'minute' => isset($value['minute']) ? intval($value['minute']) : 0,
+                    'day_part' => isset($value['day_part']) ? $value['day_part'] : '',
+                    'date_internal' => isset($value['date_internal']) ? $value['date_internal'] : '',
+                )
+            );
+        } elseif (!$isValid && $option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
             if (!$dateValid) {
                 Mage::throwException(Mage::helper('catalog')->__('Please specify date required option(s)'));
@@ -74,20 +87,10 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
             } else {
                 Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
             }
+        } else {
+            $this->setUserValue(null);
+            return $this;
         }
-
-        $this->setUserValue(
-            array(
-                'date' => isset($value['date']) ? $value['date'] : '',
-                'year' => isset($value['year']) ? intval($value['year']) : 0,
-                'month' => isset($value['month']) ? intval($value['month']) : 0,
-                'day' => isset($value['day']) ? intval($value['day']) : 0,
-                'hour' => isset($value['hour']) ? intval($value['hour']) : 0,
-                'minute' => isset($value['minute']) ? intval($value['minute']) : 0,
-                'day_part' => isset($value['day_part']) ? $value['day_part'] : '',
-                'date_internal' => isset($value['date_internal']) ? $value['date_internal'] : '',
-            )
-        );
 
         return $this;
     }
@@ -100,7 +103,7 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
      */
     public function prepareForCart()
     {
-        if ($this->getIsValid()) {
+        if ($this->getIsValid() && $this->getUserValue() !== null) {
             $option = $this->getOption();
             $value = $this->getUserValue();
 
@@ -134,8 +137,9 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
             $this->_setInternalInRequest($result);
 
             return $result;
+        } else {
+            return null;
         }
-        Mage::throwException(Mage::helper('catalog')->__('Option validation failed to add product to cart'));
     }
 
     /**
