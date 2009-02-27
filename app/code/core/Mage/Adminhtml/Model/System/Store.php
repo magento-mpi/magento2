@@ -211,16 +211,28 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $options;
     }
 
-    public function getWebsiteValuesForGridFilter($empty = false, $all = false)
+    public function getWebsiteValuesForGridFilter()
     {
         $options = array();
-
-        if ($all && !$this->_forceDisableWebsitesAll()) {
-            $options[0] = Mage::helper('adminhtml')->__('Admin');
-        }
-
         foreach ($this->_websiteCollection as $website) {
             $options[$website->getId()] = $website->getName();
+        }
+        return $options;
+    }
+
+    public function getStoreValuesForGridFilter()
+    {
+        $options = array();
+        foreach ($this->_storeCollection as $store) {
+            $options[$store->getId()] = $store->getName();
+        }
+        return $options;
+    }
+
+    public function getStoreGroupValuesForGridFilter()
+    {
+        foreach ($this->_groupCollection as $group) {
+            $options[$group->getId()] = $group->getName();
         }
         return $options;
     }

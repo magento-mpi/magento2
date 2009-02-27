@@ -477,9 +477,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
-    protected function _applyCollectionFiltersByFullActionName()
+    protected function _applyCollectionFiltersByFullActionName($collection=false)
     {
-        $collection = $this->getCollection();
+        $collection = ($collection) ? $collection : $this->getCollection();
         /* @var $filters Mage_Core_Model_Config_Element */
         $configPath = self::ADMINHTML_WIDGET_GRID_FILTERS;
         $filters = $this->_getConfigValueByFullActionName(self::ADMINHTML_WIDGET_GRID_FILTERS, $this->getAction()->getFullActionName());
@@ -494,7 +494,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                     $callArray = explode('::', $filter);
                     $callModel = Mage::getModel(array_shift($callArray));
                     $callMethod = array_shift($callArray);
-                    $collection = call_user_func(array($callModel, $callMethod), $this->getCollection(), $this->getAction()->getRequest(), $this->_filterValues);
+                    $collection = call_user_func(array($callModel, $callMethod), $collection, $this->getAction()->getRequest(), $this->_filterValues);
                 } catch (Exception $e) {
                     #throw new Exception("Unable to call '{$filter}' as specified in config path '{$configPath}'");
                     throw new Exception($e->getMessage());

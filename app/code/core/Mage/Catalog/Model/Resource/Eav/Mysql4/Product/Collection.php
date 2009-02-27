@@ -224,6 +224,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
+    public function addWebsiteFilter($website=null)
+    {
+        if (is_null($website)) {
+            return $this;
+        }
+
+        if (is_array($website)) {
+            $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
+                    '{{table}}.website_id IN('.$this->getConnection()->quoteInto('?', $website) . ')');
+        }
+
+        return $this;
+    }
+
     /**
      * Specify category filter for product collection
      *

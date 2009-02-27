@@ -33,13 +33,21 @@
  */
 class Enterprise_Permissions_Block_Store_Switcher extends Mage_Adminhtml_Block_Store_Switcher
 {
-    protected $_storeIds;
-
     public function __construct()
     {
         parent::__construct();
         $this->setUseConfirm(true);
         $this->setUseAjax(true);
         $this->setDefaultStoreName($this->__('All Store Views'));
+    }
+
+    public function getWebsiteIds()
+    {
+        return Mage::helper('permissions')->getAllowedWebsites();
+    }
+
+    public function getStoreIds()
+    {
+        return Mage::helper('permissions')->getAllowedStoreViews();
     }
 }

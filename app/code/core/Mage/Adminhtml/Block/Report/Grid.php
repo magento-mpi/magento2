@@ -167,6 +167,8 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $collection->setPageSize($this->getSubReportSize());
 
+        $this->_applyCollectionFiltersByFullActionName($collection);
+
         $this->setCollection($collection);
     }
 
