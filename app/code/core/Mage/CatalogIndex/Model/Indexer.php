@@ -299,6 +299,16 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                     $this->_walkCollection($collection, $store, $attributeCodes);
                 }
             }
+
+            /**
+             * Catalog Product Flat price update
+             */
+            if (Mage::helper('catalog/product_flat')->isBuilt()) {
+                foreach ($stores as $store) {
+                    $this->updateCatalogProductFlat($store, $products);
+                }
+            }
+
         } catch (Exception $e) {
             $flag->delete();
             throw $e;
@@ -593,4 +603,50 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         return $this;
     }
 
+/**
+     * Prepare Catalog Product Flat Columns
+     *
+     * @param Varien_Object $object
+     * @return Mage_CatalogIndex_Model_Indexer
+     */
+    public function prepareCatalogProductFlatColumns(Varien_Object $object)
+    {
+        $this->_getResource()->prepareCatalogProductFlatColumns($object);
+
+        return $this;
+    }
+
+    /**
+     * Prepare Catalog Product Flat Indexes
+     *
+     * @param Varien_Object $object
+     * @return Mage_CatalogIndex_Model_Indexer
+     */
+    public function prepareCatalogProductFlatIndexes(Varien_Object $object)
+    {
+        $this->_getResource()->prepareCatalogProductFlatIndexes($object);
+
+        return $this;
+    }
+
+    /**
+     * Update price process for catalog product flat
+     *
+     * @param mixed $storeId
+     * @param string $resourceTable
+     * @param mixed $products
+     * @return Mage_CatalogIndex_Model_Indexer
+     */
+    public function updateCatalogProductFlat($store, $products = null, $resourceTable = null)
+    {
+        if ($store instanceof Mage_Core_Model_Store) {
+            $store = $store->getId();
+        }
+        if ($products instanceof Mage_Catalog_Model_Product) {
+            $products = $products->getId();
+        }
+        $this->_getResource()->updateCatalogProductFlat($store, $products, $resourceTable);
+
+        return $this;
+    }
 }

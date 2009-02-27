@@ -158,7 +158,6 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                     }
                     break;
 
-
                 case 'refresh_layered_navigation':
                     try {
                         $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
@@ -217,6 +216,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                         $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('CatalogInventory Stock Status rebuild error. Please try again later'));
                     }
                     break;
+
                 case 'rebuild_flat_catalog_category':
                     try {
                         Mage::getResourceModel('catalog/category_flat')->rebuild();
@@ -227,6 +227,21 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                     }
                     catch (Exception $e) {
                         $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Flat Catalog Category rebuild error'));
+                    }
+                    break;
+
+                case 'rebuild_flat_catalog_product':
+                    try {
+                        Mage::getResourceModel('catalog/product_flat_indexer')->rebuild();
+                        $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Flat Catalog Product was rebuilt successfully'));
+                    }
+                    catch (Mage_Core_Exception $e) {
+                        $this->_getSession()->addError($e->getMessage());
+                    }
+                    catch (Exception $e) {
+                        echo $e;
+                        die();
+                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Flat Catalog Product rebuild error. Please try again later'));
                     }
                     break;
 

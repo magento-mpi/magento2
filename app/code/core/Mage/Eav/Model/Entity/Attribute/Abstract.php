@@ -485,4 +485,167 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         }
         return $this->_dataTable;
     }
+
+    /**
+     * Retrieve Flat Column(s)
+     *
+     * @return array
+     */
+    public function getFlatColumns() {
+        if ($this->usesSource() && $this->getBackendType() != 'static') {
+            return $this->getSource()->getFlatColums();
+        }
+
+        $columns = array();
+        switch ($this->getBackendType()) {
+            case 'static':
+                $describe = $this->_getResource()
+                    ->describeTable($this->getBackend()->getTable());
+                $prop = $describe[$this->getAttributeCode()];
+                $columns[$this->getAttributeCode()] = array(
+                    'type'      => $prop['DATA_TYPE'] . ($prop['LENGTH'] ? "({$prop['LENGTH']})" : ""),
+                    'unsigned'  => $prop['UNSIGNED'] ? true: false,
+                    'is_null'   => $prop['NULLABLE'],
+                    'default'   => $prop['DEFAULT'],
+                    'extra'     => null
+                );
+                break;
+            case 'datetime':
+                $columns[$this->getAttributeCode()] = array(
+                    'type'      => 'datetime',
+                    'unsigned'  => false,
+                    'is_null'   => true,
+                    'default'   => null,
+                    'extra'     => null
+                );
+                break;
+            case 'decimal':
+                $columns[$this->getAttributeCode()] = array(
+                    'type'      => 'decimal(12,4)',
+                    'unsigned'  => false,
+                    'is_null'   => true,
+                    'default'   => null,
+                    'extra'     => null
+                );
+                break;
+            case 'int':
+                $columns[$this->getAttributeCode()] = array(
+                    'type'      => 'int',
+                    'unsigned'  => false,
+                    'is_null'   => true,
+                    'default'   => null,
+                    'extra'     => null
+                );
+                break;
+            case 'text':
+                $columns[$this->getAttributeCode()] = array(
+                    'type'      => 'text',
+                    'unsigned'  => false,
+                    'is_null'   => true,
+                    'default'   => null,
+                    'extra'     => null
+                );
+                break;
+            case 'varchar':
+                $columns[$this->getAttributeCode()] = array(
+                    'type'      => 'varchar(255)',
+                    'unsigned'  => false,
+                    'is_null'   => true,
+                    'default'   => null,
+                    'extra'     => null
+                );
+                break;
+        }
+        return $columns;
+    }
+
+    /**
+     * Retrieve index data for Flat table
+     *
+     * @return array
+     */
+    public function getFlatIndexes()
+    {
+        if ($this->getIsFilterable() or $this->getIsFilterableInSearch() or $this->getUsedForSortBy()) {
+            if ($this->usesSource() && $this->getBackendType() != 'static') {
+                return $this->getSource()->getFlatIndexes();
+            }
+            $indexes = array();
+
+            switch ($this->getBackendType()) {
+                case 'static':
+                    $describe = $this->_getResource()
+                        ->describeTable($this->getBackend()->getTable());
+                    $indexDataTypes = array(
+                        'varchar',
+                        'varbinary',
+                        'char',
+                        'date',
+                        'datetime',
+                        'timestamp',
+                        'time',
+                        'year',
+                        'enum',
+                        'set',
+                        'bit',
+                        'bool',
+                        'tinyint',
+                        'smallint',
+                        'mediumint',
+                        'int',
+                        'bigint',
+                        'float',
+                        'double',
+                        'decimal',
+                    );
+                    $prop = $describe[$this->getAttributeCode()];
+                    if (in_array($prop['DATA_TYPE'], $indexDataTypes)) {
+                        $indexName = 'IDX_' . strtoupper($this->getAttributeCode());
+                        $indexes[$indexName] = array(
+                            'type'      => $this->getIsUnique() ? 'unique' : 'index',
+                            'fields'    => array($this->getAttributeCode())
+                        );
+                    }
+
+                    break;
+                case 'datetime':
+                case 'decimal':
+                case 'int':
+                case 'varchar':
+                    $indexName = 'IDX_' . strtoupper($this->getAttributeCode());
+                    $indexes[$indexName] = array(
+                        'type'      => $this->getIsUnique() ? 'unique' : 'index',
+                        'fields'    => array($this->getAttributeCode())
+                    );
+                    break;
+            }
+
+            return $indexes;
+        }
+        return array();
+    }
+
+    /**
+     * Retrieve Select For Flat Attribute update
+     *
+     * @param int $store
+     * @return Varien_Db_Select
+     */
+    public function getFlatUpdateSelect($store = null) {
+        if (is_null($store)) {
+            foreach (Mage::app()->getStores() as $store) {
+                $this->getFlatUpdateSelect($store->getId());
+            }
+            return $this;
+        }
+
+        if ($this->getBackendType() == 'static') {
+            return null;
+        }
+
+        if ($this->usesSource()) {
+            return $this->getSource()->getFlatUpdateSelect($store);
+        }
+        return $this->_getResource()->getFlatUpdateSelect($this, $store);
+    }
 }

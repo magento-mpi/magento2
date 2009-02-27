@@ -240,6 +240,42 @@
                     </catalogindex>
                 </observers>
             </catalog_product_to_website_change>
+            <catalog_product_flat_prepare_columns>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>catalogProductFlatPrepareColumns</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_flat_prepare_columns>
+            <catalog_product_flat_prepare_indexes>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>catalogProductFlatPrepareIndexes</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_flat_prepare_indexes>
+            <catalog_product_flat_rebuild>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>catalogProductFlatRebuild</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_flat_rebuild>
+            <catalog_product_flat_update_product>
+                <observers>
+                    <catalogindex>
+                        <type>singleton</type>
+                        <class>catalogindex/observer</class>
+                        <method>catalogProductFlatUpdateProduct</method>
+                    </catalogindex>
+                </observers>
+            </catalog_product_flat_update_product>
         </events>
     </adminhtml>
 

@@ -137,4 +137,78 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
 
         return $this;
     }
+
+    /**
+     * Retrieve Column(s) for Flat
+     *
+     * @return array
+     */
+    public function getFlatColums()
+    {
+        $columns = array();
+        $columns[$this->getAttribute()->getAttributeCode()] = array(
+            'type'      => 'int',
+            'unsigned'  => false,
+            'is_null'   => true,
+            'default'   => null,
+            'extra'     => null
+        );
+        if ($this->getAttribute()->getFrontend()->getInputType() != 'multiselect') {
+            $columns[$this->getAttribute()->getAttributeCode() . '_value'] = array(
+                'type'      => 'varchar(255)',
+                'unsigned'  => false,
+                'is_null'   => true,
+                'default'   => null,
+                'extra'     => null
+            );
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Retrieve Indexes for Flat
+     *
+     * @return array
+     */
+    public function getFlatIndexes()
+    {
+        $indexes = array();
+
+        $filterable = $this->getAttribute()->getIsFilterable()
+            or $this->getAttribute()->getIsFilterableInSearch();
+        $sortable   = $this->getAttribute()->getUsedForSortBy();
+
+        if ($filterable or $sortable) {
+            if ($sortable and $this->getAttribute()->getFrontend()->getInputType() != 'multiselect') {
+                $index = 'IDX_' . strtoupper($this->getAttribute()->getAttributeCode()) . '_VALUE';
+                $indexes[$index] = array(
+                    'type'      => 'index',
+                    'fields'    => array($this->getAttribute()->getAttributeCode() . '_value')
+                );
+            }
+            if ($filterable) {
+                $index = 'IDX_' . strtoupper($this->getAttribute()->getAttributeCode());
+                $indexes[$index] = array(
+                    'type'      => 'index',
+                    'fields'    => array($this->getAttribute()->getAttributeCode())
+                );
+            }
+        }
+
+        return $indexes;
+    }
+
+    /**
+     * Retrieve Select For Flat Attribute update
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param int $store
+     * @return Varien_Db_Select|null
+     */
+    public function getFlatUpdateSelect($store)
+    {
+        return Mage::getResourceModel('eav/entity_attribute_option')
+            ->getFlatUpdateSelect($this->getAttribute(), $store);
+    }
 }

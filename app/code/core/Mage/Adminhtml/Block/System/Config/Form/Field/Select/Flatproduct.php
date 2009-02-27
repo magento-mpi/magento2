@@ -19,32 +19,34 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Eav
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Mage_Adminhtml
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Entity attribute select source interface
+ * Adminhtml Config Field Select Flat Product Block
  *
- * Source is providing the selection options for user interface
- *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Eav_Model_Entity_Attribute_Source_Interface
+class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatproduct
+    extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     /**
-     * Retrieve All options
+     * Retrieve Element HTML
      *
-     * @return array
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
      */
-    public function getAllOptions();
+    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element) {
+        if (!Mage::helper('catalog/product_flat')->isBuilt()) {
+            $element->setDisabled(true)
+                ->setValue(0);
+        }
+        return parent::_getElementHtml($element);
+    }
 
-    /**
-     * Retrieve Option value text
-     *
-     * @param string $value
-     * @return mixed
-     */
-    public function getOptionText($value);
 }

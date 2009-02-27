@@ -39,7 +39,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     protected $_transactionLevel    = 0;
     protected $_connectionFlagsSet  = false;
     protected $_describesCache      = array();
-    
 
     /**
      * SQL bind params
@@ -590,6 +589,50 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     }
 
     /**
+     * Retrieve INDEX list for table
+     *
+     * @param string $tableName
+     * @return array
+     */
+    public function getIndexList($tableName)
+    {
+        $indexList = array();
+
+        $sql = "SHOW INDEX FROM " . $this->quoteIdentifier($tableName);
+        foreach ($this->fetchAll($sql) as $row) {
+            $fieldKeyName   = 'Key_name';
+            $fieldNonUnique = 'Non_unique';
+            $fieldColumn    = 'Column_name';
+            $fieldIndexType = 'Index_type';
+
+            if ($row[$fieldKeyName] == 'PRIMARY') {
+                $indexType  = 'primary';
+            }
+            elseif ($row[$fieldNonUnique] == 1) {
+                $indexType  = 'unique';
+            }
+            elseif ($row[$fieldIndexType] == 'FULLTEXT') {
+                $indexType  = 'fulltext';
+            }
+            else {
+                $indexType  = 'index';
+            }
+
+            if (isset($indexList[$row[$fieldKeyName]])) {
+                $indexList[$row[$fieldKeyName]]['fields'][] = $row[$fieldColumn];
+            }
+            else {
+                $indexList[$row[$fieldKeyName]] = array(
+                    'type'   => $indexType,
+                    'fields' => array($row[$fieldColumn])
+                );
+            }
+        }
+
+        return $indexList;
+    }
+
+    /**
      * Add Index Key
      *
      * @param string $tableName
@@ -759,10 +802,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
         return parent::quoteInto($text, $value, $type, $count);
     }
-    
+
     /**
      * Reset table describe cache data
-     * 
+     *
      * @param   string $tableName
      * @param   string $schemaName OPTIONAL
      * @return  Varien_Db_Adapter_Pdo_Mysql
@@ -780,7 +823,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
         return $this;
     }
-    
+
     /**
      * Returns the column descriptions for a table.
      *
@@ -815,11 +858,39 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if ($schemaName) {
             $key = $schemaName . '.' . $key;
         }
-        
+
         if (!isset($this->_describesCache[$key])) {
             $this->_describesCache[$key] = parent::describeTable($tableName, $schemaName);
-        } 
-        
+        }
+
         return $this->_describesCache[$key];
+    }
+
+    /**
+     * Retrieve Database limitation
+     *
+     * @return mixed
+     */
+    public function getLimitation($code)
+    {
+        switch ($code) {
+            case 'index':
+                $value = 64;
+                break;
+            case 'join':
+                $value = 61;
+                break;
+            case 'column':
+                $value = 1000;
+                break;
+            case 'columns_per_index':
+                $value = 16;
+                break;
+            default:
+                $value = null;
+                break;
+        }
+
+        return $value;
     }
 }

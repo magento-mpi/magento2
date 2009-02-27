@@ -112,4 +112,34 @@ abstract class Mage_Eav_Model_Entity_Attribute_Source_Abstract implements Mage_E
         return $this;
     }
 
+    /**
+     * Retrieve Column(s) for Flat
+     *
+     * @return array
+     */
+    public function getFlatColums()
+    {
+        return array();
+    }
+
+    /**
+     * Retrieve Indexes(s) for Flat
+     *
+     * @return array
+     */
+    public function getFlatIndexes()
+    {
+        return array();
+    }
+
+    /**
+     * Retrieve Select For Flat Attribute update
+     *
+     * @param int $store
+     * @return Varien_Db_Select|null
+     */
+    public function getFlatUpdateSelect($store)
+    {
+        return null;
+    }
 }

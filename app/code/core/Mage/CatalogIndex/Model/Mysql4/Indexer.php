@@ -542,4 +542,93 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         $this->_commitInsert($table, false);
         return $this;
     }
+
+    /**
+     * Add price columns for catalog product flat table
+     *
+     * @param Varien_Object $object
+     * @return Mage_CatalogIndex_Model_Mysql4_Indexer
+     */
+    public function prepareCatalogProductFlatColumns(Varien_Object $object)
+    {
+        $columns = $object->getColumns();
+
+        foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+            $columnName = 'display_price_group_' . $group->getId();
+            $columns[$columnName] = array(
+                'type'      => 'decimal(12,4)',
+                'unsigned'  => false,
+                'is_null'   => true,
+                'default'   => null,
+                'extra'     => null
+            );
+        }
+
+        $object->setColumns($columns);
+
+        return $this;
+    }
+
+    /**
+     * Add price indexes for catalog product flat table
+     *
+     * @param Varien_Object $object
+     * @return Mage_CatalogIndex_Model_Mysql4_Indexer
+     */
+    public function prepareCatalogProductFlatIndexes(Varien_Object $object)
+    {
+        $indexes = $object->getIndexes();
+
+        foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+            $columnName = 'display_price_group_' . $group->getId();
+            $indexName  = 'IDX_DISPLAY_PRICE_GROUP_' . $group->getId();
+            $indexes[$indexName] = array(
+                'type'   => 'index',
+                'fields' => array($columnName)
+            );
+        }
+
+        $object->setIndexes($indexes);
+
+        return $this;
+    }
+
+    /**
+     * Update prices for Catalog Product flat
+     *
+     * @param int $storeId
+     * @param string $tableName
+     * @return Mage_CatalogIndex_Model_Mysql4_Indexer
+     */
+    public function updateCatalogProductFlat($storeId, $productIds = null, $tableName = null)
+    {
+        if (is_null($tableName)) {
+            $tableName = $this->getTable('catalog/product_flat') . '_' . $storeId;
+        }
+
+        $priceAttribute = Mage::getSingleton('eav/entity_attribute')
+            ->getIdByCode('catalog_product', 'price');
+        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+
+        foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+            $columnName = 'display_price_group_' . $group->getId();
+
+            $select = $this->_getWriteAdapter()->select()
+                ->join(
+                    array('p' => $this->getTable('catalogindex/price')),
+                    "`e`.`entity_id`=`p`.`entity_id`"
+                        . " AND `p`.`attribute_id`={$priceAttribute}"
+                        . " AND `p`.`customer_group_id`={$group->getId()}"
+                        . " AND `p`.`website_id`={$websiteId}",
+                    array($columnName => 'value'))
+                ->where('e.is_child=?', 0);
+            if (!is_null($productIds)) {
+                $select->where("e.entity_id IN(?)", $productIds);
+            }
+            $sql = $select->crossUpdateFromSelect(array('e' => $tableName));
+            $this->_getWriteAdapter()->query($sql);
+        }
+
+        return $this;
+    }
 }
