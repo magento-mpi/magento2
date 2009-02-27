@@ -406,6 +406,21 @@
                     <adminhtml_report_exportSearchExcel>
                         <website_filter>permissions/validator::filterReportTagPopularGrid</website_filter>
                     </adminhtml_report_exportSearchExcel>
+                    <adminhtml_cms_page_index>
+                        <website_filter>permissions/validator::filterCmsCommonGrid</website_filter>
+                    </adminhtml_cms_page_index>
+                    <adminhtml_cms_block_index>
+                        <website_filter>permissions/validator::filterCmsCommonGrid</website_filter>
+                    </adminhtml_cms_block_index>
+                    <adminhtml_poll_index>
+                        <website_filter>permissions/validator::filterPollGrid</website_filter>
+                    </adminhtml_poll_index>
+                    <adminhtml_system_design_index>
+                        <website_filter>permissions/validator::filterSystemDesignGrid</website_filter>
+                    </adminhtml_system_design_index>
+                    <adminhtml_system_design_grid>
+                        <website_filter>permissions/validator::filterSystemDesignGrid</website_filter>
+                    </adminhtml_system_design_grid>
                 </filters>
             </adminhtml_widget_grid>
         </settings>

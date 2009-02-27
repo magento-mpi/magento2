@@ -407,6 +407,45 @@ class Enterprise_Permissions_Model_Validator
         return $collection;
     }
 
+    public function filterCmsCommonGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
+        	$collection->addStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        }
+
+        return $collection;
+    }
+
+    public function filterPollGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
+        	$collection->addStoresFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        }
+
+        return $collection;
+    }
+
+    public function filterSystemDesignGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
+        	$collection->addStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        }
+
+        return $collection;
+    }
+
     protected function _validateScope($redirectUri=false, $urlParams=false)
     {
         if( !Mage::helper('permissions')->isSuperAdmin() ) {
