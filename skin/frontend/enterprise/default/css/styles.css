@@ -69,8 +69,8 @@ select { padding:1px; }
 select option { padding-right:10px; }
 select.multiselect option {}
 textarea { overflow:auto; }
-input.radio { margin-right:3px; }
-input.checkbox { margin-right:3px; }
+/*input.radio,
+input.checkbox { margin-right:3px; }*/
 input.qty { width:2.5em !important; }
 button.button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
 button.button { overflow:visible; width:auto; border:0; background:none; cursor:pointer; -webkit-border-fit:lines; /* <- Safari & Google Chrome Fix */ }
@@ -86,18 +86,42 @@ button.disabled span {}
 /*input.input-text:focus,select:focus,textarea:focus {}*/
 /*.highlight { background:#eee; }*/
 
+/* Form Validation */
+.validation-advice { clear:both; font-size:11px !important; padding:3px 0 0 !important; color:#d91a00 !important; }
+.validation-failed { border:1px solid #f47d4e !important; background:#fff7f5 !important; }
+input.input-text.validation-failed,
+textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
+div.validation-passed { background:url(../images/icon_ok.gif) 100% 4px no-repeat; padding-right:20px; }
+span.required { color:#f15c22; }
+p.required { margin:0; padding:0; font-size:11px; color:#f02800; }
+/* Expiration date and CVV number validation fix */
+.v-fix { float:left; }
+.v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
+
+/* Fieldset */
+.fieldset { font-size:12px; padding:0 0 30px; }
+.fieldset h3,
+.fieldset p { margin:0 0 1em; }
+.fieldset h3 { color:#000; }
+
 /* Form lists */
-.form-list li { margin:0 0 5px; }
-.form-list label { font-weight:bold; }
-.form-list .input-box { float:left; width:260px; }
+.form-list li { margin:0 0 9px; }
+.form-list label,
+.form-list span.label { float:left; width:225px; padding:2px 15px 0 0; font-size:12px; font-weight:bold; color:#444; text-align:right; }
+.form-list span.label { font-weight:normal; }
+.form-list .input-box { float:left; width:256px; }
+.form-list .input-box a { font-size:11px; margin-top:4px; }
 .form-list input.input-text,
-.form-list textarea { width:250px; }
-.form-list select { width:256px; }
+.form-list textarea { float:left; width:250px; vertical-align:top; }
+.form-list select { float:left; width:256px; vertical-align:top; }
+.form-list input.radio,
+.form-list input.checkbox { margin-top:4px; vertical-align:top; }
+.form-list p.required { padding:0 0 0 240px; }
 .form-list li.add-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.add-row .btn-remove { font-size:0; line-height:0; padding:5px 5px 0 0; text-align:right; }
 .form-list .range input.input-text { width:96px; }
 
-.group-select {}
+/*.group-select {}
 .group-select li { margin:0 0 5px; }
 .group-select .input-box { float:left; width:260px; }
 .group-select input.input-text,
@@ -105,25 +129,12 @@ button.disabled span {}
 .group-select select { width:516px; }
 .group-select .input-box input.input-text,
 .group-select .input-box textarea { width:250px; }
-.group-select .input-box select { width:256px; }
+.group-select .input-box select { width:256px; }*/
 
 .buttons-set { clear:both; margin:15px 0 0; }
 /*.buttons-set .back-link { float:left; }
 .buttons-set button.button { float:right; }*/
-
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; text-align:right; }
-
-/* Form Validation */
-.validation-advice { clear:both; min-height:13px; margin:3px 0 0; padding-left:17px; font-size:10px; line-height:13px; background:url(../images/validation_advice_bg.gif) 2px 1px no-repeat; color:#d91a00; }
-.validation-failed { border:1px solid #f47d4e !important; background:#fff7f5 !important; }
-input.input-text.validation-failed,
-textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
-.validation-passed {}
-.required { color:#f15c22; }
-p.required { font-size:10px; text-align:right; color:#f02800; }
-/* Expiration date and CVV number validation fix */
-.v-fix { float:left; }
-.v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
 
 /* Global Messages  */
 .success { color:#3d6611; font-weight:bold; }
@@ -196,7 +207,7 @@ p.required { font-size:10px; text-align:right; color:#f02800; }
 /* Tax Details Row */
 tr.tax-total { cursor:pointer; }
 tr.tax-total td {}
-tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
+tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
 tr.show-details .tax-collapse { background-position:0 -53px; }
 tr.show-details td {}
 tr.tax-details td { background-color:#f6f6f6; }
@@ -206,7 +217,7 @@ tr.tax-details-first td {}
 .cart-tax-info,
 .cart-tax-info .cart-price { padding-right:20px; }
 .cart-tax-total { cursor:pointer; }
-.cart-tax-total { padding-right:20px; background:url(../images/bg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
+.cart-tax-total { padding-right:20px; background:url(../images/bkg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
 .cart-tax-total-expanded { background-position:100% -52px; }
 
 /* Links */
@@ -471,8 +482,8 @@ dd.even { background-color:#f6f6f6; }
 .ratings .rating-links {}
 .ratings dt {}
 .ratings dd {}
-.rating-box { width:69px; height:13px; font-size:0; line-height:0; background:url(../images/bg_rating.gif) 0 0 repeat-x; position:relative; overflow:hidden; }
-.rating-box .rating { position:absolute; top:0; left:0; height:13px; background:url(../images/bg_rating.gif) 0 100% repeat-x; }
+.rating-box { width:69px; height:13px; font-size:0; line-height:0; background:url(../images/bkg_rating.gif) 0 0 repeat-x; position:relative; overflow:hidden; }
+.rating-box .rating { position:absolute; top:0; left:0; height:13px; background:url(../images/bkg_rating.gif) 0 100% repeat-x; }
 
 /* Availability */
 .availability {}
@@ -722,7 +733,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .gift-message-form .inner-box { padding:5px; height:300px; overflow:auto; }
 .gift-message-form .gift-item {}
 
-.gift-message-link { display:block; background:url(../images/bg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
+.gift-message-link { display:block; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
 .gift-message-link.expanded { background-position:0 -53px; }
 .gift-message-row {}
 .gift-message-row .btn-close { float:right; }
@@ -743,6 +754,13 @@ a.minimal-price-link .price { font-weight:normal; }
 .account-login .new-users,
 .account-login .registered-users { width:381px; padding:30px 32px 1000px; margin-bottom:-970px; border:1px solid #e2e2e2; border-bottom:0; background:#fdfdfd url(../images/btn_google_checkout.gif) 0 100% no-repeat; }
 .account-login .spacer { position:absolute; top:100%; left:447px; margin-top:-1px; width:16px; height:3px; font-size:0; line-height:0; background:#fff; overflow:hidden; }
+.account-login fieldset { padding:0; }
+.account-login fieldset h3 { margin-bottom:.5em; }
+.account-login .form-list label,
+.account-login .form-list span.label { width:98px; }
+.account-login .form-list .input-box { width:230px; }
+.account-login .form-list input.input-text { width:224px; }
+.account-login .form-list p.required { padding:0 0 0 110px; }
 
 .account-create {}
 /* Account Login/Create Pages ============================================================ */
