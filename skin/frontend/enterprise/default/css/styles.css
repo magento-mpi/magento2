@@ -116,7 +116,7 @@ p.required { margin:0; padding:0; font-size:11px; color:#f02800; }
 .form-list select { float:left; width:256px; vertical-align:top; }
 .form-list input.radio,
 .form-list input.checkbox { margin-top:4px; vertical-align:top; }
-.form-list p.required { padding:0 0 0 240px; }
+.form-list p { margin:0; padding:0 0 0 240px; }
 .form-list li.add-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.add-row .btn-remove { font-size:0; line-height:0; padding:5px 5px 0 0; text-align:right; }
 .form-list .range input.input-text { width:96px; }
@@ -760,7 +760,7 @@ a.minimal-price-link .price { font-weight:normal; }
 .account-login .form-list span.label { width:98px; }
 .account-login .form-list .input-box { width:230px; }
 .account-login .form-list input.input-text { width:224px; }
-.account-login .form-list p.required { padding:0 0 0 110px; }
+.account-login .form-list p { padding:0 0 0 110px; }
 
 .account-create {}
 /* Account Login/Create Pages ============================================================ */

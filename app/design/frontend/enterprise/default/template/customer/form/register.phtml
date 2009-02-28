@@ -111,9 +111,9 @@
                             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                         </select>
                         <script type="text/javascript">
-						//<![CDATA[
+                        //<![CDATA[
                             $('region_id').setAttribute('defaultValue',  "<?php echo $this->getFormData()->getRegionId() ?>");
-					    //]]>
+                        //]]>
                         </script>
                         <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
                     </div>
@@ -151,8 +151,10 @@
                     </div>
                 </li>
                 <li>
-                    <span class="label"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go Back') ?></a></span>
-                    <div class="input-box"><button type="submit" class="button" title="<?php echo $this->__('Submit') ?>"><span><?php echo $this->__('Submit') ?></span></button></div>
+                    <span class="label"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go back') ?></a></span>
+                    <div class="input-box">
+                        <button type="submit" class="button" title="<?php echo $this->__('Submit') ?>"><span><?php echo $this->__('Submit') ?></span></button>
+                    </div>
                 </li>
                 <li><p class="required"><?php echo $this->__('* Required Fields') ?></p></li>
             </ul>

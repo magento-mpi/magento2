@@ -29,16 +29,14 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate">
-<fieldset>
+<fieldset class="fieldset">
     <?php echo $this->getBlockHtml('formkey')?>
     <h3><?php echo $this->__('Account Information') ?></h3>
-    <ul class="form-list group-select">
+    <ul class="form-list">
+        <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
         <li>
-            <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
-        </li>
-        <li>
+            <label for="email"><span class="required">*</span> <?php echo $this->__('Email Address') ?></label>
             <div class="input-box">
-                <label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br />
                 <input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text required-entry validate-email" />
             </div>
         </li>
@@ -51,36 +49,49 @@
         <li><?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())->toHtml() ?></li>
     <?php endif ?>
         <li>
-            <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" /> <label for="change_password"><?php echo $this->__('Change Password') ?></label>
+            <label for="change_password"><?php echo $this->__('Change Password') ?></label>
+            <div class="inpuit-box">
+                <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" />
+            </div>
         </li>
     </ul>
 </fieldset>
-<fieldset style="display:none;">
+<fieldset class="fieldset" style="display:none;">
     <h3><?php echo $this->__('Change Password') ?></h3>
-    <ul class="form-list group-select">
+    <ul class="form-list">
         <li>
+            <label for="current_password"><?php echo $this->__('Current Password') ?></label>
             <div class="input-box">
-                <label for="current_password"><?php echo $this->__('Current Password') ?></label><br />
                 <input type="password" class="input-text" name="current_password" id="current_password" />
             </div>
         </li>
         <li>
+            <label for="password"><?php echo $this->__('New Password') ?></label>
             <div class="input-box">
-                <label for="password"><?php echo $this->__('New Password') ?></label><br />
                 <input type="password" class="input-text validate-password" name="password" id="password" />
             </div>
+        </li>
+        <li>
+            <label for="confirmation"><?php echo $this->__('Confirm New Password') ?></label>
             <div class="input-box">
-                <label for="confirmation"><?php echo $this->__('Confirm New Password') ?></label><br />
                 <input type="password" class="input-text validate-cpassword" name="confirmation" id="confirmation" />
             </div>
         </li>
     </ul>
 </fieldset>
-<p class="required"><?php echo $this->__('* Required Fields') ?></p>
-<div class="buttons-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
-    <button type="submit" class="button"><span><?php echo $this->__('Save') ?></span></button>
-</div>
+<fieldset>
+    <ul class="form-list">
+        <li>
+            <span class="label"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go back') ?></a></span>
+            <div class="input-box">
+                <button type="submit" class="button" title="<?php echo $this->__('Save') ?>"><span><?php echo $this->__('Save') ?></span></button>
+            </div>
+        </li>
+        <li>
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        </li>
+    </ul>
+</fieldset>
 </form>
 <script type="text/javascript">
 //<![CDATA[
