@@ -355,10 +355,10 @@ dd.even { background-color:#f6f6f6; }
 
 /* Block: Cart */
 
-.block-cart {float:right; width:273px; margin-top:-1px; position:relative; z-index:1}
-.block-cart .block-title { background:#363636 url(../images/bkg_top-cart.gif) 12px 7px no-repeat; color:#fff; font-size:11px; padding:0 28px; line-height:28px; height:28px; }
+.block-cart {float:right; min-width:273px; margin-top:-1px; position:relative; z-index:1}
+.block-cart .block-title { background:#363636 url(../images/bkg_top-cart.gif) 12px 7px no-repeat; color:#fff; font-size:11px; margin:0 0 0 -2px; padding:0 28px; line-height:28px; height:28px; }
 .block-cart .block-title a { color:#fff; text-decoration:none; }
-.block-cart .block-content { border:1px solid #c4c4c4; position:absolute; width:271px; background:#fdfdfd; }
+.block-cart .block-content { border:1px solid #c4c4c4; position:absolute; right:0; top:28px; width:100%; background:#fdfdfd; }
 .block-cart .block-content h3 { font-size:11px; font-weight:normal; background:#ebebeb; line-height:14px; padding:2px 11px 3px; }
 .block-cart .block-content ol { padding-bottom:7px;}
 .block-cart .block-content .item {padding:8px 11px; }

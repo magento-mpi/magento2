@@ -33,46 +33,47 @@
 <div class="block-cart">
     <?php $_cartQty = $this->getSummaryCount() ?>
     <div class="block-title">
-		<?php if ($_cartQty>0): ?>
-			<a href="<?php $this->getUrl('checkout/cart'); ?>">
-			<?php if ($_cartQty==1): ?>
-				<?php echo $this->__('Your bag contains <strong>1 item</strong>') ?>
-			<?php else: ?>
-				<?php echo $this->__('Your bag contains <strong>%s items</strong>', $_cartQty) ?>
-			<?php endif ?>
-			<span class="subtotal">
-				(<?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?> / <?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?><?php endif; ?>)
-			</span>
-			</a>
-		<?php else: ?>
-			<?php echo $this->__('Your bag contains <strong>no items</strong>.') ?>		
-		<?php endif ?>
+        <?php if ($_cartQty>0): ?>
+            <a href="<?php $this->getUrl('checkout/cart'); ?>">
+            <?php if ($_cartQty==1): ?>
+                <?php echo $this->__('Your bag contains <strong>1 item</strong>') ?>
+            <?php else: ?>
+                <?php echo $this->__('Your bag contains <strong>%s items</strong>', $_cartQty) ?>
+            <?php endif ?>
+            <span class="subtotal">
+                (<?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?> / <?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?><?php endif; ?>)
+            </span>
+            </a>
+        <?php else: ?>
+            <?php echo $this->__('Your bag contains <strong>no items</strong>.') ?>
+        <?php endif ?>
     </div>
     <div id="topCartContent" class="block-content" style="display:none;">
-
     <?php $_items = $this->getRecentItems() ?>
     <?php if(count($_items)): ?>
-    <h3>
-		<?php if ($_cartQty==1): ?>
-			<?php echo $this->__('The following item has been added to your bag.') ?>
-				<?php else: ?>
-			<?php echo $this->__('The following items has been added to your bag.') ?>
-		<?php endif ?>
-	</h3>
-    <ol id="cart-sidebar" class="mini-products-list">
-    <?php foreach($_items as $_item): ?>
-        <?php echo $this->getItemHtml($_item) ?>
-    <?php endforeach; ?>
-    </ol>
-    <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
+        <h3>
+            <?php if ($_cartQty==1): ?>
+                <?php echo $this->__('The following item has been added to your bag.') ?>
+                    <?php else: ?>
+                <?php echo $this->__('The following items has been added to your bag.') ?>
+            <?php endif ?>
+        </h3>
+        <ol id="cart-sidebar" class="mini-products-list">
+        <?php foreach($_items as $_item): ?>
+            <?php echo $this->getItemHtml($_item) ?>
+        <?php endforeach; ?>
+        </ol>
+        <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
     <?php else: ?>
         <p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
     <?php endif ?>
-	<?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
-		<div class="actions">
-			<button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><?php echo $this->__('Checkout') ?></span></button>
-		</div>
-	<?php endif ?>		
+    <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
+        <div class="actions">
+            <button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><?php echo $this->__('Checkout') ?></span></button>
+        </div>
+    <?php endif ?>        
     </div>
 </div>
+<?php if(count($_items)): ?>
 <script type="text/javascript">topCart('topCartContent');</script>
+<?php endif; ?>
