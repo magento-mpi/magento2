@@ -29,6 +29,7 @@
 .note-msg,
 .notice-msg { _height:24px; }
 .opc li.section { vertical-align:top; }
+.products-grid .product-name { _height:2em; }
 
 /* Doubled Margin Fixes */
 .product-view .product-img-box .more-views li,
@@ -58,6 +59,7 @@ button.btn-small { height:17px; }
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
 /* Clears and hasLayout fixes */
+.block-cart .block-title a,
 .block-cart .block-content .item,
 .header,
 .header-panel,

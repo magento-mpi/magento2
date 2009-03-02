@@ -27,7 +27,7 @@
 <?php if ($this->getReviewsCount()): ?>
     <div class="ratings">
         <?php if ($this->getRatingSummary()):?>
-            <div class="rating-box">
+            <div class="rating-box" title="<?php echo $this->getRatingSummary() ?>%">
                 <div class="rating" style="width:<?php echo $this->getRatingSummary() ?>%"></div>
             </div>
             <span class="amount">(<?php echo $this->getReviewsCount() ?>)</span>
