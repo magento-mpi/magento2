@@ -65,7 +65,7 @@
       <documentation>Retrieve customers</documentation>
       <input message="typens:directoryCountryListRequest"/>
       <output message="typens:directoryCountryListResponse"/>
-    </operation>          
+    </operation>
 
     <operation name="directoryRegionList">
       <documentation>Retrieve customers</documentation>
@@ -76,7 +76,6 @@
   </portType>
   
   <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
-  
     <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
     
     <operation name="directoryCountryList">
@@ -87,7 +86,7 @@
       <output>
         <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
       </output>
-    </operation>        
+    </operation>
     
     <operation name="directoryRegionList">
       <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>

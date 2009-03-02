@@ -3,7 +3,7 @@
   <types>
     <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
     <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
-  
+
     <complexType name="customerCustomerEntityToCreate">
         <all>
             <element name="firstname" type="xsd:string" minOccurs="0" />
@@ -14,7 +14,7 @@
             <element name="email" type="xsd:string" minOccurs="0" />
         </all>
     </complexType>
-    
+
     <complexType name="customerCustomerEntity">
         <all>
            <element name="customer_id" type="xsd:int" />
