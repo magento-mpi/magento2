@@ -349,7 +349,12 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     public function getControllerFileName($realModule, $controller)
     {
+        $parts = explode('_', $realModule);
+        $realModule = implode('_', array_splice($parts, 0, 2));
         $file = Mage::getModuleDir('controllers', $realModule);
+        if (count($parts)) {
+            $file .= DS . implode(DS, $parts);
+        }
         $file .= DS.uc_words($controller, DS).'Controller.php';
         return $file;
     }
