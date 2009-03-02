@@ -35,6 +35,9 @@
 
 class Mage_AmazonPayments_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Resource model initialization
+     */
     protected function _construct()
     {
         $this->_init('amazonpayments/api_debug', 'transaction_id');

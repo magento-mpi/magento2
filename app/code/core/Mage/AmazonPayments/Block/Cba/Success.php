@@ -23,11 +23,28 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_AmazonPayments_Model_Api_ExtendedSoapClient extends SoapClient
+
+/**
+ * Amazon Payments Checkout by Amazon Success Block
+ *
+ * @category    Mage
+ * @package     Mage_AmazonPayments
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_AmazonPayments_Block_Cba_Success extends Mage_Core_Block_Abstract
 {
-   public function __construct($wsdl, $options = array())
-   {
-     parent::__construct($wsdl, $options);
-   }
+    /**
+     * Success page
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        echo "<p><strong>{$this->__('Thank you for your purchase!') }</strong></p>\n";
+        echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.<br/>');
+
+
+        return '';
+    }
 
 }

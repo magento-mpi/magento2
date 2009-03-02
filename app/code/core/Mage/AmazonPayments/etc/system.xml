@@ -149,6 +149,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </specificcountry>
+                        <use_callback_api translate="label">
+                            <label>Use Callback Api</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>91</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </use_callback_api>
                     </fields>
                 </amazonpayments_cba>
                 <amazonpayments_asp translate="label">

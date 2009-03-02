@@ -101,110 +101,6 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     }
 
     /**
-     * Getting information about existing orders (not using now)
-     *
-     */
-    public function getAmazonCbaOrderDetails($amazonOrderId)
-    {
-        $_merchantId = Mage::getStoreConfig('payment/amazonpayments_cba/merchant_id');
-        $merchant = array(
-            'merchantIdentifier' => $_merchantId,
-            'merchantName' => Mage::getStoreConfig('payment/amazonpayments_cba/merchant_name'),
-        );
-        $loginOptions = array(
-            'login' => 'yoav@varien.com',
-            'password' => 'varien1975',
-        );
-
-        $_soap = $this->_getSoapApi(array_merge($merchant, $loginOptions));
-
-        /*$_options = array(
-                'merchant'           => $_merchantId,
-                'documentIdentifier' => $amazonOrderId,
-            );*/
-        /*$_options = array(
-                'Merchant'           => stdClass::__constructor(array(
-                        'merchantIdentifier' => $_merchantId,
-                        'merchantName' => 'Varien')),
-                'documentIdentifier' => $amazonOrderId,
-            );*/
-$doc = '<?xml version="1.0" encoding="UTF-8"?>
-<Order xmlns="http://payments.amazon.com/checkout/2008-08-29/">
-  <Cart>
-    <Items>
-      <Item>
-        <SKU>ABC123</SKU>
-        <MerchantId>'.$_merchantId.'</MerchantId>
-        <Title>Red Fish</Title>
-        <Price>
-          <Amount>19.99</Amount>
-          <CurrencyCode>USD</CurrencyCode>
-        </Price>
-        <Quantity>1</Quantity>
-      </Item>
-    </Items>
-  </Cart>
-</Order>';
-        #$params = array('merchant' => $merchant, 'documentIdentifier' => $amazonOrderId);
-
-        #echo "doc: <pre>{$doc}</pre><br />\n";
-        $doc = base64_encode($doc);
-        $params = array('merchant' => $merchant, 'messageType' => 'new order', 'doc' => $doc);
-
-        $options = array('trace' => true, 'timeout' => '10');
-
-        echo '<pre> DEBUG:'."\n";
-        print_r($params);
-        print_r($options);
-        echo '</pre>'."\n";
-
-        echo '<pre>'."\n";
-        echo " types:\n";
-        print_r($_soap->__getTypes());
-        echo " functions:\n";
-        print_r($_soap->__getFunctions());
-        echo '</pre>'."\n";
-
-        echo '<hr />';
-
-
-        try {
-            $document = $_soap->__soapCall('postDocument', $params, $options);
-            #$Result = $_soap->__call('getDocument', $params, $options);
-
-            /*$params = array('merchant' => $merchant, 'messageType' => '_GET_ORDERS_DATA_', 'howMany' => 100);
-            $Result = $_soap->__call('getLastNDocumentInfo', $params, $options);*/
-        }
-        catch (Exception $e) {
-            /*print "<pre>\n";
-            print "request :\n".htmlspecialchars($_soap->__getLastRequest()) ."\n";
-            print "response:\n".htmlspecialchars($_soap->__getLastResponse())."\n";
-            print "</pre>";*/
-
-            echo "error: ". $e->getMessage() ."<br />\n";
-            echo '<pre> error:'."\n";
-            print_r($e);
-            echo '</pre>'."\n";
-        }
-
-        /*echo '<pre> document:'."\n";
-        print_r($document);
-        echo '</pre>'."\n";*/
-    }
-
-    /**
-     * Getting Soap Api object
-     *
-     * @param   array $options
-     * @return  Mage_Cybersource_Model_Api_ExtendedSoapClient
-     */
-    protected function _getSoapApi($options = array())
-    {
-        $wsdl = Mage::getStoreConfig('payment/amazonpayments_cba/wsdl');
-        return new Mage_AmazonPayments_Model_Api_ExtendedSoapClient($wsdl, $options);
-    }
-
-    /**
      * Build XML-based Cart for Checkout by Amazon
      *
      * @param Mage_Sales_Model_Quote
@@ -214,111 +110,122 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
     {
         $_xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
                 .'<Order xmlns="http://payments.amazon.com/checkout/2008-11-30/">'."\n";
-        if ($quote->hasItems()) {
-            $_xml .= " <Cart>\n"
-                    ."   <Items>\n";
-            $_taxTable = array();
+        if (!$quote->hasItems()) {
+            return false;
+        }
+        $_xml .= " <ClientRequestId>{$quote->getId()}</ClientRequestId>\n"; // Returning parametr
+        #        ."<ExpirationDate></ExpirationDate>";
 
-            foreach ($quote->getAllVisibleItems() as $_item) {
-                $_xml .= "   <Item>\n"
-                    ."    <SKU>{$_item->getSku()}</SKU>\n"
-                    ."    <MerchantId>{$this->getMerchantId()}</MerchantId>\n"
-                    ."    <Title>{$_item->getName()}</Title>\n"
-                    ."    <Price>\n"
-                    ."     <Amount>{$_item->getPrice()}</Amount>\n"
-                    ."     <CurrencyCode>{$quote->getBaseCurrencyCode()}</CurrencyCode>\n"
-                    ."    </Price>\n"
-                    ."    <Quantity>{$_item->getQty()}</Quantity>\n"
-                    ."    <Weight>\n"
-                    ."      <Amount>{$_item->getWeight()}</Amount>\n"
-                    ."       <Unit>lb</Unit>\n"
-                    ."     </Weight>\n"
-                    #."     <TaxTableId>tax_{$_item->getSku()}</TaxTableId>\n"
-                  ."     <ShippingMethodIds>\n"
+        $_xml .= " <Cart>\n"
+                ."   <Items>\n";
+        $_taxTable = array();
+
+        foreach ($quote->getAllVisibleItems() as $_item) {
+            $_xml .= "   <Item>\n"
+                ."    <SKU>{$_item->getSku()}</SKU>\n"
+                ."    <MerchantId>{$this->getMerchantId()}</MerchantId>\n"
+                ."    <Title>{$_item->getName()}</Title>\n"
+                ."    <Price>\n"
+                ."     <Amount>{$_item->getPrice()}</Amount>\n"
+                ."     <CurrencyCode>{$quote->getBaseCurrencyCode()}</CurrencyCode>\n"
+                ."    </Price>\n"
+                ."    <Quantity>{$_item->getQty()}</Quantity>\n"
+                ."    <Weight>\n"
+                ."      <Amount>{$_item->getWeight()}</Amount>\n"
+                ."       <Unit>lb</Unit>\n"
+                ."     </Weight>\n";
+            if (!$this->getConfigData('use_callback_api')) {
+                $_xml .= "     <TaxTableId>tax_{$_item->getSku()}</TaxTableId>\n"
+                    ."     <ShippingMethodIds>\n"
                     ."       <ShippingMethodId>US Standard</ShippingMethodId>\n"
                     ."       <ShippingMethodId>US Expedited</ShippingMethodId>\n"
                     ."       <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
                     ."       <ShippingMethodId>US One-Day</ShippingMethodId>\n"
-                    ."     </ShippingMethodIds>\n"
-                    ."   </Item>\n";
-
-                    #$_taxTable["tax_{$_item->getSku()}"] = round($_item->getTaxAmount(), 2);
+                    ."     </ShippingMethodIds>\n";
             }
-            $_xml .= "   </Items>\n"
-                    ." </Cart>\n";
+            $_xml .= "   </Item>\n";
+
+
+            $_taxTable["{$_item->getSku()}"] = round($_item->getTaxPercent()/100, 4);
+            #$_taxTable["{$_item->getSku()}"] = round($_item->getTaxAmount(), 2);
         }
+        $_xml .= "   </Items>\n"
+                ." </Cart>\n";
 
-        /*if (count($_taxTable) > 0 && 0) {
-                $_xml .= "  <TaxTables>\n";
-            foreach ($_taxTable as $_taxTableId => $_taxTableAmount) {
-                $_xml .= "    <TaxTable>\n"
-                    ."      <TaxTableId>tax_{$_taxTableId}</TaxTableId>\n"
-                    ."      <TaxRules>\n"
-                    ."        <TaxRule>\n"
-                    ."          <Rate>{$_taxTableAmount}</Rate>\n"
-                    #."            <USStateRegion>WA</USStateRegion>\n"
-                    ."        </TaxRule>\n"
-                    ."      </TaxRules>\n"
-                    ."    </TaxTable>\n";
+        if (!$this->getConfigData('use_callback_api')) {
+            if (count($_taxTable) > 0) {
+                    $_xml .= " <TaxTables>\n";
+                foreach ($_taxTable as $_taxTableId => $_taxTableValue) {
+                    $_xml .= "    <TaxTable>\n"
+                        ."      <TaxTableId>tax_{$_taxTableId}</TaxTableId>\n"
+                        ."      <TaxRules>\n"
+                        ."        <TaxRule>\n"
+                        ."          <Rate>{$_taxTableValue}</Rate>\n"
+                        #."            <USStateRegion>WA</USStateRegion>\n"
+                        ."          <PredefinedRegion>USAll</PredefinedRegion>\n"
+                        ."        </TaxRule>\n"
+                        ."      </TaxRules>\n"
+                        ."    </TaxTable>\n";
+                }
+                $_xml .= " </TaxTables>\n";
             }
-            $_xml .= "  </TaxTables>\n";
-        }*/
 
-        $_xml .= ""
-                ." <ShippingMethods>\n"
-                ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>US Standard</ShippingMethodId>\n"
-                ."      <ServiceLevel>Standard</ServiceLevel>\n"
-                ."      <Rate>\n"
-                ."        <ItemQuantityBased>\n"
-                ."          <Amount>5.00</Amount>\n"
-                ."          <CurrencyCode>USD</CurrencyCode>\n"
-                ."        </ItemQuantityBased>\n"
-                ."      </Rate>\n"
-                ."      <IncludedRegions>\n"
-                ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
-                ."      </IncludedRegions>\n"
-                ."    </ShippingMethod>\n"
-                ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>US Expedited</ShippingMethodId>\n"
-                ."      <ServiceLevel>Expedited</ServiceLevel>\n"
-                ."      <Rate>\n"
-                ."        <ItemQuantityBased>\n"
-                ."          <Amount>6.00</Amount>\n"
-                ."          <CurrencyCode>USD</CurrencyCode>\n"
-                ."        </ItemQuantityBased>\n"
-                ."      </Rate>\n"
-                ."      <IncludedRegions>\n"
-                ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
-                ."      </IncludedRegions>\n"
-                ."    </ShippingMethod>\n"
-                ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
-                ."      <ServiceLevel>TwoDay</ServiceLevel>\n"
-                ."      <Rate>\n"
-                ."        <ItemQuantityBased>\n"
-                ."          <Amount>7.40</Amount>\n"
-                ."          <CurrencyCode>USD</CurrencyCode>\n"
-                ."        </ItemQuantityBased>\n"
-                ."      </Rate>\n"
-                ."      <IncludedRegions>\n"
-                ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
-                ."      </IncludedRegions>\n"
-                ."    </ShippingMethod>\n"
-                ."    <ShippingMethod>\n"
-                ."      <ShippingMethodId>US One-Day</ShippingMethodId>\n"
-                ."      <ServiceLevel>OneDay</ServiceLevel>\n"
-                ."      <Rate>\n"
-                ."        <ItemQuantityBased>\n"
-                ."          <Amount>9.10</Amount>\n"
-                ."          <CurrencyCode>USD</CurrencyCode>\n"
-                ."        </ItemQuantityBased>\n"
-                ."      </Rate>\n"
-                ."      <IncludedRegions>\n"
-                ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
-                ."      </IncludedRegions>\n"
-                ."    </ShippingMethod>\n"
-                ." </ShippingMethods>\n";
+            $_xml .= ""
+                    ." <ShippingMethods>\n"
+                    ."    <ShippingMethod>\n"
+                    ."      <ShippingMethodId>US Standard</ShippingMethodId>\n"
+                    ."      <ServiceLevel>Standard</ServiceLevel>\n"
+                    ."      <Rate>\n"
+                    ."        <ItemQuantityBased>\n"
+                    ."          <Amount>5.00</Amount>\n"
+                    ."          <CurrencyCode>USD</CurrencyCode>\n"
+                    ."        </ItemQuantityBased>\n"
+                    ."      </Rate>\n"
+                    ."      <IncludedRegions>\n"
+                    ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
+                    ."      </IncludedRegions>\n"
+                    ."    </ShippingMethod>\n"
+                    ."    <ShippingMethod>\n"
+                    ."      <ShippingMethodId>US Expedited</ShippingMethodId>\n"
+                    ."      <ServiceLevel>Expedited</ServiceLevel>\n"
+                    ."      <Rate>\n"
+                    ."        <ItemQuantityBased>\n"
+                    ."          <Amount>6.00</Amount>\n"
+                    ."          <CurrencyCode>USD</CurrencyCode>\n"
+                    ."        </ItemQuantityBased>\n"
+                    ."      </Rate>\n"
+                    ."      <IncludedRegions>\n"
+                    ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
+                    ."      </IncludedRegions>\n"
+                    ."    </ShippingMethod>\n"
+                    ."    <ShippingMethod>\n"
+                    ."      <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
+                    ."      <ServiceLevel>TwoDay</ServiceLevel>\n"
+                    ."      <Rate>\n"
+                    ."        <ItemQuantityBased>\n"
+                    ."          <Amount>7.40</Amount>\n"
+                    ."          <CurrencyCode>USD</CurrencyCode>\n"
+                    ."        </ItemQuantityBased>\n"
+                    ."      </Rate>\n"
+                    ."      <IncludedRegions>\n"
+                    ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
+                    ."      </IncludedRegions>\n"
+                    ."    </ShippingMethod>\n"
+                    ."    <ShippingMethod>\n"
+                    ."      <ShippingMethodId>US One-Day</ShippingMethodId>\n"
+                    ."      <ServiceLevel>OneDay</ServiceLevel>\n"
+                    ."      <Rate>\n"
+                    ."        <ItemQuantityBased>\n"
+                    ."          <Amount>9.10</Amount>\n"
+                    ."          <CurrencyCode>USD</CurrencyCode>\n"
+                    ."        </ItemQuantityBased>\n"
+                    ."      </Rate>\n"
+                    ."      <IncludedRegions>\n"
+                    ."        <PredefinedRegion>USAll</PredefinedRegion>\n"
+                    ."      </IncludedRegions>\n"
+                    ."    </ShippingMethod>\n"
+                    ." </ShippingMethods>\n";
+        }
 
         $_xml .= " <IntegratorId>{$this->getIntegratorId()}</IntegratorId>\n"
                 ." <IntegratorName>Varien</IntegratorName>\n";
@@ -329,6 +236,11 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
                 ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback')."</OrderCallbackEndpoint>\n"
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
                 ." </OrderCalculationCallbacks>\n";
+
+        #$_xml .= "<ReturnUrl>anyURI</ReturnUrl>"
+        #        ."<CancelUrl>anyURI</CancelUrl>"
+        #        ."<YourAccountUrl>anyURI</YourAccountUrl>";
+
         $_xml .= "</Order>\n";
         return $_xml;
     }
@@ -339,17 +251,11 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
      */
     public function handleXmlCallback($xmlRequest, $session)
     {
-        $quoteId = $session->getQuoteId();
+        $_address = $this->_parseRequestAddress($xmlRequest);
+
+        #$quoteId = $session->getAmazonQuoteId();
+        $quoteId = $_address['ClientRequestId'];
         $quote = Mage::getModel('sales/quote')->load($quoteId);
-
-        $storeQuote = Mage::getModel('sales/quote')->setStoreId(Mage::app()->getStore()->getId());
-
-        $storeQuote->merge($session->getQuote());
-        $storeQuote
-            ->setItemsCount($session->getQuote()->getItemsCount())
-            ->setItemsQty($session->getQuote()->getItemsQty())
-            ->setChangedFlag(false);
-        $storeQuote->save();
 
         $baseCurrency = $session->getQuote()->getBaseCurrencyCode();
         $currency = Mage::app()->getStore($session->getQuote()->getStoreId())->getBaseCurrency();
@@ -357,8 +263,6 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
         $billingAddress = $quote->getBillingAddress();
         $address = $quote->getShippingAddress();
 
-        #$data = $this->parseRequest($xmlRequest);
-        $_address = $this->_parseRequestAddress($xmlRequest);
         $this->_address = $_address;
 
         $regionModel = Mage::getModel('directory/region')->loadByCode($_address['regionCode'], $_address['countryCode']);
@@ -440,6 +344,99 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
     }
 
     /**
+     * Parse request from Amazon and return order details
+     *
+     * @param string xml
+     */
+    public function parseOrder($xmlData)
+    {
+        $parsedOrder = array();
+        if (strlen(trim($xmlData)) > 0) {
+            $xml = new Varien_Simplexml_Config();
+            $xml->loadString($xmlData);
+            $parsedOrder = array(
+                'NotificationReferenceId'   => (string) $xml->getNode("NotificationReferenceId"),
+                'amazonOrderID'     => (string) $xml->getNode("ProcessedOrder/AmazonOrderID"),
+                'orderDate'         => (string) $xml->getNode("ProcessedOrder/OrderDate"),
+                'orderChannel'      => (string) $xml->getNode("ProcessedOrder/OrderChannel"),
+                'buyerName'         => (string) $xml->getNode("ProcessedOrder/BuyerInfo/BuyerName"),
+                'buyerEmailAddress' => (string) $xml->getNode("ProcessedOrder/BuyerInfo/BuyerEmailAddress"),
+                'ShippingLevel'     => (string) $xml->getNode("ProcessedOrder/ShippingServiceLevel"),
+                'shippingAddress'   => array(
+                    'name'          => (string) $xml->getNode("ProcessedOrder/ShippingAddress/Name"),
+                    'street'        => (string) $xml->getNode("ProcessedOrder/ShippingAddress/AddressFieldOne"),
+                    'city'          => (string) $xml->getNode("ProcessedOrder/ShippingAddress/City"),
+                    'regionCode'    => (string) $xml->getNode("ProcessedOrder/ShippingAddress/State"),
+                    'postCode'      => (string) $xml->getNode("ProcessedOrder/ShippingAddress/PostalCode"),
+                    'countryCode'   => (string) $xml->getNode("ProcessedOrder/ShippingAddress/CountryCode"),
+                ),
+                'items'             => array(),
+            );
+
+            $_total = $_shipping = $_tax = $_shippingTax = $_subtotalPromo = $_shippingPromo = $_subtotal = 0;
+            $_itemsCount = $_itemsQty = 0;
+            foreach ($xml->getNode("ProcessedOrder/ProcessedOrderItems/ProcessedOrderItem") as $_item) {
+                $parsedOrder['ClientRequestId'] = (string) $_item->ClientRequestId;
+                $_sku = (string) $_item->SKU;
+                $_itemQty = (string) $_item->Quantity;
+                $_itemsQty += $_itemQty;
+                $_itemsCount++;
+                $parsedOrder['items'][$_sku] = array(
+                    'sku'   => $_sku,
+                    'title' => (string) $_item->Title,
+                    'price' => array(
+                        'amount'       => (string) $_item->Price->Amount,
+                        'currencyCode' => (string) $_item->Price->CurrencyCode,
+                        ),
+                    'qty' => $_itemQty,
+                    'weight' => array(
+                        'amount' => (string) $_item->Weight->Amount,
+                        'unit'   => (string) $_item->Weight->Unit,
+                        ),
+                );
+                $_itemSubtotal = 0;
+                foreach ($_item->ItemCharges->Component as $_component) {
+                    switch ((string) $_component->Type) {
+                        case 'Principal':
+                            $_itemSubtotal  += (string) $_component->Charge->Amount;
+                            $parsedOrder['items'][$_sku]['subtotal'] = $_itemSubtotal;
+                            break;
+                        case 'Shipping':
+                            $_shipping      += (string) $_component->Charge->Amount;
+                            break;
+                        case 'Tax':
+                            $_tax           += (string) $_component->Charge->Amount;
+                            break;
+                        case 'ShippingTax':
+                            $_shippingTax   += (string) $_component->Charge->Amount;
+                            break;
+                        case 'PrincipalPromo':
+                            $_subtotalPromo += (string) $_component->Charge->Amount;
+                            break;
+                        case 'ShippingPromo':
+                            $_shippingPromo += (string) $_component->Charge->Amount;
+                            break;
+                    }
+                }
+                $_subtotal += $_itemSubtotal;
+            }
+
+            $parsedOrder['itemsCount'] = $_itemsCount;
+            $parsedOrder['itemsQty'] = $_itemsQty;
+
+            $parsedOrder['subtotal'] = $_subtotal;
+            $parsedOrder['shippingAmount'] = $_shipping;
+            $parsedOrder['tax'] = $_tax + $_shippingTax;
+            $parsedOrder['shippingTax'] = $_shippingTax;
+            $parsedOrder['discount'] = $_subtotalPromo + $_shippingPromo;
+            $parsedOrder['discountShipping'] = $_shippingPromo;
+
+            $parsedOrder['total'] = $_subtotal + $_shipping + $_tax + $_shippingTax - abs($_subtotalPromo) - abs($_shippingPromo);
+        }
+        return $parsedOrder;
+    }
+
+    /**
      * Return address from Amazon request
      *
      * @param array $responseArr
@@ -452,12 +449,13 @@ $doc = '<?xml version="1.0" encoding="UTF-8"?>
             $xml->loadString($xmlResponse);
 
             $address = array(
-                'addressId'   => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/AddressId"),
-                'regionCode'  => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/State"),
-                'countryCode' => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/CountryCode"),
-                'city'        => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/City"),
-                'street'      => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/AddressFieldOne"),
-                'postCode'    => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/PostalCode"),
+                'addressId'         => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/AddressId"),
+                'regionCode'        => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/State"),
+                'countryCode'       => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/CountryCode"),
+                'city'              => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/City"),
+                'street'            => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/AddressFieldOne"),
+                'postCode'          => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/PostalCode"),
+                'ClientRequestId'   => (string) $xml->getNode("ClientRequestId"),
             );
         } else {
             $address = array(
@@ -547,7 +545,6 @@ XML;
             $_xmlAddressId = $_xmlAddress->addChild('AddressId', $this->_address['addressId']);
 
             $_xmlCallbackOrderItems = $_xmlCallbackOrder->addChild('CallbackOrderItems');
-            #foreach ($quote->getAllVisibleItems() as $_itemSku) {
             foreach ($items as $_itemSku) {
                 #$taxAmountTable['tax_'.$_itemSku] = $_item->getTaxAmount();
 
@@ -605,10 +602,6 @@ XML;
             }
         }
 
-        /*echo "asXml: {$xml->asXML()}<br />\n";
-        echo '<pre> xml:'."\n";
-        print_r($xml);
-        echo '</pre>'."\n";*/
         return $xml;
     }
 
@@ -617,7 +610,7 @@ XML;
      *
      * @param Exception $e
      */
-    public function callbackXmlError($e)
+    public function callbackXmlError(Exception $e)
     {
         // Posible error codes: INVALID_SHIPPING_ADDRESS | INTERNAL_SERVER_ERROR | SERVICE_UNAVAILABLE
         $xmlErrorString = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
@@ -630,7 +623,19 @@ XML;
             .' </Response>'."\n"
             .'</OrderCalculationsResponse>';
 
-        if ($_errorMsg  = $e->getMessage()) {
+        $_errorMessage = "{$_errorMsg}\n\n"
+            ."code: {$e->getCode()}\n\n"
+            ."file: {$e->getFile()}\n\n"
+            ."line: {$e->getLine()}\n\n"
+            ."trac: {$e->getTraceAsString()}\n\n";
+        if ($this->getDebug()) {
+         $debug = Mage::getModel('amazonpayments/api_debug')
+            ->setResponseBody($_errorMessage)
+            ->setRequestBody(time() .' - error callback response')
+            ->save();
+        }
+
+        if ($_errorMsg = $e->getMessage() && 0) {
             $xmlErrorString = str_replace('[MESSAGE]', $_errorMsg, $xmlErrorString);
         } else {
             $xmlErrorString = str_replace('[MESSAGE]', 'Error', $xmlErrorString);

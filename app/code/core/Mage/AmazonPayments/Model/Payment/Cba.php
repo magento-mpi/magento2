@@ -144,7 +144,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
                     ->setRequestBody(print_r($_request, 1))
-                    ->setResponseBody('Unix timestamp: '.time().' - non-empty order-calculations-request')
+                    ->setResponseBody(time().' - request callback')
                     ->save();
             }
 
@@ -166,20 +166,222 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 if ($this->getDebug()) {
                     $debug = Mage::getModel('amazonpayments/api_debug')
                         ->setResponseBody($response)
-                        ->setRequestBody('Unix timestamp: '.time())
+                        ->setRequestBody(time() .' - response calllback')
                         ->save();
                 }
             }
+        } elseif (!empty($_request['NotificationData']) && !empty($_request['NotificationType'])) {
+
+            if ($this->getDebug()) {
+                $debug = Mage::getModel('amazonpayments/api_debug')
+                    ->setRequestBody(print_r($_request, 1))
+                    ->setResponseBody(time().' - Notification: '. $_request['NotificationType'])
+                    ->save();
+            }
+
+            switch ($_request['NotificationType']) {
+                case 'NewOrderNotification':
+                    $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
+                    $this->_createNewOrder($newOrderDetails);
+                    break;
+                case 'OrderReadyToShipNotification':
+                    $amazonOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
+                    $this->_proccessOrder($amazonOrderDetails);
+                    break;
+                case 'OrderCancelledNotification':
+                    $amazonOrderDetails = $this->getApi()->parseCancelOrder($_request['NotificationData']);
+                    $this->_cancelOrder($amazonOrderDetails);
+                    break;
+                default:
+                    // Unknown notification type
+            }
+
         } else {
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
                     ->setRequestBody(print_r($_request, 1))
-                    ->setResponseBody('Unix timestamp: '.time().' - empty order-calculations-request')
+                    ->setResponseBody(time().' - error request callback')
                     ->save();
             }
         }
         return $response;
     }
+
+    /**
+     * Create new order by data from Amazon NewOrderNotification
+     *
+     * @param array $newOrderDetails
+     */
+    protected function _createNewOrder(array $newOrderDetails)
+    {
+        $session = $this->getCheckout();
+
+        #$quoteId = $session->getAmazonQuoteId();
+
+        $quoteId = $newOrderDetails['ClientRequestId'];
+        $quote = Mage::getModel('sales/quote')->load($quoteId);
+
+        $baseCurrency = $session->getQuote()->getBaseCurrencyCode();
+        $currency = Mage::app()->getStore($session->getQuote()->getStoreId())->getBaseCurrency();
+
+        $shipping = $quote->getShippingAddress();
+        $billing = $quote->getBillingAddress();
+
+        $_address = $newOrderDetails['shippingAddress'];
+        $this->_address = $_address;
+
+        $regionModel = Mage::getModel('directory/region')->loadByCode($_address['regionCode'], $_address['countryCode']);
+        $_regionId = $regionModel->getId();
+
+        $shipping->setCountryId($_address['countryCode'])
+            ->setRegion($_address['regionCode'])
+            ->setRegionId($_regionId)
+            ->setCity($_address['city'])
+            ->setStreet($_address['street'])
+            ->setPostcode($_address['postCode'])
+            ->setTaxAmount($newOrderDetails['tax'])
+            ->setBaseTaxAmount($newOrderDetails['tax'])
+            ->setShippingAmount($newOrderDetails['shippingAmount'])
+            ->setBaseShippingAmount($newOrderDetails['shippingAmount'])
+            ->setShippingTaxAmount($newOrderDetails['shippingTax'])
+            ->setBaseShippingTaxAmount($newOrderDetails['shippingTax'])
+            ->setDiscountAmount($newOrderDetails['discount'])
+            ->setBaseDiscountAmount($newOrderDetails['discount'])
+            ->setSubtotal($newOrderDetails['subtotal'])
+            ->setBaseSubtotal($newOrderDetails['subtotal'])
+            ->setGrandTotal($newOrderDetails['total'])
+            ->setBaseGrandTotal($newOrderDetails['total']);
+
+        $billing->setCountryId($_address['countryCode'])
+            ->setRegion($_address['regionCode'])
+            ->setRegionId($_regionId)
+            ->setCity($_address['city'])
+            ->setStreet($_address['street'])
+            ->setPostcode($_address['postCode'])
+            ->setTaxAmount($newOrderDetails['tax'])
+            ->setBaseTaxAmount($newOrderDetails['tax'])
+            ->setShippingAmount($newOrderDetails['shippingAmount'])
+            ->setBaseShippingAmount($newOrderDetails['shippingAmount'])
+            ->setShippingTaxAmount($newOrderDetails['shippingTax'])
+            ->setBaseShippingTaxAmount($newOrderDetails['shippingTax'])
+            ->setDiscountAmount($newOrderDetails['discount'])
+            ->setBaseDiscountAmount($newOrderDetails['discount'])
+            ->setSubtotal($newOrderDetails['subtotal'])
+            ->setBaseSubtotal($newOrderDetails['subtotal'])
+            ->setGrandTotal($newOrderDetails['total'])
+            ->setBaseGrandTotal($newOrderDetails['total'])
+            ->setFirstname($newOrderDetails['buyerName'])
+            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);
+
+        $quote->setBillingAddress($billing);
+        $quote->setShippingAddress($shipping);
+
+        $quote->save();
+
+        $billing = $quote->getBillingAddress();
+        $shipping = $quote->getShippingAddress();
+
+        $convertQuote = Mage::getModel('sales/convert_quote');
+        /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
+        $order = Mage::getModel('sales/order');
+        /* @var $order Mage_Sales_Model_Order */
+
+        $order = $convertQuote->addressToOrder($billing);
+
+        // add payment information to order
+        $order->setBillingAddress($convertQuote->addressToOrderAddress($billing))
+            ->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
+
+        $order->setShippingDescription($newOrderDetails['ShippingLevel']);
+        $order->setReferenceId($newOrderDetails['amazonOrderID']);
+
+        $order->setAmazonname($newOrderDetails['buyerName'])
+            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);
+
+        $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
+
+        $order->addData(array('amazonOrderID' => $quote->getAmazonOrderID()));
+
+        // add items to order
+        foreach ($quote->getAllItems() as $item) {
+            $order->addItem($convertQuote->itemToOrderItem($item));
+        }
+
+        $order->place();
+
+        $customer = $quote->getCustomer();
+        if (isset($customer) && $customer) { // && $quote->getCheckoutMethod()=='register') {
+            $order->setCustomerId($customer->getId())
+                ->setCustomerEmail($customer->getEmail())
+                ->setCustomerPrefix($customer->getPrefix())
+                ->setCustomerFirstname($customer->getFirstname())
+                ->setCustomerMiddlename($customer->getMiddlename())
+                ->setCustomerLastname($customer->getLastname())
+                ->setCustomerSuffix($customer->getSuffix())
+                ->setCustomerGroupId($customer->getGroupId())
+                ->setCustomerTaxClassId($customer->getTaxClassId());
+        }
+
+        $order->save();
+
+        $quote->setIsActive(false);
+        $quote->save();
+
+        $orderId = $order->getIncrementId();
+        $this->getCheckout()->setLastQuoteId($quote->getId());
+        $this->getCheckout()->setLastSuccessQuoteId($quote->getId());
+        $this->getCheckout()->setLastOrderId($order->getId());
+        $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
+
+        $order->sendNewOrderEmail();
+    }
+
+    /**
+     * Proccess existing order
+     *
+     * @param array $amazonOrderDetails
+     */
+    protected function _proccessOrder($amazonOrderDetails)
+    {
+        if ($quoteId = $newOrderDetails['ClientRequestId']) {
+            if ($order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $quoteId)) {
+                /** @var $order Mage_Sales_Model_Order */
+
+                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
+                $order->setStatus('Processing');
+                $order->setIsNotified(false);
+                $order->save;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Cancel the order
+     *
+     * @param array $amazonOrderDetails
+     */
+    protected function _cancelOrder($amazonOrderDetails)
+    {
+        if ($quoteId = $newOrderDetails['ClientRequestId']) {
+            if ($order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $quoteId)) {
+                /** @var $order Mage_Sales_Model_Order */
+
+                $order->setState(Mage_Sales_Model_Order::STATE_CANCELED);
+                $order->setStatus('Cancel');
+                $order->setIsNotified(false);
+                $order->save;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Return xml with error
+     *
+     * @param Exception $e
+     * @return string
+     */
 
     public function callbackXmlError(Exception $e)
     {
@@ -190,12 +392,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $response = 'order-calculations-response='.urlencode($_xml->asXML())
                 .'&Signature='.urlencode($_signature)
                 .'&aws-access-key-id='.urlencode(Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'));
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('amazonpayments/api_debug')
-                ->setResponseBody($response)
-                ->setRequestBody('Unix timestamp: '.time())
-                ->save();
-        }
         return $response;
     }
 
@@ -266,14 +462,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $rArr['merchant_signature'] = $this->getApi()->calculateSignature($rArr, $secretKeyID);
         unset($rArr['form_key']);
 
-        /*if ($this->getDebug() && $sReq) {
-            $sReq = substr($sReq, 1);
-            $debug = Mage::getModel('paypal/api_debug')
-                    ->setApiEndpoint($this->getPaypalUrl())
-                    ->setRequestBody($sReq)
-                    ->setResponseBody('Unix timestamp: '.time())
-                    ->save();
-        }*/
         return $rArr;
     }
 
@@ -298,24 +486,11 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         if ($this->getDebug()) {
             $debug = Mage::getModel('amazonpayments/api_debug')
                 ->setResponseBody(print_r($xmlCart, 1)."\norder:".$xml)
-                ->setRequestBody('Unix timestamp: '.time() .' xml cart')
+                ->setRequestBody(time() .' - xml cart')
                 ->save();
         }
-        #echo "xml: {$xml}<br />\n"
-        #    ."secretKeyID: {$secretKeyID}<br />\n";
 
         return $xmlCart;
-    }
-
-    /**
-     * Return Checkout by Amazon order details, connecting to Amazon
-     *
-     */
-    public function getAmazonOrderDetails()
-    {
-        $_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
-        echo "_amazonOrderId: {$_amazonOrderId}<br />\n";
-        $this->getApi()->getAmazonCbaOrderDetails($_amazonOrderId);
     }
 
     /**
@@ -324,18 +499,16 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     public function returnAmazon()
     {
-        $_requestParams = Mage::app()->getRequest()->getParams();
-        $_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
+        $_request = Mage::app()->getRequest()->getParams();
+        #$_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
+        #$_quoteId = Mage::app()->getRequest()->getParam('amznPmtsReqId');
 
-        $quote = $this->getCheckout()->getQuote();
-        $quote->getPayment()
-            ->setMethod('amazonpayments_cba')
-            ->setAmazonOrderId($_amazonOrderId)
-            ->setReturnRequest(serialize($_requestParams))
-            ->save();
-
-        #echo "_amazonOrderId: {$_amazonOrderId}<br />\n";
-        #$this->getApi()->getAmazonCbaOrderDetails($_amazonOrderId);
+        if ($this->getDebug()) {
+            $debug = Mage::getModel('amazonpayments/api_debug')
+                ->setRequestBody(print_r($_request, 1))
+                ->setResponseBody(time().' - success')
+                ->save();
+        }
     }
 
     /**

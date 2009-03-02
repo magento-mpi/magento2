@@ -33,6 +33,10 @@
  */
 class Mage_AmazonPayments_Model_Api_Debug extends Mage_Core_Model_Abstract
 {
+    /**
+     * Model initialization
+     *
+     */
     protected function _construct()
     {
         $this->_init('amazonpayments/api_debug');

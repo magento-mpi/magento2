@@ -143,7 +143,6 @@ Something like this is to be added to resolve bug #4890
         <payment>
 
             <amazonpayments_cba>
-                <payment_action>Authorization</payment_action>
                 <active>1</active>
                 <model>amazonpayments/payment_cba</model>
                 <title>Checkout by Amazon</title>
@@ -160,6 +159,7 @@ Something like this is to be added to resolve bug #4890
                 <sandbox_pay_service_url>https://payments-sandbox.amazon.com/checkout/</sandbox_pay_service_url>
                 <button_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</button_url>
                 <wsdl>https://merchant-api.amazon.com/gateway/merchant-interface-mime/</wsdl>
+                <use_callback_api>false</use_callback_api>
             </amazonpayments_cba>
 
             <amazonpayments_asp>
@@ -169,10 +169,10 @@ Something like this is to be added to resolve bug #4890
 
                 <types>IPN</types>
                 <allowspecific>0</allowspecific>
-                
+
                 <order_status>new</order_status>
                 <order_state>new</order_state>
-                
+
                 <merchant_name>Varien</merchant_name>
                 <wsdl>/media/wsdl/amazon_cba_merchant-interface-mime.wsdl</wsdl>
                 <payment_action>Authorization</payment_action>
