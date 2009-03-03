@@ -28,7 +28,7 @@
 /**
  * Last order sidebar
  *
- * @see Mage_Sale_Block_Reorder_Sidebar
+ * @see Mage_Sales_Block_Reorder_Sidebar
  */
 ?>
 <?php if($_order = $this->getLastOrder()): ?>
@@ -41,11 +41,11 @@
     </div>
     <ol id="cart-sidebar-reorder" class="options-list">
         <?php $_showAddButtonFlag = false ?>
-        <?php foreach ($_order->getItemsRandomCollection(5) as $_item): ?>
-            <?php if ($_item->getProduct() && is_null($_item->getParentItem())): ?>
+        <?php foreach ($this->getRandomItemCollection($_order) as $_item): ?>
+            <?php if ($this->getIsShowItem($_item)): ?>
                 <li>
                     <div class="product-checkbox">
-                        <?php if ($_item->getProduct()->getStockItem()->getIsInStock()): ?>
+                        <?php if ($this->getIsSalableItem($_item)): ?>
                             <?php $_showAddButtonFlag = true ?>
                             <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" class="validate-one-required-by-name" />
                             <script type="text/javascript">
@@ -54,7 +54,7 @@
                         <?php endif; ?>
                     </div>
                     <div class="product-names">
-                        <a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
+                        <a href="<?php echo $this->getItemProductUrl($_item) ?>"><?php echo $this->getItemProductName($_item) ?></a>
                     </div>
                 </li>
             <?php endif; ?>
