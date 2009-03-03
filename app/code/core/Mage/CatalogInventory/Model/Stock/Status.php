@@ -453,21 +453,21 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
     public function addStockStatusToProducts($productCollection, $websiteId = null, $stockId = null)
     {
         if ($stockId === null) {
-        	$stockId = Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID;
+            $stockId = Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID;
         }
         if ($websiteId === null) {
-        	$websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
         $productIds = array();
         foreach ($productCollection as $product) {
-        	$productIds[] = $product->getId();
+            $productIds[] = $product->getId();
         }
 
         if (!empty($productIds)) {
-        	$stockStatuses = $this->_getResource()->getProductStatus($productIds, $stockId);
+            $stockStatuses = $this->_getResource()->getProductStatus($productIds, $websiteId, $stockId);
             foreach ($stockStatuses as $productId => $status) {
                 if ($product = $productCollection->getItemById($productId)) {
-                	$product->setIsSalable($status);
+                    $product->setIsSalable($status);
                 }
             }
         }
