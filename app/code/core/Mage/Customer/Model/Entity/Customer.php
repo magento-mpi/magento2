@@ -203,7 +203,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         $this->saveAttribute($customer, 'password_hash');
         return $this;
     }
-    
+
     /**
      * Check whether there are email duplicates of customers in global scope
      *
@@ -213,11 +213,29 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     {
         $lookup = $this->_getReadAdapter()->fetchRow("SELECT email, COUNT(*) AS `qty`
             FROM `{$this->getTable('customer/entity')}`
-            GROUP BY 1 ORDER BY 2 DESC LIMIT 1 
+            GROUP BY 1 ORDER BY 2 DESC LIMIT 1
         ");
         if (empty($lookup)) {
             return false;
         }
         return $lookup['qty'] > 1;
+    }
+
+    /**
+     * Check customer by id
+     *
+     * @param int $customerId
+     * @return bool
+     */
+    public function checkCustomerId($customerId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('customer/entity'), 'entity_id')
+            ->where('entity_id=?', $customerId)
+            ->limit(1);
+        if ($this->_getReadAdapter()->fetchOne($select)) {
+            return true;
+        }
+        return false;
     }
 }
