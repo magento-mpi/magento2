@@ -851,7 +851,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     public function _loadEntities($printQuery = false, $logQuery = false)
     {
         $entity = $this->getEntity();
-        $entityIdField = $entity->getEntityIdField();
+//        $entityIdField = $entity->getEntityIdField();
 
         if ($this->_pageSize) {
             $this->getSelect()->limitPage($this->getCurPage(), $this->_pageSize);
