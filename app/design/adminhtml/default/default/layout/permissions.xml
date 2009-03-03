@@ -34,6 +34,17 @@
         </reference>
     </adminhtml_permissions_role_editrole>
 
+    <!-- override roles grid to add website/store columns -->
+    <adminhtml_permissions_role_index>
+        <reference name="adminhtml.permission.role.index">
+            <action method="unsetChild"><alias>grid</alias></action>
+            <block type="permissions/permissions_grid_role" name="adminhtml.permission.role.grid" as="grid"/>
+        </reference>
+    </adminhtml_permissions_role_index>
+    <adminhtml_permissions_role_rolegrid>
+        <block type="permissions/permissions_grid_role" name="adminhtml.permission.role.grid"/>
+    </adminhtml_permissions_role_rolegrid>
+
     <adminhtml_system_config_edit>
         <reference name="left">
             <remove name="adminhtml.system.config.switcher"/>

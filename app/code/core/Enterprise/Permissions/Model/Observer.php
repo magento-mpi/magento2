@@ -114,7 +114,7 @@ class Enterprise_Permissions_Model_Observer
     protected function _getAllStoreGroups()
     {
         if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getModel('core/store_group')->getCollection();
+            $this->_storeGroupCollection = Mage::getResourceSingleton('core/store_group_collection');
         }
         return $this->_storeGroupCollection;
     }

@@ -27,6 +27,19 @@
 -->
 
 <layout>
+    <!-- admin acl roles grid page -->
+    <adminhtml_permissions_role_index>
+        <reference name="content">
+            <block type="adminhtml/permissions_roles" name="adminhtml.permission.role.index" template="permissions/roles.phtml">
+                <block type="adminhtml/permissions_grid_role" name="adminhtml.permission.role.grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_permissions_role_index>
+    <adminhtml_permissions_role_rolegrid>
+        <remove name="root"/>
+        <block type="adminhtml/permissions_grid_role" name="adminhtml.permission.role.grid"/>
+    </adminhtml_permissions_role_rolegrid>
+
     <!-- admin acl roles edit page -->
     <adminhtml_permissions_role_editrole>
         <reference name="left">

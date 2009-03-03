@@ -18,38 +18,35 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category   Enterprise
+ * @package    Enterprise_Permissions
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * user roles block
+ * Admin roles grid
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Permissions_Roles extends Mage_Adminhtml_Block_Template
+class Enterprise_Permissions_Block_Permissions_Grid_Role extends Mage_Adminhtml_Block_Permissions_Grid_Role
 {
     /**
-     * Get URL of adding new record
+     * Add allowed websites/stores column
      *
-     * @return string
+     * @return Enterprise_Permissions_Block_Permissions_Grid_Role
      */
-    public function getAddNewUrl()
+    protected function _prepareColumns()
     {
-        return $this->getUrl('*/*/editrole');
-    }
+        parent::_prepareColumns();
 
-    /**
-     * Get grid HTML
-     *
-     * @return unknown
-     */
-    public function getGridHtml()
-    {
-        return $this->getChild('grid')->toHtml();
+        $this->addColumn('websites', array(
+            'header'   => $this->__('Allowed Scopes'),
+            'width'    => '200',
+            'sortable' => false,
+            'filter'   => false,
+            'renderer' => 'permissions/permissions_grid_renderer_websites'
+        ));
+
+        return $this;
     }
 }

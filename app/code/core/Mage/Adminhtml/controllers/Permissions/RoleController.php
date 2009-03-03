@@ -48,18 +48,13 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $this->_initAction();
 
-        $this->_addContent($this->getLayout()->createBlock('adminhtml/permissions_roles'));
-
         $this->renderLayout();
     }
 
     public function roleGridAction()
     {
-        $this->getResponse()
-            ->setBody($this->getLayout()
-            ->createBlock('adminhtml/permissions_grid_role')
-            ->toHtml()
-        );
+        $this->loadLayout();
+        $this->getResponse()->setBody($this->getLayout()->getBlock('adminhtml.permission.role.grid')->toHtml());
     }
 
     public function editRoleAction()
