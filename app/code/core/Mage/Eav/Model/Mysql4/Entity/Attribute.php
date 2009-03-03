@@ -409,7 +409,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             ->where("t1.entity_type_id=?", $attribute->getEntityTypeId())
             ->where("t1.attribute_id=?", $attribute->getId())
             ->where("t1.store_id=?", 0)
-            ->where("e.child_id IS NULL");
+            ->where("e.is_child=?", 0);
     }
 
     /**

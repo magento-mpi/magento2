@@ -217,7 +217,8 @@ class Mage_Catalog_Model_Layer extends Varien_Object
 
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
-        $collection->setEntityTypeFilter($entity->getTypeId())
+        $collection
+            ->setEntityTypeFilter($entity->getTypeId())
             ->setAttributeSetFilter($setIds)
             ->setOrder('position', 'ASC');
         $collection = $this->_prepareAttributeCollection($collection);

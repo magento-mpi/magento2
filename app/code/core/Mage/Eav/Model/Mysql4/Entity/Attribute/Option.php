@@ -89,10 +89,10 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option extends Mage_Core_Model_Mysq
                 )
             ->joinLeft(
                 array('t2' => $attributeTable),
-                "t2.entity_id = t1.entity_id"
-                    . " AND t1.entity_type_id = t2.entity_type_id"
-                    . " AND t1.attribute_id = t2.attribute_id"
-                    . " AND t2.store_id = {$store}",
+                "`t2`.`entity_id`=`t1`.`entity_id`"
+                    . " AND `t1`.`entity_type_id`=`t2`.`entity_type_id`"
+                    . " AND `t1`.`attribute_id`=`t2`.`attribute_id`"
+                    . " AND `t2`.`store_id`={$store}",
                 array($attributeCode => $valueExpr));
         if ($attribute->getFrontend()->getInputType() != 'multiselect') {
             $select->joinLeft(
@@ -107,9 +107,10 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option extends Mage_Core_Model_Mysq
                 array($attributeCode . '_value' => "IFNULL(`to2`.`value`, `to1`.`value`)")
             );
         }
-        $select->where("t1.entity_type_id=?", $attribute->getEntityTypeId())
-            ->where("t1.attribute_id=?", $attribute->getId())
-            ->where("t1.store_id=?", 0);
+        $select
+            ->where('t1.entity_type_id=?', $attribute->getEntityTypeId())
+            ->where('t1.attribute_id=?', $attribute->getId())
+            ->where('t1.store_id=?', 0);
 
         return $select;
     }

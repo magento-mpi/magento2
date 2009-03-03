@@ -373,7 +373,7 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
         $storeId    = $observer->getEvent()->getStoreId();
         $tableName  = $observer->getEvent()->getTable();
 
-        $this->_getIndexer()->updateCatalogProductFlat($storeId, $tableName);
+        $this->_getIndexer()->updateCatalogProductFlat($storeId, null, $tableName);
 
         return $this;
     }
@@ -390,7 +390,7 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
         $tableName  = $observer->getEvent()->getTable();
         $productIds = $observer->getEvent()->getProductIds();
 
-        $this->_getIndexer()->updateCatalogProductFlat($storeId, $tableName, $productIds);
+        $this->_getIndexer()->updateCatalogProductFlat($storeId, $productIds, $tableName);
 
         return $this;
     }

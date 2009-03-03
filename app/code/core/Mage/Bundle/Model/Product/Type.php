@@ -351,7 +351,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     {
         if (!$this->getProduct($product)->hasData($this->_keySelectionsCollection)) {
             $selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
-                ->addAttributeToSelect('*')
+                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->addFilterByRequiredOptions()

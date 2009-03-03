@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      *
      * @var array
      */
-    protected $_systemAttributes = array('status');
+    protected $_systemAttributes = array('status', 'required_options');
 
     /**
      * Eav Catalog_Product Entity Type Id
@@ -245,25 +245,39 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     {
         if (is_null($this->_columns)) {
             $this->_columns = array(
-                'entity_id' => array(
+                'entity_id'         => array(
                     'type'      => 'int(10)',
                     'unsigned'  => true,
                     'is_null'   => false,
                     'default'   => null,
                     'extra'     => 'auto_increment'
                 ),
-                'child_id' => array(
+                'child_id'          => array(
                     'type'      => 'int(10)',
                     'unsigned'  => true,
                     'is_null'   => true,
                     'default'   => null,
                     'extra'     => null
                 ),
-                'is_child' => array(
+                'is_child'          => array(
                     'type'      => 'tinyint(1)',
                     'unsigned'  => true,
                     'is_null'   => false,
                     'default'   => 0,
+                    'extra'     => null
+                ),
+                'attribute_set_id'  => array(
+                    'type'      => 'smallint(5)',
+                    'unsigned'  => true,
+                    'is_null'   => false,
+                    'default'   => 0,
+                    'extra'     => null
+                ),
+                'type_id'           => array(
+                    'type'      => 'varchar(32)',
+                    'unsigned'  => false,
+                    'is_null'   => false,
+                    'default'   => 'simple',
                     'extra'     => null
                 )
             );
@@ -296,14 +310,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                     'type'   => 'primary',
                     'fields' => array('entity_id', 'child_id')
                 ),
-                'IDX_CHILD_ID'  => array(
+                'IDX_CHILD_ID'      => array(
                     'type'   => 'index',
                     'fields' => array('child_id')
                 ),
-                'IDX_IS_CHILD'  => array(
+                'IDX_IS_CHILD'      => array(
                     'type'   => 'index',
                     'fields' => array('entity_id', 'is_child')
-                )
+                ),
+                'IDX_TYPE_ID'       => array(
+                    'type'   => 'index',
+                    'fields' => array('type_id')
+                ),
+                'IDX_ATRRIBUTE_SET' => array(
+                    'type'   => 'index',
+                    'fields' => array('attribute_set_id')
+                ),
             );
 
             foreach ($this->getAttributes() as $attribute) {
@@ -336,11 +358,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         $maxIndex   = $this->_getWriteAdapter()->getLimitation('index');
 
         if (count($columns) > $maxColumn) {
-            Mage::throwException(Mage::helper('catalog')->__("Database has column number limit: %2\$d (per table). For current Flat structure is necessary %1\$d columns", count($columns), $maxColumn));
+            Mage::throwException(Mage::helper('catalog')->__("Flat Catalog module has a limit of %2\$d filterable and/or sort able attributes. Currently there are %1\$d. Please reduce the number of filterable/sort able attributes in order to use this module.", count($columns), $maxColumn));
         }
 
         if (count($indexes) > $maxIndex) {
-            Mage::throwException(Mage::helper('catalog')->__("Database has index number limit: %2\$d (per table). For current Flat structure is necessary %1\$d indexes", count($indexes), $maxIndex));
+            Mage::throwException(Mage::helper('catalog')->__("Flat Catalog module has a limit of %2\$d filterable and/or sort able attributes. Currently there are %1\$d. Please reduce the number of filterable/sort able attributes in order to use this module.", count($indexes), $maxIndex));
         }
 
         $tableName = $this->getFlatTableName($store);
@@ -487,10 +509,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         $website = Mage::app()->getStore($store)->getWebsite()->getId();
         $status = $this->getAttribute('status');
         /* @var $status Mage_Eav_Model_Entity_Attribute */
-        $fieldList  = array('entity_id', 'child_id', 'is_child');
+        $fieldList  = array('entity_id', 'child_id', 'is_child', 'type_id', 'attribute_set_id');
         $isChild = new Zend_Db_Expr('0');
         $select     = $this->_getWriteAdapter()->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id', 'entity_id', $isChild))
+            ->from(
+                array('e' => $this->getTable('catalog/product')),
+                array('entity_id', 'entity_id', $isChild, 'type_id', 'attribute_set_id'))
             ->join(
                 array('wp' => $this->getTable('catalog/product_website')),
                 "`e`.`entity_id`=`wp`.`product_id` AND `wp`.`website_id`={$website}",

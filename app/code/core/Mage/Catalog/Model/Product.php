@@ -95,6 +95,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Get collection instance
+     *
+     * @return object
+     */
+    public function getResourceCollection()
+    {
+        if (empty($this->_resourceCollectionName)) {
+            Mage::throwException(Mage::helper('core')->__('Model collection resource name is not defined'));
+        }
+        $collection = Mage::getResourceModel($this->_resourceCollectionName);
+        $collection->setStoreId($this->getStoreId());
+        return $collection;
+    }
+
+    /**
      * Get product url model
      *
      * @return Mage_Catalog_Model_Product_Url

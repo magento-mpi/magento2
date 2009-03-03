@@ -34,6 +34,12 @@
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     extends Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract
 {
+    /**
+     * Catalog Product Flat is enabled cache per store
+     *
+     * @var array
+     */
+    protected $_flatEnabled = array();
     protected $_productWebsiteTable;
     protected $_productCategoryTable;
     protected $_addUrlRewrite = false;
@@ -45,13 +51,112 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_categoryIndexJoined = false;
 
     /**
+     * Retrieve Catalog Product Flat Helper object
+     *
+     * @return Mage_Catalog_Helper_Product_Flat
+     */
+    public function getFlatHelper()
+    {
+        return Mage::helper('catalog/product_flat');
+    }
+
+    /**
+     * Retrieve is flat enabled flag
+     *
+     * @return bool
+     */
+    public function isEnabledFlat()
+    {
+        if (!isset($this->_flatEnabled[$this->getStoreId()])) {
+            $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()
+                ->isEnabled($this->getStoreId());
+        }
+        return $this->_flatEnabled[$this->getStoreId()];
+    }
+
+    /**
      * Initialize resources
+     *
      */
     protected function _construct()
     {
-        $this->_init('catalog/product');
+        if ($this->isEnabledFlat()) {
+            $this->_init('catalog/product_flat');
+        }
+        else {
+            $this->_init('catalog/product');
+        }
+
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
         $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
+    }
+
+    /**
+     * Standard resource collection initalization
+     *
+     * @param string $model
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    protected function _init($model, $entityModel=null)
+    {
+        if ($this->isEnabledFlat()) {
+            if ($model != 'catalog/product_flat') {
+                $entityModel = 'catalog/product_flat';
+            }
+        }
+
+        parent::_init($model, $entityModel);
+
+        if ($this->isEnabledFlat()) {
+            $this->setItemObjectClass('catalog/product');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve collection empty item
+     * Redeclared for specifying id field name without getting resource model inside model
+     *
+     * @return Varien_Object
+     */
+    public function getNewEmptyItem()
+    {
+        $object = parent::getNewEmptyItem();
+        if ($this->isEnabledFlat()) {
+            $object->setIdFieldName($this->getEntity()->getIdFieldName());
+        }
+        return $object;
+    }
+
+    /**
+     * Set entity to use for attributes
+     *
+     * @param Mage_Eav_Model_Entity_Abstract $entity
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function setEntity($entity)
+    {
+        if ($this->isEnabledFlat() && $entity instanceof Mage_Core_Model_Mysql4_Abstract) {
+            $this->_entity = $entity;
+            return $this;
+        }
+        return parent::setEntity($entity);
+    }
+
+    /**
+     * Set Store scope for collection
+     *
+     * @param mixed $store
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function setStore($store)
+    {
+        parent::setStore($store);
+        if ($this->isEnabledFlat()) {
+            $this->getEntity()->setStoreId($this->getStoreId());
+        }
+        return $this;
     }
 
     /**
@@ -63,8 +168,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     protected function _initSelect()
     {
-        $this->getSelect()->from(array('e'=>$this->getEntity()->getEntityTable()));
+        if ($this->isEnabledFlat()) {
+            $this->getSelect()
+                ->from(array('e' => $this->getEntity()->getFlatTableName()), null)
+                ->where('e.is_child=?', 0)
+                ->from(null, array('status' => new Zend_Db_Expr(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)));
+            $this->addAttributeToSelect(array('entity_id', 'type_id', 'child_id', 'is_child'));
+        }
+        else {
+            $this->getSelect()->from(array('e'=>$this->getEntity()->getEntityTable()));
+        }
         return $this;
+    }
+
+    /**
+     * Load attributes into loaded entities
+     *
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function _loadAttributes($printQuery = false, $logQuery = false)
+    {
+        if ($this->isEnabledFlat()) {
+            return $this;
+        }
+        return parent::_loadAttributes($printQuery, $logQuery);
     }
 
     /**
@@ -75,11 +204,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      * @param array|string|integer|Mage_Core_Model_Config_Element $attribute
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function addAttributeToSelect($attribute, $joinType=false)
+    public function addAttributeToSelect($attribute, $joinType = false)
     {
-//        if (is_array($attribute)) {
-//            Mage::getSingleton('eav/config')->preloadAttributes('catalog_product', $attribute);
-//        }
+        if ($this->isEnabledFlat()) {
+            if (!is_array($attribute)) {
+                $attribute = array($attribute);
+            }
+            foreach ($attribute as $attributeCode) {
+                if ($attributeCode == '*') {
+                    foreach ($this->getEntity()->getAllTableColumns() as $column) {
+                        $this->getSelect()->from(null, 'e.'.$column);
+                        $this->_selectAttributes[$column] = $column;
+                        $this->_joinAttributes[$column]['condition_alias'] = $column;
+                    }
+                }
+                else {
+                    if ($columns = $this->getEntity()->getAttributeForSelect($attributeCode)) {
+                        foreach ($columns as $alias => $column) {
+                            $this->getSelect()->from(null, array($alias => 'e.'.$column));
+                            $this->_selectAttributes[$column] = $column;
+                            $this->_joinAttributes[$column]['condition_alias'] = $column;
+                        }
+                    }
+                }
+            }
+            return $this;
+        }
         return parent::addAttributeToSelect($attribute, $joinType);
     }
 
@@ -209,6 +359,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
 
         if (!$store) {
+            return $this;
+        }
+
+        if ($this->isEnabledFlat()) {
+            if ($store != $this->getStoreId()) {
+                $this->setStoreId($store);
+            }
             return $this;
         }
 
@@ -649,6 +806,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     protected function _joinPriceRules()
     {
+        if ($this->isEnabledFlat()) {
+            $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $priceColumn = 'e.display_price_group_' . $customerGroup;
+            $this->getSelect()->from(null, array('_price_rule' => $priceColumn));
+
+            return $this;
+        }
         $wId = Mage::app()->getWebsite()->getId();
         $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
@@ -673,7 +837,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $specialPrice = $product->getSpecialPrice();
             $specialPriceFrom = $product->getSpecialFromDate();
             $specialPriceTo = $product->getSpecialToDate();
-            $rulePrice = $product->getData('_rule_price');
+            if ($this->isEnabledFlat()) {
+                $rulePrice = null;
+                if ($product->getData('_rule_price') != $basePrice) {
+                    $rulePrice = $product->getData('_rule_price');
+                }
+            }
+            else {
+                $rulePrice = $product->getData('_rule_price');
+            }
 
             $finalPrice = $product->getPriceModel()->calculatePrice(
                 $basePrice,
@@ -690,7 +862,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
     }
 
-    public function getAllIdsCache($resetCache = false){
+    public function getAllIdsCache($resetCache = false)
+    {
         $ids = null;
         if (!$resetCache) {
             $ids = $this->_allIdsCache;
@@ -704,16 +877,43 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $ids;
     }
 
-    public function setAllIdsCache($value){
+    public function setAllIdsCache($value)
+    {
         $this->_allIdsCache = $value;
         return $this;
     }
 
-    public function addAttributeToFilter($attribute, $condition=null, $joinType='inner'){
+    /**
+     * Add attribute to filter
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract|string $attribute
+     * @param array $condition
+     * @param string $joinType
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addAttributeToFilter($attribute, $condition=null, $joinType='inner')
+    {
+        if ($this->isEnabledFlat()) {
+            if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+                $attribute = $attribute->getAttributeCode();
+            }
+
+            if (!isset($this->_selectAttributes[$attribute])) {
+                $this->addAttributeToSelect($attribute);
+            }
+
+            if (isset($this->_selectAttributes[$attribute])) {
+                $this->getSelect()->where($this->_getConditionSql('e.'.$attribute, $condition));
+            }
+
+            return $this;
+        }
+
         $this->_allIdsCache = null;
         if (is_string($attribute) && $attribute == 'is_saleable') {
             return $this->getSelect()->where($this->_getConditionSql('(IF(manage_stock, is_in_stock, 1))', $condition));
-        } else {
+        }
+        else {
             return parent::addAttributeToFilter($attribute, $condition, $joinType);
         }
     }
@@ -828,28 +1028,34 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         if ($attribute == 'price' && $storeId != 0) {
             $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
-            $priceAttributeId = $this->getAttribute('price')->getId();
+            if ($this->isEnabledFlat()) {
+                $priceColumn = 'e.display_price_group_' . $customerGroup;
+                $this->getSelect()->order("{$priceColumn} {$dir}");
+            }
+            else {
+                $priceAttributeId = $this->getAttribute('price')->getId();
 
-            $entityCondition = '_price_order_table.entity_id = e.entity_id';
-            $storeCondition = $this->getConnection()->quoteInto(
-                '_price_order_table.website_id = ?',
-                $websiteId
-            );
-            $groupCondition = $this->getConnection()->quoteInto(
-                '_price_order_table.customer_group_id = ?',
-                $customerGroup
-            );
-            $attributeCondition = $this->getConnection()->quoteInto(
-                '_price_order_table.attribute_id = ?',
-                $priceAttributeId
-            );
+                $entityCondition = '_price_order_table.entity_id = e.entity_id';
+                $storeCondition = $this->getConnection()->quoteInto(
+                    '_price_order_table.website_id = ?',
+                    $websiteId
+                );
+                $groupCondition = $this->getConnection()->quoteInto(
+                    '_price_order_table.customer_group_id = ?',
+                    $customerGroup
+                );
+                $attributeCondition = $this->getConnection()->quoteInto(
+                    '_price_order_table.attribute_id = ?',
+                    $priceAttributeId
+                );
 
-            $this->getSelect()->joinLeft(
-                array('_price_order_table'=>$this->getTable('catalogindex/price')),
-                "{$entityCondition} AND {$storeCondition} AND {$groupCondition} AND {$attributeCondition}",
-                array()
-            );
-            $this->getSelect()->order('_price_order_table.value ' . $dir);
+                $this->getSelect()->joinLeft(
+                    array('_price_order_table'=>$this->getTable('catalogindex/price')),
+                    "{$entityCondition} AND {$storeCondition} AND {$groupCondition} AND {$attributeCondition}",
+                    array()
+                );
+                $this->getSelect()->order('_price_order_table.value ' . $dir);
+            }
 
             /**
              * Distinct we are using for remove duplicates of products which have
@@ -857,7 +1063,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
              */
             $this->getSelect()->distinct(true);
         } else {
-            parent::setOrder($attribute, $dir);
+            if ($this->isEnabledFlat()) {
+                if ($sortColumn = $this->getEntity()->getAttributeSortColumn($attribute)) {
+                    $this->getSelect()->order("e.{$sortColumn} {$dir}");
+                }
+            }
+            else {
+                parent::setOrder($attribute, $dir);
+            }
         }
 
         return $this;
@@ -872,6 +1085,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addAttributeToSort($attribute, $dir='asc')
     {
+        if ($this->isEnabledFlat()) {
+            if ($attribute == 'position') {
+                $column = $attribute;
+            }
+            else {
+                $column = $this->getEntity()->getAttributeSortColumn($attribute);
+            }
+
+            if ($column) {
+                $this->getSelect()->order("{$column} {$dir}");
+            }
+
+            return $this;
+        }
+
         if ($attribute !== 'position') {
             $attrInstance = $this->getEntity()->getAttribute($attribute);
             if ($attrInstance && $attrInstance->usesSource()) {

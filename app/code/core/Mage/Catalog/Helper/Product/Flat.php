@@ -75,6 +75,9 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
      */
     public function isEnabled($store = null)
     {
+        if (Mage::app()->getStore($store)->isAdmin()) {
+            return false;
+        }
         return Mage::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT, $store);
     }
 }
