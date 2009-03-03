@@ -219,13 +219,29 @@ class Enterprise_Permissions_Model_Validator
         return $collection;
     }
 
-    public function filterCatalogProductReviewGrid($collection, $request)
+    public function filterCatalogProductReviewGrid($collection, $request, $filterValues)
     {
         if( Mage::helper('permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
-        $collection->addStoreFilter($request->getParam('store'));
+        if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
+        	$collection->setStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        }
+
+        return $collection;
+    }
+
+    public function filterReviewGrid($collection, $request, $filterValues)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
+        	$collection->setStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        }
+
         return $collection;
     }
 
@@ -442,6 +458,17 @@ class Enterprise_Permissions_Model_Validator
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
         	$collection->addStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
         }
+
+        return $collection;
+    }
+
+    public function filterRatingGrid($collection, $request)
+    {
+        if( Mage::helper('permissions')->isSuperAdmin() ) {
+            return $collection;
+        }
+
+        $collection->setStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
 
         return $collection;
     }

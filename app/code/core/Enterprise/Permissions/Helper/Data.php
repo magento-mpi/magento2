@@ -43,7 +43,13 @@ class Enterprise_Permissions_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getAllowedStoreViews()
     {
-        return (array) Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreIds();
+        $ids = (array) Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreIds();
+
+        $_ids = array();
+        foreach ($ids as $k => $v) {
+        	$_ids[$v] = $v;
+        }
+        return  $_ids;
     }
 
     public function hasScopeAccess($website=null, $store=null)

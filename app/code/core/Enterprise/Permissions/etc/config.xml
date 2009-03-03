@@ -187,6 +187,12 @@
                     <adminhtml_catalog_product_review_reviewGrid>
                         <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
                     </adminhtml_catalog_product_review_reviewGrid>
+                    <adminhtml_catalog_product_review_index>
+                        <website_filter>permissions/validator::filterReviewGrid</website_filter>
+                    </adminhtml_catalog_product_review_index>
+                    <adminhtml_catalog_product_review_reviewGrid>
+                        <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
+                    </adminhtml_catalog_product_review_reviewGrid>
                     <adminhtml_catalog_product_tagGrid>
                         <website_filter>permissions/validator::filterCatalogProductTagGrid</website_filter>
                     </adminhtml_catalog_product_tagGrid>
@@ -415,6 +421,9 @@
                     <adminhtml_poll_index>
                         <website_filter>permissions/validator::filterPollGrid</website_filter>
                     </adminhtml_poll_index>
+                    <adminhtml_rating_index>
+                        <website_filter>permissions/validator::filterRatingGrid</website_filter>
+                    </adminhtml_rating_index>
                     <adminhtml_system_design_index>
                         <website_filter>permissions/validator::filterSystemDesignGrid</website_filter>
                     </adminhtml_system_design_index>
