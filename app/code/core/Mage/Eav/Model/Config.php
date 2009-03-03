@@ -293,9 +293,10 @@ class Mage_Eav_Model_Config
         //$this->_initEntityTypes();
 
         if (is_numeric($code)) {
-            $code = $this->_getEntityTypeReference($code);
-            if ($code === null) {
-                Mage::throwException(Mage::helper('eav')->__('Invalid entity_type specified: %s', $code));
+            $entityCode = $this->_getEntityTypeReference($code);
+            if ($entityCode !== null) {
+                $code = $entityCode;
+                //Mage::throwException(Mage::helper('eav')->__('Invalid entity_type specified: %s', $code));
             }
         }
 
@@ -311,12 +312,17 @@ class Mage_Eav_Model_Config
             $entityType->setData($this->_entityData[$code]);
         }
         else {
-            $entityType->loadByCode($code);
+            if (is_numeric($code)) {
+                $entityType->load($code);
+            } else {
+                $entityType->loadByCode($code);
+            }
+
             if (!$entityType->getId()) {
                 Mage::throwException(Mage::helper('eav')->__('Invalid entity_type specified: %s', $code));
             }
         }
-        $this->_addEntityTypeReference($entityType->getId(), $code);
+        $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());
         $this->_save($entityType, $entityKey);
 
         Varien_Profiler::stop('EAV: '.__METHOD__);
