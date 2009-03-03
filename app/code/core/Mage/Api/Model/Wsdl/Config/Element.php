@@ -38,6 +38,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         if (!$source instanceof Varien_Simplexml_Element) {
             return $this;
         }
+
         foreach ($this->getChildren($source) as $namespace => $children) {
             foreach ($children as $child) {
                 $this->extendChild($child, $overwrite, $namespace);
@@ -61,8 +62,13 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
 
         // name of the source node
         $sourceName = $source->getName();
+
         // here we have children of our source node
         $sourceChildren = $this->getChildren($source);
+
+        if ($elmNamespace == '') {
+            $elmNamespace = null;
+        }
 
         if (!$source->hasChildren()) {
             // handle string node
@@ -80,11 +86,13 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
                     return $this;
                 }
             }
-//            Mage::log($elmNamespace);
             $targetChild = $this->addChild($sourceName, $source->xmlentities(), $elmNamespace);
             $targetChild->setParent($this);
             foreach ($this->getAttributes($source) as $namespace => $attributes) {
                 foreach ($attributes as $key => $value) {
+                    if ($namespace == '') {
+                        $namespace = null;
+                    }
                     $targetChild->addAttribute($key, $this->xmlentities($value), $namespace);
                 }
             }
@@ -101,6 +109,9 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
             $targetChild->setParent($this);
             foreach ($this->getAttributes($source) as $namespace => $attributes) {
                 foreach ($attributes as $key => $value) {
+                    if ($namespace == '') {
+                        $namespace = null;
+                    }
                     $targetChild->addAttribute($key, $this->xmlentities($value), $namespace);
                 }
             }
@@ -260,6 +271,16 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
             }
         }
         return null;
+    }
+
+/**
+     * Returns attribute value by attribute name
+     *
+     * @return string
+     */
+    public function getAttribute($name, $namespace = ''){
+        $attrs = $this->attributes($namespace);
+        return isset($attrs[$name]) ? (string)$attrs[$name] : null;
     }
 
 }

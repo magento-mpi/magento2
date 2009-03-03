@@ -129,7 +129,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
 
         $modules = Mage::getConfig()->getNode('modules')->children();
 
-        $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api").DS.'_wsdl.xml';
+        $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api").DS.'wsdl.xml';
         $this->loadFile($baseWsdlFile);
 
         foreach ($modules as $modName=>$module) {
@@ -138,7 +138,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
                 if ($disableLocalModules && ('local' === (string)$module->codePool)) {
                     continue;
                 }
-                $wsdlFile = Mage::getConfig()->getModuleDir('etc', $modName).DS.'___wsdl.xml';
+                $wsdlFile = Mage::getConfig()->getModuleDir('etc', $modName).DS.'wsdl.xml';
                 if ($mergeWsdl->loadFile($wsdlFile)) {
                     $this->extend($mergeWsdl, true);
                 }

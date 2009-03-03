@@ -1084,7 +1084,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
         if (!$this->_getSession()->isLoggedIn($sessionId)) {
             return $this->_fault('session_expired');
         }
-Mage::log($apiPath);
+
         list($resourceName, $methodName) = explode('.', $apiPath);
 
         if (empty($resourceName) || empty($methodName)) {

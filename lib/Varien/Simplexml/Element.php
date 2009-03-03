@@ -97,8 +97,8 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      *
      * @return string
      */
-    public function getAttribute($name, $namespace = ''){
-        $attrs = $this->attributes($namespace);
+    public function getAttribute($name){
+        $attrs = $this->attributes();
         return isset($attrs[$name]) ? (string)$attrs[$name] : null;
     }
 
