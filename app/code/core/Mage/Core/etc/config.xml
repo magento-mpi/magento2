@@ -224,7 +224,7 @@
                 <cookie_lifetime>3600</cookie_lifetime>
                 <cookie_httponly>1</cookie_httponly>
             </cookie>
-            
+
             <session>
                 <use_remote_addr>1</use_remote_addr>
                 <use_http_via>1</use_http_via>
@@ -241,6 +241,9 @@
                 <use_custom>0</use_custom>
                 <custom></custom>
             </url>
+            <security>
+                <use_form_key>1</use_form_key>
+            </security>
         </admin>
 
         <general>

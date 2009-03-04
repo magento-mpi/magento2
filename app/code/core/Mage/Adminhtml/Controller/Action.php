@@ -129,10 +129,11 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
         parent::preDispatch();
 
-        if ($this->getRequest()->isPost()
-            && !$this->_validateFormKey()
-            && Mage::getSingleton('admin/session')->isLoggedIn()) {
-
+        $_isInvalidFormKey = !$this->_validateFormKey() && Mage::getSingleton('admin/session')->isLoggedIn();
+        if (!Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+            $_isInvalidFormKey = $_isInvalidFormKey && $this->getRequest()->isPost();
+        }
+        if ($_isInvalidFormKey) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {

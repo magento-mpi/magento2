@@ -82,8 +82,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 $session->setIsFirstVisit(true);
                 $session->setUser($user);
                 $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
-                if ($request) {
-                    header('Location: ' . $request->getRequestUri());
+                if ($requestUri = $this->_getRequestUri($request)) {
+                    header('Location: ' . $requestUri);
                     exit;
                 }
 
@@ -179,4 +179,23 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
         return $this->_isFirstPageAfterLogin;
     }
 
+    /**
+     * Custom REQUEST_URI logic
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return string|null
+     */
+    protected function _getRequestUri($request = null)
+    {
+        if (Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+            return Mage::getSingleton('adminhtml/url')->getUrl('*/*/*', array(
+                'form_key' => Mage::getSingleton('core/session')->getFormKey(),
+                '_current' => true
+            ));
+        } elseif ($request) {
+            return $request->getRequestUri();
+        } else {
+            return null;
+        }
+    }
 }

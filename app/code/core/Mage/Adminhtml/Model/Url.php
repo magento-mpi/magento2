@@ -38,4 +38,23 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         return Mage::getStoreConfigFlag('web/secure/use_in_adminhtml');
     }
 
+    /**
+     * Custom logic to retrieve Urls
+     *
+     * @param string $routePath
+     * @param array $routeParams
+     * @return string
+     */
+    public function getUrl($routePath=null, $routeParams=null)
+    {
+        if (Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+            $_formKeyParam = array('form_key' => Mage::getSingleton('core/session')->getFormKey());
+            if (is_array($routeParams)) {
+                $routeParams = array_merge($routeParams, $_formKeyParam);
+            } else {
+                $routeParams = $_formKeyParam;
+            }
+        }
+        return parent::getUrl($routePath, $routeParams);
+    }
 }
