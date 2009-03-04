@@ -32,15 +32,13 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Eav_Model_Entity_Setup */
+/* @var $installer Mage_Core_Model_Resource_Setup */
 $installer->startSetup();
 
 $tableRoles = $installer->getTable('admin/role');
 
-$installer->run("ALTER TABLE `{$tableRoles}`
-    ADD COLUMN `is_all_permissions` tinyint(1) NOT NULL DEFAULT 1 AFTER `role_name`,
-    ADD COLUMN `website_ids` varchar(255) NOT NULL DEFAULT '' AFTER `is_all_permissions`,
-    ADD COLUMN `store_group_ids` varchar(255) NOT NULL DEFAULT '' AFTER `website_ids`;"
-);
+$installer->getConnection()->addColumn($tableRoles, 'is_all_permissions', 'tinyint(1) NOT NULL DEFAULT 1 AFTER `role_name`');
+$installer->getConnection()->addColumn($tableRoles, 'website_ids', 'varchar(255) NOT NULL DEFAULT \'\' AFTER `is_all_permissions`');
+$installer->getConnection()->addColumn($tableRoles, 'store_group_ids', 'varchar(255) NOT NULL DEFAULT \'\' AFTER `website_ids`');
 
 $installer->endSetup();
