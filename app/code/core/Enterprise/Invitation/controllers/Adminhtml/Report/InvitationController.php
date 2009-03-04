@@ -1,0 +1,166 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Invitation
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Invitation reports controller
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Invitation
+ */
+
+class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_Adminhtml_Controller_Action
+{
+    /**
+     * Init action breadcrumbs
+     *
+     * @return Enterprise_Invitation_Adminhtml_Report_InvitationController
+     */
+    public function _initAction()
+    {
+        $this->loadLayout()
+            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('invitation')->__('Invitations'), Mage::helper('invitation')->__('Invitations'));
+        return $this;
+    }
+
+    /**
+     * General report action
+     */
+    public function indexAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/invitation/general')
+            ->_addBreadcrumb(Mage::helper('invitation')->__('General Report'), Mage::helper('invitation')->__('General Report'))
+            ->_addContent($this->getLayout()->createBlock('invitation/adminhtml_report_invitation_general'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export invitation general report grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        $fileName   = 'invitation_general.csv';
+        $content    = $this->getLayout()->createBlock('invitation/adminhtml_report_invitation_general_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export invitation general report grid to Excel XML format
+     */
+    public function exportExcelAction()
+    {
+        $fileName   = 'invitation_general.xml';
+        $content    = $this->getLayout()->createBlock('invitation/adminhtml_report_invitation_general_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Report by customers action
+     */
+    public function customerAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/invitation/customer')
+            ->_addBreadcrumb(Mage::helper('invitation')->__('Invitation Report by Customers'), Mage::helper('invitation')->__('Invitation Report by Customers'))
+            ->_addContent($this->getLayout()->createBlock('invitation/adminhtml_report_invitation_customer'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export invitation customer report grid to CSV format
+     */
+    public function exportCustomerCsvAction()
+    {
+        $fileName   = 'invitation_customer.csv';
+        $content    = $this->getLayout()->createBlock('invitation/adminhtml_report_invitation_customer_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export invitation customer report grid to Excel XML format
+     */
+    public function exportCustomerExcelAction()
+    {
+        $fileName   = 'invitation_customer.xml';
+        $content    = $this->getLayout()->createBlock('invitation/adminhtml_report_invitation_customer_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Report by order action
+     */
+    public function orderAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/invitation/order')
+            ->_addBreadcrumb(Mage::helper('invitation')->__('Invitation Report by Customers'), Mage::helper('invitation')->__('Invitation Report by Order Conversion Rate'))
+            ->_addContent($this->getLayout()->createBlock('invitation/adminhtml_report_invitation_order'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export invitation order report grid to CSV format
+     */
+    public function exportOrderCsvAction()
+    {
+        $fileName   = 'invitation_order.csv';
+        $content    = $this->getLayout()->createBlock('invitation/adminhtml_report_invitation_order_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export invitation order report grid to Excel XML format
+     */
+    public function exportOrderExcelAction()
+    {
+        $fileName   = 'invitation_order.xml';
+        $content    = $this->getLayout()->createBlock('invitation/adminhtml_report_invitation_order_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Acl admin user check
+     *
+     * @return boolean
+     */
+    protected function isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('customer/invitation');
+    }
+}

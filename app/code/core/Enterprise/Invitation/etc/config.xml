@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Invitation
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Invitation>
+            <version>0.0.1</version>
+        </Enterprise_Invitation>
+    </modules>
+    <global>
+        <models>
+             <invitation>
+                <class>Enterprise_Invitation_Model</class>
+                <resourceModel>invitation_mysql4</resourceModel>
+             </invitation>
+             <invitation_mysql4>
+                <class>Enterprise_Invitation_Model_Mysql4</class>
+                <entities>
+                    <invitation><table>invitation_invitation</table></invitation>
+                    <invitation_status_history><table>invitation_invitation_status_history</table></invitation_status_history>
+                </entities>
+            </invitation_mysql4>
+        </models>
+        <helpers>
+             <invitation>
+                <class>Enterprise_Invitation_Helper</class>
+             </invitation>
+        </helpers>
+        <blocks>
+             <invitation>
+                <class>Enterprise_Invitation_Block</class>
+             </invitation>
+        </blocks>
+        <resources>
+            <invitation_setup>
+                <setup>
+                    <module>Enterprise_Invitation</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </invitation_setup>
+            <invitation_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </invitation_write>
+            <invitation_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </invitation_read>
+        </resources>
+        <template>
+            <email>
+               <invitation_email_template translate="label" module="invitation">
+                   <label>Invitation</label>
+                   <file>enterprise/invitation.html</file>
+                   <type>html</type>
+               </invitation_email_template>
+            </email>
+        </template>
+    </global>
+   <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <frontName>admin</frontName>
+                    <modules>
+                        <Enterprise_Invitation before="Mage_Adminhtml">Enterprise_Invitation_Adminhtml</Enterprise_Invitation>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <invitation>
+                    <file>enterprise/invitation.xml</file>
+                </invitation>
+            </updates>
+        </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <customer>
+                            <children>
+                                 <invitation>
+                                    <title>Invitations</title>
+                                    <sort_order>40</sort_order>
+                                </invitation>
+                            </children>
+                        </customer>
+                    </children>
+                </admin>
+            </resources>
+         </acl>
+         <menu>
+            <customer>
+                <children>
+                    <invitation translate="title" module="invitation">
+                           <title>Invitations</title>
+                           <action>adminhtml/invitation</action>
+                           <resource>customer/invitation</resource>
+                           <sort_order>30</sort_order>
+                           <depends><module>Enterprise_Invitation</module></depends>
+                    </invitation>
+                </children>
+            </customer>
+            <report>
+                <children>
+                    <invitation translate="title" module="invitation">
+                           <title>Invitations</title>
+                           <resource>customer/invitation</resource>
+                           <sort_order>30</sort_order>
+                           <depends><module>Enterprise_Invitation</module></depends>
+                           <children>
+                               <general translate="title" module="invitation">
+                                   <title>General</title>
+                                   <action>adminhtml/report_invitation</action>
+                                   <resource>customer/invitation</resource>
+                                   <sort_order>10</sort_order>
+                               </general>
+                               <customer translate="title" module="invitation">
+                                   <title>Customers</title>
+                                   <action>adminhtml/report_invitation/customer</action>
+                                   <resource>customer/invitation</resource>
+                                   <sort_order>20</sort_order>
+                               </customer>
+                               <order translate="title" module="invitation">
+                                   <title>Order Conversion Rate</title>
+                                   <action>adminhtml/report_invitation/order</action>
+                                   <resource>customer/invitation</resource>
+                                   <sort_order>30</sort_order>
+                               </order>
+                           </children>
+                    </invitation>
+                </children>
+            </report>
+         </menu>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <invitation>
+                    <file>invitation.xml</file>
+                </invitation>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Enterprise_Invitation>
+                    <files>
+                        <default>Enterprise_Invitation.csv</default>
+                    </files>
+                </Enterprise_Invitation>
+            </modules>
+        </translate>
+        <routers>
+            <invitation>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_Invitation</module>
+                    <frontName>invitation</frontName>
+                </args>
+            </invitation>
+        </routers>
+        <events>
+            <customer_save_after>
+                <observers>
+                    <invitation>
+                        <type>singleton</type>
+                        <class>invitation/observer</class>
+                        <method>observeCustomerSaveAfter</method>
+                    </invitation>
+                </observers>
+            </customer_save_after>
+            <customer_save_before>
+                <observers>
+                    <invitation>
+                        <type>singleton</type>
+                        <class>invitation/observer</class>
+                        <method>observeCustomerSaveBefore</method>
+                    </invitation>
+                </observers>
+            </customer_save_before>
+            <controller_action_predispatch_customer_account_create>
+                <observers>
+                    <invitation>
+                        <type>singleton</type>
+                        <class>invitation/observer</class>
+                        <method>observeCustomerRegistration</method>
+                    </invitation>
+                </observers>
+            </controller_action_predispatch_customer_account_create>
+        </events>
+    </frontend>
+    <default>
+        <invitation>
+            <email>
+                <identity>general</identity>
+                <template>invitation_email_template</template>
+            </email>
+            <general>
+                <registration_use_inviter_group>1</registration_use_inviter_group>
+                <registration_required_invitation>1</registration_required_invitation>
+                <max_invitation_amount_per_send>5</max_invitation_amount_per_send>
+                <allow_customer_message>1</allow_customer_message>
+            </general>
+        </invitation>
+    </default>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                           <invitation />
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                       </children>
+                </admin>
+            </resources>
+         </acl>
+    </adminhtml>
+</config>
