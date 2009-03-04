@@ -27,7 +27,7 @@ body          { background:#fff; font:11px/1.25 Arial, Helvetica, sans-serif; co
 
 img           { border:0; vertical-align:top; }
 
-a             { color:#777; text-decoration:underline; }
+a             { color:#555; text-decoration:underline; }
 a:hover       { text-decoration:none; }
 :focus        { outline: 0; }
 

@@ -65,8 +65,8 @@ Customer account home dashboard layout
 
     <catalog_product_view>
          <!-- Mage_Tag -->
-        <reference name="product.info.additional">
-            <block type="tag/product_list" name="product_tag_list" before="-" template="tag/list.phtml"></block>
+        <reference name="product.tag.list">
+            <block type="tag/product_list" name="product_tag_list" template="tag/list.phtml"></block>
         </reference>
     </catalog_product_view>
 

@@ -23,28 +23,92 @@
 
 function topCart(elC) {
 	var elC = $(elC);
-	var elC=elC;
-	var el=elC.parentNode;
+	var el=elC.up(0);
 	var check=0;
 	var iTime = 2000;
-
+    var tIinterval;   
+    
 	el.onmouseout = function() {
-		tI=setTimeout("hideElement()",iTime);	
+		tIinterval=setTimeout("hideElement()",iTime);	
 	};
 	
 	el.onmouseover = function() {
 		if	(check==0)	{
 			elC.zIndex=999;
-			Effect.SlideDown(elC.id, { duration: 0.5 });			
+			new Effect.SlideDown(elC.id, { duration: 0.5 });			
 			check=1;
 			}
-		if (tI) {clearTimeout(tI);}	
+		if (tIinterval) {clearTimeout(tIinterval);}	
 	};	
 
 	hideElement = function() {
-		Effect.SlideUp(elC.id, { duration: 0.5 });
-		if (tI) {clearTimeout(tI);}
+		new Effect.SlideUp(elC.id, { duration: 0.5 });
+		if (tIinterval) {clearTimeout(tIinterval);}
 		elC.zIndex=1;	
 		check=0;
 	}	
+}
+
+function initBundle(productName) {
+    bundleOptions = $('options-container');
+    $('messages_product_view').insert ({'before':'<div id="customizeTitle" style="display:none" class="page-title"><h2>' + productName + '</h2></div>' });
+    $('productView').insert({'after': bundleOptions });
+    bundleOptions.hide();
+    bundleOptions.addClassName('bundleProduct');
+    var check=1;
+}
+function openCustomize() {
+    $$('.col-right').each(function(el){el.id='rightCOL'});
+    new Effect.SlideUp('productView', { duration: 0.8 });
+    new Effect.SlideUp('rightCOL', { duration: 0.8 });
+    new Effect.SlideDown(bundleOptions, { duration: 0.8 });
+    $('customizeTitle').show();
+}
+function closeCustomize() {
+    $('customizeTitle').hide();
+    new Effect.SlideDown('productView', { duration: 0.8 });
+    new Effect.SlideDown('rightCOL', { duration: 0.8 });
+    new Effect.SlideUp(bundleOptions, { duration: 0.8 });
+}
+
+function tabsActivate(tId) {
+    $(tId).addClassName('tab-list');
+    var aTabsNames = $(tId).getElementsBySelector('dt.tab');
+    var aTabsContent = $(tId).getElementsBySelector('dd.tab-container');
+    var eTabActiveName = aTabsNames.first();
+    aTabsNames.first().addClassName('first');
+    aTabsNames.last().addClassName('last');
+    toggleTabs(eTabActiveName);
+    
+    aTabsNames.each(function(name) {
+        name.onclick = function() {
+            if (eTabActiveName != this) {
+                eTabActiveName = this;
+                toggleTabs(eTabActiveName);
+            };
+        };
+    });
+    
+    function toggleTabs(eTabActiveName) {
+       aTabsNames.each(function(name,i) {
+            if (name==eTabActiveName) {
+                name.addClassName('active');
+                name.style.zIndex = aTabsNames.length + 2;                
+                eTabActiveContent=name.next('dd');
+                }
+            else {
+                name.removeClassName('active');
+                name.style.zIndex = aTabsNames.length + 1 - i;                
+            };
+          });
+        aTabsContent.each(function(tab) {
+            if (tab==eTabActiveContent) {
+                tab.show();
+                tab.parentNode.style.height = tab.getHeight() + 'px';
+                }
+            else {
+                tab.hide();
+                }    
+          });
+        };        
 }

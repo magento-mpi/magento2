@@ -24,19 +24,8 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="header">
-    <h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
-    <div class="quick-access">
-        <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
-        <?php echo $this->getChildHtml('topLinks') ?>
-        <?php echo $this->getChildHtml('store_language') ?>
-    </div>
-</div>
-<div class="header-panel">
-    <?php echo $this->getChildHtml('topSearch') ?>
-    <?php echo $this->getChildHtml('topCart') ?>
-</div>
-<?php echo $this->getChildHtml('topMenu') ?>
-<div class="top-container">
-    <?php echo $this->getChildHtml('topContainer') ?>
-</div>
+
+<a href="#" onclick="closeCustomize()"><?php echo $this->__('&laquo; Go back to product detail'); ?></a>
+<script type="text/javascript" defer="defer">
+    initBundle('<?php echo $this->__('Customize %s', $this->helper('catalog/output')->productAttribute($this->getProduct(), $this->htmlEscape($this->getProduct()->getName()), 'name')) ?>')
+</script>

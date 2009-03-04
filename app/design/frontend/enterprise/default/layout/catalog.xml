@@ -48,6 +48,13 @@ Default layout, loads most of the pages
         <reference name="top.menu">
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
+        <reference name="top.container">
+            <block type="core/template" name="top.permanent.callout" template="callouts/left_col.phtml">
+                <action method="setImgSrc"><src>images/media/top-callout.jpg</src></action>
+                <action method="setImgAlt" translate="alt" module="catalog"><alt>Callout FPO</alt></action>
+                <action method="setLinkUrl"><url>checkout/cart</url></action>
+            </block>
+        </reference>        
         <reference name="left">
             <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
@@ -172,7 +179,7 @@ Product view
         </reference>
         <reference name="head">
             <action method="addJs"><script>varien/product.js</script></action>
-
+            <!-- <action method="addItem"><type>skin_js</type><name>js/lightbox.js</name></action> -->
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
@@ -191,6 +198,7 @@ Product view
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
                 <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml"/>
                 <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml"/>
+                <block type="core/text_list" name="product.tag.list" as="productTagList" />
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
                 <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
 
