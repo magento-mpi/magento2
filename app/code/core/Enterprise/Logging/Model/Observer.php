@@ -162,6 +162,36 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Store event on forgotpassword. 
+     *
+     * @param Varien_Object $observer  expected email
+     *
+     */
+    public function addEventOnForgotpassword($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('adminlogin'))
+            return true;
+
+        $action = 'forgotpassword';
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $email = $observer->getEmail();
+        $success = 1;
+        $info = array($email);
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId(0);
+        $event->setEventCode('adminlogin');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+
+    /**
      * Store event on category save.
      *
      * @param Varien_Object $observer  expected username
@@ -174,11 +204,10 @@ class Enterprise_Logging_Model_Observer
             return true;
         $action = 'save';
 
-	    
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();        
         $ip = $_SERVER['REMOTE_ADDR'];
-        $success = ($obsrever->getStatus() == 'success' ? 1 : 0);
-	$category = $observer->getCategory();
+        $success = ($observer->getStatus() == 'success' ? 1 : 0);
+        $category = $observer->getCategory();
         $info = array($category->getName());
 
         $event = Mage::getModel('logging/event');
@@ -192,6 +221,12 @@ class Enterprise_Logging_Model_Observer
         $event->save();
     }
 
+    /**
+     * Store event on category view.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
     public function addEventOnCategoryView($observer) 
     {
         $event = Mage::getModel('logging/event');
@@ -202,7 +237,9 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
-	$category = $observer->getCategory();
+        $category = $observer->getCategory();
+        if(!$category->getName())
+            return;
         $info = array($category->getName());
 
         $event = Mage::getModel('logging/event');
@@ -216,5 +253,486 @@ class Enterprise_Logging_Model_Observer
         $event->save();
     }
 
+    /**
+     * Store event on category move.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCategoryMove($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('categories'))
+            return true;
+        $action = 'move';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $cat_id = $observer->getCategoryId();
+        $prev_parent = $observer->getPrevParentId();
+        $new_parent = $observer->getParentId();
+        $cat = Mage::getModel('catalog/category')->load($cat_id);
+        $prev = Mage::getModel('catalog/category')->load($prev_parent);
+        $new = Mage::getModel('catalog/category')->load($new_parent);
+        $info = array($cat->getName(), $prev->getName(), $new->getName());
 
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('categories');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+
+    /**
+     * Store event on category delete.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCategoryDelete($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('categories'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $cat = $observer->getCategory();
+        $info = array($cat->getName());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('categories');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+
+    /**
+     * Store event on cms page view.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCmspageView($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('cmspages'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $page = $observer->getCmspage();
+        $info = array($page->getTitle());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('cmspages');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on cms page save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCmspageSave($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('cmspages'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $page = $observer->getCmspage();
+        $info = array($page->getTitle());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('cmspages');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on cms page delete.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCmspageDelete($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('cmspages'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $page = $observer->getCmspage();
+        $info = array($page->getTitle());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('cmspages');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on cms block view.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCmsblockView($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('cmsblocks'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $page = $observer->getCmsblock();
+        $info = array($page->getTitle());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('cmsblocks');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on cms block save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCmsblockSave($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('cmsblocks'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $page = $observer->getCmsblock();
+        $info = array($page->getTitle());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('cmsblocks');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on cms block delete.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCmsblockDelete($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('cmsblocks'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $page = $observer->getCmsblock();
+        $info = array($page->getTitle());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('cmsblocks');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+
+    /**
+     * Store event on customer view.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCustomerView($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('customers'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $customer = $observer->getCustomer();
+        $info = array($customer->getId(), $customer->getFirstname());
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('customers');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on customer save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCustomerSave($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('customers'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $customer = $observer->getCustomer();
+        $info = array($customer->getId(), $customer->getFirstname());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('customers');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on customer delete.
+     *
+     * @param Varien_Object $observer  expected customer
+     *
+     */
+    public function addEventOnCustomerDelete($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('customers'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $customer = $observer->getCustomer();
+        $info = array($customer->getId(), $customer->getFirstname());
+
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('customers');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on report view.
+     *
+     * @param Varien_Object $observer  expected report name
+     *
+     */
+    public function addEventOnReportView($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('reports'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $report = $observer->getReport();
+        $info = array($report);
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('reports');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on system config view.
+     *
+     * @param Varien_Object $observer  expected report name
+     *
+     */
+    public function addEventOnSystemConfigView($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('systemconfiguration'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $section = $observer->getSection();
+
+        $info = array($section);
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('systemconfiguration');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Store event on system config save.
+     *
+     * @param Varien_Object $observer  expected report name
+     *
+     */
+    public function addEventOnSystemConfigSave($observer) 
+    {
+        $event = Mage::getModel('logging/event');
+        if(!$event->isActive('systemconfiguration'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $section = $observer->getSection();
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+
+        $info = array($section);
+        $event = Mage::getModel('logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('systemconfiguration');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->save();
+    }
+
+    /**
+     * Rotate logs cron task
+     */
+    public function rotateLogs() 
+    {
+        $flag = Mage::getModel('logging/flag');
+        $flag->loadSelf();
+        $last_rotate = $flag->getFlagData();
+
+        $rotate_time = array(
+            'daily' => 60 * 60 *24,
+            'weekly' => 60 * 60 * 24 * 7,
+            'monthly' => 60 * 60 * 24 * 30
+        );
+        $event = Mage::getResourceModel('logging/event');
+        $rotate_frequence = (string)Mage::getConfig()->getNode('default/logging/rotation/frequency');
+        $interval = $rotate_time[$rotate_frequence];
+
+        $base_table = "enterprise_user_log";
+        $table_name = sprintf("log_rotation_%s", date("Y_m_d"));
+        $out = "/www/enterprise/var/logging/$table_name.sql";
+
+        if($last_rotate > time() - $interval) {
+            $create_query = "CREATE TABLE $table_name (
+  `log_id` int(11) NOT NULL auto_increment,
+  `ip` bigint(20) unsigned NOT NULL default '0',
+  `event_code` char(20) NOT NULL default '',
+  `time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `user_id` int(11) NOT NULL default '0',
+  `action` char(20) NOT NULL default '-',
+  `info` varchar(255) NOT NULL default '-',
+  PRIMARY KEY  (`log_id`)
+  );";
+            $copy_query = "INSERT INTO $table_name SELECT * FROM $base_table";
+            $delete_query = "DELETE FROM $base_table";
+            $drop_query = "DROP TABLE $table_name";
+            $conn = $event->getConnection();
+            $conn->query("DROP TABLE IF EXISTS $table_name");
+            $conn->query($create_query);
+            $conn->query($copy_query);
+            $conn->query($delete_query);
+            
+            $host = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/host');
+            $user = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/username');
+            $password = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/password');
+            $dbname = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/dbname');
+
+            $dump_command = sprintf("mysqldump -h%s -u%s --password='%s' %s %s > %s", $host, $user, $password, $dbname, $table_name, $out);
+            system($dump_command);
+            $conn->query($drop_query);
+        }
+        $flag->setFlagData(time());
+        $flag->save();
+    }
+    
 }

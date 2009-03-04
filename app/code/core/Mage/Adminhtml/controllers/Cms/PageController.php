@@ -108,7 +108,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             && Mage::helper('googleoptimizer')->isOptimizerActive()) {
             $this->_addJs($this->getLayout()->createBlock('googleoptimizer/js')->setTemplate('googleoptimizer/js.phtml'));
         }
-
+        Mage::dispatchEvent('on_view_cmspage', array('cmspage' => $model));
         $this->renderLayout();
     }
 
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cms')->__('Page was successfully saved'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
-
+                Mage::dispatchEvent('on_save_cmspage', array('cmspage' => $model, 'status' => 'success'));
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId()));
@@ -156,6 +156,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 return;
 
             } catch (Exception $e) {
+                Mage::dispatchEvent('on_save_cmspage', array('cmspage' => $model, 'status' => 'fail'));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // save data in session
@@ -183,10 +184,12 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cms')->__('Page was successfully deleted'));
                 // go to grid
+                Mage::dispatchEvent('on_delete_cmspage', array('cmspage' => $model, 'status' => 'success'));
                 $this->_redirect('*/*/');
                 return;
 
             } catch (Exception $e) {
+                Mage::dispatchEvent('on_delete_cmspage', array('cmspage' => $model, 'status' => 'fail'));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // go back to edit form

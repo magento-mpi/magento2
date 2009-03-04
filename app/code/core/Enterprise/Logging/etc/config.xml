@@ -100,6 +100,147 @@
                 </observers>
 	    </on_view_category>
 
+	    <on_delete_category>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCategoryDelete</method>
+                    </enterprise_logging>
+                </observers>
+	    </on_delete_category>
+
+        <category_move>
+          <observers>
+            <enterprise_logging>
+              <type>singleton</type>
+              <class>logging/observer</class>
+              <method>addEventOnCategoryMove</method>
+            </enterprise_logging>
+          </observers>
+        </category_move>
+
+        <on_view_cmspage>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCmspageView</method>
+                    </enterprise_logging>
+                </observers>
+        </on_view_cmspage>
+
+        <on_save_cmspage>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCmspageSave</method>
+                    </enterprise_logging>
+                </observers>
+        </on_save_cmspage>
+
+        <on_delete_cmspage>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCmspageDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </on_delete_cmspage>
+
+        <on_view_cmsblock>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCmsblockView</method>
+                    </enterprise_logging>
+                </observers>
+        </on_view_cmsblock>
+
+        <on_save_cmsblock>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCmsblockSave</method>
+                    </enterprise_logging>
+                </observers>
+        </on_save_cmsblock>
+
+        <on_delete_cmsblock>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCmsblockDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </on_delete_cmsblock>
+
+        <on_view_customer>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCustomerView</method>
+                    </enterprise_logging>
+                </observers>
+        </on_view_customer>
+
+        <on_save_customer>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCustomerSave</method>
+                    </enterprise_logging>
+                </observers>
+        </on_save_customer>
+
+        <on_delete_customer>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnCustomerDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </on_delete_customer>
+
+        <on_view_report>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnReportView</method>
+                    </enterprise_logging>
+                </observers>
+        </on_view_report>
+
+        <on_view_system_config>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnSystemConfigView</method>
+                    </enterprise_logging>
+                </observers>
+        </on_view_system_config>
+
+        <on_save_system_config>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnSystemConfigSave</method>
+                    </enterprise_logging>
+                </observers>
+        </on_save_system_config>
+
+
 
             <on_product_view_after>
                 <observers>
@@ -120,6 +261,17 @@
                     </enterprise_logging>
                 </observers>
             </on_admin_login_after>
+
+            <on_forgotpassword>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>logging/observer</class>
+                        <method>addEventOnForgotpassword</method>
+                    </enterprise_logging>
+                </observers>
+
+            </on_forgotpassword>
 
             <on_product_save>
                 <observers>
@@ -213,7 +365,7 @@
             <code>20</code>
             <actions>
               <view>
-                <success>"Category (%s) viewd successfully"</success>
+                <success>"Category (%s) viewed successfully"</success>
               </view>
               <delete>
                 <success>"Category (%s) deleted successfully"</success>
@@ -223,10 +375,10 @@
                 <success>"Category (%s) saved successfully"</success>
                 <fail>"Category (%s) was failed to save"</fail>
               </save>
-              <save>
-                <success>"Category (%s) moved successfully"</success>
-                <fail>"Category (%s) was failed to move"</fail>
-              </save>
+              <move>
+                <success>"Category (%s) moved successfully from %s to %s"</success>
+                <fail>"Category (%s) was failed to move from %s to %s"</fail>
+              </move>
             </actions>
           </categories>
 
@@ -234,6 +386,17 @@
             <label>Customers</label>
             <code>30</code>
             <actions>
+              <view>
+                <success>Customer (id=%s, name=%s) viewed successfully</success>
+              </view>
+              <delete>
+                <success>Customer (id=%s, name=%s) deleted successfully</success>
+                <fail>Customer (id=%s, name=%s) was fail to delete</fail>
+              </delete>
+              <save>
+                <success>Customer (id=%s, name=%s) saved successfully</success>
+                <fail>Customer (id=%s, name=%s) was failed to save</fail>
+              </save>
             </actions>
           </customers>
 
@@ -241,9 +404,17 @@
             <label>Cms Pages</label>
             <code>40</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+              <view>
+                <success>Cms page %s viewed successfully</success>
+              </view>
+              <delete>
+                <success>Cms page %s deleted successfully</success>
+                <fail>Cms page %s was fail to delete</fail>
+              </delete>
+              <save>
+                <success>Cms page %s saved successfully</success>
+                <fail>Cms page %s was failed to save</fail>
+              </save>
             </actions>
           </cmspages>
 
@@ -251,9 +422,17 @@
             <label>Cms Blocks</label>
             <code>50</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+              <view>
+                <success>Cms block %s viewed successfully</success>
+              </view>
+              <delete>
+                <success>Cms block %s deleted successfully</success>
+                <fail>Cms block %s was fail to delete</fail>
+              </delete>
+              <save>
+                <success>Cms block %s saved successfully</success>
+                <fail>Cms block %s was failed to save</fail>
+              </save>
             </actions>
           </cmsblocks>
 
@@ -261,9 +440,12 @@
             <label>Admin Login</label>
             <code>60</code>
             <actions>
-	      <login>
-		<success>User %s successfully logged in</success>
-	      </login>
+	          <login>
+		        <success>User %s successfully logged in</success>
+	          </login>
+              <forgotpassword>
+                <success>Password remind asked for email: %s</success>
+              </forgotpassword>
             </actions>
           </adminlogin>
 
@@ -271,9 +453,13 @@
             <label>System Configuration</label>
             <code>70</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+              <view>
+                <success>Section %s of system configuration, was viewed</success>
+              </view>
+              <save>
+                <success>Section %s of system configuration, was successfully updated</success>
+                <fail>Section %s of system configuration, was failed to update</fail>
+              </save>
             </actions>
           </systemconfiguration>
 
@@ -281,18 +467,40 @@
             <label>Reports</label>
             <code>80</code>
             <actions>
-              <view />
-              <delete />
-              <save />
+              <view>
+                <success>Report %s viewed</success>
+              </view>
             </actions>
           </reports>
 
         </events>
+        <frequency>
+          <daily>
+            <label>Daily</label>
+            <value>daily</value>
+          </daily>
+          <weekly>
+            <label>Weekly</label>
+            <value>weekly</value>
+          </weekly>
+          <monthly>
+            <label>Monthly</label>
+            <value>monthly</value>
+          </monthly>
+        </frequency>
       </logging>
     </enterprise>
 
     <admin>
         <routers>
+          <!--adminhtml>
+            <args>
+              <frontName>admin</frontName>
+              <modules>
+                <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
+              </modules>
+            </args>
+          </adminhtml-->
             <logging>
                 <use>admin</use>
                 <args>
@@ -341,6 +549,19 @@
           <categories>0</categories>
           <adminlogin>1</adminlogin>
         </enabled>
+        <rotation>
+          <frequency>monthly</frequency>
+        </rotation>
       </logging>
     </default>
+
+    <crontab>
+        <jobs>
+            <logging_rotate_logs>
+                <schedule><cron_expr>0 2 * * *</cron_expr></schedule>
+                <run><model>logging/observer::rotateLogs</model></run>
+            </logging_rotate_logs>
+        </jobs>
+    </crontab>
+
 </config>

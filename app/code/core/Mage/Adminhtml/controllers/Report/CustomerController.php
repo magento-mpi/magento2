@@ -36,6 +36,11 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 {
     public function _initAction()
     {
+        $act = $this->getRequest()->getActionName();
+        if(!$act)
+            $act = 'default';
+        Mage::dispatchEvent('on_view_report', array('report' => 'customers/'.$act));
+
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
             ->_addBreadcrumb(Mage::helper('reports')->__('Customers'), Mage::helper('reports')->__('Customers'));

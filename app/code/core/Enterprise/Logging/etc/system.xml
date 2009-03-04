@@ -74,6 +74,37 @@
                 <show_in_website>1</show_in_website>
                 <show_in_store>1</show_in_store>
               </adminlogin>
+
+             <cmspages>
+                <label>Enable logging cms pages</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <sort_order>4</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+              </cmspages>
+
+              <cmsblocks>
+                <label>Enable logging cms blocks</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <sort_order>5</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+              </cmsblocks>
+
+              <customers>
+                <label>Enable customers logging</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <sort_order>6</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+              </customers>
+ 
               <reports>
                 <label>Enable logging reports view</label>
                 <frontend_type>select</frontend_type>
@@ -84,8 +115,35 @@
                 <show_in_store>1</show_in_store>
               </reports>
 
+              <systemconfiguration>
+                <label>Enable logging system configuration</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <sort_order>7</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+              </systemconfiguration>
             </fields>
           </enabled>
+
+          <rotation>
+            <label>Log rotation</label>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <fields>
+              <frequency>
+                <label>Rotate frequency </label>
+                <frontend_type>select</frontend_type>
+                <source_model>logging/system_config_rotationList</source_model>
+                <sort_order>1</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+              </frequency>
+            </fields>
+          </rotation>
         </groups>
       </logging>
     </sections>

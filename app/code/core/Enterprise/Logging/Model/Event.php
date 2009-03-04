@@ -73,7 +73,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
                 Mage::throwException("Wrong parameters passed to event info. ".$string.";");
             }
         }
-        parent::setInfo($string);
+        $this->setData('info', $string);
     }
 
     /**
@@ -81,6 +81,6 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function setIp($ip) 
     {
-        parent::setIp(ip2long($ip));
+        $this->setData('ip', ip2long($ip));
     }
 }

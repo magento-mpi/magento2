@@ -229,7 +229,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
             $category->addData($data['general']);
-
             if (!$category->getId()) {
                 $parentId = $this->getRequest()->getParam('parent');
                 if (!$parentId) {
@@ -269,13 +268,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
                 $refreshTree = 'true';
-		Mage::dispatchEvent('on_save_category', array('status' => 'success', 'category' => $category));
+                Mage::dispatchEvent('on_save_category', array('status' => 'success', 'category' => $category));
             }
             catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())
                     ->setCategoryData($data);
                 $refreshTree = 'false';
-		Mage::dispatchEvent('on_save_category', array('status' => 'fail', 'category' => $category));
+                Mage::dispatchEvent('on_save_category', array('status' => 'fail', 'category' => $category));
             }
         }
         $url = $this->getUrl('*/*/edit', array('_current' => true, 'id' => $category->getId()));
@@ -335,9 +334,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('admin/session')->setDeletedPath($category->getPath());
 
                 $category->delete();
+                Mage::dispatchEvent('on_delete_category', array('category'=>$category, 'status' => 'success'));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category deleted'));
             }
             catch (Exception $e){
+                Mage::dispatchEvent('on_delete_category', array('category'=>$category, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Category delete error'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=>true)));
                 return;

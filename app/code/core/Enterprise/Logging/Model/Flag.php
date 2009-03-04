@@ -18,24 +18,14 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Logging
+ * @category   Mage
+ * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract 
+class Enterprise_Logging_Model_Flag extends Mage_Core_Model_Flag
 {
-   /**
-    * Constructor
-    */
-    protected function _construct() 
-    {
-        $this->_init('logging/user_log', 'log_id');
-    }
+    protected $_flagCode = 'log_rotation';
 
-    public function getConnection() 
-    {
-        return $this->_getWriteAdapter();
-    }
 }
