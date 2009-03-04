@@ -188,6 +188,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             ->setCost($product->getCost())
             ->setIsQtyDecimal($product->getIsQtyDecimal());
 
+        Mage::dispatchEvent('sales_quote_item_set_product', array(
+            'product' => $product,
+            'quote_item'=>$this
+        ));
+
 //        if ($options = $product->getCustomOptions()) {
 //            foreach ($options as $option) {
 //                $this->addOption($option);
