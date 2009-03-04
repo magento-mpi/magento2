@@ -66,18 +66,19 @@
                     <div class="add-to-box">
                         <?php if($_product->isSaleable()): ?>
                             <?php echo $this->getChildHtml('addtocart') ?>
-                            <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-                                <span class="or"><?php echo $this->__('OR') ?></span>
-                            <?php endif; ?>
                         <?php endif; ?>
                         <?php echo $this->getChildHtml('addto') ?>
+                        <?php if ($this->canEmailToFriend()): ?>
+                            <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
+                        <?php endif; ?>                          
                     </div>
                 <?php else:?>
                     <?php echo $this->getChildHtml('addto') ?>
+                    <?php if ($this->canEmailToFriend()): ?>
+                        <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
+                    <?php endif; ?>                      
                 <?php endif; ?>
-                <?php if ($this->canEmailToFriend()): ?>
-                    <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
-                <?php endif; ?>            
+        
 
                 <?php if ($_product->getShortDescription()):?>
                     <div class="short-description std">
