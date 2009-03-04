@@ -85,17 +85,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
     }
 
     /**
-     * Retrieve save message url
-     *
-     * @return string
-     */
-    public function getSaveMessageUrl()
-    {
-        return $this->getUrl('*/*/saveMessage', array('id'=>$this->getInvitation()->getId()));
-    }
-
-
-    /**
      * Checks availability to edit invitation message
      *
      * @return boolean
