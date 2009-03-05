@@ -600,7 +600,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         $table = $this->_getReadAdapter()->describeTable($this->getMainStoreTable($category->getStoreId()));
         $data = array();
         foreach ($table as $column=>$columnData) {
-            if ($category->getData($column)) {
+            if (null !== $category->getData($column)) {
                 if (key_exists($column, $replaceFields)) {
                     $value = $category->getData($replaceFields[$column]);
                 } else {
@@ -685,7 +685,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function getChildrenCategories($category)
     {
-        return array();
         $node = $this->getNodeById($category->getId());
         if ($node && $node->getChildrenNodes()) {
             return $node->getChildrenNodes();
