@@ -111,7 +111,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             ->getLastEditedCategory(true);
 
 
-        if ($_prevCategoryId && !$this->getRequest()->getQuery('isAjax')) {
+        if ($_prevCategoryId
+            && !$this->getRequest()->getQuery('isAjax')
+            && !$this->getRequest()->getParam('clear')) {
            // $params['id'] = $_prevCategoryId;
              $this->getRequest()->setParam('id',$_prevCategoryId);
             //$redirect = true;
@@ -131,7 +133,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (!($category = $this->_initCategory(true))) {
             return;
         }
-	Mage::dispatchEvent('on_view_category', array('category' => $category));
+        Mage::dispatchEvent('on_view_category', array('category' => $category));
         /**
          * Check if we have data in session (if duering category save was exceprion)
          */
@@ -167,10 +169,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             Mage::getSingleton('admin/session')
                 ->setLastEditedCategory($category->getId());
             $this->_initLayoutMessages('adminhtml/session');
+            $this->loadLayout();
             $this->getResponse()->setBody(
                 $this->getLayout()->getMessagesBlock()->getGroupedHtml()
-                . $this->getLayout()->createBlock('adminhtml/catalog_category_edit_form')->toHtml()
-                . $this->getLayout()->getBlockSingleton('adminhtml/catalog_category_tree')
+                . $this->getLayout()->getBlock('category.edit')->getFormHtml()
+                . $this->getLayout()->getBlock('category.tree')
                     ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs')
             );
             return;
@@ -183,13 +186,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Catalog Categories'),
              Mage::helper('catalog')->__('Manage Categories')
-        );
-
-        $this->_addLeft(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_tree', 'category.tree')
-        );
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_edit')
         );
         $this->renderLayout();
     }
