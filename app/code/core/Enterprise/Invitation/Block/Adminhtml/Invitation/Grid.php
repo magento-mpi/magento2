@@ -41,7 +41,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('invitation/invitation')->getCollection();
+        $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -50,21 +50,21 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
     protected function _prepareColumns()
     {
 
-        $this->addColumn('invitation_id', array(
-            'header'=> Mage::helper('invitation')->__('ID'),
+        $this->addColumn('enterprise_invitation_id', array(
+            'header'=> Mage::helper('enterprise_invitation')->__('ID'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'invitation_id'
         ));
 
         $this->addColumn('email', array(
-            'header' => Mage::helper('invitation')->__('Email'),
+            'header' => Mage::helper('enterprise_invitation')->__('Email'),
             'index' => 'email',
             'type'  => 'text'
         ));
 
         $this->addColumn('date', array(
-            'header' => Mage::helper('invitation')->__('Send At'),
+            'header' => Mage::helper('enterprise_invitation')->__('Send At'),
             'index' => 'date',
             'type' => 'datetime',
             'gmtoffset' => true,
@@ -73,7 +73,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('signup_date', array(
-            'header' => Mage::helper('invitation')->__('Signed Up At'),
+            'header' => Mage::helper('enterprise_invitation')->__('Signed Up At'),
             'index' => 'signup_date',
             'type' => 'datetime',
             'gmtoffset' => true,
@@ -82,15 +82,15 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('invitation')->__('Status'),
+            'header' => Mage::helper('enterprise_invitation')->__('Status'),
             'index' => 'status',
             'type' => 'options',
-            'options' => Mage::getSingleton('invitation/source_invitation_status')->getOptions(),
+            'options' => Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptions(),
             'width' => '140px'
         ));
 
         $this->addColumn('customer_id', array(
-            'header' => Mage::helper('invitation')->__('Customer ID'),
+            'header' => Mage::helper('enterprise_invitation')->__('Customer ID'),
             'index' => 'customer_id',
             'default'   =>  ' ---- ',
             'width' => '140px'
@@ -102,7 +102,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             ->toOptionHash();
 
         $this->addColumn('group_id', array(
-            'header' => Mage::helper('invitation')->__('Referral Group'),
+            'header' => Mage::helper('enterprise_invitation')->__('Referral Group'),
             'index' => 'group_id',
             'type'  => 'options',
             'options' => $groups,
@@ -110,14 +110,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('referral_id', array(
-            'header' => Mage::helper('invitation')->__('Referral ID'),
+            'header' => Mage::helper('enterprise_invitation')->__('Referral ID'),
             'index' => 'referral_id',
             'default'   =>  ' ---- ',
             'width' => '140px'
         ));
 
         $this->addColumn('actions', array(
-            'header'    => $this->helper('invitation')->__('Action'),
+            'header'    => $this->helper('enterprise_invitation')->__('Action'),
             'width'     => '15px',
             'sortable'  => false,
             'filter'    => false,
@@ -125,7 +125,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/view') . 'id/$invitation_id',
-                    'caption'   => $this->helper('invitation')->__('View'),
+                    'caption'   => $this->helper('enterprise_invitation')->__('View'),
                 ),
             )
         ));
@@ -138,13 +138,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->setMassactionIdField('invitation_id');
         $this->getMassactionBlock()->setFormFieldName('invitations');
         $this->getMassactionBlock()->addItem('cancel', array(
-                'label' => $this->helper('invitation')->__('Cancel'),
+                'label' => $this->helper('enterprise_invitation')->__('Cancel'),
                 'url' => $this->getUrl('*/*/massCancel'),
-                'confirm' => Mage::helper('invitation')->__('Are you sure you want to do this?')
+                'confirm' => Mage::helper('enterprise_invitation')->__('Are you sure you want to do this?')
         ));
 
         $this->getMassactionBlock()->addItem('resend', array(
-                'label' => $this->helper('invitation')->__('Re-Send'),
+                'label' => $this->helper('enterprise_invitation')->__('Re-Send'),
                 'url' => $this->getUrl('*/*/massResend')
         ));
 

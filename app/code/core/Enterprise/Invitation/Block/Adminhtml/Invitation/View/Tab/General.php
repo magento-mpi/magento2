@@ -49,19 +49,19 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
         $this->setChild('save_message_button', $this->getLayout()->createBlock('adminhtml/widget_button', 'save_message_button', array(
             'type' => 'submit',
             'class' => 'save',
-            'label' => $this->helper('invitation')->__('Save invitation message')
+            'label' => $this->helper('enterprise_invitation')->__('Save invitation message')
         )));
         return parent::_prepareLayout();
     }
 
     public function getTabLabel()
     {
-        return Mage::helper('invitation')->__('General');
+        return Mage::helper('enterprise_invitation')->__('General');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('invitation')->__('General');
+        return Mage::helper('enterprise_invitation')->__('General');
     }
 
     public function canShowTab()
@@ -197,7 +197,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
         if ($group) {
             return $group->getCustomerGroupCode();
         } else {
-            return $this->helper('invitation')->__('N/A');
+            return $this->helper('enterprise_invitation')->__('N/A');
         }
     }
 }

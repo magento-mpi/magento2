@@ -27,12 +27,10 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-
 $installer->startSetup();
 
-
 $installer->run("
-CREATE TABLE `{$installer->getTable('invitation_invitation')}` (
+CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation')}` (
     `invitation_id` INT UNSIGNED  NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `customer_id` INT( 10 ) UNSIGNED DEFAULT NULL ,
     `date` DATETIME NOT NULL ,
@@ -44,34 +42,34 @@ CREATE TABLE `{$installer->getTable('invitation_invitation')}` (
     `group_id` SMALLINT(3) UNSIGNED NOT NULL,
     `message` TEXT DEFAULT NULL,
     `status` ENUM('sent','accepted', 'canceled') NOT NULL,
-    INDEX `customer_id` (`customer_id`),
-    INDEX `referral_id` (`referral_id`)
+    INDEX `IDX_customer_id` (`customer_id`),
+    INDEX `IDX_referral_id` (`referral_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
 $installer->getConnection()->addConstraint(
-    'INVITATION_STORE',
-    $installer->getTable('invitation_invitation'),
+    $installer->getTable('enterprise_invitation/invitation') . '_STORE',
+    $installer->getTable('enterprise_invitation/invitation'),
     'store_id',
     $installer->getTable('core_store'),
     'store_id'
 );
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('invitation_invitation_status_history')}` (
+CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_status_history')}` (
     `history_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `invitation_id` INT UNSIGNED NOT NULL,
     `date` DATETIME NOT NULL,
     `status` ENUM('sent','accepted', 'canceled') NOT NULL,
-    INDEX `invitation_id` (`invitation_id`)
+    INDEX `IDX_invitation_id` (`invitation_id`)
 ) ENGINE=InnoDB;
 ");
 
 $installer->getConnection()->addConstraint(
-    'INVITATION_HISTORY_INVITATION',
-    $installer->getTable('invitation_invitation_status_history'),
+    $installer->getTable('enterprise_invitation/invitation_status_history') . '_INVITATION',
+    $installer->getTable('enterprise_invitation/invitation_status_history'),
     'invitation_id',
-    $installer->getTable('invitation_invitation'),
+    $installer->getTable('enterprise_invitation/invitation'),
     'invitation_id'
 );
 

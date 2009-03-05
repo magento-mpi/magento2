@@ -44,7 +44,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
      */
     protected function _prepareLayout()
     {
-        $validationMessage = $this->helper('invitation')->__(
+        $validationMessage = $this->helper('enterprise_invitation')->__(
             'Please enter a valid email addresses, separated by new line.'
         );
 
@@ -79,7 +79,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('invitation')->__('Create Invitations');
+        return Mage::helper('enterprise_invitation')->__('Create Invitations');
     }
 
 }

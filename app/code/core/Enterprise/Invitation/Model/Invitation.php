@@ -37,7 +37,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      **/
     protected function _construct()
     {
-        $this->_init('invitation/invitation');
+        $this->_init('enterprise_invitation/invitation');
     }
 
     /**
@@ -109,7 +109,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                     ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
                     ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
 
-            $statusHistory = Mage::getModel('invitation/invitation_status_history');
+            $statusHistory = Mage::getModel('enterprise_invitation/invitation_status_history');
             $statusHistory->setInvitationId($this->getId())
                 ->setStatus($this->getStatus())
                 ->setDate($now)
@@ -127,7 +127,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     public function getStatusHistoryCollection()
     {
         if (!$this->hasData('status_history_collection')) {
-            $collection = Mage::getModel('invitation/invitation_status_history')
+            $collection = Mage::getModel('enterprise_invitation/invitation_status_history')
                 ->getCollection()
                 ->addFieldToFilter('invitation_id', $this->getId());
             $this->setData('status_history_collection', $collection);

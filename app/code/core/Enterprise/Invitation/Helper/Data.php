@@ -97,7 +97,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('invitation/source_invitation_status')->getOptionText($invitation->getStatus());
+        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText($invitation->getStatus());
     }
 
     /**
@@ -125,6 +125,6 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCustomerInvitationUrl()
     {
-        return $this->_getUrl('invitation/index/list');
+        return $this->_getUrl('enterprise_invitation/index/list');
     }
 }

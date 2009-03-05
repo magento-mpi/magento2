@@ -39,6 +39,6 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Status_History extends Mage_
      */
     protected function _construct ()
     {
-        $this->_init('invitation/invitation_status_history', 'history_id');
+        $this->_init('enterprise_invitation/invitation_status_history', 'history_id');
     }
 }

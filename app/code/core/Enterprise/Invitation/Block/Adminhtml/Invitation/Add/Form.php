@@ -58,24 +58,24 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->helper('invitation')->__('Invitation information')
+            'legend' => $this->helper('enterprise_invitation')->__('Invitation information')
         ));
 
         $fieldset->addField('email', 'textarea', array(
-            'label' => $this->helper('invitation')->__('Emails (separated by new lines)'),
+            'label' => $this->helper('enterprise_invitation')->__('Emails (separated by new lines)'),
             'required' => true,
             'class' => 'validate-emails',
             'name' => 'email'
         ));
 
         $fieldset->addField('message', 'textarea', array(
-            'label' => $this->helper('invitation')->__('Message'),
+            'label' => $this->helper('enterprise_invitation')->__('Message'),
             'name' => 'message'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
-                'label' => $this->helper('invitation')->__('Send from'),
+                'label' => $this->helper('enterprise_invitation')->__('Send from'),
                 'required' => true,
                 'name' => 'store_id',
                 'values' => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
@@ -88,7 +88,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
             ->toOptionHash();
 
         $fieldset->addField('group_id', 'select', array(
-            'label' => $this->helper('invitation')->__('Assigned to Group'),
+            'label' => $this->helper('enterprise_invitation')->__('Assigned to Group'),
             'required' => true,
             'name' => 'group_id',
             'values' => $groups

@@ -27,55 +27,55 @@
     </modules>
     <global>
         <models>
-             <invitation>
+             <enterprise_invitation>
                 <class>Enterprise_Invitation_Model</class>
-                <resourceModel>invitation_mysql4</resourceModel>
-             </invitation>
-             <invitation_mysql4>
+                <resourceModel>enterprise_invitation_mysql4</resourceModel>
+             </enterprise_invitation>
+             <enterprise_invitation_mysql4>
                 <class>Enterprise_Invitation_Model_Mysql4</class>
                 <entities>
-                    <invitation><table>invitation_invitation</table></invitation>
-                    <invitation_status_history><table>invitation_invitation_status_history</table></invitation_status_history>
+                    <invitation><table>enterprise_invitation_invitation</table></invitation>
+                    <invitation_status_history><table>enterprise_invitation_invitation_status_history</table></invitation_status_history>
                 </entities>
-            </invitation_mysql4>
+            </enterprise_invitation_mysql4>
         </models>
         <helpers>
-             <invitation>
+             <enterprise_invitation>
                 <class>Enterprise_Invitation_Helper</class>
-             </invitation>
+             </enterprise_invitation>
         </helpers>
         <blocks>
-             <invitation>
+             <enterprise_invitation>
                 <class>Enterprise_Invitation_Block</class>
-             </invitation>
+             </enterprise_invitation>
         </blocks>
         <resources>
-            <invitation_setup>
+            <enterprise_invitation_setup>
                 <setup>
                     <module>Enterprise_Invitation</module>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </invitation_setup>
-            <invitation_write>
+            </enterprise_invitation_setup>
+            <enterprise_invitation_write>
                 <connection>
                     <use>core_write</use>
                 </connection>
-            </invitation_write>
-            <invitation_read>
+            </enterprise_invitation_write>
+            <enterprise_invitation_read>
                 <connection>
                     <use>core_read</use>
                 </connection>
-            </invitation_read>
+            </enterprise_invitation_read>
         </resources>
         <template>
             <email>
-               <invitation_email_template translate="label" module="invitation">
+               <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
                    <label>Invitation</label>
                    <file>enterprise/invitation.html</file>
                    <type>html</type>
-               </invitation_email_template>
+               </enterprise_invitation_email_template>
             </email>
         </template>
     </global>
@@ -85,7 +85,7 @@
                 <args>
                     <frontName>admin</frontName>
                     <modules>
-                        <Enterprise_Invitation before="Mage_Adminhtml">Enterprise_Invitation_Adminhtml</Enterprise_Invitation>
+                        <enterprise_invitation before="Mage_Adminhtml">Enterprise_Invitation_Adminhtml</enterprise_invitation>
                     </modules>
                 </args>
             </adminhtml>
@@ -94,9 +94,9 @@
     <adminhtml>
         <layout>
             <updates>
-                <invitation>
+                <enterprise_invitation>
                     <file>enterprise/invitation.xml</file>
-                </invitation>
+                </enterprise_invitation>
             </updates>
         </layout>
         <acl>
@@ -105,10 +105,10 @@
                     <children>
                         <customer>
                             <children>
-                                 <invitation>
+                                 <enterprise_invitation>
                                     <title>Invitations</title>
                                     <sort_order>40</sort_order>
-                                </invitation>
+                                </enterprise_invitation>
                             </children>
                         </customer>
                     </children>
@@ -118,43 +118,43 @@
          <menu>
             <customer>
                 <children>
-                    <invitation translate="title" module="invitation">
+                    <enterprise_invitation translate="title" module="enterprise_invitation">
                            <title>Invitations</title>
                            <action>adminhtml/invitation</action>
                            <resource>customer/invitation</resource>
                            <sort_order>30</sort_order>
                            <depends><module>Enterprise_Invitation</module></depends>
-                    </invitation>
+                    </enterprise_invitation>
                 </children>
             </customer>
             <report>
                 <children>
-                    <invitation translate="title" module="invitation">
+                    <enterprise_invitation translate="title" module="enterprise_invitation">
                            <title>Invitations</title>
                            <resource>customer/invitation</resource>
                            <sort_order>30</sort_order>
                            <depends><module>Enterprise_Invitation</module></depends>
                            <children>
-                               <general translate="title" module="invitation">
+                               <general translate="title" module="enterprise_invitation">
                                    <title>General</title>
                                    <action>adminhtml/report_invitation</action>
                                    <resource>customer/invitation</resource>
                                    <sort_order>10</sort_order>
                                </general>
-                               <customer translate="title" module="invitation">
+                               <customer translate="title" module="enterprise_invitation">
                                    <title>Customers</title>
                                    <action>adminhtml/report_invitation/customer</action>
                                    <resource>customer/invitation</resource>
                                    <sort_order>20</sort_order>
                                </customer>
-                               <order translate="title" module="invitation">
+                               <order translate="title" module="enterprise_invitation">
                                    <title>Order Conversion Rate</title>
                                    <action>adminhtml/report_invitation/order</action>
                                    <resource>customer/invitation</resource>
                                    <sort_order>30</sort_order>
                                </order>
                            </children>
-                    </invitation>
+                    </enterprise_invitation>
                 </children>
             </report>
          </menu>
@@ -162,9 +162,9 @@
     <frontend>
         <layout>
             <updates>
-                <invitation>
+                <enterprise_invitation>
                     <file>invitation.xml</file>
-                </invitation>
+                </enterprise_invitation>
             </updates>
         </layout>
         <translate>
@@ -177,46 +177,46 @@
             </modules>
         </translate>
         <routers>
-            <invitation>
+            <enterprise_invitation>
                 <use>standard</use>
                 <args>
                     <module>Enterprise_Invitation</module>
                     <frontName>invitation</frontName>
                 </args>
-            </invitation>
+            </enterprise_invitation>
         </routers>
         <events>
             <customer_save_after>
                 <observers>
-                    <invitation>
+                    <enterprise_invitation>
                         <type>singleton</type>
-                        <class>invitation/observer</class>
+                        <class>enterprise_invitation/observer</class>
                         <method>observeCustomerSaveAfter</method>
-                    </invitation>
+                    </enterprise_invitation>
                 </observers>
             </customer_save_after>
             <customer_save_before>
                 <observers>
-                    <invitation>
+                    <enterprise_invitation>
                         <type>singleton</type>
-                        <class>invitation/observer</class>
+                        <class>enterprise_invitation/observer</class>
                         <method>observeCustomerSaveBefore</method>
-                    </invitation>
+                    </enterprise_invitation>
                 </observers>
             </customer_save_before>
             <controller_action_predispatch_customer_account_create>
                 <observers>
-                    <invitation>
+                    <enterprise_invitation>
                         <type>singleton</type>
-                        <class>invitation/observer</class>
+                        <class>enterprise_invitation/observer</class>
                         <method>observeCustomerRegistration</method>
-                    </invitation>
+                    </enterprise_invitation>
                 </observers>
             </controller_action_predispatch_customer_account_create>
         </events>
     </frontend>
     <default>
-        <invitation>
+        <enterprise_invitation>
             <email>
                 <identity>general</identity>
                 <template>invitation_email_template</template>
@@ -227,7 +227,7 @@
                 <max_invitation_amount_per_send>5</max_invitation_amount_per_send>
                 <allow_customer_message>1</allow_customer_message>
             </general>
-        </invitation>
+        </enterprise_invitation>
     </default>
     <adminhtml>
         <acl>
@@ -238,7 +238,7 @@
                             <children>
                                 <config>
                                     <children>
-                                           <invitation />
+                                           <enterprise_invitation />
                                     </children>
                                 </config>
                             </children>

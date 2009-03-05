@@ -41,11 +41,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
 
     public function getTabLabel()
     {
-        return Mage::helper('invitation')->__('Status History');
+        return Mage::helper('enterprise_invitation')->__('Status History');
     }
     public function getTabTitle()
     {
-        return Mage::helper('invitation')->__('Status History');
+        return Mage::helper('enterprise_invitation')->__('Status History');
     }
 
     public function canShowTab()

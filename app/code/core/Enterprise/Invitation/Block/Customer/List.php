@@ -53,7 +53,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Core_Block_Template
         if (is_null($this->_list)) {
             $customer = Mage::getSingleton('customer/session')->getCustomerId();
 
-            $this->_list = Mage::getModel('invitation/invitation')
+            $this->_list = Mage::getModel('enterprise_invitation/invitation')
                 ->getCollection()
                 ->loadByCustomerId($customer);
         }
@@ -69,7 +69,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Core_Block_Template
      */
     public function getStatusText($invitation)
     {
-        return Mage::getSingleton('invitation/source_invitation_status')->getOptionText($invitation->getStatus());
+        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText($invitation->getStatus());
     }
 
     /**

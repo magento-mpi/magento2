@@ -60,19 +60,19 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
 
             $customer = Mage::getSingleton('customer/session')->getCustomerId();
 
-            if (Mage::helper('invitation')->getUseInvitationMessage() && !empty($data['message'])) {
+            if (Mage::helper('enterprise_invitation')->getUseInvitationMessage() && !empty($data['message'])) {
                 $message = $data['message'];
             } else {
                 $message = null;
             }
 
-            if (Mage::helper('invitation')->getUseInviterGroup()) {
+            if (Mage::helper('enterprise_invitation')->getUseInviterGroup()) {
                 $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
             } else {
                 $customerGroup = Mage::getStoreConfig('customer/create_account/default_group');
             }
 
-            $invPerSend = Mage::helper('invitation')->getMaxInvitationAmountPerSend();
+            $invPerSend = Mage::helper('enterprise_invitation')->getMaxInvitationAmountPerSend();
             $sentAmount = 0;
             foreach ($data['email'] as $email) {
                 if (!trim($email)) {
@@ -89,7 +89,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                         break;
                     }
                     // save invitation into db
-                    $invitation = Mage::getModel('invitation/invitation');
+                    $invitation = Mage::getModel('enterprise_invitation/invitation');
                     $code = $invitation->generateCode();
                     $invitationData = array(
                         'email' => $email,
@@ -103,10 +103,10 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                     );
                     $invitation->setData($invitationData)->save();
 
-                    $url = Mage::helper('invitation')->getInvitationUrl($invitation);
+                    $url = Mage::helper('enterprise_invitation')->getInvitationUrl($invitation);
 
-                    $template = Mage::getStoreConfig('invitation/email/template');
-                    $sender = Mage::getStoreConfig('invitation/email/identity');
+                    $template = Mage::getStoreConfig('enterprise_invitation/email/template');
+                    $sender = Mage::getStoreConfig('enterprise_invitation/email/identity');
 
                     $mail = Mage::getModel('core/email_template');
                     $mail->setDesignConfig(array('area'=>'frontend', 'store'=>Mage::app()->getStore()->getId()))
@@ -122,12 +122,12 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                             )
                         );
 
-                    Mage::getSingleton('customer/session')->addSuccess(Mage::helper('invitation')->__('Invitation for %s has been sent successfully.', $email));
+                    Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email));
                     $sentAmount ++;
                 } catch (Mage_Core_Exception $e) {
                     Mage::getSingleton('customer/session')->addError($e->getMessage());
                 } catch (Exception $e) {
-                    Mage::getSingleton('customer/session')->addError(Mage::helper('invitation')->__('Email to %s was not sent for some reason. Please try again later.', $email));
+                    Mage::getSingleton('customer/session')->addError(Mage::helper('enterprise_invitation')->__('Email to %s was not sent for some reason. Please try again later.', $email));
                 }
             }
             $this->_redirect('*/*/');

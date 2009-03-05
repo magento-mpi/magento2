@@ -42,17 +42,17 @@ class Enterprise_Invitation_Model_Observer
     {
         $action = $observer->getEvent()->getControllerAction();
 
-        $invitationCode = $action->getRequest()->getParam('invitation', false);
-        if (Mage::helper('invitation')->getInvitationRequired() && !$invitationCode) {
+        $invitationCode = $action->getRequest()->getParam('enterprise_invitation', false);
+        if (Mage::helper('enterprise_invitation')->getInvitationRequired() && !$invitationCode) {
             $action->setFlag('', 'no-dispatch', true);
             $action->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
             return;
         }
 /*
         if ($invitationCode &&
-            ! Mage::helper('invitation')->getInvitationRequired()) {
+            ! Mage::helper('enterprise_invitation')->getInvitationRequired()) {
             Mage::getSingleton('customer/session')
-                ->addNotice(Mage::helper('invitation')->__(
+                ->addNotice(Mage::helper('enterprise_invitation')->__(
                     'You are creating account with invitation. You can create account <a href="%s">without it</a>.',
                     Mage::getUrl('customer/account/create')
                 ));
@@ -70,7 +70,7 @@ class Enterprise_Invitation_Model_Observer
     public function observeCustomerSaveAfter(Varien_Event_Observer $observer)
     {
         $invitationCode = Mage::getSingleton('customer/session')->getInvitationCode();
-        $invitation = Mage::getModel('invitation/invitation')->loadByInvitationCode($invitationCode);
+        $invitation = Mage::getModel('enterprise_invitation/invitation')->loadByInvitationCode($invitationCode);
         $referralId = $observer->getEvent()->getCustomer()->getId();
 
         if ($invitation->getId() && $this->_flagInCustomerRegistration) {
@@ -103,13 +103,13 @@ class Enterprise_Invitation_Model_Observer
         if (!$customer->getId()) {
             $this->_flagInCustomerRegistration = true;
             $invitationCode = Mage::getSingleton('customer/session')->getInvitationCode();
-            if (empty($invitationCode) && Mage::helper('invitation')->getInvitationRequired()) {
-                Mage::throwException(Mage::helper('invitation')->__('Registration only by invitation'));
+            if (empty($invitationCode) && Mage::helper('enterprise_invitation')->getInvitationRequired()) {
+                Mage::throwException(Mage::helper('enterprise_invitation')->__('Registration only by invitation'));
             }
-            $invitation = Mage::getModel('invitation/invitation')->loadByInvitationCode($invitationCode);
+            $invitation = Mage::getModel('enterprise_invitation/invitation')->loadByInvitationCode($invitationCode);
             if (!$invitation->getId() &&
-                Mage::helper('invitation')->getInvitationRequired()) {
-                Mage::throwException(Mage::helper('invitation')->__('Invalid invitation link'));
+                Mage::helper('enterprise_invitation')->getInvitationRequired()) {
+                Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid invitation link'));
             }
 
             if ($invitation->getId() && $invitation->getGroupId()) {

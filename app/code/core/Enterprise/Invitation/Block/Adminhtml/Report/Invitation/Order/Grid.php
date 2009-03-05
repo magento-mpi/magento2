@@ -42,7 +42,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('invitation/report_invitation_order_collection');
+        $this->getCollection()->initReport('enterprise_invitation/report_invitation_order_collection');
         return $this;
     }
 
@@ -54,36 +54,36 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('sent', array(
-            'header'    =>Mage::helper('invitation')->__('Invitations sent'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations sent'),
             'type'      =>'number',
             'index'     => 'sent',
             'width'     =>'200'
         ));
 
         $this->addColumn('accepted', array(
-            'header'    =>Mage::helper('invitation')->__('Invitations accepted'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations accepted'),
             'type'      =>'number',
             'index'     => 'accepted',
             'width'     =>'200'
         ));
 
         $this->addColumn('purchased', array(
-            'header'    =>Mage::helper('invitation')->__('Accepted and purchased'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Accepted and purchased'),
             'type'      =>'number',
             'index'     => 'purchased',
             'width'     =>'220'
         ));
 
         $this->addColumn('purchased_rate', array(
-            'header'    =>Mage::helper('invitation')->__('Conversion rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Conversion rate'),
             'index'     =>'purchased_rate',
             'renderer'  => 'invitation/adminhtml_grid_column_renderer_percent',
             'type'      =>'string',
             'width'     =>'100'
         ));
 
-        $this->addExportType('*/*/exportOrderCsv', Mage::helper('invitation')->__('CSV'));
-        $this->addExportType('*/*/exportOrderExcel', Mage::helper('invitation')->__('Excel'));
+        $this->addExportType('*/*/exportOrderCsv', Mage::helper('enterprise_invitation')->__('CSV'));
+        $this->addExportType('*/*/exportOrderExcel', Mage::helper('enterprise_invitation')->__('Excel'));
 
         return parent::_prepareColumns();
     }

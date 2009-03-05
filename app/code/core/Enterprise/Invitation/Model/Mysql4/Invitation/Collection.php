@@ -39,7 +39,7 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
      */
     protected function _construct()
     {
-        $this->_init('invitation/invitation');
+        $this->_init('enterprise_invitation/invitation');
     }
 
     /**

@@ -21,7 +21,7 @@
 -->
 <config>
     <sections>
-        <invitation translate="label" module="invitation">
+        <enterprise_invitation translate="label" module="enterprise_invitation">
             <label>Invitations</label>
             <class>separator-top</class>
             <tab>customer</tab>
@@ -29,7 +29,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <email translate="label" module="invitation">
+                <email translate="label" module="enterprise_invitation">
                     <label>Email settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>
@@ -103,6 +103,6 @@
                     </fields>
                 </general>
             </groups>
-        </invitation>
+        </enterprise_invitation>
     </sections>
 </config>

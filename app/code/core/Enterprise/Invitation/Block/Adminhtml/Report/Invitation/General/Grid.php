@@ -42,7 +42,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        $this->getCollection()->initReport('invitation/report_invitation_collection');
+        $this->getCollection()->initReport('enterprise_invitation/report_invitation_collection');
         return $this;
     }
 
@@ -54,27 +54,27 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('sent', array(
-            'header'    =>Mage::helper('invitation')->__('Sent'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Sent'),
             'type'      =>'number',
             'index'     => 'sent'
         ));
 
         $this->addColumn('accepted', array(
-            'header'    =>Mage::helper('invitation')->__('Accepted'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Accepted'),
             'type'      =>'number',
             'index'     => 'accepted',
             'width'     => ''
         ));
 
         $this->addColumn('canceled', array(
-            'header'    => Mage::helper('invitation')->__('Canceled'),
+            'header'    => Mage::helper('enterprise_invitation')->__('Canceled'),
             'type'      =>'number',
             'index'     => 'canceled',
             'width'     => ''
         ));
 
         $this->addColumn('accepted_rate', array(
-            'header'    =>Mage::helper('invitation')->__('Acceptance Conversion rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Acceptance Conversion rate'),
             'index'     =>'accepted_rate',
             'renderer'  => 'invitation/grid_adminhtml_column_renderer_percent',
             'type'      =>'string',
@@ -83,15 +83,15 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
         ));
 
         $this->addColumn('canceled_rate', array(
-            'header'    =>Mage::helper('invitation')->__('Canceled Conversion rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Canceled Conversion rate'),
             'index'     =>'canceled_rate',
             'type'      =>'number',
             'renderer'  => 'invitation/grid_adminhtml_column_renderer_percent',
             'width'     => '170'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('invitation')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('invitation')->__('Excel'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_invitation')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('enterprise_invitation')->__('Excel'));
 
         return parent::_prepareColumns();
     }

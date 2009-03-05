@@ -35,29 +35,29 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
 
     protected function _prepareLayout()
     {
-        $this->_headerText = Mage::helper('invitation')->__(
+        $this->_headerText = Mage::helper('enterprise_invitation')->__(
             'View invitation for %s (ID: %s)',
             $this->getInvitation()->getEmail(),
             $this->getInvitation()->getId()
         );
 
         $this->_addButton('back', array(
-                'label' => Mage::helper('invitation')->__('Back'),
+                'label' => Mage::helper('enterprise_invitation')->__('Back'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/') . '\')',
                 'class' => 'back',
         ), -1);
 
         if ($this->getInvitation()->getStatus() == 'sent') {
             $this->_addButton('cancel', array(
-                    'label' => Mage::helper('invitation')->__('Cancel'),
+                    'label' => Mage::helper('enterprise_invitation')->__('Cancel'),
                     'onclick' => 'deleteConfirm(\''. $this->jsQuoteEscape(
-                                Mage::helper('invitation')->__('Are you sure you want to do this?')
+                                Mage::helper('enterprise_invitation')->__('Are you sure you want to do this?')
                             ) . '\', \'' . $this->getUrl('*/*/cancel', array('_current'=>true)) . '\' )',
                     'class' => 'cancel'
             ), -1);
 
             $this->_addButton('resend', array(
-                    'label' => Mage::helper('invitation')->__('Re-send'),
+                    'label' => Mage::helper('enterprise_invitation')->__('Re-send'),
                     'onclick' => 'setLocation(\'' . $this->getUrl('*/*/resend', array('_current'=>true)) . '\')'
             ), -1);
         }

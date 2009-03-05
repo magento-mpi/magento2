@@ -53,12 +53,12 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     protected function _initInvitation()
     {
         $invitationId = $this->getRequest()->getParam('id');
-        $invitation = Mage::getModel('invitation/invitation')
+        $invitation = Mage::getModel('enterprise_invitation/invitation')
             ->load($invitationId);
 
         if (!$invitation->getId()) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('Invitaion not found')
+                Mage::helper('enterprise_invitation')->__('Invitaion not found')
             );
             $this->_redirect('*/*/');
             return false;
@@ -94,7 +94,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     public function newAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('invitation');
+            ->_setActiveMenu('enterprise_invitation');
         $this->renderLayout();
     }
 
@@ -118,7 +118,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
             if (empty($storeId)) {
                 $this->_getSession()->addError(
-                    Mage::helper('invitation')->__('Please select store')
+                    Mage::helper('enterprise_invitation')->__('Please select store')
                 );
                 $this->_redirect('*/*/new');
                 return;
@@ -126,7 +126,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
             if (empty($groupId)) {
                 $this->_getSession()->addError(
-                    Mage::helper('invitation')->__('Please select customer group')
+                    Mage::helper('enterprise_invitation')->__('Please select customer group')
                 );
                 $this->_redirect('*/*/new');
                 return;
@@ -145,7 +145,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                         continue;
                     }
                     try {
-                        $invitation = Mage::getModel('invitation/invitation');
+                        $invitation = Mage::getModel('enterprise_invitation/invitation');
                         $invitation->setGroupId($groupId)
                             ->setEmail($email)
                             ->setProtectionCode($invitation->generateCode())
@@ -156,11 +156,11 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                             ->save();
                         $this->_sendInvitationEmail($invitation);
                         $this->_getSession()->addSuccess(
-                            Mage::helper('invitation')->__('Invitation for %s has been sent successfully.', $email)
+                            Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email)
                         );
                     } catch (Mage_Core_Exception $e) {
                         $this->_getSession()->addError(
-                            Mage::helper('invitation')->__(
+                            Mage::helper('enterprise_invitation')->__(
                                 'Email to %s was not sent becouse "%s". Please try again later.',
                                 $email,
                                 $e->getMessage()
@@ -168,7 +168,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                         );
                     } catch (Exception $e) {
                         $this->_getSession()->addError(
-                            Mage::helper('invitation')->__('Email to %s was not sent for some reason. Please try again later.', $email)
+                            Mage::helper('enterprise_invitation')->__('Email to %s was not sent for some reason. Please try again later.', $email)
                         );
                     }
                 }
@@ -180,6 +180,11 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         $this->_redirect('*/*/');
     }
 
+    /**
+     * Invitation save message action
+     *
+     * @return void
+     */
     public function saveMessageAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -193,18 +198,18 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                     $invitation->setMessage($this->getRequest()->getParam('message'))
                         ->save();
                     $this->_getSession()->addSuccess(
-                        Mage::helper('invitation')->__('Invitation message was successfully saved.')
+                        Mage::helper('enterprise_invitation')->__('Invitation message was successfully saved.')
                     );
                 } catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 } catch (Exception $e) {
                     $this->_getSession()->addError(
-                        Mage::helper('invitation')->__('Invitation message was not sent for some reason. Please try again later.')
+                        Mage::helper('enterprise_invitation')->__('Invitation message was not sent for some reason. Please try again later.')
                     );
                 }
             } else  {
                 $this->_getSession()->addError(
-                    Mage::helper('invitation')->__('You cannot edit message for this invitation.')
+                    Mage::helper('enterprise_invitation')->__('You cannot edit message for this invitation.')
                 );
             }
         } else {
@@ -228,7 +233,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($invitation->getStatus() !== Enterprise_Invitation_Model_Invitation::STATUS_SENT) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('You cannot cancel this invitation')
+                Mage::helper('enterprise_invitation')->__('You cannot cancel this invitation')
             );
             $this->_redirect('*/*/view', array('_current'=>true));
             return;
@@ -238,13 +243,13 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             $invitation->setStatus(Enterprise_Invitation_Model_Invitation::STATUS_CANCELED)
                 ->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('invitation')->__('Invitation was successfully canceled.')
+                Mage::helper('enterprise_invitation')->__('Invitation was successfully canceled.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('Invitation was not canceled. Try again later.')
+                Mage::helper('enterprise_invitation')->__('Invitation was not canceled. Try again later.')
             );
         }
 
@@ -266,7 +271,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($invitation->getStatus() !== Enterprise_Invitation_Model_Invitation::STATUS_SENT) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('You cannot re-send this invitation')
+                Mage::helper('enterprise_invitation')->__('You cannot re-send this invitation')
             );
             $this->_redirect('*/*/view', array('_current'=>true));
             return;
@@ -277,13 +282,13 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             $invitation->setOrigData('status', '')
                 ->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('invitation')->__('Invitation was successfully re-sent.')
+                Mage::helper('enterprise_invitation')->__('Invitation was successfully re-sent.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('Invitation was not re-sent. Try again later.')
+                Mage::helper('enterprise_invitation')->__('Invitation was not re-sent. Try again later.')
             );
         }
 
@@ -301,14 +306,14 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         $invitations = $this->getRequest()->getParam('invitations', array());
         if (empty($invitations) || !is_array($invitations)) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('Please select invitations.')
+                Mage::helper('enterprise_invitation')->__('Please select invitations.')
             );
             $this->_redirect('*/*/');
             return;
         }
 
-        $collection = Mage::getModel('invitation/invitation')->getCollection();
-        $collection->addFieldToFilter('invitation_id', array('in'=>$invitations))
+        $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection();
+        $collection->addFieldToFilter('enterprise_invitation_id', array('in'=>$invitations))
             ->addFieldToFilter('status', Enterprise_Invitation_Model_Invitation::STATUS_SENT);
 
         $now = Mage::app()->getLocale()->date()
@@ -323,7 +328,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                 $amount ++;
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('invitation')->__(
+                    Mage::helper('enterprise_invitation')->__(
                         'Email to %s was not sent for some reason. Please try again later.',
                         $invitation->getEmail()
                     )
@@ -333,11 +338,11 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($amount > 0) {
              $this->_getSession()->addSuccess(
-                Mage::helper('invitation')->__('%d invitation(s) was re-sent.', $amount)
+                Mage::helper('enterprise_invitation')->__('%d invitation(s) was re-sent.', $amount)
              );
         } else {
             $this->_getSession()->addWarning(
-                Mage::helper('invitation')->__('No invitations was re-sent.')
+                Mage::helper('enterprise_invitation')->__('No invitations was re-sent.')
              );
         }
 
@@ -354,14 +359,14 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         $invitations = $this->getRequest()->getParam('invitations', array());
         if (empty($invitations) || !is_array($invitations)) {
             $this->_getSession()->addError(
-                Mage::helper('invitation')->__('Please select invitations.')
+                Mage::helper('enterprise_invitation')->__('Please select invitations.')
             );
             $this->_redirect('*/*/');
             return;
         }
 
-        $collection = Mage::getModel('invitation/invitation')->getCollection();
-        $collection->addFieldToFilter('invitation_id', array('in'=>$invitations))
+        $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection();
+        $collection->addFieldToFilter('enterprise_invitation_id', array('in'=>$invitations))
             ->addFieldToFilter('status', Enterprise_Invitation_Model_Invitation::STATUS_SENT);
 
         $amount = 0;
@@ -372,7 +377,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                 $amount ++;
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('invitation')->__(
+                    Mage::helper('enterprise_invitation')->__(
                         'Inventation for %s was not canceled for some reason. Please try again later.',
                         $invitation->getEmail()
                     )
@@ -382,11 +387,11 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($amount > 0) {
              $this->_getSession()->addSuccess(
-                Mage::helper('invitation')->__('%d invitation(s) was canceled.', $amount)
+                Mage::helper('enterprise_invitation')->__('%d invitation(s) was canceled.', $amount)
              );
         } else {
             $this->_getSession()->addWarning(
-                Mage::helper('invitation')->__('No invitations was canceled.')
+                Mage::helper('enterprise_invitation')->__('No invitations was canceled.')
              );
         }
 
@@ -400,7 +405,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     protected function isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/invitation');
+        return Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_invitation');
     }
 
     /**
@@ -412,8 +417,8 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     protected function _sendInvitationEmail($invitation)
     {
 
-        $template = Mage::getStoreConfig('invitation/email/template', $invitation->getStoreId());
-        $sender = Mage::getStoreConfig('invitation/email/identity', $invitation->getStoreId());
+        $template = Mage::getStoreConfig('enterprise_invitation/email/template', $invitation->getStoreId());
+        $sender = Mage::getStoreConfig('enterprise_invitation/email/identity', $invitation->getStoreId());
         $mail = Mage::getModel('core/email_template');
         $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$invitation->getStoreId()))
              ->sendTransactional(
@@ -422,8 +427,8 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                 $invitation->getEmail(),
                 null,
                 array(
-                    'url' => Mage::helper('invitation')->getInvitationUrl($invitation),
-                    'allow_message' => Mage::getStoreConfigFlag('invitation/general/allow_customer_message', $invitation->getStoreId()),
+                    'url' => Mage::helper('enterprise_invitation')->getInvitationUrl($invitation),
+                    'allow_message' => Mage::getStoreConfigFlag('enterprise_invitation/general/allow_customer_message', $invitation->getStoreId()),
                     'message' => htmlspecialchars($invitation->getMessage())
                 )
             );

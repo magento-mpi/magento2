@@ -18,28 +18,28 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Enterprise
+ * @package    design
+ * @category   enterprise_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
 <div class="page-title">
-    <h2><?php echo Mage::helper('invitation')->__('Send Invitations') ?></h2>
+    <h2><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></h2>
 </div>
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
-<?php $_fieldAmount = (int) Mage::helper('invitation')->getMaxInvitationAmountPerSend(); ?>
+<?php $_fieldAmount = (int) Mage::helper('enterprise_invitation')->getMaxInvitationAmountPerSend(); ?>
 <?php if ($_fieldAmount>0): ?>
-<h2><?php echo Mage::helper('invitation')->__('Sponsor your friends by entering their email addresses below'); ?></h2>
+<h2><?php echo Mage::helper('enterprise_invitation')->__('Sponsor your friends by entering their email addresses below'); ?></h2>
 <form id="invitationForm" action="" method="post">
     <div class="group-select clearfix">
-        <h3><?php echo Mage::helper('invitation')->__('E-mails') ?></h3>
+        <h3><?php echo Mage::helper('enterprise_invitation')->__('E-mails') ?></h3>
         <fieldset>
             <ul>
                 <?php $_perRow = ceil($_fieldAmount/3); for($_index = 1; $_index <= $_fieldAmount; $_index ++): ?>
                 <li>
                     <label for="email_<?php echo $_index ?>"><?php echo $_index; ?>: <?php if ($_index == 1): ?><span class="required">*</span><?php endif;?></label>
-                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('invitation')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
+                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('enterprise_invitation')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
                 </li>
                 <?php if ($_index%$_perRow==0 && $_index!=$_fieldAmount): ?>
                     </ul><ul>
@@ -47,24 +47,24 @@
                     </ul>
                 <?php endif; ?>
                 <?php endfor; ?>
-            <?php if (Mage::helper('invitation')->getUseInvitationMessage()): ?>
+            <?php if (Mage::helper('enterprise_invitation')->getUseInvitationMessage()): ?>
             <ul>
                 <li>
-                    <label for="message"><?php echo Mage::helper('invitation')->__('Message');?>: </label>
-                    <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo Mage::helper('invitation')->__('Message') ?>"  class="input-text" rows="5"></textarea>
+                    <label for="message"><?php echo Mage::helper('enterprise_invitation')->__('Message');?>: </label>
+                    <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo Mage::helper('enterprise_invitation')->__('Message') ?>"  class="input-text" rows="5"></textarea>
                 </li>
             </ul>
             <?php endif;?>
         </fieldset>
     </div>
     <div class="buttons-set">
-        <button class="button" type="submit"><span><?php echo Mage::helper('invitation')->__('Send Invitations') ?></span></button>
+        <button class="button" type="submit"><span><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></span></button>
     </div>
-    <p class="required"><?php echo Mage::helper('invitation')->__('* Required Fields') ?></p>
+    <p class="required"><?php echo Mage::helper('enterprise_invitation')->__('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
-    var contactForm = new VarienForm('invitationForm', true);
+    var contactForm = new VarienForm('enterprise_invitationForm', true);
 </script>
 <?php else:?>
-<h2><?php echo Mage::helper('invitation')->__('You cannot send more invitations'); ?></h2>
+<h2><?php echo Mage::helper('enterprise_invitation')->__('You cannot send more invitations'); ?></h2>
 <?php endif; ?>
