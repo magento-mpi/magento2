@@ -15,7 +15,7 @@
       </option>
     <?php endforeach ?>
     </select>
-    <?php if($this->helper('permissions')->isSuperAdmin()):?>
+    <?php if($this->helper('enterprise_permissions')->isSuperAdmin()):?>
     <p style="margin:10px 0 0;">
         <a href="<?php echo $this->getUrl('*/system_store') ?>"><?php echo $this->__('Manage Stores') ?></a>
     </p>

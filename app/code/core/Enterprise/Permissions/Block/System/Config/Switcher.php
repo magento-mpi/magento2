@@ -39,7 +39,7 @@ class Enterprise_Permissions_Block_System_Config_Switcher extends Mage_Adminhtml
         $url = Mage::getModel('adminhtml/url');
 
         $options = array();
-        if( $this->helper('permissions')->isSuperAdmin() ) {
+        if( $this->helper('enterprise_permissions')->isSuperAdmin() ) {
             $options['default'] = array(
                 'label'    => Mage::helper('adminhtml')->__('Default Config'),
                 'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
@@ -60,8 +60,8 @@ class Enterprise_Permissions_Block_System_Config_Switcher extends Mage_Adminhtml
                         continue;
                     }
 
-                    if(!$this->helper('permissions')->isSuperAdmin()
-                       && !in_array($store->getId(), $this->helper('permissions')->getAllowedStoreViews())) {
+                    if(!$this->helper('enterprise_permissions')->isSuperAdmin()
+                       && !in_array($store->getId(), $this->helper('enterprise_permissions')->getAllowedStoreViews())) {
                         continue;
                     }
 

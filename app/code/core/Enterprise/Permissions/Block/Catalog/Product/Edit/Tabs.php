@@ -28,11 +28,11 @@ class Enterprise_Permissions_Block_Catalog_Product_Edit_Tabs extends Mage_Adminh
 {
     protected function _enabledWebsites()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return true;
         }
 
-        if( sizeof(Mage::helper('permissions')->getAllowedWebsites()) > 0 ) {
+        if( sizeof(Mage::helper('enterprise_permissions')->getAllowedWebsites()) > 0 ) {
             return true;
         }
 

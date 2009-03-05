@@ -28,9 +28,9 @@ class Enterprise_Permissions_Block_Catalog_Product_Edit_Tab_Websites extends Mag
 {
     public function getWebsiteIds()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return parent::getWebsiteIds();
         }
-        return Mage::helper('permissions')->getAllowedWebsites();
+        return Mage::helper('enterprise_permissions')->getAllowedWebsites();
     }
 }

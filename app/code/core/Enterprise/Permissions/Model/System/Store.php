@@ -28,12 +28,12 @@ class Enterprise_Permissions_Model_System_Store extends Mage_Adminhtml_Model_Sys
 {
     protected function _cleanupCollection()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $this;
         }
 
         if( is_array($this->_storeCollection) ) {
-            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
             foreach ($this->_storeCollection as $storeId => $store) {
                 if( !in_array($storeId, $allowedStores) ) {
                     unset($this->_storeCollection[$storeId]);
@@ -42,7 +42,7 @@ class Enterprise_Permissions_Model_System_Store extends Mage_Adminhtml_Model_Sys
         }
 
         if( is_array($this->_groupCollection) ) {
-            $allowedGroups = Mage::helper('permissions')->getAllowedStoreGroups();
+            $allowedGroups = Mage::helper('enterprise_permissions')->getAllowedStoreGroups();
             foreach ($this->_groupCollection as $groupId => $group) {
                 if( !in_array($groupId, $allowedGroups) ) {
                     unset($this->_groupCollection[$groupId]);
@@ -51,9 +51,9 @@ class Enterprise_Permissions_Model_System_Store extends Mage_Adminhtml_Model_Sys
         }
 
         if( is_array($this->_websiteCollection) ) {
-            $allowedWebsites = Mage::helper('permissions')->getAllowedWebsites();
+            $relevantWebsites = Mage::helper('enterprise_permissions')->getRelevantWebsites();
             foreach ($this->_websiteCollection as $websiteId => $website) {
-                if( !in_array($websiteId, $allowedWebsites) ) {
+                if( !in_array($websiteId, $relevantWebsites) ) {
                     unset($this->_websiteCollection[$websiteId]);
                 }
             }

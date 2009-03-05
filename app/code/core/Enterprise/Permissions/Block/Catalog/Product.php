@@ -28,10 +28,10 @@ class Enterprise_Permissions_Block_Catalog_Product extends Mage_Adminhtml_Block_
 {
     protected function _enabledAddNewButton()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return true;
         }
-        return Mage::helper('permissions')->hasAnyWebsiteScopeAccess();
+        return Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess();
     }
 }
 

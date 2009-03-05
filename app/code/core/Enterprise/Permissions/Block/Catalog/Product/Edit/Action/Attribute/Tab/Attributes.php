@@ -37,7 +37,7 @@ class Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Att
 {
     protected function _returnAdditionalElementHtml($element)
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
+        if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return ((bool) $element->getEntityAttribute()->getIsGlobal()) === true ? false : true;
         }
 

@@ -33,13 +33,13 @@
     </modules>
     <global>
         <models>
-            <permissions>
+            <enterprise_permissions>
                 <class>Enterprise_Permissions_Model</class>
-                <resourceModel>permissions_mysql4</resourceModel>
-            </permissions>
-            <permissions_mysql4>
+                <resourceModel>enterprise_permissions_mysql4</resourceModel>
+            </enterprise_permissions>
+            <enterprise_permissions_mysql4>
                 <class>Enterprise_Permissions_Model_Mysql4</class>
-            </permissions_mysql4>
+            </enterprise_permissions_mysql4>
             <adminhtml>
                 <rewrite>
                     <system_store>Enterprise_Permissions_Model_System_Store</system_store>
@@ -48,9 +48,9 @@
             </adminhtml>
         </models>
         <blocks>
-            <permissions>
+            <enterprise_permissions>
                 <class>Enterprise_Permissions_Block</class>
-            </permissions>
+            </enterprise_permissions>
             <adminhtml>
                 <rewrite>
                     <catalog_category_tree>Enterprise_Permissions_Block_Catalog_Category_Tree</catalog_category_tree>
@@ -63,12 +63,12 @@
             </adminhtml>
         </blocks>
         <helpers>
-            <permissions>
+            <enterprise_permissions>
                 <class>Enterprise_Permissions_Helper</class>
-            </permissions>
+            </enterprise_permissions>
         </helpers>
         <resources>
-            <permissions_setup>
+            <enterprise_permissions_setup>
                 <setup>
                     <module>Enterprise_Permissions</module>
                     <class>Mage_Core_Model_Resource_Setup</class>
@@ -76,21 +76,21 @@
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </permissions_setup>
-            <permissions_write>
+            </enterprise_permissions_setup>
+            <enterprise_permissions_write>
                 <use>core_write</use>
-            </permissions_write>
-            <permissions_read>
+            </enterprise_permissions_write>
+            <enterprise_permissions_read>
                 <use>core_read</use>
-            </permissions_read>
+            </enterprise_permissions_read>
         </resources>
     </global>
     <adminhtml>
         <layout>
             <updates>
-                <permissions>
-                    <file>permissions.xml</file>
-                </permissions>
+                <enterprise_permissions>
+                    <file>enterprise/permissions.xml</file>
+                </enterprise_permissions>
             </updates>
         </layout>
         <events>
@@ -98,7 +98,7 @@
                 <observers>
                     <enterprise_permissions>
                         <type>singleton</type>
-                        <class>permissions/observer</class>
+                        <class>enterprise_permissions/observer</class>
                         <method>addDataAfterRoleLoad</method>
                     </enterprise_permissions>
                 </observers>
@@ -107,7 +107,7 @@
                 <observers>
                     <enterprise_permissions>
                         <type>singleton</type>
-                        <class>permissions/observer</class>
+                        <class>enterprise_permissions/observer</class>
                         <method>setDataBeforeRoleSave</method>
                     </enterprise_permissions>
                 </observers>
@@ -116,7 +116,7 @@
                 <observers>
                     <enterprise_permissions>
                         <type>singleton</type>
-                        <class>permissions/observer</class>
+                        <class>enterprise_permissions/observer</class>
                         <method>prepareRoleSave</method>
                     </enterprise_permissions>
                 </observers>
@@ -125,313 +125,128 @@
                 <observers>
                     <enterprise_permissions>
                         <type>singleton</type>
-                        <class>permissions/observer</class>
+                        <class>enterprise_permissions/observer</class>
                         <method>validateAccess</method>
                     </enterprise_permissions>
                 </observers>
             </controller_action_predispatch_adminhtml>
+            <adminhtml_widget_grid_filter_collection>
+                <observers>
+                    <enterprise_permissions>
+                        <type>singleton</type>
+                        <class>enterprise_permissions/observer</class>
+                        <method>filterGridByFullActionName</method>
+                    </enterprise_permissions>
+                </observers>
+            </adminhtml_widget_grid_filter_collection>
         </events>
-        <settings>
-            <admin_predispatch_observers>
-                <adminhtml_system_config_edit>
-                    <call>permissions/validator::systemConfigEdit</call>
-                </adminhtml_system_config_edit>
-                <adminhtml_system_config_save>
-                    <call>permissions/validator::systemConfigSave</call>
-                </adminhtml_system_config_save>
-                <adminhtml_catalog_product_new>
-                    <call>permissions/validator::catalogProductNew</call>
-                </adminhtml_catalog_product_new>
-                <adminhtml_catalog_product_edit>
-                    <call>permissions/validator::catalogProductEdit</call>
-                </adminhtml_catalog_product_edit>
-                <adminhtml_catalog_product_index>
-                    <call>permissions/validator::catalogProductList</call>
-                </adminhtml_catalog_product_index>
-                <adminhtml_catalog_product_save>
-                    <call>permissions/validator::catalogProductSave</call>
-                </adminhtml_catalog_product_save>
-                <adminhtml_catalog_product_action_attribute_edit>
-                    <call>permissions/validator::catalogProductAttributesEdit</call>
-                </adminhtml_catalog_product_action_attribute_edit>
-                <adminhtml_dashboard_index>
-                    <call>permissions/validator::dashboardView</call>
-                </adminhtml_dashboard_index>
-                <adminhtml_catalog_category_edit>
-                    <call>permissions/validator::catalogCategoryEdit</call>
-                </adminhtml_catalog_category_edit>
-                <adminhtml_sales_order_index>
-                    <call>permissions/validator::salesOrderList</call>
-                </adminhtml_sales_order_index>
-                <adminhtml_urlrewrite_edit>
-                    <call>permissions/validator::urlRewriteEdit</call>
-                </adminhtml_urlrewrite_edit>
-            </admin_predispatch_observers>
-            <catalog_form_renderer_fieldset_element>
-                <adminhtml_catalog_product_edit>permissions/catalog_form_renderer_fieldset_element</adminhtml_catalog_product_edit>
-            </catalog_form_renderer_fieldset_element>
-            <adminhtml_widget_grid>
-                <filters>
-                    <adminhtml_catalog_product_crosssell>
-                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
-                    </adminhtml_catalog_product_crosssell>
-                    <adminhtml_catalog_product_related>
-                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
-                    </adminhtml_catalog_product_related>
-                    <adminhtml_catalog_product_upsell>
-                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
-                    </adminhtml_catalog_product_upsell>
-                    <adminhtml_catalog_product_reviews>
-                        <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
-                    </adminhtml_catalog_product_reviews>
-                    <adminhtml_catalog_product_review_reviewGrid>
-                        <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
-                    </adminhtml_catalog_product_review_reviewGrid>
-                    <adminhtml_catalog_product_review_index>
-                        <website_filter>permissions/validator::filterReviewGrid</website_filter>
-                    </adminhtml_catalog_product_review_index>
-                    <adminhtml_catalog_product_review_reviewGrid>
-                        <website_filter>permissions/validator::filterCatalogProductReviewGrid</website_filter>
-                    </adminhtml_catalog_product_review_reviewGrid>
-                    <adminhtml_catalog_product_tagGrid>
-                        <website_filter>permissions/validator::filterCatalogProductTagGrid</website_filter>
-                    </adminhtml_catalog_product_tagGrid>
-                    <adminhtml_catalog_product_gridOnly>
-                        <website_filter>permissions/validator::filterCatalogProductGrid</website_filter>
-                    </adminhtml_catalog_product_gridOnly>
-                    <adminhtml_customer_index>
-                        <website_filter>permissions/validator::filterCustomerGrid</website_filter>
-                    </adminhtml_customer_index>
-                    <adminhtml_customer_exportCsv>
-                        <website_filter>permissions/validator::filterCustomerGrid</website_filter>
-                    </adminhtml_customer_exportCsv>
-                    <adminhtml_customer_exportXml>
-                        <website_filter>permissions/validator::filterCustomerGrid</website_filter>
-                    </adminhtml_customer_exportXml>
-                    <adminhtml_sales_order_index>
-                        <website_filter>permissions/validator::filterSalesOrderGrid</website_filter>
-                    </adminhtml_sales_order_index>
-                    <adminhtml_sales_order_grid>
-                        <website_filter>permissions/validator::filterSalesOrderGrid</website_filter>
-                    </adminhtml_sales_order_grid>
-                    <adminhtml_sales_invoice_index>
-                        <website_filter>permissions/validator::filterSalesInvoiceGrid</website_filter>
-                    </adminhtml_sales_invoice_index>
-                    <adminhtml_sales_shipment_index>
-                        <website_filter>permissions/validator::filterSalesShipmentGrid</website_filter>
-                    </adminhtml_sales_shipment_index>
-                    <adminhtml_sales_creditmemo_index>
-                        <website_filter>permissions/validator::filterSalesCreditmemoGrid</website_filter>
-                    </adminhtml_sales_creditmemo_index>
-                    <adminhtml_urlrewrite_index>
-                        <website_filter>permissions/validator::filterUrlrewriteGrid</website_filter>
-                    </adminhtml_urlrewrite_index>
-                    <adminhtml_catalog_search_index>
-                        <website_filter>permissions/validator::filterCatalogSearchGrid</website_filter>
-                    </adminhtml_catalog_search_index>
-                    <adminhtml_newsletter_subscriber_index>
-                        <website_filter>permissions/validator::filterNewsletterSubscriberGrid</website_filter>
-                    </adminhtml_newsletter_subscriber_index>
-                    <adminhtml_newsletter_subscriber_grid>
-                        <website_filter>permissions/validator::filterNewsletterSubscriberGrid</website_filter>
-                    </adminhtml_newsletter_subscriber_grid>
-                    <adminhtml_newsletter_subscriber_exportCsv>
-                        <website_filter>permissions/validator::filterNewsletterSubscriberGrid</website_filter>
-                    </adminhtml_newsletter_subscriber_exportCsv>
-                    <adminhtml_newsletter_subscriber_exportXml>
-                        <website_filter>permissions/validator::filterNewsletterSubscriberGrid</website_filter>
-                    </adminhtml_newsletter_subscriber_exportXml>
-                    <adminhtml_report_sales_sales>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_sales>
-                    <adminhtml_report_sales_sales_exportSalesCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_sales_exportSalesCsv>
-                    <adminhtml_report_sales_sales_exportSalesExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_sales_exportSalesExcel>
-                    <adminhtml_report_sales_tax>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_tax>
-                    <adminhtml_report_sales_tax_exportTaxCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_tax_exportTaxCsv>
-                    <adminhtml_report_sales_tax_exportTaxExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_tax_exportTaxExcel>
-                    <adminhtml_report_sales_shipping>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_shipping>
-                    <adminhtml_report_sales_shipping_exportShippingCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_shipping_exportShippingCsv>
-                    <adminhtml_report_sales_shipping_exportShippingExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_shipping_exportShippingExcel>
-                    <adminhtml_report_sales_invoiced>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_invoiced>
-                    <adminhtml_report_sales_invoiced_exportInvoicedCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_invoiced_exportInvoicedCsv>
-                    <adminhtml_report_sales_invoiced_exportInvoicedExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_invoiced_exportInvoicedExcel>
-                    <adminhtml_report_sales_refunded>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_refunded>
-                    <adminhtml_report_sales_refunded_exportRefundedCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_refunded_exportRefundedCsv>
-                    <adminhtml_report_sales_refunded_exportRefundedExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_refunded_exportRefundedExcel>
-                    <adminhtml_report_sales_coupons>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_coupons>
-                    <adminhtml_report_sales_coupons_exportCouponsCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_coupons_exportCouponsCsv>
-                    <adminhtml_report_sales_coupons_exportCouponsExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_sales_coupons_exportCouponsExcel>
-                    <adminhtml_report_shopcart_product>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_shopcart_product>
-                    <adminhtml_report_shopcart_exportProductCsv>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_shopcart_exportProductCsv>
-                    <adminhtml_report_shopcart_exportProductExcel>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_shopcart_exportProductExcel>
-                    <adminhtml_report_shopcart_abandoned>
-                        <website_filter>permissions/validator::filterReportShopcartAbandonedGrid</website_filter>
-                    </adminhtml_report_shopcart_abandoned>
-                    <adminhtml_report_shopcart_exportAbandonedCsv>
-                        <website_filter>permissions/validator::filterReportShopcartAbandonedGrid</website_filter>
-                    </adminhtml_report_shopcart_exportAbandonedCsv>
-                    <adminhtml_report_shopcart_exportAbandonedExcel>
-                        <website_filter>permissions/validator::filterReportShopcartAbandonedGrid</website_filter>
-                    </adminhtml_report_shopcart_exportAbandonedExcel>
-                    <adminhtml_report_product_ordered>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_product_ordered>
-                    <adminhtml_report_product_exportOrderedCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_product_exportOrderedCsv>
-                    <adminhtml_report_product_exportOrderedExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_product_exportOrderedExcel>
-                    <adminhtml_report_product_viewed>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_product_viewed>
-                    <adminhtml_report_product_exportViewedCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_product_exportViewedCsv>
-                    <adminhtml_report_product_exportViewedExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_product_exportViewedExcel>
-                    <adminhtml_report_product_lowstock>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_product_lowstock>
-                    <adminhtml_report_product_exportLowstockCsv>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_product_exportLowstockCsv>
-                    <adminhtml_report_product_exportLowstockExcel>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_product_exportLowstockExcel>
-                    <adminhtml_report_product_downloads>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_product_downloads>
-                    <adminhtml_report_product_exportDownloadsCsv>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_product_exportDownloadsCsv>
-                    <adminhtml_report_product_exportDownloadsExcel>
-                        <website_filter>permissions/validator::filterReportShopcartProductGrid</website_filter>
-                    </adminhtml_report_product_exportDownloadsExcel>
-                    <adminhtml_report_customer_accounts>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_accounts>
-                    <adminhtml_report_customer_exportAccountsCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_exportAccountsCsv>
-                    <adminhtml_report_customer_exportAccountsExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_exportAccountsExcel>
-                    <adminhtml_report_customer_totals>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_totals>
-                    <adminhtml_report_customer_exportTotalsCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_exportTotalsCsv>
-                    <adminhtml_report_customer_exportTotalsExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_exportTotalsExcel>
-                    <adminhtml_report_customer_orders>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_orders>
-                    <adminhtml_report_customer_exportOrdersCsv>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_exportOrdersCsv>
-                    <adminhtml_report_customer_exportOrdersExcel>
-                        <website_filter>permissions/validator::filterReportCommonGrid</website_filter>
-                    </adminhtml_report_customer_exportOrdersExcel>
-                    <adminhtml_report_tag_customer>
-                        <website_filter>permissions/validator::filterReportTagCustomerGrid</website_filter>
-                    </adminhtml_report_tag_customer>
-                    <adminhtml_report_tag_exportCustomerCsv>
-                        <website_filter>permissions/validator::filterReportTagCustomerGrid</website_filter>
-                    </adminhtml_report_tag_exportCustomerCsv>
-                    <adminhtml_report_tag_exportCustomerExcel>
-                        <website_filter>permissions/validator::filterReportTagCustomerGrid</website_filter>
-                    </adminhtml_report_tag_exportCustomerExcel>
-                    <adminhtml_report_tag_product>
-                        <website_filter>permissions/validator::filterReportTagProductGrid</website_filter>
-                    </adminhtml_report_tag_product>
-                    <adminhtml_report_tag_exportProductCsv>
-                        <website_filter>permissions/validator::filterReportTagProductGrid</website_filter>
-                    </adminhtml_report_tag_exportProductCsv>
-                    <adminhtml_report_tag_exportProductExcel>
-                        <website_filter>permissions/validator::filterReportTagProductGrid</website_filter>
-                    </adminhtml_report_tag_exportProductExcel>
-                    <adminhtml_report_tag_popular>
-                        <website_filter>permissions/validator::filterReportTagPopularGrid</website_filter>
-                    </adminhtml_report_tag_popular>
-                    <adminhtml_report_tag_exportPopularCsv>
-                        <website_filter>permissions/validator::filterReportTagPopularGrid</website_filter>
-                    </adminhtml_report_tag_exportPopularCsv>
-                    <adminhtml_report_tag_exportPopularExcel>
-                        <website_filter>permissions/validator::filterReportTagPopularGrid</website_filter>
-                    </adminhtml_report_tag_exportPopularExcel>
-                    <adminhtml_report_search>
-                        <website_filter>permissions/validator::filterReportSearchGrid</website_filter>
-                    </adminhtml_report_search>
-                    <adminhtml_report_exportSearchCsv>
-                        <website_filter>permissions/validator::filterReportTagPopularGrid</website_filter>
-                    </adminhtml_report_exportSearchCsv>
-                    <adminhtml_report_exportSearchExcel>
-                        <website_filter>permissions/validator::filterReportTagPopularGrid</website_filter>
-                    </adminhtml_report_exportSearchExcel>
-                    <adminhtml_cms_page_index>
-                        <website_filter>permissions/validator::filterCmsCommonGrid</website_filter>
-                    </adminhtml_cms_page_index>
-                    <adminhtml_cms_block_index>
-                        <website_filter>permissions/validator::filterCmsCommonGrid</website_filter>
-                    </adminhtml_cms_block_index>
-                    <adminhtml_poll_index>
-                        <website_filter>permissions/validator::filterPollGrid</website_filter>
-                    </adminhtml_poll_index>
-                    <adminhtml_rating_index>
-                        <website_filter>permissions/validator::filterRatingGrid</website_filter>
-                    </adminhtml_rating_index>
-                    <adminhtml_system_design_index>
-                        <website_filter>permissions/validator::filterSystemDesignGrid</website_filter>
-                    </adminhtml_system_design_index>
-                    <adminhtml_system_design_grid>
-                        <website_filter>permissions/validator::filterSystemDesignGrid</website_filter>
-                    </adminhtml_system_design_grid>
-                </filters>
-            </adminhtml_widget_grid>
-        </settings>
+        <enterprise>
+            <permissions>
+                <admin_predispatch_observers>
+                    <adminhtml_system_config_edit>enterprise_permissions/validator::systemConfigEdit</adminhtml_system_config_edit>
+                    <adminhtml_system_config_save>enterprise_permissions/validator::systemConfigSave</adminhtml_system_config_save>
+                    <adminhtml_catalog_product_new>enterprise_permissions/validator::catalogProductNew</adminhtml_catalog_product_new>
+                    <adminhtml_catalog_product_edit>enterprise_permissions/validator::catalogProductEdit</adminhtml_catalog_product_edit>
+                    <adminhtml_catalog_product_index>enterprise_permissions/validator::catalogProductList</adminhtml_catalog_product_index>
+                    <adminhtml_catalog_product_save>enterprise_permissions/validator::catalogProductSave</adminhtml_catalog_product_save>
+                    <adminhtml_catalog_product_action_attribute_edit>enterprise_permissions/validator::catalogProductAttributesEdit</adminhtml_catalog_product_action_attribute_edit>
+                    <adminhtml_dashboard_index>enterprise_permissions/validator::dashboardView</adminhtml_dashboard_index>
+                    <adminhtml_catalog_category_edit>enterprise_permissions/validator::catalogCategoryEdit</adminhtml_catalog_category_edit>
+                    <adminhtml_sales_order_index>enterprise_permissions/validator::salesOrderList</adminhtml_sales_order_index>
+                    <adminhtml_urlrewrite_edit>enterprise_permissions/validator::urlRewriteEdit</adminhtml_urlrewrite_edit>
+                </admin_predispatch_observers>
+                <catalog_form_renderer_fieldset_element>
+                    <adminhtml_catalog_product_edit>enterprise_permissions/catalog_form_renderer_fieldset_element</adminhtml_catalog_product_edit>
+                </catalog_form_renderer_fieldset_element>
+                <admin_grid_filters>
+                    <adminhtml_catalog_product_crosssell>enterprise_permissions/validator::filterCatalogProductGrid</adminhtml_catalog_product_crosssell>
+                    <adminhtml_catalog_product_related>enterprise_permissions/validator::filterCatalogProductGrid</adminhtml_catalog_product_related>
+                    <adminhtml_catalog_product_upsell>enterprise_permissions/validator::filterCatalogProductGrid</adminhtml_catalog_product_upsell>
+                    <adminhtml_catalog_product_reviews>enterprise_permissions/validator::filterCatalogProductReviewGrid</adminhtml_catalog_product_reviews>
+                    <adminhtml_catalog_product_review_reviewGrid>enterprise_permissions/validator::filterCatalogProductReviewGrid</adminhtml_catalog_product_review_reviewGrid>
+                    <adminhtml_catalog_product_review_index>enterprise_permissions/validator::filterReviewGrid</adminhtml_catalog_product_review_index>
+                    <adminhtml_catalog_product_review_reviewGrid>enterprise_permissions/validator::filterCatalogProductReviewGrid</adminhtml_catalog_product_review_reviewGrid>
+                    <adminhtml_catalog_product_tagGrid>enterprise_permissions/validator::filterCatalogProductTagGrid</adminhtml_catalog_product_tagGrid>
+                    <adminhtml_catalog_product_gridOnly>enterprise_permissions/validator::filterCatalogProductGrid</adminhtml_catalog_product_gridOnly>
+                    <adminhtml_customer_index>enterprise_permissions/validator::filterCustomerGrid</adminhtml_customer_index>
+                    <adminhtml_customer_exportCsv>enterprise_permissions/validator::filterCustomerGrid</adminhtml_customer_exportCsv>
+                    <adminhtml_customer_exportXml>enterprise_permissions/validator::filterCustomerGrid</adminhtml_customer_exportXml>
+                    <adminhtml_sales_order_index>enterprise_permissions/validator::filterSalesOrderGrid</adminhtml_sales_order_index>
+                    <adminhtml_sales_order_grid>enterprise_permissions/validator::filterSalesOrderGrid</adminhtml_sales_order_grid>
+                    <adminhtml_sales_invoice_index>enterprise_permissions/validator::filterSalesInvoiceGrid</adminhtml_sales_invoice_index>
+                    <adminhtml_sales_shipment_index>enterprise_permissions/validator::filterSalesShipmentGrid</adminhtml_sales_shipment_index>
+                    <adminhtml_sales_creditmemo_index>enterprise_permissions/validator::filterSalesCreditmemoGrid</adminhtml_sales_creditmemo_index>
+                    <adminhtml_urlrewrite_index>enterprise_permissions/validator::filterUrlrewriteGrid</adminhtml_urlrewrite_index>
+                    <adminhtml_catalog_search_index>enterprise_permissions/validator::filterCatalogSearchGrid</adminhtml_catalog_search_index>
+                    <adminhtml_newsletter_subscriber_index>enterprise_permissions/validator::filterNewsletterSubscriberGrid</adminhtml_newsletter_subscriber_index>
+                    <adminhtml_newsletter_subscriber_grid>enterprise_permissions/validator::filterNewsletterSubscriberGrid</adminhtml_newsletter_subscriber_grid>
+                    <adminhtml_newsletter_subscriber_exportCsv>enterprise_permissions/validator::filterNewsletterSubscriberGrid</adminhtml_newsletter_subscriber_exportCsv>
+                    <adminhtml_newsletter_subscriber_exportXml>enterprise_permissions/validator::filterNewsletterSubscriberGrid</adminhtml_newsletter_subscriber_exportXml>
+                    <adminhtml_report_sales_sales>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_sales>
+                    <adminhtml_report_sales_sales_exportSalesCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_sales_exportSalesCsv>
+                    <adminhtml_report_sales_sales_exportSalesExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_sales_exportSalesExcel>
+                    <adminhtml_report_sales_tax>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_tax>
+                    <adminhtml_report_sales_tax_exportTaxCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_tax_exportTaxCsv>
+                    <adminhtml_report_sales_tax_exportTaxExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_tax_exportTaxExcel>
+                    <adminhtml_report_sales_shipping>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_shipping>
+                    <adminhtml_report_sales_shipping_exportShippingCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_shipping_exportShippingCsv>
+                    <adminhtml_report_sales_shipping_exportShippingExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_shipping_exportShippingExcel>
+                    <adminhtml_report_sales_invoiced>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_invoiced>
+                    <adminhtml_report_sales_invoiced_exportInvoicedCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_invoiced_exportInvoicedCsv>
+                    <adminhtml_report_sales_invoiced_exportInvoicedExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_invoiced_exportInvoicedExcel>
+                    <adminhtml_report_sales_refunded>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_refunded>
+                    <adminhtml_report_sales_refunded_exportRefundedCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_refunded_exportRefundedCsv>
+                    <adminhtml_report_sales_refunded_exportRefundedExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_refunded_exportRefundedExcel>
+                    <adminhtml_report_sales_coupons>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_coupons>
+                    <adminhtml_report_sales_coupons_exportCouponsCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_coupons_exportCouponsCsv>
+                    <adminhtml_report_sales_coupons_exportCouponsExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_sales_coupons_exportCouponsExcel>
+                    <adminhtml_report_shopcart_product>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_shopcart_product>
+                    <adminhtml_report_shopcart_exportProductCsv>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_shopcart_exportProductCsv>
+                    <adminhtml_report_shopcart_exportProductExcel>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_shopcart_exportProductExcel>
+                    <adminhtml_report_shopcart_abandoned>enterprise_permissions/validator::filterReportShopcartAbandonedGrid</adminhtml_report_shopcart_abandoned>
+                    <adminhtml_report_shopcart_exportAbandonedCsv>enterprise_permissions/validator::filterReportShopcartAbandonedGrid</adminhtml_report_shopcart_exportAbandonedCsv>
+                    <adminhtml_report_shopcart_exportAbandonedExcel>enterprise_permissions/validator::filterReportShopcartAbandonedGrid</adminhtml_report_shopcart_exportAbandonedExcel>
+                    <adminhtml_report_product_ordered>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_product_ordered>
+                    <adminhtml_report_product_exportOrderedCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_product_exportOrderedCsv>
+                    <adminhtml_report_product_exportOrderedExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_product_exportOrderedExcel>
+                    <adminhtml_report_product_viewed>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_product_viewed>
+                    <adminhtml_report_product_exportViewedCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_product_exportViewedCsv>
+                    <adminhtml_report_product_exportViewedExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_product_exportViewedExcel>
+                    <adminhtml_report_product_lowstock>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_product_lowstock>
+                    <adminhtml_report_product_exportLowstockCsv>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_product_exportLowstockCsv>
+                    <adminhtml_report_product_exportLowstockExcel>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_product_exportLowstockExcel>
+                    <adminhtml_report_product_downloads>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_product_downloads>
+                    <adminhtml_report_product_exportDownloadsCsv>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_product_exportDownloadsCsv>
+                    <adminhtml_report_product_exportDownloadsExcel>enterprise_permissions/validator::filterReportShopcartProductGrid</adminhtml_report_product_exportDownloadsExcel>
+                    <adminhtml_report_customer_accounts>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_accounts>
+                    <adminhtml_report_customer_exportAccountsCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_exportAccountsCsv>
+                    <adminhtml_report_customer_exportAccountsExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_exportAccountsExcel>
+                    <adminhtml_report_customer_totals>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_totals>
+                    <adminhtml_report_customer_exportTotalsCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_exportTotalsCsv>
+                    <adminhtml_report_customer_exportTotalsExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_exportTotalsExcel>
+                    <adminhtml_report_customer_orders>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_orders>
+                    <adminhtml_report_customer_exportOrdersCsv>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_exportOrdersCsv>
+                    <adminhtml_report_customer_exportOrdersExcel>enterprise_permissions/validator::filterReportCommonGrid</adminhtml_report_customer_exportOrdersExcel>
+                    <adminhtml_report_tag_customer>enterprise_permissions/validator::filterReportTagCustomerGrid</adminhtml_report_tag_customer>
+                    <adminhtml_report_tag_exportCustomerCsv>enterprise_permissions/validator::filterReportTagCustomerGrid</adminhtml_report_tag_exportCustomerCsv>
+                    <adminhtml_report_tag_exportCustomerExcel>enterprise_permissions/validator::filterReportTagCustomerGrid</adminhtml_report_tag_exportCustomerExcel>
+                    <adminhtml_report_tag_product>enterprise_permissions/validator::filterReportTagProductGrid</adminhtml_report_tag_product>
+                    <adminhtml_report_tag_exportProductCsv>enterprise_permissions/validator::filterReportTagProductGrid</adminhtml_report_tag_exportProductCsv>
+                    <adminhtml_report_tag_exportProductExcel>enterprise_permissions/validator::filterReportTagProductGrid</adminhtml_report_tag_exportProductExcel>
+                    <adminhtml_report_tag_popular>enterprise_permissions/validator::filterReportTagPopularGrid</adminhtml_report_tag_popular>
+                    <adminhtml_report_tag_exportPopularCsv>enterprise_permissions/validator::filterReportTagPopularGrid</adminhtml_report_tag_exportPopularCsv>
+                    <adminhtml_report_tag_exportPopularExcel>enterprise_permissions/validator::filterReportTagPopularGrid</adminhtml_report_tag_exportPopularExcel>
+                    <adminhtml_report_search>enterprise_permissions/validator::filterReportSearchGrid</adminhtml_report_search>
+                    <adminhtml_report_exportSearchCsv>enterprise_permissions/validator::filterReportTagPopularGrid</adminhtml_report_exportSearchCsv>
+                    <adminhtml_report_exportSearchExcel>enterprise_permissions/validator::filterReportTagPopularGrid</adminhtml_report_exportSearchExcel>
+                    <adminhtml_cms_page_index>enterprise_permissions/validator::filterCmsCommonGrid</adminhtml_cms_page_index>
+                    <adminhtml_cms_block_index>enterprise_permissions/validator::filterCmsCommonGrid</adminhtml_cms_block_index>
+                    <adminhtml_poll_index>enterprise_permissions/validator::filterPollGrid</adminhtml_poll_index>
+                    <adminhtml_rating_index>enterprise_permissions/validator::filterRatingGrid</adminhtml_rating_index>
+                    <adminhtml_system_design_index>enterprise_permissions/validator::filterSystemDesignGrid</adminhtml_system_design_index>
+                    <adminhtml_system_design_grid>enterprise_permissions/validator::filterSystemDesignGrid</adminhtml_system_design_grid>
+                </admin_grid_filters>
+            </permissions>
+        </enterprise>
     </adminhtml>
 </config>

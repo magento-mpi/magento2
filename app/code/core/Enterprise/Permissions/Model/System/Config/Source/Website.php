@@ -30,7 +30,7 @@ class Enterprise_Permissions_Model_System_Config_Source_Website extends Mage_Adm
     protected function _cleanupOptions($options)
     {
         foreach( $options as $key => $option ) {
-            if( !in_array($option['value'], Mage::helper('permissions')->getAllowedWebsites()) ) {
+            if( !in_array($option['value'], Mage::helper('enterprise_permissions')->getAllowedWebsites()) ) {
                 unset($options[$key]);
             }
         }

@@ -26,30 +26,53 @@
 
 class Enterprise_Permissions_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    protected $_isSuperAdmin;
+    protected $_allowedWebsites;
+    protected $_relevantWebsites;
+    protected $_allowedStoreGroups;
+    protected $_allowedStoreViews;
+
     public function isSuperAdmin()
     {
-        return (bool) Mage::getSingleton('admin/session')->getUser()->getRole()->getIsAllPermissions();
+        if (null === $this->_isSuperAdmin) {
+            $this->_isSuperAdmin = (bool)Mage::getSingleton('admin/session')->getUser()->getRole()->getIsAllPermissions();
+        }
+        return $this->_isSuperAdmin;
     }
 
     public function getAllowedWebsites()
     {
-        return (array) Mage::getSingleton('admin/session')->getUser()->getRole()->getWebsiteIds();
+        if (null === $this->_allowedWebsites) {
+            $this->_allowedWebsites = (array)Mage::getSingleton('admin/session')->getUser()->getRole()->getWebsiteIds();
+        }
+        return $this->_allowedWebsites;
+    }
+
+    public function getRelevantWebsites()
+    {
+        if (null === $this->_relevantWebsites) {
+            $this->_relevantWebsites = (array)Mage::getSingleton('admin/session')->getUser()->getRole()->getRelevantWebsiteIds();
+        }
+        return $this->_relevantWebsites;
     }
 
     public function getAllowedStoreGroups()
     {
-        return (array) Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreGroupIds();
+        if (null === $this->_allowedStoreGroups) {
+            $this->_allowedStoreGroups = (array)Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreGroupIds();
+        }
+        return $this->_allowedStoreGroups;
     }
 
     public function getAllowedStoreViews()
     {
-        $ids = (array) Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreIds();
-
-        $_ids = array();
-        foreach ($ids as $k => $v) {
-        	$_ids[$v] = $v;
+        if (null === $this->_allowedStoreViews) {
+            $this->_allowedStoreViews = array();
+            foreach ((array)Mage::getSingleton('admin/session')->getUser()->getRole()->getStoreIds() as $storeId) {
+                $this->_allowedStoreViews[$storeId] = $storeId;
+            }
         }
-        return  $_ids;
+        return $this->_allowedStoreViews;
     }
 
     public function hasScopeAccess($website=null, $store=null)

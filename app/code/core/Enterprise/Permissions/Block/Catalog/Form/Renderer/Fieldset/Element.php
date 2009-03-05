@@ -45,7 +45,7 @@ class Enterprise_Permissions_Block_Catalog_Form_Renderer_Fieldset_Element extend
             $this->getElement()->setDisabled(true);
         }
 
-        if( $this->isDisabled() && !$this->helper('permissions')->isSuperAdmin() ) {
+        if( $this->isDisabled() && !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             $this->getElement()->setDisabled(true);
         }
 
@@ -60,7 +60,7 @@ class Enterprise_Permissions_Block_Catalog_Form_Renderer_Fieldset_Element extend
         }
 
         $productWebsites = (array) ($this->getDataObject()) ? $this->getDataObject()->getWebsiteIds() : array();
-        $userWebsites = Mage::helper('permissions')->getAllowedWebsites();
+        $userWebsites = Mage::helper('enterprise_permissions')->getAllowedWebsites();
 
         if( sizeof($productWebsites) > 0 && sizeof(array_diff($productWebsites, $userWebsites)) == 0 ) {
             $disabled = false;

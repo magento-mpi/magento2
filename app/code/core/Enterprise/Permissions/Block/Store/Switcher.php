@@ -43,11 +43,11 @@ class Enterprise_Permissions_Block_Store_Switcher extends Mage_Adminhtml_Block_S
 
     public function getWebsiteIds()
     {
-        return Mage::helper('permissions')->getAllowedWebsites();
+        return Mage::helper('enterprise_permissions')->getAllowedWebsites();
     }
 
     public function getStoreIds()
     {
-        return Mage::helper('permissions')->getAllowedStoreViews();
+        return Mage::helper('enterprise_permissions')->getAllowedStoreViews();
     }
 }

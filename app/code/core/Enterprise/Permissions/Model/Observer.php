@@ -101,7 +101,7 @@ class Enterprise_Permissions_Model_Observer
                 $relevantWebsites[] = $storeGroup->getWebsite()->getId();
             }
         }
-        $object->setRelevantWebsites(array_values(array_unique($relevantWebsites)));
+        $object->setRelevantWebsiteIds(array_values(array_unique($relevantWebsites)));
 
         return $this;
     }
@@ -173,18 +173,32 @@ class Enterprise_Permissions_Model_Observer
      */
     public function validateAccess($observer)
     {
-        $action = $observer->getEvent()->getControllerAction();
-        $validators = Mage::getConfig()->getNode('adminhtml/settings/admin_predispatch_observers')->asArray();
         $actionName = $observer->getEvent()->getControllerAction()->getFullActionName();
-
-        if( array_key_exists($actionName, $validators) ) {
-            $callArray = explode('::', $validators[$actionName]['call']);
-            $callModel = Mage::getModel(array_shift($callArray));
-            $callMethod = array_shift($callArray);
-            call_user_func(array($callModel, 'init'), $observer);
-            call_user_func(array($callModel, $callMethod));
+        $validators = (array)Mage::getConfig()->getNode('adminhtml/enterprise/permissions/admin_predispatch_observers');
+        if (!$validators || !isset($validators[$actionName])) {
+            return $this;
         }
+        list($model, $method) = explode('::', $validators[$actionName]);
+        $model = Mage::getModel($model);
+        $model->setObserver($observer);
+        $model->$method();
 
         return $this;
+    }
+
+    public function filterGridByFullActionName($observer)
+    {
+        if (Mage::helper('enterprise_permissions')->isSuperAdmin()) {
+            return;
+        }
+        $fullActionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
+        $call = (string)Mage::getConfig()->getNode("adminhtml/enterprise/permissions/admin_grid_filters/{$fullActionName}");
+        if (!$call) {
+            return;
+        }
+        list($model, $method) = explode('::', $call);
+        $model = Mage::getModel($model);
+        $model->setObserver($observer);
+        $model->$method($observer->getCollection(), Mage::app()->getFrontController()->getAction()->getRequest(), $observer->getFilterValues());
     }
 }

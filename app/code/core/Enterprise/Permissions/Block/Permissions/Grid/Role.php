@@ -44,7 +44,7 @@ class Enterprise_Permissions_Block_Permissions_Grid_Role extends Mage_Adminhtml_
             'width'    => '200',
             'sortable' => false,
             'filter'   => false,
-            'renderer' => 'permissions/permissions_grid_renderer_websites'
+            'renderer' => 'enterprise_permissions/permissions_grid_renderer_websites'
         ));
 
         return $this;

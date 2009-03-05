@@ -29,9 +29,9 @@ class Enterprise_Permissions_Block_Catalog_Category_Tree extends Mage_Adminhtml_
     protected function _prepareLayout()
     {
         $this->setChild('permissions_store_switcher',
-            $this->getLayout()->createBlock('permissions/store_switcher')
+            $this->getLayout()->createBlock('enterprise_permissions/store_switcher')
                 ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
-                ->setTemplate('enterprise/store/switcher/enhanced.phtml')
+                ->setTemplate('enterprise/permissions/store/switcher/enhanced.phtml')
         );
         return parent::_prepareLayout();
     }

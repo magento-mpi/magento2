@@ -28,7 +28,7 @@ class Enterprise_Permissions_Model_Validator
 {
     protected $_observer;
 
-    public function init($observer)
+    public function setObserver($observer)
     {
         $this->_observer = $observer;
     }
@@ -43,11 +43,11 @@ class Enterprise_Permissions_Model_Validator
 
     public function systemConfigEdit()
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
+        if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             $website = $this->_getRequest()->getParam('website');
             $store = $this->_getRequest()->getParam('store');
-            if( !Mage::helper('permissions')->hasScopeAccess($website, $store) ) {
-                if( $url = Mage::helper('permissions')->getConfigRedirectUrl() ) {
+            if( !Mage::helper('enterprise_permissions')->hasScopeAccess($website, $store) ) {
+                if( $url = Mage::helper('enterprise_permissions')->getConfigRedirectUrl() ) {
                     $this->_getObserver()->getEvent()->getControllerAction()->getResponse()->setRedirect($url);
                 } else {
                     $this->_raiseDenied();
@@ -60,18 +60,18 @@ class Enterprise_Permissions_Model_Validator
 
     public function systemConfigSave()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $this;
         }
 
         $request = $this->_getRequest();
 
-        if( $request->getParam('store') && !Mage::helper('permissions')->hasScopeAccess(null, $request->getParam('store')) ) {
+        if( $request->getParam('store') && !Mage::helper('enterprise_permissions')->hasScopeAccess(null, $request->getParam('store')) ) {
             $this->_raiseDenied();
             return $this;
         }
 
-        if( $request->getParam('website') && !Mage::helper('permissions')->hasScopeAccess($request->getParam('website'), null) ) {
+        if( $request->getParam('website') && !Mage::helper('enterprise_permissions')->hasScopeAccess($request->getParam('website'), null) ) {
             $this->_raiseDenied();
             return $this;
         }
@@ -90,7 +90,7 @@ class Enterprise_Permissions_Model_Validator
 
     public function catalogProductNew()
     {
-        if( !Mage::helper('permissions')->hasAnyWebsiteScopeAccess() ) {
+        if( !Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess() ) {
             $this->_redirect('*/catalog_product/index');
         }
 
@@ -114,7 +114,7 @@ class Enterprise_Permissions_Model_Validator
 
     public function catalogProductSave()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $this;
         }
 
@@ -124,12 +124,12 @@ class Enterprise_Permissions_Model_Validator
             && (!isset( $post['product']['website_ids'] )
             || sizeof(is_array($post['product']['website_ids']) == 0 ))) ) {
 
-            $post['product']['website_ids'] = Mage::helper('permissions')->getAllowedWebsites();
+            $post['product']['website_ids'] = Mage::helper('enterprise_permissions')->getAllowedWebsites();
         } else {
             $productId = $this->_getObserver()->getControllerAction()->getRequest()->getParam('id');
             $product = Mage::getModel('catalog/product')->load($productId);
             $websiteIds = $product->getWebsiteIds();
-            $notAllowedWebsites = array_diff($websiteIds, Mage::helper('permissions')->getAllowedWebsites());
+            $notAllowedWebsites = array_diff($websiteIds, Mage::helper('enterprise_permissions')->getAllowedWebsites());
             if( isset($post['product']['website_ids']) && is_array($post['product']['website_ids']) && is_array($notAllowedWebsites) ) {
                 $post['product']['website_ids'] = array_merge($notAllowedWebsites, $post['product']['website_ids']);
             } else {
@@ -151,12 +151,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function catalogCategoryEdit()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $this;
         }
         $store = (int) $this->_getRequest()->getParam('store');
         if( $store <= 0 ) {
-            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
             $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
         }
         $parent = Mage::app()->getStore($store)->getRootCategoryId();
@@ -166,7 +166,7 @@ class Enterprise_Permissions_Model_Validator
 
     public function salesOrderList()
     {
-        if( !Mage::helper('permissions')->hasAnyStoreScopeAccess() ) {
+        if( !Mage::helper('enterprise_permissions')->hasAnyStoreScopeAccess() ) {
             $this->_raiseDenied();
         }
         return $this;
@@ -174,10 +174,10 @@ class Enterprise_Permissions_Model_Validator
 
     public function urlRewriteEdit()
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $this;
         }
-        $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+        $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
 
         if ($this->_getRequest()->has('product') && !$this->_getRequest()->getParam('store')) {
             $this->_getRequest()->setParam('store', array_shift($allowedStores));
@@ -189,21 +189,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterCustomerGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
-            return $collection;
-        }
-
-        if( !Mage::helper('permissions')->hasAnyWebsiteScopeAccess() ) {
-            $this->_raiseDenied();
-            return $this;
-        }
-        $collection->addAttributeToFilter('website_id', array('IN' => Mage::helper('permissions')->getAllowedWebsites() ));
-        return $collection;
+        $collection->addAttributeToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getRelevantWebsites()));
     }
 
     public function filterCatalogProductGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
         $collection->addStoreFilter($request->getParam('store'));
@@ -212,7 +203,7 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterCatalogProductTagGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
         $collection->addStoreFilter($request->getParam('store'));
@@ -221,12 +212,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterCatalogProductReviewGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
-        	$collection->setStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        	$collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -234,12 +225,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReviewGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
-        	$collection->setStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        	$collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -247,12 +238,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterSalesOrderGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
             $storeId = $request->getParam('store') ? $request->getParam('store') : array('IN' => $allowedStores);
             $collection->addAttributeToFilter('store_id', $storeId);
         }
@@ -262,45 +253,45 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterSalesInvoiceGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
-        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
 
         return $collection;
     }
 
     public function filterSalesShipmentGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
-        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
 
         return $collection;
     }
 
     public function filterSalesCreditmemoGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
-        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+        $collection->addAttributeToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
 
         return $collection;
     }
 
     public function filterUrlrewriteGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
             $storeId = $request->getParam('store') ? $request->getParam('store') : array('IN' => $allowedStores);
             $collection->addFieldToFilter('store_id', $storeId);
         }
@@ -310,12 +301,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterCatalogSearchGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-            $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+            $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
             $storeId = $request->getParam('store') ? $request->getParam('store') : array('IN' => $allowedStores);
             $collection->addFieldToFilter('store_id', $storeId);
         }
@@ -325,21 +316,21 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterNewsletterSubscriberGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
-        $collection->addFieldToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+        $collection->addFieldToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
         return $collection;
     }
 
     public function filterReportCommonGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if (!$request->getParam('store') && !$request->getParam('website') && !$request->getParam('group') ) {
-            $collection->setStoreIds(Mage::helper('permissions')->getAllowedStoreViews());
+            $collection->setStoreIds(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -347,12 +338,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReportShopcartProductGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if (!$request->getParam('store') && !$request->getParam('website') && !$request->getParam('group') ) {
-    	   $collection->addWebsiteFilter(Mage::helper('permissions')->getAllowedWebsites());
+    	   $collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
         }
 
         return $collection;
@@ -360,12 +351,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReportShopcartAbandonedGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addFieldToFilter('website_id', array('IN' => Mage::helper('permissions')->getAllowedWebsites()));
+        	$collection->addFieldToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedWebsites()));
         }
 
         return $collection;
@@ -373,12 +364,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReportTagCustomerGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addFieldToFilter('website_id', array('IN' => Mage::helper('permissions')->getAllowedWebsites()));
+        	$collection->addFieldToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedWebsites()));
         }
 
         return $collection;
@@ -386,12 +377,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReportTagProductGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addWebsiteFilter(Mage::helper('permissions')->getAllowedWebsites());
+        	$collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
         }
 
         return $collection;
@@ -399,12 +390,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReportTagPopularGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        	$collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -412,12 +403,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterReportSearchGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-        	$collection->addFieldToFilter('store_id', array('IN' => Mage::helper('permissions')->getAllowedStoreViews()));
+        	$collection->addFieldToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
         }
 
         return $collection;
@@ -425,12 +416,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterCmsCommonGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-        	$collection->addStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        	$collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -438,12 +429,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterPollGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
-        	$collection->addStoresFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        	$collection->addStoresFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -451,12 +442,12 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterSystemDesignGrid($collection, $request, $filterValues)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-        	$collection->addStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        	$collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -464,21 +455,21 @@ class Enterprise_Permissions_Model_Validator
 
     public function filterRatingGrid($collection, $request)
     {
-        if( Mage::helper('permissions')->isSuperAdmin() ) {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             return $collection;
         }
 
-        $collection->setStoreFilter(Mage::helper('permissions')->getAllowedStoreViews());
+        $collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
 
         return $collection;
     }
 
     protected function _validateScope($redirectUri=false, $urlParams=false)
     {
-        if( !Mage::helper('permissions')->isSuperAdmin() ) {
+        if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
             $store = $this->_getRequest()->getParam('store');
 
-            if( !Mage::helper('permissions')->hasScopeAccess(null, $store) ) {
+            if( !Mage::helper('enterprise_permissions')->hasScopeAccess(null, $store) ) {
                 $this->_redirect($redirectUri, $urlParams);
             }
         }
@@ -487,7 +478,7 @@ class Enterprise_Permissions_Model_Validator
 
     protected function _redirect($redirectUri=false, $urlParams=false)
     {
-        $allowedStores = Mage::helper('permissions')->getAllowedStoreViews();
+        $allowedStores = Mage::helper('enterprise_permissions')->getAllowedStoreViews();
 
         if( sizeof($allowedStores) > 0 ) {
             $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
