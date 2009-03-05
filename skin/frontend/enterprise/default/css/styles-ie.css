@@ -59,6 +59,7 @@ button.btn-small { height:17px; }
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
 /* Clears and hasLayout fixes */
+.bundle-summary .product,
 .block-cart .block-title a,
 .block-cart .block-content .item,
 .header,

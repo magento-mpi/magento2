@@ -198,6 +198,9 @@ Additional block for bundle product type
                 <action method="addRenderer"><type>checkbox</type><block>bundle/catalog_product_view_type_bundle_option_checkbox</block></action>
             </block>
             <action method="insert"><block>product.info.bundle.options</block></action>
+            <block type="bundle/catalog_product_view" name="bundle.summary" as="bundleSummary" before="-" template="bundle/catalog/product/view/summary.phtml">
+                <action method="append"><block>product.info.addtocart</block></action> 
+            </block>
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices" />

@@ -480,9 +480,9 @@ dd.even { background-color:#f6f6f6; }
 
 
 /* Product Images */
-.product-view .product-img-box { float:left; width:275px; padding-left:5px; }
+.product-view .product-img-box { float:left; width:291px; }
 .product-view .product-img-box .product-image {}
-.product-view .product-img-box .product-image-zoom { position:relative; width:275px; height:275px; overflow:hidden; z-index:9; }
+.product-view .product-img-box .product-image-zoom { position:relative; width:285px; height:285px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
 .product-view .product-img-box .zoom-notice { text-align:center; }
 .product-view .product-img-box .zoom { position:relative; z-index:9; height:18px; margin:0 auto 13px; padding:0 28px; background:url(../images/slider_bg.gif) 50% 50% no-repeat; cursor:pointer; }
@@ -490,8 +490,10 @@ dd.even { background-color:#f6f6f6; }
 .product-view .product-img-box .zoom #handle { position:absolute; left:0; top:-1px; width:9px; height:22px; background:url(../images/magnifier_handle.gif) 0 0 no-repeat;  }
 .product-view .product-img-box .zoom .btn-zoom-out { position:absolute; left:2px; top:0; }
 .product-view .product-img-box .zoom .btn-zoom-in { position:absolute; right:2px; top:0; }
-.product-view .product-img-box .more-views ul { margin-left:-4px }
-.product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin:0 0 8px 4px ; }
+.product-view .product-img-box .more-views {margin:10px 0 0; padding:10px 0 0;}
+.product-view .product-img-box .more-views h3 {display:none;}
+.product-view .product-img-box .more-views ul {}
+.product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin:0 6px 6px 0; }
 
 .product-image-popup { margin:0 auto; }
 .product-image-popup .nav { text-align:center; }
@@ -567,7 +569,7 @@ dd.even { background-color:#f6f6f6; }
 /********** < Product Prices */
 .price { white-space:nowrap !important; }
 
-.price-box { font-size:11px; }
+.price-box { }
 .price-box .price { font-weight:bold; }
 
 .price-box-bundle {}
@@ -625,6 +627,7 @@ a.minimal-price-link .price { font-weight:normal; }
 /* Price as configured */
 .price-as-configured {}
 .price-as-configured .price-label {white-space:nowrap; }
+.price-as-configured .price { font-size:14px; color:#e55100; }
 
 /* Price notice next to the options */
 .price-notice { padding-left:10px; }
@@ -677,12 +680,12 @@ button.cart-btn span  { padding:0 11px 0 5px }
 .add-to-box .add-to-links { }
 
 /* Product Options */
-.product-options { padding:10px; margin:10px 0 0; border:1px solid #ddd; background-color:#f6f6f6; }
+.product-options { margin:10px 0 0; font-size:12px; }
 .product-options dt label { font-weight:bold; }
 .product-options dt .qty-holder { float:right; }
 .product-options dt .qty-holder label { vertical-align:middle; }
 .product-options dt .qty-disabled { background:none; border:0; padding:3px; color:#000; }
-.product-options dd { margin:10px 0; }
+.product-options dd { margin:5px 0 15px; padding:0 0 12px; border-bottom:1px solid #e7e7e7; }
 .product-options dl.last dd.last {}
 .product-options dd input.input-text { width:98%; }
 .product-options dd textarea { width:98%; height:8em; }
@@ -692,10 +695,29 @@ button.cart-btn span  { padding:0 11px 0 5px }
 .product-options .options-list input.checkbox { float:left; margin:3px -20px 0 0; }
 .product-options .options-list .label { display:block; margin-left:20px; }
 .product-options ul.validation-failed { padding:0 7px; }
-.product-options p.required { padding:15px 0 0; }
+.product-options li { margin:3px 0; }
 
-.product-options-bottom { padding:10px; border:1px solid #ddd; border-top:0; }
-.product-options-bottom .price-box { margin:10px 0; }
+.product-options-bottom { padding:0; font-size:12px; margin:0 0 20px; line-height:27px; }
+.product-options-bottom .add-to-cart { float:right; margin:0 0 0 20px; }
+.product-options-bottom .price-box { margin:0; float:right; }
+.product-options-bottom p.required { padding:5px 0 0; clear:both; text-align:right; }
+
+
+
+/* Bundle product */
+
+.bundleProduct { position:relative; font-size:11px; z-index:1; width:670px; }
+.product-options .bundle-summary { font-size:11px; }
+.bundle-summary { position:absolute; top:0; z-index:2; right:-280px; width:255px; }
+.bundle-summary .product {background:#f9f9f9; padding:14px 13px;}
+.bundle-summary .product-image {border:1px solid #d6d6d6; float:left; margin:0 -60px 0 0;}
+.bundle-summary .product-details {margin-left:60px; padding:0 0 0 13px;}
+.bundle-summary .product-details p.availability {margin:5px 0;}
+.bundle-summary .product-name {font-size:16px; color:#111;}
+.bundle-summary .summary h4 { font-size:14px; color:#333; }
+.bundle-summary .summary ul { margin:6px 0 10px; }
+.bundle-summary .summary li { background:url(../images/bkg_dots.gif) repeat-x 0 1px; margin:0; padding:11px 0 7px; }
+
 
 /* Grouped Product */
 .grouped-items {}
@@ -931,4 +953,48 @@ button.cart-btn span  { padding:0 11px 0 5px }
 .footer .switcher-store { float:right; }
 .footer .switcher-store label { font-weight:bold; vertical-align:middle; }
 .footer .switcher-store select { padding:0; margin-bottom:1px; }
+/* ======================================================================================= */
+
+
+/* MagicZOOM styles =================================================================== */
+/* Copyright 2008 MagicToolBox.com. To use this code on your own site, visit http://magictoolbox.com */
+
+/* CSS class for zoomed area */
+.MagicZoomBigImageCont {
+	border:			1px solid #b7b7b7;
+    left:           285px!important;
+}
+
+/* Header look and feel CSS class */
+/* header is shown if "title" attribute is present in the <A> tag */
+.MagicZoomHeader {
+	font:			10px Tahoma, Verdana, Arial, sans-serif;
+	color:			#fff;
+	background:		#91b817;
+	text-align:     center !important; 
+}
+
+
+/* CSS class for small looking glass square under mouse */
+.MagicZoomPup {
+	border: 		1px solid #aaa;
+	background: 	#ffffff;
+	cursor:			hand;
+}
+
+/* CSS style for loading animation box */
+.MagicZoomLoading {
+	text-align:		center;
+	background: 	#ffffff;
+	color:			#444;
+	border: 		1px solid #ccc;
+	opacity:		0.8;
+	padding:		3px 3px 3px 3px !important;
+	display: 		none; /* do not edit this line please */
+}
+
+/* CSS style for gif image in the loading animation box */
+.MagicZoomLoading img {
+	padding-top:	3px !important;
+}
 /* ======================================================================================= */
