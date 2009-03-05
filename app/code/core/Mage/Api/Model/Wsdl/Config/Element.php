@@ -72,7 +72,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
 
         if (!$source->hasChildren()) {
             // handle string node
-            $elm = $this->_getElementByName($source, $elmNamespace);
+            $elm = $this->getElementByName($source, $elmNamespace);
             if (!is_null($elm)) {
 
                 // if target already has children return without regard
@@ -99,7 +99,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
             return $this;
         }
 
-        $elm = $this->_getElementByName($source, $elmNamespace);
+        $elm = $this->getElementByName($source, $elmNamespace);
         if (!is_null($elm)) {
             $targetChild = $elm;
         }
@@ -127,39 +127,14 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
     }
 
     /**
-     * Enter description here...
+     * Return attributes of all namespaces
      *
-     * @param Varien_Simplexml_Element $source
-     * @return bool
-     */
-    public function compareAttributes($source, $elmNamespace = '', $flag = false)
-    {
-        $sourceName = $source->getName();
-        $elm = $this->getElementByName($sourceName, $elmNamespace);
-        if (!is_null($elm)) {
-            $allAttributes = $this->getAttributes($elm);
-            $sourceAllAttributes = $this->getAttributes($source);
-            if (count($allAttributes) != count($sourceAllAttributes)) {
-                return false;
-            }
-            foreach ($allAttributes as $namespace => $attributes) {
-                if (isset($sourceAllAttributes[$namespace]) && count($attributes) != count($sourceAllAttributes[$namespace])) {
-                    return false;
-                }
-                foreach ($attributes as $key => $value) {
-                    if (is_null($source->getAttribute($key, $namespace)) || $source->getAttribute($key, $namespace) != $value) {
-                        return false;
-                    }
-                }
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Enter description here...
+     * array(
+     *   namespace => array(
+     *     attribute_key => attribute_value,
+     *     ...
+     *   )
+     * )
      *
      * @param Varien_Simplexml_Element $source
      * @return array
@@ -183,7 +158,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
     }
 
     /**
-     * Enter description here...
+     * Return children of all namespaces
      *
      * @param Varien_Simplexml_Element $source
      */
@@ -202,6 +177,11 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         return $children;
     }
 
+    /**
+     * Return if has children
+     *
+     * @return boolean
+     */
     public function hasChildren()
     {
         if (!$this->getChildren($this)) {
@@ -217,24 +197,14 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         return false;
     }
 
-    public function getElementByName($name, $namespace = '')
-    {
-        foreach ($this->children($namespace) as $k => $child) {
-            if ($child->getName() == $name) {
-                return $child;
-            }
-        }
-        return null;
-    }
-
     /**
-     * Finding element by tag name, and checking attributes with namespaces
+     * Return element by tag name, and checking attributes with namespaces
      *
      * @param Varien_Simplexml_Element $source
      * @param string $namespace
      * @return null|Varien_Simplexml_Element
      */
-    public function _getElementByName($source, $elmNamespace = '')
+    public function getElementByName($source, $elmNamespace = '')
     {
         $sourceName = $source->getName();
         $extendElmAttributes = $this->getAttributes($source);
@@ -273,7 +243,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         return null;
     }
 
-/**
+    /**
      * Returns attribute value by attribute name
      *
      * @return string

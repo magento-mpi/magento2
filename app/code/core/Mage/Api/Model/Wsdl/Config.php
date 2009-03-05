@@ -129,7 +129,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
 
         $modules = Mage::getConfig()->getNode('modules')->children();
 
-        $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api").DS.'wsdl.xml';
+        $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api").DS.'wsdl2.xml';
         $this->loadFile($baseWsdlFile);
 
         foreach ($modules as $modName=>$module) {

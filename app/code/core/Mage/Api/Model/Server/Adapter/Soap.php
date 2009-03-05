@@ -97,12 +97,23 @@ class Mage_Api_Model_Server_Adapter_Soap
         $urlModel = Mage::getModel('core/url')
             ->setUseSession(false);
         if ($this->getController()->getRequest()->getParam('wsdl')) {
-            $wsdlConfig = Mage::getModel('api/wsdl_config');
-            $wsdlConfig->setHandler($this->getHandler())
-                ->init();
+            // Generating wsdl content from template
+            $io   = new Varien_Io_File();
+            $io->open(array('path'=>Mage::getModuleDir('etc', 'Mage_Api')));
+            $wsdlContent = $io->read('wsdl.xml');
+
+            $template = Mage::getModel('core/email_template_filter');
+
+            $wsdlConfig = new Varien_Object();
+            $wsdlConfig->setUrl($urlModel->getUrl('*/*/*'));
+            $wsdlConfig->setName('Magento');
+            $wsdlConfig->setHandler($this->getHandler());
+
+            $template->setVariables(array('wsdl'=>$wsdlConfig));
+
             $this->getController()->getResponse()
                 ->setHeader('Content-Type','text/xml')
-                ->setBody($wsdlConfig->getWsdlContent());
+                ->setBody($template->filter($wsdlContent));
         } elseif ($this->_extensionLoaded()) {
             $this->_soap = new SoapServer($urlModel->getUrl('*/*/*', array('wsdl'=>1)));
             use_soap_error_handler(false);
