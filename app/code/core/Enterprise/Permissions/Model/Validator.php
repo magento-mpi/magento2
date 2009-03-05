@@ -493,7 +493,8 @@ class Enterprise_Permissions_Model_Validator
             $store = Mage::getModel('core/store')->load(array_shift($allowedStores));
             $params = array(
                 'store' => $store->getId(),
-                'id' => $this->_getRequest()->getParam('id')
+                'id' => $this->_getRequest()->getParam('id'),
+                '_current' => true
             );
 
             if( $urlParams && is_array($urlParams) ) {
