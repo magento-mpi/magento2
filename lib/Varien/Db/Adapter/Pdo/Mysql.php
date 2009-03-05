@@ -579,7 +579,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $keyList = array();
         $create  = $this->raw_fetchRow('SHOW CREATE TABLE ' . $this->quoteIdentifier($tableName), 'Create Table');
         $matches = array();
-        preg_match_all('#KEY `([^`]+)` \(([^)]+)\)#s', $create, $matches, PREG_SET_ORDER);
+        preg_match_all('#KEY `([^`]+)` (USING (BTREE|HASH) )?\(([^)]+)\)#s', $create, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $v) {
             $keyList[$v[1]] = split(',', str_replace($this->getQuoteIdentifierSymbol(), '', $v[2]));
