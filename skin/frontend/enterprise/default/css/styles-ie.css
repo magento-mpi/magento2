@@ -53,6 +53,8 @@ input.checkbox { width:13px; height:13px; }
 button.button span { position:relative; }
 button.button { height:23px; _overflow-y:hidden; }
 button.btn-small { height:17px; }
+button.cart-btn { height:27px; background-position:0 0; }
+button.cart-btn span { background-position:100% 0; }
 
 .header-panel .form-search,
 .footer-panel { padding-top:3px; }
