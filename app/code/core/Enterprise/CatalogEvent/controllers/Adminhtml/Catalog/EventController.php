@@ -175,6 +175,4 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
         return Mage::getSingleton('admin/session')->isAllowed('catalog/events');
     }
 
-
-
 }

@@ -69,6 +69,14 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
         return $this;
     }
 
+    /**
+     * Set sort order
+     *
+     * @param string $field
+     * @param string $direction
+     * @param boolean $unshift
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     */
     protected function _setOrder($field, $direction, $unshift = false)
     {
         if ($field == 'category_name' && $this->_categoryDataAdded) {
@@ -87,7 +95,8 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
         if (! $this->_categoryDataAdded) {
             $this->_select->joinLeft(array('category' => $this->getTable('catalog/category')), 'category.entity_id = main_table.category_id', array('category_position' => 'position'))->joinLeft(array('category_name_attribute' => $this->getTable('eav/attribute')), 'category_name_attribute.entity_type_id = category.entity_type_id
                     AND
-                category_name_attribute.attribute_code = \'name\'', array())->joinLeft(array('category_varchar' => $this->getTable('catalog/category') . '_varchar'), 'category_varchar.entity_id = category.entity_id
+                category_name_attribute.attribute_code = \'name\'', array())
+                ->joinLeft(array('category_varchar' => $this->getTable('catalog/category') . '_varchar'), 'category_varchar.entity_id = category.entity_id
                     AND
                 category_varchar.attribute_id = category_name_attribute.attribute_id
                 ', array('category_name' => 'value'));

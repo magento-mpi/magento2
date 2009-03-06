@@ -34,8 +34,8 @@
              <enterprise_invitation_mysql4>
                 <class>Enterprise_Invitation_Model_Mysql4</class>
                 <entities>
-                    <invitation><table>enterprise_invitation_invitation</table></invitation>
-                    <invitation_status_history><table>enterprise_invitation_invitation_status_history</table></invitation_status_history>
+                    <invitation><table>enterprise_invitation</table></invitation>
+                    <invitation_status_history><table>enterprise_invitation_status_history</table></invitation_status_history>
                 </entities>
             </enterprise_invitation_mysql4>
         </models>

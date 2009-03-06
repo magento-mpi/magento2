@@ -24,16 +24,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-$installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
 
 $installer->startSetup();
 
-$fkName = strtoupper($installer->getTable('enterprise_catalogevent/event'));
-
 $installer->run("
--- DROP TABLE IF EXISTS `{$installer->getTable('enterprise_catalogevent/event')}`;
+DROP TABLE IF EXISTS `{$installer->getTable('enterprise_catalogevent/event')}`;
 CREATE TABLE `{$installer->getTable('enterprise_catalogevent/event')}` (
     `event_id` int(10) unsigned NOT NULL auto_increment,
     `category_id` int(10) unsigned default NULL,
@@ -43,10 +40,13 @@ CREATE TABLE `{$installer->getTable('enterprise_catalogevent/event')}` (
     `display_state` tinyint(3) unsigned default 0,
     PRIMARY KEY  (`event_id`),
     UNIQUE KEY `category_id` (`category_id`),
-    KEY `sort_order` (`date_start`,`date_end`,`status`),
-    CONSTRAINT `FK_{$fkName}_CATEGORY` FOREIGN KEY (`category_id`) REFERENCES `{$this->getTable('catalog/category')}` (`entity_id`) ON DELETE CASCADE
+    KEY `sort_order` (`date_start`,`date_end`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Events';
 ");
+
+$fkName = strtoupper($installer->getTable('enterprise_catalogevent/event'));
+
+$installer->getConnection()->addConstraint($fkName . '_CATEGORY', $installer->getTable('enterprise_catalogevent/event'), 'category_id', $this->getTable('catalog/category'), 'entity_id');
 
 $installer->addAttribute('quote_item', 'event_id', array('type' => 'int'));
 $installer->addAttribute('quote_item', 'event_name', array());

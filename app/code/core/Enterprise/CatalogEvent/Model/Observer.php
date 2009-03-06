@@ -396,9 +396,11 @@ class Enterprise_CatalogEvent_Model_Observer
                  $collection = $this->_getEventCollection();
                  $collection->addFieldToFilter('event_id', array('in'=>$eventIds));
                  foreach ($collection as $event) {
-                     $quote->getItemsCollection()->getItemByColumnValue(
-                        'event_id', $event->getId()
-                     )->setEvent($event);
+                     foreach ($quote->getItemsCollection()->getItemsByColumnValue(
+                                  'event_id', $event->getId()
+                              ) as $quoteItem) {
+                        $quoteItem->setEvent($event);
+                     }
                  }
              }
         }
