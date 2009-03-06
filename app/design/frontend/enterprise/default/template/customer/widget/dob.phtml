@@ -45,12 +45,8 @@ NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
       Alternatively we could calculate widths automatically using block input parameters.
 */
 ?>
-<div class="customer-dob">
-    <label for="<?php echo $this->getFieldId('day')?>">
-        <?php echo $this->__('Date of Birth') ?>
-        <?php if ($this->isRequired()):?><span class="required">*</span><?php endif; ?>
-    </label>
-
+<label for="<?php echo $this->getFieldId('day')?>"><?php if ($this->isRequired()):?><span class="required">*</span><?php endif; ?> <?php echo $this->__('Date of Birth') ?></label>
+<div class="input-box customer-dob">
     <div class="input-box dob-day">
         <input type="text" id="<?php echo $this->getFieldId('day')?>" name="<?php echo $this->getFieldName('day')?>" value="<?php echo $this->getDay() ?>" title="<?php echo $this->__('Day') ?>" class="input-text validate-custom" <?php echo $this->getFieldParams() ?> />
         <label for="<?php echo $this->getFieldId('day')?>"><?php echo $this->__('DD') ?></label>

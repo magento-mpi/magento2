@@ -34,6 +34,7 @@
 /* Doubled Margin Fixes */
 .product-view .product-img-box .more-views li,
 .product-view .tags .form-add-tags .input-box,
+.form-list .customer-dob .input-box,
 .sp-methods select.month { display:inline; }
 
 /********** < Navigation styles */
