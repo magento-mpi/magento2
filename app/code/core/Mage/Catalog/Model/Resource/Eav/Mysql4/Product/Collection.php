@@ -62,11 +62,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     /**
      * Retrieve is flat enabled flag
+     * Return alvays false if magento run admin
      *
      * @return bool
      */
     public function isEnabledFlat()
     {
+        if (Mage::app()->getStore()->isAdmin()) {
+            return false;
+        }
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
             $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()
                 ->isEnabled($this->getStoreId());
