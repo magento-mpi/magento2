@@ -34,6 +34,8 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Model_Mysql4_Abstract
 {
+    protected $_storeId = null;
+
     protected $_loaded = false;
 
     protected $_nodes = array();
@@ -46,6 +48,41 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
+     * Set store id
+     *
+     * @param integer $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
+        return $this;
+    }
+
+    /**
+     * Return store id
+     *
+     * @return integer
+     */
+    public function getStoreId()
+    {
+        if (is_null($this->_storeId)) {
+            return Mage::app()->getStore()->getId();
+        }
+        return $this->_storeId;
+    }
+
+    /**
+     * Get main table name
+     *
+     * @return string
+     */
+    public function getMainTable()
+    {
+        return $this->getMainStoreTable($this->getStoreId());
+    }
+
+    /**
      * Return name of table for given $storeId.
      *
      * @param integer $storeId
@@ -53,7 +90,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function getMainStoreTable($storeId = 0)
     {
-        $table = $this->getMainTable();
+        $table = parent::getMainTable();
         if (is_string($storeId)) {
             $storeId = intval($storeId);
         }
@@ -105,7 +142,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
                 array('request_path' => 'url_rewrite.request_path'))
-            ->where('main_table.store_id = ?', $storeId)
             ->where('main_table.is_active = ?', '1')
             ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
@@ -169,16 +205,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      * @param integer $storeId
      * @return array
      */
-    public function getNodes($parentId = null, $recursionLevel = 0, $storeId = 0)
+    public function getNodes($parentId, $recursionLevel = 0, $storeId = 0)
     {
         if (!$this->_loaded) {
-            if (is_null($parentId)) {
-                $parentId = Mage::app()->getStore()->getId();
-            }
             $selectParent = $this->_getReadAdapter()->select()
                 ->from($this->getMainStoreTable())
-                ->where('entity_id = ?', $parentId)
-                ->where('store_id = ?', '0');
+                ->where('entity_id = ?', $parentId);
             if ($parentNode = $this->_getReadAdapter()->fetchRow($selectParent)) {
                 $parentNode['id'] = $parentNode['entity_id'];
                 $parentNode = Mage::getModel('catalog/category')->setData($parentNode);
@@ -216,7 +248,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     {
         if ($asCollection) {
             $parentPath = $this->_getReadAdapter()->fetchOne(new Zend_Db_Expr("
-                SELECT path FROM {$this->getMainStoreTable()} WHERE entity_id = {$parent} AND store_id = 0
+                SELECT path FROM {$this->getMainStoreTable()} WHERE entity_id = {$parent}
             "));
             $collection = Mage::getModel('catalog/category')->getCollection()
                 ->addNameToResult()
@@ -224,7 +256,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 ->addParentPathFilter($parentPath)
                 ->addStoreFilter()
                 ->addSortedField($sorted);
-//            Zend_Debug::dump($collection->getSelect()->__toString());
             if ($toLoad) {
                 return $collection->load();
             }
@@ -416,8 +447,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         if (is_null($action)) {
             $select = $this->_getReadAdapter()->select()
                 ->from($this->getMainStoreTable($category->getStoreId()), 'entity_id')
-                ->where('entity_id = ?', $category->getId())
-                ->where('store_id = ?', $category->getStoreId());
+                ->where('entity_id = ?', $category->getId());
             if ($result = $this->_getReadAdapter()->fetchOne($select)) {
                 $action = 'update';
             } else {
@@ -430,8 +460,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             $this->_getWriteAdapter()->update(
                 $this->getMainStoreTable($category->getStoreId()),
                 $this->_prepareDataForAllFields($category),
-                $this->_getReadAdapter()->quoteInto('entity_id = ?', $category->getId()) .
-                    ' AND ' . $this->_getReadAdapter()->quoteInto('store_id = ?', $category->getStoreId())
+                $this->_getReadAdapter()->quoteInto('entity_id = ?', $category->getId())
             );
         } elseif ($action == 'insert') {
             // insert
@@ -628,7 +657,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         $select = $this->_getReadAdapter()->select()
             ->from($_table, "COUNT({$_table}.entity_id)")
             ->where("{$_table}.path LIKE ?", $category->getPath() . '/%')
-            ->where("{$_table}.store_id = ?", $category->getStoreId())
             ->where("{$_table}.is_active = ?", (int) $isActiveFlag);
         return (int) $this->_getReadAdapter()->fetchOne($select);
     }
@@ -663,8 +691,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 array('url_rewrite'=>$this->getTable('core/url_rewrite')),
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$category->getStoreId().'" AND url_rewrite.id_path LIKE "category/%"',
                 array('request_path' => 'url_rewrite.request_path'))
-            ->where('main_table.entity_id IN (?)', array_reverse(explode(',', $category->getPathInStore())))
-            ->where('main_table.store_id = ?', $category->getStoreId());
+            ->where('main_table.entity_id IN (?)', array_reverse(explode(',', $category->getPathInStore())));
         if ($isActive) {
             $select->where('main_table.is_active = ?', '1');
         }
@@ -685,10 +712,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function getChildrenCategories($category)
     {
-        $node = $this->getNodeById($category->getId());
-        if ($node && $node->getChildrenNodes()) {
-            return $node->getChildrenNodes();
-        }
+//        $node = $this->getNodeById($category->getId());
+//        if ($node && $node->getChildrenNodes()) {
+//            return $node->getChildrenNodes();
+//        }
         $categories = $this->_loadNodes($category, 1, $category->getStoreId());
         return $categories;
     }
@@ -729,7 +756,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         if ($isActive) {
             $select->where('is_active = ?', '1');
         }
-        $select->where('store_id = ?', $category->getStoreId());
         $_categories = $this->_getReadAdapter()->fetchAll($select);
         $categoriesIds = array();
         foreach ($_categories as $_category) {

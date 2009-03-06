@@ -56,6 +56,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     protected $_isActiveAttributeId = null;
 
     /**
+     * Store id
+     *
+     * @var int
+     */
+    protected $_storeId = null;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -67,6 +74,31 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 $resource->getConnection('catalog_write')
             );
         $this->_categoryProductTable = $this->getTable('catalog/category_product');
+    }
+
+    /**
+     * Set store Id
+     *
+     * @param integer $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category
+     */
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
+        return $this;
+    }
+
+    /**
+     * Return store id
+     *
+     * @return integer
+     */
+    public function getStoreId()
+    {
+        if (is_null($this->_storeId)) {
+            return Mage::app()->getStore()->getId();
+        }
+        return $this->_storeId;
     }
 
     /**
