@@ -33,28 +33,16 @@
  */
 class Mage_Adminhtml_Block_Catalog_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    const DEFAULT_RENDERER_ELEMENT          = 'adminhtml/widget_form_renderer_element';
-    const DEFAULT_RENDERER_FIELDSET         = 'adminhtml/widget_form_renderer_fieldset';
-    const DEFAULT_RENDERER_FIELDSET_ELEMENT = 'adminhtml/catalog_form_renderer_fieldset_element';
-
-    const XML_PATH_DEFAULT_RENDERER_ELEMENT          = 'adminhtml/settings/widget_form_renderer_element/';
-    const XML_PATH_DEFAULT_RENDERER_FIELDSET         = 'adminhtml/settings/widget_form_renderer_fieldset/';
-    const XML_PATH_DEFAULT_RENDERER_FIELDSET_ELEMENT = 'adminhtml/settings/catalog_form_renderer_fieldset_element/';
-
     protected function _prepareLayout()
     {
         Varien_Data_Form::setElementRenderer(
-            $this->getLayout()->createBlock(
-                ($value = $this->_getConfigValueByFullActionName(self::XML_PATH_DEFAULT_RENDERER_ELEMENT, $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET)
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_element')
         );
         Varien_Data_Form::setFieldsetRenderer(
-            $this->getLayout()->createBlock(
-                ($value = $this->_getConfigValueByFullActionName(self::XML_PATH_DEFAULT_RENDERER_FIELDSET, $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET)
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset')
         );
-
         Varien_Data_Form::setFieldsetElementRenderer(
-            $this->getLayout()->createBlock(
-                ($value = $this->_getConfigValueByFullActionName(self::XML_PATH_DEFAULT_RENDERER_FIELDSET_ELEMENT, $this->getAction()->getFullActionName())) ? $value : self::DEFAULT_RENDERER_FIELDSET_ELEMENT)
+            $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_fieldset_element')
         );
     }
 }
