@@ -36,6 +36,7 @@ Shopping cart
         <!-- Mage_AmazonPayments -->
         <reference name="checkout.cart.methods">
             <block type="amazonpayments/link_shortcut" name="checkout.cart.methods.amazon_cba" template="amazonpayments/link.phtml"/>
+            <block type="amazonpayments/asp_shortcut" name="checkout.cart.methods.amazon_asp" template="amazonpayments/asp/shortcut.phtml"/>
         </reference>
     </checkout_cart_index>
 

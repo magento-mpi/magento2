@@ -31,37 +31,129 @@
  */
 class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_Abstract
 {
-    const ERROR_SIGN_REQUEST = 'RS'; 
-    const STATUS_REFUND_FAILED = 'RF'; 
-    const STATUS_SYSTEM_ERROR = 'SE'; 
-
+    protected $_ipnRequest = 'amazonpayments/api_asp_ipn_request';
+    protected $_fpsModel = 'amazonpayments/api_asp_fps';
     
-	public function getPayNowRedirectUrl ($orderId, $amount, $currencyCode) 
-	{
-		$requestParams = array();
-        $requestParams['referenceId'] = $orderId;
-		$requestParams['amount'] = $currencyCode . ' ' . $amount; 
-		$requestParams['description'] = $this->getPaymentDescription();;
-        $requestParams['accessKey'] = $this->getAccessKey();
-        $requestParams['processImmediate'] = $this->getProcessImmediate();
-		$requestParams['immediateReturn'] = $this->getImmediateReturn();
-		$requestParams['collectShippingAddress'] = $this->getCollectShippingAddress();
-	   
-		$requestParams = $this->signParams($requestParams);
-        
-		return $this->getPayServiceUrl() . '?' . http_build_query($requestParams);
-	}
+	const EXCEPTION_INVALID_SIGN_REQUEST = 10001;
+    const EXCEPTION_INVALID_IPN_REQUEST = 10002;
 
-	public function getIpnRequest ($requestParams) 
-	{
-		if (!$this->checkSignParams($requestParams)) {
-			return false;
-		}
-		$ipnRequest = Mage::getSingleton('amazonpayments/api_asp_ipn_request');
-        if(!$ipnRequest->init($requestParams)) {
-        	return false; 	
+    protected function _getFps()
+    {
+        return Mage::getSingleton($this->_fpsModel);
+    }
+    
+    protected function _getIpnRequest()
+    {
+        return Mage::getSingleton($this->_ipnRequest);
+    }
+    
+    // PAY
+    
+    public function getPayButtonImageUrl () 
+    {
+        return $this->_getConfigValue('pay_button_image_url');
+    }
+    
+    public function getPayUrl () 
+    {
+        if ($this->_isSandbox()) {
+        	return $this->_getConfig('pay_service_url_sandbox');
         }
+        return $this->_getConfig('pay_service_url');
+    } 
+    
+    public function getPayParams ($referenceId, $amountValue, $currencyCode) 
+    {
+        $amount = Mage::getSingleton('amazonpayments/api_asp_amount')
+            ->setValue($amountValue)
+            ->setCurrencyCode($currencyCode);
+        
+        $requestParams = array();
+        $requestParams['referenceId'] = $referenceId;
+        $requestParams['amount'] = $amount->toString(); 
+        $requestParams['description'] = $this->_getConfig('pay_description');
+        $requestParams['accessKey'] = $this->_getConfig('access_key');
+        $requestParams['processImmediate'] = $this->_getConfig('pay_process_immediate');
+        $requestParams['immediateReturn'] = $this->_getConfig('pay_immediate_return');
+        $requestParams['collectShippingAddress'] = $this->_getConfig('pay_collect_shipping_address');
+
+        $signature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
+        $requestParams['signature'] = $signature;
+
+        return $requestParams;
+    }
+    
+    // NOTIFICATON
+    
+    public function processNotification ($requestParams) 
+    {
+        $requestSignature = false;
+    	
+    	if (isset($requestParams['signature'])) {
+            $requestSignature = $requestParams['signature'];
+    		unset($requestParams['signature']);    		
+        }
+        
+    	$originalSignature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
+    	
+    	if ($requestSignature != $originalSignature) {
+            throw new Exception(
+                Mage::helper('amazonpayments')->__('Request signed an incorrect or missing signature'), 
+                self::EXCEPTION_INVALID_SIGN_REQUEST
+            );
+        }
+
+        $ipnRequest = $this->_getIpnRequest();
+        
+        if(!$ipnRequest->init($requestParams)) {
+            throw new Exception(
+                Mage::helper('amazonpayments')->__('Request is not a valid IPN request'), 
+                self::EXCEPTION_INVALID_IPN_REQUEST
+            );
+        }
+        
         return $ipnRequest;
     }
-	
+
+    // FPS ACTIONS	    
+    	    
+    public function cancel () 
+    {
+        
+    }
+    
+    public function capture ($transactionId, $amount, $currencyCode) 
+    {
+        $fps = $this->_getFps();
+
+        $amount = $this->_getAmount()
+            ->setValue($amount)
+            ->setCurrencyCode($currencyCode);
+                        
+        $request = $fps->getRequest(Mage_AmazonPayments_Model_Api_Asp_Fps::ACTION_CODE_SETTLE)
+            ->setTransactionId($transactionId)
+            ->setAmount($amount);
+
+        $response = $fps->process($request);
+        return $response; 
+    }
+
+    public function refund ($transactionId, $amount, $currencyCode, $referenceId) 
+    {
+        $fps = $this->_getFps();
+
+        $amount = $this->_getAmount()
+            ->setValue($amount)
+            ->setCurrencyCode($currencyCode);
+        
+        $request = $fps->getRequest(Mage_AmazonPayments_Model_Api_Asp_Fps::ACTION_CODE_REFUND)
+            ->setTransactionId($transactionId)
+            ->setReferenceId($referenceId)
+            ->setAmount($amount)
+            ->setDescription($this->_getConfig('refund_description'));
+
+        $response = $fps->process($request);
+        return $response; 
+    }
+    
 }

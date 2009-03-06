@@ -48,34 +48,109 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
         	return false;
         }	
         $this->requestParams = $requestParams;
-        $this->setData($requestParams);
-        $this->addData($this->_convertAmount($requestParams['transactionAmount']));
+        $this->_setRequestParamsToData($this->_convertRequestParams($requestParams));
         return $this;
     }
     
     private function _validateRequestParams($requestParams)
     {
-    	if (!isset($requestParams['transactionId']) ||
-            !isset($requestParams['referenceId']) ||
+    	if (!isset($requestParams['referenceId']) ||
             !isset($requestParams['transactionAmount']) ||
+            !isset($requestParams['transactionDate']) ||
             !isset($requestParams['status'])) {
             	return false;
         }
+    
+        $statusCode = $requestParams['status'];
+        if ($statusCode != self::STATUS_CANCEL &&
+            $statusCode != self::STATUS_RESERVE_SUCCESSFUL &&
+            $statusCode != self::STATUS_PAYMENT_INITIATED &&
+            $statusCode != self::STATUS_PAYMENT_SUCCESSFUL &&
+            $statusCode != self::STATUS_PAYMENT_FAILED &&
+            $statusCode != self::STATUS_REFUND_SUCCESSFUL &&
+            $statusCode != self::STATUS_REFUND_FAILED &&
+            $statusCode != self::STATUS_SYSTEM_ERROR) {
+                return false;
+        }
+
+        if (($statusCode == self::STATUS_RESERVE_SUCCESSFUL ||
+             $statusCode == self::STATUS_PAYMENT_SUCCESSFUL ||
+             $statusCode == self::STATUS_REFUND_SUCCESSFUL) &&
+             !isset($requestParams['transactionId'])) {
+                return false;
+        }
+                
         if (!$this->_convertAmount($requestParams['transactionAmount'])) {
         	return false;
-        }        
+        }
+
+        if ($requestParams['status'] == self::STATUS_REFUND_SUCCESSFUL ||
+            $requestParams['status'] == self::STATUS_REFUND_FAILED) {
+	        if (!$this->_convertReferenceId($requestParams['referenceId'])) {
+	            return false;
+	        }
+        }
+        
         return true;
     }
 
+    private function _convertRequestParams($requestParams)
+    {
+        $_tmpResultArray = $this->_convertAmount($requestParams['transactionAmount']);
+        unset($requestParams['transactionAmount']);
+        $requestParams = array_merge($requestParams, $_tmpResultArray); 
+
+        if ($requestParams['status'] == self::STATUS_REFUND_SUCCESSFUL ||
+            $requestParams['status'] == self::STATUS_REFUND_FAILED) {
+            $requestParams['referenceId'] = $this->_convertReferenceId($requestParams['referenceId']);
+        }
+
+        $requestParams['transactionDate'] = $this->_convertTransactionDate($requestParams['transactionDate']);
+        
+        return $requestParams;
+    }
+    
     private function _convertAmount ($requestAmount) 
     {
-    	$tmpArr = array();
-    	if (!preg_match("/^([A-Z]{3})\s([0-9]{1,}|[0-9]{1,}[.][0-9]{1,})$/", $requestAmount, $tmpArr)) {
-    		return false;
-    	}
+        $amount = Mage::getSingleton('amazonpayments/api_asp_amount');
+        if (!$amount->init($requestAmount)) {
+        	return false;
+        }
+        
     	$resultArray = array(); 
-        $resultArray['amount'] = $tmpArr[2];
-        $resultArray['currencyCode'] = $tmpArr[1];
+        $resultArray['amount'] = $amount->getValue();
+        $resultArray['currencyCode'] = $amount->getCurrencyCode();
         return $resultArray;
+    }
+
+    private function _convertReferenceId ($referenceId) 
+    {
+        $tmpArr = array();
+        if (!preg_match("/^Refund\sfor\s([0-9]{9})$/", $referenceId, $tmpArr)) {
+            return false;
+        }
+        return $tmpArr[1];
+    }
+
+    private function _convertTransactionDate ($transactionDate) 
+    {
+    	return Mage::app()->getLocale()->date($transactionDate);
+    }    
+
+    private function _setRequestParamsToData($requestParams)
+    {
+        foreach ($requestParams as $kay => $value) {
+            $setMethodName = 'set' . ucfirst($kay); 
+            $this->$setMethodName($value);
+        }
+    }
+    
+    public function toString($format='')
+    {
+        $resultString = '';
+        foreach($this->getData() as $kay => $value){
+        	$resultString .= "[$kay] = $value<br/>"; 
+        }
+        return $resultString;
     }
 }

@@ -24,315 +24,328 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Abstract
+class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Payment_Asp_Abstract
 {
-    /**
-     * Payment module of Checkout by Amazon
-     * CBA - Checkout By Amazon
-     */
 
-    protected $_code  = 'amazonpayments_asp';
-    protected $_formBlockType = 'amazonpayments/asp_form';
-    protected $_api;
-
-    const ACTION_AUTHORIZE = 0;
-    const ACTION_AUTHORIZE_CAPTURE = 1;
-    const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
-
-    /**
-     * Return true if the method can be used at this time
-     *
-     * @return bool
-     */
-    public function isAvailable($quote=null)
-    {
-        return Mage::getStoreConfig('payment/amazonpayments_asp/active');
-    }
-
-    /**
-     * Get AmazonPayments API Model
-     *
-     * @return Mage_Paypal_Model_Api_Nvp
-     */
-    public function getApi()
-    {
-        if (!$this->_api) {
-        	$this->_api = Mage::getSingleton('amazonpayments/api_asp');
-            $this->_api->setPaymentCode($this->getCode());
-        }
-        return $this->_api;
-    }
+    protected $_isGateway               = false;
+    protected $_canAuthorize            = false;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false; // частичная оплата
+    protected $_canRefund               = true; // возможность возвата 
+    protected $_canVoid                 = true; // возможночть канселать
+    protected $_canUseInternal          = false; //можно ли платить самостоятельно из админки без юзера
+    protected $_canUseCheckout          = true; //использование в процессе чекаута
+    protected $_canUseForMultishipping  = false; // множественная оплата
+    protected $_isInitializeNeeded      = true;
     
-    public function getOrderPlaceRedirectUrl()
-    {
-        $orderId = $this->getQuote()->getReservedOrderId();
-        $amount = Mage::app()->getStore()->roundPrice($this->getQuote()->getBaseGrandTotal());
-        $currencyCode = $this->getQuote()->getBaseCurrencyCode();
-    	return $this->getApi()->getPayNowRedirectUrl($orderId, $amount, $currencyCode);   
-    }
+    protected $_formBlockType = 'amazonpayments/asp_form'; // INTERFASE
+	protected $_code  = 'amazonpayments_asp'; // INTERFASE
+	protected $_order;
 
-    /**
-     * Get checkout session namespace
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    public function processIpnRequest($requestParams)
+    public function isAvailable($quote=null) // INTERFASE
     {
-    	$ipnRequest = $this->getApi()->getIpnRequest($requestParams);
-    	
-    	if (!$ipnRequest) {
-            echo('Request is failed');
-        }
+        return Mage::getStoreConfig('payment/' . $this->getCode() . '/active');
+    }
+		
+	public function getApi()
+    {
+        return Mage::getSingleton('amazonpayments/api_asp');
+    }
         
-        $order = $this->_getIpnRequestOrder($ipnRequest); 
-        
-        if (!$order) {
-            echo('Request is not valid for order');
-        } 
-        
-        echo('sdgf');
-        echo(Mage_Sales_Model_Order::STATE_PROCESSING);
-        echo(Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::IPN_STATUS_RESERVE_SUCCESSFUL);
-        
-        echo('FFF');
-        die();
-
-        
-        
-        
-/*        switch ($ipnRequestParams['status']) {
-            case $apiClassName::IPN_STATUS_CANCEL:
-            	$this->_processIpnCancel(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_RESERVE_SUCCESSFUL: 
-            	$this->_processIpnReserveSuccess(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_PAYMENT_INITIATED: 
-            	$this->_processIpnPaymetInitiated(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_PAYMENT_SUCCESSFUL: 
-            	$this->_processIpnPaymentSuccessful(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_PAYMENT_FAILED: 
-            	$this->_processIpnPaymentFailed(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_REFUND_SUCCESSFUL: 
-            	$this->_processIpnRefundSuccessful(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_REFUND_FAILED: 
-            	$this->_processIpnRefundFailed(); 
-            	break;         
-            case $apiClassName::IPN_STATUS_SYSTEM_ERROR: 
-            	$this->_processIpnSystemError(); 
-            	break;         
-        }*/
-       
-        
-       $order->setState(
-                            Mage_Sales_Model_Order::STATE_PROCESSING, 'amazon_asp_pay_wait',
-                            Mage::helper('amazonpayments')->__('comment to customer'),
-                            $notified = true
-                        );        
-
-                  $order->addStatusToHistory(
-                        $order->getStatus(),//continue setting current order status
-                        Mage::helper('amazonpayments')->__('Comment to history')
-                    );
-                    
-                    $order->save();
-                    $order->sendNewOrderEmail();
-                        
-echo ('Ok');
-        
-    }
-
-    /**
-     * Get checkout session namespace
-     *
-     * @return Mage_Checkout_Model_Session
-     */    
-    private function _getIpnRequestOrder($ipnRequest)
+    public function getNotification()
     {
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($ipnRequest->getReferenceId());
-        if ($order->isEmpty()) {
-            echo('Order for IPN not found');
-            return false;
-        }
-        if ($order->getPayment()->getMethodInstance()->getCode() != $this->getCode()) {
-            echo('Order not pay ASP');
-            return false;
-        }
-        if ($order->getBaseCurrency()->getCurrencyCode() != $ipnRequest->getCurrencyCode()) {
-            echo('Order currency code not currency IPN');
-            return false;
-        }
-        return $order;
+        return Mage::getSingleton('amazonpayments/payment_asp_notification');
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * Get current quote
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
+    public function setOrder($order)
     {
-        return $this->getCheckout()->getQuote();
-    }
-    
-    /**
-     * Get checkout session namespace
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        return Mage::getSingleton('checkout/session');
-    }
-
-    /**
-     * Get AmazonPayments session namespace
-     *
-     * @return Mage_AmazonPayments_Model_Session
-     */
-    public function getSession()
-    {
-        return Mage::getSingleton('amazonpayments/session');
-    }
-
-    /**
-     * Getting amazonpayments_cba action url
-     *
-     * @return string
-     */
-    public function getPaymentAction()
-    {
-    	$paymentAction = Mage::getStoreConfig('payment/amazonpayments_asp/payment_action');
-        if (!$paymentAction) {
-            $paymentAction = Mage_AmazonPayments_Model_Api::PAYMENT_TYPE_AUTH;
-        }
-        return $paymentAction;
-    }
-
-    /**
-     * Rewrite standard logic
-     *
-     * @return bool
-     */
-    public function canCapture()
-    {
-        return true;
-    }
-
-    /**
-     * initialize payment transaction in case
-     * we doing checkout through onepage checkout
-     */
-    public function initialize($paymentAction, $stateObject)
-    {
+        $this->_order = $order;
         return $this;
-    	
-    	$_quote = $this->getCheckout()->getQuote();
-        $address = $_quote->getBillingAddress();
+    }    
+    
+    public function getOrder()
+    {
 
-        $this->getApi()
-            ->setPaymentType($paymentAction)
-            ->setAmount($address->getBaseGrandTotal())
-            ->setCurrencyCode($_quote->getBaseCurrencyCode())
-            ->setBillingAddress($address)
-            ->setCardId($_quote->getReservedOrderId())
-            ->setCustomerName($_quote->getCustomer()->getName());
-            #->callSetExpressCheckout();
+        if (!$this->_order) {
+            $paymentInfo = $this->getInfoInstance();
+            $this->_order = Mage::getModel('sales/order')->loadByIncrementId(
+                $paymentInfo->getOrder()->getRealOrderId()
+            );
+        }
+        return $this->_order;
+        /*
+        if (!$this->_order) {
+            $session = Mage::getSingleton('checkout/session');
+            $order = Mage::getModel('sales/order');
+            $order->loadByIncrementId($session->getLastRealOrderId());
+            $this->_order = $order;         
+        }
+        return $this->_order;
+        */
+    }    
 
-        #$this->throwError();
+    // PAY
+    
+    public function getOrderPlaceRedirectUrl() // INTERFASE
+    {
+        return Mage::getUrl('amazonpayments/asp/pay');
+    }
 
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
-        $stateObject->setStatus('Processing');
+    public function getPayRedirectUrl()
+    {
+        return $this->getApi()->getPayUrl();
+    }
+
+    public function getPayRedirectParams()
+    {
+        $orderId = $this->getOrder()->getRealOrderId();
+        $amount = Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseGrandTotal());
+        $currencyCode = $this->getOrder()->getBaseCurrency();
+        return $this->getApi()->getPayParams($orderId, $amount, $currencyCode);   
+    }
+
+    public function processEventRedirect()
+    {
+        $this->getOrder()->addStatusToHistory(
+           $this->getOrder()->getStatus(), 
+           Mage::helper('amazonpayments')->__('Customer was redirected to Amazon Simple Pay')
+        )->save();
+    }    
+
+    public function processEventReturnSuccess()
+    {
+    	$this->getOrder()->addStatusToHistory(
+           $this->getOrder()->getStatus(), 
+           Mage::helper('amazonpayments')->__('Customer successfully returned from Amazon Simple Pay')
+        )->save();
+    }    
+    
+    public function processEventReturnCancel()
+    {
+        $this->getOrder()->setState(
+            Mage_Sales_Model_Order::STATE_CANCELED, 
+            true,
+            Mage::helper('amazonpayments')->__('Customer canceled payment and successfully returned from Amazon Simple Pay'),
+            $notified = false
+        )->save();        
+    }    
+
+    public function initialize($paymentAction, $stateObject) // INTERFASE
+    {
+        $state = Mage_Sales_Model_Order::STATE_NEW;
+        $stateObject->setState($state);
+        $stateObject->setStatus(Mage::getSingleton('sales/order_config')->getStateDefaultStatus($state));
         $stateObject->setIsNotified(false);
-
-        Mage::getSingleton('amazonpayments/session')->unsExpressCheckoutMethod();
-
-        return $this;
+    }    
+    
+    
+   // NOTIFICATION 
+    
+    public function processNotification($requestParams)
+    {
+    	$this->getNotification()
+    	   ->setPayment($this)
+    	   ->process($requestParams);
     }
 
-    /**
-     * Rewrite standard logic
-     *
-     * @return bool
-     */
-    public function isInitializeNeeded()
+   // CAPTURE
+
+    public function capture(Varien_Object $payment, $amount) // INTERFASE
     {
+        if (is_null($payment->getCcTransId())) {
+            throw new Exception(Mage::helper('amazonpayments')->__('Notification of successful reservation was received. We can not hold confirmation online'), 111);
+        }
+    }
+
+    public function processInvoice($invoice, $payment) // INTERFASE
+    {
+        if (!is_null($payment->getCcTransId()) && 
+            is_null($payment->getLastTransId()) &&    
+            is_null($invoice->getTransactionId())) {
+            	
+            $amount = Mage::app()->getStore()->roundPrice($invoice->getBaseGrandTotal());
+            $currencyCode = $payment->getOrder()->getBaseCurrency();        
+            $transactionId = $payment->getCcTransId();
+            $response = $this->getApi()->capture($transactionId, $amount, $currencyCode);
+
+            if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
+                /*pr*/if(1){echo('<div style="border:1px solid #000">'.__FILE__.':'.__LINE__.'<pre>');
+                print_r($response);  echo('</pre></div>');}
+                die();
+            	throw new Exception(Mage::helper('amazonpayments')->__('response error'), 111);            
+            }
+            
+            if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_SUCCESS ||
+                $response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_PENDING) {
+
+                $payment->setForcedState(Mage_Sales_Model_Order_Invoice::STATE_OPEN);
+                //$payment->setLastTransId($response->getTransactionId());
+                
+                $invoice->setTransactionId($response->getTransactionId());      
+                $invoice->addComment(Mage::helper('amazonpayments')->__('Init capture action to Amazon Simple Pay service'));
+
+                $payment->getOrder()->addStatusToHistory(
+                  $payment->getOrder()->getStatus(), 
+                  Mage::helper('amazonpayments')->__('Init capture action to Amazon Simple Pay service, and create invoice')
+                )->save();
+                
+            }
+        }
+    }    
+    
+   // REFUND
+    
+//                $this->getMethodInstance()->processBeforeRefund($creditmemo->getInvoice(), $this);
+//                $this->getMethodInstance()->refund($this, $creditmemo->getBaseGrandTotal());
+//                $this->getMethodInstance()->processCreditmemo($creditmemo, $this);    
+    
+    public function canCapturePartial() // INTERFASE
+    {
+    	if ($this->getOrder()->getState() != Mage_Sales_Model_Order::STATE_PROCESSING) {
+            return false;   
+        }
         return true;
     }
 
-    /**
-     * Processing error from amazon
-     *
-     * @return Mage_AmazonPayments_Model_Payment_Cba
-     */
-    public function catchError()
+    public function refund_1111(Varien_Object $payment, $amount)
     {
-        if ($this->getApi()->getError()) {
-            $s = $this->getCheckout();
-            $e = $this->getApi()->getError();
-            switch ($e['type']) {
-                case 'CURL':
-                    $s->addError(Mage::helper('amazonpayments')->__('There was an error connecting to the Amazon server: %s', $e['message']));
-                    break;
+        die($amount);
+        $hlp = Mage::helper('googlecheckout');
 
-                case 'API':
-                    $s->addError(Mage::helper('amazonpayments')->__('There was an error during communication with Amazon: %s - %s', $e['short_message'], $e['long_message']));
-                    break;
+//        foreach ($payment->getCreditMemo()->getCommentsCollection() as $comment) {
+//            $this->setReason($hlp->__('See Comments'));
+//            $this->setComment($comment->getComment());
+//        }
+
+        $reason = $this->getReason() ? $this->getReason() : $hlp->__('No Reason');
+        $comment = $this->getComment() ? $this->getComment() : $hlp->__('No Comment');
+
+        $api = Mage::getModel('googlecheckout/api')->setStoreId($payment->getOrder()->getStoreId());
+        $api->refund($payment->getOrder()->getExtOrderId(), $amount, $reason, $comment);
+
+        return $this;
+    }  
+    
+    
+    public function processCreditmemo($creditmemo, $payment)
+    {
+        
+    	$transactionId = $creditmemo->getInvoice()->getTransactionId();
+    	
+    	if (!is_null($transactionId)) {
+    		
+    		$amount = Mage::app()->getStore()->roundPrice($creditmemo->getBaseGrandTotal());
+            $currencyCode = $payment->getOrder()->getBaseCurrency();        
+            $response = $this->getApi()->refund($transactionId, $amount, $currencyCode, '#444005');
+
+            
+            if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
+                /*pr*/if(1){echo('<div style="border:1px solid #000">'.__FILE__.':'.__LINE__.'<pre>');
+                print_r($response);  echo('</pre></div>');}
+                die();
+            	throw new Exception(Mage::helper('amazonpayments')->__('response error'), 111);            
+            }
+
+            
+            if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_SUCCESS ||
+                $response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_PENDING) {
+
+                $payment->setForcedState(Mage_Sales_Model_Order_Creditmemo::STATE_OPEN);
+                
+                $creditmemo->setTransactionId($response->getTransactionId());      
+                $creditmemo->addComment(Mage::helper('amazonpayments')->__('Init refund action to Amazon Simple Pay service'));
+                $creditmemo->setState(Mage_Sales_Model_Order_Creditmemo::STATE_OPEN);
+                
+                $payment->getOrder()->addStatusToHistory(
+                  $payment->getOrder()->getStatus(), 
+                  Mage::helper('amazonpayments')->__('Init refund action to Amazon Simple Pay service, and create creditmemo')
+                )->save();
             }
         }
-        return $this;
+    	    	
+    }
+    
+    public function canRefund()
+    {
+        return true;
+    }
+     
+    
+    
+    
+    
+        
+        
+        
+        
+        
+    
+    
+    
+    /**
+     * Authorize
+     *
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function authorize(Varien_Object $payment, $amount)
+    {
+        die('authorize');  
+    }
+
+ 
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Capture payment
+     *
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function cancel(Varien_Object $payment)
+    {
+        /*pr*/if(1){echo('<div style="border:1px solid #000">'.__FILE__.':'.__LINE__.'<pre>');
+        print_r($amount);  echo('</pre></div>');}
+        
+        /*pcn*/if(1){echo('<div style="border:1px solid #000">'.__FILE__.':'.__LINE__.'<pre>');
+        print_r(get_class($payment));  echo('</pre></div>');}
+
+        die('cancel');  
+    
     }
 
     /**
-     * Works same as catchError method but instead of saving
-     * error message in session throws exception
+     * Void payment
      *
-     * @return Mage_AmazonPayments_Model_Payment_Cba
+     * @param   Varien_Object $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
      */
-    public function throwError()
+    public function void(Varien_Object $payment)
     {
-        if ($this->getApi()->getError()) {
-            $s = $this->getCheckout();
-            $e = $this->getApi()->getError();
-            switch ($e['type']) {
-                case 'CURL':
-                    Mage::throwException(Mage::helper('amazonpayments')->__('There was an error connecting to the Amazon server: %s', $e['message']));
-                    break;
-
-                case 'API':
-                    Mage::throwException(Mage::helper('amazonpayments')->__('There was an error during communication with Amazon: %s - %s', $e['short_message'], $e['long_message']));
-                    break;
-            }
-        }
+    	die('void');
         return $this;
     }
+        
+    
+   /* public function canCapture()
+    {
+        return true;
+
+        if (is_null($this->getOrder()->getPayment()->getCcTransId())) {
+    		return false;
+    	}
+        return true;
+    }*/
+    
+
+    public function canVoid(Varien_Object $payment)
+    {
+        return false;
+    }
+    
 }
