@@ -151,7 +151,7 @@
                             <show_in_store>1</show_in_store>
                         </tree_mode>
                         <lines_perpage translate="label">
-                            <label>Lines Per Page</label>
+                            <label>Minimum Lines Per Page</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
