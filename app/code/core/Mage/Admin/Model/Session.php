@@ -188,10 +188,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     protected function _getRequestUri($request = null)
     {
         if (Mage::getStoreConfigFlag('admin/security/use_form_key')) {
-            return Mage::getSingleton('adminhtml/url')->getUrl('*/*/*', array(
-                'form_key' => Mage::getSingleton('core/session')->getFormKey(),
-                '_current' => true
-            ));
+            return Mage::getSingleton('adminhtml/url')->getUrl('*/*/*', array('_current' => true));
         } elseif ($request) {
             return $request->getRequestUri();
         } else {

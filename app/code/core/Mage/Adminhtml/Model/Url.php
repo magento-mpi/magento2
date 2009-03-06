@@ -26,6 +26,11 @@
 class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
 {
     /**
+     * Secret key query param name
+     */
+    const SECRET_KEY_PARAM_NAME = 'key';
+
+    /**
      * Retrieve is secure mode for ULR logic
      *
      * @return bool
@@ -47,14 +52,40 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
      */
     public function getUrl($routePath=null, $routeParams=null)
     {
-        if (Mage::getStoreConfigFlag('admin/security/use_form_key')) {
-            $_formKeyParam = array('form_key' => Mage::getSingleton('core/session')->getFormKey());
-            if (is_array($routeParams)) {
-                $routeParams = array_merge($routeParams, $_formKeyParam);
-            } else {
-                $routeParams = $_formKeyParam;
-            }
+        $result = parent::getUrl($routePath, $routeParams);
+
+        if (!Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+            return $result;
         }
-        return parent::getUrl($routePath, $routeParams);
+
+        $_controller = $this->getControllerName() ? $this->getControllerName() : $this->getDefaultControllerName();
+        $_action = $this->getActionName() ? $this->getActionName() : $this->getDefaultActionName();
+        $secret = array(self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($_controller, $_action));
+        if (is_array($routeParams)) {
+            $routeParams = array_merge($routeParams, $secret);
+        } else {
+            $routeParams = $secret;
+        }
+        return parent::getUrl("*/{$_controller}/{$_action}", $routeParams);
+    }
+
+    /**
+     * Generate secret key for controller and action based on form key
+     *
+     * @param string $controller Controller name
+     * @param string $action Action name
+     * @return string
+     */
+    public function getSecretKey($controller = null, $action = null)
+    {
+        $salt = Mage::getSingleton('core/session')->getFormKey();
+        if (!$controller) {
+            $controller = $this->getRequest()->getControllerName();
+        }
+        if (!$action) {
+            $action = $this->getRequest()->getActionName();
+        }
+        $secret = $controller . $action . $salt;
+        return Mage::helper('core')->getHash($secret);
     }
 }

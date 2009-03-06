@@ -129,20 +129,29 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
         parent::preDispatch();
 
-        $_isInvalidFormKey = !$this->_validateFormKey() && Mage::getSingleton('admin/session')->isLoggedIn();
-        if (!Mage::getStoreConfigFlag('admin/security/use_form_key')) {
-            $_isInvalidFormKey = $_isInvalidFormKey && $this->getRequest()->isPost();
+
+        $_isValidFormKey = true;
+        $_isValidSecretKey = true;
+        $_keyErrorMsg = '';
+        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+            if ($this->getRequest()->isPost()) {
+                $_isValidFormKey = $this->_validateFormKey();
+                $_keyErrorMsg = 'Invalid Form Key';
+            } elseif (Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+                $_isValidSecretKey = $this->_validateSecretKey();
+                $_keyErrorMsg = 'Invalid Secret Key';
+            }
         }
-        if ($_isInvalidFormKey) {
+        if (!$_isValidFormKey || !$_isValidSecretKey) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
                 $this->getResponse()->setBody(Zend_Json::encode(array(
                     'error' => true,
-                    'error_msg' => Mage::helper('adminhtml')->__('Invalid Form Key')
+                    'error_msg' => Mage::helper('adminhtml')->__($_keyErrorMsg)
                 )));
             } else {
-                $this->_redirectReferer();
+                $this->_redirect('index/index');
             }
             return $this;
         }
@@ -337,6 +346,11 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
+
+        Mage::getSingleton('adminhtml/url')
+            ->setOriginalControllerName($this->getRequest()->getControllerName())
+            ->setOriginalActionName($this->getRequest()->getActionName());
+
         return parent::_forward($action, $controller, $module, $params);
     }
 
@@ -350,5 +364,21 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     public function getUrl($route='', $params=array())
     {
         return Mage::helper('adminhtml')->getUrl($route, $params);
+    }
+
+
+    /**
+     * Validate Secret Key
+     *
+     * @return bool
+     */
+    protected function _validateSecretKey()
+    {
+        $url = Mage::getSingleton('adminhtml/url');
+        if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
+            || $secretKey != $url->getSecretKey($url->getOriginalControllerName(), $url->getOriginalActionName())) {
+            return false;
+        }
+        return true;
     }
 }
