@@ -59,10 +59,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
                 var valid_regexp = /^[a-z0-9\\._-]{1,30}@([a-z0-9_-]{1,30}\\.){1,5}[a-z]{2,4}$/i;
                 var split_regexp = /[;|\\s|,]/g;
                 RegExp.multiline = true;
-                if (console) {
-                	console.log(split_regexp);
-                }
-                var emails = v.split();
+                var emails = v.split(split_regexp);
 
                 for (var i=0; i < emails.length; i++) {
                     if(!valid_regexp.test(emails[i].strip())) {

@@ -57,7 +57,7 @@
                         </template>
                     </fields>
                 </email>
-                <general translate="label" module="invitation">
+                <general translate="label" module="enterprise_invitation">
                     <label>General Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>20</sort_order>
