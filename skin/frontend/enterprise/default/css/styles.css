@@ -369,11 +369,10 @@ dd.even { background-color:#f6f6f6; }
 .block-layered-nav dt { font-weight:bold; }
 .block-layered-nav .currently {}
 
-/* Block: Cart */
-
-.block-cart { float:right; min-width:273px; margin-top:-1px; position:relative; z-index:1; }
-.block-cart .block-title { background:#363636 url(../images/bkg_top-cart.gif) 12px 7px no-repeat; color:#fff; font-size:11px; margin:0 0 0 -2px; padding:0 28px; line-height:28px; height:28px; }
-.block-cart .block-title a { display:block; color:#fff; text-decoration:none; }
+/* Mini Shopping Cart */
+.block-cart { float:right; width:360px; margin-top:-1px; position:relative; z-index:1; }
+.block-cart .block-title { background:#363636 url(../images/bkg_top-cart.gif) 12px 7px no-repeat; color:#fff; font-size:11px; margin:0 0 0 -2px; padding:0 0 0 28px; line-height:28px; height:28px; }
+.block-cart .block-title a { display:block; padding-right:12px; color:#fff; text-decoration:none; }
 .block-cart .block-content { border:1px solid #c4c4c4; position:absolute; right:0; top:28px; width:100%; background:#fdfdfd; }
 .block-cart .block-content h3 { font-size:11px; font-weight:normal; background:#ebebeb; line-height:14px; padding:2px 11px 3px; }
 .block-cart .block-content ol { padding-bottom:7px;}
@@ -384,7 +383,6 @@ dd.even { background-color:#f6f6f6; }
 .block-cart .block-content table th { padding:1px 8px; color:#8f8f8f; text-align:right; }
 .block-cart .block-content table td { text-align:left;padding:1px 0px; }
 .block-cart .actions { background:#dcdcdc; text-align:center; padding:5px 11px; }
-
 
 .mini-products-list li { padding:5px 0; border-bottom:1px solid #cfcfcf; }
 .mini-products-list li.last {border:none;}
@@ -450,19 +448,23 @@ dd.even { background-color:#f6f6f6; }
 .category-products {}
 
 /* View Type: Grid */
-.products-grid { width:100%; }
-.products-grid td { width:33%; padding:0 18px 20px 0; }
-.products-grid td.last { padding-right:0; }
-.products-grid .product-image { display:block; margin-bottom:10px; }
+.products-grid { float:left; padding:0 0 70px; margin:0 0 20px; position:relative; }
+.products-grid li.item { float:left; width:166px; margin-right:18px; overflow:hidden; }
+.products-grid li.last { margin-right:0; }
+.products-grid .actions { position:absolute; bottom:0; min-height:70px; }
+.products-grid .product-image { display:block; text-decoration:none !important; margin-bottom:10px; position:relative; }
+.products-grid .product-image .sold-out { display:block; position:absolute; left:0; top:0; font-size:0; line-height:0; width:62px; height:62px; background:url(../images/bkg_sold-out.png) 0 0 no-repeat; }
 .products-grid .product-name { min-height:2em; margin-bottom:5px; }
 .products-grid .price-box { margin:5px 0 10px; }
-/*.products-grid tr.odd {}
-.products-grid tr.even { background-color:#f6f6f6; }
-.products-grid td.empty {}*/
+/* Different Layout Rewrites */
+.col1-layout .products-grid li.item { width:290px; }
+.col2-left-layout .products-grid li.item,
+.col2-right-layout .products-grid li.item { width:233px; }
 
 /* View Type: List */
 .products-list li.item { border:1px solid #ddd; padding:5px; margin:0 0 5px; }
-.products-list .product-image { float:left; }
+.products-list .product-image { float:left; text-decoration:none !important; position:relative; }
+.products-list .product-image .sold-out { display:block; position:absolute; left:0; top:0; font-size:0; line-height:0; width:62px; height:62px; background:url(../images/bkg_sold-out.png) 0 0 no-repeat; }
 .products-list .product-shop { float:right; width:320px; }
 /* ======================================================================================= */
 
@@ -511,7 +513,6 @@ dd.even { background-color:#f6f6f6; }
 .product-image-popup .image-label {}
 
 /* LightBox Gallery */
-
 #lightbox{	position: absolute;	left: 0; width: 100%; z-index: 100; text-align: center; line-height: 0;}
 #lightbox img{ width: auto; height: auto;}
 #lightbox a img{ border: none; }
@@ -574,7 +575,7 @@ dd.even { background-color:#f6f6f6; }
 /* Availability */
 .availability {}
 .availability .in-stock {}
-.availability .out-of-stock { color:#d91a00; }
+.availability .out-of-stock { font-size:11px; font-weight:bold; color:#cf3a00; }
 
 /********** < Product Prices */
 .price { white-space:nowrap !important; }

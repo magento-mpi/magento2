@@ -37,6 +37,8 @@
     <?php echo $this->getChildHtml('topCart') ?>
 </div>
 <?php echo $this->getChildHtml('topMenu') ?>
+<?php if($topContainer = $this->getChildHtml('topContainer')): ?>
 <div class="top-container">
-    <?php echo $this->getChildHtml('topContainer') ?>
+    <?php echo $topContainer; ?>
 </div>
+<?php endif; ?>

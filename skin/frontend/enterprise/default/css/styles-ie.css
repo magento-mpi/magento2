@@ -30,6 +30,7 @@
 .notice-msg { _height:24px; }
 .opc li.section { vertical-align:top; }
 .products-grid .product-name { _height:2em; }
+.products-grid .actions { _height:70px; }
 
 /* Doubled Margin Fixes */
 .product-view .product-img-box .more-views li,
@@ -85,6 +86,7 @@ button.btn-small { height:17px; }
 .pager,
 .sorter,
 .ratings,
+.products-grid,
 .products-list .item,
 .add-to-box,
 .add-to-cart,
@@ -95,6 +97,7 @@ button.btn-small { height:17px; }
 .product-options-bottom,
 .truncated,
 .truncated .truncated_full_value,
+.truncated .truncated_full_value .item-options dl,
 .product-review,
 .account-login,
 .cart,
