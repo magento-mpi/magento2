@@ -170,26 +170,59 @@
     
     <complexType name="catalogCategoryEntityCreate">
       <all>
-        <element name="name" type="xsd:string" />
-        <element name="is_active" type="xsd:int" />
-        <element name="position" type="xsd:int" />
+        <element name="name" type="xsd:string" minOccurs="0" />
+        <element name="is_active" type="xsd:int" minOccurs="0" />
+        <element name="position" type="xsd:int" minOccurs="0" />
+        <element name="available_sort_by" type="typens:ArrayOfString" minOccurs="0"/>
+        <element name="custom_design" type="xsd:string" minOccurs="0"/>
+        <element name="custom_design_apply" type="xsd:int" minOccurs="0"/>
+        <element name="custom_design_from" type="xsd:string" minOccurs="0"/>
+        <element name="custom_design_to" type="xsd:string" minOccurs="0"/>
+        <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
+        <element name="default_sort_by" type="xsd:string" minOccurs="0"/>
+        <element name="description" type="xsd:string" minOccurs="0"/>
+        <element name="display_mode" type="xsd:string" minOccurs="0"/>
+        <element name="is_anchor" type="xsd:int" minOccurs="0"/>
+        <element name="landing_page" type="xsd:int" minOccurs="0"/>
+        <element name="meta_description" type="xsd:string" minOccurs="0"/>
+        <element name="meta_keywords" type="xsd:string" minOccurs="0"/>
+        <element name="meta_title" type="xsd:string" minOccurs="0"/>
+        <element name="page_layout" type="xsd:string" minOccurs="0"/>
+        <element name="url_key" type="xsd:string" minOccurs="0"/>
       </all>
     </complexType>
     
     <complexType name="catalogCategoryInfo">
       <all>
         <element name="category_id" type="xsd:string" />
+        <element name="is_active" type="xsd:int" />
         <element name="position" type="xsd:string" />
         <element name="level" type="xsd:string" />
         <element name="parent_id" type="xsd:string" />
-        <element name="updated_at" type="xsd:string" />
-        <element name="created_at" type="xsd:string" />
-        <element name="name" type="xsd:string" />
-        <element name="url_key" type="xsd:string" />
-        <element name="path" type="xsd:string" />
         <element name="all_children" type="xsd:string" />
         <element name="children" type="xsd:string" />
-        <element name="children_count" type="xsd:string" />
+        <element name="created_at" type="xsd:string" minOccurs="0"/>
+        <element name="updated_at" type="xsd:string" minOccurs="0"/>
+        <element name="name" type="xsd:string" minOccurs="0"/>
+        <element name="url_key" type="xsd:string" minOccurs="0"/>
+        <element name="description" type="xsd:string" minOccurs="0"/>
+        <element name="meta_title" type="xsd:string" minOccurs="0"/>
+        <element name="meta_keywords" type="xsd:string" minOccurs="0"/>
+        <element name="meta_description" type="xsd:string" minOccurs="0"/>
+        <element name="path" type="xsd:string" minOccurs="0"/>
+        <element name="url_path" type="xsd:string" minOccurs="0"/>
+        <element name="children_count" type="xsd:int" minOccurs="0"/>
+        <element name="display_mode" type="xsd:string" minOccurs="0"/>
+        <element name="is_anchor" type="xsd:int" minOccurs="0"/>
+        <element name="available_sort_by" type="typens:ArrayOfString" minOccurs="0"/>
+        <element name="custom_design" type="xsd:string" minOccurs="0"/>
+        <element name="custom_design_apply" type="xsd:string" minOccurs="0"/>
+        <element name="custom_design_from" type="xsd:string" minOccurs="0"/>
+        <element name="custom_design_to" type="xsd:string" minOccurs="0"/>
+        <element name="page_layout" type="xsd:string" minOccurs="0"/>
+        <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
+        <element name="default_sort_by" type="xsd:string" minOccurs="0"/>
+        <element name="landing_page" type="xsd:int" minOccurs="0"/>
       </all>
     </complexType>
     
@@ -201,7 +234,7 @@
         <element name="sku" type="xsd:string" />
         <element name="position" type="xsd:int" />
       </all>
-    </complexType>    
+    </complexType>
     
     <complexType name="catalogAssignedProductArray">
         <complexContent>
@@ -211,7 +244,7 @@
         </complexContent>
     </complexType>
     
-    <complexType name="catalogCategoryAttributeEntity">
+    <complexType name="catalogAttributeEntity">
       <all>
         <element name="attribute_id" type="xsd:int" />
         <element name="code" type="xsd:string" />
@@ -221,10 +254,10 @@
       </all>
     </complexType>    
 
-    <complexType name="catalogCategoryAttributeEntityArray">
+    <complexType name="catalogAttributeEntityArray">
         <complexContent>
            <restriction base="soapenc:Array">
-              <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogCategoryAttributeEntity[]"/>
+              <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogAttributeEntity[]"/>
            </restriction>
         </complexContent>
     </complexType>
@@ -336,7 +369,7 @@
   
   <message name="catalogProductListRequest">
     <part name="sessionId" type="xsd:string"/>
-    <part name="filters" type="typens:ArrayOfString"/>
+    <part name="filters" type="typens:associativeArray"/>
     <part name="storeView" type="xsd:string"/>
   </message>
   
@@ -412,7 +445,7 @@
     <part name="setId" type="xsd:int"/>
   </message>
   <message name="catalogProductAttributeListResponse">
-    <part name="sessionId" type="typens:catalogCategoryAttributeEntityArray"/>
+    <part name="sessionId" type="typens:catalogAttributeEntityArray"/>
   </message>
 
   <message name="catalogProductAttributeSetListRequest">
@@ -689,7 +722,7 @@
     <part name="sessionId" type="xsd:string"/>
   </message>
   <message name="catalogCategoryAttributeListResponse">
-    <part name="result" type="typens:catalogCategoryAttributeEntityArray"/>
+    <part name="result" type="typens:catalogAttributeEntityArray"/>
   </message>      
 
   <message name="catalogCategoryAttributeOptionsRequest">
