@@ -20,7 +20,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -34,6 +34,11 @@
  */
 class Mage_Catalog_Model_Layer extends Varien_Object
 {
+    /**
+     * Product collections array
+     *
+     * @var array
+     */
     protected $_productCollections = array();
 
     /**
@@ -108,7 +113,9 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function prepareProductCollection($collection)
     {
-        $collection->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+        $attributes = Mage::getSingleton('catalog/config')
+            ->getProductAttributes();
+        $collection->addAttributeToSelect($attributes)
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
@@ -206,28 +213,26 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function getFilterableAttributes()
     {
-        $entity = $this->getProductCollection()->getEntity();
+        $entity = Mage::getSingleton('eav/config')
+            ->getEntityType('catalog_product');
+
         $setIds = $this->_getSetIds();
-
-        if (!$setIds)
+        if (!$setIds) {
             return array();
+        }
 
-        $collection = Mage::getModel('eav/entity_attribute')->getCollection()
+        $collection = Mage::getModel('eav/entity_attribute')
+            ->getCollection()
             ->setItemObjectClass('catalog/resource_eav_attribute');
 
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->getSelect()->distinct(true);
         $collection
-            ->setEntityTypeFilter($entity->getTypeId())
+            ->setEntityTypeFilter($entity->getId())
             ->setAttributeSetFilter($setIds)
             ->setOrder('position', 'ASC');
         $collection = $this->_prepareAttributeCollection($collection);
         $collection->load();
-
-        foreach ($collection as $item) {
-            $this->_prepareAttribute($item);
-            $item->setEntity($entity);
-        }
 
         return $collection;
     }
@@ -265,8 +270,10 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     {
         $state = $this->getData('state');
         if (is_null($state)) {
+            Varien_Profiler::start(__METHOD__);
             $state = Mage::getModel('catalog/layer_state');
             $this->setData('state', $state);
+            Varien_Profiler::stop(__METHOD__);
         }
         return $state;
     }
