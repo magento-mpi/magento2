@@ -143,7 +143,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.is_active = ?', '1')
-            ->order('main_table.path', 'ASC')
+//            ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
 
         if ($parentPath) {
@@ -579,35 +579,59 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
      */
     public function move($categoryId, $prevParentId, $parentId)
     {
+        $_staticFields = array(
+            'parent_id',
+            'path',
+            'level',
+            'position',
+            'children_count',
+            'updated_at'
+        );
         $prevParent = Mage::getModel('catalog/category')->load($prevParentId);
-        foreach ($prevParent->getStoreIds() as $storeId) {
-            $this->_getWriteAdapter()->delete(
-                $this->getMainStoreTable($storeId),
-                $this->_getReadAdapter()->quoteInto('entity_id = ?', $categoryId)
-            );
-        }
-        $categoryPath = $this->_getReadAdapter()->fetchOne("
-            SELECT
-                path
-            FROM
-                {$this->getTable('catalog/category')}
-            WHERE
-                entity_id = '$categoryId'
-        ");
-        $stores = Mage::getModel('catalog/category')->load($parentId)->getStoreIds();
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog/category'), 'entity_id')
-            ->where('path LIKE ?', "$categoryPath/%")
-            ->orWhere('path = ?', $categoryPath);
-        $_categories = $this->_getReadAdapter()->fetchAll($select);
-        foreach ($_categories as $_category) {
-            foreach ($stores as $storeId) {
-                $_tmpCategory = Mage::getModel('catalog/category')
-                    ->setStoreId($storeId)
-                    ->load($_category['entity_id']);
-                $this->_synchronize($_tmpCategory);
+        $parent = Mage::getModel('catalog/category')->load($parentId);
+        if ($prevParent->getStore()->getWebsiteId() != $parent->getStore()->getWebsiteId()) {
+            foreach ($prevParent->getStoreIds() as $storeId) {
+                $this->_getWriteAdapter()->delete(
+                    $this->getMainStoreTable($storeId),
+                    $this->_getReadAdapter()->quoteInto('entity_id = ?', $categoryId)
+                );
+            }
+            $categoryPath = $this->_getReadAdapter()->fetchOne("
+                SELECT
+                    path
+                FROM
+                    {$this->getTable('catalog/category')}
+                WHERE
+                    entity_id = '$categoryId'
+            ");
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getTable('catalog/category'), 'entity_id')
+                ->where('path LIKE ?', "$categoryPath/%")
+                ->orWhere('path = ?', $categoryPath);
+            $_categories = $this->_getReadAdapter()->fetchAll($select);
+            foreach ($_categories as $_category) {
+                foreach ($parent->getStoreIds() as $storeId) {
+                    $_tmpCategory = Mage::getModel('catalog/category')
+                        ->setStoreId($storeId)
+                        ->load($_category['entity_id']);
+                    $this->_synchronize($_tmpCategory);
+                }
+            }
+        } else {
+            foreach ($parent->getStoreIds() as $store) {
+                $update = "UPDATE {$this->getMainStoreTable($store)}, {$this->getTable('catalog/category')} SET";
+                foreach ($_staticFields as $field) {
+                    $update .= " {$this->getMainStoreTable($store)}.".$field."={$this->getTable('catalog/category')}.".$field.",";
+                }
+                $update = substr($update, 0, -1);
+                $update .= " WHERE {$this->getMainStoreTable($store)}.entity_id = {$this->getTable('catalog/category')}.entity_id AND " .
+                    "({$this->getTable('catalog/category')}.path like '{$parent->getPath()}/%' OR " .
+                    "{$this->getTable('catalog/category')}.path like '{$prevParent->getPath()}/%')";
+                $this->_getWriteAdapter()->query($update);
             }
         }
+        $prevParent = null;
+        $parent = null;
         $_tmpCategory = null;
 //        $this->_move($categoryId, $prevParentPath, $parentPath);
         return $this;
