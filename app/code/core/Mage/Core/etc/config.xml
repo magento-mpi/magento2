@@ -242,7 +242,7 @@
                 <custom></custom>
             </url>
             <security>
-                <use_form_key>0</use_form_key>
+                <use_form_key>1</use_form_key>
             </security>
         </admin>
 
