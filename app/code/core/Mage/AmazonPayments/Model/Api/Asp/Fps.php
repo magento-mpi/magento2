@@ -29,7 +29,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Api_Abstract
+class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Api_Asp_Abstract
 {
 	const SERVICE_VERSION = '2008-09-17';
 	
@@ -93,7 +93,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
 	
 	public function process($request)
 	{
-        if (!$request->isValid()) {
+		if (!$request->isValid()) {
 	        throw new Exception(
 	            Mage::helper('amazonpayments')->__('Invalid request'), 
 	            self::EXCEPTION_INVALID_REQUEST
@@ -102,7 +102,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
         
         $request = $this->_addRequiredParameters($request);
         $request = $this->_signRequest($request);
-        
+
         $responseBody = $this->_call($this->_getServiceUrl(), $request->getData());
         return $this->_getResponse($request->getActionCode(), $responseBody);
 	}
@@ -125,7 +125,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
 
     protected function _signRequest($request)
 	{
-        $signature = $this->_getSignatureForArray($request->getData(), $this->_getConfig('secret_key'));
+		$signature = $this->_getSignatureForArray($request->getData(), $this->_getConfig('secret_key'));
         return $request->setData('Signature', $signature);
 	}
     

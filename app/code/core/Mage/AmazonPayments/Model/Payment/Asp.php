@@ -30,12 +30,12 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     protected $_isGateway               = false;
     protected $_canAuthorize            = false;
     protected $_canCapture              = true;
-    protected $_canCapturePartial       = false; // частичная оплата
-    protected $_canRefund               = true; // возможность возвата 
-    protected $_canVoid                 = true; // возможночть канселать
-    protected $_canUseInternal          = false; //можно ли платить самостоятельно из админки без юзера
-    protected $_canUseCheckout          = true; //использование в процессе чекаута
-    protected $_canUseForMultishipping  = false; // множественная оплата
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = true; 
+    protected $_canVoid                 = true;
+    protected $_canUseInternal          = false;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = false;
     protected $_isInitializeNeeded      = true;
     
     protected $_formBlockType = 'amazonpayments/asp_form'; // INTERFASE
@@ -201,6 +201,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     
     public function canCapturePartial() // INTERFASE
     {
+    	return false;
     	if ($this->getOrder()->getState() != Mage_Sales_Model_Order::STATE_PROCESSING) {
             return false;   
         }
@@ -229,28 +230,26 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     
     public function processCreditmemo($creditmemo, $payment)
     {
-        
+    	
     	$transactionId = $creditmemo->getInvoice()->getTransactionId();
     	
     	if (!is_null($transactionId)) {
     		
     		$amount = Mage::app()->getStore()->roundPrice($creditmemo->getBaseGrandTotal());
             $currencyCode = $payment->getOrder()->getBaseCurrency();        
-            $response = $this->getApi()->refund($transactionId, $amount, $currencyCode, '#444005');
+            $response = $this->getApi()->refund($transactionId, $amount, $currencyCode, '#444008' . time());
 
-            
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 /*pr*/if(1){echo('<div style="border:1px solid #000">'.__FILE__.':'.__LINE__.'<pre>');
                 print_r($response);  echo('</pre></div>');}
                 die();
             	throw new Exception(Mage::helper('amazonpayments')->__('response error'), 111);            
             }
-
             
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_SUCCESS ||
                 $response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_PENDING) {
 
-                $payment->setForcedState(Mage_Sales_Model_Order_Creditmemo::STATE_OPEN);
+                //$payment->setForcedState(Mage_Sales_Model_Order_Creditmemo::STATE_OPEN);
                 
                 $creditmemo->setTransactionId($response->getTransactionId());      
                 $creditmemo->addComment(Mage::helper('amazonpayments')->__('Init refund action to Amazon Simple Pay service'));
@@ -262,7 +261,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
                 )->save();
             }
         }
-    	    	
+
     }
     
     public function canRefund()

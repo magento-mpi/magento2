@@ -24,7 +24,28 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_AmazonPayments_Model_Payment_Asp_Abstract extends Mage_Payment_Model_Method_Abstract
+/**
+ * AmazonPayments API wrappers model
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_AmazonPayments_Model_Api_Asp_Abstract extends Mage_AmazonPayments_Model_Api_Abstract
 {
+    protected $paymentCode = 'amazonpayments_asp';
+	protected $_amountModel = 'amazonpayments/api_asp_amount';
+  
+    protected function _getAmount()
+    {
+        return Mage::getSingleton($this->_amountModel);
+    }
     
+    protected function _isSandbox() 
+    {
+        return $this->_getConfig('is_sandbox'); 
+    }
+
+    protected function _getConfig($path) 
+    {
+        return Mage::getStoreConfig('payment/' . $this->paymentCode . '/' . $path);
+    }
 }

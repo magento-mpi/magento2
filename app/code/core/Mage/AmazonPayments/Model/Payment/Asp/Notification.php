@@ -119,7 +119,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
                 
         $order->setState(
             Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 
-            true,
+            'pending_amazon_asp',
             Mage::helper('amazonpayments')->__('Payment was authorized'),
             $notified = false
         );        
@@ -133,7 +133,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         }
         $order->setState(
             Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 
-            true,
+            'pending_amazon_asp',
             Mage::helper('amazonpayments')->__('Payment was initiated'),
             $notified = false
         );        
@@ -142,7 +142,8 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
     protected function _processPaymentSuccessful($request, $order)
     {
     	if ($order->getState() != Mage_Sales_Model_Order::STATE_NEW &&
-            $order->getState() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+            $order->getState() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT &&
+            $order->getState() != Mage_Sales_Model_Order::STATE_PROCESSING) {
             $this->_throwExeptionViolationSequenceStates();
         }
 
@@ -228,6 +229,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
     protected function _processRefundSuccessful($request, $order) 
     {
         
+    	
     } 
     
     protected function _processRefundFailed($request, $order)

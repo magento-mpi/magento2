@@ -29,7 +29,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_Abstract
+class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_Asp_Abstract
 {
     protected $_ipnRequest = 'amazonpayments/api_asp_ipn_request';
     protected $_fpsModel = 'amazonpayments/api_asp_fps';

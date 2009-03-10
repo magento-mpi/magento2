@@ -122,9 +122,9 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
      * @param Varien_Event_Observer $observer
      * @return string
      */
-    private function _getSignatureForArray($array, $secretKey)
+    protected function _getSignatureForArray($array, $secretKey)
     {
-        ksort($array);
+        uksort($array, 'strcasecmp');
         $tmpString = '';
         foreach ($array as $paramName => $paramValue) {
            $tmpString = $tmpString . $paramName . $paramValue;
@@ -139,7 +139,7 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
      * @param Varien_Event_Observer $observer
      * @return string
      */
-    private function _getSignatureForString ($string, $secretKey)
+    protected function _getSignatureForString ($string, $secretKey)
     {
         $rawHmac = hash_hmac(self::$HMAC_SHA1_ALGORITHM, $string, $secretKey, true);
         return base64_encode($rawHmac);
