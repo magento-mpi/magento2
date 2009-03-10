@@ -547,14 +547,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     }
                 }
                 $this->_getSession()->addSuccess($this->__('Product was successfully saved.'));
-		Mage::dispatchEvent('on_product_save', array('product' => $product));
+                Mage::dispatchEvent('on_product_save', array('product' => $product, 'status' => 'success'));
             }
             catch (Mage_Core_Exception $e) {
+                Mage::dispatchEvent('on_product_save', array('product' => $product, 'status' => 'fail'));
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
                 $redirectBack = true;
             }
             catch (Exception $e) {
+                Mage::dispatchEvent('on_product_save', array('product' => $product, 'status' => 'fail'));
 //                $this->_getSession()->addException($e, $this->__('Product saving error.'));
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;

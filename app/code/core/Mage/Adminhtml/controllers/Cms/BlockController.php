@@ -125,7 +125,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
 
-                Mage::dispatchEvent('on_save_cmsblock', array('cmsblock' => $model, 'status' => 'success'));
+                Mage::dispatchEvent('on_save_cmsblock', array('cmsblock' => $model, 'status' => 'success', 'request' => $this->getRequest()));
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('block_id' => $model->getId()));
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
                 return;
 
             } catch (Exception $e) {
-                Mage::dispatchEvent('on_save_cmsblock', array('cmsblock' => $model, 'status' => 'fail'));
+                Mage::dispatchEvent('on_save_cmsblock', array('cmsblock' => $model, 'status' => 'fail', 'request' => $this->getRequest()));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // save data in session
