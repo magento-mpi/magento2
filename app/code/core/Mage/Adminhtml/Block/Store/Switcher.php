@@ -70,8 +70,9 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
             $group = Mage::getModel('core/store_group')->load($group);
         }
         $stores = $group->getStoreCollection();
-        if (!empty($this->_storeIds)) {
-            $stores->addIdFilter($this->getStoreIds());
+        $_storeIds = $this->getStoreIds();
+        if (!empty($_storeIds)) {
+            $stores->addIdFilter($_storeIds);
         }
         return $stores;
     }

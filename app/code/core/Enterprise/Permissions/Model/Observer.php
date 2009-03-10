@@ -201,4 +201,20 @@ class Enterprise_Permissions_Model_Observer
         $model->setObserver($observer);
         $model->$method($observer->getCollection(), Mage::app()->getFrontController()->getAction()->getRequest(), $observer->getFilterValues());
     }
+
+    public function validateFormFields($observer)
+    {
+        if (Mage::helper('enterprise_permissions')->isSuperAdmin()) {
+            return;
+        }
+        $fullActionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
+        $call = (string)Mage::getConfig()->getNode("adminhtml/enterprise/permissions/catalog_form_renderer_element/{$fullActionName}");
+        if (!$call) {
+            return;
+        }
+        list($model, $method) = explode('::', $call);
+        $model = Mage::getModel($model);
+        $model->setObserver($observer);
+        $model->$method($observer->getForm(), Mage::app()->getFrontController()->getAction()->getRequest(), $observer->getLayout());
+    }
 }
