@@ -27,7 +27,7 @@
 <div class="footer-panel">
     <form action="<?php echo $this->getUrl('newsletter/subscriber/new') ?>" method="post" id="newsletter-validate-detail">
         <div class="form-subscribe">
-            <label for="newsletter"><?php echo $this->__('Sign up for our weekly newsletter:') ?></label>&nbsp;&nbsp;<input name="email" type="text" id="newsletter" value="Enter your email address" onclick="this.value=='Enter your email address'?this.value='':''" onblur="this.value==''?this.value='Enter your email address':''" class="input-text required-entry validate-email" />&nbsp;<button type="submit" class="button btn-small"><span><?php echo $this->__('Subscribe') ?></span></button>&nbsp;<small><?php echo $this->__('Don\'t worry - Your email is strictly for our store use only!'); ?></small>
+            <label for="newsletter"><?php echo $this->__('Sign up for our weekly newsletter:') ?></label>&nbsp;&nbsp;<input name="email" type="text" id="newsletter" value="Enter your email address" onclick="this.value=='Enter your email address'?this.value='':''" onblur="this.value==''?this.value='Enter your email address':''" class="input-text required-entry validate-email" />&nbsp;<button type="submit" class="button btn-small" title="<?php echo $this->__('Subscribe') ?>"><span><?php echo $this->__('Subscribe') ?></span></button>&nbsp;<small><?php echo $this->__('Don\'t worry - Your email is strictly for our store use only!'); ?></small>
         </div>
     </form>
     <script type="text/javascript">

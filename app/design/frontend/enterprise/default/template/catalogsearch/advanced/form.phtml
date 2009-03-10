@@ -36,13 +36,14 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSearchPostUrl() ?>" method="get" id="form-validate">
-<fieldset>
+<fieldset class="fieldset">
     <h3><?php echo $this->__('Search Settings') ?></h3>
-    <ul class="form-list group-select" id="advanced-search-list">
+    <ul class="form-list" id="advanced-search-list">
         <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
         <?php $_code = $_attribute->getAttributeCode() ?>
         <li>
-            <label for="<?php echo $_code ?>"><?php echo $this->getAttributeLabel($_attribute) ?></label><br />
+            <label for="<?php echo $_code ?>"><?php echo $this->getAttributeLabel($_attribute) ?></label>
+            <div class="input-box">
             <?php switch($this->getAttributeInputType($_attribute)):
                 case 'number': ?>
                 <div class="range">
@@ -74,14 +75,20 @@
                 default: ?>
                 <input type="text" name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" />
             <?php endswitch; ?>
+            </div>
         </li>
         <?php endforeach; ?>
+        <li>
+            <p class="required">* <?php echo $this->__('Required Fields') ?></p>
+        </li>
+        <li>
+            <span class="label">&nbsp;</span>
+            <div class="input-box">
+                <button type="submit" class="button" title="<?php echo $this->__('Search') ?>"><span><?php echo $this->__('Search') ?></span></button>
+            </div>
+        </li>
     </ul>
-    <script type="text/javascript">decorateList('advanced-search-list')</script>
-    <p class="required">* <?php echo $this->__('Required Fields') ?></p>
-    <div class="buttons-set">
-        <button type="submit" class="button"><span><?php echo $this->__('Search') ?></span></button>
-    </div>
+    <?php /*<script type="text/javascript">decorateList('advanced-search-list')</script>*/ ?>
 </fieldset>
 </form>
 <script type="text/javascript">

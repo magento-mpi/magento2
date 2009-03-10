@@ -42,12 +42,12 @@
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->isContentMode()): ?>
-    <div class="category-title">
+    <?php /*<div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
-    </div>
+    </div>*/ ?>
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>
     <?php endif; ?>
@@ -56,12 +56,12 @@
     <?php endif; ?>
     <?php echo $this->getCmsBlockHtml() ?>
 <?php elseif($this->isMixedMode()): ?>
-    <div class="category-title">
+    <?php /*<div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
-    </div>
+    </div>*/ ?>
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>
     <?php endif; ?>
@@ -77,12 +77,12 @@
     <?php echo $this->getProductListHtml() ?>
 
 <?php else: ?>
-    <div class="category-title">
+    <?php /*<div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
     <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
-    </div>
+    </div>*/ ?>
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>
     <?php endif; ?>

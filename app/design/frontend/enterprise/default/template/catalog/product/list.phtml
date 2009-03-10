@@ -48,28 +48,30 @@
 
         <?php // Product description ?>
         <div class="product-shop">
-            <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->htmlEscape($_product->getName())?></a></h3>
-            <?php if($_product->getRatingSummary()): ?>
-            <?php echo $this->getReviewsSummaryHtml($_product) ?>
-            <?php endif; ?>
-            <?php echo $this->getPriceHtml($_product, true) ?>
-            <?php if($_product->isSaleable()): ?>
-                <button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
-            <?php else: ?>
-                <p class="availability"><span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
-            <?php endif; ?>
-            <div class="desc std">
-                <?php echo nl2br($_product->getShortDescription()) ?>
-                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->__('Learn More') ?></a>
+            <div class="f-fix">
+                <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->htmlEscape($_product->getName())?></a></h3>
+                <?php if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product) ?>
+                <?php endif; ?>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <div class="desc std">
+                    <?php echo nl2br($_product->getShortDescription()) ?>
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                </div>
+                <?php if($_product->isSaleable()): ?>
+                    <button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                    <ul class="add-to-links">
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        <?php endif; ?>
+                        <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                            <li><a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
+                        <?php endif; ?>
+                    </ul>
+                <?php else: ?>
+                    <p class="availability"><span class="out-of-stock"><?php echo $this->__('This item is sold out.') ?></span></p>
+                <?php endif; ?>
             </div>
-            <ul class="add-to-links">
-                <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                    <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
-                <?php endif; ?>
-                <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
-                    <li><a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
-                <?php endif; ?>
-            </ul>
         </div>
     </li>
 <?php endforeach; ?>

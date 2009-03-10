@@ -25,14 +25,14 @@
  */
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
-<div class="block block-recent">
+<div class="block block-list">
     <div class="block-title">
         <h2><?php echo $this->__('Recently Viewed Products') ?></h2>
     </div>
     <div class="block-content">
         <ol id="recently-viewed-items">
         <?php foreach ($_products as $_item): ?>
-            <li><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>
+            <li class="item"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>
         <?php endforeach; ?>
         </ol>
         <script type="text/javascript">decorateList('recently-viewed-items');</script>

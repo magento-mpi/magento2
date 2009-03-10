@@ -27,7 +27,7 @@
 <form id="search_mini_form" action="<?php echo $this->helper('catalogSearch')->getResultUrl() ?>" method="get">
 <fieldset class="form-search">
     <legend><?php echo $this->__('Search Site') ?></legend>
-    <label for="search"><?php echo $this->__('Search site:') ?></label>&nbsp;&nbsp;<input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogSearch')->getEscapedQueryText() ?>" />&nbsp;<button type="submit" class="button btn-small"><span><?php echo $this->__('Go') ?></span></button>&nbsp;<a href="<?php echo Mage::helper('catalogsearch')->getAdvancedSearchUrl(); ?>"><?php echo $this->__('Advanced Search'); ?></a>
+    <label for="search"><?php echo $this->__('Search site:') ?></label>&nbsp;&nbsp;<input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogSearch')->getEscapedQueryText() ?>" />&nbsp;<button type="submit" class="button btn-small" title="<?php echo $this->__('Go') ?>"><span><?php echo $this->__('Go') ?></span></button>&nbsp;<a href="<?php echo Mage::helper('catalogsearch')->getAdvancedSearchUrl(); ?>"><?php echo $this->__('Advanced Search'); ?></a>
     <div id="search_autocomplete" class="search-autocomplete"></div>
     <script type="text/javascript">
     //<![CDATA[

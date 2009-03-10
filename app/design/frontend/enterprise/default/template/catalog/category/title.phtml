@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -19,26 +18,26 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
+ * @category   design_blank
  * @package    Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
--->
-<layout version="0.1.0">
-    <default>
-        <reference name="footer_links">
-            <action method="addLink" translate="label title" module="contacts" ifconfig="contacts/contacts/enabled"><label>Contact Us</label><url>contacts</url><title>Contact Us</title><prepare>true</prepare></action>
-        </reference>
-    </default>
-
-    <contacts_index_index>
-        <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-            <action method="setHeaderTitle" translate="title" module="contacts"><title>Contact Us</title></action>
-        </reference>
-        <reference name="content">
-            <block type="core/template" name="contactForm" template="contacts/form.phtml"/>
-        </reference>
-    </contacts_index_index>
-</layout>
+?>
+<?php
+/**
+ * Category title template
+ *
+ * @see Mage_Catalog_Block_Category_View
+ */
+?>
+<?php
+    $_helper    = $this->helper('catalog/output');
+    $_category  = $this->getCurrentCategory();
+?>
+<div class="category-title">
+<?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
+    <a href="<?php echo $this->getRssLink() ?>" class="rss-feed"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
+<?php endif; ?>
+    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
+</div>
