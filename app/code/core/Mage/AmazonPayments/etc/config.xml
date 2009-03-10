@@ -84,7 +84,7 @@
         </blocks>
         <sales>
             <order>
-       
+
                 <!-- statuses>
                     <pending_paypal translate="label"><label>Pending PayPal</label></pending_paypal>
                 </statuses>
@@ -195,7 +195,7 @@ Something like this is to be added to resolve bug #4890
                 <model>amazonpayments/payment_asp</model>
                 <title>Amazon Simple Pay</title>
                 <active>0</active>
-                    
+
                     <!-- types>IPN</types>
                     <allowspecific>0</allowspecific>
                     <order_status>pending_payment</order_status>
@@ -210,18 +210,18 @@ Something like this is to be added to resolve bug #4890
                 <secret_key>DkY4MYLYX2359/7Wo8ILdN1GHc2lK77goDQGS64R</secret_key>
 
                 <pay_button_image_url>https://authorize.payments-sandbox.amazon.com/pba/images/SMPayNowWithAmazon.png</pay_button_image_url>
-                
+
                 <pay_service_url>https://authorize.payments.amazon.com/pba/paypipeline</pay_service_url>
                 <pay_service_url_sandbox>https://authorize.payments-sandbox.amazon.com/pba/paypipeline</pay_service_url_sandbox>
-                
-                <pay_description>MAGENTO ASP PAYMANT</pay_description>
+
+                <pay_description>MAGENTO ASP PAYMENT</pay_description>
                 <refund_description>MAGENTO ASP REFUND</refund_description>
-                
+
                 <pay_immediate_return>1</pay_immediate_return>
                 <pay_collect_shipping_address>0</pay_collect_shipping_address>
-                
+
                 <pay_process_immediate>0</pay_process_immediate>
-                
+
                 <fps_service_url>https://fps.amazonaws.com</fps_service_url>
                 <fps_service_url_sandbox>https://fps.sandbox.amazonaws.com/</fps_service_url_sandbox>
 

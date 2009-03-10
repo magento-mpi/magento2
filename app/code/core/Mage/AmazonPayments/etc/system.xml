@@ -40,7 +40,6 @@
                 <amazonpayments_cba translate="label">
                     <label>Checkout by Amazon</label>
                     <frontend_type>text</frontend_type>
-                    <comment><![CDATA[<a href="http://www.magentocommerce.com/redirect/amazon-checkout/">Signup for Checkout by Amazon</a>]]></comment>
                     <sort_order>601</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -163,7 +162,6 @@
                 <amazonpayments_asp translate="label">
                     <label>Amazon Simple Pay</label>
                     <frontend_type>text</frontend_type>
-                    <comment><![CDATA[<a href="http://www.magentocommerce.com/redirect/amazon-checkout/">Signup for Amazon Simple Pay</a>]]></comment>
                     <sort_order>601</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -221,7 +219,7 @@
                             <show_in_store>0</show_in_store>
                         </pay_button_image_url>
                         <pay_service_url translate="label">
-                            <label>Pay service URI</label>
+                            <label>Payment service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
@@ -229,7 +227,7 @@
                             <show_in_store>0</show_in_store>
                         </pay_service_url>
                         <pay_service_url_sandbox translate="label">
-                            <label>Pay sandbox service URI</label>
+                            <label>Payment sandbox service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>16</sort_order>
                             <show_in_default>1</show_in_default>
@@ -237,7 +235,7 @@
                             <show_in_store>0</show_in_store>
                         </pay_service_url_sandbox>
                         <pay_description translate="label">
-                            <label>Pay description</label>
+                            <label>Payment description</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>17</sort_order>
                             <show_in_default>1</show_in_default>
