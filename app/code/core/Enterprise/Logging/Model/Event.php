@@ -31,7 +31,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function __construct()
     {
-        $this->_init('logging/event');
+        $this->_init('enterprise_logging/event');
     }
 
 
@@ -44,7 +44,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
          * Note that /default/logging/enabled/products - is an indicator if the products should be logged
          * but /enterprise/logging/event/products - is a node where event info stored.
          */
-        $node = Mage::getConfig()->getNode('default/logging/enabled/'.$code);
+        $node = Mage::getConfig()->getNode('default/logging/enabled/' . $code);
         return ( (string)$node == '1' ? true : false);
     }
 
@@ -63,24 +63,16 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         $code = $this->getEventCode();
         $action = $this->getAction();
         $success = $this->getSuccess() ? 'success' : 'fail';
-        $node = Mage::getConfig()->getNode('enterprise/logging/events/'.$code.'/actions/'.$action.'/'.$success);
+        $node = Mage::getConfig()->getNode('adminhtml/enterprise/logging/events/' . $code . '/actions/' . $action . '/' . $success);
         $string = (string)$node;
         if(is_array($info)) {
             $args = array_unshift($info, $string);
             try {
                 $string = call_user_func_array('sprintf', $info);
             } catch(Exception $e) {
-                Mage::throwException("Wrong parameters passed to event info. ".$string.";");
+                Mage::throwException("Wrong parameters passed to event info. " . $string . ";");
             }
         }
         $this->setData('info', $string);
-    }
-
-    /**
-     * Simple filter for ip
-     */
-    public function setIp($ip) 
-    {
-        $this->setData('ip', ip2long($ip));
     }
 }

@@ -12,8 +12,8 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Import
+ * @category   Enterprise
+ * @package    Enterprise_Logging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
@@ -37,7 +37,7 @@ class Enterprise_Logging_Block_Events_Grid_Renderer_Eventlabel extends Mage_Admi
     public function render(Varien_Object $row)
     {
         $code = $row->getData($this->getColumn()->getIndex());
-        $node = Mage::getConfig()->getNode('enterprise/logging/events');
+        $node = Mage::getConfig()->getNode('adminhtml/enterprise/logging/events');
         $label = $code;
         foreach($node->children() as $child) {
             if($code == $child->getName()) {

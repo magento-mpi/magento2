@@ -28,36 +28,36 @@
 <config>
     <modules>
         <Enterprise_Logging>
-             <version>0.0.1</version>
+             <version>0.0.2</version>
         </Enterprise_Logging>
     </modules>
     <global>
         <models>
-          <logging_mysql4>
+          <enterprise_logging_mysql4>
             <class>Enterprise_Logging_Model_Mysql4</class>
             <entities>
-              <user_log>
-                <table>enterprise_user_log</table>
-              </user_log>
+              <event>
+                <table>enterprise_logging_event</table>
+              </event>
             </entities>
-          </logging_mysql4>
-          <logging>
+          </enterprise_logging_mysql4>
+          <enterprise_logging>
                 <class>Enterprise_Logging_Model</class>
-                <resourceModel>logging_mysql4</resourceModel>
-          </logging>
+                <resourceModel>enterprise_logging_mysql4</resourceModel>
+          </enterprise_logging>
         </models>
         <blocks>
-          <logging>
+          <enterprise_logging>
             <class>Enterprise_Logging_Block</class>
-          </logging>
+          </enterprise_logging>
         </blocks>
         <helpers>
-          <logging>
+          <enterprise_logging>
             <class>Enterprise_Logging_Helper</class>
-          </logging>
+          </enterprise_logging>
         </helpers>
         <resources>
-            <logging_setup>
+            <enterprise_logging_setup>
                 <setup>
                     <module>Enterprise_Logging</module>
                     <class>Mage_Eav_Model_Entity_Setup</class>
@@ -65,17 +65,17 @@
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </logging_setup>
-            <logging_write>
+            </enterprise_logging_setup>
+            <enterprise_logging_write>
               <connection>
                 <use>core_write</use>
               </connection>
-            </logging_write>
-            <logging_read>
+            </enterprise_logging_write>
+            <enterprise_logging_read>
               <connection>
                 <use>core_read</use>
               </connection>
-            </logging_read>
+            </enterprise_logging_read>
         </resources>
     </global>
     <adminhtml>
@@ -84,7 +84,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCategorySave</method>
                     </enterprise_logging>
                 </observers>
@@ -94,7 +94,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCategoryView</method>
                     </enterprise_logging>
                 </observers>
@@ -104,7 +104,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCategoryDelete</method>
                     </enterprise_logging>
                 </observers>
@@ -114,7 +114,7 @@
           <observers>
             <enterprise_logging>
               <type>singleton</type>
-              <class>logging/observer</class>
+              <class>enterprise_logging/observer</class>
               <method>addEventOnCategoryMove</method>
             </enterprise_logging>
           </observers>
@@ -124,7 +124,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCmspageView</method>
                     </enterprise_logging>
                 </observers>
@@ -134,7 +134,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCmspageSave</method>
                     </enterprise_logging>
                 </observers>
@@ -144,7 +144,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCmspageDelete</method>
                     </enterprise_logging>
                 </observers>
@@ -154,7 +154,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCmsblockView</method>
                     </enterprise_logging>
                 </observers>
@@ -164,7 +164,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCmsblockSave</method>
                     </enterprise_logging>
                 </observers>
@@ -174,7 +174,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCmsblockDelete</method>
                     </enterprise_logging>
                 </observers>
@@ -184,7 +184,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCustomerView</method>
                     </enterprise_logging>
                 </observers>
@@ -194,7 +194,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCustomerSave</method>
                     </enterprise_logging>
                 </observers>
@@ -204,7 +204,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnCustomerDelete</method>
                     </enterprise_logging>
                 </observers>
@@ -214,7 +214,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnReportView</method>
                     </enterprise_logging>
                 </observers>
@@ -224,7 +224,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnSystemConfigView</method>
                     </enterprise_logging>
                 </observers>
@@ -234,7 +234,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnSystemConfigSave</method>
                     </enterprise_logging>
                 </observers>
@@ -246,27 +246,27 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventAfterProductView</method>
                     </enterprise_logging>
                 </observers>
             </on_product_view_after>
             
-            <on_admin_login_after>
+            <admin_user_on_login>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventAfterLogin</method>
                     </enterprise_logging>
                 </observers>
-            </on_admin_login_after>
+            </admin_user_on_login>
 
             <on_forgotpassword>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnForgotpassword</method>
                     </enterprise_logging>
                 </observers>
@@ -277,7 +277,7 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnProductSave</method>
                     </enterprise_logging>
                 </observers>
@@ -287,28 +287,23 @@
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
-                        <class>logging/observer</class>
+                        <class>enterprise_logging/observer</class>
                         <method>addEventOnProductDelete</method>
                     </enterprise_logging>
                 </observers>
             </on_product_delete>
         </events>
         <menu>
-          <system>
+          <report>
             <children>
-              <enterprise translate="title">
+              <logging translate="title">
                  <title>Admin Logging</title>
-                 <sort_order>21</sort_order>
-                 <children>
-                   <logs translate="title">
-                     <title>Events</title>
-                     <sort_order>10</sort_order>
-                     <action>logging/events</action>
-                   </logs>
-                 </children>
-              </enterprise>
+                 <sort_order>71</sort_order>
+                 <action>adminhtml/events</action>
+                 <depends><module>Enterprise_Logging</module></depends>
+              </logging>
             </children>
-          </system>
+          </report>
         </menu>
         <acl>
           <resources>
@@ -337,197 +332,193 @@
                 </events>
             </updates>
         </layout>
+        <enterprise>
+          <logging>
+            <events>
+              <products module="enterprise_logging" translate="Label">
+                <label>Products</label>
+                <code>10</code>
+                <actions>
+                  <view>
+                    <success>Product (sku=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Product (sku=%s) deleted successfully</success>
+                    <fail>Product (sku=%s) was failed to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Product (sku=%s) saved successfully</success>
+                    <fail>Product (sku=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </products>
+
+              <categories module="enterprise_logging" translate="Label">
+                <label>Categories</label>
+                <code>20</code>
+                <actions>
+                  <view>
+                    <success>"Category (%s) viewed successfully"</success>
+                  </view>
+                  <delete>
+                    <success>"Category (%s) deleted successfully"</success>
+                    <fail>"Category (%s) was failed to delete"</fail>
+                  </delete>
+                  <save>
+                    <success>"Category (%s) saved successfully"</success>
+                    <fail>"Category (%s) was failed to save"</fail>
+                  </save>
+                  <move>
+                    <success>"Category (%s) moved successfully from %s to %s"</success>
+                    <fail>"Category (%s) was failed to move from %s to %s"</fail>
+                  </move>
+                </actions>
+              </categories>
+
+              <customers module="enterprise_logging" translate="Label">
+                <label>Customers</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>Customer (id=%s, name=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Customer (id=%s, name=%s) deleted successfully</success>
+                    <fail>Customer (id=%s, name=%s) was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Customer (id=%s, name=%s) saved successfully</success>
+                    <fail>Customer (id=%s, name=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </customers>
+
+              <cmspages module="enterprise_logging" translate="Label">
+                <label>Cms Pages</label>
+                <code>40</code>
+                <actions>
+                  <view>
+                    <success>Cms page %s viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Cms page %s deleted successfully</success>
+                    <fail>Cms page %s was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Cms page %s saved successfully</success>
+                    <fail>Cms page %s was failed to save</fail>
+                  </save>
+                </actions>
+              </cmspages>
+
+              <cmsblocks module="enterprise_logging" translate="Label">
+                <label>Cms Blocks</label>
+                <code>50</code>
+                <actions>
+                  <view>
+                    <success>Cms block %s viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Cms block %s deleted successfully</success>
+                    <fail>Cms block %s was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Cms block %s saved successfully</success>
+                    <fail>Cms block %s was failed to save</fail>
+                  </save>
+                </actions>
+              </cmsblocks>
+
+              <adminlogin module="enterprise_logging" translate="Label">
+                <label>Admin Login</label>
+                <code>60</code>
+                <actions>
+	              <login>
+		            <success>User %s successfully logged in</success>
+	              </login>
+                  <forgotpassword>
+                    <success>Password remind asked for email: %s</success>
+                  </forgotpassword>
+                </actions>
+              </adminlogin>
+
+              <systemconfiguration module="enterprise_logging" translate="Label">
+                <label>System Configuration</label>
+                <code>70</code>
+                <actions>
+                  <view>
+                    <success>Section %s of system configuration, was viewed</success>
+                  </view>
+                  <save>
+                    <success>Section %s of system configuration, was successfully updated</success>
+                    <fail>Section %s of system configuration, was failed to update</fail>
+                  </save>
+                </actions>
+              </systemconfiguration>
+
+              <reports module="enterprise_logging" translate="Label">
+                <label>Reports</label>
+                <code>80</code>
+                <actions>
+                  <view>
+                    <success>Report %s viewed</success>
+                  </view>
+                </actions>
+              </reports>
+
+            </events>
+            <frequency>
+              <daily>
+                <label>Daily</label>
+                <value>1</value>
+              </daily>
+              <weekly>
+                <label>Weekly</label>
+                <value>7</value>
+              </weekly>
+              <monthly>
+                <label>Monthly</label>
+                <value>30</value>
+              </monthly>
+            </frequency>
+            <lifetime>
+              <oneday>
+                <label>One Day</label>
+                <value>1</value>
+              </oneday>
+              <week>
+                <label>One Week</label>
+                <value>7</value>
+              </week>
+              <month>
+                <label>30 days</label>
+                <value>30</value>
+              </month>
+              <twomonth>
+                <label>60 days</label>
+                <value>60</value>
+              </twomonth>
+              <quartal>
+                <label>90 days</label>
+                <value>90</value>
+              </quartal>
+            </lifetime>
+          </logging>
+        </enterprise>
+
     </adminhtml>
-
-    <enterprise>
-      <logging>
-        <events>
-          <products module="Logging" translate="Label">
-            <label>Products</label>
-            <code>10</code>
-            <actions>
-              <view>
-                <success>Product (sku=%s) viewed successfully</success>
-              </view>
-              <delete>
-                <success>Product (sku=%s) deleted successfully</success>
-                <fail>Product (sku=%s) was failed to delete</fail>
-              </delete>
-              <save>
-                <success>Product (sku=%s) saved successfully</success>
-                <fail>Product (sku=%s) was failed to save</fail>
-              </save>
-            </actions>
-          </products>
-
-          <categories module="Logging" translate="Label">
-            <label>Categories</label>
-            <code>20</code>
-            <actions>
-              <view>
-                <success>"Category (%s) viewed successfully"</success>
-              </view>
-              <delete>
-                <success>"Category (%s) deleted successfully"</success>
-                <fail>"Category (%s) was failed to delete"</fail>
-              </delete>
-              <save>
-                <success>"Category (%s) saved successfully"</success>
-                <fail>"Category (%s) was failed to save"</fail>
-              </save>
-              <move>
-                <success>"Category (%s) moved successfully from %s to %s"</success>
-                <fail>"Category (%s) was failed to move from %s to %s"</fail>
-              </move>
-            </actions>
-          </categories>
-
-          <customers module="Logging" translate="Label">
-            <label>Customers</label>
-            <code>30</code>
-            <actions>
-              <view>
-                <success>Customer (id=%s, name=%s) viewed successfully</success>
-              </view>
-              <delete>
-                <success>Customer (id=%s, name=%s) deleted successfully</success>
-                <fail>Customer (id=%s, name=%s) was fail to delete</fail>
-              </delete>
-              <save>
-                <success>Customer (id=%s, name=%s) saved successfully</success>
-                <fail>Customer (id=%s, name=%s) was failed to save</fail>
-              </save>
-            </actions>
-          </customers>
-
-          <cmspages module="Logging" translate="Label">
-            <label>Cms Pages</label>
-            <code>40</code>
-            <actions>
-              <view>
-                <success>Cms page %s viewed successfully</success>
-              </view>
-              <delete>
-                <success>Cms page %s deleted successfully</success>
-                <fail>Cms page %s was fail to delete</fail>
-              </delete>
-              <save>
-                <success>Cms page %s saved successfully</success>
-                <fail>Cms page %s was failed to save</fail>
-              </save>
-            </actions>
-          </cmspages>
-
-          <cmsblocks module="Logging" translate="Label">
-            <label>Cms Blocks</label>
-            <code>50</code>
-            <actions>
-              <view>
-                <success>Cms block %s viewed successfully</success>
-              </view>
-              <delete>
-                <success>Cms block %s deleted successfully</success>
-                <fail>Cms block %s was fail to delete</fail>
-              </delete>
-              <save>
-                <success>Cms block %s saved successfully</success>
-                <fail>Cms block %s was failed to save</fail>
-              </save>
-            </actions>
-          </cmsblocks>
-
-          <adminlogin module="Logging" translate="Label">
-            <label>Admin Login</label>
-            <code>60</code>
-            <actions>
-	          <login>
-		        <success>User %s successfully logged in</success>
-	          </login>
-              <forgotpassword>
-                <success>Password remind asked for email: %s</success>
-              </forgotpassword>
-            </actions>
-          </adminlogin>
-
-          <systemconfiguration module="Logging" translate="Label">
-            <label>System Configuration</label>
-            <code>70</code>
-            <actions>
-              <view>
-                <success>Section %s of system configuration, was viewed</success>
-              </view>
-              <save>
-                <success>Section %s of system configuration, was successfully updated</success>
-                <fail>Section %s of system configuration, was failed to update</fail>
-              </save>
-            </actions>
-          </systemconfiguration>
-
-          <reports module="Logging" translate="Label">
-            <label>Reports</label>
-            <code>80</code>
-            <actions>
-              <view>
-                <success>Report %s viewed</success>
-              </view>
-            </actions>
-          </reports>
-
-        </events>
-        <frequency>
-          <daily>
-            <label>Daily</label>
-            <value>daily</value>
-          </daily>
-          <weekly>
-            <label>Weekly</label>
-            <value>weekly</value>
-          </weekly>
-          <monthly>
-            <label>Monthly</label>
-            <value>monthly</value>
-          </monthly>
-        </frequency>
-      </logging>
-    </enterprise>
 
     <admin>
         <routers>
-          <!--adminhtml>
-            <args>
-              <frontName>admin</frontName>
-              <modules>
-                <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
-              </modules>
-            </args>
-          </adminhtml-->
-            <logging>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                  <modules>
-                    <logging>Enterprise_Logging</logging>
-                  </modules>
-                  <frontName>logging</frontName>
+                    <frontName>admin</frontName>
+                    <modules>
+                        <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
+                    </modules>
                 </args>
-            </logging>
+            </adminhtml>
         </routers>
-        <menu>
-          <system>
-            <children>
-              <logging translate="title">
-                 <title>Admin Logging</title>
-                 <sort_order>21</sort_order>
-                 <children>
-                   <logs translate="title">
-                     <title>Events</title>
-                     <sort_order>10</sort_order>
-                     <action>logging/events</action>
-                   </logs>
-                 </children>
-              </logging>
-            </children>
-          </system>
-        </menu>
         <acl>
           <resources>
             <admin>
@@ -551,16 +542,17 @@
         </enabled>
         <rotation>
           <frequency>monthly</frequency>
+          <lifetime>60</lifetime>
         </rotation>
       </logging>
     </default>
 
     <crontab>
         <jobs>
-            <logging_rotate_logs>
-                <schedule><cron_expr>0 2 * * *</cron_expr></schedule>
-                <run><model>logging/observer::rotateLogs</model></run>
-            </logging_rotate_logs>
+            <enterprise_logging_rotate_logs>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <run><model>enterprise_logging/observer::rotateLogs</model></run>
+            </enterprise_logging_rotate_logs>
         </jobs>
     </crontab>
 

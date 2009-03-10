@@ -31,11 +31,42 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     */
     protected function _construct() 
     {
-        $this->_init('logging/user_log', 'log_id');
+        $this->_init('enterprise_logging/event', 'event_id');
     }
 
-    public function getConnection() 
+    /**
+     * Before save ip convertor
+     */
+    protected function _beforeSave(Mage_Core_Model_Abstract $event)
     {
-        return $this->_getWriteAdapter();
+        $event->setData('ip', ip2long($event->getIp()));
+        $event->setTime($this->formatDate($event->getTime()));
+    }
+
+    /**
+     * Rotate function
+     */
+    public function rotate($interval)
+    {
+        $path = Mage::getModel('enterprise_logging/logs')->getBasePath();
+        $dir = $path . DS . date("Y_m");
+        $outfile = sprintf("%s%s%s.csv",  $dir, DS, date("Y_m_d"));
+
+        $file = new Varien_Io_File();
+        $file->setAllowCreateFolders(true);
+        $file->createDestinationDir($dir);
+
+        $lifetime = (string)Mage::getConfig()->getNode('default/logging/rotation/lifetime');
+        $lifetime = (int)$lifetime;
+        $table = $this->getTable('enterprise_logging/event');
+        /** 
+         * Be sure, that $outfile is reacheable for mysql user, and 
+         * security tools like SeLinux, or apparmor are disabled or allows 
+         * mysql to create $outfile
+         */
+        $query = sprintf("SELECT * INTO OUTFILE '%s' FROM %s WHERE time + INTERVAL %s DAY < NOW()", $outfile, $table, $lifetime);
+        $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < NOW()", $table, $lifetime);
+        $this->_getConnection('write')->query($query);
+        $this->_getConnection('write')->query($del_query);
     }
 }

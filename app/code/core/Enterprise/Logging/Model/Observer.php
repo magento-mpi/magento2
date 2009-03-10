@@ -52,7 +52,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventAfterProductView($observer)
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('products'))
             return true;
         $product = $observer->getProduct();
@@ -68,7 +68,7 @@ class Enterprise_Logging_Model_Observer
         $event->setAction('view');
         $event->setSuccess(true);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -80,7 +80,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnProductSave($observer)
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('products'))
             return true;
 
@@ -89,15 +89,16 @@ class Enterprise_Logging_Model_Observer
         
         $ip = $_SERVER['REMOTE_ADDR'];
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $status = $observer->getStatus() == 'success' ? 1 : 0;
 
         $info = array($product->getSku());
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setAction('save');
-        $event->setSuccess(true);
+        $event->setSuccess($status);
         $event->setEventCode('products');
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -109,7 +110,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnProductDelete($observer)
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('products'))
             return true;
 
@@ -126,7 +127,7 @@ class Enterprise_Logging_Model_Observer
         $event->setEventCode('products');
         $event->setSuccess(true);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -138,7 +139,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventAfterLogin($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('adminlogin'))
             return true;
 
@@ -150,14 +151,14 @@ class Enterprise_Logging_Model_Observer
         $success = ($id > 0);
         $info = array($username);
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($id);
         $event->setEventCode('adminlogin');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -169,7 +170,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnForgotpassword($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('adminlogin'))
             return true;
 
@@ -179,14 +180,14 @@ class Enterprise_Logging_Model_Observer
         $success = 1;
         $info = array($email);
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId(0);
         $event->setEventCode('adminlogin');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -199,7 +200,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCategorySave($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('categories'))
             return true;
         $action = 'save';
@@ -210,14 +211,14 @@ class Enterprise_Logging_Model_Observer
         $category = $observer->getCategory();
         $info = array($category->getName());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('categories');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -229,7 +230,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCategoryView($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('categories'))
             return true;
         $action = 'view';
@@ -242,14 +243,14 @@ class Enterprise_Logging_Model_Observer
             return;
         $info = array($category->getName());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('categories');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -261,7 +262,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCategoryMove($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('categories'))
             return true;
         $action = 'move';
@@ -269,22 +270,22 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
-        $cat_id = $observer->getCategoryId();
-        $prev_parent = $observer->getPrevParentId();
-        $new_parent = $observer->getParentId();
-        $cat = Mage::getModel('catalog/category')->load($cat_id);
-        $prev = Mage::getModel('catalog/category')->load($prev_parent);
-        $new = Mage::getModel('catalog/category')->load($new_parent);
+        $catId = $observer->getCategoryId();
+        $prevParent = $observer->getPrevParentId();
+        $newParent = $observer->getParentId();
+        $cat = Mage::getModel('catalog/category')->load($catId);
+        $prev = Mage::getModel('catalog/category')->load($prevParent);
+        $new = Mage::getModel('catalog/category')->load($newParent);
         $info = array($cat->getName(), $prev->getName(), $new->getName());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('categories');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time()); //time());
         $event->save();
     }
 
@@ -297,7 +298,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCategoryDelete($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('categories'))
             return true;
         $action = 'delete';
@@ -308,14 +309,14 @@ class Enterprise_Logging_Model_Observer
         $cat = $observer->getCategory();
         $info = array($cat->getName());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('categories');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -328,9 +329,16 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCmspageView($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('cmspages'))
             return true;
+
+        /** Skip on 'save and continue edit' case */
+        if(Mage::getSingleton('admin/session')->getSkipCmsPageView()) {
+            Mage::getSingleton('admin/session')->setSkipCmsPageView(0);
+            return true;
+        }
+
         $action = 'view';
         
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
@@ -339,14 +347,14 @@ class Enterprise_Logging_Model_Observer
         $page = $observer->getCmspage();
         $info = array($page->getTitle());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('cmspages');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -358,7 +366,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCmspageSave($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('cmspages'))
             return true;
         $action = 'save';
@@ -366,17 +374,24 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = $observer->getStatus() == 'success' ? 1 : 0;
+        if($success) {
+            $skipView = $observer->getRequest()->getParam('back');
+            if($skipView) {
+                Mage::getSingleton('admin/session')->setSkipCmsPageView(1);
+            }
+        }
+
         $page = $observer->getCmspage();
         $info = array($page->getTitle());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('cmspages');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -388,7 +403,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCmspageDelete($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('cmspages'))
             return true;
         $action = 'delete';
@@ -399,14 +414,14 @@ class Enterprise_Logging_Model_Observer
         $page = $observer->getCmspage();
         $info = array($page->getTitle());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('cmspages');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -418,9 +433,16 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCmsblockView($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('cmsblocks'))
             return true;
+        
+        /** Skip on 'save and continue edit' case */
+        if(Mage::getSingleton('admin/session')->getSkipCmsBlockView()) {
+            Mage::getSingleton('admin/session')->setSkipCmsBlockView(0);
+            return true;
+        }
+
         $action = 'view';
         
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
@@ -429,14 +451,14 @@ class Enterprise_Logging_Model_Observer
         $page = $observer->getCmsblock();
         $info = array($page->getTitle());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('cmsblocks');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -448,7 +470,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCmsblockSave($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('cmsblocks'))
             return true;
         $action = 'save';
@@ -456,17 +478,24 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = $observer->getStatus() == 'success' ? 1 : 0;
+        if($success) {
+            $skipView = $observer->getRequest()->getParam('back');
+            if($skipView) {
+                Mage::getSingleton('admin/session')->setSkipCmsBlockView(1);
+            }
+        }
+
         $page = $observer->getCmsblock();
         $info = array($page->getTitle());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('cmsblocks');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -478,7 +507,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCmsblockDelete($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('cmsblocks'))
             return true;
         $action = 'delete';
@@ -489,14 +518,14 @@ class Enterprise_Logging_Model_Observer
         $page = $observer->getCmsblock();
         $info = array($page->getTitle());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('cmsblocks');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -509,7 +538,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCustomerView($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('customers'))
             return true;
         $action = 'view';
@@ -519,14 +548,14 @@ class Enterprise_Logging_Model_Observer
         $success = 1;
         $customer = $observer->getCustomer();
         $info = array($customer->getId(), $customer->getFirstname());
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('customers');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -538,7 +567,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCustomerSave($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('customers'))
             return true;
         $action = 'save';
@@ -549,14 +578,14 @@ class Enterprise_Logging_Model_Observer
         $customer = $observer->getCustomer();
         $info = array($customer->getId(), $customer->getFirstname());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('customers');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -568,7 +597,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnCustomerDelete($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('customers'))
             return true;
         $action = 'delete';
@@ -579,14 +608,14 @@ class Enterprise_Logging_Model_Observer
         $customer = $observer->getCustomer();
         $info = array($customer->getId(), $customer->getFirstname());
 
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('customers');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -598,7 +627,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnReportView($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('reports'))
             return true;
         $action = 'view';
@@ -608,14 +637,14 @@ class Enterprise_Logging_Model_Observer
         $success = 1;
         $report = $observer->getReport();
         $info = array($report);
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('reports');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -627,25 +656,33 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnSystemConfigView($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('systemconfiguration'))
             return true;
         $action = 'view';
+
+        /** Skip on 'save and continue edit' case */
+        if(Mage::getSingleton('admin/session')->getSkipSystemConfigView()) {
+            Mage::getSingleton('admin/session')->setSkipSystemConfigView(0);
+            return true;
+        }
         
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
         $section = $observer->getSection();
+        if(!$section)
+            return;
 
         $info = array($section);
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('systemconfiguration');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -657,7 +694,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function addEventOnSystemConfigSave($observer) 
     {
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('systemconfiguration'))
             return true;
         $action = 'save';
@@ -667,16 +704,19 @@ class Enterprise_Logging_Model_Observer
         $success = 1;
         $section = $observer->getSection();
         $success = $observer->getStatus() == 'success' ? 1 : 0;
+        if($success) {
+            Mage::getSingleton('admin/session')->setSkipSystemConfigView(1);
+        }
 
         $info = array($section);
-        $event = Mage::getModel('logging/event');
+        $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setEventCode('systemconfiguration');
         $event->setAction($action);
         $event->setSuccess($success);
         $event->setInfo($info);
-        $event->setTime(Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss"));
+        $event->setTime(time());
         $event->save();
     }
 
@@ -685,51 +725,14 @@ class Enterprise_Logging_Model_Observer
      */
     public function rotateLogs() 
     {
-        $flag = Mage::getModel('logging/flag');
+        $flag = Mage::getModel('enterprise_logging/flag');
         $flag->loadSelf();
         $last_rotate = $flag->getFlagData();
-
-        $rotate_time = array(
-            'daily' => 60 * 60 *24,
-            'weekly' => 60 * 60 * 24 * 7,
-            'monthly' => 60 * 60 * 24 * 30
-        );
-        $event = Mage::getResourceModel('logging/event');
+        $eventResource = Mage::getResourceModel('enterprise_logging/event');
         $rotate_frequence = (string)Mage::getConfig()->getNode('default/logging/rotation/frequency');
-        $interval = $rotate_time[$rotate_frequence];
-
-        $base_table = "enterprise_user_log";
-        $table_name = sprintf("log_rotation_%s", date("Y_m_d"));
-        $out = "/www/enterprise/var/logging/$table_name.sql";
-
+        $interval = (int)$rotate_frequence * 60 * 60 * 24;
         if($last_rotate > time() - $interval) {
-            $create_query = "CREATE TABLE $table_name (
-  `log_id` int(11) NOT NULL auto_increment,
-  `ip` bigint(20) unsigned NOT NULL default '0',
-  `event_code` char(20) NOT NULL default '',
-  `time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `user_id` int(11) NOT NULL default '0',
-  `action` char(20) NOT NULL default '-',
-  `info` varchar(255) NOT NULL default '-',
-  PRIMARY KEY  (`log_id`)
-  );";
-            $copy_query = "INSERT INTO $table_name SELECT * FROM $base_table";
-            $delete_query = "DELETE FROM $base_table";
-            $drop_query = "DROP TABLE $table_name";
-            $conn = $event->getConnection();
-            $conn->query("DROP TABLE IF EXISTS $table_name");
-            $conn->query($create_query);
-            $conn->query($copy_query);
-            $conn->query($delete_query);
-            
-            $host = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/host');
-            $user = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/username');
-            $password = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/password');
-            $dbname = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/dbname');
-
-            $dump_command = sprintf("mysqldump -h%s -u%s --password='%s' %s %s > %s", $host, $user, $password, $dbname, $table_name, $out);
-            system($dump_command);
-            $conn->query($drop_query);
+            $eventResource->rotate($interval);
         }
         $flag->setFlagData(time());
         $flag->save();

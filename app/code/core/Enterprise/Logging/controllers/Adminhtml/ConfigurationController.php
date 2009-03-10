@@ -1,4 +1,3 @@
-<?php
 /**
  * Magento
  *
@@ -24,28 +23,36 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Logging_EventsController extends Mage_Adminhtml_Controller_Action 
-{
-    
-    /**
-     * Index action, page with grid
-     */
+/**
+ * Logging configuration controller
+ *
+ */
 
+<?php
+class Enterprise_Logging_Adminhtml_ConfigurationController extends Mage_Adminhtml_Controller_Action 
+{
+    /**
+     * Default action
+     */
     public function indexAction() 
     {
         $this->loadLayout();
+        $model = Mage::getResourceModel('logging/event_configuration');
+        $events = $model->getAllEvents();
+        $block = $this->getLayout()->createBlock('logging/configuration');
+        $block->setEvents($events);
+        $this->_addContent($block);
         $this->renderLayout();
     }
 
     /**
-     * grid
+     * Save action
      */
-
-    public function gridAction()
+    public function saveAction() 
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('logging/events_grid')->toHtml()
-        );
+        $events = $this->getRequest()->getParam('event');
+        $model = Mage::getResourceModel('logging/event_configuration');
+        $model->updateEvents($events);
+        $this->_redirect('*/*/');
     }
-
 }

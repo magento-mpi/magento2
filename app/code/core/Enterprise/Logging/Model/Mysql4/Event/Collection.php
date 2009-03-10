@@ -26,6 +26,7 @@
 
 class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract 
 {
+    private $_ipLoaded = false;
 
     /**
      * Constructor
@@ -33,17 +34,45 @@ class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_
 
     protected function _construct() 
     {
-        $this->_init('logging/event');
+        $this->_init('enterprise_logging/event');
+    }
+
+    /**
+     * Before load handler
+     */
+    protected function _initSelect()
+    {
+        $this->getSelect()
+          ->from(array('main_table' => $this->getResource()->getMainTable()))
+          ->joinLeft(array('adm' => $this->getTable('admin/user')), 'main_table.user_id=adm.user_id');;
+        return $this;
+    }
+
+    /**
+     * Minimize usual count select
+     *
+     * @return Varien_Db_Select
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = parent::getSelectCountSql();
+        $countSelect->resetJoinLeft();
+        return $countSelect;
     }
 
     /**
      * Load method. Joins admin_user table to retrieve username
      */
-
     public function load($printQuery = false, $logQuery = false) 
     {
-        $this->getSelect()->
-          joinLeft('admin_user', 'main_table.user_id=admin_user.user_id');
         parent::load($printQuery, $logQuery);
+        if(!$this->_ipLoaded) {
+            if($this->_items) {
+                foreach($this->_items as $item) {
+                    $item->setIp(long2ip($item->getIp()));
+                }
+            }
+            $this->_ipLoaded = true;
+        }
     }
 }

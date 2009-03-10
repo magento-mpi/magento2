@@ -32,7 +32,7 @@
  * @package    Enterprise_Logging
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Logging_Model_System_Config_RotationList
+class Enterprise_Logging_Model_System_Config_LifetimeList
 {
     /**
      * Retrieve option values array
@@ -42,12 +42,12 @@ class Enterprise_Logging_Model_System_Config_RotationList
     public function toOptionArray()
     {
         $options = array();
-        $config = Mage::getConfig()->getNode('adminhtml/enterprise/logging/frequency');
+        $config = Mage::getConfig()->getNode('adminhtml/enterprise/logging/lifetime');
         $children = $config->children();
-        foreach($children as $frequence) {
+        foreach($children as $lt) {
             $options[] = array(
-                'label' => Mage::helper('enterprise_logging')->__((string)$frequence->label),
-                'value' => (string)$frequence->value,
+                'label' => Mage::helper('enterprise_logging')->__((string)$lt->label),
+                'value' => (string)$lt->value,
             );
         }
         return $options;

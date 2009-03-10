@@ -12,19 +12,12 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category   Mage
- * @package    Mage_Import
+ * @category   Enterprise
+ * @package    Enterprise_Logging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-/**
- * Import Tool Grid
- *
- * Hide Show in central select for non-top categories
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
@@ -45,8 +38,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->setRowClickCallback('importFileRowClick');
         $this->setColumnRenderers(
             array(
-                'long2ip' => 'logging/events_grid_renderer_ip',
-                'eventlabel' => 'logging/events_grid_renderer_eventlabel'
+                'eventlabel' => 'enterprise_logging/events_grid_renderer_eventlabel'
             ));
     }
 
@@ -56,7 +48,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('logging/event_collection');
+        $collection = Mage::getResourceModel('enterprise_logging/event_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -66,7 +58,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
      */
     public function getGridUrl()
     {
-        return $this->getUrl('logging/events/grid', array('_current'=>true));
+         return $this->getUrl('adminhtml/events/grid', array('_current'=>true));
     }
 
     /**
@@ -83,7 +75,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         $this->addColumn('ip', array(
             'header'    => 'IP',
             'index'     => 'ip',
-            'type'      => 'long2ip',
+            'type'      => 'text', 
         ));
 
         $this->addColumn('event', array(
