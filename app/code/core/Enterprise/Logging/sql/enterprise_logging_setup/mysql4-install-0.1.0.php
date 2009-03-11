@@ -35,7 +35,8 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->run("CREATE TABLE `".$this->getTable('logging/user_log')."` (
+$installer->run("DROP TABLE IF EXISTS `".$this->getTable('enterprise_logging/event')."`");
+$installer->run("CREATE TABLE `".$this->getTable('enterprise_logging/event')."` (
   `log_id` int(11) NOT NULL auto_increment,
   `ip` bigint(20) unsigned NOT NULL default '0',
   `event_code` char(20) NOT NULL default '',

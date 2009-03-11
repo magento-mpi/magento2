@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Logging>
-             <version>0.0.2</version>
+             <version>0.1.0</version>
         </Enterprise_Logging>
     </modules>
     <global>
@@ -301,6 +301,14 @@
                  <sort_order>71</sort_order>
                  <action>adminhtml/events</action>
                  <depends><module>Enterprise_Logging</module></depends>
+                 <children>
+                   <backups translate="title">
+                     <title>Saved files</title>
+                     <sort_order>1</sort_order>
+                     <action>adminhtml/events/log</action>
+                     <depends><module>Enterprise_Logging</module></depends>
+                   </backups>
+                 </children>
               </logging>
             </children>
           </report>
