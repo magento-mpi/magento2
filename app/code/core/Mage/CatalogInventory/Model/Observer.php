@@ -58,6 +58,7 @@ class Mage_CatalogInventory_Model_Observer
 
     /**
      * Add information about producs stock status to collection
+     * Used in for product collection after load
      *
      * @param   Varien_Event_Observer $observer
      * @return  Mage_CatalogInventory_Model_Observer
@@ -65,7 +66,11 @@ class Mage_CatalogInventory_Model_Observer
     public function addStockStatusToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
-        Mage::getModel('cataloginventory/stock_status')->addStockStatusToProducts($productCollection);
+        if ($productCollection->hasFlag('require_stock_items')) {
+            Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
+        } else {
+            Mage::getModel('cataloginventory/stock_status')->addStockStatusToProducts($productCollection);
+        }
         return $this;
     }
 

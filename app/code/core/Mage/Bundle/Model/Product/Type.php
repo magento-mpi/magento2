@@ -352,6 +352,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$this->getProduct($product)->hasData($this->_keySelectionsCollection)) {
             $selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->setFlag('require_stock_items', true)
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->addFilterByRequiredOptions()
@@ -650,6 +651,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
             $usedSelections = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect('*')
+                ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->setPositionOrder()
                 ->addFilterByRequiredOptions()
