@@ -38,16 +38,11 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
-<form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div id="productView" class="product-view">
     <div><?php // extra div to smooth slideUp and slideDown ?>
         <div class="product-essential">
 
-        <fieldset class="no-display">
-            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-            <input type="hidden" name="related_product" id="related-products-field" value="" />
-        </fieldset>
 
             <div class="product-img-box">
                 <?php echo $this->getChildHtml('media') ?>
@@ -122,6 +117,11 @@
     </div>
 
 </div>
+<form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+<fieldset class="no-display">
+    <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+    <input type="hidden" name="related_product" id="related-products-field" value="" />
+</fieldset>
 <div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
     <div id="options-container">
@@ -137,7 +137,7 @@
         var productAddToCartForm = new VarienForm('product_addtocart_form');
         productAddToCartForm.submit = function() {
                 if (this.validator.validate()) {
-                        this.form.submit();
+                    this.form.submit();
                 }
         }.bind(productAddToCartForm);
 </script>
