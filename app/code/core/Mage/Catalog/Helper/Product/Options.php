@@ -42,9 +42,9 @@ class Mage_Catalog_Helper_Product_Options extends Mage_Core_Helper_Abstract
      */
     public function isHtmlFormattedOptionValue($optionValue)
     {
-        if (strlen($optionValue) == strlen(strip_tags($optionValue))) {
-            return false;
+        if (is_string($optionValue) && strlen($optionValue) != strlen(strip_tags($optionValue))) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
