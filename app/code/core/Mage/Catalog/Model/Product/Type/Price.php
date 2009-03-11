@@ -186,19 +186,7 @@ class Mage_Catalog_Model_Product_Type_Price
      */
     protected function _applySpecialPrice($product, $finalPrice)
     {
-        $specialPrice = $product->getSpecialPrice();
-        if (is_numeric($specialPrice)) {
-            $storeDate  = Mage::app()->getLocale()->storeDate($product->getStore());
-            $fromDate   = Mage::app()->getLocale()->date($product->getSpecialFromDate(), Varien_Date::DATE_INTERNAL_FORMAT, null, false);
-            $toDate     = Mage::app()->getLocale()->date($product->getSpecialToDate(), Varien_Date::DATE_INTERNAL_FORMAT, null, false);
-
-            if ($product->getSpecialFromDate() && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
-            } elseif ($product->getSpecialToDate() && $storeDate->compare($toDate, Zend_Date::DATES)>0) {
-            } else {
-               $finalPrice = min($finalPrice, $specialPrice);
-            }
-        }
-        return $finalPrice;
+        return self::calculateSpecialPrice($finalPrice, $product->getSpecialPrice(), $product->getSpecialFromDate(), $product->getSpecialToDate(), $product->getStore());
     }
 
     /**
@@ -302,38 +290,51 @@ class Mage_Catalog_Model_Product_Type_Price
             $gId = $gId->getId();
         }
 
-        $storeDate = false;
-
-        /**
-         * If special price exist
-         */
-        if ($specialPrice) {
-            $storeDate = Mage::app()->getLocale()->storeDate($sId);
-
-            $fromDate   = Mage::app()->getLocale()->date($specialPriceFrom, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
-            $toDate     = Mage::app()->getLocale()->date($specialPriceTo, Varien_Date::DATE_INTERNAL_FORMAT, null, false);
-
-            if ($specialPrice !== null && $specialPrice !== false) {
-                if ($specialPriceFrom && $storeDate->compare($fromDate, Zend_Date::DATES)<0) {
-                } elseif ($specialPriceTo && $storeDate->compare($toDate, Zend_Date::DATES)>0) {
-                } else {
-                   $finalPrice = min($finalPrice, $specialPrice);
-                }
-            }
-        }
+        $finalPrice = self::calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
 
         if ($rulePrice === false) {
-            if (!$storeDate) {
-            	$storeDate = Mage::app()->getLocale()->storeDate($sId);
-            }
-            $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice($storeDate, $wId, $gId, $productId);
+            $storeTimestamp = Mage::app()->getLocale()->storeTimeStamp($sId);
+            $rulePrice = Mage::getResourceModel('catalogrule/rule')
+                ->getRulePrice($storeTimestamp, $wId, $gId, $productId);
         }
+
         if ($rulePrice !== null && $rulePrice !== false) {
             $finalPrice = min($finalPrice, $rulePrice);
         }
 
         $finalPrice = max($finalPrice, 0);
         Varien_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
+        return $finalPrice;
+    }
+
+    /**
+     * Calculate and apply special price
+     *
+     * @param float $finalPrice
+     * @param float $specialPrice
+     * @param string $specialPriceFrom
+     * @param string $specialPriceTo
+     * @param mixed $store
+     * @return float
+     */
+    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $store = null)
+    {
+        if (!is_null($specialPrice) && $specialPrice != false) {
+            if (!$store instanceof Mage_Core_Model_Store) {
+                $store = Mage::app()->getStore($store);
+            }
+
+            $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
+            $fromTimeStamp  = strtotime($specialPriceFrom);
+            $toTimeStamp    = strtotime($specialPriceTo);
+
+            if ($specialPriceFrom && $storeTimeStamp < $fromTimeStamp) {
+            } elseif ($specialPriceTo && $storeTimeStamp > $toTimeStamp) {
+            } else {
+                $specialPrice   = ($finalPrice * $specialPrice) / 100;
+                $finalPrice     = min($finalPrice, $specialPrice);
+            }
+        }
         return $finalPrice;
     }
 }
