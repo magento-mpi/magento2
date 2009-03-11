@@ -33,79 +33,45 @@
 <?php
     $_product = $this->getProduct();
     $_helper = $this->helper('catalog/output');
-    $_useMagicZoom = true;
-    $_useMagicZoomGallery = false;
-    $_useLightBoxGallery = true;
+    $_nativeZoom = false;
 ?>
 
 
-
-
-
-
-
-<?php if ($_useMagicZoom): ?>
-
-<?php /* --------- MagicZoom -------------------- */ ?>
-<?php /* --------- for main image ---------- */ ?>
-
-<?php 
-
-    if(!defined('__MAGICZOOM_INCLUDED')) {
-        require_once(BP . DS . 'lib' . DS . 'magictoolbox' . DS . 'core' . DS . 'magiczoom.module.core.class.php');
-        $tool = new MagicZoomModuleCoreClass();
-        
-        // allow to use different ini files for different themes
-        // get ini file from current theme folder by default
-        $iniFile = dirname(__FILE__) . str_repeat(DS . '..', 4) . DS . 'magiczoom.settings.ini';
-        if(!file_exists($iniFile)) {
-            // if we can't found ini file for current theme we should get default ini file
-            $iniFile = BP . DS . 'lib' . DS . 'magictoolbox' . DS . 'magiczoom.settings.ini';
-        }
-        // load INI
-        $tool->params->loadINI($iniFile);
-        
-        $GLOBALS["magictoolbox"]["magiczoom"] = & $tool;
-        
-        echo $tool->headers($this->getSkinUrl('js'));
-        echo $tool->addonsTemplate($this->getSkinUrl('images'));
-
-        define('__MAGICZOOM_INCLUDED',1);
-    }
+<?php if (!$_nativeZoom): ?>
+<?php /* --------- jqZoom --------- */ ?>
     
-    require_once(BP . DS . 'lib' . DS . 'magictoolbox' . DS . 'core' . DS . 'addons.php');
-    
-    $_product = $this->getProduct();
-    
-    $allowedPage = $tool->params->checkValue('pages', array('Product', 'Both'));
-    
-    if ($allowedPage && $_product->getImage() != 'no_selection' && $_product->getImage()) {
-        // we have main image. parce it and print out with Magic Zoom settings.
-        $title = $this->htmlEscape($_product->getName());
-        $description = $this->htmlEscape($_product->getDescription());
-        $shortDescription = $this->htmlEscape($_product->getShortDescription());
-        
-        if($tool->params->checkValue("caption_source", "Short description")) {
-            $description = $shortDescription;
-            $tool->params->set("caption_source", "Description");
-        }
-        
-        if(!isset($GLOBALS["magictoolbox"]["image_num"])) $GLOBALS["magictoolbox"]["image_num"] = 1;
-        $id = 'magictoolbox' . $GLOBALS["magictoolbox"]["image_num"]++;
-        
-        list($img, $thumb) = magicToolboxResizer($_product, 'image', $tool->params->getValue("thumb_size"));
-        
-        echo $tool->template(compact("id", "title", "description", "img", "thumb"));
-        
-    } else {
-        //product has no main image. print magento default image
-        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" alt="'.$this->htmlEscape($_product->getName()).'" />';
-        echo $this->helper('catalog/output')->productAttribute($_product, $_img, 'image');
-    }
-?>
+    <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
+    <a class="product-image" id="image" title="'.$this->htmlEscape($_product->getImageLabel()).'" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
+        <?php
+            $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" height="285" width="285" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+            echo $_helper->productAttribute($_product, $_img, 'image-thumb');
+        ?></a>
+    <script type="text/javascript">
+    //<![CDATA[    
+        jQuery(document).ready(function(){
+            var options = {
+                    zoomType: 'reverse',
+                    zoomWidth: 348,
+                    zoomHeight: 283,
+                        xOffset: 0,
+                    imageOpacity: 0.2,
+                    title : false
+            };
+                    
+            jQuery('#image').jqzoom(options);
+        });
+    //]]>
+    </script>
 
-<?php /* --------- /MagicZoom ------------------- */ ?>
-
+    <?php else: ?>
+    <p class="product-image">
+        <?php
+            $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(275).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+            echo $_helper->productAttribute($_product, $_img, 'image');
+        ?>
+    </p>
+    <?php endif; ?>    
+    
 <?php else: ?>
 
 <?php /* --------- native magento zoom --------- */ ?>
@@ -142,12 +108,9 @@
     <?php endif; ?>
     
 <?php /* --------- /native magento zoom --------- */ ?>
-
 <?php endif; ?>
+
     
-
-<?php if ($_useLightBoxGallery): ?>
-
 
 
 <?php /* ---------More views Lightbox gallery --------- */ ?>
@@ -164,38 +127,3 @@
         </ul>
     </div>
     <?php endif; ?>
-
-<?php elseif ($_useMagicZoomGallery): ?>
-    
-    <?php /* --------- MagicZoom gallery ------------------- */ ?>
-    <?php    
-        if (count($this->getGalleryImages()) > 1) {
-                // print more images
-                ?>
-                    <div class="more-views">
-                        <h4>More Views</h4>
-                        <ul>
-                            <?php 
-                                foreach($this->getGalleryImages() as $_image) { 
-                                    if($allowedPage) {
-                                        list($img, $medium) = magicToolboxResizer($_product, 'image', $tool->params->getValue("thumb_size"), $_image->getFile());
-                                        list($img, $thumb) = magicToolboxResizer($_product, 'image', $tool->params->getValue("selector_size"), $_image->getFile());
-                                        $a = $tool->subTemplate(compact("id", "img", "thumb", "medium"));
-                                        if($tool->params->checkValue('ignore_magento_css', 'Yes')) {
-                                            $a = str_replace("<a ", "<a style=\"width:auto; height:auto;\" ", $a);
-                                        }
-                                        echo "<li>{$a}</li>";
-                                    } else {
-                                        ?>
-                                            <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
-                                        <?php
-                                    }
-                                }                        
-                            ?>
-                        </ul>
-                    </div>
-                <?php    
-            }    
-        
-    ?>
-<?php endif; ?>

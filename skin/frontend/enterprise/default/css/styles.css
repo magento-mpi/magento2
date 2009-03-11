@@ -971,45 +971,18 @@ button.cart-btn span { border:0; background:#fff url(../images/bkg_btn-cart.gif)
 /* ======================================================================================= */
 
 
-/* MagicZOOM styles =================================================================== */
-/* Copyright 2008 MagicToolBox.com. To use this code on your own site, visit http://magictoolbox.com */
+/* jQzoom ================================================================================ */
 
-/* CSS class for zoomed area */
-.MagicZoomBigImageCont {
-	border:			1px solid #b7b7b7;
-    left:           285px!important;
-}
+div.jqZoomTitle { z-index:5000; text-align:center; position:absolute; top:0; left:0; width:100%; color: #FFF; background: #999; }
+.jqZoomPup { overflow:hidden; background-color: #fff; z-index:10; border-color:#b7b7b7; border-style: solid; cursor:crosshair; 
+    -moz-opacity:0.6; opacity: 0.6; filter: alpha(opacity = 60);
+    }
+.jqZoomPup img {	border: 0px; }
+.preload { text-decoration: none; border: 1px solid #ccc; padding: 8px; text-align:center; background: #fff url(../images/zoomloader.gif) no-repeat 43px 30px; width:90px; height:43px; z-index:10; position:absolute; top:3px; left:3px;
+    -moz-opacity:0.8;
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+    }
+.jqZoomWindow { border: 1px solid #b7b7b7; background-color: #fff; }
 
-/* Header look and feel CSS class */
-/* header is shown if "title" attribute is present in the <A> tag */
-.MagicZoomHeader {
-	font:			10px Tahoma, Verdana, Arial, sans-serif;
-	color:			#fff;
-	background:		#91b817;
-	text-align:     center !important; 
-}
-
-
-/* CSS class for small looking glass square under mouse */
-.MagicZoomPup {
-	border: 		1px solid #aaa;
-	background: 	#ffffff;
-	cursor:			hand;
-}
-
-/* CSS style for loading animation box */
-.MagicZoomLoading {
-	text-align:		center;
-	background: 	#ffffff;
-	color:			#444;
-	border: 		1px solid #ccc;
-	opacity:		0.8;
-	padding:		3px 3px 3px 3px !important;
-	display: 		none; /* do not edit this line please */
-}
-
-/* CSS style for gif image in the loading animation box */
-.MagicZoomLoading img {
-	padding-top:	3px !important;
-}
 /* ======================================================================================= */

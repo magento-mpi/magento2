@@ -49,26 +49,31 @@ function topCart(elC) {
 	}	
 }
 
-function initBundle(productName) {
+function initBundle(pName) {
+    productName = pName;
     bundleOptions = $('options-container');
-    $('messages_product_view').insert ({'before':'<div id="customizeTitle" style="display:none" class="page-title"><h2>' + productName + '</h2></div>' });
-    $('productView').insert({'after': bundleOptions });
     bundleOptions.hide();
     bundleOptions.addClassName('bundleProduct');
-    var check=1;
+    bCheck = 1;
 }
 function openCustomize() {
+    if (bCheck == 1) {
+        $('messages_product_view').insert ({'before':'<div id="customizeTitle" style="display:none" class="page-title"><h2>' + productName + '</h2></div>' });
+        $('productView').insert({'after': bundleOptions });
+    }
     $$('.col-right').each(function(el){el.id='rightCOL'});
     new Effect.SlideUp('productView', { duration: 0.8 });
     new Effect.SlideUp('rightCOL', { duration: 0.8 });
     new Effect.SlideDown(bundleOptions, { duration: 0.8 });
     $('customizeTitle').show();
+    bCheck == 0;
 }
 function closeCustomize() {
     $('customizeTitle').hide();
     new Effect.SlideDown('productView', { duration: 0.8 });
     new Effect.SlideDown('rightCOL', { duration: 0.8 });
     new Effect.SlideUp(bundleOptions, { duration: 0.8 });
+    bCheck == 0;    
 }
 
 function tabsActivate(tId) {

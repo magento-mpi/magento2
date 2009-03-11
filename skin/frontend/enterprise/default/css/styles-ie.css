@@ -59,6 +59,9 @@ button.cart-btn span { background-position:100% 0; }
 .header-panel .form-search,
 .footer-panel { padding-top:3px; }
 
+/* jQzoom */
+.preload { width:100px; height:55px; }
+
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
