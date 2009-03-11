@@ -44,6 +44,21 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     }
 
     /**
+     * Force strip secret key param if _nosecret param specified
+     *
+     * @return Mage_Core_Model_Url
+     */
+    public function setRouteParams(array $data, $unsetOldParams=true)
+    {
+        if (isset($data['_nosecret'])) {
+            $this->setNoSecret(true);
+            unset($data['_nosecret']);
+        }
+
+        return parent::setRouteParams($data, $unsetOldParams);
+    }
+
+    /**
      * Custom logic to retrieve Urls
      *
      * @param string $routePath
@@ -54,19 +69,20 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     {
         $result = parent::getUrl($routePath, $routeParams);
 
-        if (!Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+        if (!Mage::getStoreConfigFlag('admin/security/use_form_key') || $this->getNoSecret()) {
             return $result;
         }
 
+        $_route = $this->getRouteName() ? $this->getRouteName() : '*';
         $_controller = $this->getControllerName() ? $this->getControllerName() : $this->getDefaultControllerName();
         $_action = $this->getActionName() ? $this->getActionName() : $this->getDefaultActionName();
         $secret = array(self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($_controller, $_action));
         if (is_array($routeParams)) {
-            $routeParams = array_merge($routeParams, $secret);
+            $routeParams = array_merge($secret, $routeParams);
         } else {
             $routeParams = $secret;
         }
-        return parent::getUrl("*/{$_controller}/{$_action}", $routeParams);
+        return parent::getUrl("{$_route}/{$_controller}/{$_action}", $routeParams);
     }
 
     /**
@@ -85,6 +101,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         if (!$action) {
             $action = $this->getRequest()->getActionName();
         }
+
         $secret = $controller . $action . $salt;
         return Mage::helper('core')->getHash($secret);
     }

@@ -151,7 +151,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
                     'error_msg' => Mage::helper('adminhtml')->__($_keyErrorMsg)
                 )));
             } else {
-                $this->_redirect('index/index');
+                $this->_redirect('*/index/index');
             }
             return $this;
         }
