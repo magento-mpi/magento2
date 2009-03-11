@@ -40,9 +40,10 @@
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div id="productView" class="product-view">
-    <div><?php // extra div to smooth slideUp and slideDown ?>
-        <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+    <div>
+    <?php // extra div to smooth slideUp and slideDown ?>
         <div class="product-essential">
+        <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
         <fieldset class="no-display">
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
