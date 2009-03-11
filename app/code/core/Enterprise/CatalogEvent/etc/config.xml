@@ -213,7 +213,7 @@
                     <categories>
                         <children>
                             <enterprise_catelogevent translate="title" module="enterprise_catalogevent">
-                                <title>Manage Events</title>
+                                <title>Events</title>
                                 <action>adminhtml/catalog_event</action>
                                 <resource>catalog/events</resource>
                                 <depends><module>Enterprise_CatalogEvent</module></depends>
