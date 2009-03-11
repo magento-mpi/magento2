@@ -27,10 +27,10 @@
 -->
 <config>
     <tabs>
-      <enterprise_logging translate="label" module="enterprise_logging">
+      <logging translate="label" module="enterprise_logging">
             <label>Logging</label>
             <sort_order>210</sort_order>
-      </enterprise_logging>
+      </logging>
     </tabs>
     <sections>
       <logging translate="label" module="enterprise_logging">

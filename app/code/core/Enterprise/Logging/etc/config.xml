@@ -80,7 +80,7 @@
     </global>
     <adminhtml>
         <events>
-	    <on_save_category>
+	    <adminhtml_category_on_save>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -88,9 +88,9 @@
                         <method>addEventOnCategorySave</method>
                     </enterprise_logging>
                 </observers>
-	    </on_save_category>
+	    </adminhtml_category_on_save>
 
-	    <on_view_category>
+	    <adminhtml_category_on_view>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -98,9 +98,9 @@
                         <method>addEventOnCategoryView</method>
                     </enterprise_logging>
                 </observers>
-	    </on_view_category>
+	    </adminhtml_category_on_view>
 
-	    <on_delete_category>
+	    <adminhtml_category_on_delete>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -108,7 +108,7 @@
                         <method>addEventOnCategoryDelete</method>
                     </enterprise_logging>
                 </observers>
-	    </on_delete_category>
+	    </adminhtml_category_on_delete>
 
         <category_move>
           <observers>
@@ -120,7 +120,7 @@
           </observers>
         </category_move>
 
-        <on_view_cmspage>
+        <adminhtml_cmspage_on_view>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -128,9 +128,9 @@
                         <method>addEventOnCmspageView</method>
                     </enterprise_logging>
                 </observers>
-        </on_view_cmspage>
+        </adminhtml_cmspage_on_view>
 
-        <on_save_cmspage>
+        <adminhtml_cmspage_on_save>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -138,9 +138,9 @@
                         <method>addEventOnCmspageSave</method>
                     </enterprise_logging>
                 </observers>
-        </on_save_cmspage>
+        </adminhtml_cmspage_on_save>
 
-        <on_delete_cmspage>
+        <adminhtml_cmspage_on_delete>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -148,9 +148,9 @@
                         <method>addEventOnCmspageDelete</method>
                     </enterprise_logging>
                 </observers>
-        </on_delete_cmspage>
+        </adminhtml_cmspage_on_delete>
 
-        <on_view_cmsblock>
+        <adminhtml_cmsblock_on_view>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -158,9 +158,9 @@
                         <method>addEventOnCmsblockView</method>
                     </enterprise_logging>
                 </observers>
-        </on_view_cmsblock>
+        </adminhtml_cmsblock_on_view>
 
-        <on_save_cmsblock>
+        <adminhtml_cmsblock_on_save>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -168,9 +168,9 @@
                         <method>addEventOnCmsblockSave</method>
                     </enterprise_logging>
                 </observers>
-        </on_save_cmsblock>
+        </adminhtml_cmsblock_on_save>
 
-        <on_delete_cmsblock>
+        <adminhtml_cmsblock_on_delete>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -178,9 +178,9 @@
                         <method>addEventOnCmsblockDelete</method>
                     </enterprise_logging>
                 </observers>
-        </on_delete_cmsblock>
+        </adminhtml_cmsblock_on_delete>
 
-        <on_view_customer>
+        <adminhtml_customer_on_view>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -188,9 +188,9 @@
                         <method>addEventOnCustomerView</method>
                     </enterprise_logging>
                 </observers>
-        </on_view_customer>
+        </adminhtml_customer_on_view>
 
-        <on_save_customer>
+        <adminhtml_customer_on_save>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -198,9 +198,9 @@
                         <method>addEventOnCustomerSave</method>
                     </enterprise_logging>
                 </observers>
-        </on_save_customer>
+        </adminhtml_customer_on_save>
 
-        <on_delete_customer>
+        <adminhtml_customer_on_delete>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -208,9 +208,9 @@
                         <method>addEventOnCustomerDelete</method>
                     </enterprise_logging>
                 </observers>
-        </on_delete_customer>
+        </adminhtml_customer_on_delete>
 
-        <on_view_report>
+        <adminhtml_report_on_view>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -218,9 +218,9 @@
                         <method>addEventOnReportView</method>
                     </enterprise_logging>
                 </observers>
-        </on_view_report>
+        </adminhtml_report_on_view>
 
-        <on_view_system_config>
+        <adminhtml_system_config_on_view>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -228,9 +228,9 @@
                         <method>addEventOnSystemConfigView</method>
                     </enterprise_logging>
                 </observers>
-        </on_view_system_config>
+        </adminhtml_system_config_on_view>
 
-        <on_save_system_config>
+        <adminhtml_system_config_on_save>
                 <observers>
                     <enterprise_logging>
                         <type>singleton</type>
@@ -238,60 +238,58 @@
                         <method>addEventOnSystemConfigSave</method>
                     </enterprise_logging>
                 </observers>
-        </on_save_system_config>
+        </adminhtml_system_config_on_save>
 
 
+        <adminhtml_product_on_view>
+          <observers>
+            <enterprise_logging>
+              <type>singleton</type>
+              <class>enterprise_logging/observer</class>
+              <method>addEventAfterProductView</method>
+            </enterprise_logging>
+          </observers>
+        </adminhtml_product_on_view>
+        
+        <admin_user_on_login>
+          <observers>
+            <enterprise_logging>
+              <type>singleton</type>
+              <class>enterprise_logging/observer</class>
+              <method>addEventAfterLogin</method>
+            </enterprise_logging>
+          </observers>
+        </admin_user_on_login>
 
-            <on_product_view_after>
-                <observers>
-                    <enterprise_logging>
-                        <type>singleton</type>
-                        <class>enterprise_logging/observer</class>
-                        <method>addEventAfterProductView</method>
-                    </enterprise_logging>
-                </observers>
-            </on_product_view_after>
-            
-            <admin_user_on_login>
-                <observers>
-                    <enterprise_logging>
-                        <type>singleton</type>
-                        <class>enterprise_logging/observer</class>
-                        <method>addEventAfterLogin</method>
-                    </enterprise_logging>
-                </observers>
-            </admin_user_on_login>
+        <adminhtml_on_forgotpassword>
+          <observers>
+            <enterprise_logging>
+              <type>singleton</type>
+              <class>enterprise_logging/observer</class>
+              <method>addEventOnForgotpassword</method>
+            </enterprise_logging>
+          </observers>
+        </adminhtml_on_forgotpassword>
 
-            <on_forgotpassword>
-                <observers>
-                    <enterprise_logging>
-                        <type>singleton</type>
-                        <class>enterprise_logging/observer</class>
-                        <method>addEventOnForgotpassword</method>
-                    </enterprise_logging>
-                </observers>
+        <adminhtml_product_on_save>
+          <observers>
+            <enterprise_logging>
+              <type>singleton</type>
+              <class>enterprise_logging/observer</class>
+              <method>addEventOnProductSave</method>
+            </enterprise_logging>
+          </observers>
+        </adminhtml_product_on_save>
 
-            </on_forgotpassword>
-
-            <on_product_save>
-                <observers>
-                    <enterprise_logging>
-                        <type>singleton</type>
-                        <class>enterprise_logging/observer</class>
-                        <method>addEventOnProductSave</method>
-                    </enterprise_logging>
-                </observers>
-            </on_product_save>
-
-            <on_product_delete>
-                <observers>
-                    <enterprise_logging>
-                        <type>singleton</type>
-                        <class>enterprise_logging/observer</class>
-                        <method>addEventOnProductDelete</method>
-                    </enterprise_logging>
-                </observers>
-            </on_product_delete>
+        <adminhtml_product_on_delete>
+          <observers>
+            <enterprise_logging>
+              <type>singleton</type>
+              <class>enterprise_logging/observer</class>
+              <method>addEventOnProductDelete</method>
+            </enterprise_logging>
+          </observers>
+        </adminhtml_product_on_delete>
         </events>
         <menu>
           <report>
@@ -558,7 +556,7 @@
     <crontab>
         <jobs>
             <enterprise_logging_rotate_logs>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <schedule><cron_expr>10 2 * * *</cron_expr></schedule>
                 <run><model>enterprise_logging/observer::rotateLogs</model></run>
             </enterprise_logging_rotate_logs>
         </jobs>

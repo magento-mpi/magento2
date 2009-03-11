@@ -76,6 +76,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'header'    => 'IP',
             'index'     => 'ip',
             'type'      => 'text', 
+            'filter'    => false,
         ));
 
         $this->addColumn('event', array(
@@ -83,14 +84,16 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'index'     => 'event_code',
             'type'      => 'eventlabel',
             'sortable'  => false,
+            'filter'    => 'enterprise_logging/events_grid_filter_event',
         ));
 
         $this->addColumn('user', array(
             'header'    => 'User',
-            'index'     => 'username',
-            'type'      => 'text',
+            'index'     => 'adm.user_id',
+            //'type'      => 'text',
             'sortable'  => false,
-            'filter'    => false
+            'filter'    => 'enterprise_logging/events_grid_filter_user',
+            'renderer'  => 'enterprise_logging/events_grid_renderer_user'
         ));
 
         $this->addColumn('action', array(
@@ -98,7 +101,6 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'index'     => 'action',
             'type'      => 'text',
             'sortable'  => true,
-            'filter'    => false
         ));
 
         $this->addColumn('info', array(

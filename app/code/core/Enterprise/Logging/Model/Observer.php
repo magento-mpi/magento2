@@ -55,6 +55,11 @@ class Enterprise_Logging_Model_Observer
         $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('products'))
             return true;
+        if(Mage::getSingleton('admin/session')->getSkipProductView()) {
+            Mage::getSingleton('admin/session')->setSkipProductView(0);
+            return true;
+        }
+
         $product = $observer->getProduct();
         $id = $product->getId();
         
@@ -90,6 +95,12 @@ class Enterprise_Logging_Model_Observer
         $ip = $_SERVER['REMOTE_ADDR'];
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $status = $observer->getStatus() == 'success' ? 1 : 0;
+        if($status) {
+            $skipView = $observer->getRequest()->getParam('back');
+            if($skipView) {
+                Mage::getSingleton('admin/session')->setSkipProductView(1);
+            }
+        }
 
         $info = array($product->getSku());
         $event->setIp($ip);
@@ -114,18 +125,18 @@ class Enterprise_Logging_Model_Observer
         if(!$event->isActive('products'))
             return true;
 
-        $data = $observer->getInfo();
-        $id = $product->getId();
+        $sku = $observer->getSku();
         
         $ip = $_SERVER['REMOTE_ADDR'];
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
-        $info = array($data['sku']);
+        $info = array($sku);
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
 
         $event->setIp($ip);
         $event->setUserId($user_id);
         $event->setAction('delete');
         $event->setEventCode('products');
-        $event->setSuccess(true);
+        $event->setSuccess($success);
         $event->setInfo($info);
         $event->setTime(time());
         $event->save();
@@ -208,6 +219,10 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();        
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = ($observer->getStatus() == 'success' ? 1 : 0);
+        if($success) {
+            Mage::getSingleton('admin/session')->setSkipCategoryView(1);
+        }
+
         $category = $observer->getCategory();
         $info = array($category->getName());
 
@@ -233,6 +248,11 @@ class Enterprise_Logging_Model_Observer
         $event = Mage::getModel('enterprise_logging/event');
         if(!$event->isActive('categories'))
             return true;
+        if(Mage::getSingleton('admin/session')->getSkipCategoryView()) {
+            Mage::getSingleton('admin/session')->setSkipCategoryView(0);
+            return true;
+        }
+
         $action = 'view';
         
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
@@ -345,6 +365,8 @@ class Enterprise_Logging_Model_Observer
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
         $page = $observer->getCmspage();
+        if(!$page->getTitle())
+            return;
         $info = array($page->getTitle());
 
         $event = Mage::getModel('enterprise_logging/event');
@@ -411,8 +433,8 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = $observer->getStatus() == 'success' ? 1 : 0;
-        $page = $observer->getCmspage();
-        $info = array($page->getTitle());
+        $title = $observer->getTitle();
+        $info = array($title);
 
         $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
@@ -449,6 +471,8 @@ class Enterprise_Logging_Model_Observer
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
         $page = $observer->getCmsblock();
+        if(!$page->getTitle())
+            return;
         $info = array($page->getTitle());
 
         $event = Mage::getModel('enterprise_logging/event');
@@ -515,8 +539,8 @@ class Enterprise_Logging_Model_Observer
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = $observer->getStatus() == 'success' ? 1 : 0;
-        $page = $observer->getCmsblock();
-        $info = array($page->getTitle());
+        $title = $observer->getTitle();
+        $info = array($title);
 
         $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);
