@@ -38,7 +38,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
         $act = $this->getRequest()->getActionName();
         if(!$act)
             $act = 'default';
-        Mage::dispatchEvent('on_view_report', array('report' => 'review/'.$act));
+        Mage::dispatchEvent('adminhtml_report_on_view', array('report' => 'review/'.$act));
 
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))

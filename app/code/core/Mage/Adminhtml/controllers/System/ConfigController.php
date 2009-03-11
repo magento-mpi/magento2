@@ -75,7 +75,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $this->_redirect('*/*/', array('website'=>$website, 'store'=>$store));
         }
 
-        Mage::dispatchEvent('on_view_system_config', array('section' => $current));
+        Mage::dispatchEvent('adminhtml_system_config_on_view', array('section' => $current));
 
         $this->loadLayout();
 
@@ -151,11 +151,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
                 array('website' => $website, 'store' => $store)
             );
-            Mage::dispatchEvent('on_save_system_config', array('section' => $section, 'status' => 'success'));
+            Mage::dispatchEvent('adminhtml_system_config_on_save', array('section' => $section, 'status' => 'success'));
             $session->addSuccess(Mage::helper('adminhtml')->__('Configuration successfully saved'));
         }
         catch (Mage_Core_Exception $e) {
-            Mage::dispatchEvent('on_save_system_config', array('section' => $section, 'status' => 'fail'));
+            Mage::dispatchEvent('adminhtml_system_config_on_save', array('section' => $section, 'status' => 'fail'));
             foreach(split("\n", $e->getMessage()) as $message) {
                 $session->addError($message);
             }

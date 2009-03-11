@@ -43,7 +43,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         $act = $this->getRequest()->getActionName();
         if(!$act)
             $act = 'default';
-        Mage::dispatchEvent('on_view_report', array('report' => 'product/'.$act));
+        Mage::dispatchEvent('adminhtml_report_on_view', array('report' => 'product/'.$act));
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
             ->_addBreadcrumb(Mage::helper('reports')->__('Products'), Mage::helper('reports')->__('Products'));

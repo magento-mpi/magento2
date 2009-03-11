@@ -219,7 +219,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->renderLayout();
-        Mage::dispatchEvent('on_product_view_after', array('product' => $product));
+        Mage::dispatchEvent('adminhtml_product_on_view', array('product' => $product));
     }
 
     /**
@@ -547,16 +547,16 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     }
                 }
                 $this->_getSession()->addSuccess($this->__('Product was successfully saved.'));
-                Mage::dispatchEvent('on_product_save', array('product' => $product, 'status' => 'success'));
+                Mage::dispatchEvent('adminhtml_product_on_save', array('product' => $product, 'status' => 'success', 'request' => $this->getRequest()));
             }
             catch (Mage_Core_Exception $e) {
-                Mage::dispatchEvent('on_product_save', array('product' => $product, 'status' => 'fail'));
+                Mage::dispatchEvent('adminhtml_product_on_save', array('product' => $product, 'status' => 'fail', 'request' => $this->getRequest()));
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
                 $redirectBack = true;
             }
             catch (Exception $e) {
-                Mage::dispatchEvent('on_product_save', array('product' => $product, 'status' => 'fail'));
+                Mage::dispatchEvent('adminhtml_product_on_save', array('product' => $product, 'status' => 'fail', 'request' => $this->getRequest()));
 //                $this->_getSession()->addException($e, $this->__('Product saving error.'));
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
@@ -619,14 +619,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         if ($id = $this->getRequest()->getParam('id')) {
             $product = Mage::getModel('catalog/product')
-                ->setId($id);
-
+                ->load($id);
+            $sku = $product->getSku();
             try {
-                Mage::dispatchEvent('catalog_controller_product_delete', array('product'=>$product));
                 $product->delete();
+                Mage::dispatchEvent('adminhtml_product_on_delete', array('sku'=>$sku, 'status' => 'success'));
                 $this->_getSession()->addSuccess($this->__('Product deleted'));
             }
             catch (Exception $e){
+                Mage::dispatchEvent('adminhtml_product_on_delete', array('sku'=>$sku, 'status' => 'fail'));
                 $this->_getSession()->addError($e->getMessage());
             }
         }

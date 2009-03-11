@@ -169,7 +169,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $email = $this->getRequest()->getParam('email');
         $params = $this->getRequest()->getParams();
         if (!empty($email) && !empty($params)) {
-            Mage::dispatchEvent('on_forgotpassword', array('email' => $email));
+            Mage::dispatchEvent('adminhtml_on_forgotpassword', array('email' => $email));
             $collection = Mage::getResourceModel('admin/user_collection');
             /* @var $collection Mage_Admin_Model_Mysql4_User_Collection */
             $collection->addFieldToFilter('email', $email);
