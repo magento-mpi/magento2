@@ -52,6 +52,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
     public function isHidden()
     {
+        if( !$this->getRequest()->getParam('id') ) {
+            return true;
+        }
         return false;
     }
 

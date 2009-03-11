@@ -57,6 +57,7 @@
                     <catalog_product_edit_tabs>Enterprise_Permissions_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
                     <catalog_product_edit_tab_websites>Enterprise_Permissions_Block_Catalog_Product_Edit_Tab_Websites</catalog_product_edit_tab_websites>
                     <catalog_product>Enterprise_Permissions_Block_Catalog_Product</catalog_product>
+                    <customer>Enterprise_Permissions_Block_Customer</customer>
                     <catalog_product_edit_action_attribute_tab_attributes>Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes</catalog_product_edit_action_attribute_tab_attributes>
                     <store_switcher>Enterprise_Permissions_Block_Store_Switcher</store_switcher>
                 </rewrite>

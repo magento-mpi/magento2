@@ -66,6 +66,10 @@ class Enterprise_Permissions_Model_Validate_Action extends Enterprise_Permission
 
     public function catalogProductEdit()
     {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
+            return;
+        }
+
         if( !$this->_getObserver()->getControllerAction()->getRequest()->getParam('id') ) {
             $this->catalogProductNew();
         }
@@ -75,6 +79,10 @@ class Enterprise_Permissions_Model_Validate_Action extends Enterprise_Permission
 
     public function catalogProductNew()
     {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
+            return;
+        }
+
         if( !Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess() ) {
             $this->_redirect('*/catalog_product/index');
         }

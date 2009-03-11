@@ -59,12 +59,12 @@
         </reference>
     </adminhtml_catalog_product_edit>
 
-    <adminhtml_catalog_product_new>
+    <!--<adminhtml_catalog_product_new>
         <reference name="left">
             <remove name="store_switcher"/>
             <block type="enterprise_permissions/store_switcher" name="permissions_store_switcher" template="enterprise/permissions/store/switcher.phtml" before="-"></block>
         </reference>
-    </adminhtml_catalog_product_new>
+    </adminhtml_catalog_product_new>-->
 
     <adminhtml_catalog_product_index>
         <reference name="products_list">
