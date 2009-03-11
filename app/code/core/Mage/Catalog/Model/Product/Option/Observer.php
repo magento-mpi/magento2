@@ -44,18 +44,20 @@ class Mage_Catalog_Model_Product_Option_Observer
         /* @var $quoteItem Mage_Sales_Model_Quote_Item */
         $quoteItem = $observer->getEvent()->getItem();
 
-        foreach ($quoteItem->getOptions() as $itemOption) {
-            $code = explode('_', $itemOption->getCode());
-            if (isset($code[1]) && is_numeric($code[1]) && ($option = $quoteItem->getProduct()->getOptionById($code[1]))) {
-                if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FILE) {
-                    /* @var $_option Mage_Catalog_Model_Product_Option */
-                    try {
-                        $group = $option->groupFactory($option->getType())
-                            ->setQuoteItemOption($itemOption)
-                            ->copyQuoteToOrder();
+        if (is_array($quoteItem->getOptions())) {
+            foreach ($quoteItem->getOptions() as $itemOption) {
+                $code = explode('_', $itemOption->getCode());
+                if (isset($code[1]) && is_numeric($code[1]) && ($option = $quoteItem->getProduct()->getOptionById($code[1]))) {
+                    if ($option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FILE) {
+                        /* @var $_option Mage_Catalog_Model_Product_Option */
+                        try {
+                            $group = $option->groupFactory($option->getType())
+                                ->setQuoteItemOption($itemOption)
+                                ->copyQuoteToOrder();
 
-                    } catch (Exception $e) {
-                        continue;
+                        } catch (Exception $e) {
+                            continue;
+                        }
                     }
                 }
             }
