@@ -1,0 +1,11 @@
+<?php if( $this->getBalance() !== false ):?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-account"><?php echo $this->helper('enterprise_customerbalance')->__('Current Balance')?></h4>
+    </div>
+    <div class="fieldset">
+        <?php echo $this->getGrid()?>
+        <h4><?php echo $this->helper('enterprise_customerbalance')->__('Total:')?> <?php echo $this->getBalance()?></h4>
+    </div>
+</div>
+<?php endif;?>

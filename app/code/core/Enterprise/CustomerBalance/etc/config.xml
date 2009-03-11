@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_CustomerBalance>
+             <version>0.0.1</version>
+        </Enterprise_CustomerBalance>
+    </modules>
+    <global>
+        <resources>
+            <enterprise_customerbalance_setup>
+                <setup>
+                    <module>Enterprise_CustomerBalance</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_customerbalance_setup>
+            <enterprise_customerbalance_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </enterprise_customerbalance_write>
+            <enterprise_customerbalance_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </enterprise_customerbalance_read>
+        </resources>
+        <models>
+            <enterprise_customerbalance>
+                <class>Enterprise_CustomerBalance_Model</class>
+                <resourceModel>enterprise_customerbalance_mysql4</resourceModel>
+            </enterprise_customerbalance>
+            <enterprise_customerbalance_mysql4>
+                <class>Enterprise_CustomerBalance_Model_Mysql4</class>
+                <entities>
+                    <balance>
+                        <table>enterprise_customerbalance</table>
+                    </balance>
+                </entities>
+            </enterprise_customerbalance_mysql4>
+        </models>
+        <blocks>
+            <enterprise_customerbalance>
+                <class>Enterprise_CustomerBalance_Block</class>
+            </enterprise_customerbalance>
+        </blocks>
+        <helpers>
+            <enterprise_customerbalance>
+                <class>Enterprise_CustomerBalance_Helper</class>
+            </enterprise_customerbalance>
+        </helpers>
+    </global>
+    <frontend>
+        <translate>
+            <modules>
+                <Enterprise_CustomerBalance>
+                    <files>
+                        <default>Enterprise_CustomerBalance.csv</default>
+                    </files>
+                </Enterprise_CustomerBalance>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <customerbalance before="Mage_Adminhtml">Enterprise_CustomerBalance</customerbalance>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <customerbalance>
+                    <file>enterprise/customerbalance.xml</file>
+                </customerbalance>
+            </updates>
+        </layout>
+        <events>
+            <on_save_customer>
+                <observers>
+                    <enterprise_permissions>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>customerSave</method>
+                    </enterprise_permissions>
+                </observers>
+            </on_save_customer>
+        </events>
+    </adminhtml>
+</config>

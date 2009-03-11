@@ -113,17 +113,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
          */
         $this->_setActiveMenu('customer/new');
         Mage::dispatchEvent('on_view_customer', array('customer' => $customer));
-        /**
-         * Append customer edit block to content
-         */
-        $this->_addContent(
-            $this->getLayout()->createBlock('adminhtml/customer_edit')
-        );
-
-        /**
-         * Append customer edit tabs to left block
-         */
-        $this->_addLeft($this->getLayout()->createBlock('adminhtml/customer_edit_tabs'));
 
         $this->renderLayout();
     }
