@@ -38,10 +38,10 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
-<form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div id="productView" class="product-view">
     <div><?php // extra div to smooth slideUp and slideDown ?>
+        <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <div class="product-essential">
 
         <fieldset class="no-display">
@@ -103,6 +103,7 @@
                     <div><?php echo $this->getChildChildHtml('container2', '', true, true) ?></div>
                 </div>
             <?php endif;?>
+        </form>
         </div>
         <div class="product-collateral">
             <dl id="collateral-tabs" class="collateral-tabs">
@@ -131,7 +132,7 @@
         </div>
     </div>
 </div>
-</form>
+
 <script type="text/javascript">
         var productAddToCartForm = new VarienForm('product_addtocart_form');
         productAddToCartForm.submit = function() {
