@@ -31,7 +31,7 @@ Product.Bundle.prototype = {
         this.reloadPrice();
     },
     changeSelection: function(selection){
-        parts = selection.id.split('-');
+        var parts = selection.id.split('-');
         if (this.config['options'][parts[2]].isMulti) {
             selected = new Array();
             if (selection.tagName == 'SELECT') {
@@ -90,8 +90,8 @@ Product.Bundle.prototype = {
     selectionPrice: function(optionId, selectionId) {
         if (selectionId == '' || selectionId == 'none') {
             return 0;
-        }
-
+        }        
+        var qty = null;
         if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
             if ($('bundle-option-' + optionId + '-qty-input')) {
                 qty = $('bundle-option-' + optionId + '-qty-input').value;

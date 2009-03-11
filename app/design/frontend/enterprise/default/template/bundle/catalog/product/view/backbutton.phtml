@@ -25,7 +25,7 @@
  */
 ?>
 
-<a href="#" onclick="closeCustomize()"><?php echo $this->__('&laquo; Go back to product detail'); ?></a>
-<script type="text/javascript" defer="defer">
-    initBundle('<?php echo $this->__('Customize %s', $this->helper('catalog/output')->productAttribute($this->getProduct(), $this->htmlEscape($this->getProduct()->getName()), 'name')) ?>')
+<a href="#" onclick="Enterprise.Bundle.end();"><?php echo $this->__('&laquo; Go back to product detail'); ?></a>
+<script type="text/javascript">
+Enterprise.Bundle.initialize();
 </script>

@@ -127,11 +127,9 @@ Lightbox.prototype = {
         //  </div>
 
 
-        var objBody = $$('body')[0];
+        var overlay = Builder.node('div', {id: 'overlay'});
 
-		objBody.appendChild(Builder.node('div',{id:'overlay'}));
-	
-        objBody.appendChild(Builder.node('div',{id:'lightbox'}, [
+        var lightbox = Builder.node('div',{id:'lightbox'}, [
             Builder.node('div',{id:'outerImageContainer'}, 
                 Builder.node('div',{id:'imageContainer'}, [
                     Builder.node('img',{id:'lightboxImage'}), 
@@ -159,10 +157,14 @@ Lightbox.prototype = {
                     )
                 ])
             )
-        ]));
+        ]);
 
-
-		$('overlay').hide().observe('click', (function() { this.end(); }).bind(this));
+        
+        $$('body').first().down().insert({'before':overlay});
+        
+        $('overlay').insert({'before':lightbox});
+        
+        $('overlay').hide().observe('click', (function() { this.end(); }).bind(this));
 		$('lightbox').hide().observe('click', (function(event) { if (event.element().id == 'lightbox') this.end(); }).bind(this));
 		$('outerImageContainer').setStyle({ width: size, height: size });
 		$('prevLink').observe('click', (function(event) { event.stop(); this.changeImage(this.activeImage - 1); }).bindAsEventListener(this));
@@ -177,6 +179,7 @@ Lightbox.prototype = {
                 'imageDataContainer imageData imageDetails caption numberDisplay bottomNav bottomNavClose';   
             $w(ids).each(function(id){ th[id] = $(id); });
         }).defer();
+        
     },
 
     //
@@ -494,4 +497,4 @@ Lightbox.prototype = {
 	}
 }
 
-document.observe('dom:loaded', function () { new Lightbox(); });
+Event.observe(window, 'load', function () { new Lightbox(); });

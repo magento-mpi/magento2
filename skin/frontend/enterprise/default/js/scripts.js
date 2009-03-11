@@ -21,99 +21,109 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-function topCart(elC) {
-	var elC = $(elC);
-	var el=elC.up(0);
-	var check=0;
-	var iTime = 2000;
-    var tIinterval;   
-    
-	el.onmouseout = function() {
-		tIinterval=setTimeout("hideElement()",iTime);	
-	};
-	
-	el.onmouseover = function() {
-		if	(check==0)	{
-			elC.zIndex=999;
-			new Effect.SlideDown(elC.id, { duration: 0.5 });			
-			check=1;
-			}
-		if (tIinterval) {clearTimeout(tIinterval);}	
-	};	
 
-	hideElement = function() {
-		new Effect.SlideUp(elC.id, { duration: 0.5 });
-		if (tIinterval) {clearTimeout(tIinterval);}
-		elC.zIndex=1;	
-		check=0;
-	}	
+if (!window.Enterprise) {
+    window.Enterprise = {};
 }
+Enterprise.TopCart= {
+     initialize: function (container) {
+         this.container = $(container);
+         this.element = this.container.up(0);
+         this.check = 0;
+         this.intervalDuration = 2000;
+         this.interval = null;
+         this.onElementMouseOut = this.handleMouseOut.bindAsEventListener(this);
+         this.onElementMouseOver = this.handleMouseOver.bindAsEventListener(this);
+         
+         this.element.observe('mouseout', this.onElementMouseOut);
+         this.element.observe('mouseover', this.onElementMouseOver);
+         
+     },
+     handleMouseOut: function (evt) {
+         this.interval = setTimeout(this.hideElement.bind(this), this.intervalDuration);
+     },
+     
+     handleMouseOver: function (evt) {
+         if (this.check==0)  {
+            this.container.zIndex=999;
+            new Effect.SlideDown(this.container.id, { duration: 0.5 });
+            this.check=1;
+        }
+        if (this.interval !== null) {
+             clearTimeout(this.interval);
+             this.interval = null;
+        } 
+     },
+     
+     hideElement: function () {
+        new Effect.SlideUp(this.container.id, { duration: 0.5 });
+        if (this.interval !== null) {
+            clearTimeout(this.interval);
+            this.interval = null;
+        }
+        this.container.zIndex=1;
+        this.check = 0;
+     }
+};
 
-function initBundle(pName) {
-    productName = pName;
-    bundleOptions = $('options-container');
-    bundleOptions.hide();
-    bundleOptions.addClassName('bundleProduct');
-    bCheck = 1;
-}
-function openCustomize() {
-    if (bCheck == 1) {
-        $('messages_product_view').insert ({'before':'<div id="customizeTitle" style="display:none" class="page-title"><h2>' + productName + '</h2></div>' });
-        $('productView').insert({'after': bundleOptions });
+Enterprise.Bundle = {
+     initialize: function () {
+         this.options = $('options-container');
+         if (this.options) {
+             this.options.hide();
+             this.options.addClassName('bundleProduct');
+         }
+         this.title = $('customizeTitle');
+     },
+     start: function () {
+         $$('.col-right').each(function(el){el.id='rightCOL'});
+         new Effect.SlideUp('productView', { duration: 0.8 });
+         new Effect.SlideUp('rightCOL', { duration: 0.8 });
+         if (this.options) {
+            new Effect.SlideDown(this.options, { duration: 0.8 });
+         }
+         this.title.show();
+     },
+     end: function () {
+         new Effect.SlideDown('productView', { duration: 0.8 });
+         new Effect.SlideDown('rightCOL', { duration: 0.8 });
+         if (this.options) {
+            new Effect.SlideUp(this.options, { duration: 0.8 });
+         }
+         this.title.hide();
+     }
+}; 
+
+Enterprise.Tabs = Class.create();
+Object.extend(Enterprise.Tabs.prototype, {
+    initialize: function (container) {
+        this.container = $(container);
+        this.container.addClassName('tab-list');
+        this.tabs = this.container.select('dt.tab');
+        this.activeTab = this.tabs.first();
+        this.tabs.first().addClassName('first');
+        this.tabs.last().addClassName('last');
+        this.onTabClick = this.handleTabClick.bindAsEventListener(this);
+        for (var i = 0, l = this.tabs.length; i < l; i ++) {
+            this.tabs[i].observe('click', this.onTabClick);
+        }
+        this.select();
+    },
+    handleTabClick: function (evt) {
+        this.activeTab = Event.findElement(evt, 'dt');
+        this.select();
+    }, 
+    select: function () {
+        for (var i = 0, l = this.tabs.length; i < l; i ++) {
+            if (this.tabs[i] == this.activeTab) {
+                this.tabs[i].addClassName('active');
+                this.tabs[i].style.zIndex = this.tabs.length + 2;
+                this.tabs[i].next('dd').show();
+            } else {
+                this.tabs[i].removeClassName('active');
+                this.tabs[i].style.zIndex = this.tabs.length + 1 - i;
+                this.tabs[i].next('dd').hide();
+            }
+        }
     }
-    $$('.col-right').each(function(el){el.id='rightCOL'});
-    new Effect.SlideUp('productView', { duration: 0.8 });
-    new Effect.SlideUp('rightCOL', { duration: 0.8 });
-    new Effect.SlideDown(bundleOptions, { duration: 0.8 });
-    $('customizeTitle').show();
-    bCheck == 0;
-}
-function closeCustomize() {
-    $('customizeTitle').hide();
-    new Effect.SlideDown('productView', { duration: 0.8 });
-    new Effect.SlideDown('rightCOL', { duration: 0.8 });
-    new Effect.SlideUp(bundleOptions, { duration: 0.8 });
-    bCheck == 0;    
-}
-
-function tabsActivate(tId) {
-    $(tId).addClassName('tab-list');
-    var aTabsNames = $(tId).getElementsBySelector('dt.tab');
-    var aTabsContent = $(tId).getElementsBySelector('dd.tab-container');
-    var eTabActiveName = aTabsNames.first();
-    aTabsNames.first().addClassName('first');
-    aTabsNames.last().addClassName('last');
-    toggleTabs(eTabActiveName);
-    
-    aTabsNames.each(function(name) {
-        name.onclick = function() {
-            if (eTabActiveName != this) {
-                eTabActiveName = this;
-                toggleTabs(eTabActiveName);
-            };
-        };
-    });
-    
-    function toggleTabs(eTabActiveName) {
-       aTabsNames.each(function(name,i) {
-            if (name==eTabActiveName) {
-                name.addClassName('active');
-                name.style.zIndex = aTabsNames.length + 2;                
-                eTabActiveContent=name.next('dd');
-                }
-            else {
-                name.removeClassName('active');
-                name.style.zIndex = aTabsNames.length + 1 - i;                
-            };
-          });
-        aTabsContent.each(function(tab) {
-            if (tab==eTabActiveContent) {
-                tab.show();
-                tab.parentNode.style.height = tab.getHeight() + 'px';
-                }
-            else {
-                tab.hide();
-                }    
-          });
-        };        
-}
+});
