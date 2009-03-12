@@ -26,12 +26,9 @@
 ?>
 <?php if ($this->helper('wishlist')->isAllow()) : ?>
 <?php //if($this->getCanDisplayWishlist()): ?>
-<div class="block block-wishlist">
+<div class="block block-wishlist collapsable">
     <div class="block-title">
-        <h2><?php echo $this->__('My Wishlist - <a href="%s">%d Item(s)</a>',
-            $this->helper('wishlist')->getListUrl(),
-            $this->helper('wishlist')->getItemCount()
-        ) ?></h2>
+        <h2><?php echo $this->__('My Wishlist <span>(%s)</span>', $this->helper('wishlist')->getItemCount()) ?></h2>
     </div>
     <div class="block-content">
     <h3><?php echo $this->__('Last Added Items') ?></h3>

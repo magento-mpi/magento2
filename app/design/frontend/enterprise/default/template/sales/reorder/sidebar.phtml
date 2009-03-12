@@ -32,9 +32,9 @@
  */
 ?>
 <?php if($_order = $this->getLastOrder()): ?>
-<div class="block block-reorder">
+<div class="block block-reorder collapsable">
     <div class="block-title">
-        <h2><?php echo $this->__('My Orders') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo $this->__('View All'); ?></a></h2>
+        <h2><?php echo $this->__('My Orders') ?></h2>
     </div>
     <div class="block-content">
     <h3><?php echo $this->__('Last ordered items') ?></h3>
@@ -44,7 +44,7 @@
             <?php $_showAddButtonFlag = false ?>
             <?php foreach ($_order->getItemsRandomCollection(5) as $_item): ?>
                 <?php if ($_item->getProduct() && is_null($_item->getParentItem())): ?>
-                    <li>
+                    <li class="item">
                         <?php if ($this->getIsSalableItem($_item)): ?>
                             <?php $_showAddButtonFlag = true ?>
                             <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" class="checkbox validate-one-required-by-name" />
@@ -61,11 +61,12 @@
         </ol>
         <script type="text/javascript">decorateList('cart-sidebar-reorder')</script>
         <div id="cart-sidebar-reorder-advice-container"></div>
-        <?php if ($_showAddButtonFlag): ?>
-            <div class="actions">
+        <div class="actions">
+            <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo $this->__('View All'); ?></a>
+            <?php if ($_showAddButtonFlag): ?>
                 <button type="submit" class="button"><span><?php echo $this->__('Add to Cart') ?></span></button>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </fieldset>
     </form>
     </div>
