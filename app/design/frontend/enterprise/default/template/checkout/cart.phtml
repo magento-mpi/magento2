@@ -111,6 +111,7 @@
         </div>
         <div class="col-2">
             <?php echo $this->getChildHtml('coupon') ?>
+            <?php echo $this->getChildHtml('giftcards') ?>
             <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
         </div>
     </div>

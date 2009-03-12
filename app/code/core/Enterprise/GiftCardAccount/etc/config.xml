@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_GiftCardAccount
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_GiftCardAccount>
+             <version>0.0.3</version>
+        </Enterprise_GiftCardAccount>
+    </modules>
+
+    <global>
+        <models>
+            <enterprise_giftcardaccount>
+                <class>Enterprise_GiftCardAccount_Model</class>
+                <resourceModel>enterprise_giftcardaccount_mysql4</resourceModel>
+            </enterprise_giftcardaccount>
+            <enterprise_giftcardaccount_mysql4>
+                <class>Enterprise_GiftCardAccount_Model_Mysql4</class>
+                <entities>
+                    <giftcardaccount>
+                        <table>enterprise_giftcardaccount</table>
+                    </giftcardaccount>
+                </entities>
+            </enterprise_giftcardaccount_mysql4>
+        </models>
+
+        <resources>
+            <enterprise_giftcardaccount_setup>
+                <setup>
+                    <module>Enterprise_GiftCardAccount</module>
+                    <class>Enterprise_GiftCardAccount_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_giftcardaccount_setup>
+            <enterprise_giftcardaccount_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </enterprise_giftcardaccount_write>
+            <enterprise_giftcardaccount_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </enterprise_giftcardaccount_read>
+        </resources>
+        <blocks>
+            <enterprise_giftcardaccount>
+                <class>Enterprise_GiftCardAccount_Block</class>
+            </enterprise_giftcardaccount>
+        </blocks>
+        <helpers>
+            <enterprise_giftcardaccount>
+                <class>Enterprise_GiftCardAccount_Helper</class>
+            </enterprise_giftcardaccount>
+        </helpers>
+        <sales>
+            <quote>
+                <totals>
+                    <giftcardaccount>
+                        <class>enterprise_giftcardaccount/total_quote_giftcardaccount</class>
+                        <after>subtotal,shipping,tax,discount</after>
+                        <before>grand_total</before>
+                        <renderer>enterprise_giftcardaccount/checkout_cart_total</renderer>
+                    </giftcardaccount>
+                </totals>
+            </quote>
+
+            <order_invoice>
+                <totals>
+                </totals>
+            </order_invoice>
+
+            <order_creditmemo>
+                <totals>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <enterprise>
+            <giftcardaccount>
+                <separator>-</separator>
+                <charset>
+                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
+                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
+                    <num>0123456789</num>
+                </charset>
+            </giftcardaccount>
+        </enterprise>
+    </global>
+
+    <frontend>
+        <translate>
+            <modules>
+                <Enterprise_GiftCardAccount>
+                    <files>
+                        <default>Enterprise_GiftCardAccount.csv</default>
+                    </files>
+                </Enterprise_GiftCardAccount>
+            </modules>
+        </translate>
+        <routers>
+            <enterprise_giftcardaccount>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_GiftCardAccount</module>
+                    <frontName>giftcard</frontName>
+                </args>
+            </enterprise_giftcardaccount>
+        </routers>
+        <layout>
+            <updates>
+                <enterprise_giftcardaccount>
+                    <file>giftcardaccount.xml</file>
+                </enterprise_giftcardaccount>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <enterprise_giftcardaccount before="Mage_Adminhtml">Enterprise_GiftCardAccount</enterprise_giftcardaccount>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_giftcardaccount>
+                    <file>enterprise/giftcardaccount.xml</file>
+                </enterprise_giftcardaccount>
+            </updates>
+        </layout>
+
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <system>
+                  <children>
+                    <config>
+                      <children>
+                        <giftcardaccount>
+                          <title>Gift Card Accounts</title>
+                        </giftcardaccount>
+                      </children>
+                    </config>
+                  </children>
+                </system>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+
+
+        <menu>
+            <customer>
+                <children>
+                    <enterprise_giftcardaccount translate="title" module="enterprise_giftcardaccount">
+                        <title>Gift Card Accounts</title>
+                        <action>adminhtml/manage_giftcardaccount</action>
+                        <resource>customer/giftcardaccount</resource>
+                        <depends><module>Enterprise_GiftCardAccount</module></depends>
+                    </enterprise_giftcardaccount>
+                </children>
+             </customer>
+        </menu>
+    </adminhtml>
+
+    <default>
+        <giftcardaccount>
+            <email>
+                <identity>general</identity>
+                <template>giftcardaccount_email_template</template>
+            </email>
+            <general>
+                <code_length>12</code_length>
+                <code_format>alphanum</code_format>
+                <code_split>0</code_split>
+            </general>
+        </giftcardaccount>
+        <sales>
+            <totals_sort>
+                <giftcardaccount>90</giftcardaccount>
+            </totals_sort>
+        </sales>
+    </default>
+
+</config>

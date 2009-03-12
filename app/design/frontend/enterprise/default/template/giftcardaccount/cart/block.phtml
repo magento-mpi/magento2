@@ -1,0 +1,17 @@
+<div class="giftcard">
+    <h3><?php echo $this->__('Gift Cards') ?></h3>
+    <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/cart/add') ?>" method="post">
+        <fieldset>
+            <a href="<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/check'); ?>"><?php echo $this->__('Check') ?></a>
+            <?php echo $this->__('Gift Card status and balance.'); ?>
+            <br />
+            <input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" />
+            <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Apply Coupon') ?>"><span><?php echo $this->__('Add Gift Card') ?></span></button>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+    var giftcardForm = new VarienForm('giftcard-form');
+    //]]>
+    </script>
+</div>
