@@ -37,4 +37,15 @@
             <block type="enterprise_giftcardaccount/checkout_cart_check" template="giftcardaccount/cart/check.phtml" name="check" />
         </reference>
     </enterprise_giftcardaccount_cart_check>
+
+    <sales_order_view>
+        <reference name="order_items">
+            <block type="enterprise_giftcardaccount/sales_order_giftcards" name="giftcards" template="giftcardaccount/order/giftcards.phtml" />
+        </reference>
+    </sales_order_view>
+    <sales_order_print>
+        <reference name="sales.order.print">
+            <block type="enterprise_giftcardaccount/sales_order_giftcards" name="giftcards" template="giftcardaccount/order/giftcards.phtml" />
+        </reference>
+    </sales_order_print>
 </layout>
