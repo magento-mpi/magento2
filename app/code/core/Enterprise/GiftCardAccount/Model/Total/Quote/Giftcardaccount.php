@@ -46,7 +46,8 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
         $baseAmountLeft = $address->getQuote()->getBaseGiftCardsAmount()-$address->getQuote()->getBaseGiftCardsAmountUsed();
         $amountLeft = $address->getQuote()->getGiftCardsAmount()-$address->getQuote()->getGiftCardsAmountUsed();
 
-        $baseTotalUsed = $totalUsed = $baseUsed = $used = 0;
+        $baseTotalUsed = $totalUsed = $baseUsed = $used = $skipped = $baseSaved = $saved = 0;
+
         if ($baseAmountLeft >= $address->getBaseGrandTotal()) {
             $baseUsed = $address->getBaseGrandTotal();
             $used = $address->getGrandTotal();
@@ -60,6 +61,37 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
             $address->setBaseGrandTotal($address->getBaseGrandTotal()-$baseAmountLeft);
             $address->setGrandTotal($address->getGrandTotal()-$amountLeft);
         }
+
+        $addressCards = array();
+        if ($baseUsed) {
+            $quoteCards = $this->_sortGiftCards(Mage::helper('enterprise_giftcardaccount')->getCards($address->getQuote()));
+            foreach ($quoteCards as $quoteCard) {
+                $card = $quoteCard;
+                if ($quoteCard['ba'] + $skipped <= $address->getQuote()->getBaseGiftCardsAmountUsed()) {
+                    $baseThisCardUsedAmount = $thisCardUsedAmount = 0;
+                } elseif ($quoteCard['ba'] + $baseSaved > $baseUsed) {
+                    $baseThisCardUsedAmount = min($quoteCard['ba'], $baseUsed-$baseSaved);
+                    $thisCardUsedAmount = min($quoteCard['a'], $used-$saved);
+
+                    $baseSaved += $baseThisCardUsedAmount;
+                    $saved += $thisCardUsedAmount;
+                } elseif ($quoteCard['ba'] + $skipped + $baseSaved > $address->getQuote()->getBaseGiftCardsAmountUsed()) {
+                    $baseThisCardUsedAmount = min($quoteCard['ba'], $baseUsed);
+                    $thisCardUsedAmount = min($quoteCard['a'], $used);
+
+                    $baseSaved += $baseThisCardUsedAmount;
+                    $saved += $thisCardUsedAmount;
+                } else {
+                    $baseThisCardUsedAmount = $thisCardUsedAmount = 0;
+                }
+                $card['ba'] = $baseThisCardUsedAmount;
+                $card['a'] = $thisCardUsedAmount;
+                $addressCards[] = $card;
+
+                $skipped += $quoteCard['ba'];
+            }
+        }
+        Mage::helper('enterprise_giftcardaccount')->setCards($address, $addressCards);
 
         $baseTotalUsed = $address->getQuote()->getBaseGiftCardsAmountUsed() + $baseUsed;
         $totalUsed = $address->getQuote()->getGiftCardsAmountUsed() + $used;
@@ -85,10 +117,13 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
             $baseAmount = 0;
             $amount = 0;
             $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
-            foreach ($cards as $card) {
+            foreach ($cards as &$card) {
+                $card['a'] = $quote->getStore()->convertPrice($card['ba']);
                 $baseAmount += $card['ba'];
                 $amount += $card['a'];
             }
+
+            Mage::helper('enterprise_giftcardaccount')->setCards($quote, $cards);
 
             $quote->setBaseGiftCardsAmount($baseAmount);
             $quote->setGiftCardsAmount($amount);
@@ -105,19 +140,16 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
-        if (!$address->getQuote()->getGiftCardsTotalFetched()) {
-            $giftCards = $this->_sortGiftCards(Mage::helper('enterprise_giftcardaccount')->getCards($address->getQuote()));
-            foreach ($giftCards as $card) {
-                $title = Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', $card['c']);
-                $address->addTotal(array(
-                    'code'=>"{$this->getCode()}_{$card['c']}",
-                    'as'=>$this->getCode(),
-                    'title'=>$title,
-                    'value'=>-$card['a'],
-                    'gift_card'=>$card['c'],
-                ));
-            }
-            $address->getQuote()->setGiftCardsTotalFetched(true);
+        $giftCards = Mage::helper('enterprise_giftcardaccount')->getCards($address);
+        foreach ($giftCards as $card) {
+            $title = Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', $card['c']);
+            $address->addTotal(array(
+                'code'=>"{$this->getCode()}_{$card['c']}",
+                'as'=>$this->getCode(),
+                'title'=>$title,
+                'value'=>$card['a'],
+                'gift_card'=>$card['c'],
+            ));
         }
         return $this;
     }

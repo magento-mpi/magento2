@@ -259,4 +259,24 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         }
         return false;
     }
+
+    /**
+     * Reduce Gift Card Account balance by specified amount
+     *
+     * @param decimal $amount
+     */
+    public function charge($amount)
+    {
+        if (!$this->getId()) {
+            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Gift Card was not found.'));
+        }
+
+        if ($amount > $this->getBalance()) {
+            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Gift Card balance is lower than amount to be charged.'));
+        }
+
+        $this->setBalance($this->getBalance() - $amount);
+
+        return $this;
+    }
 }

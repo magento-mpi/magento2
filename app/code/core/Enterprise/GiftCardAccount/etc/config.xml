@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCardAccount>
-             <version>0.0.3</version>
+             <version>0.0.4</version>
         </Enterprise_GiftCardAccount>
     </modules>
 
@@ -111,6 +111,37 @@
                 </charset>
             </giftcardaccount>
         </enterprise>
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <enterprise_giftcardaccount_sales_order_place_after>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>processOrderPlace</method>
+                    </enterprise_giftcardaccount_sales_order_place_after>
+                </observers>
+            </sales_order_place_after>
+
+            <enterprise_giftcardaccount_charge_by_code>
+                <observers>
+                    <enterprise_giftcardaccount_charge_by_code>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>chargeByCode</method>
+                    </enterprise_giftcardaccount_charge_by_code>
+                </observers>
+            </enterprise_giftcardaccount_charge_by_code>
+
+            <enterprise_giftcardaccount_charge>
+                <observers>
+                    <enterprise_giftcardaccount_charge>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>chargeById</method>
+                    </enterprise_giftcardaccount_charge>
+                </observers>
+            </enterprise_giftcardaccount_charge>
+        </events>
     </global>
 
     <frontend>
