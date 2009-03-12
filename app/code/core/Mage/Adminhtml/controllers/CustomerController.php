@@ -112,7 +112,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
          * Set active menu item
          */
         $this->_setActiveMenu('customer/new');
-        Mage::dispatchEvent('on_view_customer', array('customer' => $customer));
+        Mage::dispatchEvent('adminhtml_customer_on_view', array('customer' => $customer));
 
         $this->renderLayout();
     }
@@ -134,10 +134,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customer = Mage::registry('current_customer');
         if ($customer->getId()) {
             try {
+                $customer->load($customer->getId());
                 $customer->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was deleted'));
+                Mage::dispatchEvent('adminhtml_customer_on_delete', array('customer' => $customer, 'status' => 'success'));
             }
             catch (Exception $e){
+                Mage::dispatchEvent('adminhtml_customer_on_delete', array('customer' => $customer, 'status' => 'fail'));                
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
@@ -220,10 +223,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was successfully saved'));
-                Mage::dispatchEvent('on_save_customer', array('customer' => $customer, 'status' => 'success'));
+                Mage::dispatchEvent('adminhtml_customer_on_save', array('customer' => $customer, 'status' => 'success'));
             }
             catch (Exception $e){
-                Mage::dispatchEvent('on_save_customer', array('customer' => $customer, 'status' => 'fail'));
+                Mage::dispatchEvent('adminhtml_customer_on_save', array('customer' => $customer, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setCustomerData($data);
                 $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id'=>$customer->getId())));
@@ -523,9 +526,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         'Total of %d record(s) were successfully deleted', count($customersIds)
                     )
                 );
-                Mage::dispatchEvent('on_delete_customer', array('customer' => $customer, 'status' => 'success'));
             } catch (Exception $e) {
-                Mage::dispatchEvent('on_delete_customer', array('customer' => $customer, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
