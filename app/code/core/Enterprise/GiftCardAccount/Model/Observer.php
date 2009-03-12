@@ -35,6 +35,18 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
+        $order = $observer->getEvent()->getOrder();
+        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($order);
+        if (is_array($cards)) {
+            foreach ($cards as $card) {
+                $args = array(
+                    'amount'=>$card['ba'],
+                    'gift_card_account_id'=>$card['i'],
+                );
+
+                Mage::dispatchEvent('enterprise_giftcardaccount_charge', $args);
+            }
+        }
         return $this;
     }
 
