@@ -320,7 +320,7 @@
                     <config>
                       <children>
                         <logging>
-                          <title>Enterprise</title>
+                          <title>Logging</title>
                         </logging>
                       </children>
                     </config>
@@ -330,6 +330,28 @@
             </admin>
           </resources>
         </acl>
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <report>
+                  <children>
+                        <logging translate="title" module="enterprise_logging">
+                          <title>Admin Logging</title>
+                          <children>
+                            <backups translate="title" module="enterprise_logging">
+                              <title>Saved files</title>
+                            </backups>
+                          </children>
+                        </logging>
+                  </children>
+                </report>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+
+
 
         <layout>
             <updates>

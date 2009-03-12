@@ -95,4 +95,11 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
         );
     }
 
+    /**
+     * permissions checker
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('report/logging');
+    }
 }
