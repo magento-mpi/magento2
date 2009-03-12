@@ -79,14 +79,6 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'filter'    => false,
         ));
 
-        $this->addColumn('event', array(
-            'header'    => 'Event',
-            'index'     => 'event_code',
-            'type'      => 'eventlabel',
-            'sortable'  => false,
-            'filter'    => 'enterprise_logging/events_grid_filter_event',
-        ));
-
         $this->addColumn('user', array(
             'header'    => 'User',
             'index'     => 'adm.user_id',
@@ -96,12 +88,27 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'renderer'  => 'enterprise_logging/events_grid_renderer_user'
         ));
 
+        $this->addColumn('event', array(
+            'header'    => 'Event',
+            'index'     => 'event_code',
+            'type'      => 'eventlabel',
+            'sortable'  => false,
+            'filter'    => 'enterprise_logging/events_grid_filter_event',
+        ));
+
         $this->addColumn('action', array(
             'header'    => 'Action',
             'index'     => 'action',
             'type'      => 'text',
             'sortable'  => true,
         ));
+
+        $this->addColumn('status', array(
+            'header'    => 'Status',
+            'index'     => 'status',
+            'type'      => 'text',
+            'sortable'  => true,
+                         ));
 
         $this->addColumn('info', array(
             'header'    => 'Info',

@@ -63,6 +63,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         $code = $this->getEventCode();
         $action = $this->getAction();
         $success = $this->getSuccess() ? 'success' : 'fail';
+        $this->setStatus($success);
         $node = Mage::getConfig()->getNode('adminhtml/enterprise/logging/events/' . $code . '/actions/' . $action . '/' . $success);
         $string = (string)$node;
         if(is_array($info)) {

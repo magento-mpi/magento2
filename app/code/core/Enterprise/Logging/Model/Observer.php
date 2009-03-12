@@ -571,6 +571,8 @@ class Enterprise_Logging_Model_Observer
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
         $customer = $observer->getCustomer();
+        if(!$customer->getId())
+            return;
         $info = array($customer->getId(), $customer->getFirstname());
         $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($ip);

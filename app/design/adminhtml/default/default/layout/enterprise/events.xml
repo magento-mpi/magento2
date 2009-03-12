@@ -21,9 +21,16 @@
 -->
 
 <layout>
-    <logging_events_index>
+    <adminhtml_events_index>
         <reference name="content">
-            <block type="logging/events_grid"  name="logging_events_grid" />
+            <block type="enterprise_logging/events_grid"  name="enterprise_logging_events_grid" />
         </reference>
-    </logging_events_index>
+    </adminhtml_events_index>
+
+    <adminhtml_events_log>
+        <reference name="content">
+            <block type="enterprise_logging/events_logs_grid"  name="enterprise_logging_events_logsaad_grid" />
+        </reference>
+    </adminhtml_events_log>
+
 </layout>
