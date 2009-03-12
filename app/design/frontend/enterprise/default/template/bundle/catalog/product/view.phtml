@@ -38,6 +38,7 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
+<div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div id="productView" class="product-view">
     <div><?php // extra div to smooth slideUp and slideDown ?>
@@ -122,7 +123,6 @@
     <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
     <input type="hidden" name="related_product" id="related-products-field" value="" />
 </fieldset>
-<div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
     <div id="options-container">
         <div><?php echo $this->getChildChildHtml('container1', '', true, true) ?></div>

@@ -45,7 +45,7 @@ Enterprise.TopCart= {
      
      handleMouseOver: function (evt) {
          if (this.check==0)  {
-            this.container.zIndex=999;
+            this.container.parentNode.style.zIndex=999;
             new Effect.SlideDown(this.container.id, { duration: 0.5 });
             this.check=1;
         }
@@ -61,7 +61,7 @@ Enterprise.TopCart= {
             clearTimeout(this.interval);
             this.interval = null;
         }
-        this.container.zIndex=1;
+        this.container.parentNode.style.zIndex=1;
         this.check = 0;
      }
 };
@@ -119,6 +119,7 @@ Object.extend(Enterprise.Tabs.prototype, {
                 this.tabs[i].addClassName('active');
                 this.tabs[i].style.zIndex = this.tabs.length + 2;
                 this.tabs[i].next('dd').show();
+                this.tabs[i].parentNode.style.height=this.tabs[i].next('dd').getHeight() + 'px';
             } else {
                 this.tabs[i].removeClassName('active');
                 this.tabs[i].style.zIndex = this.tabs.length + 1 - i;
