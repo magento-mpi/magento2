@@ -20,22 +20,11 @@
  *
  * @category   Enterprise
  * @package    Enterprise_GiftCard
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catalog_Model_Product_Type_Abstract
+class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const TYPE_GIFTCARD     = 'giftcard';
 
-    /**
-     * Check is gift card product
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @return bool
-     */
-    public function isGiftCard($product = null)
-    {
-        return true;
-    }
 }

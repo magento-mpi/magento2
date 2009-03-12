@@ -33,7 +33,7 @@
     </modules>
     <global>
         <resources>
-            <giftcard_setup>
+            <enterprise_giftcard_setup>
                 <setup>
                     <module>Enterprise_GiftCard</module>
                     <class>Mage_Eav_Model_Entity_Setup</class>
@@ -42,55 +42,50 @@
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </giftcard_setup>
+            </enterprise_giftcard_setup>
 
-            <giftcard_write>
+            <enterprise_giftcard_write>
                 <use>core_write</use>
-            </giftcard_write>
+            </enterprise_giftcard_write>
 
-            <giftcard_read>
+            <enterprise_giftcard_read>
                 <use>core_read</use>
-            </giftcard_read>
+            </enterprise_giftcard_read>
         </resources>
 
         <models>
-            <giftcard>
+            <enterprise_giftcard>
                 <class>Enterprise_GiftCard_Model</class>
-                <resourceModel>giftcard_mysql4</resourceModel>
-            </giftcard>
+                <resourceModel>enterprise_giftcard_mysql4</resourceModel>
+            </enterprise_giftcard>
 
-            <giftcard_mysql4>
+            <enterprise_giftcard_mysql4>
                 <class>Enterprise_GiftCard_Model_Mysql4</class>
-            </giftcard_mysql4>
+            </enterprise_giftcard_mysql4>
         </models>
 
         <blocks>
-            <giftcard>
+            <enterprise_giftcard>
                 <class>Enterprise_GiftCard_Block</class>
-            </giftcard>
+            </enterprise_giftcard>
         </blocks>
 
         <helpers>
-            <giftcard>
-                <class>Enterprise_Permissions_Helper</class>
-            </giftcard>
+            <enterprise_giftcard>
+                <class>Enterprise_GiftCard_Helper</class>
+            </enterprise_giftcard>
         </helpers>
 
         <catalog>
             <product>
                 <type>
-                    <giftcard translate="label" module="catalog">
+                    <giftcard translate="label" module="enterprise_giftcard">
                         <label>Gift Card</label>
-                        <model>giftcard/catalog_product_type_giftcard</model>
+                        <model>enterprise_giftcard/catalog_product_type_giftcard</model>
                         <composite>0</composite>
                     </giftcard>
                 </type>
             </product>
         </catalog>
     </global>
-
-    <adminhtml>
-        <events>
-        </events>
-    </adminhtml>
 </config>
