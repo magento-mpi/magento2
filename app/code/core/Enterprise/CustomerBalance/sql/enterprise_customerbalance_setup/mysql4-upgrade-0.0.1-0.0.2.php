@@ -19,20 +19,20 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterpirse_CustomerBalance
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Enterprise_CustomerBalance
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerBalance_CustomerbalanceController extends Mage_Adminhtml_Controller_Action
-{
-    public function formAction()
-    {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance')->toHtml() .
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_form')->initForm()->toHtml() .
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history')->toHtml()
-        );
-    }
-}
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer->startSetup();
+
+$installer->run("ALTER TABLE {$installer->getTable('enterprise_customerbalance')} CHANGE `website_id` `website_id` SMALLINT( 5 ) UNSIGNED NOT NULL;");
+
+$installer->run("
+ALTER TABLE {$installer->getTable('enterprise_customerbalance')} ADD KEY `FK_CUSTOMERBALANCE_CORE_WEBSITE` ( `website_id` ) ,
+ADD CONSTRAINT `FK_CUSTOMERBALANCE_CORE_WEBSITE` FOREIGN KEY ( website_id ) REFERENCES {$installer->getTable('core_website')}( `website_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
+");
+
+$installer->endSetup();

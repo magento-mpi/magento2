@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Customer
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -38,12 +38,12 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             if( !$this->getId() ) {
                 $this->setBalance($this->getDelta())
                      ->save();
-                Mage::dispatchEvent('enterprise_customerbalance_create', array('balance' => $this->getData()));
+                $this->getHistoryModel()->addCreateEvent($this);
             } else {
                 $newBalance = $this->getBalance() + $this->getDelta();
                 $this->setBalance($newBalance)
                      ->save();
-                Mage::dispatchEvent('enterprise_customerbalance_update', array('balance' => $this->getData()));
+                $this->getHistoryModel()->addUpdateEvent($this);
             }
         }
     }
@@ -57,5 +57,10 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     public function getTotal($customerId)
     {
         return $this->getResource()->getTotal($customerId);
+    }
+
+    public function getHistoryModel()
+    {
+        return Mage::getModel('enterprise_customerbalance/balance_history');
     }
 }

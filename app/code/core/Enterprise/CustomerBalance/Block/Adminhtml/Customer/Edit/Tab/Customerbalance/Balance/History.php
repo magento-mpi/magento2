@@ -24,19 +24,25 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerBalance_Model_Observer
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History extends Mage_Adminhtml_Block_Template
 {
-    public function customerSave($observer)
-    {
-        $post = Mage::app()->getFrontController()->getAction()->getRequest()->getPost();
-        if( isset($post['customerbalance']) ) {
-            $data = $post['customerbalance'];
+    protected $_collection;
 
-            Mage::getModel('enterprise_customerbalance/balance')
-                ->setDelta($data['delta'])
-                ->setCustomerId($observer->getEvent()->getCustomer()->getId())
-                ->setWebsiteId( isset($data['website']) ? $data['website'] : null )
-                ->updateBalance();
+    public function __construct()
+    {
+        $this->setTemplate('enterprise/customerbalance/balance/history.phtml');
+    }
+
+    public function getActionsCollection()
+    {
+        if( !$this->_collection ) {
+            $this->_collection = Mage::getModel('enterprise_customerbalance/balance_history')
+                ->getCollection()
+                ->addWebsiteData()
+                ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'))
+                ->addWebsiteFilter(Mage::helper('enterprise_permissions')->getRelevantWebsites());
         }
+
+        return $this->_collection;
     }
 }

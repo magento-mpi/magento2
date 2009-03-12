@@ -69,4 +69,13 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         return parent::_prepareColumns();
     }
+
+    protected function _toHtml()
+    {
+        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
+            return '';
+        }
+
+        return parent::_toHtml();
+    }
 }

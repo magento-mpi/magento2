@@ -19,20 +19,15 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterpirse_CustomerBalance
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Enterprise_CustomerBalance
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerBalance_CustomerbalanceController extends Mage_Adminhtml_Controller_Action
+class Enterprise_CustomerBalance_Model_Mysql4_Balance_History extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function formAction()
+    protected function _construct()
     {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance')->toHtml() .
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_form')->initForm()->toHtml() .
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history')->toHtml()
-        );
+        $this->_init('enterprise_customerbalance/balance_history', 'primary_id');
     }
 }
