@@ -31,3 +31,56 @@
  * @see Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row
  */
 ?>
+<div class="option-box permission-box" id="{{html_id}}">
+    <?php if (!$this->canEditWebsites()): ?>
+    <input type="hidden" value="<?php echo $this->getDefaultWebsiteId(); ?>" class="<?php echo $this->getFieldClassName('website'); ?>" name="general[permissions][{{index}}][website_id]"/>
+    <?php endif; ?>
+    <input type="hidden" value="" class="<?php echo $this->getFieldClassName('id'); ?>" name="general[permissions][{{index}}][id]"/>
+    <input type="hidden" value="" class="<?php echo $this->getFieldClassName('_deleted'); ?>" name="general[permissions][{{index}}][_deleted]"/>
+    <table cellspacing="0" cellpadding="0" class="option-header">
+        <thead>
+            <tr>
+                <?php if ($this->canEditWebsites()): ?>
+                <th><?php echo $this->helper('enterprise_catalogpermissions')->__('Website');?> <span class="required">*</span></th>
+                <?php endif; ?>
+                <th><?php echo $this->helper('enterprise_catalogpermissions')->__('Customer Group');?> <span class="required">*</span></th>
+                <?php foreach ($this->getGrants() as $_label): ?>
+                <th><?php echo $_label ?></th>
+                <?php endforeach; ?>
+                <th class="a-right"><?php echo $this->getDeleteButtonHtml(); ?></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                 <?php if ($this->canEditWebsites()): ?>
+                 <td><select class="<?php echo $this->getFieldClassName('website_id'); ?> required-entry select is-unique" name="general[permissions][{{index}}][website_id]">
+                    <option value=""></option>
+                    <?php foreach ($this->getWebsiteCollection() as $_website): ?>
+                        <option value="<?php echo $_website->getId() ?>"><?php echo $this->htmlEscape($_website->getName()) ?></option>
+                    <?php endforeach; ?>
+                 </select></td>
+                 <?php endif; ?>
+                 <td>
+                     <select class="<?php echo $this->getFieldClassName('customer_group_id'); ?> required-entry select is-unique" name="general[permissions][{{index}}][customer_group_id]">
+                        <option value=""></option>
+                        <?php foreach ($this->getCustomerGroupCollection() as $_customerGroup): ?>
+                            <option value="<?php echo $_customerGroup->getId() ?>"><?php echo $this->htmlEscape($_customerGroup->getCode()) ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                 </td>
+                <?php foreach ($this->getGrants() as $_fieldId => $_label): ?>
+                <td>
+                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow" value="-1" {{<?php echo $_fieldId ?>_-1}}/>
+                    <label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow"><?php echo $this->helper('enterprise_catalogpermissions')->__('Allow') ?></label><br />
+                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny" value="-2" {{<?php echo $_fieldId ?>_-2}}/>
+                    <label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny"><?php echo $this->helper('enterprise_catalogpermissions')->__('Deny') ?></label><br />
+                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}}/>
+                    <label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default"><?php echo $this->helper('enterprise_catalogpermissions')->__('Default') ?></label>
+                </td>
+                <?php endforeach; ?>
+            </tr>
+        </tbody>
+    </table>
+    <input type="hidden" value="" class="permission-duplicate" id="category_permissions_{{index}}_duplicate"/>
+</div>

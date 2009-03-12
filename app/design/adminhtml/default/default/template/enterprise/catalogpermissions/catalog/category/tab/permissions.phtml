@@ -31,3 +31,15 @@
  * @see Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
  */
 ?>
+<div class="entry-edit permissions custom-options" id="category_permissions_<?php echo $this->getCategoryId(); ?>">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->helper('enterprise_catalogpermissions')->__('Category Permissions') ?></h4>
+        <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
+    </div>
+
+    <div class="box items">
+    </div>
+</div>
+<script type="text/javascript">
+window.categoryPermissionsTab = new Enterprise.CatalogPermissions.CategoryTab('category_permissions_<?php echo $this->getCategoryId(); ?>', <?php echo $this->getConfigJson(); ?>);
+</script>

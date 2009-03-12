@@ -26,9 +26,12 @@
  */
 -->
 <layout version="0.1.0">
-    <adminhtml_catalog_category_edit>
+    <PERMISSIONS_JAVASCRIPT>
         <reference name="head">
-            <action method="addItem"><type>js</type><name>enterprise/catalogpermissions.js</name></action>
+            <action method="addJs"><script>enterprise/adminhtml/catalogpermissions.js</script></action>
         </reference>
+    </PERMISSIONS_JAVASCRIPT>
+    <adminhtml_catalog_category_edit>
+        <update handle="PERMISSIONS_JAVASCRIPT"/>
     </adminhtml_catalog_category_edit>
 </layout>

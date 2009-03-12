@@ -37,7 +37,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/catalogpermissions/category/tab/permissions.phtml');
+        $this->setTemplate('enterprise/catalogpermissions/catalog/category/tab/permissions.phtml');
     }
 
     /**
@@ -51,6 +51,14 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             'enterprise_catalogpermissions/adminhtml_catalog_category_tab_permissions_row'
         ));
 
+        $this->setChild('add_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->addData(array(
+                'label' => $this->helper('enterprise_catalogpermissions')->__('New Permission'),
+                'class' => 'add',
+                'type'  => 'button'
+            ))
+        );
+
         return parent::_prepareLayout();
     }
 
@@ -58,6 +66,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $config = array(
             'row' => $this->getChildHtml('row'),
+            'duplicate_message' => $this->helper('enterprise_catalogpermissions')->__('Permission with same scope already exists.'),
             'permissions'  => array()
         );
 
@@ -124,5 +133,15 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Retrieve add button html
+     *
+     * @return string
+     */
+    public function getAddButtonHtml()
+    {
+        return $this->getChildHtml('add_button');
     }
 }

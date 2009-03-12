@@ -37,7 +37,21 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/catalogpermissions/category/tab/permissions/row.phtml');
+        $this->setTemplate('enterprise/catalogpermissions/catalog/category/tab/permissions/row.phtml');
+    }
+
+    protected function _prepareLayout()
+    {
+        $this->setChild('delete_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->addData(array(
+                'label' => $this->helper('enterprise_catalogpermissions')->__('Remove Permission'),
+                'class' => 'delete',
+                'type'  => 'button',
+                'id'    => '{{html_id}}_delete_button'
+            ))
+        );
+
+        return parent::_prepareLayout();
     }
 
     /**
@@ -48,6 +62,36 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function canEditWebsites()
     {
         return !Mage::app()->isSingleStoreMode();
+    }
+
+    public function getDefaultWebsiteId()
+    {
+        return Mage::app()->getStore(true)->getWebsiteId();
+    }
+
+    /**
+     * Retrieve list of permission grants
+     *
+     * @return array
+     */
+    public function getGrants()
+    {
+        return array(
+            'grant_catalog_category_view' => $this->helper('enterprise_catalogpermissions')->__('Category Access'),
+            'grant_catalog_product_price' => $this->helper('enterprise_catalogpermissions')->__('View Product Prices'),
+            'grant_checkout_items' => $this->helper('enterprise_catalogpermissions')->__('Add Products to Cart')
+        );
+    }
+
+    /**
+     * Retrieve field class name
+     *
+     * @param string $fieldId
+     * @return string
+     */
+    public function getFieldClassName($fieldId)
+    {
+        return strtr($fieldId, '_', '-') . '-value';
     }
 
     /**
@@ -78,5 +122,10 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         }
 
         return $this->getData('customer_group_collection');
+    }
+
+    public function getDeleteButtonHtml()
+    {
+        return $this->getChildHtml('delete_button');
     }
 }

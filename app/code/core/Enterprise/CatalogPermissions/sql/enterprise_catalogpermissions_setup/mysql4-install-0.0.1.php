@@ -40,7 +40,7 @@ $installer->run("
         `customer_group_id` SMALLINT(3) UNSIGNED NOT NULL,
         `grant_catalog_category_view` TINYINT(1) NOT NULL,
         `grant_catalog_product_price` TINYINT(1) NOT NULL,
-        `grant_checkout_items` TINYINT(1) NOT NULL
+        `grant_checkout_items` TINYINT(1) NOT NULL,
         PRIMARY KEY (`permission_id`),
         UNIQUE KEY `UNQ_PERMISSION_SCOPE` (`category_id`, `website_id`, `customer_group_id`)
     ) ENGINE=InnoDB;

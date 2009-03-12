@@ -106,7 +106,20 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     public function saveAction()
     {
         if ($this->getRequest()->isPost()) {
-            $emails = preg_split('/[\\s,;]/', $this->getRequest()->getParam('email'));
+            $emails = preg_split('/\s+/s', $this->getRequest()->getParam('email'));
+            foreach ($emails as $key => $email) {
+                if (!Zend_Validate::is($email, 'EmailAddress')) {
+                    unset($emails[$key]);
+                }
+            }
+            if (empty($emails)) {
+                $this->_getSession()->addError(
+                    Mage::helper('invitation_adminhtml')->__('Specify at least one valid email')
+                );
+                $this->_redirect('*/*/new');
+                return;
+            }
+
             $this->_getSession()->setInvitationFormData($this->getRequest()->getPost());
             if (Mage::app()->isSingleStoreMode()) {
                 $storeId = Mage::app()->getStore(true)->getId();
@@ -313,7 +326,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         }
 
         $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection();
-        $collection->addFieldToFilter('enterprise_invitation_id', array('in'=>$invitations))
+        $collection->addFieldToFilter('invitation_id', array('in'=>$invitations))
             ->addFieldToFilter('status', Enterprise_Invitation_Model_Invitation::STATUS_SENT);
 
         $now = Mage::app()->getLocale()->date()
@@ -366,7 +379,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         }
 
         $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection();
-        $collection->addFieldToFilter('enterprise_invitation_id', array('in'=>$invitations))
+        $collection->addFieldToFilter('invitation_id', array('in'=>$invitations))
             ->addFieldToFilter('status', Enterprise_Invitation_Model_Invitation::STATUS_SENT);
 
         $amount = 0;

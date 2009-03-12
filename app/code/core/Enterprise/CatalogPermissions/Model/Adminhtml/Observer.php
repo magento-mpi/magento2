@@ -41,6 +41,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function saveCategoryPermissions(Varien_Event_Observer $observer)
     {
         $category = $observer->getEvent()->getCategory();
+
         /* @var $category Mage_Catalog_Model_Category */
         if ($category->hasPermissions() && is_array($category->getPermissions())) {
             foreach ($category->getPermissions() as $data) {
@@ -57,6 +58,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 }
 
                 $permission->addData($data);
+                $permission->setCategoryId($category->getId());
                 $permission->save();
             }
         }

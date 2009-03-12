@@ -111,6 +111,15 @@
                                 </enterprise_invitation>
                             </children>
                         </customer>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                           <enterprise_invitation />
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
                     </children>
                 </admin>
             </resources>
@@ -219,7 +228,7 @@
         <enterprise_invitation>
             <email>
                 <identity>general</identity>
-                <template>invitation_email_template</template>
+                <template>enterprise_invitation_email_template</template>
             </email>
             <general>
                 <registration_use_inviter_group>1</registration_use_inviter_group>
@@ -229,23 +238,4 @@
             </general>
         </enterprise_invitation>
     </default>
-    <adminhtml>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                           <enterprise_invitation />
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                       </children>
-                </admin>
-            </resources>
-         </acl>
-    </adminhtml>
 </config>

@@ -38,9 +38,9 @@
                 <resourceModel>enterprise_catalogpermissions_mysql4</resourceModel>
             </enterprise_catalogpermissions>
             <enterprise_catalogpermissions_mysql4>
-                <class>Enterprise_CatalogPermissions_Model</class>
+                <class>Enterprise_CatalogPermissions_Model_Mysql4</class>
                 <entities>
-                    <permission><table>enterprise_catalogpermissions_permission</table></permission>
+                    <permission><table>enterprise_catalogpermissions</table></permission>
                 </entities>
             </enterprise_catalogpermissions_mysql4>
         </models>
@@ -64,9 +64,36 @@
                     <use>core_setup</use>
                 </connection>
             </enterprise_catalogpermissions_setup>
+            <enterprise_catalogpermissions_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </enterprise_catalogpermissions_read>
+            <enterprise_catalogpermissions_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </enterprise_catalogpermissions_write>
         </resources>
     </global>
     <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                       <system>
+                            <children>
+                                <config>
+                                    <children>
+                                           <enterprise_catalogpermissions />
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+         </acl>
         <events>
             <catalog_category_save_after>
                 <observers>
@@ -98,8 +125,20 @@
         </translate>
         <layout>
             <updates>
-                <file>enterprise/catalogpermissions.xml</file>
+                <enterprise_catalogpermissions>
+                    <file>enterprise/catalogpermissions.xml</file>
+                </enterprise_catalogpermissions>
             </updates>
         </layout>
     </adminhtml>
+    <default>
+        <enterprise_catalogpermissions>
+            <general>
+                <deny_catalog_category_view>1</deny_catalog_category_view>
+                <deny_catalog_product_price>1</deny_catalog_product_price>
+                <deny_checkout_items>1</deny_checkout_items>
+                <deny_catalog_search></deny_catalog_search>
+            </general>
+        </enterprise_catalogpermissions>
+    </default>
 </config>

@@ -20,14 +20,14 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_CatalogEvent
+ * @package    Enterprise_CatalogPermissions
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <config>
     <modules>
-        <Enterprise_CatalogEvent>
+        <Enterprise_CatalogPermissions>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
@@ -36,6 +36,6 @@
                 <Mage_Sales />
                 <Mage_Checkout />
             </depends>
-        </Enterprise_CatalogEvent>
+        </Enterprise_CatalogPermissions>
     </modules>
 </config>

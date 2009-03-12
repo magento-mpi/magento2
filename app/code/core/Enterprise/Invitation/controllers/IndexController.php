@@ -75,7 +75,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
             $invPerSend = Mage::helper('enterprise_invitation')->getMaxInvitationAmountPerSend();
             $sentAmount = 0;
             foreach ($data['email'] as $email) {
-                if (!trim($email)) {
+                if (!Zend_Validate::is($email, 'EmailAddress')) {
                     continue;
                 }
                 if (Mage::getModel('customer/customer')->setWebsiteId(
