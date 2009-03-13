@@ -290,13 +290,18 @@ ul.links li.last .separator { display:none; }
 .header { padding:18px 2px 10px; position:relative; }
 .header .logo { background-position:0 0; background-repeat:no-repeat; text-indent:-999em; }
 .header .logo a { display:block; width:151px; height:44px; }
-.header .quick-access { text-align:right; position:absolute; right:0; bottom:10px; }
+.header .quick-access { text-align:right; position:absolute; right:0; bottom:10px; line-height:16px; }
 .header .welcome-msg { font-weight:bold; margin-bottom:3px; color:#333; }
 .header ul.links li a { color:#666; } 
 .header ul.links li.last .separator { display:inline; }
-.header .switcher-language { display:inline; }
-.header .switcher-language label { font-weight:bold; vertical-align:middle; }
-.header .switcher-language select { padding:0; margin-bottom:1px; }
+
+.header .switcher-language { display:inline; position:relative; z-index:1; margin-left:2px; }
+.header .switcher-language label { font-weight:normal; margin-right:2px; }
+.header .switcher-language .switcher { color:#666; cursor:pointer; background:url(../images/bkg_change.gif) no-repeat 100% .5em; padding-right:10px; }
+.header .switcher-language ul { position:absolute; text-align:left; top:-4px; right:3px; float:left; line-height:16px; background:#fafafa; padding:2px 3px 5px; border:1px solid #c8c8c8; }
+.header .switcher-language ul .current-language { font-weight:bold; padding-right:4.9em; }
+.header .switcher-language .faded { border-color:#dedede; background:#fcfcfc; color:#8f8f8f; }
+.header .switcher-language .faded  a { color:#999; }
 
 .header-panel { background:#fafafa; border-top:1px solid #e8e8e8; height:27px; }
 .header-panel .form-search { padding:5px 10px 0; float:left; }
@@ -526,7 +531,7 @@ dd.even { background:#f6f6f6; }
 .collateral-tabs .last {background-position:100% -50px; }
 .collateral-tabs .active { color:#333; z-index:3; background-position:100% 0; border-left:1px solid #b8b8b8; font-weight:bold; padding:0 41px 0 28px; }
 .collateral-tabs .tab-container {  z-index:1; top:24px; }
-.collateral-tabs .tab-content { padding:30px 15px; border-top:1px solid #b8b8b8; font-size:12px; }
+.collateral-tabs .tab-content { padding:30px 15px; background:#fff; border-top:1px solid #b8b8b8; font-size:12px; }
 
 /* Product Images */
 .product-view .product-img-box { float:left; width:291px; }
@@ -718,7 +723,7 @@ button.cart-btn span { border:0; background:#fff url(../images/bkg_btn-cart.gif)
 .add-to-box .add-to-links { margin:0; }
 
 /* Product Options */
-.product-options { margin:10px 0 0; font-size:12px; }
+.product-options { margin:10px 0 0; }
 .product-options dt label { font-weight:bold; }
 .product-options dt .qty-holder { float:right; }
 .product-options dt .qty-holder label { vertical-align:middle; }
@@ -736,14 +741,17 @@ button.cart-btn span { border:0; background:#fff url(../images/bkg_btn-cart.gif)
 .product-options li { margin:3px 0; }
 
 .product-options-bottom { padding:0; font-size:12px; margin:0 0 20px; line-height:27px; }
-.product-options-bottom .add-to-cart { float:right; margin:0 0 0 20px; }
+.product-options-bottom .add-to-cart { float:left; margin:0 20px 0 0; }
 .product-options-bottom .price-box { margin:0; float:right; }
 .product-options-bottom p.required { padding:5px 0 0; clear:both; text-align:right; }
 
 /* Bundle product */
-.bundleProduct { position:relative; font-size:11px; z-index:1; width:670px; }
+.bundleProduct { position:relative;  font-size:11px; z-index:1; width:670px; }
 .product-options .bundle-summary { font-size:11px; }
-.bundle-summary { position:absolute; z-index:2; right:-280px; width:255px; }
+.bundleProduct .product-options { font-size:12px; }
+.bundleProduct .product-options-bottom .add-to-cart { float:right; margin:0 0 0 20px; }
+
+.bundle-summary { position:absolute; z-index:2; right:-280px; background:#fff; width:255px; }
 .bundle-summary .product {background:#f9f9f9; padding:14px 13px; }
 .bundle-summary .product-image {border:1px solid #d6d6d6; float:left; margin:0 -60px 0 0; }
 .bundle-summary .product-details {margin-left:60px; padding:0 0 0 13px; }

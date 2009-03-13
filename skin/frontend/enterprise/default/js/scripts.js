@@ -45,7 +45,7 @@ Enterprise.TopCart= {
      
      handleMouseOver: function (evt) {
          if (this.check==0)  {
-            this.container.parentNode.style.zIndex=999;
+            this.container.parentNode.style.zIndex=998;
             new Effect.SlideDown(this.container.id, { duration: 0.5 });
             this.check=1;
         }
@@ -80,7 +80,10 @@ Enterprise.Bundle = {
          new Effect.SlideUp('productView', { duration: 0.8 });
          new Effect.SlideUp('rightCOL', { duration: 0.8 });
          if (this.options) {
-            new Effect.SlideDown(this.options, { duration: 0.8 });
+            new Effect.SlideDown(this.options, { 
+                duration: 0.8, 
+                afterFinish: function () { Enterprise.BundleSummary.initialize() }
+            });
          }
          this.title.show();
      },
@@ -88,11 +91,50 @@ Enterprise.Bundle = {
          new Effect.SlideDown('productView', { duration: 0.8 });
          new Effect.SlideDown('rightCOL', { duration: 0.8 });
          if (this.options) {
-            new Effect.SlideUp(this.options, { duration: 0.8 });
+            new Effect.SlideUp(this.options, { 
+                duration: 0.8,
+                afterFinish: function () { Enterprise.BundleSummary.exitSummary() }
+                });
          }
          this.title.hide();
      }
 }; 
+
+Enterprise.BundleSummary = {
+    initialize: function () {
+        this.summary = $('bundleSummary');
+        this.summaryContainer = this.summary.getOffsetParent();
+        this.summaryStartY = this.summary.positionedOffset().top;
+        this.summaryStartX = this.summary.positionedOffset().left;
+        this.summary.style.left = this.summaryStartX;
+        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);
+        
+        this.GetScroll = setInterval(this.onDocScroll,1100);
+    
+    },
+    
+    handleDocScroll: function () {
+        if (this.summaryContainer.viewportOffset().top < 10) {
+        
+              new Effect.Move(this.summary, { 
+                    x: this.summaryStartX, 
+                    y: -(this.summaryContainer.viewportOffset().top)+15, 
+                    mode: 'absolute'
+                });
+
+        } else {
+             new Effect.Move(this.summary, { 
+                    x: this.summaryStartX, 
+                    y: this.summaryStartY, 
+                    mode: 'absolute'
+                });
+        }
+    },
+    
+    exitSummary: function () {
+        clearInterval(this.GetScroll); 
+    } 
+};
 
 Enterprise.Tabs = Class.create();
 Object.extend(Enterprise.Tabs.prototype, {
@@ -118,7 +160,8 @@ Object.extend(Enterprise.Tabs.prototype, {
             if (this.tabs[i] == this.activeTab) {
                 this.tabs[i].addClassName('active');
                 this.tabs[i].style.zIndex = this.tabs.length + 2;
-                this.tabs[i].next('dd').show();
+                /*this.tabs[i].next('dd').show();*/
+                new Effect.Appear (this.tabs[i].next('dd'), { duration:0.5 });
                 this.tabs[i].parentNode.style.height=this.tabs[i].next('dd').getHeight() + 'px';
             } else {
                 this.tabs[i].removeClassName('active');
@@ -128,3 +171,61 @@ Object.extend(Enterprise.Tabs.prototype, {
         }
     }
 });
+
+function popUpMenu(element,trigger) {
+        var iDelay = 2000;
+        var new_popup = 0;
+        var sTempId = 'popUped';
+        if (document.getElementById(sTempId)) {
+            var eTemp = document.getElementById(sTempId);
+            eTemp.hide();
+            eTemp.id = sNativeId;
+            clearTimeout(tId);
+            document.onclick = null;
+            }
+            
+        sNativeId = 'popId-'+element.parentNode.id;
+
+        var el = $(sNativeId);
+
+        el.id = sTempId;
+
+        if (eTemp && el == eTemp) {
+            hideElement();
+        } else {
+//          el.show();
+            new Effect.Appear (el, { duration:0.3 });
+            tId=setTimeout("hideElement()",2*iDelay);        
+        }
+        new_popup = 1;    
+        document.onclick = function() {
+            if (!new_popup) {
+                hideElement();
+                document.onclick = null;
+            }
+            new_popup = 0;    
+        }
+        
+        el.onmouseout = function() {
+            if ($(sTempId)) {    
+                $(sTempId).addClassName('faded');
+                tId=setTimeout("hideElement()",iDelay);
+            }
+        }
+        
+        el.onmouseover = function() {
+            if ($(sTempId)) {    
+                $(sTempId).removeClassName('faded');
+                $(sTempId).getOffsetParent().style.zIndex = 999;
+                clearTimeout(tId);
+            }
+        }
+        
+        hideElement = function() {    
+            //el.hide();
+            new Effect.Fade (el, { duration:0.3 });
+            el.getOffsetParent().style.zIndex = 1;
+            el.id = sNativeId;
+            if (tId) {clearTimeout(tId);}
+        }
+}

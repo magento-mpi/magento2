@@ -31,7 +31,30 @@
  * @see Mage_Page_Block_Switch
  */
 ?>
+
 <?php if(count($this->getStores())>1): ?>
+<div class="switcher-language" id="languageSelect">
+    <label><?php echo $this->__('Language') ?>: </label>
+    <strong class="current-language language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
+        <?php echo $this->htmlEscape(Mage::app()->getStore()->getName()) ?>
+    </strong>  
+    (<span onclick="popUpMenu(this);" class="switcher"><?php echo $this->__('Change')?></span>)
+    <ul style="display:none" id="popId-languageSelect">
+        <li class="current-language language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
+            <?php echo $this->htmlEscape(Mage::app()->getStore()->getName()) ?>
+        </li>   
+        <?php foreach ($this->getStores() as $_lang): ?>
+            <?php if($_lang->getId()!=$this->getCurrentStoreId()): ?>
+                <li class="language-<?php echo $this->htmlEscape($_lang->getCode()); ?>">
+                    <a href="<?php echo $_lang->getCurrentUrl() ?>"><?php echo $this->htmlEscape($_lang->getName()) ?></a>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>    
+</div>
+<?php endif; ?>
+
+<?php /* if(count($this->getStores())>1): ?>
 <div class="switcher-language">
     <label for="select-language"><?php echo $this->__('Your Language') ?>: </label>
     <select id="select-language" onchange="window.location.href=this.value">
@@ -41,4 +64,4 @@
     <?php endforeach; ?>
     </select>
 </div>
-<?php endif; ?>
+<?php endif; */ ?>

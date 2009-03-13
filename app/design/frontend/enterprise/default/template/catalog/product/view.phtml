@@ -75,6 +75,11 @@
                         <?php endif; ?>
                     </div>
                 <?php else:?>
+                
+                    <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
+                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                    <?php endif;?>                
+                
                     <?php echo $this->getChildHtml('addto') ?>
                     <?php if ($this->canEmailToFriend()): ?>
                         <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
@@ -91,18 +96,12 @@
 
                 <?php echo $this->getChildHtml('other');?>
 
-                <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
-                    <div id="options-container">
-                        <div><?php echo $this->getChildChildHtml('container1', '', true, true) ?></div>
-                    </div>
-                <?php endif;?>
+
 
             </div>
             <div class="clearer"></div>
             <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
-                <div id="options-container">
-                    <div><?php echo $this->getChildChildHtml('container2', '', true, true) ?></div>
-                </div>
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
             <?php endif;?>
         </form>
         </div>
