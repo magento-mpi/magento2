@@ -74,7 +74,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     protected $_group;
 
-    protected $_configCache = array();
+    protected $_configCache = null;
+    protected $_configCacheBaseNodes = array();
 
     protected $_dirCache = array();
 
@@ -90,6 +91,18 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('core/store');
+        $this->_configCacheBaseNodes = array(
+            self::XML_PATH_PRICE_SCOPE,
+            self::XML_PATH_SECURE_BASE_URL,
+            self::XML_PATH_SECURE_IN_ADMINHTML,
+            self::XML_PATH_SECURE_IN_FRONTEND,
+            self::XML_PATH_STORE_IN_URL,
+            self::XML_PATH_UNSECURE_BASE_URL,
+            self::XML_PATH_USE_REWRITES,
+            'web/unsecure/base_link_url',
+            'web/secure/base_link_url',
+            'general/locale/code'
+        );
     }
 
     /**
@@ -150,19 +163,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve store identifier
-     *
-     * @return int
-     */
-//    public function getId()
-//    {
-//        if (is_null(parent::getId())) {
-//            $this->setId($this->getConfig('system/store/id'));
-//        }
-//        return parent::getId();
-//    }
-
-    /**
      * Retrieve Store code
      *
      * @return string
@@ -179,7 +179,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * @param   string $scope
      * @return  string|null
      */
-    public function getConfig($path) {
+    public function getConfig($path)
+    {
         if (isset($this->_configCache[$path])) {
             return $this->_configCache[$path];
         }
@@ -195,6 +196,40 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return null;
         }
         return $this->_processConfigValue($fullPath, $path, $data);
+    }
+
+    /**
+     * Initialize base store configuration data
+     * Method provide cache configuration data without loading store config XML
+     *
+     * @return Mage_Core_Model_Config
+     */
+    public function initConfigCache()
+    {
+        if ($this->_configCache === null) {
+            $code = $this->getCode();
+            if ($code) {
+                if (Mage::app()->useCache('config')) {
+                    $cacheId = 'store_' . $code . '_config_cache';
+                    $data = Mage::app()->loadCache($cacheId);
+                    if ($data) {
+                        $data = unserialize($data);
+                    } else {
+                        $data = array();
+                        foreach ($this->_configCacheBaseNodes as $node) {
+                            $data[$node] = $this->getConfig($node);
+                        }
+                        Mage::app()->saveCache(
+                            serialize($data),
+                            $cacheId,
+                            array(self::CACHE_TAG, Mage_Core_Model_Config::CACHE_TAG)
+                        );
+                    }
+                    $this->_configCache = $data;
+                }
+            }
+        }
+        return $this;
     }
 
     /**
@@ -832,4 +867,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
         return $this;
     }
+
+//    public function __destruct()
+//    {
+//        echo '<pre>';
+//        print_r($this->_configCache);
+//        echo '</pre>';
+//    }
 }

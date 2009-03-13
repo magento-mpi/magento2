@@ -126,7 +126,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
 
         try {
-            Mage::app()->cleanCache(array('config'));
+            Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
                 throw new Exception(Mage::helper('adminhtml')->__('This section is not allowed.'));
             }
@@ -146,6 +146,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             // reinit configuration
             Mage::getConfig()->reinit();
             Mage::app()->reinitStores();
+
 
             // website and store codes can be used in event implementation, so set them as well
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}",

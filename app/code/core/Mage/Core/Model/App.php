@@ -399,6 +399,7 @@ class Mage_Core_Model_App
 
         foreach ($storeCollection as $store) {
             /* @var $store Mage_Core_Model_Store */
+            $store->initConfigCache();
             $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));
             $store->setGroup($groupCollection->getItemById($store->getGroupId()));
 
