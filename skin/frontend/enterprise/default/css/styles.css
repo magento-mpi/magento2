@@ -293,9 +293,9 @@ ul.links li.last .separator { display:none; }
 .header .quick-access { text-align:right; position:absolute; right:0; bottom:10px; line-height:16px; }
 .header .welcome-msg { font-weight:bold; margin-bottom:3px; color:#333; }
 .header ul.links li a { color:#666; } 
-.header ul.links li.last .separator { display:inline; }
 
-.header .switcher-language { display:inline; position:relative; z-index:1; margin-left:2px; }
+.header .switcher-language { display:inline; position:relative; z-index:1; }
+.header .switcher-language .separator { margin:0 2px; font-size:10px; color:#8f8f8f; }
 .header .switcher-language label { font-weight:normal; margin-right:2px; }
 .header .switcher-language .switcher { color:#666; cursor:pointer; background:url(../images/bkg_change.gif) no-repeat 100% .5em; padding-right:10px; }
 .header .switcher-language ul { position:absolute; text-align:left; top:-4px; right:3px; float:left; line-height:16px; background:#fafafa; padding:2px 3px 5px; border:1px solid #c8c8c8; }
