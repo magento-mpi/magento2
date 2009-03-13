@@ -1,0 +1,72 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Enterprise
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php
+/**
+ * Template for Enterprise_Staging_Block_Manage_Staging_Edit
+ * @var $this Enterprise_Staging_Block_Manage_Staging_Edit
+ */
+?>
+<div class="content-header">
+    <h3 class="icon-head head-staging"><?php echo $this->getHeader() ?></h3>
+    <p class="content-buttons form-buttons"><?php echo $this->getBackButtonHtml() ?>
+    <?php echo $this->getCancelButtonHtml() ?>
+    <?php if ($this->getStagingId()): ?>
+        <?php echo $this->getDeleteButtonHtml() ?>
+        <?php if($this->getDatasetId()): ?>
+            <?php echo $this->getSyncButtonHtml() ?>
+            <?php echo $this->getMergeButtonHtml() ?>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if ($this->getDatasetId()): ?>
+        <?php echo $this->getSaveButtonHtml() ?>
+        <?php echo $this->getSaveAndEditButtonHtml() ?>
+    <?php endif; ?>
+    </p>
+</div>
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_edit_form" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div style="display:none"></div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+var stagingTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
+var stagingForm = new varienForm('enterprise_staging_edit_form', '<?php echo $this->getValidationUrl() ?>');
+function setSettings(urlTemplate, websiteElement, setElement, typeElement)
+{
+    var template = new Template(urlTemplate, stagingTemplateSyntax);
+    setLocation(template.evaluate({websites:$F(websiteElement),set:$F(setElement),type:$F(typeElement)}));
+}
+
+function saveAndContinueEdit(urlTemplate)
+{
+    var template = new Template(urlTemplate, stagingTemplateSyntax);
+    var url = template.evaluate({tab_id : enterprise_staging_tabsJsTabs.activeTab.id});
+    stagingForm.submit(url);
+}
+//]]>
+</script>

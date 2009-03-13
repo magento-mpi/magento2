@@ -43,6 +43,15 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
         }
         return $this->_options;
     }
+    
+    public function getOptionArray()
+    {
+    	$_options = array();
+    	foreach ($this->getAllOptions() as $option) {
+    		$_options[$option['value']] = $option['label'];
+    	}
+    	return $_options;
+    }
 
     /**
      * Get a text for option value

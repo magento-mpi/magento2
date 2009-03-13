@@ -1,0 +1,467 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Staging
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Staging>
+             <version>0.1.0</version>
+        </Enterprise_Staging>
+    </modules>
+    <global>
+        <models>
+			<enterprise_staging>
+				<class>Enterprise_Staging_Model</class>
+				<resourceModel>enterprise_staging_mysql4</resourceModel>
+			</enterprise_staging>
+			<enterprise_staging_mysql4>
+                <class>Enterprise_Staging_Model_Mysql4</class>
+                <entities>
+                    <staging><table>enterprise_staging</table></staging>
+                    <staging_item><table>enterprise_staging_item</table></staging_item>
+                    <staging_website><table>enterprise_staging_website</table></staging_website>
+                    <staging_store_group><table>enterprise_staging_store_group</table></staging_store_group>
+                    <staging_store><table>enterprise_staging_store</table></staging_store>
+                    <staging_event><table>enterprise_staging_event</table></staging_event>
+                    <staging_event_history><table>enterprise_staging_event_history</table></staging_event_history>
+                    <dataset><table>enterprise_staging_dataset</table></dataset>
+                    <dataset_item><table>enterprise_staging_dataset_item</table></dataset_item>
+                </entities>
+            </enterprise_staging_mysql4>
+        </models>
+		<resources>
+		    <enterprise_staging_setup>
+		        <setup>
+		            <module>Enterprise_Staging</module>
+		            <class>Mage_Eav_Model_Entity_Setup</class>
+		        </setup>
+		        <connection>
+		            <use>core_setup</use>
+		        </connection>
+		    </enterprise_staging_setup>
+		    <enterprise_staging_write>
+		      <connection>
+		        <use>core_write</use>
+		      </connection>
+		    </enterprise_staging_write>
+		    <enterprise_staging_read>
+		      <connection>
+		        <use>core_read</use>
+		      </connection>
+		    </enterprise_staging_read>
+		</resources>
+		
+		<blocks>
+            <enterprise_staging>
+                <class>Enterprise_Staging_Block</class>
+            </enterprise_staging>
+        </blocks>
+        
+        <helpers>
+            <enterprise_staging>
+                <class>Enterprise_Staging_Helper</class>
+            </enterprise_staging>
+        </helpers>
+		
+		<events>
+		    <resource_get_tablename>
+		        <observers>
+		            <on_get_tablename>
+		                <type>singleton</type>
+		                <class>enterprise_staging/observer</class>
+		                <method>getTableName</method>
+		            </on_get_tablename>
+		        </observers>
+		    </resource_get_tablename>
+		    <controller_front_init_before>
+                <observers>
+                    <check_staging>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>beforeFrontendInit</method>
+                    </check_staging>
+                </observers>
+            </controller_front_init_before>
+		</events>
+		<enterprise>
+			<staging>
+	            <use_new_db>0</use_new_db>
+	            <use_table_prefix>0</use_table_prefix>
+	            <type>
+	                <website>
+	                    <code>website</code>
+	                    <label>Website</label>
+                        <models>
+                            <type>enterprise_staging/staging_type_website</type>
+                            <mapper>enterprise_staging/staging_mapper_website</mapper>
+                            <adapter>enterprise_staging/staging_adapter_website</adapter>
+                            <state>enterprise_staging/staging_state_website</state>
+                        </models>
+                        <scenaries>
+                            <merge>
+                                <prepare> 
+                                    <model>enterprise_staging/staging_state_website_prepare</model>
+                                    <next>read</next>
+                                </prepare>
+                                <read>
+                                    <model>enterprise_staging/staging_state_website_read</model>
+                                    <next>flush</next>
+                                </read>
+                                <flush>
+                                    <model>enterprise_staging/staging_state_website_flush</model>
+                                    <next>process</next>
+                                </flush>
+                                <process>
+                                    <model>enterprise_staging/staging_state_website_process</model>
+                                    <next>check</next>
+                                </process>
+                                <check>
+                                    <model>enterprise_staging/staging_state_website_check</model>
+                                    <next>0</next>
+                                </check>
+                            </merge>
+                        </scenaries>
+                    </website>
+                </type>
+
+                <staging_items>
+                    <customer>
+                        <code>customer</code>
+                        <model>customer</model>
+                        <is_backend>1</is_backend>
+                        <label>Customers</label>
+                        <adapter>enterprise_staging/staging_adapter_customer</adapter>
+                        <use_table_prefix>1</use_table_prefix>
+                    </customer>
+                    <customer_address>
+                        <code>customer_address</code>
+                        <model>customer</model>
+                        <is_backend>1</is_backend>
+                        <label>Customer Adresses</label>
+                        <adapter>enterprise_staging/staging_adapter_customer</adapter>
+                        <use_table_prefix>1</use_table_prefix>
+                    </customer_address>
+                    
+                    <sales>
+                        <code>sales</code>
+                        <model>sales</model>
+                        <is_backend>1</is_backend>
+                        <label>Sales</label>
+                        <adapter>enterprise_staging/staging_adapter_sales</adapter>
+                        <use_table_prefix>1</use_table_prefix>
+                    </sales>
+                    
+                    <catalog_product>
+                        <code>catalog_product</code>
+                        <model>catalog</model>
+                        <label>Catalog Products</label>
+                        <adapter>enterprise_staging/staging_adapter_product</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                        <extends>
+                            <bundle>
+                                <code>bundle</code>
+                            </bundle>
+                            <downloadable>
+                                <code>downloadable</code>
+                            </downloadable>
+                            <giftcertificate>
+                                <code>giftcertificate</code>
+                            </giftcertificate>
+                        </extends>
+                    </catalog_product>
+                    <catalog_category>
+                        <code>catalog_category</code>
+                        <model>catalog</model>
+                        <label>Catalog Categories</label>
+                        <adapter>enterprise_staging/staging_adapter_category</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                    </catalog_category>
+                    <catalogrule>
+                        <code>catalogrule</code>
+                        <model>catalogrule</model>
+                        <label>Catalog Rule</label>
+                        <adapter>enterprise_staging/staging_adapter_catalogrule</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                    </catalogrule>
+                    <salesrule>
+                        <code>salesrule</code>
+                        <model>salesrule</model>
+                        <label>Sales Rule</label>
+                        <adapter>enterprise_staging/staging_adapter_salesrule</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                    </salesrule>
+                    <cms_page>
+                        <code>cms_page</code>
+                        <model>cms</model>
+                        <label>CMS Pages</label>
+                        <adapter>enterprise_staging/staging_adapter_cms</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                        <entities>
+                            <cms_page_store>
+                                <table>cms_page_store</table>
+                            </cms_page_store>
+                        </entities>
+                    </cms_page>
+                    <cms_block>
+                        <code>cms_block</code>
+                        <model>cms</model>
+                        <label>CMS Blocks</label>
+                        <adapter>enterprise_staging/staging_adapter_cms</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                        <entities>
+                            <cms_block_store>
+                                <table>cms_block_store</table>
+                            </cms_block_store>
+                        </entities>
+                    </cms_block>
+                    <poll>
+                        <code>poll</code>
+                        <model>poll</model>
+                        <label>Polls</label>
+                        <adapter>enterprise_staging/staging_adapter_poll</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                    </poll>
+                    <!--condition_term>
+                        <code>condition_term</code>
+                        <model>cms</model>
+                        <label>Coditions And Terms</label>
+                        <adapter>enterprise_staging/staging_adapter_cms</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                    </condition_term-->
+                    <system_config>
+                        <code>system_config</code>
+                        <model>core</model>
+                        <label>System Config</label>
+                        <adapter>enterprise_staging/staging_adapter_config</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                        <entities>
+                            <core_config_data>
+                                <table>core_config_data</table>
+                            </core_config_data>
+                        </entities>
+                    </system_config>
+                    
+                    
+                    <cataloginventory>
+                        <code>cataloginventory</code>
+                        <model>cataloginventory</model>
+                        <is_backend>1</is_backend>
+                        <label>Catalog Inventory</label>
+                        <adapter>enterprise_staging/staging_adapter_cataloginventory</adapter>
+                        <use_table_prefix>0</use_table_prefix>
+                        <entities>
+                            <cataloginventory_stock_item>
+                                <table>cataloginventory_stock_item</table>
+                            </cataloginventory_stock_item>
+                        </entities>
+                    </cataloginventory>
+                    <catalogindex>
+                        <code>catalogindex</code>
+                        <model>catalogindex</model>
+                        <is_backend>1</is_backend>
+                        <label>Catalog Index</label>
+                        <adapter>enterprise_staging/staging_adapter_catalogindex</adapter>
+                        <use_table_prefix>1</use_table_prefix>
+                    </catalogindex>
+                    <catalogsearch>
+                        <code>catalogsearch</code>
+                        <model>catalogsearch</model>
+                        <is_backend>1</is_backend>
+                        <label>Catalog Search</label>
+                        <adapter>enterprise_staging/staging_adapter_catalogsearch</adapter>
+                        <use_table_prefix>1</use_table_prefix>
+                    </catalogsearch>
+                </staging_items>
+                <staging_website_code_suffix></staging_website_code_suffix>
+                
+                <state>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <new />
+                        </statuses>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing />
+                        </statuses>
+                    </processing>
+                    <merged translate="label">
+                        <label>Merged</label>
+                        <statuses>
+                            <merged />
+                        </statuses>
+                    </merged>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete />
+                        </statuses>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed />
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled />
+                        </statuses>
+                    </canceled>
+                    <reverted translate="label">
+                        <label>Reverted</label>
+                        <statuses>
+                            <reverted />
+                            <posible_errors />
+                        </statuses>
+                    </reverted>
+                    <broken translate="label">
+                        <label>Broken</label>
+                        <statuses>
+                            <broken_while_process />
+                            <broken_while_create />
+                            <broken_while_merge />
+                            <broken_while_restore />
+                        </statuses>
+                    </broken>
+                    <restored translate="label">
+                        <label>Restored</label>
+                        <statuses>
+                            <restored />
+                            <restored_whith_errors />
+                        </statuses>
+                    </restored>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded />
+                        </statuses>
+                    </holded>
+                </state>
+                <status>
+                    <new translate="label"><label>New</label></new>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <merged translate="label"><label>Merged</label></merged>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <reverted translate="label"><label>Reverted</label></reverted>
+                    <broken translate="label"><label>Broken</label></broken>
+                    <restored translate="label"><label>Restored</label></restored>
+                    <holded translate="label"><label>On Hold</label></holded>
+                </status>
+            </staging>
+        </enterprise>
+    </global>
+    <adminhtml>
+        <menu>
+          <system>
+            <children>
+              <staging translate="title">
+                 <title>Staging</title>
+                 <sort_order>21</sort_order>
+                 <action>adminhtml/staging_manage</action>
+              </staging>
+            </children>
+          </system>
+        </menu>
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <system>
+                  <children>
+                    <config>
+                      <children>
+                        <staging>
+                          <title>Staging</title>
+                        </staging>
+                      </children>
+                    </config>
+                  </children>
+                </system>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+
+        <layout>
+            <updates>
+                <enterprise_staging>
+                    <file>enterprise/staging.xml</file>
+                </enterprise_staging>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <enterprise>
+
+    </enterprise>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <enterprise_staging before="Mage_Adminhtml">Enterprise_Staging</enterprise_staging>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+        <menu>
+          <system>
+            <children>
+              <staging translate="title">
+                 <title>Admin Staging</title>
+                 <sort_order>21</sort_order>
+                 <children>
+                   <rollback translate="title">
+                     <title>Rollback Staging</title>
+                     <sort_order>10</sort_order>
+                     <action>staging/rollback</action>
+                   </rollback>
+                 </children>
+              </staging>
+            </children>
+          </system>
+        </menu>
+        <acl>
+          <resources>
+            <admin>
+                <system>
+                    <config>
+                        <staging />
+                    </config>
+                </system>
+            </admin>
+          </resources>
+        </acl>
+    </admin>
+</config>

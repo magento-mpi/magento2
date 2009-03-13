@@ -1,0 +1,533 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Enterprise
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php /* @var $this Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website */?>
+<?php $staging          = $this->getStaging(); ?>
+<?php $items            = $staging->getItemsCollection(); ?>
+<?php $masterWebsites   = $this->getWebsiteCollection(); ?>
+<?php $stagingWebsites  = $staging->getWebsitesCollection(); ?>
+
+<script type="text/javascript">
+//<![CDATA[
+var varienMapper = new Class.create();
+varienMapper.prototype = {
+    templatePattern: /(^|.|\r|\n)(\{\{(.*?)\}\})/,
+    websiteRowTemplate: null,
+    storeRowTemplate: null,
+    storeAddBtnTemplate: null,
+    websiteIncrement: 0,
+    mapKeys: null,
+    addWebsiteMapRow: null,
+    initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores)
+    {
+        this.mergeForm = $(mergeForm);
+        this.containerId            = containerId;
+        this.tableContainerId       = this.containerId + '_table';
+        this.tableRowsContainerId   = this.containerId + '_rows';
+
+        this.container              = $(this.containerId);
+        this.tableContainer         = $(this.tableContainerId);
+        this.tableRowsContainer     = $(this.tableRowsContainerId);
+
+        this.stores = new $H(stores);
+
+        this.grid = new varienGrid(containerId, url, pageVar, sortVar, dirVar, filterVar);
+
+        this.mapKeys  = new $H();
+
+        this.websiteRowTemplate     = new Template(
+            this.getInnerElement('website_template').innerHTML,
+            this.templatePattern
+        );
+        this.storeRowTemplate = new Template(
+            this.getInnerElement('store_template').innerHTML,
+            this.templatePattern
+        );
+        this.storeAddBtnTemplate = new Template(
+            this.getInnerElement('store_add_btn_template').innerHTML,
+            this.templatePattern
+        );
+
+        this.websiteIncrement = 0;
+
+        this.addWebsiteMapRow = this.tableContainer.select('.staging-mapper-add-website-row')[0];
+        var btn = this.addWebsiteMapRow.select('.staging-mapper-add-website-btn')[0];
+        this.addWebsiteMapRow.btn = btn;
+    },
+    getInnerElement: function(elementName) {
+        return $(this.containerId + '_' + elementName);
+    },
+    stagingWebsiteMapperRowInit : function(grid, row)
+    {
+        $(row).select('select').each(function(element) {
+            element.parentRow = row;
+            element.grid = grid;
+            element.mapper = this;
+            element.tableContainer = this.tableContainer;
+            Event.observe(element, 'change', selectWebsiteMap);
+        }.bind(this));
+    },
+    addWebsiteMap : function()
+    {
+        try {
+        	Element.insert(this.tableRowsContainer, {bottom: this.websiteRowTemplate.evaluate(this.getWebsiteVars())});
+        	var websiteRow = this.tableRowsContainer.lastChild;
+        	websiteRow.id = 'website-map-' + this.websiteIncrement;
+        	websiteRow.incrementId = this.websiteIncrement;
+        	websiteRow.key = '';
+        	websiteRow.addWebsiteMapRow = this.addWebsiteMapRow;
+
+            websiteRow.fromElement    = websiteRow.select('.staging-mapper-website-from')[0];
+            websiteRow.toElement      = websiteRow.select('.staging-mapper-website-to')[0];
+
+        	this.stagingWebsiteMapperRowInit(this.grid, websiteRow);
+
+        	Element.insert(this.tableRowsContainer, {bottom: this.storeAddBtnTemplate.evaluate({})});
+        	var addStoreMapRow = this.tableRowsContainer.lastChild;
+        	addStoreMapRow.id = 'website-map-' + this.websiteIncrement + '-store-add-btn';
+        	addStoreMapRow.websiteIncrementId = this.websiteIncrement;
+        	addStoreMapRow.storeIncrementId = 0;
+        	var btn = addStoreMapRow.select('.staging-mapper-add-store-btn')[0];
+        	addStoreMapRow.btn = btn;
+
+        	addStoreMapRow.websiteRow = websiteRow;
+        	websiteRow.addStoreMapRow = addStoreMapRow;
+
+        	this.disableBtn(this.addWebsiteMapRow.btn);
+
+        	this.websiteIncrement++;
+        } catch (Error) {
+            console.log(Error);
+        }
+
+    	return false;
+    },
+    getWebsiteVars : function()
+    {
+        return {};
+    },
+    removeWebsiteMap : function(btn)
+    {
+    	try {
+            var websiteRow = $(btn).up().up();
+
+            // unset maps cache for removed website mapping
+            this.unsetRowMap(websiteRow);
+            // remove add store button before
+            websiteRow.addStoreMapRow.remove();
+            // remove all stores related to website before
+            this.tableContainer.select('.' + websiteRow.id + '-store').each(function(row){this.unsetRowMap(row); row.remove();}.bind(this));
+            // remove website row
+            websiteRow.remove();
+
+            this.enableBtn(websiteRow.addWebsiteMapRow.btn);
+    	} catch (Error) {
+            console.log(Error);
+        }
+
+        return false;
+    },
+    unsetRowMap : function(row)
+    {
+        var key = row.key;
+        this.mapKeys.unset(key);
+    },
+    enableBtn : function(btn)
+    {
+    	btn.disabled = false;
+    	btn.removeClassName('disabled');
+    },
+    disableBtn : function(btn)
+    {
+    	btn.disabled = true;
+    	btn.addClassName('disabled');
+    },
+    stagingStoreMapperRowInit : function(grid, row)
+    {
+        $(row).select('select').each(function(element) {
+            element.parentRow = row;
+            element.mapper = this;
+            element.tableContainer = this.tableContainer;
+            Event.observe(element, 'change', selectStoreMap);
+        }.bind(this));
+    },
+    addStoreMap : function(btn)
+    {
+    	try {
+        	var addNewRow = $(btn).up().up();
+
+            Element.insert(addNewRow, {before: this.storeRowTemplate.evaluate(this.getStoreVars(addNewRow.websiteRow))});
+
+            var storeRow = addNewRow.previousSibling;
+            storeRow.id = 'website-map-' + addNewRow.websiteIncrementId + '-store-' + addNewRow.storeIncrementId;
+            storeRow.addClassName('website-map-' + addNewRow.websiteIncrementId + '-store');
+            storeRow.addNewRow = addNewRow;
+            storeRow.key = '';
+
+            storeRow.select('.staging-mapper-store-from').each(
+            	    function(fromElement)
+            	    {
+                	    fromElement.fromWebsite = addNewRow.websiteRow.fromWebsite;
+                	    storeRow.fromElement    = fromElement;
+            	    }
+    	    );
+            storeRow.select('.staging-mapper-store-to').each(
+                    function(toElement)
+                    {
+                    	toElement.toWebsite = addNewRow.websiteRow.toWebsite;
+                    	storeRow.toElement      = toElement;
+                    }
+            );
+
+            this.stagingStoreMapperRowInit(this.grid, storeRow);
+
+            addNewRow.storeIncrementId++;
+
+            this.disableBtn(addNewRow.btn);
+        } catch (Error) {
+            console.log(Error);
+        }
+
+        return false;
+    },
+    getStoreVars : function(websiteRow)
+    {
+        return {
+            store_from_select  : this.getStoreFromSelect(websiteRow),
+            store_to_select    : this.getStoreToSelect(websiteRow)
+        };
+    },
+    removeStoreMap : function(btn)
+    {
+        try {
+            var row = $(btn).up().up();
+
+            this.unsetRowMap(row);
+            row.remove();
+
+            this.enableBtn(row.addNewRow.btn);
+        } catch (Error) {
+            console.log(Error);
+        }
+
+        return false;
+    },
+    getStoreFromSelect : function(websiteRow)
+    {
+        var fromWebsite = websiteRow.fromWebsite;
+        var toWebsite = websiteRow.toWebsite;
+        var stores = this.stores.get(fromWebsite);
+        if (typeof(stores) == 'undefined') {
+            return '<span>No stores exists</span>' ;
+        }
+        var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][from][]" class="staging-mapper-store-from">';
+        options+= '<option value=""></option>';
+        stores.each(function(store){
+            options+= '<option value="'+store.store_id+'">'+store.name+'</option>';
+        });
+        options+= '</option>';
+        options = Object.toHTML(options);
+        return options;
+    },
+    getStoreToSelect : function(websiteRow)
+    {
+        var fromWebsite = websiteRow.fromWebsite;
+        var toWebsite = websiteRow.toWebsite;
+        var stores = this.stores.get(toWebsite);
+        if (typeof(stores) == 'undefined') {
+            return '<span>No stores exists</span>' ;
+        }
+        var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][to][]" class="staging-mapper-store-to">';
+        options+= '<option value=""></option>';
+        stores.each(function(store){
+            options+= '<option value="'+store.store_id+'">'+store.name+'</option>';
+        });
+        options+= '</option>';
+        options = Object.toHTML(options);
+        options.toWebsite = toWebsite;
+        return options;
+    },
+    stagingMerge : function(grid)
+    {
+        alert('MERGING STARTS!');
+        this.mergeForm.submit();
+    }
+};
+
+checkUniqueMap = function(mapper, key)
+{
+    if (mapper.mapKeys.get(key)) {
+        return 2;
+    } else {
+        return 1;
+    }
+};
+
+selectWebsiteMap = function(event)
+{
+    var element = Event.element(event);
+    element = $(element);
+    if (!element.parentRow) {
+       return;
+    }
+    if (!element.mapper) {
+        return;
+    }
+
+    var fromElement = element.parentRow.fromElement;
+    var toElement = element.parentRow.toElement;
+
+    if (fromElement) {
+        element.parentRow.fromWebsite = fromElement.value;
+    }
+
+    if (toElement) {
+        element.parentRow.toWebsite = toElement.value;
+    }
+
+    var addStoreMapBtn   = element.parentRow.addStoreMapRow.btn;
+    var addWebsiteMapBtn = element.parentRow.addWebsiteMapRow.btn;
+
+    if (fromElement && toElement) {
+        if (fromElement.value && toElement.value) {
+            var key = 'websites' + '-' + fromElement.value + '-' + toElement.value;
+            element.parentRow.key = key;
+            var result = checkUniqueMap(element.mapper, key);
+            if (result == 1) {
+                $(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
+                element.mapper.mapKeys.set(key, true);
+
+                fromElement.prevValue   = fromElement.value;
+                toElement.prevValue     = toElement.value;
+
+                element.mapper.enableBtn(addStoreMapBtn);
+                element.mapper.enableBtn(addWebsiteMapBtn);
+            } else if (result == 2) {
+                alert('Please, try another combination.');
+                fromElement.value = '';
+                if (fromElement.prevValue) {
+                    fromElement.value = fromElement.prevValue;
+                }
+                toElement.value = '';
+                if (toElement.prevValue) {
+                    toElement.value = toElement.prevValue;
+                }
+                element.mapper.disableBtn(addWebsiteMapBtn);
+            }
+        } else {
+            $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+            // remove all stores related to website
+            var stores = this.tableContainer.select('.'+element.parentRow.id+'-store').each(function(row){row.remove();});
+            var storeAddBtnRow = $(element.parentRow.id+'-store-add-btn');
+            var btn = storeAddBtnRow.select('.staging-mapper-add-store-btn')[0];
+            element.mapper.disableBtn(btn);
+            if (fromElement.prevValue && toElement.prevValue) {
+                var key = 'websites' + '-' + fromElement.prevValue + '-' + toElement.prevValue;
+                element.mapper.mapKeys.unset(key);
+            }
+        }
+    } else {
+        $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+    }
+};
+selectStoreMap = function(event)
+{
+    var element = Event.element(event);
+    element = $(element);
+    if (!element.parentRow) {
+       return;
+    }
+    if (!element.mapper) {
+        return;
+    }
+
+    var fromElement = element.parentRow.fromElement;
+    if (fromElement) {
+        element.parentRow.fromStore = fromElement.value;
+    }
+    var toElement = element.parentRow.toElement;
+    if (toElement) {
+        element.parentRow.toStore = toElement.value;
+    }
+
+    var btn = element.parentRow.addNewRow.btn;
+
+    if (fromElement && toElement) {
+        if (fromElement.value && toElement.value) {
+            var key = 'stores' + '-' + fromElement.fromWebsite + '-' + fromElement.value + '-' + toElement.toWebsite + '-' + toElement.value;
+            element.parentRow.key = key;
+            var result = checkUniqueMap(element.mapper, key);
+            if (result == 1) {
+                $(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
+                element.mapper.mapKeys.set(key, true);
+
+                fromElement.prevValue   = fromElement.value;
+                toElement.prevValue     = toElement.value;
+
+                element.mapper.enableBtn(btn);
+            } else if (result == 2) {
+                alert('Please, trye another combination.');
+                fromElement.value = '';
+                if (fromElement.prevValue) {
+                    fromElement.value = fromElement.prevValue;
+                }
+                toElement.value = '';
+                if (toElement.prevValue) {
+                    toElement.value = toElement.prevValue;
+                }
+                element.mapper.disableBtn(btn);
+            } else if (result == 3) {
+                element.mapper.disableBtn(btn);
+            }
+        } else {
+            $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+            element.mapper.disableBtn(btn);
+        }
+    } else {
+        $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+    }
+};
+//]]>
+</script>
+
+<?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
+    <table cellspacing="0" class="actions">
+        <tr>
+    <?php if($this->getExportTypes()): ?>
+        <td class="export a-right">
+            <img src="<?php echo $this->getSkinUrl('images/icon_export.gif') ?>" alt="" class="v-middle"/>&nbsp; <?php echo $this->__('Export to:') ?>
+            <select name="<?php echo $this->getId() ?>_export" id="<?php echo $this->getId() ?>_export" style="width:8em;">
+            <?php foreach ($this->getExportTypes() as $_type): ?>
+                <option value="<?php echo $_type->getUrl() ?>"><?php echo $_type->getLabel() ?></option>
+            <?php endforeach; ?>
+            </select>
+            <?php echo $this->getExportButtonHtml() ?>
+        </td>
+    <?php endif; ?>
+        <td class="filter-actions a-right">
+            <?php echo $this->getMainButtonsHtml() ?>
+        </td>
+        </tr>
+    </table>
+<?php endif; ?>
+<?php if($this->getMassactionBlock()->isAvailable()): ?>
+<?php echo $this->getMassactionBlockHtml() ?>
+<?php endif ?>
+
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_merge_form" enctype="multipart/form-data">
+<?php echo $this->getBlockHtml('formkey')?>
+
+<div id="<?php echo $this->getId() ?>" class="grid">
+    <div class="hor-scroll">
+    <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
+        <col width="100" />
+        <col />
+        <col />
+        <col width="200" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->__('Status'); ?></th>
+                <th><?php echo $this->__('From'); ?></th>
+                <th><?php echo $this->__('To'); ?></th>
+                <th><?php echo $this->__('Action'); ?></th>
+            </tr>
+        </thead>
+        <tbody id="<?php echo $this->getId() ?>_rows">
+            <tr id="<?php echo $this->getId() ?>_website_template" style="display: none;">
+                <td class="mapper-status center" style="color: green"></td>
+                <td class="mapper-name"><?php echo $this->__('Staging Website: '); ?>&nbsp;&nbsp;&nbsp;
+                    <select name="map[websites][from][]" class="staging-mapper-website-from">
+                        <option value=""><?php echo $this->__('Select website from map'); ?></option>
+                    <?php foreach ($stagingWebsites as $website): ?>
+                        <?php $slaveWebsite = $website->getSlaveWebsite(); ?>
+                        <option value="<?php echo $slaveWebsite->getId(); ?>"><?php echo $slaveWebsite->getName(); ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </td>
+                <td class="mapper-select"><?php echo $this->__('Website: '); ?>&nbsp;&nbsp;&nbsp;
+                    <select name="map[websites][to][]" class="staging-mapper-website-to">
+                        <option value=""><?php echo $this->__('Select website to map'); ?></option>
+                    <?php foreach ($masterWebsites as $website): ?>
+                        <option value="<?php echo $website->getId(); ?>"><?php echo $website->getName(); ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                </td>
+                <td>
+                    <button class="button" onclick="<?php echo $this->getJsObjectName() ?>.removeWebsiteMap(this); return false;"><span><?php echo $this->__('Remove'); ?></span></button>
+                </td>
+            </tr>
+            <tr id="<?php echo $this->getId() ?>_store_template" style="display: none;">
+                <td class="mapper-status center" style="color: green"></td>
+                <td class="mapper-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Staging Store: '); ?>&nbsp;&nbsp;&nbsp;
+                    {{store_from_select}}
+                </td>
+                <td class="mapper-select">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Store: '); ?>&nbsp;&nbsp;&nbsp;
+                    {{store_to_select}}
+                </td>
+                <td><button class="button" onclick="<?php echo $this->getJsObjectName() ?>.removeStoreMap(this); return false;"><span><?php echo $this->__('Remove'); ?></span></button></td>
+            </tr>
+            <tr id="<?php echo $this->getId() ?>_store_add_btn_template" style="display: none;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button class="staging-mapper-add-store-btn button disabled" disabled="disabled" onclick="<?php echo $this->getJsObjectName() ?>.addStoreMap(this); return false;"><span><?php echo $this->__('Add new store view map'); ?></span></button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="staging-mapper-add-website-row">
+                <td></td>
+                <td></td>
+                <td align="right" colspan="2">
+                    <button class="staging-mapper-add-website-btn button"" onclick="<?php echo $this->getJsObjectName() ?>.addWebsiteMap(); return false;"><span><?php echo $this->__('Add new website map'); ?></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+</div>
+<h3><?php echo $this->__('Items to merge'); ?></h3>
+<?php echo $this->getChildHtml('items'); ?>
+
+</form>
+<script type="text/javascript">
+//<![CDATA[
+<?php echo $this->getJsObjectName() ?> = new varienMapper('<?php echo $this->getId() ?>', '<?php echo $this->getGridUrl() ?>', '<?php echo $this->getVarNamePage() ?>', '<?php echo $this->getVarNameSort() ?>', '<?php echo $this->getVarNameDir() ?>', '<?php echo $this->getVarNameFilter() ?>', 'enterprise_staging_merge_form', <?php echo $this->getAllStoresJson(); ?>);
+var grid = <?php echo $this->getJsObjectName() ?>.grid;
+grid.useAjax = '<?php echo $this->getUseAjax() ?>';
+<?php if ($this->getRowClickCallback()): ?>
+    grid.rowClickCallback = <?php echo $this->getRowClickCallback() ?>;
+<?php endif; ?>
+<?php if ($this->getCheckboxCheckCallback()): ?>
+    grid.checkboxCheckCallback = <?php echo $this->getCheckboxCheckCallback() ?>;
+<?php endif; ?>
+<?php if ($this->getRowInitCallback()): ?>
+    grid.initRowCallback = <?php echo $this->getRowInitCallback() ?>;
+    grid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(grid, row)});
+<?php endif; ?>
+//]]>
+</script>
