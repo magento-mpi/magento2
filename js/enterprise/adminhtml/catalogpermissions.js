@@ -65,6 +65,8 @@
                    config[params[i] + '_' + config[params[i]]] = 'checked="checked"';
                }
             }
+            params.push('id');
+            config.id = config.permission_id;
             config.permission_id = arguments[0].key;
         } else {
             config.permission_id = 'new_permission' + config.index;

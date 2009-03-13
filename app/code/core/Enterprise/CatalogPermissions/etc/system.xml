@@ -34,7 +34,7 @@
             <sort_order>200</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
-            <show_in_store>0</show_in_store>
+            <show_in_store>1</show_in_store>
             <groups>
                 <general translate="label" module="enterprise_catalogpermissions">
                     <label>General</label>
@@ -42,44 +42,54 @@
                     <sort_order>100</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>0</show_in_store>
+                    <show_in_store>1</show_in_store>
                     <fields>
-                        <deny_catalog_category_view translate="label">
+                        <grant_catalog_category_view translate="label">
                             <label>Deny access to category view page</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </deny_catalog_category_view>
-                        <deny_catalog_product_price translate="label">
-                            <label>Deny view of product prices</label>
+                        </grant_catalog_category_view>
+                        <restricted_landing_page translate="label">
+                            <label>Landing page for restricted categories</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>adminhtml/system_config_source_cms_page</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </deny_catalog_product_price>
-                        <deny_checkout_items translate="label">
-                            <label>Deny adding products to cart</label>
+                            <show_in_store>1</show_in_store>
+                        </restricted_landing_page>
+                        <grant_catalog_product_price translate="label">
+                            <label>Deny view of product prices</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </deny_checkout_items>
+                        </grant_catalog_product_price>
+                        <grant_checkout_items translate="label">
+                            <label>Allow adding to cart</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </grant_checkout_items>
                         <deny_catalog_search translate="label">
                             <label>Deny catalog search for customer groups</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
-                            <sort_order>4</sort_order>
+                            <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </deny_catalog_search>
+                        
                     </fields>
                 </general>
             </groups>

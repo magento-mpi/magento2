@@ -71,12 +71,15 @@
                  </td>
                 <?php foreach ($this->getGrants() as $_fieldId => $_label): ?>
                 <td>
-                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow" value="-1" {{<?php echo $_fieldId ?>_-1}}/>
-                    <label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow"><?php echo $this->helper('enterprise_catalogpermissions')->__('Allow') ?></label><br />
-                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny" value="-2" {{<?php echo $_fieldId ?>_-2}}/>
-                    <label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny"><?php echo $this->helper('enterprise_catalogpermissions')->__('Deny') ?></label><br />
-                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}}/>
-                    <label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default"><?php echo $this->helper('enterprise_catalogpermissions')->__('Default') ?></label>
+                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow" value="-1" {{<?php echo $_fieldId ?>_-1}} /><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow">
+                        <?php echo $this->helper('enterprise_catalogpermissions')->__('Allow') ?>
+                    </label><br />
+                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny" value="-2" {{<?php echo $_fieldId ?>_-2}} /><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny">
+                        <?php echo $this->helper('enterprise_catalogpermissions')->__('Deny') ?>
+                    </label><br />
+                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}} /><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default">
+                        <?php echo $this->helper('enterprise_catalogpermissions')->__('Default') ?>
+                    </label>
                 </td>
                 <?php endforeach; ?>
             </tr>

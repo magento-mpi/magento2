@@ -100,4 +100,18 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection extends M
 
         return $this;
     }
+
+    /**
+     * Add filter by category activity
+     *
+     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection
+     */
+    public function addCategoryIsActiveFilter()
+    {
+        if (isset($this->_map['fields']['level'])) {
+            $this->getSelect()->where('category.is_active = 1');
+        }
+
+        return $this;
+    }
 }

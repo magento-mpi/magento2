@@ -134,9 +134,10 @@
     <default>
         <enterprise_catalogpermissions>
             <general>
-                <deny_catalog_category_view>1</deny_catalog_category_view>
-                <deny_catalog_product_price>1</deny_catalog_product_price>
-                <deny_checkout_items>1</deny_checkout_items>
+                <grant_catalog_category_view>0</grant_catalog_category_view>
+                <grant_catalog_product_price>0</grant_catalog_product_price>
+                <grant_checkout_items>0</grant_checkout_items>
+                <restricted_landing_page>no-route</restricted_landing_page>
                 <deny_catalog_search></deny_catalog_search>
             </general>
         </enterprise_catalogpermissions>
