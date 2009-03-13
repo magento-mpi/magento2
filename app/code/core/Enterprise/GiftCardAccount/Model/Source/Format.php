@@ -34,11 +34,11 @@ class Enterprise_GiftCardAccount_Model_Source_Format extends Mage_Core_Model_Abs
     public function getOptions()
     {
         return array(
-            Enterprise_GiftCardAccount_Model_Giftcardaccount::CODE_FORMAT_ALPHANUM
+            Enterprise_GiftCardAccount_Model_Pool::CODE_FORMAT_ALPHANUM
                 => Mage::helper('enterprise_giftcardaccount')->__('Alphanumeric'),
-            Enterprise_GiftCardAccount_Model_Giftcardaccount::CODE_FORMAT_ALPHA
-                => Mage::helper('enterprise_giftcardaccount')->__('Alpha Chars'),
-            Enterprise_GiftCardAccount_Model_Giftcardaccount::CODE_FORMAT_NUM
+            Enterprise_GiftCardAccount_Model_Pool::CODE_FORMAT_ALPHA
+                => Mage::helper('enterprise_giftcardaccount')->__('Chars'),
+            Enterprise_GiftCardAccount_Model_Pool::CODE_FORMAT_NUM
                 => Mage::helper('enterprise_giftcardaccount')->__('Numeric'),
         );
     }

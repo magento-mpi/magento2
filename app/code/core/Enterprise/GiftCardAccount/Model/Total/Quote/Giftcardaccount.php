@@ -63,6 +63,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
         }
 
         $addressCards = array();
+        $usedAddressCards = array();
         if ($baseUsed) {
             $quoteCards = $this->_sortGiftCards(Mage::helper('enterprise_giftcardaccount')->getCards($address->getQuote()));
             foreach ($quoteCards as $quoteCard) {
@@ -87,10 +88,15 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
                 $card['ba'] = $baseThisCardUsedAmount;
                 $card['a'] = $thisCardUsedAmount;
                 $addressCards[] = $card;
+                if ($baseThisCardUsedAmount) {
+                    $usedAddressCards[] = $card;
+                }
 
                 $skipped += $quoteCard['ba'];
             }
         }
+        Mage::helper('enterprise_giftcardaccount')->setCards($address, $usedAddressCards);
+        $address->setUsedGiftCards($address->getGiftCards());
         Mage::helper('enterprise_giftcardaccount')->setCards($address, $addressCards);
 
         $baseTotalUsed = $address->getQuote()->getBaseGiftCardsAmountUsed() + $baseUsed;

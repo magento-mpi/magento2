@@ -56,7 +56,27 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_Info exte
                 'label'     => Mage::helper('enterprise_giftcardaccount')->__('Code'),
                 'title'     => Mage::helper('enterprise_giftcardaccount')->__('Code'),
             ));
+
+            $fieldset->addField('state', 'label', array(
+                'name'      => 'state',
+                'label'     => Mage::helper('enterprise_giftcardaccount')->__('State'),
+                'title'     => Mage::helper('enterprise_giftcardaccount')->__('State'),
+                'value'     => $model->getStateText(),
+            ));
         }
+
+        $fieldset->addField('status', 'select', array(
+            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Is Active'),
+            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Is Active'),
+            'name'      => 'status',
+            'required'  => true,
+            'options'   => array(
+                Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
+                    Mage::helper('enterprise_giftcardaccount')->__('Yes'),
+                Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED =>
+                    Mage::helper('enterprise_giftcardaccount')->__('No'),
+            ),
+        ));
 
         $fieldset->addField('website_id', 'select', array(
             'name'      => 'website_id',
@@ -66,16 +86,6 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_Info exte
             'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true, true),
         ));
 
-        $fieldset->addField('status', 'select', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
-            'name'      => 'status',
-            'required'  => true,
-            'options'   => array(
-                '0' => Mage::helper('enterprise_giftcardaccount')->__('Disabled'),
-                '1' => Mage::helper('enterprise_giftcardaccount')->__('Enabled'),
-            ),
-        ));
 
         $fieldset->addField('balance', 'text', array(
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
@@ -95,6 +105,9 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_Info exte
         ));
 
         $form->setValues($model->getData());
+        if ($model->getId()) {
+            $form->addValues(array('state'=>$model->getStateText()));
+        }
         $this->setForm($form);
         return $this;
     }

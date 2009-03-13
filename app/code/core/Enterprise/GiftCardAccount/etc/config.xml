@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCardAccount>
-             <version>0.0.5</version>
+             <version>0.0.8</version>
         </Enterprise_GiftCardAccount>
     </modules>
 
@@ -44,6 +44,9 @@
                     <giftcardaccount>
                         <table>enterprise_giftcardaccount</table>
                     </giftcardaccount>
+                    <pool>
+                        <table>enterprise_giftcardaccount_pool</table>
+                    </pool>
                 </entities>
             </enterprise_giftcardaccount_mysql4>
         </models>
@@ -146,7 +149,7 @@
             <sales_convert_quote_address>
                 <base_gift_cards_amount><to_order>*</to_order></base_gift_cards_amount>
                 <gift_cards_amount><to_order>*</to_order></gift_cards_amount>
-                <gift_cards><to_order>*</to_order></gift_cards>
+                <used_gift_cards><to_order>gift_cards</to_order></used_gift_cards>
             </sales_convert_quote_address>
         </fieldsets>
     </global>
@@ -245,6 +248,7 @@
                 <code_length>12</code_length>
                 <code_format>alphanum</code_format>
                 <code_split>0</code_split>
+                <pool_size>1000</pool_size>
             </general>
         </giftcardaccount>
         <sales>

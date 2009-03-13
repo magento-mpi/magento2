@@ -31,6 +31,7 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
      */
     public function indexAction()
     {
+        Mage::getModel('enterprise_giftcardaccount/pool')->addNotice();
         $this->loadLayout();
         $this->_setActiveMenu('customer/giftcardaccount');
         $this->renderLayout();

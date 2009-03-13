@@ -72,30 +72,55 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
                 'index' => 'code',
         ));
 
-        $this->addColumn('websites',
+        $this->addColumn('website',
             array(
-                'header'=> Mage::helper('enterprise_giftcardaccount')->__('Website'),
-                'width' => '100px',
-                'sortable'  => false,
+                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Website'),
+                'width'     => '100px',
                 'index'     => 'website_id',
                 'type'      => 'options',
                 'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
         ));
 
-
         $this->addColumn('date_created',
             array(
                 'header'=> Mage::helper('enterprise_giftcardaccount')->__('Date Created'),
+                'width' => '120px',
                 'type'  => 'date',
                 'index' => 'date_created',
         ));
 
         $this->addColumn('date_expires',
             array(
-                'header'=> Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
-                'type'  => 'date',
-                'index' => 'date_expires',
+                'header'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
+                'width'   => '120px',
+                'type'    => 'date',
+                'index'   => 'date_expires',
                 'default' => '--',
+        ));
+
+        $this->addColumn('status',
+            array(
+                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Is Active'),
+                'width'     => '50px',
+                'align'     => 'center',
+                'index'     => 'website_id',
+                'type'      => 'options',
+                'options'   => array(
+                    Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
+                        Mage::helper('enterprise_giftcardaccount')->__('Yes'),
+                    Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED =>
+                        Mage::helper('enterprise_giftcardaccount')->__('No'),
+                ),
+        ));
+
+        $this->addColumn('state',
+            array(
+                'header'    => Mage::helper('enterprise_giftcardaccount')->__('State'),
+                'width'     => '100px',
+                'align'     => 'center',
+                'index'     => 'state',
+                'type'      => 'options',
+                'options'   => Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->getStatesAsOptionList(),
         ));
 
         $this->addColumn('balance',

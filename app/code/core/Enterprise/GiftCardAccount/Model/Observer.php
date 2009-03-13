@@ -41,7 +41,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
             foreach ($cards as $card) {
                 $args = array(
                     'amount'=>$card['ba'],
-                    'gift_card_account_id'=>$card['i'],
+                    'giftcardaccount_id'=>$card['i'],
                 );
 
                 Mage::dispatchEvent('enterprise_giftcardaccount_charge', $args);
@@ -59,7 +59,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function chargeByCode(Varien_Event_Observer $observer)
     {
-        $id = $observer->getEvent()->getGiftCardAccountCode();
+        $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
 
         Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function chargeById(Varien_Event_Observer $observer)
     {
-        $id = $observer->getEvent()->getGiftCardAccountId();
+        $id = $observer->getEvent()->getGiftcardaccountId();
         $amount = $observer->getEvent()->getAmount();
 
         Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
