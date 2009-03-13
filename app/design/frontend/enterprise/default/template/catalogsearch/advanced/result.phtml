@@ -34,7 +34,15 @@
             ->__('<strong>%d item(s)</strong> were found using the following search criteria', $this->getResultCount()); ?>
     </p>
 <?php else: ?>
-    <p class="error-msg"><?php echo $this->helper('catalogsearch')->__('No items were found using the following search criteria.');?> <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a></p>
+<ul class="messages">
+    <li class="error-msg">
+        <ul>
+            <li>
+               <?php echo $this->helper('catalogsearch')->__('No items were found using the following search criteria.');?> <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a>
+            </li>
+        </ul>
+    </li>
+</ul>
 <?php endif; ?>
 
 <?php $searchCriterias=$this->getSearchCriterias(); ?>
@@ -50,10 +58,16 @@
     <?php endforeach; ?>
 </div>
 <?php if($this->getResultCount()): ?>
-    <p class="note-msg">
-        <?php echo $this->helper('catalogsearch')->__("Don't see what you're looking for?"); ?>
-        <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a>
-    </p>
+<ul class="messages">
+    <li class="note-msg">
+        <ul>
+            <li>
+                <?php echo $this->helper('catalogsearch')->__("Don't see what you're looking for?"); ?>
+                <a href="<?php echo $this->getFormUrl(); ?>"><?php echo $this->helper('catalogsearch')->__('Modify your search'); ?></a>
+            </li>
+        </ul>
+    </li>
+</ul>
 <?php endif; ?>
 <?php if($this->getResultCount()): ?>
     <?php echo $this->getProductListHtml() ?>
