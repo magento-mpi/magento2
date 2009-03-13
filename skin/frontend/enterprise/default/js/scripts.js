@@ -62,14 +62,16 @@ Enterprise.TopCart= {
         if (!$(this.container.id).hasClassName('process')) {     
             new Effect.SlideUp(this.container.id, { duration: 0.5,
                 beforeStart: function(effect) {$( effect.element.id ).addClassName('process')}, 
-                afterFinish: function(effect) {$( effect.element.id ).removeClassName('process');} 
+                afterFinish: function(effect) {
+                    $( effect.element.id ).removeClassName('process');
+                    this.container.parentNode.style.zIndex=1;
+                    } 
                 });
         }
         if (this.interval !== null) {
             clearTimeout(this.interval);
             this.interval = null;
         }
-        this.container.parentNode.style.zIndex=1;
         this.check = 0;
      }
 };
@@ -77,11 +79,13 @@ Enterprise.TopCart= {
 Enterprise.Bundle = {
      initialize: function () {
          this.options = $('options-container');
+         
          if (this.options) {
              this.options.hide();
              this.options.addClassName('bundleProduct');
          }
          this.title = $('customizeTitle');
+         this.summary = $('bundleSummary').hide();
      },
      start: function () {
          $$('.col-right').each(function(el){el.id='rightCOL'});
@@ -94,6 +98,7 @@ Enterprise.Bundle = {
             });
          }
          this.title.show();
+         $$('.col-main').each(function(el){el.addClassName('with-bundle')});
      },
      end: function () {
          new Effect.SlideDown('productView', { duration: 0.8 });
@@ -101,7 +106,10 @@ Enterprise.Bundle = {
          if (this.options) {
             new Effect.SlideUp(this.options, { 
                 duration: 0.8,
-                afterFinish: function () { Enterprise.BundleSummary.exitSummary() }
+                afterFinish: function () { 
+                    Enterprise.BundleSummary.exitSummary();
+                    $$('.col-main').each(function(el){el.removeClassName('with-bundle')});
+                    }
                 });
          }
          this.title.hide();
@@ -111,12 +119,14 @@ Enterprise.Bundle = {
 Enterprise.BundleSummary = {
     initialize: function () {
         this.summary = $('bundleSummary');
+        this.summary.show();
         this.summaryContainer = this.summary.getOffsetParent();
-        this.summaryContainer.style.top = '0';
+        this.summary.style.top = '31px';
+        this.summary.style.right = '-214px';
+
         this.summaryStartY = this.summary.positionedOffset().top;
-        this.summaryStartX = this.summary.positionedOffset().left;
-        this.summary.style.left = this.summaryStartX;
-        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);       
+        this.summaryStartX = 693;
+        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
         this.GetScroll = setInterval(this.onDocScroll,1100);   
     },
     
@@ -124,14 +134,14 @@ Enterprise.BundleSummary = {
         if (this.summaryContainer.viewportOffset().top < 10) {
         
               new Effect.Move(this.summary, { 
-                    x: this.summaryStartX, 
-                    y: -(this.summaryContainer.viewportOffset().top)+15, 
+                    x: 693, 
+                    y: -(this.summaryContainer.viewportOffset().top)+31, 
                     mode: 'absolute'
                 });
 
         } else {
              new Effect.Move(this.summary, { 
-                    x: this.summaryStartX, 
+                    x: 693, 
                     y: this.summaryStartY, 
                     mode: 'absolute'
                 });
@@ -139,7 +149,8 @@ Enterprise.BundleSummary = {
     },
     
     exitSummary: function () {
-        clearInterval(this.GetScroll);       
+        clearInterval(this.GetScroll);
+        this.summary.hide();        
     } 
 };
 
