@@ -44,7 +44,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
          * Note that /default/logging/enabled/products - is an indicator if the products should be logged
          * but /enterprise/logging/event/products - is a node where event info stored.
          */
-        $node = Mage::getConfig()->getNode('default/logging/enabled/' . $code);
+        $node = Mage::getConfig()->getNode('default/admin/logsenabled/' . $code);
         return ( (string)$node == '1' ? true : false);
     }
 

@@ -100,14 +100,14 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'header'    => 'Action',
             'index'     => 'action',
             'type'      => 'text',
-            'sortable'  => true,
+            'sortable'  => false,
         ));
 
         $this->addColumn('status', array(
             'header'    => 'Status',
             'index'     => 'status',
             'type'      => 'text',
-            'sortable'  => true,
+            'sortable'  => false,
                          ));
 
         $this->addColumn('info', array(
@@ -118,6 +118,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'filter'    => false
         ));
 
+        $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_logging')->__('CSV'));
         return $this;
     }
 }

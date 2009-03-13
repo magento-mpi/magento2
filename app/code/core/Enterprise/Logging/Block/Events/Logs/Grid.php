@@ -53,20 +53,10 @@ class Enterprise_Logging_Block_Events_Logs_Grid extends Mage_Adminhtml_Block_Wid
 
         $gridUrl = $this->getUrl('*/*/');
 
-        $this->addColumn('size', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Size, byte'),
-            'index'     => 'size',
-            'type'      => 'number',
-            'sortable'  => false,
-            'filter'    => false
-        ));
-
         $this->addColumn('download', array(
             'header'    => Mage::helper('backup')->__('Download'),
             'format'    => '<a href="' . $gridUrl .'download/?name=$name">$name</a>',
-            'index'     => 'name',
-            'sortable'  => false,
-            'filter'    => false
+            'index'     => 'filename',
         ));
 
         return $this;

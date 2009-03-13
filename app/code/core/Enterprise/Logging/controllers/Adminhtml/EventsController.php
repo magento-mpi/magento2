@@ -96,6 +96,18 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
     }
 
     /**
+     * Export customer grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        $fileName   = 'events.csv';
+        $content    = $this->getLayout()->createBlock('enterprise_logging/events_grid')
+            ->getCsv();
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+
+    /**
      * permissions checker
      */
     protected function _isAllowed()

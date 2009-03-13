@@ -80,6 +80,37 @@
     </global>
     <adminhtml>
         <events>
+	    <enterprise_giftcardaccount_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnGiftaccountSave</method>
+                    </enterprise_logging>
+                </observers>
+	    </enterprise_giftcardaccount_save>
+
+	    <enterprise_giftcardaccount_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnGiftaccountView</method>
+                    </enterprise_logging>
+                </observers>
+	    </enterprise_giftcardaccount_view>
+
+	    <enterprise_giftcardaccount_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnGiftaccountDelete</method>
+                    </enterprise_logging>
+                </observers>
+	    </enterprise_giftcardaccount_delete>
+
+          
 	    <adminhtml_category_on_save>
                 <observers>
                     <enterprise_logging>
@@ -292,24 +323,29 @@
         </adminhtml_product_on_delete>
         </events>
         <menu>
-          <report>
+          <system>
             <children>
               <logging translate="title">
                  <title>Admin Logging</title>
                  <sort_order>71</sort_order>
-                 <action>adminhtml/events</action>
                  <depends><module>Enterprise_Logging</module></depends>
                  <children>
+                   <events>
+                     <title>Report</title>
+                     <sort_order>1</sort_order>
+                     <action>adminhtml/events</action>
+                     <depends><module>Enterprise_Logging</module></depends>
+                   </events>
                    <backups translate="title">
                      <title>Saved files</title>
-                     <sort_order>1</sort_order>
+                     <sort_order>2</sort_order>
                      <action>adminhtml/events/log</action>
                      <depends><module>Enterprise_Logging</module></depends>
                    </backups>
                  </children>
               </logging>
             </children>
-          </report>
+          </system>
         </menu>
         <acl>
           <resources>
@@ -334,18 +370,13 @@
           <resources>
             <admin>
               <children>
-                <report>
+                <system>
                   <children>
                         <logging translate="title" module="enterprise_logging">
                           <title>Admin Logging</title>
-                          <children>
-                            <backups translate="title" module="enterprise_logging">
-                              <title>Saved files</title>
-                            </backups>
-                          </children>
                         </logging>
                   </children>
-                </report>
+                </system>
               </children>
             </admin>
           </resources>
@@ -483,6 +514,24 @@
                   </save>
                 </actions>
               </systemconfiguration>
+
+              <giftaccount module="enterprise_logging" translate="Label">
+                <label>Gift account</label>
+                <code>80</code>
+                <actions>
+                  <view>
+                    <success>Giftaccount %s was viewed</success>
+                  </view>
+                  <save>
+                    <success>Giftaccount %s was successfuly saved</success>
+                    <fail>Giftaccount %s was failed to save</fail>
+                  </save>
+                  <delete>
+                    <success>Giftaccount %s was successfuly deleted</success>
+                    <fail>Giftaccount %s was failed to delete</fail>
+                  </delete>
+                </actions>
+              </giftaccount>
 
               <reports module="enterprise_logging" translate="Label">
                 <label>Reports</label>

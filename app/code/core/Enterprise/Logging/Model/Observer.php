@@ -747,6 +747,98 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Store event on giftaccount add
+     *
+     * @param Varien_Object $observer  expected code
+     *
+     */
+    public function addEventOnGiftaccountSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('giftaccount'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $code = $observer->getCode();
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+
+        $info = array($code);
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('giftaccount');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on giftaccount view
+     *
+     * @param Varien_Object $observer  expected code
+     *
+     */
+    public function addEventOnGiftaccountView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('giftaccount'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $code = $observer->getCode();
+        $success = 1;
+
+        $info = array($code);
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('giftaccount');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+
+    /**
+     * Store event on giftaccount delete
+     *
+     * @param Varien_Object $observer  expected code
+     *
+     */
+    public function addEventOnGiftaccountDelete($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('giftaccount'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $code = $observer->getCode();
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+
+        $info = array($code);
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('giftaccount');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+
+    /**
      * Rotate logs cron task
      */
     public function rotateLogs() 
