@@ -87,6 +87,8 @@ button.cart-btn span { background-position:100% 0; }
 .block .actions,
 .block-cart .actions,
 .mini-products-list li,
+.cms-index-index .block-featured li.item,
+.cms-index-index .block-featured .track,
 .title-buttons,
 .pager,
 .sorter,

@@ -42,6 +42,7 @@
 .block li.item:after,
 .block .actions:after,
 .mini-products-list li:after,
+.cms-index-index .block-featured li.item:after,
 .title-buttons:after,
 .pager:after,
 .sorter:after,
