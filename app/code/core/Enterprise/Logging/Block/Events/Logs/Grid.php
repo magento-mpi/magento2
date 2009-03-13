@@ -32,6 +32,7 @@ class Enterprise_Logging_Block_Events_Logs_Grid extends Mage_Adminhtml_Block_Wid
         $this->setSaveParametersInSession(true);
         $this->setId('logsGrid');
         $this->setDefaultSort('time', 'desc');
+        $this->setUseAjax(true);
     }
 
     /**
@@ -55,8 +56,9 @@ class Enterprise_Logging_Block_Events_Logs_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('download', array(
             'header'    => Mage::helper('backup')->__('Download'),
-            'format'    => '<a href="' . $gridUrl .'download/?name=$name">$name</a>',
+            'format'    => '<a href="' . $gridUrl .'download/?name=$filename">$filename</a>',
             'index'     => 'filename',
+            'filter'    => false
         ));
 
         return $this;

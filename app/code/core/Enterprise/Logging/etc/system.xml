@@ -26,29 +26,19 @@
  */
 -->
 <config>
-    <tabs>
-      <logging translate="label" module="enterprise_logging">
-            <label>Logging</label>
-            <sort_order>210</sort_order>
-      </logging>
-    </tabs>
     <sections>
-      <logging translate="label" module="enterprise_logging">
-        <tab>logging</tab>
-        <label>Admin Logging</label>
-        <show_in_default>1</show_in_default>
-        <show_in_website>1</show_in_website>
-        <show_in_store>1</show_in_store>
-
+      <system>
+        <tab>advanced</tab>
         <groups>
           <rotation>
-            <label>Log rotation</label>
+            <label>Admin actions log rotation</label>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <sort_order>500</sort_order>
             <fields>
               <frequency>
-                <label>Rotate frequency </label>
+                <label>Rotation frequence </label>
                 <frontend_type>select</frontend_type>
                 <source_model>enterprise_logging/system_config_rotationList</source_model>
                 <sort_order>1</sort_order>
@@ -58,9 +48,8 @@
               </frequency>
 
               <lifetime>
-                <label>Event lifetime </label>
-                <frontend_type>select</frontend_type>
-                <source_model>enterprise_logging/system_config_lifetimeList</source_model>
+                <label>Log entry lifetime </label>
+                <frontend_type>text</frontend_type>
                 <sort_order>1</sort_order>
                 <show_in_default>1</show_in_default>
                 <show_in_website>1</show_in_website>
@@ -69,7 +58,7 @@
             </fields>
           </rotation>
         </groups>
-      </logging>
+      </system>
 
       <admin>
         <tab>advanced</tab>

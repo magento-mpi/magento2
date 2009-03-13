@@ -54,7 +54,8 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
     {
         $name = $this->getRequest()->getParam('name');
         $chunks = explode(DS, $name);
-        if (count($chunks) != 2 || !preg_match("%^\d{4}_\d{2}$%", $chunks[0]) || !preg_match("%^[a-zA-Z0-9\-\_]{0,20}\.csv$%", $chunks[1])) {
+        if (count($chunks) != 3 || !preg_match("%^\d{4}$%", $chunks[0]) || !preg_match("%^\d{2}$%", $chunks[1]) || 
+            !preg_match("%^[a-zA-Z0-9\-\_]{0,20}\.csv$%", $chunks[2])) {
             exit("WRONG FILE NAME !");
         }
 
@@ -80,9 +81,13 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
      */
     public function loggridAction() 
     {
+        try {
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('enterprise_logging/events_logs_grid')->toHtml()
         );
+        } catch(Exception $e) {
+            echo $e;
+        }
     }
 
     /**

@@ -110,7 +110,6 @@
                 </observers>
 	    </enterprise_giftcardaccount_delete>
 
-          
 	    <adminhtml_category_on_save>
                 <observers>
                     <enterprise_logging>
@@ -611,17 +610,19 @@
     </admin>
 
     <default>
-      <logging>
-        <enabled>
+      <admin>
+        <logsenabled>
           <products>1</products>
           <categories>0</categories>
           <adminlogin>1</adminlogin>
-        </enabled>
+        </logsenabled>
+      </admin>
+      <system>
         <rotation>
-          <frequency>monthly</frequency>
+          <frequency>Daily</frequency>
           <lifetime>60</lifetime>
         </rotation>
-      </logging>
+      </system>
     </default>
 
     <crontab>

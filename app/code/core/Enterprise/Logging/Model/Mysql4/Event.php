@@ -56,7 +56,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
         $file->setAllowCreateFolders(true);
         $file->createDestinationDir($dir);
 
-        $lifetime = (string)Mage::getConfig()->getNode('default/logging/rotation/lifetime');
+        $lifetime = (string)Mage::getConfig()->getNode('default/system/rotation/lifetime');
         $lifetime = (int)$lifetime;
         $table = $this->getTable('enterprise_logging/event');
         /** 

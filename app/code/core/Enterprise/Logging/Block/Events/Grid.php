@@ -48,9 +48,11 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
+        /*
         $collection = Mage::getResourceModel('enterprise_logging/event_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
+        */
     }
 
     /**
