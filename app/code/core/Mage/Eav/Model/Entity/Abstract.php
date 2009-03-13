@@ -36,7 +36,6 @@ abstract class Mage_Eav_Model_Entity_Abstract
     extends Mage_Core_Model_Resource_Abstract
     implements Mage_Eav_Model_Entity_Interface
 {
-
     /**
      * Read connection
      *
@@ -1147,7 +1146,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * Save attribute
      *
      * @param Varien_Object $object
      * @param string $attributeCode
@@ -1233,7 +1232,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * After Load Entity process
      *
      * @param Varien_Object $object
      */
@@ -1243,7 +1242,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * Before delete Entity process
      *
      * @param Varien_Object $object
      */
@@ -1253,7 +1252,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * After Save Entity process
      *
      * @param Varien_Object $object
      */
@@ -1263,7 +1262,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * Before Delete Entity process
      *
      * @param Varien_Object $object
      */
@@ -1273,7 +1272,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * After delete entity process
      *
      * @param Varien_Object $object
      */
@@ -1283,7 +1282,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve Default attribute model
      *
      * @return string
      */
@@ -1293,7 +1292,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve default entity attributes
      *
      * @return array
      */
@@ -1303,29 +1302,40 @@ abstract class Mage_Eav_Model_Entity_Abstract
     }
 
     /**
-     * Enter description here...
+     * Retrieve default entity static attributes
      *
+     * @return array
+     */
+    public function getDefaultAttributes() {
+        return array_unique(array_merge($this->_getDefaultAttributes(), array($this->getEntityIdField())));
+    }
+
+    /**
+     * After set config process
+     *
+     * @deprecated
+     * @return Mage_Eav_Model_Entity_Abstract
      */
     protected function _afterSetConfig()
     {
-        Varien_Profiler::start(__METHOD__);
-
-        //return;
-        $defaultAttributes = $this->_getDefaultAttributes();
-        $defaultAttributes[] = $this->getEntityIdField();
-
-        $attributes = $this->getAttributesByCode();
-        foreach ($defaultAttributes as $attr) {
-            if (empty($attributes[$attr]) && !$this->getAttribute($attr)) {
-                $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
-                $attribute->setAttributeCode($attr)
-                    ->setBackendType('static')
-                    ->setEntityType($this->getEntityType())
-                    ->setEntityTypeId($this->getEntityType()->getId());
-                $this->addAttribute($attribute);
-            }
-        }
-        Varien_Profiler::stop(__METHOD__);
+        return $this;
+//        Varien_Profiler::start(__METHOD__);
+//
+//        $defaultAttributes = $this->_getDefaultAttributes();
+//        $defaultAttributes[] = $this->getEntityIdField();
+//
+//        $attributes = $this->getAttributesByCode();
+//        foreach ($defaultAttributes as $attr) {
+//            if (empty($attributes[$attr]) && !$this->getAttribute($attr)) {
+//                $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
+//                $attribute->setAttributeCode($attr)
+//                    ->setBackendType('static')
+//                    ->setEntityType($this->getEntityType())
+//                    ->setEntityTypeId($this->getEntityType()->getId());
+//                $this->addAttribute($attribute);
+//            }
+//        }
+//        Varien_Profiler::stop(__METHOD__);
+//        return $this;
     }
-
 }

@@ -37,9 +37,16 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     /**
      * Array of items with item id key
      *
-     * @var unknown_type
+     * @var array
      */
-    protected $_itemsById = array();
+    protected $_itemsById           = array();
+
+    /**
+     * Entity static fields
+     *
+     * @var array
+     */
+    protected $_staticFields        = array();
 
     /**
      * Entity object to define collection's attributes
@@ -48,7 +55,12 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      */
     protected $_entity;
 
-    protected $_selectEntityTypes=array();
+    /**
+     * Entity types to be fetched for objects in collection
+     *
+     * @var array
+     */
+    protected $_selectEntityTypes   = array();
 
     /**
      * Attributes to be fetched for objects in collection
@@ -64,8 +76,25 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
      */
     protected $_filterAttributes=array();
 
+    /**
+     * Joined entities
+     *
+     * @var array
+     */
     protected $_joinEntities = array();
+
+    /**
+     * Joined attributes
+     *
+     * @var array
+     */
     protected $_joinAttributes = array();
+
+    /**
+     * Joined fields data
+     *
+     * @var array
+     */
     protected $_joinFields = array();
 
     /**
@@ -78,6 +107,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         parent::__construct();
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
+        $this->_prepareStaticFields();
         $this->_initSelect();
     }
 
@@ -92,6 +122,19 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     public function getTable($table)
     {
         return $this->getResource()->getTable($table);
+    }
+
+    /**
+     * Prepare static entity fields
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _prepareStaticFields()
+    {
+        foreach ($this->getEntity()->getDefaultAttributes() as $field) {
+            $this->_staticFields[$field] = $field;
+        }
+        return $this;
     }
 
     protected function _initSelect()
@@ -284,6 +327,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $this->getSelect()->order($this->_getAttributeFieldName($attribute).' '.$dir);
             return $this;
         }
+        if (isset($this->_staticFields[$attribute])) {
+            $this->getSelect()->order("e.{$attribute} {$dir}");
+        }
         if (isset($this->_joinAttributes[$attribute])) {
             $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
             $entityField = $this->_getAttributeTableAlias($attribute).'.'.$attrInstance->getAttributeCode();
@@ -357,6 +403,20 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     }
 
     /**
+     * Add field to static
+     *
+     * @param string $field
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function addStaticField($field)
+    {
+        if (!isset($this->_staticFields[$field])) {
+            $this->_staticFields[$field] = $field;
+        }
+        return $this;
+    }
+
+    /**
      * Add attribute expression (SUM, COUNT, etc)
      *
      * Example: ('sub_total', 'SUM({{attribute}})', 'revenue')
@@ -382,13 +442,18 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         $fullExpression = $expression;
         // Replacing multiple attributes
         foreach($attribute as $attributeItem) {
-            $attributeInstance = $this->getAttribute($attributeItem);
+            if (isset($this->_staticFields[$attributeItem])) {
+                $attrField = sprintf('e.%s', $attributeItem);
+            }
+            else {
+                $attributeInstance = $this->getAttribute($attributeItem);
 
-            if ($attributeInstance->getBackend()->isStatic()) {
-                $attrField = 'e.' . $attributeItem;
-            } else {
-                $this->_addAttributeJoin($attributeItem, 'left');
-                $attrField = $this->_getAttributeFieldName($attributeItem);
+                if ($attributeInstance->getBackend()->isStatic()) {
+                    $attrField = 'e.' . $attributeItem;
+                } else {
+                    $this->_addAttributeJoin($attributeItem, 'left');
+                    $attrField = $this->_getAttributeFieldName($attributeItem);
+                }
             }
 
             $fullExpression = str_replace('{{attribute}}', $attrField, $fullExpression);
@@ -420,6 +485,11 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         } else {
             if (isset($this->_joinFields[$attribute])) {
                 $this->getSelect()->group($this->_getAttributeFieldName($attribute));
+                return $this;
+            }
+
+            if (isset($this->_staticFields[$attribute])) {
+                $this->getSelect()->group(sprintf('e.%s', $attribute));
                 return $this;
             }
 
@@ -989,6 +1059,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         if (isset($this->_joinAttributes[$attributeCode]['condition_alias'])) {
             return $this->_joinAttributes[$attributeCode]['condition_alias'];
         }
+        if (isset($this->_staticFields[$attributeCode])) {
+            return sprintf('e.%s', $attributeCode);
+        }
         if (isset($this->_joinFields[$attributeCode])) {
             $attr = $this->_joinFields[$attributeCode];
             return $attr['table'] ? $attr['table'] .'.'.$attr['field'] : $attr['field'];
@@ -1121,6 +1194,9 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
     {
         if (isset($this->_joinFields[$attribute])) {
             return $this->_getConditionSql($this->_getAttributeFieldName($attribute), $condition);
+        }
+        if (isset($this->_staticFields[$attribute])) {
+            return $this->_getConditionSql(sprintf('e.%s', $attribute), $condition);
         }
         // process linked attribute
         if (isset($this->_joinAttributes[$attribute])) {
