@@ -1,4 +1,4 @@
-<?php if( $this->getBalance() !== false ):?>
+<?php if( $this->getActionsCollection()->getSize() > 0 ):?>
 <div class="entry-edit">
     <div class="entry-edit-head">
         <h4 class="icon-head head-account"><?php echo $this->helper('enterprise_customerbalance')->__('Credit History')?></h4>
@@ -12,8 +12,8 @@
                 <?php echo $this->helper('core')->formatTime($_action->getDate(), 'medium') ?>
                 <span class="separator">|</span><small>
                 <strong class="subdue">
-                    <?php echo $_action->getActionName()?>
-                <span class="separator">|</span></small></strong>
+                    <?php echo $_action->getActionName()?></small></strong> <?php echo $this->helper('enterprise_customerbalance')->__('balance for Website: %s', $_action->getName())?>
+                <span class="separator">|</span>
                 <strong><?php echo $this->helper('enterprise_customerbalance')->__('Delta: ')?><?php echo $_action->getFormattedDelta()?></strong>
 
             </li>

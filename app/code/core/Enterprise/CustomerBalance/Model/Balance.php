@@ -56,6 +56,10 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 
     public function getTotal($customerId)
     {
+        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
+            $customer = Mage::getModel('customer/customer')->load($customerId);
+            return $this->getResource()->getTotal($customerId, $customer->getWebsiteId());
+        }
         return $this->getResource()->getTotal($customerId);
     }
 

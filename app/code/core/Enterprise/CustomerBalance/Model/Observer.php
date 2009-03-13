@@ -35,8 +35,18 @@ class Enterprise_CustomerBalance_Model_Observer
             Mage::getModel('enterprise_customerbalance/balance')
                 ->setDelta($data['delta'])
                 ->setCustomerId($observer->getEvent()->getCustomer()->getId())
-                ->setWebsiteId( isset($data['website']) ? $data['website'] : null )
+                ->setWebsiteId( $this->_getWebsiteId($observer) )
                 ->updateBalance();
+        }
+    }
+
+    protected function _getWebsiteId($observer)
+    {
+        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
+            return $observer->getEvent()->getCustomer()->getWebsiteId();
+        } else {
+            $post = Mage::app()->getFrontController()->getAction()->getRequest()->getPost();
+            return $post['customerbalance']['website'];
         }
     }
 }

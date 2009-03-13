@@ -45,11 +45,15 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Mage_Core_Model_My
         return $this;
     }
 
-    public function getTotal($customerId)
+    public function getTotal($customerId, $websiteId=false)
     {
         $select = $this->getReadConnection()->select()
             ->from($this->getMainTable(), new Zend_Db_Expr('SUM(balance)'))
             ->where($this->getReadConnection()->quoteInto('customer_id = ?', $customerId));
+
+        if( $websiteId ) {
+            $select->where($this->getReadConnection()->quoteInto('website_id = ?', $websiteId));
+        }
 
         $data = $this->getReadConnection()->fetchOne($select);
 

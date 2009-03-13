@@ -39,8 +39,16 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             $this->_collection = Mage::getModel('enterprise_customerbalance/balance_history')
                 ->getCollection()
                 ->addWebsiteData()
-                ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'))
-                ->addWebsiteFilter(Mage::helper('enterprise_permissions')->getRelevantWebsites());
+                ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
+            if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
+                if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
+                    $customer = Mage::getModel('customer/customer')->load($this->getRequest()->getParam('id'));
+                    $this->_collection->addWebsiteFilter($customer->getWebsiteId());
+                } else {
+                    $this->_collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getRelevantWebsites());
+                }
+            }
+
         }
 
         return $this->_collection;
