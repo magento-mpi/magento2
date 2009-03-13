@@ -438,8 +438,9 @@ dd.even { background:#f6f6f6; }
 
 /* Block: List */
 /*.block-list .block-content { padding:5px 0 5px; }*/
-.block-list .block-content ol { margin:0 -13px; }
+.block-list .block-content ol { margin:-5px -13px; }
 .block-list li.item { padding:5px 13px; }
+.block-list .actions { padding:5px 0 0; }
 
 /* Block: Poll */
 .block-poll li { margin:5px 0; }
