@@ -24,33 +24,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Pool extends Enterprise_GiftCardAccount_Model_Mysql4_Pool_Abstract
+class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Mage_Core_Model_Config_Data
 {
-    protected function _construct()
+    protected function _afterSave()
     {
-        $this->_init('enterprise_giftcardaccount/pool', 'code');
-    }
-
-    public function saveCode($code)
-    {
-        $field = $this->getIdFieldName();
-        $this->_getWriteAdapter()->insert(
-            $this->getMainTable(),
-            array(
-                $field=>$code
-            )
-        );
-    }
-
-    public function exists($code)
-    {
-        $select = $this->_getReadAdapter()->select();
-        $select->from($this->getMainTable(), $this->getIdFieldName());
-        $select->where($this->getIdFieldName() . ' = ?', $code);
-
-        if ($this->_getReadAdapter()->fetchOne($select) === false){
-            return false;
+        if ($this->isValueChanged()) {
+            Mage::getModel('enterprise_giftcardaccount/pool')->cleanupFree();
         }
-        return true;
+        parent::_afterSave();
     }
 }

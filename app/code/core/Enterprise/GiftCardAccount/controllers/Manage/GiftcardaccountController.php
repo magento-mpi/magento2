@@ -31,7 +31,22 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
      */
     public function indexAction()
     {
-        Mage::getModel('enterprise_giftcardaccount/pool')->addNotice();
+        $usage = Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
+
+        $function = 'addNotice';
+        if ($usage->getPercent() == 100) {
+            $function = 'addError';
+        }
+
+        Mage::getSingleton('adminhtml/session')->$function(
+            Mage::helper('enterprise_giftcardaccount')->__(
+                'Code pool is %.2f%% used (%d free of %d total). <a href="%s">Generate new</a>.',
+                $usage->getPercent(),
+                $usage->getFree(),
+                $usage->getTotal(),
+                Mage::getUrl('*/*/generate'))
+        );
+
         $this->loadLayout();
         $this->_setActiveMenu('customer/giftcardaccount');
         $this->renderLayout();
@@ -171,6 +186,20 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
             $this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_grid', 'giftcardaccount.grid')
                 ->toHtml()
         );
+    }
+
+    public function generateAction()
+    {
+        try {
+            Mage::getModel('enterprise_giftcardaccount/pool')->generatePool();
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addException($e, Mage::helper('enterprise_giftcardaccount')->__('Unable to generate new code pool.'));
+        }
+        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('New code pool was generated successfully.'));
+        //$this->_redirect('*/*/');
+        $this->_redirectReferer('*/*/');
     }
 
     /**

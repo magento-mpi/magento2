@@ -24,33 +24,36 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Pool extends Enterprise_GiftCardAccount_Model_Mysql4_Pool_Abstract
+
+class Enterprise_GiftCardAccount_Block_Manage_System_Config_Generate extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('enterprise_giftcardaccount/pool', 'code');
-    }
-
-    public function saveCode($code)
-    {
-        $field = $this->getIdFieldName();
-        $this->_getWriteAdapter()->insert(
-            $this->getMainTable(),
-            array(
-                $field=>$code
-            )
-        );
-    }
-
-    public function exists($code)
-    {
-        $select = $this->_getReadAdapter()->select();
-        $select->from($this->getMainTable(), $this->getIdFieldName());
-        $select->where($this->getIdFieldName() . ' = ?', $code);
-
-        if ($this->_getReadAdapter()->fetchOne($select) === false){
-            return false;
+        parent::__construct();
+        if (!$this->getTemplate()) {
+            $this->setTemplate('enterprise/giftcardaccount/config/generate.phtml');
         }
-        return true;
+    }
+
+    /**
+     * Get the button and scripts contents
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
+    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    {
+        $this->setElement($element);
+        return $this->_toHtml();
+    }
+
+    /**
+     * Return code pool usage
+     *
+     * @return Varien_Object
+     */
+    public function getUsage()
+    {
+        return Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
     }
 }

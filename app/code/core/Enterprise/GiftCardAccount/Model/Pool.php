@@ -35,11 +35,12 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
     const XML_CONFIG_CODE_PREFIX = 'giftcardaccount/general/code_prefix';
     const XML_CONFIG_CODE_SUFFIX = 'giftcardaccount/general/code_suffix';
     const XML_CONFIG_CODE_SPLIT  = 'giftcardaccount/general/code_split';
+    const XML_CONFIG_POOL_SIZE   = 'giftcardaccount/general/pool_size';
 
     const XML_CHARSET_NODE      = 'global/enterprise/giftcardaccount/charset/%s';
     const XML_CHARSET_SEPARATOR = 'global/enterprise/giftcardaccount/separator';
 
-    const CODE_GENERATION_ATTEMPTS = 100000;
+    const CODE_GENERATION_ATTEMPTS = 1000;
 
     protected function _construct()
     {
@@ -48,25 +49,23 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
 
     public function generatePool()
     {
+        $this->cleanupFree();
 
-    }
+        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $size = $website->getConfig(self::XML_CONFIG_POOL_SIZE);
 
-    /**
-     * Generate and save gift card account code
-     *
-     * @return Enterprise_GiftCardAccount_Model_Pool
-     */
-    protected function _defineCode()
-    {
-        $i = 0;
-        do {
-            if ($i>=self::CODE_GENERATION_ATTEMPTS) {
-                Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Unique code generation attempts exceeded. Please try again later or cleanup useless entities.'));
-            }
-            $this->setCode($this->_generateCode());
-            $i++;
-        } while (!$this->_checkCodeIsUnique());
+        for ($i=0; $i<$size;$i++) {
+            $attempt = 0;
+            do {
+                if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
+                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Unique code generation attempts limit exceeded. Please try again later or change code settings.'));
+                }
+                $code = $this->_generateCode();
+                $attempt++;
+            } while ($this->getResource()->exists($code));
 
+            $this->getResource()->saveCode($code);
+        }
         return $this;
     }
 
@@ -102,20 +101,5 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
 
         $code = "{$prefix}{$code}{$suffix}";
         return $code;
-    }
-
-
-    /**
-     * Check if current code is unique in database
-     *
-     * @return bool
-     */
-    protected function _checkCodeIsUnique()
-    {
-        $model = Mage::getModel('giftcardaccount/pool')->load($this->getCode());
-        if ($model->getId()) {
-            return false;
-        }
-        return true;
     }
 }
