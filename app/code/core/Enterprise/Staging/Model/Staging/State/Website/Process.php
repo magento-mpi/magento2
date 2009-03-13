@@ -63,7 +63,7 @@ class Enterprise_Staging_Model_Staging_State_Website_Process extends Enterprise_
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
             throw new Enterprise_Staging_Exception($e);
         }
-SSS();
+
         return $this;
     }
 
@@ -203,7 +203,8 @@ SSS();
                 $fields[$id] = $masterWebsiteId;
                 $_websiteFieldNameSql = "scope = 'website' AND {$field}";
             } elseif ($field == 'website_ids') {
-                $fields[$id] = $masterWebsiteId;
+                /* FIXME need to fix concat website_ids */
+                $fields[$id] = "CONCAT(website_ids,',{$masterWebsiteId}')";
                 $_websiteFieldNameSql = "FIND_IN_SET({$slaveWebsiteId},website_ids)";
             }
         }
@@ -211,8 +212,8 @@ SSS();
         $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql} = {$slaveWebsiteId}";
 
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-        echo $destInsertSql.'<br /><br /><br /><br />';
-        //$connection->query($destInsertSql);
+        //echo $destInsertSql.'<br /><br /><br /><br />';
+        $connection->query($destInsertSql);
 
         return $this;
     }
@@ -268,8 +269,8 @@ SSS();
             $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
 
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            echo $destInsertSql.'<br /><br /><br /><br />';
-            //$connection->query($destInsertSql);
+            //echo $destInsertSql.'<br /><br /><br /><br />';
+            $connection->query($destInsertSql);
         }
 
         return $this;
