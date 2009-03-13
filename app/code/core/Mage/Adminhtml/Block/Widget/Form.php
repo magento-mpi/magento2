@@ -137,10 +137,22 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     protected function _beforeToHtml()
     {
         $this->_prepareForm();
+        $this->_initFormValues();
         Mage::dispatchEvent('adminhtml_widget_form_before_tohtml',
             array('form' => $this->getForm(), 'layout' => $this->getLayout())
         );
         return parent::_beforeToHtml();
+    }
+
+    /**
+     * Initialize form fileds values
+     * Method will be called after prepareForm and can be used for field values initialization
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
+    protected function _initFormValues()
+    {
+        return $this;
     }
 
     /**
