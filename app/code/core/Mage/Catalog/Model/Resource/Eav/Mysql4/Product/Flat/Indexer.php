@@ -35,6 +35,8 @@
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     extends Mage_Core_Model_Mysql4_Abstract
 {
+    const XML_NODE_MAX_INDEX_COUNT  = 'global/catalog/product/flat/max_index_count';
+
     /**
      * Attribute codes for flat
      *
@@ -220,7 +222,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     {
         $attributes = $this->getAttributes();
         if (!isset($attributes[$attributeCode])) {
-            Mage::throwException(Mage::helper('catalog')->__('Requested invalid attribute code %s', $attributeCode));
+            $attribute = Mage::getModel('catalog/resource_eav_attribute')
+                ->loadByCode($this->getEntityTypeId(), $attributeCode);
+            if (!$attribute->getId()) {
+                Mage::throwException(Mage::helper('catalog')->__('Invalid attribute %s', $attributeCode));
+            }
+            $entity = Mage::getSingleton('eav/config')
+                ->getEntityType($this->getEntityType())
+                ->getEntity();
+            $attribute->setEntity($entity);
+            return $attribute;
         }
         return $attributes[$attributeCode];
     }
@@ -354,12 +365,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         $columns = $this->getFlatColumns();
         $indexes = $this->getFlatIndexes();
 
-        $maxColumn  = $this->_getWriteAdapter()->getLimitation('column');
-        $maxIndex   = $this->_getWriteAdapter()->getLimitation('index');
-
-        if (count($columns) > $maxColumn) {
-            Mage::throwException(Mage::helper('catalog')->__("Flat Catalog module has a limit of %2\$d filterable and/or sort able attributes. Currently there are %1\$d. Please reduce the number of filterable/sort able attributes in order to use this module.", count($columns), $maxColumn));
-        }
+        $maxIndex   = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
 
         if (count($indexes) > $maxIndex) {
             Mage::throwException(Mage::helper('catalog')->__("Flat Catalog module has a limit of %2\$d filterable and/or sort able attributes. Currently there are %1\$d. Please reduce the number of filterable/sort able attributes in order to use this module.", count($indexes), $maxIndex));

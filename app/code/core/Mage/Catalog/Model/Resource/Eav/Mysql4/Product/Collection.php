@@ -119,6 +119,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
+     * Prepare static entity fields
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    protected function _prepareStaticFields()
+    {
+        if ($this->isEnabledFlat()) {
+            return $this;
+        }
+        return parent::_prepareStaticFields();
+    }
+
+    /**
      * Retrieve collection empty item
      * Redeclared for specifying id field name without getting resource model inside model
      *
@@ -219,7 +232,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                     foreach ($this->getEntity()->getAllTableColumns() as $column) {
                         $this->getSelect()->from(null, 'e.'.$column);
                         $this->_selectAttributes[$column] = $column;
-                        $this->_joinAttributes[$column]['condition_alias'] = $column;
+                        $this->_staticFields[$column] = $column;
                     }
                 }
                 else {
@@ -227,7 +240,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                         foreach ($columns as $alias => $column) {
                             $this->getSelect()->from(null, array($alias => 'e.'.$column));
                             $this->_selectAttributes[$column] = $column;
-                            $this->_joinAttributes[$column]['condition_alias'] = $column;
+                            $this->_staticFields[$column] = $column;
                         }
                     }
                 }
