@@ -358,27 +358,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addStoreFilter($store=null)
     {
-        if (is_null($store)) {
-            $store = $this->getStoreId();
-        }
-
-        if (!$store) {
-            return $this;
-        }
+        $store = Mage::app()->getStore($store);
 
         if ($this->isEnabledFlat()) {
-            if ($store != $this->getStoreId()) {
+            if ($store->getId() != $this->getStoreId()) {
                 $this->setStoreId($store);
             }
             return $this;
         }
 
-        if ($store instanceof Mage_Core_Model_Store) {
-            $websiteId = $store->getWebsite()->getId();
-        }
-        else {
-            $websiteId = Mage::app()->getStore($store)->getWebsite()->getId();
-        }
+        $websiteId = $store->getWebsite()->getId();
         $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
                 '{{table}}.website_id='.$websiteId
         );

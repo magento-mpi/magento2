@@ -42,6 +42,13 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
 
     protected $_filter;
 
+    /**
+     * Currency Rates
+     *
+     * @var array
+     */
+    protected $_rates;
+
 
     protected function _construct()
     {
@@ -63,9 +70,26 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         return $this->_getData('currency_code');
     }
 
+    /**
+     * Currency Rates getter
+     *
+     * @return array
+     */
     public function getRates()
     {
-        return $this->_getData('rates');
+        return $this->_rates;
+    }
+
+    /**
+     * Currency Rates setter
+     *
+     * @param array Currency Rates
+     * @return Mage_Directory_Model_Currency
+     */
+    public function setRates(array $rates)
+    {
+        $this->_rates = $rates;
+        return $this;
     }
 
     /**
