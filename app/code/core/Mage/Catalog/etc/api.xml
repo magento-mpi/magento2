@@ -411,6 +411,7 @@
                 <category_attribute>catalogCategoryAttribute</category_attribute>
                 <product>catalogProduct</product>
                 <product_attribute>catalogProductAttribute</product_attribute>
+                <product_attribute_set>catalogProductAttributeSet</product_attribute_set>
                 <product_type>catalogProductType</product_type>
                 <product_tier_price>catalogProductAttributeTierPrice</product_tier_price>
                 <product_attribute_media>catalogProductAttributeMedia</product_attribute_media>

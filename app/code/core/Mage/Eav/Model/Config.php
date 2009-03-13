@@ -402,9 +402,9 @@ class Mage_Eav_Model_Config
          * Validate attribute code
          */
         if (is_numeric($code)) {
-            $code = $this->_getAttributeReference($code, $entityTypeCode);
-            if (!$code) {
-                return false;
+            $attributeCode = $this->_getAttributeReference($code, $entityTypeCode);
+            if ($attributeCode) {
+                $code = $attributeCode;
             }
         }
         $attributeKey = $this->_getAttributeKey($entityTypeCode, $code);
@@ -429,11 +429,20 @@ class Mage_Eav_Model_Config
             $attribute = Mage::getModel($data['attribute_model'], $data);
         }
         else {
-            $attribute = Mage::getModel($entityType->getAttributeModel())->loadByCode($entityType, $code);
+            if (is_numeric($code)) {
+                $attribute = Mage::getModel($entityType->getAttributeModel())->load($code);
+                if ($attribute->getEntityTypeId() != $entityType->getId()) {
+                    return false;
+                }
+                $attributeKey = $this->_getAttributeKey($entityTypeCode, $attribute->getAttributeCode());
+            } else {
+                $attribute = Mage::getModel($entityType->getAttributeModel())->loadByCode($entityType, $code);
+            }
         }
 
         if ($attribute) {
             $attribute->setEntityType($entityType);
+            $this->_addAttributeReference($attribute->getId(), $attribute->getAttributeCode(), $entityTypeCode);
             $this->_save($attribute, $attributeKey);
         }
         Varien_Profiler::stop('EAV: '.__METHOD__);

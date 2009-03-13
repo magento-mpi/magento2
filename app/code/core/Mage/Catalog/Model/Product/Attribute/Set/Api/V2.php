@@ -19,35 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Catalog
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Base api controller
+ * Catalog product attribute set api V2
  *
  * @category   Mage
- * @package    Mage_Api
-*/
-class Mage_Api_Controller_Action extends Mage_Core_Controller_Front_Action
+ * @package    Mage_Catalog
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Catalog_Model_Product_Attribute_Set_Api_V2 extends Mage_Catalog_Model_Product_Attribute_Set_Api
 {
-    public function preDispatch()
-    {
-        $this->getLayout()->setArea('adminhtml');
-        Mage::app()->setCurrentStore('admin');
-        $this->setFlag('', self::FLAG_NO_START_SESSION, 1); // Do not start standart session
-        parent::preDispatch();
-        return $this;
-    }
-
-    /**
-     * Retrive webservice server
-     *
-     * @return Mage_Api_Model_Server
-     */
-    protected function _getServer()
-    {
-        return Mage::getSingleton('api/server');
-    }
 }

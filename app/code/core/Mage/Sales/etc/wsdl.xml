@@ -180,6 +180,20 @@
         </complexContent>
     </complexType>
     
+    <complexType name="orderItemIdQty">
+        <all>
+            <element name="order_item_id" type="xsd:int"/>
+            <element name="qty" type="xsd:qty"/>
+        </all>
+    </complexType>
+    
+    <complexType name="orderItemIdQtyArray">
+        <complexContent>
+            <restriction base="soapenc:Array">
+                <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:orderItemIdQty[]"/>
+            </restriction>
+        </complexContent>
+    </complexType>
     
     
     <complexType name="salesOrderPaymentEntity">
@@ -447,6 +461,7 @@
 
   <message name="salesOrderListRequest">
     <part name="sessionId" type="xsd:string"/>
+    <part name="attributes" type="typens:associativeArray"/>
   </message>
   <message name="salesOrderListResponse">
     <part name="result" type="typens:salesOrderEntityArray"/>
@@ -524,7 +539,7 @@
   <message name="salesOrderShipmentCreateRequest">
     <part name="sessionId" type="xsd:string"/>
     <part name="orderIncrementId" type="xsd:string"/>
-    <part name="itemsQty" type="typens:ArrayOfString"/>
+    <part name="itemsQty" type="typens:orderItemIdQtyArray"/>
     <part name="comment" type="xsd:string"/>
     <part name="email" type="xsd:int"/>
     <part name="includeComment" type="xsd:int"/>
@@ -562,6 +577,7 @@
     <part name="shipmentIncrementId" type="xsd:string"/>
     <part name="trackId" type="xsd:string"/>
   </message>
+  
   <message name="salesOrderShipmentRemoveTrackResponse">
     <part name="result" type="xsd:int"/>
   </message>
@@ -575,19 +591,11 @@
     <part name="result" type="typens:associativeArray"/>
   </message>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   <message name="salesOrderInvoiceListRequest">
     <part name="sessionId" type="xsd:string"/>
+    <part name="attributes" type="typens:associativeArray"/>
   </message>
+  
   <message name="salesOrderInvoiceListResponse">
     <part name="result" type="typens:salesOrderInvoiceEntityArray"/>
   </message>
@@ -603,7 +611,7 @@
   <message name="salesOrderInvoiceCreateRequest">
     <part name="sessionId" type="xsd:string"/>
     <part name="invoiceIncrementId" type="xsd:string"/>
-    <part name="itemsQty" type="typens:ArrayOfString"/>
+    <part name="itemsQty" type="typens:orderItemIdQtyArray"/>
     <part name="comment" type="xsd:string"/>
     <part name="email" type="xsd:string"/>
     <part name="includeComment" type="xsd:string"/>

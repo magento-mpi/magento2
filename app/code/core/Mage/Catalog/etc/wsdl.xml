@@ -23,6 +23,13 @@
         </all>
     </complexType>
     
+    <complexType name="catalogProductRequestAttributes">
+        <all>
+            <element name="attributes" type="typens:ArrayOfString" minOccurs="0"/>
+            <element name="additional_attributes" type="typens:ArrayOfString" minOccurs="0"/>
+        </all>
+    </complexType>
+    
     <complexType name="catalogProductReturnEntity">
         <all>
             <element name="product_id" type="xsd:string" minOccurs="0"/>
@@ -51,29 +58,50 @@
             <element name="special_to_date" type="xsd:string" minOccurs="0"/>
             <element name="tax_class_id" type="xsd:string" minOccurs="0"/>
             <element name="tier_price" type="typens:ArrayOfString" minOccurs="0"/>
-            <element name="enable_googlecheckout" type="xsd:string" minOccurs="0"/>
             <element name="meta_title" type="xsd:string" minOccurs="0"/>
             <element name="meta_keyword" type="xsd:string" minOccurs="0"/>
             <element name="meta_description" type="xsd:string" minOccurs="0"/>
             <element name="custom_design" type="xsd:string" minOccurs="0"/>
             <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
             <element name="options_container" type="xsd:string" minOccurs="0"/>
+            <element name="additional_attributes" type="typens:associativeArray" minOccurs="0"/>
         </all>
     </complexType>
     
     <complexType name="catalogProductCreateEntity">
         <all>
-            <element name="name" type="xsd:string" minOccurs="0"/>
+            <element name="categories" type="typens:ArrayOfString" minOccurs="0"/>
             <element name="websites" type="typens:ArrayOfString" minOccurs="0"/>
-            <element name="short_description" type="xsd:string" minOccurs="0"/>
+            <element name="name" type="xsd:string" minOccurs="0"/>
             <element name="description" type="xsd:string" minOccurs="0"/>
+            <element name="short_description" type="xsd:string" minOccurs="0"/>
+            <element name="weight" type="xsd:string" minOccurs="0"/>
+            <element name="status" type="xsd:string" minOccurs="0"/>
+            <element name="url_key" type="xsd:string" minOccurs="0"/>
+            <element name="url_path" type="xsd:string" minOccurs="0"/>
+            <element name="visibility" type="xsd:string" minOccurs="0"/>
+            <element name="category_ids" type="typens:ArrayOfString" minOccurs="0"/>
+            <element name="has_options" type="xsd:string" minOccurs="0"/>
+            <element name="gift_message_available" type="xsd:string" minOccurs="0"/>
             <element name="price" type="xsd:string" minOccurs="0"/>
+            <element name="special_price" type="xsd:string" minOccurs="0"/>
+            <element name="special_from_date" type="xsd:string" minOccurs="0"/>
+            <element name="special_to_date" type="xsd:string" minOccurs="0"/>
+            <element name="tax_class_id" type="xsd:string" minOccurs="0"/>
+            <element name="tier_price" type="typens:ArrayOfString" minOccurs="0"/>
+            <element name="meta_title" type="xsd:string" minOccurs="0"/>
+            <element name="meta_keyword" type="xsd:string" minOccurs="0"/>
+            <element name="meta_description" type="xsd:string" minOccurs="0"/>
+            <element name="custom_design" type="xsd:string" minOccurs="0"/>
+            <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
+            <element name="options_container" type="xsd:string" minOccurs="0"/>
+            <element name="additional_attributes" type="typens:associativeArray" minOccurs="0"/>
         </all>
     </complexType>
     
     <complexType name="catalogProductAttributeSetEntity">
         <all>
-            <element name="set_id" type="xsd:string" minOccurs="0"/>
+            <element name="set_id" type="xsd:int" minOccurs="0"/>
             <element name="name" type="xsd:string" minOccurs="0"/>
         </all>
     </complexType>
@@ -246,11 +274,11 @@
     
     <complexType name="catalogAttributeEntity">
       <all>
-        <element name="attribute_id" type="xsd:int" />
-        <element name="code" type="xsd:string" />
-        <element name="type" type="xsd:int" />
-        <element name="required" type="xsd:string" />
-        <element name="scope" type="xsd:string" />
+        <element name="attribute_id" type="xsd:int" minOccurs="0" />
+        <element name="code" type="xsd:string" minOccurs="0" />
+        <element name="type" type="xsd:string" minOccurs="0" />
+        <element name="required" type="xsd:string" minOccurs="0" />
+        <element name="scope" type="xsd:string" minOccurs="0" />
       </all>
     </complexType>    
 
@@ -262,17 +290,17 @@
         </complexContent>
     </complexType>
 
-    <complexType name="catalogCategoryAttributeOptionEntity">
+    <complexType name="catalogAttributeOptionEntity">
       <all>
         <element name="label" type="xsd:string" />
         <element name="value" type="xsd:string" />
       </all>
     </complexType>    
     
-    <complexType name="catalogCategoryAttributeOptionEntityArray">
+    <complexType name="catalogAttributeOptionEntityArray">
         <complexContent>
            <restriction base="soapenc:Array">
-              <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogCategoryAttributeOptionEntity[]"/>
+              <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogAttributeOptionEntity[]"/>
            </restriction>
         </complexContent>
     </complexType>
@@ -376,14 +404,14 @@
   <message name="catalogProductListResponse">
     <part name="storeView" type="typens:catalogProductEntityArray"/>
   </message>
-
+  
   <message name="catalogProductInfoRequest">
     <part name="sessionId" type="xsd:string"/>
-    <part name="product" type="xsd:string"/>
+    <part name="productId" type="xsd:string"/>
     <part name="storeView" type="xsd:string"/>
-    <part name="attributes" type="typens:ArrayOfString"/>
+    <part name="attributes" type="typens:catalogProductAttributes"/>
   </message>
-  
+
   <message name="catalogProductInfoResponse">
     <part name="info" type="typens:catalogProductReturnEntity"/>
   </message>
@@ -445,22 +473,34 @@
     <part name="setId" type="xsd:int"/>
   </message>
   <message name="catalogProductAttributeListResponse">
-    <part name="sessionId" type="typens:catalogAttributeEntityArray"/>
+    <part name="result" type="typens:catalogAttributeEntityArray"/>
+  </message>
+  
+  <message name="catalogProductAttributeOptionsRequest">
+    <part name="sessionId" type="xsd:string"/>
+    <part name="attributeId" type="xsd:string"/>
+    <part name="storeView" type="xsd:string"/>
+  </message>
+  
+  <message name="catalogProductAttributeOptionsResponse">
+    <part name="result" type="typens:catalogAttributeOptionEntityArray"/>
   </message>
 
   <message name="catalogProductAttributeSetListRequest">
     <part name="sessionId" type="xsd:string"/>
   </message>
+  
   <message name="catalogProductAttributeSetListResponse">
     <part name="result" type="typens:catalogProductAttributeSetEntityArray"/>
   </message>
+  
   <message name="catalogProductTypeListRequest">
     <part name="sessionId" type="xsd:string"/>
   </message>
+  
   <message name="catalogProductTypeListResponse">
     <part name="result" type="typens:catalogProductTypeEntityArray"/>
   </message>
-  
   
   <message name="catalogProductAttributeTierPriceInfoRequest">
     <part name="sessionId" type="xsd:string"/>
@@ -472,7 +512,7 @@
   
   <message name="catalogProductAttributeTierPriceUpdateRequest">
     <part name="sessionId" type="xsd:string"/>
-    <part name="sku" type="xsd:string"/>
+    <part name="productId" type="xsd:string"/>
     <part name="tier_price" type="typens:catalogProductTierPriceEntityArray"/>
   </message>
   <message name="catalogProductAttributeTierPriceUpdateResponse">
@@ -731,7 +771,7 @@
     <part name="storeView" type="xsd:string"/>
   </message>
   <message name="catalogCategoryAttributeOptionsResponse">
-    <part name="result" type="typens:catalogCategoryAttributeOptionEntityArray"/>
+    <part name="result" type="typens:catalogAttributeOptionEntityArray"/>
   </message>      
     
   <portType name="{{var wsdl.handler}}PortType">
@@ -888,8 +928,8 @@
     
     <operation name="catalogProductAttributeOptions">
       <documentation>Delete category</documentation>
-      <input message="typens:catalogCategoryAttributeOptionsRequest"/>
-      <output message="typens:catalogCategoryAttributeOptionsResponse"/>
+      <input message="typens:catalogProductAttributeOptionsRequest"/>
+      <output message="typens:catalogProductAttributeOptionsResponse"/>
     </operation>       
     
     <operation name="catalogProductAttributeSetList">

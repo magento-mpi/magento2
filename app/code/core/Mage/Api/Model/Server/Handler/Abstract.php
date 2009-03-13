@@ -273,7 +273,6 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
             $method = (isset($methodInfo->method) ? (string) $methodInfo->method : $methodName);
 
             $modelName = $this->_prepareResourceModelName((string) $resources->$resourceName->model);
-            Mage::log($modelName);
             try {
                 $model = Mage::getModel($modelName);
                 if ($model instanceof Mage_Api_Model_Resource_Abstract) {
