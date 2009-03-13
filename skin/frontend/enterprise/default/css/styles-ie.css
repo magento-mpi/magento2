@@ -61,7 +61,10 @@ button.cart-btn span { background-position:100% 0; }
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
+* html .switcher-language {zoom:1;}
+
 /* Clears and hasLayout fixes */
+
 .bundle-summary .product,
 .block-cart .block-title a,
 .block-cart .block-content .item,

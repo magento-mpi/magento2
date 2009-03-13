@@ -40,23 +40,31 @@ Enterprise.TopCart= {
          
      },
      handleMouseOut: function (evt) {
-         this.interval = setTimeout(this.hideElement.bind(this), this.intervalDuration);
+        if(!$(this.container.id).hasClassName('process')) {
+            this.interval = setTimeout(this.hideElement.bind(this), this.intervalDuration);
+        }
      },
      
      handleMouseOver: function (evt) {
-         if (this.check==0)  {
-            this.container.parentNode.style.zIndex=998;
+        if (this.check==0 && !$(this.container.id).hasClassName('process') )  {
+            this.container.parentNode.style.zIndex=992;
             new Effect.SlideDown(this.container.id, { duration: 0.5 });
             this.check=1;
         }
         if (this.interval !== null) {
              clearTimeout(this.interval);
              this.interval = null;
-        } 
+        }
      },
      
      hideElement: function () {
-        new Effect.SlideUp(this.container.id, { duration: 0.5 });
+     
+        if (!$(this.container.id).hasClassName('process')) {     
+            new Effect.SlideUp(this.container.id, { duration: 0.5,
+                beforeStart: function(effect) {$( effect.element.id ).addClassName('process')}, 
+                afterFinish: function(effect) {$( effect.element.id ).removeClassName('process');} 
+                });
+        }
         if (this.interval !== null) {
             clearTimeout(this.interval);
             this.interval = null;
@@ -104,13 +112,12 @@ Enterprise.BundleSummary = {
     initialize: function () {
         this.summary = $('bundleSummary');
         this.summaryContainer = this.summary.getOffsetParent();
+        this.summaryContainer.style.top = '0';
         this.summaryStartY = this.summary.positionedOffset().top;
         this.summaryStartX = this.summary.positionedOffset().left;
         this.summary.style.left = this.summaryStartX;
-        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);
-        
-        this.GetScroll = setInterval(this.onDocScroll,1100);
-    
+        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);       
+        this.GetScroll = setInterval(this.onDocScroll,1100);   
     },
     
     handleDocScroll: function () {
@@ -132,7 +139,7 @@ Enterprise.BundleSummary = {
     },
     
     exitSummary: function () {
-        clearInterval(this.GetScroll); 
+        clearInterval(this.GetScroll);       
     } 
 };
 
@@ -162,7 +169,7 @@ Object.extend(Enterprise.Tabs.prototype, {
                 this.tabs[i].style.zIndex = this.tabs.length + 2;
                 /*this.tabs[i].next('dd').show();*/
                 new Effect.Appear (this.tabs[i].next('dd'), { duration:0.5 });
-                this.tabs[i].parentNode.style.height=this.tabs[i].next('dd').getHeight() + 'px';
+                this.tabs[i].parentNode.style.height=this.tabs[i].next('dd').getHeight() + 15 + 'px';
             } else {
                 this.tabs[i].removeClassName('active');
                 this.tabs[i].style.zIndex = this.tabs.length + 1 - i;
@@ -173,7 +180,7 @@ Object.extend(Enterprise.Tabs.prototype, {
 });
 
 function popUpMenu(element,trigger) {
-        var iDelay = 2000;
+        var iDelay = 1500;
         var new_popup = 0;
         var sTempId = 'popUped';
         if (document.getElementById(sTempId)) {
@@ -193,6 +200,7 @@ function popUpMenu(element,trigger) {
         if (eTemp && el == eTemp) {
             hideElement();
         } else {
+            $(sTempId).getOffsetParent().style.zIndex = 994;
 //          el.show();
             new Effect.Appear (el, { duration:0.3 });
             tId=setTimeout("hideElement()",2*iDelay);        
@@ -216,7 +224,6 @@ function popUpMenu(element,trigger) {
         el.onmouseover = function() {
             if ($(sTempId)) {    
                 $(sTempId).removeClassName('faded');
-                $(sTempId).getOffsetParent().style.zIndex = 999;
                 clearTimeout(tId);
             }
         }
