@@ -256,6 +256,15 @@
                     </catalog_product_flat>
                 </observers>
             </catalog_entity_attribute_save_after>
+            <log_log_clean_after>
+                <observers>
+                    <catalog_product_compare_item>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>catalogProductCompareClean</method>
+                    </catalog_product_compare_item>
+                </observers>
+            </log_log_clean_after>
         </events>
 
         <catalog>
@@ -362,6 +371,9 @@
                         </groups>
                     </custom>
                 </options>
+                <flat>
+                    <max_index_count>64</max_index_count>
+                </flat>
             </product>
         </catalog>
     </global>
@@ -520,15 +532,6 @@
                     </catalog_product_flat>
                 </observers>
             </catalog_product_import_after>
-            <log_log_clean_after>
-                <observers>
-                    <catalog_product_compare>
-                        <type>singleton</type>
-                        <class>catalog/observer</class>
-                        <method>catalogProductCompareClean</method>
-                    </catalog_product_compare>
-                </observers>
-            </log_log_clean_after>
             <catalog_category_save_after>
                 <observers>
                     <catalog_category_save>
