@@ -44,9 +44,9 @@ require_once $mageFilename;
 
 #Varien_Profiler::enable();
 
-Mage::setIsDeveloperMode(true);
+#Mage::setIsDeveloperMode(true);
 
-ini_set('display_errors', 1);
+#ini_set('display_errors', 1);
 
 umask(0);
 Mage::run();
