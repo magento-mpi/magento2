@@ -33,9 +33,6 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
 {
     protected $_ipnRequest = 'amazonpayments/api_asp_ipn_request';
     protected $_fpsModel = 'amazonpayments/api_asp_fps';
-    
-	const EXCEPTION_INVALID_SIGN_REQUEST = 10001;
-    const EXCEPTION_INVALID_IPN_REQUEST = 10002;
 
     protected function _getFps()
     {
@@ -94,22 +91,17 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
     		unset($requestParams['signature']);    		
         }
         
-    	$originalSignature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
-    	
+    	/*
+        $originalSignature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
     	if ($requestSignature != $originalSignature) {
-            throw new Exception(
-                Mage::helper('amazonpayments')->__('Request signed an incorrect or missing signature'), 
-                self::EXCEPTION_INVALID_SIGN_REQUEST
-            );
+            Mage::throwException(Mage::helper('amazonpayments')->__('Request signed an incorrect or missing signature'));
         }
-
+        */
+        
         $ipnRequest = $this->_getIpnRequest();
         
         if(!$ipnRequest->init($requestParams)) {
-            throw new Exception(
-                Mage::helper('amazonpayments')->__('Request is not a valid IPN request'), 
-                self::EXCEPTION_INVALID_IPN_REQUEST
-            );
+            Mage::throwException(Mage::helper('amazonpayments')->__('Request is not a valid IPN request'));
         }
         
         return $ipnRequest;
@@ -117,9 +109,16 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
 
     // FPS ACTIONS	    
     	    
-    public function cancel () 
+    public function cancel ($transactionId) 
     {
-        
+        $fps = $this->_getFps();
+
+        $request = $fps->getRequest(Mage_AmazonPayments_Model_Api_Asp_Fps::ACTION_CODE_CANCEL)
+            ->setTransactionId($transactionId)
+            ->setDescription($this->_getConfig('cancel_description'));
+            
+        $response = $fps->process($request);
+        return $response; 
     }
     
     public function capture ($transactionId, $amount, $currencyCode) 

@@ -31,21 +31,23 @@
  */
 class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
 {
-	const STATUS_CANCEL = 'A'; 
-    const STATUS_RESERVE_SUCCESSFUL = 'PR'; 
+	const STATUS_CANCEL_CUSTOMER = 'A'; 
+    const STATUS_CANCEL_TRANSACTION = 'CANCELLED'; 
+	const STATUS_RESERVE_SUCCESSFUL = 'PR'; 
     const STATUS_PAYMENT_INITIATED = 'PI'; 
     const STATUS_PAYMENT_SUCCESSFUL = 'PS'; 
     const STATUS_PAYMENT_FAILED = 'PF'; 
     const STATUS_REFUND_SUCCESSFUL = 'RS'; 
     const STATUS_REFUND_FAILED = 'RF'; 
     const STATUS_SYSTEM_ERROR = 'SE'; 
-
+    
+    
     private $requestParams;
     
     public function init($requestParams)
     {
     	if (!$this->_validateRequestParams($requestParams)) {
-        	return false;
+    		return false;
         }	
         $this->requestParams = $requestParams;
         $this->_setRequestParamsToData($this->_convertRequestParams($requestParams));
@@ -54,15 +56,16 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
     
     private function _validateRequestParams($requestParams)
     {
-    	if (!isset($requestParams['referenceId']) ||
-            !isset($requestParams['transactionAmount']) ||
+        
+    	if (!isset($requestParams['transactionAmount']) ||
             !isset($requestParams['transactionDate']) ||
             !isset($requestParams['status'])) {
             	return false;
         }
-    
+        
         $statusCode = $requestParams['status'];
-        if ($statusCode != self::STATUS_CANCEL &&
+        if ($statusCode != self::STATUS_CANCEL_CUSTOMER &&
+            $statusCode != self::STATUS_CANCEL_TRANSACTION &&
             $statusCode != self::STATUS_RESERVE_SUCCESSFUL &&
             $statusCode != self::STATUS_PAYMENT_INITIATED &&
             $statusCode != self::STATUS_PAYMENT_SUCCESSFUL &&
@@ -73,6 +76,11 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
                 return false;
         }
 
+        if ($statusCode != self::STATUS_CANCEL_TRANSACTION &&
+            !isset($requestParams['referenceId'])){
+            return false;    	
+        }
+        
         if (($statusCode == self::STATUS_RESERVE_SUCCESSFUL ||
              $statusCode == self::STATUS_PAYMENT_SUCCESSFUL ||
              $statusCode == self::STATUS_REFUND_SUCCESSFUL) &&

@@ -210,14 +210,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </secret_key>
-                        <pay_button_image_url translate="label">
+                        <!-- pay_button_image_url translate="label">
                             <label>Shopping cart button</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>14</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </pay_button_image_url>
+                        </pay_button_image_url -->
                         <pay_service_url translate="label">
                             <label>Payment service URI</label>
                             <frontend_type>text</frontend_type>
@@ -234,22 +234,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pay_service_url_sandbox>
-                        <pay_description translate="label">
-                            <label>Payment description</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>17</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </pay_description>
-                        <refund_description translate="label">
-                            <label>Refund description</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>18</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </refund_description>
                         <pay_immediate_return translate="label">
                             <label>Immediate return</label>
                             <frontend_type>select</frontend_type>
@@ -284,6 +268,40 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </fps_service_url_sandbox>
+
+                        <pay_description translate="label">
+                            <label>Payment description</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </pay_description>
+                        <refund_description translate="label">
+                            <label>Refund description</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </refund_description>
+                        <pay_description translate="label">
+                            <label>Payment description</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </pay_description>
+                        <cancel_description translate="label">
+                            <label>Cancel description</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cancel_description>
+
                     </fields>
                 </amazonpayments_asp>
             </groups>

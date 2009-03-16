@@ -216,6 +216,8 @@ Something like this is to be added to resolve bug #4890
 
                 <pay_description>MAGENTO ASP PAYMENT</pay_description>
                 <refund_description>MAGENTO ASP REFUND</refund_description>
+                <cancel_description>MAGENTO ASP CANCEL</cancel_description>
+
 
                 <pay_immediate_return>1</pay_immediate_return>
                 <pay_collect_shipping_address>0</pay_collect_shipping_address>
