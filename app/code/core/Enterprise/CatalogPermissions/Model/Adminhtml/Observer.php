@@ -58,6 +58,9 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 }
 
                 $permission->addData($data);
+                if ($permission->getGrantCatalogProductPrice() == -2) {
+                    $permission->setGrantCheckoutItems(-2);
+                }
                 $permission->setCategoryId($category->getId());
                 $permission->save();
             }

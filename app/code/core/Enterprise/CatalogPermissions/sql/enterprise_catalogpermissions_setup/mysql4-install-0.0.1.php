@@ -30,7 +30,6 @@ $installer = $this;
 $installer->startSetup();
 
 $tableName = $installer->getTable('enterprise_catalogpermissions/permission');
-$fkPrefix = strtoupper($tableName);
 
 $installer->run("
     CREATE TABLE `{$tableName}` (
@@ -46,13 +45,13 @@ $installer->run("
     ) ENGINE=InnoDB;
 ");
 
-$installer->getConnection()->addConstraint($fkPrefix . '_CATEGORY', $tableName, 'category_id',
+$installer->getConnection()->addConstraint('ENTERPRISE_CATALOGPEMISSIONS_PERMISSION_CATEGORY', $tableName, 'category_id',
                                            $installer->getTable('catalog/category'), 'entity_id');
 
-$installer->getConnection()->addConstraint($fkPrefix . '_WEBSITE', $tableName, 'website_id',
+$installer->getConnection()->addConstraint('ENTERPRISE_CATALOGPEMISSIONS_PERMISSION_WEBSITE', $tableName, 'website_id',
                                            $installer->getTable('core/website'), 'website_id');
 
-$installer->getConnection()->addConstraint($fkPrefix . '_CUSTGROUP', $tableName, 'customer_group_id',
+$installer->getConnection()->addConstraint('ENTERPRISE_CATALOGPEMISSIONS_PERMISSION_CUSTGROUP', $tableName, 'customer_group_id',
                                            $installer->getTable('customer/customer_group'), 'customer_group_id');
 
 $installer->endSetup();

@@ -63,6 +63,10 @@
                if (params[i].match(/grant_/i)) {
                    // Workaround for IE
                    config[params[i] + '_' + config[params[i]]] = 'checked="checked"';
+                   if (params[i] == 'grant_catalog_product_price'
+                       && config[params[i]].toString() == '-2') {
+                       config['grant_checkout_items_disabled'] = 'disabled="disabled"';
+                   }
                }
             }
             params.push('id');
@@ -70,7 +74,7 @@
             config.permission_id = arguments[0].key;
         } else {
             config.permission_id = 'new_permission' + config.index;
-            params = Object.keys(config);   
+            params = Object.keys(config); 
             this.permissions.set(config.permission_id, {});
         }
         
@@ -120,8 +124,18 @@
         var row = field.up('.permission-box');
         
         if (field.name && (field.type != 'radio' || field.checked)) {
-            var fieldName = field.name.replace(/^(.*)\[([^\]])\]$/, '$2');
+            var fieldName = field.name.replace(/^(.*)\[([^\]]*)\]$/, '$2');
             this.permissions.get(row.permissionId)[fieldName] = field.value;
+            
+        }
+        
+        if (field.name && 
+            (field.name.replace(/^(.*)\[([^\]]*)\]$/, '$2') == 'grant_catalog_product_price')) {
+            if (field.value == -2 && field.checked) {
+                row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = true;});;
+            } else if (field.checked)  {
+                row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = false;});
+            }
         }
         
         if (field.hasClassName('is-unique')) {
