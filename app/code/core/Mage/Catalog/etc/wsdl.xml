@@ -362,7 +362,7 @@
     </types>
     <message name="catalogProductListRequest">
         <part name="sessionId" type="xsd:string" />
-        <part name="filters" type="typens:associativeArray" />
+        <part name="filters" type="typens:filters" />
         <part name="storeView" type="xsd:string" />
     </message>
     <message name="catalogProductListResponse">

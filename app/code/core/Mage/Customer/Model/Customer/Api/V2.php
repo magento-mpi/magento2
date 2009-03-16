@@ -78,15 +78,28 @@ class Mage_Customer_Model_Customer_Api_V2 extends Mage_Customer_Model_Customer_A
         $collection = Mage::getModel('customer/customer')->getCollection()
             ->addAttributeToSelect('*');
 
-        if (is_array($filters)) {
-            try {
-                foreach ($filters as $filter) {
-                    $field = $filter->key;
-                    if (isset($this->_mapAttributes[$filter->key])) {
-                        $field = $this->_mapAttributes[$filter->key];
-                    }
+        $preparedFilters = array();
+        if (isset($filters->filter)) {
+            foreach ($filters->filter as $_filter) {
+                $preparedFilters[$_filter->key] = $_filter->value;
+            }
+        }
+        if (isset($filters->complex_filter)) {
+            foreach ($filters->complex_filter as $_filter) {
+                $_value = $_filter->value;
+                $preparedFilters[$_filter->key] = array(
+                    $_value->key => $_value->value
+                );
+            }
+        }
 
-                    $collection->addFieldToFilter($field, $filter->value);
+        if (!empty($preparedFilters)) {
+            try {
+                foreach ($preparedFilters as $field => $value) {
+                    if (isset($this->_mapAttributes[$field])) {
+                        $field = $this->_mapAttributes[$field];
+                    }
+                    $collection->addFieldToFilter($field, $value);
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_fault('filters_invalid', $e->getMessage());

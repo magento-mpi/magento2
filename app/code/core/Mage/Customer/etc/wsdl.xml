@@ -107,7 +107,7 @@
     </types>
     <message name="customerCustomerListRequest">
         <part name="sessionId" type="xsd:string" />
-        <part name="filters" type="typens:associativeArray" />
+        <part name="filters" type="typens:filters" />
     </message>
     <message name="customerCustomerListResponse">
         <part name="storeView" type="typens:customerCustomerEntityArray" />

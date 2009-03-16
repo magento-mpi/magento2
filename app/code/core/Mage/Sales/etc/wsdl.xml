@@ -427,7 +427,7 @@
     </types>
     <message name="salesOrderListRequest">
         <part name="sessionId" type="xsd:string" />
-        <part name="attributes" type="typens:associativeArray" />
+        <part name="filters" type="typens:filters" />
     </message>
     <message name="salesOrderListResponse">
         <part name="result" type="typens:salesOrderEntityArray" />
@@ -472,6 +472,7 @@
     </message>
     <message name="salesOrderShipmentListRequest">
         <part name="sessionId" type="xsd:string" />
+        <part name="filters" type="typens:filters" />
     </message>
     <message name="salesOrderShipmentListResponse">
         <part name="result" type="typens:salesOrderShipmentEntityArray" />
@@ -531,7 +532,7 @@
     </message>
     <message name="salesOrderInvoiceListRequest">
         <part name="sessionId" type="xsd:string" />
-        <part name="attributes" type="typens:associativeArray" />
+        <part name="filters" type="typens:filters" />
     </message>
     <message name="salesOrderInvoiceListResponse">
         <part name="result" type="typens:salesOrderInvoiceEntityArray" />

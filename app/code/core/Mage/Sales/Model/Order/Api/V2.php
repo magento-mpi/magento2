@@ -55,15 +55,29 @@ class Mage_Sales_Model_Order_Api_V2 extends Mage_Sales_Model_Order_Api
                 'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
                 array('shipping_firstname', 'shipping_lastname'));
 
-        if (is_array($filters)) {
+        $preparedFilters = array();
+        if (isset($filters->filter)) {
+            foreach ($filters->filter as $_filter) {
+                $preparedFilters[$_filter->key] = $_filter->value;
+            }
+        }
+        if (isset($filters->complex_filter)) {
+            foreach ($filters->complex_filter as $_filter) {
+                $_value = $_filter->value;
+                $preparedFilters[$_filter->key] = array(
+                    $_value->key => $_value->value
+                );
+            }
+        }
+
+        if (!empty($preparedFilters)) {
             try {
-                foreach ($filters as $filter) {
-                    $field = $filter->key;
-                    if (isset($this->_filtersMap[$filter->key])) {
-                        $field = $this->_filtersMap[$filter->key];
+                foreach ($preparedFilters as $field => $value) {
+                    if (isset($this->_attributesMap['order'][$field])) {
+                        $field = $this->_attributesMap['order'][$field];
                     }
 
-                    $collection->addFieldToFilter($field, $filter->value);
+                    $collection->addFieldToFilter($field, $value);
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_fault('filters_invalid', $e->getMessage());

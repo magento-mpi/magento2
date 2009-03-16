@@ -18,16 +18,23 @@
                     </restriction>
                 </complexContent>
             </complexType>
-            <complexType name="filterEntity">
+            <complexType name="filters">
                 <all>
-                    <element name="field" type="xsd:string" />
-                    <element name="condition" type="xsd:string" />
+                    <element name="filter" type="typens:associativeArray" minOccurs="0" />
+                    <element name="complex_filter" type="typens:complexFilterArray" minOccurs="0" />
                 </all>
             </complexType>
-            <complexType name="filterConditionEntity">
+            <complexType name="complexFilterArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:complexFilter[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="complexFilter">
                 <all>
-                    <element name="field" type="xsd:string" />
-                    <element name="condition" type="xsd:string" />
+                    <element name="key" type="xsd:string" />
+                    <element name="value" type="typens:associativeEntity" />
                 </all>
             </complexType>
             <complexType name="ArrayOfString">
