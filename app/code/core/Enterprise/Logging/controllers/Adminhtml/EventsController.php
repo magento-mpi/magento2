@@ -69,7 +69,7 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
             $this->_redirect('*/*');
         }
 
-        $fileName = $chunks[1];
+        $fileName = $chunks[2];
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $log->getSize());
         $this->getResponse()->sendHeaders();
         $log->output();
