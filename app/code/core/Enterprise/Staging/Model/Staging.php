@@ -387,6 +387,20 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->_datasetItems;
     }
 
+    /**
+     * Retrieve dataset items array
+     *
+     * @return array
+     */
+    public function getDatasetItemIds()
+    {
+        $ids = array();
+        foreach($this->getDatasetItemsCollection() as $item) {
+            $ids[] = $item->getId();
+        }
+        return $ids;
+    }
+
     public function backup()
     {
     	$this->getAdapterInstance(true)->backup($this);

@@ -109,15 +109,23 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     )
                 );
 
-                $fieldset->addField('name_'.$_id, 'text',
+                $fieldset->addField('staging_website_name_'.$_id, 'text',
                     array(
                         'label' => $this->helper->__('Staging Website Name'),
                         'name'  => "{$_id}[name]",
                         'value' => $stagingWebsite->getName()
                     )
                 );
+
+                $fieldset->addField('staging_website_id_'.$_id, 'hidden',
+                    array(
+                        'label' => $this->helper->__('Staging Website Id'),
+                        'name'  => "{$_id}[staging_website_id]",
+                        'value' => $stagingWebsite->getId()
+                    )
+                );
             } else {
-            	$fieldset->addField('code_'.$_id, 'text',
+            	$fieldset->addField('staging_website_code_'.$_id, 'text',
 	                array(
 	                    'label' => $this->helper->__('Staging Website Code'),
 	                    'name'  => "{$_id}[code]",
@@ -226,6 +234,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                 array(
                     'label'    => $this->helper->__('Default Data for copy into Staging'),
                     'name'     => "{$_id}[dataset_items]",
+                    'value'    => $stagingWebsite ? $stagingWebsite->getDatasetItemIds() : array(),
                     'values'   => $staging->getDatasetItemsCollection(true)->toOptionArray()
                 )
             );

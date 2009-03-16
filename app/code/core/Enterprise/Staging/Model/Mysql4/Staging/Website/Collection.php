@@ -79,6 +79,22 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website_Collection extends Mage_Co
         return false;
     }
 
+    /**
+     * Retrieve item from collection where "master_website_id" attribute value equals to given id
+     *
+     * @param   int     $id
+     * @return  object  Enterprise_Staging_Model_Staging_Website
+     */
+    public function getItemByMasterId($id)
+    {
+        foreach ($this->_items as $item) {
+            if ($item->getMasterWebsiteId() == (string) $id) {
+                return $item;
+            }
+        }
+        return false;
+    }
+
     public function toOptionArray()
     {
         return parent::_toOptionArray('staging_website_id', 'name');

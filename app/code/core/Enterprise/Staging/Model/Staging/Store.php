@@ -71,7 +71,7 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
     /**
      * Retrieve staging items
      *
-     * @return Varien_Data_Collection
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
      */
     public function getItemsCollection()
     {
@@ -86,6 +86,20 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
             }
         }
         return $this->_items;
+    }
+
+    /**
+     * Retrieve dataset items array
+     *
+     * @return array
+     */
+    public function getDatasetItemIds()
+    {
+        $ids = array();
+        foreach($this->getItemsCollection() as $item) {
+            $ids[] = $item->getDatasetItemId();
+        }
+        return $ids;
     }
 
     public function getMasterStore()

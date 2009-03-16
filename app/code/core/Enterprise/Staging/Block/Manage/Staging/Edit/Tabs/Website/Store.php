@@ -41,6 +41,31 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store extends Ma
         $this->setTemplate('enterprise/staging/manage/staging/edit/tabs/website/store.phtml');
     }
 
+    public function getUsedStoresHtml()
+    {
+        $html           = '';
+
+        $staging        = $this->getStaging();
+
+        $stagingWebsite = $this->getStagingWebsite();
+
+        $website        = $this->getWebsite();
+
+        foreach ($stagingWebsite->getStoresCollection() as $stagingStore) {
+            $store = $stagingStore->getMasterStore();
+            $html .= $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store_item')
+                ->setStaging($staging)
+                ->setStagingWebsite($stagingWebsite)
+                ->setWebsite($website)
+                ->setStagingStore($stagingStore)
+                ->setStore($store)
+                ->toHtml();
+        }
+
+        return $html;
+    }
+
     public function getStoreCollection()
     {
         $website = $this->getWebsite();

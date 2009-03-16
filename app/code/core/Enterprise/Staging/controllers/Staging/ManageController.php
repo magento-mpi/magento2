@@ -215,14 +215,14 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         }
 
         $websites       = (array) isset($stagingData['websites']) ? $stagingData['websites'] : array();
-        $existWebsites  = Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
+        $existWebsites  = (array) Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
 
         foreach ($websites as $websiteData) {
-            $websiteId = $websiteData['master_website_id'];
+            $websiteId          = $websiteData['staging_website_id'];
+            $masterWebsiteId    = $websiteData['master_website_id'];
             if (in_array($websiteId, $existWebsites)) {
-                $code = $websiteData['code'];
-                $item = $staging->getWebsitesCollection()->getItemByCode($code);
-                $item->addData($websiteData);
+                $website = $staging->getWebsitesCollection()->getItemById($websiteId);
+                $website->addData($websiteData);
             } else {
                 $website = Mage::getModel('enterprise_staging/staging_website');
                 $website->addData($websiteData);
@@ -233,8 +233,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             if ($datasetItems) {
                 $items = isset($websiteData['items']) ? $websiteData['items'] : array();
                 foreach ($datasetItems as $datasetItemId) {
-                    $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
                     if (in_array($datasetItemId, $items)) {
+                        $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
                         $id = isset($itemData['staging_item_id']) ? $itemData['staging_item_id'] : false;
                         if (!empty($itemData['remove_item'])) {
                             if ($id) {
@@ -253,14 +253,14 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 }
             }
 
-            $stores = isset($stagingData['stores'][$websiteId]) ? $stagingData['stores'][$websiteId] : array();
+            $stores = isset($stagingData['stores'][$masterWebsiteId]) ? $stagingData['stores'][$masterWebsiteId] : array();
             $existStores = Mage::getResourceSingleton('enterprise_staging/staging_website')->getStoreIds($website);
+
             foreach ($stores as $storeData) {
-                $storeId = $storeData['master_store_id'];
-                if (in_array($storeId, $existStores)) {
-                    $id = $storeData['master_store_id'];
-                    $item = $website->getStoresCollection()->getItemById($id);
-                    $item->addData($storeData);
+                $storeId = isset($storeData['staging_store_id']) ? $storeData['staging_store_id'] : false;
+                if ($storeId && in_array($storeId, $existStores)) {
+                    $store = $website->getStoresCollection()->getItemById($storeId);
+                    $store->addData($storeData);
                 } else {
                     $store = Mage::getModel('enterprise_staging/staging_store');
                     $store->addData($storeData);
@@ -268,14 +268,13 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 }
 
                 $datasetItems = isset($storeData['dataset_items']) ? $storeData['dataset_items'] : array();
-                if ($datasetItems) {
+                if ($datasetItems && !empty($storeData['use_specific_items'])) {
                     $items = isset($storeData['items']) ? $storeData['items'] :  array();
                     foreach ($datasetItems as $datasetItemId) {
-                        $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
                         if (in_array($datasetItemId, $items)) {
-                            $id = isset($itemData['staging_item_id']) ? $itemData['staging_item_id'] : false;
+                            $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
                             if (!empty($itemData['remove_item'])) {
-                                if ($id) {
+                                if ($id) { var_dump($itemData['remove_item']);
                                     $item = $store->getItemsCollection()->getItemById($id);
                                     $item->isDeleted(true);
                                 }

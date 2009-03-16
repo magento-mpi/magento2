@@ -24,11 +24,12 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php echo $this->getUsedStoresHtml(); ?>
 <?php $_storeCollection = $this->getStoreCollection() ?>
 <?php if ($_storeCollection->getSize()): ?>
 <div id="staging_website_stores_container">
 <p class="switcher"><label for="staging_website_stores"><?php echo $this->__('Choose Store View') ?>:</label>
-<select name="staging_website_stores" id="staging_website_stores" class="left-col-block">
+<select name="staging_website_stores" id="staging_website_stores_<?php echo $this->getWebsite()->getId(); ?>" class="left-col-block">
     <option value=""><?php echo $this->__('Please, select a store view') ?></option>
     <?php foreach ($_storeCollection as $_store): ?>
         <option value="<?php echo $_store->getId() ?>"><?php echo $_store->getName() ?></option>
@@ -39,10 +40,11 @@
 </div>
 <?php endif; ?>
 <script>
+var addNewStagingStoreCount = 0;
+var selector = $('staging_website_stores_<?php echo $this->getWebsite()->getId(); ?>');
 var getStoreUrl = '<?php echo $this->getCreateStagingStoreUrl(); ?>';
 function addStagingStore()
 {
-    var selector = $('staging_website_stores');
     var value = selector.value;
     if (!value) {
         alert('Please, select a store view');
@@ -50,7 +52,7 @@ function addStagingStore()
     }
 
     new Ajax.Request(getStoreUrl, {
-    	parameters: {store:value},
+    	parameters: {store:value, count:addNewStagingStoreCount},
         onComplete: insertStagingStore.bind(this)
     });
 }
@@ -59,6 +61,8 @@ function insertStagingStore(transport)
 {
     var store = transport.responseText;
     new Insertion.After($('staging_website_stores_container'), store);
+    addNewStagingStoreCount++;
+    selector.value='';
 }
 function removeStagingStore(storeContainerId)
 {

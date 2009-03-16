@@ -287,6 +287,7 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store_group')}` 
   `default_store_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `state` varchar(20) NOT NULL default '',
   `status` varchar(20) NOT NULL default '',
+  `use_specific_items` tinyint(1) unsigned DEFAULT '0',
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (`staging_group_id`),

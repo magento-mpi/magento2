@@ -216,7 +216,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
         $select = $this->_getReadAdapter()->select()
             ->from($this->_stagingStoreTable, array('staging_store_id'))
-            ->where('staging_website_id=?', $staging->getId());
+            ->where('staging_website_id=?', $website->getId());
         return $this->_getReadAdapter()->fetchCol($select);
     }
 }

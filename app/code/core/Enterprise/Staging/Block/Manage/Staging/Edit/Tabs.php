@@ -65,10 +65,10 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
                 'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_website')->toHtml(),
             ));
 
-            $this->addTab('item', array(
-                'label'     => Mage::helper('enterprise_staging')->__('Items'),
-                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_item')->toHtml(),
-            ));
+//            $this->addTab('item', array(
+//                'label'     => Mage::helper('enterprise_staging')->__('Items'),
+//                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_item')->toHtml(),
+//            ));
 
             $this->addTab('event', array(
                 'label'     => Mage::helper('enterprise_staging')->__('Event History'),
