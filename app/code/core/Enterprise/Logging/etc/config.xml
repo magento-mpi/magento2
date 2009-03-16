@@ -336,7 +336,7 @@
                      <depends><module>Enterprise_Logging</module></depends>
                    </events>
                    <backups translate="title">
-                     <title>Saved files</title>
+                     <title>Archive</title>
                      <sort_order>2</sort_order>
                      <action>adminhtml/events/log</action>
                      <depends><module>Enterprise_Logging</module></depends>
@@ -613,8 +613,14 @@
       <admin>
         <logsenabled>
           <products>1</products>
-          <categories>0</categories>
+          <categories>1</categories>
           <adminlogin>1</adminlogin>
+          <cmspages>1</cmspages>
+          <cmsblocks>1</cmsblocks>
+          <customers>1</customers>
+          <reports>1</reports>
+          <giftaccount>1</giftaccount>
+          <systemconfiguration>1</systemconfiguration>
         </logsenabled>
       </admin>
       <system>

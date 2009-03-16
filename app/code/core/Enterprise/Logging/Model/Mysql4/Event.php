@@ -49,7 +49,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     public function rotate($interval)
     {
         $path = Mage::getModel('enterprise_logging/logs')->getBasePath();
-        $dir = $path . DS . date("Y_m");
+        $dir = $path . DS . date("Y") . DS . date("m");
         $outfile = sprintf("%s%s%s.csv",  $dir, DS, date("Y_m_d"));
 
         $file = new Varien_Io_File();

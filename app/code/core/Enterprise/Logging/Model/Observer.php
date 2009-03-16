@@ -761,7 +761,9 @@ class Enterprise_Logging_Model_Observer
         
         $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
         $ip = $_SERVER['REMOTE_ADDR'];
-        $code = $observer->getCode();
+        $model = $observer->getModel();
+        $model->load($model->getId());
+        $code = $model->getCode();
         $success = $observer->getStatus() == 'success' ? 1 : 0;
 
         $info = array($code);

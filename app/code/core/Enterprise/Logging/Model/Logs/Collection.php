@@ -180,6 +180,37 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
 
     public function validateRow($row)
     {
+        if (empty($this->_filters)) {
+            return true;
+        }
+        foreach ($this->_filters as $field=>$filter) {
+            if (!isset($row[$field])) {
+                return false;
+            }
+            if (isset($filter['eq'])) {
+                if ($filter['eq']!=$row[$field]) {
+                    return false;
+                }
+            }
+            if (isset($filter['like'])) {
+                $query = preg_replace('#(^%|%$)#', '', $filter['like']);
+                if (strpos(strtolower($row[$field]), strtolower($query))===false) {
+                    return false;
+                }
+            }
+            if ('version'===$field) {
+                if (isset($filter['from'])) {
+                    if (!version_compare($filter['from'], $row[$field], '<=')) {
+                        return false;
+                    }
+                }
+                if (isset($filter['to'])) {
+                    if (!version_compare($filter['to'], $row[$field], '>=')) {
+                        return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 

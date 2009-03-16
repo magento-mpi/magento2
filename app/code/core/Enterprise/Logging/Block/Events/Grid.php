@@ -76,7 +76,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'header'    => 'IP',
             'index'     => 'ip',
             'type'      => 'text', 
-            'filter'    => false,
+            'filter'    => 'enterprise_logging/events_grid_filter_ip',
             'sortable'  => false
         ));
 
