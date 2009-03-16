@@ -69,7 +69,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     {
         $result = parent::getUrl($routePath, $routeParams);
 
-        if (!Mage::getStoreConfigFlag('admin/security/use_form_key') || $this->getNoSecret()) {
+        if (!$this->useSecretKey() || $this->getNoSecret()) {
             return $result;
         }
 
@@ -104,5 +104,25 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
 
         $secret = $controller . $action . $salt;
         return Mage::helper('core')->getHash($secret);
+    }
+
+    /**
+     * Return secret key settings flag
+     *
+     * @return boolean
+     */
+    public function useSecretKey()
+    {
+        return Mage::getStoreConfigFlag('admin/security/use_form_key');
+    }
+
+    /**
+     * Refresh admin menu cache etc.
+     *
+     * @return Mage_Adminhtml_Model_Url
+     */
+    public function renewSecretUrls()
+    {
+        Mage::app()->cleanCache(array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
     }
 }

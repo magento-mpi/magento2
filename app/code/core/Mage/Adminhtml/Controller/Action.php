@@ -129,7 +129,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
 
         parent::preDispatch();
 
-
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
@@ -137,7 +136,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = 'Invalid Form Key';
-            } elseif (Mage::getStoreConfigFlag('admin/security/use_form_key')) {
+            } elseif (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
                 $_keyErrorMsg = 'Invalid Secret Key';
             }
@@ -347,9 +346,14 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     {
         $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
 
-        Mage::getSingleton('adminhtml/url')
-            ->setOriginalControllerName($this->getRequest()->getControllerName())
-            ->setOriginalActionName($this->getRequest()->getActionName());
+        // Save original values for controller and action included in secret key Urls
+        $_urlModel = Mage::getSingleton('adminhtml/url');
+        if (!$_urlModel->getOriginalControllerName()) {
+            $_urlModel->setOriginalControllerName($this->getRequest()->getControllerName());
+        }
+        if (!$_urlModel->getOriginalActionName()) {
+            $_urlModel->setOriginalActionName($this->getRequest()->getActionName());
+        }
 
         return parent::_forward($action, $controller, $module, $params);
     }
@@ -375,6 +379,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     protected function _validateSecretKey()
     {
         $url = Mage::getSingleton('adminhtml/url');
+
         if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
             || $secretKey != $url->getSecretKey($url->getOriginalControllerName(), $url->getOriginalActionName())) {
             return false;

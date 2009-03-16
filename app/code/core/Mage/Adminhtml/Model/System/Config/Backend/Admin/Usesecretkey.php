@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usesecretkey extends Mage
 {
     protected function _afterSave()
     {
-        Mage::app()->cleanCache(array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
+        Mage::getSingleton('adminhtml/url')->renewSecretUrls();
         return $this;
     }
 }
