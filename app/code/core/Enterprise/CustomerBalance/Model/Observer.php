@@ -36,6 +36,7 @@ class Enterprise_CustomerBalance_Model_Observer
             Mage::getModel('enterprise_customerbalance/balance')
                 ->setDelta($data->getDelta())
                 ->setEmailNotify( $data->getEmailNotify() == '' ? 1 : 0)
+                ->setEmailStoreId($data->getTransEmailStore())
                 ->setCustomerId($observer->getEvent()->getCustomer()->getId())
                 ->setWebsiteId( $this->_getWebsiteId($observer) )
                 ->updateBalance();

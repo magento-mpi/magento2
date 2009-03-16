@@ -80,6 +80,15 @@
                 <class>Enterprise_CustomerBalance_Helper</class>
             </enterprise_customerbalance>
         </helpers>
+        <template>
+            <email>
+               <customer_enterprise_customerbalance_email_template translate="label" module="enterprise_customerbalance">
+                   <label>Balance Update</label>
+                   <file>enterprise/customerbalance_update.html</file>
+                   <type>html</type>
+               </customer_enterprise_customerbalance_email_template>
+            </email>
+        </template>
     </global>
     <frontend>
         <translate>

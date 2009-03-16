@@ -26,6 +26,8 @@
 
 class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 {
+	protected $_customer;
+
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance');
@@ -35,15 +37,21 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     {
         if( abs($this->getDelta()) > 0 ) {
             $this->loadByCustomerWebsite($this->getCustomerId(), $this->getWebsiteId());
-            if( !$this->getId() ) {
-                $this->setBalance($this->getDelta())
-                     ->save();
-                $this->getHistoryModel()->addCreateEvent($this);
-            } else {
-                $newBalance = $this->getBalance() + $this->getDelta();
-                $this->setBalance($newBalance)
-                     ->save();
-                $this->getHistoryModel()->addUpdateEvent($this);
+            try {
+	            if( !$this->getId() ) {
+	                $this->setBalance($this->getDelta())
+	                     ->save();
+	                $this->getHistoryModel()->addCreateEvent($this);
+	            } else {
+	                $newBalance = $this->getBalance() + $this->getDelta();
+	                $this->setBalance($newBalance)
+	                     ->save();
+	                $this->getHistoryModel()->addUpdateEvent($this);
+	            	
+	            }
+	            $this->_sendNotice();
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
     }
@@ -66,5 +74,38 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     public function getHistoryModel()
     {
         return Mage::getModel('enterprise_customerbalance/balance_history');
+    }
+    
+    protected function _sendNotice()
+    {
+    	if( !$this->getEmailNotify() ) {
+    		return $this;
+    	}
+
+    	Mage::getModel('core/email_template')
+            ->setDesignConfig(array('store'=>$this->getEmailStoreId()))
+            ->sendTransactional(
+                Mage::getStoreConfig('customer/enterprise_customerbalance_email/template'),
+                Mage::getStoreConfig('customer/enterprise_customerbalance_email/identity'),
+                $this->_getCustomer()->getEmail(),
+                $this->_getCustomer()->getName(),
+                array('balance' => $this->getBalance(),
+                      'name' => $this->_getCustomer()->getName())
+            );
+    	return $this;
+    }
+    
+    protected function _getCustomer()
+    {
+    	if( $this->_customer ) {
+    		return $this->_customer;
+    	}
+    	
+    	if( !$this->getCustomerId() ) {
+    		return false;
+    	}
+    	
+    	$this->_customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
+    	return $this->_customer;
     }
 }
