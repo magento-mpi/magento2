@@ -44,37 +44,38 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      *
      * @var mixed Enterprise_Staging_Model_Staging_Type_Abstract
      */
-    protected $_typeInstance            = null;
+    protected $_typeInstance                = null;
 
     /**
      * Staging type instance as singleton
      */
-    protected $_typeInstanceSingleton   = null;
+    protected $_typeInstanceSingleton       = null;
 
     /**
      * Staging mapper instance
      *
      * @var mixed Enterprise_Staging_Model_Staging_Mapper_Abstract
      */
-    protected $_mapperInstance            = null;
+    protected $_mapperInstance              = null;
 
     /**
      * Staging mapper instance as singleton
      */
-    protected $_mapperInstanceSingleton   = null;
+    protected $_mapperInstanceSingleton     = null;
 
     /**
      * Staging resource adapter instance
      *
      * @var mixed Enterprise_Staging_Model_Staging_Mapper_Abstract
      */
-    protected $_adapterInstance            = null;
+    protected $_adapterInstance             = null;
 
     /**
      * Staging resource adapter instance as singleton
      */
-    protected $_adapterInstanceSingleton   = null;
+    protected $_adapterInstanceSingleton    = null;
 
+    protected $_datasetItems                = null;
 
     protected $_items;
 
@@ -372,6 +373,18 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             }
         }
         return $this->_websites;
+    }
+
+    public function getDatasetItemsCollection($ignoreBackendFlag = null)
+    {
+        if (is_null($this->_datasetItems)) {
+            $this->_datasetItems = Mage::getResourceSingleton('enterprise_staging/dataset_item_collection')
+                ->addBackendFilter($ignoreBackendFlag);
+            if ($this->getDatasetId()) {
+               $this->_datasetItems->addDatasetFilter($this->getDatasetId());
+            }
+        }
+        return $this->_datasetItems;
     }
 
     public function backup()

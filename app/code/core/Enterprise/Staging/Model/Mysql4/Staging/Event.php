@@ -34,12 +34,13 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
     /**
      * Before save processing
      *
-     * @param Varien_Object $object
+     * @param   Mage_Core_Model_Abstract $object
+     * @return  Enterprise_Staging_Model_Mysql4_Staging_Event
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         $staging = $object->getStaging();
-        if ($staging) {
+        if ($staging instanceof Enterprise_Staging_Model_Staging) {
             if ($staging->getId()) {
                 $object->setStagingId($staging->getId());
             }

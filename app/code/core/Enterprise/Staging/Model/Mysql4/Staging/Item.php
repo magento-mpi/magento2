@@ -30,7 +30,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
     {
         $this->_init('enterprise_staging/staging_item', 'staging_item_id');
     }
-    
+
     /**
      * Before save processing
      *
@@ -38,13 +38,41 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-    	if ($staging = $object->getStaging()) {
-    		if ($staging->getId()) {
-    			$object->setStagingId($staging->getId());
-    			$object->setDatasetId($staging->getDatasetId());
-    		}
-    	}
-    	
+        $staging = $object->getStaging();
+        if ($staging instanceof Enterprise_Staging_Model_Staging) {
+            if ($staging->getId()) {
+                $object->setStagingId($staging->getId());
+            }
+            $object->setDatasetId($staging->getDatasetId());
+        }
+
+        $stagingWebsite = $object->getStagingWebsite();
+        if ($stagingWebsite instanceof Enterprise_Staging_Model_Staging_Website) {
+            if ($stagingWebsite->getId()) {
+                $object->setStagingWebsiteId($stagingWebsite->getId());
+            }
+        }
+
+        $stagingStore = $object->getStagingStore();
+        if ($stagingStore instanceof Enterprise_Staging_Model_Staging_Store) {
+            if ($stagingStore->getId()) {
+                $object->setStagingStoreId($stagingStore->getId());
+            }
+        }
+
+        if (!$object->getId()) {
+            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $object->setCreatedAt($value);
+
+            $datasetItem = $object->getDatasetItemInstance();
+            if ($datasetItem) {
+                $object->addData($datasetItem->getData());
+            }
+        } else {
+            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $object->setUpdatedAt($value);
+        }
+
     	parent::_beforeSave($object);
 
         return $this;

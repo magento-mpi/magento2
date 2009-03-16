@@ -25,18 +25,42 @@
  */
 
 /**
- * Create staging settings tab
+ * Create Staging settings tab
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Keep main translate helper instance
+     *
+     * @var object
+     */
+    protected $helper;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->setFieldNameSuffix('');
+
+        $this->helper = Mage::helper('enterprise_staging');
+    }
+
+    /**
+     * Prepare block children
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings
+     */
     protected function _prepareLayout()
     {
         $this->setChild('continue_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Continue'),
+                    'label'     => $this->helper->__('Continue'),
                     'onclick'   => "setSettings('".$this->getContinueUrl()."','staging_website_ids','staging_entity_set_id','type')",
                     'class'     => 'save'
             ))
@@ -44,26 +68,32 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
         return parent::_prepareLayout();
     }
 
+    /**
+     * Prepare form before rendering HTML
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('enterprise_staging')->__('Create Staging Settings')));
+
+        $fieldset = $form->addFieldset('settings', array('legend'=>$this->helper->__('Create Staging Settings')));
 
         $websiteCollection = Mage::getModel('core/website')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG));
         $websiteCollection->addFieldToFilter('is_staging',array('neq'=>1));
 
         $fieldset->addField('staging_website_ids', 'select', array(
-            'label' => Mage::helper('enterprise_staging')->__('Staging Source Website'),
-            'title' => Mage::helper('enterprise_staging')->__('Staging Source Website'),
+            'label' => $this->helper->__('Staging Source Website'),
+            'title' => $this->helper->__('Staging Source Website'),
             'name'  => 'websites[]',
             'value' => '',
             'values'=> $websiteCollection->toOptionArray()
         ));
 
         $fieldset->addField('staging_entity_set_id', 'select', array(
-            'label' => Mage::helper('enterprise_staging')->__('Staging Entity Set'),
-            'title' => Mage::helper('enterprise_staging')->__('Staging Entity Set'),
+            'label' => $this->helper->__('Staging Entity Set'),
+            'title' => $this->helper->__('Staging Entity Set'),
             'name'  => 'set',
             'value' => '',
             'values'=> Mage::getResourceModel('enterprise_staging/dataset_collection')
@@ -72,25 +102,33 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
         ));
 
         $fieldset->addField('type', 'select', array(
-            'label' => Mage::helper('enterprise_staging')->__('Staging Type'),
-            'title' => Mage::helper('enterprise_staging')->__('Staging Type'),
+            'label' => $this->helper->__('Staging Type'),
+            'title' => $this->helper->__('Staging Type'),
             'name'  => 'type',
             'value' => '',
             'values'=> Enterprise_Staging_Model_Staging_Config::getOptionArray('type')
         ));
 
         $fieldset->addField('continue_button', 'note', array(
-            'text' => $this->getChildHtml('continue_button'),
+            'text'  => $this->getChildHtml('continue_button'),
         ));
 
+        $form->setFieldNameSuffix($this->getFieldNameSuffix());
         $this->setForm($form);
+
+        return parent::_prepareForm();
     }
 
+    /**
+     * Retrieve Url for continue button
+     *
+     * @return string
+     */
     public function getContinueUrl()
     {
         return $this->getUrl('*/*/edit', array(
             '_current'  => true,
-            'websites'   => '{{websites}}',
+            'websites'  => '{{websites}}',
             'set'       => '{{set}}',
             'type'      => '{{type}}'
         ));

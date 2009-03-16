@@ -25,12 +25,19 @@
  */
 
 /**
- * Staging event history tab
+ * Staging events history tab
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Keep main translate helper instance
+     *
+     * @var object
+     */
+    protected $helper;
+
     /**
      * Constructor
      */
@@ -43,99 +50,107 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
+
+        $this->helper = Mage::helper('enterprise_staging');
     }
 
     /**
-     * PrepareCollection method.
+     * Prepare staging events grid collection (add staging filter into collection)
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event
      */
-
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
         $collection->setStagingFilter($this->getStaging());
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
     }
 
-/**
-     * Configuration of grid
+    /**
+     * Columns Configuration
+     *
+     * @return object Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event
      */
     protected function _prepareColumns()
     {
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Event Time'),
+            'header'    => $this->helper->__('Event Time'),
             'index'     => 'created_at',
-            'type'      => 'datetime',
+            'type'      => 'datetime'
         ));
 
         $this->addColumn('ip', array(
-            'header'    => Mage::helper('enterprise_staging')->__('IP'),
+            'header'    => $this->helper->__('IP'),
             'index'     => 'ip',
-            'type'      => 'long2ip',
+            'type'      => 'long2ip'
         ));
 
         $this->addColumn('code', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Event Code'),
+            'header'    => $this->helper->__('Event Code'),
             'index'     => 'code',
-            'type'      => 'eventlabel',
-            'sortable'  => false,
+            'type'      => 'eventlabel'
         ));
 
         $this->addColumn('username', array(
-            'header'    => Mage::helper('enterprise_staging')->__('User Name'),
+            'header'    => $this->helper->__('User Name'),
             'index'     => 'username',
-            'type'      => 'text',
-            'sortable'  => false,
-            'filter'    => false
+            'type'      => 'text'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'header'    => $this->helper->__('Action'),
             'index'     => 'action',
-            'type'      => 'text',
-            'sortable'  => true,
-            'filter'    => false
+            'type'      => 'text'
         ));
 
         $this->addColumn('internal_status', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Result'),
+            'header'    => $this->helper->__('Status'),
             'index'     => 'internal_status',
-            'type'      => 'text',
-            'sortable'  => false,
-            'filter'    => false
+            'type'      => 'text'
         ));
 
         $this->addColumn('comment', array(
-            'header'        => Mage::helper('enterprise_staging')->__('Comment'),
+            'header'        => $this->helper->__('Comment'),
             'align'         => 'left',
             'index'         => 'comment',
             'type'          => 'text',
             'truncate'      => 50,
             'nl2br'         => true,
             'escape'        => true,
+            'sortable'      => false,
+            'filter'        => false
         ));
 
         $this->addColumn('log', array(
-            'header'        => Mage::helper('enterprise_staging')->__('Log'),
+            'header'        => $this->helper->__('Log'),
             'align'         => 'left',
             'index'         => 'log',
             'type'          => 'text',
             'truncate'      => 50,
             'nl2br'         => true,
             'escape'        => true,
+            'sortable'      => false,
+            'filter'        => false
         ));
 
-        return $this;
+        return parent::_prepareColumns();
     }
 
     /**
-     * Return grids url
+     * Return Url for "Only Grid" retrieves
+     *
+     * @return string
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/staging_manage/eventGrid', array('_current'=>true));
+        return $this->getUrl('*/*/eventGrid', array('_current'=>true));
     }
 
+    /**
+     * Return url for row events (onclick, etc)
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/eventEdit', array(

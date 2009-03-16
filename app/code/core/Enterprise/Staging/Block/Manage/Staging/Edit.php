@@ -96,11 +96,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Save And Continue Edit'),
                         'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
-                        'class' => 'save'
+                        'class'     => 'save'
                     ))
             );
             $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+                $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Delete'),
                         'onclick'   => 'confirmSetLocation(\''.Mage::helper('enterprise_staging')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
@@ -108,21 +108,32 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                     ))
             );
             $this->setChild('sync_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Sync'),
-                    'onclick'   => 'setLocation(\''.$this->getSyncUrl().'\')',
-                    'class'  => 'sync'
-                ))
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Sync'),
+                        'onclick'   => 'setLocation(\''.$this->getSyncUrl().'\')',
+                        'class'  => 'sync'
+                    ))
             );
-            $this->setChild('merge_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Merge'),
-                    'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
-                    'class'  => 'add'
-                ))
-            );
+            if ($this->getStaging()->getId()) {
+                $this->setChild('merge_button',
+                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                        ->setData(array(
+                            'label'     => Mage::helper('enterprise_staging')->__('Merge'),
+                            'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
+                            'class'  => 'add'
+                        ))
+                );
+            } else {
+                $this->setChild('create_button',
+                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                        ->setData(array(
+                            'label'     => Mage::helper('enterprise_staging')->__('Create'),
+                            'onclick'   => 'stagingCreate(\''.$this->getCreateUrl().'\')',
+                            'class'  => 'add'
+                        ))
+                );
+            }
         }
 
         return parent::_prepareLayout();

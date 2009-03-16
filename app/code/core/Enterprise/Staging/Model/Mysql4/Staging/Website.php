@@ -27,17 +27,16 @@
 class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_Mysql4_Abstract
 {
 	protected $_websiteTable;
-	protected $_storeTable;
+
+	protected $_stagingStoreTable;
 
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_website', 'staging_website_id');
 
+        $this->_itemTable = $this->getTable('enterprise_staging/staging_item');
+
         $this->_websiteTable = $this->getTable('core/website');
-
-        $this->_storeGroupTable = $this->getTable('core/store_group');
-
-        $this->_storeTable = $this->getTable('core/store');
 
         $this->_stagingStoreTable = $this->getTable('enterprise_staging/staging_store');
     }
@@ -45,16 +44,16 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     /**
      * Before save processing
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Abstract $object
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-    	$staging = $object->getStaging();
-    	if ($staging) {
-    		if ($staging->getId()) {
-    			$object->setStagingId($staging->getId());
-    		}
-    	}
+        $staging = $object->getStaging();
+        if ($staging instanceof Enterprise_Staging_Model_Staging) {
+            if ($staging->getId()) {
+                $object->setStagingId($staging->getId());
+            }
+        }
 
         $password = trim($object->getMasterPassword());
         if ($password) {
@@ -79,77 +78,88 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         }
 
         if (!$object->getId()) {
-            $value = Mage::getModel('core/date')->gmtDate();
+            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
             $object->setCreatedAt($value);
         } else {
-            $value = Mage::getModel('core/date')->gmtDate();
+            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
             $object->setUpdatedAt($value);
         }
 
-    	parent::_beforeSave($object);
+        parent::_beforeSave($object);
 
         return $this;
     }
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-    	$this->saveSlaveWebsite($object);
+        $this->saveItems($object);
 
-    	//$this->saveSlaveStoreGroups($object);
+        $this->saveSlaveWebsite($object);
 
-        //$this->saveSlaveStores($object);
+        $this->saveStores($object);
 
         parent::_afterSave($object);
 
         return $this;
     }
 
-    public function saveSlaveWebsite(Mage_Core_Model_Abstract $object)
+    public function saveItems($website)
     {
-    	$slaveWebsiteId = (int) $object->getSlaveWebsiteId();
-    	$slaveWebsite = Mage::getModel('core/website');
-
-    	if ($slaveWebsiteId) {
-    		$slaveWebsite->load($slaveWebsiteId);
-    	}
-        $slaveWebsite->setData('is_staging', 1);
-   		$slaveWebsite->setData('code', $object->getCode());
-   		$slaveWebsite->setData('name', $object->getName());
-   		$slaveWebsite->setData('master_login', $object->getMasterLogin());
-   		$slaveWebsite->setData('master_password', $object->getMasterPassword());
-   		$slaveWebsite->setData('master_password_hash', $object->getMasterPasswordHash());
-   		$slaveWebsite->save();
-
-        if (!$slaveWebsiteId) {
-            $slaveWebsiteId = $slaveWebsite->getId();
-            $this->_updateAttribute($object, 'slave_website_id', $slaveWebsiteId);
+        foreach ($website->getItemsCollection() as $item) {
+            $item->save();
         }
 
         return $this;
     }
 
-//    public function saveSlaveStoreGroups(Mage_Core_Model_Abstract $object)
-//    {
-//        return $this;
-//    }
-//
-//    public function saveSlaveStores(Mage_Core_Model_Abstract $object)
-//    {
-//    	return $this;
-//    }
-
-    protected function _updateAttribute($website, $name, $slaveWebsiteId)
+    public function saveSlaveWebsite(Mage_Core_Model_Abstract $object)
     {
-        $where = "staging_website_id=".$website->getId();
-        $this->_getWriteAdapter()
-           ->update($this->getMainTable(), array($name => $slaveWebsiteId), $where);
+        $slaveWebsite   = Mage::getModel('core/website');
+        $slaveWebsiteId = (int) $object->getSlaveWebsiteId();
+        if ($slaveWebsiteId) {
+            $slaveWebsite->load($slaveWebsiteId);
+        }
+        $slaveWebsite->setData('is_staging', 1);
+        $slaveWebsite->setData('code', $object->getCode());
+        $slaveWebsite->setData('name', $object->getName());
+        $slaveWebsite->setData('master_login', $object->getMasterLogin());
+        $slaveWebsite->setData('master_password', $object->getMasterPassword());
+        $slaveWebsite->setData('master_password_hash', $object->getMasterPasswordHash());
+        $slaveWebsite->save();
+
+        if (!$slaveWebsiteId) {
+            $slaveWebsiteId = (int) $slaveWebsite->getId();
+            $this->updateAttribute($object, 'slave_website_id', $slaveWebsiteId);
+        }
+
+        return $this;
     }
 
+    public function saveStores($website)
+    {
+        foreach ($website->getStoresCollection() as $store) {
+            $store->save();
+        }
+
+        return $this;
+    }
+
+    public function updateAttribute($website, $name, $value)
+    {
+        $where = "staging_website_id=".(int)$website->getId();
+        $this->_getWriteAdapter()
+           ->update($this->getMainTable(), array($name => $value), $where);
+    }
+
+    /**
+     * Retrieve free (non-used) website code with code suffix (if specified in config)
+     *
+     * @param   string $code
+     * @return  string
+     */
     public function generateWebsiteCode($code)
     {
-    	$unusedCode = $this->getUnusedWebsiteCode($code);
-
-    	return  $unusedCode . $this->getWebsiteCodeSuffix();
+        return $this->getUnusedWebsiteCode($code) . $this->getWebsiteCodeSuffix();
     }
 
     public function getUnusedWebsiteCode($code)
@@ -176,37 +186,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         }
     }
 
-    public function generateStoreCode($code)
-    {
-        $unusedCode = $this->getUnusedStoreCode($code);
-
-        return  $unusedCode . $this->getStoreCodeSuffix();
-    }
-
-    public function getUnusedStoreCode($code)
-    {
-        if (empty($code)) {
-            $code = '-';
-        } elseif ($code == $this->getStoreCodeSuffix()) {
-            $code = '-' . $this->getStoreCodeSuffix();
-        }
-
-        $store = $this->getStoreByCode($code);
-        if ($store) {
-            // retrieve code suffix for staging stores
-            $storeCodeSuffix = $this->getStoreCodeSuffix();
-
-            $match = array();
-            if (!preg_match('#^([0-9a-z/-]+?)(-([0-9]+))?('.preg_quote($storeCodeSuffix).')?$#i', $code, $match)) {
-                return $this->getUnusedStoreCode('-');
-            }
-            $code = $match[1].(isset($match[3])?'-'.($match[3]+1):'-1').(isset($match[4])?$match[4]:'');
-            return $this->getUnusedStoreCode($code);
-        } else {
-            return $code;
-        }
-    }
-
     /**
      * Retrieve website code sufix
      *
@@ -215,16 +194,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     public function getWebsiteCodeSuffix()
     {
         return Mage::helper('enterprise_staging/website')->getWebsiteCodeSuffix();
-    }
-
-    /**
-     * Retrieve store code sufix
-     *
-     * @return string
-     */
-    public function getStoreCodeSuffix()
-    {
-        return Mage::helper('enterprise_staging/store')->getCodeSuffix();
     }
 
     public function getWebsiteByCode($code)
@@ -236,12 +205,18 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
        return $this->_getReadAdapter()->fetchOne($select);
     }
 
-    public function getStoreByCode($code)
+    /**
+     *
+     */
+    public function getStoreIds(Enterprise_Staging_Model_Staging_Website $website)
     {
-        $select = $this->_getReadAdapter()->select()
-           ->from($this->_storeTable, 'store_id')
-           ->where('code = ?', $code);
+        if (!$website->getId()) {
+            return array();
+        }
 
-       return $this->_getReadAdapter()->fetchOne($select);
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->_stagingStoreTable, array('staging_store_id'))
+            ->where('staging_website_id=?', $staging->getId());
+        return $this->_getReadAdapter()->fetchCol($select);
     }
 }

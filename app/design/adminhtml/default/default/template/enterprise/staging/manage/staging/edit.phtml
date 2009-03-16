@@ -33,18 +33,16 @@
 ?>
 <div class="content-header">
     <h3 class="icon-head head-staging"><?php echo $this->getHeader() ?></h3>
-    <p class="content-buttons form-buttons"><?php echo $this->getBackButtonHtml() ?>
-    <?php echo $this->getCancelButtonHtml() ?>
+    <p class="content-buttons form-buttons"><?php echo $this->getChildHtml('back_button') ?>
+    <?php echo $this->getChildHtml('cancel_button') ?>
     <?php if ($this->getStagingId()): ?>
-        <?php echo $this->getDeleteButtonHtml() ?>
-        <?php if($this->getDatasetId()): ?>
-            <?php echo $this->getSyncButtonHtml() ?>
-            <?php echo $this->getMergeButtonHtml() ?>
-        <?php endif; ?>
-    <?php endif; ?>
-    <?php if ($this->getDatasetId()): ?>
-        <?php echo $this->getSaveButtonHtml() ?>
-        <?php echo $this->getSaveAndEditButtonHtml() ?>
+        <?php echo $this->getChildHtml('delete_button') ?>
+        <?php echo $this->getChildHtml('sync_button') ?>
+        <?php echo $this->getChildHtml('merge_button') ?>
+        <?php echo $this->getChildHtml('save_button') ?>
+        <?php echo $this->getChildHtml('save_and_edit_button') ?>
+    <?php else: ?>
+        <?php echo $this->getChildHtml('create_button') ?>
     <?php endif; ?>
     </p>
 </div>
@@ -54,19 +52,10 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-var stagingTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
 var stagingForm = new varienForm('enterprise_staging_edit_form', '<?php echo $this->getValidationUrl() ?>');
-function setSettings(urlTemplate, websiteElement, setElement, typeElement)
+function stagingCreate()
 {
-    var template = new Template(urlTemplate, stagingTemplateSyntax);
-    setLocation(template.evaluate({websites:$F(websiteElement),set:$F(setElement),type:$F(typeElement)}));
-}
-
-function saveAndContinueEdit(urlTemplate)
-{
-    var template = new Template(urlTemplate, stagingTemplateSyntax);
-    var url = template.evaluate({tab_id : enterprise_staging_tabsJsTabs.activeTab.id});
-    stagingForm.submit(url);
+	stagingForm.submit();
 }
 //]]>
 </script>

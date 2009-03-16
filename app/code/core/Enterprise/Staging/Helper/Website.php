@@ -34,28 +34,11 @@ class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
     const XML_PATH_STAGING_CODE_SUFFIX   = 'global/enterprise/staging/staging_website_code_suffix';
 
     /**
-     * Cache for product rewrite suffix
+     * Cache for website rewrite suffix
      *
      * @var array
      */
     protected $_stagingCodeSuffix = null;
-
-    /**
-     * Retrieve product view page url
-     *
-     * @param   mixed $product
-     * @return  string
-     */
-    public function getProductUrl($product)
-    {
-        if ($product instanceof Mage_Catalog_Model_Product) {
-            return $product->getProductUrl();
-        }
-        elseif (is_numeric($product)) {
-            return Mage::getModel('catalog/product')->load($product)->getProductUrl();
-        }
-        return false;
-    }
 
     /**
      * Check if a website can be shown
@@ -68,7 +51,7 @@ class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
         if (is_int($website)) {
             $website = Mage::getModel('enterprise_staging/staging_website')->load($website);
         }
-        /* @var $staging Enterprise_Staging_Model_Staging_Website */
+        /* @var $website Enterprise_Staging_Model_Staging_Website */
 
         if (!$website->getId()) {
             return false;

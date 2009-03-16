@@ -28,6 +28,7 @@
 class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abstract
 {
 	protected $_itemTable;
+
 	protected $_websiteTable;
 
     protected function _construct()

@@ -50,6 +50,10 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $staging->setMasterWebsiteIds($websiteIds);
             }
 
+            if ($storeIds = $this->getRequest()->getParam('stores')) {
+                $staging->setMasterStoreIds($storeIds);
+            }
+
             if ($setId = (int) $this->getRequest()->getParam('set')) {
                 $staging->setDatasetId($setId);
             }
@@ -81,17 +85,32 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
     {
         $staging = $this->_initStaging();
 
-		$websiteIds = (array) $staging->getMasterWebsiteIds();
-		if ($websiteIds) {
-			foreach ($websiteIds as $websiteId) {
-				$website = Mage::app()->getWebsite($websiteId);
-				if ($website->getIsStaging()) {
-				    $this->_getSession()->addError('Some of selected website is staging. Please. select another one.');
-				    $this->_redirect('*/*/edit', array('_current' => false));
-				    return $this;
-				}
-		    }
-		}
+        $websiteIds = (array) $staging->getMasterWebsiteIds();
+        if ($websiteIds) {
+            foreach ($websiteIds as $websiteId) {
+                $website = Mage::app()->getWebsite($websiteId);
+                if ($website->getIsStaging()) {
+                    $this->_getSession()->addError('Some of selected website is staging.');
+                    $this->_redirect('*/*/edit', array('_current' => false));
+                    return $this;
+                }
+
+                $storeIds = $staging->getMasterStoreIds();
+                if ($storeIds) {
+                    $currentStoreIds = isset($storeIds[$websiteId]) ? $storeIds[$websiteId] : array();
+                    if ($currentStoreIds) {
+                        foreach ($currentStoreIds as $storeId) {
+                            $store = Mage::app()->getStore($storeId);
+                            if ($store->getIsStaging()) {
+                                $this->_getSession()->addError('Some of selected stores is staging.');
+                                $this->_redirect('*/*/edit', array('_current' => false));
+                                return $this;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         Mage::dispatchEvent('staging_edit_action', array('staging' => $staging));
 
@@ -106,7 +125,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             'staging_'.$staging->getType() . $_additionalLayoutPart
         ));
 
-        $this->_setActiveMenu('enterprise/staging');
+        $this->_setActiveMenu('enterprise_staging');
 
         $this->renderLayout();
         Mage::dispatchEvent('on_staging_edit_after', array('staging' => $staging));
@@ -117,8 +136,25 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
      */
     public function gridAction()
     {
+        $staging = $this->_initStaging();
+
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('staging/grid')->toHtml()
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_grid')
+                ->setStaging($staging)
+                ->toHtml()
+        );
+    }
+
+    public function createStagingStoreAction()
+    {
+        $staging = $this->_initStaging();
+
+        $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store_item')
+                ->setStaging($staging)
+                ->toHtml()
         );
     }
 
@@ -178,19 +214,81 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             }
         }
 
-        $websites = isset($stagingData['websites']) ? $stagingData['websites'] : false;
-        if ($websites) {
-            $existWebsites = Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
-            foreach ($websites as $websiteData) {
-            	$websiteId = $websiteData['master_website_id'];
-                if (in_array($websiteId, $existWebsites)) {
-                    $code = $websiteData['code'];
-                    $item = $staging->getWebsitesCollection()->getItemByCode($code);
-                    $item->addData($websiteData);
+        $websites       = (array) isset($stagingData['websites']) ? $stagingData['websites'] : array();
+        $existWebsites  = Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
+
+        foreach ($websites as $websiteData) {
+            $websiteId = $websiteData['master_website_id'];
+            if (in_array($websiteId, $existWebsites)) {
+                $code = $websiteData['code'];
+                $item = $staging->getWebsitesCollection()->getItemByCode($code);
+                $item->addData($websiteData);
+            } else {
+                $website = Mage::getModel('enterprise_staging/staging_website');
+                $website->addData($websiteData);
+                $staging->addWebsite($website);
+            }
+
+            $datasetItems = isset($websiteData['dataset_items']) ? $websiteData['dataset_items'] : array();
+            if ($datasetItems) {
+                $items = isset($websiteData['items']) ? $websiteData['items'] : array();
+                foreach ($datasetItems as $datasetItemId) {
+                    $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
+                    if (in_array($datasetItemId, $items)) {
+                        $id = isset($itemData['staging_item_id']) ? $itemData['staging_item_id'] : false;
+                        if (!empty($itemData['remove_item'])) {
+                            if ($id) {
+                                $item = $website->getItemsCollection()->getItemById($id);
+                                $item->isDeleted(true);
+                            }
+                        } else {
+                            $item = $website->getItemsCollection()->getItemById($id);
+                            $item->addData($itemData);
+                        }
+                    } else {
+                        $item = Mage::getModel('enterprise_staging/staging_item');
+                        $item->setDatasetItemId($datasetItemId);
+                        $website->addItem($item);
+                    }
+                }
+            }
+
+            $stores = isset($stagingData['stores'][$websiteId]) ? $stagingData['stores'][$websiteId] : array();
+            $existStores = Mage::getResourceSingleton('enterprise_staging/staging_website')->getStoreIds($website);
+            foreach ($stores as $storeData) {
+                $storeId = $storeData['master_store_id'];
+                if (in_array($storeId, $existStores)) {
+                    $id = $storeData['master_store_id'];
+                    $item = $website->getStoresCollection()->getItemById($id);
+                    $item->addData($storeData);
                 } else {
-                    $website = Mage::getModel('enterprise_staging/staging_website');
-                    $website->addData($websiteData);
-                    $staging->addWebsite($website);
+                    $store = Mage::getModel('enterprise_staging/staging_store');
+                    $store->addData($storeData);
+                    $website->addStore($store);
+                }
+
+                $datasetItems = isset($storeData['dataset_items']) ? $storeData['dataset_items'] : array();
+                if ($datasetItems) {
+                    $items = isset($storeData['items']) ? $storeData['items'] :  array();
+                    foreach ($datasetItems as $datasetItemId) {
+                        $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
+                        if (in_array($datasetItemId, $items)) {
+                            $id = isset($itemData['staging_item_id']) ? $itemData['staging_item_id'] : false;
+                            if (!empty($itemData['remove_item'])) {
+                                if ($id) {
+                                    $item = $store->getItemsCollection()->getItemById($id);
+                                    $item->isDeleted(true);
+                                }
+                            } else {
+                                $item = $store->getItemsCollection()->getItemById($id);
+                                $item->addData($itemData);
+                            }
+                        } else {
+                            $item = Mage::getModel('enterprise_staging/staging_item');
+                            $item->setDatasetItemId($datasetItemId);
+                            $store->addItem($item);
+                        }
+                    }
                 }
             }
         }
@@ -198,7 +296,6 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         /**
          * Initialize general data for staging
          */
-
         $staging->addData($stagingData);
 
         /**
@@ -209,9 +306,83 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             $staging->setConfigurableData(Zend_Json::decode($data));
         }
 
-        Mage::dispatchEvent('enterprise_staging_prepare_save', array('staging' => $staging, 'request' => $this->getRequest()));
+        Mage::dispatchEvent('enterprise_staging_prepare_save',
+            array('staging' => $staging, 'request' => $this->getRequest()));
 
         return $staging;
+    }
+
+    /**
+     * Initialize create staging process throw Ajax request/response
+     *
+     */
+    public function createAction()
+    {
+        $this->_initStaging();
+
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('enterprise_staging/manage_staging_create_run')
+            ->toHtml());
+        $this->getResponse()->sendResponse();
+    }
+
+    public function createProcessAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+
+        $batchId = $this->getRequest()->getPost('batch_id',0);
+        $rowIds  = $this->getRequest()->getPost('rows');
+
+        $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
+        /* @var $batchModel Mage_Dataflow_Model_Batch */
+
+        if (!$batchModel->getId()) {
+            //exit
+            return ;
+        }
+        if (!is_array($rowIds) || count($rowIds) < 1) {
+            //exit
+            return ;
+        }
+        if (!$batchModel->getAdapter()) {
+            //exit
+            return ;
+        }
+
+        $batchImportModel = $batchModel->getBatchImportModel();
+        $importIds = $batchImportModel->getIdCollection();
+
+        $adapter = Mage::getModel($batchModel->getAdapter());
+        $adapter->setBatchParams($batchModel->getParams());
+
+        $errors = array();
+        $saved  = 0;
+
+        foreach ($rowIds as $importId) {
+            $batchImportModel->load($importId);
+            if (!$batchImportModel->getId()) {
+                $errors[] = Mage::helper('dataflow')->__('Skip undefined row');
+                continue;
+            }
+
+            $importData = $batchImportModel->getBatchData();
+            try {
+                $adapter->saveRow($importData);
+            }
+            catch (Exception $e) {
+                $errors[] = $e->getMessage();
+                continue;
+            }
+            $saved ++;
+        }
+
+        $result = array(
+            'savedRows' => $saved,
+            'errors'    => $errors
+        );
+        $this->getResponse()->setBody(Zend_Json::encode($result));
     }
 
     /**
@@ -256,13 +427,13 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 'edit'       => $isEdit
             ));
         } else {
-            $this->_redirect('*/*/', array('website' => $websiteId));
+            $this->_redirect('*/*/');
         }
     }
 
     public function deleteAction()
     {
-    	$id = $this->getRequest()->getParam('id');
+        $id = $this->getRequest()->getParam('id');
         if ($id) {
             $staging = Mage::getModel('enterprise_staging/staging')->setId($id);
 
@@ -284,9 +455,9 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
 
     public function mergeAction()
     {
-    	$this->_initStaging();
+        $this->_initStaging();
 
-    	$this->loadLayout();
+        $this->loadLayout();
 
         $this->_setActiveMenu('enterprise/staging');
 

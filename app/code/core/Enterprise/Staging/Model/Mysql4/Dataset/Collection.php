@@ -24,13 +24,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Dataset resource collection model
+ *
+ */
 class Enterprise_Staging_Model_Mysql4_Dataset_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     public function _construct()
     {
         $this->_init('enterprise_staging/dataset');
     }
-    
+
     public function toOptionArray()
     {
         return parent::_toOptionArray('dataset_id', 'name');

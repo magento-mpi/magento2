@@ -32,27 +32,46 @@ class Enterprise_Staging_Model_Mysql4_Dataset_Item_Collection extends Mage_Core_
     }
 
     /**
-     * Set dataset filter into collection select
+     * Add dataset filter into collection
      *
+<<<<<<< .mine
+     * @param   mixed   $datasetId (if object must be implemented getId() method)
+     * @return  Enterprise_Staging_Model_Mysql4_Dataset_Item_Collection
+=======
      * @param int $datasetId
-     * @return object Enterprise_Staging_Model_Mysql4_Staging
+     * @return object Enterprise_Staging_Model_Mysql4_Dataset_Item_Collection
+>>>>>>> .theirs
      */
     public function addDatasetFilter($datasetId)
     {
+        if (is_object($datasetId)) {
+            $datasetId = $datasetId->getId();
+        }
         $this->addFieldToFilter('dataset_id', (int) $datasetId);
 
         return $this;
     }
 
     /**
-     * Set is_backend attribute filter into collection
+<<<<<<< .mine
+     * Add is_backend attribute filter into collection
+=======
+     * Set filter ignore is_backend items
+>>>>>>> .theirs
      *
-     * @param mixed $flag if object must be forced to int
-     * @return object Enterprise_Staging_Model_Mysql4_Staging
+<<<<<<< .mine
+     * @param   boolean   $flag
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging
+=======
+     * @param   mixed   $ignoreBackendFlag
+     * @return  object  Enterprise_Staging_Model_Mysql4_Dataset_Item_Collection
+>>>>>>> .theirs
      */
-    public function addBackendFilter($flag = 0)
+    public function addBackendFilter($ignoreBackendFlag = null)
     {
-        $this->addFieldToFilter('is_backend', (int) $flag);
+        if (!is_null($ignoreBackendFlag)) {
+            $this->addFieldToFilter('is_backend', array('nin' => (int) $ignoreBackendFlag));
+        }
 
         return $this;
     }

@@ -1,0 +1,77 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_storeCollection = $this->getStoreCollection() ?>
+<?php if ($_storeCollection->getSize()): ?>
+<div id="staging_website_stores_container">
+<p class="switcher"><label for="staging_website_stores"><?php echo $this->__('Choose Store View') ?>:</label>
+<select name="staging_website_stores" id="staging_website_stores" class="left-col-block">
+    <option value=""><?php echo $this->__('Please, select a store view') ?></option>
+    <?php foreach ($_storeCollection as $_store): ?>
+        <option value="<?php echo $_store->getId() ?>"><?php echo $_store->getName() ?></option>
+    <?php endforeach; ?>
+</select>
+<button class="button" onclick="addStagingStore(); return false;"><span><?php echo $this->__('Add'); ?></span></button>
+</p>
+</div>
+<?php endif; ?>
+<script>
+var getStoreUrl = '<?php echo $this->getCreateStagingStoreUrl(); ?>';
+function addStagingStore()
+{
+    var selector = $('staging_website_stores');
+    var value = selector.value;
+    if (!value) {
+        alert('Please, select a store view');
+        return false;
+    }
+
+    new Ajax.Request(getStoreUrl, {
+    	parameters: {store:value},
+        onComplete: insertStagingStore.bind(this)
+    });
+}
+
+function insertStagingStore(transport)
+{
+    var store = transport.responseText;
+    new Insertion.After($('staging_website_stores_container'), store);
+}
+function removeStagingStore(storeContainerId)
+{
+	var element = $(storeContainerId);
+	if (element) {
+		element.remove();
+	}
+}
+function toggleStagingStoreItems(itemsSelectorId)
+{
+	var element = $(itemsSelectorId);
+    if (element) {
+    	element.disabled = !element.disabled;
+    }
+}
+</script>

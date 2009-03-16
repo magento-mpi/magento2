@@ -48,7 +48,7 @@ class Enterprise_Staging_Model_Mysql4_Dataset extends Mage_Core_Model_Mysql4_Abs
         return parent::_afterSave($object);
     }
 
-    public function validate($object,$name)
+    public function validate($object, $name)
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()->from($this->getMainTable())

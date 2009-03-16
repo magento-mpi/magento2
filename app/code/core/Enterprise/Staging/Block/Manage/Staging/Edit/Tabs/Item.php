@@ -31,18 +31,30 @@
  */
 class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Keep main translate helper instance
+     *
+     * @var object
+     */
+    protected $helper;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
 
         $this->setFieldNameSuffix('staging[items]');
+
+        $this->helper = Mage::helper('enterprise_staging');
     }
 
-    protected function _prepareLayout()
-    {
-        return parent::_prepareLayout();
-    }
-
+    /**
+     * Prepare form before rendering HTML
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item
+     */
     protected function _prepareForm()
     {
     	$form          = new Varien_Data_Form();
@@ -50,14 +62,14 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
     	$staging       = $this->getStaging();
     	$collection    = $staging->getItemsCollection();
 
-    	foreach ($this->getDatasetItems() as $datasetItem) {
+    	foreach ($staging->getDatasetItemsCollection(true) as $datasetItem) {
     		$_id = $datasetItem->getId();
     		$stagingItem = $collection->getItemByCode($datasetItem->getCode());
 
             $fieldset = $form->addFieldset('staging_dataset_item_'.$_id, array('legend'=>Mage::helper('enterprise_staging')->__($datasetItem->getName())));
             $fieldset->addField('dataset_item_id_'.$_id, 'checkbox',
 	            array(
-	                'label'    => Mage::helper('enterprise_staging')->__('Use for Staging'),
+	                'label'    => $this->helper->__('Use for Staging'),
 	                'name'     => "{$datasetItem->getId()}[dataset_item_id]",
 	                'value'    => $datasetItem->getId(),
 	                'checked'  => ($stagingItem !== false)
@@ -73,21 +85,27 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
 	        if ($stagingItem) {
 		        $fieldset->addField('staging_item_id_'.$_id, 'hidden',
 	                array(
-	                    'name'     => "{$datasetItem->getId()}[staging_item_id]",
-	                    'value'    => $stagingItem->getId()
+	                    'name'  => "{$datasetItem->getId()}[staging_item_id]",
+	                    'value' => $stagingItem->getId()
 	                )
 	            );
+
+	            $values = array();
+                foreach ($stagingItem->getData() as $key => $value) {
+                    $values[$key.'_'.$_id] = $value;
+                }
+                $form->addValues($values);
 	        }
     	}
 
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
         $this->setForm($form);
 
-        return $this;
+        return parent::_prepareForm();
     }
 
     /**
-     * Retrieve currently edited staging object
+     * Retrive staging object from setted data if not from registry
      *
      * @return Enterprise_Staging_Model_Staging
      */
@@ -97,16 +115,5 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
             $this->setData('staging', Mage::registry('staging'));
         }
         return $this->getData('staging');
-    }
-
-    public function getDatasetItems()
-    {
-    	$collection = Mage::getResourceSingleton('enterprise_staging/dataset_item_collection');
-    	$staging = $this->getStaging();
-    	$collection->addBackendFilter();
-    	if ($staging) {
-    	   $collection->addDatasetFilter($staging->getDatasetId());
-    	}
-    	return $collection;
     }
 }

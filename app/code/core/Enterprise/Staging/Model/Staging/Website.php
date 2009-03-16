@@ -34,6 +34,10 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
 	const EXCEPTION_LOGIN_NOT_CONFIRMED       = 1;
     const EXCEPTION_INVALID_LOGIN_OR_PASSWORD = 2;
 
+    protected $_stores;
+
+    protected $_items;
+
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_website');
@@ -130,6 +134,59 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         return Mage::helper('core')->decrypt($password);
     }
 
+
+
+
+    public function getItemIds()
+    {
+        if ($this->hasData('item_ids')) {
+            $ids = $this->getData('item_ids');
+            if (!is_array($ids)) {
+                $ids = !empty($ids) ? explode(',', $ids) : array();
+                $this->setData('item_ids', $ids);
+            }
+        } else {
+            $ids = array();
+            foreach ($this->getItemsCollection() as $item) {
+                $ids[] = $item->getId();
+            }
+            $this->setData('item_ids', $ids);
+        }
+        return $this->getData('item_ids');
+    }
+
+    public function addItem(Enterprise_Staging_Model_Staging_Item $item)
+    {
+        $item->setStagingWebsite($this);
+        if (!$item->getId()) {
+            $this->getItemsCollection()->addItem($item);
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve staging items
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getItemsCollection()
+    {
+        if (is_null($this->_items)) {
+            $this->_items = Mage::getResourceModel('enterprise_staging/staging_item_collection')
+                ->addStagingWebsiteFilter($this->getId());
+
+            if ($this->getId()) {
+                foreach ($this->_items as $item) {
+                    $item->setStagingWebsite($this);
+                }
+            }
+        }
+        return $this->_items;
+    }
+
+
+
+
     public function getMasterWebsite()
     {
     	$masterWebsiteId = $this->getMasterWebsiteId();
@@ -153,5 +210,53 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
     public function getSlaveStoreIdByMasterStoreId($storeId)
     {
     	return $this->getResource()->getSlaveStoreIdByMasterStoreId($this, $storeId);
+    }
+
+    /**
+     * Retrieve staging website staging stores
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getStoresCollection()
+    {
+        if (is_null($this->_stores)) {
+            $this->_stores = Mage::getResourceModel('enterprise_staging/staging_store_collection')
+                ->addStagingWebsiteFilter($this->getId());
+
+            if ($this->getId()) {
+                foreach ($this->_stores as $store) {
+                    $store->setStagingWebsite($this);
+                }
+            }
+        }
+        return $this->_stores;
+    }
+
+    public function addStore(Enterprise_Staging_Model_Staging_Store $store)
+    {
+        $store->setStagingWebsite($this);
+        if (!$store->getId()) {
+            $this->getStoresCollection()->addItem($store);
+        }
+        return $this;
+    }
+
+    public function getStoreIds()
+    {
+        if ($this->hasData('store_ids')) {
+            $ids = $this->getData('store_ids');
+            if (!is_array($ids)) {
+                $ids = !empty($ids) ? explode(',', $ids) : array();
+                //$this->setData('store_ids', $ids);
+                return $ids;
+            }
+        } else {
+            $ids = array();
+            foreach ($this->getStoresCollection() as $store) {
+                $ids[] = $store->getId();
+            }
+            $this->setData('store_ids', $ids);
+        }
+        return $this->getData('store_ids');
     }
 }

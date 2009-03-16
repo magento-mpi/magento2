@@ -30,12 +30,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
     {
         $this->_init('enterprise_staging/staging_item');
     }
-    
+
     /**
-     * Set staging filter into collection select
-     * 
-     * @param mixed $entitySetId if object must retrieve it ID by getId() method
-     * @return object Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
+     * Set staging filter
+     *
+     * @param   mixed   $stagingId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
      */
     public function addStagingFilter($stagingId)
     {
@@ -43,10 +43,48 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
     		$stagingId = $stagingId->getId();
     	}
         $this->addFieldToFilter('staging_id', (int) $stagingId);
-        
+
         return $this;
     }
-    
+
+    /**
+     * Set staging website filter
+     *
+     * @param   mixed   $stagingWebsiteId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
+     */
+    public function addStagingWebsiteFilter($stagingWebsiteId)
+    {
+        if (is_object($stagingWebsiteId)) {
+            $stagingWebsiteId = $stagingWebsiteId->getId();
+        }
+        $this->addFieldToFilter('staging_website_id', (int) $stagingWebsiteId);
+
+        return $this;
+    }
+
+    /**
+     * Set staging store filter
+     *
+     * @param   mixed   $stagingStoreId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
+     */
+    public function addStagingStoreFilter($stagingStoreId)
+    {
+        if (is_object($stagingStoreId)) {
+            $stagingStoreId = $stagingStoreId->getId();
+        }
+        $this->addFieldToFilter('staging_store_id', (int) $stagingStoreId);
+
+        return $this;
+    }
+
+    /**
+     * Retrieve item from collection where "code" attribute value equals to given code
+     *
+     * @param   string $code
+     * @return  object Enterprise_Staging_Model_Staging_Item
+     */
     public function getItemByCode($code)
     {
     	foreach ($this->_items as $item) {
@@ -56,7 +94,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
     	}
     	return false;
     }
-    
+
     public function toOptionArray()
     {
         return parent::_toOptionArray('staging_item_id', 'name');

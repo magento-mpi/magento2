@@ -31,8 +31,6 @@
  */
 class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    protected $_attributeTabBlock = 'adminhtml/catalog_product_edit_tab_attributes';
-
     public function __construct()
     {
         parent::__construct();
@@ -41,12 +39,18 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
         $this->setTitle(Mage::helper('enterprise_staging')->__('Staging Information'));
     }
 
+    /**
+     * Preparing global layout
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs
+     */
     protected function _prepareLayout()
     {
         $staging = $this->getStaging();
 
         $setId = $staging->getDatasetId();
         if (!$setId) {
+            // try to find dataset in request parameters
             $setId = $this->getRequest()->getParam('set', null);
         }
 
@@ -82,7 +86,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
     }
 
     /**
-     * Retrive product object from object if not from registry
+     * Retrive staging object from setted data if not from registry
      *
      * @return Enterprise_Staging_Model_Staging
      */
@@ -92,27 +96,5 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
             $this->setData('staging', Mage::registry('staging'));
         }
         return $this->getData('staging');
-    }
-
-    /**
-     * Getting attribute block name for tabs
-     *
-     * @return string
-     */
-    public function getAttributeTabBlockHtml($groupId)
-    {
-    	$block = $this->getLayout()->createBlock($this->_attributeTabBlock);
-    	$block->setGroup($groupId);
-        if ($block) {
-            return $block->toHtml();
-        } else {
-        	return '';
-        }
-    }
-
-    public function setAttributeTabBlock($attributeTabBlock)
-    {
-        $this->_attributeTabBlock = $attributeTabBlock;
-        return $this;
     }
 }

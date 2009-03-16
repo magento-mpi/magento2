@@ -31,8 +31,23 @@
  */
 class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
 {
+    protected $_datasetItem;
+
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_item');
+    }
+
+    public function getDatasetItemInstance()
+    {
+        if (is_null($this->_datasetItem)) {
+            $this->_datasetItem = Mage::getModel('enterprise_staging/dataset_item');
+            $datasetItemId = (int) $this->getData('dataset_item_id');
+            if ($datasetItemId) {
+                $this->_datasetItem->load($datasetItemId);
+            }
+        }
+
+        return $this->_datasetItem;
     }
 }

@@ -31,73 +31,85 @@
  */
 class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_General extends Mage_Adminhtml_Block_Widget_Form
 {
-    protected function _prepareLayout()
+    /**
+     * Keep main translate helper instance
+     *
+     * @var object
+     */
+    protected $helper;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        return parent::_prepareLayout();
+        parent::__construct();
+
+        $this->setFieldNameSuffix('staging');
+
+        $this->helper = Mage::helper('enterprise_staging');
     }
 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        
+
         $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Main Info')));
 
         $fieldset->addField('name', 'text', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Staging name'),
-            'title'     => Mage::helper('enterprise_staging')->__('Staging name'),
+            'label'     => $this->helper->__('Staging name'),
+            'title'     => $this->helper->__('Staging name'),
             'name'      => 'name'
         ));
-        
+
         /*
         $fieldset->addField('code', 'text', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Staging code'),
-            'title'     => Mage::helper('enterprise_staging')->__('Staging code'),
+            'label'     => $this->helper->__('Staging code'),
+            'title'     => $this->helper->__('Staging code'),
             'name'      => 'code'
         ));
 
-        $fieldset = $form->addFieldset('visibility_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Visibility Info')));
+        $fieldset = $form->addFieldset('visibility_fieldset', array('legend'=>$this->helper->__('Visibility Info')));
 
         $fieldset->addField('visibility', 'select', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Frontend Visibility'),
-            'title'     => Mage::helper('enterprise_staging')->__('Frontend Visibility'),
+            'label'     => $this->helper->__('Frontend Visibility'),
+            'title'     => $this->helper->__('Frontend Visibility'),
             'name'      => 'visibility',
             'value'     => Enterprise_Staging_Model_Config::VISIBILITY_WHILE_MASTER_LOGIN,
             'options'   => Enterprise_Staging_Model_Config::getOptionArray()
         ));
-        
-        $fieldset = $form->addFieldset('authorization', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Frontend Authorization Info')));
-        
+
+        $fieldset = $form->addFieldset('authorization', array('legend'=>$this->helper->__('Staging Frontend Authorization Info')));
+
         $fieldset->addField('master_login', 'text',
             array(
-                'label' => Mage::helper('enterprise_staging')->__('Master Login'),
+                'label' => $this->helper->__('Master Login'),
                 'class' => 'input-text required-entry validate-login',
                 'name'  => 'master_login',
                 'required' => true
             )
         );
-        
+
         $fieldset->addField('master_password', 'text',
             array(
-                'label' => Mage::helper('enterprise_staging')->__('Master Password'),
+                'label' => $this->helper->__('Master Password'),
                 'class' => 'input-text required-entry validate-password',
                 'name'  => 'master_password',
                 'required' => true
             )
         );
         */
-        
-        $values = $this->getStaging()->getData();
 
-        Mage::dispatchEvent('enterprise_staging_edit_prepare_form', array('form'=>$form));
-
-        $form->addValues($values);
-        $form->setFieldNameSuffix('staging');
+        $form->addValues($this->getStaging()->getData());
+        $form->setFieldNameSuffix($this->getFieldNameSuffix());
 
         $this->setForm($form);
+
+        return parent::_prepareForm();
     }
-    
+
     /**
-     * Retrieve currently edited staging object
+     * Retrive staging object from setted data if not from registry
      *
      * @return Enterprise_Staging_Model_Staging
      */

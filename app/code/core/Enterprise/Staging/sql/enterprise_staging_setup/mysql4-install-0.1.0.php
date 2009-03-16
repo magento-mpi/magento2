@@ -37,6 +37,11 @@ $installer->getConnection()->addColumn($this->getTable('core/website'), 'master_
 $installer->getConnection()->addColumn($this->getTable('core/website'), 'master_password', "VARCHAR(40) NOT NULL");
 $installer->getConnection()->addColumn($this->getTable('core/website'), 'master_password_hash', "VARCHAR(40) NOT NULL");
 
+$installer->getConnection()->addColumn($this->getTable('core/store'), 'is_staging', "TINYINT(1) NOT NULL DEFAULT '0'");
+$installer->getConnection()->addColumn($this->getTable('core/store'), 'master_login', "VARCHAR(40) NOT NULL");
+$installer->getConnection()->addColumn($this->getTable('core/store'), 'master_password', "VARCHAR(40) NOT NULL");
+$installer->getConnection()->addColumn($this->getTable('core/store'), 'master_password_hash', "VARCHAR(40) NOT NULL");
+
 $installer->run("
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset_item')}`;
@@ -151,7 +156,9 @@ $installer->getConnection()->addConstraint(
 $installer->run("
 CREATE TABLE `{$this->getTable('enterprise_staging/staging_item')}` (
   `staging_item_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `staging_id` int(10) unsigned NOT NULL default '0',
+  `staging_id` int(10) unsigned DEFAULT NULL,
+  `staging_website_id` smallint(5) unsigned DEFAULT NULL,
+  `staging_store_id` smallint(5) unsigned DEFAULT NULL,
   `dataset_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `dataset_item_id` int(10) unsigned NOT NULL DEFAULT '0',
   `code` varchar(50) NOT NULL DEFAULT '',
@@ -177,6 +184,20 @@ $installer->getConnection()->addConstraint(
     'staging_id',
     $installer->getTable('enterprise_staging/staging'),
     'staging_id'
+);
+$installer->getConnection()->addConstraint(
+    'FK_ENTERPRISE_STAGING_ITEM_STAGING_WEBSITE_ID',
+    $this->getTable('enterprise_staging/staging_item'),
+    'staging_website_id',
+    $installer->getTable('enterprise_staging/staging_website'),
+    'staging_website_id'
+);
+$installer->getConnection()->addConstraint(
+    'FK_ENTERPRISE_STAGING_ITEM_STAGING_STORE_ID',
+    $this->getTable('enterprise_staging/staging_item'),
+    'staging_store_id',
+    $installer->getTable('enterprise_staging/staging_store'),
+    'staging_store_id'
 );
 $installer->getConnection()->addConstraint(
     'FK_ENTERPRISE_STAGING_ITEM_DATASET_ID',
@@ -252,16 +273,16 @@ $installer->getConnection()->addConstraint(
 );
 
 
-/*
+
 $installer->run("
 CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store_group')}` (
   `staging_group_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `staging_website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `staging_id` int(10) unsigned NOT NULL default '0',
+  `master_website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `master_group_id` smallint(5) unsigned NOT NULL default '0',
   `slave_group_id` smallint(5) unsigned NOT NULL default '0',
   `name` varchar(64) NOT NULL DEFAULT '',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `root_category_id` int(10) unsigned NOT NULL DEFAULT '0',
   `default_store_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `state` varchar(20) NOT NULL default '',
@@ -269,24 +290,25 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store_group')}` 
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (`staging_group_id`),
-  UNIQUE KEY `UNQ_ENTERPRISE_STAGING_STORE_GROUP` (`staging_website_id`,`staging_group_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_STAGING_WEBSITE_STORE_GROUP` (`staging_website_id`,`staging_group_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_STAGING_STAGING_STORE_GROUP` (`staging_id`,`staging_group_id`),
   KEY `IDX_ENTERPRISE_STAGING_STORE_GROUP_STATE` (`state`),
   KEY `IDX_ENTERPRISE_STAGING_STORE_GROUP_STATUS` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Store Group';
 ");
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_STORE_MASTER_STORE_GROUP_ID',
+    'FK_ENTERPRISE_STAGING_STORE_GROUP_STAGING_WEBSITE_ID',
     $this->getTable('enterprise_staging/staging_store_group'),
-    'master_group_id',
-    $installer->getTable('core/store_group'),
-    'group_id'
+    'staging_website_id',
+    $installer->getTable('enterprise_staging/staging_website'),
+    'staging_website_id'
 );
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_STORE_SLAVE_STORE_GROUP_ID',
+    'FK_ENTERPRISE_STAGING_STORE_GROUP_STAGING_ID',
     $this->getTable('enterprise_staging/staging_store_group'),
-    'slave_group_id',
-    $installer->getTable('core/store_group'),
-    'group_id'
+    'staging_id',
+    $installer->getTable('enterprise_staging/staging'),
+    'staging_id'
 );
 
 
@@ -294,17 +316,17 @@ $installer->getConnection()->addConstraint(
 $installer->run("
 CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store')}` (
   `staging_store_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `staging_id` int(10) unsigned NOT NULL default '0',
-  `master_store_id` smallint(5) unsigned NOT NULL default '0',
+  `staging_group_id` smallint(5) unsigned DEFAULT NULL,
+  `staging_website_id` smallint(5) unsigned DEFAULT NULL,
+  `staging_id` int(10) unsigned DEFAULT NULL,
+  `master_store_id` smallint(5) DEFAULT NULL,
   `master_store_code` varchar(32) NOT NULL DEFAULT '',
-  `slave_store_id` smallint(5) unsigned NOT NULL default '0',
+  `slave_store_id` smallint(5) unsigned DEFAULT NULL,
   `slave_store_code` varchar(32) NOT NULL DEFAULT '',
   `code` varchar(32) NOT NULL DEFAULT '',
   `name` varchar(64) NOT NULL DEFAULT '',
-  `staging_website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `staging_group_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `group_id` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `master_website_id` smallint(5) unsigned DEFAULT NULL,
+  `master_group_id` smallint(5) unsigned DEFAULT NULL,
   `is_default` tinyint(1) unsigned DEFAULT '0',
   `state` varchar(20) NOT NULL default '',
   `status` varchar(20) NOT NULL default '',
@@ -317,36 +339,37 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store')}` (
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (`staging_store_id`),
-  UNIQUE KEY `UNQ_ENTERPRISE_STAGING_STORE` (`staging_website_id`,`staging_store_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_STAGING_WEBSITE_STORE` (`staging_website_id`,`staging_store_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_STAGING_GROUP_STORE` (`staging_group_id`,`staging_store_id`),
   KEY `IDX_ENTERPRISE_STAGING_STORE_STATE` (`state`),
   KEY `IDX_ENTERPRISE_STAGING_STORE_STATUS` (`status`),
   KEY `IDX_ENTERPRISE_STAGING_STORE_IS_ACTIVE` (`is_active`),
   KEY `IDX_ENTERPRISE_STAGING_STORE_MASTER_LOGIN` (`master_login`),
-  KEY `IDX_ENTERPRISE_STAGING_STORE_SORT_ORDER` (`staging_website_id`,`sort_order`)
+  KEY `IDX_ENTERPRISE_STAGING_STORE_SORT_ORDER` (`sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Store';
 ");
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_STORE_MASTER_STORE_ID',
+    'FK_ENTERPRISE_STAGING_STORE_STAGING_GROUP_ID',
     $this->getTable('enterprise_staging/staging_store'),
-    'master_store_id',
-    $installer->getTable('core/store'),
-    'store_id'
+    'staging_group_id',
+    $installer->getTable('enterprise_staging/staging_store_group'),
+    'staging_group_id'
 );
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_STORE_SLAVE_STORE_ID',
+    'FK_ENTERPRISE_STAGING_STORE_STAGING_WEBSITE_ID',
     $this->getTable('enterprise_staging/staging_store'),
-    'slave_store_id',
-    $installer->getTable('core/store'),
-    'store_id'
+    'staging_website_id',
+    $installer->getTable('enterprise_staging/staging_website'),
+    'staging_website_id'
 );
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_STORE_MASTER_STORE_CODE',
+    'FK_ENTERPRISE_STAGING_STORE_STAGING_ID',
     $this->getTable('enterprise_staging/staging_store'),
-    'master_store_code',
-    $installer->getTable('core/store'),
-    'code'
+    'staging_id',
+    $installer->getTable('enterprise_staging/staging'),
+    'staging_id'
 );
-*/
+
 
 
 $installer->run("

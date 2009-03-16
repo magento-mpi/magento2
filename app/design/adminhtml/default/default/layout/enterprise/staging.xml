@@ -33,21 +33,15 @@
         </reference>
     </adminhtml_staging_manage_index>
     
-    <adminhtml_staging_manage_new>
-        <reference name="content">
-            <block type="enterprise_staging/manage_staging_edit"  name="enterprise_staging_manage_staging_edit" />
-        </reference>
-        <reference name="left">
-            <block type="enterprise_staging/manage_staging_edit_tabs" name="enterprise_staging_manage_staging_edit_tabs"></block>
-        </reference>
-    </adminhtml_staging_manage_new>
-    
     <adminhtml_staging_manage_edit>
         <reference name="content">
             <block type="enterprise_staging/manage_staging_edit"  name="enterprise_staging_manage_staging_edit" />
         </reference>
         <reference name="left">
             <block type="enterprise_staging/manage_staging_edit_tabs" name="enterprise_staging_manage_staging_edit_tabs"></block>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
     </adminhtml_staging_manage_edit>
     
@@ -57,11 +51,17 @@
                 <action method="addMergeSettingsBlockType"><type>website</type><block>enterprise_staging/manage_staging_merge_settings_website</block><template>enterprise/staging/manage/staging/merge/settings/website.phtml</template></action>
             </block>
         </reference>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+        </reference>
     </adminhtml_staging_manage_merge>
     
     <adminhtml_staging_manage_sync>
         <reference name="content">
             <block type="enterprise_staging/manage_staging_sync"  name="enterprise_staging_manage_staging_sync" />
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
     </adminhtml_staging_manage_sync>
 </layout>

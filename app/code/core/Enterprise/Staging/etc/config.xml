@@ -34,10 +34,10 @@
     <global>
         <models>
 			<enterprise_staging>
-				<class>Enterprise_Staging_Model</class>
-				<resourceModel>enterprise_staging_mysql4</resourceModel>
-			</enterprise_staging>
-			<enterprise_staging_mysql4>
+                <class>Enterprise_Staging_Model</class>
+                <resourceModel>enterprise_staging_mysql4</resourceModel>
+            </enterprise_staging>
+            <enterprise_staging_mysql4>
                 <class>Enterprise_Staging_Model_Mysql4</class>
                 <entities>
                     <staging><table>enterprise_staging</table></staging>
@@ -52,29 +52,29 @@
                 </entities>
             </enterprise_staging_mysql4>
         </models>
-		<resources>
-		    <enterprise_staging_setup>
-		        <setup>
-		            <module>Enterprise_Staging</module>
-		            <class>Mage_Eav_Model_Entity_Setup</class>
-		        </setup>
-		        <connection>
-		            <use>core_setup</use>
-		        </connection>
-		    </enterprise_staging_setup>
-		    <enterprise_staging_write>
-		      <connection>
-		        <use>core_write</use>
-		      </connection>
-		    </enterprise_staging_write>
-		    <enterprise_staging_read>
-		      <connection>
-		        <use>core_read</use>
-		      </connection>
-		    </enterprise_staging_read>
-		</resources>
-		
-		<blocks>
+        <resources>
+            <enterprise_staging_setup>
+                <setup>
+                    <module>Enterprise_Staging</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_staging_setup>
+            <enterprise_staging_write>
+              <connection>
+                <use>core_write</use>
+              </connection>
+            </enterprise_staging_write>
+            <enterprise_staging_read>
+              <connection>
+                <use>core_read</use>
+              </connection>
+            </enterprise_staging_read>
+        </resources>
+        
+        <blocks>
             <enterprise_staging>
                 <class>Enterprise_Staging_Block</class>
             </enterprise_staging>
@@ -85,18 +85,18 @@
                 <class>Enterprise_Staging_Helper</class>
             </enterprise_staging>
         </helpers>
-		
-		<events>
-		    <resource_get_tablename>
-		        <observers>
-		            <on_get_tablename>
-		                <type>singleton</type>
-		                <class>enterprise_staging/observer</class>
-		                <method>getTableName</method>
-		            </on_get_tablename>
-		        </observers>
-		    </resource_get_tablename>
-		    <controller_front_init_before>
+        
+        <events>
+            <resource_get_tablename>
+                <observers>
+                    <on_get_tablename>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>getTableName</method>
+                    </on_get_tablename>
+                </observers>
+            </resource_get_tablename>
+            <controller_front_init_before>
                 <observers>
                     <check_staging>
                         <type>singleton</type>
@@ -105,15 +105,15 @@
                     </check_staging>
                 </observers>
             </controller_front_init_before>
-		</events>
-		<enterprise>
-			<staging>
-	            <use_new_db>0</use_new_db>
-	            <use_table_prefix>0</use_table_prefix>
-	            <type>
-	                <website>
-	                    <code>website</code>
-	                    <label>Website</label>
+        </events>
+        <enterprise>
+            <staging>
+                <use_new_db>0</use_new_db>
+                <use_table_prefix>0</use_table_prefix>
+                <type>
+                    <website>
+                        <code>website</code>
+                        <label>Website</label>
                         <models>
                             <type>enterprise_staging/staging_type_website</type>
                             <mapper>enterprise_staging/staging_mapper_website</mapper>
@@ -393,22 +393,23 @@
           </system>
         </menu>
         <acl>
-          <resources>
-            <admin>
-              <children>
-                <system>
-                  <children>
-                    <config>
-                      <children>
-                        <staging>
-                          <title>Staging</title>
-                        </staging>
-                      </children>
-                    </config>
-                  </children>
-                </system>
-              </children>
-            </admin>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <enterprise_staging>
+                                            <title>Catalog Staging</title>
+                                            <sort_order>201</sort_order>
+                                        </enterprise_staging>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
           </resources>
         </acl>
 
@@ -436,32 +437,25 @@
             </adminhtml>
         </routers>
         <menu>
-          <system>
-            <children>
-              <staging translate="title">
-                 <title>Admin Staging</title>
-                 <sort_order>21</sort_order>
-                 <children>
-                   <rollback translate="title">
-                     <title>Rollback Staging</title>
-                     <sort_order>10</sort_order>
-                     <action>staging/rollback</action>
-                   </rollback>
-                 </children>
-              </staging>
-            </children>
-          </system>
+            <system>
+                <children>
+                    <enterprise_staging translate="title">
+                        <title>Admin Staging</title>
+                        <sort_order>21</sort_order>
+                    </enterprise_staging>
+                </children>
+            </system>
         </menu>
         <acl>
-          <resources>
-            <admin>
-                <system>
-                    <config>
-                        <staging />
-                    </config>
-                </system>
-            </admin>
-          </resources>
+            <resources>
+                <admin>
+                    <system>
+                        <config>
+                            <enterprise_staging />
+                        </config>
+                    </system>
+                </admin>
+            </resources>
         </acl>
     </admin>
 </config>
