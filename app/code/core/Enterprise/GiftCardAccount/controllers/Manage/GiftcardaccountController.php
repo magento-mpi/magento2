@@ -132,7 +132,7 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 return;
 
             } catch (Exception $e) {
-                Mage::dispatchEvent('enterprise_giftcardaccount_save', array('status' => 'fail', 'code' => $model->getCode()));
+                Mage::dispatchEvent('enterprise_giftcardaccount_save', array('status' => 'fail', 'model' => $model));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // save data in session
