@@ -33,7 +33,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         parent::__construct();
         $this->setId('historyGrid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('name');
+        $this->setDefaultSort('date');
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
     }
