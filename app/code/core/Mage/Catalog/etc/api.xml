@@ -416,7 +416,6 @@
                 <product_tier_price>catalogProductAttributeTierPrice</product_tier_price>
                 <product_attribute_media>catalogProductAttributeMedia</product_attribute_media>
                 <product_link>catalogProductLink</product_link>
-                <product_stock>catalogInventoryStockItem</product_stock>
             </resources_function_prefix>
         </v2>
         <acl>

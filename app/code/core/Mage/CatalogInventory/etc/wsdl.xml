@@ -25,7 +25,9 @@
         <complexType name="catalogInventoryStockItemUpdateEntity">
             <all>
                 <element name="qty" type="xsd:string" minOccurs="0"/>
-                <element name="is_in_stock" type="xsd:string" minOccurs="0"/>
+                <element name="is_in_stock" type="xsd:int" minOccurs="0"/>
+                <element name="manage_stock" type="xsd:int" minOccurs="0"/>
+                <element name="use_config_manage_stock" type="xsd:int" minOccurs="0"/>
             </all>
         </complexType>
     

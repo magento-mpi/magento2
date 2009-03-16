@@ -25,54 +25,14 @@
  */
 
 /**
- * Catalog inventory api
+ * Catalog inventory api V2
  *
  * @category   Mage
  * @package    Mage_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_Resource
+class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventory_Model_Stock_Item_Api
 {
-    public function __construct()
-    {
-        $this->_storeIdSessionField = 'product_store_id';
-    }
-
-    public function items($productIds)
-    {
-        if (!is_array($productIds)) {
-            $productIds = array($productIds);
-        }
-
-        $product = Mage::getModel('catalog/product');
-
-        foreach ($productIds as &$productId) {
-            if ($newId = $product->getIdBySku($productId)) {
-                $productId = $newId;
-            }
-        }
-
-        $collection = Mage::getModel('catalog/product')
-            ->getCollection()
-            ->setFlag('require_stock_items', true)
-            ->addFieldToFilter('entity_id', array('in'=>$productIds));
-
-        $result = array();
-
-        foreach ($collection as $product) {
-            if ($product->getStockItem()) {
-                $result[] = array(
-                    'product_id'    => $product->getId(),
-                    'sku'           => $product->getSku(),
-                    'qty'           => $product->getStockItem()->getQty(),
-                    'is_in_stock'   => $product->getStockItem()->getIsInStock()
-                );
-            }
-        }
-
-        return $result;
-    }
-
     public function update($productId, $data)
     {
         $product = Mage::getModel('catalog/product');
@@ -92,20 +52,20 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
             $stockData = array();
         }
 
-        if (isset($data['qty'])) {
-            $stockData['qty'] = $data['qty'];
+        if (isset($data->qty)) {
+            $stockData['qty'] = $data->qty;
         }
 
-        if (isset($data['is_in_stock'])) {
-            $stockData['is_in_stock'] = $data['is_in_stock'];
+        if (isset($datais_in_stock)) {
+            $stockData['is_in_stock'] = $data->is_in_stock;
         }
 
-        if (isset($data['manage_stock'])) {
-            $stockData['manage_stock'] = $data['manage_stock'];
+        if (isset($data->manage_stock)) {
+            $stockData['manage_stock'] = $data->manage_stock;
         }
 
-        if (isset($data['use_config_manage_stock'])) {
-            $stockData['use_config_manage_stock'] = $data['use_config_manage_stock'];
+        if (isset($data->use_config_manage_stock)) {
+            $stockData['use_config_manage_stock'] = $data->use_config_manage_stock;
         }
 
         $product->setStockData($stockData);
@@ -118,4 +78,4 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
 
         return true;
     }
-} // Class Mage_CatalogInventory_Model_Stock_Item_Api End
+}
