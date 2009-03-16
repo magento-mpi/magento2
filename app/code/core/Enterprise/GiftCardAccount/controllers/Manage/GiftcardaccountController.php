@@ -115,10 +115,9 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
             // try to save it
             try {
                 // save the data
-                $model->load($data['info']['giftcardaccount_id']);
                 $model->save();
                 // display success message
-                Mage::dispatchEvent('enterprise_giftcardaccount_save', array('status' => 'success', 'code' => $model->getCode()));
+                Mage::dispatchEvent('enterprise_giftcardaccount_save', array('status' => 'success', 'model' => $model));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
