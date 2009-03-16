@@ -318,10 +318,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         if ($websiteId !== null) {
             $website  = Mage::app()->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if (!$defaultGroup instanceof Mage_Core_Model_Store_Group) {
-                continue;
+            if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
+                $storeId    = $defaultGroup->getDefaultStoreId();
+            } else {
+                $storeId    = Mage_Core_Model_App::ADMIN_STORE_ID;
             }
-            $storeId    = $defaultGroup->getDefaultStoreId();
+
             $tableAlias = 'pp'.$websiteId;
             $fieldAlias = 'website_'.$websiteId.'_price';
             $select->joinLeft(
@@ -333,9 +335,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 	        foreach (Mage::app()->getWebsites() as $website) {
 	            $websiteId  = $website->getId();
 	            $defaultGroup = $website->getDefaultGroup();
-	            if (!$defaultGroup instanceof Mage_Core_Model_Store_Group) {
-	                continue;
-	            }
+	            if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
+	                $storeId    = $defaultGroup->getDefaultStoreId();
+	            } else {
+                    $storeId    = Mage_Core_Model_App::ADMIN_STORE_ID;
+                }
+
 	            $storeId    = $defaultGroup->getDefaultStoreId();
 	            $tableAlias = 'pp'.$websiteId;
 	            $fieldAlias = 'website_'.$websiteId.'_price';
