@@ -277,14 +277,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if ($source && $source->$sectionName) {
             $cacheId = $idPrefix . '_' . $sectionName;
-            if ($recursionLevel == 0) {
-                $xmlStr = $source->$sectionName->asNiceXml('', false);
-                $this->_saveCache($xmlStr, $cacheId, $tags, $this->getCacheLifetime());
-            } else {
+            if ($recursionLevel > 0) {
                 foreach ($source->$sectionName->children() as $subSectionName => $node) {
                 	$this->_saveSectionCache($cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags);
                 }
             }
+            $xmlStr = $source->$sectionName->asNiceXml('', false);
+            $this->_saveCache($xmlStr, $cacheId, $tags, $this->getCacheLifetime());
         }
         return $this;
     }
