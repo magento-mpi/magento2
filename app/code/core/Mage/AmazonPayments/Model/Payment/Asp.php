@@ -31,13 +31,13 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     protected $_canAuthorize            = false;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = true; 
+    protected $_canRefund               = true;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
     protected $_isInitializeNeeded      = true;
-    
+
     protected $_formBlockType = 'amazonpayments/asp_form'; // INTERFASE
 	protected $_code  = 'amazonpayments_asp'; // INTERFASE
 	protected $_order;
@@ -46,23 +46,23 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     {
         return Mage::getStoreConfig('payment/' . $this->getCode() . '/active');
     }
-		
+
 	public function getApi()
     {
         return Mage::getSingleton('amazonpayments/api_asp');
     }
-        
+
     public function getNotification()
     {
         return Mage::getSingleton('amazonpayments/payment_asp_notification');
     }
-    
+
     public function setOrder($order)
     {
         $this->_order = $order;
         return $this;
-    }    
-    
+    }
+
     public function getOrder()
     {
         if (!$this->_order) {
@@ -72,10 +72,10 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
             );
         }
         return $this->_order;
-    }    
+    }
 
     // PAY
-    
+
     public function getOrderPlaceRedirectUrl() // INTERFASE
     {
         return Mage::getUrl('amazonpayments/asp/pay');
@@ -91,34 +91,34 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
         $orderId = $this->getOrder()->getRealOrderId();
         $amount = Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseGrandTotal());
         $currencyCode = $this->getOrder()->getBaseCurrency();
-        return $this->getApi()->getPayParams($orderId, $amount, $currencyCode);   
+        return $this->getApi()->getPayParams($orderId, $amount, $currencyCode);
     }
 
     public function processEventRedirect()
     {
         $this->getOrder()->addStatusToHistory(
-           $this->getOrder()->getStatus(), 
+           $this->getOrder()->getStatus(),
            Mage::helper('amazonpayments')->__('Customer was redirected to Amazon Simple Pay site')
         )->save();
-    }    
+    }
 
     public function processEventReturnSuccess()
     {
     	$this->getOrder()->addStatusToHistory(
-           $this->getOrder()->getStatus(), 
+           $this->getOrder()->getStatus(),
            Mage::helper('amazonpayments')->__('Customer successfully returned from Amazon Simple Pay site')
         )->save();
-    }    
-    
+    }
+
     public function processEventReturnCancel()
     {
         $this->getOrder()->setState(
-            Mage_Sales_Model_Order::STATE_CANCELED, 
+            Mage_Sales_Model_Order::STATE_CANCELED,
             true,
             Mage::helper('amazonpayments')->__('Customer canceled payment and successfully returned from Amazon Simple Pay site'),
             $notified = false
-        )->save();        
-    }    
+        )->save();
+    }
 
     public function initialize($paymentAction, $stateObject) // INTERFASE
     {
@@ -126,10 +126,10 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
         $stateObject->setState($state);
         $stateObject->setStatus(Mage::getSingleton('sales/order_config')->getStateDefaultStatus($state));
         $stateObject->setIsNotified(false);
-    }    
-    
-    // NOTIFICATION 
-    
+    }
+
+    // NOTIFICATION
+
     public function processNotification($requestParams)
     {
     	$this->getNotification()
@@ -143,77 +143,77 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     {
         if (is_null($payment->getCcTransId())) {
             Mage::throwException(
-                Mage::helper('amazonpayments')->__('Order was not captured online. Expect confirmation reserve.')
-            );    
+                Mage::helper('amazonpayments')->__('Order was not captured online. Authorization confirmation is required.')
+            );
         }
     }
 
     public function processInvoice($invoice, $payment) // INTERFASE
     {
-        if (!is_null($payment->getCcTransId()) && 
-            is_null($payment->getLastTransId()) &&    
+        if (!is_null($payment->getCcTransId()) &&
+            is_null($payment->getLastTransId()) &&
             is_null($invoice->getTransactionId())) {
-            	
+
             $amount = Mage::app()->getStore()->roundPrice($invoice->getBaseGrandTotal());
-            $currencyCode = $payment->getOrder()->getBaseCurrency();        
+            $currencyCode = $payment->getOrder()->getBaseCurrency();
             $transactionId = $payment->getCcTransId();
             $response = $this->getApi()->capture($transactionId, $amount, $currencyCode);
 
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 Mage::throwException(
                     Mage::helper('amazonpayments')->__('Order was not captured. Amazon Simple Pay service error: [%s] %s', $response->getCode(), $response->getMessage())
-                );    
+                );
             }
-            
+
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_SUCCESS ||
                 $response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_PENDING) {
 
                 $payment->setForcedState(Mage_Sales_Model_Order_Invoice::STATE_OPEN);
                 $payment->setLastTransId($response->getTransactionId());
-                
-                $invoice->setTransactionId($response->getTransactionId());      
-                $invoice->addComment(Mage::helper('amazonpayments')->__('Create after online capture payment in Amazon Simple Pay service. Expect confirmation capture.'));
+
+                $invoice->setTransactionId($response->getTransactionId());
+                $invoice->addComment(Mage::helper('amazonpayments')->__('Invoice was created (online capture). Waiting for capture confirmation from Amazon Simple Pay service.'));
 
                 $payment->getOrder()->addStatusToHistory(
-                  $payment->getOrder()->getStatus(), 
-                  Mage::helper('amazonpayments')->__('Online capture payment in Amazon Simple Pay service. Create invoice and expect confirmation capture.')
+                  $payment->getOrder()->getStatus(),
+                  Mage::helper('amazonpayments')->__('Payment was captured online with Amazon Simple Pay service. Invoice was created. Waiting for capture confirmation from payment service.')
                 )->save();
-                
+
             }
         }
-    }    
-    
+    }
+
     // REFUND
-    
+
     public function processCreditmemo($creditmemo, $payment) // INTERFASE
     {
-    	
+
     	$transactionId = $creditmemo->getInvoice()->getTransactionId();
-    	
-    	if (!is_null($transactionId) && 
+
+    	if (!is_null($transactionId) &&
     	    is_null($creditmemo->getTransactionId())) {
 
     	    $amount = Mage::app()->getStore()->roundPrice($creditmemo->getBaseGrandTotal());
             $currencyCode = $payment->getOrder()->getBaseCurrency();
-            $referenseID = $creditmemo->getInvoice()->getIncrementId();        
+            $referenseID = $creditmemo->getInvoice()->getIncrementId();
             $response = $this->getApi()->refund($transactionId, $amount, $currencyCode, $referenseID);
 
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 Mage::throwException(
                     Mage::helper('amazonpayments')->__('Invoice was not refunded. Amazon Simple Pay service error: [%s] %s', $response->getCode(), $response->getMessage())
-                );    
+                );
             }
-            
+
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_SUCCESS ||
                 $response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_PENDING) {
-                
-                $creditmemo->setTransactionId($response->getTransactionId());      
-                $creditmemo->addComment(Mage::helper('amazonpayments')->__('Create after online refund payment in Amazon Simple Pay service. Expect confirmation refund.'));
+
+                $creditmemo->setTransactionId($response->getTransactionId());
+                $creditmemo->addComment(Mage::helper('amazonpayments')->__('Payment refunded online. Waiting for refund confirmation from Amazon Simple Pay service.'));
                 $creditmemo->setState(Mage_Sales_Model_Order_Creditmemo::STATE_OPEN);
-                
+
                 $payment->getOrder()->addStatusToHistory(
-                  $payment->getOrder()->getStatus(), 
-                  Mage::helper('amazonpayments')->__('Online refund payment in Amazon Simple Pay service. Create creditmemo and expect confirmation refund.')
+                  $payment->getOrder()->getStatus(),
+                  Mage::helper('amazonpayments')->__('Payment refunded online with Amazon Simple Pay service. Creditmemo was created. Waiting for refund confirmation from Amazon Simple Pay service.')
                 )->save();
             }
         }
@@ -221,30 +221,30 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_AmazonPayments_Model_Pa
     }
 
     // CANCEL
-    
+
     public function cancel(Varien_Object $payment) // INTERFASE
     {
-        if (!is_null($payment->getCcTransId()) && 
+        if (!is_null($payment->getCcTransId()) &&
             is_null($payment->getLastTransId())) {
-            
+
             $transactionId = $payment->getCcTransId();
             $response = $this->getApi()->cancel($transactionId);
-            
+
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 Mage::throwException(
                     Mage::helper('amazonpayments')->__('Order was not cancelled. Amazon Simple Pay service error: [%s] %s', $response->getCode(), $response->getMessage())
-                );    
+                );
             }
-            
+
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_CANCELLED) {
 		        $payment->getOrder()->setState(
-		            Mage_Sales_Model_Order::STATE_CANCELED, 
+		            Mage_Sales_Model_Order::STATE_CANCELED,
 		            true,
-		            Mage::helper('amazonpayments')->__('Online cancel reserv payment in Amazon Simple Pay service.'),
+		            Mage::helper('amazonpayments')->__('Payment authorization cancelled with Amazon Simple Pay service.'),
 		            $notified = false
 		        )->save();
             }
          }
     }
-    
+
 }
