@@ -53,13 +53,17 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 ->setSecond(0);
             $object->setFromDate($date);
         }
-        $object->setFromDate($object->getFromDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        if ($object->getFromDate() instanceof Zend_Date) {
+            $object->setFromDate($object->getFromDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        }
 
         if (!$object->getToDate()) {
             $object->setToDate(new Zend_Db_Expr('NULL'));
         }
         else {
-            $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+            if ($object->getToDate() instanceof Zend_Date) {
+                $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+            }
         }
         parent::_beforeSave($object);
     }
@@ -310,7 +314,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             sprintf($joinCondition, 'pp_default', Mage_Core_Model_App::ADMIN_STORE_ID),
             array('default_price'=>'pp_default.value')
         );
-        
+
         if ($websiteId !== null) {
             $website  = Mage::app()->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
@@ -391,39 +395,39 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 	         */
 	        foreach (Mage::app()->getWebsites(false) as $website) {
 	            $productsStmt = $this->_getRuleProductsStmt(
-	               $fromDate, 
-	               $toDate, 
+	               $fromDate,
+	               $toDate,
 	               $productId,
 	               $website->getId()
 	            );
-	            
+
 	            $dayPrices  = array();
 	            $stopFlags  = array();
 	            $prevKey    = null;
-	            
+
 	            while ($ruleData = $productsStmt->fetch()) {
 	                $productId = $ruleData['product_id'];
-	                $productKey= $productId . '_' 
-	                   . $ruleData['website_id'] . '_' 
+	                $productKey= $productId . '_'
+	                   . $ruleData['website_id'] . '_'
 	                   . $ruleData['customer_group_id'];
-	
+
 	                if ($prevKey && ($prevKey != $productKey)) {
 	                    $stopFlags = array();
 	                }
-	
+
 	                /**
 	                 * Build prices for each day
 	                 */
 	                for ($time=$fromDate; $time<=$toDate; $time+=self::SECONDS_IN_DAY) {
 	                    if (($ruleData['from_time']==0 || $time >= $ruleData['from_time'])
 	                        && ($ruleData['to_time']==0 || $time <=$ruleData['to_time'])) {
-	
+
 	                        $priceKey = $time . '_' . $productKey;
-	
+
 	                        if (isset($stopFlags[$priceKey])) {
 	                            continue;
 	                        }
-	
+
 	                        if (!isset($dayPrices[$priceKey])) {
 	                            $dayPrices[$priceKey] = array(
 	                                'rule_date'         => $time,
@@ -449,15 +453,15 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 	                                $ruleData['to_time']
 	                            );
 	                        }
-	
+
 	                        if ($ruleData['action_stop']) {
 	                            $stopFlags[$priceKey] = true;
 	                        }
 	                    }
 	                }
-	
+
 	                $prevKey = $productKey;
-	
+
 	                if (count($dayPrices)>100) {
 	                    $this->_saveRuleProductPrices($dayPrices);
 	                    $dayPrices = array();
@@ -468,7 +472,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 	        $this->_saveRuleProductPrices($dayPrices);
 	        $write->commit();
 
-	        //            
+	        //
 //            $dayPrices  = array();
 //            $stopFlags  = array();
 //            $prevKey    = null;
@@ -548,7 +552,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             'product_condition' => $productCondition
         ));
         $write->delete($this->getTable('catalogrule/affected_product'));
-        
+
         return $this;
     }
 
