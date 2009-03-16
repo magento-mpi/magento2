@@ -441,6 +441,21 @@ abstract class Mage_Eav_Model_Entity_Abstract
         foreach ($attributeCodes as $code) {
         	$this->getAttribute($code);
         }
+
+        /**
+         * Check and init default attributes
+         */
+        $defaultAttributes = $this->_getDefaultAttributes();
+        foreach ($defaultAttributes as $attributeCode) {
+        	if (!isset($this->_attributesByCode[$attributeCode])) {
+                $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
+                $attribute->setAttributeCode($attributeCode)
+                    ->setBackendType('static')
+                    ->setEntityType($this->getEntityType())
+                    ->setEntityTypeId($this->getEntityType()->getId());
+                $this->addAttribute($attribute);
+        	}
+        }
         return $this;
     }
 
