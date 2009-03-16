@@ -37,7 +37,8 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     public function addCreateEvent($object)
     {
         $this->setAction(self::ACTION_EVENT_CREATE)
-             ->setAdminUserId(Mage::getSingleton('admin/session')->getUser()->getUserId());
+             ->setAdminUser(Mage::getSingleton('admin/session')->getUser()->getUsername())
+             ->setNotified($object->getEmailNotify());
 
         $this->_addEvent($object);
         return $this;
@@ -46,7 +47,8 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     public function addUpdateEvent($object)
     {
         $this->setAction(self::ACTION_EVENT_UPDATE)
-             ->setAdminUserId(Mage::getSingleton('admin/session')->getUser()->getUserId());
+             ->setAdminUser(Mage::getSingleton('admin/session')->getUser()->getUsername())
+             ->setNotified($object->getEmailNotify());
 
         $this->_addEvent($object);
         return $this;
@@ -57,6 +59,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
         $this->setCustomerId($object->getCustomerId())
              ->setWebsiteId($object->getWebsiteId())
              ->setDelta($object->getDelta())
+             ->setBalance($object->getBalance())
              ->setDate($this->_getResource()->formatDate(time()))
              ->save();
 
@@ -65,15 +68,16 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
 
     public function getActionName()
     {
-        switch ($this->getAction()) {
-            case self::ACTION_EVENT_CREATE:
-                return Mage::helper('enterprise_customerbalance')->__('Created');
-
-            case self::ACTION_EVENT_UPDATE:
-                return Mage::helper('enterprise_customerbalance')->__('Updated');
-        }
-
-        return false;
+    	$actions = $this->getActionNamesArray();
+        return $actions[$this->getAction()];
+    }
+    
+    public function getActionNamesArray()
+    {
+        return array(
+            self::ACTION_EVENT_CREATE => Mage::helper('enterprise_customerbalance')->__('Created'),
+            self::ACTION_EVENT_UPDATE => Mage::helper('enterprise_customerbalance')->__('Updated'),
+        );    	
     }
 
     public function getFormattedDelta()

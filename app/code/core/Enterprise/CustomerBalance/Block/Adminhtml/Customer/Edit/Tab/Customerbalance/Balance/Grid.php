@@ -53,7 +53,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     {
         $store = Mage::app()->getStore();
         $this->addColumn('balance', array(
-            'header'    => Mage::helper('customer')->__('Balance'),
+            'header'    => Mage::helper('enterprise_customerbalance')->__('Balance'),
             'width'     => '50px',
             'index'     => 'balance',
             'type'      => 'price',
@@ -62,7 +62,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
 
         $this->addColumn('website_name', array(
-            'header'    => Mage::helper('customer')->__('Website'),
+            'header'    => Mage::helper('enterprise_customerbalance')->__('Website'),
             'index'     => 'name',
             'sortable' => false,
         ));

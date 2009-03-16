@@ -26,31 +26,24 @@
 
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History extends Mage_Adminhtml_Block_Template
 {
-    protected $_collection;
-
     public function __construct()
     {
         $this->setTemplate('enterprise/customerbalance/balance/history.phtml');
     }
 
-    public function getActionsCollection()
+    protected function _prepareLayout()
     {
-        if( !$this->_collection ) {
-            $this->_collection = Mage::getModel('enterprise_customerbalance/balance_history')
-                ->getCollection()
-                ->addWebsiteData()
-                ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
-            if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
-                if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
-                    $customer = Mage::getModel('customer/customer')->load($this->getRequest()->getParam('id'));
-                    $this->_collection->addWebsiteFilter($customer->getWebsiteId());
-                } else {
-                    $this->_collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getRelevantWebsites());
-                }
-            }
+        $this->setChild('grid', $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid', 'customer.balance.history.grid'));
+        return parent::_prepareLayout();
+    }
 
-        }
-
-        return $this->_collection;
+    public function getGridHtml()
+    {
+        return $this->getChildHtml('grid');
+    }
+    
+    public function getGrid()
+    {
+        return $this->getChild('grid');
     }
 }

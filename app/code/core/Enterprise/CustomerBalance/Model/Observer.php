@@ -31,9 +31,11 @@ class Enterprise_CustomerBalance_Model_Observer
         $post = Mage::app()->getFrontController()->getAction()->getRequest()->getPost();
         if( isset($post['customerbalance']) ) {
             $data = $post['customerbalance'];
-
+            $data = new Varien_Object($data);
+            
             Mage::getModel('enterprise_customerbalance/balance')
-                ->setDelta($data['delta'])
+                ->setDelta($data->getDelta())
+                ->setEmailNotify( $data->getEmailNotify() == '' ? 1 : 0)
                 ->setCustomerId($observer->getEvent()->getCustomer()->getId())
                 ->setWebsiteId( $this->_getWebsiteId($observer) )
                 ->updateBalance();
