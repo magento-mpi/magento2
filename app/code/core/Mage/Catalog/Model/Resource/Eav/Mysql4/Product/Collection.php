@@ -380,10 +380,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             return $this;
         }
 
-        $websiteId = $store->getWebsite()->getId();
-        $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
-                '{{table}}.website_id='.$websiteId
-        );
+        /**
+         * For admin store we display all products
+         */
+        if (!$store->isAdmin()) {
+            $websiteId = $store->getWebsite()->getId();
+            $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
+                    '{{table}}.website_id='.$websiteId
+            );
+        }
         return $this;
     }
 
