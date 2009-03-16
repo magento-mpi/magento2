@@ -1072,7 +1072,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid attribute name: %s', $attributeCode));
         }
 
-        if ($attribute->getBackend()->isStatic()) {
+        if ($attribute->isStatic()) {
             if (isset($this->_joinAttributes[$attributeCode])) {
                 $fieldName = $this->_getAttributeTableAlias($attributeCode).'.'.$attributeCode;
             } else {

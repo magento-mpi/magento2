@@ -472,6 +472,7 @@ class Mage_Eav_Model_Config
             $attributesInfo = Mage::getResourceModel('eav/entity_attribute_collection')
                 ->setEntityTypeFilter($entityType->getId())
                 ->setAttributeSetFilter($attributeSetId)
+                ->addSetInfo()
                 ->getData();
             $attributes = array();
             foreach ($attributesInfo as $attributeData) {
