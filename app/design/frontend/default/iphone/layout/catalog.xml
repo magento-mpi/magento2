@@ -208,7 +208,7 @@ Product view
 							<action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/view/options/type/file.phtml</template></action>
 							<action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/view/options/type/select.phtml</template></action>
 							<action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/view/options/type/date.phtml</template></action>
-							<block type="core/html_calendar" name="html_calendar" as="html_calendar" template="catalog/product/view/options/type/date/calendar.phtml"/>
+							<block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
 						</block>
 					</block>
 					<block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml">
@@ -331,7 +331,7 @@ SEO Site Map
             <action method="addLink" translate="label title" module="catalog"><label>Products Sitemap</label><url helper="catalog/map/getProductUrl"/><title>Products Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_category>
-    
+
     <catalog_seo_sitemap_category_tree>
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
