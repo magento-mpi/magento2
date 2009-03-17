@@ -299,7 +299,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     {
         if ($this->_isRebuilt === null) {
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), 'entity_id')
+                ->from($this->getMainStoreTable($this->getStoreId()), 'entity_id')
                 ->limit(1);
             try {
                 $this->_isRebuilt = (bool) $this->_getReadAdapter()->fetchOne($select);
@@ -753,10 +753,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     public function isInRootCategoryList($category)
     {
         $innerSelect = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable(), new Zend_Db_Expr("CONCAT(path, '/%')"))
+            ->from($this->getMainStoreTable($category->getStoreId()), new Zend_Db_Expr("CONCAT(path, '/%')"))
             ->where('entity_id = ?', Mage::app()->getStore()->getRootCategoryId());
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainStoreTable(), 'entity_id')
+            ->from($this->getMainStoreTable($category->getStoreId()), 'entity_id')
             ->where('entity_id = ?', $category->getId())
             ->where(new Zend_Db_Expr("path LIKE ({$innerSelect->__toString()})"));
         return (bool) $this->_getReadAdapter()->fetchOne($select);
