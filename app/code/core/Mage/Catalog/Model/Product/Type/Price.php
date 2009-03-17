@@ -331,7 +331,6 @@ class Mage_Catalog_Model_Product_Type_Price
             if ($specialPriceFrom && $storeTimeStamp < $fromTimeStamp) {
             } elseif ($specialPriceTo && $storeTimeStamp > $toTimeStamp) {
             } else {
-                $specialPrice   = ($finalPrice * $specialPrice) / 100;
                 $finalPrice     = min($finalPrice, $specialPrice);
             }
         }

@@ -516,6 +516,37 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         return $finalPrice;
     }
 
+    /**
+     * Calculate and apply special price
+     *
+     * @param float $finalPrice
+     * @param float $specialPrice
+     * @param string $specialPriceFrom
+     * @param string $specialPriceTo
+     * @param mixed $store
+     * @return float
+     */
+    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $store = null)
+    {
+        if (!is_null($specialPrice) && $specialPrice != false) {
+            if (!$store instanceof Mage_Core_Model_Store) {
+                $store = Mage::app()->getStore($store);
+            }
+
+            $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
+            $fromTimeStamp  = strtotime($specialPriceFrom);
+            $toTimeStamp    = strtotime($specialPriceTo);
+
+            if ($specialPriceFrom && $storeTimeStamp < $fromTimeStamp) {
+            } elseif ($specialPriceTo && $storeTimeStamp > $toTimeStamp) {
+            } else {
+                $specialPrice   = ($finalPrice * $specialPrice) / 100;
+                $finalPrice     = min($finalPrice, $specialPrice);
+            }
+        }
+        return $finalPrice;
+    }
+
     /*
     public function getCustomOptionPrices($productId, $storeId, $which = null) {
 
