@@ -545,7 +545,7 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
             $bindAttribute = $this->getAttribute($bind);
         }
 
-        if (!$bindAttribute || (!$bindAttribute->getBackend()->isStatic() && !$bindAttribute->getId())) {
+        if (!$bindAttribute || (!$bindAttribute->isStatic() && !$bindAttribute->getId())) {
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid foreign key'));
         }
 

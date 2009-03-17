@@ -210,7 +210,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function getIdFieldName()
     {
-        return $this->_entityIdField;
+        return $this->getEntityIdField();
     }
 
     /**
@@ -445,7 +445,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
         /**
          * Check and init default attributes
          */
-        $defaultAttributes = $this->_getDefaultAttributes();
+        $defaultAttributes = $this->getDefaultAttributes();
         foreach ($defaultAttributes as $attributeCode) {
         	if (!isset($this->_attributesByCode[$attributeCode])) {
                 $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
