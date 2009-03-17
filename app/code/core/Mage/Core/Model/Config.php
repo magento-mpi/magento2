@@ -36,11 +36,14 @@
 
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
-    const CACHE_TAG = 'config';
+    const CACHE_TAG         = 'config';
+
     /**
-     * @deprecated
+     * Flag which allow use cache logic
+     *
+     * @var bool
      */
-    protected $_useCache;
+    protected $_useCache = false;
 
     /**
      * Instructions for spitting config cache
@@ -62,6 +65,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         'websites'  => 1
     );
 
+    /**
+     * Configuration by cached sections
+     *
+     * @var array
+     */
     protected $_cacheLoadedSections = array();
 
     protected $_options;
@@ -141,6 +149,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $loaded = $this->loadCache();
                 Varien_Profiler::stop('mage::app::init::config::load_cache');
                 if ($loaded) {
+                    $this->_useCache = true;
                     return $this;
                 }
             }
@@ -260,7 +269,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             parent::saveCache($tags);
         }
-//        parent::saveCache($tags);
+
         return $this;
     }
 
@@ -303,6 +312,53 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $xml;
         }
         return $xmlString;
+    }
+
+    /**
+     * Load cached data by identifier
+     *
+     * @param   string $id
+     * @return  string
+     */
+    protected function _loadCache($id)
+    {
+        return Mage::app()->loadCache($id);
+    }
+
+    /**
+     * Save cache data
+     *
+     * @param   string $data
+     * @param   string $id
+     * @param   array $tags
+     * @param   false|int $lifetime
+     * @return  Mage_Core_Model_Config
+     */
+    protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
+    {
+        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+    }
+
+    /**
+     * Clear cache data by id
+     *
+     * @param   string $id
+     * @return  Mage_Core_Model_Config
+     */
+    protected function _removeCache($id)
+    {
+        return Mage::app()->removeCache($id);
+    }
+
+    /**
+     * Remove configuration cache
+     *
+     * @return Mage_Core_Model_Config
+     */
+    public function removeCache()
+    {
+        Mage::app()->cleanCache(array(self::CACHE_TAG));
+        return parent::removeCache();;
     }
 
     /**
@@ -360,7 +416,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         /**
          * Check path cache loading
          */
-        if ($path !== null) {
+        if ($this->_useCache && ($path !== null)) {
             $path   = explode('/', $path);
             $section= $path[0];
             if (isset($this->_cacheSections[$section])) {
@@ -542,42 +598,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getCache()
     {
         return Mage::app()->getCache();
-    }
-
-    /**
-     * Load cached data by identifier
-     *
-     * @param   string $id
-     * @return  string
-     */
-    protected function _loadCache($id)
-    {
-        return Mage::app()->loadCache($id);
-    }
-
-    /**
-     * Save cache data
-     *
-     * @param   string $data
-     * @param   string $id
-     * @param   array $tags
-     * @param   false|int $lifetime
-     * @return  Mage_Core_Model_Config
-     */
-    protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
-    {
-        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
-    }
-
-    /**
-     * Clear cache data by id
-     *
-     * @param   string $id
-     * @return  Mage_Core_Model_Config
-     */
-    protected function _removeCache($id)
-    {
-        return Mage::app()->removeCache($id);
     }
 
     /**
@@ -1170,17 +1190,5 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return null;
         }
         return $rootNode->$name ? $rootNode->$name->children() : null;
-    }
-
-    /**
-     * Remove configuration cache
-     *
-     * @return Mage_Core_Model_Config
-     */
-    public function removeCache()
-    {
-        parent::removeCache();
-        Mage::app()->cleanCache(array(self::CACHE_TAG));
-        return $this;
     }
 }
