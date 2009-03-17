@@ -55,14 +55,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @var array
      */
     protected $_cacheSections = array(
-        'admin'     => 0,
-        'adminhtml' => 0,
-        'crontab'   => 0,
-        'default'   => 0,
-        'frontend'  => 0,
-        'install'   => 0,
-        'stores'    => 1,
-        'websites'  => 1
+//        'admin'     => 0,
+//        'adminhtml' => 0,
+//        'crontab'   => 0,
+//        'default'   => 0,
+//        'frontend'  => 0,
+//        'install'   => 0,
+//        'stores'    => 1,
+//        'websites'  => 1
     );
 
     /**
@@ -423,7 +423,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         /**
          * Check path cache loading
          */
-        if ($this->_useCache && ($path !== null)) {
+/*        if ($this->_useCache && ($path !== null)) {
             $path   = explode('/', $path);
             $section= $path[0];
             if (isset($this->_cacheSections[$section])) {
@@ -433,7 +433,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
             }
         }
-
+*/
         return parent::getNode($path);
     }
 
