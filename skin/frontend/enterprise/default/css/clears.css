@@ -24,6 +24,7 @@
 /************************************************/
 /******************** Clears ********************/
 /************************************************/
+.block-related li.item:after,
 .bundle-summary .product:after,
 .collateral-tabs:after,
 .block-cart .block-content .item:after,
@@ -40,6 +41,7 @@
 .col4-set:after,
 .search-autocomplete li:after,
 .block li.item:after,
+.block-cart .actions:after,
 .block .actions:after,
 .mini-products-list li:after,
 .cms-index-index .block-featured li.item:after,
