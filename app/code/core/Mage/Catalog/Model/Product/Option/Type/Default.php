@@ -292,8 +292,10 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
                 }
             }
         }
-
-        return $this->_productOptions[$this->getProduct()->getId()];
+        if (isset($this->_productOptions[$this->getProduct()->getId()])) {
+            return $this->_productOptions[$this->getProduct()->getId()];
+        }
+        return array();
     }
 
     /**

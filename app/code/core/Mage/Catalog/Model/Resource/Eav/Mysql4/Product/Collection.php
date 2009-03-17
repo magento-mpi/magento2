@@ -371,6 +371,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addStoreFilter($store=null)
     {
+        if (is_null($store)) {
+            $store = $this->getStoreId();
+        }
         $store = Mage::app()->getStore($store);
 
         if ($this->isEnabledFlat()) {
