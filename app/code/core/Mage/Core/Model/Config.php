@@ -307,11 +307,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $cacheId = $this->getCacheId() . '_' . $sectionName;
         $xmlString = $this->_loadCache($cacheId);
-        if ($xmlString) {
+
+        /**
+         * If we can't load section cache (problems with cache storage)
+         */
+        if (!$xmlString) {
+            $this->_useCache = false;
+            $this->reinit($this->_options);
+            return false;
+        } else {
             $xml = simplexml_load_string($xmlString, $this->_elementClass);
             return $xml;
         }
-        return $xmlString;
     }
 
     /**
