@@ -34,15 +34,15 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $this->setId('historyGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('date');
-        $this->setFilterVisibility(false);
-        $this->setPagerVisibility(false);
+        #$this->setFilterVisibility(false);
+        #$this->setPagerVisibility(false);
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('enterprise_customerbalance/balance_history')
                 ->getCollection()
-                ->addWebsiteData()
+                #->addWebsiteData()
                 ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
                 
         if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
@@ -74,11 +74,12 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         ));
         
         $this->addColumn('delta', array(
-            'header'    => Mage::helper('enterprise_customerbalance')->__('Delta'),
+            'header'    => Mage::helper('enterprise_customerbalance')->__('Balance Change'),
             'width'     => '50px',
             'index'     => 'delta',
             'type'      => 'price',
             'sortable'  => false,
+            'filter'    => false,
             'currency_code' => $store->getBaseCurrency()->getCode(),
         ));
 
@@ -88,19 +89,23 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'index'     => 'balance',
             'type'      => 'price',
             'sortable'  => false,
+            'filter'    => false,
             'currency_code' => $store->getBaseCurrency()->getCode(),
         ));
         
         $this->addColumn('website_name', array(
             'header'    => Mage::helper('enterprise_customerbalance')->__('Website'),
-            'index'     => 'name',
-            'sortable' => false,
+            'index'     => 'website_id',
+            'type'      => 'options',
+            'options'   => $this->_getWebsiteOptions(),
+            'sortable'  => false,
         ));
         
         $this->addColumn('admin_user', array(
-            'header'    => Mage::helper('enterprise_customerbalance')->__('By Admin'),
+            'header'    => Mage::helper('enterprise_customerbalance')->__('Admin username'),
             'index'     => 'admin_user',
             'sortable' => false,
+            'filter'    => false,
         ));
         
         $this->addColumn('notified', array(
@@ -112,14 +117,25 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 '0' => Mage::helper('enterprise_customerbalance')->__('No'),
             ),
             'sortable'  => false,
+            'filter'    => false,
         ));
         
         $this->addColumn('date', array(
             'header'    => Mage::helper('enterprise_customerbalance')->__('Date'),
             'index'     => 'date',
-            'sortable'  => false,
+            'filter'    => false,
         ));
         
         return parent::_prepareColumns();
+    }
+    
+    protected function _getWebsiteOptions()
+    {
+        return Mage::getModel('adminhtml/system_store')->getWebsiteValuesForGridFilter();
+    }
+    
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/gridHistory', array('_current'=> true));
     }
 }

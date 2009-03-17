@@ -40,7 +40,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         /** @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
-            array('legend' => Mage::helper('enterprise_customerbalance')->__('Change Balance'))
+            array('legend' => Mage::helper('enterprise_customerbalance')->__('Update Balance'))
         );
 
         if( !Mage::getStoreConfig('customer/account_share/scope') ) {
@@ -55,9 +55,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         $fieldset->addField('delta', 'text', array(
                 'name'      => 'delta',
-                'label'     => Mage::helper('enterprise_customerbalance')->__('Delta'),
-                'title'     => Mage::helper('enterprise_customerbalance')->__('Delta'),
-                'help'     => Mage::helper('enterprise_customerbalance')->__('An amount on which to change the balance'),
+                'label'     => Mage::helper('enterprise_customerbalance')->__('Update Balance'),
+                'title'     => Mage::helper('enterprise_customerbalance')->__('Update Balance'),
+                'comment'   => Mage::helper('enterprise_customerbalance')->__('An amount on which to change the balance'),
             )
         );
 
@@ -70,8 +70,8 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         $fieldset->addField('trans_email_store', 'select', array(
                 'name'      => 'trans_email_store',
-                'label'     => Mage::helper('enterprise_customerbalance')->__('Store view to use for an email'),
-                'title'     => Mage::helper('enterprise_customerbalance')->__('Store view to use for an email'),
+                'label'     => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
+                'title'     => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
                 'values'    => Mage::getModel('adminhtml/system_store')->getStoreValuesForForm(),
                 'disabled'  => $ballance->getEmailNotify() ? false : true,
             )

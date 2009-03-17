@@ -153,6 +153,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+        	$redirectBack   = $this->getRequest()->getParam('back', false);
+        	
             $this->_initCustomer('customer_id');
             $customer = Mage::registry('current_customer');
 
@@ -224,6 +226,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was successfully saved'));
                 Mage::dispatchEvent('adminhtml_customer_on_save', array('customer' => $customer, 'status' => 'success'));
+                
+                if ($redirectBack) {
+	                $this->_redirect('*/*/edit', array(
+	                    'id'    => $customer->getId(),
+	                    '_current'=>true
+	                ));
+	                return;
+                }
             }
             catch (Exception $e){
                 Mage::dispatchEvent('adminhtml_customer_on_save', array('customer' => $customer, 'status' => 'fail'));
@@ -232,6 +242,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id'=>$customer->getId())));
                 return;
             }
+            
         }
         $this->getResponse()->setRedirect($this->getUrl('*/customer'));
     }

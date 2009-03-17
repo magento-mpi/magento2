@@ -35,4 +35,12 @@ class Enterprise_CustomerBalance_CustomerbalanceController extends Mage_Adminhtm
             $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history')->toHtml()
         );
     }
+    
+    public function gridHistoryAction()
+    {
+        $this->loadLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid')->toHtml()
+        );
+    }
 }

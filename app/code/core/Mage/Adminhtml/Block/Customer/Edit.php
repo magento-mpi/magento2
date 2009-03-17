@@ -77,4 +77,23 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));
     }
+    
+    protected function _prepareLayout()
+    {
+    	$this->_addButton('save_and_continue', array(
+            'label'     => Mage::helper('customer')->__('Save And Continue Edit'),
+            'onclick'   => 'editForm.submit(\''.$this->_getSaveAndContinueUrl().'\')',
+            'class' => 'save'
+        ), 10);
+
+    	return parent::_prepareLayout();
+    }
+    
+    protected function _getSaveAndContinueUrl()
+    {
+    	return $this->getUrl('*/*/save', array(
+            '_current'  => true,
+            'back'      => 'edit',
+        ));
+    }
 }
