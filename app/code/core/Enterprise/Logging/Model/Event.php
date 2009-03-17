@@ -49,6 +49,16 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Filter user_id. Set username instead of user_id
+     *
+     */
+    public function setUserId($id) {
+        $user = Mage::getModel('admin/user')->load($id);
+        $name = $user->getUsername();
+        $this->setUser($name);
+    }
+
+    /**
      * Filter for info
      *
      * Takes an array of paramaters required to build info message. Message is stored in config, in 

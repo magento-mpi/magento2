@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Logging>
-             <version>0.1.1</version>
+             <version>0.1.2</version>
         </Enterprise_Logging>
     </modules>
     <global>
@@ -634,7 +634,7 @@
     <crontab>
         <jobs>
             <enterprise_logging_rotate_logs>
-                <schedule><cron_expr>10 2 * * *</cron_expr></schedule>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
                 <run><model>enterprise_logging/observer::rotateLogs</model></run>
             </enterprise_logging_rotate_logs>
         </jobs>

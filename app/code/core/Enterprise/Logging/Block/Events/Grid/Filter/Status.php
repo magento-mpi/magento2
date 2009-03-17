@@ -24,44 +24,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract 
+class Enterprise_Logging_Block_Events_Grid_Filter_Status extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
-    private $_ipLoaded = false;
-
     /**
-     * Constructor
+     * Build options list for filter
      */
-
-    protected function _construct() 
-    {
-        $this->_init('enterprise_logging/event');
+    public function _getOptions() {
+        $options = array(array('value' => '', 'label' => 'All statuses'));
+        $options[] = array('value' => 'success', 'label' => 'success');
+        $options[] = array('value' => 'fail', 'label' => 'fail');
+        return $options;
     }
 
-    /**
-     * Minimize usual count select
-     *
-     * @return Varien_Db_Select
-     */
-    public function getSelectCountSql()
+    public function getCondition()
     {
-        $countSelect = parent::getSelectCountSql();
-        $countSelect->resetJoinLeft();
-        return $countSelect;
-    }
-
-    /**
-     * Load method. Joins admin_user table to retrieve username
-     */
-    public function load($printQuery = false, $logQuery = false) 
-    {
-        parent::load($printQuery, $logQuery);
-        if(!$this->_ipLoaded) {
-            if($this->_items) {
-                foreach($this->_items as $item) {
-                    $item->setIp(long2ip($item->getIp()));
-                }
-            }
-            $this->_ipLoaded = true;
-        }
+    	return $this->getValue();
     }
 }

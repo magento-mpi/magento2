@@ -28,8 +28,8 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         parent::__construct();
 
         $this->setId('enterpriseLoggerEventsGrid');
-        $this->setDefaultSort('date');
-        $this->setDefaultDir('ASC');
+        $this->setDefaultSort('time');
+        $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
 
@@ -82,11 +82,10 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
 
         $this->addColumn('user', array(
             'header'    => 'User',
-            'index'     => 'adm.user_id',
-            //'type'      => 'text',
+            'index'     => 'user',
+            'type'      => 'text',
             'sortable'  => false,
             'filter'    => 'enterprise_logging/events_grid_filter_user',
-            'renderer'  => 'enterprise_logging/events_grid_renderer_user'
         ));
 
         $this->addColumn('event', array(
@@ -101,14 +100,16 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'header'    => 'Action',
             'index'     => 'action',
             'type'      => 'text',
+            'filter'    => 'enterprise_logging/events_grid_filter_action',
             'sortable'  => false,
         ));
 
         $this->addColumn('status', array(
             'header'    => 'Status',
             'index'     => 'status',
-            'type'      => 'text',
             'sortable'  => false,
+            'type'      => 'text',
+            'filter'    => 'enterprise_logging/events_grid_filter_status',
                          ));
 
         $this->addColumn('info', array(
@@ -120,6 +121,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_logging')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('enterprise_logging')->__('XML'));
         return $this;
     }
 }

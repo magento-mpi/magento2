@@ -697,8 +697,7 @@ class Enterprise_Logging_Model_Observer
         $ip = $_SERVER['REMOTE_ADDR'];
         $success = 1;
         $section = $observer->getSection();
-        if(!$section)
-            return;
+        $section = 'general';
 
         $info = array($section);
         $event = Mage::getModel('enterprise_logging/event');
@@ -851,7 +850,7 @@ class Enterprise_Logging_Model_Observer
         $eventResource = Mage::getResourceModel('enterprise_logging/event');
         $rotate_frequence = (string)Mage::getConfig()->getNode('default/system/rotation/frequency');
         $interval = (int)$rotate_frequence * 60 * 60 * 24;
-        if($last_rotate > time() - $interval) {
+        if(true || $last_rotate > time() - $interval) {
             $eventResource->rotate($interval);
         }
         $flag->setFlagData(time());

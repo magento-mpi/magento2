@@ -19,27 +19,23 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_Logging
+ * @package    Enterprise_Permissions
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Logging_Block_Events_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
-{
-    /**
-     * Build options list for filter
-     */
-    public function _getOptions() {
-        $options = array(array('value' => '', 'label' => 'All users'));
-        $resource = Mage::getResourceModel('enterprise_logging/event');
-        $collection = $resource->getUsers();
-        foreach($collection as $user)
-          $options[] = array('value' => $user->getId(), 'label' => $user->getUsername());
-        return $options;
-    }
+/**
+ * Resource setup - add columns to roles table:
+ * is_all_permissions - yes/no flag
+ * website_ids - comma-separated
+ * store_group_ids - comma-separated
+ */
 
-    public function getCondition()
-    {
-    	return $this->getValue();
-    }
-}
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+$installer->startSetup();
+
+$installer->run("ALTER TABLE `".$this->getTable('enterprise_logging/event')."` ADD user char(15) NOT NULL DEFAULT '-'");
+$installer->run("ALTER TABLE `".$this->getTable('enterprise_logging/event')."` DROP user_id");
+
+$installer->endSetup();

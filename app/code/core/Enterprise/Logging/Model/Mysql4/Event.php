@@ -26,6 +26,9 @@
 
 class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract 
 {
+    protected $_users;
+    protected $_actions;
+
    /**
     * Constructor
     */
@@ -50,7 +53,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     {
         $path = Mage::getModel('enterprise_logging/logs')->getBasePath();
         $dir = $path . DS . date("Y") . DS . date("m");
-        $outfile = sprintf("%s%s%s.csv",  $dir, DS, date("Y_m_d"));
+        $outfile = sprintf("%s%s%s.csv",  $dir, DS, date("Ymdh"));
 
         $file = new Varien_Io_File();
         $file->setAllowCreateFolders(true);
@@ -64,9 +67,57 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
          * security tools like SeLinux, or apparmor are disabled or allows 
          * mysql to create $outfile
          */
-        $query = sprintf("SELECT * INTO OUTFILE '%s' FROM %s WHERE time + INTERVAL %s DAY < NOW()", $outfile, $table, $lifetime);
+        $query = sprintf("SELECT * FROM %s WHERE time + INTERVAL %s DAY < NOW()", $table, $lifetime);
         $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < NOW()", $table, $lifetime);
-        $this->_getConnection('write')->query($query);
+        $st = $this->_getConnection('write')->query($query);
+
+        $f = fopen($outfile, "w");
+        while ($row = $st->fetch()) {
+            fputcsv($f, $row);
+        }
+        fclose($f);
         $this->_getConnection('write')->query($del_query);
+    }
+
+    /**
+     * Get list of actions presented in event table
+     */
+    public function getActions() {
+        if(!$this->_actions) {
+            $query = "SELECT DISTINCT action FROM ".$this->getTable('enterprise_logging/event');
+            $st = $this->_getConnection('read')->query($query);
+            $actions = $st->fetchAll();
+            $this->_actions = array();
+            if($actions) {
+                foreach($actions as $action) {
+                    $u = new Varien_Object();
+                    $u->setId($action['action']);
+                    $u->setName($action['action']);
+                    $this->_actions[] = $u; 
+                }
+            }
+        }
+        return $this->_actions;
+    }
+
+    /**
+     * Get list of users presented in event table
+     */
+    public function getUsers() {
+        if(!$this->_users) {
+            $query = "SELECT DISTINCT user FROM ".$this->getTable('enterprise_logging/event');
+            $st = $this->_getConnection('read')->query($query);
+            $users = $st->fetchAll();
+            $this->_users = array();
+            if($users) {
+                foreach($users as $user) {
+                    $u = new Varien_Object();
+                    $u->setId($user['user']);
+                    $u->setUsername($user['user']);
+                    $this->_users[] = $u; 
+                }
+            }
+        }
+        return $this->_users;
     }
 }
