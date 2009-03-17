@@ -312,7 +312,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
      */
     protected function _commitInsert($table, $forced = true){
         if (isset($this->_insertData[$table]) && count($this->_insertData[$table]) && ($forced || count($this->_insertData[$table]) >= 100)) {
-            $query = 'REPLACE INTO ' . $this->getTable($table) . ' (' . implode(', ', $this->_tableFields[$table]) . ') VALUES ';
+            $query = 'INSERT INTO ' . $this->getTable($table) . ' (' . implode(', ', $this->_tableFields[$table]) . ') VALUES ';
             $separator = '';
             foreach ($this->_insertData[$table] as $row) {
                 $rowString = $this->_getWriteAdapter()->quoteInto('(?)', $row);
