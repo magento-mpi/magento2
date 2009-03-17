@@ -43,6 +43,7 @@
                 <max_sale_qty><inventory>1</inventory><to_number>1</to_number><use_config>1</use_config></max_sale_qty>
                 <is_in_stock><inventory>1</inventory><inventory_other>1</inventory_other></is_in_stock>
                 <notify_stock_qty><inventory>1</inventory><use_config>1</use_config></notify_stock_qty>
+                <manage_stock><inventory>1</inventory><use_config>1</use_config></manage_stock>
 
                 <image><img>1</img></image>
                 <small_image><img>1</img></small_image>
