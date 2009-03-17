@@ -88,7 +88,8 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         if (!$this->hasData('permission_collection')) {
             $collection = Mage::getModel('enterprise_catalogpermissions/permission')
                 ->getCollection()
-                ->addFieldToFilter('category_id', $this->getCategoryId());
+                ->addFieldToFilter('category_id', $this->getCategoryId())
+                ->setOrder('permission_id', 'asc');
             $this->setData('permisssion_collection', $collection);
         }
 

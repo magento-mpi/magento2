@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CatalogPermissions>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </Enterprise_CatalogPermissions>
     </modules>
     <global>
@@ -41,6 +41,8 @@
                 <class>Enterprise_CatalogPermissions_Model_Mysql4</class>
                 <entities>
                     <permission><table>enterprise_catalogpermissions</table></permission>
+                    <permission_index><table>enterprise_catalogpermissions_index</table></permission_index>
+                    <permission_index_product><table>enterprise_catalogpermissions_index_product</table></permission_index_product>
                 </entities>
             </enterprise_catalogpermissions_mysql4>
         </models>
@@ -104,6 +106,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_category_save_after>
+            <catalog_product_save_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>saveProductPermissionIndex</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_save_after>
             <adminhtml_catalog_category_tabs>
                 <observers>
                     <enterprise_catalogpermissions>

@@ -43,8 +43,8 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $category = $observer->getEvent()->getCategory();
 
         /* @var $category Mage_Catalog_Model_Category */
-        if ($category->hasPermissions() && is_array($category->getPermissions())) {
-            foreach ($category->getPermissions() as $data) {
+        if ($category->hasData('permissions') && is_array($category->getData('permissions'))) {
+            foreach ($category->getData('permissions') as $data) {
                 $permission = Mage::getModel('enterprise_catalogpermissions/permission');
                 if (!empty($data['id'])) {
                     $permission->load($data['id']);
@@ -66,6 +66,14 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
             }
         }
 
+        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($category->getPath());
+        return $this;
+    }
+
+    public function saveProductPermissionIndex(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts($product->getId());
         return $this;
     }
 

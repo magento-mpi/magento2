@@ -187,7 +187,7 @@
         var row = button.up('.permission-box');
         row.isDeleted = true;
         row.down('.' + this.fieldClassName('_deleted')).value = '1';
-        row.addClassName('no-display');
+        row.addClassName('no-display').addClassName('template');
         this.checkDuplicates();
         this.validate();
     },
