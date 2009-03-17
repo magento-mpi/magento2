@@ -557,7 +557,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'is_html_allowed_on_front'  => $this->_getValue($attr, 'is_html_allowed_on_front', 0),
             'is_visible_in_advanced_search'
                                         => $this->_getValue($attr, 'visible_in_advanced_search', 0),
-            'is_used_for_price_rules'   => $this->_getValue($attr, 'used_for_price_rules', 0),
+            'is_used_for_price_rules'   => $this->_getValue($attr, 'used_for_price_rules', 1),
             'is_filterable_in_search'   => $this->_getValue($attr, 'filterable_in_search', 0),
             'used_in_product_listing'   => $this->_getValue($attr, 'used_in_product_listing', 0),
             'used_for_sort_by'          => $this->_getValue($attr, 'used_for_sort_by', 0),
