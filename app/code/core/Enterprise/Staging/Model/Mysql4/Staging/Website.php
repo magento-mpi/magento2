@@ -96,6 +96,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
         $this->saveSlaveWebsite($object);
 
+        $this->saveStagingStoreGroup($object);
+
         $this->saveStores($object);
 
         parent::_afterSave($object);
@@ -108,6 +110,38 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         foreach ($website->getItemsCollection() as $item) {
             $item->save();
         }
+
+        return $this;
+    }
+
+    public function saveStagingStoreGroup(Mage_Core_Model_Abstract $object)
+    {
+
+        if (!$object->getSlaveWebsiteId()) {
+            return $this;
+        }
+        if ($object->getDefaultGroupId()) {
+            return $this;
+        }
+
+        $stagingGroup   = Mage::getModel('enterprise_staging/staging_store_group');
+        $stagingGroup->setData('staging_id',         $object->getStagingId());
+        $stagingGroup->setData('staging_website_id', $object->getId());
+        $stagingGroup->setData('master_website_id',  $object->getMasterWebsiteId());
+        $stagingGroup->setData('slave_website_id',   $object->getSlaveWebsiteId());
+        $stagingGroup->setData('root_category_id', 2); // TODO quick FIXME quick
+        $stagingGroup->setData('name',               'Staging Store Group (autocreated)');
+        $stagingGroup->save();
+
+        $group   = Mage::getModel('core/store_group');
+        $group->setData('website_id',         $object->getSlaveWebsiteId());
+        $group->setData('root_category_id', 2); // TODO quick FIXME quick
+        $group->setData('name',               'Staging Store Group (autocreated)');
+        $group->save();
+
+        $this->updateAttribute($object, 'default_group_id', $stagingGroup->getId());
+        $object->setDefaultGroupId($stagingGroup->getId());
+        $object->setSlaveGroupId($group->getId());
 
         return $this;
     }
@@ -130,25 +164,37 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         if (!$slaveWebsiteId) {
             $slaveWebsiteId = (int) $slaveWebsite->getId();
             $this->updateAttribute($object, 'slave_website_id', $slaveWebsiteId);
+            $object->setSlaveWebsiteId($slaveWebsiteId);
         }
 
         return $this;
     }
 
-    public function saveStores($website)
+    public function saveStores($object)
     {
-        foreach ($website->getStoresCollection() as $store) {
+        foreach ($object->getStoresCollection() as $store) {
             $store->save();
         }
 
         return $this;
     }
 
-    public function updateAttribute($website, $name, $value)
+    /**
+     * Update specific attribute value (set new value back in given model)
+     *
+     * @param Enterprise_Staging_Model_Staging_Wbsite $website
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
+    public function updateAttribute($website, $attribute, $value)
     {
         $where = "staging_website_id=".(int)$website->getId();
         $this->_getWriteAdapter()
-           ->update($this->getMainTable(), array($name => $value), $where);
+           ->update($this->getMainTable(), array($attribute => $value), $where);
+       $website->setData($attribute, $value);
+       return $this;
     }
 
     /**
@@ -162,6 +208,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this->getUnusedWebsiteCode($code) . $this->getWebsiteCodeSuffix();
     }
 
+    /**
+     * Retrieve free (non-used) website code
+     *
+     * @param   string $code
+     * @return  string
+     */
     public function getUnusedWebsiteCode($code)
     {
         if (empty($code)) {
@@ -218,5 +270,10 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             ->from($this->_stagingStoreTable, array('staging_store_id'))
             ->where('staging_website_id=?', $website->getId());
         return $this->_getReadAdapter()->fetchCol($select);
+    }
+
+    public function loadBySlaveWebsiteId($website, $id)
+    {
+        return parent::load($website, $id, 'slave_website_id');
     }
 }

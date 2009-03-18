@@ -35,7 +35,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
     {
         parent::__construct();
         $this->setId('enterprise_staging_tabs');
-        $this->setDestElementId('enterprise_staging_edit_form');
+        $this->setDestElementId('enterprise_staging_form');
         $this->setTitle(Mage::helper('enterprise_staging')->__('Staging Information'));
     }
 

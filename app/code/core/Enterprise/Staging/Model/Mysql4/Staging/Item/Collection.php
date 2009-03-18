@@ -39,9 +39,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
      */
     public function addStagingFilter($stagingId)
     {
-    	if (is_object($stagingId)) {
-    		$stagingId = $stagingId->getId();
-    	}
+        if (is_object($stagingId)) {
+            $stagingId = $stagingId->getId();
+        }
         $this->addFieldToFilter('staging_id', (int) $stagingId);
 
         return $this;
@@ -87,12 +87,28 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
      */
     public function getItemByCode($code)
     {
-    	foreach ($this->_items as $item) {
-    		if ($item->getCode() == (string) $code) {
-    			return $item;
-    		}
-    	}
-    	return false;
+        foreach ($this->_items as $item) {
+            if ($item->getCode() == (string) $code) {
+                return $item;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieve item from collection where "dataset_item_id" attribute value equals to given
+     *
+     * @param   integer $id
+     * @return  object Enterprise_Staging_Model_Staging_Item
+     */
+    public function getItemByDatasetItemId($id)
+    {
+        foreach ($this->_items as $item) {
+            if ($item->getDatasetItemId() == (int) $id) {
+                return $item;
+            }
+        }
+        return false;
     }
 
     public function toOptionArray()

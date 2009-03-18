@@ -34,10 +34,21 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
 	const EXCEPTION_LOGIN_NOT_CONFIRMED       = 1;
     const EXCEPTION_INVALID_LOGIN_OR_PASSWORD = 2;
 
+    /**
+     * Staging Stores Collection
+     * @var Enterprise_Staging_Model_Staging_Mysql4_Staging_Store_Collection
+     */
     protected $_stores;
 
+    /**
+     * Staging Items Collection
+     * @var Enterprise_Staging_Model_Staging_Mysql4_Staging_Item_Collection
+     */
     protected $_items;
 
+    /**
+     * Constructor (init resource model)
+     */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_website');
@@ -155,6 +166,13 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         return $this->getData('item_ids');
     }
 
+    /**
+     * Add staging item into staging website items collection
+     *
+     * @param Enterprise_Staging_Model_Staging_Item $item
+     *
+     * @return Enterprise_Staging_Model_Staging_Website
+     */
     public function addItem(Enterprise_Staging_Model_Staging_Item $item)
     {
         $item->setStagingWebsite($this);
@@ -165,7 +183,7 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve staging items collection
+     * Retrieve staging items collection with setted current staging website filter
      *
      * @return Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
      */
@@ -221,11 +239,6 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         }
     }
 
-    public function getSlaveStoreIdByMasterStoreId($storeId)
-    {
-    	return $this->getResource()->getSlaveStoreIdByMasterStoreId($this, $storeId);
-    }
-
     /**
      * Retrieve staging website staging stores
      *
@@ -272,5 +285,25 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
             $this->setData('store_ids', $ids);
         }
         return $this->getData('store_ids');
+    }
+
+    /**
+     * Update an attribute value
+     *
+     * @param string    $attribute
+     * @param string    $value
+     *
+     * @return Enterprise_Staging_Model_Staging_Website
+     */
+    public function updateAttribute($attribute, $value)
+    {
+        return $this->getResource()->updateAttribute($this, $attribute, $value);
+    }
+
+    public function loadBySlaveWebsiteId($id)
+    {
+        $this->getResource()->loadBySlaveWebsiteId($this, $id);
+
+        return $this;
     }
 }

@@ -48,7 +48,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-
         $stagingWebsite = $object->getStagingWebsite();
         if ($stagingWebsite) {
             if ($stagingWebsite->getId()) {
@@ -84,14 +83,14 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $this->saveSlaveStoreGroup($object);
+        //$this->saveSlaveStoreGroup($object);
 
         parent::_afterSave($object);
 
         return $this;
     }
 
-    public function saveSlaveStore(Mage_Core_Model_Abstract $object)
+    public function saveSlaveStoreGroup(Mage_Core_Model_Abstract $object)
     {
         $slaveStoreGroup   = Mage::getModel('core/store_group');
         $slaveStoreGroupId = (int) $object->getSlaveStoreGroupId();
@@ -99,13 +98,16 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
             $slaveStoreGroup->load($slaveStoreGroupId);
         }
         $slaveStoreGroup->setData('is_staging', 1);
-        $slaveStoreGroup->setData('name', $object->getName());
+        $slaveStoreGroup->setData('website_id', $object->getSlaveWebsiteId());
+        $slaveStoreGroup->setData('root_category_id', 2); // TODO quick FIXME quick
+        $slaveStoreGroup->setData('name', 'Staging Store Group (autocreated)');
 
         $slaveStoreGroup->save();
 
         if (!$slaveStoreGroupId) {
             $slaveStoreGroupId = (int) $slaveStoreGroup->getId();
-            $this->updateAttribute($object, 'slave_store_group_id', $slaveStoreGroupId);
+            $this->updateAttribute($object, 'slave_group_id', $slaveStoreGroupId);
+            $object->setSlaveGroupId($slaveStoreGroupId);
         }
 
         return $this;
@@ -121,7 +123,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
      */
     public function updateAttribute($group, $field, $value)
     {
-        $where = "staging_store_group_id=".(int)$group->getId();
+        $where = "staging_group_id=".(int)$group->getId();
         $this->_getWriteAdapter()
            ->update($this->getMainTable(), array($field => $value), $where);
 

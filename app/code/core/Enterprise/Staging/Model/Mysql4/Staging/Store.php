@@ -51,8 +51,15 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store extends Mage_Core_Model_Mysq
 
         $stagingWebsite = $object->getStagingWebsite();
         if ($stagingWebsite) {
-            if ($stagingWebsite->getId()) {
+
+            if ($stagingWebsite) {
                 $object->setStagingWebsiteId($stagingWebsite->getId());
+                $object->setMasterWebsiteId($stagingWebsite->getMasterWebsiteId());
+                $object->setSlaveWebsiteId($stagingWebsite->getSlaveWebsiteId());
+
+                $object->setStagingGroupId($stagingWebsite->getDefaultGroupId());
+
+                $object->setSlaveGroupId($stagingWebsite->getSlaveGroupId());
             }
             $staging = $stagingWebsite->getStaging();
             if ($staging) {
@@ -114,34 +121,38 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store extends Mage_Core_Model_Mysq
         if ($slaveStoreId) {
             $slaveStore->load($slaveStoreId);
         }
+
         $slaveStore->setData('is_staging', 1);
-        $slaveStore->setData('code', $object->getCode());
-        $slaveStore->setData('name', $object->getName());
+        $slaveStore->setData('website_id',  $object->getSlaveWebsiteId());
+        $slaveStore->setData('group_id',    $object->getSlaveGroupId());
+        $slaveStore->setData('code',        $object->getCode());
+        $slaveStore->setData('name',        $object->getName());
 
         $slaveStore->save();
 
         if (!$slaveStoreId) {
             $slaveStoreId = (int) $slaveStore->getId();
             $this->updateAttribute($object, 'slave_store_id', $slaveStoreId);
+            $object->setSlaveStoreId($slaveStoreId);
         }
 
         return $this;
     }
 
     /**
-     * Update specific attribute value
+     * Update specific attribute value (set new value back in given model)
      *
      * @param   Enterprise_Staging_Model_Staging_Store $store
-     * @param   string    $field
+     * @param   string    $attribute
      * @param   mixed     $value
      * @return  Enterprise_Staging_Model_Mysql4_Staging_Store
      */
-    public function updateAttribute($store, $field, $value)
+    public function updateAttribute($store, $attribute, $value)
     {
         $where = "staging_store_id=".(int)$store->getId();
         $this->_getWriteAdapter()
-           ->update($this->getMainTable(), array($field => $value), $where);
-
+           ->update($this->getMainTable(), array($attribute => $value), $where);
+        $store->setData($attribute, $value);
        return $this;
     }
 

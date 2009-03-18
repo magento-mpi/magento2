@@ -92,8 +92,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
         ));
 
         $fieldset->addField('staging_entity_set_id', 'select', array(
-            'label' => $this->helper->__('Staging Entity Set'),
-            'title' => $this->helper->__('Staging Entity Set'),
+            'label' => $this->helper->__('Staging Items Set'),
+            'title' => $this->helper->__('Staging Items Set'),
             'name'  => 'set',
             'value' => '',
             'values'=> Mage::getResourceModel('enterprise_staging/dataset_collection')

@@ -218,9 +218,9 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $existWebsites  = (array) Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
 
         foreach ($websites as $websiteData) {
-            $websiteId          = $websiteData['staging_website_id'];
-            $masterWebsiteId    = $websiteData['master_website_id'];
-            if (in_array($websiteId, $existWebsites)) {
+            $websiteId          = isset($websiteData['staging_website_id']) ? $websiteData['staging_website_id'] : false;
+            $masterWebsiteId    = isset($websiteData['master_website_id']) ? $websiteData['master_website_id'] : false;
+            if ($websiteId && in_array($websiteId, $existWebsites)) {
                 $website = $staging->getWebsitesCollection()->getItemById($websiteId);
                 $website->addData($websiteData);
             } else {
@@ -233,16 +233,16 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             if ($datasetItems) {
                 $items = isset($websiteData['items']) ? $websiteData['items'] : array();
                 foreach ($datasetItems as $datasetItemId) {
-                    if (in_array($datasetItemId, $items)) {
+                    if (array_key_exists($datasetItemId, $items)) {
                         $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
-                        $id = isset($itemData['staging_item_id']) ? $itemData['staging_item_id'] : false;
+                        $id = isset($itemData['used_dataset_item_id']) ? $itemData['used_dataset_item_id'] : false;
                         if (!empty($itemData['remove_item'])) {
                             if ($id) {
-                                $item = $website->getItemsCollection()->getItemById($id);
+                                $item = $website->getItemsCollection()->getItemByDatasetItemId($id);
                                 $item->isDeleted(true);
                             }
                         } else {
-                            $item = $website->getItemsCollection()->getItemById($id);
+                            $item = $website->getItemsCollection()->getItemByDatasetItemId($id);
                             $item->addData($itemData);
                         }
                     } else {
@@ -271,15 +271,16 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 if ($datasetItems && !empty($storeData['use_specific_items'])) {
                     $items = isset($storeData['items']) ? $storeData['items'] :  array();
                     foreach ($datasetItems as $datasetItemId) {
-                        if (in_array($datasetItemId, $items)) {
+                        if (array_key_exists($datasetItemId, $items)) {
                             $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
+                            $id = isset($itemData['used_dataset_item_id']) ? $itemData['used_dataset_item_id'] : false;
                             if (!empty($itemData['remove_item'])) {
-                                if ($id) { var_dump($itemData['remove_item']);
-                                    $item = $store->getItemsCollection()->getItemById($id);
+                                if ($id) {
+                                    $item = $store->getItemsCollection()->getItemByDatasetItemId($id);
                                     $item->isDeleted(true);
                                 }
                             } else {
-                                $item = $store->getItemsCollection()->getItemById($id);
+                                $item = $store->getItemsCollection()->getItemByDatasetItemId($id);
                                 $item->addData($itemData);
                             }
                         } else {
@@ -315,7 +316,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
      * Initialize create staging process throw Ajax request/response
      *
      */
-    public function createAction()
+    public function createItemAction()
     {
         $this->_initStaging();
 
@@ -325,67 +326,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $this->getResponse()->sendResponse();
     }
 
-    public function createProcessAction()
-    {
-        if (!$this->getRequest()->isPost()) {
-            return;
-        }
-
-        $batchId = $this->getRequest()->getPost('batch_id',0);
-        $rowIds  = $this->getRequest()->getPost('rows');
-
-        $batchModel = Mage::getModel('dataflow/batch')->load($batchId);
-        /* @var $batchModel Mage_Dataflow_Model_Batch */
-
-        if (!$batchModel->getId()) {
-            //exit
-            return ;
-        }
-        if (!is_array($rowIds) || count($rowIds) < 1) {
-            //exit
-            return ;
-        }
-        if (!$batchModel->getAdapter()) {
-            //exit
-            return ;
-        }
-
-        $batchImportModel = $batchModel->getBatchImportModel();
-        $importIds = $batchImportModel->getIdCollection();
-
-        $adapter = Mage::getModel($batchModel->getAdapter());
-        $adapter->setBatchParams($batchModel->getParams());
-
-        $errors = array();
-        $saved  = 0;
-
-        foreach ($rowIds as $importId) {
-            $batchImportModel->load($importId);
-            if (!$batchImportModel->getId()) {
-                $errors[] = Mage::helper('dataflow')->__('Skip undefined row');
-                continue;
-            }
-
-            $importData = $batchImportModel->getBatchData();
-            try {
-                $adapter->saveRow($importData);
-            }
-            catch (Exception $e) {
-                $errors[] = $e->getMessage();
-                continue;
-            }
-            $saved ++;
-        }
-
-        $result = array(
-            'savedRows' => $saved,
-            'errors'    => $errors
-        );
-        $this->getResponse()->setBody(Zend_Json::encode($result));
-    }
-
     /**
-     * Save staging action
+     * Save/Create staging action
      */
     public function saveAction()
     {
@@ -397,10 +339,22 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $data = $this->getRequest()->getPost();
 
         if ($data) {
-            $staging = $this->_initStagingSave();
+            $staging  = $this->_initStagingSave();
+            $isUpdate = $staging->getId();
 
             try {
+                if (!$isUpdate) {
+                    $staging->setEventCode('create');
+                } else {
+                    $staging->setEventCode('update');
+                }
                 $staging->save();
+                if (!$isUpdate) {
+                    $mapData = $this->getRequest()->getPost('staging');
+                    $staging->getMapperInstance()->setCreateMapData($mapData);
+                    $staging->create();
+                }
+
                 $this->_getSession()->addSuccess($this->__('Staging was successfully saved.'));
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
@@ -430,22 +384,25 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         }
     }
 
+
     public function deleteAction()
     {
         $id = $this->getRequest()->getParam('id');
         if ($id) {
-            $staging = Mage::getModel('enterprise_staging/staging')->setId($id);
+            $staging = Mage::getModel('enterprise_staging/staging')->load($id);
 
             try {
                 Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
                 $staging->delete();
                 $this->_getSession()->addSuccess($this->__('Staging deleted'));
             } catch (Exception $e){
+                mageDebugBacktrace();fff();
                 $this->_getSession()->addError($e->getMessage());
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('*/*/', array('website'=>$this->getRequest()->getParam('website'))));
     }
+
 
     public function syncAction()
     {

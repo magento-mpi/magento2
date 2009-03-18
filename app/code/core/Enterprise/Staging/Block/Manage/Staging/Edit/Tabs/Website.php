@@ -34,7 +34,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
     /**
      * Keep main translate helper instance
      *
-     * @var object
+     * @var object Mage_Core_Helper_Abstract
      */
     protected $helper;
 
@@ -70,12 +70,12 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 
             $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__($website->getName())));
 
-            $fieldset->addField('master_id_label_'.$_id, 'label',
-                array(
-                    'label' => $this->helper->__('Master Website Id'),
-                    'value' => $website->getId()
-                )
-            );
+//            $fieldset->addField('master_id_label_'.$_id, 'label',
+//                array(
+//                    'label' => $this->helper->__('Master Website Id'),
+//                    'value' => $website->getId()
+//                )
+//            );
 
             $fieldset->addField('master_code_label_'.$_id, 'label',
                 array(
@@ -124,6 +124,34 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         'value' => $stagingWebsite->getId()
                     )
                 );
+
+                foreach ($stagingWebsite->getDatasetItemIds() as $usedDatasetItemId) {
+                    $fieldset->addField("staging_website_used_dataset_item_id_{$_id}_{$usedDatasetItemId}", 'hidden',
+                        array(
+                            'label' => $this->helper->__('Staging Website Item Id'),
+                            'name'  => "{$_id}[items][{$usedDatasetItemId}][used_dataset_item_id]",
+                            'value' => $usedDatasetItemId
+                        )
+                    );
+                }
+
+                $fieldset->addField('staging_website_base_url_'.$_id, 'text',
+                    array(
+                        'label' => $this->helper->__('Staging Website BaseUrl'),
+                        'name'  => "{$_id}[staging_website_base_url]",
+                        'value' => $stagingWebsite->getBaseUrl(),
+                        'required' => true
+                    )
+                );
+
+                $fieldset->addField('staging_website_base_secure_url_'.$_id, 'text',
+                    array(
+                        'label' => $this->helper->__('Staging Website Base Secure Url'),
+                        'name'  => "{$_id}[staging_website_base_secure_url]",
+                        'value' => $stagingWebsite->getBaseSecureUrl(),
+                        'required' => true
+                    )
+                );
             } else {
             	$fieldset->addField('staging_website_code_'.$_id, 'text',
 	                array(
@@ -138,6 +166,24 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         'label' => $this->helper->__('Staging Website Name'),
                         'name'  => "{$_id}[name]",
                         'value' => $website->getName()
+                    )
+                );
+
+                $fieldset->addField('staging_website_base_url_'.$_id, 'text',
+                    array(
+                        'label' => $this->helper->__('Staging Website Base Url'),
+                        'name'  => "{$_id}[staging_website_base_url]",
+                        'value' => $website->getBaseUrl(),
+                        'required' => true
+                    )
+                );
+
+                $fieldset->addField('staging_website_base_secure_url_'.$_id, 'text',
+                    array(
+                        'label' => $this->helper->__('Staging Website Base Secure Url'),
+                        'name'  => "{$_id}[staging_website_base_url]",
+                        'value' => $website->getBaseSecureUrl(),
+                        'required' => true
                     )
                 );
             }
@@ -168,37 +214,37 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 	            )
 	        );
 
-            $fieldset->addField('auto_apply_is_active_'.$_id, 'select', array(
-                'label'     => $this->helper->__('Auto Apply Is Active'),
-                'title'     => $this->helper->__('Auto Apply Is Active'),
-                'name'      => "{$_id}[auto_apply_is_active]",
-                'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray(),
-            ));
-
-            $fieldset->addField('apply_date_'.$_id, 'date', array(
-                'label'     => $this->helper->__('Auto Apply Date'),
-                'title'     => $this->helper->__('Auto Apply Date'),
-                'name'      => "{$_id}[apply_date]",
-                'time'      => false,
-                'format'    => $outputFormat,
-                'image'     => $this->getSkinUrl('images/grid-cal.gif')
-            ));
-
-            $fieldset->addField('auto_rollback_is_active_'.$_id, 'select', array(
-                'label'     => $this->helper->__('Auto Rollback Is Active'),
-                'title'     => $this->helper->__('Auto Rollback Is Active'),
-                'name'      => "{$_id}[auto_rollback_is_active]",
-                'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray(),
-            ));
-
-            $fieldset->addField('rollback_date_'.$_id, 'date', array(
-                'label'     => $this->helper->__('Auto Rollback Date'),
-                'title'     => $this->helper->__('Auto Rollback Date'),
-                'name'      => "{$_id}[rollback_date]",
-                'time'      => false,
-                'format'    => $outputFormat,
-                'image'     => $this->getSkinUrl('images/grid-cal.gif')
-            ));
+//            $fieldset->addField('auto_apply_is_active_'.$_id, 'select', array(
+//                'label'     => $this->helper->__('Auto Apply Is Active'),
+//                'title'     => $this->helper->__('Auto Apply Is Active'),
+//                'name'      => "{$_id}[auto_apply_is_active]",
+//                'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray(),
+//            ));
+//
+//            $fieldset->addField('apply_date_'.$_id, 'date', array(
+//                'label'     => $this->helper->__('Auto Apply Date'),
+//                'title'     => $this->helper->__('Auto Apply Date'),
+//                'name'      => "{$_id}[apply_date]",
+//                'time'      => false,
+//                'format'    => $outputFormat,
+//                'image'     => $this->getSkinUrl('images/grid-cal.gif')
+//            ));
+//
+//            $fieldset->addField('auto_rollback_is_active_'.$_id, 'select', array(
+//                'label'     => $this->helper->__('Auto Rollback Is Active'),
+//                'title'     => $this->helper->__('Auto Rollback Is Active'),
+//                'name'      => "{$_id}[auto_rollback_is_active]",
+//                'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray(),
+//            ));
+//
+//            $fieldset->addField('rollback_date_'.$_id, 'date', array(
+//                'label'     => $this->helper->__('Auto Rollback Date'),
+//                'title'     => $this->helper->__('Auto Rollback Date'),
+//                'name'      => "{$_id}[rollback_date]",
+//                'time'      => false,
+//                'format'    => $outputFormat,
+//                'image'     => $this->getSkinUrl('images/grid-cal.gif')
+//            ));
 
             if ($stagingWebsite) {
                 $element = new Varien_Data_Form_Element_Fieldset(array(
@@ -209,7 +255,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         ->setStagingWebsite($stagingWebsite)
                         ->toHtml()
                 ));
-                $element->setId('store');
+                $element->setId('store_'.$_id);
                 $fieldset->addElement($element, false);
 
                 $values = array();
@@ -226,13 +272,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         ->setStagingWebsite($stagingWebsite)
                         ->toHtml()
                 ));
-                $element->setId('store');
+                $element->setId('store_'.$_id);
                 $fieldset->addElement($element, false);
             }
 
             $fieldset->addField("staging_website_items_{$_id}", 'multiselect',
                 array(
-                    'label'    => $this->helper->__('Default Data for copy into Staging'),
+                    'label'    => $this->helper->__('Default Data for copy into Staging Stores'),
                     'name'     => "{$_id}[dataset_items]",
                     'value'    => $stagingWebsite ? $stagingWebsite->getDatasetItemIds() : array(),
                     'values'   => $staging->getDatasetItemsCollection(true)->toOptionArray()

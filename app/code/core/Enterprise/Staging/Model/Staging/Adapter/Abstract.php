@@ -55,6 +55,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         $this->_resource = Mage::getResourceSingleton('enterprise_staging/resource');
     }
 
+    abstract public function create(Enterprise_Staging_Model_Staging $staging);
+
     abstract public function merge(Enterprise_Staging_Model_Staging $staging);
 
     abstract public function rollback(Enterprise_Staging_Model_Staging $staging);

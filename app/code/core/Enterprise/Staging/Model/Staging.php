@@ -401,11 +401,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $ids;
     }
 
-    public function backup()
+    public function create()
     {
-    	$this->getAdapterInstance(true)->backup($this);
+        $this->getAdapterInstance(true)->create($this);
 
-    	return $this;
+        return $this;
     }
 
     public function merge()
@@ -413,6 +413,13 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         $this->backup();
 
         $this->getAdapterInstance(true)->merge($this);
+
+        return $this;
+    }
+
+    public function backup()
+    {
+        $this->getAdapterInstance(true)->backup($this);
 
         return $this;
     }
@@ -427,7 +434,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     protected function _checkState()
     {
         if (!$this->getId()) {
-            $this->setState(Enterprise_Staging_Model_Staging_Config::STATE_NEW, true);
+            $this->setState(Enterprise_Staging_Model_Staging_Config::STATE_NEW);
+            $this->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_NEW);
             return $this;
         }
 
@@ -571,7 +579,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance(true)->delete($this);
 
         $this->getTypeInstance(true)->afterDelete($this);
@@ -669,5 +676,53 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             $this->_adapterInstance = Enterprise_Staging_Model_Staging_Config::adapterFactory($this);
         }
         return $this->_adapterInstance;
+    }
+
+    public function canSave()
+    {
+        if (!$this->getId()) {
+            return false;
+        }
+        return true;
+    }
+
+    public function canDelete()
+    {
+        if (!$this->getId()) {
+            return false;
+        }
+        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
+            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function canMerge()
+    {
+        if (!$this->getId()) {
+            return false;
+        }
+        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
+            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function canRollback()
+    {
+        if (!$this->getId()) {
+            return false;
+        }
+        if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_MERGED) {
+            return true;
+        }
+        return false;
+    }
+
+    public function updateAttribute($attribute, $value)
+    {
+        return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
 }

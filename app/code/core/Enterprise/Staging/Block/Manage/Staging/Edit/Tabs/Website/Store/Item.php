@@ -149,7 +149,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store_Item exten
                 $fieldset->addField("staging_store_used_dataset_item_id_{$_id}_{$usedDatasetItemId}", 'hidden',
                     array(
                         'label' => $this->helper->__('Staging Store Item Id'),
-                        'name'  => "{$_id}[items][{$usedDatasetItemId}][staging_item_id]",
+                        'name'  => "{$_id}[items][{$usedDatasetItemId}][used_dataset_item_id]",
                         'value' => $usedDatasetItemId
                     )
                 );

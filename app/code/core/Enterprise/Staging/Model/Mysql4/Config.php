@@ -502,7 +502,7 @@ class Enterprise_Staging_Model_Mysql4_Config extends Varien_Object
 
             var_dump($destInsertSql);
         }
-        STOP();
+
         return $this;
     }
 
@@ -645,7 +645,7 @@ class Enterprise_Staging_Model_Mysql4_Config extends Varien_Object
             }
             $this->_storeId = $storeId;
         }
-        return $storeId;
+        return $this->_storeId;
     }
     public function getCurrentStagingWebsite()
     {

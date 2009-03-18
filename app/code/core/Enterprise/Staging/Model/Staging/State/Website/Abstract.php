@@ -24,35 +24,29 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Staging item model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Staging_State_Website_Abstract extends Enterprise_Staging_Model_Staging_State_Abstract
 {
-    protected $_datasetItem;
 
-    protected function _construct()
+    protected $_tableModels = array(
+       'catalog_product_entity'     => 'catalog',
+       'catalog_category_entity'    => 'catalog',
+       'customer_entity'            => 'customer',
+       'customer_address_entity'    => 'customer',
+    );
+
+    protected $_ignoreTables = array(
+        'catalog_category_flat'     => true,
+        'catalog_product_flat'      => true
+    );
+
+    protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
+
+    protected $_srcModel;
+
+    protected $_targetModel;
+
+    public function __construct()
     {
-        $this->_init('enterprise_staging/staging_item');
-    }
-
-    public function getDatasetItemInstance()
-    {
-        if (is_null($this->_datasetItem)) {
-            $this->_datasetItem = Mage::getModel('enterprise_staging/dataset_item');
-            $datasetItemId = (int) $this->getData('dataset_item_id');
-            if ($datasetItemId) {
-                $this->_datasetItem->load($datasetItemId);
-            }
-        }
-
-        return $this->_datasetItem;
-    }
-
-    public function updateAttribute($attribute, $value)
-    {
-        return $this->getResource()->updateAttribute($this, $attribute, $value);
+        parent::__construct();
     }
 }

@@ -39,13 +39,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
      */
     public function setStagingFilter($stagingId)
     {
-    	if (is_object($stagingId)) {
-    		$stagingId = $stagingId->getId();
-    	}
-    	if ($stagingId) {
-    		$this->addFieldToFilter('staging_id', (int) $stagingId);
-    	}
-    	return $this;
+        if (is_object($stagingId)) {
+            $stagingId = $stagingId->getId();
+        }
+        $this->addFieldToFilter('staging_id', (int) $stagingId);
+
+        return $this;
     }
 
     public function toOptionArray()

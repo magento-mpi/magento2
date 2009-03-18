@@ -32,9 +32,9 @@
 class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
-     * Keep main translate helper instance
+     * Keeps main translate helper instance
      *
-     * @var object
+     * @var object Mage_Core_Helper_Abstract
      */
     protected $helper;
 

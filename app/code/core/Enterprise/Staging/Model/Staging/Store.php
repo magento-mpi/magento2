@@ -31,45 +31,105 @@
  */
 class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
 {
-	const EXCEPTION_LOGIN_NOT_CONFIRMED       = 1;
+    const EXCEPTION_LOGIN_NOT_CONFIRMED       = 1;
     const EXCEPTION_INVALID_LOGIN_OR_PASSWORD = 2;
 
+    /**
+     * Staging Object
+     * @var Enterprise_Staging_Model_Staging
+     */
+    protected $_staging;
+
+    /**
+     * Staging Website Object
+     * @var Enterprise_Staging_Model_Staging_Website
+     */
+    protected $_stagingWebsite;
+
+    /**
+     * Staging Store Group Object
+     * @var Enterprise_Staging_Model_Staging_Store_Group
+     */
+    protected $_stagingStoreGroup;
+
+    /**
+     * Staging Items Collection
+     * @var Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
+     */
     protected $_items;
 
+    /**
+     * Dataset Items Collection
+     * @var Enterprise_Staging_Model_Mysql4_Dataset_Item_Collection
+     */
+    protected $_datasetItems;
+
+    /**
+     * Constructor (init resource model)
+     */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_store');
     }
 
-    public function getItemIds()
+    /**
+     * Declare staging
+     *
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * @return  Enterprise_Staging_Model_Staging_Store
+     */
+    public function setStaging(Enterprise_Staging_Model_Staging $staging)
     {
-        if ($this->hasData('item_ids')) {
-            $ids = $this->getData('item_ids');
-            if (!is_array($ids)) {
-                $ids = !empty($ids) ? explode(',', $ids) : array();
-                $this->setData('item_ids', $ids);
-            }
-        } else {
-            $ids = array();
-            foreach ($this->getItemsCollection() as $item) {
-                $ids[] = $item->getId();
-            }
-            $this->setData('item_ids', $ids);
-        }
-        return $this->getData('item_ids');
-    }
-
-    public function addItem(Enterprise_Staging_Model_Staging_Item $item)
-    {
-        $item->setStagingStore($this);
-        if (!$item->getId()) {
-            $this->getItemsCollection()->addItem($item);
-        }
+        $this->_staging = $staging;
+        $this->setStagingId($staging->getId());
         return $this;
     }
 
     /**
-     * Retrieve staging items
+     * Retrieve staging model object
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function getStaging()
+    {
+        if (is_null($this->_staging) && ($stagingId = $this->getStagingId())) {
+            $staging = Mage::getModel('enterprise_staging/staging');
+            $staging->load($stagingId);
+            $this->setStaging($staging);
+        }
+        return $this->_staging;
+    }
+
+    /**
+     * Declare staging website
+     *
+     * @param   Enterprise_Staging_Model_Staging_Website $website
+     * @return  Enterprise_Staging_Model_Staging_Store
+     */
+    public function setStagingWebsite(Enterprise_Staging_Model_Staging_Website $website)
+    {
+        $this->_stagingWebsite = $website;
+        $this->setStagingWebsiteId($website->getId());
+        return $this;
+    }
+
+    /**
+     * Retrieve staging model object
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function getStagingWebsite()
+    {
+        if (is_null($this->_stagingWebsite) && ($websiteId = $this->getStagingWebsiteId())) {
+            $website = Mage::getModel('enterprise_staging/staging_website');
+            $website->load($websiteId);
+            $this->setStagingWebsite($website);
+        }
+        return $this->_stagingWebsite;
+    }
+
+    /**
+     * Retrieve staging items collection with setted current staging store filter
      *
      * @return Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
      */
@@ -89,7 +149,64 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve dataset items array
+     * Retrieve staging item ids array
+     *
+     * @return array
+     */
+    public function getItemIds()
+    {
+        if ($this->hasData('item_ids')) {
+            $ids = $this->getData('item_ids');
+            if (!is_array($ids)) {
+                $ids = !empty($ids) ? explode(',', $ids) : array();
+                $this->setData('item_ids', $ids);
+            }
+        } else {
+            $ids = array();
+            foreach ($this->getItemsCollection() as $item) {
+                $ids[] = $item->getId();
+            }
+            $this->setData('item_ids', $ids);
+        }
+        return $this->getData('item_ids');
+    }
+
+    /**
+     * Add staging item into staging store items collection
+     *
+     * @param Enterprise_Staging_Model_Staging_Item $item
+     *
+     * @return Enterprise_Staging_Model_Staging_Store
+     */
+    public function addItem(Enterprise_Staging_Model_Staging_Item $item)
+    {
+        $item->setStagingStore($this);
+        if (!$item->getId()) {
+            $this->getItemsCollection()->addItem($item);
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve dataset items collection with ability to set "ignore backend items" filter
+     *
+     * @param   boolean $ignoreBackendFlag
+     * @return  Enterprise_Staging_Model_Mysql4_Dataset_Item_Collection
+     */
+    public function getDatasetItemsCollection($ignoreBackendFlag = null)
+    {
+        if (is_null($this->_datasetItems)) {
+            $this->_datasetItems = Mage::getResourceSingleton('enterprise_staging/dataset_item_collection')
+                ->addBackendFilter($ignoreBackendFlag);
+            if ($this->getDatasetId()) {
+               $this->_datasetItems->addDatasetFilter($this->getDatasetId());
+            }
+        }
+        return $this->_datasetItems;
+    }
+
+    /**
+     * Retrieve dataset item ids array
      *
      * @return array
      */
@@ -102,16 +219,26 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
         return $ids;
     }
 
+    /**
+     * Retrieve master store instance
+     *
+     * @return Mage_Core_Model_Store
+     */
     public function getMasterStore()
     {
-    	$masterStoreId = $this->getMasterStoreId();
-    	if (!is_null($masterStoreId)) {
-    		return Mage::app()->getStore($masterStoreId);
-    	} else {
-    		return false;
-    	}
+        $masterStoreId = $this->getMasterStoreId();
+        if (!is_null($masterStoreId)) {
+            return Mage::app()->getStore($masterStoreId);
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * Retrieve slave store instance
+     *
+     * @return Mage_Core_Model_Store
+     */
     public function getSlaveStore()
     {
         $slaveStoreId = $this->getSlaveStoreId();
@@ -122,8 +249,17 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
         }
     }
 
-    public function getSlaveStoreIdByMasterStoreId($storeId)
+    /**
+     * Update an attribute value
+     *
+     * @param string    $attribute
+     * @param string    $value
+     *
+     * @return Enterprise_Staging_Model_Staging_Store
+     */
+    public function updateAttribute($attribute, $value)
     {
-    	return $this->getResource()->getSlaveStoreIdByMasterStoreId($this, $storeId);
+        $this->getResource()->updateAttribute($this, $attribute, $value);
+        return $this;
     }
 }

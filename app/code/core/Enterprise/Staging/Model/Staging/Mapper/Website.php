@@ -52,6 +52,8 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
 
     protected $_usedItems                               = array();
 
+    protected $_usedCreateItems                         = array();
+
     public function __construct()
     {
         parent::__construct();
@@ -63,6 +65,70 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->_stagingWebsiteTable         = $this->getTable('enterprise_staging/staging_website');
         $this->_stagingStoreGroupTable      = $this->getTable('enterprise_staging/staging_store_group');
         $this->_stagingStoreTable           = $this->getTable('enterprise_staging/staging_store');
+    }
+
+    public function setCreateMapData($mapData)
+    {
+        $websitesMap    = !empty($mapData['websites']) ? $mapData['websites'] : array();
+        $storesMap      = !empty($mapData['stores']) ? $mapData['stores'] : array();
+
+        $items          = $this->getStaging()->getDatasetItemsCollection();
+
+        foreach ($websitesMap as $id => $websiteMap) {
+            $websiteItems = !empty($websiteMap['dataset_items']) ? $websiteMap['dataset_items'] : array();
+            foreach ($websiteItems as $idx => $websiteItemId) {
+                $datasetItem = $items->getItemById($websiteItemId);
+                if ($datasetItem) {
+                    $websiteItems[$idx] = $datasetItem->getData();
+                }
+            }
+            $this->_usedCreateItems[$id]['items']  = $websiteItems;
+
+            $storesMap   = !empty($storesMap[$id]) ? $storesMap[$id] : array();
+            foreach ($storesMap as $storeMap) {
+                $storeId = !empty($storeMap['master_store_id']) ? $storeMap['master_store_id'] : false;
+                if ($storeId) {
+                    $storeItems = !empty($storeMap['dataset_items']) ? $storeMap['dataset_items'] : array();
+                    foreach ($storeItems as $idx => $storeItemId) {
+                        $datasetItem = $items->getItemById($storeItemId);
+                        if ($datasetItem) {
+                            $storeItems[$idx] = $datasetItem->getData();
+                        }
+                    }
+                    $this->_usedCreateItems[$id]['stores'][$storeId] = $storeItems;
+                }
+            }
+        }
+    }
+
+    public function getStoreUsedCreateItems($websiteId, $storeId = null)
+    {
+        if (!isset($this->_usedCreateItems[$websiteId]['stores'])) {
+            return array();
+        }
+
+        if (is_null($storeId)) {
+            return $this->_usedCreateItems[$websiteId]['stores'];
+        } else {
+            if (isset($this->_usedCreateItems[$websiteId]['stores'][$storeId])) {
+                return $this->_usedCreateItems[$websiteId]['stores'][$storeId];
+            } else {
+                return array();
+            }
+        }
+    }
+
+    public function getWebsiteUsedCreateItems($websiteId = null)
+    {
+        if (is_null($websiteId)) {
+            return $this->_usedCreateItems;
+        } else {
+            if (isset($this->_usedCreateItems[$websiteId]['items'])) {
+                return $this->_usedCreateItems[$websiteId]['items'];
+            } else {
+                return array();
+            }
+        }
     }
 
     public function setMapData($mapData)
@@ -99,6 +165,51 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
                 }
             }
         }
+    }
+
+    public function setMapData2($mapData)
+    {
+        $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
+        $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
+        $this->_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
+
+        if (!empty($websitesMap)) {
+            $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();
+            $toWebsitesData     = !empty($websitesMap['to'])     ? $websitesMap['to']     : array();
+
+            foreach ($fromWebsitesData as $idx => $fromWebsite) {
+                if (empty($fromWebsite)) {
+                    continue;
+                }
+
+                foreach ($toWebsitesData as $_toIdx => $toWebsite) {
+                    if (empty($toWebsite)) {
+                        continue;
+                    }
+                    $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['master_website'][$toWebsite] = $toWebsite;
+                    $this->_masterWebsitesToSlaveWebsites[$toWebsite]['slave_website'][$fromWebsite] = $fromWebsite;
+
+                    $storesKey = $fromWebsite . '-' . $toWebsite;
+                    $storesData = !empty($storesMap[$storesKey]) ? $storesMap[$storesKey] : array();
+                    if (!empty($storesData)) {
+                        $storesFromData = !empty($storesData['from']) ? $storesData['from'] : array();
+                        $storesToData = !empty($storesData['to']) ? $storesData['to'] : array();
+                        foreach ($storesFromData as $sidx => $fromStore) {
+                            if (!empty($storesToData[$sidx])) {
+                                $toStore = $storesToData[$sidx];
+                                $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['stores'][$toWebsite][$fromStore] = $toStore;
+                                $this->_masterWebsitesToSlaveWebsites[$toWebsite]['stores'][$fromWebsite][$toStore] = $fromStore;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function getUsedWebsites($id)
+    {
+        return isset($this->_slaveWebsitesToMasterWebsites[$id]) ? $this->_slaveWebsitesToMasterWebsites[$id] : array();
     }
 
     public function getSlaveToMasterWebsiteIds($masterWebsiteId)

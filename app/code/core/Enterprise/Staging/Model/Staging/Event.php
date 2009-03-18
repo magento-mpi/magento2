@@ -80,4 +80,9 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     {
         return Enterprise_Staging_Model_Staging_Config::getEventLabel($this->getCode());
     }
+
+    public function updateAttribute($attribute, $value)
+    {
+        return $this->getResource()->updateAttribute($this, $attribute, $value);
+    }
 }

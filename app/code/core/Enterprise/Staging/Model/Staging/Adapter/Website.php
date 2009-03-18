@@ -32,6 +32,21 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         parent::__construct();
     }
 
+    public function create(Enterprise_Staging_Model_Staging $staging)
+    {
+        try {
+            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
+            $scenario->setStaging($staging);
+            $scenario->init($this, 'create');
+            $scenario->run();
+        } catch (Enterprise_Staging_Exception $e) {
+            echo '<pre>';
+            echo $e;
+            STOP();
+        }
+        return $this;
+    }
+
     public function merge(Enterprise_Staging_Model_Staging $staging)
     {
         try {

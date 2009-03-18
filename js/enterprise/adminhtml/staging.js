@@ -22,19 +22,19 @@
  */
 
 if (!window.Enterprise) {
-	window.Enterprise = {};
+    window.Enterprise = {};
 }
 Enterprise.Staging = {};
 
 Enterprise.Staging.Mapper = new Class.create();
 Enterprise.Staging.Mapper.prototype = {
-    templatePattern		: /(^|.|\r|\n)(\{\{(.*?)\}\})/,
-    websiteRowTemplate	: null,
-    storeRowTemplate	: null,
-    storeAddBtnTemplate	: null,
-    websiteIncrement	: 0,
-    mapKeys				: null,
-    addWebsiteMapRow	: null,
+    templatePattern        : /(^|.|\r|\n)(\{\{(.*?)\}\})/,
+    websiteRowTemplate    : null,
+    storeRowTemplate    : null,
+    storeAddBtnTemplate    : null,
+    websiteIncrement    : 0,
+    mapKeys                : null,
+    addWebsiteMapRow    : null,
     initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores)
     {
         this.mergeForm = $(mergeForm);
@@ -266,7 +266,6 @@ Enterprise.Staging.Mapper.prototype = {
     },
     stagingMerge : function(grid)
     {
-        alert('MERGING STARTS!');
         this.mergeForm.submit();
     }
 };
@@ -419,3 +418,236 @@ function saveAndContinueEdit(urlTemplate)
     var url = template.evaluate({tab_id : enterprise_staging_tabsJsTabs.activeTab.id});
     stagingForm.submit(url);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Enterprise.Staging.Form = new Class.create();
+Enterprise.Staging.Form.prototype = {
+    templatePattern         : /(^|.|\r|\n)(\{\{(.*?)\}\})/,
+    containerId             : null,
+    formId                  : null,
+    itemTemplate            : null,
+    proceedMessageTemplate  : null,
+    successMessageTemplate  : null,
+    items                   : null,
+    proceedItems            : null,
+    proceedIterator         : 0,
+    countOfError            : 0,
+    totalItems              : 0,
+    initialize : function(containerId, formId, validationUrl, nextUrl, finishUrl, config, items)
+    {
+        this.containerId    = containerId;
+    
+        this.config         = config;
+
+        this.formId         = formId;
+        this.nextUrl        = nextUrl;
+        this.finishUrl      = finishUrl;
+
+        this.form           =  new varienForm(this.formId, validationUrl);
+        
+        this.items          = new $H(items);
+        
+        this.totalItems     = this.items.size();
+        
+        this.proceedItems   = new $H();
+
+        this.itemTemplate   = new Template(
+            this.getInnerElement('item_template').innerHTML,
+            this.templatePattern
+        );
+        this.proceedMessageTemplate     = new Template(
+            this.getInnerElement('proceed_message_template').innerHTML,
+            this.templatePattern
+        );
+        this.successMessageTemplate = new Template(
+            this.getInnerElement('success_message_template').innerHTML,
+            this.templatePattern
+        );
+
+        this.createBtn = document.getElementsByClassName('create')[0];
+    },
+    
+    addItem : function(key, item)
+    {
+        this.items.add(key, item);
+    },
+    
+    runCreate : function()
+    {
+        this.submit();
+        return;
+        this.execItems();
+    },
+    
+    execItems : function()
+    {
+        $('loading_mask_loader').hide();
+        $('loading-mask').show();
+        
+        $('staging_create_process').show();
+        
+        if (this.proceedItems.size() == this.items.size()) {
+          $("createdRows_img").src = this.config.styles.message.icon;
+          $("createdRows").style.backgroundColor = this.config.styles.message.bg;
+          this.insert('liFinished', {before: this.itemTemplate.evaluate(this.getFinishVars())});
+            new Ajax.Request(this.finishUrl, {
+                method: "post",
+                parameters: {form_key: FORM_KEY},
+                onComplete: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        var response = transport.responseText.evalJSON();
+                        if (response.error) {
+                            var message = response.error.escapeHTML();
+                            this.insert('liFinished', {before: this.itemTemplate.evaluate(this.getFinishErrorVars(message))});
+                        }
+                    }
+                    $('liFinished').show();
+                }
+            });
+        } else {
+            this._execItem();
+        }
+    },
+    
+    _execItem : function()
+    {
+        if (!$("createdRows")) {
+            this.insert('liFinished', {before: this.itemTemplate.evaluate(this.getLoaderVars())});
+        }
+        
+        var item = this.items.get(this.proceedIterator);
+        
+        this.countOfStartedExecs++;
+        if (!item.form_key) {
+            item.form_key = FORM_KEY;
+        }
+
+        new Ajax.Request(this.nextUrl, {
+          method: "post",
+          parameters: item,
+          onSuccess: function(transport) {
+            this.proceedItems.set(this.proceedIterator, item);
+            
+            this.countOfStartedExecs --;
+            this.proceedIterator++;
+            if (transport.responseText.isJSON()) {
+                this.addItemRow(transport.responseText.evalJSON());
+            } else {
+                this.insert('createdRows', {before: this.itemTemplate.evaluate(this.getItemErrorVars(transport.responseText.escapeHTML(), this.proceedIterator))});
+                this.countOfError++;
+            }
+            this.execItems();
+          }
+        });
+    },
+    
+    addItemRow : function(data) 
+    {
+        if (data.errors.length > 0) {
+            for (var i=0, length=data.errors.length; i<length; i++) {
+                this.insert('createdRows', {before: this.itemTemplate.evaluate(this.getItemErrorVars(data.errors[i], countOfUpdated + i + 1))});
+                this.countOfError ++;
+            }
+        }
+        $("createdRows_status").update(this.proceedMessageTemplate.evaluate({updated:this.proceedIterator, percent:this.getPercent()}));
+    },
+    
+    insert: function(container, insertion)
+    {
+        container = $(container);
+        
+        Element.insert(container, insertion);
+    },
+    
+    getFinishVars : function()
+    {
+        return {
+            style   : "background-color:" + this.config.styles.message.bg,
+            image   : this.config.styles.message.icon,
+            text    : this.successMessageTempate.evaluate({updated:(this.proceedIterator - this.countOfError)}),
+            id      : "createdFinish"
+        };
+    },
+    
+    getFinishErrorVars: function(errorMessage)
+    {
+        return {
+            style   : "background-color:" + this.styles.error.bg,
+            image   : this.config.styles.error.icon,
+            text    : errorMessage,
+            id      : "error-finish"
+        };
+    },
+    
+    getItemErrorVars: function(errorMessage, id)
+    {
+        return {
+            style   : "background-color:" + this.config.styles.error.bg,
+            image   : this.config.styles.error.icon,
+            text    : errorMessage,
+            id      : "error-" + id
+        };
+    },
+    
+    getLoaderVars: function()
+    {
+        return {
+            style   : "background-color: #FFD;",
+            image   : this.config.styles.loader,
+            text    : this.proceedMessageTemplate.evaluate({updated:this.proceedIterator, percent:this.getPercent()}),
+            id      : "createdRows"
+        };
+    },
+    
+    
+    getPercent : function() 
+    {
+        return Math.ceil((this.proceedIterator/this.totalItems)*1000)/10;
+    },
+    
+    getInnerElement: function(elementName) 
+    {
+        return $(this.containerId + '_' + elementName);
+    },
+    
+    setSettings : function(urlTemplate, websiteElement, setElement, typeElement) 
+    {
+        var urlTemplate = new Template(urlTemplate, stagingTemplateSyntax);
+        setLocation(urlTemplate.evaluate({websites: $F(websiteElement), set: $F(setElement), type: $F(typeElement)}));
+    },
+    
+    saveAndContinueEdit : function(urlTemplate)
+    {
+        var urlTemplate = new Template(urlTemplate, this.templatePattern);
+        var url = urlTemplate.evaluate({tab_id: this.activeTab.id});
+        this.form.submit(url);
+    },
+    
+    submit : function()
+    {
+        this.form.submit();
+    }
+};

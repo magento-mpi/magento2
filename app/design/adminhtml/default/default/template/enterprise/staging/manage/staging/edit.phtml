@@ -31,31 +31,45 @@
  * @var $this Enterprise_Staging_Block_Manage_Staging_Edit
  */
 ?>
-<div class="content-header">
-    <h3 class="icon-head head-staging"><?php echo $this->getHeader() ?></h3>
-    <p class="content-buttons form-buttons"><?php echo $this->getChildHtml('back_button') ?>
-    <?php echo $this->getChildHtml('cancel_button') ?>
-    <?php if ($this->getStagingId()): ?>
-        <?php echo $this->getChildHtml('delete_button') ?>
-        <?php echo $this->getChildHtml('sync_button') ?>
-        <?php echo $this->getChildHtml('merge_button') ?>
-        <?php echo $this->getChildHtml('save_button') ?>
-        <?php echo $this->getChildHtml('save_and_edit_button') ?>
-    <?php else: ?>
-        <?php echo $this->getChildHtml('create_button') ?>
-    <?php endif; ?>
-    </p>
+<div id="enterprise_staging">
+    <div class="content-header">
+        <h3 class="icon-head head-staging"><?php echo $this->getHeader() ?></h3>
+        <p class="content-buttons form-buttons"><?php echo $this->getChildHtml('back_button') ?>
+            <?php echo $this->getChildHtml('cancel_button') ?>
+            <?php echo $this->getChildHtml('delete_button') ?>
+            <?php echo $this->getChildHtml('sync_button') ?>
+            <?php echo $this->getChildHtml('merge_button') ?>
+            <?php echo $this->getChildHtml('rollback_button') ?>
+            <?php echo $this->getChildHtml('save_button') ?>
+            <?php echo $this->getChildHtml('save_and_edit_button') ?>
+            <?php echo $this->getChildHtml('create_button') ?>
+        </p>
+    </div>
+    <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_form" enctype="multipart/form-data">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <div style="display:none"></div>
+    </form>
+
+    <ul id="enterprise_staging_item_template" style="display: none">
+        <li style="#{style}" id="#{id}">
+            <img id="#{id}_img" src="#{image}" class="v-middle" style="margin-right:5px"/>
+            <span id="#{id}_status" class="text">#{text}</span>
+        </li>
+    </ul>
+    <span id="enterprise_staging_proceed_message_template" style="display: none"><?php echo $this->__('Processed <strong>%s%% %s/%d</strong> items', '#{percent}', '#{updated}', $this->getDatasetItemIds()); ?></span>
+    <span id="enterprise_staging_success_message_template" style="display: none"><?php echo $this->__('Created <strong>%s</strong> items', '#{updated}'); ?></span>
+
+    <div id="staging_create_process" style="display: none; z-index: 9999; width: 400px; height: 400px; background-color: #E7EFEF; ">
+        <ul id="createItemRows">
+            <li id="liFinished" style="display: none">
+                <img src="<?php echo Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif'); ?>" class="v-middle" style="margin-right:5px"/>
+                <span><?php echo $this->__("Finished items creation."); ?></span>
+            </li>
+        </ul>
+    </div>
 </div>
-<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_edit_form" enctype="multipart/form-data">
-    <?php echo $this->getBlockHtml('formkey')?>
-    <div style="display:none"></div>
-</form>
 <script type="text/javascript">
 //<![CDATA[
-var stagingForm = new varienForm('enterprise_staging_edit_form', '<?php echo $this->getValidationUrl() ?>');
-function stagingCreate()
-{
-	stagingForm.submit();
-}
+var <?php echo $this->getEditFormJsObject(); ?> = new Enterprise.Staging.Form('enterprise_staging', 'enterprise_staging_form', '<?php echo $this->getValidationUrl() ?>', '<?php echo $this->getCreateItemNextUrl(); ?>', '<?php echo $this->getFinishCreateUrl(); ?>', <?php echo $this->getConfig()?>, <?php echo $this->getItemsJson()?>);
 //]]>
 </script>

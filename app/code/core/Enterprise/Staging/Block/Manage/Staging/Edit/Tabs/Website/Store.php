@@ -51,16 +51,18 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store extends Ma
 
         $website        = $this->getWebsite();
 
-        foreach ($stagingWebsite->getStoresCollection() as $stagingStore) {
-            $store = $stagingStore->getMasterStore();
-            $html .= $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store_item')
-                ->setStaging($staging)
-                ->setStagingWebsite($stagingWebsite)
-                ->setWebsite($website)
-                ->setStagingStore($stagingStore)
-                ->setStore($store)
-                ->toHtml();
+        if ($stagingWebsite) {
+            foreach ($stagingWebsite->getStoresCollection() as $stagingStore) {
+                $store = $stagingStore->getMasterStore();
+                $html .= $this->getLayout()
+                    ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store_item')
+                    ->setStaging($staging)
+                    ->setStagingWebsite($stagingWebsite)
+                    ->setWebsite($website)
+                    ->setStagingStore($stagingStore)
+                    ->setStore($store)
+                    ->toHtml();
+            }
         }
 
         return $html;

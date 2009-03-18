@@ -138,6 +138,39 @@ abstract class Enterprise_Staging_Model_Staging_Type_Abstract
     }
 
     /**
+     * Delete staging type related data
+     *
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * @return  Enterprise_Staging_Model_Staging_Type_Abstract
+     */
+    public function delete($staging = null)
+    {
+        return $this;
+    }
+
+    /**
+     * Before delete staging type related data
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Type_Abstract
+     */
+    public function beforeDelete($staging = null)
+    {
+        return $this;
+    }
+
+    /**
+     * After delete staging type related data
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Type_Abstract
+     */
+    public function afterDelete($staging = null)
+    {
+        return $this;
+    }
+
+    /**
      * Apply staging type data
      *
      * @param Enterprise_Staging_Model_Staging $staging

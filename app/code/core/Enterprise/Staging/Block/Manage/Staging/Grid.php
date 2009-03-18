@@ -70,31 +70,31 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'type'      => 'date',
         ));
 
-        $this->addColumn('apply_date', array(
-            'header'    => 'Apply Date',
-            'index'     => 'apply_date',
-            'type'      => 'date',
-        ));
-
-        $this->addColumn('auto_apply_is_active', array(
-            'header'    => 'Auto Apply Is Active',
-            'index'     => 'auto_apply_is_active',
-            'type'      => 'options',
-            'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray()
-        ));
-
-        $this->addColumn('rollback_date', array(
-            'header'    => 'Rollback Date',
-            'index'     => 'rollback_date',
-            'type'      => 'date',
-        ));
-
-        $this->addColumn('auto_rollback_is_active', array(
-            'header'    => 'Auto Rollback Is Active',
-            'index'     => 'auto_rollback_is_active',
-            'type'      => 'options',
-            'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray()
-        ));
+//        $this->addColumn('apply_date', array(
+//            'header'    => 'Apply Date',
+//            'index'     => 'apply_date',
+//            'type'      => 'date',
+//        ));
+//
+//        $this->addColumn('auto_apply_is_active', array(
+//            'header'    => 'Auto Apply Is Active',
+//            'index'     => 'auto_apply_is_active',
+//            'type'      => 'options',
+//            'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray()
+//        ));
+//
+//        $this->addColumn('rollback_date', array(
+//            'header'    => 'Rollback Date',
+//            'index'     => 'rollback_date',
+//            'type'      => 'date',
+//        ));
+//
+//        $this->addColumn('auto_rollback_is_active', array(
+//            'header'    => 'Auto Rollback Is Active',
+//            'index'     => 'auto_rollback_is_active',
+//            'type'      => 'options',
+//            'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray()
+//        ));
 
         $this->addColumn('type', array(
             'header'    => 'Type',

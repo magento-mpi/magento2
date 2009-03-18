@@ -121,6 +121,20 @@
                             <state>enterprise_staging/staging_state_website</state>
                         </models>
                         <scenaries>
+                            <create>
+                                <prepare> 
+                                    <model>enterprise_staging/staging_state_website_prepare</model>
+                                    <next>create</next>
+                                </prepare>
+                                <create>
+                                    <model>enterprise_staging/staging_state_website_create</model>
+                                    <next>check</next>
+                                </create>
+                                <check>
+                                    <model>enterprise_staging/staging_state_website_check</model>
+                                    <next>0</next>
+                                </check>
+                            </create>
                             <merge>
                                 <prepare> 
                                     <model>enterprise_staging/staging_state_website_prepare</model>
@@ -262,6 +276,14 @@
                                 <table>core_config_data</table>
                             </core_config_data>
                         </entities>
+                        <ignore_nodes>
+                            <base_url />
+                            <base_secure_url />
+                            <paypal />
+                            <google_api />
+                            <payment_methods />
+                            <developer />
+                        </ignore_nodes>
                     </system_config>
                     
                     
@@ -458,4 +480,13 @@
             </resources>
         </acl>
     </admin>
+    
+    <crontab>
+        <jobs>
+            <enterprise_staging_automates>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <run><model>enterprise_staging/observer::automates</model></run>
+            </enterprise_staging_automates>
+        </jobs>
+    </crontab>
 </config>
