@@ -67,7 +67,7 @@ class Enterprise_Permissions_Model_Validate_Action extends Enterprise_Permission
     public function catalogProductEdit()
     {
         if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
-            return;
+            return $this;
         }
 
         if( !$this->_getObserver()->getControllerAction()->getRequest()->getParam('id') ) {
@@ -80,7 +80,7 @@ class Enterprise_Permissions_Model_Validate_Action extends Enterprise_Permission
     public function catalogProductNew()
     {
         if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
-            return;
+            return $this;
         }
 
         if( !Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess() ) {
@@ -177,6 +177,21 @@ class Enterprise_Permissions_Model_Validate_Action extends Enterprise_Permission
         }
         elseif ($this->_getRequest()->has('category') && !$this->_getRequest()->getParam('store') ) {
             $this->_getRequest()->setParam('store', array_shift($allowedStores));
+        }
+        return $this;
+    }
+
+    public function salesOrderCreate()
+    {
+        if( !Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess() ) {
+            $this->_redirect('*/sales_order/index');
+        }
+    }
+    
+    public function promoEdit()
+    {
+        if( !Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess() ) {
+            $this->_redirect('*/*/index');
         }
     }
 }

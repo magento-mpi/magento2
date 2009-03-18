@@ -54,13 +54,16 @@
             <adminhtml>
                 <rewrite>
                     <catalog_category_tree>Enterprise_Permissions_Block_Catalog_Category_Tree</catalog_category_tree>
+                    <catalog_category_edit_form>Enterprise_Permissions_Block_Catalog_Category_Edit_Form</catalog_category_edit_form>
                     <catalog_product_edit_tabs>Enterprise_Permissions_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
                     <catalog_product_edit_tab_websites>Enterprise_Permissions_Block_Catalog_Product_Edit_Tab_Websites</catalog_product_edit_tab_websites>
                     <catalog_product>Enterprise_Permissions_Block_Catalog_Product</catalog_product>
                     <customer>Enterprise_Permissions_Block_Customer</customer>
                     <catalog_product_edit_action_attribute_tab_attributes>Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes</catalog_product_edit_action_attribute_tab_attributes>
                     <store_switcher>Enterprise_Permissions_Block_Store_Switcher</store_switcher>
-                </rewrite>
+                    <sales_order>Enterprise_Permissions_Block_Sales_Order</sales_order>
+                    <promo_catalog>Enterprise_Permissions_Block_Promo_Catalog</promo_catalog>
+                    <promo_quote>Enterprise_Permissions_Block_Promo_Quote</promo_quote></rewrite>
             </adminhtml>
         </blocks>
         <helpers>
@@ -164,7 +167,9 @@
                     <adminhtml_catalog_category_edit>enterprise_permissions/validate_action::catalogCategoryEdit</adminhtml_catalog_category_edit>
                     <adminhtml_sales_order_index>enterprise_permissions/validate_action::salesOrderList</adminhtml_sales_order_index>
                     <adminhtml_urlrewrite_edit>enterprise_permissions/validate_action::urlRewriteEdit</adminhtml_urlrewrite_edit>
-                </admin_predispatch_observers>
+                    <adminhtml_sales_order_create_index>enterprise_permissions/validate_action::salesOrderCreate</adminhtml_sales_order_create_index>
+                    <adminhtml_promo_quote_edit>enterprise_permissions/validate_action::promoEdit</adminhtml_promo_quote_edit>
+                    <adminhtml_promo_catalog_edit>enterprise_permissions/validate_action::promoEdit</adminhtml_promo_catalog_edit></admin_predispatch_observers>
                 <catalog_form_renderer_element>
                     <adminhtml_catalog_product_edit>enterprise_permissions/validate_block::validateFormField</adminhtml_catalog_product_edit>
                 </catalog_form_renderer_element>

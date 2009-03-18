@@ -40,4 +40,35 @@ class Enterprise_Permissions_Block_Catalog_Category_Tree extends Mage_Adminhtml_
     {
         return $this->getChildHtml('permissions_store_switcher');
     }
+
+    protected function _allowNodesDrag()
+    {
+        return false;
+    }
+    
+    public function getAddRootButtonHtml()
+    {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
+            return parent::getAddRootButtonHtml();
+        }
+        
+        if( Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess()) {
+            return parent::getAddRootButtonHtml();
+        }
+        
+        return false;
+    }
+    
+    public function getAddSubButtonHtml()
+    {
+        if( Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
+            return parent::getAddSubButtonHtml();
+        }
+        
+        if( Mage::helper('enterprise_permissions')->hasAnyWebsiteScopeAccess()) {
+            return parent::getAddSubButtonHtml();
+        }
+        
+        return false;
+    }
 }
