@@ -29,10 +29,11 @@
 function updateEmailWebsites() {
     emailWebsites = $('_customerbalancetrans_email_store');
     balanceWebsites = $('_customerbalancewebsite');
+    selectedWebsite = $('_customerbalancewebsite') ? $('_customerbalancewebsite').value : '<?php echo $this->getCustomerWebsite()?>';
     allowedWebsites = false;
     
     if( emailWebsites ) {
-        new Ajax.Request('<?php echo $this->helper('enterprise_customerbalance')->getAllowedEmailWebsitesAjaxUrl();?>'+'website_id/'+balanceWebsites.value, 
+        new Ajax.Request('<?php echo $this->helper('enterprise_customerbalance')->getAllowedEmailWebsitesAjaxUrl();?>'+'website_id/'+selectedWebsite, 
         {
             method: 'get',
             onSuccess: function(transport) {
@@ -52,7 +53,7 @@ function updateEmailWebsites() {
             }
         })
         
-        new Ajax.Request('<?php echo $this->helper('enterprise_customerbalance')->getWebsiteBaseCurrencyAjaxUrl();?>'+'website_id/'+balanceWebsites.value, 
+        new Ajax.Request('<?php echo $this->helper('enterprise_customerbalance')->getWebsiteBaseCurrencyAjaxUrl();?>'+'website_id/'+selectedWebsite, 
         {
             method: 'get',
             onSuccess: function(transport) {
