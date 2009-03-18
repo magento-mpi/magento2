@@ -49,6 +49,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                     'label'     => Mage::helper('enterprise_customerbalance')->__('Website'),
                     'title'     => Mage::helper('enterprise_customerbalance')->__('Website'),
                     'values'    => Mage::getModel('adminhtml/system_store')->getWebsiteValuesForForm(),
+                    'onchange'  => 'updateEmailWebsites()',
                 )
             );
         }
@@ -72,7 +73,6 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'name'      => 'trans_email_store',
                 'label'     => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
                 'title'     => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
-                'values'    => Mage::getModel('adminhtml/system_store')->getStoreValuesForForm(),
                 'disabled'  => $ballance->getEmailNotify() ? false : true,
             )
         );
@@ -80,6 +80,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $sendemail->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
+                updateEmailWebsites();
                 $('{$prefix}email_notify').disableSendemail = function() {
                     $('{$prefix}trans_email_store').disabled = (this.checked) ? false : true;
                 }.bind($('{$prefix}email_notify'));

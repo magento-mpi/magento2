@@ -32,7 +32,7 @@ class Enterprise_CustomerBalance_Model_Observer
         if( isset($post['customerbalance']) ) {
             $data = $post['customerbalance'];
             $data = new Varien_Object($data);
-            
+
             Mage::getModel('enterprise_customerbalance/balance')
                 ->setDelta($data->getDelta())
                 ->setEmailNotify( $data->getEmailNotify() == '' ? 1 : 0)

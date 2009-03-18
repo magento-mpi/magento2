@@ -34,5 +34,8 @@
         <reference name="left">
             <block type="adminhtml/customer_edit_tabs" name="customer_edit_tabs"></block>
         </reference>
+        <reference name="js">
+            <block type="adminhtml/template" template="customer/edit/js.phtml" name="customer.edit.js" as="customer_edit_js"></block>
+        </reference>
     </adminhtml_customer_edit>
 </layout>

@@ -32,5 +32,8 @@
             <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance" name="customerbalance"/>
             <action method="addTab"><name>customerbalance</name><block>customerbalance</block></action>
         </reference>
+        <reference name="js">
+            <block type="adminhtml/template" template="enterprise/customerbalance/edit/js.phtml" name="customerbalance_edit_js"></block>
+        </reference>
     </adminhtml_customer_edit>
 </layout>

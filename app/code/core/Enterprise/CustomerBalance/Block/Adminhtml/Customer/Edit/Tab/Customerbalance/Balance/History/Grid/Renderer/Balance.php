@@ -24,15 +24,23 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
+/**
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid_Renderer_Balance extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    public function getAllowedEmailWebsitesAjaxUrl()
+
+    public function render(Varien_Object $row)
     {
-    	return Mage::getUrl('*/customerbalance/getAllowedEmailWebsites');
+    	$data = $row->getData('balance');
+    	$currency_code = Mage::app()->getWebsite($row->getData('website_id'))->getBaseCurrencyCode(); 
+    	
+        $data = floatval($data);
+        $data = sprintf("%f", $data);
+        $data = Mage::app()->getLocale()->currency($currency_code)->toCurrency($data);
+        return $data;
     }
-    
-    public function getWebsiteBaseCurrencyAjaxUrl()
-    {
-        return Mage::getUrl('*/customerbalance/getWebsiteBaseCurrency');
-    }
+
 }

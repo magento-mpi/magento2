@@ -43,4 +43,30 @@ class Enterprise_CustomerBalance_CustomerbalanceController extends Mage_Adminhtm
             $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid')->toHtml()
         );
     }
+    
+    public function getAllowedEmailWebsitesAction()
+    {
+    	$websiteId = $this->getRequest()->getParam('website_id');
+    	if( $websiteId ) {
+    		$collection = Mage::getModel('core/store')->getCollection()
+    		  ->addWebsiteFilter($websiteId);
+    		 
+    		$items = array();
+            foreach( $collection->getItems() as $item ) {
+            	$items[] = $item->getData();
+            }
+            
+            $items = new Varien_Object($items);
+            $this->getResponse()->setBody($items->toJson());
+    	}
+    }
+    
+    public function getWebsiteBaseCurrencyAction()
+    {
+        $websiteId = $this->getRequest()->getParam('website_id');
+        if( $websiteId ) {
+            $website = Mage::app()->getWebsite($websiteId);
+            $this->getResponse()->setBody($website->getBaseCurrencyCode());
+        }
+    }
 }

@@ -87,10 +87,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'header'    => Mage::helper('enterprise_customerbalance')->__('Balance'),
             'width'     => '50px',
             'index'     => 'balance',
-            'type'      => 'price',
             'sortable'  => false,
             'filter'    => false,
-            'currency_code' => $store->getBaseCurrency()->getCode(),
+            'renderer'  =>'enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid_renderer_balance',
         ));
         
         $this->addColumn('website_name', array(
