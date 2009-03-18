@@ -20,7 +20,7 @@
  *
  * @category   Mage
  * @package    Mage_Eav
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -30,7 +30,7 @@
  *
  * @category   Mage
  * @package    Mage_Eav
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Eav_Model_Entity_Abstract
     extends Mage_Core_Model_Resource_Abstract
@@ -438,24 +438,29 @@ abstract class Mage_Eav_Model_Entity_Abstract
     public function loadAllAttributes($object=null)
     {
         $attributeCodes = Mage::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType(), $object);
-        foreach ($attributeCodes as $code) {
-        	$this->getAttribute($code);
-        }
-
         /**
          * Check and init default attributes
          */
         $defaultAttributes = $this->getDefaultAttributes();
         foreach ($defaultAttributes as $attributeCode) {
-        	if (!isset($this->_attributesByCode[$attributeCode])) {
+            $attributeIndex = array_search($attributeCode, $attributeCodes);
+            if ($attributeIndex !== false) {
+                $this->getAttribute($attributeCodes[$attributeIndex]);
+                unset($attributeCodes[$attributeIndex]);
+            } else {
                 $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
                 $attribute->setAttributeCode($attributeCode)
                     ->setBackendType('static')
                     ->setEntityType($this->getEntityType())
                     ->setEntityTypeId($this->getEntityType()->getId());
                 $this->addAttribute($attribute);
-        	}
+            }
         }
+
+        foreach ($attributeCodes as $code) {
+            $this->getAttribute($code);
+        }
+
         return $this;
     }
 

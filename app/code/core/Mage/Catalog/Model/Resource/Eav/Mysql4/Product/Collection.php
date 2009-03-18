@@ -190,7 +190,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 ->from(array('e' => $this->getEntity()->getFlatTableName()), null)
                 ->where('e.is_child=?', 0)
                 ->from(null, array('status' => new Zend_Db_Expr(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)));
-            $this->addAttributeToSelect(array('entity_id', 'type_id', 'child_id', 'is_child'));
+            $this->addAttributeToSelect(array('entity_id', 'type_id', 'child_id', 'is_child', 'attribute_set_id'));
         }
         else {
             $this->getSelect()->from(array('e'=>$this->getEntity()->getEntityTable()));
