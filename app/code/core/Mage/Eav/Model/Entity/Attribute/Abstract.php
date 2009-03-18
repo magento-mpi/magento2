@@ -501,6 +501,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             case 'static':
                 $describe = $this->_getResource()
                     ->describeTable($this->getBackend()->getTable());
+                if (!isset($describe[$this->getAttributeCode()])) {
+                    break;
+                }
                 $prop = $describe[$this->getAttributeCode()];
                 $columns[$this->getAttributeCode()] = array(
                     'type'      => $prop['DATA_TYPE'] . ($prop['LENGTH'] ? "({$prop['LENGTH']})" : ""),
@@ -576,6 +579,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                 case 'static':
                     $describe = $this->_getResource()
                         ->describeTable($this->getBackend()->getTable());
+                    if (!isset($describe[$this->getAttributeCode()])) {
+                        break;
+                    }
                     $indexDataTypes = array(
                         'varchar',
                         'varbinary',
