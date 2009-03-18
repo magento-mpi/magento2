@@ -141,27 +141,6 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
      */
     public function notificationAction()
     {
-                //BEGIN DEBUG
-                if (1) {
-                          $tmp = array();
-                          foreach ($_POST as $kay => $value) {
-                              $tmp[] = $kay . '=' . $value;
-                          }
-                          $Q = $_SERVER['REQUEST_URI'] . '?' . implode('&', $tmp);
-                  
-                            $fp = fopen('./var/ipn_debug/ipn.txt',"a");
-                  fwrite($fp, "ip=" . $_SERVER['REMOTE_ADDR'] . "\n");
-                  fwrite($fp, "uri=" . $_SERVER['REQUEST_URI'] . "\n");
-                  fwrite($fp, "uri_POST=" . $Q . "\n");
-                  fwrite($fp, "referer=" . getenv("HTTP_REFERER") . "\n");
-                  foreach ($this->getRequest()->getParams() as $kay => $value) {
-                      fwrite($fp, "$kay=$value" . "\n");
-                  }
-                  fwrite($fp, "\n");
-                  fclose($fp);
-                }
-                //END DEBUG
-    	
     	$this->getPayment()->processNotification($this->getRequest()->getParams());
     }
 }
