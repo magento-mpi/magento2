@@ -5,7 +5,9 @@
     </div>
     <div class="fieldset">
         <?php echo $this->getGrid()?>
+        <?php if( $this->canShowTotal() === true ):?>
         <h4><?php echo $this->helper('enterprise_customerbalance')->__('Total:')?> <?php echo $this->getBalance()?></h4>
+        <?php endif; ?>
     </div>
 </div>
 <?php endif;?>
