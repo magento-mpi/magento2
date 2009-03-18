@@ -517,6 +517,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         /* @var $status Mage_Eav_Model_Entity_Attribute */
         $fieldList  = array('entity_id', 'child_id', 'is_child', 'type_id', 'attribute_set_id');
         $isChild = new Zend_Db_Expr('0');
+        $columns    = $this->getFlatColumns();
         $select     = $this->_getWriteAdapter()->select()
             ->from(
                 array('e' => $this->getTable('catalog/product')),
@@ -543,6 +544,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         foreach ($this->getAttributes() as $attributeCode => $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
             if ($attribute->getBackend()->getType() == 'static') {
+                if (!isset($columns[$attributeCode])) {
+                    continue;
+                }
                 $fieldList[] = $attributeCode;
                 $select->from(null, $attributeCode);
             }
