@@ -24,6 +24,7 @@
 /* IE 6 only */
 .main { _height:500px; }
 .validation-advice { _height:13px; }
+.cart .cart-collaterals { _height:413px; }
 .opc li.section { vertical-align:top; }
 .products-grid .product-name { _height:2em; }
 .products-grid .actions { _height:70px; }
@@ -107,6 +108,7 @@ button.cart-btn span { background-position:100% 0; }
 .truncated .truncated_full_value .item-options dl,
 .product-review,
 .account-login,
+.cart .cart-collaterals,
 .cart,
 .opc .step-title,
 .opc .step,

@@ -31,7 +31,7 @@
             <?php if ($_code = $this->getTotal()->getGiftCard()): ?>
                 <?php $_title = $this->__('Remove'); ?>
                 <?php $_url = Mage::getUrl('enterprise_giftcardaccount/cart/remove', array('code'=>$_code)); ?>
-                <a href="<?php echo $_url; ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" title="<?php echo $_title; ?>" alt="<?php echo $_title; ?>" /></a>
+                <a href="<?php echo $_url; ?>" title="<?php echo $_title; ?>" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $_title; ?>" /></a>
             <?php endif; ?>
         <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
     </th>

@@ -45,7 +45,6 @@
         <fieldset>
             <table id="shopping-cart-table" class="data-table cart-table">
                 <col width="1" />
-                <col width="1" />
                 <col />
             <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
                 <col width="1" />
@@ -63,11 +62,11 @@
             <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
+                <col width="1" />            
             
             <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
                 <thead>
                     <tr>
-                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
                         <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
                         <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
                         <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
@@ -76,6 +75,7 @@
                         <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
                         <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
                     </tr>
                     <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                     <tr>
@@ -90,9 +90,9 @@
                     <tr>
                         <td colspan="50" class="a-right">
                             <?php if($this->getContinueShoppingUrl()): ?>
-                                <button type="button" class="button" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><?php echo $this->__('Continue Shopping') ?></span></button>
+                                <button type="button" class="button btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><?php echo $this->__('Continue Shopping') ?></span></button>
                             <?php endif; ?>
-                            <button type="submit" class="button"><span><?php echo $this->__('Update Shopping Cart') ?></span></button>
+                            <button type="submit" class="button btn-update"><span><?php echo $this->__('Update Shopping Cart') ?></span></button>
                         </td>
                     </tr>
                 </tfoot>
@@ -105,16 +105,6 @@
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-    <div class="col2-set cart-collaterals">
-        <div class="col-1">
-            <?php echo $this->getChildHtml('crosssell') ?>
-        </div>
-        <div class="col-2">
-            <?php echo $this->getChildHtml('coupon') ?>
-            <?php echo $this->getChildHtml('giftcards') ?>
-            <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
-        </div>
-    </div>
     <div class="totals">
         <?php echo $this->getChildHtml('totals'); ?>
         <?php if(!$this->hasError()): ?>
@@ -123,4 +113,13 @@
         </ul>
         <?php endif; ?>
     </div>
+    <div class="cart-collaterals">   
+        <?php echo $this->getChildHtml('crosssell') ?>
+        <div class="deals">
+            <?php echo $this->getChildHtml('coupon') ?>
+            <?php echo $this->getChildHtml('giftcards') ?>
+        </div>
+        <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+    </div>
+
 </div>

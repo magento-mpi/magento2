@@ -26,9 +26,9 @@
 ?>
 <?php $_item = $this->getItem() ?>
 <li class="item">
-    <a href="<?php echo $this->getProductUrl()?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" width="65" height="65" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
+    <a href="<?php echo $this->getProductUrl()?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
     <div class="product-details">
-        <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" title="<?php echo $this->__('Remove Product') ?>" /></a>
+        <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" title="<?php echo $this->__('Remove Product') ?>" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a>
         <h4><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h4>
         <table cellpadding="0">
         <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>

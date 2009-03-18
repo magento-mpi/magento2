@@ -36,12 +36,12 @@
             <p><?php echo $this->__('Enter your destination to get a shipping estimate.') ?></p>
             <ul class="form-list">
                 <li>
-                    <label for="country"><?php echo $this->__('Country') ?></label><br />
+                    <label for="country"><?php echo $this->__('Country') ?></label>
                     <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
                 </li>
             <?php //if($this->getStateActive()): ?>
                 <li>
-                    <label for="region_id"><?php echo $this->__('State/Province') ?><?php if ($this->isStateProvinceRequired()):?> <span class="required">*</span><?php endif;?></label><br />
+                    <label for="region_id"><?php echo $this->__('State/Province') ?><?php if ($this->isStateProvinceRequired()):?> <span class="required">*</span><?php endif;?></label>
                     <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" style="display:none;"<?php echo ($this->isStateProvinceRequired() ? ' class="validate-select"' : '') ?>>
                         <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                     </select>
@@ -55,12 +55,12 @@
             <?php //endif; ?>
             <?php if($this->getCityActive()): ?>
                 <li>
-                    <label for="city"><?php echo $this->__('City') ?><?php if ($this->isCityRequired()):?> <span class="required">*</span><?php endif;?></label><br />
+                    <label for="city"><?php echo $this->__('City') ?><?php if ($this->isCityRequired()):?> <span class="required">*</span><?php endif;?></label>
                     <input class="input-text<?php if ($this->isCityRequired()):?> required-entry<?php endif;?>" id="city" type="text" name="estimate_city" value="<?php echo $this->htmlEscape($this->getEstimateCity()) ?>" />
                 </li>
             <?php endif; ?>
                 <li>
-                    <label for="postcode"><?php echo $this->__('Zip/Postal Code') ?><?php if ($this->isZipCodeRequired()):?> <span class="required">*</span><?php endif;?></label><br />
+                    <label for="postcode"><?php echo $this->__('Zip/Postal Code') ?><?php if ($this->isZipCodeRequired()):?> <span class="required">*</span><?php endif;?></label>
                     <input class="input-text validate-postcode<?php if ($this->isZipCodeRequired()):?> required-entry<?php endif;?>" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->htmlEscape($this->getEstimatePostcode()) ?>" />
                 </li>
             </ul>
