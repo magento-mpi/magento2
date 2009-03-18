@@ -25,23 +25,28 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS response Model, refund 
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Refund extends Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
 {
+    /**
+     * rewrited for Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract 
+     */
     protected function parse($responseBody)
     {
         if ($responseBody->getName() != 'RefundResponse') {
             return false;
         }
-    	    	
-    	$transactionId = (string)$responseBody->RefundResult->TransactionId;
+                
+        $transactionId = (string)$responseBody->RefundResult->TransactionId;
         $transactionStatus = (string)$responseBody->RefundResult->TransactionStatus;
-    	
-    	if($transactionId == '' || $transactionStatus == '') {
-    	   return false;   
+        
+        if($transactionId == '' || $transactionStatus == '') {
+           return false;   
         }
         
         $this->setData('TransactionId', $transactionId);
@@ -50,8 +55,13 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Refund extends Mage_AmazonP
         return parent::parse($responseBody);
     }
 
+    /**
+     * Return response TransactionId
+     *
+     * @return string
+     */
     public function getTransactionId()
     {
-        return $this->getData('TransactionId');    	
+        return $this->getData('TransactionId');        
     }
 }

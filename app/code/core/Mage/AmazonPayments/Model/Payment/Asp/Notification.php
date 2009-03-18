@@ -24,74 +24,88 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * AmazonPayments ASP notification Model
+ *
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 {
+    /*
+     * payment Model
+     */
     protected $_payment;
 
+    /**
+     * Set payment Model
+     *
+     * @param Mage_AmazonPayments_Model_Payment_Asp $payment
+     * @return object Mage_AmazonPayments_Model_Payment_Asp_Notification
+     */
     public function setPayment($payment)
     {
         $this->_payment = $payment;
         return $this;
     }
 
+    /**
+     * Get payment Model
+     *
+     * @return object Mage_AmazonPayments_Model_Payment_Asp
+     */
     public function getPayment()
     {
         return $this->_payment;
     }
 
-    // PROCESS STATUSES
-
+    /**
+     * process notification request
+     *
+     * @param array $requestParams
+     */
     public function process($requestParams)
     {
-        try {
+        $request = $this->getPayment()->getApi()->processNotification($requestParams);
 
-        	$request = $this->getPayment()->getApi()->processNotification($requestParams);
-
-            if ($request->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_CANCEL_TRANSACTION) {
-                return true;
-            }
-
-            $order = $this->_getRequestOrder($request);
-
-            switch ($request->getStatus()) {
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_CANCEL_CUSTOMER:
-                    $this->_processCancel($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_RESERVE_SUCCESSFUL:
-                    $this->_processReserveSuccess($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_PAYMENT_INITIATED:
-                    $this->_processPaymetInitiated($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_PAYMENT_SUCCESSFUL:
-                    $this->_processPaymentSuccessful($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_PAYMENT_FAILED:
-                    $this->_processPaymentFailed($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_REFUND_SUCCESSFUL:
-                    $this->_processRefundSuccessful($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_REFUND_FAILED:
-                    $this->_processRefundFailed($request, $order);
-                    break;
-                case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_SYSTEM_ERROR:
-                    $this->_processSystemError($request, $order);
-                    break;
-            }
-
-            $order->save();
-
-        } catch (Mage_Core_Exception $e) {
-        	$this->_catchMageCoreExeption($e, $requestParams);
-        } catch(Exception $e) {
-            $this->_catchExeption($e, $requestParams);
+        if ($request->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_CANCEL_TRANSACTION) {
+            return true;
         }
 
+        $order = $this->_getRequestOrder($request);
+        switch ($request->getStatus()) {
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_CANCEL_CUSTOMER:
+                $this->_processCancel($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_RESERVE_SUCCESSFUL:
+                $this->_processReserveSuccess($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_PAYMENT_INITIATED:
+                $this->_processPaymetInitiated($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_PAYMENT_SUCCESSFUL:
+                $this->_processPaymentSuccessful($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_PAYMENT_FAILED:
+                $this->_processPaymentFailed($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_REFUND_SUCCESSFUL:
+                $this->_processRefundSuccessful($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_REFUND_FAILED:
+                $this->_processRefundFailed($request, $order);
+                break;
+            case Mage_AmazonPayments_Model_Api_Asp_Ipn_Request::STATUS_SYSTEM_ERROR:
+                $this->_processSystemError($request, $order);
+                break;
+        }
+        $order->save();
     }
 
-    // REQUEST STATUSES
-
+    /**
+     * When a customer cancel payment 
+     */
     protected function _processCancel($request, $order)
     {
         if ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED) {
@@ -115,6 +129,9 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         $this->_errorViolationSequenceStates($request, $order);
     }
 
+    /**
+     * When a authorize payment 
+     */
     protected function _processReserveSuccess($request, $order)
     {
         if ($order->getState() != Mage_Sales_Model_Order::STATE_NEW) {
@@ -133,6 +150,9 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return true;
     }
 
+    /**
+     * When a initiation capture payment  
+     */
     protected function _processPaymetInitiated($request, $order)
     {
         if ($order->getState() != Mage_Sales_Model_Order::STATE_NEW &&
@@ -150,6 +170,9 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return true;
     }
 
+    /**
+     * When a capture payment  
+     */
     protected function _processPaymentSuccessful($request, $order)
     {
         if ($order->getState() != Mage_Sales_Model_Order::STATE_NEW &&
@@ -230,9 +253,11 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         );
 
         return true;
-
     }
 
+    /**
+     * When a failed capture payment  
+     */
     protected function _processPaymentFailed($request, $order)
     {
         if ($order->getState() != Mage_Sales_Model_Order::STATE_NEW &&
@@ -250,6 +275,9 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return true;
     }
 
+    /**
+     * When a refund payment  
+     */
     protected function _processRefundSuccessful($request, $order)
     {
         if ($order->getState() != Mage_Sales_Model_Order::STATE_PROCESSING &&
@@ -327,9 +355,11 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         $order->addStatusToHistory($order->getStatus(), $msg);
 
         return true;
-
     }
 
+    /**
+     * When a failed refund payment  
+     */
     protected function _processRefundFailed($request, $order)
     {
         $order->setState(
@@ -342,6 +372,9 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return true;
     }
 
+    /**
+     * When a Amazon Simple Pay system error  
+     */
     protected function _processSystemError($request, $order)
     {
         $order->setState(
@@ -354,17 +387,22 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return true;
     }
 
-
+    /**
+     * Return order model for current request
+     *
+     * @param array $request
+     * @return object Mage_Sales_Model_Order
+     */
     protected function _getRequestOrder($request)
     {
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($request->getReferenceId());
 
         if ($order->isEmpty()) {
-        	$this->_error(
-        	   Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: order specified in the IPN request can not be found'),
-        	   $request
-        	);
+            $this->_error(
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: order specified in the IPN request can not be found'),
+               $request
+            );
         }
 
         if ($order->getPayment()->getMethodInstance()->getCode() != $this->getPayment()->getCode()) {
@@ -384,6 +422,12 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return $order;
     }
 
+    /**
+     * Return invoice model for current order
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return object Mage_Sales_Model_Order_Invoice
+     */
     protected function _getOrderInvoice($order)
     {
         foreach ($order->getInvoiceCollection() as $orderInvoice) {
@@ -396,6 +440,12 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return false;
     }
 
+    /**
+     * Create and return creditmemo for current order
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return object Mage_Sales_Model_Order_Creditmemo
+     */
     protected function _initCreditMemo($order)
     {
         $invoice = $this->_getOrderInvoice($order);
@@ -421,6 +471,12 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return $creditmemo;
     }
 
+    /**
+     * Return creditmemo model for current order
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return object Mage_Sales_Model_Order_Creditmemo
+     */
     protected function _getOrderCreditmemo($order)
     {
         foreach ($order->getCreditmemosCollection() as $orderCreditmemo) {
@@ -433,8 +489,12 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         return false;
     }
 
-    // ERRORS
-
+    /**
+     * Process error: order states sequence violation
+     *
+     * @param array $request
+     * @param Mage_Sales_Model_Order $order
+     */
     protected function _errorViolationSequenceStates($request, $order)
     {
         $this->_error(
@@ -444,6 +504,13 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         );
     }
 
+    /**
+     * Process error
+     *
+     * @param string $comment
+     * @param array $request
+     * @param Mage_Sales_Model_Order $order
+     */
     protected function _error($comment, $request, $order = null)
     {
         $message = $comment . Mage::helper('amazonpayments')->__('<br/>Trace confirmation request:<br/>%s', $request->toString());
@@ -455,29 +522,6 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             )->save();
         }
 
-        Mage::throwException($message);
-    }
-
-    protected function _catchMageCoreExeption($exeption, $requestParams)
-    {
-                        //BEGIN DEBUG
-                        if (1) {
-                            $fp = fopen('./var/ipn_debug/ipn_mage_core_exeptions.txt',"a");
-                            fwrite($fp, $exeption->getMessage() . "\n");
-                            fwrite($fp, "\n");
-                            fclose($fp);
-                        }
-                        //END DEBUG
-    }
-
-    protected function _catchExeption($exeption, $requestParams)
-    {
-                        if (1) {
-                            $fp = fopen('./var/ipn_debug/ipn_exeptions.txt',"a");
-                            fwrite($fp, $exeption->getMessage() . "\n");
-                            fwrite($fp, "\n");
-                            fclose($fp);
-                        }
-
+        Mage::throwException($comment);
     }
 }

@@ -25,39 +25,68 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS request Model, refund
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund extends Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
 {
-	public function isValid() 
+    /**
+     * rewrited for Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract 
+     */
+    public function isValid() 
     {
         if (!$this->getData('TransactionId') ||
             !$this->getData('CallerReference')) {
             return false;
         }
-    	return parent::isValid();
+        return parent::isValid();
     }    
 
+    /**
+     * Set request transactionId 
+     *
+     * @param string $transactionId
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     */
     public function setTransactionId($transactionId)
     {
         return $this->setData('TransactionId', $transactionId);
     }
 
+    /**
+     * Set request referenceId 
+     *
+     * @param string $referenceId
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     */
     public function setReferenceId($referenceId)
     {
         return $this->setData('CallerReference', $referenceId);
     }
         
+    /**
+     * Set request description
+     *
+     * @param string $description
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     */
     public function setDescription($description)
     {
         return $this->setData('CallerDescription', $description);
     }
 
+    /**
+     * Set request amount
+     *
+     * @param Mage_AmazonPayments_Model_Api_Asp_Amount $amount
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     */
     public function setAmount($amount)
     {
-    	return $this->setData('RefundAmount.Value', $amount->getValue())
+        return $this->setData('RefundAmount.Value', $amount->getValue())
                     ->setData('RefundAmount.CurrencyCode', $amount->getCurrencyCode());
     }
 }

@@ -25,23 +25,28 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS response Model, error 
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Error extends Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
 {
+    /**
+     * rewrited for Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract 
+     */
     protected function parse($responseBody)
     {
-    	if ($responseBody->getName() != 'Response') {
+        if ($responseBody->getName() != 'Response') {
             return false;
         }
-    	
-    	$code = (string)$responseBody->Errors->Error->Code;
+        
+        $code = (string)$responseBody->Errors->Error->Code;
         $message = (string)$responseBody->Errors->Error->Message;
         $responseId = (string)$responseBody->RequestID;
-    	
-    	if($code == '' || $message == '' || $responseId == '') {
+        
+        if($code == '' || $message == '' || $responseId == '') {
            return false;   
         }
         
@@ -52,11 +57,21 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Error extends Mage_AmazonPa
         return true;
     }
 
+    /**
+     * Return response Code
+     *
+     * @return string
+     */
     public function getCode()
     {
         return $this->getData('Code');        
     }
 
+    /**
+     * Return response Message
+     *
+     * @return string
+     */
     public function getMessage()
     {
         return $this->getData('Message');        

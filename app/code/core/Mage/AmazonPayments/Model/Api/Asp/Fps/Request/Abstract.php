@@ -25,39 +25,62 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS base request Model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract extends Varien_Object 
 {
+    /*
+     * Request action code
+     */
     private $_actionCode;
     
+    /**
+     * Init object 
+     *
+     * @param string $actionCode
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
+     */
     public function init($actionCode)
     {
         if (is_null($this->_actionCode)) {
-        	$this->_actionCode = $actionCode; 
+            $this->_actionCode = $actionCode; 
             $this->initDefaultParams();
         }
-    	return $this;
+        return $this;
     }
 
+    /**
+     * Init default request params 
+     */
     protected function initDefaultParams()
     {
-    	$this->setData('Action', $this->getActionCode());
+        $this->setData('Action', $this->getActionCode());
     }
     
+    /**
+     * Return request action code 
+     *
+     * @return string
+     */
     public function getActionCode()
     {
         return $this->_actionCode;
     }
     
+    /**
+     * Validation request params 
+     *
+     * @return bool
+     */
     public function isValid() 
     {
         if (!$this->getData('Action')) {
-        	return false;
+            return false;
         }
-    	return true;
+        return true;
     }    
-    
 }

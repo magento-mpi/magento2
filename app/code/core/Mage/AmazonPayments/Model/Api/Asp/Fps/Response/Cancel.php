@@ -25,19 +25,24 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS response Model, cancel 
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Cancel extends Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
 {
+    /**
+     * rewrited for Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract 
+     */
     protected function parse($responseBody)
     {
         if ($responseBody->getName() != 'CancelResponse') {
             return false;
         }
-    	
-    	$transactionId = (string)$responseBody->CancelResult->TransactionId;
+        
+        $transactionId = (string)$responseBody->CancelResult->TransactionId;
         $transactionStatus = (string)$responseBody->CancelResult->TransactionStatus;
         
         if($transactionId == '' || $transactionStatus == '') {
@@ -50,6 +55,11 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Cancel extends Mage_AmazonP
         return parent::parse($responseBody);
     }
 
+    /**
+     * Return response TransactionId
+     *
+     * @return string
+     */
     public function getTransactionId()
     {
         return $this->getData('TransactionId');     

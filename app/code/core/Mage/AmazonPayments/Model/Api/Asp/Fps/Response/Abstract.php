@@ -25,12 +25,17 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS base response Model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract extends Varien_Object
 {
+    /*
+     * Response statuses
+     */
     const STATUS_CANCELLED = 'Cancelled';
     const STATUS_FAILURE = 'Failure';
     const STATUS_PENDING = 'Pending';
@@ -38,23 +43,35 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract extends Varien_Obj
     const STATUS_SUCCESS = 'Success';
     const STATUS_ERROR = 'Error';
     
-	public function init($responseBody)
+    /**
+     * Init object 
+     *
+     * @param Varien_Simplexml_Element $responseBody
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
+     */
+    public function init($responseBody)
     {
         if (!$this->parse($responseBody)) {
-        	return false;
+            return false;
         }
         return $this;
     }
     
+    /**
+     * Parse response body
+     *
+     * @param Varien_Simplexml_Element $responseBody
+     * @return bool
+     */
     protected function parse($responseBody)
     {
         $responseId = (string)$responseBody->ResponseMetadata->RequestId;
-    	if($responseId == '') {
+        if($responseId == '') {
            return false;   
         }
         $this->setData('Id', $responseId);
-    	
-    	if (!$status = $this->getData('Status')) {
+        
+        if (!$status = $this->getData('Status')) {
             return false;
         }
         if ($status != self::STATUS_CANCELLED &&
@@ -62,16 +79,26 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract extends Varien_Obj
             $status != self::STATUS_PENDING &&
             $status != self::STATUS_RESERVED &&
             $status != self::STATUS_SUCCESS) {
-          	return false;       
+              return false;       
         }
         return true;
     }
 
+    /**
+     * Return status of respons
+     *
+     * @return string
+     */
     public function getStatus()
     {
-        return $this->getData('Status');    	
+        return $this->getData('Status');        
     }
     
+    /**
+     * Return response ID
+     *
+     * @return string
+     */
     public function getId()
     {
         return $this->getData('Id');        

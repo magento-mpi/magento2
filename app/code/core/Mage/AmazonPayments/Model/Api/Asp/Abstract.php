@@ -25,25 +25,50 @@
  */
 
 /**
- * AmazonPayments API wrappers model
+ * AmazonPayments ASP Base API Model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Abstract extends Mage_AmazonPayments_Model_Api_Abstract
 {
+    /**
+     * rewrited for Mage_AmazonPayments_Model_Api_Abstract 
+     */
     protected $paymentCode = 'amazonpayments_asp';
-	protected $_amountModel = 'amazonpayments/api_asp_amount';
+    
+    /**
+     * Amount model path 
+     */
+    protected $_amountModel = 'amazonpayments/api_asp_amount';
   
+    /**
+     * Get singleton with AmazonPayments ASP Amount Model
+     *
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Amount
+     */
     protected function _getAmount()
     {
         return Mage::getSingleton($this->_amountModel);
     }
     
+    /**
+     * Return sandbox mode flag
+     *
+     * @return bool
+     */
     protected function _isSandbox() 
     {
         return $this->_getConfig('is_sandbox'); 
     }
 
+    /**
+     * Get value from the module config
+     *
+     * @param string $path
+     * @return string
+     */
     protected function _getConfig($path) 
     {
         return Mage::getStoreConfig('payment/' . $this->paymentCode . '/' . $path);

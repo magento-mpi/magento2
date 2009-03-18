@@ -25,12 +25,17 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments FPS request Model, settle
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle extends Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
 {
+    /**
+     * rewrited for Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract 
+     */
     public function isValid() 
     {
         if (!$this->getData('ReserveTransactionId')) {
@@ -39,11 +44,23 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle extends Mage_AmazonPa
         return parent::isValid();
     }    
 
+    /**
+     * Set request transactionId 
+     *
+     * @param string $transactionId
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle
+     */
     public function setTransactionId($transactionId)
     {
         return $this->setData('ReserveTransactionId', $transactionId);
     }
 
+    /**
+     * Set request amount
+     *
+     * @param Mage_AmazonPayments_Model_Api_Asp_Amount $amount
+     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle
+     */
     public function setAmount($amount)
     {
         return $this->setData('TransactionAmount.Value', $amount->getValue())

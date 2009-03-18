@@ -25,19 +25,45 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments ASP Amount Model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_AmazonPayments_Model_Api_Asp_Amount
 {
-    
-	private $_value;
+    /*
+     * Amount value
+     */
+    private $_value;
+
+    /*
+     * Amount currency code
+     */
     private $_currencyCode;
-	protected $_amountStringTemplate = "/^([A-Z]{3})\s([0-9]{1,}|[0-9]{1,}[.][0-9]{1,})$/";
+
+    /*
+     * Template union amount
+     */
+    protected $_amountStringTemplate = "/^([A-Z]{3})\s([0-9]{1,}|[0-9]{1,}[.][0-9]{1,})$/";
+    
+    /*
+     * Template amount value
+     */
     protected $_valueStringTemplate = "/^([0-9]{1,}|[0-9]{1,}[.][0-9]{1,})$/";
+    
+    /*
+     * Template amount currency code
+     */
     protected $_currencyCodeStringTemplate = "/^([A-Z]{3})$/";
     
+    /**
+     * Init object 
+     *
+     * @param string $amount - union amount
+     * @return Mage_AmazonPayments_Model_Api_Asp_Amount
+     */
     public function init($amount)
     {
         $tmpArr = array();
@@ -49,6 +75,12 @@ class Mage_AmazonPayments_Model_Api_Asp_Amount
         return $this;
     }
 
+    /**
+     * Set amount value
+     *
+     * @param string $value
+     * @return Mage_AmazonPayments_Model_Api_Asp_Amount
+     */
     public function setValue($value)
     {
         $tmpArr = array();
@@ -59,6 +91,12 @@ class Mage_AmazonPayments_Model_Api_Asp_Amount
         return $this;
     }
 
+    /**
+     * Set amount currency code
+     *
+     * @param string $currencyCode
+     * @return Mage_AmazonPayments_Model_Api_Asp_Amount
+     */
     public function setCurrencyCode($currencyCode)
     {
         $tmpArr = array();
@@ -69,16 +107,31 @@ class Mage_AmazonPayments_Model_Api_Asp_Amount
         return $this;
     }
 
+    /**
+     * Get amount value
+     *
+     * @return string
+     */
     public function getValue()
     {
-    	return $this->_value;
+        return $this->_value;
     }
     
+    /**
+     * Get amount currency code
+     *
+     * @return string
+     */
     public function getCurrencyCode()
     {
         return $this->_currencyCode;
     }
     
+    /**
+     * Return union amount string
+     *
+     * @return string
+     */
     public function toString()
     {
         return $this->getCurrencyCode() . ' ' . $this->getValue();

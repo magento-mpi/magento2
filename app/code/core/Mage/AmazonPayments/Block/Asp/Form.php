@@ -25,7 +25,7 @@
  */
 
 /**
- * Amazon Payments Form Block
+ * AmazonPayments Form Block
  *
  * @category    Mage
  * @package     Mage_AmazonPayments
@@ -33,7 +33,6 @@
  */
 class Mage_AmazonPayments_Block_Asp_Form extends Mage_Payment_Block_Form
 {
-
     /**
      * Varien constructor
      */
@@ -42,5 +41,4 @@ class Mage_AmazonPayments_Block_Asp_Form extends Mage_Payment_Block_Form
         $this->setTemplate('amazonpayments/asp/form.phtml');
         parent::_construct();
     }
-
 }

@@ -25,23 +25,33 @@
  */
 
 /**
- * Abstract class for AmazonPayments API wrappers
+ * AmazonPayments Base API Model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_AmazonPayments
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
 {
+    /*
+     * payment actions
+     */
     const PAYMENT_TYPE_AUTH  = 'Authorization';
     const USER_ACTION_COMMIT = 'commit';
 
+    /*
+     * signature generation algorithm name
+     */
     protected static $HMAC_SHA1_ALGORITHM = 'sha1';
 
+    /*
+     * payment module code
+     */
     protected $paymentCode;
 
     /**
-     * Getter for $this->_currentAffiliatId
+     * Set payment module code
      *
-     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function setPaymentCode($paymentCode)
@@ -52,11 +62,9 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
         }
     }
 
-
     /**
-     * Getter for $this->_currentAffiliatId
+     * Return payment url
      *
-     * @param Varien_Event_Observer $observer
      * @return string
      */
     public function getPayServiceUrl()
@@ -68,9 +76,10 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Getter for $this->_currentAffiliatId
+     * Get value from the payment module config
      *
-     * @param Varien_Event_Observer $observer
+     * @param string $kay
+     * @param string $default
      * @return string
      */
     public function getConfigData($key, $default = false)
@@ -86,10 +95,10 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Getter for $this->_currentAffiliatId
+     * Check signed params
      *
-     * @param Varien_Event_Observer $observer
-     * @return string
+     * @param array $params
+     * @return bool
      */
     public function checkSignParams($params)
     {
@@ -104,10 +113,10 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Getter for $this->_currentAffiliatId
+     * Add signature param to params array
      *
-     * @param Varien_Event_Observer $observer
-     * @return string
+     * @param array $params
+     * @return array
      */
     public function signParams($params)
     {
@@ -117,10 +126,11 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Getter for $this->_currentAffiliatId
+     * Return signature for array
      *
-     * @param Varien_Event_Observer $observer
-     * @return string
+     * @param array $array
+     * @param string $secretKey
+     * @return array
      */
     protected function _getSignatureForArray($array, $secretKey)
     {
@@ -132,11 +142,11 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
         return $this->_getSignatureForString($tmpString, $secretKey);
     }
 
-
     /**
-     * Getter for $this->_currentAffiliatId
+     * Return signature for string
      *
-     * @param Varien_Event_Observer $observer
+     * @param string $string
+     * @param string $secretKey
      * @return string
      */
     protected function _getSignatureForString ($string, $secretKey)
@@ -144,5 +154,4 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
         $rawHmac = hash_hmac(self::$HMAC_SHA1_ALGORITHM, $string, $secretKey, true);
         return base64_encode($rawHmac);
     }
-
 }

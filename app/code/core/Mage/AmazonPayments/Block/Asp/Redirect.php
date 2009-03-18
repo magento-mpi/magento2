@@ -19,26 +19,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Protx
+ * @package    Mage_AmazonPayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Redirect to Protx
+ * AmazonPayments Form Block
  *
- * @category   Mage
- * @package    Mage_Protx
- * @name       Mage_Protx_Block_Standard_Redirect
+ * @category    Mage
+ * @package     Mage_AmazonPayments
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_AmazonPayments_Block_Asp_Redirect extends Mage_Core_Block_Template
 {
-   /**
-     * Class constructor
-     * Set cache parameters
-     *
+    /**
+     * Varien constructor
      */
     protected function _construct()
     {

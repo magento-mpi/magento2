@@ -33,13 +33,13 @@
     </modules>
     <global>
         <!--<sales>
-	        <quote>
-		        <item>
-			        <product_attributes>
+            <quote>
+                <item>
+                    <product_attributes>
                         <disable_amazonpayments/>
-			        </product_attributes>
-		        </item>
-	        </quote>
+                    </product_attributes>
+                </item>
+            </quote>
         </sales>-->
         <models>
             <amazonpayments>
@@ -110,6 +110,15 @@
 
             </order>
         </sales>
+        <template>
+            <email>
+                <payment_amazonpayments_asp translate="label" module="amazonpayments">
+                    <label>Amazon Simple Pay notification error</label>
+                    <file>amazonpayments_asp_notification_error.html</file>
+                    <type>html</type>
+                </payment_amazonpayments_asp>
+            </email>
+        </template>
     </global>
 <!--
 Something like this is to be added to resolve bug #4890
@@ -196,20 +205,9 @@ Something like this is to be added to resolve bug #4890
                 <title>Amazon Simple Pay</title>
                 <active>0</active>
 
-                    <!-- types>IPN</types>
-                    <allowspecific>0</allowspecific>
-                    <order_status>pending_payment</order_status>
-                    <merchant_name>Varien</merchant_name>
-                    <wsdl>/media/wsdl/amazon_cba_merchant-interface-mime.wsdl</wsdl>
-                    <payment_action>Reserve</payment_action>
-                    <payment_action>Payment</payment_action>
-                    <request_signature_param_name>signature</request_signature_param_name -->
-
                 <is_sandbox>1</is_sandbox>
                 <access_key>1VZ8ZAV29R24E44ZMX82</access_key>
                 <secret_key>DkY4MYLYX2359/7Wo8ILdN1GHc2lK77goDQGS64R</secret_key>
-
-                <pay_button_image_url>https://authorize.payments-sandbox.amazon.com/pba/images/SMPayNowWithAmazon.png</pay_button_image_url>
 
                 <pay_service_url>https://authorize.payments.amazon.com/pba/paypipeline</pay_service_url>
                 <pay_service_url_sandbox>https://authorize.payments-sandbox.amazon.com/pba/paypipeline</pay_service_url_sandbox>
@@ -217,7 +215,6 @@ Something like this is to be added to resolve bug #4890
                 <pay_description>MAGENTO ASP PAYMENT</pay_description>
                 <refund_description>MAGENTO ASP REFUND</refund_description>
                 <cancel_description>MAGENTO ASP CANCEL</cancel_description>
-
 
                 <pay_immediate_return>1</pay_immediate_return>
                 <pay_collect_shipping_address>0</pay_collect_shipping_address>
@@ -227,9 +224,18 @@ Something like this is to be added to resolve bug #4890
                 <fps_service_url>https://fps.amazonaws.com</fps_service_url>
                 <fps_service_url_sandbox>https://fps.sandbox.amazonaws.com/</fps_service_url_sandbox>
 
+                <report_email>romail@ukr.net</report_email>
+                <email_sender_identity>general</email_sender_identity>
+                <email_template_notofication_error>payment_amazonpayments_asp</email_template_notofication_error>
+                <report_error_to_email>0</report_error_to_email>
+
+                <error_log>0</error_log>
+                <debug_log>0</debug_log>
 
             </amazonpayments_asp>
 
         </payment>
+
+
     </default>
 </config>
