@@ -215,6 +215,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
                 ->load($this->getProductId());
             $this->setProduct($product);
         }
+
+        /**
+         * Reset product final price because it related to custom options
+         */
+        $product->setFinalPrice(null);
         $product->setCustomOptions($this->_optionsByCode);
         return $product;
     }
