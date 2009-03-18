@@ -255,11 +255,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
                 ->where('entity_id IN (?)', $categoryIds);
             $categoriesInfo = $this->_getWriteAdapter()->fetchAll($categoriesSelect);
 
-            // get categories positions (bug #6940)
-            $select = $this->_getWriteAdapter()->select()
-                ->from($this->getTable('catalog/category_product'), array('category_id', 'position'))
-                ->where('product_id=' . $product->getId());
-            $categoriesPositions = $this->_getWriteAdapter()->fetchPairs($select);
 
             $indexCategoryIds = array();
             foreach ($categoriesInfo as $categoryInfo) {

@@ -184,13 +184,6 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $conds[] = $write->quoteInto('product_id=?', $productId);
         }
 
-        /**
-         * Add product ids to affected products
-         */
-        $query = 'REPLACE INTO ' . $this->getTable('catalogrule/affected_product') . ' FROM
-            SELECT DISTINCT product_id FROM ' . $this->getTable('catalogrule/rule_product_price') . ' WHERE ' .
-            join(' AND ', $conds);
-
         $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
         return $this;
     }
