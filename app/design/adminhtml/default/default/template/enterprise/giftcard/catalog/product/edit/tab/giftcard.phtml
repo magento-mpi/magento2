@@ -1,0 +1,99 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('enterprise_giftcard')->__('Gift Card Information') ?></h4>
+    </div>
+    <fieldset>
+
+        <legend><?php echo Mage::helper('enterprise_giftcard')->__('Gift Card Information') ?></legend>
+        <table cellspacing="0" class="form-list" id="table_enterprise_giftcard">
+        <tr>
+            <td class="label"><label for="enterprise_giftcard_type"><?php echo Mage::helper('enterprise_giftcard')->__('Card Type') ?><span class="required">*</span></label></td>
+            <td class="value"><select id="enterprise_giftcard_type" name="<?php echo $this->getFieldPrefix() ?>[giftcard_type]" class="select required-entry">
+                <?php foreach ($this->getCardTypes() as $_value=>$_label): ?>
+                    <?php $_selected = ($this->getFieldValue('giftcard_type') == $_value ? 'selected="selected"' : ''); ?>
+                    <option value="<?php echo $_value; ?>" <?php echo $_selected; ?>><?php echo $_label; ?></option>
+                <?php endforeach; ?>
+            </select>
+            </td>
+            <td class="value scope-label"><?php echo Mage::helper('enterprise_giftcard')->__('[GLOBAL]') ?></td>
+        </tr>
+        <tr>
+            <td class="label"><label for="enterprise_giftcard_is_redeemable"><?php echo Mage::helper('enterprise_giftcard')->__('Is Redeemable') ?></label></td>
+            <td class="value"><select id="enterprise_giftcard_is_redeemable" name="<?php echo $this->getFieldPrefix() ?>[is_redeemable]" class="select">
+                <option value="1"><?php echo Mage::helper('enterprise_giftcard')->__('Yes') ?></option>
+                <option value="0"<?php if ($this->getFieldValue('is_redeemable') == 0): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('enterprise_giftcard')->__('No') ?></option>
+            </select>
+
+            <?php $_checked = ($this->getFieldValue('use_config_is_redeemable') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="checkbox" id="giftcard_use_config_is_redeemable" name="<?php echo $this->getFieldPrefix() ?>[use_config_is_redeemable]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" />
+            <label for="giftcard_use_config_is_redeemable" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
+            <script type="text/javascript">toggleValueElements($('giftcard_use_config_is_redeemable'), $('giftcard_use_config_is_redeemable').parentNode);</script></td>
+            <td class="value scope-label"><?php echo Mage::helper('enterprise_giftcard')->__('[WEBSITE]') ?></td>
+        </tr>
+        <tr>
+            <td class="label"><label for="giftcard_lifetime"><?php echo Mage::helper('enterprise_giftcard')->__('Lifetime (days)') ?></label></td>
+            <td class="value"><input type="text" class="input-text validate-number" id="giftcard_lifetime" name="<?php echo $this->getFieldPrefix() ?>[lifetime]" value="<?php echo $this->getFieldValue('lifetime')*1 ?>"/>
+
+            <?php $_checked = ($this->getFieldValue('use_config_lifetime') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="checkbox" id="giftcard_use_config_lifetime" name="<?php echo $this->getFieldPrefix() ?>[use_config_lifetime]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" />
+            <label for="giftcard_use_config_lifetime" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
+            <script type="text/javascript">toggleValueElements($('giftcard_use_config_lifetime'), $('giftcard_use_config_lifetime').parentNode);</script></td>
+            <td class="value scope-label"><?php echo Mage::helper('enterprise_giftcard')->__('[WEBSITE]') ?></td>
+        </tr>
+        <tr>
+            <td class="label"><label for="enterprise_giftcard_allow_message"><?php echo Mage::helper('enterprise_giftcard')->__('Allow Message') ?></label></td>
+            <td class="value"><select id="enterprise_giftcard_allow_message" name="<?php echo $this->getFieldPrefix() ?>[allow_message]" class="select">
+                <option value="1"><?php echo Mage::helper('enterprise_giftcard')->__('Yes') ?></option>
+                <option value="0"<?php if ($this->getFieldValue('allow_message') == 0): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('enterprise_giftcard')->__('No') ?></option>
+            </select>
+
+            <?php $_checked = ($this->getFieldValue('use_config_allow_message') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="checkbox" id="giftcard_use_config_allow_message" name="<?php echo $this->getFieldPrefix() ?>[use_config_allow_message]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" />
+            <label for="giftcard_use_config_allow_message" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
+            <script type="text/javascript">toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').parentNode);</script></td>
+            <td class="value scope-label"><?php echo Mage::helper('enterprise_giftcard')->__('[STORE VIEW]') ?></td>
+        </tr>
+        <tr>
+            <td class="label"><label for="enterprise_giftcard_email_template"><?php echo Mage::helper('enterprise_giftcard')->__('Email Template') ?></label></td>
+            <td class="value"><select id="enterprise_giftcard_email_template" name="<?php echo $this->getFieldPrefix() ?>[email_template]" class="select">
+                <?php foreach ($this->getEmailTemplates() as $_value=>$_label): ?>
+                    <?php $_selected = ($this->getFieldValue('type') == $_value ? 'selected="selected"' : ''); ?>
+                    <option value="<?php echo $_value; ?>" <?php echo $_selected; ?>><?php echo $_label; ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <?php $_checked = ($this->getFieldValue('use_config_email_template') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="checkbox" id="giftcard_use_config_email_template" name="<?php echo $this->getFieldPrefix() ?>[use_config_email_template]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" />
+            <label for="giftcard_use_config_email_template" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
+            <script type="text/javascript">toggleValueElements($('giftcard_use_config_email_template'), $('giftcard_use_config_email_template').parentNode);</script></td>
+            <td class="value scope-label"><?php echo Mage::helper('enterprise_giftcard')->__('[STORE VIEW]') ?></td>
+        </tr>
+        </table>
+    </fieldset>
+</div>

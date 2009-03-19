@@ -257,5 +257,12 @@
             </totals_sort>
         </sales>
     </default>
-
+    <crontab>
+        <jobs>
+            <enterprise_giftcardaccount_update_states>
+                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
+                <run><model>enterprise_giftcardaccount/cron::updateStates</model></run>
+            </enterprise_giftcardaccount_update_states>
+        </jobs>
+    </crontab>
 </config>

@@ -102,6 +102,11 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
         $card = null;
         if (isset($data['code'])) {
             $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($data['code']);
+            $website = Mage::app()->getWebsite()->getId();
+            if ($card->getWebsiteId() != $website) {
+                $card = new Varien_Object();
+            }
+
         }
         Mage::register('current_giftcardaccount', $card);
 

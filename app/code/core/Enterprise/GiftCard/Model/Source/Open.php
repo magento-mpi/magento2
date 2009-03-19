@@ -19,15 +19,32 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Enterprise_GiftCard
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_GiftCard_Model_Source_Open extends Mage_Core_Model_Abstract
 {
-    protected function _construct()
+    public function getAllOptions()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
+        $result = array();
+
+        foreach ($this->_getValues() as $k=>$v) {
+            $result[] = array(
+                'value' => $k,
+                'label' => $v,
+            );
+        }
+
+        return $result;
+    }
+
+    protected function _getValues()
+    {
+        return array(
+            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => Mage::helper('enterprise_giftcard')->__('No'),
+            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => Mage::helper('enterprise_giftcard')->__('Yes'),
+        );
     }
 }

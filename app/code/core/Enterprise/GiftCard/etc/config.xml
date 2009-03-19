@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCard>
-             <version>0.0.1</version>
+             <version>0.0.4</version>
         </Enterprise_GiftCard>
     </modules>
     <global>
@@ -36,20 +36,21 @@
             <enterprise_giftcard_setup>
                 <setup>
                     <module>Enterprise_GiftCard</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
-
                 <connection>
                     <use>core_setup</use>
                 </connection>
             </enterprise_giftcard_setup>
-
             <enterprise_giftcard_write>
-                <use>core_write</use>
+                <connection>
+                    <use>core_write</use>
+                </connection>
             </enterprise_giftcard_write>
-
             <enterprise_giftcard_read>
-                <use>core_read</use>
+                <connection>
+                    <use>core_read</use>
+                </connection>
             </enterprise_giftcard_read>
         </resources>
 
@@ -61,6 +62,11 @@
 
             <enterprise_giftcard_mysql4>
                 <class>Enterprise_GiftCard_Model_Mysql4</class>
+                <entities>
+                    <amount>
+                        <table>enterprise_giftcard_amount</table>
+                    </amount>
+                </entities>
             </enterprise_giftcard_mysql4>
         </models>
 
@@ -82,10 +88,93 @@
                     <giftcard translate="label" module="enterprise_giftcard">
                         <label>Gift Card</label>
                         <model>enterprise_giftcard/catalog_product_type_giftcard</model>
+                        <price_model>enterprise_giftcard/catalog_product_price_giftcard</price_model>
+                        <index_data_retreiver>enterprise_giftcard/catalogIndex_data_giftcard</index_data_retreiver>
+                        <index_priority>45</index_priority>
                         <composite>0</composite>
+                        <is_qty>1</is_qty>
                     </giftcard>
                 </type>
             </product>
         </catalog>
+
+        <events>
+            <adminhtml_catalog_product_edit_prepare_form>
+                <observers>
+                    <enterprise_giftcard_product_edit_prepare_form>
+                        <type>singleton</type>
+                        <class>enterprise_giftcard/observer</class>
+                        <method>setAmountsRendererInForm</method>
+                    </enterprise_giftcard_product_edit_prepare_form>
+                </observers>
+            </adminhtml_catalog_product_edit_prepare_form>
+            <adminhtml_catalog_product_form_prepare_excluded_field_list>
+                <observers>
+                    <enterprise_giftcard_product_excluded_field_list>
+                        <type>singleton</type>
+                        <class>enterprise_giftcard/observer</class>
+                        <method>updateExcludedFieldList</method>
+                    </enterprise_giftcard_product_excluded_field_list>
+                </observers>
+            </adminhtml_catalog_product_form_prepare_excluded_field_list>
+        </events>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_giftcard>
+                    <file>giftcard.xml</file>
+                </enterprise_giftcard>
+            </updates>
+        </layout>
+        <product>
+            <collection>
+                <attributes>
+                    <giftcard_amounts />
+                    <allow_open_amount />
+                    <open_amount_min />
+                    <open_amount_max />
+                </attributes>
+            </collection>
+        </product>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_giftcard>
+                    <file>enterprise/giftcard.xml</file>
+                </enterprise_giftcard>
+            </updates>
+        </layout>
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <system>
+                  <children>
+                    <config>
+                      <children>
+                        <giftcard>
+                          <title>Gift Cards</title>
+                        </giftcard>
+                      </children>
+                    </config>
+                  </children>
+                </system>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <giftcard>
+            <general>
+                <is_redeemable>1</is_redeemable>
+                <lifetime>0</lifetime>
+                <order_item_status>1</order_item_status>
+                <allow_message>1</allow_message>
+                <template>giftcard_general_template</template>
+            </general>
+        </giftcard>
+    </default>
 </config>

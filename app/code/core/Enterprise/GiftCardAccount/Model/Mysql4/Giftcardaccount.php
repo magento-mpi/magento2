@@ -51,4 +51,20 @@ class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount extends Mage_Core_
 
         return false;
     }
+
+    /**
+     * Update gift card accounts state
+     *
+     * @param array $ids
+     * @param int $state
+     * @return Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount
+     */
+    public function updateState($ids, $state)
+    {
+        $bind = array('state'=>$state);
+        $where = $this->_getReadAdapter()->quoteInto($this->getIdFieldName() . ' IN (?)', $ids);
+
+        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+        return $this;
+    }
 }

@@ -19,15 +19,24 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Enterprise_GiftCard
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_GiftCard_Model_Source_Status extends Mage_Core_Model_Abstract
 {
-    protected function _construct()
+    public function toOptionArray()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
+        return array(
+            array(
+                'value' => Mage_Sales_Model_Order_Item::STATUS_PENDING,
+                'label' => Mage::helper('enterprise_giftcard')->__('Pending')
+            ),
+            array(
+                'value' => Mage_Sales_Model_Order_Item::STATUS_INVOICED,
+                'label' => Mage::helper('enterprise_giftcard')->__('Invoiced')
+            )
+        );
     }
 }

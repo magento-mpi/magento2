@@ -38,4 +38,185 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     {
         return true;
     }
+
+    /**
+     * Check if gift card type is combined
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isTypeCombined($product = null)
+    {
+        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if gift card type is physical
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isTypePhysical($product = null)
+    {
+        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if gift card type is virtual
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isTypeVirtual($product = null)
+    {
+        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if gift card is virtual product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isVirtual($product = null)
+    {
+        if ($this->getProduct($product)->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if product is available for sale
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isSalable($product = null)
+    {
+        $amounts = $this->getProduct($product)->getPriceModel()->getAmounts($product);
+        $open = $this->getProduct($product)->getAllowOpenAmount();
+
+        if (!$open && !$amounts) {
+            return false;
+        }
+
+        return parent::isSalable($product);
+    }
+
+    /**
+     * Initialize product(s) for add to cart process
+     *
+     * @param   Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @return  unknown
+     */
+    public function prepareForCart(Varien_Object $buyRequest, $product = null)
+    {
+        $result = parent::prepareForCart($buyRequest, $product);
+
+        if (is_string($result)) {
+            return $result;
+        }
+
+        $product = $this->getProduct($product);
+        $allowedAmounts = array();
+        foreach ($product->getGiftcardAmounts() as $value) {
+            $allowedAmounts[] = $value['website_value'];
+        }
+        $allowOpen = $product->getAllowOpenAmount();
+        $minAmount = $product->getOpenAmountMin();
+        $maxAmount = $product->getOpenAmountMax();
+
+
+        $selectedAmount = $buyRequest->getGiftcardAmount();
+        $customAmount = $buyRequest->getCustomGiftcardAmount();
+
+        $rate = Mage::app()->getStore()->getCurrentCurrencyRate();
+        if ($rate != 1) {
+            if ($selectedAmount && is_numeric($selectedAmount)) {
+                $selectedAmount = $selectedAmount/$rate;
+            }
+            if ($customAmount && is_numeric($customAmount)) {
+                $customAmount = $customAmount/$rate;
+            }
+        }
+
+        $amount = null;
+
+        if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
+            if ($customAmount <= 0) {
+                return Mage::helper('enterprise_giftcard')->__('Please specify Gift Card amount.');
+            }
+            if (!$minAmount || ($minAmount && $customAmount >= $minAmount)) {
+                if (!$maxAmount || ($maxAmount && $customAmount <= $maxAmount)) {
+                    $amount = $customAmount;
+                } else if ($customAmount > $maxAmount) {
+                    $messageAmount = Mage::helper('core')->currency($maxAmount, true, false);
+                    return Mage::helper('enterprise_giftcard')->__('Gift Card max amount is %s', $messageAmount);
+                }
+            } else if ($customAmount < $minAmount) {
+                $messageAmount = Mage::helper('core')->currency($minAmount, true, false);
+                return Mage::helper('enterprise_giftcard')->__('Gift Card min amount is %s', $messageAmount);
+            }
+        } else if (is_numeric($selectedAmount)) {
+            if (in_array($selectedAmount, $allowedAmounts)) {
+                $amount = $selectedAmount;
+            }
+        }
+        if (is_null($amount)) {
+            if (count($allowedAmounts) == 1) {
+                $amount = array_shift($allowedAmounts);
+            }
+        }
+
+        if (is_null($amount)) {
+            return Mage::helper('enterprise_giftcard')->__('Please specify Gift Card amount.');
+        }
+
+        $product->addCustomOption('giftcard_amount', $amount, $product);
+
+        if (!$buyRequest->getGiftcardRecipientName()) {
+            return Mage::helper('enterprise_giftcard')->__('Please specify recipient name.');
+        }
+        if (!$buyRequest->getGiftcardSenderName()) {
+            return Mage::helper('enterprise_giftcard')->__('Please specify sender name.');
+        }
+
+        $product->addCustomOption('giftcard_sender_name', $buyRequest->getGiftcardSenderName(), $product);
+        $product->addCustomOption('giftcard_recipient_name', $buyRequest->getGiftcardRecipientName(), $product);
+
+        if (!$this->isTypePhysical($product)) {
+            if (!$buyRequest->getGiftcardRecipientEmail()) {
+                return Mage::helper('enterprise_giftcard')->__('Please specify recipient email.');
+            }
+            if (!$buyRequest->getGiftcardSenderEmail()) {
+                return Mage::helper('enterprise_giftcard')->__('Please specify sender email.');
+            }
+            $product->addCustomOption('giftcard_sender_email', $buyRequest->getGiftcardSenderEmail(), $product);
+            $product->addCustomOption('giftcard_recipient_email', $buyRequest->getGiftcardRecipientEmail(), $product);
+        }
+
+        $messageAllowed = false;
+        if ($product->getUseConfigAllowMessage()) {
+            $messageAllowed = Mage::getStoreConfigFlag(Enterprise_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
+        } else {
+            $messageAllowed = (int) $product->getAllowMessage();
+        }
+
+        if ($messageAllowed) {
+            $product->addCustomOption('giftcard_message', $buyRequest->getGiftcardMessage(), $product);
+        }
+
+        return $result;
+    }
 }

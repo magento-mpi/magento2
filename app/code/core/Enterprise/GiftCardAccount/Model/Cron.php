@@ -24,10 +24,30 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_GiftCardAccount_Model_Cron extends Mage_Core_Model_Abstract
 {
-    protected function _construct()
+    /**
+     * Update Gift Card Account states by cron
+     *
+     * @return Enterprise_GiftCardAccount_Model_Cron
+     */
+    public function updateStates()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
+        // update to expired
+        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+
+        $now = Mage::getModel('core/date')->date('Y-m-d');
+
+        $collection = $model->getCollection()
+            ->addFieldToFilter('state', Enterprise_GiftCardAccount_Model_Giftcardaccount::STATE_AVAILABLE)
+            ->addFieldToFilter('date_expires', array('notnull'=>true))
+            ->addFieldToFilter('date_expires', array('lt'=>$now));
+
+        $ids = $collection->getAllIds();
+        if ($ids) {
+            $state = Enterprise_GiftCardAccount_Model_Giftcardaccount::STATE_EXPIRED;
+            $model->updateState($ids, $state);
+        }
+        return $this;
     }
 }

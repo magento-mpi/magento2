@@ -19,15 +19,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Enterprise_GiftCard
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_GiftCard_Model_Data_Giftcard extends Mage_CatalogIndex_Model_Data_Simple
 {
-    protected function _construct()
+    protected $_haveChildren = false;
+
+    /**
+     * Retreive product type code
+     *
+     * @return string
+     */
+    public function getTypeCode()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
+        return Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD;
     }
 }

@@ -52,6 +52,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
             $this->setDateCreated($now);
             $this->_defineCode();
+            $this->setIsNew(true);
         } else {
             if ($this->getOrigData('balance') != $this->getBalance()) {
                 if ($this->getBalance() > 0) {
@@ -78,10 +79,12 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
     protected function _afterSave()
     {
-        $this->getPoolModel()
-            ->setId($this->getCode())
-            ->setStatus(Enterprise_GiftCardAccount_Model_Pool_Abstract::STATUS_USED)
-            ->save();
+        if ($this->getIsNew()) {
+            $this->getPoolModel()
+                ->setId($this->getCode())
+                ->setStatus(Enterprise_GiftCardAccount_Model_Pool_Abstract::STATUS_USED)
+                ->save();
+        }
 
         parent::_afterSave();
     }
@@ -269,13 +272,26 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         return $this;
     }
 
+    /**
+     * Return Gift Card Account state as user-friendly label
+     *
+     * @return string
+     */
     public function getStateText()
     {
         $states = $this->getStatesAsOptionList();
 
-        return $states[$this->getState()];
+        if (isset($states[$this->getState()])) {
+            return $states[$this->getState()];
+        }
+        return '';
     }
 
+    /**
+     * Return Gift Card Account state options
+     *
+     * @return array
+     */
     public function getStatesAsOptionList()
     {
         $result = array();
@@ -304,10 +320,25 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     /**
      * Retreive pool model instance
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Enterprise_GiftCardAccount_Model_Pool_Abstract
      */
     public function getPoolModel()
     {
         return Mage::getModel($this->getPoolModelClass());
+    }
+
+    /**
+     * Update gift card accounts state
+     *
+     * @param array $ids
+     * @param int $state
+     * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
+     */
+    public function updateState($ids, $state)
+    {
+        if ($ids) {
+            $this->getResource()->updateState($ids, $state);
+        }
+        return $this;
     }
 }
