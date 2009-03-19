@@ -119,6 +119,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store extends Mage_Core_Model_Mysq
         $slaveStore->setData('code',        $object->getCode());
         $slaveStore->setData('name',        $object->getName());
 
+        $slaveStore->setIgnoreSyncStagingStore(true);
         $slaveStore->save();
 
         if (!$slaveStoreId) {
@@ -213,6 +214,10 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store extends Mage_Core_Model_Mysq
 
     public function syncWithStore($object, $store)
     {
+        if ($store->getIgnoreSyncStagingStore()) {
+            return $this;
+        }
+
         $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
 
         $object->setData('slave_store_id', $store->getId());

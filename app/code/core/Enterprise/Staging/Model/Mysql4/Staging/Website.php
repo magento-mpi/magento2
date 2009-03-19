@@ -131,7 +131,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         $group->setData('website_id',           $object->getSlaveWebsiteId());
         $group->setData('root_category_id',     2); // TODO quick FIXME quick
         $group->setData('name',                 'Staging Store Group');
-        $group->setIgnoreSyncStagingGroup();
+        $group->setIgnoreSyncStagingGroup(true);
         $group->save();
 
         $this->updateAttribute($object, 'default_group_id', $stagingGroup->getId());
@@ -154,6 +154,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         $slaveWebsite->setData('master_login', $object->getMasterLogin());
         $slaveWebsite->setData('master_password', $object->getMasterPassword());
         $slaveWebsite->setData('master_password_hash', $object->getMasterPasswordHash());
+
+        $slaveWebsite->setIgnoreSyncStagingWebsite(true);
         $slaveWebsite->save();
 
         if (!$slaveWebsiteId) {
@@ -297,6 +299,10 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
     public function syncWithWebsite($object, $website)
     {
+        if ($website->getIgnoreSyncStagingWebsite()) {
+            return $this;
+        }
+
         $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
 
         $object->setData('slave_website_id', $website->getId());
