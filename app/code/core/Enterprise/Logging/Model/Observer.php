@@ -838,6 +838,543 @@ class Enterprise_Logging_Model_Observer
         $event->save();
     }
 
+    /**
+     * Store event on customergroup view.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCustomergroupView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('customergroups'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $customergroup = $observer->getGroup();
+        if(!$customergroup->getId())
+            return;
+        $info = array($customergroup->getId(), $customergroup->getCustomerGroupCode());
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('customergroups');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on customergroup save.
+     *
+     * @param Varien_Object $observer  
+     *
+     */
+    public function addEventOnCustomergroupSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('customergroups'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $customergroup = $observer->getGroup();
+        $info = array($customergroup->getId(), $customergroup->getCustomerGroupCode());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('customergroups');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on customergroup delete.
+     *
+     * @param Varien_Object $observer  expected customergroup
+     *
+     */
+    public function addEventOnCustomergroupDelete($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('customergroups'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $customergroup = $observer->getGroup();
+        $info = array($customergroup->getId(), $customergroup->getCustomerGroupCode());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('customergroups');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on promocatalog view.
+     *
+     * @param Varien_Object $observer
+     *
+     */
+    public function addEventOnPromocatalogView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('promocatalog'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $promocatalog = $observer->getPromocatalog();
+        if(!$promocatalog->getId())
+            return;
+        $info = array($promocatalog->getId(), $promocatalog->getName());
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('promocatalog');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on promocatalog save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnPromocatalogSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('promocatalog'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $promocatalog = $observer->getPromocatalog();
+        $info = array($promocatalog->getId(), $promocatalog->getName());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('promocatalog');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on promocatalog delete.
+     *
+     * @param Varien_Object $observer  expected promocatalog
+     *
+     */
+    public function addEventOnPromocatalogDelete($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('promocatalog'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $promocatalog = $observer->getPromocatalog();
+        $info = array($promocatalog->getId(), $promocatalog->getName());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('promocatalog');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on promoquote view.
+     *
+     * @param Varien_Object $observer
+     *
+     */
+    public function addEventOnPromoquoteView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('promoquote'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $promoquote = $observer->getPromoquote();
+        if(!$promoquote->getId())
+            return;
+        $info = array($promoquote->getId(), $promoquote->getName());
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('promoquote');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on promoquote save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnPromoquoteSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('promoquote'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $promoquote = $observer->getPromoquote();
+        $info = array($promoquote->getId(), $promoquote->getName());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('promoquote');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on promoquote delete.
+     *
+     * @param Varien_Object $observer  expected promoquote
+     *
+     */
+    public function addEventOnPromoquoteDelete($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('promoquote'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $promoquote = $observer->getPromoquote();
+        $info = array($promoquote->getId(), $promoquote->getName());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('promoquote');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on systemaccount view.
+     *
+     * @param Varien_Object $observer
+     *
+     */
+    public function addEventOnSystemaccountView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('systemaccount'))
+            return true;
+        $action = 'view';
+
+        if(Mage::getSingleton('admin/session')->getSkipSystemaccountView()) {
+            Mage::getSingleton('admin/session')->setSkipSystemaccountView(0);
+            return;
+        }
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $info = array($username);
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('systemaccount');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on systemaccount save.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnSystemaccountSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('systemaccount'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $systemaccount = $observer->getSystemaccount();
+        $info = array($username);
+
+        if($success) {
+            Mage::getSingleton('admin/session')->setSkipSystemaccountView(1);
+        }
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('systemaccount');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on catalogevent view.
+     *
+     * @param Varien_Object $observer  expected username
+     *
+     */
+    public function addEventOnCatalogeventView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('catalogevents'))
+            return true;
+        $action = 'view';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $catalogevent = $observer->getCatalogevent();
+        if(!$catalogevent->getId())
+            return;
+        $info = array($catalogevent->getId());
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('catalogevents');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on catalogevent save.
+     *
+     * @param Varien_Object $observer  
+     *
+     */
+    public function addEventOnCatalogeventSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('catalogevents'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $catalogevent = $observer->getCatalogevent();
+        $info = array($catalogevent->getId());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('catalogevents');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on catalogevent delete.
+     *
+     * @param Varien_Object $observer  expected catalogevent
+     *
+     */
+    public function addEventOnCatalogeventDelete($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('catalogevents'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $catalogevent = $observer->getCatalogevent();
+        $info = array($catalogevent->getId());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('catalogevents');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+
+    /**
+     * Store event on Invitation view.
+     *
+     * @param Varien_Object $observer
+     *
+     */
+    public function addEventOnInvitationView($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('invitations'))
+            return true;
+        $action = 'view';
+        
+        if(Mage::getSingleton('admin/session')->getSkipInvitationView()) {
+            Mage::getSingleton('admin/session')->setSkipInvitationView(1);
+            return;
+        }
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = 1;
+        $invitation = $observer->getInvitation();
+        if(!$invitation->getId())
+            return;
+        $info = array($invitation->getId());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('invitations');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on invitation save.
+     *
+     * @param Varien_Object $observer  
+     *
+     */
+    public function addEventOnInvitationSave($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('invitations'))
+            return true;
+        $action = 'save';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        if($success) {
+            Mage::getSingleton('admin/session')->setSkipInvitationView(1);
+        }
+        $cnt = $observer->getCnt();
+        $inv = $observer->getInvitation();
+        if($cnt)
+            $mes = "count emails=$cnt";
+        else
+            $mes = "id=".$inv->getId().", message=".$inv->getMessage();
+        $info = array($mes);
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('invitations');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
+    /**
+     * Store event on invitation delete.
+     *
+     * @param Varien_Object $observer  expected invitation
+     *
+     */
+    public function addEventOnInvitationDelete($observer) 
+    {
+        $event = Mage::getModel('enterprise_logging/event');
+        if(!$event->isActive('invitations'))
+            return true;
+        $action = 'delete';
+        
+        $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $success = $observer->getStatus() == 'success' ? 1 : 0;
+        $invitation = $observer->getInvitation();
+        $info = array($invitation->getId());
+
+        $event = Mage::getModel('enterprise_logging/event');
+        $event->setIp($ip);
+        $event->setUserId($user_id);
+        $event->setEventCode('invitations');
+        $event->setAction($action);
+        $event->setSuccess($success);
+        $event->setInfo($info);
+        $event->setTime(time());
+        $event->save();
+    }
+
 
     /**
      * Rotate logs cron task

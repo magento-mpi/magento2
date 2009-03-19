@@ -320,6 +320,189 @@
             </enterprise_logging>
           </observers>
         </adminhtml_product_on_delete>
+
+        <adminhtml_customergroup_on_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnCustomergroupDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_customergroup_on_delete>
+
+        <adminhtml_customergroup_on_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnCustomergroupView</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_customergroup_on_view>
+
+        <adminhtml_customergroup_on_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnCustomergroupSave</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_customergroup_on_save>
+
+
+        <enterprise_invitation_on_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnInvitationDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </enterprise_invitation_on_delete>
+
+        <enterprise_invitation_on_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnInvitationView</method>
+                    </enterprise_logging>
+                </observers>
+        </enterprise_invitation_on_view>
+
+        <enterprise_invitation_on_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnInvitationSave</method>
+                    </enterprise_logging>
+                </observers>
+        </enterprise_invitation_on_save>
+
+        <adminhtml_promoquote_on_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnPromoquoteDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_promoquote_on_delete>
+
+        <adminhtml_promoquote_on_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnPromoquoteView</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_promoquote_on_view>
+
+        <adminhtml_promoquote_on_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnPromoquoteSave</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_promoquote_on_save>
+
+        <adminhtml_promocatalog_on_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnPromocatalogDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_promocatalog_on_delete>
+
+        <adminhtml_promocatalog_on_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnPromocatalogView</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_promocatalog_on_view>
+
+        <adminhtml_promocatalog_on_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnPromocatalogSave</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_promocatalog_on_save>
+
+        <enterprise_catalogevent_on_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnCatalogeventDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </enterprise_catalogevent_on_delete>
+
+        <enterprise_catalogevent_on_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnCatalogeventView</method>
+                    </enterprise_logging>
+                </observers>
+        </enterprise_catalogevent_on_view>
+
+        <enterprise_catalogevent_on_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnCatalogeventSave</method>
+                    </enterprise_logging>
+                </observers>
+        </enterprise_catalogevent_on_save>
+
+        <adminhtml_systemaccount_on_delete>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnSystemaccountDelete</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_systemaccount_on_delete>
+
+        <adminhtml_systemaccount_on_view>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnSystemaccountView</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_systemaccount_on_view>
+
+        <adminhtml_systemaccount_on_save>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>addEventOnSystemaccountSave</method>
+                    </enterprise_logging>
+                </observers>
+        </adminhtml_systemaccount_on_save>
+        
+
         </events>
         <menu>
           <system>
@@ -542,6 +725,115 @@
                 </actions>
               </reports>
 
+              <customergroups module="enterprise_logging" translate="Label">
+                <label>Customer Groups</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>Customer Group (id=%s, name=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Customer Group (id=%s, name=%s) deleted successfully</success>
+                    <fail>Customer Group (id=%s, name=%s) was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Customer Group (id=%s, name=%s) saved successfully</success>
+                    <fail>Customer Group (id=%s, name=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </customergroups>
+
+              <promoquote module="enterprise_logging" translate="Label">
+                <label>Shopping cart price rules</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>Shopping cart price rule (id=%s, name=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Shopping cart price rule (id=%s, name=%s) deleted successfully</success>
+                    <fail>Shoppping cart (id=%s, name=%s) was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Shopping cart price rule (id=%s, name=%s) saved successfully</success>
+                    <fail>Shopping cart (id=%s, name=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </promoquote>
+
+              <promocatalog module="enterprise_logging" translate="Label">
+                <label>Catalog price rules</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>Catalog price rule (id=%s, name=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Catalog price rule (id=%s, name=%s) deleted successfully</success>
+                    <fail>Shoppping cart (id=%s, name=%s) was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Catalog price rule (id=%s, name=%s) saved successfully</success>
+                    <fail>Catalog (id=%s, name=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </promocatalog>
+
+              <systemaccount module="enterprise_logging" translate="Label">
+                <label>Systemaccount</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>System account (name=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>System account (name=%s) deleted successfully</success>
+                    <fail>System account (name=%s) was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>System account (name=%s) saved successfully</success>
+                    <fail>System account (name=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </systemaccount>
+
+              <invitations module="enterprise_logging" translate="Label">
+                <label>Invitations</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>Invitation (id=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Invitation (id=%s) canceled successfully</success>
+                    <fail>Invitation (id=%s) was fail to cancel</fail>
+                  </delete>
+                  <save>
+                    <success>Invitation (%s) saved successfully</success>
+                    <fail>Invitation (%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </invitations>
+
+              <catalogevents module="enterprise_logging" translate="Label">
+                <label>Catalog Events</label>
+                <code>30</code>
+                <actions>
+                  <view>
+                    <success>Catalog event (id=%s) viewed successfully</success>
+                  </view>
+                  <delete>
+                    <success>Catalog event (id=%s) deleted successfully</success>
+                    <fail>Catalog event (id=%s) was fail to delete</fail>
+                  </delete>
+                  <save>
+                    <success>Catalog event (id=%s) saved successfully</success>
+                    <fail>Catalog event (id=%s) was failed to save</fail>
+                  </save>
+                </actions>
+              </catalogevents>
+
+
             </events>
             <frequency>
               <daily>
@@ -621,6 +913,12 @@
           <reports>1</reports>
           <giftaccount>1</giftaccount>
           <systemconfiguration>1</systemconfiguration>
+          <customergroups>1</customergroups>
+          <catalogevents>1</catalogevents>
+          <promocatalog>1</promocatalog>
+          <promoquote>1</promoquote>
+          <systemaccount>1</systemaccount>
+          <invitations>1</invitations>
         </logsenabled>
       </admin>
       <system>

@@ -80,6 +80,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         }
 
         Mage::register('current_invitation', $invitation);
+        Mage::dispatchEvent('enterprise_invitation_on_view', array('invitation' => $invitation));
 
         $this->loadLayout()
             ->_setActiveMenu('customer/invitation');
@@ -186,7 +187,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                     }
                 }
             }
-
+            Mage::dispatchEvent('enterprise_invitation_on_save', array('status' => 'success', 'cnt' => count($emails)));
             $this->_getSession()->unsInvitationFormData();
         }
 
@@ -210,6 +211,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                 try {
                     $invitation->setMessage($this->getRequest()->getParam('message'))
                         ->save();
+                    Mage::dispatchEvent('enterprise_invitation_on_save', array('status' => 'success', 'invitation' => $invitation));
                     $this->_getSession()->addSuccess(
                         Mage::helper('enterprise_invitation')->__('Invitation message was successfully saved.')
                     );
@@ -255,10 +257,12 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         try {
             $invitation->setStatus(Enterprise_Invitation_Model_Invitation::STATUS_CANCELED)
                 ->save();
+            Mage::dispatchEvent('enterprise_invitation_on_delete', array('invitation' => $invitation, 'status' => 'success'));
             $this->_getSession()->addSuccess(
                 Mage::helper('enterprise_invitation')->__('Invitation was successfully canceled.')
             );
         } catch (Mage_Core_Exception $e) {
+            Mage::dispatchEvent('enterprise_invitation_on_delete', array('invitation' => $invitation, 'status' => 'fail'));
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(

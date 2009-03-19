@@ -52,6 +52,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
                     $this->__('Gift Cart "%s" was added successfully.', Mage::helper('core')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
+                Mage::dispatchEvent('enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code));
                 Mage::getSingleton('checkout/session')->addError(
                     $e->getMessage()
                 );
@@ -72,7 +73,6 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
                 Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
-
                 Mage::getSingleton('checkout/session')->addSuccess(
                     $this->__('Gift Cart "%s" was removed successfully.', Mage::helper('core')->htmlEscape($code))
                 );
@@ -107,5 +107,6 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
 
         $this->loadLayout();
         $this->renderLayout();
+
     }
 }
