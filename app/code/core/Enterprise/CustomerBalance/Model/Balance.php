@@ -37,6 +37,11 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     {
         if( abs($this->getDelta()) > 0 ) {
             $this->loadByCustomerWebsite($this->getCustomerId(), $this->getWebsiteId());
+            $this->_updateDelta();
+            if( $this->getDelta() == 0 ) {
+                return;                
+            }
+            
             try {
 	            if( !$this->getId() ) {
 	                $this->setBalance($this->getDelta())
@@ -107,5 +112,16 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     	
     	$this->_customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
     	return $this->_customer;
+    }
+
+    protected function _updateDelta()
+    {
+        if( $this->getBalance() == 0 && $this->getDelta() < 0 ) {
+            $this->setDelta(0);
+        }
+        
+        if( $this->getBalance() > 0 && ( $this->getDelta() + $this->getBalance() ) < 0 ) {
+            $this->setDelta( ($this->getBalance() * (-1)) );
+        }
     }
 }

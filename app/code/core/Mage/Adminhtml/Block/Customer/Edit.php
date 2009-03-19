@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
                 'label' => Mage::helper('customer')->__('Create Order'),
                 'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
-            ), -1);
+            ), 0);
         }
 
         parent::__construct();
