@@ -954,8 +954,12 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 /* Checkout ============================================================================== */
 /* One Page */
 .checkout-onepage-index .col-main {padding-left:0; padding-right:0;}
-.opc-block-progress { float:left; width:193px; }
+.opc-progress-container { float:left; width:195px; }
+/* .opc-block-progress { float:left; width:193px; } */
 .opc-block-progress .block-title h2 { font-size:14px; color:#d64700; }
+.opc-block-progress dt { font-weight:bold; margin:2px 0 7px; }
+.opc-block-progress dt.completed { font-weight:bold; margin:2px 0 2px; }
+.opc-block-progress dd.completed { font-weight:bold; margin:2px 0 7px; }
 
 .opc { position:relative; float:right; width:740px; }
 .opc li.section { }
