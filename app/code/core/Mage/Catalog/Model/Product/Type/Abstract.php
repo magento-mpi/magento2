@@ -295,7 +295,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
         // try to add custom options
-        $options = $this->_prepareOptionsForCart($buyRequest, $product);
+        try {
+            $options = $this->_prepareOptionsForCart($buyRequest, $product);
+        } catch (Mage_Core_Exception $e) {
+            return $e->getMessage();
+        }
+
         if (is_string($options)) {
             return $options;
         }
