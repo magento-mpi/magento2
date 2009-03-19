@@ -38,7 +38,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout();
         $this->_setActiveMenu('system/account');
-
+        Mage::dispatchEvent('adminhtml_systemaccount_on_view', array());
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_account_edit'));
         $this->renderLayout();
     }
@@ -61,13 +61,16 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         if( !$user->userExists() ) {
             try {
                 $user->save();
+                Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'success'));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Account successfully saved'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             } catch (Exception $e) {
+                Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Error while saving account. Please try again later'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             }
         } else {
+            Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'fail'));
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('User with the same User Name or Email aleady exists'));
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
         }

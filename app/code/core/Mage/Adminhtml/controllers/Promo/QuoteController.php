@@ -87,7 +87,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             ->setData('action', $this->getUrl('*/*/save'));
 
         $this->_initAction();
-
+        Mage::dispatchEvent('adminhtml_promoquote_on_view', array('promoquote' => $model));
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
@@ -130,11 +130,13 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
+                Mage::dispatchEvent('adminhtml_promoquote_on_save', array('promoquote' => $model, 'status' => 'success'));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('salesrule')->__('Rule was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
+                Mage::dispatchEvent('adminhtml_promoquote_on_save', array('promoquote' => $model, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
@@ -149,13 +151,15 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
         if ($id = $this->getRequest()->getParam('id')) {
             try {
                 $model = Mage::getModel('salesrule/rule');
-                $model->setId($id);
+                $model->load($id);
                 $model->delete();
+                Mage::dispatchEvent('adminhtml_promoquote_on_delete', array('promoquote' => $model, 'status' => 'success'));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('salesrule')->__('Rule was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
+                Mage::dispatchEvent('adminhtml_promoquote_on_delete', array('promoquote' => $model, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;

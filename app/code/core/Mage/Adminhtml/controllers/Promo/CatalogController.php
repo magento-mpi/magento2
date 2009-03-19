@@ -80,6 +80,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             ->setData('action', $this->getUrl('*/promo_catalog/save'));
 
         $this->_initAction();
+        Mage::dispatchEvent('adminhtml_promocatalog_on_view', array('promocatalog' => $model));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
@@ -121,6 +122,8 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
+                Mage::dispatchEvent('adminhtml_promocatalog_on_save', array('promocatalog' => $model, 'status' => 'success'));
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rule was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 if ($autoApply) {
@@ -131,6 +134,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 }
                 return;
             } catch (Exception $e) {
+                Mage::dispatchEvent('adminhtml_promocatalog_on_save', array('promocatalog' => $model, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
@@ -145,14 +149,16 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         if ($id = $this->getRequest()->getParam('id')) {
             try {
                 $model = Mage::getModel('catalogrule/rule');
-                $model->setId($id);
+                $model->load($id);
                 $model->delete();
+                Mage::dispatchEvent('adminhtml_promocatalog_on_delete', array('promocatalog' => $model, 'status' => 'success'));
                 Mage::app()->saveCache(1, 'catalog_rules_dirty');
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rule was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
+                Mage::dispatchEvent('adminhtml_promocatalog_on_delete', array('promocatalog' => $model, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;

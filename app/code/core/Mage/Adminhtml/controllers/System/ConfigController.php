@@ -70,11 +70,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $sections     = $configFields->getSections($current);
         $section      = $sections->$current;
         $hasChildren  = $configFields->hasChildren($section, $website, $store);
-
         if (!$hasChildren && $current) {
             $this->_redirect('*/*/', array('website'=>$website, 'store'=>$store));
         }
-
         Mage::dispatchEvent('adminhtml_system_config_on_view', array('section' => $current));
 
         $this->loadLayout();
