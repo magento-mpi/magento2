@@ -440,7 +440,6 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $staging->getMapperInstance()->setMapData($mapData);
                 $staging->merge();
 
-                DDD();
                 $staging->setEventCode('merge');
                 $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_MERGED);
                 $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_MERGED);

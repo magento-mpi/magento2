@@ -270,7 +270,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     public function mergeItem(Mage_Core_Model_Abstract $object, $itemXmlConfig)
     {
         if ((int)$itemXmlConfig->is_backend) {
-            continue;
+            return $this;
         }
         $internalMode   = !(int)  $itemXmlConfig->use_table_prefix;
         $tables         = (array) $itemXmlConfig->entities;
@@ -399,8 +399,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             $srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
 
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            echo $destInsertSql.'<br /><br /><br /><br />';
-            //$connection->query($destInsertSql);
+            //echo $destInsertSql.'<br /><br /><br /><br />';
+            $connection->query($destInsertSql);
         }
 
         return $this;
