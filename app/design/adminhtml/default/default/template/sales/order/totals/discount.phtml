@@ -24,11 +24,19 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php $_source = $this->getSource(); ?>
+<?php $_source  = $this->getSource() ?>
+<?php $_order   = $this->getOrder() ?>
 <?php $this->setPriceDataObject($_source) ?>
-<?php if ($_source): ?>
-<table cellspacing="0" width="100%">
-    <?php echo $this->getChildHtml('main'); ?>
-    <?php echo $this->getChildHtml('footer'); ?>
-</table>
+
+<?php if ((float) $_source->getDiscountAmount()): ?>
+    <tr>
+        <td class="label">
+            <?php if ($_order->getCouponCode()): ?>
+                <?php echo Mage::helper('sales')->__('Discount (%s)', $_order->getCouponCode()) ?>
+            <?php else: ?>
+                <?php echo Mage::helper('sales')->__('Discount') ?>
+            <?php endif; ?>
+        </td>
+        <td><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
+    </tr>
 <?php endif; ?>
