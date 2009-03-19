@@ -82,7 +82,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        if (!$object->getIsPureSave()) {
+        if (!$object->getIsPureSave() && $object->getStagingId()) {
             $this->saveItems($object);
 
             $this->saveSlaveWebsite($object);
@@ -131,6 +131,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         $group->setData('website_id',           $object->getSlaveWebsiteId());
         $group->setData('root_category_id',     2); // TODO quick FIXME quick
         $group->setData('name',                 'Staging Store Group');
+        $group->setIgnoreSyncStagingGroup();
         $group->save();
 
         $this->updateAttribute($object, 'default_group_id', $stagingGroup->getId());
@@ -321,8 +322,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $object->setData('master_password_hash');
         }
 
-        $object->setData('base_url', $website->getBaseUrl());
-        $object->setData('base_secure_url', $website->getSecureBaseUrl());
+//        $object->setData('base_url', $website->getBaseUrl());
+//        $object->setData('base_secure_url', $website->getSecureBaseUrl());
 
         if ($website->getApplyDate()) {
             $object->setData('apply_date', $website->getApplyDate());

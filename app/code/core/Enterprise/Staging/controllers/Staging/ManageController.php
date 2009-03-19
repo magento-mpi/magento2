@@ -362,10 +362,12 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
+                echo '<pre>'.$e;ddd();
                 $this->_getSession()->addError($e->getMessage())
                     ->setStagingData($data);
                 $redirectBack = true;
             } catch (Exception $e) {
+                echo '<pre>'.$e;ddd();
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
             }
