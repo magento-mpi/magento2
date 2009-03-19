@@ -82,7 +82,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        if (!$object->getIsPureSave() && $object->getStagingId()) {
+        if (!$object->getIsPureSave()) {
             $this->saveItems($object);
 
             $this->saveSlaveWebsite($object);
