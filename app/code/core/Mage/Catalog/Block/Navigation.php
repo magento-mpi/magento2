@@ -48,6 +48,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     {
         $key = Mage::app()->getStore()->getId().'_CATALOG_NAVIGATION' . md5($this->getTemplate());
         $key.=  md5($this->getCurrenCategoryKey());
+        $key.= Mage::getSingleton('customer/session')->getCustomerGroupId();
         return $key;
     }
 

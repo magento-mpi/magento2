@@ -51,6 +51,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_categoryIndexJoined = false;
 
     /**
+     * Category product count select
+     *
+     * @var Zend_Db_Select
+     */
+    protected $_productCountSelect = null;
+
+    /**
      * Retrieve Catalog Product Flat Helper object
      *
      * @return Mage_Catalog_Helper_Product_Flat
@@ -622,6 +629,41 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
+     * Retreive product count select for categories
+     *
+     * @return Varien_Db_Select
+     */
+    public function getProductCountSelect()
+    {
+        if ($this->_productCountSelect === null) {
+            $this->_productCountSelect = clone $this->getSelect();
+            $this->_productCountSelect->reset(Zend_Db_Select::COLUMNS)
+                ->reset(Zend_Db_Select::GROUP)
+                ->reset(Zend_Db_Select::ORDER)
+                ->distinct(false)
+                ->join(array('count_table' => $this->getTable('catalog/category_product_index')),
+                    'count_table.product_id = e.entity_id',
+                    array('count_table.category_id', 'product_count' => new Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)'))
+                )
+                ->where('count_table.store_id = ?', $this->getStoreId())
+                ->group('count_table.category_id');
+        }
+
+        return $this->_productCountSelect;
+    }
+
+    /**
+     * Destruct product count select
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function unsProductCountSelect()
+    {
+        $this->_productCountSelect = null;
+        return $this;
+    }
+
+    /**
      * Adding product count to categories collection
      *
      * @param   Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
@@ -640,17 +682,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
         $productCounts = array();
         if ($isAnchor || $isNotAnchor) {
-            $select = clone $this->getSelect();
-            $select->reset(Zend_Db_Select::COLUMNS)
-                ->reset(Zend_Db_Select::GROUP)
-                ->reset(Zend_Db_Select::ORDER)
-                ->distinct(false)
-                ->join(array('count_table' => $this->getTable('catalog/category_product_index')),
-                    'count_table.product_id = e.entity_id',
-                    array('count_table.category_id', 'product_count' => new Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)'))
-                )
-                ->where('count_table.store_id = ?', $this->getStoreId())
-                ->group('count_table.category_id');
+            $select = $this->getProductCountSelect();
+
+            Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
+
             if ($isAnchor) {
                 $anchorStmt = clone $select;
                 $anchorStmt->where('count_table.category_id in (?)', $isAnchor);
@@ -664,6 +699,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $notAnchorStmt = null;
             }
             $select = null;
+            $this->unsProductCountSelect();
         }
 
         foreach ($categoryCollection as $category) {
@@ -1031,6 +1067,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 array()
             );
         }
+
+        Mage::dispatchEvent('catalog_product_collection_set_visibility_after', array('collection' => $this));
 
         return $this;
     }

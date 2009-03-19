@@ -146,6 +146,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
 //            ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
 
+
+
         if ($parentPath) {
             $select->where($_conn->quoteInto("main_table.path like ?", "$parentPath/%"));
         }
@@ -159,6 +161,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             $node['id'] = $node['entity_id'];
             $nodes[$node['id']] = Mage::getModel('catalog/category')->setData($node);
         }
+
+        Mage::dispatchEvent('catalog_category_flat_load_nodes_after', array('nodes'=>$nodes));
         return $nodes;
     }
 
