@@ -98,7 +98,7 @@ class Mage_CatalogInventory_Model_Observer
         $product = $observer->getEvent()->getProduct();
 
         if (is_null($product->getStockData())) {
-            if ($product->dataHasChangedFor('status')) {
+            if ($product->getIsChangedWebsites() || $product->dataHasChangedFor('status')) {
                 Mage::getSingleton('cataloginventory/stock_status')
                     ->updateStatus($product->getId());
             }
