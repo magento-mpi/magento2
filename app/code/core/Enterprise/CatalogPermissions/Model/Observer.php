@@ -54,87 +54,163 @@ class Enterprise_CatalogPermissions_Model_Observer
         'grant_checkout_items' => 'allow'
     );
 
-    /**
-     * Applies permission grants by category name
-     *
-     * @return
-     */
-    public function applyCategoryPermissionOnCategoryLoad(Varien_Event_Observer $observer)
+    public function applyCategoryPermissionOnLoadCollection(Varien_Event_Observer $observer)
+    {
+        $categoryCollection = $observer->getEvent()->getCategoryCollection();
+        $categoryIds = $categoryCollection->getColumnValues('entity_id');
+        $permissions = $this->_getIndexModel()->getIndexForCategory($categoryIds, $this->_getCustomerGroupId(), $this->_getWebsiteId());
+
+        foreach ($permissions as $categoryId => $permission) {
+            $categoryCollection->getItemById($categoryId)->setPermissions($permission);
+        }
+
+        foreach ($categoryCollection as $category) {
+            $this->_applyPermissionsOnCategory($category);
+        }
+
+        return $this;
+    }
+
+    public function applyCategoryPermissionOnLoadNodes(Varien_Event_Observer $observer)
+    {
+        $nodes = $observer->getEvent()->getNodes();
+        $categoryIds = array_keys($nodes);
+        $permissions = $this->_getIndexModel()->getIndexForCategory($categoryIds, $this->_getCustomerGroupId(), $this->_getWebsiteId());
+
+        foreach ($permissions as $categoryId => $permission) {
+            $nodes[$categoryId]->setPermissions($permission);
+        }
+
+        foreach ($nodes as $category) {
+            $this->_applyPermissionsOnCategory($category);
+        }
+
+        return $this;
+    }
+
+
+    public function applyCategoryPermissionOnProductCount(Varien_Event_Observer $observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+        $this->_getIndexModel()->addIndexToProductCount($collection, $this->_getCustomerGroupId());
+        return $this;
+    }
+
+    public function applyCategoryPermissionOnLoadModel(Varien_Event_Observer $observer)
     {
         $category = $observer->getEvent()->getCategory();
-        /* @var $category Mage_Catalog_Model_Category */
+
+        $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
+
+        if (isset($permissions[$category->getId()])) {
+            $category->setPermissions($permissions[$category->getId()]);
+        }
+
+        $this->_applyPermissionsOnCategory($category);
+
+        return $this;
+    }
+
+    public function applyProductPermissionOnCollection(Varien_Event_Observer $observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+        $this->_getIndexModel()->addIndexToProductCollection($collection, $this->_getCustomerGroupId());
+        return $this;
+    }
+
+    public function applyProductPermissionOnCollectionAfterLoad(Varien_Event_Observer $observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+        foreach ($collection as $product) {
+            $this->_applyPermissionsOnProduct($product);
+        }
+        return $this;
+    }
+
+    public function applyProductPermissionOnModelAfterLoad(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+
+        $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+
+        $this->_applyPermissionsOnProduct($product);
+
+        return $this;
+    }
 
 
+    /**
+     * Apply category related permissions on category
+     *
+     * @param Varien_Data_Tree_Node|Mage_Catalog_Model_Category
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    protected function _applyPermissionsOnCategory($category)
+    {
+        if ($category->getData('permissions/grant_catalog_category_view') == -2 ||
+            ($category->getData('permissions/grant_catalog_category_view')!= -1 &&
+                !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView())) {
+            $category->setIsActive(0);
+        }
+
+        return $this;
     }
 
     /**
-     * Get permission grants by categories path ids
+     * Apply category related permissions on product
      *
-     * @param string|array $pathIds
-     * @return Varien_Object
+     * @param Mage_Catalog_Model_Product $product
+     * @return Enterprise_CatalogPermissions_Model_Observer
      */
-    protected function _getGrantsByPathIds($pathIds)
+    protected function _applyPermissionsOnProduct($product)
     {
-        if (is_string($pathIds)) {
-            $pathIds = explode('/', $pathIds);
-        }
-
-        $grants = new Varien_Object();
-
-        foreach ($pathIds as $categoryId) {
-            $permission = $this->_getPermissionCollection()->getItemByColumnValue('category_id', $categoryId);
-            if (!$permission) {
-                continue;
-            }
-
-            foreach ($this->_grantsInheritance as $grantName => $inheritance) {
-                if ($permission->getData($grantName) == 0) {
-                    continue;
-                }
-
-                if (!$grants->hasData($grantName)) {
-                    $grants->setData($grantName, $permission->getData($grantName));
-                }
-
-                $permissionGrant = $permission->getData($grantName);
-                $currentGrant = $grants->getData($grantName);
-
-                if ($inheritance == 'allow') {
-                    $currentGrant = max($permissionGrant, $currentGrant);
-                }
-
-                $grants->setData($grantName, min($permissionGrant, $currentGrant));
+        if ($product->getData('grant_catalog_product_price') == -2 ||
+            ($product->getData('grant_catalog_product_price')!= -1 &&
+                !Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice())) {
+            $product->setCanShowPrice(false);
+            if ($product->isSalable()) {
+                $product->setIsSalable(false);
             }
         }
 
-        foreach ($this->_grantsInheritance as $grantName => $inheritance) {
-            if (!$grants->hasData($grantName)) {
-                $grants->setData($grantName, Mage::getStoreConfigFlag(constant('self::XML_PATH_' . strtoupper($grantName))));
-            } else {
-                $grants->setData($grantName, $grants->getData($grantName) == -1);
+        if ($product->getData('grant_checkout_items') == -2 ||
+            ($product->getData('grant_checkout_items')!= -1 &&
+                !Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems())) {
+            if ($product->isSalable()) {
+                $product->setIsSalable(false);
             }
         }
 
-        return $grants;
+        return $this;
     }
 
     /**
-     * Retrieve permissions collection
+     * Retreive current customer group id
      *
-     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection
+     * @return int
      */
-    protected function _getPermissionCollection()
+    protected function _getCustomerGroupId()
     {
-        if ($this->_permissionCollection = null) {
-            $this->_permissionCollection = Mage::getModel('enterprise_catalogpermissions/permission')
-                ->getCollection();
-
-            $this->_permissionCollection->addCategoryLevel()
-                ->addCategoryIsActiveFilter()
-                ->setScopeFilter(Mage::getSingleton('customer/session')->getCutomerGroupId());
-        }
-
-        return $this->_permissionCollection;
+        return Mage::getSingleton('customer/session')->getCustomerGroupId();
     }
 
+    /**
+     * Retreive permission index model
+     *
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    protected function _getIndexModel()
+    {
+        return Mage::getSingleton('enterprise_catalogpermissions/permission_index');
+    }
+
+    /**
+     * Retreive current website id
+     *
+     * @return int
+     */
+    protected function _getWebsiteId()
+    {
+        return Mage::app()->getStore()->getWebsiteId();
+    }
 }

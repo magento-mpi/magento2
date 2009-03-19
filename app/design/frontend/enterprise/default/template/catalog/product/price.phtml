@@ -35,6 +35,7 @@
 
 <?php $_product = $this->getProduct() ?>
 <?php $_id = $_product->getId() ?>
+<?php if ($_product->getCanShowPrice()):?>
 
 <?php $_weeeSeparator = ''; ?>
 
@@ -342,3 +343,6 @@
         </div>
     <?php endif; /* if ($this->getDisplayMinimalPrice() && $_minimalPrice): */ ?>
 <?php endif; /* if (!$_product->isGrouped()): */ ?>
+<?php else: ?>
+<?php echo $this->helper('catalog')->__('Price is not available');?>
+<?php endif; /* if (!$_product->getCanShowPrice()): */?>

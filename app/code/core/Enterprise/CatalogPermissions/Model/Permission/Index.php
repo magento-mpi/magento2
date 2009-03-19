@@ -61,15 +61,53 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
         return $this;
     }
 
-    public function addIndexToCategoryCollection($collection, $websiteId, $customerGroupId)
+    /**
+     * Retrive permission index for category or categories with specified customer group and website id
+     *
+     * @param int|array $categoryId
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @return array
+     */
+    public function getIndexForCategory($categoryId, $customerGroupId, $websiteId)
     {
-        $this->getResource()->addIndexToCategoryCollection($collection, $websiteId, $customerGroupId);
+        return $this->getResource()->getIndexForCategory($categoryId, $customerGroupId, $websiteId);
+    }
+
+    /**
+     * Add index to product count select in product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    public function addIndexToProductCount($collection, $customerGroupId)
+    {
+        $this->getResource()->addIndexToProductCount($collection, $customerGroupId);
         return $this;
     }
 
-    public function addIndexToProductCollection($collection, $websiteId, $customerGroupId)
+    /**
+     * Add index select in product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    public function addIndexToProductCollection($collection, $customerGroupId)
     {
-        $this->getResource()->addIndexToProductCollection($collection, $websiteId, $customerGroupId);
+        $this->getResource()->addIndexToProductCollection($collection, $customerGroupId);
+        return $this;
+    }
+
+     /**
+     * Add permission index to product model
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param int $customerGroupId
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    public function addIndexToProduct($product, $customerGroupId)
+    {
+        $this->getResource()->addIndexToProduct($product, $customerGroupId);
         return $this;
     }
 

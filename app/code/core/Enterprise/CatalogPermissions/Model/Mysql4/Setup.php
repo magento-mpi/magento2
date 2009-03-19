@@ -30,6 +30,6 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogPermissions
  */
-class Enterprise_CatalogPermissions_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Enterprise_CatalogPermissions_Model_Mysql4_Setup extends Mage_Core_Model_Resource_Setup
 {
 }

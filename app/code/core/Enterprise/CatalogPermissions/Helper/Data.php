@@ -33,5 +33,37 @@
 
 class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'enterprise_catalogpermissions/general/grant_catalog_category_view';
+    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
+    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
 
+    /**
+     * Retrieve config value for category access permission
+     *
+     * @return boolean
+     */
+    public function isAllowedCategoryView()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW);
+    }
+
+    /**
+     * Retrieve config value for product price permission
+     *
+     * @return boolean
+     */
+    public function isAllowedProductPrice()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE);
+    }
+
+    /**
+     * Retrieve config value for checkout items permission
+     *
+     * @return boolean
+     */
+    public function isAllowedCheckoutItems()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CHECKOUT_ITEMS);
+    }
 }

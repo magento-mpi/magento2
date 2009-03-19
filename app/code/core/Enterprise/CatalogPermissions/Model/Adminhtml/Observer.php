@@ -58,6 +58,10 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 }
 
                 $permission->addData($data);
+                if ($permission->getGrantCatalogCategoryView() == -2) {
+                    $permission->setGrantCatalogProductPrice(-2);
+                }
+
                 if ($permission->getGrantCatalogProductPrice() == -2) {
                     $permission->setGrantCheckoutItems(-2);
                 }
@@ -66,7 +70,11 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
             }
         }
 
-        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($category->getPath());
+        try {
+            Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($category->getPath());
+        } catch (Exception $e) {
+            exit($e->getMessage());
+        }
         return $this;
     }
 

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CatalogPermissions>
-            <version>0.0.2</version>
+            <version>0.0.3</version>
         </Enterprise_CatalogPermissions>
     </modules>
     <global>
@@ -142,6 +142,82 @@
             </updates>
         </layout>
     </adminhtml>
+    <frontend>
+        <events>
+            <catalog_category_load_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryPermissionOnLoadModel</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_category_load_after>
+            <catalog_category_flat_load_nodes_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryPermissionOnLoadNodes</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_category_flat_load_nodes_after>
+            <catalog_product_collection_before_add_count_to_categories>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryPermissionOnProductCount</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_collection_before_add_count_to_categories>
+            <catalog_category_collection_load_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryPermissionOnLoadCollection</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_category_collection_load_after>
+            <catalog_category_collection_load_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryPermissionOnLoadCollection</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_category_collection_load_after>
+            <catalog_product_collection_set_visibility_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyProductPermissionOnCollection</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_collection_set_visibility_after>
+            <catalog_product_collection_load_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyProductPermissionOnCollectionAfterLoad</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_collection_load_after>
+            <catalog_product_load_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyProductPermissionOnModelAfterLoad</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_load_after>
+        </events>
+    </frontend>
     <default>
         <enterprise_catalogpermissions>
             <general>
