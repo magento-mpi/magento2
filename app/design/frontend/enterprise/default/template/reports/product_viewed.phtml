@@ -35,7 +35,7 @@
             <li class="item"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></li>
         <?php endforeach; ?>
         </ol>
-        <script type="text/javascript">decorateList('recently-viewed-items');</script>
+        <!--script type="text/javascript">decorateGeneric($('recently-viewed-items').select('li.item'),['first','last']);</script-->
     </div>
 </div>
 <?php endif; ?>
