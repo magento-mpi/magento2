@@ -25,18 +25,37 @@
  */
 ?>
 <?php $_option = $this->getOption() ?>
+<?php $_optionId = $_option->getId() ?>
 <dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label>
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
 
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
     || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
-    <?php echo Mage::helper('catalog')->__('Date')?>: <?php echo $this->getDateHtml() ?>
+    <?php echo $this->getDateHtml() ?>
 <?php endif; ?>
 
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
     || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
-    <?php echo Mage::helper('catalog')->__('Time')?>: <?php echo $this->getTimeHtml() ?>
+    <?php echo $this->getTimeHtml() ?>
 <?php endif; ?>
 
+<?php if ($_option->getIsRequire()): ?>
+    <input type="hidden" name="validate_datetime_<?php echo $_optionId ?>" class="validate-datetime-<?php echo $_optionId ?>" value="" />
+    <script type="text/javascript">
+    //<![CDATA[
+        Validation.addAllThese(
+        [
+               ['validate-datetime-<?php echo $_optionId ?>', '<?php echo $this->jsQuoteEscape( Mage::helper('catalog')->__('This is a required option') )?>', function(v) {
+                   var dateTimeParts = $$('.datetime-picker[id^="options_<?php echo $_optionId ?>"]');
+                   for (var i=0; i < dateTimeParts.length; i++) {
+                       if (dateTimeParts[i].value == "") return false;
+                   }
+                   return true;
+                }]
+        ]
+        );
+    //]]>
+    </script>
+<?php endif; ?>
 </dd>
