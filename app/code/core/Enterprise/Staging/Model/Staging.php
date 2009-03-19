@@ -234,7 +234,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function getType()
     {
-        return $this->_getData('type');
+        if (!$this->hasData('type')) {
+            $this->setData('type', 'website');
+        }
+        return $this->getData('type');
     }
 
     /**
@@ -360,12 +363,13 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      *
      * @return Varien_Data_Collection
      */
-    public function getWebsitesCollection()
+    public function getWebsitesCollection($returnAll = false)
     {
         if (is_null($this->_websites)) {
-            $this->_websites = Mage::getResourceModel('enterprise_staging/staging_website_collection')
-                ->addStagingFilter($this->getId());
-
+            $this->_websites = Mage::getResourceModel('enterprise_staging/staging_website_collection');
+            if ($this->getId() || (!$this->getId() && !$returnAll)) {
+                $this->_websites->addStagingFilter($this->getId());
+            }
             if ($this->getId()) {
                 foreach ($this->_websites as $website) {
                     $website->setStaging($this);

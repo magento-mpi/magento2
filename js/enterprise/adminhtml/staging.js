@@ -310,6 +310,10 @@ Enterprise.Staging.Mapper.prototype = {
 //        $('loading-mask').hide();
         this.mergeForm.appendChild(container);
         container.hide();
+    },
+    stagingRollbackConfig : function()
+    {
+        alert('Rollback procession ... ... ');
     }
 };
 
@@ -536,19 +540,28 @@ Enterprise.Staging.Form.prototype = {
         
         this.proceedItems   = new $H();
 
-        this.itemTemplate   = new Template(
-            this.getInnerElement('item_template').innerHTML,
-            this.templatePattern
-        );
-        this.proceedMessageTemplate     = new Template(
-            this.getInnerElement('proceed_message_template').innerHTML,
-            this.templatePattern
-        );
-        this.successMessageTemplate = new Template(
-            this.getInnerElement('success_message_template').innerHTML,
-            this.templatePattern
-        );
-
+        var itemTemplate = this.getInnerElement('item_template');
+        if (itemTemplate) {
+            this.itemTemplate   = new Template(
+                this.getInnerElement('item_template').innerHTML,
+                this.templatePattern
+            );
+        }
+        
+        var messageTemplate = this.getInnerElement('proceed_message_template');
+        if (messageTemplate) {
+            this.proceedMessageTemplate     = new Template(
+                    messageTemplate.innerHTML,
+                this.templatePattern
+            );
+        }
+        var messageTemplate = this.getInnerElement('proceed_message_template');
+        if (messageTemplate) {
+            this.successMessageTemplate = new Template(
+                messageTemplate.innerHTML,
+                this.templatePattern
+            );
+        }
         this.createBtn = document.getElementsByClassName('create')[0];
     },
     

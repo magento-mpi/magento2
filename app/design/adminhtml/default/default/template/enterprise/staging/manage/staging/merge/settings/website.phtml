@@ -28,7 +28,7 @@
 <?php $staging          = $this->getStaging(); ?>
 <?php $items            = $staging->getItemsCollection(); ?>
 <?php $masterWebsites   = $this->getWebsiteCollection(); ?>
-<?php $stagingWebsites  = $staging->getWebsitesCollection(); ?>
+<?php $stagingWebsites  = $staging->getWebsitesCollection(true); ?>
 
 <?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
     <table cellspacing="0" class="actions">

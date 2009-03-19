@@ -446,7 +446,7 @@
                     <staging_rollback>
                         <title>Rollback</title>
                         <sort_order>30</sort_order>
-                        <action>adminhtml/staging_manage/create</action>
+                        <action>adminhtml/staging_manage/rollback</action>
                     </staging_rollback>
                  </children>
               </enterprise_staging>

@@ -435,19 +435,22 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
 
         if ($mapData) {
             try {
-                $staging->save();
-
                 $staging->getMapperInstance()->setMapData($mapData);
                 $staging->merge();
 
-                $staging->setEventCode('merge');
-                $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_MERGED);
-                $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_MERGED);
-                $staging->save();
+                if ($staging->getId()) {
+                    $staging->setEventCode('merge');
+                    $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_MERGED);
+                    $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_MERGED);
+                    $staging->save();
+                    $this->_getSession()->addSuccess($this->__('Staging was successfully merged.'));
+                    $stagingId = $staging->getId();
+                    Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
+                } else {
+                    $redirectBack = false;
+                    $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully merged.'));
+                }
 
-                $this->_getSession()->addSuccess($this->__('Staging was successfully merged.'));
-                $stagingId = $staging->getId();
-                Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 echo $e;
                 STOP();
@@ -472,6 +475,17 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
     }
 
     public function rollbackAction()
+    {
+        $this->_initStaging();
+
+        $this->loadLayout();
+
+        $this->_setActiveMenu('enterprise/staging');
+
+        $this->renderLayout();
+    }
+
+    public function rollbackPostAction()
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
 

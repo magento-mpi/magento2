@@ -56,12 +56,14 @@
         </reference>
     </adminhtml_staging_manage_merge>
     
-    <adminhtml_staging_manage_sync>
+    <adminhtml_staging_manage_rollback>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_sync"  name="enterprise_staging_manage_staging_sync" />
+            <block type="enterprise_staging/manage_staging_rollback"  name="enterprise_staging_manage_staging_rollback">
+                <action method="addRollbackSettingsBlockType"><type>website</type><block>enterprise_staging/manage_staging_rollback_settings_website</block><template>enterprise/staging/manage/staging/rollback/settings/website.phtml</template></action>
+            </block>
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
-    </adminhtml_staging_manage_sync>
+    </adminhtml_staging_manage_rollback>
 </layout>

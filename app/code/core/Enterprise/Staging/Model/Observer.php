@@ -41,6 +41,7 @@ class Enterprise_Staging_Model_Observer
      */
     public function getTableName($observer)
     {
+        return $this;
         try {
             $resource = $observer->getEvent()->getResource();
             $tableName = $observer->getEvent()->getTableName();

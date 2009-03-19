@@ -25,21 +25,21 @@
  */
 
 /**
- * Staging merge setting block
+ * Staging rollback setting block
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block_Widget
+class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Block_Widget
 {
-	private $_mergeSettingsBlock = array();
-    private $_mergeSettingsBlockDefaultTemplate = 'enterprise/staging/merge/settings.phtml';
-    private $_mergeSettingsBlockTypes = array();
+	private $_rollbackSettingsBlock = array();
+    private $_rollbackSettingsBlockDefaultTemplate = 'enterprise/staging/rollback/settings.phtml';
+    private $_rollbackSettingsBlockTypes = array();
 
     public function __construct()
     {
         parent::__construct();
-        //$this->setTemplate('enterprise/staging/manage/staging/merge.phtml');
-        //$this->setId('enterprise_staging_merge');
+        //$this->setTemplate('enterprise/staging/manage/staging/rollback.phtml');
+        //$this->setId('enterprise_staging_rollback');
     }
 
     /**
@@ -55,46 +55,43 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
         return $this->getData('staging');
     }
 
-    protected function _getMergeSettingsBlock($stagingType)
+    protected function _getRollbackSettingsBlock($stagingType)
     {
-        if (!isset($this->_mergeSettingsBlock[$stagingType])) {
-            $block = 'enterprise_staging/staging_merge_settings';
-            if (isset($this->_mergeSettingsBlockTypes[$stagingType])) {
-                if ($this->_mergeSettingsBlockTypes[$stagingType]['block'] != '') {
-                    $block = $this->_mergeSettingsBlockTypes[$stagingType]['block'];
+        if (!isset($this->_rollbackSettingsBlock[$stagingType])) {
+            $block = 'enterprise_staging/staging_rollback_settings';
+            if (isset($this->_rollbackSettingsBlockTypes[$stagingType])) {
+                if ($this->_rollbackSettingsBlockTypes[$stagingType]['block'] != '') {
+                    $block = $this->_rollbackSettingsBlockTypes[$stagingType]['block'];
                 }
             }
-            $this->_mergeSettingsBlock[$stagingType] = $this->getLayout()->createBlock($block);
+            $this->_rollbackSettingsBlock[$stagingType] = $this->getLayout()->createBlock($block);
         }
-        return $this->_mergeSettingsBlock[$stagingType];
+        return $this->_rollbackSettingsBlock[$stagingType];
     }
 
-    protected function _getMergeSettingsBlockTemplate($stagingType)
+    protected function _getRollbackSettingsBlockTemplate($stagingType)
     {
-        if (isset($this->_mergeSettingsBlockTypes[$stagingType])) {
-            if ($this->_mergeSettingsBlockTypes[$stagingType]['template'] != '') {
-                return $this->_mergeSettingsBlockTypes[$stagingType]['template'];
+        if (isset($this->_rollbackSettingsBlockTypes[$stagingType])) {
+            if ($this->_rollbackSettingsBlockTypes[$stagingType]['template'] != '') {
+                return $this->_rollbackSettingsBlockTypes[$stagingType]['template'];
             }
         }
-        return $this->_mergeSettingsBlockTypes;
+        return $this->_rollbackSettingsBlockTypes;
     }
 
     /**
-     * Returns staging merge settings block html
+     * Returns staging rollback settings block html
      *
      * @param Mage_Catalog_Model_Product $staging
      * @param boolean $displayMinimalPrice
      */
-    public function getMergeSettingsHtml($staging = null, $idSuffix='')
+    public function getRollbackSettingsHtml($staging = null, $idSuffix='')
     {
     	if (is_null($staging)) {
     		$staging = $this->getStaging();
     	}
-    	if (!$staging->getType()) {
-    	    $staging->setType('website');
-    	}
-        return $this->_getMergeSettingsBlock($staging->getType())
-            ->setTemplate($this->_getMergeSettingsBlockTemplate($staging->getType()))
+        return $this->_getRollbackSettingsBlock($staging->getType())
+            ->setTemplate($this->_getRollbackSettingsBlockTemplate($staging->getType()))
             ->setStaging($staging)
             ->setIdSuffix($idSuffix)
             ->toHtml();
@@ -102,20 +99,20 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
 
     protected function _toHtml()
     {
-    	return $this->getMergeSettingsHtml();
+    	return $this->getRollbackSettingsHtml();
     }
 
     /**
-     * Adding customized merge settings block for staging type
+     * Adding customized rollback settings block for staging type
      *
      * @param string $type
      * @param string $block
      * @param string $template
      */
-    public function addMergeSettingsBlockType($type, $block = '', $template = '')
+    public function addRollbackSettingsBlockType($type, $block = '', $template = '')
     {
         if ($type) {
-            $this->_mergeSettingsBlockTypes[$type] = array(
+            $this->_rollbackSettingsBlockTypes[$type] = array(
                 'block'     => $block,
                 'template'  => $template
             );
