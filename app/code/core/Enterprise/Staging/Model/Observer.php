@@ -41,43 +41,53 @@ class Enterprise_Staging_Model_Observer
      */
     public function getTableName($observer)
     {
-    	try {
-	    	$resource = $observer->getEvent()->getResource();
-	        $tableName = $observer->getEvent()->getTableName();
-	        $modelEntity = $observer->getEvent()->getModelEntity();
+        try {
+            $resource = $observer->getEvent()->getResource();
+            $tableName = $observer->getEvent()->getTableName();
+            $modelEntity = $observer->getEvent()->getModelEntity();
 
-	        $config = Mage::getResourceSingleton('enterprise_staging/config');
-	        $_tableName = $config->getStagingTableName($tableName, $modelEntity);
+            $config = Mage::getResourceSingleton('enterprise_staging/config');
+            $_tableName = $config->getStagingTableName($tableName, $modelEntity);
 
-	        if ($_tableName) {
-	            $resource->setMappedTableName($tableName, $_tableName);
-	        }
-    	} catch (Enterprise_Staging_Exception $e) {
-    		echo '<pre>';
-    		echo '<br /><br />';
-    		echo $e;
-    		echo '<br /><br />';
-    		mageDebugBacktrace();
-    		echo '</pre>';
-    		die(__CLASS__);
-    	}
+            if ($_tableName) {
+                $resource->setMappedTableName($tableName, $_tableName);
+            }
+        } catch (Enterprise_Staging_Exception $e) {
+            echo '<pre>';
+            echo '<br /><br />';
+            echo $e;
+            echo '<br /><br />';
+            mageDebugBacktrace();
+            echo '</pre>';
+            die(__CLASS__);
+        }
     }
 
     public function beforeFrontendInit()
     {
-    	$website = Mage::app()->getWebsite();
-    	if ($website->getIsStaging()) {
-    	    $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
-    	    $stagingWebsite->loadBySlaveWebsiteId($website->getId());
+        $website = Mage::app()->getWebsite();
+        if ($website->getIsStaging()) {
+            $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
+            $stagingWebsite->loadBySlaveWebsiteId($website->getId());
             if (!$stagingWebsite->getId()) {
                 Mage::app()->getResponse()->setRedirect('/')->sendResponse();
                 exit();
             }
-    	    $key = 'allow_view_staging_website_'.$website->getCode();
-    	    switch ($stagingWebsite->getVisibility()) {
-    	        case Enterprise_Staging_Model_Config::VISIBILITY_WHILE_MASTER_LOGIN :
-            		$coreSession = Mage::getSingleton('core/session');
-            		if (isset($_SERVER['PHP_AUTH_USER'])) {
+
+            $key = 'allow_view_staging_website_'.$website->getCode();
+            $coreSession = Mage::getSingleton('core/session');
+
+            switch ($stagingWebsite->getVisibility()) {
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
+                    $coreSession->setData($key, false);
+                    Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+                    exit();
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
+                    $coreSession->setData($key, true);
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
+                    if (isset($_SERVER['PHP_AUTH_USER'])) {
                         $login      = $_SERVER['PHP_AUTH_USER'];
                         $password   = $_SERVER['PHP_AUTH_PW'];
                         $website    = Mage::getModel('enterprise_staging/staging_website');
@@ -90,25 +100,28 @@ class Enterprise_Staging_Model_Observer
                             echo '<pre>';
                             echo $e; STOP();
                         }
-            		}
-           			if (!$coreSession->getData($key) || !isset($_SERVER['PHP_AUTH_USER'])) {
+                    }
+                    if (!$coreSession->getData($key) || !isset($_SERVER['PHP_AUTH_USER'])) {
                         header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
                         header('HTTP/1.0 401 Unauthorized');
                         echo "Please, use right login and password \n";
                         exit();
-           			}
-           			break;
-    	        case Enterprise_Staging_Model_Config::VISIBILITY_WHILE_ADMIN_SESSION :
-    	            if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
+                    }
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_ADMIN_SESSION :
+                    if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
+                        $coreSession->setData($key, false);
                         Mage::app()->getResponse()->setRedirect('/')->sendResponse();
                         exit();
+                    } else {
+                        $coreSession->setData($key, true);
                     }
-    	            break;
-    	    }
-    	}
+                    break;
+            }
+        }
     }
 
-    public function automates($observer)
+    public function automates()
     {
         try {
             $currentDate = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
@@ -119,24 +132,93 @@ class Enterprise_Staging_Model_Observer
                     $applyIsActive = $website->getAutoApplyIsActive();
 
                     if ($applyIsActive) {
-                        if ($currentDate <= $rollbackDate) {
+                        if ($currentDate <= $applyDate) {
                             $website->merge();
                         }
                     }
                 } else{
-                    $rollbackDate = $website->getApplyDate();
-                    $rollbackIsActive = $website->getAutoRollbackIsActive();
-                    if ($rollbackIsActive) {
-                        if ($currentDate >= $rollbackDate) {
-                            $website->rollback();
-                        }
-                    }
+//                    $rollbackDate = $website->getApplyDate();
+//                    $rollbackIsActive = $website->getAutoRollbackIsActive();
+//                    if ($rollbackIsActive) {
+//                        if ($currentDate >= $rollbackDate) {
+//                            $website->rollback();
+//                        }
+//                    }
                 }
             }
         } catch (Enterprise_Staging_Exception $e) {
             echo '<pre>'.$e.'</pre>';
-        } catch (Exception $e) {
-            echo '<pre>'.$e.'</pre>';
         }
+    }
+
+    public function saveStore($observer)
+    {
+        try {
+            $store = $observer->getEvent()->getStore();
+            /* @var $store Mage_Core_Model_Store */
+            $website = $store->getWebsite();
+            /* @var $website Mage_Core_Model_Website */
+            if (!$website->getIsStaging()) {
+                return $this;
+            }
+
+            $stagingStore = Mage::getModel('enterprise_staging/staging_store');
+            /* @var $stagingStore Enterprise_Staging_Model_Staging_Store */
+            $stagingStore->loadBySlaveStoreId($store->getId());
+
+            $stagingStore->syncWithStore($store);
+        } catch (Exception $e) {
+            throw new Enterprise_Staging_Exception($e);
+        }
+
+        return $this;
+    }
+
+    public function saveStoreGroup($observer)
+    {
+        try {
+            $group = $observer->getEvent()->getStoreGroup();
+            /* @var $group Mage_Core_Model_Store_Group */
+            $website = $group->getWebsite();
+            /* @var $website Mage_Core_Model_Website */
+            if (!$website->getIsStaging()) {
+                return $this;
+            }
+
+            $stagingGroup = Mage::getModel('enterprise_staging/staging_store_group');
+            /* @var $stagingStore Enterprise_Staging_Model_Staging_Store_Group */
+            $stagingGroup->loadBySlaveStoreGroupId($group->getId());
+
+            $stagingGroup->syncWithStoreGroup($group);
+        } catch (Exception $e) {
+            throw new Enterprise_Staging_Exception($e);
+        }
+
+        return $this;
+    }
+
+    public function saveWebsite($observer)
+    {
+        try {
+            $website = $observer->getEvent()->getWebsite();
+            /* @var $website Mage_Core_Model_Website */
+
+            $websiteId = $website->getId();
+
+            $_website = Mage::app()->getWebsite($websiteId);
+            if (!$_website || !$_website->getIsStaging()) {
+                return $this;
+            }
+
+            $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
+            /* @var $stagingWebsite Enterprise_Staging_Model_Staging_Website */
+            $stagingWebsite->loadBySlaveWebsiteId($websiteId);
+
+            $stagingWebsite->syncWithWebsite($website);
+        } catch (Exception $e) {
+            throw new Enterprise_Staging_Exception($e);
+        }
+
+        return $this;
     }
 }

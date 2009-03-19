@@ -60,4 +60,18 @@ class Enterprise_Staging_Model_Staging_Store_Group extends Mage_Core_Model_Abstr
             return false;
         }
     }
+
+    public function loadBySlaveStoreGroupId($id)
+    {
+        $this->getResource()->loadBySlaveStoreGroupId($this, $id);
+
+        return $this;
+    }
+
+    public function syncWithStoreGroup(Mage_Core_Model_Store_Group $group)
+    {
+        $this->getResource()->syncWithStoreGroup($this, $group);
+
+        return $this;
+    }
 }

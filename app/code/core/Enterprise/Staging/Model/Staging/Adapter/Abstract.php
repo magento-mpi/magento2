@@ -47,27 +47,70 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      */
     protected $_config;
 
+    static $_proceedTables = array();
+
+    protected $_tableModels = array(
+       'catalog_product_entity'     => 'catalog',
+       'catalog_category_entity'    => 'catalog',
+       'customer_entity'            => 'customer',
+       'customer_address_entity'    => 'customer',
+    );
+
+    protected $_ignoreTables = array(
+        'catalog_category_flat'     => true,
+        'catalog_product_flat'      => true
+    );
+
+    protected $_tables;
+
+    protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
+
+    protected $_srcModel;
+
+    protected $_targetModel;
+
     public function __construct()
     {
-        $this->_read  = Mage::getSingleton('core/resource')->getConnection('staging_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('staging_write');
+        $this->_resource = Mage::getSingleton('core/resource');
 
-        $this->_resource = Mage::getResourceSingleton('enterprise_staging/resource');
+        $this->_read  = $this->_resource->getConnection('staging_read');
+        $this->_write = $this->_resource->getConnection('staging_write');
     }
 
-    abstract public function create(Enterprise_Staging_Model_Staging $staging);
+    public function create(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
-    abstract public function merge(Enterprise_Staging_Model_Staging $staging);
+    public function merge(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
-    abstract public function rollback(Enterprise_Staging_Model_Staging $staging);
+    public function rollback(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
-    abstract public function check(Enterprise_Staging_Model_Staging $staging);
+    public function check(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
-    abstract public function repair(Enterprise_Staging_Model_Staging $staging);
+    public function repair(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
-    abstract public function copy(Enterprise_Staging_Model_Staging $staging);
+    public function copy(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
-    abstract public function backup(Enterprise_Staging_Model_Staging $staging);
+    public function backup(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
 
 
 
@@ -97,7 +140,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         }
         /* TODO try to set staging_id instead whole staging object */
         $_staging = Mage::registry('staging');
-        if ($_staging && $_staging->getId() == (int) $this->_staging) {
+        if ( ($_staging && is_null($this->_staging)) || ($_staging->getId() == (int) $this->_staging)) {
             return $_staging;
         } else {
             if (is_int($this->_staging)) {
@@ -126,8 +169,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
 
         try {
             $this->_connections[$connectionName] = Mage::getSingleton('core/resource')->getConnection($connectionName);
-        } catch (Enterprise_Staging_Exception $e) {
-            die('Enterprise_Staging_Model_Mysql4_Config::_getConnection()');
+        } catch (Exception $e) {
+            throw new Enterprise_Staging_Exception($e);
         }
 
         return $this->_connections[$connectionName];
@@ -310,6 +353,27 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         /* FIXME getTable() method doesn't needed yet */
         return $entityName;
 
+        if (isset($this->_tables[$entityName])) {
+            return $this->_tables[$entityName];
+        }
+        if (strpos($entityName, '/')) {
+            $this->_tables[$entityName] = $this->_resource->getTableName($entityName);
+        } elseif (!empty($this->_resourceModel)) {
+            $this->_tables[$entityName] = $this->_resource->getTableName(
+                $this->_resourceModel.'/'.$entityName);
+        } else {
+            $this->_tables[$entityName] = $entityName;
+        }
+        return $this->_tables[$entityName];
+    }
+
+/**
+     * Get table name for the entity
+     *
+     * @param string $entityName
+     */
+    public function getTableName($entityName)
+    {
         if (isset($this->_tables[$entityName])) {
             return $this->_tables[$entityName];
         }

@@ -62,44 +62,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_General extends Mage_Adm
             'name'      => 'name'
         ));
 
-        /*
-        $fieldset->addField('code', 'text', array(
-            'label'     => $this->helper->__('Staging code'),
-            'title'     => $this->helper->__('Staging code'),
-            'name'      => 'code'
-        ));
-
-        $fieldset = $form->addFieldset('visibility_fieldset', array('legend'=>$this->helper->__('Visibility Info')));
-
-        $fieldset->addField('visibility', 'select', array(
-            'label'     => $this->helper->__('Frontend Visibility'),
-            'title'     => $this->helper->__('Frontend Visibility'),
-            'name'      => 'visibility',
-            'value'     => Enterprise_Staging_Model_Config::VISIBILITY_WHILE_MASTER_LOGIN,
-            'options'   => Enterprise_Staging_Model_Config::getOptionArray()
-        ));
-
-        $fieldset = $form->addFieldset('authorization', array('legend'=>$this->helper->__('Staging Frontend Authorization Info')));
-
-        $fieldset->addField('master_login', 'text',
-            array(
-                'label' => $this->helper->__('Master Login'),
-                'class' => 'input-text required-entry validate-login',
-                'name'  => 'master_login',
-                'required' => true
-            )
-        );
-
-        $fieldset->addField('master_password', 'text',
-            array(
-                'label' => $this->helper->__('Master Password'),
-                'class' => 'input-text required-entry validate-password',
-                'name'  => 'master_password',
-                'required' => true
-            )
-        );
-        */
-
         $form->addValues($this->getStaging()->getData());
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
 

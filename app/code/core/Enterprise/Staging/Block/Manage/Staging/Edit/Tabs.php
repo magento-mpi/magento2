@@ -55,26 +55,21 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
         }
 
         if ($setId) {
-            $this->addTab('general', array(
-                'label'     => Mage::helper('enterprise_staging')->__('Staging General Info'),
-                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_general')->toHtml(),
-            ));
-
-            $this->addTab('website', array(
-                'label'     => Mage::helper('enterprise_staging')->__('Website'),
-                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_website')->toHtml(),
-            ));
-
-//            $this->addTab('item', array(
-//                'label'     => Mage::helper('enterprise_staging')->__('Items'),
-//                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_item')->toHtml(),
+//            $this->addTab('general', array(
+//                'label'     => Mage::helper('enterprise_staging')->__('Staging General Info'),
+//                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_general')->toHtml(),
 //            ));
 
-            $this->addTab('event', array(
-                'label'     => Mage::helper('enterprise_staging')->__('Event History'),
-                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_event')->toHtml(),
+            $this->addTab('website', array(
+                'label'     => Mage::helper('enterprise_staging')->__('General Information'),
+                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_website')->toHtml(),
             ));
-
+            if ($staging->getId()) {
+                $this->addTab('event', array(
+                    'label'     => Mage::helper('enterprise_staging')->__('Event History'),
+                    'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_event')->toHtml(),
+                ));
+            }
         } else {
             $this->addTab('set', array(
                 'label'     => Mage::helper('enterprise_staging')->__('Settings'),

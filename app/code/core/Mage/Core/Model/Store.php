@@ -58,6 +58,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     protected $_cacheTag    = true;
 
+    /**
+     * @var string
+     */
+    protected $_eventPrefix = 'store';
+
+    /**
+     * @var string
+     */
+    protected $_eventObject = 'store';
+
     protected $_priceFilter;
 
     /**

@@ -26,19 +26,9 @@
 
 class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_Mysql4_Abstract
 {
-	protected $_websiteTable;
-
-	protected $_stagingStoreTable;
-
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_website', 'staging_website_id');
-
-        $this->_itemTable = $this->getTable('enterprise_staging/staging_item');
-
-        $this->_websiteTable = $this->getTable('core/website');
-
-        $this->_stagingStoreTable = $this->getTable('enterprise_staging/staging_store');
     }
 
     /**
@@ -92,13 +82,17 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $this->saveItems($object);
+        if (!$object->getIsPureSave()) {
+            $this->saveItems($object);
 
-        $this->saveSlaveWebsite($object);
+            $this->saveSlaveWebsite($object);
 
-        $this->saveStagingStoreGroup($object);
+            $this->saveStagingStoreGroup($object);
 
-        $this->saveStores($object);
+            $this->saveStores($object);
+
+            $this->saveSystemConfig($object);
+        }
 
         parent::_afterSave($object);
 
@@ -129,14 +123,14 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         $stagingGroup->setData('staging_website_id', $object->getId());
         $stagingGroup->setData('master_website_id',  $object->getMasterWebsiteId());
         $stagingGroup->setData('slave_website_id',   $object->getSlaveWebsiteId());
-        $stagingGroup->setData('root_category_id', 2); // TODO quick FIXME quick
-        $stagingGroup->setData('name',               'Staging Store Group (autocreated)');
+        $stagingGroup->setData('root_category_id',   2); // TODO quick FIXME quick
+        $stagingGroup->setData('name',               'Staging Store Group');
         $stagingGroup->save();
 
         $group   = Mage::getModel('core/store_group');
-        $group->setData('website_id',         $object->getSlaveWebsiteId());
-        $group->setData('root_category_id', 2); // TODO quick FIXME quick
-        $group->setData('name',               'Staging Store Group (autocreated)');
+        $group->setData('website_id',           $object->getSlaveWebsiteId());
+        $group->setData('root_category_id',     2); // TODO quick FIXME quick
+        $group->setData('name',                 'Staging Store Group');
         $group->save();
 
         $this->updateAttribute($object, 'default_group_id', $stagingGroup->getId());
@@ -174,6 +168,29 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     {
         foreach ($object->getStoresCollection() as $store) {
             $store->save();
+        }
+
+        return $this;
+    }
+
+    public function saveSystemConfig($object)
+    {
+        if ($object->getEventCode() == 'create') {
+            $config = Mage::getModel('core/config_data');
+            $path = 'web/unsecure/base_url';
+            $config->setPath($path);
+            $config->setScope('websites');
+            $config->setScopeId($object->getSlaveWebsiteId());
+            $config->setValue($object->getBaseUrl());
+            $config->save();
+
+            $config = Mage::getModel('core/config_data');
+            $path = 'web/secure/base_url';
+            $config->setPath('web/secure/base_url');
+            $config->setScope('websites');
+            $config->setScopeId($object->getSlaveWebsiteId());
+            $config->setValue($object->getBaseSecureUrl());
+            $config->save();
         }
 
         return $this;
@@ -251,7 +268,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     public function getWebsiteByCode($code)
     {
         $select = $this->_getReadAdapter()->select()
-           ->from($this->_websiteTable, 'website_id')
+           ->from($this->getTable('core/website'), 'website_id')
            ->where('code = ?', $code);
 
        return $this->_getReadAdapter()->fetchOne($select);
@@ -267,7 +284,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         }
 
         $select = $this->_getReadAdapter()->select()
-            ->from($this->_stagingStoreTable, array('staging_store_id'))
+            ->from($this->getTable('enterprise_staging/staging_store'), array('staging_store_id'))
             ->where('staging_website_id=?', $website->getId());
         return $this->_getReadAdapter()->fetchCol($select);
     }
@@ -275,5 +292,58 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     public function loadBySlaveWebsiteId($website, $id)
     {
         return parent::load($website, $id, 'slave_website_id');
+    }
+
+    public function syncWithWebsite($object, $website)
+    {
+        $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+
+        $object->setData('slave_website_id', $website->getId());
+        $object->setData('slave_website_code', $website->getCode());
+
+        $object->setData('code', $website->getCode());
+
+        $object->setData('name', $website->getName());
+
+        $stagingGroup = Mage::getModel('enterprise_staging/staging_store_group');
+        /* @var $stagingGroup Enterprise_Staging_Model_Staging_Store_Group */
+        $stagingGroup->loadBySlaveStoreGroupId($website->getDefaultGroupId());
+        $object->setData('default_group_id', $stagingGroup->getId());
+
+        $object->setData('is_default', $website->getIsDefault());
+
+        $object->setData('sort_order', $website->getSortOrder());
+
+        if (!$object->getId()) {
+            $object->setData('visibility', Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE);
+            $object->setData('master_login');
+            $object->setData('master_password');
+            $object->setData('master_password_hash');
+        }
+
+        $object->setData('base_url', $website->getBaseUrl());
+        $object->setData('base_secure_url', $website->getSecureBaseUrl());
+
+        if ($website->getApplyDate()) {
+            $object->setData('apply_date', $website->getApplyDate());
+            $object->setData('auto_apply_is_active', $website->getAutoApplyIsActive());
+        }
+
+        if ($website->getRollbackDate()) {
+            $object->setData('rollback_date', $website->getRollbackDate());
+            $object->setData('auto_rollback_is_active', $website->getAutoRollbackIsActive());
+        }
+
+        if (!$object->getId()) {
+            $object->setData('created_at', $now);
+        } else {
+            $object->setData('updated_at', $now);
+        }
+
+        $object->setIsPureSave(true);
+
+        $object->save();
+
+        return $this;
     }
 }

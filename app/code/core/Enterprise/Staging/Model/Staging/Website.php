@@ -306,4 +306,11 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
 
         return $this;
     }
+
+    public function syncWithWebsite(Mage_Core_Model_Website $website)
+    {
+        $this->getResource()->syncWithWebsite($this, $website);
+
+        return $this;
+    }
 }

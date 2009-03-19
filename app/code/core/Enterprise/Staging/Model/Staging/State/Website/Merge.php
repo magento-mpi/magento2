@@ -24,20 +24,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Staging_Model_Staging_State_Website_Process extends Enterprise_Staging_Model_Staging_State_Website_Abstract
+class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
     protected $_proceedTables = array();
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function run()
     {
         $this->getAdapter()->beginTransaction('enterprise_staging');
         try {
-            $this->_processStaging();
+            $this->_processStagingWebsite();
             $this->getAdapter()->commitTransaction('enterprise_staging');
         } catch (Zend_Db_Statement_Exception $e) {
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
@@ -50,7 +45,7 @@ class Enterprise_Staging_Model_Staging_State_Website_Process extends Enterprise_
         return $this;
     }
 
-    protected function _processStaging($staging = null)
+    protected function _processStagingWebsite($staging = null)
     {
         if (is_null($staging)) {
             $staging = $this->getStaging();
@@ -67,6 +62,34 @@ class Enterprise_Staging_Model_Staging_State_Website_Process extends Enterprise_
     }
 
     protected function _processWebsite($website)
+    {
+        if (is_null($website)) {
+            $website = $this->getWebsite();
+        }
+
+        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        $usedItems = $this->getStaging()->getMapperInstance()->getUsedItems();
+
+        foreach ($usedItems as $usedItem) {
+            if (!isset($usedItem['dataset_item_id'])) {
+                continue;
+            }
+            $item = $stagingItems->{$usedItem['code']};
+            if (!$item->code) {
+                continue;
+            }
+            $adapterModelName = (string) $item->adapter;
+            if (!$adapterModelName) {
+                $adapterModelName = 'enterprise_staging/staging_adapter_item_abstract';
+            }
+            $adapter = Mage::getModel($adapterModelName);
+
+            $adapter->mergeItem($website, $item);
+        }
+        return $this;
+    }
+
+    protected function OLD_processWebsite($website)
     {
         if (is_null($website)) {
             $website = $this->getWebsite();

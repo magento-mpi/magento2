@@ -89,22 +89,49 @@
         <events>
             <resource_get_tablename>
                 <observers>
-                    <on_get_tablename>
+                    <enterprise_staging_get_table_name>
                         <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>getTableName</method>
-                    </on_get_tablename>
+                    </enterprise_staging_get_table_name>
                 </observers>
             </resource_get_tablename>
             <controller_front_init_before>
                 <observers>
-                    <check_staging>
+                    <enterprise_staging_check_staging>
                         <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>beforeFrontendInit</method>
-                    </check_staging>
+                    </enterprise_staging_check_staging>
                 </observers>
             </controller_front_init_before>
+            <store_save_after>
+                <observers>
+                    <enterprise_staging_save_store>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>saveStore</method>
+                    </enterprise_staging_save_store>
+                </observers>
+            </store_save_after>
+            <store_group_save_after>
+                <observers>
+                    <enterprise_staging_save_store_group>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>saveStoreGroup</method>
+                    </enterprise_staging_save_store_group>
+                </observers>
+            </store_group_save_after>
+            <website_save_after>
+                <observers>
+                    <enterprise_staging_save_website>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>saveWebsite</method>
+                    </enterprise_staging_save_website>
+                </observers>
+            </website_save_after>
         </events>
         <enterprise>
             <staging>
@@ -138,20 +165,12 @@
                             <merge>
                                 <prepare> 
                                     <model>enterprise_staging/staging_state_website_prepare</model>
-                                    <next>read</next>
+                                    <next>merge</next>
                                 </prepare>
-                                <read>
-                                    <model>enterprise_staging/staging_state_website_read</model>
-                                    <next>flush</next>
-                                </read>
-                                <flush>
-                                    <model>enterprise_staging/staging_state_website_flush</model>
-                                    <next>process</next>
-                                </flush>
-                                <process>
-                                    <model>enterprise_staging/staging_state_website_process</model>
+                                <merge>
+                                    <model>enterprise_staging/staging_state_website_merge</model>
                                     <next>check</next>
-                                </process>
+                                </merge>
                                 <check>
                                     <model>enterprise_staging/staging_state_website_check</model>
                                     <next>0</next>
@@ -160,14 +179,14 @@
                         </scenaries>
                     </website>
                 </type>
-
+                
                 <staging_items>
                     <customer>
                         <code>customer</code>
                         <model>customer</model>
                         <is_backend>1</is_backend>
                         <label>Customers</label>
-                        <adapter>enterprise_staging/staging_adapter_customer</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
                         <use_table_prefix>1</use_table_prefix>
                     </customer>
                     <customer_address>
@@ -175,7 +194,7 @@
                         <model>customer</model>
                         <is_backend>1</is_backend>
                         <label>Customer Adresses</label>
-                        <adapter>enterprise_staging/staging_adapter_customer</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
                         <use_table_prefix>1</use_table_prefix>
                     </customer_address>
                     
@@ -184,7 +203,7 @@
                         <model>sales</model>
                         <is_backend>1</is_backend>
                         <label>Sales</label>
-                        <adapter>enterprise_staging/staging_adapter_sales</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
                         <use_table_prefix>1</use_table_prefix>
                     </sales>
                     
@@ -192,7 +211,7 @@
                         <code>catalog_product</code>
                         <model>catalog</model>
                         <label>Catalog Products</label>
-                        <adapter>enterprise_staging/staging_adapter_product</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                         <use_table_prefix>0</use_table_prefix>
                         <extends>
                             <bundle>
@@ -210,71 +229,68 @@
                         <code>catalog_category</code>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
-                        <adapter>enterprise_staging/staging_adapter_category</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_category</adapter>
                         <use_table_prefix>0</use_table_prefix>
                     </catalog_category>
                     <catalogrule>
                         <code>catalogrule</code>
                         <model>catalogrule</model>
                         <label>Catalog Rule</label>
-                        <adapter>enterprise_staging/staging_adapter_catalogrule</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
                         <use_table_prefix>0</use_table_prefix>
                     </catalogrule>
                     <salesrule>
                         <code>salesrule</code>
                         <model>salesrule</model>
                         <label>Sales Rule</label>
-                        <adapter>enterprise_staging/staging_adapter_salesrule</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
                         <use_table_prefix>0</use_table_prefix>
                     </salesrule>
                     <cms_page>
                         <code>cms_page</code>
                         <model>cms</model>
                         <label>CMS Pages</label>
-                        <adapter>enterprise_staging/staging_adapter_cms</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
                         <use_table_prefix>0</use_table_prefix>
                         <entities>
-                            <cms_page_store>
-                                <table>cms_page_store</table>
-                            </cms_page_store>
+                            <page_store />
                         </entities>
                     </cms_page>
                     <cms_block>
                         <code>cms_block</code>
                         <model>cms</model>
                         <label>CMS Blocks</label>
-                        <adapter>enterprise_staging/staging_adapter_cms</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
                         <use_table_prefix>0</use_table_prefix>
                         <entities>
-                            <cms_block_store>
-                                <table>cms_block_store</table>
-                            </cms_block_store>
+                            <block_store />
                         </entities>
                     </cms_block>
                     <poll>
                         <code>poll</code>
                         <model>poll</model>
                         <label>Polls</label>
-                        <adapter>enterprise_staging/staging_adapter_poll</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_poll</adapter>
                         <use_table_prefix>0</use_table_prefix>
                     </poll>
-                    <!--condition_term>
-                        <code>condition_term</code>
-                        <model>cms</model>
+                    <checkout>
+                        <code>checkout</code>
+                        <model>checkout</model>
                         <label>Coditions And Terms</label>
-                        <adapter>enterprise_staging/staging_adapter_cms</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
                         <use_table_prefix>0</use_table_prefix>
-                    </condition_term-->
+                        <entities>
+                            <agreement_store />
+                        </entities>
+                    </checkout>
                     <system_config>
                         <code>system_config</code>
                         <model>core</model>
                         <label>System Config</label>
-                        <adapter>enterprise_staging/staging_adapter_config</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_config</adapter>
                         <use_table_prefix>0</use_table_prefix>
                         <entities>
-                            <core_config_data>
-                                <table>core_config_data</table>
-                            </core_config_data>
+                            <config_data />
                         </entities>
                         <ignore_nodes>
                             <base_url />
@@ -285,14 +301,13 @@
                             <developer />
                         </ignore_nodes>
                     </system_config>
-                    
-                    
+
                     <cataloginventory>
                         <code>cataloginventory</code>
                         <model>cataloginventory</model>
                         <is_backend>1</is_backend>
                         <label>Catalog Inventory</label>
-                        <adapter>enterprise_staging/staging_adapter_cataloginventory</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
                         <use_table_prefix>0</use_table_prefix>
                         <entities>
                             <cataloginventory_stock_item>
@@ -305,7 +320,7 @@
                         <model>catalogindex</model>
                         <is_backend>1</is_backend>
                         <label>Catalog Index</label>
-                        <adapter>enterprise_staging/staging_adapter_catalogindex</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
                         <use_table_prefix>1</use_table_prefix>
                     </catalogindex>
                     <catalogsearch>
@@ -313,7 +328,7 @@
                         <model>catalogsearch</model>
                         <is_backend>1</is_backend>
                         <label>Catalog Search</label>
-                        <adapter>enterprise_staging/staging_adapter_catalogsearch</adapter>
+                        <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
                         <use_table_prefix>1</use_table_prefix>
                     </catalogsearch>
                 </staging_items>
@@ -399,6 +414,13 @@
                     <restored translate="label"><label>Restored</label></restored>
                     <holded translate="label"><label>On Hold</label></holded>
                 </status>
+                <visibility>
+                    <not_accessible translate="label"><label>Not accessible</label></not_accessible>
+                    <accessible translate="label"><label>accessible</label></accessible>
+                    <require_http_auth translate="label"><label>Require Http Auth</label></require_http_auth>
+                    <require_admin_session translate="label"><label>Require Admin Session</label></require_admin_session>
+                    <require_both translate="label"><label>Require both</label></require_both>
+                </visibility>
             </staging>
         </enterprise>
     </global>
@@ -406,11 +428,28 @@
         <menu>
           <system>
             <children>
-              <staging translate="title">
-                 <title>Staging</title>
+              <enterprise_staging translate="title">
+                 <title>Content Staging</title>
                  <sort_order>21</sort_order>
                  <action>adminhtml/staging_manage</action>
-              </staging>
+                 <children>
+                    <staging_grid>
+                        <title>Stagings</title>
+		                 <sort_order>10</sort_order>
+		                 <action>adminhtml/staging_manage/index</action>
+                    </staging_grid>
+                    <staging_merge>
+                        <title>Merge</title>
+                        <sort_order>20</sort_order>
+                        <action>adminhtml/staging_manage/merge</action>
+                    </staging_merge>
+                    <staging_rollback>
+                        <title>Rollback</title>
+                        <sort_order>30</sort_order>
+                        <action>adminhtml/staging_manage/create</action>
+                    </staging_rollback>
+                 </children>
+              </enterprise_staging>
             </children>
           </system>
         </menu>

@@ -75,7 +75,11 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $items          = $this->getStaging()->getDatasetItemsCollection();
 
         foreach ($websitesMap as $id => $websiteMap) {
+            if (!is_array($websiteMap)) {
+                continue;
+            }
             $websiteItems = !empty($websiteMap['dataset_items']) ? $websiteMap['dataset_items'] : array();
+
             foreach ($websiteItems as $idx => $websiteItemId) {
                 $datasetItem = $items->getItemById($websiteItemId);
                 if ($datasetItem) {
@@ -131,7 +135,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
-    public function setMapData($mapData)
+    public function setMapData2($mapData)
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
@@ -167,7 +171,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
-    public function setMapData2($mapData)
+    public function setMapData($mapData)
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();

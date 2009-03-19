@@ -64,18 +64,26 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 
         $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
+        $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Main Information')));
+
+        $fieldset->addField('name', 'text', array(
+            'label'     => $this->helper->__('Staging name'),
+            'title'     => $this->helper->__('Staging name'),
+            'name'      => 'name',
+            'value'     => $this->getStaging()->getName(),
+            'require'   => true
+        ));
+
         foreach ($this->getWebsiteCollection() as $website) {
             $_id = $website->getId();
             $stagingWebsite = $collection->getItemByMasterCode($website->getCode());
 
-            $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__($website->getName())));
-
-//            $fieldset->addField('master_id_label_'.$_id, 'label',
-//                array(
-//                    'label' => $this->helper->__('Master Website Id'),
-//                    'value' => $website->getId()
-//                )
-//            );
+            if ($stagingWebsite) {
+                $stagingWebsiteName = $stagingWebsite->getName();
+            } else {
+                $stagingWebsiteName = $website->getName();
+            }
+            $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__('Staging Website: ') . $stagingWebsiteName));
 
             $fieldset->addField('master_code_label_'.$_id, 'label',
                 array(
@@ -101,7 +109,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             );
 
             if ($stagingWebsite) {
-            	$fieldset->addField('code_'.$_id, 'text',
+            	$fieldset->addField('code_'.$_id, 'label',
                     array(
                         'label' => $this->helper->__('Staging Website Code'),
                         'name'  => "{$_id}[code]",
@@ -109,11 +117,27 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     )
                 );
 
-                $fieldset->addField('staging_website_name_'.$_id, 'text',
+                $fieldset->addField('staging_website_name_'.$_id, 'label',
                     array(
                         'label' => $this->helper->__('Staging Website Name'),
                         'name'  => "{$_id}[name]",
                         'value' => $stagingWebsite->getName()
+                    )
+                );
+
+                $fieldset->addField('staging_website_base_url_'.$_id, 'label',
+                    array(
+                        'label' => $this->helper->__('Base Url'),
+                        'name'  => "{$_id}[base_url]",
+                        'value' => $stagingWebsite->getBaseUrl()
+                    )
+                );
+
+                $fieldset->addField('staging_website_base_secure_url_'.$_id, 'label',
+                    array(
+                        'label' => $this->helper->__('Secure Base Url'),
+                        'name'  => "{$_id}[base_secure_url]",
+                        'value' => $stagingWebsite->getBaseSecureUrl()
                     )
                 );
 
@@ -134,24 +158,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         )
                     );
                 }
-
-                $fieldset->addField('staging_website_base_url_'.$_id, 'text',
-                    array(
-                        'label' => $this->helper->__('Staging Website BaseUrl'),
-                        'name'  => "{$_id}[staging_website_base_url]",
-                        'value' => $stagingWebsite->getBaseUrl(),
-                        'required' => true
-                    )
-                );
-
-                $fieldset->addField('staging_website_base_secure_url_'.$_id, 'text',
-                    array(
-                        'label' => $this->helper->__('Staging Website Base Secure Url'),
-                        'name'  => "{$_id}[staging_website_base_secure_url]",
-                        'value' => $stagingWebsite->getBaseSecureUrl(),
-                        'required' => true
-                    )
-                );
             } else {
             	$fieldset->addField('staging_website_code_'.$_id, 'text',
 	                array(
@@ -165,40 +171,38 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     array(
                         'label' => $this->helper->__('Staging Website Name'),
                         'name'  => "{$_id}[name]",
-                        'value' => $website->getName()
+                        'value' => $website->getName() . $this->helper->__(' (Staging Copy)')
                     )
                 );
 
                 $fieldset->addField('staging_website_base_url_'.$_id, 'text',
                     array(
-                        'label' => $this->helper->__('Staging Website Base Url'),
-                        'name'  => "{$_id}[staging_website_base_url]",
-                        'value' => $website->getBaseUrl(),
-                        'required' => true
+                        'label' => $this->helper->__('Base Url'),
+                        'name'  => "{$_id}[base_url]",
+                        'value' => '{{unsecure_base_url}}'
                     )
                 );
 
                 $fieldset->addField('staging_website_base_secure_url_'.$_id, 'text',
                     array(
-                        'label' => $this->helper->__('Staging Website Base Secure Url'),
-                        'name'  => "{$_id}[staging_website_base_url]",
-                        'value' => $website->getBaseSecureUrl(),
-                        'required' => true
+                        'label' => $this->helper->__('Secure Base Url'),
+                        'name'  => "{$_id}[base_secure_url]",
+                        'value' => '{{secure_base_url}}'
                     )
                 );
             }
 
             $fieldset->addField('visibility_'.$_id, 'select', array(
-	            'label'     => $this->helper->__('Frontend Visibility'),
-	            'title'     => $this->helper->__('Frontend Visibility'),
+	            'label'     => $this->helper->__('Frontend restriction'),
+	            'title'     => $this->helper->__('Frontend restriction'),
 	            'name'      => "{$_id}[visibility]",
-	            'value'     => Enterprise_Staging_Model_Config::VISIBILITY_WHILE_MASTER_LOGIN,
-	            'options'   => Enterprise_Staging_Model_Config::getOptionArray()
+	            'value'     => Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
+	            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('visibility')
 	        ));
 
 	        $fieldset->addField('master_login_'.$_id, 'text',
 	            array(
-	                'label'    => $this->helper->__('Master Login'),
+	                'label'    => $this->helper->__('HTTP Login'),
 	                'class'    => 'input-text required-entry validate-login',
 	                'name'     => "{$_id}[master_login]",
 	                'required' => true
@@ -207,48 +211,16 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 
 	        $fieldset->addField('master_password_'.$_id, 'text',
 	            array(
-	                'label'    => $this->helper->__('Master Password'),
+	                'label'    => $this->helper->__('HTTP Password'),
 	                'class'    => 'input-text required-entry validate-password',
 	                'name'     => "{$_id}[master_password]",
 	                'required' => true
 	            )
 	        );
 
-//            $fieldset->addField('auto_apply_is_active_'.$_id, 'select', array(
-//                'label'     => $this->helper->__('Auto Apply Is Active'),
-//                'title'     => $this->helper->__('Auto Apply Is Active'),
-//                'name'      => "{$_id}[auto_apply_is_active]",
-//                'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray(),
-//            ));
-//
-//            $fieldset->addField('apply_date_'.$_id, 'date', array(
-//                'label'     => $this->helper->__('Auto Apply Date'),
-//                'title'     => $this->helper->__('Auto Apply Date'),
-//                'name'      => "{$_id}[apply_date]",
-//                'time'      => false,
-//                'format'    => $outputFormat,
-//                'image'     => $this->getSkinUrl('images/grid-cal.gif')
-//            ));
-//
-//            $fieldset->addField('auto_rollback_is_active_'.$_id, 'select', array(
-//                'label'     => $this->helper->__('Auto Rollback Is Active'),
-//                'title'     => $this->helper->__('Auto Rollback Is Active'),
-//                'name'      => "{$_id}[auto_rollback_is_active]",
-//                'options'   => Mage::getSingleton('eav/entity_attribute_source_boolean')->getOptionArray(),
-//            ));
-//
-//            $fieldset->addField('rollback_date_'.$_id, 'date', array(
-//                'label'     => $this->helper->__('Auto Rollback Date'),
-//                'title'     => $this->helper->__('Auto Rollback Date'),
-//                'name'      => "{$_id}[rollback_date]",
-//                'time'      => false,
-//                'format'    => $outputFormat,
-//                'image'     => $this->getSkinUrl('images/grid-cal.gif')
-//            ));
-
             if ($stagingWebsite) {
                 $element = new Varien_Data_Form_Element_Fieldset(array(
-                    'legend'        => $this->helper->__('Staging Stores'),
+                    //'legend'        => $this->helper->__('Staging Stores'),
                     'html_content'  => $this->getLayout()
                         ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store')
                         ->setWebsite($website)
@@ -276,14 +248,16 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                 $fieldset->addElement($element, false);
             }
 
-            $fieldset->addField("staging_website_items_{$_id}", 'multiselect',
-                array(
-                    'label'    => $this->helper->__('Default Data for copy into Staging Stores'),
-                    'name'     => "{$_id}[dataset_items]",
-                    'value'    => $stagingWebsite ? $stagingWebsite->getDatasetItemIds() : array(),
-                    'values'   => $staging->getDatasetItemsCollection(true)->toOptionArray()
-                )
+            $params = array(
+                'label'    => $stagingWebsite ? 'Copied data' : $this->helper->__('Data to copy'),
+                'name'     => "{$_id}[dataset_items]",
+                'value'    => $stagingWebsite ? $stagingWebsite->getDatasetItemIds() : array(),
+                'values'   => $staging->getDatasetItemsCollection(true)->toOptionArray()
             );
+            if ($stagingWebsite) {
+                $params['disabled'] = true;
+            }
+            $fieldset->addField("staging_website_items_{$_id}", 'multiselect',$params);
         }
 
         $form->setFieldNameSuffix($this->getFieldNameSuffix());

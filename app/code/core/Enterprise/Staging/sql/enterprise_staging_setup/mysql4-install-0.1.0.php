@@ -101,13 +101,13 @@ $installer->getConnection()->addConstraint(
 $installer->run("
 INSERT INTO `{$this->getTable('enterprise_staging/dataset_item')}`
     (`dataset_item_id`,`dataset_id`,`code`,`name`,`is_active`,`is_backend`,`sort_order`) VALUES
-    (1,1,'catalog_product','Catalog Product',1,0,'0'),
-    (2,1,'catalog_category','Catalog Category',1,0,'1'),
+    (1,1,'catalog_category','Catalog Category',1,0,'0'),
+    (2,1,'catalog_product','Catalog Product',1,0,'1'),
     (3,1,'catalogrule','Catalog Rule',1,0,'2'),
     (4,1,'salesrule','Shopping Cart Rule',1,0,'3'),
     (5,1,'cms_page','Cms Page',1,0,'4'),
     (6,1,'cms_block','Cms Block',1,0,'5'),
-    (7,1,'conditions_and_terms','Conditions And Terms',1,0,'6'),
+    (7,1,'checkout','Conditions And Terms',1,0,'6'),
     (8,1,'poll','Poll',1,0,'7'),
     (9,1,'system_config','System Configuration',1,0,'8'),
     (10,1,'sales','Sale',0,1,'9'),
@@ -133,7 +133,7 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging')}` (
   `state` varchar(20) NOT NULL default '',
   `status` varchar(10) NOT NULL default '',
   `is_active` tinyint(1) unsigned NOT NULL default '1',
-  `visibility` tinyint(3) NOT NULL default '1',
+  `visibility` varchar(40) NOT NULL default '',
   `master_login` varchar(40) NOT NULL default '',
   `master_password` varchar(40) NOT NULL default '',
   `master_password_hash` varchar(40) NOT NULL default '',
@@ -234,7 +234,7 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging_website')}` (
   `status` varchar(20) NOT NULL default '',
   `is_active` tinyint(1) unsigned NOT NULL default '1',
   `sort_order` smallint(5) NOT NULL DEFAULT '0',
-  `visibility` tinyint(3) NOT NULL default '1',
+  `visibility` varchar(40) NOT NULL default '',
   `master_login` varchar(40) NOT NULL default '',
   `master_password` varchar(40) NOT NULL default '',
   `master_password_hash` varchar(40) NOT NULL default '',
@@ -269,15 +269,6 @@ $installer->getConnection()->addConstraint(
     $installer->getTable('core/website'),
     'website_id'
 );
-$installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_WEBSITE_MASTER_WEBSITE_CODE',
-    $this->getTable('enterprise_staging/staging_website'),
-    'master_website_code',
-    $installer->getTable('core/website'),
-    'code'
-);
-
-
 
 $installer->run("
 CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store_group')}` (
@@ -340,7 +331,7 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store')}` (
   `sort_order` smallint(5) NOT NULL DEFAULT '0',
   `base_url` varchar(255) NOT NULL DEFAULT '',
   `base_secure_url` varchar(255) NOT NULL DEFAULT '',
-  `visibility` tinyint(3) NOT NULL DEFAULT '1',
+  `visibility` varchar(40) NOT NULL DEFAULT '',
   `use_specific_items` tinyint(1) NOT NULL DEFAULT '0',
   `master_login` varchar(40) NOT NULL default '',
   `master_password` varchar(40) NOT NULL default '',

@@ -28,13 +28,13 @@ Enterprise.Staging = {};
 
 Enterprise.Staging.Mapper = new Class.create();
 Enterprise.Staging.Mapper.prototype = {
-    templatePattern        : /(^|.|\r|\n)(\{\{(.*?)\}\})/,
-    websiteRowTemplate    : null,
-    storeRowTemplate    : null,
-    storeAddBtnTemplate    : null,
-    websiteIncrement    : 0,
-    mapKeys                : null,
-    addWebsiteMapRow    : null,
+    templatePattern         : /(^|.|\r|\n)(\{\{(.*?)\}\})/,
+    websiteRowTemplate      : null,
+    storeRowTemplate        : null,
+    storeAddBtnTemplate     : null,
+    websiteIncrement        : 0,
+    mapKeys                 : null,
+    addWebsiteMapRow        : null,
     initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores)
     {
         this.mergeForm = $(mergeForm);
@@ -50,7 +50,7 @@ Enterprise.Staging.Mapper.prototype = {
 
         this.grid = new varienGrid(containerId, url, pageVar, sortVar, dirVar, filterVar);
 
-        this.mapKeys  = new $H();
+        this.mapKeys            = new $H();
 
         this.websiteRowTemplate     = new Template(
             this.getInnerElement('website_template').innerHTML,
@@ -92,6 +92,7 @@ Enterprise.Staging.Mapper.prototype = {
             websiteRow.id = 'website-map-' + this.websiteIncrement;
             websiteRow.incrementId = this.websiteIncrement;
             websiteRow.key = '';
+            websiteRow.toTargetKey = '';
             websiteRow.addWebsiteMapRow = this.addWebsiteMapRow;
 
             websiteRow.fromElement    = websiteRow.select('.staging-mapper-website-from')[0];
@@ -148,6 +149,8 @@ Enterprise.Staging.Mapper.prototype = {
     {
         var key = row.key;
         this.mapKeys.unset(key);
+        var toTargetKey = row.toTargetKey;
+        this.mapKeys.unset(toTargetKey);
     },
     enableBtn : function(btn)
     {
@@ -180,6 +183,7 @@ Enterprise.Staging.Mapper.prototype = {
             storeRow.addClassName('website-map-' + addNewRow.websiteIncrementId + '-store');
             storeRow.addNewRow = addNewRow;
             storeRow.key = '';
+            storeRow.toTargetKey = '';
 
             storeRow.select('.staging-mapper-store-from').each(
                     function(fromElement)
@@ -264,19 +268,61 @@ Enterprise.Staging.Mapper.prototype = {
         options.toWebsite = toWebsite;
         return options;
     },
-    stagingMerge : function(grid)
+    stagingMergeConfig : function()
     {
+        this.showScheduleConfigForm();
+    },
+    stagingMerge : function()
+    {
+        var container = $('schedule_config_container');
+        
+//        $('loading_mask_loader').show();
+//        $('loading-mask').hide();
+
+        this.mergeForm.appendChild(container);
+        container.style.visibility = 'hidden';
         this.mergeForm.submit();
+    },
+    showScheduleConfigForm : function()
+    {
+        var container = $('schedule_config_container');
+        if (container && Prototype.Browser.IE) {
+            var middle = parseInt(document.body.clientHeight/2)+document.body.scrollTop;
+            container.style.position = 'absolute';
+            container.style.top = middle;
+        }
+        
+//        $('loading_mask_loader').hide();
+//        
+//        Element.clonePosition($('loading-mask'), $('html-body'), {offsetLeft:-2})
+//        Element.show('loading-mask');
+//        setLoaderPosition();
+//        
+//        $('loading-mask').appendChild(container);
+        container.style.visibility = '';
+        container.show();
+    },
+    cancelMerge : function()
+    {
+        var container = $('schedule_config_container');
+        
+//        $('loading_mask_loader').show();
+//        $('loading-mask').hide();
+        this.mergeForm.appendChild(container);
+        container.hide();
     }
 };
 
-checkUniqueMap = function(mapper, key)
+checkUniqueMap = function(mapper, key, toTargetKey)
 {
     if (mapper.mapKeys.get(key)) {
         return 2;
-    } else {
-        return 1;
     }
+    if (mapper.mapKeys.get(toTargetKey)) {
+        return 2;
+    }
+
+    return 1;
 };
 
 selectWebsiteMap = function(event)
@@ -306,12 +352,17 @@ selectWebsiteMap = function(event)
 
     if (fromElement && toElement) {
         if (fromElement.value && toElement.value) {
-            var key = 'websites' + '-' + fromElement.value + '-' + toElement.value;
+            var key = 'websites' + '-' + fromElement.value + '-to-' + toElement.value;
+            var toTargetKey = 'websites' + '-' + toElement.value;
             element.parentRow.key = key;
-            var result = checkUniqueMap(element.mapper, key);
+            element.parentRow.toTargetKey = toTargetKey;
+            var result = checkUniqueMap(element.mapper, key, toTargetKey);
             if (result == 1) {
-                $(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
+                // TODO need to change to (remove error advice if was before)
+                //$(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
+                
                 element.mapper.mapKeys.set(key, true);
+                element.mapper.mapKeys.set(toTargetKey, true);
 
                 fromElement.prevValue   = fromElement.value;
                 toElement.prevValue     = toElement.value;
@@ -331,19 +382,24 @@ selectWebsiteMap = function(event)
                 element.mapper.disableBtn(addWebsiteMapBtn);
             }
         } else {
-            $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+            // TODO need to add error advice
+            //$(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+            
             // remove all stores related to website
             var stores = this.tableContainer.select('.'+element.parentRow.id+'-store').each(function(row){row.remove();});
             var storeAddBtnRow = $(element.parentRow.id+'-store-add-btn');
             var btn = storeAddBtnRow.select('.staging-mapper-add-store-btn')[0];
             element.mapper.disableBtn(btn);
             if (fromElement.prevValue && toElement.prevValue) {
-                var key = 'websites' + '-' + fromElement.prevValue + '-' + toElement.prevValue;
+                var key = 'websites' + '-' + fromElement.prevValue + '-to-' + toElement.prevValue;
+                var toTargetKey = 'websites' + '-to-' + toElement.prevValue;
                 element.mapper.mapKeys.unset(key);
+                element.mapper.mapKeys.unset(toTargetKey);
             }
         }
     } else {
-        $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+        // TODO need to add error advice
+        //$(element.parentRow).select('.mapper-status')[0].innerHTML = '';
     }
 };
 selectStoreMap = function(event)
@@ -371,11 +427,15 @@ selectStoreMap = function(event)
     if (fromElement && toElement) {
         if (fromElement.value && toElement.value) {
             var key = 'stores' + '-' + fromElement.fromWebsite + '-' + fromElement.value + '-' + toElement.toWebsite + '-' + toElement.value;
+            var toTargetKey = 'stores' + '-' + fromElement.fromWebsite + '-to-' + toElement.value;
             element.parentRow.key = key;
-            var result = checkUniqueMap(element.mapper, key);
+            element.parentRow.toTargetKey = toTargetKey;
+            var result = checkUniqueMap(element.mapper, key, toTargetKey);
             if (result == 1) {
-                $(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
+                // TODO need to remove error advice
+                //$(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
                 element.mapper.mapKeys.set(key, true);
+                element.mapper.mapKeys.set(toTargetKey, true);
 
                 fromElement.prevValue   = fromElement.value;
                 toElement.prevValue     = toElement.value;
@@ -396,11 +456,13 @@ selectStoreMap = function(event)
                 element.mapper.disableBtn(btn);
             }
         } else {
-            $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+            // TODO need to add error advice
+            //$(element.parentRow).select('.mapper-status')[0].innerHTML = '';
             element.mapper.disableBtn(btn);
         }
     } else {
-        $(element.parentRow).select('.mapper-status')[0].innerHTML = '';
+        // TODO need to remove error advice
+        //$(element.parentRow).select('.mapper-status')[0].innerHTML = '';
     }
 };
 
@@ -504,9 +566,6 @@ Enterprise.Staging.Form.prototype = {
     
     execItems : function()
     {
-        $('loading_mask_loader').hide();
-        $('loading-mask').show();
-        
         $('staging_create_process').show();
         
         if (this.proceedItems.size() == this.items.size()) {

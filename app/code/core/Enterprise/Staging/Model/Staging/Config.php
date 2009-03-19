@@ -72,6 +72,13 @@ class Enterprise_Staging_Model_Staging_Config
     const STATUS_RESTORED       = 'restored';
     const STATUS_HOLDED         = 'holded';
 
+    const VISIBILITY_NOT_ACCESSIBLE             = 'not_accessible';
+    const VISIBILITY_ACCESSIBLE                 = 'accessible';
+    const VISIBILITY_REQUIRE_HTTP_AUTH          = 'require_http_auth';
+    const VISIBILITY_REQUIRE_ADMIN_SESSION      = 'require_admin_session';
+    const VISIBILITY_REQUIRE_BOTH               = 'require_both';
+
+
     static private $_config;
 
     /**
@@ -263,6 +270,21 @@ class Enterprise_Staging_Model_Staging_Config
             return Mage::helper('enterprise_staging')->__($status);
         }
         return $status;
+    }
+
+    /**
+     * Retrieve visibility label
+     *
+     * @param   string $visibility
+     * @return  string
+     */
+    public function getVisibilityLabel($visibility)
+    {
+        if ($visibilityNode = self::getConfig('visibility/'.$visibility)) {
+            $visibility = (string) $visibilityNode->label;
+            return Mage::helper('enterprise_staging')->__($visibility);
+        }
+        return $visibility;
     }
 
     /**

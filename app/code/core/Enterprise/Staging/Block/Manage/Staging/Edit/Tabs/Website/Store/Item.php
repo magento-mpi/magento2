@@ -67,20 +67,20 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store_Item exten
         $store        = $this->getStore();
         $storeId          = $store->getId();
 
-        $stagingWebsite = $this->getStagingWebsite();
-
         $stagingStore = $this->getStagingStore();
 
         if ($stagingStore) {
-            $_id = $store->getId().'-'.$stagingStore->getId();
+            $_id    = $store->getId().'-'.$stagingStore->getId();
+            $_name  = $store->getName();
         } else {
             $counter = $this->getRequest()->getPost('count');
             $_id = $store->getId().'_'.$counter;
+            $_name  = $store->getName();
         }
 
         $fieldset = $form->addFieldset("staging_store_{$_id}",
             array(
-                'legend' => $this->helper->__($store->getName()),
+                'legend' => $this->helper->__('Staging Store View: ') . " " . $_name,
                 'fieldset_container_id' => "fieldset_staging_store_{$_id}"
         ));
 
@@ -129,7 +129,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store_Item exten
                     'value' => $stagingStore->getId()
                 )
             );
-            $fieldset->addField('staging_store_code_'.$_id, 'text',
+            $fieldset->addField('staging_store_code_'.$_id, 'label',
                 array(
                     'label' => $this->helper->__('Staging Store Code'),
                     'name'  => "{$_id}[code]",
@@ -137,23 +137,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store_Item exten
                 )
             );
 
-            $fieldset->addField('staging_store_name_'.$_id, 'text',
+            $fieldset->addField('staging_store_name_'.$_id, 'label',
                 array(
                     'label' => $this->helper->__('Staging Store Name'),
                     'name'  => "{$_id}[name]",
                     'value' => $stagingStore->getName()
                 )
             );
-
-            foreach ($stagingStore->getDatasetItemIds() as $usedDatasetItemId) {
-                $fieldset->addField("staging_store_used_dataset_item_id_{$_id}_{$usedDatasetItemId}", 'hidden',
-                    array(
-                        'label' => $this->helper->__('Staging Store Item Id'),
-                        'name'  => "{$_id}[items][{$usedDatasetItemId}][used_dataset_item_id]",
-                        'value' => $usedDatasetItemId
-                    )
-                );
-            }
         } else {
             $fieldset->addField('code_'.$_id, 'text',
                 array(
@@ -171,27 +161,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store_Item exten
                 )
             );
         }
-
-        $fieldset->addField("staging_store_items_toggle_{$_id}", 'checkbox',
-            array(
-                'label'   => $this->helper->__('Use specific Items'),
-                'name'    => "{$_id}[use_specific_items]",
-                'value'   => "1",
-                'onclick' => "toggleStagingStoreItems('staging_store_items_{$_id}')",
-                'checked' => ($stagingStore && $stagingStore->getUseSpecificItems())
-            )
-        );
-
-        $params = array(
-            'label'     => $this->helper->__('Copy to Staging Store'),
-            'name'      => "{$_id}[dataset_items]",
-            'value'     => $stagingStore ? $stagingStore->getDatasetItemIds() : array(),
-            'values'    => $staging->getDatasetItemsCollection(true)->toOptionArray()
-        );
-        if (!$stagingStore || !$stagingStore->getUseSpecificItems()) {
-            $params['disabled'] = true;
-        }
-        $fieldset->addField("staging_store_items_{$_id}", 'multiselect', $params);
 
         if ($stagingStore) {
             $values = array();

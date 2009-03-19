@@ -26,19 +26,9 @@
 
 class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Model_Mysql4_Abstract
 {
-	protected $_websiteTable;
-
-    protected $_storeTable;
-
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_store_group', 'staging_store_group_id');
-
-        $this->_websiteTable = $this->getTable('core/website');
-
-        $this->_storeGroupTable = $this->getTable('core/store_group');
-
-        $this->_storeTable = $this->getTable('core/store');
+        $this->_init('enterprise_staging/staging_store_group', 'staging_group_id');
     }
 
     /**
@@ -83,8 +73,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        //$this->saveSlaveStoreGroup($object);
-
+        if (!$object->getIsPureSave()) {
+            //$this->saveSlaveStoreGroup($object);
+        }
         parent::_afterSave($object);
 
         return $this;
@@ -128,5 +119,40 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
            ->update($this->getMainTable(), array($field => $value), $where);
 
        return $this;
+    }
+
+    public function loadBySlaveStoreGroupId($group, $id)
+    {
+        return parent::load($group, $id, 'slave_group_id');
+    }
+
+    public function syncWithStoreGroup($object, $group)
+    {
+        $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+
+        $object->setData('slave_group_id',      $group->getId());
+
+        $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
+        /* @var $stagingWebsite Enterprise_Staging_Model_Staging_Website */
+        $stagingWebsite->loadBySlaveWebsiteId($group->getWebsiteId());
+        $object->setData('staging_website_id',  $stagingWebsite->getId());
+        $object->setData('staging_id',          $stagingWebsite->getStagingId());
+        $object->setData('master_website_id',   $stagingWebsite->getMasterWebsiteId());
+
+        $object->setData('name',                $group->getName());
+        $object->setData('root_category_id',    $group->getRootCategoryId());
+        $object->setData('default_store_id',    $group->getDefaultStoreId());
+
+        if (!$object->getId()) {
+            $object->setData('created_at', $now);
+        } else {
+            $object->setData('updated_at', $now);
+        }
+
+        $object->setIsPureSave(true);
+
+        $object->save();
+
+        return $this;
     }
 }

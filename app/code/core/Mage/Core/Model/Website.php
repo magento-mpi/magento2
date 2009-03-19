@@ -38,6 +38,16 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     protected $_cacheTag = true;
 
     /**
+     * @var string
+     */
+    protected $_eventPrefix = 'website';
+
+    /**
+     * @var string
+     */
+    protected $_eventObject = 'website';
+
+    /**
      * Cache configuration array
      *
      * @var array

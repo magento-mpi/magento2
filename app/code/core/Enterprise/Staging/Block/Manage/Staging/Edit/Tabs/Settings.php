@@ -91,22 +91,18 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
             'values'=> $websiteCollection->toOptionArray()
         ));
 
-        $fieldset->addField('staging_entity_set_id', 'select', array(
+        $fieldset->addField('staging_entity_set_id', 'hidden', array(
             'label' => $this->helper->__('Staging Items Set'),
             'title' => $this->helper->__('Staging Items Set'),
             'name'  => 'set',
-            'value' => '',
-            'values'=> Mage::getResourceModel('enterprise_staging/dataset_collection')
-                ->load()
-                ->toOptionArray()
+            'value' => '1'
         ));
 
-        $fieldset->addField('type', 'select', array(
+        $fieldset->addField('type', 'hidden', array(
             'label' => $this->helper->__('Staging Type'),
             'title' => $this->helper->__('Staging Type'),
             'name'  => 'type',
-            'value' => '',
-            'values'=> Enterprise_Staging_Model_Staging_Config::getOptionArray('type')
+            'value' => 'website'
         ));
 
         $fieldset->addField('continue_button', 'note', array(

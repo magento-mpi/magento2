@@ -72,15 +72,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                 ))
         );
 
-//            $this->setChild('save_and_edit_button',
-//                $this->getLayout()->createBlock('adminhtml/widget_button')
-//                    ->setData(array(
-//                        'label'     => Mage::helper('enterprise_staging')->__('Save And Continue Edit'),
-//                        'onclick'   => $this->getEditFormJsObject().'.saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
-//                        'class'     => 'save'
-//                    ))
-//            );
-
         if ($this->getStaging()->canDelete()) {
             $this->setChild('delete_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -91,15 +82,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                     ))
             );
         }
-
-//        $this->setChild('sync_button',
-//            $this->getLayout()->createBlock('adminhtml/widget_button')
-//                ->setData(array(
-//                    'label'     => Mage::helper('enterprise_staging')->__('Sync'),
-//                    'onclick'   => $this->getEditFormJsObject().'.runCreate()',
-//                    'class'     => 'add'
-//                ))
-//        );
 
         if ($this->getStaging()->canMerge()) {
             $this->setChild('merge_button',
@@ -133,14 +115,16 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                     ))
             );
         } else {
-            $this->setChild('create_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
-                    ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Create'),
-                        'onclick'   => $this->getEditFormJsObject().'.runCreate()',
-                        'class'  => 'add'
-                    ))
-            );
+            if ($this->getRequest()->getParam('set')) {
+                $this->setChild('create_button',
+                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                        ->setData(array(
+                            'label'     => Mage::helper('enterprise_staging')->__('Create'),
+                            'onclick'   => $this->getEditFormJsObject().'.runCreate()',
+                            'class'  => 'add'
+                        ))
+                );
+            }
         }
 
         return parent::_prepareLayout();

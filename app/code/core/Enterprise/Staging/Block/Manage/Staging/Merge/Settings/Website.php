@@ -25,7 +25,7 @@
  */
 
 /**
- * Staging merge setting staging website type block
+ * Staging merge settings of staging website type block
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
@@ -48,7 +48,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'   => Mage::helper('enterprise_staging')->__('Merge'),
-                    'onclick' => $this->getJsObjectName().'.stagingMerge()',
+                    'onclick' => $this->getJsObjectName().'.stagingMergeConfig()',
                     'class'   => 'task'
                 ))
         );
@@ -57,6 +57,13 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
                 ->setFieldNameSuffix('map[items]')
+        );
+
+        $this->setChild('schedule',
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_edit_tabs_schedule')
+                ->setFieldNameSuffix('map[schedule]')
+                ->setStagingJsObjectName($this->getJsObjectName())
         );
         return parent::_prepareLayout();
     }
@@ -85,35 +92,11 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
 
         $staging = $this->getStaging();
 
-        $websiteIds = $staging->getMasterWebsiteIds();
-        if (!is_null($websiteIds)) {
-            //$collection->addIdFilter($websiteIds);
-        }
-
         $collection->addFieldToFilter('is_staging',array('neq'=>1));
 
         return $collection->load();
     }
 
-    public function getGroupCollection($website)
-    {
-        if (!$website instanceof Mage_Core_Model_Website) {
-            $website = Mage::getModel('core/website')->load($website);
-        }
-        return $website->getGroupCollection();
-    }
-
-    public function getStoreCollection($group)
-    {
-        if (!$group instanceof Mage_Core_Model_Store_Group) {
-            $group = Mage::getModel('core/store_group')->load($group);
-        }
-        $stores = $group->getStoreCollection();
-        if (!empty($this->_storeIds)) {
-            $stores->addIdFilter($this->getStoreIds());
-        }
-        return $stores;
-    }
 
     public function getAllStoresCollection()
     {
@@ -135,7 +118,8 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
 
     public function getMainButtonsHtml()
     {
-        $html = parent::getMainButtonsHtml();
+        $html = '';
+        //$html = parent::getMainButtonsHtml();
         if($this->getIsReadyForMerge()){
             $html.= $this->getChildHtml('merge_button');
         }

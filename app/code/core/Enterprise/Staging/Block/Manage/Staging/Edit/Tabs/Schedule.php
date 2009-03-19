@@ -25,11 +25,11 @@
  */
 
 /**
- * Staging entities tab
+ * Staging schedule configuration tab
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Schedule extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Keep main translate helper instance
@@ -45,47 +45,36 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
     {
         parent::__construct();
 
-        $this->setFieldNameSuffix('staging[items]');
+        $this->setFieldNameSuffix('staging');
 
         $this->helper = Mage::helper('enterprise_staging');
     }
 
-    /**
-     * Prepare form before rendering HTML
-     *
-     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item
-     */
-    protected function _prepareForm()
+    protected function _toHtml()
     {
-        $form          = new Varien_Data_Form();
+        $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
-        $staging       = $this->getStaging();
-        $collection    = $staging->getItemsCollection();
+        $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('staging_dataset_item', array('legend'=>Mage::helper('enterprise_staging')->__('Items to merge')));
+        $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Merge Schedule Configuration')));
 
-        foreach ($staging->getDatasetItemsCollection(true) as $datasetItem) {
-            $_id = $datasetItem->getId();
-            $fieldset->addField('dataset_item_id_'.$_id, 'checkbox',
-                array(
-                    'label'    => $datasetItem->getName(),
-                    'name'     => "{$datasetItem->getId()}[dataset_item_id]",
-                    'value'    => $datasetItem->getId(),
-                    'checked'  => true
-                )
-            );
-            $fieldset->addField('staging_item_code_'.$_id, 'hidden',
-                array(
-                    'name'     => "{$datasetItem->getId()}[code]",
-                    'value'    => $datasetItem->getCode()
-                )
-            );
-        }
+        $element = $fieldset->addField('schedule_merge_later', 'date', array(
+            'label'     => $this->helper->__('Set Staging Merge Date'),
+            'title'     => $this->helper->__('Set Staging Merge Date'),
+            'name'      => 'schedule_merge_later',
+            'format'    => $outputFormat,
+            'time'      => true,
+            'image'     => $this->getSkinUrl('images/grid-cal.gif')
+        ));
 
+        return $element->getHtml();
+
+        $form->addValues($this->getStaging()->getData());
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
+
         $this->setForm($form);
 
-        return parent::_prepareForm();
+        return parent::_toHtml();
     }
 
     /**

@@ -217,7 +217,11 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $websites       = (array) isset($stagingData['websites']) ? $stagingData['websites'] : array();
         $existWebsites  = (array) Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
 
-        foreach ($websites as $websiteData) {
+        foreach ($websites as $key => $websiteData) {
+            if (!is_array($websiteData)) {
+                $stagingData[$key] = $websiteData;
+                continue;
+            }
             $websiteId          = isset($websiteData['staging_website_id']) ? $websiteData['staging_website_id'] : false;
             $masterWebsiteId    = isset($websiteData['master_website_id']) ? $websiteData['master_website_id'] : false;
             if ($websiteId && in_array($websiteId, $existWebsites)) {
@@ -331,7 +335,6 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
      */
     public function saveAction()
     {
-        $websiteIds     = $this->getRequest()->getParam('websites');
         $redirectBack   = $this->getRequest()->getParam('back', false);
         $stagingId      = $this->getRequest()->getParam('id');
         $isEdit         = (int)($this->getRequest()->getParam('id') != null);
@@ -349,7 +352,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                     $staging->setEventCode('update');
                 }
                 $staging->save();
-                if (!$isUpdate) {
+                if ($isUpdate) {
                     $mapData = $this->getRequest()->getPost('staging');
                     $staging->getMapperInstance()->setCreateMapData($mapData);
                     $staging->create();
@@ -434,6 +437,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
 
                 $staging->getMapperInstance()->setMapData($mapData);
                 $staging->merge();
+
+                DDD();
                 $staging->setEventCode('merge');
                 $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_MERGED);
                 $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_MERGED);

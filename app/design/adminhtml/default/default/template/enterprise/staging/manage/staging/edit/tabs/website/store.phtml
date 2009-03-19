@@ -28,6 +28,9 @@
 <?php $_storeCollection = $this->getStoreCollection() ?>
 <?php if ($_storeCollection->getSize()): ?>
 <div id="staging_website_stores_container_<?php echo $this->getWebsite()->getId(); ?>">
+<div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Create New Staging Store View') ?></h4>
+</div>
 <p class="switcher"><label for="staging_website_stores"><?php echo $this->__('Choose Store View') ?>:</label>
 <select name="staging_website_stores" id="staging_website_stores_<?php echo $this->getWebsite()->getId(); ?>" class="left-col-block">
     <option value=""><?php echo $this->__('Please, select a store view') ?></option>
@@ -83,6 +86,11 @@ function toggleStagingStoreItems(itemsSelectorId)
 	var element = $(itemsSelectorId);
     if (element) {
     	element.disabled = !element.disabled;
+        if (element.disabled) {
+            element.hide();
+        } else {
+            element.show();
+        }
     }
 }
 </script>

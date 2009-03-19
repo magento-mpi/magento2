@@ -56,17 +56,14 @@
 
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_merge_form" enctype="multipart/form-data">
 <?php echo $this->getBlockHtml('formkey')?>
-
 <div id="<?php echo $this->getId() ?>" class="grid">
     <div class="hor-scroll">
     <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
-        <col width="100" />
         <col />
         <col />
         <col width="200" />
         <thead>
             <tr class="headings">
-                <th><?php echo $this->__('Status'); ?></th>
                 <th><?php echo $this->__('From'); ?></th>
                 <th><?php echo $this->__('To'); ?></th>
                 <th><?php echo $this->__('Action'); ?></th>
@@ -74,7 +71,6 @@
         </thead>
         <tbody id="<?php echo $this->getId() ?>_rows">
             <tr id="<?php echo $this->getId() ?>_website_template" style="display: none;">
-                <td class="mapper-status center" style="color: green"></td>
                 <td class="mapper-name"><?php echo $this->__('Staging Website: '); ?>&nbsp;&nbsp;&nbsp;
                     <select name="map[websites][from][]" class="staging-mapper-website-from">
                         <option value=""><?php echo $this->__('Select website from map'); ?></option>
@@ -97,7 +93,6 @@
                 </td>
             </tr>
             <tr id="<?php echo $this->getId() ?>_store_template" style="display: none;">
-                <td class="mapper-status center" style="color: green"></td>
                 <td class="mapper-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Staging Store: '); ?>&nbsp;&nbsp;&nbsp;
                     {{store_from_select}}
                 </td>
@@ -109,7 +104,6 @@
             <tr id="<?php echo $this->getId() ?>_store_add_btn_template" style="display: none;">
                 <td></td>
                 <td></td>
-                <td></td>
                 <td>
                     <button class="staging-mapper-add-store-btn button disabled" disabled="disabled" onclick="<?php echo $this->getJsObjectName() ?>.addStoreMap(this); return false;"><span><?php echo $this->__('Add new store view map'); ?></span></button>
                 </td>
@@ -117,7 +111,6 @@
         </tbody>
         <tfoot>
             <tr class="staging-mapper-add-website-row">
-                <td></td>
                 <td></td>
                 <td align="right" colspan="2">
                     <button class="staging-mapper-add-website-btn button"" onclick="<?php echo $this->getJsObjectName() ?>.addWebsiteMap(); return false;"><span><?php echo $this->__('Add new website map'); ?></span></button>
@@ -130,6 +123,68 @@
 <h3><?php echo $this->__('Items to merge'); ?></h3>
 <?php echo $this->getChildHtml('items'); ?>
 
+<div id="schedule_config_container" style="display: none; left:35%; margin-left:-60px; padding:15px 60px; position:fixed; top:35%;">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Merge Now') ?></h4>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <div class="a-center">
+                    <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge(); return false;" class="staging-mapper-add-website-btn button">
+                        <span><?php echo $this->__('Merge') ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Schedule Merge Date') ?></h4>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <div>
+                    <label for="schedule_merge_later">Set Staging Merge Date</label>
+                    <input type="text" style="width: 100px;" class="input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="http://www.enterprise.loc/skin/adminhtml/default/default/images/grid-cal.gif"/>
+                    <script type="text/javascript">
+                    //<![CDATA[
+                        Calendar.setup({
+                            inputField: "schedule_merge_later",
+                            ifFormat: "%m/%e/%y",
+                            showsTime: true,
+                            button: "schedule_merge_later_trig",
+                            align: "Bl",
+                            singleClick : true
+                        });
+                    //]]>
+                    </script>
+                </div>
+                <br />
+                <div class="a-center">
+                    <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge(); return false;" class="staging-mapper-add-website-btn button">
+                        <span><?php echo $this->__('Merge later') ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Cancel Merge') ?></h4>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <div class="a-center">
+                    <button onclick="<?php echo $this->getJsObjectName() ?>.cancelMerge(); return false;" class="staging-mapper-add-website-btn button">
+                        <span><?php echo $this->__('Cancel') ?></span>
+                    </button>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

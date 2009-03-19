@@ -262,4 +262,18 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
         $this->getResource()->updateAttribute($this, $attribute, $value);
         return $this;
     }
+
+    public function loadBySlaveStoreId($id)
+    {
+        $this->getResource()->loadBySlaveStoreId($this, $id);
+
+        return $this;
+    }
+
+    public function syncWithStore(Mage_Core_Model_Store $store)
+    {
+        $this->getResource()->syncWithStore($this, $store);
+
+        return $this;
+    }
 }
