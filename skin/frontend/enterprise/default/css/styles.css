@@ -94,6 +94,7 @@ button.disabled span {}
 input.input-text.validation-failed,
 textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
 div.validation-passed { background:url(../images/icon_ok.gif) 100% 4px no-repeat; padding-right:20px; }
+div.validation-error { background:url(../images/icon_error.gif) 100% 4px no-repeat; padding-right:20px; }
 span.required { color:#f15c22; }
 p.required { margin:0; padding:0; font-size:11px; color:#f02800; }
 /* Expiration date and CVV number validation fix */

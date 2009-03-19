@@ -38,10 +38,11 @@
 
 
 <?php if (!$_nativeZoom): ?>
-<?php /* --------- jqZoom --------- */ ?>
-    
+<?php /* --------- jqZoom --------- */ ?>   
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-        <a class="product-image" id="image" title="'.$this->htmlEscape($_product->getImageLabel()).'" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
+    <?php list($_imgWidth, $_imgHeight) = getimagesize($this->helper('catalog/image')->init($_product, 'image')); ?>
+
+        <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 285 && $_imgHeight < 285): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
             <?php
                 $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" height="285" width="285" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image-thumb');
@@ -57,16 +58,16 @@
                         imageOpacity: 0.2,
                         title : false
                 };
-                        
-                jQuery('#image').jqzoom(options);
+                jQuery('#main-image').jqzoom(options);
             });
         //]]>
         </script>
+        
 
     <?php else: ?>
         <p class="product-image">
             <?php
-                $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(275).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+                $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image');
             ?>
         </p>
