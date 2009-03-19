@@ -206,7 +206,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
                     $linkPurchasedItem->setStatus(Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED);
                 }
                 $linkPurchasedItem->save();
-                exi(0)t;
+                exit(0);
             }
             catch (Exception $e) {
                 $this->_getCustomerSession()->addError(
