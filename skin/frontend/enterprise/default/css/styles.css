@@ -952,15 +952,20 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 
 /* Checkout ============================================================================== */
 /* One Page */
-.opc { border-bottom:1px solid #ddd; position:relative; }
-.opc li.section { border:1px solid #ddd; border-bottom:0; }
-.opc .step-title { background-color:#f6f6f6; padding:0 5px; text-align:right; }
-.opc .step-title .number { float:left; line-height:22px; margin-right:5px; }
-.opc .step-title h3 { float:left; }
+.checkout-onepage-index .col-main {padding-left:0; padding-right:0;}
+.opc-block-progress { float:left; width:193px; }
+.opc-block-progress .block-title h2 { font-size:14px; color:#d64700; }
+
+.opc { position:relative; float:right; width:740px; }
+.opc li.section { }
+.opc .step-title { margin:0 0 1px; }
+.opc .step-title .number { display:none; }
+.opc .step-title h3 { background-color:#e6e6e6; color:#686868; font-size:11px; line-height:22px; padding:0 14px; font-weight:bold; text-transform:uppercase; }
 .opc .allow .step-title { cursor:pointer; }
 .opc .active {}
-.opc .active .step-title { background-color:#ccc; cursor:default; }
-.opc .step { border-top:1px solid #ddd; padding:10px; position:relative; }
+.opc .active .step-title { margin:0; }
+.opc .active .step-title h3 { background-color:#d64700; color:#fff; cursor:default; }
+.opc .step { padding:25px; background:url(../images/bkg_active-step.gif) no-repeat 43px 0; position:relative; border:1px solid #d9d9d9; border-top:0; }
 .opc .step .tool-tip { right:10px; }
 .opc .order-review {}
 

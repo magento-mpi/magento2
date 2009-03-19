@@ -38,7 +38,7 @@ Default layout, loads most of the pages
         <reference name="top.links">
             <block type="checkout/links" name="checkout_cart_link">
                 <!--<action method="addCartLink"></action>-->
-                <action method="addCheckoutLink"></action>
+                <!-- <action method="addCheckoutLink"></action> -->
             </block>
         </reference>
         <reference name="header">
@@ -262,17 +262,14 @@ One page checkout main layout
     <checkout_onepage_index>
         <!-- Mage_Checkout -->
         <remove name="left"/>
+        <remove name="right"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
-        </reference>
-        <reference name="right">
-            <action method="unsetChildren"></action>
-
-            <block type="checkout/onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
+                <block type="checkout/onepage_progress" as="checkoutProgress" name="checkout.progress" template="checkout/onepage/progress.phtml"/>
                 <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml"/>
                 <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>
                 <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml"/>

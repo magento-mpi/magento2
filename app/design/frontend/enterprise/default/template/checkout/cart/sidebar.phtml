@@ -75,5 +75,9 @@
     </div>
 </div>
 <?php if(count($_items)): ?>
-<script type="text/javascript">Enterprise.TopCart.initialize('topCartContent');</script>
+<script type="text/javascript">
+    Enterprise.TopCart.initialize('topCartContent');
+    // Below can be used to show minicart after item added
+    // Enterprise.TopCart.showCart(7);
+</script>
 <?php endif; ?>
