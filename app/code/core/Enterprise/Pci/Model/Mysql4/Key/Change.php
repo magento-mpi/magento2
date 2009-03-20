@@ -1,15 +1,92 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Pci
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Encryption key changer resource model
+ *
+ * The operation must be done in one transaction
+ */
 class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * @var Enterprise_Pci_Model_Encryption
+     */
     protected $_encryptor;
 
+    /**
+     * Initialize
+     *
+     */
     protected function _construct()
     {
         $this->_init('core/config_data', 'config_id');
     }
 
-    public function reEncryptSystemConfigurationValues()
+    /**
+     * Change encryption key
+     *
+     * @param string $key
+     * @throws Exception
+     */
+    public function changeEncryptionKey($key = null)
     {
+        // prepare new key, encryptor and new file contents
+        $file = Mage::getBaseDir('etc') . DS . 'local.xml';
+        if (!is_writeable($file)) {
+            throw new Exception(Mage::helper('enterprise_pci')->__('File %s is not writeable.', realpath($file)));
+        }
+        $contents = file_get_contents($file);
+        if (null === $key) {
+            $key = md5(time());
+        }
+        $this->_encryptor = clone Mage::helper('core')->getEncryptor();
+        $this->_encryptor->setNewKey($key);
+        $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents);
+
+        // update database and local.xml
+        $this->beginTransaction();
+        try {
+            $this->_reEncryptSystemConfigurationValues();
+            $this->_reEncryptCreditCardNumbers();
+            file_put_contents($file, $contents);
+            $this->commit();
+        }
+        catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Gather all encrypted system config values and re-encrypt them
+     *
+     */
+    protected function _reEncryptSystemConfigurationValues()
+    {
+        // look for encrypted node entries in all system.xml files
         $configSections = Mage::getSingleton('adminhtml/config')->getSections();
         $paths = array();
         foreach ($configSections->xpath('//sections/*/groups/*/fields/*/backend_model') as $node) {
@@ -20,6 +97,7 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
                     . '/' . $node->getParent()->getName();
             }
         }
+        // walk through found data and re-encrypt it
         if ($paths) {
             $table = $this->getTable('core/config_data');
             $values = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
@@ -28,14 +106,19 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
                 ->where('`value` <> ?', ''));
             foreach ($values as $configId => $value) {
                 $this->_getWriteAdapter()->update($table,
-                    array('`value` = ?', $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
+                    array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
                     "config_id = {$configId}");
             }
         }
     }
 
-    public function reEncryptCreditCardNumbers()
+    /**
+     * Gather saved credit card numbers from sales order payments and re-encrypt them
+     *
+     */
+    protected function _reEncryptCreditCardNumbers()
     {
+        // dive into EAV for them
         $valuesTable      = $this->getTable('sales/order_entity') . '_varchar';
         $attributesTable  = $this->getTable('eav/attribute');
         $entityTypesTable = $this->getTable('eav/entity_type');
@@ -49,34 +132,11 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
                 ->limit(1)
              . ')')
         );
-    }
-
-    public function changeEncryptionKey($key)
-    {
-        $this->_encryptor = clone Mage::helper('core')->getEncryptor();
-        $this->_encryptor->setNewKey($key);
-
-        // 'order_payment'
-        // 'cc_number_enc'
-        // sales_order_entity_varchar
-
-        $this->reEncryptCreditCardNumbers();
-
-        exit;
-
-        $this->beginTransaction();
-        try {
-            // $this->_getWriteAdapter()->
-            // instantiate helper model with different key
-            // re-encrypt everyting in database
-            // write new key to local.xml
-//            Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
-//            $this->commit();
-$this->rollBack();
-        }
-        catch (Exception $e) {
-            $this->rollBack();
-            throw $e;
+        // save new values
+        foreach ($attributeValues as $valueId => $value) {
+            $this->_getWriteAdapter()->update($valuesTable,
+                array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
+                "value_id = {$valueId}");
         }
     }
 }

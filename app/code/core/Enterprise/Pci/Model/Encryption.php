@@ -223,7 +223,7 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
             if (!isset($this->_keys[$keyVersion])) {
                 return '';
             }
-            $crypt = $this->_getCrypt($this->_keys[$keyVersion], $cryptVersion, $data);
+            $crypt = $this->_getCrypt($this->_keys[$keyVersion], $cryptVersion);
             return str_replace("\x0", '', trim($crypt->decrypt(base64_decode((string)$data))));
         }
         return '';
@@ -238,5 +238,19 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
     public function encrypt($data)
     {
         return $this->_keyVersion . ':' . $this->_cipher . ':' . parent::encrypt($data);
+    }
+
+    /**
+     * Validate an encryption key
+     *
+     * @param string $key
+     * @return unknown
+     */
+    public function validateKey($key)
+    {
+        if ((false !== strpos($key, '<![CDATA[')) || (false !== strpos($key, ']]>')) || preg_match('/\s/s', $key)) {
+            throw new Exception(Mage::helper('enterprise_pci')->__('Encryption key format is invalid.'));
+        }
+        return parent::validateKey($key);
     }
 }
