@@ -186,18 +186,12 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
 
     /**
      * Change customer password
-     * $data = array(
-     *      ['password']
-     *      ['confirmation']
-     *      ['current_password']
-     * )
      *
      * @param   Mage_Customer_Model_Customer
-     * @param   array $data
-     * @param   bool $checkCurrent
+     * @param   string $newPassword
      * @return  this
      */
-    public function changePassword(Mage_Customer_Model_Customer $customer, $newPassword, $checkCurrent=true)
+    public function changePassword(Mage_Customer_Model_Customer $customer, $newPassword)
     {
         $customer->setPassword($newPassword);
         $this->saveAttribute($customer, 'password_hash');

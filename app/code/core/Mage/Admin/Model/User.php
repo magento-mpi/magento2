@@ -242,9 +242,12 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         if ($this->authenticate($username, $password)) {
             $this->getResource()->recordLogin($this);
         }
+        // dispatch event regardless the user was logged in or not
         Mage::dispatchEvent('admin_user_on_login', array(
-           'username' => $username, 
-           'user_id' => $this->getId()
+           'user_id'  => $this->getId(),
+           'model'    => $this,
+           'username' => $username,
+           'password' => $password,
         ));
 
         return $this;
