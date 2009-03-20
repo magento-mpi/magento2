@@ -75,8 +75,10 @@ class Enterprise_Staging_Model_Staging_State_Website_Create extends Enterprise_S
         $stagingStores  = $website->getStoresCollection();
 
         foreach ($stagingStores as $stagingStore) {
-            $usedItems = $this->getStaging()->getMapperInstance()
-                ->getStoreUsedCreateItems($website->getMasterWebsiteId(), $stagingStore->getMasterStoreId());
+//            $usedItems = $this->getStaging()->getMapperInstance()
+//                ->getStoreUsedCreateItems($website->getMasterWebsiteId(), $stagingStore->getMasterStoreId());
+
+            $usedItems = $this->getStaging()->getMapperInstance()->getWebsiteUsedCreateItems($website->getMasterWebsiteId());
 
             foreach ($usedItems as $usedItem) {
                 $item = $stagingItems->{$usedItem['code']};

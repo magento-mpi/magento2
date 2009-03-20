@@ -235,14 +235,14 @@
                     <catalogrule>
                         <code>catalogrule</code>
                         <model>catalogrule</model>
-                        <label>Catalog Rule</label>
+                        <label>Catalog Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
                         <use_table_prefix>0</use_table_prefix>
                     </catalogrule>
                     <salesrule>
                         <code>salesrule</code>
                         <model>salesrule</model>
-                        <label>Sales Rule</label>
+                        <label>Sales Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
                         <use_table_prefix>0</use_table_prefix>
                     </salesrule>
@@ -286,7 +286,7 @@
                     <system_config>
                         <code>system_config</code>
                         <model>core</model>
-                        <label>System Config</label>
+                        <label>System Configs</label>
                         <adapter>enterprise_staging/staging_adapter_item_config</adapter>
                         <use_table_prefix>0</use_table_prefix>
                         <entities>

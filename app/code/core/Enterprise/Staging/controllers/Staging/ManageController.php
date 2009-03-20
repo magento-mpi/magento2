@@ -86,31 +86,31 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $staging = $this->_initStaging();
 
         $websiteIds = (array) $staging->getMasterWebsiteIds();
-        if ($websiteIds) {
-            foreach ($websiteIds as $websiteId) {
-                $website = Mage::app()->getWebsite($websiteId);
-                if ($website->getIsStaging()) {
-                    $this->_getSession()->addError('Some of selected website is staging.');
-                    $this->_redirect('*/*/edit', array('_current' => false));
-                    return $this;
-                }
-
-                $storeIds = $staging->getMasterStoreIds();
-                if ($storeIds) {
-                    $currentStoreIds = isset($storeIds[$websiteId]) ? $storeIds[$websiteId] : array();
-                    if ($currentStoreIds) {
-                        foreach ($currentStoreIds as $storeId) {
-                            $store = Mage::app()->getStore($storeId);
-                            if ($store->getIsStaging()) {
-                                $this->_getSession()->addError('Some of selected stores is staging.');
-                                $this->_redirect('*/*/edit', array('_current' => false));
-                                return $this;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        if ($websiteIds) {
+//            foreach ($websiteIds as $websiteId) {
+//                $website = Mage::app()->getWebsite($websiteId);
+//                if ($website->getIsStaging()) {
+//                    $this->_getSession()->addError('Some of selected website is staging.');
+//                    $this->_redirect('*/*/edit', array('_current' => false));
+//                    return $this;
+//                }
+//
+//                $storeIds = $staging->getMasterStoreIds();
+//                if ($storeIds) {
+//                    $currentStoreIds = isset($storeIds[$websiteId]) ? $storeIds[$websiteId] : array();
+//                    if ($currentStoreIds) {
+//                        foreach ($currentStoreIds as $storeId) {
+//                            $store = Mage::app()->getStore($storeId);
+//                            if ($store->getIsStaging()) {
+//                                $this->_getSession()->addError('Some of selected stores is staging.');
+//                                $this->_redirect('*/*/edit', array('_current' => false));
+//                                return $this;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         Mage::dispatchEvent('staging_edit_action', array('staging' => $staging));
 
@@ -352,7 +352,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                     $staging->setEventCode('update');
                 }
                 $staging->save();
-                if ($isUpdate) {
+                if (!$isUpdate) {
                     $mapData = $this->getRequest()->getPost('staging');
                     $staging->getMapperInstance()->setCreateMapData($mapData);
                     $staging->create();

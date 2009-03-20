@@ -285,6 +285,10 @@ Enterprise.Staging.Mapper.prototype = {
     },
     showScheduleConfigForm : function()
     {
+        if (!this.mapKeys.size()) {
+            alert('Please, select websites to map');
+            return;
+        }
         var container = $('schedule_config_container');
         if (container && Prototype.Browser.IE) {
             var middle = parseInt(document.body.clientHeight/2)+document.body.scrollTop;

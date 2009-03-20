@@ -41,7 +41,7 @@ class Enterprise_Staging_Model_Observer
      */
     public function getTableName($observer)
     {
-        return $this;
+        //return $this;
         try {
             $resource = $observer->getEvent()->getResource();
             $tableName = $observer->getEvent()->getTableName();
@@ -88,37 +88,56 @@ class Enterprise_Staging_Model_Observer
                     $coreSession->setData($key, true);
                     break;
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
-                    if (isset($_SERVER['PHP_AUTH_USER'])) {
-                        $login      = $_SERVER['PHP_AUTH_USER'];
-                        $password   = $_SERVER['PHP_AUTH_PW'];
-                        $website    = Mage::getModel('enterprise_staging/staging_website');
-
-                        try {
-                            $website->authenticate($login, $password);
-                            $coreSession->setData($key, true);
-                        } catch (Exception $e) {
-                            $coreSession->setData($key, false);
-                            echo '<pre>';
-                            echo $e; STOP();
-                        }
-                    }
-                    if (!$coreSession->getData($key) || !isset($_SERVER['PHP_AUTH_USER'])) {
-                        header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
-                        header('HTTP/1.0 401 Unauthorized');
-                        echo "Please, use right login and password \n";
-                        exit();
-                    }
+                    $this->_checkHttpAuth($key);
                     break;
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_ADMIN_SESSION :
-                    if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
-                        $coreSession->setData($key, false);
-                        Mage::app()->getResponse()->setRedirect('/')->sendResponse();
-                        exit();
-                    } else {
-                        $coreSession->setData($key, true);
-                    }
+                    $this->_checkAdminSession($key);
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_BOTH :
+                    $this->_checkHttpAuth($key);
+                    $this->_checkAdminSession($key);
                     break;
             }
+        }
+    }
+
+    protected function _checkAdminSession($key)
+    {
+        $coreSession = Mage::getSingleton('core/session');
+
+        if (!Mage::getSingleton('admin/session')->isLoggedIn()) {
+            $coreSession->setData($key, false);
+            Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+            exit();
+        } else {
+            $coreSession->setData($key, true);
+        }
+    }
+
+    protected function _checkHttpAuth($key)
+    {
+        $coreSession = Mage::getSingleton('core/session');
+
+        if (isset($_SERVER['PHP_AUTH_USER'])) {
+            $login      = $_SERVER['PHP_AUTH_USER'];
+            $password   = $_SERVER['PHP_AUTH_PW'];
+            $website    = Mage::getModel('enterprise_staging/staging_website');
+
+            try {
+                $website->authenticate($login, $password);
+                $coreSession->setData($key, true);
+            } catch (Exception $e) {
+                $coreSession->setData($key, false);
+                header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
+                header('HTTP/1.0 401 Unauthorized');
+                exit();
+            }
+        }
+        if (!$coreSession->getData($key) || !isset($_SERVER['PHP_AUTH_USER'])) {
+            header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
+            header('HTTP/1.0 401 Unauthorized');
+            echo "Please, use right login and password for staging website viewing \n";
+            exit();
         }
     }
 

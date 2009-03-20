@@ -31,10 +31,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     static $_proceedStoreScopeTables = array();
 
     protected $_tableModels = array(
-       'catalog_product_entity'     => 'catalog',
-       'catalog_category_entity'    => 'catalog',
-       'customer_entity'            => 'customer',
-       'customer_address_entity'    => 'customer',
+       'product'            => 'catalog',
+       'category'           => 'catalog',
+       'customer'            => 'customer',
+       'customer_address'    => 'customer',
     );
 
     protected $_ignoreTables = array(
@@ -51,7 +51,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     public function createItem(Mage_Core_Model_Abstract $object, $itemXmlConfig)
     {
         if ((int)$itemXmlConfig->is_backend) {
-            continue;
+            return $this;
         }
         $internalMode   = !(int)  $itemXmlConfig->use_table_prefix;
         $tables         = (array) $itemXmlConfig->entities;
@@ -112,7 +112,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             && (strpos($srcTable, 'catalog_product_enabled_index') === false)
             && (strpos($srcTable, 'catalog_category_product_index') === false)
             && (strpos($srcTable, 'checkout_agreement_store') === false)) {
-                if ($field['key'] == 'PRI') {
+                if ($field['extra'] == 'auto_increment') {
                     unset($fields[$id]);
                 }
             }
@@ -331,9 +331,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             if ((strpos($srcTable, 'catalog_product_website') === false)
             && (strpos($srcTable, 'catalog_product_enabled_index') === false)
             && (strpos($srcTable, 'catalog_category_product_index') === false)
-            && (strpos($srcTable, 'checkout_agreement_store') === false))
-            if ($field['key'] == 'PRI') {
-                unset($fields[$id]);
+            && (strpos($srcTable, 'checkout_agreement_store') === false)) {
+                if ($field['extra'] == 'auto_increment') {
+                    unset($fields[$id]);
+                }
             }
         }
         $fields = array_keys($fields);
@@ -427,39 +428,37 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $slaveToMasterStoreIds = $mapper->getSlaveToMasterStoreIds($masterWebsite->getId());
 
-        //$mappedWebsites = $mapper->getUsedWebsites($slaveWebsiteId);
-
-        foreach ($masterStoreIds as $masterStoreId) {
-            $slaveStoreId = isset($slaveToMasterStoreIds[$masterStoreId]) ? $slaveToMasterStoreIds[$masterStoreId] : false;
-
-            if (!$slaveStoreId) {
-                continue;
-            }
-
-            $tableDestDesc = $this->getTableProperties($targetModel, $targetTable);
-            if (!$tableDestDesc) {
-                throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
-            }
-
-            $_updateField = end($fields);
-
-            $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-
-            $_storeFieldNameSql = 'store_id';
-            foreach ($fields as $id => $field) {
-                if ($field == 'store_id') {
-                    $fields[$id] = $masterStoreId;
-                } elseif ($field == 'scope_id') {
-                    $fields[$id] = $masterStoreId;
-                    $_storeFieldNameSql = "scope = 'store' AND {$field}";
+        foreach ($slaveToMasterStoreIds as $stagingStoreId => $toMasterStores) {
+            foreach ($toMasterStores as $masterStoreId => $slaveStoreId) {
+                if (!$slaveStoreId) {
+                    continue;
                 }
+
+                $tableDestDesc = $this->getTableProperties($targetModel, $targetTable);
+                if (!$tableDestDesc) {
+                    throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
+                }
+
+                $_updateField = end($fields);
+
+                $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
+
+                $_storeFieldNameSql = 'store_id';
+                foreach ($fields as $id => $field) {
+                    if ($field == 'store_id') {
+                        $fields[$id] = $masterStoreId;
+                    } elseif ($field == 'scope_id') {
+                        $fields[$id] = $masterStoreId;
+                        $_storeFieldNameSql = "scope = 'store' AND {$field}";
+                    }
+                }
+
+                $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
+
+                $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+                //echo $destInsertSql.'<br /><br /><br /><br />';
+                $connection->query($destInsertSql);
             }
-
-            $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
-
-            $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            echo $destInsertSql.'<br /><br /><br /><br />';
-            $connection->query($destInsertSql);
         }
 
         return $this;

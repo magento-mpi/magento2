@@ -246,12 +246,11 @@ class Enterprise_Staging_Model_Mysql4_Config extends Varien_Object
         $sql = $this->_getCreateSql($srcModel, $srcTableDescription);
 
 //        echo '<pre>';
-//        var_dump($srcTableDescription);
 //        echo $sql;
 //        echo '</pre>';
 //        echo '<br>';
 
-//        $connection->query($sql);
+        $connection->query($sql);
 
         return $this;
     }

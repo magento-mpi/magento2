@@ -29,7 +29,9 @@
 <?php $items            = $staging->getItemsCollection(); ?>
 <?php $masterWebsites   = $this->getWebsiteCollection(); ?>
 <?php $stagingWebsites  = $staging->getWebsitesCollection(true); ?>
-
+<div>
+    <h3 class="icon-head head-categories"><?php echo $staging->getName(); ?></h3>
+</div>
 <?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
     <table cellspacing="0" class="actions">
         <tr>
@@ -53,7 +55,9 @@
 <?php if($this->getMassactionBlock()->isAvailable()): ?>
 <?php echo $this->getMassactionBlockHtml() ?>
 <?php endif ?>
-
+<div class="entry-edit-head">
+    <h3><?php echo $this->__('Staging Merge Mapping Configuration'); ?></h3>
+</div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_merge_form" enctype="multipart/form-data">
 <?php echo $this->getBlockHtml('formkey')?>
 <div id="<?php echo $this->getId() ?>" class="grid">
@@ -123,7 +127,7 @@
 <h3><?php echo $this->__('Items to merge'); ?></h3>
 <?php echo $this->getChildHtml('items'); ?>
 
-<div id="schedule_config_container" style="display: none; left:35%; margin-left:-60px; padding:15px 60px; position:fixed; top:35%;">
+<div id="schedule_config_container" style="background: #E5ECF2; border:2px solid #D6D6D6; width: 300px; height: 300px; display: none; left:40%; margin-left:-60px; padding:35px 35px; position:fixed; top:30%;">
     <div class="entry-edit">
         <div class="entry-edit-head">
             <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Merge Now') ?></h4>
