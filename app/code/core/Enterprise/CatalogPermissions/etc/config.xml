@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CatalogPermissions>
-            <version>0.0.3</version>
+            <version>0.0.4</version>
         </Enterprise_CatalogPermissions>
     </modules>
     <global>
@@ -106,6 +106,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_category_save_after>
+            <controller_action_postdispatch>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindexPermissions</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </controller_action_postdispatch>
             <catalog_product_save_after>
                 <observers>
                     <enterprise_catalogpermissions>

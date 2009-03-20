@@ -32,6 +32,9 @@
  */
 class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
 {
+    protected $_indexQueue = array();
+    protected $_indexProductQueue = array();
+
     /**
      * Save category permissions on category after save event
      *
@@ -71,17 +74,36 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         }
 
         try {
-            Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($category->getPath());
+            $this->_indexQueue[] = $category->getPath();
         } catch (Exception $e) {
-            exit($e->getMessage());
+            Mage::logException($e);
         }
+        return $this;
+    }
+
+    public function reindexPermissions()
+    {
+        if (!empty($this->_indexQueue)) {
+            foreach ($this->_indexQueue as $item) {
+                Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($item);
+            }
+            $this->_indexQueue = array();
+        }
+
+        if (!empty($this->_indexProductQueue)) {
+            foreach ($this->_indexProductQueue as $item) {
+                Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts($item);
+            }
+            $this->_indexQueue = array();
+        }
+
         return $this;
     }
 
     public function saveProductPermissionIndex(Varien_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
-        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts($product->getId());
+        $this->_indexProductQueue[] = $product->getId();
         return $this;
     }
 

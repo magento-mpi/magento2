@@ -63,6 +63,12 @@
                if (params[i].match(/grant_/i)) {
                    // Workaround for IE
                    config[params[i] + '_' + config[params[i]]] = 'checked="checked"';
+                   if (params[i] == 'grant_catalog_category_view'
+                       && config[params[i]].toString() == '-2') {
+                       config['grant_catalog_product_price'] = -2;
+                       config['grant_catalog_product_price_disabled'] = 'disabled="disabled"';
+                   }
+                   
                    if (params[i] == 'grant_catalog_product_price'
                        && config[params[i]].toString() == '-2') {
                        config['grant_checkout_items_disabled'] = 'disabled="disabled"';
@@ -106,6 +112,9 @@
         var fields = row.select('input', 'select', 'textarea');
         for (i = 0, l = fields.length; i < l; i ++) {
             fields[i].observe('change', this.onFieldChange);
+            if (fields[i].type == 'radio') {
+                fields[i].observe('click', this.onFieldChange);
+            }
             if (fields[i].hasClassName('permission-duplicate')) {
                 row.duplicateField = fields[i];
                 row.duplicateField.isDuplicate = false;
@@ -129,18 +138,31 @@
             
         }
         
-        if (field.name && 
-            (field.name.replace(/^(.*)\[([^\]]*)\]$/, '$2') == 'grant_catalog_product_price')) {
-            if (field.value == -2 && field.checked) {
-                row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = true;});;
-            } else if (field.checked)  {
-                row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = false;});
-            }
-        }
+        setTimeout(this.disableRadio.bind(this), 1);
         
         if (field.hasClassName('is-unique')) {
             this.checkDuplicates();
             this.validate();
+        }
+    },
+    disableRadio: function ()
+    {
+        var rows = this.items.select('.permission-box');
+        
+        for (var i = 0, l = rows.length; i < l; i ++) {
+            var row = rows[i];
+            if (row.down('.' + this.fieldClassName('grant_catalog_category_view') + '[value="-2"]').checked) {
+                row.select('.' + this.fieldClassName('grant_catalog_product_price')).each(function(item){item.disabled = true;});
+            } else {
+                row.select('.' + this.fieldClassName('grant_catalog_product_price')).each(function(item){item.disabled = false;});
+            }
+
+            if (row.down('.' + this.fieldClassName('grant_catalog_category_view') + '[value="-2"]').checked 
+                || row.down('.' + this.fieldClassName('grant_catalog_product_price') + '[value="-2"]').checked) {
+                row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = true;});
+            } else  {
+                row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = false;});
+            }
         }
     },
     isDuplicate: function(row) {
