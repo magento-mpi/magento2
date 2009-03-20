@@ -91,6 +91,50 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Prepare datastorage for catalog product flat
+     *
+     * @param int $store
+     * @return Mage_Catalog_Model_Product_Flat_Indexer
+     */
+    public function prepareDataStorage($store = null)
+    {
+        if (is_null($store)) {
+            foreach (Mage::app()->getStores() as $store) {
+                $this->prepareDataStorage($store->getId());
+            }
+
+            return $this;
+        }
+
+        $this->_getResource()->prepareFlatTable($store);
+
+        return $this;
+    }
+
+    /**
+     * Update events observer attributes
+     *
+     * @param int $store
+     * @return Mage_Catalog_Model_Product_Flat_Indexer
+     */
+    public function updateEventAttributes($store = null)
+    {
+        if (is_null($store)) {
+            foreach (Mage::app()->getStores() as $store) {
+                $this->updateEventAttributes($store->getId());
+            }
+
+            return $this;
+        }
+
+        $this->_getResource()->prepareFlatTable($store);
+        $this->_getResource()->updateEventAttributes($store);
+        $this->_getResource()->updateRelationProducts($store);
+
+        return $this;
+    }
+
+    /**
      * Update product status
      *
      * @param int $productId

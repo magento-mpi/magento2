@@ -115,10 +115,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         $this->cleanNonWebsiteProducts($store);
         $this->updateStaticAttributes($store);
         $this->updateEavAttributes($store);
-        Mage::dispatchEvent('catalog_product_flat_rebuild', array(
-            'store_id' => $store,
-            'table'    => $this->getFlatTableName($store)
-        ));
+        $this->updateEventAttributes($store);
         $this->updateRelationProducts($store);
         $this->cleanRelationProducts($store);
 
@@ -645,6 +642,20 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     }
 
     /**
+     * Update events observer attributes
+     *
+     * @param int $store
+     * @return Mage_Catalog_Model_Product_Flat_Indexer
+     */
+    public function updateEventAttributes($store = null)
+    {
+        Mage::dispatchEvent('catalog_product_flat_rebuild', array(
+            'store_id' => $store,
+            'table'    => $this->getFlatTableName($store)
+        ));
+    }
+
+    /**
      * Retrieve Product Type Instances
      * as key - type code, value - instance model
      *
@@ -674,7 +685,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      */
     public function updateRelationProducts($store, $productIds = null)
     {
-        $website = Mage::app()->getStore($store)->getWebsite()->getId();
+//        $website = Mage::app()->getStore($store)->getWebsite()->getId();
         foreach ($this->getProductTypeInstances() as $typeInstance) {
             if (!$typeInstance->isComposite()) {
                 continue;

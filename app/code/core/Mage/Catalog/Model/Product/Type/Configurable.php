@@ -562,6 +562,16 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 }
             }
         }
+        return $this->getSpecifyOptionMessage();
+    }
+
+    /**
+     * Retrieve message for specify option(s)
+     *
+     * @return string
+     */
+    public function getSpecifyOptionMessage()
+    {
         return Mage::helper('catalog')->__('Please specify the product option(s)');
     }
 

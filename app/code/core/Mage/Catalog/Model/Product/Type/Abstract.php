@@ -347,6 +347,16 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
+     * Retrieve message for specify option(s)
+     *
+     * @return string
+     */
+    public function getSpecifyOptionMessage()
+    {
+        return Mage::helper('catalog')->__('Please specify the product required option(s)');
+    }
+
+    /**
      * Check custom defined options for product
      *
      * @param Varien_Object $buyRequest

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.62</version>
+            <version>0.7.63</version>
         </Mage_Catalog>
     </modules>
 
@@ -537,6 +537,15 @@
                     </catalog_category_save>
                 </observers>
             </catalog_category_save_after>
+            <customer_group_save_after>
+                <observers>
+                    <catalog_product_flat>
+                        <type>singleton</type>
+                        <class>catalog/product_flat_observer</class>
+                        <method>customerGroupSaveAfter</method>
+                    </catalog_product_flat>
+                </observers>
+            </customer_group_save_after>
         </events>
         <translate>
             <modules>

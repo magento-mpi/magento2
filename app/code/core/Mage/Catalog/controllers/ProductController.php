@@ -119,6 +119,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         if ($product = $this->_initProduct()) {
             Mage::dispatchEvent('catalog_controller_product_view', array('product'=>$product));
 
+            if ($this->getRequest()->getParam('options')) {
+                $notice = $product->getTypeInstance(true)->getSpecifyOptionMessage();
+                Mage::getSingleton('catalog/session')->addNotice($notice);
+            }
+
             Mage::getSingleton('catalog/session')->setLastViewedProductId($product->getId());
             Mage::getModel('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
 

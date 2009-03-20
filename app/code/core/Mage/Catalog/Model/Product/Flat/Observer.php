@@ -83,7 +83,13 @@ class Mage_Catalog_Model_Product_Flat_Observer
             return $this;
         }
 
-        $this->_getIndexer()->updateAttribute($attribute->getAttributeCode());
+        if ($enableBefore && !$enableAfter) {
+            // delete attribute data from flat
+            $this->_getIndexer()->prepareDataStorage();
+        }
+        else {
+            $this->_getIndexer()->updateAttribute($attribute->getAttributeCode());
+        }
 
         return $this;
     }
@@ -233,6 +239,27 @@ class Mage_Catalog_Model_Product_Flat_Observer
 
         $this->_getIndexer()->rebuild();
 
+        return $this;
+    }
+
+    /**
+     * Customer Group save after process
+     *
+     * @param Varien_Event_Observer_Collection $observer
+     * @return Mage_Catalog_Model_Product_Flat_Observer
+     */
+    public function customerGroupSaveAfter(Varien_Event_Observer $observer)
+    {
+        if (!$this->_getHelper()->isBuilt()) {
+            return $this;
+        }
+
+        $customerGroup = $observer->getEvent()->getObject();
+        /* @var $customerGroup Mage_Customer_Model_Group */
+        if ($customerGroup->dataHasChangedFor($customerGroup->getIdFieldName())
+            || $customerGroup->dataHasChangedFor('tax_class_id')) {
+            $this->_getIndexer()->updateEventAttributes();
+        }
         return $this;
     }
 }

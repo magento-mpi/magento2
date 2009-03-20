@@ -631,6 +631,16 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
             return $result;
         }
+        return $this->getSpecifyOptionMessage();
+    }
+
+    /**
+     * Retrieve message for specify option(s)
+     *
+     * @return string
+     */
+    public function getSpecifyOptionMessage()
+    {
         return Mage::helper('bundle')->__('Please specify product option(s)');
     }
 
