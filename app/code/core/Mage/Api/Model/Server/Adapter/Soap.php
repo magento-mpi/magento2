@@ -105,7 +105,14 @@ class Mage_Api_Model_Server_Adapter_Soap
             $template = Mage::getModel('core/email_template_filter');
 
             $wsdlConfig = new Varien_Object();
-            $wsdlConfig->setUrl($urlModel->getUrl('*/*/*'));
+            $queryParams = $this->getController()->getRequest()->getQuery();
+            if (isset($queryParams['wsdl'])) {
+                unset($queryParams['wsdl']);
+            }
+
+            $wsdlConfig->setUrl(
+                htmlspecialchars($urlModel->getUrl('*/*/*', array('_query'=>$queryParams)))
+            );
             $wsdlConfig->setName('Magento');
             $wsdlConfig->setHandler($this->getHandler());
 
