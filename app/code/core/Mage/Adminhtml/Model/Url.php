@@ -82,6 +82,9 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         } else {
             $routeParams = $secret;
         }
+        if (is_array($this->getRouteParams())) {
+            $routeParams = array_merge($this->getRouteParams(), $routeParams);
+        }
         return parent::getUrl("{$_route}/{$_controller}/{$_action}", $routeParams);
     }
 
