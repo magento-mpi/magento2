@@ -20,20 +20,40 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Product compare helper
+ * Catalog Product Compare Helper
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Catalog
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
 {
+    /**
+     * Product Compare Items Collection
+     *
+     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection
+     */
     protected $_itemCollection;
-    protected $_hasItems = null;
-    protected $_urlParams = null;
+
+    /**
+     * Product Comapare Items Collection has items flag
+     *
+     * @var bool
+     */
+    protected $_hasItems;
+
+    /**
+     * Allow used Flat catalog product for product compare items collection
+     *
+     * @var bool
+     */
+    protected $_allowUsedFlat = true;
 
     /**
      * Retrieve compare list url
@@ -63,14 +83,10 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
      */
     protected function _getUrlParams($product)
     {
-        if ($this->_urlParams === null) {
-        	$this->_urlParams = array(
-        	   'product' => null,
-        	   Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-        	);
-        }
-        $this->_urlParams['product'] = $product->getId();
-        return $this->_urlParams;
+        return array(
+            'product' => $product->getId(),
+            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+        );
     }
 
     /**
@@ -177,7 +193,7 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
     }
 
     /**
-     * Caclculate cache product compare collection
+     * Calculate cache product compare collection
      *
      * @return Mage_Catalog_Helper_Product_Compare
      */
@@ -227,5 +243,27 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
     public function hasItems()
     {
         return $this->getItemCount() > 0;
+    }
+
+    /**
+     * Set is allow used flat (for collection)
+     *
+     * @param bool $flag
+     * @return Mage_Catalog_Helper_Product_Compare
+     */
+    public function setAllowUsedFlat($flag)
+    {
+        $this->_allowUsedFlat = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Retrieve is allow used flat (for collection)
+     *
+     * @return bool
+     */
+    public function getAllowUsedFlat()
+    {
+        return $this->_allowUsedFlat;
     }
 }
