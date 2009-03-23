@@ -34,24 +34,23 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @var Mage_Core_Model_Encryption
      */
-    protected $_encryptor;
-
-    /**
-     * Instantiate encryption model
-     *
-     */
-    public function __construct()
-    {
-        $encryptionModel = (string)Mage::getConfig()->getNode('global/helpers/core/encryption_model');
-        $this->_encryptor = new $encryptionModel;
-        $this->_encryptor->setHelper($this);
-    }
+    protected $_encryptor = null;
 
     /**
      * @return Mage_Core_Model_Encryption
      */
     public function getEncryptor()
     {
+        if ($this->_encryptor === null) {
+            $encryptionModel = (string)Mage::getConfig()->getNode('global/helpers/core/encryption_model');
+            if ($encryptionModel) {
+                $this->_encryptor = new $encryptionModel;
+            } else {
+                $this->_encryptor = Mage::getModel('core/encryption');
+            }
+
+            $this->_encryptor->setHelper($this);
+        }
         return $this->_encryptor;
     }
 
@@ -182,7 +181,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::isInstalled()) {
             return $data;
         }
-        return $this->_encryptor->encrypt($data);
+        return $this->getEncryptor()->encrypt($data);
     }
 
     /**
@@ -196,12 +195,12 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::isInstalled()) {
             return $data;
         }
-        return $this->_encryptor->decrypt($data);
+        return $this->getEncryptor()->decrypt($data);
     }
 
     public function validateKey($key)
     {
-        return $this->_encryptor->validateKey($key);
+        return $this->getEncryptor()->validateKey($key);
     }
 
     public function getRandomString($len, $chars=null)
@@ -224,12 +223,12 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getHash($password, $salt = false)
     {
-        return $this->_encryptor->getHash($password, $salt);
+        return $this->getEncryptor()->getHash($password, $salt);
     }
 
     public function validateHash($password, $hash)
     {
-        return $this->_encryptor->validateHash($password, $hash);
+        return $this->getEncryptor()->validateHash($password, $hash);
     }
 
     /**
