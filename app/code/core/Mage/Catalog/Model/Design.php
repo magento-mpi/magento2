@@ -195,19 +195,21 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
             if ($designUpdateData instanceof Mage_Catalog_Model_Product) {
                 $_category = $designUpdateData->getCategory();
                 $_designUpdateData = array_merge(
-                    $_designUpdateData, $_category
+                    $_designUpdateData, array($_category)
                 );
             } elseif ($designUpdateData instanceof Mage_Catalog_Model_Category) {
                 $_category = &$designUpdateData;
             }
-            $_designUpdateData = array_merge(
-                $_designUpdateData,
-                $_category->getResource()->getDesignUpdateData($_category)
-            );
-            $this->_applyDesign(
-                $_designUpdateData,
-                $calledFrom, true
-            );
+            if ($_category && $_category->getId()) {
+                $_designUpdateData = array_merge(
+                    $_designUpdateData,
+                    $_category->getResource()->getDesignUpdateData($_category)
+                );
+                $this->_applyDesign(
+                    $_designUpdateData,
+                    $calledFrom, true
+                );
+            }
         }
         return $this;
     }
