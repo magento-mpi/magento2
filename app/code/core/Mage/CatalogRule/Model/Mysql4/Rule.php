@@ -193,6 +193,25 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
+     * Delete old price rules data
+     *
+     * @param   int $maxDate
+     * @param   mixed $productId
+     * @return  Mage_CatalogRule_Model_Mysql4_Rule
+     */
+    public function deleteOldData($date, $productId=null)
+    {
+        $write = $this->_getWriteAdapter();
+        $conds = array();
+        $conds[] = $write->quoteInto('rule_date<?', $this->formatDate($date));
+        if (!is_null($productId)) {
+            $conds[] = $write->quoteInto('product_id=?', $productId);
+        }
+        $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
+        return $this;
+    }
+
+    /**
      * Get rules data for all products in specified date range
      *
      * deprecated
@@ -374,8 +393,15 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         Mage::dispatchEvent('catalogrule_before_apply', array('resource'=>$this));
 
+        $clearOldData = false;
         if ($fromDate === null) {
             $fromDate = mktime(0,0,0,date('m'),date('d')-1);
+            /**
+             * If fromDate not specified we can delete all data oldest than 1 day
+             * We have run it for clear table in case when cron was not installed
+             * and old data exist in table
+             */
+            $clearOldData = true;
         }
         if (is_string($fromDate)) {
             $fromDate = strtotime($fromDate);
@@ -394,6 +420,9 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         }
 
         $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
+        if ($clearOldData) {
+            $this->deleteOldData($fromDate, $productId);
+        }
 
         try {
 	        /**
