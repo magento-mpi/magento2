@@ -35,6 +35,7 @@ class Enterprise_Pci_Model_Observer
      * Admin locking and password hashing upgrade logic implementation
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
      */
     public function adminAuthenticate($observer)
     {
@@ -47,10 +48,23 @@ class Enterprise_Pci_Model_Observer
                 $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
                 $lockExpires = $lockExpires->toValue();
                 if ($lockExpires > time()) {
-                    throw new Exception(Mage::helper('enterprise_pci')->__('This account is locked.'));
+                    Mage::throwException(Mage::helper('enterprise_pci')->__('This account is locked.'));
                 }
             }
             $resource->unlock($user->getId());
+
+            /**
+             * Check whether the latest password is expired
+             * Side-effect can be when passwords were changed with different lifetime configuration settings
+             */
+            if ($latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId())) {
+                if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time())) {
+                    Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('enterprise_pci')->__(
+                        'Your password is expired. Please <a href="%s">change it</a>.',
+                        Mage::getUrl('adminhtml/permissions_user/edit', array('user_id' => $user->getId()))
+                    ), 'enterprise_pci_password_expired');
+                }
+            }
 
             // upgrade admin password
             if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
@@ -124,6 +138,7 @@ class Enterprise_Pci_Model_Observer
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
      */
     public function checkAdminPasswordChange($observer)
     {
@@ -134,10 +149,10 @@ class Enterprise_Pci_Model_Observer
             // validate password syntax
             $passwordLength = 7;
             if (Mage::helper('core/string')->strlen($password) < $passwordLength) {
-                throw new Exception(Mage::helper('enterprise_pci')->__('Password must be at least of %d characters.', $passwordLength));
+                Mage::throwException(Mage::helper('enterprise_pci')->__('Password must be at least of %d characters.', $passwordLength));
             }
             if (!preg_match('/[a-z]/iu', $password) || !preg_match('/[0-9]/u', $password)) {
-                throw new Exception(Mage::helper('enterprise_pci')->__('Password must include both numeric and alphabetic characters.'));
+                Mage::throwException(Mage::helper('enterprise_pci')->__('Password must include both numeric and alphabetic characters.'));
             }
 
             if ($user->getId()) {
@@ -146,7 +161,7 @@ class Enterprise_Pci_Model_Observer
                 $passwordHash = Mage::helper('core')->getHash($password, false);
                 foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                     if ($passwordHash === $oldPasswordHash) {
-                        throw new Exception(Mage::helper('enterprise_pci')->__('This password was already used, try another one.'));
+                        Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
                     }
                 }
             }
@@ -169,6 +184,7 @@ class Enterprise_Pci_Model_Observer
                 $resource->trackPassword($user, $passwordHash,
                     86400 * (int)Mage::getStoreConfig('admin/security/password_lifetime')
                 );
+                Mage::getSingleton('adminhtml/session')->getMessages()->unstickMessage('enterprise_pci_password_expired', $remove = true);
             }
         }
     }
@@ -186,29 +202,5 @@ class Enterprise_Pci_Model_Observer
         }
         $lockThreshold = $lockThreshold * 60;
         return $lockThreshold;
-    }
-
-    /**
-     * Check whether admin password is expired and notify (BETA)
-     *
-     */
-    public function actionPostDispatchAdmin()
-    {
-        if (!Mage::registry('enterprise_pci_password_notification')) {
-            $session = Mage::getSingleton('admin/session');
-            if ($session->isLoggedIn()) {
-                $userId = $session->getUser()->getId();
-                $latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($userId);
-                if ($latestPassword) {
-                    if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time())) {
-                        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('enterprise_pci')->__(
-                            'Your password is expired. Please <a href="%s">change it</a>.',
-                            Mage::getUrl('adminhtml/permissions_user/edit', array('user_id' => $userId))
-                        ));
-                        Mage::register('enterprise_pci_password_notification', true);
-                    }
-                }
-            }
-        }
     }
 }
