@@ -723,7 +723,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         if ($isActive) {
             $select->where('main_table.is_active = ?', '1');
         }
-        $select->order('main_table.path', 'ASC');
+        $select->order('main_table.path ASC');
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
@@ -819,5 +819,44 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             ->from($this->getMainStoreTable(), 'entity_id')
             ->where('entity_id=?', $id);
         return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Get design update data of parent categories
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return array
+     */
+    public function getDesignUpdateData($category)
+    {
+        $categories = array();
+        $pathIds = array();
+        foreach (array_reverse($category->getParentIds()) as $pathId) {
+            if ($pathId == Mage::app()->getStore()->getRootCategoryId()) {
+                $pathIds[] = $pathId;
+                break;
+            }
+            $pathIds[] = $pathId;
+        }
+        $select = $this->_getReadAdapter()->select()
+            ->from(
+                array('main_table' => $this->getMainStoreTable($category->getStoreId())),
+                array(
+                    'main_table.entity_id',
+                    'main_table.custom_design',
+                    'main_table.custom_design_apply',
+                    'main_table.custom_design_from',
+                    'main_table.custom_design_to',
+                )
+            )
+            ->where('main_table.entity_id IN (?)', $pathIds)
+            ->where('main_table.is_active = ?', '1')
+            ->order('main_table.path DESC');
+        $result = $this->_getReadAdapter()->fetchAll($select);
+        foreach ($result as $row) {
+            $row['id'] = $row['entity_id'];
+            $categories[$row['entity_id']] = Mage::getModel('catalog/category')->setData($row);
+        }
+        return $categories;
     }
 }
