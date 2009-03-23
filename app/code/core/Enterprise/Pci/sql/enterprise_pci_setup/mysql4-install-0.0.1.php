@@ -31,12 +31,23 @@ $installer->startSetup();
 
 $tableAdmins     = $installer->getTable('admin/user');
 $tableApiUsers   = $installer->getTable('api/user');
-$tableCoreConfig = $installer->getTable('core_config_data');
+$tableOldPasswds = $installer->getTable('enterprise_pci/admin_passwords');
 
 $installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', 'varchar(100) NOT NULL DEFAULT \'\'');
 $installer->getConnection()->changeColumn($tableApiUsers, 'api_key', 'api_key', 'varchar(100) NOT NULL DEFAULT \'\'');
 
-$installer->getConnection()->addColumn($tableAdmins, 'failed_login_attempts', 'tinyint(3) NOT NULL DEFAULT 0');
+$installer->getConnection()->addColumn($tableAdmins, 'failures_num', 'smallint(6) NOT NULL DEFAULT 0');
+$installer->getConnection()->addColumn($tableAdmins, 'first_failure', 'datetime NULL DEFAULT NULL');
 $installer->getConnection()->addColumn($tableAdmins, 'lock_expires', 'datetime NULL DEFAULT NULL');
+
+$installer->run("
+CREATE TABLE IF NOT EXISTS `{$tableOldPasswds}` (
+  `password_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` mediumint(9) unsigned NOT NULL DEFAULT 0,
+  `password_hash` varchar(100) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `expires` int(11) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`password_id`)
+);");
+$installer->getConnection()->addConstraint('FK_ADMIN_PASSWORDS_USER', $tableOldPasswds, 'user_id', $tableAdmins, 'user_id');
 
 $installer->endSetup();

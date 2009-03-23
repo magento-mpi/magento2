@@ -37,9 +37,7 @@
     </adminhtml_crypt_key_index>
     <adminhtml_locks_index>
         <reference name="content">
-            <block type="enterprise_pci/adminhtml_locks" name="pci.locks.container" as="locks_container" template="widget/grid/container.phtml">
-                <!--<block type="enterprise_pci/adminhtml_crypt_key_form" name="pci.crypt.key.form" as="form"/>-->
-            </block>
+            <block type="enterprise_pci/adminhtml_locks" name="pci.locks.container" as="locks_container" template="widget/grid/container.phtml"/>
         </reference>
     </adminhtml_locks_index>
 </layout>

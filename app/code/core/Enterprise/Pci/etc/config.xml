@@ -39,6 +39,11 @@
             </enterprise_pci>
             <enterprise_pci_mysql4>
                 <class>Enterprise_Pci_Model_Mysql4</class>
+                <entities>
+                    <admin_passwords>
+                        <table>enterprise_admin_passwords</table>
+                    </admin_passwords>
+                </entities>
             </enterprise_pci_mysql4>
         </models>
         <blocks>
@@ -81,19 +86,41 @@
             </updates>
         </layout>
         <events>
-            <admin_user_on_login>
+            <admin_user_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <type>singleton</type>
                         <class>enterprise_pci/observer</class>
-                        <method>upgradeAdminPassword</method>
+                        <method>adminAuthenticate</method>
                     </enterprise_pci>
                 </observers>
-            </admin_user_on_login>
+            </admin_user_authenticated>
+            <admin_user_save_before>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>checkAdminPasswordChange</method>
+                    </enterprise_pci>
+                </observers>
+            </admin_user_save_before>
+            <admin_user_save_after>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>trackAdminNewPassword</method>
+                    </enterprise_pci>
+                </observers>
+            </admin_user_save_after>
+            <controller_action_postdispatch_adminhtml>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>actionPostDispatchAdmin</method>
+                    </enterprise_pci>
+                </observers>
+            </controller_action_postdispatch_adminhtml>
             <api_user_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <type>singleton</type>
                         <class>enterprise_pci/observer</class>
                         <method>upgradeApiKey</method>
                     </enterprise_pci>
@@ -166,7 +193,6 @@
             <customer_customer_authenticated>
                 <observers>
                     <enterprise_pci>
-                        <type>singleton</type>
                         <class>enterprise_pci/observer</class>
                         <method>upgradeCustomerPassword</method>
                     </enterprise_pci>
@@ -174,4 +200,13 @@
             </customer_customer_authenticated>
         </events>
     </frontend>
+    <default>
+        <admin>
+            <security>
+                <lockout_failures>6</lockout_failures>
+                <lockout_threshold>30</lockout_threshold>
+                <password_lifetime>90</password_lifetime>
+            </security>
+        </admin>
+    </default>
 </config>

@@ -38,7 +38,6 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->_setActiveMenu('system/acl_locks');
-
         $this->renderLayout();
     }
 
@@ -48,7 +47,28 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
      */
     public function gridAction()
     {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('enterprise_pci/adminhtml_locks_grid')->toHtml()
+        );
+    }
 
+    /**
+     * Unlock specified users
+     */
+    public function massUnlockAction()
+    {
+        try {
+            // unlock users
+            $userIds = $this->getRequest()->getPost('unlock');
+            if ($userIds && is_array($userIds)) {
+                $affectedUsers = Mage::getResourceSingleton('enterprise_pci/admin_user')->unlock($userIds);
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Unlocked %d user(s).', $affectedUsers));
+            }
+        }
+        catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+        $this->_redirect('*/*/');
     }
 
     /**

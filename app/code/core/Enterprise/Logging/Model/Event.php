@@ -26,7 +26,7 @@
 
 class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
 {
-    /** 
+    /**
      * Constructor
      */
     public function __construct()
@@ -51,24 +51,26 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Filter user_id. Set username instead of user_id
      *
+     * @param int $id
+     * @return Enterprise_Logging_Model_Event
      */
     public function setUserId($id) {
         $user = Mage::getModel('admin/user')->load($id);
         $name = $user->getUsername();
-        $this->setUser($name);
+        return $this->setUser($name);
     }
 
     /**
      * Filter for info
      *
-     * Takes an array of paramaters required to build info message. Message is stored in config, in 
+     * Takes an array of paramaters required to build info message. Message is stored in config, in
      * path like: enterprise/logging/events/products/actions/success, in sprintf format.
      * Assumed, that parameters in info, follows in order they are required in pattern string
      *
-     * @param array info
-     * @return null
+     * @param array $info
+     * @return Enterprise_Logging_Model_Event
      */
-    public function setInfo($info) 
+    public function setInfo($info)
     {
         $code = $this->getEventCode();
         $action = $this->getAction();
@@ -84,6 +86,6 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
                 Mage::throwException("Wrong parameters passed to event info. " . $string . ";");
             }
         }
-        $this->setData('info', $string);
+        return $this->setData('info', $string);
     }
 }

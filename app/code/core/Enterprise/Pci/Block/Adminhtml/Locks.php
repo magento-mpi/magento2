@@ -47,6 +47,7 @@ class Enterprise_Pci_Block_Adminhtml_Locks extends Mage_Adminhtml_Block_Widget_C
      */
     public function getGridHtml()
     {
-        return $this->getLayout()->createBlock('enterprise_pci/adminhtml_locks_grid')->toHtml();
+        return $this->getLayout()->createBlock('enterprise_pci/adminhtml_locks_grid')
+            ->toHtml();
     }
 }
