@@ -39,10 +39,69 @@
 
 class Enterprise_Logging_Model_Observer
 {
+    private static $_action;
+
     /**
      * @var Mage_Core_Model_Mysql4_Store_Group_Collection
      */
     protected $_storeGroupCollection;
+
+    public function catchActionStart() {
+
+        $request = Mage::app()->getRequest();
+        $controller = $request->getControllerName();
+        $action = $request->getActionName();
+
+        $model = Mage::getSingleton('enterprise_logging/event');     
+        if(!$model->hasToLog($controller, $action)) {
+            return;
+        }
+        if($entry = Mage::getSingleton('admin/session')->getSkipLoggingEntry()) {
+            Mage::getSingleton('admin/session')->setSkipLoggingEntry(false);
+            $entries = explode('|', $entry);
+            if($entries[0] == $controller && $entries[1] == $action) {
+                return;
+            }
+        }
+        if(Mage::app()->getRequest()->getParam('back', true))
+            Mage::register('enterprise_logged_action_back', $controller);
+        Mage::register('enterprise_logged_action', $action);
+    }
+
+    public function catchActionEnd() {
+        if($action = Mage::registry('enterprise_logged_action')) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+            $id = Mage::app()->getRequest()->getParam('id');
+
+            $event = Mage::getSingleton('enterprise_logging/event');
+            $success = $this->getSuccess($action);
+            if($success && ($controller = Mage::registry('enterprise_logged_action_back'))) {
+                Mage::getSingleton('admin/session')->setSkipLoggingEntry($controller.'|edit');
+            }
+
+            $info = array($id);
+            $event->loadEventCode();
+            $event->setIp($ip);
+            $event->setUserId($user_id);
+            $event->setAction($action);
+            $event->setSuccess($success);
+            $event->setInfo($info);
+            $event->setTime(time());
+            $event->save();
+        }
+    }
+
+    public function getSuccess($action) {
+        return true;
+        $messages = Mage::getModel('admin/session')->getErrors(true)->getMessages();
+        $model = Mage::getModel('enterprise_logging/event');
+        foreach($messages as $mes) {
+            if($mes->getName() == $model->getErrorName($action))
+                return false;
+        }
+        return true;
+    }
 
     /**
      * Store event on product view (catalog_product/edit/id)

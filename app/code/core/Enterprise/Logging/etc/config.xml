@@ -77,9 +77,31 @@
               </connection>
             </enterprise_logging_read>
         </resources>
+
     </global>
     <adminhtml>
         <events>
+          <controller_action_predispatch>
+            <observers>
+              <enterprise_logging>
+                <type>singleton</type>
+                <class>enterprise_logging/observer</class>
+                <method>catchActionStart</method>
+              </enterprise_logging>
+            </observers>
+          </controller_action_predispatch>
+
+          <controller_action_postdispatch_adminhtml>
+            <observers>
+              <enterprise_logging>
+                <type>singleton</type>
+                <class>enterprise_logging/observer</class>
+                <method>catchActionEnd</method>
+              </enterprise_logging>
+            </observers>
+          </controller_action_postdispatch_adminhtml>
+
+
 	    <enterprise_giftcardaccount_save>
                 <observers>
                     <enterprise_logging>
@@ -270,17 +292,6 @@
                 </observers>
         </adminhtml_system_config_on_save>
 
-
-        <adminhtml_product_on_view>
-          <observers>
-            <enterprise_logging>
-              <type>singleton</type>
-              <class>enterprise_logging/observer</class>
-              <method>addEventAfterProductView</method>
-            </enterprise_logging>
-          </observers>
-        </adminhtml_product_on_view>
-        
         <admin_user_on_login>
           <observers>
             <enterprise_logging>
@@ -300,26 +311,6 @@
             </enterprise_logging>
           </observers>
         </adminhtml_on_forgotpassword>
-
-        <adminhtml_product_on_save>
-          <observers>
-            <enterprise_logging>
-              <type>singleton</type>
-              <class>enterprise_logging/observer</class>
-              <method>addEventOnProductSave</method>
-            </enterprise_logging>
-          </observers>
-        </adminhtml_product_on_save>
-
-        <adminhtml_product_on_delete>
-          <observers>
-            <enterprise_logging>
-              <type>singleton</type>
-              <class>enterprise_logging/observer</class>
-              <method>addEventOnProductDelete</method>
-            </enterprise_logging>
-          </observers>
-        </adminhtml_product_on_delete>
 
         <adminhtml_customergroup_on_delete>
                 <observers>
