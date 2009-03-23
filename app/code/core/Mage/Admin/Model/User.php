@@ -33,10 +33,11 @@
  */
 class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 {
-
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'admin/emails/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'admin/emails/forgot_email_identity';
     const XML_PATH_STARTUP_PAGE             = 'admin/startup/page';
+
+    protected $_eventPrefix = 'admin_user';
 
     /**
      * @var Mage_Admin_Model_Roles
@@ -58,6 +59,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function save()
     {
+        $this->_beforeSave();
         $data = array(
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
@@ -81,13 +83,17 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         if ($this->getNewPassword()) {
             $data['password'] = $this->_getEncodedPassword($this->getNewPassword());
         }
+        elseif ($this->getPassword()) {
+            $data['new_password'] = $this->getPassword();
+        }
 
         if ( !is_null($this->getIsActive()) ) {
             $data['is_active'] = intval($this->getIsActive());
         }
 
-        $this->setData($data);
+        $this->addData($data);
         $this->_getResource()->save($this);
+        $this->_afterSave();
         return $this;
     }
 
@@ -214,20 +220,42 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      * @param string $username
      * @param string $password
      * @return boolean
+     * @throws Exception
      */
     public function authenticate($username, $password)
     {
-        $this->loadByUsername($username);
-        if (!$this->getId()) {
-            return false;
+        $result = false;
+        try {
+            $this->loadByUsername($username);
+            if ($this->getId()) {
+                if ($this->getIsActive() != '1') {
+                    throw new Exception(Mage::helper('adminhtml')->__('This account is inactive.'), 1);
+                }
+                if (Mage::helper('core')->validateHash($password, $this->getPassword())) {
+                    $result = true;
+                }
+            }
+
+            Mage::dispatchEvent('admin_user_authenticated', array(
+                'username' => $username,
+                'password' => $password,
+                'user'     => $this,
+                'result'   => $result,
+            ));
+
+            if (!$this->hasAssigned2Role($this->getId())) {
+                throw new Exception(Mage::helper('adminhtml')->__('Access Denied.'), 1);
+            }
         }
-        $auth = Mage::helper('core')->validateHash($password, $this->getPassword());
-        if ($auth) {
-            return true;
-        } else {
+        catch (Exception $e) {
             $this->unsetData();
-            return false;
+            throw new Exception($e->getMessage(), 1);
         }
+
+        if (!$result) {
+            $this->unsetData();
+        }
+        return $result;
     }
 
     /**
@@ -242,10 +270,10 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         if ($this->authenticate($username, $password)) {
             $this->getResource()->recordLogin($this);
         }
+
         // dispatch event regardless the user was logged in or not
         Mage::dispatchEvent('admin_user_on_login', array(
-           'user_id'  => $this->getId(),
-           'model'    => $this,
+           'user'     => $this,
            'username' => $username,
            'password' => $password,
         ));

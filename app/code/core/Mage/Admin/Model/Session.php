@@ -59,24 +59,16 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
      * @param  Mage_Core_Controller_Request_Http $request
      * @return Mage_Admin_Model_User|null
      */
-    public function login($username, $password, $request=null)
+    public function login($username, $password, $request = null)
     {
         if (empty($username) || empty($password)) {
             return;
         }
 
-        $user = Mage::getModel('admin/user')->login($username, $password);
-        if ( $user->getId() && $user->getIsActive() != '1' ) {
-            if ($request && !$request->getParam('messageSent')) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Your Account has been deactivated.'));
-                $request->setParam('messageSent', true);
-            }
-        } elseif (!Mage::getModel('admin/user')->hasAssigned2Role($user->getId())) {
-            if ($request && !$request->getParam('messageSent')) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Access Denied.'));
-                $request->setParam('messageSent', true);
-            }
-        } else {
+        try {
+            /* @var $user Mage_Admin_Model_User */
+            $user = Mage::getModel('admin/user');
+            $user->login($username, $password);
             if ($user->getId()) {
                 if (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
                     Mage::getSingleton('adminhtml/url')->renewSecretUrls();
@@ -89,14 +81,21 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                     header('Location: ' . $requestUri);
                     exit;
                 }
-
-            } else {
-                if ($request && !$request->getParam('messageSent')) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
-                    $request->setParam('messageSent', true);
-                }
+            }
+            else {
+                throw new Exception(Mage::helper('adminhtml')->__('Invalid Username or Password.'), 1);
             }
         }
+        catch (Exception $e) {
+            if (!$e->getCode()) {
+                throw $e;
+            }
+            if ($request && !$request->getParam('messageSent')) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $request->setParam('messageSent', true);
+            }
+        }
+
         return $user;
     }
 
