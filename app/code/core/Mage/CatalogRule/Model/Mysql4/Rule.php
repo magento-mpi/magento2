@@ -87,8 +87,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             return $this;
         }
 
-        $productIds = $rule->getMatchingProductIds();
         $websiteIds = explode(',', $rule->getWebsiteIds());
+        if (empty($websiteIds)) {
+            return $this;
+        }
+
+        $productIds = $rule->getMatchingProductIds();
         $customerGroupIds = $rule->getCustomerGroupIds();
 
         $fromTime = strtotime($rule->getFromDate());
@@ -317,6 +321,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $storeId    = Mage_Core_Model_App::ADMIN_STORE_ID;
             }
 
+            $select->joinInner(
+                array('product_website'=>$this->getTable('catalog/product_website')),
+                'product_website.product_id=rp.product_id AND product_website.website_id='.$websiteId,
+                array()
+            );
+
             $tableAlias = 'pp'.$websiteId;
             $fieldAlias = 'website_'.$websiteId.'_price';
             $select->joinLeft(
@@ -344,7 +354,6 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 	            );
 	        }
         }
-
         return $read->query($select);
     }
 
