@@ -32,17 +32,17 @@
 class Enterprise_Staging_Model_Staging_Config
 {
     /**
-     * Available staging types
+     * Staging type codes
      */
-    const TYPE_WEBSITE      = 'website';
-    const TYPE_CATALOG      = 'catalog';
-    const TYPE_CUSTOMER     = 'customer';
-    const TYPE_SALES        = 'sales';
-    const TYPE_CMS          = 'cms';
-    const TYPE_CONFIG       = 'config';
-    const TYPE_CONFIGURABLE = 'configurable';
+    const TYPE_WEBSITE          = 'website';
+    const TYPE_CATALOG          = 'catalog';
+    const TYPE_CUSTOMER         = 'customer';
+    const TYPE_SALES            = 'sales';
+    const TYPE_CMS              = 'cms';
+    const TYPE_CONFIG           = 'config';
+    const TYPE_CONFIGURABLE     = 'configurable';
 
-    const DEFAULT_TYPE              = 'website';
+    const DEFAULT_TYPE          = 'website';
 
     /**
      * Staging states
@@ -72,14 +72,23 @@ class Enterprise_Staging_Model_Staging_Config
     const STATUS_RESTORED       = 'restored';
     const STATUS_HOLDED         = 'holded';
 
+    /**
+     * Staging event codes
+     */
+    const EVENT_CREATE          = 'create';
+    const EVENT_SAVE            = 'save';
+    const EVENT_BACKUP          = 'backup';
+    const EVENT_MERGE           = 'merge';
+    const EVENT_ROLLBACK        = 'rollback';
+
+    /**
+     * Staging visibility codes
+     */
     const VISIBILITY_NOT_ACCESSIBLE             = 'not_accessible';
     const VISIBILITY_ACCESSIBLE                 = 'accessible';
     const VISIBILITY_REQUIRE_HTTP_AUTH          = 'require_http_auth';
     const VISIBILITY_REQUIRE_ADMIN_SESSION      = 'require_admin_session';
     const VISIBILITY_REQUIRE_BOTH               = 'require_both';
-
-
-    static private $_config;
 
     /**
      * Retrieve staging module xml config as Varien_Simplexml_Element object
@@ -123,7 +132,7 @@ class Enterprise_Staging_Model_Staging_Config
             $model = Mage::getModel($modelName);
         }
 
-        // TODO need to try to give current staging into models as an attribute
+        // TODO try to give current staging into models as an attribute
         $model->setStaging($staging->getId());
 
         $model->setConfig($typeConfig);
@@ -146,7 +155,7 @@ class Enterprise_Staging_Model_Staging_Config
      * Staging type mapper instance factory
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @param   bool $singleton
+     * @param   boolean $singleton
      * @return  Enterprise_Staging_Model_Staging_Mapper_Abstract
      */
     public static function mapperFactory($staging, $singleton = false)
@@ -158,7 +167,7 @@ class Enterprise_Staging_Model_Staging_Config
      * Staging resource adapter mapper instance factory
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @param   bool $singleton
+     * @param   boolean $singleton
      * @return  Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
     public static function adapterFactory($staging, $singleton = false)
@@ -170,7 +179,7 @@ class Enterprise_Staging_Model_Staging_Config
      * Staging state instance factory
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @param   bool $singleton
+     * @param   boolean $singleton
      * @return  Enterprise_Staging_Model_Staging_State_Abstract
      */
     public static function stateFactory($staging, $singleton = false)
@@ -258,12 +267,27 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
+     * Retrieve state label
+     *
+     * @param   string $state
+     * @return  string
+     */
+    static public function getStateLabel($state)
+    {
+        if ($stateNode = self::getConfig('state/'.$state)) {
+            $state = (string) $stateNode->label;
+            return Mage::helper('enterprise_staging')->__($state);
+        }
+        return $state;
+    }
+
+    /**
      * Retrieve status label
      *
      * @param   string $status
      * @return  string
      */
-    public function getStatusLabel($status)
+    static public function getStatusLabel($status)
     {
         if ($statusNode = self::getConfig('status/'.$status)) {
             $status = (string) $statusNode->label;
@@ -278,7 +302,7 @@ class Enterprise_Staging_Model_Staging_Config
      * @param   string $visibility
      * @return  string
      */
-    public function getVisibilityLabel($visibility)
+    static public function getVisibilityLabel($visibility)
     {
         if ($visibilityNode = self::getConfig('visibility/'.$visibility)) {
             $visibility = (string) $visibilityNode->label;
@@ -293,7 +317,7 @@ class Enterprise_Staging_Model_Staging_Config
      * @param   string $event
      * @return  string
      */
-    public function getEventLabel($event)
+    static public function getEventLabel($event)
     {
         if ($eventNode = self::getConfig('event/'.$event)) {
             $event = (string) $eventNode->label;

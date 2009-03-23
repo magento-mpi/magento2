@@ -25,18 +25,14 @@
  */
 
 /**
- * Enterprise_Staging Observer class.
- *
- * Typical procedure is next:
- *
+ * Enterprise Staging Observer class.
  */
 class Enterprise_Staging_Model_Observer
 {
     /**
-     * Get staging table name for the entities whithin staging website navigation
+     * Get staging table name for the entities while staging website browse
      *
      * @param $observer Varien_Object
-     * expected 'resource', 'model_entity' and 'table_name' variables setted in event object as well
      *
      */
     public function getTableName($observer)
@@ -54,50 +50,48 @@ class Enterprise_Staging_Model_Observer
                 $resource->setMappedTableName($tableName, $_tableName);
             }
         } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo '<br /><br />';
-            echo $e;
-            echo '<br /><br />';
-            mageDebugBacktrace();
-            echo '</pre>';
-            die(__CLASS__);
+            throw new Mage_Core_Exception($e);
         }
     }
 
     public function beforeFrontendInit()
     {
-        $website = Mage::app()->getWebsite();
-        if ($website->getIsStaging()) {
-            $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
-            $stagingWebsite->loadBySlaveWebsiteId($website->getId());
-            if (!$stagingWebsite->getId()) {
-                Mage::app()->getResponse()->setRedirect('/')->sendResponse();
-                exit();
-            }
-
-            $key = 'allow_view_staging_website_'.$website->getCode();
-            $coreSession = Mage::getSingleton('core/session');
-
-            switch ($stagingWebsite->getVisibility()) {
-                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
-                    $coreSession->setData($key, false);
+        try {
+            $website = Mage::app()->getWebsite();
+            if ($website->getIsStaging()) {
+                $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
+                $stagingWebsite->loadBySlaveWebsiteId($website->getId());
+                if (!$stagingWebsite->getId()) {
                     Mage::app()->getResponse()->setRedirect('/')->sendResponse();
                     exit();
-                    break;
-                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
-                    $coreSession->setData($key, true);
-                    break;
-                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
-                    $this->_checkHttpAuth($key);
-                    break;
-                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_ADMIN_SESSION :
-                    $this->_checkAdminSession($key);
-                    break;
-                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_BOTH :
-                    $this->_checkHttpAuth($key);
-                    $this->_checkAdminSession($key);
-                    break;
+                }
+
+                $key = 'allow_view_staging_website_'.$website->getCode();
+                $coreSession = Mage::getSingleton('core/session');
+
+                switch ($stagingWebsite->getVisibility()) {
+                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
+                        $coreSession->setData($key, false);
+                        Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+                        exit();
+                        break;
+                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
+                        $coreSession->setData($key, true);
+                        break;
+                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
+                        $this->_checkHttpAuth($key);
+                        break;
+                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_ADMIN_SESSION :
+                        $this->_checkAdminSession($key);
+                        break;
+                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_BOTH :
+                        $this->_checkHttpAuth($key);
+                        $this->_checkAdminSession($key);
+                        break;
+                }
             }
+        } catch (Exception $e) {
+
         }
     }
 
@@ -150,24 +144,15 @@ class Enterprise_Staging_Model_Observer
                 if ($website->getStatus() !== Enterprise_Staging_Model_Staging_Config::STATUS_MERGED) {
                     $applyDate = $website->getApplyDate();
                     $applyIsActive = $website->getAutoApplyIsActive();
-
                     if ($applyIsActive) {
                         if ($currentDate <= $applyDate) {
                             $website->merge();
                         }
                     }
-                } else{
-//                    $rollbackDate = $website->getApplyDate();
-//                    $rollbackIsActive = $website->getAutoRollbackIsActive();
-//                    if ($rollbackIsActive) {
-//                        if ($currentDate >= $rollbackDate) {
-//                            $website->rollback();
-//                        }
-//                    }
                 }
             }
         } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>'.$e.'</pre>';
+            throw new Mage_Core_Exception(e);
         }
     }
 
@@ -188,7 +173,7 @@ class Enterprise_Staging_Model_Observer
 
             $stagingStore->syncWithStore($store);
         } catch (Exception $e) {
-            throw new Enterprise_Staging_Exception($e);
+
         }
 
         return $this;
@@ -211,7 +196,7 @@ class Enterprise_Staging_Model_Observer
 
             $stagingGroup->syncWithStoreGroup($group);
         } catch (Exception $e) {
-            throw new Enterprise_Staging_Exception($e);
+
         }
 
         return $this;
@@ -236,7 +221,7 @@ class Enterprise_Staging_Model_Observer
 
             $stagingWebsite->syncWithWebsite($website);
         } catch (Exception $e) {
-            throw new Enterprise_Staging_Exception($e);
+
         }
 
         return $this;

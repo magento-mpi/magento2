@@ -74,6 +74,15 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             'require'   => true
         ));
 
+        $fieldset->addField('code', 'text', array(
+            'label'     => $this->helper->__('Staging code'),
+            'title'     => $this->helper->__('Staging code'),
+            'name'      => 'code',
+            'value'     => $this->getStaging()->getCode(),
+            'require'   => true,
+            'note'      => $this->helper->__('Using for staging rollback functionality')
+        ));
+
         foreach ($this->getWebsiteCollection() as $website) {
             $_id = $website->getId();
             $stagingWebsite = $collection->getItemByMasterCode($website->getCode());

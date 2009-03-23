@@ -24,7 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_Staging_Model_Staging_State_Website_Abstract
+class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
     protected $_addToEventHistory = true;
 
@@ -33,37 +33,25 @@ class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_St
         if (is_null($staging)) {
             $staging = $this->getStaging();
         }
-        $this->_mergeStagingWebsite($staging);
+        $this->_backupDb($staging);
         return $this;
     }
 
-    protected function _mergeStagingWebsite($staging = null)
+    protected function _backupDb($staging = null)
     {
         if (is_null($staging)) {
             $staging = $this->getStaging();
         }
 
-        $websites = $staging->getWebsitesCollection();
-        foreach ($websites as $website) {
-            $this->_processWebsite($website);
-        }
-        return $this;
-    }
-
-    protected function _processWebsite($website = null)
-    {
-        if (is_null($website)) {
-            $website = $this->getWebsite();
-        }
-
         $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
-        $usedItems      = $this->getStaging()->getMapperInstance()->getUsedItems();
+        $usedItems      = $staging->getMapperInstance()->getUsedItems();
 
         foreach ($usedItems as $usedItem) {
             $itemXmlConfig = $stagingItems->{$usedItem['code']};
             $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
             if ($adapter) {
-                $adapter->mergeItem($website, $itemXmlConfig);
+                $adapter->setTargetModel($this->getTargetModel());
+                $adapter->syncItemTablesStructure($staging, $itemXmlConfig, true);
             }
         }
         return $this;

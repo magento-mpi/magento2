@@ -26,27 +26,8 @@
 
 class Enterprise_Staging_Model_Staging_State_Website_Abstract extends Enterprise_Staging_Model_Staging_State_Abstract
 {
-
-    protected $_tableModels = array(
-       'catalog_product_entity'     => 'catalog',
-       'catalog_category_entity'    => 'catalog',
-       'customer_entity'            => 'customer',
-       'customer_address_entity'    => 'customer',
-    );
-
-    protected $_ignoreTables = array(
-        'catalog_category_flat'     => true,
-        'catalog_product_flat'      => true
-    );
-
-    protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
-
-    protected $_srcModel;
-
-    protected $_targetModel;
-
-    public function __construct()
+    protected function _run($staging = null)
     {
-        parent::__construct();
+        return $this;
     }
 }

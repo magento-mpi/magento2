@@ -139,7 +139,13 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
-        $this->_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
+
+        $_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
+        foreach ($_usedItems as $code => $item) {
+            if (isset($item['dataset_item_id'])) {
+                $this->_usedItems[$code] = $item;
+            }
+        }
 
         if (!empty($websitesMap)) {
             $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();
@@ -175,7 +181,13 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
-        $this->_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
+
+        $_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
+        foreach ($_usedItems as $code => $item) {
+            if (isset($item['dataset_item_id'])) {
+                $this->_usedItems[$code] = $item;
+            }
+        }
 
         if (!empty($websitesMap)) {
             $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();

@@ -380,8 +380,9 @@ CREATE TABLE `".$this->getTable('enterprise_staging/staging_event')."` (
   `ip` bigint(20) unsigned NOT NULL default '0',
   `code` char(20) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
+  `state` char(20) NOT NULL default '',
   `status` char(20) NOT NULL default '',
-  `internal_status` char(20) NOT NULL default '',
+  `is_backuped` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
   `user_id` int(11) NOT NULL default '0',
@@ -394,8 +395,9 @@ CREATE TABLE `".$this->getTable('enterprise_staging/staging_event')."` (
   PRIMARY KEY  (`event_id`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_STAGING_ID` (`staging_id`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_PARENT_ID` (`parent_id`),
+  KEY `IDX_ENTERPRISE_STAGING_EVENT_STATE` (`state`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_STATUS` (`status`),
-  KEY `IDX_ENTERPRISE_STAGING_EVENT_INT_STATUS` (`internal_status`),
+  KEY `IDX_ENTERPRISE_STAGING_EVENT_IS_BACKUPED` (`is_backuped`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_NOTIFY` (`is_admin_notified`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Events';
 ");

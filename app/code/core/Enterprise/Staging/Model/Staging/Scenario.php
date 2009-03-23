@@ -38,15 +38,18 @@ final class Enterprise_Staging_Model_Staging_Scenario
 
     private $_state;
 
+    private $_targetModel;
+
     /**
-     * Build given scenario events
+     * Init scenario first state
      *
      * @param unknown_type $scenario
      */
-    function init($adapter, $scenarioCode)
+    function init($adapter, $scenarioCode, $targetmodel = 'staging')
     {
         $this->setAdapter($adapter);
         $this->setScenarioCode($scenarioCode);
+        $this->setTargetModel($targetmodel);
 
         $initState = $this->stateFactory();
 
@@ -93,6 +96,18 @@ final class Enterprise_Staging_Model_Staging_Scenario
         return $this->_scenarioCode;
     }
 
+    function setTargetModel($model)
+    {
+        $this->_targetModel = $model;
+
+        return $this;
+    }
+
+    function getTargetModel()
+    {
+        return $this->_targetModel;
+    }
+
     function setState(Enterprise_Staging_Model_Staging_State_Abstract $state)
     {
         $this->_state = $state;
@@ -109,7 +124,7 @@ final class Enterprise_Staging_Model_Staging_Scenario
      * Specify staging instance
      *
      * @param   mixed $staging
-     * @return  Enterprise_Staging_Model_Staging
+     * @return  Enterprise_Staging_Model_Staging_Scenario
      */
     public function setStaging($staging)
     {
@@ -120,17 +135,16 @@ final class Enterprise_Staging_Model_Staging_Scenario
     /**
      * Retrieve staging object
      *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging
+     * @return  Enterprise_Staging_Model_Staging
      */
     public function getStaging()
     {
         if (is_object($this->_staging)) {
             return $this->_staging;
         }
-        /* TODO try to set staging_id instead whole staging object */
+        /* try to set staging_id instead whole staging object */
         $_staging = Mage::registry('staging');
-        if ($_staging && $_staging->getId() == (int) $this->_staging) {
+        if ($_staging && !is_null($this->_staging) && $_staging->getId() == (int) $this->_staging) {
             return $_staging;
         } else {
             if (is_int($this->_staging)) {
@@ -144,12 +158,12 @@ final class Enterprise_Staging_Model_Staging_Scenario
     }
 
     /**
-     * Staging state abstract factory
+     * Staging event state abstract factory
      *
      * @param   string  $stateCode
-     * @param   bool    $singleton
+     * @param   boolean $singleton
      *
-     * @return  object Enterprise_Staging_Model_Staging_State_Abstract
+     * @return  object  Enterprise_Staging_Model_Staging_State_Abstract
      */
     public function stateFactory($stateCode = 'prepare', $singleton = false)
     {
@@ -170,20 +184,24 @@ final class Enterprise_Staging_Model_Staging_Scenario
         }
 
         if ($singleton === true) {
-            $model = Mage::getSingleton($modelName);
+            $state = Mage::getSingleton($modelName);
         } else {
-            $model = Mage::getModel($modelName);
+            $state = Mage::getModel($modelName);
         }
+        /* var $state Enterprise_Staging_Model_Staging_State_Abstract */
 
-        $nextModelName  = (string) $stateConfig->next;
-        $model->setNextStateName($nextModelName);
+        $nextModelName      = (string) $stateConfig->next;
+        $eventStateCode     = (string) $stateConfig->code;
+        $eventStateLabel    = (string) $stateConfig->label;
 
-        // TODO need to try to give current staging into models as an attribute
-        $model->setStaging($staging->getId());
+        $state->setEventStateCode($eventStateCode);
+        $state->setEventStateLabel($eventStateLabel);
+        $state->setNextStateName($nextModelName);
+        $state->setStaging($staging->getId());
+        $state->setAdapter($this->getAdapter());
+        $state->setScenario($this);
+        $state->setTargetModel($this->getTargetModel());
 
-        $model->setAdapter($this->getAdapter());
-        $model->setScenario($this);
-
-        return $model;
+        return $state;
     }
 }

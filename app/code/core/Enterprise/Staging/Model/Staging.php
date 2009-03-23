@@ -31,10 +31,11 @@
  */
 class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 {
-    const CACHE_TAG              = 'enterprise_staging';
-    protected $_cacheTag         = 'enterprise_staging';
-    protected $_eventPrefix      = 'enterprise_staging';
-    protected $_eventObject      = 'enterprise_staging';
+    const CACHE_TAG             = 'enterprise_staging';
+    protected $_cacheTag        = 'enterprise_staging';
+    protected $_eventPrefix     = 'enterprise_staging';
+    protected $_eventObject     = 'enterprise_staging';
+    protected $_tablePrefix     = 'staging';
 
     const EXCEPTION_LOGIN_NOT_CONFIRMED       = 1;
     const EXCEPTION_INVALID_LOGIN_OR_PASSWORD = 2;
@@ -87,6 +88,16 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging');
+    }
+
+    public function getTablePrefix()
+    {
+        $prefix = $this->_tablePrefix;
+        if ($this->getId()) {
+            $prefix .= $this->getId();
+        }
+        $prefix .='_';
+        return $prefix;
     }
 
     /**
@@ -414,16 +425,21 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
     public function merge()
     {
-        $this->backup();
-
         $this->getAdapterInstance(true)->merge($this);
 
         return $this;
     }
 
-    public function backup()
+    public function srcDbBackup()
     {
-        $this->getAdapterInstance(true)->backup($this);
+        $this->getAdapterInstance(true)->srcDbBackup($this);
+
+        return $this;
+    }
+
+    public function destDbBackup()
+    {
+        $this->getAdapterInstance(true)->destDbBackup($this);
 
         return $this;
     }
@@ -455,7 +471,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * @param  boolean  $isAdminNotified
      * @return object   Enterprise_Staging_Model_Staging
      */
-    public function setState($state, $status = false, $comment = '', $isAdminNotified = false)
+    public function setState($state, $status = false, $comment = '', $log='', $isAdminNotified = false)
     {
         $this->setData('state', $state);
         if ($status) {
@@ -464,7 +480,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             }
         }
         if ($this->getEventCode()) {
-            $this->addEvent($this->getEventCode(), $status, $comment, $isAdminNotified);
+            $this->addEvent($this->getEventCode(), $state, $status, $comment, $log, $isAdminNotified);
         }
         return $this;
     }
@@ -473,21 +489,23 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * Add event
      *
      * @param   string  $code
+     * @param   string  $state
      * @param   string  $status
      * @param   string  $comments
      * @param   boolean $isAdminNotified
      * @return  object  Enterprise_Staging_Model_Staging
      */
-    public function addEvent($code, $status, $comment='', $isAdminNotified = false)
+    public function addEvent($code, $state, $status, $comment='', $log='', $isAdminNotified = false)
     {
         $event = Mage::getModel('enterprise_staging/staging_event')
             ->setStagingId($this->getId())
             ->setCode($code)
+            ->setState($state)
             ->setStatus($status)
             ->setDate(Mage::getModel('core/date')->gmtDate())
             ->setIsAdminNotified($isAdminNotified)
             ->setComment($comment)
-            ->setLog(Mage::registry('enterprise_staging_log'))
+            ->setLog(Enterprise_Staging_Model_Log::buildLogReport($log))
             ->setStaging($this);
         $this->addEventToHistory($event);
         return $this;
@@ -728,5 +746,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
+    }
+
+    public function saveEventHistory()
+    {
+        $this->getResource()->saveEvents($this);
+
+        return $this;
     }
 }

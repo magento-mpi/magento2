@@ -56,6 +56,15 @@
         </reference>
     </adminhtml_staging_manage_merge>
     
+    <adminhtml_staging_manage_backup>
+        <reference name="content">
+            <block type="enterprise_staging/manage_staging_backup"  name="enterprise_staging_manage_staging_backup" />
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+        </reference>
+    </adminhtml_staging_manage_backup>
+    
     <adminhtml_staging_manage_rollback>
         <reference name="content">
             <block type="enterprise_staging/manage_staging_rollback"  name="enterprise_staging_manage_staging_rollback">
@@ -66,4 +75,10 @@
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
     </adminhtml_staging_manage_rollback>
+    
+    <adminhtml_staging_manage_event>
+        <reference name="content">
+            <block type="enterprise_staging/manage_staging_event"  name="enterprise_staging_manage_staging_event" template="enterprise/staging/manage/staging/event.phtml" />
+        </reference>
+    </adminhtml_staging_manage_event>
 </layout>

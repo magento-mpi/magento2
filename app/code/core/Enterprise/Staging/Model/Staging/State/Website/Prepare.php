@@ -24,24 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Staging_Model_Staging_State_Website_Prepare extends Enterprise_Staging_Model_Staging_State_Abstract
+class Enterprise_Staging_Model_Staging_State_Website_Prepare extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function run()
-    {
-        try {
-
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
-        }
-
-        return $this;
-    }
 }

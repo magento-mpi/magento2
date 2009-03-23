@@ -39,11 +39,11 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $scenario->setStaging($staging);
             $scenario->init($this, 'create');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
+        $staging->saveEventHistory();
         return $this;
     }
 
@@ -54,12 +54,11 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $scenario->setStaging($staging);
             $scenario->init($this, 'merge');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
-
+        $staging->saveEventHistory();
         return $this;
     }
 
@@ -70,12 +69,11 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $scenario->setStaging($staging);
             $scenario->init($this, 'rollback');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
-
+        $staging->saveEventHistory();
         return $this;
     }
 
@@ -86,11 +84,11 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $scenario->setStaging($staging);
             $scenario->init($this, 'check');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
+        $staging->saveEventHistory();
         return $this;
     }
 
@@ -101,11 +99,11 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $scenario->setStaging($staging);
             $scenario->init($this, 'repair');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
+        $staging->saveEventHistory();
         return $this;
     }
 
@@ -116,26 +114,41 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $scenario->setStaging($staging);
             $scenario->init($this, 'copy');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
+        $staging->saveEventHistory();
         return $this;
     }
 
-    public function backup(Enterprise_Staging_Model_Staging $staging)
+    public function destDbBackup(Enterprise_Staging_Model_Staging $staging)
     {
         try {
             $scenario = Mage::getModel('enterprise_staging/staging_scenario');
             $scenario->setStaging($staging);
-            $scenario->init($this, 'backup');
+            $scenario->init($this, 'backup', 'head');
             $scenario->run();
-        } catch (Enterprise_Staging_Exception $e) {
-            echo '<pre>';
-            echo $e;
-            STOP();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
         }
+        $staging->saveEventHistory();
+        return $this;
+    }
+
+    public function srcDbBackup(Enterprise_Staging_Model_Staging $staging)
+    {
+        try {
+            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
+            $scenario->setStaging($staging);
+            $scenario->init($this, 'backup', 'staging');
+            $scenario->run();
+        } catch (Exception $e) {
+            $staging->saveEventHistory();
+            throw new Enterprise_Staging_Exception($e);
+        }
+        $staging->saveEventHistory();
         return $this;
     }
 }

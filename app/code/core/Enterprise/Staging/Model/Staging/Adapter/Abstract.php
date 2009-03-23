@@ -176,6 +176,143 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $this->_connections[$connectionName];
     }
 
+    protected function _getCreateSql($model, $tableDescription, $object= null)
+    {
+        $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
+
+        $rows = array();
+        if (!empty($tableDescription['fields'])) {
+            foreach ($tableDescription['fields'] as $field) {
+                $rows[] = $this->_getFieldSql($field);
+            }
+        }
+
+        foreach ($tableDescription['keys'] as $key) {
+            $rows[] = $this->_getKeySql($key, $object);
+        }
+        foreach ($tableDescription['constraints'] as $key) {
+            $rows[] = $this->_getConstraintSql($key, $model, $object);
+        }
+        $rows = implode(",\n", $rows);
+        $_sql .= " ({$rows})";
+
+        if (!empty($tableDescription['engine'])) {
+            $_sql .= " ENGINE={$tableDescription['engine']}";
+        }
+        if (!empty($tableDescription['charset'])) {
+            $_sql .= " DEFAULT CHARSET={$tableDescription['charset']}";
+        }
+        if (!empty($tableDescription['collate'])) {
+            $_sql .= " COLLATE={$tableDescription['collate']}";
+        }
+
+        return $_sql;
+    }
+
+    protected function _getFieldSql($field, $object= null)
+    {
+        $_fieldSql = "`{$field['name']}` {$field['type']} {$field['extra']}";
+
+        switch ((boolean) $field['is_null']) {
+            case true:
+                $_fieldSql .= "";
+                break;
+            case false:
+                $_fieldSql .= " NOT NULL";
+                break;
+        }
+
+        switch ($field['default']) {
+            case null:
+                $_fieldSql .= "";
+                break;
+            case 'CURRENT_TIMESTAMP':
+                $_fieldSql .= " DEFAULT {$field['default']}";
+                break;
+            default:
+                $_fieldSql .= " DEFAULT '{$field['default']}'";
+                break;
+        }
+
+        return $_fieldSql;
+    }
+
+    protected function _getKeySql($key, $object= null)
+    {
+        $_keySql = "";
+        switch ((string) $key['type']) {
+            case 'INDEX':
+                $_keySql .= " KEY";
+                break;
+            default:
+                $_keySql .= " {$key['type']} KEY";
+                break;
+        }
+
+        $_keySql .= " `{$key['name']}`";
+        $fields = array();
+        foreach ($key['fields'] as $field) {
+            $fields[] = "`{$field}`";
+        }
+        $fields = implode(',',$fields);
+        $_keySql .= "($fields)";
+        return $_keySql;
+    }
+
+    protected function _getConstraintSql($key, $model, $object= null)
+    {
+        $targetRefTable = $this->getStagingTableName($object, $model, $key['ref_table']);
+
+        if ($targetRefTable) {
+            $_refTable = "`$targetRefTable`";
+        } else {
+            $_refTable = "";
+            if ($key['ref_db']) {
+                $_refTable .= "`{$key['ref_db']}`.";
+            }
+            $_refTable .= "`{$key['ref_table']}`";
+        }
+
+        $onDelete = "";
+        if ($key['on_delete']) {
+            $onDelete .= "ON DELETE {$key['on_delete']}";
+        }
+
+        $onUpdate = "";
+        if ($key['on_update']) {
+            $onUpdate .= "ON UPDATE {$key['on_update']}";
+        }
+
+        $prefix = 'STAGING_';
+        if ($object) {
+            $prefix = strtoupper($object->getTablePrefix());
+        }
+
+        $_keySql = " CONSTRAINT `{$prefix}{$key['fk_name']}` FOREIGN KEY (`{$key['pri_field']}`) REFERENCES {$_refTable} (`{$key['ref_field']}`) {$onDelete} {$onUpdate}";
+
+        return $_keySql;
+    }
+
+    public function getStagingTableName($object = null, $model, $table, $internalPrefix = '', $ignoreIsStaging = false)
+    {
+        if (!$ignoreIsStaging) {
+            if (!$this->isStagingItem($model, $table)) {
+                return $table;
+            }
+        }
+
+        $globalTablePrefix   = (string) Mage::getConfig()->getTablePrefix();
+
+        $stagingTablePrefix = 'staging_';
+        if (!is_null($object)) {
+            $stagingTablePrefix = $object->getTablePrefix();
+        }
+
+        $stagingTablePrefix  .=  $internalPrefix;
+
+        return $globalTablePrefix . $stagingTablePrefix . $table;
+    }
+
     /**
      * Retrieve table properties as array
      * fields, keys, constraints, engine, charset, create
@@ -422,5 +559,41 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     {
         $this->getConnection($type)->query('ROLLBACK');
         return $this;
+    }
+
+    public function isStagingItem($model, $table)
+    {
+        if (in_array($table, $this->_excludeList)) {
+            return false;
+        }
+
+        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+
+        if (!is_null($table)) {
+            if (isset($this->_tableModels[$table])) {
+                $model = $this->_tableModels[$table];
+            }
+        }
+
+        $stagingItem = $stagingItems->{$model};
+
+        if (!(int)$stagingItem->use_table_prefix) {
+            return false;
+        }
+
+        if (is_null($table)) {
+            return true;
+        } else {
+            $tables = (array) $stagingItem->entities;
+            if (!empty($tables)) {
+                if (array_key_exists($table, $tables)) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

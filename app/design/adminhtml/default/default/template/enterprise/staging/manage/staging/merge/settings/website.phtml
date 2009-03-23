@@ -124,6 +124,16 @@
     </table>
     </div>
 </div>
+<div class="entry-edit">
+    <div id="staging_merge_additional_config" class="fieldset">
+        <table class="form-list" cellspacing="0">
+            <tr>
+                <td class="label"><label for="staging_merge_backup_flag"><?php echo $this->__('Create a backup') ?></label></td>
+                <td class="value"><input type="checkbox" checked="checked" value="1" name="map[backup]" id="staging_merge_backup_flag" /></td>
+            </tr>
+        </table>
+    </div>
+</div>
 <h3><?php echo $this->__('Items to merge'); ?></h3>
 <?php echo $this->getChildHtml('items'); ?>
 

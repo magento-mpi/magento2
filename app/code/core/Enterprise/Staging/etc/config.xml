@@ -149,32 +149,46 @@
                         </models>
                         <scenaries>
                             <create>
-                                <prepare> 
+                                <prepare>
+                                    <code>prepare</code>
+                                    <label>Prepare Staging for Create</label>
                                     <model>enterprise_staging/staging_state_website_prepare</model>
                                     <next>create</next>
                                 </prepare>
                                 <create>
+                                    <code>create</code>
+                                    <label>Staging Create</label>
                                     <model>enterprise_staging/staging_state_website_create</model>
-                                    <next>check</next>
-                                </create>
-                                <check>
-                                    <model>enterprise_staging/staging_state_website_check</model>
                                     <next>0</next>
-                                </check>
+                                </create>
                             </create>
+                            <backup>
+                                <prepare>
+                                    <code>prepare</code>
+                                    <label>Prepare Database for Backup</label>
+                                    <model>enterprise_staging/staging_state_website_prepare</model>
+                                    <next>backup</next>
+                                </prepare>
+                                <backup>
+                                    <code>backup</code>
+                                    <label>Database Backup</label>
+                                    <model>enterprise_staging/staging_state_website_backup</model>
+                                    <next>0</next>
+                                </backup>
+                            </backup>
                             <merge>
-                                <prepare> 
+                                <prepare>
+                                    <code>prepare</code>
+                                    <label>Prepare Staging for Merge</label>
                                     <model>enterprise_staging/staging_state_website_prepare</model>
                                     <next>merge</next>
                                 </prepare>
                                 <merge>
+                                    <code>merge</code>
+                                    <label>Staging Merge</label>
                                     <model>enterprise_staging/staging_state_website_merge</model>
-                                    <next>check</next>
-                                </merge>
-                                <check>
-                                    <model>enterprise_staging/staging_state_website_check</model>
                                     <next>0</next>
-                                </check>
+                                </merge>
                             </merge>
                         </scenaries>
                     </website>
@@ -438,16 +452,21 @@
 		                 <sort_order>10</sort_order>
 		                 <action>adminhtml/staging_manage/index</action>
                     </staging_grid>
-                    <staging_merge>
+                    <staging_backup>
+                        <title>Backups</title>
+                         <sort_order>20</sort_order>
+                         <action>adminhtml/staging_manage/backup</action>
+                    </staging_backup>
+                    <!--staging_merge>
                         <title>Merge</title>
                         <sort_order>20</sort_order>
                         <action>adminhtml/staging_manage/merge</action>
-                    </staging_merge>
-                    <staging_rollback>
+                    </staging_merge-->
+                    <!--staging_rollback>
                         <title>Rollback</title>
                         <sort_order>30</sort_order>
                         <action>adminhtml/staging_manage/rollback</action>
-                    </staging_rollback>
+                    </staging_rollback-->
                  </children>
               </enterprise_staging>
             </children>

@@ -47,6 +47,44 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
         return $this;
     }
 
+    /**
+     * Add backuped filter into collection
+     *
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Event_Collection
+     */
+    public function addBackupedFilter()
+    {
+        $this->addFieldToFilter('main_table.is_backuped', 1);
+
+        return $this;
+    }
+
+    /**
+     * Add merged staging filter into collection
+     *
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Event_Collection
+     */
+    public function addMergedFilter()
+    {
+        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_MERGE);
+        $this->addFieldToFilter('main_table.state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
+        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+
+        return $this;
+    }
+
+    public function addStagingToCollection()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('staging' => $this->getTable('enterprise_staging/staging')),
+                'main_table.staging_id=staging.staging_id',
+                array('staging_name'=>'name')
+        );
+
+        return $this;
+    }
+
     public function toOptionArray()
     {
         return parent::_toOptionArray('event_id', 'name');

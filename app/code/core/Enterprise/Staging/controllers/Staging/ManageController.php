@@ -40,9 +40,11 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
      *
      * @return Enterprise_Staging_Model_Staging
      */
-    protected function _initStaging()
+    protected function _initStaging($stagingId = null)
     {
-        $stagingId  = (int) $this->getRequest()->getParam('id');
+        if (is_null($stagingId)) {
+            $stagingId  = (int) $this->getRequest()->getParam('id');
+        }
         $staging    = Mage::getModel('enterprise_staging/staging');
 
         if (!$stagingId) {
@@ -72,6 +74,30 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         return $staging;
     }
 
+    /**
+     * Initialize staging event from request parameters
+     *
+     * @return Enterprise_Staging_Model_Staging_Event
+     */
+    protected function _initEvent()
+    {
+        $eventId  = (int) $this->getRequest()->getParam('id');
+        $event    = Mage::getModel('enterprise_staging/staging_event');
+
+        if ($eventId) {
+            $event->load($eventId);
+        }
+
+        $stagingId = $event->getStagingId();
+        if ($stagingId) {
+            $this->_initStaging($stagingId);
+        }
+
+        Mage::register('event', $event);
+
+        return $event;
+    }
+
     public function indexAction()
     {
         $this->loadLayout();
@@ -85,7 +111,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
     {
         $staging = $this->_initStaging();
 
-        $websiteIds = (array) $staging->getMasterWebsiteIds();
+//        $websiteIds = (array) $staging->getMasterWebsiteIds();
 //        if ($websiteIds) {
 //            foreach ($websiteIds as $websiteId) {
 //                $website = Mage::app()->getWebsite($websiteId);
@@ -146,6 +172,31 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         );
     }
 
+    public function eventAction()
+    {
+        $this->_initEvent();
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Event grid for AJAX request
+     */
+    public function eventGridAction()
+    {
+        $staging = $this->_initStaging();
+        $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_edit_tabs_event')
+                ->setStaging($staging)
+                ->toHtml()
+        );
+    }
+
+    /**
+     * Retrieve "add new staging store view form" (AJAX request)
+     */
     public function createStagingStoreAction()
     {
         $staging = $this->_initStaging();
@@ -214,8 +265,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             }
         }
 
-        $websites       = (array) isset($stagingData['websites']) ? $stagingData['websites'] : array();
-        $existWebsites  = (array) Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
+        $websites       = isset($stagingData['websites']) ? $stagingData['websites'] : array();
+        $existWebsites  = Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
 
         foreach ($websites as $key => $websiteData) {
             if (!is_array($websiteData)) {
@@ -405,13 +456,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/*/', array('website'=>$this->getRequest()->getParam('website'))));
-    }
-
-
-    public function syncAction()
-    {
-
+        $this->getResponse()->setRedirect($this->getUrl('*/*/'));
     }
 
     public function mergeAction()
@@ -436,13 +481,15 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         if ($mapData) {
             try {
                 $staging->getMapperInstance()->setMapData($mapData);
+
+                if (!empty($mapData['backup'])) {
+                    // run create destination database backup scenario
+                    $staging->destDbBackup();
+                }
+                // run create destination database backup scenario
                 $staging->merge();
 
                 if ($staging->getId()) {
-                    $staging->setEventCode('merge');
-                    $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_MERGED);
-                    $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_MERGED);
-                    $staging->save();
                     $this->_getSession()->addSuccess($this->__('Staging was successfully merged.'));
                     $stagingId = $staging->getId();
                     Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
@@ -450,15 +497,10 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                     $redirectBack = false;
                     $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully merged.'));
                 }
-
             } catch (Mage_Core_Exception $e) {
-                echo $e;
-                STOP();
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
-                echo $e;
-                STOP();
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
             }
@@ -472,6 +514,17 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         } else {
             $this->_redirect('*/*/');
         }
+    }
+
+    public function backupAction()
+    {
+        $this->_initStaging();
+
+        $this->loadLayout();
+
+        $this->_setActiveMenu('enterprise/staging');
+
+        $this->renderLayout();
     }
 
     public function rollbackAction()

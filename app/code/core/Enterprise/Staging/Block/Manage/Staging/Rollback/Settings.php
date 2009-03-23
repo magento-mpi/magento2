@@ -25,11 +25,11 @@
  */
 
 /**
- * Staging rollback setting block
+ * Staging rollback settings block
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Block_Widget
+class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings extends Mage_Adminhtml_Block_Widget
 {
 	private $_rollbackSettingsBlock = array();
     private $_rollbackSettingsBlockDefaultTemplate = 'enterprise/staging/rollback/settings.phtml';
@@ -76,7 +76,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
      * Returns staging rollback settings block html
      *
      * @param Mage_Catalog_Model_Product $staging
-     * @param boolean $displayMinimalPrice
+     * @param string $idSuffix
+     *
+     * @return string rendered HTML
      */
     public function getRollbackSettingsHtml($staging = null, $idSuffix='')
     {

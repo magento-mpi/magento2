@@ -68,11 +68,48 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected $_store;
 
+    protected $_addToEventHistory = false;
+
+    protected $_eventStateCode;
+
+    protected $_eventStateLabel;
+
     public function __construct()
     {
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('staging_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('staging_write');
     }
+
+    final public function run($staging = null)
+    {
+        if (is_null($staging)) {
+            $staging = $this->getStaging();
+        }
+
+        try {
+            $this->startEventState($staging);
+
+            $this->getAdapter()->beginTransaction('enterprise_staging');
+            $this->_run($staging);
+            $this->getAdapter()->commitTransaction('enterprise_staging');
+
+            $message = Mage::helper('enterprise_staging')
+                ->__('%s was successfuly finished.', $this->getEventStateLabel());
+            $this->endEventState($staging, $message);
+        } catch (Exception $e) {
+            $this->getAdapter()->rollbackTransaction('enterprise_staging');
+
+            $message = Mage::helper('enterprise_staging')
+                ->__('%s was canceled becouse of errors while processing.', $this->getEventStateLabel());
+            $this->endEventState($staging, $message, $e, true);
+
+            throw new Enterprise_Staging_Exception($e);
+        }
+
+        return $this;
+    }
+
+    abstract protected function _run($staging = null);
 
     final public function next()
     {
@@ -83,14 +120,44 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         }
     }
 
-    final public function setNextStateName($name)
+    public function setEventStateCode($code)
+    {
+        $this->_eventStateCode = $code;
+
+        return $this;
+    }
+
+    public function getEventStateCode()
+    {
+        if (is_null($this->_eventStateCode)) {
+            throw new Enterprise_Staging_Exception('State code is not defined.');
+        }
+        return $this->_eventStateCode;
+    }
+
+    public function setEventStateLabel($label)
+    {
+        $this->_eventStateLabel = $label;
+
+        return $this;
+    }
+
+    public function getEventStateLabel()
+    {
+        if (is_null($this->_eventStateLabel)) {
+            throw new Enterprise_Staging_Exception('State label is not defined.');
+        }
+        return $this->_eventStateLabel;
+    }
+
+    public function setNextStateName($name)
     {
         $this->_nextStateName = $name;
 
         return $this;
     }
 
-    final public function getNextStateName()
+    public function getNextStateName()
     {
         if (is_null($this->_adapter)) {
             throw new Enterprise_Staging_Exception('Next state is not defined.');
@@ -137,7 +204,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     }
 
     /**
-     * Specify staging instance
+     * Set staging instance
      *
      * @param   mixed $staging
      * @return  Enterprise_Staging_Model_Staging_State_Abstract
@@ -152,7 +219,6 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     /**
      * Retrieve staging instance
      *
-     * @param Enterprise_Staging_Model_Staging $staging
      * @return Enterprise_Staging_Model_Staging
      */
     public function getStaging()
@@ -160,18 +226,17 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         if (is_object($this->_staging)) {
             return $this->_staging;
         }
-        /* TODO try to set staging_id instead whole staging object */
         $_staging = Mage::registry('staging');
-        if ($_staging && $_staging->getId() == (int) $this->_staging) {
+        if ($_staging && !is_null($this->_staging) && $_staging->getId() == (int) $this->_staging) {
             return $_staging;
         } else {
             if (is_int($this->_staging)) {
-                $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->_staging);
+                $this->_staging = Mage::getModel('enterprise_staging/staging')
+                    ->load((int)$this->_staging);
             } else {
                 $this->_staging = false;
             }
         }
-
         return $this->_staging;
     }
 
@@ -215,5 +280,77 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             throw new Enterprise_Staging_Exception('Store is not specified.');
         }
         return $this->_store;
+    }
+
+
+
+    public function startEventState($staging = null, $message = null, $log = null)
+    {
+/*
+        if (!$this->_addToEventHistory) {
+            return $this;
+        }
+
+        if (is_null($staging)) {
+            $staging = $this->getStaging();
+        }
+
+        $eventStateCode = $this->getEventStateCode();
+
+        if (is_null($message)) {
+            $message = Mage::helper('enterprise_staging')
+                ->__('%s event was started', $this->getEventStateLabel());
+        }
+
+        $staging->addEvent($eventStateCode,
+            Enterprise_Staging_Model_Staging_Config::STATE_HOLDED,
+            Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED,
+            $message,
+            $log
+        );
+*/
+        return $this;
+    }
+
+    public function endEventState($staging = null, $message = null, $log = null, $isError = false)
+    {
+        if (!$this->_addToEventHistory) {
+            return $this;
+        }
+
+        if (is_null($staging)) {
+            $staging = $this->getStaging();
+        }
+
+        $eventStateCode = $this->getEventStateCode();
+
+        if (is_null($message)) {
+            $message = Mage::helper('enterprise_staging')
+                ->__('%s event was finished', $this->getEventStateLabel());
+        }
+
+        if ($isError) {
+            $state  = Enterprise_Staging_Model_Staging_Config::STATE_HOLDED;
+            $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
+        } else {
+            $state  = Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE;
+            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+        }
+
+        $staging->addEvent($eventStateCode, $state, $status, $message, $log);
+
+        return $this;
+    }
+
+    public function getItemAdapterInstanse($itemXmlConfig)
+    {
+        if (!$itemXmlConfig->code) {
+            return $this;
+        }
+        $adapterModelName = (string) $itemXmlConfig->adapter;
+        if (!$adapterModelName) {
+            $adapterModelName = 'enterprise_staging/staging_adapter_item_abstract';
+        }
+        return Mage::getSingleton($adapterModelName);
     }
 }

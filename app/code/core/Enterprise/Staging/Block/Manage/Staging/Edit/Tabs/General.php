@@ -44,9 +44,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_General extends Mage_Adm
     public function __construct()
     {
         parent::__construct();
-
         $this->setFieldNameSuffix('staging');
-
         $this->helper = Mage::helper('enterprise_staging');
     }
 

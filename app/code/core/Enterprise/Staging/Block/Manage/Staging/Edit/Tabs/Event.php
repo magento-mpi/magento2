@@ -105,10 +105,18 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'type'      => 'text'
         ));
 
-        $this->addColumn('internal_status', array(
+        $this->addColumn('state', array(
+            'header'    => $this->helper->__('State'),
+            'index'     => 'state',
+            'type'      => 'text',
+            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
+        ));
+
+        $this->addColumn('status', array(
             'header'    => $this->helper->__('Status'),
-            'index'     => 'internal_status',
-            'type'      => 'text'
+            'index'     => 'status',
+            'type'      => 'text',
+            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('status')
         ));
 
         $this->addColumn('comment', array(
@@ -145,7 +153,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/eventGrid', array('_current'=>true));
+        return $this->getUrl('*/*/eventGrid', array('id' => $this->getStaging()->getId()));
     }
 
     /**
@@ -153,9 +161,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/eventEdit', array(
-            'id'    => $row->getId())
-        );
+        return $this->getUrl('*/*/event', array(
+            'id' => $row->getId()
+        ));
     }
 
     /**

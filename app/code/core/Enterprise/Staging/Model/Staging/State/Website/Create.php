@@ -26,31 +26,18 @@
 
 class Enterprise_Staging_Model_Staging_State_Website_Create extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
-    protected $_proceedTables = array();
+    protected $_addToEventHistory = true;
 
-    public function __construct()
+    protected function _run($staging = null)
     {
-        parent::__construct();
-    }
-
-    public function run()
-    {
-        $this->getAdapter()->beginTransaction('enterprise_staging');
-        try {
-            $this->_processStaging();
-            $this->getAdapter()->commitTransaction('enterprise_staging');
-        } catch (Zend_Db_Statement_Exception $e) {
-            $this->getAdapter()->rollbackTransaction('enterprise_staging');
-            throw new Enterprise_Staging_Exception($e);
-        } catch (Exception $e) {
-            $this->getAdapter()->rollbackTransaction('enterprise_staging');
-            throw new Enterprise_Staging_Exception($e);
+        if (is_null($staging)) {
+            $staging = $this->getStaging();
         }
-
+        $this->_createStaging($staging);
         return $this;
     }
 
-    protected function _processStaging($staging = null)
+    protected function _createStaging($staging = null)
     {
         if (is_null($staging)) {
             $staging = $this->getStaging();
@@ -58,13 +45,33 @@ class Enterprise_Staging_Model_Staging_State_Website_Create extends Enterprise_S
 
         $websites = $staging->getWebsitesCollection();
         foreach ($websites as $website) {
-            $this->_processWebsiteData($website);
-
-            $this->_processStoresData($website);
+            $this->_createWebsiteData($website);
+            $this->_createStoresData($website);
         }
+        return $this;
     }
 
-    protected function _processStoresData($website = null)
+    protected function _createWebsiteData($website = null)
+    {
+        if (is_null($website)) {
+            $website = $this->getWebsite();
+        }
+
+        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        $usedItems      = $this->getStaging()->getMapperInstance()
+            ->getWebsiteUsedCreateItems($website->getMasterWebsiteId());
+
+        foreach ($usedItems as $usedItem) {
+            $itemXmlConfig = $stagingItems->{$usedItem['code']};
+            $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
+            if ($adapter) {
+                $adapter->createItem($website, $itemXmlConfig);
+            }
+        }
+        return $this;
+    }
+
+    protected function _createStoresData($website = null)
     {
         if (is_null($website)) {
             $website = $this->getWebsite();
@@ -75,50 +82,15 @@ class Enterprise_Staging_Model_Staging_State_Website_Create extends Enterprise_S
         $stagingStores  = $website->getStoresCollection();
 
         foreach ($stagingStores as $stagingStore) {
-//            $usedItems = $this->getStaging()->getMapperInstance()
-//                ->getStoreUsedCreateItems($website->getMasterWebsiteId(), $stagingStore->getMasterStoreId());
-
-            $usedItems = $this->getStaging()->getMapperInstance()->getWebsiteUsedCreateItems($website->getMasterWebsiteId());
-
+            $usedItems = $this->getStaging()->getMapperInstance()
+                ->getWebsiteUsedCreateItems($website->getMasterWebsiteId());
             foreach ($usedItems as $usedItem) {
-                $item = $stagingItems->{$usedItem['code']};
-                if (!$item->code) {
-                    continue;
+                $itemXmlConfig = $stagingItems->{$usedItem['code']};
+                $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
+                if ($adapter) {
+                    $adapter->createItem($stagingStore, $itemXmlConfig);
                 }
-                $adapterModelName = (string) $item->adapter;
-                if (!$adapterModelName) {
-                    $adapterModelName = 'enterprise_staging/staging_adapter_item_abstract';
-                }
-                $adapter = Mage::getModel($adapterModelName);
-
-                $adapter->createItem($stagingStore, $item);
             }
-        }
-        return $this;
-    }
-
-    protected function _processWebsiteData($website = null)
-    {
-        if (is_null($website)) {
-            $website = $this->getWebsite();
-        }
-
-        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
-
-        $usedItems = $this->getStaging()->getMapperInstance()->getWebsiteUsedCreateItems($website->getMasterWebsiteId());
-
-        foreach ($usedItems as $usedItem) {
-            $item = $stagingItems->{$usedItem['code']};
-            if (!$item->code) {
-                continue;
-            }
-            $adapterModelName = (string) $item->adapter;
-            if (!$adapterModelName) {
-                $adapterModelName = 'enterprise_staging/staging_adapter_item_abstract';
-            }
-            $adapter = Mage::getModel($adapterModelName);
-
-            $adapter->createItem($website, $item);
         }
         return $this;
     }

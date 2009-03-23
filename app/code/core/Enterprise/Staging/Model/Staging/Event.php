@@ -62,7 +62,17 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve staging status label
+     * Retrieve event state label
+     *
+     * @return string
+     */
+    public function getStateLabel()
+    {
+        return Enterprise_Staging_Model_Staging_Config::getStateLabel($this->getState());
+    }
+
+    /**
+     * Retrieve event status label
      *
      * @return string
      */
@@ -72,7 +82,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve staging event label
+     * Retrieve event label
      *
      * @return string
      */

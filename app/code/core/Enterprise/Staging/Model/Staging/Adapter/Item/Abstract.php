@@ -30,6 +30,17 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
     static $_proceedStoreScopeTables = array();
 
+    protected $_excludeList = array(
+        'core_store',
+        'core_website',
+        'eav_attribute',
+        'eav_attribute_set',
+        'eav_entity_type',
+        'cms_page',
+        'cms_block'
+    );
+
+
     protected $_tableModels = array(
        'product'            => 'catalog',
        'category'           => 'catalog',
@@ -98,7 +109,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         if ($internalMode) {
             $targetTable = $srcTable;
         } else {
-            $targetTable = $this->_getStagingTableName($srcModel, $srcTable);
+            $targetTable = $this->getStagingTableName($object, $srcModel, $srcTable);
         }
 
         $tableSrcDesc = $this->getTableProperties($srcModel, $srcTable);
@@ -318,7 +329,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         if ($internalMode) {
             $targetTable = $srcTable;
         } else {
-            $targetTable = $this->_getStagingTableName($srcModel, $srcTable);
+            $targetTable = $this->getStagingTableName($object, $srcModel, $srcTable);
         }
 
         $tableSrcDesc = $this->getTableProperties($srcModel, $srcTable);
@@ -460,6 +471,155 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 $connection->query($destInsertSql);
             }
         }
+
+        return $this;
+    }
+
+    public function syncItemTablesStructure(Mage_Core_Model_Abstract $object, $itemXmlConfig, $syncData = false)
+    {
+        if ((int)$itemXmlConfig->is_backend) {
+            return $this;
+        }
+        $internalMode   = !(int)  $itemXmlConfig->use_table_prefix;
+        $tables         = (array) $itemXmlConfig->entities;
+
+        $this->_syncItemTablesStructure($object, (string)$itemXmlConfig->model, $tables, $internalMode, $syncData);
+    }
+
+    protected function _syncItemTablesStructure($object, $model, $tables = array(), $internalMode = true, $syncData = false)
+    {
+        $resourceName   = (string) Mage::getConfig()->getNode("global/models/{$model}/resourceModel");
+        $entityTables   = (array)  Mage::getConfig()->getNode("global/models/{$resourceName}/entities");
+
+        foreach ($entityTables as $entityTableConfig) {
+            $table = $entityTableConfig->getName();
+
+            if ($tables) {
+                if (!array_key_exists($table, $tables)) {
+                    continue;
+                }
+            }
+            $realTableName = $this->getTableName("{$model}/{$table}");
+
+            if (isset($this->_tableModels[$table])) {
+                foreach ($this->_eavTableTypes as $type) {
+                    $_table = $realTableName . '_' . $type;
+                    $this->_syncItemTableStructure($object, $model, $_table, $internalMode);
+                }
+                // ignore main EAV entity table
+                continue;
+            }
+            if (isset($this->_ignoreTables[$table])) {
+                continue;
+            }
+
+            $targetTableName = $this->_syncItemTableStructure($object, $model, $realTableName, $internalMode);
+
+            if ($syncData) {
+                $this->_syncItemTableData($object, $model, $realTableName, $targetTableName);
+            }
+        }
+
+        return $this;
+    }
+
+    protected function _syncItemTableStructure($object, $model, $table, $internalMode = true)
+    {
+        $connection      = $this->getConnection($model);
+
+        $tableDesc       = $this->getTableProperties($model, $table);
+
+        $targetTable     = $this->getStagingTableName($object, $model, $table, 'backup_', true);
+
+        $targetTableDesc = $this->getTableProperties($model, $targetTable);
+
+        if (!$targetTableDesc) {
+            $tableDesc['table_name'] = $targetTable;
+            $sql = $this->_getCreateSql($model, $tableDesc, $object);
+//            echo '<pre>';
+//            echo $sql;
+//            echo '</pre>';
+//            echo '<br>';
+
+            $connection->query($sql);
+        }
+
+        return $targetTable;
+    }
+
+    protected function _syncItemTableData($object, $model, $srcTable, $targetTable)
+    {
+        $connection = $this->getConnection($model);
+
+        $tableSrcDesc = $this->getTableProperties($model, $srcTable);
+        if (!$tableSrcDesc) {
+            echo 'No description for '.$srcTable;STOP();
+            throw Enterprise_Staging_Exception('_syncTableData()');
+        }
+
+        if ($srcTable != $targetTable) {
+            $fields = $tableSrcDesc['fields'];
+            $fields = array_keys($fields);
+
+            $this->_syncTableDataInWebsiteScope($object, $model, $srcTable, $targetTable, $fields);
+            $this->_syncTableDataInStoreScope($object, $model, $srcTable, $targetTable, $fields);
+        }
+
+        return $this;
+    }
+
+    protected function _syncTableDataInWebsiteScope($object, $model, $srcTable, $targetTable, $fields)
+    {
+        if (isset(self::$_proceedWebsiteScopeTables[$srcTable])) {
+            return $this;
+        }
+
+        if (!in_array('website_id', $fields) && !in_array('website_ids', $fields) && !in_array('scope_id', $fields)) {
+            return $this;
+        }
+
+        $connection     = $this->getConnection($model);
+
+        $field = end($fields);
+
+        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$field}=VALUES({$field})";
+
+        $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
+
+        $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+
+        //echo $destInsertSql.'<br /><br /><br /><br />';
+        $connection->query($destInsertSql);
+
+        self::$_proceedWebsiteScopeTables[$srcTable] = true;
+
+        return $this;
+    }
+
+    protected function _syncTableDataInStoreScope($object, $model, $srcTable, $targetTable, $fields)
+    {
+        if (isset(self::$_proceedWebsiteScopeTables[$srcTable])) {
+            return $this;
+        }
+
+        if (!in_array('store_id', $fields) && !in_array('store_ids', $fields) && !in_array('scope_id', $fields)) {
+            return $this;
+        }
+
+        $connection     = $this->getConnection($model);
+
+        $field = end($fields);
+
+        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$field}=VALUES({$field})";
+
+        $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
+
+        $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+
+        //echo $destInsertSql.'<br /><br /><br /><br />';
+        $connection->query($destInsertSql);
+
+        self::$_proceedWebsiteScopeTables[$srcTable] = true;
 
         return $this;
     }
