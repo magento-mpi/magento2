@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected function _construct()
     {
         if ($this->isEnabledFlat()) {
-            $this->_init('catalog/product_flat');
+            $this->_init('catalog/product', 'catalog/product_flat');
         }
         else {
             $this->_init('catalog/product');
@@ -111,18 +111,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected function _init($model, $entityModel=null)
     {
         if ($this->isEnabledFlat()) {
-            if ($model != 'catalog/product_flat') {
-                $entityModel = 'catalog/product_flat';
-            }
+            $entityModel = 'catalog/product_flat';
         }
 
-        parent::_init($model, $entityModel);
-
-        if ($this->isEnabledFlat()) {
-            $this->setItemObjectClass('catalog/product');
-        }
-
-        return $this;
+        return parent::_init($model, $entityModel);
     }
 
     /**
@@ -161,7 +153,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function setEntity($entity)
     {
-        if ($this->isEnabledFlat() && $entity instanceof Mage_Core_Model_Mysql4_Abstract) {
+        if ($this->isEnabledFlat() && ($entity instanceof Mage_Core_Model_Mysql4_Abstract)) {
             $this->_entity = $entity;
             return $this;
         }
