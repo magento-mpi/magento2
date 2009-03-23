@@ -24,16 +24,12 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="block block-banner">
-    <div class="block-content">
         <?php if (strtolower(substr($this->getLinkUrl(),0,4))==='http'): ?>
             <a href="<?php echo $this->getLinkUrl() ?>">
         <?php elseif($this->getLinkUrl()): ?>
             <a href="<?php echo $this->getUrl($this->getLinkUrl()) ?>">
         <?php endif; ?>
-        <img src="<?php echo $this->getSkinUrl($this->getImgSrc()) ?>" alt="<?php echo $this->__($this->getImgAlt()) ?>" title="<?php echo $this->__($this->getImgAlt()) ?>" />
+        <img src="<?php echo $this->getSkinUrl($this->getImgSrc()) ?>" alt="<?php echo $this->__($this->getImgAlt()) ?>" title="<?php echo $this->__($this->getImgAlt()) ?>" class="callout"/>
         <?php if ($this->getLinkUrl()): ?>
         </a>
         <?php endif ?>
-    </div>
-</div>

@@ -42,7 +42,7 @@
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
     <?php list($_imgWidth, $_imgHeight) = getimagesize($this->helper('catalog/image')->init($_product, 'image')); ?>
 
-        <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 285 && $_imgHeight < 285): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
+        <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 286 && $_imgHeight < 286): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
             <?php
                 $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" height="285" width="285" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image-thumb');

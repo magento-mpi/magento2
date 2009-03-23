@@ -121,7 +121,9 @@ button.cart-btn span { background-position:100% 0; }
 .buttons-set2,
 .clearfix,
 .page-print .print-head,
-.cart-tax-total { zoom:1; }
+.cart-tax-total,
+.block-related,
+.new-product-spotlight .more-new { zoom:1; }
 
 /* Hover Fix */
 iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
