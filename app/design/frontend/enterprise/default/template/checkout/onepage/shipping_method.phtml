@@ -38,7 +38,7 @@
         <?php echo $this->getChildHtml('additional') ?>
     </div>
     <div class="buttons-set" id="shipping-method-buttons-container">
-        <a href="#" onclick="checkout.back(); return false;" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
+        <span class="back-link"><a href="#" onclick="checkout.back(); return false;">&laquo; <?php echo $this->__('Back') ?></a></span>
         <button type="button" class="button" onclick="shippingMethod.save()"><span><?php echo $this->__('Continue') ?></span></button>
         <span id="shipping-method-please-wait" class="please-wait" style="display:none;">
             <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>

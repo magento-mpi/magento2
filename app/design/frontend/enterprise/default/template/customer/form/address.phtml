@@ -40,8 +40,8 @@
                 <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($data)->toHtml() ?>
             </li>
             <li>
+                <label for="company"><?php echo $this->__('Company') ?></label><br />
                 <div class="input-box">
-                    <label for="company"><?php echo $this->__('Company') ?></label><br />
                     <input type="text" name="company" id="company" title="<?php echo $this->__('Company') ?>" value="<?php echo $this->htmlEscape($data->getCompany()) ?>" class="input-text" />
                 </div>
             </li>

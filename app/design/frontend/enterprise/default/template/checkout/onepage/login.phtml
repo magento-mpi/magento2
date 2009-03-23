@@ -30,29 +30,33 @@
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
         <form id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
         <fieldset>
-            <p><strong><?php echo $this->__('Already registered?') ?></strong><br />
-            <?php echo $this->__('Please log in below:') ?></p>
+            <p><?php echo $this->__('Already registered?') ?> <?php echo $this->__('Please log in below:') ?></p>
             <ul class="form-list">
                 <li>
+                        <label for="login-email"><span class="required">*</span> <?php echo $this->__('Email Address') ?></label>
                     <div class="input-box">
-                        <label for="login-email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label>
                         <input type="text" class="input-text required-entry validate-email" id="login-email" name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" />
                     </div>
                 </li>
                 <li>
+                        <label for="login-password"><span class="required">*</span> <?php echo $this->__('Password') ?></label>
                     <div class="input-box">
-                        <label for="login-password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br />
                         <input type="password" class="input-text required-entry" id="login-password" name="login[password]" />
                     </div>
                 </li>
+                <li class="buttons-set">
+                    <span class="label">&nbsp;</span>
+                    <div class="input-box">
+                        <button type="submit" class="button" onclick="loginForm.submit()"><span><?php echo $this->__('Login') ?></span></button>
+                        <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
+                    </div>
+                </li>
+                <li>
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                </li>
             </ul>
-            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
         </fieldset>
-        </form>
-        <div class="buttons-set">
-            <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>" class="f-left"><?php echo $this->__('Forgot your password?') ?></a>
-            <button type="submit" class="button" onclick="loginForm.submit()"><span><?php echo $this->__('Login') ?></span></button>
-        </div>        
+        </form>       
     </div>
     <div class="col-2">
         <h4><?php if( $this->getQuote()->isAllowedGuestCheckout() ): ?><?php echo $this->__('Checkout as a Guest or Register') ?><?php else: ?><?php echo $this->__('Register to Create an Account') ?><?php endif; ?></h4>
@@ -78,12 +82,6 @@
                     <input type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()=='register' || !$this->getQuote()->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" />
                     <label for="login:register"><?php echo $this->__('Register') ?></label>
                 </li>
-            </ul>
-            <p><strong><?php echo $this->__('Register and save time!') ?></strong><br />
-            <?php echo $this->__('Register with us for future convenience:') ?></p>
-            <ul>
-                <li><?php echo $this->__('Fast and easy check out') ?></li>
-                <li><?php echo $this->__('Easy access to your order history and status') ?></li>
             </ul>
         <?php else: ?>
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
