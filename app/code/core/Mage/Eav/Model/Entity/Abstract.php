@@ -336,14 +336,22 @@ abstract class Mage_Eav_Model_Entity_Abstract
             }
 
         } elseif (is_string($attribute)) {
-
             $attributeCode = $attribute;
 
             if (isset($this->_attributesByCode[$attributeCode])) {
                 return $this->_attributesByCode[$attributeCode];
             }
-            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getEntityType(), $attributeCode);
-
+            $attributeInstance = Mage::getSingleton('eav/config')
+                ->getAttribute($this->getEntityType(), $attributeCode);
+            if (!$attributeInstance->getAttributeCode() && in_array($attribute, $this->getDefaultAttributes())) {
+                $attributeInstance
+                    ->setAttributeCode($attribute)
+                    ->setBackendType(Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
+                    ->setIsGlobal(1)
+                    ->setEntity($this)
+                    ->setEntityType($this->getEntityType())
+                    ->setEntityTypeId($this->getEntityType()->getId());
+            }
         } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
 
             $attributeInstance = $attribute;
@@ -355,8 +363,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         if (empty($attributeInstance)
             || !($attributeInstance instanceof Mage_Eav_Model_Entity_Attribute_Abstract)
-            || !$attributeInstance->getId()
-            ) {
+            || (!$attributeInstance->getId() && !in_array($attributeInstance->getAttributeCode(), $this->getDefaultAttributes()))
+        ) {
             return false;
         }
 
