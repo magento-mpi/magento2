@@ -36,23 +36,9 @@ class Enterprise_CatalogPermissions_Model_Observer
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
 
-    /**
-     * Permissions collection
-     *
-     * @var Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection
-     */
-    protected $_permissionCollection = null;
 
-    /**
-     * Inheritance of grant appling in categories tree
-     *
-     * @return array
-     */
-    protected $_grantsInheritance = array(
-        'grant_catalog_category_view' => 'deny',
-        'grant_catalog_product_price' => 'allow',
-        'grant_checkout_items' => 'allow'
-    );
+    protected $_isProductQueue = true;
+    protected $_productQueue = array();
 
     public function applyCategoryPermissionOnLoadCollection(Varien_Event_Observer $observer)
     {
@@ -127,17 +113,72 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
-    public function applyProductPermissionOnModelAfterLoad(Varien_Event_Observer $observer)
+    public function checkQuoteItem(Varien_Event_Observer $observer)
     {
-        $product = $observer->getEvent()->getProduct();
+        $quoteItem = $observer->getEvent()->getItem();
 
-        $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+        if ($quoteItem->getParentItem()) {
+            $parentItem = $quoteItem->getParentItem();
+        } else {
+            $parentItem = false;
+        }
 
-        $this->_applyPermissionsOnProduct($product);
+        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        if ($quoteItem->getProduct()->getDisableAddToCart() && !$quoteItem->isDeleted()) {
+            $quoteItem->getQuote()->removeItem($quoteItem->getId());
+            if ($parentItem) {
+                $quoteItem->getQuote()->setHasError(true)
+                        ->addMessage(
+                            Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $parentItem->getName())
+                        );
+            } else {
+                 $quoteItem->getQuote()->setHasError(true)
+                        ->addMessage(
+                            Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $quoteItem->getName())
+                        );
+            }
+        }
 
         return $this;
     }
 
+    public function applyProductPermissionOnModelAfterLoad(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        if (!$this->_isProductQueue) {
+            $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+            $this->_applyPermissionsOnProduct($product);
+        } else {
+            $this->_productQueue[] = $product;
+        }
+        return $this;
+    }
+
+
+    public function startProductIndexQueue(Varien_Event_Observer $observer)
+    {
+        $this->_isProductQueue = true;
+        return $this;
+    }
+
+    public function endProductIndexQueue(Varien_Event_Observer $observer)
+    {
+        $this->_isProductQueue = false;
+
+        foreach ($this->_productQueue as $product) {
+            $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+            $this->_applyPermissionsOnProduct($product);
+        }
+
+        $this->_productQueue = array();
+
+        if ($observer->getEvent()->getProduct()->getIsHidden()) {
+            $observer->getEvent()->getControllerAction()->getRequest()
+                ->setIsDispatched(false);
+            $observer->getEvent()->getControllerAction()->getResponse()
+                ->setRedirectUrl();
+        }
+    }
 
     /**
      * Apply category related permissions on category
@@ -156,6 +197,8 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+
+
     /**
      * Apply category related permissions on product
      *
@@ -164,6 +207,13 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _applyPermissionsOnProduct($product)
     {
+        if ($product->getData('grant_catalog_category_view') == -2 ||
+            ($product->getData('grant_catalog_category_view')!= -1 &&
+                !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView())) {
+            $product->setIsHidden(true);
+        }
+
+
         if ($product->getData('grant_catalog_product_price') == -2 ||
             ($product->getData('grant_catalog_product_price')!= -1 &&
                 !Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice())) {
@@ -171,6 +221,7 @@ class Enterprise_CatalogPermissions_Model_Observer
             if ($product->isSalable()) {
                 $product->setIsSalable(false);
             }
+            $product->setDisableAddToCart(true);
         }
 
         if ($product->getData('grant_checkout_items') == -2 ||
@@ -179,7 +230,10 @@ class Enterprise_CatalogPermissions_Model_Observer
             if ($product->isSalable()) {
                 $product->setIsSalable(false);
             }
+            $product->setDisableAddToCart(true);
         }
+
+
 
         return $this;
     }

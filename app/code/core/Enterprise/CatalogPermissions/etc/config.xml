@@ -225,6 +225,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_load_after>
+            <sales_quote_item_qty_set_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkQuoteItem</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </sales_quote_item_qty_set_after>
         </events>
     </frontend>
     <default>

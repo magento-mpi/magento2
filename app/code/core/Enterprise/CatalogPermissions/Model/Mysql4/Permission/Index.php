@@ -290,14 +290,6 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             $condition = '';
         }
 
-
-
-        $fp = fopen('\\sql.txt', 'w');
-        fwrite($fp, $select->__toString() . "\n");
-        fwrite($fp, $selectCategory->__toString() . "\n");
-        fwrite($fp, $selectAnchorCategory->__toString() . "\n");
-        fclose($fp);
-
         $this->_getReadAdapter()->delete($this->getTable('permission_index_product'), $condition);
         $this->_getWriteAdapter()->query($select->insertFromSelect($this->getTable('permission_index_product')));
         $this->_getWriteAdapter()->query($selectCategory->insertFromSelect($this->getTable('permission_index_product')));

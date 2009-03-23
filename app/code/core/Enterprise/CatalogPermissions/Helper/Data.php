@@ -66,4 +66,9 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CHECKOUT_ITEMS);
     }
+
+    public function getLandingPageUrl()
+    {
+
+    }
 }

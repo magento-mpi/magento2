@@ -110,5 +110,4 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
         $this->getResource()->addIndexToProduct($product, $customerGroupId);
         return $this;
     }
-
 }
