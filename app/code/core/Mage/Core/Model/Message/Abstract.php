@@ -37,41 +37,96 @@ abstract class Mage_Core_Model_Message_Abstract
     protected $_code;
     protected $_class;
     protected $_method;
-    
-    public function __construct($type, $code='')
+    protected $_stickyId = false;
+
+    /**
+     * Instantiate message
+     *
+     * @param string $type
+     * @param string $code
+     */
+    public function __construct($type, $code = '')
     {
         $this->_type = $type;
         $this->_code = $code;
     }
 
+    /**
+     * Message code getter
+     *
+     * @return string
+     */
     public function getCode()
     {
         return $this->_code;
     }
-    
+
+    /**
+     * Message text getter
+     *
+     * @return string
+     */
     public function getText()
     {
         return $this->getCode();
     }
-    
+
+    /**
+     * Message type getter
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->_type;
     }
 
+    /**
+     * Set message class
+     */
     public function setClass($class)
     {
         $this->_class = $class;
     }
-    
+
+    /**
+     * Set message method
+     */
     public function setMethod($method)
     {
         $this->_method = $method;
     }
 
+    /**
+     * Convert message to string
+     *
+     * @return string
+     */
     public function toString()
     {
-        $out = $this->getType().': '.$this->getText();
+        $out = $this->getType() . ': ' . $this->getText();
         return $out;
+    }
+
+    /**
+     * Set whether message should be sticky
+     *
+     * A reference ID can be set to it for further control
+     *
+     * @param mixed $isSticky
+     */
+    public function setSticky($stickyId)
+    {
+        $this->_stickyId = $stickyId;
+    }
+
+    /**
+     * Get whether message is sticky (return ID if yes)
+     *
+     * @return mixed
+     */
+    public function getIsSticky()
+    {
+        return $this->_stickyId;
     }
 }

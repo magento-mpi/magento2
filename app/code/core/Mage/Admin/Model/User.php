@@ -220,7 +220,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      * @param string $username
      * @param string $password
      * @return boolean
-     * @throws Exception
+     * @throws Mage_Core_Exception
      */
     public function authenticate($username, $password)
     {
@@ -229,7 +229,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             $this->loadByUsername($username);
             if ($this->getId()) {
                 if ($this->getIsActive() != '1') {
-                    throw new Exception(Mage::helper('adminhtml')->__('This account is inactive.'), 1);
+                    Mage::throwException(Mage::helper('adminhtml')->__('This account is inactive.'));
                 }
                 if (Mage::helper('core')->validateHash($password, $this->getPassword())) {
                     $result = true;
@@ -244,12 +244,12 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             ));
 
             if (!$this->hasAssigned2Role($this->getId())) {
-                throw new Exception(Mage::helper('adminhtml')->__('Access Denied.'), 1);
+                Mage::throwException(Mage::helper('adminhtml')->__('Access Denied.'));
             }
         }
-        catch (Exception $e) {
+        catch (Mage_Core_Exception $e) {
             $this->unsetData();
-            throw new Exception($e->getMessage(), 1);
+            throw $e;
         }
 
         if (!$result) {

@@ -162,7 +162,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      * @param   bool $clear
      * @return  Mage_Core_Model_Message_Collection
      */
-    public function getMessages($clear=false)
+    public function getMessages($clear = false)
     {
         if (!$this->getData('messages')) {
             $this->setMessages(Mage::getModel('core/message_collection'));
@@ -205,11 +205,12 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      * Adding new error message
      *
      * @param   string $message
+     * @param   mixed $stickyId
      * @return  Mage_Core_Model_Session_Abstract
      */
-    public function addError($message)
+    public function addError($message, $stickyId = false)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        $this->addMessage(Mage::getSingleton('core/message')->error($message, '', '', $stickyId));
         return $this;
     }
 
@@ -217,11 +218,12 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      * Adding new warning message
      *
      * @param   string $message
+     * @param   mixed $stickyId
      * @return  Mage_Core_Model_Session_Abstract
      */
-    public function addWarning($message)
+    public function addWarning($message, $stickyId = false)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        $this->addMessage(Mage::getSingleton('core/message')->warning($message, '', '', $stickyId));
         return $this;
     }
 
@@ -229,11 +231,12 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      * Adding new nitice message
      *
      * @param   string $message
+     * @param   mixed $stickyId
      * @return  Mage_Core_Model_Session_Abstract
      */
-    public function addNotice($message)
+    public function addNotice($message, $stickyId = false)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        $this->addMessage(Mage::getSingleton('core/message')->notice($message, '', '', $stickyId));
         return $this;
     }
 
@@ -241,11 +244,12 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      * Adding new success message
      *
      * @param   string $message
+     * @param   mixed $stickyId
      * @return  Mage_Core_Model_Session_Abstract
      */
-    public function addSuccess($message)
+    public function addSuccess($message, $stickyId = false)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        $this->addMessage(Mage::getSingleton('core/message')->success($message, '', '', $stickyId));
         return $this;
     }
 

@@ -37,8 +37,18 @@ class Mage_Core_Model_Message
     const WARNING   = 'warning';
     const NOTICE    = 'notice';
     const SUCCESS   = 'success';
-    
-    protected function _factory($code, $type, $class='', $method='')
+
+    /**
+     * Instantiate specific message
+     *
+     * @param string $code
+     * @param string $type
+     * @param string $class
+     * @param string $method
+     * @param mixed $stickyId
+     * @return Mage_Core_Model_Message_Abstract
+     */
+    protected function _factory($code, $type, $class = '', $method = '', $stickyId = false)
     {
         switch (strtolower($type)) {
             case self::ERROR :
@@ -56,27 +66,64 @@ class Mage_Core_Model_Message
         }
         $message->setClass($class);
         $message->setMethod($method);
-        
+        $message->setSticky($stickyId);
+
         return $message;
     }
-    
-    public function error($code, $class='', $method='')
+
+    /**
+     * Instantiate error message
+     *
+     * @param string $code
+     * @param string $class
+     * @param string $method
+     * @param mixed $stickyId
+     * @return Mage_Core_Model_Message_Error
+     */
+    public function error($code, $class='', $method='', $stickyId = false)
     {
-        return $this->_factory($code, self::ERROR, $class, $method);
+        return $this->_factory($code, self::ERROR, $class, $method, $stickyId);
     }
 
-    public function warning($code, $class='', $method='')
+    /**
+     * Instantiate warning message
+     *
+     * @param string $code
+     * @param string $class
+     * @param string $method
+     * @param mixed $stickyId
+     * @return Mage_Core_Model_Message_Warning
+     */
+    public function warning($code, $class='', $method='', $stickyId = false)
     {
-        return $this->_factory($code, self::WARNING, $class, $method);
+        return $this->_factory($code, self::WARNING, $class, $method, $stickyId);
     }
 
-    public function notice($code, $class='', $method='')
+    /**
+     * Instantiate notice message
+     *
+     * @param string $code
+     * @param string $class
+     * @param string $method
+     * @param mixed $stickyId
+     * @return Mage_Core_Model_Message_Notice
+     */
+    public function notice($code, $class='', $method='', $stickyId = false)
     {
-        return $this->_factory($code, self::NOTICE, $class, $method);
+        return $this->_factory($code, self::NOTICE, $class, $method, $stickyId);
     }
 
-    public function success($code, $class='', $method='')
+    /**
+     * Instantiate success message
+     *
+     * @param string $code
+     * @param string $class
+     * @param string $method
+     * @param mixed $stickyId
+     * @return Mage_Core_Model_Message_Success
+     */
+    public function success($code, $class='', $method='', $stickyId = false)
     {
-        return $this->_factory($code, self::SUCCESS, $class, $method);
+        return $this->_factory($code, self::SUCCESS, $class, $method, $stickyId);
     }
 }

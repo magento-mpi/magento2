@@ -83,13 +83,10 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
             else {
-                throw new Exception(Mage::helper('adminhtml')->__('Invalid Username or Password.'), 1);
+                Mage::throwException(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
             }
         }
-        catch (Exception $e) {
-            if (!$e->getCode()) {
-                throw $e;
-            }
+        catch (Mage_Core_Exception $e) {
             if ($request && !$request->getParam('messageSent')) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $request->setParam('messageSent', true);

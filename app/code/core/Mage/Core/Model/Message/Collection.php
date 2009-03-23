@@ -39,7 +39,7 @@ class Mage_Core_Model_Message_Collection
      * @var array
      */
     protected $_messages = array();
-    
+
     /**
      * Adding new message to collection
      *
@@ -65,18 +65,57 @@ class Mage_Core_Model_Message_Collection
         $this->_messages[$message->getType()][] = $message;
         return $this;
     }
-    
+
     /**
      * Clear all messages
      *
+     * Sticky messages are not touched by default
+     *
+     * @param bool $purgeStickies
      * @return Mage_Core_Model_Message_Collection
      */
-    public function clear()
+    public function clear($purgeStickies = false)
     {
-        $this->_messages = array();
+        if ($purgeStickies) {
+            $this->_messages = array();
+        }
+        else {
+            foreach ($this->_messages as $type => $messages) {
+                foreach ($messages as $id => $message) {
+                    if (!$message->getIsSticky()) {
+                        unset($this->_messages[$type][$id]);
+                    }
+                }
+            }
+        }
         return $this;
     }
-    
+
+    /**
+     * Either make the specified sticky message non-sticky or remove it
+     *
+     * @param string $identifier
+     * @param bool $remove
+     */
+    public function unStickMessage($identifier, $remove = false)
+    {
+        if ($identifier) {
+            foreach ($this->_messages as $type => $messages) {
+                foreach ($messages as $id => $message) {
+                    if ($identifier === $message->getIsSticky()) {
+                        if ($remove) {
+                            unset($this->_messages[$type][$id]);
+                        }
+                        else {
+                            $message->setSticky(false);
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Retrieve messages collection items
      *
@@ -88,15 +127,15 @@ class Mage_Core_Model_Message_Collection
         if ($type) {
             return isset($this->_messages[$type]) ? $this->_messages[$type] : array();
         }
-        
+
         $arrRes = array();
         foreach ($this->_messages as $messageType => $messages) {
             $arrRes = array_merge($arrRes, $messages);
         }
-        
+
         return $arrRes;
     }
-    
+
     /**
      * Retrieve all messages by type
      *
@@ -107,7 +146,7 @@ class Mage_Core_Model_Message_Collection
     {
         return isset($this->_messages[$type]) ? $this->_messages[$type] : array();
     }
-    
+
     /**
      * Retrieve all error messages
      *
@@ -117,7 +156,7 @@ class Mage_Core_Model_Message_Collection
     {
         return $this->getItemsByType(Mage_Core_Model_Message::ERROR);
     }
-    
+
     public function toString()
     {
         $out = '';
@@ -125,10 +164,10 @@ class Mage_Core_Model_Message_Collection
         foreach ($arrItems as $item) {
             $out.= $item->toString();
         }
-        
+
         return $out;
     }
-    
+
     /**
      * Retrieve messages count
      *
