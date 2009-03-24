@@ -171,6 +171,7 @@ class Enterprise_Pci_Model_Observer
     /**
      * Save new admin password
      *
+     * @param Varien_Event_Observer $observer
      */
     public function trackAdminNewPassword($observer)
     {
@@ -202,5 +203,16 @@ class Enterprise_Pci_Model_Observer
         }
         $lockThreshold = $lockThreshold * 60;
         return $lockThreshold;
+    }
+
+    /**
+     * Force admin session lifetime 15 minutes
+     */
+    public function setCookieLifetime()
+    {
+        if (Mage::app()->getStore()->isAdmin()) {
+            // (int)ini_get('session.gc_maxlifetime')
+            Mage::getSingleton('core/cookie')->setLifetime(15 * 60);
+        }
     }
 }

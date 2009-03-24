@@ -76,6 +76,16 @@
                 <use>core_read</use>
             </enterprise_pci_read>
         </resources>
+        <events>
+            <core_session_before_cookie>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>setCookieLifetime</method>
+                    </enterprise_pci>
+                </observers>
+            </core_session_before_cookie>
+        </events>
     </global>
     <adminhtml>
         <layout>
