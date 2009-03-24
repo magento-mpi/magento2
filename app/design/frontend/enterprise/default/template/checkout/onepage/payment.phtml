@@ -38,6 +38,7 @@
     <div class="btn-close"><a href="#" id="payment-tool-tip-close"><img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" title="<?php echo $this->__('Close') ?>" /></a></div>
     <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
 </div>
+<?php echo $this->getChildChildHtml('additional') ?>
 <div class="buttons-set" id="payment-buttons-container">
     <span class="back-link"><a href="#" onclick="checkout.back(); return false;">&laquo; <?php echo $this->__('Back') ?></a></span>
     <button type="button" class="button" onclick="payment.save()"><span><?php echo $this->__('Continue') ?></span></button>
