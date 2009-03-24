@@ -100,6 +100,22 @@
                 </Enterprise_CustomerBalance>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <enterprise_customerbalance>
+                    <file>customerbalance.xml</file>
+                </enterprise_customerbalance>
+            </updates>
+        </layout>
+        <routers>
+            <enterprise_customerbalance>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_CustomerBalance</module>
+                    <frontName>storecredit</frontName>
+                </args>
+            </enterprise_customerbalance>
+        </routers>
     </frontend>
     <admin>
          <routers>
@@ -132,4 +148,13 @@
             </adminhtml_customer_on_save>
         </events>
     </adminhtml>
+    <default>
+        <customer>
+            <enterprise_customerbalance_email>
+                <template>customer_enterprise_customerbalance_email_template</template>
+                <identity>general</identity>
+                <show_history>1</show_history>
+            </enterprise_customerbalance_email>
+        </customer>
+    </default>
 </config>

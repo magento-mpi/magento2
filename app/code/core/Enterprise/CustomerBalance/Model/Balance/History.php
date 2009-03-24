@@ -46,8 +46,14 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
 
     public function addUpdateEvent($object)
     {
+        if (Mage::getSingleton('admin/session')->getUser()) {
+            $user = Mage::getSingleton('admin/session')->getUser()->getUsername();
+        } else {
+            $user = '';
+        }
+
         $this->setAction(self::ACTION_EVENT_UPDATE)
-             ->setAdminUser(Mage::getSingleton('admin/session')->getUser()->getUsername())
+             ->setAdminUser($user)
              ->setNotified($object->getEmailNotify());
 
         $this->_addEvent($object);
@@ -71,13 +77,13 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     	$actions = $this->getActionNamesArray();
         return $actions[$this->getAction()];
     }
-    
+
     public function getActionNamesArray()
     {
         return array(
             self::ACTION_EVENT_CREATE => Mage::helper('enterprise_customerbalance')->__('Created'),
             self::ACTION_EVENT_UPDATE => Mage::helper('enterprise_customerbalance')->__('Updated'),
-        );    	
+        );
     }
 
     public function getFormattedDelta()
