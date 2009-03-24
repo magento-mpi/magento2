@@ -52,6 +52,10 @@ button.button { height:23px; _overflow-y:hidden; }
 button.btn-small { height:17px; }
 button.cart-btn { height:27px; background-position:0 0; }
 button.cart-btn span { background-position:100% 0; }
+.multiple-checkout .buttons-set .button,
+.opc button.button { height:30px; background-position:0 0; }
+.multiple-checkout .buttons-set .button span,
+.opc button.button span { background-position:100% 0; }
 
 .header-panel .form-search,
 .footer-panel { padding-top:3px; }
@@ -64,8 +68,13 @@ button.cart-btn span { background-position:100% 0; }
 
 * html .switcher-language {zoom:1;}
 
+/**/
+.data-table { border-collapse:collapse; }
+
 /* Clears and hasLayout fixes */
 
+.table-caption,
+.info-box,
 .bundle-summary .product,
 .block-cart .block-title a,
 .block-cart .block-content .item,

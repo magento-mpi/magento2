@@ -36,10 +36,10 @@ Default layout, loads most of the pages
 
         <!-- Mage_Checkout -->
         <reference name="top.links">
-            <block type="checkout/links" name="checkout_cart_link">
-                <!--<action method="addCartLink"></action>-->
-                <!-- <action method="addCheckoutLink"></action> -->
-            </block>
+            <!-- <block type="checkout/links" name="checkout_cart_link">
+                <action method="addCartLink"></action>
+                <action method="addCheckoutLink"></action>
+            </block>  -->
         </reference>
         <reference name="header">
             <block type="checkout/cart_sidebar" name="topCart" template="checkout/cart/sidebar.phtml">
@@ -264,10 +264,14 @@ One page checkout main layout
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>page/1column.phtml</template></action>           
         </reference>
         <reference name="content">
-            <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
+                <block type="core/template" name="checkout.callout" before="-" template="callouts/callout.phtml">
+                    <action method="setImgSrc"><src>images/callouts/checkout-callout.gif</src></action>
+                    <action method="setImgAlt" translate="alt" module="catalog"><alt>Need help with checking out? Let us help! Call us at (555) 555-0123.</alt></action>
+                </block>         
+            <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">          
                 <block type="checkout/onepage_progress" as="checkoutProgress" name="checkout.progress" template="checkout/onepage/progress.phtml"/>
                 <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml"/>
                 <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>

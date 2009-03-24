@@ -40,7 +40,7 @@
 <fieldset class="multiple-checkout">
     <input type="hidden" name="continue" value="0" id="can_continue_flag" />
     <input type="hidden" name="new_address" value="0" id="add_new_address_flag" />
-    <h3><?php echo $this->__('Please select shipping address for applicable items') ?></h3>
+    <h3 class="table-caption"><?php echo $this->__('Please select shipping address for applicable items') ?></h3>
     <table class="data-table" id="multiship-addresses-table">
         <col />
         <col width="1" />
@@ -72,7 +72,7 @@
     </table>
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
     <div class="buttons-set">
-        <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Shopping Cart') ?></a>
+        <span class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Shopping Cart') ?></a></span>
         <button type="submit" class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" onclick="$('can_continue_flag').value=1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><?php echo $this->__('Continue to Shipping Information') ?></span></button>
     </div>
 </fieldset>

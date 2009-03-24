@@ -143,7 +143,7 @@ p.required { margin:0; padding:0; font-size:11px; color:#f02800; }
 .form-list .customer-dob .dob-year input.input-text { width:94px; }
 
 .buttons-set { clear:both; margin:15px 0 0; }
-.buttons-set a { float:left; }
+.buttons-set span.back-link { float:left; padding:0 15px 0 0; text-align:right; }
 .buttons-set button.button { float:left; }
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; border:1px solid #ddd; text-align:right; }
 
@@ -187,7 +187,7 @@ li.buttons-set a { float:right; }
 
 /* Page Heading */
 .page-title { margin-bottom:20px; }
-.page-title h2 { font:normal 22px/1.15 Arial, Helvetica, sans-serif; color:#222; }
+.page-title h2 { font:normal 22px/1.15 Arial, Helvetica, sans-serif; color:#000; }
 .title-buttons { text-align:right; }
 .title-buttons h2,
 .title-buttons h3,
@@ -195,6 +195,9 @@ li.buttons-set a { float:right; }
 .title-buttons h5,
 .title-buttons h6 { float:left; }
 .title-buttons .link-print { float:right; margin-top:4px; }
+
+.sub-title { font-size:16px; font-weight:normal; color:#151515; line-height:19px; margin:0 0 10px; }
+.section-title { font-size:14px; font-weight:normal; color:#151515; margin:0 0 5px; }
 
 /* Pager */ 
 .pager { margin:15px 0; padding:5px 10px; background:#f5f5f5; border:1px solid #e8e8e8; }
@@ -218,8 +221,10 @@ li.buttons-set a { float:right; }
 /* Toolbar */
 .toolbar .pager { margin:0 0 15px; border:1px solid #ddd; border-bottom:0; padding:2px 10px; background:url(../images/bkg_block-title.gif) repeat-x 0 100%; }
 
-/* Data Table */ 
-.data-table { width:100%; border:1px solid #d9d9d9; }
+/* Data Table */
+.table-caption { border:1px solid #ddd; border-bottom:0; margin:-1px 0 0; background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; font:13px/1.25 Arial, Helvetica, sans-serif; padding:3px 7px 4px; color:#444; } 
+.table-caption a { font-size:11px; text-transform:lowercase; } 
+.data-table { border:1px solid #d9d9d9; border-bottom:0px; width:100%; border-collapse:separate; }
 .data-table th { padding:5px 12px; color:#2d2d2d; border-bottom:1px solid #d9d9d9; font-weight:normal; text-transform:uppercase; white-space:nowrap; }
 .data-table td { padding:5px 12px; }
 .data-table thead { background-color:#f7f7f7; }
@@ -229,6 +234,7 @@ li.buttons-set a { float:right; }
 .data-table tfoot th { border:none; text-transform:none; }
 .data-table tr.first {}
 .data-table tr.last {}
+.data-table tr.last th,
 .data-table tr.last td { border-bottom:1px solid #d9d9d9; }
 .data-table tr.odd {}
 .data-table tr.even { background-color:#fafafa; }
@@ -406,6 +412,15 @@ dd.even { background:#f6f6f6; }*/
 .sidebar .collapsed .block-title h2 { background-position:100% 7px; }
 .sidebar .collapsed .block-content { display:none; }
 
+/* Generic box */
+
+.info-box { border:1px solid #ddd; margin-top:-1px; }
+.info-box .box-title { background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; font:13px/1.25 Arial, Helvetica, sans-serif; padding:2px 7px 3px; color:#444; }
+.info-box .box-title a { font-size:11px; text-transform:lowercase; }
+.info-box .box-content { border-top:1px solid #ddd; padding:11px 13px; color:#555; }
+
+
+
 /* Block: Account */
 .block-account {}
 
@@ -428,6 +443,7 @@ dd.even { background:#f6f6f6; }*/
 .block-cart { float:right; /* width:360px; */ margin-top:-1px; position:relative;  }
 .block-cart .block-title { white-space:nowrap; _width:242px; cursor:pointer; min-width:242px; background:#363636 url(../images/bkg_minicart.gif) 11px 7px no-repeat; color:#fff; font-size:11px; /* margin:0 0 0 -2px; */ padding:0 0 0 28px; line-height:28px; height:28px; }
 .block-cart .block-title h3 { display:block; padding-right:30px; background:url(../images/bkg_mini-cart-cntrl.gif) no-repeat 100% 5px; font-size:11px; font-weight:normal; color:#fff; text-decoration:none; }
+.block-cart .expanded  { background-position: 11px -43px!important; }
 .block-cart .expanded h3 { background-position: 100% -45px!important; }
 .block-cart .block-title.expanded { background-color:#d63200; }
 .block-cart .no-items { cursor:default; }
@@ -950,7 +966,7 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 .cart .crosssell .add-to-links li  { margin:0; }
 
 /* Shopping Cart Totals */
-.cart .totals { float:right; width:270px; padding: 23px 0 0 8px; font-size:14px; }
+.cart .totals { float:right; width:260px; padding: 23px 0 0 8px; font-size:14px; }
 .cart .totals table { width:100%; }
 .cart .totals table th,
 .cart .totals table td { padding:0 5px 5px; }
@@ -978,6 +994,7 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 /* Checkout ============================================================================== */
 /* One Page */
 .checkout-onepage-index .col-main {padding-left:0; padding-right:0;}
+.checkout-onepage-index .col-main .callout { float:right; position:relative; z-index:1; margin-top:-15px; }
 .opc-progress-container { float:left; width:195px; }
 
 .opc-block-progress .block-title h2 { font-size:14px; color:#d64700; }
@@ -990,11 +1007,12 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 .opc .step-title { margin:0 0 1px; }
 .opc .step-title .number { display:none; }
 .opc .step-title h3 { background-color:#e6e6e6; color:#686868; font-size:11px; line-height:22px; padding:0 14px; font-weight:bold; text-transform:uppercase; }
+.opc .allow .step-title { }
 .opc .allow .step-title h3 { background-color:#656565; color:#fff; cursor:pointer; }
 .opc .active {}
-.opc .active .step-title { margin:0; }
-.opc .active .step-title h3 { background-color:#d64700; color:#fff; cursor:default; }
-.opc .step { padding:25px; font-size:12px; background:url(../images/bkg_active-step.gif) no-repeat 43px 0; position:relative; border:1px solid #d9d9d9; border-top:0; }
+.opc .active .step-title { margin:0 0 0; padding:0 6px 0 0; background:#e15d00 url(../images/bkg_active-step.gif) no-repeat 100% 100%; }
+.opc .active .step-title h3 { background:#e15d00 url(../images/bkg_active-step.gif) no-repeat 0 0;  color:#fff; text-transform:capitalize; font-weight:normal; cursor:default; font-size:14px; line-height:24px; height:24px; }
+.opc .step { padding:25px; font-size:12px; background:#fcfcfc; position:relative; border:1px solid #d9d9d9; border-top:0; }
 .opc .step .tool-tip { right:10px; }
 .opc .order-review {}
 
@@ -1032,17 +1050,31 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 #checkout-step-review .buttons-set p a { float:none; }
 
 /* Multiple Addresses Checkout */
-.checkout-progress { padding:0; text-align:center; margin:0 0 25px; font-size:11px; line-height:20px; font-weight:bold; text-transform:uppercase; }
-.checkout-progress li { display:inline-block; padding:0 15px; text-align:center; color:#fff; background:#d0d0d0; }
-.checkout-progress li.active { background:#d54700 }
+.checkout-progress { padding:0 0 0 20px; text-align:center; margin:0 0 25px; font-size:11px;  font-weight:bold; text-transform:uppercase; }
+.checkout-progress li { float:left; width:170px; margin-right:5px; text-align:center; line-height:20px; height:29px; background:url(../images/bkg_co-progress.gif) no-repeat 0 0; color:#fff; }
+.checkout-progress li.active { background-position:0 -50px; }
 
 .multiple-checkout { position:relative; }
+.multiple-checkout .col3-set .actions  { border:1px solid #e4e4e4; padding:3px 9px 4px; float:left; }
+.multiple-checkout .col3-set address { padding:10px; clear:both; }
+.multiple-checkout .col3-set,
+.multiple-checkout .col2-set { margin:0 0 15px; }
+.multiple-checkout .buttons-set { margin:15px 0; }
 .multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:10px; }
-.multiple-checkout .grand-total { font-size:1.5em; text-align:right; }
-.multiple-checkout .grand-total big {}
-.multiple-checkout .grand-total .price {}
+.multiple-checkout .grand-total { font-weight:normal; font-size:18px; color:#cd3800; display:block; margin:10px 0 15px; }
+.multiple-checkout .grand-total .price-label { font-weight:normal; }
+.multiple-checkout .grand-total .price { font-weight:bold; }
 
 /********** < Common Checkout Styles */
+
+/* Buttons */
+.multiple-checkout .buttons-set .button,
+.opc button.button { background:transparent url(../images/bkg_button-co.gif) 0 50% no-repeat; padding:0 0 0 6px; vertical-align:middle; }
+.multiple-checkout .buttons-set .button span,
+.opc button.button span { border:0; background:transparent url(../images/bkg_button-co.gif) 100% 50% no-repeat; padding:0 17px 0 11px; color:#d64700; font:normal 14px/28px Arial, Helvetica, sans-serif; text-transform:none; height:30px; }
+.multiple-checkout .buttons-set,
+.opc .buttons-set {line-height:30px;}
+
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
 .sp-methods .price { font-weight:bold; }
@@ -1050,6 +1082,7 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 .sp-methods select.month { width:150px; margin-right:10px; }
 .sp-methods select.year { width:96px; }
 .sp-methods input.cvv { width:3em !important; }
+.sp-methods .input-box { line-height:21px; }
 
 .please-wait { float:right; margin-right:5px; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
