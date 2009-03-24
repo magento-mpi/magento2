@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Sales />
                 <Mage_Checkout />
+                <Enterprise_CustomerBalance />
             </depends>
         </Enterprise_GiftCardAccount>
     </modules>
