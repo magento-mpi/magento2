@@ -62,4 +62,131 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         $list[] = self::ATTRIBUTE_CODE;
         $block->setFormExcludedFieldList($list);
     }
+
+    /**
+     * Append gift card additional data to order item options
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCard_Model_Observer
+     */
+    public function appendGiftcardAdditionalData(Varien_Event_Observer $observer)
+    {
+        //sales_convert_quote_item_to_order_item
+
+        $orderItem = $observer->getEvent()->getOrderItem();
+        $quoteItem = $observer->getEvent()->getItem();
+        $keys = array(
+            'giftcard_sender_name',
+            'giftcard_sender_email',
+            'giftcard_recipient_name',
+            'giftcard_recipient_email',
+            'giftcard_message',
+        );
+        $productOptions = $orderItem->getProductOptions();
+        foreach ($keys as $key) {
+            if ($option = $quoteItem->getProduct()->getCustomOption($key)) {
+                $productOptions[$key] = $option->getValue();
+            }
+        }
+
+        $product = $quoteItem->getProduct();
+        // set lifetime
+        $lifetime = 0;
+        if ($product->getUseConfigLifetime()) {
+            $lifetime = Mage::getStoreConfig(Enterprise_GiftCard_Model_Giftcard::XML_PATH_LIFETIME, $orderItem->getStore());
+        } else {
+            $lifetime = $product->getLifetime();
+        }
+        $productOptions['giftcard_lifetime'] = $lifetime;
+
+        // set is_redeemable
+        $isRedeemable = 0;
+        if ($product->getUseConfigIsRedeemable()) {
+            $isRedeemable = Mage::getStoreConfigFlag(Enterprise_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE, $orderItem->getStore());
+        } else {
+            $isRedeemable = (int) $product->getIsRedeemable();
+        }
+        $productOptions['giftcard_is_redeemable'] = $isRedeemable;
+
+        // set email_template
+        $emailTemplate = 0;
+        if ($product->getUseConfigEmailTemplate()) {
+            $emailTemplate = Mage::getStoreConfigFlag(Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE, $orderItem->getStore());
+        } else {
+            $emailTemplate = $product->getEmailTemplate();
+        }
+        $productOptions['giftcard_email_template'] = $emailTemplate;
+
+        $orderItem->setProductOptions($productOptions);
+
+        return $this;
+    }
+
+    /**
+     * Generate gift card accounts after order save
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCard_Model_Observer
+     */
+    public function generateGiftCardAccounts(Varien_Event_Observer $observer)
+    {
+        // sales_order_save_after
+
+        $order = $observer->getEvent()->getOrder();
+        $requiredStatus = Mage::getStoreConfig(Enterprise_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS, $order->getStore());
+
+        foreach ($order->getAllItems() as $item) {
+            if ($item->getProductType() == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
+                if ($item->getStatusId() == $requiredStatus) {
+                    $qty = 0;
+                    switch ($requiredStatus) {
+                        case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
+                            $qty = $item->getQtyInvoiced();
+                            break;
+                        default:
+                            $qty = $item->getQtyOrdered();
+                            break;
+                    }
+
+                    $isRedeemable = 0;
+                    if ($option = $item->getProductOptionByCode('giftcard_is_redeemable')) {
+                        $isRedeemable = $option;
+                    }
+
+                    $lifetime = 0;
+                    if ($option = $item->getProductOptionByCode('giftcard_lifetime')) {
+                        $lifetime = $option;
+                    }
+
+                    $amount = $item->getBasePrice();
+                    $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+
+                    $data = new Varien_Object();
+                    $data->setWebsiteId($websiteId)
+                        ->setAmount($amount)
+                        ->setLifetime($lifetime)
+                        ->setIsRedeemable($isRedeemable)
+                        ->setOrderItem($item);
+
+                    $options = $item->getProductOptions();
+                    if (isset($options['giftcard_created_codes'])) {
+                        $qty -= count($options['giftcard_created_codes']);
+                    }
+
+                    $codes = (isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : array());
+                    for ($i = 0; $i < $qty; $i++) {
+                        $code = new Varien_Object();
+                        Mage::dispatchEvent('enterprise_giftcardaccount_create', array('request'=>$data, 'code'=>$code));
+                        $codes[] = $code->getCode();
+                    }
+                    $options['giftcard_created_codes'] = $codes;
+                    $item->setProductOptions($options);
+                    $item->save();
+                }
+            }
+        }
+
+
+        return $this;
+    }
 }
