@@ -42,4 +42,22 @@
             <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/order/totals/giftcardaccount.phtml" />
         </reference>
     </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_invoice_new>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml" />
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+
+    <adminhtml_sales_order_invoice_updateqty>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml" />
+        </reference>
+    </adminhtml_sales_order_invoice_updateqty>
+
+    <adminhtml_sales_order_invoice_view>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml" />
+        </reference>
+    </adminhtml_sales_order_invoice_view>
 </layout>

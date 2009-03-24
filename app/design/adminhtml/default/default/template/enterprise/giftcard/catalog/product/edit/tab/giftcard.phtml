@@ -51,6 +51,7 @@
             </select>
 
             <?php $_checked = ($this->getFieldValue('use_config_is_redeemable') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="hidden" name="<?php echo $this->getFieldPrefix() ?>[use_config_is_redeemable]" value="0">
             <input type="checkbox" id="giftcard_use_config_is_redeemable" name="<?php echo $this->getFieldPrefix() ?>[use_config_is_redeemable]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" />
             <label for="giftcard_use_config_is_redeemable" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
             <script type="text/javascript">toggleValueElements($('giftcard_use_config_is_redeemable'), $('giftcard_use_config_is_redeemable').parentNode);</script></td>
@@ -61,6 +62,7 @@
             <td class="value"><input type="text" class="input-text validate-number" id="giftcard_lifetime" name="<?php echo $this->getFieldPrefix() ?>[lifetime]" value="<?php echo $this->getFieldValue('lifetime')*1 ?>"/>
 
             <?php $_checked = ($this->getFieldValue('use_config_lifetime') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="hidden" name="<?php echo $this->getFieldPrefix() ?>[use_config_lifetime]" value="0">
             <input type="checkbox" id="giftcard_use_config_lifetime" name="<?php echo $this->getFieldPrefix() ?>[use_config_lifetime]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" />
             <label for="giftcard_use_config_lifetime" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
             <script type="text/javascript">toggleValueElements($('giftcard_use_config_lifetime'), $('giftcard_use_config_lifetime').parentNode);</script></td>
@@ -74,6 +76,7 @@
             </select>
 
             <?php $_checked = ($this->getFieldValue('use_config_allow_message') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="hidden" name="<?php echo $this->getFieldPrefix() ?>[use_config_allow_message]" value="0">
             <input type="checkbox" id="giftcard_use_config_allow_message" name="<?php echo $this->getFieldPrefix() ?>[use_config_allow_message]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" />
             <label for="giftcard_use_config_allow_message" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
             <script type="text/javascript">toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').parentNode);</script></td>
@@ -89,6 +92,7 @@
             </select>
 
             <?php $_checked = ($this->getFieldValue('use_config_email_template') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+            <input type="hidden" name="<?php echo $this->getFieldPrefix() ?>[use_config_email_template]" value="0">
             <input type="checkbox" id="giftcard_use_config_email_template" name="<?php echo $this->getFieldPrefix() ?>[use_config_email_template]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" />
             <label for="giftcard_use_config_email_template" class="normal"><?php echo Mage::helper('enterprise_giftcard')->__('Use Config Settings') ?></label>
             <script type="text/javascript">toggleValueElements($('giftcard_use_config_email_template'), $('giftcard_use_config_email_template').parentNode);</script></td>
