@@ -34,6 +34,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     const STATE_REDEEMED  = 2;
     const STATE_EXPIRED   = 3;
 
+    const REDEEMABLE     = 1;
+    const NOT_REDEEMABLE = 0;
+
     protected $_defaultPoolModelClass = 'enterprise_giftcardaccount/pool';
 
     protected function _construct()
@@ -64,14 +67,22 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         }
 
         if ($this->getDateExpires()) {
-            $this->setDateExpires(
-                Mage::app()->getLocale()->date(
-                    $this->getDateExpires(),
-                    Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
-                    null,
-                    false
-                )->toString(Varien_Date::DATE_INTERNAL_FORMAT)
-            );
+            if ($this->getDateExpires() == '0') {
+                $this->setDateExpires(null);
+            } else {
+                if (is_numeric($this->getDateExpires())) {
+                    $this->setDateExpires(date('Y-m-d', strtotime("now +{$this->getDateExpires()} days")));
+                }
+
+                $this->setDateExpires(
+                    Mage::app()->getLocale()->date(
+                        $this->getDateExpires(),
+                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                        null,
+                        false
+                    )->toString(Varien_Date::DATE_INTERNAL_FORMAT)
+                );
+            }
         } else {
             $this->setDateExpires(null);
         }
@@ -156,7 +167,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     public function removeFromCart($saveQuote = true)
     {
         if (!$this->getId()) {
-            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Gift Card was not found.'));
+            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Wrong Gift Card code.'));
         }
 
         $cards = Mage::helper('enterprise_giftcardaccount')->getCards($this->_getCheckoutSession()->getQuote());
@@ -174,7 +185,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             }
         }
 
-        Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Gift Card was not found.'));
+        Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Wrong Gift Card code.'));
     }
 
     /**
@@ -218,7 +229,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     public function isValid($expirationCheck = true, $statusCheck = true, $websiteCheck = false, $balanceCheck = true)
     {
-        $messageNotFound = Mage::helper('enterprise_giftcardaccount')->__('Gift Card was not found.');
+        $messageNotFound = Mage::helper('enterprise_giftcardaccount')->__('Wrong Gift Card code.');
         if (!$this->getId()) {
             Mage::throwException($messageNotFound);
         }
@@ -238,7 +249,8 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         }
 
         if ($expirationCheck && $this->isExpired()) {
-            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Gift Card is expired.'));
+            //Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Gift Card is expired.'));
+            Mage::throwException($messageNotFound);
         }
 
         if ($balanceCheck) {
@@ -251,7 +263,8 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             }
 
             if ($validation) {
-                Mage::throwException($balanceMessage);
+                //Mage::throwException($balanceMessage);
+                Mage::throwException($messageNotFound);
             }
         }
 
@@ -339,6 +352,37 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         if ($ids) {
             $this->getResource()->updateState($ids, $state);
         }
+        return $this;
+    }
+
+    /**
+     * Redeem gift card (-gca balance, +cb balance)
+     *
+     * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
+     */
+    public function redeem($customerId = null)
+    {
+        if ($this->isValid()) {
+            if ($this->getIsRedeemable() != self::REDEEMABLE) {
+                Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card can not be redeemed.'));
+            }
+            if (is_null($customerId)) {
+                $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+            }
+            if (!$customerId) {
+                Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Invalid customer ID supplied.'));
+            }
+
+            $customerBalanceModel = Mage::getModel('enterprise_customerbalance/balance')
+                ->loadByCustomerWebsite($customerId, Mage::app()->getWebsite()->getId());
+
+            $customerBalanceModel
+                ->setDelta($this->getBalance())
+                ->updateBalance();
+
+            $this->setBalance(0)->save();
+        }
+
         return $this;
     }
 }

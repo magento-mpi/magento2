@@ -58,7 +58,7 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Unique code generation attempts limit exceeded. Please try again later or change code settings.'));
+                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Unable to create full code pool size. Please check settings and try again.'));
                 }
                 $code = $this->_generateCode();
                 $attempt++;
@@ -87,7 +87,7 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
         $suffix  = $website->getConfig(self::XML_CONFIG_CODE_SUFFIX);
         $prefix  = $website->getConfig(self::XML_CONFIG_CODE_PREFIX);
 
-        $splitChar = (string) Mage::app()->getConfig()->getNode(self::XML_CHARSET_SEPARATOR);
+        $splitChar = $this->getCodeSeparator();
         $charset = str_split((string) Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
 
         $code = '';
@@ -101,5 +101,10 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
 
         $code = "{$prefix}{$code}{$suffix}";
         return $code;
+    }
+
+    public function getCodeSeparator()
+    {
+        return (string) Mage::app()->getConfig()->getNode(self::XML_CHARSET_SEPARATOR);
     }
 }

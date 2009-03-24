@@ -89,4 +89,49 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
 
         return $this;
     }
+
+    /**
+     * Increase order giftcards_amount_invoiced attribute based on created invoice
+     * used for event: sales_order_invoice_save_after
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function increaseOrderInvoicedAmount(Varien_Event_Observer $observer)
+    {
+        $invoice = $observer->getEvent()->getInvoice();
+        $order = $invoice->getOrder();
+
+        if ($invoice->getBaseGiftCardsAmount()) {
+            $order->setBaseGiftCardsInvoiced($order->getBaseGiftCardsInvoiced() + $invoice->getBaseGiftCardsAmount());
+            $order->setGiftCardsInvoiced($order->getGiftCardsInvoiced() + $invoice->getGiftCardsAmount());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Create gift card account on event
+     * used for event: enterprise_giftcardaccount_create
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function create(Varien_Event_Observer $observer)
+    {
+        $data = $observer->getEvent()->getRequest();
+        $code = $observer->getEvent()->getCode();
+
+        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+            ->setStatus(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
+            ->setWebsiteId($data->getWebsiteId())
+            ->setBalance($data->getAmount())
+            ->setDateExpires($data->getLifetime())
+            ->setIsRedeemable($data->getIsRedeemable())
+            ->save();
+
+        $code->setCode($model->getCode());
+
+        return $this;
+    }
 }

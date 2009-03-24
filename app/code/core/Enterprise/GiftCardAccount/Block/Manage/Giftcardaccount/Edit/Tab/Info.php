@@ -78,6 +78,19 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_Info exte
             ),
         ));
 
+        $fieldset->addField('is_redeemable', 'select', array(
+            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Is Redeemable'),
+            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Is Redeemable'),
+            'name'      => 'is_redeemable',
+            'required'  => true,
+            'options'   => array(
+                Enterprise_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE =>
+                    Mage::helper('enterprise_giftcardaccount')->__('Yes'),
+                Enterprise_GiftCardAccount_Model_Giftcardaccount::NOT_REDEEMABLE =>
+                    Mage::helper('enterprise_giftcardaccount')->__('No'),
+            ),
+        ));
+
         $fieldset->addField('website_id', 'select', array(
             'name'      => 'website_id',
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),

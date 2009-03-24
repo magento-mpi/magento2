@@ -191,13 +191,12 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
     {
         try {
             Mage::getModel('enterprise_giftcardaccount/pool')->generatePool();
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('New code pool was generated successfully.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addException($e, Mage::helper('enterprise_giftcardaccount')->__('Unable to generate new code pool.'));
         }
-        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('New code pool was generated successfully.'));
-        //$this->_redirect('*/*/');
         $this->_redirectReferer('*/*/');
     }
 

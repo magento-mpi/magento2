@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCardAccount>
-             <version>0.0.8</version>
+             <version>0.0.10</version>
         </Enterprise_GiftCardAccount>
     </modules>
 
@@ -96,13 +96,19 @@
 
             <order_invoice>
                 <totals>
+                    <giftcardaccount>
+                        <class>enterprise_giftcardaccount/total_invoice_giftcardaccount</class>
+                    </giftcardaccount>
                 </totals>
             </order_invoice>
 
-            <order_creditmemo>
+            <!-- order_creditmemo>
                 <totals>
+                    <giftcardaccount>
+                        <class>enterprise_giftcardaccount/total_creditmemo_giftcardaccount</class>
+                    </giftcardaccount>
                 </totals>
-            </order_creditmemo>
+            </order_creditmemo -->
         </sales>
         <enterprise>
             <giftcardaccount>
@@ -125,6 +131,16 @@
                 </observers>
             </sales_order_place_after>
 
+            <sales_order_invoice_save_after>
+                <observers>
+                    <enterprise_giftcardaccount_sales_order_invoice_save_after>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>increaseOrderInvoicedAmount</method>
+                    </enterprise_giftcardaccount_sales_order_invoice_save_after>
+                </observers>
+            </sales_order_invoice_save_after>
+
             <enterprise_giftcardaccount_charge_by_code>
                 <observers>
                     <enterprise_giftcardaccount_charge_by_code>
@@ -144,6 +160,16 @@
                     </enterprise_giftcardaccount_charge>
                 </observers>
             </enterprise_giftcardaccount_charge>
+
+            <enterprise_giftcardaccount_create>
+                <observers>
+                    <enterprise_giftcardaccount_create>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>create</method>
+                    </enterprise_giftcardaccount_create>
+                </observers>
+            </enterprise_giftcardaccount_create>
         </events>
         <fieldsets>
             <sales_convert_quote_address>
