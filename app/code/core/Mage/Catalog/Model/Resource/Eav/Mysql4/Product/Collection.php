@@ -851,7 +851,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->isEnabledFlat()) {
             $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $priceColumn = 'e.display_price_group_' . $customerGroup;
-            $this->getSelect()->from(null, array('_price_rule' => $priceColumn));
+            $this->getSelect()->from(null, array('_rule_price' => $priceColumn));
 
             return $this;
         }

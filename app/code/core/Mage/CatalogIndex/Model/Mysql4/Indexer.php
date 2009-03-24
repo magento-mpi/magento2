@@ -613,6 +613,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
         foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
             $columnName = 'display_price_group_' . $group->getId();
 
+            /**
+             * Update prices of main products in flat table
+             */
             $select = $this->_getWriteAdapter()->select()
                 ->join(
                     array('p' => $this->getTable('catalogindex/price')),
@@ -622,11 +625,38 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                         . " AND `p`.`website_id`={$websiteId}",
                     array($columnName => 'value'))
                 ->where('e.is_child=?', 0);
-            if (!is_null($productIds)) {
+
+            if ($productIds instanceof Mage_Catalog_Model_Product_Condition_Interface) {
+            	$select->where('e.entity_id IN ('.$productIds->getIdsSelect($this->_getWriteAdapter())->__toString().')');
+            } elseif (!is_null($productIds)) {
                 $select->where("e.entity_id IN(?)", $productIds);
             }
+
             $sql = $select->crossUpdateFromSelect(array('e' => $tableName));
             $this->_getWriteAdapter()->query($sql);
+
+            /**
+             * Update prices for children products in flat table
+             */
+            $select = $this->_getWriteAdapter()->select()
+                ->join(
+                    array('p' => $this->getTable('catalogindex/price')),
+                    "`e`.`child_id`=`p`.`entity_id`"
+                        . " AND `p`.`attribute_id`={$priceAttribute}"
+                        . " AND `p`.`customer_group_id`={$group->getId()}"
+                        . " AND `p`.`website_id`={$websiteId}",
+                    array($columnName => 'value'))
+                ->where('e.is_child=?', 1);
+
+            if ($productIds instanceof Mage_Catalog_Model_Product_Condition_Interface) {
+            	$select->where('e.child_id IN ('.$productIds->getIdsSelect($this->_getWriteAdapter())->__toString().')');
+            } elseif (!is_null($productIds)) {
+                $select->where("e.child_id IN(?)", $productIds);
+            }
+
+            $sql = $select->crossUpdateFromSelect(array('e' => $tableName));
+            $this->_getWriteAdapter()->query($sql);
+
         }
 
         return $this;
