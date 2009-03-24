@@ -69,13 +69,11 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         $this->_init('enterprise_catalogpermissions/permission_index', 'category_id');
     }
 
-
-
     /**
      * Reindex category permissions
      *
      * @param string $categoryPath
-     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Indexer
+     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
      */
     public function reindex($categoryPath)
     {
@@ -301,7 +299,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
      * Inherit category permission from it's parent
      *
      * @param string $path
-     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Indexer
+     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
      */
     protected function _inheritCategoryPermission($path)
     {
@@ -510,7 +508,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
      *
      * @param   string $table
      * @param   array $fields
-     * @return  Enterprise_CatalogPermissions_Model_Mysql4_Permission_Indexer
+     * @return  Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
      */
     protected function _beginInsert($table, $fields)
     {
@@ -523,7 +521,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
      *
      * @param   string $table
      * @param   bool $forced
-     * @return  Enterprise_CatalogPermissions_Model_Mysql4_Permission_Indexer
+     * @return  Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
      */
     protected function _commitInsert($table, $forced = true){
         if (isset($this->_insertData[$table]) && count($this->_insertData[$table]) && ($forced || count($this->_insertData[$table]) >= 100)) {

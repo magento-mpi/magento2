@@ -225,6 +225,42 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_load_after>
+            <catalog_controller_product_init_before>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>startProductIndexQueue</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_controller_product_init_before>
+            <catalog_controller_product_init_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>endProductIndexQueue</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_controller_product_init_after>
+            <catalog_controller_category_init_before>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>startCategoryIndexQueue</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_controller_category_init_before>
+            <catalog_controller_category_init_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>endCategoryIndexQueue</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_controller_category_init_after>
             <sales_quote_item_qty_set_after>
                 <observers>
                     <enterprise_catalogpermissions>
@@ -234,7 +270,32 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </sales_quote_item_qty_set_after>
+            <controller_action_predispatch_catalogsearch>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkCatalogSearchPreDispatch</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </controller_action_predispatch_catalogsearch>
+            <controller_action_layout_load_before>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkCatalogSearchLayout</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </controller_action_layout_load_before>
         </events>
+        <layout>
+            <updates>
+                <enterprise_catalogpermissions>
+                    <file>catalogpermissions.xml</file>
+                </enterprise_catalogpermissions>
+            </updates>
+        </layout>
     </frontend>
     <default>
         <enterprise_catalogpermissions>

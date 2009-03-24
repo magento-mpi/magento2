@@ -36,6 +36,9 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'enterprise_catalogpermissions/general/grant_catalog_category_view';
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
+    const XML_PATH_DENY_CATALOG_SEARCH = 'enterprise_catalogpermissions/general/deny_catalog_search';
+    const XML_PATH_LANDING_PAGE = 'enterprise_catalogpermissions/general/restricted_landing_page';
+
 
     /**
      * Retrieve config value for category access permission
@@ -67,8 +70,32 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
         return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CHECKOUT_ITEMS);
     }
 
+
+    /**
+     * Retrieve config value for catalog search availability
+     *
+     * @return boolean
+     */
+    public function isAllowedCatalogSearch()
+    {
+        $groups = trim(Mage::getStoreConfig(self::XML_PATH_DENY_CATALOG_SEARCH));
+
+        if ($groups === '') {
+            return true;
+        }
+
+        $groups = explode(',', $groups);
+
+        return !in_array(Mage::getSingleton('customer/session')->getCustomerGroupId(), $groups);
+    }
+
+    /**
+     * Retrieve landing page url
+     *
+     * @return string
+     */
     public function getLandingPageUrl()
     {
-
+        return $this->_getUrl('', array('_direct' => Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE)));
     }
 }

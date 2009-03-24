@@ -41,7 +41,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
      * Reindex category permissions
      *
      * @param string $categoryPath
-     * @return Enterprise_CatalogPermissions_Model_Permission_Indexer
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
      */
     public function reindex($categoryPath)
     {

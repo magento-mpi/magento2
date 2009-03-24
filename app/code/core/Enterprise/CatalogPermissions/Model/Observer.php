@@ -37,9 +37,34 @@ class Enterprise_CatalogPermissions_Model_Observer
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
 
 
-    protected $_isProductQueue = true;
-    protected $_productQueue = array();
 
+    /**
+     * Is in product queue flag
+     *
+     * @var boolean
+     */
+    protected $_isProductQueue = true;
+
+    /**
+     * Is in category queue flag
+     *
+     * @var boolean
+     */
+    protected $_isCategoryQueue = true;
+
+    /**
+     * Models queue for permission apling
+     *
+     * @var array
+     */
+    protected $_queue = array();
+
+    /**
+     * Apply category permissions for category collection
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyCategoryPermissionOnLoadCollection(Varien_Event_Observer $observer)
     {
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
@@ -57,6 +82,12 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+    /**
+     * Apply category permissions for tree nodes
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyCategoryPermissionOnLoadNodes(Varien_Event_Observer $observer)
     {
         $nodes = $observer->getEvent()->getNodes();
@@ -75,6 +106,12 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
 
+    /**
+     * Applies permissions on product count for categories
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyCategoryPermissionOnProductCount(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
@@ -82,21 +119,35 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+    /**
+     * Applies category permission on model afterload
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyCategoryPermissionOnLoadModel(Varien_Event_Observer $observer)
     {
         $category = $observer->getEvent()->getCategory();
+        if (!$this->_isCategoryQueue) {
+            $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
 
-        $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
+            if (isset($permissions[$category->getId()])) {
+                $category->setPermissions($permissions[$category->getId()]);
+            }
 
-        if (isset($permissions[$category->getId()])) {
-            $category->setPermissions($permissions[$category->getId()]);
+            $this->_applyPermissionsOnCategory($category);
+        } else {
+            $this->_queue[] = $category;
         }
-
-        $this->_applyPermissionsOnCategory($category);
-
         return $this;
     }
 
+    /**
+     * Apply product permissions for collection
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyProductPermissionOnCollection(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
@@ -104,6 +155,12 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+    /**
+     * Apply category permissions for collection on after load
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyProductPermissionOnCollectionAfterLoad(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
@@ -113,6 +170,12 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+    /**
+     * Checks quote item for product permissions
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function checkQuoteItem(Varien_Event_Observer $observer)
     {
         $quoteItem = $observer->getEvent()->getItem();
@@ -142,6 +205,12 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+    /**
+     * Apply product permissions on model after load
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function applyProductPermissionOnModelAfterLoad(Varien_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
@@ -149,35 +218,101 @@ class Enterprise_CatalogPermissions_Model_Observer
             $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
             $this->_applyPermissionsOnProduct($product);
         } else {
-            $this->_productQueue[] = $product;
+            $this->_queue[] = $product;
         }
         return $this;
     }
 
 
+    /**
+     * Start queue on product view
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function startProductIndexQueue(Varien_Event_Observer $observer)
     {
         $this->_isProductQueue = true;
         return $this;
     }
 
+    /**
+     * End queue on product view
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function endProductIndexQueue(Varien_Event_Observer $observer)
     {
         $this->_isProductQueue = false;
 
-        foreach ($this->_productQueue as $product) {
-            $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
-            $this->_applyPermissionsOnProduct($product);
+        foreach ($this->_queue as $index => $product) {
+            if ($product instanceof Mage_Catalog_Model_Product) {
+                $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+                $this->_applyPermissionsOnProduct($product);
+                unset($this->_queue[$index]);
+            }
         }
-
-        $this->_productQueue = array();
 
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
             $observer->getEvent()->getControllerAction()->getRequest()
-                ->setIsDispatched(false);
+                ->setDispatched(false);
+
             $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirectUrl();
+                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+
+            Mage::throwException(Mage::helper('enterprise_catalogpermissions')->__('You have no permissions to access this product'));
         }
+
+        return $this;
+    }
+
+    /**
+     * Start queue on category view
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function startCategoryIndexQueue(Varien_Event_Observer $observer)
+    {
+        $this->_isCategoryQueue = true;
+        return $this;
+    }
+
+    /**
+     * End queue on category view
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function endCategoryIndexQueue(Varien_Event_Observer $observer)
+    {
+        $this->_isCategoryQueueQueue = false;
+
+        foreach ($this->_queue as $index => $category) {
+            if ($category instanceof Mage_Catalog_Model_Category) {
+                $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
+
+                if (isset($permissions[$category->getId()])) {
+                    $category->setPermissions($permissions[$category->getId()]);
+                }
+
+                $this->_applyPermissionsOnCategory($category);
+                unset($this->_queue[$index]);
+            }
+        }
+
+        if ($observer->getEvent()->getCategory()->getIsHidden()) {
+            $observer->getEvent()->getControllerAction()->getRequest()
+                ->setDispatched(false);
+
+            $observer->getEvent()->getControllerAction()->getResponse()
+                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+
+            Mage::throwException(Mage::helper('enterprise_catalogpermissions')->__('You have no permissions to access this category'));
+        }
+
+        return $this;
     }
 
     /**
@@ -192,6 +327,7 @@ class Enterprise_CatalogPermissions_Model_Observer
             ($category->getData('permissions/grant_catalog_category_view')!= -1 &&
                 !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView())) {
             $category->setIsActive(0);
+            $category->setIsHidden(true);
         }
 
         return $this;
@@ -233,9 +369,37 @@ class Enterprise_CatalogPermissions_Model_Observer
             $product->setDisableAddToCart(true);
         }
 
+        return $this;
+    }
 
+    /**
+     * Check catalog search availability on load layout
+     *
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function checkCatalogSearchLayout(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()) {
+            $observer->getEvent()->getLayout()->getUpdate()->addHandle(
+                'CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH'
+            );
+        }
 
         return $this;
+    }
+
+    /**
+     * Check catalog search availability on predispatch
+     *
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function checkCatalogSearchPreDispatch(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()) {
+            $observer->getEvent()->getControllerAction()->setFlag('', 'no-dispatch', true);
+            $observer->getEvent()->getControllerAction()->getResponse()
+                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+        }
     }
 
     /**
