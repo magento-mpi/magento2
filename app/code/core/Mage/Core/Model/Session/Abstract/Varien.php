@@ -67,7 +67,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 break;
         }
 
-        Mage::dispatchEvent('core_session_before_cookie');
+        Mage::dispatchEvent('core_session_before_set_cookie_params');
 
         // set session cookie params
         session_set_cookie_params(
