@@ -48,7 +48,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'   => Mage::helper('enterprise_staging')->__('Rollback'),
-                    'onclick' => "document.getElementById('enterprise_staging_rollback_form').submit();",
+                    'onclick' => $this->getJsObjectName().'.submit()',
                     'class'   => 'task'
                 ))
         );

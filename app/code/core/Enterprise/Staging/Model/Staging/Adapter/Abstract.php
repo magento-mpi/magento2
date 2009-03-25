@@ -306,16 +306,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             }
         }
 
-        $globalTablePrefix   = (string) Mage::getConfig()->getTablePrefix();
+        $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($object, $internalPrefix);
 
-        $stagingTablePrefix = 'staging_';
-        if (!is_null($object)) {
-            $stagingTablePrefix = $object->getTablePrefix();
-        }
-
-        $stagingTablePrefix  .=  $internalPrefix;
-
-        return $globalTablePrefix . $stagingTablePrefix . $table;
+        return $tablePrefix . $table;
     }
 
     /**

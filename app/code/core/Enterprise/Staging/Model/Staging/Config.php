@@ -315,6 +315,46 @@ class Enterprise_Staging_Model_Staging_Config
         }
         return $visibility;
     }
+    
+    /**
+     * Retrieve staging table prefix
+     *
+     * @param   object $object
+     * @param   string $internalPrefix 
+     * @return  string
+     */
+    static public function getTablePrefix($object = null, $internalPrefix = '')
+    {
+        $globalTablePrefix   = (string) Mage::getConfig()->getTablePrefix();
+
+        $stagingTablePrefix = 'staging_';
+        if (!is_null($object)) {
+            $stagingTablePrefix = $object->getTablePrefix();
+        }
+
+        $stagingTablePrefix  .=  $internalPrefix;
+
+        return $globalTablePrefix . $stagingTablePrefix;            
+    }
+
+    /**
+     * Retrieve core resources version
+     *
+     * @return  string
+     */    
+    static public function getCoreResourcesVersion()
+    {
+        $coreResource = Mage::getSingleton('core/resource');
+        $connection = $coreResource->getConnection('core_read');
+        $select = $connection->select()->from($coreResource->getTableName('core/resource'), array('code' , 'version'));
+        $result = $connection->fetchPairs($select);
+        if (is_array($result) && count($result)>0) {
+            return $result;
+        } else {
+            return array();
+        }
+    } 
+    
 
     /**
      * Retrieve event label
