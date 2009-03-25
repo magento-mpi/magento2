@@ -37,7 +37,8 @@ Enterprise.Staging.Mapper.prototype = {
     addWebsiteMapRow        : null,
     initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores)
     {
-        this.mergeForm = $(mergeForm);
+        this.formId = mergeForm; 
+        this.mergeForm = new varienForm(this.formId);
         this.containerId            = containerId;
         this.tableContainerId       = this.containerId + '_table';
         this.tableRowsContainerId   = this.containerId + '_rows';
@@ -241,7 +242,7 @@ Enterprise.Staging.Mapper.prototype = {
         if (typeof(stores) == 'undefined') {
             return '<span>No stores exists</span>' ;
         }
-        var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][from][]" class="staging-mapper-store-from">';
+        var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][from][]" class="validate-select-store  staging-mapper-store-from">';
         options+= '<option value=""></option>';
         stores.each(function(store){
             options+= '<option value="'+store.store_id+'">'+store.name+'</option>';
@@ -258,7 +259,7 @@ Enterprise.Staging.Mapper.prototype = {
         if (typeof(stores) == 'undefined') {
             return '<span>No stores exists</span>' ;
         }
-        var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][to][]" class="staging-mapper-store-to">';
+        var options = '<select name="map[stores]['+fromWebsite+'-'+toWebsite+'][to][]" class="validate-select-store staging-mapper-store-to">';
         options+= '<option value=""></option>';
         stores.each(function(store){
             options+= '<option value="'+store.store_id+'">'+store.name+'</option>';
@@ -272,15 +273,16 @@ Enterprise.Staging.Mapper.prototype = {
     {
         this.showScheduleConfigForm();
     },
-    stagingMerge : function()
+    stagingMerge : function(additional_conditions)
     {
         var container = $('schedule_config_container');
-        
-//        $('loading_mask_loader').show();
-//        $('loading-mask').hide();
-
-        this.mergeForm.appendChild(container);
-        container.style.visibility = 'hidden';
+        $(this.formId).appendChild(container);
+        if (additional_conditions && additional_conditions.merge_later == 1) {
+            $('schedule_merge_later_flag').value = 1;
+        } else {
+            $('schedule_merge_later_flag').value = '';        
+        }
+            
         this.mergeForm.submit();
     },
     showScheduleConfigForm : function()
@@ -289,6 +291,11 @@ Enterprise.Staging.Mapper.prototype = {
             alert('Please, select websites to map');
             return;
         }
+        
+        if (!this.mergeForm.validator.validate()){
+            return false;
+        }
+        
         var container = $('schedule_config_container');
         if (container && Prototype.Browser.IE) {
             var middle = parseInt(document.body.clientHeight/2)+document.body.scrollTop;
@@ -312,7 +319,7 @@ Enterprise.Staging.Mapper.prototype = {
         
 //        $('loading_mask_loader').show();
 //        $('loading-mask').hide();
-        this.mergeForm.appendChild(container);
+        $(this.formId).appendChild(container);
         container.hide();
     },
     stagingRollbackConfig : function()
@@ -362,13 +369,22 @@ selectWebsiteMap = function(event)
         if (fromElement.value && toElement.value) {
             var key = 'websites' + '-' + fromElement.value + '-to-' + toElement.value;
             var toTargetKey = 'websites' + '-' + toElement.value;
+
             element.parentRow.key = key;
             element.parentRow.toTargetKey = toTargetKey;
             var result = checkUniqueMap(element.mapper, key, toTargetKey);
+            
             if (result == 1) {
+                //its need to remove prev values
+	            if (fromElement.prevValue && toElement.prevValue) {
+	                var prevKey = 'websites' + '-' + fromElement.prevValue + '-to-' + toElement.prevValue;
+	                var prevToTargetKey = 'websites' + '-' + toElement.prevValue;
+	                element.mapper.mapKeys.unset(prevKey);
+	                element.mapper.mapKeys.unset(prevToTargetKey);
+	            }
+            
                 // TODO need to change to (remove error advice if was before)
                 //$(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
-                
                 element.mapper.mapKeys.set(key, true);
                 element.mapper.mapKeys.set(toTargetKey, true);
 
@@ -400,11 +416,12 @@ selectWebsiteMap = function(event)
             element.mapper.disableBtn(btn);
             if (fromElement.prevValue && toElement.prevValue) {
                 var key = 'websites' + '-' + fromElement.prevValue + '-to-' + toElement.prevValue;
-                var toTargetKey = 'websites' + '-to-' + toElement.prevValue;
+                var toTargetKey = 'websites' + '-' + toElement.prevValue;
                 element.mapper.mapKeys.unset(key);
                 element.mapper.mapKeys.unset(toTargetKey);
             }
         }
+        console.log(element.mapper.mapKeys);
     } else {
         // TODO need to add error advice
         //$(element.parentRow).select('.mapper-status')[0].innerHTML = '';
@@ -442,12 +459,18 @@ selectStoreMap = function(event)
             if (result == 1) {
                 // TODO need to remove error advice
                 //$(element.parentRow).select('.mapper-status')[0].innerHTML = 'OK';
+                if (fromElement.prevValue && toElement.prevValue) {
+                    var prevKey = 'stores' + '-' + fromElement.fromWebsite + '-' + fromElement.prevValue + '-' + toElement.toWebsite + '-' + toElement.prevValue;
+                    var prevToTargetKey = 'stores' + '-' + fromElement.fromWebsite + '-to-' + toElement.prevValue;
+                    element.mapper.mapKeys.unset(prevKey);
+                    element.mapper.mapKeys.unset(prevToTargetKey);
+                }
+                                
                 element.mapper.mapKeys.set(key, true);
                 element.mapper.mapKeys.set(toTargetKey, true);
-
+           
                 fromElement.prevValue   = fromElement.value;
                 toElement.prevValue     = toElement.value;
-
                 element.mapper.enableBtn(btn);
             } else if (result == 2) {
                 alert('Please, trye another combination.');
