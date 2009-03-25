@@ -28,22 +28,14 @@ class Enterprise_Staging_Model_Staging_State_Website_Rollback extends Enterprise
 {
     protected $_addToEventHistory = true;
 
-    protected function _run($staging = null)
+    protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        if (is_null($staging)) {
-            $staging = $this->getStaging();
-        }
-        
         $this->_rollbackItems($staging);
         return $this;
     }
 
-    protected function _rollbackItems($staging = null)
+    protected function _rollbackItems($staging)
     {
-        if (is_null($staging)) {
-            $staging = $this->getStaging();
-        }
-        
         $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
         $usedItems      = $this->getStaging()->getMapperInstance()->getUsedItems();
                 
