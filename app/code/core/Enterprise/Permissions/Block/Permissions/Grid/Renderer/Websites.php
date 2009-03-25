@@ -49,7 +49,7 @@ class Enterprise_Permissions_Block_Permissions_Grid_Renderer_Websites extends Ma
     public function render(Varien_Object $row)
     {
         if ($row->getData('is_all_permissions')) {
-            return $this->__('All possible');
+            return $this->__('All');
         }
 
         // lookup websites and store groups in system
@@ -87,8 +87,8 @@ class Enterprise_Permissions_Block_Permissions_Grid_Renderer_Websites extends Ma
             if ($isWebsite || count(array_intersect(array_keys($website), $storeGroupIds))) {
                 $output[] = $this->_formatName($website['name'], false, $isWebsite);
                 foreach ($website as $storeGroupId => $storeGroupName) {
-                    if (is_numeric($storeGroupId)) {
-                        $output[] = $this->_formatName($storeGroupName, true, in_array($storeGroupId, $storeGroupIds));
+                    if (is_numeric($storeGroupId) && in_array($storeGroupId, $storeGroupIds)) {
+                        $output[] = $this->_formatName($storeGroupName, true);
                     }
                 }
             }

@@ -52,7 +52,7 @@
                     <?php echo $website->getName() ?>
                 </label>
                 <?php if (count($website->getGroups())): ?>
-                    <ul style="margin-left:1.5em">
+                    <ul id="permissions_website_<?php echo $websiteId ?>_groups" style="margin-left:1.5em">
                     <?php foreach ($website->getGroups() as $group): ?>
                         <li>
                         <input class="permissions_store_group" type="checkbox" name="store_group_ids[]" value="<?php echo $group->getId() ?>" id="permissions_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getStoreGroupIds()) ? 'checked="checked" ' : '') ?>/><label for="permissions_store_group_<?php echo $group->getId() ?>">
@@ -79,6 +79,9 @@
                 $('websites_container').select('input.permissions_website').each(function(website) {
                     this.websites.push(website);
                     Event.observe(website, 'click', this.isWebsiteChecked.bind(this));
+                    $(website.id + '_groups').select('input').each(function(storeInput) {
+                        storeInput.__website = this;
+                    }.bind(website));
                 }.bind(this));
 
                 this.stores = [];
@@ -88,9 +91,9 @@
             },
 
             isWebsiteChecked : function() {
-                for (var k in this.websites) {
+                // disable checkboxes of all stores if any of a website is checked
+                for (var k = 0; k < this.websites.length; k++) {
                     if (this.websites[k].checked) {
-                        // disable checkboxes of all stores if any of a website is checked
                         this.disableStores(true);
                         return true;
                     }
@@ -101,8 +104,12 @@
             },
 
             disableStores : function(isDisabled) {
-                for (var k in this.stores) {
-                    this.stores[k].disabled = isDisabled;
+                for (var k = 0; k < this.stores.length; k++) {
+                    var storeCheckbox = this.stores[k];
+                    storeCheckbox.disabled = isDisabled;
+                    if (isDisabled) {
+                        storeCheckbox.checked = storeCheckbox.__website.checked;
+                    }
                 }
             }
         }
