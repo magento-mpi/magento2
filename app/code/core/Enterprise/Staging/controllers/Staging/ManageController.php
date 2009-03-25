@@ -64,7 +64,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $staging->setType($type);
             }
         }
-
+        
         if ($stagingId) {
             $staging->load($stagingId);
         }

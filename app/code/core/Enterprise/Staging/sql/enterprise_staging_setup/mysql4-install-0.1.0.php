@@ -46,6 +46,7 @@ $installer->run("
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset_item')}`;
 
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_backup')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_event')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_item')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_store')}`;
@@ -392,6 +393,7 @@ CREATE TABLE `".$this->getTable('enterprise_staging/staging_event')."` (
   `is_admin_notified` tinyint(1) unsigned NOT NULL default '0',
   `comment` text NOT NULL default '',
   `log` text NOT NULL default '',
+  `merge_map` text default '',
   PRIMARY KEY  (`event_id`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_STAGING_ID` (`staging_id`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_PARENT_ID` (`parent_id`),
@@ -401,6 +403,7 @@ CREATE TABLE `".$this->getTable('enterprise_staging/staging_event')."` (
   KEY `IDX_ENTERPRISE_STAGING_EVENT_NOTIFY` (`is_admin_notified`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Events';
 ");
+
 $installer->getConnection()->addConstraint(
     'FK_ENTERPRISE_STAGING_EVENT_ID',
     $installer->getTable('enterprise_staging/staging_event'),
@@ -409,4 +412,26 @@ $installer->getConnection()->addConstraint(
     'staging_id'
 );
 
+$installer->run("
+CREATE TABLE `".$this->getTable('enterprise_staging/staging_backup')."` (
+  `backup_id` int(10) NOT NULL auto_increment,
+  `staging_id` int(10) unsigned NOT NULL default '0',
+  `parent_id` int(10) unsigned NOT NULL default '0',
+  `event_code` char(20) NOT NULL default '',
+  `name` varchar(255) NOT NULL default '',
+  `state` char(20) NOT NULL default '',
+  `status` char(20) NOT NULL default '',
+  `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
+  `staging_table_prefix` varchar(255) NOT NULL default '',
+  `mage_version`  char(50) NOT NULL default '',
+  `mage_modules_version` text NOT NULL default '',
+  PRIMARY KEY  (`backup_id`),
+  KEY `IDX_ENTERPRISE_STAGING_BACKUP_STAGING_ID` (`staging_id`),
+  KEY `IDX_ENTERPRISE_STAGING_BACKUP_PARENT_ID` (`parent_id`),
+  KEY `IDX_ENTERPRISE_STAGING_BACKUP_STATE` (`state`),
+  KEY `IDX_ENTERPRISE_STAGING_BACKUP_STATUS` (`status`),
+  KEY `IDX_ENTERPRISE_STAGING_BACKUP_VERSION` (`mage_version`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Backup';
+");
 $installer->endSetup();

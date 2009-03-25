@@ -53,6 +53,12 @@ final class Enterprise_Staging_Model_Staging_Scenario
         if ($initState) {
             $this->setState($initState);
         }
+        
+        if (!Mage::registry($scenarioCode . "_event_start_time")) {
+            $date = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            Mage::register($scenarioCode . "_event_start_time", $date);
+        }
+        
         return $this;
     }
 

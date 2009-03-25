@@ -65,6 +65,21 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
                 }
             }
         }
+
+        $scenarioCode = $this->getScenario()->getScenarioCode();
+        
+        $time = Mage::register($scenarioCode . "_event_start_time");
+        
+        $backup = Mage::getModel("enterprise_staging/staging_backup")
+            ->setStagingId($this->getId())
+            ->setCode($code)
+            ->setState($state)
+            ->setStatus($status)
+            ->setDate($time)
+            ->setStaging($this);
+            
+        $backup->save();
+
         return $this;
     }
 }
