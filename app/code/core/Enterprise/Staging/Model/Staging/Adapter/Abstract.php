@@ -243,13 +243,18 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         switch ((string) $key['type']) {
             case 'INDEX':
                 $_keySql .= " KEY";
+                $_keySql .= " `{$key['name']}`";
+                break;
+            case 'PRIMARY' :
+                $_keySql .= " {$key['type']} KEY";
                 break;
             default:
                 $_keySql .= " {$key['type']} KEY";
+                $_keySql .= " `{$key['name']}`";
                 break;
         }
 
-        $_keySql .= " `{$key['name']}`";
+        
         $fields = array();
         foreach ($key['fields'] as $field) {
             $fields[] = "`{$field}`";
@@ -362,13 +367,14 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         // create sql
         $sql = "SHOW CREATE TABLE `{$tableName}`";
         $result = $connection->fetchRow($sql);
-
+        
         $tableProp['create_sql'] = $result["Create Table"];
 
         // collect keys
-        $regExp  = '#(PRIMARY|UNIQUE|FULLTEXT|FOREIGN)?\sKEY (`[^`]+` )?(\([^\)]+\))#';
+        $regExp  = '#(PRIMARY|UNIQUE|FULLTEXT|FOREIGN)?\sKEY\s+(`[^`]+` )?(\([^\)]+\))#';
         $matches = array();
         preg_match_all($regExp, $tableProp['create_sql'], $matches, PREG_SET_ORDER);
+        
         foreach ($matches as $match) {
             if (isset($match[1]) && $match[1] == 'PRIMARY') {
                 $keyName = 'PRIMARY';
