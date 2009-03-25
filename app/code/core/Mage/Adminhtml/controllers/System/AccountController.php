@@ -58,22 +58,27 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
             $user->setPassword($this->getRequest()->getParam('password', false));
         }
 
-        if( !$user->userExists() ) {
+        try {
             try {
+                if ($user->userExists()) {
+                    Mage::throwException(Mage::helper('adminhtml')->__('User with the same User Name or Email aleady exists'));
+                }
                 $user->save();
                 Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'success'));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Account successfully saved'));
-                $this->getResponse()->setRedirect($this->getUrl("*/*/"));
-            } catch (Exception $e) {
-                Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'fail'));
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Error while saving account. Please try again later'));
-                $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             }
-        } else {
-            Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'fail'));
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('User with the same User Name or Email aleady exists'));
-            $this->getResponse()->setRedirect($this->getUrl("*/*/"));
+            catch (Mage_Core_Exception $e) {
+                throw $e;
+            }
+            catch (Exception $e) {
+                throw new Exception(Mage::helper('adminhtml')->__('Error while saving account. Please try again later'));
+            }
         }
+        catch (Exception $e) {
+            Mage::dispatchEvent('adminhtml_systemaccount_on_save', array('user' => $user, 'status' => 'fail'));
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+        $this->getResponse()->setRedirect($this->getUrl("*/*/"));
     }
 
     protected function _isAllowed()
