@@ -190,6 +190,20 @@
                                     <next>0</next>
                                 </merge>
                             </merge>
+                            <rollback>
+                                <prepare>
+                                    <code>prepare</code>
+                                    <label>Prepare Staging for Rollback</label>
+                                    <model>enterprise_staging/staging_state_website_prepare</model>
+                                    <next>rollback</next>
+                                </prepare>
+                                <rollback>
+                                    <code>rollback</code>
+                                    <label>Staging Rollback</label>
+                                    <model>enterprise_staging/staging_state_website_rollback</model>
+                                    <next>0</next>
+                                </rollback>
+                            </rollback>                            
                         </scenaries>
                     </website>
                 </type>
