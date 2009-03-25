@@ -71,11 +71,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option extends Mage_Core_Model_Mysq
     /**
      * Retrieve Select for update Flat data
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param int $store
-     * @return Varien_Db_Select
+     * @param   Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param   int $store
+     * @param   bool $hasValueField flag which require option value
+     * @return  Varien_Db_Select
      */
-    public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $store)
+    public function getFlatUpdateSelect(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $store, $hasValueField=true)
     {
         $attributeTable = $attribute->getBackend()->getTable();
         $attributeCode  = $attribute->getAttributeCode();
@@ -94,7 +95,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option extends Mage_Core_Model_Mysq
                     . " AND `t1`.`attribute_id`=`t2`.`attribute_id`"
                     . " AND `t2`.`store_id`={$store}",
                 array($attributeCode => $valueExpr));
-        if ($attribute->getFrontend()->getInputType() != 'multiselect') {
+        if (($attribute->getFrontend()->getInputType() != 'multiselect') && $hasValueField) {
             $select->joinLeft(
                 array('to1' => $this->getTable('eav/attribute_option_value')),
                 "`to1`.`option_id`={$valueExpr}"
