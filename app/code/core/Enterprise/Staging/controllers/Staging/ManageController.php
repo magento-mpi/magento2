@@ -92,6 +92,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         if ($stagingId) {
             $this->_initStaging($stagingId);
         }
+        
+        $event->restoreMap();
 
         Mage::register('event', $event);
 
@@ -413,12 +415,12 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
-                echo '<pre>'.$e;ddd();
+                //echo '<pre>'.$e;ddd();
                 $this->_getSession()->addError($e->getMessage())
                     ->setStagingData($data);
                 $redirectBack = true;
             } catch (Exception $e) {
-                echo '<pre>'.$e;ddd();
+                //echo '<pre>'.$e;ddd();
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
             }
@@ -478,6 +480,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         /* @var $staging Enterprise_Staging_Model_Staging */
 
         $mapData = $this->getRequest()->getPost('map');
+        
+        $stagingId = "";
 
         if ($mapData) {
             try {
@@ -530,7 +534,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
 
     public function rollbackAction()
     {
-        $this->_initStaging();
+        $this->_initEvent();
 
         $this->loadLayout();
 
@@ -542,14 +546,24 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
     public function rollbackPostAction()
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
+        
+        $stagingId = $this->getRequest()->getPost('staging_id');
 
-        $staging = $this->_initStaging();
-
+        $staging = $this->_initStaging($stagingId);
+        
+        $mapData = $this->getRequest()->getPost('map');
+        
         try {
+            $staging->getMapperInstance()->setMapData($mapData);
+
             $staging->rollback();
+            
             $this->_getSession()->addSuccess($this->__('Staging master website was successfully restored.'));
+            
             $stagingId = $staging->getId();
+            
             Mage::dispatchEvent('on_enterprise_staging_rollback', array('staging' => $staging));
+            
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $redirectBack = true;
