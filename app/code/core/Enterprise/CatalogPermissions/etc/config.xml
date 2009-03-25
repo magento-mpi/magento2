@@ -131,8 +131,26 @@
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>addCategoryPermissionTab</method>
                     </enterprise_catalogpermissions>
-                </observers>
+                </observers>Ђ
             </adminhtml_catalog_category_tabs>
+            <catalog_product_import_after>
+                <observers>
+                     <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindexAfterProductImport</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_import_after>
+            <catalog_product_to_website_change>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindexAfterProductAssignedWebsite</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_to_website_change>
         </events>
         <translate>
             <modules>
@@ -189,6 +207,24 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_category_collection_load_after>
+            <catalog_category_collection_add_is_active_filter>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryPermissionOnIsActiveFilterToCollection</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_category_collection_add_is_active_filter>
+            <catalog_category_tree_init_inactive_category_ids>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyCategoryInactiveIds</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_category_tree_init_inactive_category_ids>
             <catalog_category_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>
@@ -207,6 +243,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_collection_set_visibility_after>
+            <catalogindex_prepare_price_select>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyPriceGrantOnPriceIndex</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalogindex_prepare_price_select>
             <catalog_product_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>
@@ -243,6 +288,24 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_controller_product_init_after>
+            <review_controller_product_init_before>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>startProductIndexQueue</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </review_controller_product_init_before>
+            <review_controller_product_init_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>endProductIndexQueue</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </review_controller_product_init_after>
             <catalog_controller_category_init_before>
                 <observers>
                     <enterprise_catalogpermissions>

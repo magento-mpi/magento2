@@ -380,11 +380,87 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         return $this->_getReadAdapter()->fetchAssoc($select);
     }
 
+    /**
+     * Retrieve restricted category ids for customer group and website
+     *
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @return array
+     */
+    public function getRestrictedCategoryIds($customerGroupId, $websiteId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), 'category_id')
+            ->where('customer_group_id = ?', $customerGroupId)
+            ->where('website_id = ?', $websiteId);
+
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+            $select
+                ->where('grant_catalog_category_view = -1');
+        } else {
+            $select
+                ->where('grant_catalog_category_view = -2');
+        }
+
+        $restrictedCatIds = $this->_getReadAdapter()->fetchCol($select);
+
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('catalog/category'), 'entity_id');
+
+        if (!empty($restrictedCatIds) && !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+            $select->where('entity_id NOT IN(?)', $restrictedCatIds);
+        } elseif (!empty($restrictedCatIds) && Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+            $select->where('entity_id IN(?)');
+        } elseif (Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+            $select->where('1 = 0'); // category view allowed for all
+        }
+
+        return $this->_getReadAdapter()->fetchCol($select);
+    }
+
+    /**
+     * Apply price grant on price index select
+     *
+     * @param Varien_Object $data
+     * @param int $customerGroupId
+     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
+     */
+    public function applyPriceGrantToPriceIndex($data, $customerGroupId)
+    {
+
+        $select = $data->getSelect();
+        $parts = $select->getPart(Zend_Db_Select::FROM);
+
+
+        if (!isset($parts['permission_index_product'])) {
+            $select->joinLeft(
+                array('permission_index_product'=>$this->getTable('permission_index_product')),
+                'permission_index_product.category_id IS NULL AND
+                 permission_index_product.product_id = ' . $data->getTable() .'.entity_id AND
+                 permission_index_product.store_id = '. (int) $data->getStoreId() .' AND
+                 permission_index_product.customer_group_id = ' . (int) $customerGroupId,
+                array()
+            );
+        }
+
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
+            $select->where('permission_index_product.grant_catalog_product_price = -1');
+        } else {
+            $select->where('permission_index_product.grant_catalog_product_price IS NULL
+                     OR permission_index_product.grant_catalog_product_price = -1
+                     OR permission_index_product.grant_catalog_product_price = 0');
+        }
+
+
+
+        return $this;
+    }
 
     /**
      * Add index to product count select in product collection
      *
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param int $customerGroupId
      * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
      */
     public function addIndexToProductCount($collection, $customerGroupId)
@@ -413,6 +489,43 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 ->where('permission_index_product_count.grant_catalog_category_view IS NULL
                          OR permission_index_product_count.grant_catalog_category_view = -1
                          OR permission_index_product_count.grant_catalog_category_view = 0');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add index to category collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection|Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection $collection
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
+     */
+    public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
+    {
+        if ($collection instanceof Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection) {
+            $tableAlias = 'main_table';
+        } else {
+            $tableAlias = 'e';
+        }
+
+        $collection->getSelect()->joinLeft(
+            array('permission_index'=>$this->getTable('permission_index')),
+            'permission_index.category_id = ' . $tableAlias . '.entity_id AND
+             permission_index.website_id = ' . (int) $websiteId . ' AND
+             permission_index.customer_group_id = ' . (int) $customerGroupId,
+            array()
+        );
+
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+            $collection->getSelect()
+                ->where('permission_index.grant_catalog_category_view = -1');
+        } else {
+            $collection->getSelect()
+                ->where('permission_index.grant_catalog_category_view IS NULL
+                         OR permission_index.grant_catalog_category_view = -1
+                         OR permission_index.grant_catalog_category_view = 0');
         }
 
         return $this;

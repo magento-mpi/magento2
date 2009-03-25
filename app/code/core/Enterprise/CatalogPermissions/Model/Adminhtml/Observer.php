@@ -81,6 +81,12 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         return $this;
     }
 
+    /**
+     * Reindex permissions in queue on postdipatch
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
     public function reindexPermissions()
     {
         if (!empty($this->_indexQueue)) {
@@ -94,12 +100,44 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
             foreach ($this->_indexProductQueue as $item) {
                 Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts($item);
             }
-            $this->_indexQueue = array();
+            $this->_indexProductQueue = array();
         }
 
         return $this;
     }
 
+    /**
+     * Rebuild index after catalog import
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
+    public function reindexAfterProductImport(Varien_Event_Observer $observer)
+    {
+        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts();
+        return $this;
+    }
+
+    /**
+     * Rebuild index after product assigned websites
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
+    public function reindexAfterProductAssignedWebsite(Varien_Event_Observer $observer)
+    {
+        $productIds = $observer->getEvent()->getProducts();
+        $this->_indexProductQueue = array_merge($this->_indexProductQueue, $productIds);
+        return $this;
+    }
+
+
+    /**
+     * Save product permission index
+     *
+     * @param   Varien_Event_Observer $observer
+     * @return  Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
     public function saveProductPermissionIndex(Varien_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();

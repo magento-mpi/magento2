@@ -43,14 +43,14 @@ class Enterprise_CatalogPermissions_Model_Observer
      *
      * @var boolean
      */
-    protected $_isProductQueue = true;
+    protected $_isProductQueue = false;
 
     /**
      * Is in category queue flag
      *
      * @var boolean
      */
-    protected $_isCategoryQueue = true;
+    protected $_isCategoryQueue = false;
 
     /**
      * Models queue for permission apling
@@ -58,6 +58,21 @@ class Enterprise_CatalogPermissions_Model_Observer
      * @var array
      */
     protected $_queue = array();
+
+    /**
+     * Apply category permissions for category collection
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function applyCategoryPermissionOnIsActiveFilterToCollection(Varien_Event_Observer $observer)
+    {
+        $categoryCollection = $observer->getEvent()->getCategoryCollection();
+
+        $this->_getIndexModel()->addIndexToCategoryCollection($categoryCollection, $this->_getCustomerGroupId(), $this->_getWebsiteId());
+        return $this;
+    }
+
 
     /**
      * Apply category permissions for category collection
@@ -83,28 +98,31 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
     /**
-     * Apply category permissions for tree nodes
+     * Apply category view for tree
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryPermissionOnLoadNodes(Varien_Event_Observer $observer)
+    public function applyCategoryInactiveIds(Varien_Event_Observer $observer)
     {
-        $nodes = $observer->getEvent()->getNodes();
-        $categoryIds = array_keys($nodes);
-        $permissions = $this->_getIndexModel()->getIndexForCategory($categoryIds, $this->_getCustomerGroupId(), $this->_getWebsiteId());
+        $categoryIds = $this->_getIndexModel()->getRestrictedCategoryIds($this->_getCustomerGroupId(), $this->_getWebsiteId());
 
-        foreach ($permissions as $categoryId => $permission) {
-            $nodes[$categoryId]->setPermissions($permission);
-        }
-
-        foreach ($nodes as $category) {
-            $this->_applyPermissionsOnCategory($category);
-        }
+        $observer->getEvent()->getTree()->addInactiveCategoryIds($categoryIds);
 
         return $this;
     }
 
+    /**
+     * Apply category view for tree
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function applyPriceGrantOnPriceIndex(Varien_Event_Observer $observer)
+    {
+        $this->_getIndexModel()->applyPriceGrantToPriceIndex($observer->getEvent(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
+        return $this;
+    }
 
     /**
      * Applies permissions on product count for categories

@@ -87,6 +87,46 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
     }
 
     /**
+     * Add index to category collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection|Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection $collection
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
+    {
+        $this->getResource()->addIndexToCategoryCollection($collection, $customerGroupId, $websiteId);
+        return $this;
+    }
+
+    /**
+     * Apply price grant on price index select
+     *
+     * @param Varien_Object $data
+     * @param int $customerGroupId
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    public function applyPriceGrantToPriceIndex($data, $customerGroupId)
+    {
+        $this->getResource()->applyPriceGrantToPriceIndex($data, $customerGroupId);
+        return $this;
+    }
+
+    /**
+     * Retrieve restricted category ids for customer group and website
+     *
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @return array
+     */
+    public function getRestrictedCategoryIds($customerGroupId, $websiteId)
+    {
+        return $this->getResource()->getRestrictedCategoryIds($customerGroupId, $websiteId);
+    }
+
+
+    /**
      * Add index select in product collection
      *
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
