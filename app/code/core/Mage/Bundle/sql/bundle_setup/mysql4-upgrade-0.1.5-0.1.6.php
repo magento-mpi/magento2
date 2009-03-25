@@ -29,4 +29,6 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->updateAttribute('catalog_product', 'price_view', 'used_in_product_listing', 1);
+$installer->updateAttribute('catalog_product', 'shipment_type', 'used_in_product_listing', 1);
+$installer->updateAttribute('catalog_product', 'weight_type', 'used_in_product_listing', 1);
 $installer->endSetup();
