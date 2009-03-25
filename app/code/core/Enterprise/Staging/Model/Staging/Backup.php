@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
 {
     /**
      * Staging instance
@@ -36,14 +36,14 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_event');
+        $this->_init('enterprise_staging/staging_backup');
     }
 
     /**
      * Declare staging instance
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @return  Enterprise_Staging_Model_Staging_Event_History
+     * @return  Enterprise_Staging_Model_Staging_Backup_History
      */
     public function setStaging(Enterprise_Staging_Model_Staging $staging)
     {
