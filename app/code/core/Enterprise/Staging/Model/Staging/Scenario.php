@@ -158,7 +158,7 @@ final class Enterprise_Staging_Model_Staging_Scenario
         $path = 'type/' . $staging->getType() . '/scenaries/' . $scenarioCode . '/' . $stateCode;
 
         $stateConfig = Enterprise_Staging_Model_Staging_Config::getConfig($path);
-
+        
         if (empty($stateConfig)) {
             return false;
         }
@@ -178,11 +178,11 @@ final class Enterprise_Staging_Model_Staging_Scenario
         $nextModelName      = (string) $stateConfig->next;
         $eventStateCode     = (string) $stateConfig->code;
         $eventStateLabel    = (string) $stateConfig->label;
-
+          
         $state->setEventStateCode($eventStateCode);
         $state->setEventStateLabel($eventStateLabel);
         $state->setNextStateName($nextModelName);
-        $state->setStaging($staging->getId());
+        $state->setStaging($staging);
         $state->setAdapter($this->getAdapter());
         $state->setScenario($this);
 

@@ -58,6 +58,9 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
      */
     public function getStaging()
     {
+        if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
+            $this->_staging = Mage::registry('staging');
+        }
         return $this->_staging;
     }
 
@@ -94,5 +97,14 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
+    }
+    
+    public function restoreMap()
+    {
+        $map = $this->getMergeMap();
+        if (!empty($map)) {
+            $this->getStaging()->getMapperInstance()->unserialize($map);
+        }
+        return $this;
     }
 }
