@@ -499,6 +499,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             ->setIsAdminNotified($isAdminNotified)
             ->setComment($comment)
             ->setLog(Enterprise_Staging_Model_Log::buildLogReport($log))
+            ->setMergeMap($this->getMapperInstance()->serialize())
+            ->setIsBackuped($this->getMapperInstance()->getIsBackupped())            
             ->setStaging($this);
         $this->addEventToHistory($event);
         return $this;
