@@ -38,7 +38,6 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
         $act = $this->getRequest()->getActionName();
         if(!$act)
             $act = 'default';
-        Mage::dispatchEvent('adminhtml_report_on_view', array('report' => 'tags/'.$act));
 
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))

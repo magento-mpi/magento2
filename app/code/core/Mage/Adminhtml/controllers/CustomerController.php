@@ -113,7 +113,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
          * Set active menu item
          */
         $this->_setActiveMenu('customer/new');
-        Mage::dispatchEvent('adminhtml_customer_on_view', array('customer' => $customer));
 
         $this->renderLayout();
     }
@@ -138,10 +137,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->load($customer->getId());
                 $customer->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was deleted'));
-                Mage::dispatchEvent('adminhtml_customer_on_delete', array('customer' => $customer, 'status' => 'success'));
             }
             catch (Exception $e){
-                Mage::dispatchEvent('adminhtml_customer_on_delete', array('customer' => $customer, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
@@ -225,7 +222,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was successfully saved'));
-                Mage::dispatchEvent('adminhtml_customer_on_save', array('customer' => $customer, 'status' => 'success'));
+                Mage::dispatchEvent('adminhtml_customer_save_after', array('customer' => $customer));
 
                 if ($redirectBack) {
 	                $this->_redirect('*/*/edit', array(
@@ -236,7 +233,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
             }
             catch (Exception $e){
-                Mage::dispatchEvent('adminhtml_customer_on_save', array('customer' => $customer, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setCustomerData($data);
                 $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id'=>$customer->getId())));

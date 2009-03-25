@@ -133,7 +133,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (!($category = $this->_initCategory(true))) {
             return;
         }
-        Mage::dispatchEvent('adminhtml_category_on_view', array('category' => $category));
         /**
          * Check if we have data in session (if duering category save was exceprion)
          */
@@ -264,13 +263,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category saved'));
                 $refreshTree = 'true';
-                Mage::dispatchEvent('adminhtml_category_on_save', array('status' => 'success', 'category' => $category));
             }
             catch (Exception $e){
                 $this->_getSession()->addError($e->getMessage())
                     ->setCategoryData($data);
                 $refreshTree = 'false';
-                Mage::dispatchEvent('adminhtml_category_on_save', array('status' => 'fail', 'category' => $category));
             }
         }
         $url = $this->getUrl('*/*/edit', array('_current' => true, 'id' => $category->getId()));
@@ -330,11 +327,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('admin/session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                Mage::dispatchEvent('adminhtml_category_on_delete', array('category'=>$category, 'status' => 'success'));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Category deleted'));
             }
             catch (Exception $e){
-                Mage::dispatchEvent('adminhtml_category_on_delete', array('category'=>$category, 'status' => 'fail'));
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Category delete error'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current'=>true)));
                 return;

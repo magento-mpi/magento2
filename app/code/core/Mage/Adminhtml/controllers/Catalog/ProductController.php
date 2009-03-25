@@ -219,7 +219,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->renderLayout();
-        Mage::dispatchEvent('adminhtml_product_on_view', array('product' => $product));
     }
 
     /**
@@ -547,16 +546,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     }
                 }
                 $this->_getSession()->addSuccess($this->__('Product was successfully saved.'));
-                Mage::dispatchEvent('adminhtml_product_on_save', array('product' => $product, 'status' => 'success', 'request' => $this->getRequest()));
             }
             catch (Mage_Core_Exception $e) {
-                Mage::dispatchEvent('adminhtml_product_on_save', array('product' => $product, 'status' => 'fail', 'request' => $this->getRequest()));
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
                 $redirectBack = true;
             }
             catch (Exception $e) {
-                Mage::dispatchEvent('adminhtml_product_on_save', array('product' => $product, 'status' => 'fail', 'request' => $this->getRequest()));
 //                $this->_getSession()->addException($e, $this->__('Product saving error.'));
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
@@ -623,11 +619,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $sku = $product->getSku();
             try {
                 $product->delete();
-                Mage::dispatchEvent('adminhtml_product_on_delete', array('sku'=>$sku, 'status' => 'success'));
                 $this->_getSession()->addSuccess($this->__('Product deleted'));
             }
             catch (Exception $e){
-                Mage::dispatchEvent('adminhtml_product_on_delete', array('sku'=>$sku, 'status' => 'fail'));
                 $this->_getSession()->addError($e->getMessage());
             }
         }
