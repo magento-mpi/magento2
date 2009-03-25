@@ -36,16 +36,26 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
     private $_rollbackSettingsBlockTypes = array();
 
     /**
-     * Retrieve currently edited staging object
+     * Retrieve event 
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging-Event
+     */
+    public function getEvent()
+    {
+        if (!($this->getData('event') instanceof Enterprise_Staging_Model_Staging_Event)) {
+            $this->setData('event', Mage::registry('event'));
+        }
+        return $this->getData('event');
+    }
+    
+    /**
+     * Retrieve staging object of current event 
      *
      * @return Enterprise_Staging_Block_Manage_Staging
      */
     public function getStaging()
     {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
+        return $this->getEvent()->getStaging();
     }
 
     protected function _getRollbackSettingsBlock($stagingType)

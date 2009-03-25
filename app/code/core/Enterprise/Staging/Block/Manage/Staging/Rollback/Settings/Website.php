@@ -48,33 +48,48 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'   => Mage::helper('enterprise_staging')->__('Rollback'),
-                    'onclick' => "alert('Rollback processing ...')",
+                    'onclick' => "document.getElementById('enterprise_staging_rollback_form').submit();",
                     'class'   => 'task'
                 ))
         );
 
-        $this->setChild('schedule',
+        $this->setChild('items',
             $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_edit_tabs_schedule')
-                ->setFieldNameSuffix('map[schedule]')
-                ->setStagingJsObjectName($this->getJsObjectName())
+                ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
+                ->setFieldNameSuffix('map[items]')
         );
+        
         return parent::_prepareLayout();
     }
-
+    
+/**
+     * Retrieve event 
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging-Event
+     */
+    public function getEvent()
+    {
+        if (!($this->getData('event') instanceof Enterprise_Staging_Model_Staging_Event)) {
+            $this->setData('event', Mage::registry('event'));
+        }
+        return $this->getData('event');
+    }
+    
     /**
-     * Retrieve currently edited staging object
+     * Retrieve staging object of current event 
      *
      * @return Enterprise_Staging_Block_Manage_Staging
      */
     public function getStaging()
     {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
+        return $this->getEvent()->getStaging();
     }
-
+    
+    public function getMapper()
+    {
+        return $this->getStaging()->getMapperInstance();
+    }
+    
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/rollbackPost', array('_current'=>true, 'back'=>null));
