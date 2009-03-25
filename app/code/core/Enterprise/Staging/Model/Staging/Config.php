@@ -241,6 +241,11 @@ class Enterprise_Staging_Model_Staging_Config
         return self::getConfig('staging_items');
     }
 
+    static public function getStagingItem($itemCode)
+    {
+        return self::getConfig("staging_items/{$itemCode}");
+    }
+
     /**
      * Retrieve default status for state
      *

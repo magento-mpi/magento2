@@ -122,27 +122,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
-    public function destDbBackup(Enterprise_Staging_Model_Staging $staging)
+    public function backup(Enterprise_Staging_Model_Staging $staging)
     {
         try {
             $scenario = Mage::getModel('enterprise_staging/staging_scenario');
             $scenario->setStaging($staging);
-            $scenario->init($this, 'backup', 'head');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
-        }
-        $staging->saveEventHistory();
-        return $this;
-    }
-
-    public function srcDbBackup(Enterprise_Staging_Model_Staging $staging)
-    {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'backup', 'staging');
+            $scenario->init($this, 'backup');
             $scenario->run();
         } catch (Exception $e) {
             $staging->saveEventHistory();

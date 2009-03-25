@@ -26,7 +26,7 @@
 
 class Enterprise_Staging_Model_Staging_State_Website_Abstract extends Enterprise_Staging_Model_Staging_State_Abstract
 {
-    protected function _run($staging = null)
+    protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }

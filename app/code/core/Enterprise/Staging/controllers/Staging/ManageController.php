@@ -475,6 +475,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $redirectBack   = $this->getRequest()->getParam('back', false);
 
         $staging = $this->_initStaging();
+        /* @var $staging Enterprise_Staging_Model_Staging */
 
         $mapData = $this->getRequest()->getPost('map');
 
@@ -483,8 +484,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $staging->getMapperInstance()->setMapData($mapData);
 
                 if (!empty($mapData['backup'])) {
-                    // run create destination database backup scenario
-                    $staging->destDbBackup();
+                    // run create database backup
+                    $staging->backup();
                 }
                 // run create destination database backup scenario
                 $staging->merge();

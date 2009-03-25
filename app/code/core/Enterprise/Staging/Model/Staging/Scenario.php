@@ -38,18 +38,15 @@ final class Enterprise_Staging_Model_Staging_Scenario
 
     private $_state;
 
-    private $_targetModel;
-
     /**
      * Init scenario first state
      *
      * @param unknown_type $scenario
      */
-    function init($adapter, $scenarioCode, $targetmodel = 'staging')
+    function init($adapter, $scenarioCode)
     {
         $this->setAdapter($adapter);
         $this->setScenarioCode($scenarioCode);
-        $this->setTargetModel($targetmodel);
 
         $initState = $this->stateFactory();
 
@@ -94,18 +91,6 @@ final class Enterprise_Staging_Model_Staging_Scenario
     function getScenarioCode()
     {
         return $this->_scenarioCode;
-    }
-
-    function setTargetModel($model)
-    {
-        $this->_targetModel = $model;
-
-        return $this;
-    }
-
-    function getTargetModel()
-    {
-        return $this->_targetModel;
     }
 
     function setState(Enterprise_Staging_Model_Staging_State_Abstract $state)
@@ -200,7 +185,6 @@ final class Enterprise_Staging_Model_Staging_Scenario
         $state->setStaging($staging->getId());
         $state->setAdapter($this->getAdapter());
         $state->setScenario($this);
-        $state->setTargetModel($this->getTargetModel());
 
         return $state;
     }

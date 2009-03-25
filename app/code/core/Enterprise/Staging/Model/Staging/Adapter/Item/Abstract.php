@@ -40,7 +40,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         'cms_block'
     );
 
-
     protected $_tableModels = array(
        'product'            => 'catalog',
        'category'           => 'catalog',

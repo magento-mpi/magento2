@@ -109,7 +109,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
-    abstract protected function _run($staging = null);
+    abstract protected function _run(Enterprise_Staging_Model_Staging $staging);
 
     final public function next()
     {
@@ -342,6 +342,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * Retrieve item resource adapter instance
+     *
+     * @param Varien_Simplexml_Element $itemXmlConfig
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */
     public function getItemAdapterInstanse($itemXmlConfig)
     {
         if (!$itemXmlConfig->code) {

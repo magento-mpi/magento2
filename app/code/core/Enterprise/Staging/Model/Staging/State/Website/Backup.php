@@ -26,32 +26,43 @@
 
 class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
+    /**
+     * Boolean flag that confirm to create event history record
+     * after current state is done
+     *
+     * @var boolean
+     */
     protected $_addToEventHistory = true;
 
-    protected function _run($staging = null)
+    /**
+     * Main run method of current state
+     *
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * @return  Enterprise_Staging_Model_Staging_State_Website_Backup
+     */
+    protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        if (is_null($staging)) {
-            $staging = $this->getStaging();
-        }
-        $this->_backupDb($staging);
+        $this->_backup($staging);
         return $this;
     }
 
-    protected function _backupDb($staging = null)
+    /**
+     * Create database backup of all staging items
+     * typicaly uses before staging merge operation
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_State_Website_Backup
+     */
+    protected function _backup(Enterprise_Staging_Model_Staging $staging)
     {
-        if (is_null($staging)) {
-            $staging = $this->getStaging();
-        }
-
-        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
         $usedItems      = $staging->getMapperInstance()->getUsedItems();
-
         foreach ($usedItems as $usedItem) {
-            $itemXmlConfig = $stagingItems->{$usedItem['code']};
-            $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-            if ($adapter) {
-                $adapter->setTargetModel($this->getTargetModel());
-                $adapter->syncItemTablesStructure($staging, $itemXmlConfig, true);
+            $itemXmlConfig = Enterprise_Staging_Model_Staging_Config::getStagingItem($usedItem['code']);
+            if ($itemXmlConfig) {
+                $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
+                if ($adapter) {
+                    $adapter->syncItemTablesStructure($staging, $itemXmlConfig, true);
+                }
             }
         }
         return $this;

@@ -430,16 +430,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function srcDbBackup()
+    public function backup()
     {
-        $this->getAdapterInstance(true)->srcDbBackup($this);
-
-        return $this;
-    }
-
-    public function destDbBackup()
-    {
-        $this->getAdapterInstance(true)->destDbBackup($this);
+        $this->getAdapterInstance(true)->backup($this);
 
         return $this;
     }
@@ -685,6 +678,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->_mapperInstance;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $singleton
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function getAdapterInstance($singleton = false)
     {
         if ($singleton === true) {
