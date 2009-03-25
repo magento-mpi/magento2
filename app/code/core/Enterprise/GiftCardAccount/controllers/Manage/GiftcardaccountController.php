@@ -75,7 +75,6 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
         // 2. Initial checking
         if ($id) {
             $model->load($id);
-            Mage::dispatchEvent('enterprise_giftcardaccount_view', array('status' => 'success', 'code' => $model->getCode()));
             if (! $model->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card Account no longer exists'));
                 $this->_redirect('*/*/');
@@ -117,7 +116,6 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 // save the data
                 $model->save();
                 // display success message
-                Mage::dispatchEvent('enterprise_giftcardaccount_save', array('status' => 'success', 'model' => $model));
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
@@ -132,7 +130,6 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 return;
 
             } catch (Exception $e) {
-                Mage::dispatchEvent('enterprise_giftcardaccount_save', array('status' => 'fail', 'model' => $model));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // save data in session
@@ -157,7 +154,6 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
                 $model->load($id);
                 $model->delete();
-                Mage::dispatchEvent('enterprise_giftcardaccount_delete', array('status' => 'success', 'code' => $model->getCode()));
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully deleted'));
                 // go to grid
@@ -165,7 +161,6 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 return;
 
             } catch (Exception $e) {
-                Mage::dispatchEvent('enterprise_giftcardaccount_delete', array('status' => 'fail', 'code' => $model->getCode()));
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // go back to edit form

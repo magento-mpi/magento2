@@ -137,7 +137,7 @@
             </updates>
         </layout>
         <events>
-            <adminhtml_customer_on_save>
+            <adminhtml_customer_save_after>
                 <observers>
                     <enterprise_permissions>
                         <type>singleton</type>
@@ -145,7 +145,7 @@
                         <method>customerSave</method>
                     </enterprise_permissions>
                 </observers>
-            </adminhtml_customer_on_save>
+            </adminhtml_customer_save_after>
         </events>
     </adminhtml>
     <default>

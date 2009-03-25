@@ -101,7 +101,7 @@
             </observers>
           </controller_action_postdispatch_adminhtml>
 
-
+<!--
 	    <enterprise_giftcardaccount_save>
                 <observers>
                     <enterprise_logging>
@@ -111,7 +111,6 @@
                     </enterprise_logging>
                 </observers>
 	    </enterprise_giftcardaccount_save>
-
 	    <enterprise_giftcardaccount_view>
                 <observers>
                     <enterprise_logging>
@@ -121,7 +120,6 @@
                     </enterprise_logging>
                 </observers>
 	    </enterprise_giftcardaccount_view>
-
 	    <enterprise_giftcardaccount_delete>
                 <observers>
                     <enterprise_logging>
@@ -131,7 +129,6 @@
                     </enterprise_logging>
                 </observers>
 	    </enterprise_giftcardaccount_delete>
-
 	    <adminhtml_category_on_save>
                 <observers>
                     <enterprise_logging>
@@ -141,7 +138,6 @@
                     </enterprise_logging>
                 </observers>
 	    </adminhtml_category_on_save>
-
 	    <adminhtml_category_on_view>
                 <observers>
                     <enterprise_logging>
@@ -151,7 +147,6 @@
                     </enterprise_logging>
                 </observers>
 	    </adminhtml_category_on_view>
-
 	    <adminhtml_category_on_delete>
                 <observers>
                     <enterprise_logging>
@@ -161,7 +156,7 @@
                     </enterprise_logging>
                 </observers>
 	    </adminhtml_category_on_delete>
-
+-->
         <category_move>
           <observers>
             <enterprise_logging>
@@ -171,7 +166,7 @@
             </enterprise_logging>
           </observers>
         </category_move>
-
+<!--
         <adminhtml_cmspage_on_view>
                 <observers>
                     <enterprise_logging>
@@ -181,7 +176,6 @@
                     </enterprise_logging>
                 </observers>
         </adminhtml_cmspage_on_view>
-
         <adminhtml_cmspage_on_save>
                 <observers>
                     <enterprise_logging>
@@ -191,7 +185,6 @@
                     </enterprise_logging>
                 </observers>
         </adminhtml_cmspage_on_save>
-
         <adminhtml_cmspage_on_delete>
                 <observers>
                     <enterprise_logging>
@@ -492,7 +485,7 @@
                     </enterprise_logging>
                 </observers>
         </adminhtml_systemaccount_on_save>
-        
+-->
 
         </events>
         <menu>
