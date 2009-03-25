@@ -127,6 +127,7 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
             ->where('price_table.website_id = ?', $this->getWebsiteId())
             ->where('price_table.attribute_id = ?', $attribute->getId());
 
+
         $result = $this->_getReadAdapter()->fetchAll($select);
 
         $counts = array();
@@ -165,7 +166,41 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
         $select->where("(({$tableName}.value".implode('', $response->getAdditionalCalculations()).")*{$this->getRate()}) >= ?", ($index-1)*$range);
         $select->where("(({$tableName}.value".implode('', $response->getAdditionalCalculations()).")*{$this->getRate()}) < ?", $index*$range);
 
+
         return $this->_getReadAdapter()->fetchCol($select);
+    }
+
+    public function applyFilterToCollection($collection, $attribute, $range, $index, $tableName = 'price_table')
+    {
+        $collection->getSelect()->join(
+            array($tableName => $this->getMainTable()),
+            $tableName .'.entity_id=e.entity_id',
+            array()
+        );
+
+        $response = new Varien_Object();
+        $response->setAdditionalCalculations(array());
+        $args = array(
+            'select'=>$collection->getSelect(),
+            'table'=>$tableName,
+            'store_id'=>$this->getStoreId(),
+            'response_object'=>$response,
+        );
+
+        Mage::dispatchEvent('catalogindex_prepare_price_select', $args);
+
+        $collection->getSelect()
+            ->where($tableName . '.website_id = ?', $this->getWebsiteId())
+            ->where($tableName . '.attribute_id = ?', $attribute->getId());
+
+        if ($attribute->getAttributeCode() == 'price') {
+            $collection->getSelect()->where($tableName . '.customer_group_id = ?', $this->getCustomerGroupId());
+        }
+
+        $collection->getSelect()->where("(({$tableName}.value".implode('', $response->getAdditionalCalculations()).")*{$this->getRate()}) >= ?", ($index-1)*$range);
+        $collection->getSelect()->where("(({$tableName}.value".implode('', $response->getAdditionalCalculations()).")*{$this->getRate()}) < ?", $index*$range);
+
+        return $this;
     }
 
     public function getMinimalPrices($ids)
