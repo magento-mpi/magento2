@@ -273,9 +273,6 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
-            $observer->getEvent()->getControllerAction()->getRequest()
-                ->setDispatched(false);
-
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
 
@@ -321,8 +318,6 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         if ($observer->getEvent()->getCategory()->getIsHidden()) {
-            $observer->getEvent()->getControllerAction()->getRequest()
-                ->setDispatched(false);
 
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
