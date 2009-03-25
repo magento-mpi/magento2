@@ -53,6 +53,8 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     protected $_usedItems                               = array();
 
     protected $_usedCreateItems                         = array();
+    
+    protected $_isBackuped                              = false;
 
     public function __construct()
     {
@@ -66,6 +68,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->_stagingStoreGroupTable      = $this->getTable('enterprise_staging/staging_store_group');
         $this->_stagingStoreTable           = $this->getTable('enterprise_staging/staging_store');
     }
+    
 
     public function setCreateMapData($mapData)
     {
@@ -181,6 +184,9 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
+        if (!empty($mapData['backup'])){
+            $this->_isBackuped = true;    
+        }
 
         $_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
         foreach ($_usedItems as $code => $item) {
@@ -222,10 +228,48 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
             }
         }
     }
+    
+    public function getIsBackupped()
+    {
+        return $this->_isBackuped;
+    }
+    
+    public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
+    {
+        $resArray["_usedItems"] = $this->_usedItems;
+        $resArray["_slaveWebsitesToMasterWebsites"] = $this->_slaveWebsitesToMasterWebsites;
+        $resArray["_masterWebsitesToSlaveWebsites"] = $this->_masterWebsitesToSlaveWebsites;        
+        return serialize($resArray);
+    }
+    
+    public function unserialize($serializedData)
+    {
+        $unserializedArray = unserialize($serializedData);
+        if ($unserializedArray) {
+            
+            if ( !empty( $unserializedArray["_usedItems"] )) {
+                $this->_usedItems = $unserializedArray["_usedItems"];                            
+            }
+            
+            if ( !empty( $unserializedArray["_masterWebsitesToSlaveWebsites"] )) {
+                $this->_masterWebsitesToSlaveWebsites = $unserializedArray["_masterWebsitesToSlaveWebsites"];                            
+            }
+            
+            if ( !empty( $unserializedArray["_slaveWebsitesToMasterWebsites"] )) {
+                $this->_slaveWebsitesToMasterWebsites = $unserializedArray["_slaveWebsitesToMasterWebsites"];                            
+            }
+            
+        }
+    }
 
     public function getUsedWebsites($id)
     {
         return isset($this->_slaveWebsitesToMasterWebsites[$id]) ? $this->_slaveWebsitesToMasterWebsites[$id] : array();
+    }
+    
+    public function getAllUsedWebsites()
+    {
+        return isset($this->_slaveWebsitesToMasterWebsites) ? $this->_slaveWebsitesToMasterWebsites : array();
     }
 
     public function getSlaveToMasterWebsiteIds($masterWebsiteId)
