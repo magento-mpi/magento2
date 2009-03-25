@@ -66,14 +66,12 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
             }
         }
         
-        $scenarioCode = $this->getScenario()->getScenarioCode();
-        
         $backup = Mage::getModel("enterprise_staging/staging_backup")
             ->setStagingId($this->getId())
             ->setCode($this->getEventCode())
-            ->setState("")
-            ->setStatus("")
-            ->setEventCode($scenarioCode)
+            ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+            ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+            ->setEventCode($this->getScenario()->getScenarioCode())
             ->setDate(Mage::registry($scenarioCode . "_event_start_time"))
             ->setStagingTablePrefix(Enterprise_Staging_Model_Staging_Config::getTablePrefix())
             ->setMageVersion(Mage::getVersion())
