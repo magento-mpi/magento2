@@ -59,6 +59,7 @@
     <h3><?php echo $this->__('Staging Merge Mapping Configuration'); ?></h3>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_merge_form" enctype="multipart/form-data">
+<input type="hidden" name="schedule_merge_later_flag" value="" id="schedule_merge_later_flag">
 <?php echo $this->getBlockHtml('formkey')?>
 <div id="<?php echo $this->getId() ?>" class="grid">
     <div class="hor-scroll">
@@ -76,7 +77,7 @@
         <tbody id="<?php echo $this->getId() ?>_rows">
             <tr id="<?php echo $this->getId() ?>_website_template" style="display: none;">
                 <td class="mapper-name"><?php echo $this->__('Staging Website: '); ?>&nbsp;&nbsp;&nbsp;
-                    <select name="map[websites][from][]" class="staging-mapper-website-from">
+                    <select name="map[websites][from][]" class="validate-select-website staging-mapper-website-from">
                         <option value=""><?php echo $this->__('Select website from map'); ?></option>
                     <?php foreach ($stagingWebsites as $website): ?>
                         <?php $slaveWebsite = $website->getSlaveWebsite(); ?>
@@ -85,7 +86,7 @@
                     </select>
                 </td>
                 <td class="mapper-select"><?php echo $this->__('Website: '); ?>&nbsp;&nbsp;&nbsp;
-                    <select name="map[websites][to][]" class="staging-mapper-website-to">
+                    <select name="map[websites][to][]" class="validate-select-website staging-mapper-website-to">
                         <option value=""><?php echo $this->__('Select website to map'); ?></option>
                     <?php foreach ($masterWebsites as $website): ?>
                         <option value="<?php echo $website->getId(); ?>"><?php echo $website->getName(); ?></option>
@@ -160,12 +161,12 @@
             <div class="hor-scroll">
                 <div>
                     <label for="schedule_merge_later">Set Staging Merge Date</label>
-                    <input type="text" style="width: 100px;" class="input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="http://www.enterprise.loc/skin/adminhtml/default/default/images/grid-cal.gif"/>
+                    <input type="text" style="width: 100px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
                     <script type="text/javascript">
                     //<![CDATA[
                         Calendar.setup({
                             inputField: "schedule_merge_later",
-                            ifFormat: "%m/%e/%y",
+                            ifFormat: "%m/%e/%Y",
                             showsTime: true,
                             button: "schedule_merge_later_trig",
                             align: "Bl",
@@ -176,7 +177,7 @@
                 </div>
                 <br />
                 <div class="a-center">
-                    <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge(); return false;" class="staging-mapper-add-website-btn button">
+                    <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge( {merge_later: 1} ); return false;" class="staging-mapper-add-website-btn button">
                         <span><?php echo $this->__('Merge later') ?></span>
                     </button>
                 </div>
@@ -215,5 +216,32 @@ stagingGrid.checkboxCheckCallback = <?php echo $this->getCheckboxCheckCallback()
 stagingGrid.initRowCallback = <?php echo $this->getRowInitCallback() ?>;
 stagingGrid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(stagingGrid, row)});
 <?php endif; ?>
-//]]>
+
+Validation.addAllThese([
+    ['schedule_merge_later', '<?php echo Mage::helper('catalog')->__('Please set up merge date .') ?>', function(v) {
+                if ($('schedule_merge_later_flag').value == 1) {
+                    var mergeDate   = new Date(v);
+                    var currentTime  = new Date();
+                    if (v == '' || ((currentTime.getTime()+3600) >= mergeDate.getTime())) {
+                        return false;
+                    }
+                }
+                return true;
+            }],
+            
+    ['validate-select-website', 'Please select website', function(v, elem) {
+                if (elem.parentNode.parentNode.style.display != 'none') {
+                    return ((v != "none") && (v != null) && (v.length != 0));
+                }
+                return true;
+            }],
+    ['validate-select-store', 'Please select store view', function(v, elem) {
+                if (elem.parentNode.parentNode.style.display != 'none') {
+                    return ((v != "none") && (v != null) && (v.length != 0));
+                }
+                return true;
+            }]]);
+            
+            
+//]]>            
 </script>
