@@ -96,7 +96,7 @@
             <?php echo $this->getPriceHtml($_product, true) ?>
             <div class="actions">
                 <?php if($_product->isSaleable()): ?>
-                    <button class="button cart-btn" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                    <button type="button" class="button cart-btn" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
                     <ul class="add-to-links">
                         <?php if ($this->helper('wishlist')->isAllow()) : ?>
                             <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>

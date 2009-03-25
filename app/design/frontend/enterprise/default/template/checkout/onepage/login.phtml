@@ -53,7 +53,7 @@
                 </li>
             </ul>
         </fieldset>
-        </form>       
+        </form>
     </div>
     <div class="col-2">
         <h4><?php if( $this->getQuote()->isAllowedGuestCheckout() ): ?><?php echo $this->__('Checkout as a Guest or Register') ?><?php else: ?><?php echo $this->__('Register to Create an Account') ?><?php endif; ?></h4>
@@ -84,9 +84,9 @@
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
         <div class="buttons-set">
-            <button class="button" onclick="checkout.setMethod();"><span><?php echo ($this->getQuote()->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></button>
-        </div>        
-    </div>    
+            <button type="button" class="button" onclick="checkout.setMethod();"><span><?php echo ($this->getQuote()->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></button>
+        </div>
+    </div>
     <script type="text/javascript">
     //<![CDATA[
         var loginForm = new VarienForm('login-form', true);
@@ -105,6 +105,6 @@
 
     </div>
     <div class="col-2">
-        
+
     </div>
 </div>
