@@ -37,7 +37,9 @@ class Enterprise_Staging_Model_Observer
      */
     public function getTableName($observer)
     {
-        //return $this;
+        if (!Mage::app()->isInstalled()) {
+            return $this;
+        }
         try {
             $resource = $observer->getEvent()->getResource();
             $tableName = $observer->getEvent()->getTableName();
