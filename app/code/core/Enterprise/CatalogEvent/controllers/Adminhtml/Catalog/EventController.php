@@ -43,7 +43,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
             ->_addBreadcrumb(Mage::helper('enterprise_catalogevent')->__('Events'), Mage::helper('enterprise_catalogevent')->__('Events'))
-            ->_setActiveMenu('catalog/category/enterprise_catelogevent');
+            ->_setActiveMenu('catalog/enterprise_catelogevent');
         return $this;
     }
 

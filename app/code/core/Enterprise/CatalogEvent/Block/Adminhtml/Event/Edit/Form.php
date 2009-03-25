@@ -70,10 +70,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             )
         );
 
-        $currentCategory = $dataHelper->searchInCategories(
-            $dataHelper->getCategories(),
-            $this->getEvent()->getCategoryId()
-        );
+        $currentCategory = Mage::getModel('catalog/category')
+            ->load($this->getEvent()->getCategoryId());
 
 
         $fieldset->addField('category_name', 'note',
@@ -123,12 +121,14 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             ));
 
 
-        $fieldset->addField('status', 'note',
-            array(
+        if ($this->getEvent()->getId()) {
+            $fieldset->addField('status', 'note',
+                array(
 
-                'label' => Mage::helper('enterprise_catalogevent')->__('Status'),
-                'text' => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
+                    'label' => Mage::helper('enterprise_catalogevent')->__('Status'),
+                    'text' => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
             ));
+        }
 
 
         if ($sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true)) {
@@ -168,7 +168,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
                                                                 array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );
-        } elseif ($currentCategory) {
+        } else {
             $form->getElement('category_name')->setText(
                 '<a href="' . $this->getParentBlock()->getBackUrl()
                 . '">' . $currentCategory->getName() . '</a>'

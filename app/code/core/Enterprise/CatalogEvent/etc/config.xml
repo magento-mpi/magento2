@@ -210,16 +210,13 @@
         <menu>
             <catalog>
                <children>
-                    <categories>
-                        <children>
-                            <enterprise_catelogevent translate="title" module="enterprise_catalogevent">
-                                <title>Events</title>
-                                <action>adminhtml/catalog_event</action>
-                                <resource>catalog/events</resource>
-                                <depends><module>Enterprise_CatalogEvent</module></depends>
-                            </enterprise_catelogevent>
-                        </children>
-                   </categories>
+                   <enterprise_catelogevent translate="title" module="enterprise_catalogevent">
+                        <title>Manage Events</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/catalog_event</action>
+                        <resource>catalog/events</resource>
+                        <depends><module>Enterprise_CatalogEvent</module></depends>
+                   </enterprise_catelogevent>
                </children>
             </catalog>
         </menu>    
@@ -237,17 +234,11 @@
                 <admin>
                     <children>
                          <catalog>
-                            <title>Catalog </title>
-                            <sort_order>30</sort_order>
                             <children>
-                                <categories>
-                                    <children>
-                                        <events translate="title" module="enterprise_catalogevent">
-                                            <title>Manage Events</title>
-                                            <sort_order>60</sort_order>
-                                        </events>
-                                    </children>
-                                </categories>
+                                <events translate="title" module="enterprise_catalogevent">
+                                    <title>Manage Events</title>
+                                    <sort_order>60</sort_order>
+                                </events>
                             </children>
                         </catalog>
                     </children>
