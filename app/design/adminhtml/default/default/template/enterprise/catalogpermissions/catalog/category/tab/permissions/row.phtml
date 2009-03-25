@@ -78,7 +78,7 @@
                         <?php echo $this->helper('enterprise_catalogpermissions')->__('Deny') ?>
                     </label><br />
                     <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default">
-                        <?php echo $this->helper('enterprise_catalogpermissions')->__('Default') ?>
+                        <?php echo $this->helper('enterprise_catalogpermissions')->__('Use parent') ?>
                     </label>
                 </td>
                 <?php endforeach; ?>
