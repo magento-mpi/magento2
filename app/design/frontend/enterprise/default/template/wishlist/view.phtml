@@ -67,7 +67,7 @@
                     </td>
                     <td>
                     <?php if($item->isSaleable()): ?>
-                        <button type="button" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>')" class="button"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                        <button type="button" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>')" class="button cart-btn"><span><?php echo $this->__('Add to Cart') ?></span></button>
                     <?php endif; ?>
                     </td>
                     <td>

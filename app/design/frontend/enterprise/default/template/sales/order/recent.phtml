@@ -26,10 +26,7 @@
 ?>
 <div class="recent-orders">
 <?php $_orders = $this->getOrders(); ?>
-    <div class="title-buttons">
-        <h3><?php echo $this->__('Recent Orders') ?></h3>
-        <?php if( sizeof($_orders->getItems()) > 0 ): ?><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?>
-    </div>
+    <h3 class="table-caption"><?php echo $this->__('Recent Orders') ?><?php if( sizeof($_orders->getItems()) > 0 ): ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo $this->__('View All') ?></a><?php endif; ?></h3>       
 <?php if( sizeof($_orders->getItems()) > 0 ): ?>
     <table class="data-table" id="my-orders-table">
     <col width="1" />

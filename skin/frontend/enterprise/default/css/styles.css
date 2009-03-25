@@ -196,7 +196,9 @@ li.buttons-set a { float:right; }
 .title-buttons h6 { float:left; }
 .title-buttons .link-print { float:right; margin-top:4px; }
 
-.sub-title { font-size:16px; font-weight:normal; color:#151515; line-height:19px; margin:0 0 10px; }
+.sub-title { font-size:15px; font-weight:bold; color:#151515; line-height:19px; margin:0 0 10px; }
+.sub-title .separator { font-weight:normal; }
+.sub-title a { font-size:11px; font-weight:normal; }
 .section-title { font-size:14px; font-weight:normal; color:#151515; margin:0 0 5px; }
 
 /* Pager */ 
@@ -219,7 +221,7 @@ li.buttons-set a { float:right; }
 .sorter .link-feed {}
 
 /* Toolbar */
-.toolbar .pager { margin:0 0 15px; border:1px solid #ddd; border-bottom:0; padding:2px 10px; background:url(../images/bkg_block-title.gif) repeat-x 0 100%; }
+.toolbar .pager { margin:0 0 15px; border:1px solid #ddd; border-top:0; padding:2px 10px; background:url(../images/bkg_block-title.gif) repeat-x 0 100%; }
 
 /* Data Table */
 .table-caption { border:1px solid #ddd; border-bottom:0; margin:-1px 0 0; background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; font:13px/1.25 Arial, Helvetica, sans-serif; padding:3px 7px 4px; color:#444; } 
@@ -988,6 +990,14 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 .block-cart .truncated .show .item-options { top:-60px; left:-206px; }
 .col-left .truncated .show .item-options { left:30px; top:7px; }
 .col-right .truncated .show .item-options { left:-240px; top:7px; }
+
+/* Item options in the cart */
+.data-table .item-options dt { padding:3px 0 0 10px; background:url(../images/bkg_bulletsm.gif) no-repeat 0px .8em; }
+.data-table .item-options dd { padding:0 0 3px 10px;   }
+.data-table .item-options dd .price { font-weight:bold; margin-left:5px;  }
+
+
+
 /* ======================================================================================= */
 
 
@@ -1135,18 +1145,24 @@ button.cart-btn  span { font:bold 11px/18px Arial, Helvetica, sans-serif; }
 /* My Account ============================================================================= */
 /********** < Dashboard */
 .dashboard {}
-.dashboard .welcome-msg {}
-
-/* Block: Recent Orders */
-.dashboard .recent-orders { margin:10px 0; }
+.dashboard .welcome-msg,
+.dashboard .col2-set,
+.dashboard .recent-orders { padding:0 0 20px; }
 
 /* Block: Tags */
 .dashboard .tags .number { float:left; margin-right:-20px; }
 .dashboard .tags .details { margin-left:20px; }
 
+
 /* Block: Reviews */
 .dashboard .reviews {}
 /********** Dashboard > */
+
+/* Adress Book */
+.a-book .box-content { font-size:12px; }
+.a-book .col-2 li { padding:0 0 10px; }
+.a-book .col-2 li .actions  { border:1px solid #e4e4e4; padding:3px 9px 4px; float:left; }
+.a-book .col-2 li address { padding:10px; clear:both; }
 
 /* Order View */
 .order-info { border:1px solid #ddd; padding:5px; }
