@@ -31,7 +31,7 @@
         <reference name="head">
             <action method="addItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
         </reference>
-        <reference name="top.container">
+        <reference name="top.menu">
             <block after="-" name="catalog_category_event" type="enterprise_catalogevent/catalog_category_event" template="catalogevent/catalog/category/event.phtml"/>
         </reference>
     </catalog_category_view>
@@ -40,7 +40,7 @@
         <reference name="head">
             <action method="addItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
         </reference>
-        <reference name="top.container">
+        <reference name="top.menu">
             <block  after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </catalog_product_view>
@@ -49,7 +49,7 @@
         <reference name="head">
             <action method="addItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
         </reference>
-        <reference name="top.container">
+        <reference name="top.menu">
             <block  after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </review_product_list>
@@ -58,7 +58,7 @@
         <reference name="head">
             <action method="addItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
         </reference>
-        <reference name="top.container">
+        <reference name="top.menu">
             <block  after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </review_product_view>
