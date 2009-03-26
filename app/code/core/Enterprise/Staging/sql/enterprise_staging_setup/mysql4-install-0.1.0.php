@@ -138,7 +138,7 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging')}` (
   `visibility` varchar(40) NOT NULL default '',
   `master_login` varchar(40) NOT NULL default '',
   `master_password` varchar(40) NOT NULL default '',
-  `master_password_hash` varchar(40) NOT NULL default '',
+  `master_password_hash` varchar(64) NOT NULL default '',
   `sort_order` smallint(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`staging_id`),
   KEY `IDX_ENTERPRISE_STAGING_STATE` (`state`),
