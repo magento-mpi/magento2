@@ -46,50 +46,109 @@ class Enterprise_Logging_Model_Observer
      */
     protected $_storeGroupCollection;
 
-    public function catchActionStart() {
-
-        $request = Mage::app()->getRequest();
-        $controller = $request->getControllerName();
-        $action = $request->getActionName();
-
-        $model = Mage::getSingleton('enterprise_logging/event');     
-        if(!$model->hasToLog($controller, $action)) {
+    public function catchActionStart($observer) {
+        $contr = $observer->getControllerAction();
+        $action = $contr->getFullActionName();
+        if(preg_match("%^adminhtml_(.*?)$%", $action, $m)) {
+            $action = $m[1];
+        } else {
             return;
         }
-        if($entry = Mage::getSingleton('admin/session')->getSkipLoggingEntry()) {
-            Mage::getSingleton('admin/session')->setSkipLoggingEntry(false);
-            $entries = explode('|', $entry);
-            if($entries[0] == $controller && $entries[1] == $action) {
+        if(!in_array($action, $this->_getActionsToLog())) {
+            return;
+        }
+        if($act = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
+            if(is_array($act))
+                $denied = $act;
+            else
+                $denied = explode(',', $act);
+            if(in_array($action, $denied)) {
+                $d2 = array();
+                foreach($denied as $d) {
+                    if($action != $d)
+                        $d2[] = $d;
+                }
+                if(count($d2))
+                    Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $d2));                    
+                else
+                    Mage::getSingleton('admin/session')->setSkipLoggingAction(false);
                 return;
             }
         }
-        if(Mage::app()->getRequest()->getParam('back', true))
-            Mage::register('enterprise_logged_action_back', $controller);
-        Mage::register('enterprise_logged_action', $action);
+        Mage::register('enterprise_logged_actions', $action);
+        $this->_checkSpecialActions($action);
+    }
+
+    public function catchModelAfterSave($observer) {
+        if(!Mage::registry('enterprise_logged_actions'))
+            return;
+
+        $savedModels = Mage::registry('saved_models');
+        if(!$savedModels) {
+            $savedModels = array();
+        }
+        $savedModels[] = $observer->getObject();
+        Mage::unregister('saved_models');
+        Mage::register('saved_models', $savedModels);
     }
 
     public function catchActionEnd() {
-        if($action = Mage::registry('enterprise_logged_action')) {
+        if($actions = Mage::registry('enterprise_logged_actions')) {
+            if(!is_array($actions)) 
+                $actions = array($actions);
             $ip = $_SERVER['REMOTE_ADDR'];
             $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
-            $id = Mage::app()->getRequest()->getParam('id');
 
-            $event = Mage::getSingleton('enterprise_logging/event');
-            $success = $this->getSuccess($action);
-            if($success && ($controller = Mage::registry('enterprise_logged_action_back'))) {
-                Mage::getSingleton('admin/session')->setSkipLoggingEntry($controller.'|edit');
+            foreach($actions as $action) {
+                $success = $this->getSuccess($action);
+                $info = $this->getInfo($action, $success);
+                if(!$info)
+                    continue;
+                Mage::getModel('enterprise_logging/event')
+                  ->setIp($ip)
+                  ->setUserId($user_id)
+                  ->setSuccess($success)
+                  ->setFullaction($action)
+                  ->setInfo($info)
+                  ->setTime(time())
+                  ->save();
             }
-
-            $info = array($id);
-            $event->loadEventCode();
-            $event->setIp($ip);
-            $event->setUserId($user_id);
-            $event->setAction($action);
-            $event->setSuccess($success);
-            $event->setInfo($info);
-            $event->setTime(time());
-            $event->save();
         }
+    }
+
+    protected function _checkSpecialActions($action) {
+        if($action == 'customer_save') {
+            $request = Mage::app()->getRequest();
+            $data = $request->getParam('customerbalance');
+            if(isset($data['delta']) && $data['delta'] != '') {
+                $actions = Mage::registry('enterprise_logged_actions');
+                if(!is_array($actions))
+                    $actions = array($actions);
+                $actions[] = 'customerbalance_save';
+                Mage::unregister('enterprise_logged_actions');
+                Mage::register('enterprise_logged_actions', $actions);
+            }
+        }
+    }
+
+    protected function _getActionsToLog() {
+        if(!($actions = Mage::registry('enterprise_logged_actions'))) {
+            $actions = array(
+                'catalog_product_edit',
+                'catalog_product_save',
+                'catalog_product_delete',
+                'catalog_category_edit',
+                'catalog_category_save',
+                'catalog_category_move',
+                'catalog_category_delete',
+                'customer_edit',
+                'customer_save',
+                'customer_delete',
+                'customerbalance_form',
+                'customerbalance_save'
+            );
+        }
+        return $actions;
     }
 
     public function getSuccess($action) {
@@ -103,6 +162,132 @@ class Enterprise_Logging_Model_Observer
         return true;
     }
 
+    public function getInfo($action, $success) {
+        $request = Mage::app()->getRequest();
+        switch($action) {
+        case 'catalog_product_edit':
+            $id = $request->getParam('id');
+            if(!$id)
+                return false;
+            return array(
+                'event_code' => 'products',
+                'event_action' => 'view',
+                'event_message' => $id,
+            );
+            break;
+        case 'catalog_product_save':
+            $models = Mage::registry('saved_models');
+            $model = null;
+            foreach($models as $m) {
+                if($m instanceof Mage_Catalog_Model_Product)
+                    $model = $m;
+            }
+            if($model == null) {
+                Mage::throwException('Admin Logging error: Unable to log save action');
+            }
+            $id = $model->getId();
+            if ($success && $request->getParam('back')) {
+                Mage::getSingleton('admin/session')->setSkipLoggingAction('catalog_product_edit');
+            }
+            return array(
+                'event_code' => 'products',
+                'event_action' => 'save',
+                'event_message' => $id
+            );
+            break;
+        case 'catalog_product_delete':
+            $id = $request->getParam('id');
+            return array(
+                'event_code' => 'products',
+                'event_action' => 'delete',
+                'event_message' => $id
+            );
+            break;
+        case 'customer_edit':
+            $id = $request->getParam('id');
+            if(!$id)
+                return false;
+
+            return array(
+                'event_code' => 'customers',
+                'event_action' => 'view',
+                'event_message' => $id
+            );
+            break;
+        case 'customer_save':
+            $models = Mage::registry('saved_models');
+            $model = null;
+            foreach($models as $m) {
+                if($m instanceof Mage_Customer_Model_Customer)
+                    $model = $m;
+            }
+            if($model == null) {
+                Mage::throwException('Admin Logging error: Unable to log save action (customer)');
+            }
+            $id = $model->getId();
+            if ($success && $request->getParam('back')) {
+                Mage::getSingleton('admin/session')->setSkipLoggingAction('customer_edit');
+            }
+            if ($success && $request->getParam('back')) {
+                $den = explode(',', Mage::getSingleton('admin/session')->getSkipLoggingAction());
+                $den[] = 'customer_edit';
+                Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $den));
+            }
+
+            return array(
+                'event_code' => 'customers',
+                'event_action' => 'save',
+                'event_message' => $id,
+            );
+            break;
+        case 'customerbalance_save':
+            $models = Mage::registry('saved_models');
+            $model = null;
+            foreach($models as $m) {
+                if($m instanceof Mage_Customer_Model_Customer)
+                    $model = $m;
+            }
+            if($model == null) {
+                Mage::throwException('Admin Logging error: Unable to log save action (customerbalance)');
+            }
+            $id = $model->getId();
+            if ($success && $request->getParam('back')) {
+                Mage::getSingleton('admin/session')->setSkipLoggingAction('customer_edit');
+            }
+
+            if ($success && $request->getParam('back')) {
+                $den = explode(',', Mage::getSingleton('admin/session')->getSkipLoggingAction());
+                $den[] = 'customerbalance_form';
+                Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $den));
+            }
+
+            return array(
+                'event_code' => 'customerbalance',
+                'event_action' => 'save',
+                'event_message' => $id
+            );
+            break;
+        case 'customer_delete':
+            $id = $request->getParam('id');
+            return array(
+                'event_code' => 'customers',
+                'event_action' => 'delete',
+                'event_message' => $id
+            );
+            break;
+        case 'customerbalance_form':
+            $id = $request->getParam('id');
+            return array(
+                'event_code' => 'customerbalance',
+                'event_action' => 'view',
+                'event_message' => $id
+            );
+            break;
+        }
+
+    }
+
+  
     /**
      * Store event on product view (catalog_product/edit/id)
      *

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Logging>
-             <version>0.1.2</version>
+             <version>0.1.3</version>
         </Enterprise_Logging>
     </modules>
     <global>
@@ -100,6 +100,16 @@
               </enterprise_logging>
             </observers>
           </controller_action_postdispatch_adminhtml>
+
+          <model_save_after>
+              <observers>
+                  <enterprise_logging>
+                      <type>singleton</type>
+                      <class>enterprise_logging/observer</class>
+                      <method>catchModelAfterSave</method>
+                  </enterprise_logging>
+              </observers>
+          </model_save_after>
 
 <!--
 	    <enterprise_giftcardaccount_save>
@@ -894,6 +904,7 @@
           <cmspages>1</cmspages>
           <cmsblocks>1</cmsblocks>
           <customers>1</customers>
+          <customerbalance>1</customerbalance>
           <reports>1</reports>
           <giftaccount>1</giftaccount>
           <systemconfiguration>1</systemconfiguration>

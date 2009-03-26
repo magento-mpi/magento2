@@ -39,32 +39,6 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     public function __construct()
     {
         $this->_init('enterprise_logging/event');
-        $this->_config = array(
-            'product' => array(
-                'controller' => 'catalog_product',
-                'actions' => array('edit', 'save', 'delete'),
-                'code' => 'products'
-            )
-        );
-    }
-
-    /**
-     * Search in this->config, if logging required
-     */
-    public function hasToLog($controller, $action) {
-        foreach($this->_config as $entity) {
-            if ($entity['controller'] == $controller) {
-                foreach ($entity['actions'] as $act) {
-                    if ($act == $action) {
-                        $this->_action = $action;
-                        $this->_entity = $entity;
-                        return $this->isActive($entity['code']);
-                    }
-                }
-                return false;
-            }
-        }
-        return false;
     }
 
     /**
@@ -93,14 +67,6 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     }
 
 
-    public function loadEventCode() {
-        if(!$this->_entity)
-            Mage::throwException('Unable to load event code');
-        $this->setEventCode($this->_entity['code']);
-        return $this;
-    }
-                                        
-
     /**
      * Filter for info
      *
@@ -113,23 +79,14 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function setInfo($info)
     {
-        return $this->setData('info', $info[0]);
-        /*
-        $code = $this->getEventCode();
-        $action = $this->getAction();
+        $code = $info['event_code'];
+        $this->setEventCode($code);
+        $action = $info['event_action'];
+        $this->setAction($action);
+
         $success = $this->getSuccess() ? 'success' : 'fail';
         $this->setStatus($success);
-        $node = Mage::getConfig()->getNode('adminhtml/enterprise/logging/events/' . $code . '/actions/' . $action . '/' . $success);
-        $string = (string)$node;
-        if(is_array($info)) {
-            $args = array_unshift($info, $string);
-            try {
-                $string = call_user_func_array('sprintf', $info);
-            } catch(Exception $e) {
-                Mage::throwException("Wrong parameters passed to event info. " . $string . ";");
-            }
-        }
-        return $this->setData('info', $string);
-        */
+
+        return $this->setData('info', $info['event_message']);
     }
 }

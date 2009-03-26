@@ -112,6 +112,13 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'filter'    => 'enterprise_logging/events_grid_filter_status',
                          ));
 
+        $this->addColumn('fullaction', array(
+            'header' => 'Full action',
+            'index'  => 'fullaction',
+            'sortable' => false,
+            'type'  => 'text'
+        ));
+
         $this->addColumn('info', array(
             'header'    => 'Info',
             'index'     => 'info',

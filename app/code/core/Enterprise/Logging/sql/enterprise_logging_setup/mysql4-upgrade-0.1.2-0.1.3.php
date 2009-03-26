@@ -28,7 +28,6 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->run("ALTER TABLE `".$this->getTable('enterprise_logging/event')."` ADD user char(15) NOT NULL DEFAULT '-'");
-$installer->run("ALTER TABLE `".$this->getTable('enterprise_logging/event')."` DROP user_id");
+$installer->run("ALTER TABLE `".$this->getTable('enterprise_logging/event')."` ADD fullaction varchar(200) NOT NULL DEFAULT '-'");
 
 $installer->endSetup();
