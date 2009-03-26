@@ -184,6 +184,12 @@ class Mage_Catalog_Model_Product_Flat_Observer
         return $this;
     }
 
+    /**
+     * Store edit action, check change store group
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Catalog_Model_Product_Flat_Observer
+     */
     public function storeEdit(Varien_Event_Observer $observer)
     {
         if (!$this->_getHelper()->isBuilt()) {
@@ -199,6 +205,25 @@ class Mage_Catalog_Model_Product_Flat_Observer
         return $this;
     }
 
+    /**
+     * Store delete after process
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Catalog_Model_Product_Flat_Observer
+     */
+    public function storeDelete(Varien_Event_Observer $observer)
+    {
+        if (!$this->_getHelper()->isBuilt()) {
+            return $this;
+        }
+
+        $store = $observer->getEvent()->getStore();
+        /* @var $store Mage_Core_Model_Store */
+
+        $this->_getIndexer()->deleteStore($store->getId());
+
+        return $this;
+    }
 
     /**
      * Store Group Save process

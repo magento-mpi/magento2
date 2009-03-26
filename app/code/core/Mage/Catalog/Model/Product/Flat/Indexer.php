@@ -229,4 +229,15 @@ class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Delete store process
+     *
+     * @param int $store
+     * @return Mage_Catalog_Model_Product_Flat_Indexer
+     */
+    public function deleteStore($store)
+    {
+        $this->_getResource()->deleteFlatTable($store);
+        return $this;
+    }
 }

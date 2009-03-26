@@ -896,4 +896,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
         return $this;
     }
+
+    /**
+     * Delete flat table process
+     *
+     * @param int $store
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
+     */
+    public function deleteFlatTable($store)
+    {
+        $tableName = $this->getFlatTableName($store);
+        $tableNameQuote = $this->_getWriteAdapter()->quoteIdentifier($tableName);
+        $tableExistsSql = $this->_getWriteAdapter()
+            ->quoteInto("SHOW TABLE STATUS LIKE ?", $tableName);
+        if ($this->_getWriteAdapter()->query($tableExistsSql)) {
+            $sql = sprintf('DROP TABLE IF EXISTS %s', $tableNameQuote);
+            $this->_getWriteAdapter()->query($sql);
+        }
+
+        return $this;
+    }
 }
