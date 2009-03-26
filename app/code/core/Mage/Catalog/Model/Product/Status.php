@@ -267,4 +267,33 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     {
         return null;
     }
+
+    /**
+     * Add Value Sort To Collection Select
+     *
+     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @param string $dir direction
+     * @return Mage_Eav_Model_Entity_Attribute_Source_Abstract
+     */
+    public function addValueSortToCollection($collection, $dir = 'asc') {
+        $valueTable1    = $this->getAttribute()->getAttributeCode() . '_t1';
+        $valueTable2    = $this->getAttribute()->getAttributeCode() . '_t2';
+        $collection->getSelect()
+            ->joinLeft(
+                array($valueTable1 => $this->getAttribute()->getBackend()->getTable()),
+                "`e`.`entity_id`=`{$valueTable1}`.`entity_id`"
+                . " AND `{$valueTable1}`.`attribute_id`='{$this->getAttribute()->getId()}'"
+                . " AND `{$valueTable1}`.`store_id`='0'",
+                array())
+            ->joinLeft(
+                array($valueTable2 => $this->getAttribute()->getBackend()->getTable()),
+                "`e`.`entity_id`=`{$valueTable2}`.`entity_id`"
+                . " AND `{$valueTable2}`.`attribute_id`='{$this->getAttribute()->getId()}'"
+                . " AND `{$valueTable2}`.`store_id`='{$collection->getStoreId()}'",
+                array()
+            );
+        $valueExpr = new Zend_Db_Expr("IFNULL(`{$valueTable2}`.`value`, `{$valueTable1}`.`value`)");
+        $collection->getSelect()->order($valueExpr . ' ' . $dir);
+        return $this;
+    }
 }
