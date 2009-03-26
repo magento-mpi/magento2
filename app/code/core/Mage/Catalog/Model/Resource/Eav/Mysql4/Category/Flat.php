@@ -279,10 +279,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                     $pathToParent = implode('/', $pathToParent);
                     $childrenItems[$pathToParent][] = $node;
                 }
-                $this->addChildNodes($childrenItems, $parentNode->getPath(), $this->_nodes[$parentNode->getId()]);
+                $this->addChildNodes($childrenItems, $parentNode->getPath(), $parentNode);
                 $childrenNodes = $this->_nodes[$parentNode->getId()];
                 if ($childrenNodes->getChildrenNodes()) {
                     $this->_nodes = $childrenNodes->getChildrenNodes();
+                }
+                else {
+                    $this->_nodes = array();
                 }
                 $this->_loaded = true;
             }
