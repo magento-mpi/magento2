@@ -337,7 +337,9 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
         }
 
-        $staging->addEvent($eventStateCode, $state, $status, $message, $log);
+        $eventName = $this->getEventStateLabel();
+
+        $staging->addEvent($eventStateCode, $state, $status, $eventName, $message, $log);
 
         return $this;
     }
@@ -357,6 +359,13 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         if (!$adapterModelName) {
             $adapterModelName = 'enterprise_staging/staging_adapter_item_abstract';
         }
-        return Mage::getSingleton($adapterModelName);
+        $adapter = Mage::getSingleton($adapterModelName);
+        if ($adapter) {
+            $adapter->setEventStateCode($this->getEventStateCode());
+            return $adapter;
+        } else {
+            throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Wrong item adapter model: %s', $adapterModelName));
+        }
+
     }
 }

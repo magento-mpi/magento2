@@ -79,9 +79,7 @@ class Enterprise_Staging_Model_Staging_State_Website_Create extends Enterprise_S
             $itemXmlConfig = Enterprise_Staging_Model_Staging_Config::getStagingItem($usedItem['code']);
             if ($itemXmlConfig) {
                 $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-                if ($adapter) {
-                    $adapter->createItem($staging, $stagingWebsite, $itemXmlConfig);
-                }
+                $adapter->createItem($staging, $stagingWebsite, $itemXmlConfig);
             }
         }
         return $this;

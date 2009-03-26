@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
 {
     /**
      * Staging instance
@@ -34,9 +34,16 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
      */
     protected $_staging;
 
+    /**
+     * Backup instance
+     *
+     * @var Enterprise_Staging_Model_Staging
+     */
+    protected $_backup;
+
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_backup');
+        $this->_init('enterprise_staging/staging_rollback');
     }
 
     /**
@@ -62,6 +69,31 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
             $this->_staging = Mage::registry('staging');
         }
         return $this->_staging;
+    }
+
+    /**
+     * Declare backup instance
+     *
+     * @param   Enterprise_Staging_Model_Staging_Backup $backup
+     * @return  Enterprise_Staging_Model_Staging_Backup
+     */
+    public function setBackup(Enterprise_Staging_Model_Staging_Backup $backup)
+    {
+        $this->_backup = $backup;
+        return $this;
+    }
+
+    /**
+     * Retrieve backup instance
+     *
+     * @return Enterprise_Staging_Model_Staging_Backup
+     */
+    public function getBackup()
+    {
+        if (!$this->_backup instanceof Enterprise_Staging_Model_Staging_Backup) {
+            $this->_backup = Mage::registry('staging_backup');
+        }
+        return $this->_backup;
     }
 
     /**

@@ -47,6 +47,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         }
 
         if (!$object->getId()) {
+            $object->setIsNew(true);
             $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
             $object->setCreatedAt($value);
         } else {
@@ -66,5 +67,31 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         parent::_beforeSave($object);
 
         return $this;
+    }
+
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        if ($object->getIsNew() && $object->getCode() == Enterprise_Staging_Model_Staging_Config::EVENT_BACKUP) {
+            $staging = $object->getStaging();
+            if ($staging && $staging->getId()) {
+                $name = Mage::helper('enterprise_staging')->__('Staging backup: ') . $staging->getName();
+                $backup = Mage::getModel("enterprise_staging/staging_backup")
+                    ->setStagingId($staging->getId())
+                    ->setEventId($object->getId())
+                    ->setEventCode($object->getCode())
+                    ->setName($name)
+                    ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+                    ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                    ->setCreatedAt(Mage::registry($object->getCode() . "_event_start_time"))
+                    ->setStagingTablePrefix(Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging))
+                    ->setMageVersion(Mage::getVersion())
+                    ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
+                $backup->save();
+            }
+        }
+
+        $object->setIsNew(false);
+
+        parent::_afterSave($object);
     }
 }

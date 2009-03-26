@@ -38,13 +38,11 @@ class Enterprise_Staging_Model_Staging_State_Website_Rollback extends Enterprise
     {
         $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
         $usedItems      = $this->getStaging()->getMapperInstance()->getUsedItems();
-                
+
         foreach ($usedItems as $usedItem) {
             $itemXmlConfig = $stagingItems->{$usedItem['code']};
             $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-            if ($adapter) {
-                $adapter->rollbackItem($staging, $itemXmlConfig);
-            }
+            $adapter->rollbackItem($staging, $itemXmlConfig);
         }
         return $this;
     }

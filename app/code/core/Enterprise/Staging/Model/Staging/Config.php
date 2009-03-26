@@ -81,6 +81,9 @@ class Enterprise_Staging_Model_Staging_Config
     const EVENT_MERGE           = 'merge';
     const EVENT_ROLLBACK        = 'rollback';
 
+    const STORAGE_METHOD_PREFIX = 'table_prefix';
+    const STORAGE_METHOD_NEW_DB = 'new_db';
+
     /**
      * Staging visibility codes
      */
@@ -133,7 +136,7 @@ class Enterprise_Staging_Model_Staging_Config
         }
 
         // TODO try to give current staging into models as an attribute
-        $model->setStaging($staging->getId());
+        $model->setStaging($staging);
 
         $model->setConfig($typeConfig);
         return $model;
@@ -244,6 +247,11 @@ class Enterprise_Staging_Model_Staging_Config
     static public function getStagingItem($itemCode)
     {
         return self::getConfig("staging_items/{$itemCode}");
+    }
+
+    static public function getUsedStorageMethod()
+    {
+        return (string) self::getConfig('use_storage_method');
     }
 
     /**

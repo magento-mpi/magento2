@@ -53,8 +53,6 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     protected $_usedItems                               = array();
 
     protected $_usedCreateItems                         = array();
-    
-    protected $_isBackuped                              = false;
 
     public function __construct()
     {
@@ -68,7 +66,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->_stagingStoreGroupTable      = $this->getTable('enterprise_staging/staging_store_group');
         $this->_stagingStoreTable           = $this->getTable('enterprise_staging/staging_store');
     }
-    
+
 
     public function setCreateMapData($mapData)
     {
@@ -138,55 +136,10 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
-    public function setMapData2($mapData)
-    {
-        $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
-        $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
-
-        $_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
-        foreach ($_usedItems as $code => $item) {
-            if (isset($item['dataset_item_id'])) {
-                $this->_usedItems[$code] = $item;
-            }
-        }
-
-        if (!empty($websitesMap)) {
-            $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();
-            $toWebsitesData     = !empty($websitesMap['to'])     ? $websitesMap['to']     : array();
-
-            foreach ($fromWebsitesData as $idx => $fromWebsite) {
-                if (empty($fromWebsite)) {
-                    continue;
-                }
-
-                $toWebsite = $toWebsitesData[$idx];
-                $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['master_website'] = $toWebsite;
-                $this->_masterWebsitesToSlaveWebsites[$toWebsite]['slave_website'] = $fromWebsite;
-
-                $storesKey = $fromWebsite . '-' . $toWebsite;
-                $storesData = !empty($storesMap[$storesKey]) ? $storesMap[$storesKey] : array();
-                if (!empty($storesData)) {
-                    $storesFromData = !empty($storesData['from']) ? $storesData['from'] : array();
-                    $storesToData = !empty($storesData['to']) ? $storesData['to'] : array();
-                    foreach ($storesFromData as $sidx => $fromStore) {
-                        if (!empty($storesToData[$sidx])) {
-                            $toStore = $storesToData[$sidx];
-                            $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['stores'][$fromStore] = $toStore;
-                            $this->_masterWebsitesToSlaveWebsites[$toWebsite]['stores'][$toStore] = $fromStore;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public function setMapData($mapData)
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
-        if (!empty($mapData['backup'])){
-            $this->_isBackuped = true;    
-        }
 
         $_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
         foreach ($_usedItems as $code => $item) {
@@ -208,17 +161,19 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
                     if (empty($toWebsite)) {
                         continue;
                     }
-                    $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['master_website'][$toWebsite] = $toWebsite;
-                    $this->_masterWebsitesToSlaveWebsites[$toWebsite]['slave_website'][$fromWebsite] = $fromWebsite;
+                    $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['master_website'][$toWebsite] = $fromWebsite;
+                    $this->_masterWebsitesToSlaveWebsites[$toWebsite]['slave_website'][$fromWebsite] = $toWebsite;
 
                     $storesKey = $fromWebsite . '-' . $toWebsite;
                     $storesData = !empty($storesMap[$storesKey]) ? $storesMap[$storesKey] : array();
+
                     if (!empty($storesData)) {
                         $storesFromData = !empty($storesData['from']) ? $storesData['from'] : array();
                         $storesToData = !empty($storesData['to']) ? $storesData['to'] : array();
                         foreach ($storesFromData as $sidx => $fromStore) {
                             if (!empty($storesToData[$sidx])) {
                                 $toStore = $storesToData[$sidx];
+                                //var_dump($fromWebsite.' - '.$toWebsite.' - '.$fromStore.' - '.$toStore); echo '<br />';
                                 $this->_slaveWebsitesToMasterWebsites[$fromWebsite]['stores'][$toWebsite][$fromStore] = $toStore;
                                 $this->_masterWebsitesToSlaveWebsites[$toWebsite]['stores'][$fromWebsite][$toStore] = $fromStore;
                             }
@@ -228,37 +183,32 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
             }
         }
     }
-    
-    public function getIsBackupped()
-    {
-        return $this->_isBackuped;
-    }
-    
+
     public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
     {
         $resArray["_usedItems"] = $this->_usedItems;
         $resArray["_slaveWebsitesToMasterWebsites"] = $this->_slaveWebsitesToMasterWebsites;
-        $resArray["_masterWebsitesToSlaveWebsites"] = $this->_masterWebsitesToSlaveWebsites;        
+        $resArray["_masterWebsitesToSlaveWebsites"] = $this->_masterWebsitesToSlaveWebsites;
         return serialize($resArray);
     }
-    
+
     public function unserialize($serializedData)
     {
         $unserializedArray = unserialize($serializedData);
         if ($unserializedArray) {
-            
+
             if ( !empty( $unserializedArray["_usedItems"] )) {
-                $this->_usedItems = $unserializedArray["_usedItems"];                            
+                $this->_usedItems = $unserializedArray["_usedItems"];
             }
-            
+
             if ( !empty( $unserializedArray["_masterWebsitesToSlaveWebsites"] )) {
-                $this->_masterWebsitesToSlaveWebsites = $unserializedArray["_masterWebsitesToSlaveWebsites"];                            
+                $this->_masterWebsitesToSlaveWebsites = $unserializedArray["_masterWebsitesToSlaveWebsites"];
             }
-            
+
             if ( !empty( $unserializedArray["_slaveWebsitesToMasterWebsites"] )) {
-                $this->_slaveWebsitesToMasterWebsites = $unserializedArray["_slaveWebsitesToMasterWebsites"];                            
+                $this->_slaveWebsitesToMasterWebsites = $unserializedArray["_slaveWebsitesToMasterWebsites"];
             }
-            
+
         }
     }
 
@@ -266,7 +216,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     {
         return isset($this->_slaveWebsitesToMasterWebsites[$id]) ? $this->_slaveWebsitesToMasterWebsites[$id] : array();
     }
-    
+
     public function getAllUsedWebsites()
     {
         return isset($this->_slaveWebsitesToMasterWebsites) ? $this->_slaveWebsitesToMasterWebsites : array();
@@ -277,9 +227,9 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         return isset($this->_masterWebsitesToSlaveWebsites[$masterWebsiteId]['slave_website']) ? $this->_masterWebsitesToSlaveWebsites[$masterWebsiteId]['slave_website'] : array();
     }
 
-    public function getSlaveToMasterStoreIds($masterWebsiteId)
+    public function getSlaveToMasterStoreIds($slaveWebsiteId)
     {
-        return isset($this->_masterWebsitesToSlaveWebsites[$masterWebsiteId]['stores']) ? $this->_masterWebsitesToSlaveWebsites[$masterWebsiteId]['stores'] : array();
+        return isset($this->_slaveWebsitesToMasterWebsites[$slaveWebsiteId]['stores']) ? $this->_slaveWebsitesToMasterWebsites[$slaveWebsiteId]['stores'] : array();
     }
 
     public function getUsedItems()

@@ -24,18 +24,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     public function _construct()
     {
-        $this->_init('enterprise_staging/staging_backup');
+        $this->_init('enterprise_staging/staging_rollback');
     }
 
     /**
      * Set staging filter into collection
      *
      * @param   mixed   $stagingId (if object must be implemented getId() method)
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection
      */
     public function setStagingFilter($stagingId)
     {
@@ -48,50 +48,41 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
     }
 
     /**
-     * Add backuped filter into collection
+     * Set backup filter into collection
      *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection
+     * @param   mixed   $backupId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection
      */
-    public function addBackupedFilter()
+    public function setBackupFilter($backupId)
     {
-        $this->addFieldToFilter('main_table.is_backuped', 1);
+        if (is_object($backupId)) {
+            $backupId = $backupId->getId();
+        }
+        $this->addFieldToFilter('backup_id', (int) $backupId);
 
         return $this;
     }
 
     /**
-     * Add merged staging filter into collection
+     * Add complete filter into collection
      *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection
      */
-    public function addMergedFilter()
+    public function addCompleteFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_MERGE);
         $this->addFieldToFilter('main_table.state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
         return $this;
     }
 
-    public function addStagingToCollection()
-    {
-        $this->getSelect()
-            ->joinLeft(
-                array('staging' => $this->getTable('enterprise_staging/staging')),
-                'main_table.staging_id=staging.staging_id',
-                array('staging_name'=>'name')
-        );
-
-        return $this;
-    }
-
     public function toOptionArray()
     {
-        return parent::_toOptionArray('backup_id', 'name');
+        return parent::_toOptionArray('rollback_id', 'name');
     }
 
     public function toOptionHash()
     {
-        return parent::_toOptionHash('backup_id', 'name');
+        return parent::_toOptionHash('rollback_id', 'name');
     }
 }

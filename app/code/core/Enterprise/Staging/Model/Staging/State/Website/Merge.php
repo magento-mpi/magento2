@@ -52,7 +52,7 @@ class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_St
      * @param   Enterprise_Staging_Model_Staging $staging
      * @return  Enterprise_Staging_Model_Staging_State_Website_Merge
      */
-    protected function _mergeStagingWebsites(Enterprise_Staging_Model_Staging $staging)
+    protected function _mergeStagingWebsites($staging)
     {
         foreach ($staging->getWebsitesCollection() as $stagingWebsite) {
             $this->_mergeStagingWebsite($staging, $stagingWebsite);
@@ -67,16 +67,14 @@ class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_St
      * @param   Enterprise_Staging_Model_Staging_Website    $stagingWebsite
      * @return  Enterprise_Staging_Model_Staging_State_Website_Merge
      */
-    protected function _mergeStagingWebsite(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Website $stagingWebsite)
+    protected function _mergeStagingWebsite($staging, $stagingWebsite)
     {
         $usedItems = $staging->getMapperInstance()->getUsedItems();
         foreach ($usedItems as $usedItem) {
             $itemXmlConfig = Enterprise_Staging_Model_Staging_Config::getStagingItem($usedItem['code']);
             if ($itemXmlConfig) {
                 $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-                if ($adapter) {
-                    $adapter->mergeItem($staging, $stagingWebsite, $itemXmlConfig);
-                }
+                $adapter->mergeItem($staging, $stagingWebsite, $itemXmlConfig);
             }
         }
         return $this;

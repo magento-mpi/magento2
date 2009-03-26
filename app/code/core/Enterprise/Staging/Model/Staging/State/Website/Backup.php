@@ -60,24 +60,9 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
             $itemXmlConfig = Enterprise_Staging_Model_Staging_Config::getStagingItem($usedItem['code']);
             if ($itemXmlConfig) {
                 $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-                if ($adapter) {
-                    $adapter->syncItemTablesStructure($staging, $itemXmlConfig, true);
-                }
+                $adapter->backupItem($staging, $itemXmlConfig);
             }
         }
-        
-        $backup = Mage::getModel("enterprise_staging/staging_backup")
-            ->setStagingId($this->getId())
-            ->setCode($this->getEventCode())
-            ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
-            ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-            ->setEventCode($this->getScenario()->getScenarioCode())
-            ->setDate(Mage::registry($scenarioCode . "_event_start_time"))
-            ->setStagingTablePrefix(Enterprise_Staging_Model_Staging_Config::getTablePrefix())
-            ->setMageVersion(Mage::getVersion())
-            ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
-            
-        $backup->save();
 
         return $this;
     }

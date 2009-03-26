@@ -319,16 +319,20 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * @param string $table
      * @return array
      */
-    public function getTableProperties($item, $table)
+    public function getTableProperties($model, $table, $strongRestrict = false)
     {
-        if (!$this->tableExists($item, $table)) {
+        if (!$this->tableExists($model, $table)) {
+            if ($strongRestrict) {
+                throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')
+                    ->__('Staging Table %s doesn\'t exists',$table));
+            }
             return false;
         }
 
-        $connection = $this->getConnection($item);
+        $connection = $this->getConnection($model);
 
-        $tableName = $this->getTable($table, $item);
-        $prefix    = $this->_config[$item]['prefix'];
+        $tableName = $this->getTable($table, $model);
+        $prefix    = $this->_config[$model]['prefix'];
         $tableProp = array(
             'table_name'  => $tableName,
             'fields'      => array(),
@@ -438,11 +442,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * @param string $entity
      * @return bool
      */
-    public function tableExists($item, $table)
+    public function tableExists($model, $table)
     {
-        $connection = $this->getConnection($item);
-        $sql = $this->_quote("SHOW TABLES LIKE ?", $this->getTable($table, $item));
-
+        $connection = $this->getConnection($model);
+        $sql = $this->_quote("SHOW TABLES LIKE ?", $this->getTable($table, $model));
         $stmt = $connection->query($sql);
         if (!$stmt->fetch()) {
             return false;

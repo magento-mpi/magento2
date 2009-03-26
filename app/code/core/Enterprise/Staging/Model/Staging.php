@@ -473,7 +473,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             }
         }
         if ($this->getEventCode()) {
-            $this->addEvent($this->getEventCode(), $state, $status, $comment, $log, $isAdminNotified);
+            $eventName = Mage::helper('enterprise_staging')->__('Staging save');
+            $this->addEvent($this->getEventCode(), $state, $status, $eventName, $comment, $log, $isAdminNotified);
         }
         return $this;
     }
@@ -488,11 +489,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * @param   boolean $isAdminNotified
      * @return  object  Enterprise_Staging_Model_Staging
      */
-    public function addEvent($code, $state, $status, $comment='', $log='', $isAdminNotified = false)
+    public function addEvent($code, $state, $status, $name, $comment='', $log='', $isAdminNotified = false)
     {
         $event = Mage::getModel('enterprise_staging/staging_event')
             ->setStagingId($this->getId())
             ->setCode($code)
+            ->setName($name)
             ->setState($state)
             ->setStatus($status)
             ->setDate(Mage::getModel('core/date')->gmtDate())
@@ -500,7 +502,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             ->setComment($comment)
             ->setLog(Enterprise_Staging_Model_Log::buildLogReport($log))
             ->setMergeMap($this->getMapperInstance()->serialize())
-            ->setIsBackuped($this->getMapperInstance()->getIsBackupped())            
+            ->setIsBackuped($this->getMapperInstance()->getIsBackupped())
             ->setStaging($this);
         $this->addEventToHistory($event);
         return $this;

@@ -72,7 +72,7 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
         }
         /* TODO try to set staging_id instead whole staging object */
         $_staging = Mage::registry('staging');
-        if ($_staging && $_staging->getId() == (int) $this->_staging) {
+        if ($_staging && $this->_staging &&  ($_staging->getId() == (int) $this->_staging)) {
             return $_staging;
         } else {
             if (is_int($this->_staging)) {
