@@ -62,4 +62,13 @@
             <block  after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </review_product_view>
+    
+    <cms_index_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
+        </reference>
+        <reference name="content">
+            <block  after="-" name="event_slider" type="enterprise_catalogevent/event_home" template="catalogevent/home.phtml"/>
+        </reference>
+    </cms_index_index>
 </layout>

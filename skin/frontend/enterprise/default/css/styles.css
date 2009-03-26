@@ -384,6 +384,80 @@ ul.links li.last .separator { display:none; }
 /********** Navigation > */
 /* ======================================================================================= */
 
+/* Block: Events */
+.event {background:#e47064; width:183px; position:static; height:166px; text-align:center;}
+.event .status {font:normal 20px georgia, san-serif; display:block; padding:10px 0 0; margin:0 0 10px; text-align:center; color:#fff;}
+.event .event-ticker {background:#b84336 url(../images/bkg_ticker.png) repeat-x 0 0; margin:10px 12px; border:1px solid #a43225; text-align:center; font-size:32px; color:#fff; line-height:1; border-color:#a43225 #f39a91 #f39a91 #a43225;}
+.event .event-ticker span {background-image:url(../images/bkg_ticker.png); background-repeat:no-repeat; display:-moz-inline-box; display:inline-block; padding:0 0 10px; height:39px; line-height:1; margin-top:0px;}
+.event .event-ticker span.hour {background-position:50% -58px; }
+.event .event-ticker span.minute {background-position:50% -117px; }
+.event .event-ticker span.second {background-position:50% -176px; }
+.event .event-ticker span.delimiter {background:none;}
+.event  .event-dates {font-size:14px; color:#444;}
+.event  .event-dates .date-part {font-weight:bold;}
+.event  .event-dates .time-part {font-size:12px;}
+.event .event-button {background-position:0 0; background-repeat:no-repeat; width:141px; height:23px; margin:10px auto 2px; text-indent:-999em; text-align:left; overflow:hidden; display:block;}
+.event p a {color:#fff; font-size:11px;}
+
+.open .event-button {background-image:url(../images/btn_gotosale.png);}
+
+.upcoming {background:#eee;}
+.upcoming .status {color:#97918e;}
+.upcoming .event-button {background-image:url(../images/btn_previewsale.png);}
+.upcoming p a  {color:#4d3e37;}
+
+.closed {background:#757270;}
+.closed  .event-dates {color:#eee}
+.closed  .event-button {background-image:url(../images/btn_viewsale.png);}
+
+
+.event-container {}
+.event-container .event {background:#eb8075; border-bottom:1px solid #fbe6e3; height:60px; line-height:65px; text-align:center; width:auto;}
+.event-container .container  {display:inline; margin:0; padding:0; background:none;}
+.event-container .status {font-size:24px; display:inline;}
+.event-container .event-ticker {display:inline; background:none; font-size:26px; border:none; }
+.event-container .event-ticker span {vertical-align:baseline; display:-moz-inline-box; display:inline-block; margin:0; padding:0 2px;}
+
+.event-container .event .event-ticker span.hour {background-position:50% -65px; }
+.event-container .event .event-ticker span.minute {background-position:50% -124px; }
+.event-container .event .event-ticker span.second {background-position:50% -183px; }
+
+.col1-layout .event-container {margin:-50px -50px 20px; position:relative; z-index:1;}
+
+.event-container .upcoming {background:#eee; line-height:70px;}
+.event-container .upcoming .event-dates  {font:normal 24px georgia, san-serif; display:inline; margin-left:15px; color:#858585;}
+.event-container .upcoming .event-dates div,
+.event-container .upcoming .event-dates p  {display:inline;}
+
+.event-container .closed {background:#757270; line-height:70px;}
+.event-container .closed .event-dates  {font:normal 24px georgia, san-serif; display:inline; margin-left:15px; color:#eee;}
+.event-container .closed .event-dates div,
+.event-container .closed .event-dates p  {display:inline;}
+
+
+/* Block:  Events Homepage  */
+#events-home-page {position:relative;display:inline; float:left; z-index:2; width:700px; padding:24px 0px 0;}
+#events-home-page .slider-panel,
+#events-home-page ul.slider  li.slider-item,
+#events-home-page .slide-button { float: left; display:inline;}
+
+
+#events-home-page .slider-panel {position: relative; overflow: hidden; width: 550px; margin:0 20px 20px;}
+#events-home-page ul.slider { width: 200000px;}
+#events-home-page  ul.slider  li.slider-item {position: relative; z-index:1; background:#fff;  width: 183px; height: 423px; margin:0 1px 0 0;}
+#events-home-page ul.slider  li.slider-item .category-name {font:bold 16px georgia, san-serif; color:#43322a; display:block; padding:80px 10px 0; }
+#events-home-page ul.slider  li.slider-item  .category-show {width:183px; height:257px; overflow:hidden; text-align:center; display:block; text-decoration:none;}
+#events-home-page ul.slider  li.slider-item  .no-event {height:423px;}
+
+#events-home-page .slide-button {position:absolute; cursor:pointer; top:170px; width:34px; height:34px; z-index:2; background-repeat:no-repeat; background-position:0 0; overflow:hidden;}
+#events-home-page .backward {left:0px; }
+#events-home-page .forward {right:0px; }
+#events-home-page .inactive {
+	cursor:default;
+	display:none;
+}
+
+
 
 /* Sidebar =============================================================================== */
 /* Lists Decoration */

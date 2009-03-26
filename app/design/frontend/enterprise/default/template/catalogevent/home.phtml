@@ -28,12 +28,28 @@
 /**
  * Catalog Event category page
  *
- * @see Enterprise_CatalogEvent_Block_Catalog_Category_Event
+ * @see Enterprise_CatalogEvent_Block_Event_Home
  */
 ?>
-<?php $_event = $this->getEvent(); ?>
+
 <?php if ($this->canDisplay()): ?>
-<div class="event-container">
+<div class="clearer"></div>
+<div id="events-home-page">
+<div class="slide-button backward">&laquo;</div>
+<div class="slider-panel">
+    <ul class="slider">
+<?php foreach ($this->getCategories() as $_category): ?>
+<?php $_event = $_category->getEvent(); ?>
+<li class="slider-item">
+<div class="category-info">
+    <a class="category-show" href="<?php echo $this->getCategoryUrl($_category); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>">
+    <?php if ($this->getCategoryImageUrl($_category)): ?>
+    <img src="<?php echo $this->getCategoryImageUrl($_category); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" />
+    <?php else: ?>
+    <span class="category-name"><?php echo $this->htmlEscape($_category->getName()) ?></span>
+    <?php endif; ?>
+    </a>
+</div>
 <div class="event <?php echo $_event->getStatus()?>">
 <strong class="status">
 <?php echo $this->getStatusText($_event); ?>
@@ -51,6 +67,8 @@
                 <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
             </p>
         </div>
+        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->helper('enterprise_catalogevent')->__('Preview Sale') ?></a>
+
     <?php break;
         case 'open': ?>
         <div class="event-ticker" id="event-ticker-<?php echo $_event->getId()?>">
@@ -61,6 +79,8 @@
         <script type="text/javascript">
         new Enterprise.CatalogEvent.Ticker('event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
         </script>
+        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->helper('enterprise_catalogevent')->__('Go To Sale!') ?></a>
+
     <?php break;
         case 'closed': ?>
         <div class="event-dates">
@@ -74,8 +94,18 @@
                 <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
             </p>
         </div>
+        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></a>
+
     <?php break; ?>
 <?php endswitch; ?>
 </div>
+</li>
+<?php endforeach; ?>
+</ul>
 </div>
+<div class="slide-button inactive forward">&raquo;</div>
+</div>
+<script type="text/javascript">
+new Enterprise.Slider('events-home-page', {pageSize: 3});
+</script>
 <?php endif; ?>

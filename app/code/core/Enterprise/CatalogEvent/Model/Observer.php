@@ -322,8 +322,6 @@ class Enterprise_CatalogEvent_Model_Observer
 
             return ($event ? $event : $noOpenEvent);
         }
-
-        return false;
     }
 
     /**

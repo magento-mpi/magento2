@@ -70,6 +70,19 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     }
 
     /**
+     * Add filter for visible events on frontend
+     *
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     */
+    public function addVisibilityFilter()
+    {
+        $this->addFieldToFilter('status', array(
+            'nin' => Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED
+        ));
+        return $this;
+    }
+
+    /**
      * Set sort order
      *
      * @param string $field

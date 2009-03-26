@@ -210,6 +210,141 @@ Object.extend(Enterprise.Tabs.prototype, {
     }
 });
 
+
+Enterprise.Slider = Class.create();
+
+Object.extend(Enterprise.Slider.prototype, {
+    initialize: function (container, config) {
+        this.container = $(container);
+        this.config = {
+            panelCss: 'slider-panel',
+            sliderCss: 'slider',
+            itemCss: 'slider-item',
+            slideButtonCss: 'slide-button',
+            slideButtonInactiveCss: 'inactive',
+            forwardButtonCss: 'forward',
+            backwardButtonCss: 'backward',
+            pageSize: 2,
+            slideDuration: 1.0,
+            slideDirection: 'horizontal'
+        };
+        
+        Object.extend(this.config, config || {});
+        
+        this.items = this.container.select('.' + this.config.itemCss);
+        this.isPlaying = false;
+        this.isAbsolutized = false;
+        this.totalPages = Math.ceil(this.items.length / this.config.pageSize);
+        this.currentPage = 1;
+        this.onClick = this.handleClick.bindAsEventListener(this);
+        this.sliderPanel = this.container.down('.' + this.config.panelCss);
+        this.slider =  this.sliderPanel.down('.' + this.config.sliderCss);
+        this.container.select('.' + this.config.slideButtonCss).each(
+            this.initializeHandlers.bind(this)
+        );
+        this.updateButtons();
+    },
+    initializeHandlers: function (element) {
+        if (element.hasClassName(this.config.forwardButtonCss) ||
+            element.hasClassName(this.config.backwardButtonCss)) {
+            element.observe('click', this.onClick);
+        }
+    },
+    handleClick: function (evt) {
+        var element = Event.element(evt);
+        if (!element.hasClassName(this.config.slideButtonCss)) {
+            element = element.up('.' + this.config.slideButtonCss);
+        }
+        
+        if (!element.hasClassName(this.config.slideButtonInactiveCss)) {
+           element.hasClassName(this.config.forwardButtonCss) || this.backward();
+           element.hasClassName(this.config.backwardButtonCss) || this.forward();
+        }
+        Event.stop(evt);
+    },
+    updateButtons: function () {
+        var buttons = this.container.select('.' + this.config.slideButtonCss);
+        for (var i=0, l=buttons.length; i < l; i++) {
+            if (buttons[i].hasClassName(this.config.backwardButtonCss)) {
+                this.currentPage != 1 || buttons[i].addClassName(this.config.slideButtonInactiveCss);
+                this.currentPage == 1 || buttons[i].removeClassName(this.config.slideButtonInactiveCss);
+            } else if (buttons[i].hasClassName(this.config.forwardButtonCss)) {
+                this.currentPage < this.totalPages || buttons[i].addClassName(this.config.slideButtonInactiveCss);
+                this.currentPage == this.totalPages || buttons[i].removeClassName(this.config.slideButtonInactiveCss);
+            }
+        }
+    },
+    absolutize: function () {
+        if (!this.isAbsolutized) {
+            this.isAbsolutized = true;
+            var dimensions = this.sliderPanel.getDimensions();
+            this.sliderPanel.setStyle({
+                height: dimensions.height + 'px',
+                width: dimensions.width + 'px'
+            });
+            this.slider.absolutize();
+        }
+    },
+    forward: function () {
+        if (this.currentPage < this.totalPages) {
+            this.slide(this.currentPage + 1);
+        }
+    },
+    backward: function () {
+        if (this.currentPage > 0) {
+            this.slide(this.currentPage - 1);
+        }
+    },
+    slide: function (page) {
+        
+        if (page == this.currentPage 
+            || this.isPlaying) {
+            return;
+        }       
+        this.absolutize();
+        this.currentPage = page;
+        var effectConfig = {
+            afterFinish: this.effectEnds.bind(this),
+            beforeStart: this.effectStarts.bind(this),
+            duration: this.config.slideDuration
+        };
+        if (this.config.slideDirection == 'horizontal') {
+            effectConfig.x = this.getSlidePosition(page).left;
+        } else {
+            effectConfig.y = this.getSlidePosition(page).top;
+        }
+        new Effect.Move(this.slider, effectConfig);
+        this.updateButtons();
+    },
+    effectStarts: function () {
+        this.isPlaying = true;
+    },
+    effectEnds: function () {
+        this.isPlaying = false;
+    },
+    getSlidePosition: function (page) {
+        var item = this.findItem(page * this.config.pageSize - this.config.pageSize, this.config.pageSize);
+        var itemOffset = {left:0, top:0};
+        
+        itemOffset.left = -(item.cumulativeOffset().left 
+                       -  this.slider.cumulativeOffset().left + this.slider.offsetLeft);
+        itemOffset.top = -(item.cumulativeOffset().top 
+                       -  this.slider.cumulativeOffset().top + this.slider.offsetTop);
+        return itemOffset;
+    },
+    findItem: function (offset, total) {
+        var last = false;
+        
+        for (var i = 0, l = this.items.length; 
+             i <= offset && i + total <= l;
+             i ++) 
+        {
+             last = this.items[i];
+        }
+        return last;
+    }
+});
+
 function popUpMenu(element,trigger) {
         var iDelay = 1500;
         var new_popup = 0;
@@ -220,7 +355,7 @@ function popUpMenu(element,trigger) {
             eTemp.id = sNativeId;
             clearTimeout(tId);
             document.onclick = null;
-            }
+        }
             
         sNativeId = 'popId-'+element.parentNode.id;
 
@@ -267,3 +402,4 @@ function popUpMenu(element,trigger) {
             if (tId) {clearTimeout(tId);}
         }
 }
+
