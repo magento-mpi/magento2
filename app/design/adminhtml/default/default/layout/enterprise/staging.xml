@@ -65,6 +65,18 @@
         </reference>
     </adminhtml_staging_manage_backup>
     
+    <adminhtml_staging_manage_backupedit>
+        <reference name="content">
+            <block type="enterprise_staging/manage_staging_backup_edit"  name="enterprise_staging_manage_staging_backup_edit" />
+        </reference>
+        <reference name="left">
+            <block type="enterprise_staging/manage_staging_backup_edit_tabs" name="enterprise_staging_manage_staging_backup_edit_tabs"></block>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+        </reference>
+    </adminhtml_staging_manage_backupedit>
+    
     <adminhtml_staging_manage_rollback>
         <reference name="content">
             <block type="enterprise_staging/manage_staging_rollback"  name="enterprise_staging_manage_staging_rollback">
