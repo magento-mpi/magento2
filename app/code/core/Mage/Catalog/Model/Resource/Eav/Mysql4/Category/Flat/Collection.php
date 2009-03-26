@@ -65,8 +65,37 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            array('main_table' => $this->getResource()->getMainStoreTable($this->getStoreId()))
+            array('main_table' => $this->getResource()->getMainStoreTable($this->getStoreId())),
+            array('entity_id', 'level', 'path', 'position', 'is_active', 'is_anchor')
         );
+        return $this;
+    }
+
+    /**
+     * Add filter by entity id(s).
+     *
+     * @param mixed $categoryIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
+    public function addIdFilter($categoryIds)
+    {
+        if (is_array($categoryIds)) {
+            if (empty($categoryIds)) {
+                $condition = '';
+            } else {
+                $condition = array('in' => $categoryIds);
+            }
+        } elseif (is_numeric($categoryIds)) {
+            $condition = $categoryIds;
+        } elseif (is_string($categoryIds)) {
+            $ids = explode(',', $categoryIds);
+            if (empty($ids)) {
+                $condition = $categoryIds;
+            } else {
+                $condition = array('in' => $ids);
+            }
+        }
+        $this->addFieldToFilter('entity_id', $condition);
         return $this;
     }
 
@@ -171,8 +200,47 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
 
     public function addNameToResult()
     {
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
-        $this->getSelect()->columns(array('main_table.name', 'main_table.level'));
+        $this->addAttributeToSelect('name');
+        return $this;
+    }
+
+    /**
+     * Add attribute to select
+     *
+     * @param array|string $attribute
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
+    public function addAttributeToSelect($attribute = '*')
+    {
+        if ($attribute == '*') {
+            // Save previous selected columns
+            $columns = $this->getSelect()->getPart(Zend_Db_Select::COLUMNS);
+            $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+            foreach ($columns as $column) {
+                if ($column[0] == 'main_table') {
+                    // If column selected from main table,
+                    // no need to select it again
+                    continue;
+                }
+
+                // Joined columns
+                if ($column[2] !== null) {
+                    $expression = array($column[2] => $column[1]);
+                } else {
+                    $expression = $column[2];
+                }
+                $this->getSelect()->columns($expression, $column[0]);
+            }
+
+            $this->getSelect()->columns('*', 'main_table');
+            return $this;
+        }
+
+        if (!is_array($attribute)) {
+            $attribute = array($attribute);
+        }
+
+        $this->getSelect()->columns($attribute, 'main_table');
         return $this;
     }
 
