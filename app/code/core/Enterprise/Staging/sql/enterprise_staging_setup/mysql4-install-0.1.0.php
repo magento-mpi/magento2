@@ -46,6 +46,7 @@ $installer->run("
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset_item')}`;
 
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_rollback')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_backup')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_event')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_item')}`;
@@ -415,9 +416,8 @@ $installer->getConnection()->addConstraint(
 $installer->run("
 CREATE TABLE `".$this->getTable('enterprise_staging/staging_backup')."` (
   `backup_id` int(10) NOT NULL auto_increment,
+  `event_id` int(10) unsigned NOT NULL default '0',
   `staging_id` int(10) unsigned NOT NULL default '0',
-  `parent_id` int(10) unsigned NOT NULL default '0',
-  `event_code` char(20) NOT NULL default '',
   `name` varchar(255) NOT NULL default '',
   `state` char(20) NOT NULL default '',
   `status` char(20) NOT NULL default '',
@@ -427,11 +427,36 @@ CREATE TABLE `".$this->getTable('enterprise_staging/staging_backup')."` (
   `mage_version`  char(50) NOT NULL default '',
   `mage_modules_version` text NOT NULL default '',
   PRIMARY KEY  (`backup_id`),
+  KEY `IDX_ENTERPRISE_STAGING_BACKUP_EVENT_ID` (`event_id`),
   KEY `IDX_ENTERPRISE_STAGING_BACKUP_STAGING_ID` (`staging_id`),
-  KEY `IDX_ENTERPRISE_STAGING_BACKUP_PARENT_ID` (`parent_id`),
   KEY `IDX_ENTERPRISE_STAGING_BACKUP_STATE` (`state`),
   KEY `IDX_ENTERPRISE_STAGING_BACKUP_STATUS` (`status`),
   KEY `IDX_ENTERPRISE_STAGING_BACKUP_VERSION` (`mage_version`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Backup';
 ");
+
+$installer->run("
+CREATE TABLE `".$this->getTable('enterprise_staging/staging_rollback')."` (
+  `rollback_id` int(10) NOT NULL auto_increment,
+  `backup_id` int(10) unsigned NOT NULL default '0',
+  `event_id` int(10) unsigned NOT NULL default '0',
+  `staging_id` int(10) unsigned NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `state` char(20) NOT NULL default '',
+  `status` char(20) NOT NULL default '',
+  `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
+  `staging_table_prefix` varchar(255) NOT NULL default '',
+  `mage_version`  char(50) NOT NULL default '',
+  `mage_modules_version` text NOT NULL default '',
+  PRIMARY KEY  (`rollback_id`),
+  KEY `IDX_ENTERPRISE_STAGING_ROLLBACK_BACKUP_ID` (`backup_id`),
+  KEY `IDX_ENTERPRISE_STAGING_ROLLBACK_EVENT_ID` (`event_id`),
+  KEY `IDX_ENTERPRISE_STAGING_ROLLBACK_STAGING_ID` (`staging_id`),
+  KEY `IDX_ENTERPRISE_STAGING_ROLLBACK_STATE` (`state`),
+  KEY `IDX_ENTERPRISE_STAGING_ROLLBACK_STATUS` (`status`),
+  KEY `IDX_ENTERPRISE_STAGING_ROLLBACK_VERSION` (`mage_version`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Rollback';
+");
+
 $installer->endSetup();

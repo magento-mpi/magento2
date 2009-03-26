@@ -64,7 +64,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $staging->setType($type);
             }
         }
-        
+
         if ($stagingId) {
             $staging->load($stagingId);
         }
@@ -79,9 +79,11 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
      *
      * @return Enterprise_Staging_Model_Staging_Event
      */
-    protected function _initEvent()
+    protected function _initEvent($eventId = null)
     {
-        $eventId  = (int) $this->getRequest()->getParam('id');
+        if (is_null($eventId)) {
+            $eventId  = (int) $this->getRequest()->getParam('id');
+        }
         $event    = Mage::getModel('enterprise_staging/staging_event');
 
         if ($eventId) {
@@ -92,12 +94,41 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         if ($stagingId) {
             $this->_initStaging($stagingId);
         }
-        
+
         $event->restoreMap();
 
-        Mage::register('event', $event);
+        Mage::register('staging_event', $event);
 
         return $event;
+    }
+
+    /**
+     * Initialize staging backup from request parameters
+     *
+     * @return Enterprise_Staging_Model_Staging_Backup
+     */
+    protected function _initBackup()
+    {
+        $backupId  = (int) $this->getRequest()->getParam('id');
+        $backup    = Mage::getModel('enterprise_staging/staging_backup');
+
+        if ($backupId) {
+            $backup->load($backupId);
+        }
+
+        $eventId = $backup->getEventId();
+        if ($eventId) {
+            $this->_initEvent($eventId);
+        } else {
+            $stagingId = $backup->getStagingId();
+            if ($stagingId) {
+                $this->_initStaging($stagingId);
+            }
+        }
+
+        Mage::register('staging_backup', $backup);
+
+        return $backup;
     }
 
     public function indexAction()
@@ -480,7 +511,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         /* @var $staging Enterprise_Staging_Model_Staging */
 
         $mapData = $this->getRequest()->getPost('map');
-        
+
         $stagingId = "";
 
         if ($mapData) {
@@ -491,7 +522,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                     // run create database backup
                     $staging->backup();
                 }
-                // run create destination database backup scenario
+
                 $staging->merge();
 
                 if ($staging->getId()) {
@@ -532,6 +563,17 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
+    public function backupEditAction()
+    {
+        $this->_initBackup();
+
+        $this->loadLayout();
+
+        $this->_setActiveMenu('enterprise/staging');
+
+        $this->renderLayout();
+    }
+
     public function rollbackAction()
     {
         $this->_initEvent();
@@ -546,24 +588,24 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
     public function rollbackPostAction()
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
-        
+
         $stagingId = $this->getRequest()->getPost('staging_id');
 
         $staging = $this->_initStaging($stagingId);
-        
+
         $mapData = $this->getRequest()->getPost('map');
-        
+
         try {
             $staging->getMapperInstance()->setMapData($mapData);
 
             $staging->rollback();
-            
+
             $this->_getSession()->addSuccess($this->__('Staging master website was successfully restored.'));
-            
+
             $stagingId = $staging->getId();
-            
+
             Mage::dispatchEvent('on_enterprise_staging_rollback', array('staging' => $staging));
-            
+
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $redirectBack = true;

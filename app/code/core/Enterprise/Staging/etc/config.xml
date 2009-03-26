@@ -47,6 +47,7 @@
                     <staging_store><table>enterprise_staging_store</table></staging_store>
                     <staging_event><table>enterprise_staging_event</table></staging_event>
                     <staging_backup><table>enterprise_staging_backup</table></staging_backup>
+                    <staging_rollback><table>enterprise_staging_rollback</table></staging_rollback>
                     <staging_event_history><table>enterprise_staging_event_history</table></staging_event_history>
                     <dataset><table>enterprise_staging_dataset</table></dataset>
                     <dataset_item><table>enterprise_staging_dataset_item</table></dataset_item>
@@ -136,8 +137,19 @@
         </events>
         <enterprise>
             <staging>
-                <use_new_db>0</use_new_db>
-                <use_table_prefix>0</use_table_prefix>
+                <use_storage_method>table_prefix</use_storage_method>
+                <starage_method>
+                    <new_db></new_db>
+                    <table_prefix></table_prefix>
+                </starage_method>
+                
+                <use_backup_method>table_prefix</use_backup_method>
+                <backup_method>
+                    <new_db></new_db>
+                    <table_prefix></table_prefix>
+                    <basic></basic>
+                </backup_method>
+                
                 <type>
                     <website>
                         <code>website</code>
@@ -216,7 +228,7 @@
                         <is_backend>1</is_backend>
                         <label>Customers</label>
                         <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_table_prefix>1</use_table_prefix>
+                        <use_storage_method>table_prefix</use_storage_method>
                     </customer>
                     <customer_address>
                         <code>customer_address</code>
@@ -224,7 +236,7 @@
                         <is_backend>1</is_backend>
                         <label>Customer Adresses</label>
                         <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_table_prefix>1</use_table_prefix>
+                        <use_storage_method>table_prefix</use_storage_method>
                     </customer_address>
                     
                     <sales>
@@ -233,7 +245,7 @@
                         <is_backend>1</is_backend>
                         <label>Sales</label>
                         <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
-                        <use_table_prefix>1</use_table_prefix>
+                        <use_storage_method>table_prefix</use_storage_method>
                     </sales>
                     
                     <catalog_product>
@@ -241,7 +253,7 @@
                         <model>catalog</model>
                         <label>Catalog Products</label>
                         <adapter>enterprise_staging/staging_adapter_item_product</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                         <extends>
                             <bundle>
                                 <code>bundle</code>
@@ -259,28 +271,28 @@
                         <model>catalog</model>
                         <label>Catalog Categories</label>
                         <adapter>enterprise_staging/staging_adapter_item_category</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                     </catalog_category>
                     <catalogrule>
                         <code>catalogrule</code>
                         <model>catalogrule</model>
                         <label>Catalog Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                     </catalogrule>
                     <salesrule>
                         <code>salesrule</code>
                         <model>salesrule</model>
                         <label>Sales Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                     </salesrule>
                     <cms_page>
                         <code>cms_page</code>
                         <model>cms</model>
                         <label>CMS Pages</label>
                         <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                         <entities>
                             <page_store />
                         </entities>
@@ -290,7 +302,7 @@
                         <model>cms</model>
                         <label>CMS Blocks</label>
                         <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                         <entities>
                             <block_store />
                         </entities>
@@ -300,14 +312,14 @@
                         <model>poll</model>
                         <label>Polls</label>
                         <adapter>enterprise_staging/staging_adapter_item_poll</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                     </poll>
                     <checkout>
                         <code>checkout</code>
                         <model>checkout</model>
                         <label>Coditions And Terms</label>
                         <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                         <entities>
                             <agreement_store />
                         </entities>
@@ -317,7 +329,7 @@
                         <model>core</model>
                         <label>System Configs</label>
                         <adapter>enterprise_staging/staging_adapter_item_config</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                         <entities>
                             <config_data />
                         </entities>
@@ -337,7 +349,7 @@
                         <is_backend>1</is_backend>
                         <label>Catalog Inventory</label>
                         <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
-                        <use_table_prefix>0</use_table_prefix>
+                        <use_storage_method></use_storage_method>
                         <entities>
                             <cataloginventory_stock_item>
                                 <table>cataloginventory_stock_item</table>
@@ -350,7 +362,7 @@
                         <is_backend>1</is_backend>
                         <label>Catalog Index</label>
                         <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
-                        <use_table_prefix>1</use_table_prefix>
+                        <use_storage_method>table_prefix</use_storage_method>
                     </catalogindex>
                     <catalogsearch>
                         <code>catalogsearch</code>
@@ -358,7 +370,7 @@
                         <is_backend>1</is_backend>
                         <label>Catalog Search</label>
                         <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
-                        <use_table_prefix>1</use_table_prefix>
+                        <use_storage_method>table_prefix</use_storage_method>
                     </catalogsearch>
                 </staging_items>
                 <staging_website_code_suffix></staging_website_code_suffix>
