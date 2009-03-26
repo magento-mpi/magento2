@@ -48,10 +48,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
-        $collection->addMergedFilter();
-        $collection->addBackupedFilter();
-        $collection->addStagingToCollection();
+        $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -61,37 +58,16 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('staging_name', array(
-            'header'    => 'Staging Name',
-            'index'     => 'staging_name',
+        $this->addColumn('name', array(
+            'header'    => 'Name',
+            'index'     => 'name',
             'type'      => 'text',
         ));
 
         $this->addColumn('created_at', array(
             'header'    => 'Created At',
             'index'     => 'created_at',
-            'type'      => 'date',
-        ));
-
-        $actions = array();
-        $actions[] = array(
-            'caption' => Mage::helper('enterprise_staging')->__('Rollback'),
-            'url'     => array(
-                'base'   =>'*/*/rollback',
-                'params' =>array()
-            ),
-            'field'      => 'id'
-        );
-        $this->addColumn('action_rollback',
-            array(
-                'header'    => Mage::helper('enterprise_staging')->__('Rollback'),
-                'width'     => '100px',
-                'type'      => 'action',
-                'getter'    => 'getId',
-                'actions'   => $actions,
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
+            'type'      => 'datetime',
         ));
 
         $actions = array();
@@ -142,6 +118,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
 
     public function getRowUrl($row)
     {
-        return '';
+        return $this->getUrl('*/*/backupEdit', array('_current'=>true, 'id'=>$row->getId()));
     }
 }

@@ -124,9 +124,9 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
      */
     public function getEvent()
     {
-        if (!($this->getData('event') instanceof Enterprise_Staging_Model_Staging_Event)) {
-            $this->setData('event', Mage::registry('event'));
+        if (!($this->getData('staging_event') instanceof Enterprise_Staging_Model_Staging_Event)) {
+            $this->setData('staging_event', Mage::registry('staging_event'));
         }
-        return $this->getData('event');
+        return $this->getData('staging_event');
     }
 }
