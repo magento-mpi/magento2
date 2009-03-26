@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_AmazonPayments>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </Mage_AmazonPayments>
     </modules>
     <global>
@@ -224,7 +224,6 @@ Something like this is to be added to resolve bug #4890
                 <fps_service_url>https://fps.amazonaws.com</fps_service_url>
                 <fps_service_url_sandbox>https://fps.sandbox.amazonaws.com/</fps_service_url_sandbox>
 
-                <report_email>romail@ukr.net</report_email>
                 <email_sender_identity>general</email_sender_identity>
                 <email_template_notofication_error>payment_amazonpayments_asp</email_template_notofication_error>
                 <report_error_to_email>0</report_error_to_email>
