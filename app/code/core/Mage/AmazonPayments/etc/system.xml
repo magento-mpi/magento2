@@ -157,6 +157,46 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_callback_api>
+                        <standard_rate>
+                            <label>Standard Rate</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>amazonpayments/adminhtml_shipping_methods</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </standard_rate>
+                        <expedited_rate>
+                            <label>Expedited Rate</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>amazonpayments/adminhtml_shipping_methods</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </expedited_rate>
+                        <oneday_rate>
+                            <label>OneDay Rate</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>amazonpayments/adminhtml_shipping_methods</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </oneday_rate>
+                        <twoday_rate>
+                            <label>TwoDay Rate</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>amazonpayments/adminhtml_shipping_methods</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </twoday_rate>
                     </fields>
                 </amazonpayments_cba>
                 <amazonpayments_asp translate="label">

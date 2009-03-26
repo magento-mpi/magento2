@@ -72,7 +72,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     /**
      * Get AmazonPayments API Model
      *
-     * @return Mage_Paypal_Model_Api_Nvp
+     * @return Mage_AmazonPayments_Model_Api_Cba
      */
     public function getApi()
     {

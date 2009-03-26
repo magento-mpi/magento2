@@ -37,6 +37,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     protected $_carriers;
     protected $_address;
 
+    protected $_configShippingRates = array();
+
     /**
      * Return Merchant Id from config
      *
@@ -68,6 +70,37 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         $_url = $this->getPayServiceUrl();
         $_merchantId = Mage::getStoreConfig('payment/amazonpayments_cba/merchant_id');
         return $_url.$_merchantId;
+    }
+
+    public function getConfigShippingRates()
+    {
+        if (empty($this->_configShippingRates)) {
+            $_standardRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/standard_rate'));
+            $_expeditedRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/expedited_rate'));
+            $_oneDayRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/oneday_rate'));
+            $_twoDayRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/twoday_rate'));
+            $_standardCarrier = explode('/', $_standardRate['method']);
+            $this->_configShippingRates[$_standardCarrier[0]] = array(
+                'service_level' => 'Standard',
+                'method' => $_standardCarrier[1]
+            );
+            $_expeditedCarrier = explode('/', $_expeditedRate['method']);
+            $this->_configShippingRates[$_expeditedCarrier[0]] = array(
+                'service_level' => 'Expedited',
+                'method' => $_expeditedCarrier[1]
+            );
+            $_oneDayCarrier = explode('/', $_oneDayRate['method']);
+            $this->_configShippingRates[$_oneDayCarrier[0]] = array(
+                'service_level' => 'OneDay',
+                'method' => $_oneDayCarrier[1]
+            );
+            $_twoDayCarrier = explode('/', $_twoDayRate['method']);
+            $this->_configShippingRates[$_twoDayCarrier[0]] = array(
+                'service_level' => 'TwoDay',
+                'method' => $_twoDayCarrier[1]
+            );
+        }
+        return $this->_configShippingRates;
     }
 
     /**
@@ -118,7 +151,6 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
         $_xml .= " <Cart>\n"
                 ."   <Items>\n";
-        $_taxTable = array();
 
         foreach ($quote->getAllVisibleItems() as $_item) {
             $_xml .= "   <Item>\n"
@@ -135,7 +167,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 ."       <Unit>lb</Unit>\n"
                 ."     </Weight>\n";
             if (!$this->getConfigData('use_callback_api')) {
-                $_xml .= "     <TaxTableId>tax_{$_item->getSku()}</TaxTableId>\n"
+                $taxClass = ($_item->getTaxClassId() == 0 ? 'none' : $_item->getTaxClassId());
+                $_xml .= "     <TaxTableId>tax_{$taxClass}</TaxTableId>\n"
                     ."     <ShippingMethodIds>\n"
                     ."       <ShippingMethodId>US Standard</ShippingMethodId>\n"
                     ."       <ShippingMethodId>US Expedited</ShippingMethodId>\n"
@@ -145,30 +178,12 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             }
             $_xml .= "   </Item>\n";
 
-
-            $_taxTable["{$_item->getSku()}"] = round($_item->getTaxPercent()/100, 4);
-            #$_taxTable["{$_item->getSku()}"] = round($_item->getTaxAmount(), 2);
         }
         $_xml .= "   </Items>\n"
                 ." </Cart>\n";
 
         if (!$this->getConfigData('use_callback_api')) {
-            if (count($_taxTable) > 0) {
-                    $_xml .= " <TaxTables>\n";
-                foreach ($_taxTable as $_taxTableId => $_taxTableValue) {
-                    $_xml .= "    <TaxTable>\n"
-                        ."      <TaxTableId>tax_{$_taxTableId}</TaxTableId>\n"
-                        ."      <TaxRules>\n"
-                        ."        <TaxRule>\n"
-                        ."          <Rate>{$_taxTableValue}</Rate>\n"
-                        #."            <USStateRegion>WA</USStateRegion>\n"
-                        ."          <PredefinedRegion>USAll</PredefinedRegion>\n"
-                        ."        </TaxRule>\n"
-                        ."      </TaxRules>\n"
-                        ."    </TaxTable>\n";
-                }
-                $_xml .= " </TaxTables>\n";
-            }
+            $_xml .= $this->_getCheckoutTaxXml($quote);
 
             $_xml .= ""
                     ." <ShippingMethods>\n"
@@ -227,22 +242,279 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                     ." </ShippingMethods>\n";
         }
 
+        $calculationsEnabled = ($this->getConfigData('use_callback_api') ? 'true' : 'false');
         $_xml .= " <IntegratorId>{$this->getIntegratorId()}</IntegratorId>\n"
                 ." <IntegratorName>Varien</IntegratorName>\n";
         $_xml .= " <OrderCalculationCallbacks>\n"
-                ."   <CalculateTaxRates>false</CalculateTaxRates>\n"
+                ."   <CalculateTaxRates>{$calculationsEnabled}</CalculateTaxRates>\n"
+                /** @todo WARNING! HARDCODE! replace 'false' with '{$calculationsEnabled}' */
                 ."   <CalculatePromotions>false</CalculatePromotions>\n"
-                ."   <CalculateShippingRates>true</CalculateShippingRates>\n"
+                ."   <CalculateShippingRates>{$calculationsEnabled}</CalculateShippingRates>\n"
                 ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback')."</OrderCallbackEndpoint>\n"
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
                 ." </OrderCalculationCallbacks>\n";
 
-        #$_xml .= "<ReturnUrl>anyURI</ReturnUrl>"
-        #        ."<CancelUrl>anyURI</CancelUrl>"
-        #        ."<YourAccountUrl>anyURI</YourAccountUrl>";
-
         $_xml .= "</Order>\n";
         return $_xml;
+    }
+
+    /**
+     * Retreive checkout tax tables xml
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return string
+     */
+    protected function _getCheckoutTaxXml(Mage_Sales_Model_Quote $quote)
+    {
+        $xml = '';
+
+        // shipping tax table (used as default, because we have no ability to specify shipping tax table)
+        //$xml .= $this->_getTaxTablesXml($quote, $this->_getShippingTaxRules($quote), true);
+        // removed because of no ability to use default tax table as shipping tax table
+
+        $xml .= "<TaxTables>\n";
+
+        // item tax tables
+        $xml .= $this->_getTaxTablesXml($quote, $this->_getTaxRules($quote));
+
+        // empty tax table for products without tax class
+        $xml .= "   <TaxTable>\n"
+             ."      <TaxTableId>none</TaxTableId>\n"
+             ."      <TaxRules>\n"
+             ."        <TaxRule>\n"
+             ."          <Rate>0</Rate>\n"
+             ."          <PredefinedRegion>WorldAll</PredefinedRegion>\n"
+             ."        </TaxRule>\n"
+             ."      </TaxRules>\n"
+             ."    </TaxTable>\n";
+
+        $xml .= "</TaxTables>\n";
+
+
+        return $xml;
+    }
+
+    /**
+     * Retreive specified tax rates xml
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @param array $rates
+     * @param string $type
+     * @param mixed $addTo
+     * @return string
+     */
+    protected function _getTaxTablesXml($quote, $rules, $isShipping = false, $addTo = null)
+    {
+        $xml = '';
+        if ($isShipping) {
+            $isShippingTaxed = 'true';
+            $taxTableTag = 'DefaultTaxTable';
+        } else {
+            $isShippingTaxed = 'false';
+            $taxTableTag = 'TaxTable';
+        }
+
+        if (is_array($rules)) {
+            foreach ($rules as $group=>$taxRates) {
+                $isShippingTaxed = ($isShipping ? 'true' : 'false');
+                if ($isShipping) {
+                    $tableName = 'default-tax-table';
+                } else {
+                    $tableName = "tax_{$group}";
+                    if ($group == $this->_getShippingTaxClassId($quote)) {
+                        $isShippingTaxed = 'true';
+                    }
+                }
+                if ($addTo) {
+                    $_tables = $addTo->addChild('TaxTables');
+                    $_table = $_tables->addChild($taxTableTag);
+                    $_table->addChild('TaxTableId', $tableName);
+                    $_rules = $_table->addChild('TaxRules');
+                } else {
+                    $xml .= " <{$taxTableTag}>\n";
+                    $xml .= "  <TaxTableId>{$tableName}</TaxTableId>\n";
+                    $xml .= "  <TaxRules>\n";
+                }
+
+                if (is_array($taxRates)) {
+                    foreach ($taxRates as $rate) {
+                        if ($addTo) {
+                            $_rule = $_rules->addChild('TaxRule');
+                            $_rule->addChild('Rate', $rate['value']);
+                            $_rule->addChild('IsShippingTaxed', $isShippingTaxed);
+                        } else {
+                            $xml .= "   <TaxRule>\n";
+                            $xml .= "    <Rate>{$rate['value']}</Rate>\n";
+                            $xml .= "    <IsShippingTaxed>{$isShippingTaxed}</IsShippingTaxed>\n";
+                        }
+
+                        if ($rate['country']==='US') {
+                            if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
+                                if ($addTo) {
+                                    $_rule->addChild('USZipRegion', $rate['postcode']);
+                                } else {
+                                    $xml .= "    <USZipRegion>{$rate['postcode']}</USZipRegion>\n";
+                                }
+                            } else if (!empty($rate['state']) && $rate['state']!=='*') {
+                                if ($addTo) {
+                                    $_rule->addChild('USStateRegion', $rate['state']);
+                                } else {
+                                    $xml .= "    <USStateRegion>{$rate['state']}</USStateRegion>\n";
+                                }
+                            } else {
+                                if ($addTo) {
+                                    $_rule->addChild('PredefinedRegion', 'USAll');
+                                } else {
+                                    $xml .= "    <PredefinedRegion>USAll</PredefinedRegion>\n";
+                                }
+                            }
+                        } else {
+                            if ($addTo) {
+                                $_region = $_rule->addChild('WorldRegion');
+                                $_region->addChild('CountryCode', $rate['country']);
+                                if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
+                                    $_region->addChild('PostalRegion', $rate['postcode']);
+                                }
+                            } else {
+                                $xml .= "    <WorldRegion>\n";
+                                $xml .= "     <CountryCode>{$rate['country']}</CountryCode>\n";
+                                if (!empty($rate['postcode']) && $rate['postcode']!=='*') {
+                                    $xml .= "     <PostalRegion>{$rate['postcode']}</PostalRegion>\n";
+                                }
+                                $xml .= "    </WorldRegion>\n";
+                            }
+                        }
+
+                        $xml .= "   </TaxRule>\n";
+                    }
+                } else {
+                    $taxRate = $taxRates/100;
+                    if ($addTo) {
+                        $_rule = $_rules->addChild('TaxRule');
+                        $_rule->addChild('Rate', $taxRate);
+                        $_rule->addChild('IsShippingTaxed', $isShippingTaxed);
+                        $_rule->addChild('PredefinedRegion', 'WorldAll');
+                    } else {
+                        $xml .= "   <TaxRule>\n";
+                        $xml .= "    <Rate>{$taxRate}</Rate>\n";
+                        $xml .= "    <IsShippingTaxed>{$isShippingTaxed}</IsShippingTaxed>\n";
+                        $xml .= "    <PredefinedRegion>WorldAll</PredefinedRegion>\n";
+                        $xml .= "   </TaxRule>\n";
+                    }
+                }
+
+                $xml .= "  </TaxRules>\n";
+                $xml .= " </{$taxTableTag}>\n";
+            }
+
+        } else {
+            if (is_numeric($rules)) {
+                $taxRate = $rules/100;
+
+                if ($addTo) {
+                    $_table = $addTo->addChild($taxTableTag);
+                    $_rules = $_table->addChild('TaxRules');
+                    $_rule = $_rules->addChild('TaxRule');
+                    $_rule->addChild('Rate', $taxRate);
+                    $_rule->addChild('IsShippingTaxed', $isShippingTaxed);
+                    $_rule->addChild('PredefinedRegion', 'WorldAll');
+                } else {
+                    $xml .= " <{$taxTableTag}>\n";
+                    $xml .= "  <TaxRules>\n";
+                    $xml .= "   <TaxRule>\n";
+                    $xml .= "    <Rate>{$taxRate}</Rate>\n";
+                    $xml .= "    <IsShippingTaxed>{$isShippingTaxed}</IsShippingTaxed>\n";
+                    $xml .= "    <PredefinedRegion>WorldAll</PredefinedRegion>\n";
+                    $xml .= "   </TaxRule>\n";
+                    $xml .= "  </TaxRules>\n";
+                    $xml .= " </{$taxTableTag}>\n";
+                }
+            }
+        }
+
+        if ($addTo) {
+            return $addTo;
+        }
+
+        return $xml;
+    }
+
+
+    /**
+     * Retreive tax rules applicable to quote items
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return array
+     */
+    protected function _getTaxRules(Mage_Sales_Model_Quote $quote)
+    {
+        $customerTaxClass = $this->_getCustomerTaxClass($quote);
+        if (Mage::helper('tax')->getTaxBasedOn() == 'origin') {
+            $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+            return Mage::getSingleton('tax/calculation')->getRatesForAllProductTaxClasses($request->setCustomerClassId($customerTaxClass));
+        } else {
+            $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerTaxClass($customerTaxClass);
+            $rules = array();
+            foreach ($customerRules as $rule) {
+                $rules[$rule['product_class']][] = $rule;
+            }
+            return $rules;
+        }
+    }
+
+    /**
+     * Retreive tax rules applicable to shipping
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return array
+     */
+    protected function _getShippingTaxRules(Mage_Sales_Model_Quote $quote)
+    {
+        $customerTaxClass = $this->_getCustomerTaxClass($quote);
+        if ($shippingTaxClass = $this->_getShippingTaxClassId($quote)) {
+            if (Mage::helper('tax')->getTaxBasedOn() == 'origin') {
+                $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+                $request
+                    ->setCustomerClassId($customerTaxClass)
+                    ->setProductClassId($shippingTaxClass);
+
+                return Mage::getSingleton('tax/calculation')->getRate($request);
+            }
+            $customerRules = Mage::getSingleton('tax/calculation')->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $shippingTaxClass);
+            $rules = array();
+            foreach ($customerRules as $rule) {
+                $rules[$rule['product_class']][] = $rule;
+            }
+            return $rules;
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     * Retreive shipping tax class
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return int
+     */
+    protected function _getShippingTaxClassId(Mage_Sales_Model_Quote $quote)
+    {
+        return Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
+    }
+
+    /**
+     * Retreive customer tax class from quote
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return int
+     */
+    protected function _getCustomerTaxClass(Mage_Sales_Model_Quote $quote)
+    {
+        $customerGroup = $quote->getCustomerGroupId();
+        if (!$customerGroup) {
+            $customerGroup = Mage::getStoreConfig('customer/create_account/default_group', $quote->getStoreId());
+        }
+        return Mage::getModel('customer/group')->load($customerGroup)->getTaxClassId();
     }
 
     /**
@@ -287,15 +559,15 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
         $address->setCollectShippingRates(true)->collectShippingRates();
 
-        $_carriers = array();
-        $carriers = array();
+        $amazonShippingConfigRates = $this->getConfigShippingRates();
+
         $errors = array();
         foreach (Mage::getStoreConfig('carriers', $this->getStoreId()) as $carrierCode=>$carrierConfig) {
-            if (!isset($carrierConfig['title']) || !$carrierConfig['active']) {
+            if (!isset($carrierConfig['title']) || !$carrierConfig['active']
+                || !array_key_exists($carrierCode, $amazonShippingConfigRates)) {
                 continue;
             }
-            $title = $carrierConfig['title'];
-            $_carriers[$carrierCode] = $title;
+            $_carriers[$carrierCode] = $carrierConfig['title'];
         }
 
 
@@ -303,14 +575,10 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             ->collectRatesByAddress($address, array_keys($_carriers))
             ->getResult();
 
-        $rates = array();
         $rateCodes = array();
         foreach ($result->getAllRates() as $rate) {
-            if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
-                $errors[$rate->getCarrierTitle()] = 1;
-            } else {
-                $_title = $rate->getCarrierTitle().' - '.$rate->getMethodTitle();
-
+            if (!$rate instanceof Mage_Shipping_Model_Rate_Result_Error &&
+                $amazonShippingConfigRates[$rate->getCarrier()]['method'] == $rate->getMethod()) {
                 if ($address->getFreeShipping()) {
                     $price = 0;
                 } else {
@@ -318,18 +586,14 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 }
 
                 if ($price) {
-                    $price = Mage::helper('tax')->getShippingPrice($price, false, $address);
+                    $price = Mage::helper('tax')->getShippingPrice($price, true, $address);
                 }
-
-                $rates[$_title] = $price;
-                $rateCodes[$_title] = $rate->getCarrier() . '_' . $rate->getMethod();
                 $this->_carriers[] = array(
+                    'service_level' => $amazonShippingConfigRates[$rate->getCarrier()]['service_level'],
                     'code' => $rate->getCarrier() . '_' . $rate->getMethod(),
-                    'title' => $_title,
                     'price' => $price,
                     'currency' => $currency['currency_code'],
                     );
-                unset($errors[$rate->getCarrierTitle()]);
             }
         }
 
@@ -546,31 +810,33 @@ XML;
 
             $_xmlCallbackOrderItems = $_xmlCallbackOrder->addChild('CallbackOrderItems');
             foreach ($items as $_itemSku) {
-                #$taxAmountTable['tax_'.$_itemSku] = $_item->getTaxAmount();
+                $_quoteItem = null;
+                foreach ($quote->getAllItems() as $_item) {
+                    if ($_item->getSku() == $_itemSku) {
+                        $_quoteItem = $_item;
+                        break;
+                    }
+                }
+                if (is_null($_quoteItem)) {
+                    Mage::throwException($this->__('Item specified in callback request XML was not found in quote.'));
+                }
 
                 $_xmlCallbackOrderItem = $_xmlCallbackOrderItems->addChild('CallbackOrderItem');
                 $_xmlCallbackOrderItem->addChild('SKU', $_itemSku);
-                #$_xmlCallbackOrderItem->addChild('TaxTableId', 'tax_'.$_item->getSku());
+                $_xmlCallbackOrderItem->addChild('TaxTableId', 'tax_'.$_quoteItem->getTaxClassId());
+
+
 
                 $_xmlShippingMethodIds = $_xmlCallbackOrderItem->addChild('ShippingMethodIds');
                 /*foreach ($this->_carriers as $_carrier) {
                     $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
                 }*/
-                foreach ($_carriersAmazon as $_carrier) {
+                foreach ($this->_carriers as $_carrier) {
                     $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
                 }
             }
 
-            /*$_xmlTaxTables = $xml->addChild('TaxTables');
-            foreach ($taxAmountTable as $_taxId => $_taxAmount) {
-                $_xmlTaxTable = $_xmlTaxTables->addChild('TaxTable');
-                $_xmlTaxTable->addChild('TaxTableId', $_taxId);
-                $_xmlTaxRules = $_xmlTaxTable->addChild('TaxRules');
-                $_xmlTaxRule = $_xmlTaxRules->addChild('TaxRule');
-                $_xmlTaxRule->addChild('Rate', $_taxAmount);
-                #$_xmlTaxRule->addChild('IsShippingTaxed', 'true');
-                #$_xmlTaxRule->addChild('USZipRegion', $this->_address['postCode']);
-            }*/
+            $this->_appendTaxTables($xml, $quote, $this->_getTaxRules($quote));
 
             $_xmlShippingMethods = $xml->addChild('ShippingMethods');
             /*foreach ($this->_carriers as $_carrier) {
@@ -584,25 +850,30 @@ XML;
                 $_xmlShippingMethodRateItem->addChild('Amount', $_carrier['price']);
                 $_xmlShippingMethodRateItem->addChild('CurrencyCode', $_carrier['currency']);
             }*/
-            foreach ($_carriersAmazon as $_carrier) {
+            foreach ($this->_carriers as $_carrier) {
                 $_xmlShippingMethod = $_xmlShippingMethods->addChild('ShippingMethod');
 
                 $_xmlShippingMethod->addChild('ShippingMethodId', $_carrier['code']);
-                $_xmlShippingMethod->addChild('ServiceLevel', $_carrier['title']);
+                $_xmlShippingMethod->addChild('ServiceLevel', $_carrier['service_level']);
 
                 $_xmlShippingMethodRate = $_xmlShippingMethod->addChild('Rate');
                 // Posible values: ShipmentBased | WeightBased | ItemQuantityBased
-                $_xmlShippingMethodRateItem = $_xmlShippingMethodRate->addChild('ItemQuantityBased');
+                $_xmlShippingMethodRateItem = $_xmlShippingMethodRate->addChild('ShipmentBased');
                 $_xmlShippingMethodRateItem->addChild('Amount', $_carrier['price']);
                 $_xmlShippingMethodRateItem->addChild('CurrencyCode', $_carrier['currency']);
 
                 $_xmlShippingMethodIncludedRegions = $_xmlShippingMethod->addChild('IncludedRegions');
-                #$_xmlShippingMethodIncludedRegions->addChild('PredefinedRegion', 'USAll');
-                $_xmlShippingMethodIncludedRegions->addChild('USZipRegion', '10001');
+                $_xmlShippingMethodIncludedRegions->addChild('PredefinedRegion', 'WorldAll');
+//                $_xmlShippingMethodIncludedRegions->addChild('USZipRegion', '10001');
             }
         }
 
         return $xml;
+    }
+
+    protected function _appendTaxTables($xml, $quote, $rules, $isShipping = false)
+    {
+        return $this->_getTaxTablesXml($quote, $rules, $isShipping, $xml);
     }
 
     /**

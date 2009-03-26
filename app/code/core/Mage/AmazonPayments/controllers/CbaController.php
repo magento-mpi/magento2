@@ -118,7 +118,8 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
             // Return Xml with Error
             $response = $this->getCba()->callbackXmlError($e);
         }
-        return true;
+        echo $response;
+        exit(0);
     }
 
     /**
