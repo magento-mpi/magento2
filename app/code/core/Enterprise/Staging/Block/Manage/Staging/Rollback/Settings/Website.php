@@ -61,18 +61,31 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         
         return parent::_prepareLayout();
     }
-    
-/**
+
+    /**
+     * Retrieve currently edited backup object
+     *
+     * @return Enterprise_Staging_Model_Staging_Backup
+     */
+    public function getBackup()
+    {
+        if (!($this->getData('staging_backup') instanceof Enterprise_Staging_Model_Staging_Backup)) {
+            $this->setData('staging_backup', Mage::registry('staging_backup'));
+        }
+        return $this->getData('staging_backup');
+    }
+        
+    /**
      * Retrieve event 
      *
      * @return Enterprise_Staging_Block_Manage_Staging-Event
      */
     public function getEvent()
     {
-        if (!($this->getData('event') instanceof Enterprise_Staging_Model_Staging_Event)) {
-            $this->setData('event', Mage::registry('event'));
+        if (!($this->getData('staging_event') instanceof Enterprise_Staging_Model_Staging_Event)) {
+            $this->setData('staging_event', Mage::registry('staging_event'));
         }
-        return $this->getData('event');
+        return $this->getData('staging_event');
     }
     
     /**
@@ -101,7 +114,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
 
         $staging = $this->getStaging();
 
-        $collection->addFieldToFilter('is_staging',array('neq'=>1));
+        //$collection->addFieldToFilter('is_staging',array('neq'=>1));
 
         return $collection->load();
     }

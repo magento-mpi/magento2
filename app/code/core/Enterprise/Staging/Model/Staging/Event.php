@@ -107,4 +107,36 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+    
+    /**
+     * save event state in db
+     *
+     * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * 
+     * @return Enterprise_Staging_Model_Staging_Event 
+     */    
+    public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    {
+        if ($staging && $staging->getId()) {
+            $comment = Mage::helper('enterprise_staging')->__('%s was successfuly finished.', $state->getEventStateLabel());
+            $event = Mage::getModel('enterprise_staging/staging_event')
+                ->setStagingId($staging->getId())
+                ->setParentId($state->getEventId())
+                ->setCode($state->getEventStateCode)
+                ->setName($state->getEventStateLabel())
+                ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setDate(Mage::getModel('core/date')->gmtDate())
+                ->setIsAdminNotified(false)
+                ->setComment($comment)
+                ->setLog(Enterprise_Staging_Model_Log::buildLogReport(""))
+                ->setMergeMap($staging->getMapperInstance()->serialize())
+                ->setStaging($staging);
+//            $staging->addEventToHistory($event);
+            $event->save();
+            $state->setEventId($event->getId());
+        }        
+        return $this;
+    } 
 }

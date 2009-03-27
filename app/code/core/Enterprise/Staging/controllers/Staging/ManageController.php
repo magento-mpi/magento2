@@ -70,7 +70,6 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         }
 
         Mage::register('staging', $staging);
-
         return $staging;
     }
 
@@ -94,11 +93,11 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         if ($stagingId) {
             $this->_initStaging($stagingId);
         }
-
+       
         $event->restoreMap();
 
         Mage::register('staging_event', $event);
-
+         
         return $event;
     }
 
@@ -107,9 +106,12 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
      *
      * @return Enterprise_Staging_Model_Staging_Backup
      */
-    protected function _initBackup()
+    protected function _initBackup($backupId = null)
     {
-        $backupId  = (int) $this->getRequest()->getParam('id');
+        if (is_null($backupId)) {
+            $backupId  = (int) $this->getRequest()->getParam('id');
+        }    
+            
         $backup    = Mage::getModel('enterprise_staging/staging_backup');
 
         if ($backupId) {
@@ -576,7 +578,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
 
     public function rollbackAction()
     {
-        $this->_initEvent();
+        $this->_initBackup();
 
         $this->loadLayout();
 
@@ -590,15 +592,21 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         $redirectBack   = $this->getRequest()->getParam('back', false);
 
         $stagingId = $this->getRequest()->getPost('staging_id');
+        
+        $backupId = $this->getRequest()->getPost('backup_id');
+        
+        $backup = $this->_initBackup();
 
-        $staging = $this->_initStaging($stagingId);
-
+        $staging = $backup->getStaging();
+        
+        $stagingId = $staging->getId();
+        
         $mapData = $this->getRequest()->getPost('map');
 
         try {
             $staging->getMapperInstance()->setMapData($mapData);
-
-            $staging->rollback();
+            
+            $staging->rollback($backup);
 
             $this->_getSession()->addSuccess($this->__('Staging master website was successfully restored.'));
 
@@ -615,8 +623,8 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         }
 
         if ($redirectBack) {
-            $this->_redirect('*/*/edit', array(
-                'id'        => $stagingId,
+            $this->_redirect('*/*/backup', array(
+                'id'        => $backupId,
                 '_current'  =>true
             ));
         } else {

@@ -96,13 +96,13 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
             );
         }
 
-        if ($this->getStaging()->canRollback()) {
+        if ($this->getBackup()->canRollback()) {
             $this->setChild('rollback_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
                         'onclick'   => 'setLocation(\''.$this->getRollbackUrl().'\')',
-                        'class'  => 'back'
+                        'class'  => 'add'
                     ))
             );
         }

@@ -50,7 +50,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
      * Declare staging instance
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @return  Enterprise_Staging_Model_Staging_Backup
+     * @return  Enterprise_Staging_Model_Staging_Rollback
      */
     public function setStaging(Enterprise_Staging_Model_Staging $staging)
     {
@@ -75,7 +75,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
      * Declare backup instance
      *
      * @param   Enterprise_Staging_Model_Staging_Backup $backup
-     * @return  Enterprise_Staging_Model_Staging_Backup
+     * @return  Enterprise_Staging_Model_Staging_Rollback
      */
     public function setBackup(Enterprise_Staging_Model_Staging_Backup $backup)
     {
@@ -86,7 +86,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     /**
      * Retrieve backup instance
      *
-     * @return Enterprise_Staging_Model_Staging_Backup
+     * @return Enterprise_Staging_Model_Staging_Rollback
      */
     public function getBackup()
     {
@@ -130,4 +130,35 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
+    
+    /**
+     * save rollback state in db
+     *
+     * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * 
+     * @return Enterprise_Staging_Model_Staging_Rollback 
+     */
+    public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    {
+        if ($staging && $staging->getId()) {
+            $name = Mage::helper('enterprise_staging')->__('Staging rollback: ') . $staging->getName();
+            $rollback = Mage::getModel("enterprise_staging/staging_rollback")
+                ->setStagingId($staging->getId())
+                ->setBackupId($this->getBackup()->getBackupId())
+                ->setEventId($state->getEventId())
+                ->setEventCode($state->getEventStateCode())
+                ->setName($name)
+                ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setCreatedAt(Mage::registry($state->getCode() . "_event_start_time"))
+                ->setStagingTablePrefix(Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging))
+                ->setMageVersion(Mage::getVersion())
+                ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
+            $rollback->save();
+            $state->setRollbackId($rollback->getId());
+        }
+        return $this;
+    }
+    
 }

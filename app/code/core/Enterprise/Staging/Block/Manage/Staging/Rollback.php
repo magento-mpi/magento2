@@ -42,10 +42,10 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
      */
     public function getEvent()
     {
-        if (!($this->getData('event') instanceof Enterprise_Staging_Model_Staging_Event)) {
-            $this->setData('event', Mage::registry('event'));
-        }
-        return $this->getData('event');
+        if (!($this->getData('staging_event') instanceof Enterprise_Staging_Model_Staging_Event)) {
+            $this->setData('staging_event', Mage::registry('staging_event'));
+        }        
+        return $this->getData('staging_event');
     }
     
     /**

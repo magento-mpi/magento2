@@ -438,75 +438,19 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         return $this;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function rollbackItem(Mage_Core_Model_Abstract $object, $itemXmlConfig)
     {
-        if ((int)$itemXmlConfig->is_backend) {
-            return $this;
-        }
-        $internalMode   = !(int)  $itemXmlConfig->use_table_prefix;
-        $tables         = (array) $itemXmlConfig->entities;
-
-        $this->_rollbackItem($object, (string)$itemXmlConfig->model, $tables, $internalMode);
-
+        $this->_processItemMethodCallback('_rollbackItemTableData', $object, $itemXmlConfig);
+        
         return $this;
     }
 
-    protected function _rollbackItem($object, $model, $tables = array(), $internalMode = true)
+    protected function _rollbackItemTableData($object, $srcModel, $srcTable, $targetModel, $targetTable, $usedStorageMethod, $stagingWebsite)    
     {
-        $resourceName = (string) Mage::getConfig()->getNode("global/models/{$model}/resourceModel");
-        $entityTables = (array) Mage::getConfig()->getNode("global/models/{$resourceName}/entities");
-
-        foreach ($entityTables as $entityTableConfig) {
-            $table = $entityTableConfig->getName();
-
-            if ($tables) {
-                if (!array_key_exists($table, $tables)) {
-                    continue;
-                }
-            }
-            $realTableName = $this->getTableName("{$model}/{$table}");
-
-            if (isset($this->_tableModels[$table])) {
-                foreach ($this->_eavTableTypes as $type) {
-                    $_table = $realTableName . '_' . $type;
-                    $this->_rollbackItemTableData($object, $model, $_table, $internalMode);
-                }
-                // ignore main EAV entity table
-                continue;
-            }
-            if (isset($this->_ignoreTables[$table])) {
-                continue;
-            }
-
-            $this->_rollbackItemTableData($object, $model, $realTableName, $internalMode);
-        }
-
-        return $this;
-    }
-
-    protected function _rollbackItemTableData($object, $srcModel, $srcTable, $internalMode = true)
-    {
-        if ($internalMode) {
-            $targetTable = $srcTable;
-        } else {
-            $targetTable = $this->getStagingTableName($object, $srcModel, $srcTable);
-        }
-
+        $targetTable = $this->getStagingTableName($object, $srcModel, $srcTable);
+        
         $tableSrcDesc = $this->getTableProperties($srcModel, $srcTable);
+        
         if (!$tableSrcDesc) {
             throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$srcTable));
         }
@@ -572,7 +516,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                     //$_fields[$id] = $slaveWebsiteIds[0]; // - no need to redeclare field, just copy it!
                     $_websiteFieldNameSql = " `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
                 } elseif ($field == 'scope_id') {
-                    $_websiteFieldNameSql = "scope = 'website' AND `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
+                    $_websiteFieldNameSql = "`{$srcTable}`.scope = 'website' AND `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
                 } elseif ($field == 'website_ids') {
                     $whereFields = array();
                     foreach($masterWebsiteIds AS $webId) {
@@ -638,8 +582,15 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 }
 
                 $_updateField = end($fields);
-                $_storeFieldNameSql = 'store_id';
 
+                $_storeFieldNameSql = 'store_id';
+                $_fields = $fields;
+                foreach ($fields as $id => $field) {
+                    if ($field == 'store_id') {
+                    } elseif ($field == 'scope_id') {
+                        $_storeFieldNameSql = "scope = 'stores' AND `{$srcTable}`.{$field}";
+                    }
+                }                
                 //1 - need remove all resords from stores tables, which added via marging
                 if (!empty($primaryField)) {
                     $destDeleteSql = "
@@ -652,16 +603,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 //2 - refresh data by backup
                 $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-
-                $_fields = $fields;
-                foreach ($fields as $id => $field) {
-                    if ($field == 'store_id') {
-                        $_fields[$id] = $masterStoreId;
-                    } elseif ($field == 'scope_id') {
-                        $_fields[$id] = $masterStoreId;
-                        $_storeFieldNameSql = "scope = 'store' AND {$field}";
-                    }
-                }
 
                 $srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
 

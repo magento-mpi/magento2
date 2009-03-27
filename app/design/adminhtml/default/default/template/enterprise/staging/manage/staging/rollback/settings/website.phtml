@@ -26,6 +26,7 @@
 ?>
 <?php /* @var $this Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website */?>
 <?php $event            = $this->getEvent(); ?>
+<?php $backup          = $this->getBackup(); ?>
 <?php $staging          = $this->getStaging(); ?>
 <?php $items            = $staging->getItemsCollection(); ?>
 <?php $masterWebsites   = $this->getWebsiteCollection(); ?>
@@ -33,6 +34,10 @@
 <?php $stagingWebsites  = $staging->getWebsitesCollection(); ?>
 <?php $mapperUsedItems  = $this->getMapper()->getUsedItems(); ?>
 <?php $mapperWebSites   = $this->getMapper()->getAllUsedWebsites();?> 
+
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_rollback_form" enctype="multipart/form-data">
+<input type="hidden" name="staging_id" value="<?php echo $staging->getId(); ?>">
+<input type="hidden" name="backup_id" value="<?php echo $backup->getId(); ?>">
 
 <?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
     <table cellspacing="0" class="actions">
@@ -58,40 +63,46 @@
 <?php echo $this->getMassactionBlockHtml() ?>
 <?php endif ?>
 <div id="enterprise_staging_rollback_container" class="grid">
-
-<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_rollback_form" enctype="multipart/form-data">
-<input type="hidden" name="staging_id" value="<?php echo $staging->getId(); ?>">
-
-<?php foreach($mapperWebSites AS $fromSiteId => $mapperWebSiteInfo): ?>
-    <input type="hidden" name="map[websites][from][]" value="<?php echo $fromSiteId; ?>">
-    
-    <?php if (isset($mapperWebSiteInfo["master_website"])): ?>
-        <?php foreach($mapperWebSiteInfo["master_website"] AS $toSiteId): ?>
-
-            <?php $siteInfo = $masterWebsites->getItemByColumnValue("website_id", $toSiteId); ?>
-            <div>
-                <?php echo $siteInfo->getName(); ?>
-                <input type="checkbox" name="map[websites][to][]" value="<?php echo $toSiteId; ?>" />
-            </div>                
-            
-            <?php if (isset($mapperWebSiteInfo["stores"][$toSiteId])): ?>
+    <table cellspacing="0" cellpadding="0" style="width:210px;" class="option-header">
+    <thead>
+    <tr class="headings">
+        <th><?php echo $this->__('Website'); ?></th>
+        <th><?php echo $this->__('Store'); ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($mapperWebSites AS $mapperWebSiteInfo): ?>
+        <?php if (isset($mapperWebSiteInfo["master_website"])): ?>
+        
+            <?php foreach($mapperWebSiteInfo["master_website"] AS $toSiteId => $fromSiteId): ?>
+                <input type="hidden" name="map[websites][from][]" value="<?php echo $fromSiteId; ?>">
+                <input type="hidden" name="back" value="1" />
+                <?php $siteInfo = $masterWebsites->getItemByColumnValue("website_id", $toSiteId); ?>
+                <tr>
+                    <td style="width:100px;"><?php echo $siteInfo->getName(); ?></td>
+                    <td style="width:100px;"></td>
+                    <td style="width:10px;"><input type="checkbox" name="map[websites][to][]" value="<?php echo $toSiteId; ?>" /></td>
+                </tr>                
+                <?php if (isset($mapperWebSiteInfo["stores"][$toSiteId])): ?>
                 <?php foreach($stores AS $storeInfo): ?>
                     <?php if ($fromStoreId = array_search($storeInfo->getId(), $mapperWebSiteInfo["stores"][$toSiteId])): ?>
                         <input type="hidden" name="map[stores][<?php echo $fromSiteId . '-' . $toSiteId; ?>][from][]" value="<?php echo $fromStoreId; ?>" />                    
-                        <div style="padding-left: 15px;">
-                            <?php echo $storeInfo->getName();?>
-                            <input type="checkbox" name="map[stores][<?php echo $fromSiteId . '-' . $toSiteId; ?>][to][]" value="<?php echo $storeInfo->getId() ?>" />                            
-                        </div> 
+                        <tr>        
+                            <td style="width:100px;"></td>                    
+                            <td style="width:100px;"><?php echo $storeInfo->getName();?></td>
+                            <td style="width:10px;"><input type="checkbox" name="map[stores][<?php echo $fromSiteId . '-' . $toSiteId; ?>][to][]" value="<?php echo $storeInfo->getId() ?>" /></td>                            
+                        </tr> 
                     <?php endif; ?>                       
                 <?php endforeach; ?>
-            <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    </tbody>
+    </table>
 
-            
-        <?php endforeach; ?>
-    <?php endif; ?>
     
-<?php endforeach; ?>
-
 <?php echo $this->getBlockHtml('formkey')?>
 <?php echo $this->getChildHtml('items'); ?>
 </form>

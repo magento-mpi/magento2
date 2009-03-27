@@ -184,7 +184,8 @@ final class Enterprise_Staging_Model_Staging_Scenario
         $nextModelName      = (string) $stateConfig->next;
         $eventStateCode     = (string) $stateConfig->code;
         $eventStateLabel    = (string) $stateConfig->label;
-          
+
+        $state->setConfig($stateConfig);
         $state->setEventStateCode($eventStateCode);
         $state->setEventStateLabel($eventStateLabel);
         $state->setNextStateName($nextModelName);

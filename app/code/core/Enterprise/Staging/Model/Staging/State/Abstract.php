@@ -55,6 +55,13 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     protected $_website;
 
     /**
+     * State Xml config
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_config;
+        
+    /**
      * Store Group instance
      *
      * @var mixed
@@ -90,12 +97,14 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             $this->startEventState($staging);
 
             $this->getAdapter()->beginTransaction('enterprise_staging');
+            $this->_beforeRun($staging);
             $this->_run($staging);
+            $this->_afterRun($staging);
             $this->getAdapter()->commitTransaction('enterprise_staging');
 
             $message = Mage::helper('enterprise_staging')
                 ->__('%s was successfuly finished.', $this->getEventStateLabel());
-            $this->endEventState($staging, $message);
+            //$this->endEventState($staging, $message);
         } catch (Exception $e) {
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
 
@@ -108,8 +117,80 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
 
         return $this;
     }
+    
+    /**
+     * Process configured(additional) action before main Run
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * 
+     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     */
+    protected function _beforeRun(Enterprise_Staging_Model_Staging $staging)
+    {
+        $this->_runExtendActions('before', $staging);
+        return $this;
+    }
 
     abstract protected function _run(Enterprise_Staging_Model_Staging $staging);
+
+    /**
+     * Process configured(additional) action after main Run
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * 
+     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     */
+    protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
+    {
+        $this->_runExtendActions('after', $staging);
+        return $this;
+    }
+
+    /**
+     * Process action Set
+     *
+     * @param string $nodeName
+     * @param Enterprise_Staging_Model_Staging $staging 
+     * 
+     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     */
+    protected function _runExtendActions($nodeName, $staging)
+    {
+        if ($config = $this->getConfig($nodeName)) {
+            foreach ($config->children() AS $action) {
+                $this->_runExtendAction($action, $staging);
+            }
+        }
+        return $this;
+    }
+    
+    /**
+     * Process direct Action
+     *
+     * @param Varien_Simplexml_Element $action
+     * @param Enterprise_Staging_Model_Staging $staging 
+     * 
+     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     */
+    protected function _runExtendAction($action, $staging)
+    {
+        $instance = null;
+        switch ($action->type) {
+            case "singleton" :
+                $instance = Mage::getSingleton($action->class);
+                break;
+            default:
+                $instance = Mage::getModel($action->class);
+                break;                        
+        }
+        if (is_object($instance)) {
+            $method = (string) $action->method;
+            if (!empty($method)) {
+                $instance->$method($this, $staging);
+            }                
+        }
+        return $this;
+    }
 
     final public function next()
     {
@@ -119,7 +200,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             return false;
         }
     }
-
+    
     public function setEventStateCode($code)
     {
         $this->_eventStateCode = $code;
@@ -188,6 +269,36 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     {
         $this->_scenario = $scenario;
         return $this;
+    }
+    
+    /**
+     * Set config element
+     *
+     * @param Varien_Simplexml_Element $simpleXml
+     */
+    public function setConfig($simpleXml)
+    {
+        $this->_config = $simpleXml;
+        return $this;        
+    }
+    
+    /**
+     * Get config node value
+     *
+     * @param empty
+     * @return Varien_Simplexml_Element _config 
+     * 
+     * @param string $node (Config Node Name)
+     * @return string Node Value  
+     */
+    public function getConfig($node = null)
+    {
+        if (is_null($node)) {
+            return $this->_config;
+        } else {
+            $node = (string) $node;
+            return $this->_config->$node;
+        }
     }
 
     /**

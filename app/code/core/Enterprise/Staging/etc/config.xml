@@ -186,6 +186,18 @@
                                     <code>backup</code>
                                     <label>Database Backup</label>
                                     <model>enterprise_staging/staging_state_website_backup</model>
+						            <after>
+                                        <save_event>
+                                            <type>singleton</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+						                <save_backup>
+					                        <type>singleton</type>
+					                        <class>enterprise_staging/staging_backup</class>
+					                        <method>saveFromEvent</method>
+						                </save_backup>
+						            </after>                                    
                                     <next>0</next>
                                 </backup>
                             </backup>
@@ -200,6 +212,13 @@
                                     <code>merge</code>
                                     <label>Staging Merge</label>
                                     <model>enterprise_staging/staging_state_website_merge</model>
+                                    <after>
+                                        <save_event>
+                                            <type>singleton</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+                                    </after>                                    
                                     <next>0</next>
                                 </merge>
                             </merge>
@@ -214,6 +233,18 @@
                                     <code>rollback</code>
                                     <label>Staging Rollback</label>
                                     <model>enterprise_staging/staging_state_website_rollback</model>
+                                    <after>
+                                        <save_event>
+                                            <type>singleton</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+                                        <save_rollback>
+                                            <type>singleton</type>
+                                            <class>enterprise_staging/staging_rollback</class>
+                                            <method>saveFromEvent</method>
+                                        </save_rollback>
+                                    </after>                                    
                                     <next>0</next>
                                 </rollback>
                             </rollback>                            

@@ -98,4 +98,52 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
+    
+    /**
+     * save backup state in db
+     *
+     * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * 
+     * @return Enterprise_Staging_Model_Staging_Backup 
+     */
+    public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    {
+        if ($staging && $staging->getId()) {
+            $name = Mage::helper('enterprise_staging')->__('Staging backup: ') . $staging->getName();
+            $backup = Mage::getModel("enterprise_staging/staging_backup")
+                ->setStagingId($staging->getId())
+                ->setEventId($state->getEventId())
+                ->setEventCode($state->getEventStateCode())
+                ->setName($name)
+                ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setCreatedAt(Mage::registry($state->getCode() . "_event_start_time"))
+                ->setStagingTablePrefix(Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging))
+                ->setMageVersion(Mage::getVersion())
+                ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
+            $backup->save();
+            $state->setBackupId($backup->getId());
+        }
+        return $this;        
+    }
+    
+    public function canRollback()
+    {
+        if (!$this->getId()) {
+            return false;
+        }
+        
+        if ($this->getState() == Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE) {
+            return true;
+        }
+                
+        if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE) {
+            return true;
+        }
+        return false;
+    }
+
+    
+    
 }

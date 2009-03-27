@@ -46,6 +46,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup extends Mage_Adminhtml_Bloc
             $this->getLayout()->createBlock('enterprise_staging/manage_staging_backup_grid', 'staging.backup.grid'));
         return parent::_prepareLayout();
     }
+    
 
     /**
      * Retrieve currently edited staging object

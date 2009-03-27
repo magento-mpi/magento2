@@ -65,7 +65,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
         $collection->setBackupFilter($this->getBackup());
         $collection->addCompleteFilter();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
@@ -120,9 +119,10 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/rollbackEdit', array(
-            'id' => $row->getId()
-        ));
+        return "";
+        //return $this->getUrl('*/*/rollbackEdit', array(
+        //    'id' => $row->getId()
+        //));
     }
 
     /**
