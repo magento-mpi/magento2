@@ -463,6 +463,9 @@
                 </options>
                 <flat>
                     <max_index_count>64</max_index_count>
+                    <attribute_nodes>
+                        <product_collection>frontend/product/collection/attributes</product_collection>
+                    </attribute_nodes>
                 </flat>
             </product>
         </catalog>

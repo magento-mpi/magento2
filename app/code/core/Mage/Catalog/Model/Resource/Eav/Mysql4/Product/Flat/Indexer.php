@@ -36,6 +36,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     extends Mage_Core_Model_Mysql4_Abstract
 {
     const XML_NODE_MAX_INDEX_COUNT  = 'global/catalog/product/flat/max_index_count';
+    const XML_NODE_ATTRIBUTE_NODES  = 'global/catalog/product/flat/attribute_nodes';
 
     /**
      * Attribute codes for flat
@@ -56,8 +57,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      *
      * @var array
      */
-    protected $_systemAttributes = array('status', 'required_options',
-        'tax_class_id', 'weight', 'enable_googlecheckout');
+    protected $_systemAttributes = array('status', 'required_options', 'tax_class_id', 'weight');
 
     /**
      * Eav Catalog_Product Entity Type Id
@@ -141,6 +141,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     public function getAttributeCodes()
     {
         if (is_null($this->_attributeCodes)) {
+            $attributeNodes = Mage::getConfig()
+                ->getNode(self::XML_NODE_ATTRIBUTE_NODES)
+                ->children();
+            foreach ($attributeNodes as $node) {
+                $attributes = Mage::getConfig()->getNode((string)$node)->asArray();
+                $attributes = array_keys($attributes);
+                $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
+            }
+
             $this->_attributeCodes = array();
             $whereCond  = array(
                 $this->_getReadAdapter()->quoteInto('backend_type=?', 'static'),
@@ -293,6 +302,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
             foreach ($this->getAttributes() as $attribute) {
                 /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+                if (is_null($attribute->getFlatColumns())) {
+                    continue;
+                }
+
                 $this->_columns = array_merge($this->_columns, $attribute->getFlatColumns());
             }
 
@@ -339,6 +352,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
             foreach ($this->getAttributes() as $attribute) {
                 /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+                if (is_null($attribute->getFlatColumns())) {
+                    continue;
+                }
                 $this->_indexes = array_merge($this->_indexes, $attribute->getFlatIndexes());
             }
 

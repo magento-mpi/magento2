@@ -40,14 +40,68 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      * @var array
      */
     protected $_flatEnabled = array();
+
+    /**
+     * Product websites table name
+     *
+     * @var string
+     */
     protected $_productWebsiteTable;
+
+    /**
+     * Product categories table name
+     *
+     * @var string
+     */
     protected $_productCategoryTable;
+
+    /**
+     * Is add URL rewrites to collection flag
+     *
+     * @var bool
+     */
     protected $_addUrlRewrite = false;
+
+    /**
+     * Add URL rewrite for category
+     *
+     * @var int
+     */
     protected $_urlRewriteCategory = '';
+
+    /**
+     * Is add minimal price to product collection flag
+     *
+     * @var bool
+     */
     protected $_addMinimalPrice = false;
+
+    /**
+     * Is add final price to product collection flag
+     *
+     * @var unknown_type
+     */
     protected $_addFinalPrice = false;
+
+    /**
+     * Cache for all ids
+     *
+     * @var array
+     */
     protected $_allIdsCache = null;
+
+    /**
+     * Is add tax percents to product collection flag
+     *
+     * @var bool
+     */
     protected $_addTaxPercents = false;
+
+    /**
+     * Category index is a joined flag
+     *
+     * @var bool
+     */
     protected $_categoryIndexJoined = false;
 
     /**
