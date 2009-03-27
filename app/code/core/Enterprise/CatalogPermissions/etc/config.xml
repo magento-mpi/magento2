@@ -87,7 +87,9 @@
                             <children>
                                 <config>
                                     <children>
-                                           <enterprise_catalogpermissions />
+                                           <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
+                                                <title>Catalog Permissions Section</title>
+                                           </enterprise_catalogpermissions>
                                     </children>
                                 </config>
                             </children>

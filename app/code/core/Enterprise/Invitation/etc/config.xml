@@ -115,7 +115,9 @@
                             <children>
                                 <config>
                                     <children>
-                                           <enterprise_invitation />
+                                           <enterprise_invitation translate="title" module="enterprise_invitation">
+                                               <title>Invitation Section</title>
+                                           </enterprise_invitation>
                                     </children>
                                 </config>
                             </children>
