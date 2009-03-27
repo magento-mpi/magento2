@@ -147,9 +147,9 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             switch ($this->getPriceDisplayType($store)) {
                 case Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
+                case Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH:
                     return self::PRICE_CONVERSION_PLUS;
 
-                case Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH:
                 case Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
                     return false;
             }
