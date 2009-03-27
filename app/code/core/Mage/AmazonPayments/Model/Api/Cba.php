@@ -880,6 +880,7 @@ XML;
                 $_xmlShippingMethodIncludedRegions->addChild('PredefinedRegion', 'WorldAll');
 //                $_xmlShippingMethodIncludedRegions->addChild('USZipRegion', '10001');
             }
+            $xml->addChild('CartPromotionId', 'cart-total-discount');
         }
 
         return $xml;
@@ -899,12 +900,11 @@ XML;
         $_promotion = $_promotions->addChild('Promotion');
         $_promotion->addChild('PromotionId', 'cart-total-discount');
         $_promotion->addChild('Description', 'Discount');
-        $_promotion->addChild('PromotionId', 'cart-total-discount');
         $_benefit = $_promotion->addChild('Benefit');
         $_fad = $_benefit->addChild('FixedAmountDiscount');
         $_fad->addChild('Amount', $discountAmount);
         $_fad->addChild('CurrencyCode', $quote->getBaseCurrencyCode());
-        
+
         return $xml;
     }
 
