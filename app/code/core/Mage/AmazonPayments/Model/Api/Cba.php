@@ -179,10 +179,26 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
         }
         $_xml .= "   </Items>\n"
+                ."   <CartPromotionId>cart-total-discount</CartPromotionId>\n"
                 ." </Cart>\n";
 
         if (!$this->getConfigData('use_callback_api')) {
             $_xml .= $this->_getCheckoutTaxXml($quote);
+            $totalDiscount = $quote->getShippingAddress()->getBaseDiscountAmount() + $quote->getBillingAddress()->getBaseDiscountAmount();
+            $discountAmount = ($totalDiscount ? $totalDiscount : 0);
+            $_xml .= ""
+                    ."    <Promotions>"
+                    ."      <Promotion>"
+                    ."        <PromotionId>cart-total-discount</PromotionId>"
+                    ."        <Description>Discount</Description>"
+                    ."        <Benefit>"
+                    ."          <FixedAmountDiscount>"
+                    ."            <Amount>{$discountAmount}</Amount>"
+                    ."            <CurrencyCode>{$quote->getBaseCurrencyCode()}</CurrencyCode>"
+                    ."          </FixedAmountDiscount>"
+                    ."        </Benefit>"
+                    ."      </Promotion>"
+                    ."    </Promotions>";
 
             $_xml .= ""
                     ." <ShippingMethods>\n"
@@ -246,8 +262,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 ." <IntegratorName>Varien</IntegratorName>\n";
         $_xml .= " <OrderCalculationCallbacks>\n"
                 ."   <CalculateTaxRates>{$calculationsEnabled}</CalculateTaxRates>\n"
-                /** @todo WARNING! HARDCODE! replace 'false' with '{$calculationsEnabled}' */
-                ."   <CalculatePromotions>false</CalculatePromotions>\n"
+                ."   <CalculatePromotions>{$calculationsEnabled}</CalculatePromotions>\n"
                 ."   <CalculateShippingRates>{$calculationsEnabled}</CalculateShippingRates>\n"
                 ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback')."</OrderCallbackEndpoint>\n"
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
@@ -835,6 +850,7 @@ XML;
             }
 
             $this->_appendTaxTables($xml, $quote, $this->_getTaxRules($quote));
+            $this->_appendDiscounts($xml, $quote);
 
             $_xmlShippingMethods = $xml->addChild('ShippingMethods');
             /*foreach ($this->_carriers as $_carrier) {
@@ -872,6 +888,24 @@ XML;
     protected function _appendTaxTables($xml, $quote, $rules, $isShipping = false)
     {
         return $this->_getTaxTablesXml($quote, $rules, $isShipping, $xml);
+    }
+
+    protected function _appendDiscounts($xml, $quote)
+    {
+        $totalDiscount = $quote->getShippingAddress()->getBaseDiscountAmount() + $quote->getBillingAddress()->getBaseDiscountAmount();
+        $discountAmount = ($totalDiscount ? $totalDiscount : 0);
+
+        $_promotions = $xml->addChild('Promotions');
+        $_promotion = $_promotions->addChild('Promotion');
+        $_promotion->addChild('PromotionId', 'cart-total-discount');
+        $_promotion->addChild('Description', 'Discount');
+        $_promotion->addChild('PromotionId', 'cart-total-discount');
+        $_benefit = $_promotion->addChild('Benefit');
+        $_fad = $_benefit->addChild('FixedAmountDiscount');
+        $_fad->addChild('Amount', $discountAmount);
+        $_fad->addChild('CurrencyCode', $quote->getBaseCurrencyCode());
+        
+        return $xml;
     }
 
     /**
