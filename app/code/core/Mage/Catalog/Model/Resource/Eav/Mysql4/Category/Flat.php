@@ -420,7 +420,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         foreach ($_categories as $_category) {
             foreach ($stores as $store) {
                 $_tmpCategory = Mage::getModel('catalog/category')
-                    ->setStoreId($store['store_id'])
+                    ->setStoreId($store)
                     ->load($_category['entity_id']);
                 if ($_tmpCategory->getId()) {
                     $this->_synchronize($_tmpCategory, 'insert');
@@ -484,7 +484,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             if ($type) {
                 if ($this->getUseStoreTables() && is_array($stores)) {
                     foreach ($stores as $store) {
-                        $_write->addColumn($this->getMainStoreTable($store['store_id']), $attribute['attribute_code'], $type);
+                        $_write->addColumn($this->getMainStoreTable($store), $attribute['attribute_code'], $type);
                     }
                 } else {
                     $_write->addColumn($this->getMainStoreTable($stores), $attribute['attribute_code'], $type);
