@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      * @var array
      */
     protected $_systemAttributes = array('status', 'required_options',
-        'tax_class_id', 'weight', 'disable_googlecheckout');
+        'tax_class_id', 'weight', 'enable_googlecheckout');
 
     /**
      * Eav Catalog_Product Entity Type Id
