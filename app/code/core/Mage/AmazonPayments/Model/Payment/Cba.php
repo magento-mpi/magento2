@@ -233,6 +233,14 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $regionModel = Mage::getModel('directory/region')->loadByCode($_address['regionCode'], $_address['countryCode']);
         $_regionId = $regionModel->getId();
 
+        $sName = explode(' ', $newOrderDetails['shippingAddress']['name']);
+        $sFirstname = isset($sName[0])?$sName[0]:'';
+        $sLastname = isset($sName[1])?$sName[1]:'';
+
+        $bName = explode(' ', $newOrderDetails['buyerName']);
+        $bFirstname = isset($bName[0])?$bName[0]:'';
+        $bLastname = isset($bName[1])?$bName[1]:'';
+
         $shipping->setCountryId($_address['countryCode'])
             ->setRegion($_address['regionCode'])
             ->setRegionId($_regionId)
@@ -250,7 +258,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setSubtotal($newOrderDetails['subtotal'])
             ->setBaseSubtotal($newOrderDetails['subtotal'])
             ->setGrandTotal($newOrderDetails['total'])
-            ->setBaseGrandTotal($newOrderDetails['total']);
+            ->setBaseGrandTotal($newOrderDetails['total'])
+            ->setFirstname($sFirstname)
+            ->setLastname($sLastname);
 
         $billing->setCountryId($_address['countryCode'])
             ->setRegion($_address['regionCode'])
@@ -270,8 +280,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setBaseSubtotal($newOrderDetails['subtotal'])
             ->setGrandTotal($newOrderDetails['total'])
             ->setBaseGrandTotal($newOrderDetails['total'])
-            ->setFirstname($newOrderDetails['buyerName'])
-            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);
+            ->setFirstname($bFirstname)
+            ->setLastname($bLastname)
+            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);//?????????????
 
         $quote->setBillingAddress($billing);
         $quote->setShippingAddress($shipping);
@@ -350,7 +361,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
                 $order->setStatus('Processing');
                 $order->setIsNotified(false);
-                $order->save;
+                $order->save();
             }
         }
         return true;
@@ -370,7 +381,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 $order->setState(Mage_Sales_Model_Order::STATE_CANCELED);
                 $order->setStatus('Cancel');
                 $order->setIsNotified(false);
-                $order->save;
+                $order->save();
             }
         }
         return true;
