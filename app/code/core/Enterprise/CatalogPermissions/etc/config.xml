@@ -324,6 +324,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_controller_category_init_after>
+            <sales_quote_item_set_product>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkQuoteItemSetProduct</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </sales_quote_item_set_product>
             <sales_quote_item_qty_set_after>
                 <observers>
                     <enterprise_catalogpermissions>

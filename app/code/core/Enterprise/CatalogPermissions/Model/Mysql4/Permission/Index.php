@@ -617,6 +617,36 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
     }
 
     /**
+     * Get permission index for products
+     *
+     * @param int|array $productId
+     * @param int $customerGroupId
+     * @param int $storeId
+     * @return array
+     */
+    public function getIndexForProduct($productId, $customerGroupId, $storeId)
+    {
+        if (!is_array($productId)) {
+            $productId = array($productId);
+        }
+
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('permission_index_product'),
+                array(
+                    'product_id',
+                    'grant_catalog_category_view',
+                    'grant_catalog_product_price',
+                    'grant_checkout_items'
+                )
+            )
+            ->where('product_id IN(?)', $productId)
+            ->where('customer_group_id = ?', $customerGroupId)
+            ->where('store_id = ?', $storeId);
+
+        return $this->_getReadAdapter()->fetchAssoc($select);
+    }
+
+    /**
      * Prepare base information for data insert
      *
      * @param   string $table

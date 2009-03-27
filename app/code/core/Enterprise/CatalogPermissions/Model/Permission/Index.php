@@ -150,4 +150,17 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
         $this->getResource()->addIndexToProduct($product, $customerGroupId);
         return $this;
     }
+
+    /**
+     * Get permission index for products
+     *
+     * @param int|array $productId
+     * @param int $customerGroupId
+     * @param int $storeId
+     * @return array
+     */
+    public function getIndexForProduct($productId, $customerGroupId, $storeId)
+    {
+        return $this->getResource()->getIndexForProduct($productId, $customerGroupId, $storeId);
+    }
 }

@@ -60,6 +60,13 @@ class Enterprise_CatalogPermissions_Model_Observer
     protected $_queue = array();
 
     /**
+     * Permissions cache for products in cart
+     *
+     * @var array
+     */
+    protected $_permissionsQuoteCache = array();
+
+    /**
      * Apply category permissions for category collection
      *
      * @param Varien_Event_Observer $observer
@@ -198,6 +205,8 @@ class Enterprise_CatalogPermissions_Model_Observer
     {
         $quoteItem = $observer->getEvent()->getItem();
 
+        $this->_initPermissionsOnQuoteItems($quoteItem->getQuote());
+
         if ($quoteItem->getParentItem()) {
             $parentItem = $quoteItem->getParentItem();
         } else {
@@ -205,7 +214,7 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         /* @var $quoteItem Mage_Sales_Model_Quote_Item */
-        if ($quoteItem->getProduct()->getDisableAddToCart() && !$quoteItem->isDeleted()) {
+        if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
                 $quoteItem->getQuote()->setHasError(true)
@@ -217,6 +226,103 @@ class Enterprise_CatalogPermissions_Model_Observer
                         ->addMessage(
                             Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $quoteItem->getName())
                         );
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Checks quote item for product permissions
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function checkQuoteItemSetProduct(Varien_Event_Observer $observer)
+    {
+        $quoteItem = $observer->getEvent()->getQuoteItem();
+        $product = $observer->getEvent()->getProduct();
+
+        if ($quoteItem->getId()) {
+            return $this;
+        }
+
+        if ($quoteItem->getParentItem()) {
+            $parentItem = $quoteItem->getParentItem();
+        } else {
+            $parentItem = false;
+        }
+
+        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+        if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
+            $quoteItem->getQuote()->removeItem($quoteItem->getId());
+            if ($parentItem) {
+                Mage::throwException(
+                    Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $parentItem->getName())
+                );
+            } else {
+                Mage::throwException(
+                            Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $quoteItem->getName())
+                );
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Initialize permissions for quote items
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function _initPermissionsOnQuoteItems($quote)
+    {
+        $productIds = array();
+
+        foreach ($quote->getAllItems() as $item) {
+            if (!isset($this->_permissionsQuoteCache[$item->getProductId()]) &&
+                $item->getProductId()) {
+                $productIds[] = $item->getProductId();
+            }
+        }
+
+        if (!empty($productIds)) {
+            $this->_permissionsQuoteCache += $this->_getIndexModel()->getIndexForProduct(
+                $productIds,
+                $this->_getCustomerGroupId(),
+                $quote->getStoreId()
+            );
+
+            foreach ($productIds as $productId) {
+                if (!isset($this->_permissionsQuoteCache[$productId])) {
+                    $this->_permissionsQuoteCache[$productId] = false;
+                }
+            }
+        }
+
+        $defaultGrants = array(
+            'grant_catalog_category_view' => Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView(),
+            'grant_catalog_product_price' => Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice(),
+            'grant_checkout_items' => Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems()
+        );
+
+        foreach ($quote->getAllItems() as $item) {
+            if ($item->getProductId()) {
+                $permission = $this->_permissionsQuoteCache[$item->getProductId()];
+                if (!$permission && in_array(false, $defaultGrants)) {
+                    // If no permission found, and no one of default grant is disallowed
+                    $item->setDisableAddToCart(true);
+                    continue;
+                }
+
+                foreach ($defaultGrants as $grant => $defaultPermission) {
+                    if ($permission[$grant] == -2 ||
+                        ($permission[$grant] != -1 && !$defaultPermission)) {
+                        $item->setDisableAddToCart(true);
+                        break;
+                    }
+                }
             }
         }
 
