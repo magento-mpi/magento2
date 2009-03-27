@@ -61,6 +61,18 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         }
 
         $finalPrice = $product->getPrice();
+
+        /**
+         * Just product with fixed price calculation has price
+         */
+        if ($finalPrice) {
+            $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
+            $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+            $product->setFinalPrice($finalPrice);
+            Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
+            $finalPrice = $product->getData('final_price');
+        }
+
         if ($product->hasCustomOptions()) {
             $customOption = $product->getCustomOption('bundle_option_ids');
 //            $optionIds = unserialize($customOption->getValue());
@@ -92,14 +104,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 //            }
         }
 
-        $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
-        $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
-        $product->setFinalPrice($finalPrice);
-
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
-
-        $finalPrice = $product->getData('final_price');
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+        $product->setFinalPrice($finalPrice);
 
         return max(0, $product->getData('final_price'));
     }
@@ -111,7 +117,15 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
     public function getPrices($product, $which = null)
     {
-        $minimalPrice = $maximalPrice = $product->getPrice();
+        /**
+         * Check if product price is fixed
+         */
+        if ($product->getPriceType()) {
+            $minimalPrice = $maximalPrice = $product->getFinalPrice();
+        } else {
+            $minimalPrice = $maximalPrice = $product->getPrice();
+        }
+
         if ($options = $this->getOptions($product)) {
             foreach ($options as $option) {
                 if ($option->getSelections()) {
