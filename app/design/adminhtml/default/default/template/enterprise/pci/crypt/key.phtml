@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -20,24 +19,24 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   design
- * @package    default_default
+ * @package    enterprise_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
--->
+?>
+<?php
+/**
+ * @see Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit
+ */
+ ?>
+<?php echo $this->getFormInitScripts() ?>
+<div class="content-header">
+    <?php echo $this->getHeaderHtml() ?>
+</div>
+<?php echo $this->getFormHtml() ?>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form', '<?php echo $this->getValidationUrl() ?>');
+</script>
+<?php echo $this->getFormScripts() ?>
 
-<layout>
-    <!-- add websites multiselect to admin roles edit page -->
-    <adminhtml_crypt_key_index>
-        <reference name="content">
-            <block type="enterprise_pci/adminhtml_crypt_key_edit" name="pci.crypt.key.edit" as="crypt_key_edit" template="enterprise/pci/crypt/key.phtml">
-                <block type="enterprise_pci/adminhtml_crypt_key_form" name="pci.crypt.key.form" as="form"/>
-            </block>
-        </reference>
-    </adminhtml_crypt_key_index>
-    <adminhtml_locks_index>
-        <reference name="content">
-            <block type="enterprise_pci/adminhtml_locks" name="pci.locks.container" as="locks_container" template="widget/grid/container.phtml"/>
-        </reference>
-    </adminhtml_locks_index>
-</layout>
+<p><?php echo $this->getButtonsHtml('header') ?></p>

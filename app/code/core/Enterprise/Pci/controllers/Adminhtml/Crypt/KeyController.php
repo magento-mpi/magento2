@@ -84,8 +84,11 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
                 }
                 Mage::helper('core')->validateKey($key);
             }
-            Mage::getResourceSingleton('enterprise_pci/key_change')->changeEncryptionKey($key);
+            $newKey = Mage::getResourceSingleton('enterprise_pci/key_change')->changeEncryptionKey($key);
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_pci')->__('Encryption key has been changed.'));
+            if (!$key) {
+                Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('enterprise_pci')->__('Your new encryption key: <span style="font-family:monospace;">%s</span>', $newKey));
+            }
             Mage::app()->cleanCache();
         }
         catch (Exception $e) {

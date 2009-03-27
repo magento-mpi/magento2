@@ -41,7 +41,7 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block
     {
         Varien_Object::__construct();
         $this->_addButton('save', array(
-            'label'     => Mage::helper('adminhtml')->__('Save'),
+            'label'     => Mage::helper('enterprise_pci')->__('Change encryption key'),
             'onclick'   => 'editForm.submit();',
             'class'     => 'save',
         ), 1);
@@ -54,6 +54,6 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_pci')->__('Change encryption key');
+        return Mage::helper('enterprise_pci')->__('Encryption key');
     }
 }

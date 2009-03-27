@@ -49,6 +49,7 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
      * Change encryption key
      *
      * @param string $key
+     * @return string
      * @throws Exception
      */
     public function changeEncryptionKey($key = null)
@@ -73,6 +74,7 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
             $this->_reEncryptCreditCardNumbers();
             file_put_contents($file, $contents);
             $this->commit();
+            return $key;
         }
         catch (Exception $e) {
             $this->rollBack();

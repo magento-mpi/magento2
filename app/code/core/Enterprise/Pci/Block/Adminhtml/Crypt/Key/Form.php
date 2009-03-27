@@ -38,17 +38,21 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form->addField('crypt_key', 'text', array(
-            'name'     => 'crypt_key',
-            'label'    => Mage::helper('enterprise_pci')->__('Set new encryption key'),
-            'style'    => 'width:32em;',
-            'maxlength' => 32,
-        ));
-        $form->addField('generate_random', 'checkbox', array(
-            'name'  => 'generate_random',
-            'label' => Mage::helper('enterprise_pci')->__('Auto-generate a key'),
-            'value' => 1,
+        $fieldset = $form->addFieldset('main_fieldset', array('legend' => Mage::helper('enterprise_pci')->__('New encryption key')));
+        $fieldset->addField('generate_random', 'checkbox', array(
+            'name'    => 'generate_random',
+            'label'   => Mage::helper('enterprise_pci')->__('Auto-generate a key'),
+            'value'   => 1,
             'onclick' => "$('crypt_key').disabled = this.checked;",
+        ));
+        $fieldset->addField('crypt_key', 'text', array(
+            'name'      => 'crypt_key',
+            'label'     => Mage::helper('enterprise_pci')->__('Or enter your own key'),
+            'style'     => 'width:32em;',
+            'maxlength' => 32,
+            'after_element_html' => '<p>'
+                . Mage::helper('enterprise_pci')->__('Magento uses this key to encrypt passwords, credit cards and more. System can auto-generate an encryption key for you and will display it on the next page.')
+                . '</p>',
         ));
         $form->setUseContainer(true);
         if ($data = $this->getFormData()) {
