@@ -135,6 +135,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function needPriceConversion($store = null)
     {
+        $res = false;
         if ($this->priceIncludesTax($store)) {
             switch ($this->getPriceDisplayType($store)) {
                 case Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
@@ -142,7 +143,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
                     return self::PRICE_CONVERSION_MINUS;
 
                 case Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
-                    return false;
+                    $res = false;
             }
         } else {
             switch ($this->getPriceDisplayType($store)) {
@@ -151,10 +152,14 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
                     return self::PRICE_CONVERSION_PLUS;
 
                 case Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                    return false;
+                    $res = false;
             }
         }
-        return false;
+
+        if ($res === false) {
+            $res = $this->displayTaxColumn($store);
+        }
+        return $res;
     }
 
     /**
