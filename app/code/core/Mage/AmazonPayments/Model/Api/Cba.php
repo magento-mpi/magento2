@@ -37,7 +37,19 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     protected $_carriers;
     protected $_address;
 
-    protected $_configShippingRates = array();
+    const STANDARD_SHIPMENT_RATE    = 'Standard';
+    const EXPEDITED_SHIPMENT_RATE   = 'Expedited';
+    const ONEDAY_SHIPMENT_RATE      = 'OneDay';
+    const TWODAY_SHIPMENT_RATE      = 'TwoDay';
+
+    protected $_shippingRates = array(
+        self::STANDARD_SHIPMENT_RATE,
+        self::EXPEDITED_SHIPMENT_RATE,
+        self::ONEDAY_SHIPMENT_RATE,
+        self::TWODAY_SHIPMENT_RATE,
+    );
+
+    protected $_configShippingRates = null;
 
     /**
      * Return Merchant Id from config
@@ -74,31 +86,18 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
     public function getConfigShippingRates()
     {
-        if (empty($this->_configShippingRates)) {
-            $_standardRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/standard_rate'));
-            $_expeditedRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/expedited_rate'));
-            $_oneDayRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/oneday_rate'));
-            $_twoDayRate = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/twoday_rate'));
-            $_standardCarrier = explode('/', $_standardRate['method']);
-            $this->_configShippingRates[$_standardCarrier[0]] = array(
-                'service_level' => 'Standard',
-                'method' => $_standardCarrier[1]
-            );
-            $_expeditedCarrier = explode('/', $_expeditedRate['method']);
-            $this->_configShippingRates[$_expeditedCarrier[0]] = array(
-                'service_level' => 'Expedited',
-                'method' => $_expeditedCarrier[1]
-            );
-            $_oneDayCarrier = explode('/', $_oneDayRate['method']);
-            $this->_configShippingRates[$_oneDayCarrier[0]] = array(
-                'service_level' => 'OneDay',
-                'method' => $_oneDayCarrier[1]
-            );
-            $_twoDayCarrier = explode('/', $_twoDayRate['method']);
-            $this->_configShippingRates[$_twoDayCarrier[0]] = array(
-                'service_level' => 'TwoDay',
-                'method' => $_twoDayCarrier[1]
-            );
+        if (is_null($this->_configShippingRates)) {
+            $this->_configShippingRates = array();
+            foreach ($this->_shippingRates as $_rate) {
+                $_carrier = unserialize(Mage::getStoreConfig('payment/amazonpayments_cba/' . strtolower($_rate) . '_rate'));
+                if ($_carrier['method'] && $_carrier['method'] != 'None') {
+                    $_carrierInfo = explode('/', $_carrier['method']);
+                    $this->_configShippingRates[$_rate] = array(
+                        'carrier' => $_carrierInfo[0],
+                        'method' => $_carrierInfo[1]
+                    );
+                }
+            }
         }
         return $this->_configShippingRates;
     }
@@ -559,41 +558,40 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
         $address->setCollectShippingRates(true)->collectShippingRates();
 
-        $amazonShippingConfigRates = $this->getConfigShippingRates();
-
         $errors = array();
-        foreach (Mage::getStoreConfig('carriers', $this->getStoreId()) as $carrierCode=>$carrierConfig) {
-            if (!isset($carrierConfig['title']) || !$carrierConfig['active']
-                || !array_key_exists($carrierCode, $amazonShippingConfigRates)) {
-                continue;
+        $_carriers = array();
+        foreach ($this->getConfigShippingRates() as $_cfgRate) {
+            if ($carrier = Mage::getStoreConfig('carriers/' . $_cfgRate['carrier'], $this->getStoreId())) {
+                if (isset($carrier['title']) && $carrier['active'] && !in_array($_cfgRate['carrier'], $_carriers)) {
+                    $_carriers[] = $_cfgRate['carrier'];
+                }
             }
-            $_carriers[$carrierCode] = $carrierConfig['title'];
         }
 
-
         $result = Mage::getModel('shipping/shipping')
-            ->collectRatesByAddress($address, array_keys($_carriers))
+            ->collectRatesByAddress($address, $_carriers)
             ->getResult();
-
         $rateCodes = array();
-        foreach ($result->getAllRates() as $rate) {
-            if (!$rate instanceof Mage_Shipping_Model_Rate_Result_Error &&
-                $amazonShippingConfigRates[$rate->getCarrier()]['method'] == $rate->getMethod()) {
-                if ($address->getFreeShipping()) {
-                    $price = 0;
-                } else {
-                    $price = $rate->getPrice();
+        foreach ($this->getConfigShippingRates() as $_cfgRateLevel => $_cfgRate) {
+            if ($rates = $result->getRatesByCarrier($_cfgRate['carrier'])) {
+                foreach ($rates as $rate) {
+                    if (!$rate instanceof Mage_Shipping_Model_Rate_Result_Error && $rate->getMethod() == $_cfgRate['method']) {
+                        if ($address->getFreeShipping()) {
+                            $price = 0;
+                        } else {
+                            $price = $rate->getPrice();
+                        }
+                        if ($price) {
+                            $price = Mage::helper('tax')->getShippingPrice($price, true, $address);
+                        }
+                        $this->_carriers[] = array(
+                            'service_level' => $_cfgRateLevel,
+                            'code' => $rate->getCarrier() . '_' . $rate->getMethod(),
+                            'price' => $price,
+                            'currency' => $currency['currency_code'],
+                        );
+                    }
                 }
-
-                if ($price) {
-                    $price = Mage::helper('tax')->getShippingPrice($price, true, $address);
-                }
-                $this->_carriers[] = array(
-                    'service_level' => $amazonShippingConfigRates[$rate->getCarrier()]['service_level'],
-                    'code' => $rate->getCarrier() . '_' . $rate->getMethod(),
-                    'price' => $price,
-                    'currency' => $currency['currency_code'],
-                    );
             }
         }
 
@@ -893,7 +891,7 @@ XML;
             .'   </Error>'."\n"
             .' </Response>'."\n"
             .'</OrderCalculationsResponse>';
-
+        $_errorMsg = $e->getMessage();
         $_errorMessage = "{$_errorMsg}\n\n"
             ."code: {$e->getCode()}\n\n"
             ."file: {$e->getFile()}\n\n"
