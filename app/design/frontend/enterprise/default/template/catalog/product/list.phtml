@@ -59,7 +59,7 @@
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
                 </div>
                 <?php if($_product->isSaleable()): ?>
-                    <button class="button cart-btn" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                    <button class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
                     <ul class="add-to-links">
                         <?php if ($this->helper('wishlist')->isAllow()) : ?>
                             <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
@@ -96,7 +96,7 @@
             <?php echo $this->getPriceHtml($_product, true) ?>
             <div class="actions">
                 <?php if($_product->isSaleable()): ?>
-                    <button type="button" class="button cart-btn" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                    <button type="button" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')" title="<?php echo $this->__('Add to Cart') ?>"><span><?php echo $this->__('Add to Cart') ?></span></button>
                     <ul class="add-to-links">
                         <?php if ($this->helper('wishlist')->isAllow()) : ?>
                             <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
@@ -104,7 +104,7 @@
                         <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
                             <li><a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                         <?php endif; ?>
-                    </ul>
+                    </ul>               
                 <?php else: ?>
                     <p class="availability"><span class="out-of-stock"><?php echo $this->__('This item is sold out.') ?></span></p>
                 <?php endif; ?>

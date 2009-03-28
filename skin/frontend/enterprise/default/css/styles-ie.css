@@ -50,8 +50,8 @@ input.checkbox { width:13px; height:13px; }
 button.button span { position:relative; }
 button.button { height:23px; _overflow-y:hidden; }
 button.btn-small { height:17px; }
-button.cart-btn { height:27px; background-position:0 0; }
-button.cart-btn span { background-position:100% 0; }
+button.btn-cart { height:27px; background-position:0 0; }
+button.btn-cart span { background-position:100% 0; }
 .multiple-checkout .buttons-set .button,
 .opc button.button { height:30px; background-position:0 0; }
 .multiple-checkout .buttons-set .button span,
@@ -72,7 +72,7 @@ button.cart-btn span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
-
+#events-home-page .slider-panel .event .status,
 .table-caption,
 .info-box,
 .bundle-summary .product,

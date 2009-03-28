@@ -67,7 +67,8 @@
                 <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
             </p>
         </div>
-        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->helper('enterprise_catalogevent')->__('Preview Sale') ?></a>
+        <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Preview Sale') ?></span></a>
+        <p><a href="#"><?php echo $this->__('Invite a Friend'); ?></a></p>        
 
     <?php break;
         case 'open': ?>
@@ -79,7 +80,8 @@
         <script type="text/javascript">
         new Enterprise.CatalogEvent.Ticker('event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
         </script>
-        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->helper('enterprise_catalogevent')->__('Go To Sale!') ?></a>
+        <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Go To Sale') ?></span></a>
+        <p><a href="#"><?php echo $this->__('Invite a Friend'); ?></a></p>
 
     <?php break;
         case 'closed': ?>
@@ -94,7 +96,8 @@
                 <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
             </p>
         </div>
-        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></a>
+        <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></span></a>
+        <p><a href="#"><?php echo $this->__('Invite a Friend'); ?></a></p>
 
     <?php break; ?>
 <?php endswitch; ?>
@@ -106,6 +109,6 @@
 <div class="slide-button inactive forward">&raquo;</div>
 </div>
 <script type="text/javascript">
-new Enterprise.Slider('events-home-page', {pageSize: 3});
+new Enterprise.Slider('events-home-page', {pageSize: 5});
 </script>
 <?php endif; ?>
