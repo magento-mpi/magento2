@@ -70,7 +70,18 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
 
         if ($options = $this->getOrderItem()->getProductOptions()) {
             if (isset($options['options'])) {
-                $result = array_merge($result, $options['options']);
+                /**
+                 * Remove html tags from option
+                 */
+                $productOptions = $options['options'];
+                if ($this->getPrintStatus()) {
+                    foreach ($productOptions as &$option) {
+                    	if (isset($option['value'])) {
+                            $option['value'] = strip_tags($option['value']);
+                    	}
+                    }
+                }
+                $result = array_merge($result, $productOptions);
             }
             if (isset($options['additional_options'])) {
                 $result = array_merge($result, $options['additional_options']);
@@ -123,5 +134,13 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
             return $this->getOrderItem()->getProductOptionByCode('simple_sku');
         }
         return $this->getItem()->getSku();
+    }
+
+
+    public function escapeOption($option)
+    {
+        echo '<pre>';
+        print_r($option);
+        echo '</pre>';
     }
 }
