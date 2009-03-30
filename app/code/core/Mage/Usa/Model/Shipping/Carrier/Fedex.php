@@ -699,6 +699,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
               } else {
                 $errorTitle = 'Response is in the wrong format';
               }
+         } else {
+             $errorTitle = false;
          }
 
          if(!$this->_result){
