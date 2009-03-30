@@ -29,14 +29,7 @@
  */
 ?>
 <li>
-    <?php if ($this->getIsDisabled()): ?>
-    <img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Fast Checkout by Amazon');?>" />
-    <?php else: ?>
-    <form method="post" action="<?php echo $this->getCheckoutUrl();?>"<?php if($this->getIsActiveAanalytics()):?> onsubmit="setUrchinInputCode(pageTracker)"<?php endif;?>>
-        <fieldset>
-            <input type="hidden" name="analyticsdata" value="" />
-            <input type="image" src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Fast Checkout by Amazon');?>" <? echo $this->getIsDisabled()?'disabled="disabled"':'' ?> />
-        </fieldset>
-    </form>
+    <?php if (!$this->getIsDisabled()): ?>
+    <a href="<?php echo $this->getCheckoutUrl();?>"><img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>"></a>
     <?php endif; ?>
 </li>
