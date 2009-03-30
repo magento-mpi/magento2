@@ -135,12 +135,4 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
         }
         return $this->getItem()->getSku();
     }
-
-
-    public function escapeOption($option)
-    {
-        echo '<pre>';
-        print_r($option);
-        echo '</pre>';
-    }
 }
