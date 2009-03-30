@@ -227,25 +227,22 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         $result = false;
         try {
             $this->loadByUsername($username);
-            if ($this->getId()) {
+            if ($this->getId() && Mage::helper('core')->validateHash($password, $this->getPassword())) {
                 if ($this->getIsActive() != '1') {
                     Mage::throwException(Mage::helper('adminhtml')->__('This account is inactive.'));
                 }
-                if (Mage::helper('core')->validateHash($password, $this->getPassword())) {
-                    $result = true;
+                if (!$this->hasAssigned2Role($this->getId())) {
+                    Mage::throwException(Mage::helper('adminhtml')->__('Access Denied.'));
                 }
+                $result = true;
             }
 
-            Mage::dispatchEvent('admin_user_authenticated', array(
+            Mage::dispatchEvent('admin_user_authenticate_after', array(
                 'username' => $username,
                 'password' => $password,
                 'user'     => $this,
                 'result'   => $result,
             ));
-
-            if (!$this->hasAssigned2Role($this->getId())) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Access Denied.'));
-            }
         }
         catch (Mage_Core_Exception $e) {
             $this->unsetData();
@@ -270,14 +267,6 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         if ($this->authenticate($username, $password)) {
             $this->getResource()->recordLogin($this);
         }
-
-        // dispatch event regardless the user was logged in or not
-        Mage::dispatchEvent('admin_user_on_login', array(
-           'user'     => $this,
-           'username' => $username,
-           'password' => $password,
-        ));
-
         return $this;
     }
 
