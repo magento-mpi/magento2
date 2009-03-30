@@ -92,7 +92,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     public function getDropDownsDateHtml()
     {
-        $_fieldsSeparator = '';
+        $_fieldsSeparator = '&nbsp;';
         $_fieldsOrder = Mage::getSingleton('catalog/product_option_type_date')->getConfigData('date_fields_order');
         $_fieldsOrder = str_replace(',', $_fieldsSeparator, $_fieldsOrder);
 
@@ -134,7 +134,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
         $hoursHtml = $this->_getSelectFromToHtml('hour', $hourStart, $hourEnd);
         $minutesHtml = $this->_getSelectFromToHtml('minute', 0, 59);
 
-        return $hoursHtml . ':' . $minutesHtml . $dayPartHtml;
+        return $hoursHtml . '&nbsp;<b>:</b>&nbsp;' . $minutesHtml . '&nbsp;' . $dayPartHtml;
     }
 
     /**

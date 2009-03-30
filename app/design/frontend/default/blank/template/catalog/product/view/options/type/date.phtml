@@ -32,12 +32,12 @@
 
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
     || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
-    <?php echo Mage::helper('catalog')->__('Date')?>: <?php echo $this->getDateHtml() ?>
+    <?php echo $this->getDateHtml() ?>
 <?php endif; ?>
 
 <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
     || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
-    <?php echo Mage::helper('catalog')->__('Time')?>: <?php echo $this->getTimeHtml() ?>
+    &nbsp;&nbsp;<?php echo $this->getTimeHtml() ?>
 <?php endif; ?>
 
 <?php if ($_option->getIsRequire()): ?>
