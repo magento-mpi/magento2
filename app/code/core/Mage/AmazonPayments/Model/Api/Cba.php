@@ -319,6 +319,10 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         }
 
         if (is_array($rules)) {
+            if ($addTo) {
+                $_tables = $addTo->addChild('TaxTables');
+            }
+
             foreach ($rules as $group=>$taxRates) {
                 $isShippingTaxed = ($isShipping ? 'true' : 'false');
                 if ($isShipping) {
@@ -330,7 +334,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                     }
                 }
                 if ($addTo) {
-                    $_tables = $addTo->addChild('TaxTables');
+                    // $_tables = $addTo->addChild('TaxTables');
                     $_table = $_tables->addChild($taxTableTag);
                     $_table->addChild('TaxTableId', $tableName);
                     $_rules = $_table->addChild('TaxRules');
