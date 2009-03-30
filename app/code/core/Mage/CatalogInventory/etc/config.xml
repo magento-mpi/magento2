@@ -190,11 +190,11 @@
             </admin_system_config_changed_section_cataloginventory>
             <catalog_product_website_update>
                 <observers>
-                    <catalog_product_flat>
+                    <cataloginventory>
                         <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>catalogProductWebsiteUpdate</method>
-                    </catalog_product_flat>
+                    </cataloginventory>
                 </observers>
             </catalog_product_website_update>
         </events>
