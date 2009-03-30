@@ -50,6 +50,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
          * reset quote shipping addresses and items
          */
         $this->getQuote()->setIsMultiShipping(true);
+        if (!$this->getCustomer()->getId()) {
+            return $this;
+        }
 
         if ($this->getCheckoutSession()->getCheckoutState() === Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
             $this->getCheckoutSession()->setCheckoutState(true);
