@@ -96,14 +96,14 @@
             </updates>
         </layout>
         <events>
-            <admin_user_authenticated>
+            <admin_user_authenticate_after>
                 <observers>
                     <enterprise_pci>
                         <class>enterprise_pci/observer</class>
                         <method>adminAuthenticate</method>
                     </enterprise_pci>
                 </observers>
-            </admin_user_authenticated>
+            </admin_user_authenticate_after>
             <admin_user_save_before>
                 <observers>
                     <enterprise_pci>
