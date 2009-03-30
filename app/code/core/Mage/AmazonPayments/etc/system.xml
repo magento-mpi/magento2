@@ -115,6 +115,30 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </secretkey_id>
+                        <merchant_tocken translate="label">
+                            <label>Merchant Tocken</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </merchant_tocken>
+                        <merchant_login translate="label">
+                            <label>Merchant Login</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </merchant_login>
+                        <merchant_pass translate="label">
+                            <label>Merchant Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </merchant_pass>
                         <!--<button_url translate="label comment">
                             <label>Button URL</label>
                             <sort_order>60</sort_order>

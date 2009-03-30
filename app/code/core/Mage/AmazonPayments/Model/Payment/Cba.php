@@ -127,6 +127,25 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         return $paymentAction;
     }
 
+    public function cancel(Varien_Object $payment)
+    {
+        $this->getApi()->cancel($payment->getOrder());
+        return $this;
+    }
+
+    /**
+     * Refund order
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  Mage_AmazonPayments_Model_Payment_Cba
+     */
+    public function refund(Varien_Object $payment, $amount)
+    {
+        $this->getApi()->refund($payment->getOrder(), $amount);
+
+        return $this;
+    }
+
     /**
      * Handle Callback from CBA and calculate Shipping, Taxes in case XML-based shopping cart
      *
@@ -281,8 +300,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setGrandTotal($newOrderDetails['total'])
             ->setBaseGrandTotal($newOrderDetails['total'])
             ->setFirstname($bFirstname)
-            ->setLastname($bLastname)
-            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);//?????????????
+            ->setLastname($bLastname);
 
         $quote->setBillingAddress($billing);
         $quote->setShippingAddress($shipping);
@@ -304,14 +322,16 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
 
         $order->setShippingDescription($newOrderDetails['ShippingLevel']);
-        $order->setReferenceId($newOrderDetails['amazonOrderID']);
 
-        $order->setAmazonname($newOrderDetails['buyerName'])
-            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);
+//        $order->setAmazonname($newOrderDetails['buyerName'])
+//            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);
 
         $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
 
-        $order->addData(array('amazonOrderID' => $quote->getAmazonOrderID()));
+        /**
+         * Amazon Order Id
+         */
+        $order->setExtOrderId($newOrderDetails['amazonOrderID']);
 
         // add items to order
         foreach ($quote->getAllItems() as $item) {

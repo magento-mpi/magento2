@@ -780,33 +780,6 @@ XML;
 
         $xml = new SimpleXMLElement($_xmlString);
 
-        $_carriersAmazon = array(
-            'Standard' => array(
-                    'code'      => 'US Standard',
-                    'title'     => 'Standard',
-                    'price'     => '3.49',
-                    'currency'  => 'USD',
-                ),
-            'Expedited' => array(
-                    'code'      => 'US Expedited',
-                    'title'     => 'Expedited',
-                    'price'     => '5.49',
-                    'currency'  => 'USD',
-                ),
-            'TwoDay' => array(
-                    'code'      => 'US Two-Day',
-                    'title'     => 'TwoDay',
-                    'price'     => '6.49',
-                    'currency'  => 'USD',
-                ),
-            'OneDay' => array(
-                    'code'      => 'US One-Day',
-                    'title'     => 'OneDay',
-                    'price'     => '7.49',
-                    'currency'  => 'USD',
-                ),
-            );
-
         if (count($this->_carriers) > 0) {
             $_xmlResponse = $xml->addChild('Response');
             $_xmlCallbackOrders = $_xmlResponse->addChild('CallbackOrders');
@@ -939,6 +912,64 @@ XML;
         }
         $xml = new SimpleXMLElement($xmlErrorString);
         return $xml;
+    }
+
+    /**
+     * Get order amazon api
+     *
+     * @return Mage_AmazonPayments_Model_Api_Cba_Document
+     */
+    public function getDocumentApi()
+    {
+        if (is_null($this->getData('document_api'))) {
+            $_documentApi = Mage::getModel('amazonpayments/api_cba_document')
+                ->setWsdlUri('https://merchant-api.amazon.com/gateway/merchant-interface-mime/')
+                ->setMerchantInfo(array(
+                    'merchantIdentifier' => Mage::getStoreConfig('payment/amazonpayments_cba/merchant_tocken'),
+                    'merchantName' => Mage::getStoreConfig('payment/amazonpayments_cba/merchant_name'),
+                ))
+                ->init(
+                    Mage::getStoreConfig('payment/amazonpayments_cba/merchant_login'),
+                    Mage::getStoreConfig('payment/amazonpayments_cba/merchant_pass')
+                );
+            $this->setData('document_api', $_documentApi);
+        }
+        return $this->getData('document_api');
+    }
+
+    /**
+     * Cancel order
+     *
+     * @param Mage_Sales_Model_Order $order
+     */
+    public function cancel($order)
+    {
+        $this->getDocumentApi()->cancel($order->getExtOrderId());
+        return $this;
+    }
+
+    /**
+     * Refund order
+     *
+     * @param Mage_Sales_Model_Order $order
+     */
+    public function refund($order, $amount)
+    {
+        $this->getDocumentApi()->refund($order, $amount);
+        return $this;
+    }
+
+    /**
+     * Send shipping track number
+     *
+     * @param string $orderId
+     * @param string $carrierCode
+     * @param string $trackNumber
+     */
+    public function deliver($orderId, $carrierCode, $trackNumber)
+    {
+        $this->getDocumentApi()->sendTrackNumber();
+        return $this;
     }
 
 }
