@@ -454,6 +454,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         if ($this->getProductStatusChanged()
+            OR $this->getProductChangedWebsites()
             OR $this->dataHasChangedFor('is_in_stock')
             OR $this->dataHasChangedFor('manage_stock')) {
             Mage::getSingleton('cataloginventory/stock_status')
@@ -490,7 +491,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             ->setStoreId($product->getStoreId())
             ->setProductName($product->getName())
             ->setProductTypeId($product->getTypeId())
-            ->setProductStatusChanged($product->dataHasChangedFor('status'));
+            ->setProductStatusChanged($product->dataHasChangedFor('status'))
+            ->setProductChangedWebsites($product->getIsChangedWebsites());
 
         return $this;
     }
