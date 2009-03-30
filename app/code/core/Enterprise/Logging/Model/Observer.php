@@ -49,6 +49,7 @@ class Enterprise_Logging_Model_Observer
     public function catchActionStart($observer) {
         $contr = $observer->getControllerAction();
         $action = $contr->getFullActionName();
+
         if(preg_match("%^adminhtml_(.*?)$%", $action, $m)) {
             $action = $m[1];
         } else {
@@ -83,16 +84,18 @@ class Enterprise_Logging_Model_Observer
         if(!Mage::registry('enterprise_logged_actions'))
             return;
 
-        $savedModels = Mage::registry('saved_models');
-        if(!$savedModels) {
-            $savedModels = array();
+        $model = $observer->getObject();
+        $actions = Mage::registry('enterprise_logged_actions');
+        if(!is_array($actions))
+            $actions = array($actions);
+        foreach($actions as $action) {
+            if($this->getInfo($action, 1, $model)) {
+                Mage::register('saved_model_'.$action, $model);
+            }
         }
-        $savedModels[] = $observer->getObject();
-        Mage::unregister('saved_models');
-        Mage::register('saved_models', $savedModels);
     }
 
-    public function catchActionEnd() {
+    public function catchActionEnd($observer) {
         if($actions = Mage::registry('enterprise_logged_actions')) {
             if(!is_array($actions)) 
                 $actions = array($actions);
@@ -113,6 +116,7 @@ class Enterprise_Logging_Model_Observer
                   ->setTime(time())
                   ->save();
             }
+            Mage::unregister('enterprise_logged_actions');
         }
     }
 
@@ -131,23 +135,72 @@ class Enterprise_Logging_Model_Observer
         }
     }
 
-    protected function _getActionsToLog() {
-        if(!($actions = Mage::registry('enterprise_logged_actions'))) {
+    protected function _getActionsToLog($mode = 'short') {
+        if(!($actions = Mage::registry('enterprise_actions_to_log'))) {
             $actions = array(
-                'catalog_product_edit',
-                'catalog_product_save',
-                'catalog_product_delete',
-                'catalog_category_edit',
-                'catalog_category_save',
-                'catalog_category_move',
-                'catalog_category_delete',
-                'customer_edit',
-                'customer_save',
-                'customer_delete',
-                'customerbalance_form',
-                'customerbalance_save'
+                'catalog_product_edit' => 'products/view',
+                'catalog_product_save' => 'products/save/Mage_Catalog_Model_Product',
+                'catalog_product_delete' => 'products/delete',
+                'catalog_category_edit' => 'category/view',
+                'catalog_category_save' => 'category/save',
+                'catalog_category_move' => 'category/move',
+                'catalog_category_delete' => 'category/delete',
+                'catalog_event_edit' => 'catalogevents/view',
+                'catalog_event_save' => 'catalogevents/save/Mage_Catalog_Model_Event',
+                'catalog_event_delete' => 'catalogevents/delete',
+                'promo_catalog_edit' => 'promocatalog/view',
+                'promo_catalog_save' => 'promocatalog/save/Mage_CatalogRule_Model_Rule',
+                'promo_catalog_delete' => 'promocatalog/delete',
+                'promo_quote_edit' => 'promoquote/view',
+                'promo_quote_save' => 'promoquote/save/Mage_SalesRule_Model_Rule',
+                'promo_quote_delete' => 'promoquote/delete',
+                'customer_edit' => 'customer/view',
+                'customer_save' => 'customer/save/Mage_Customer_Model_Customer',
+                'customer_delete' => 'customer/delete',
+                'customerbalance_form' => 'customerbalance/view',
+                'customerbalance_save' => 'customerbalance/save/Mage_Customer_Model_Customer',
+                'customer_group_edit' => 'customer_group_edit/view',
+                'customer_group_save' => 'customer_group_save/save/Mage_Customer_Model_Group',
+                'customer_group_delete' => 'customer_group_delete/delete',
+                'cms_page_edit' => 'cms_page/view/page_id',
+                'cms_page_save' => 'cms_page/save',
+                'cms_page_delete' => 'cms_page/delete/page_id',
+                'cms_block_edit' => 'cms_block/view/block_id',
+                'cms_block_save' => 'cms_block/save',
+                'cms_block_delete' => 'cms_block/delete/block_id',
+                'poll_save' => 'poll/save',
+                'poll_delete' => 'poll/delete',
+                'poll_edit' => 'poll/view',
+                'report_sales_sales' => 'report_sales_sales/view',
+                'report_sales_tax' => 'report_sales_tax/view',
+                'report_sales_shipping' => 'report_sales_shipping/view',
+                'report_sales_invoiced' => 'report_sales_invoiced/view',
+                'report_sales_refunded' => 'report_sales_refunded/view',
+                'report_sales_coupons' => 'report_sales_coupons/view',
+                'report_shopcard_product' => 'report_shopcard_products/view',
+                'report_shopcard_abadoned' => 'report_shopcard_abadoned/view',
+                'report_product_ordered' => 'report_product_ordered/view',
+                'report_product_viewed' => 'report_product_viewed/view',
+                'report_product_lowstock' => 'report_product_lowstock/view',
+                'report_product_downloads' => 'report_product_downloads/view',
+                'report_customer_accouts' => 'report_customer_accounts/view',
+                'report_customer_orders' => 'report_customer_orders/view',
+                'report_customer_totals' => 'report_customer_totals/view',
+                'report_review_customer' => 'report_review_customer/view',
+                'report_review_product' => 'report_review_product/view',
+                'report_tag_customer' => 'report_tag_customer/view',
+                'report_tag_product' => 'report_tag_product/view',
+                'report_tag_popular' => 'report_tag_popular/view',
+                'report_search' => 'report_search/view',
+                'report_invitation_index' => 'report_invitation_index/view',
+                'report_invitation_customer' => 'report_invitation_customer/view',
+                'report_invitation_order' => 'report_invitation_order/view'
             );
+            Mage::register('enterprise_actions_to_log', $actions);
         }
+        if($mode == 'short')
+            return array_keys($actions);
+
         return $actions;
     }
 
@@ -162,118 +215,101 @@ class Enterprise_Logging_Model_Observer
         return true;
     }
 
-    public function getInfo($action, $success) {
+    public function getViewActionInfo($action, $success) {
+        $actions = $this->_getActionsToLog('long');
+        $code = $actions[$action];
+        $data = explode('/', $code);
+        $code = $data[0];
+        $act = $data[1];
+        $id = isset($data[2])? $data[2] : 'id';
+        
+        $id = Mage::app()->getRequest()->getParam($id);
+
+        if($id === false)
+            return false;
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id,
+        );
+    }
+
+    public function getDeleteActionInfo($action, $success) {
+        $actions = $this->_getActionsToLog('long');
+        $code = $actions[$action];
+        $data = explode('/', $code);
+        $code = $data[0];
+        $act = $data[1];
+        $id = isset($data[2])? $data[2] : 'id';
+        $id = Mage::app()->getRequest()->getParam($id);
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id,
+        );
+    }
+
+    public function getSaveActionInfo($action, $success, $model = null) {
+        $actions = $this->_getActionsToLog('long');
+        $code = $actions[$action];
+        $data = explode('/', $code);
+        $code = $data[0];
+        $act = $data[1];
+        $class = $data[2];
+
+        if($model != null) {
+            $r = @is_a($model, $class);
+            return $r;
+        }
+        $request = Mage::app()->getRequest();
+        $model = Mage::registry('saved_model_'.$action);
+        if($model == null || !(@is_a($model, $class))) {
+            Mage::throwException('Admin Logging error: Unable to log save action: '.$action);
+        }
+        $id = $model->getId();
+        if ($success && $request->getParam('back')) {
+            Mage::getSingleton('admin/session')->setSkipLoggingAction('catalog_product_edit');
+        }
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id
+        );
+        break;
+    }
+
+    public function getInfo($action, $success, $model = null) {
         $request = Mage::app()->getRequest();
         switch($action) {
         case 'catalog_product_edit':
-            $id = $request->getParam('id');
-            if(!$id)
+        case 'catalog_event_edit':
+        case 'customer_edit':
+        case 'cms_page_edit':
+        case 'cms_block_edit':
+        case 'poll_edit':
+        case 'customer_group_edit':
+        case 'customer_online_edit':
+        case 'manage_giftcardaccount':
+        case 'promo_catalog_edit':
+        case 'promo_quote_edit':
+            if($model !== null)
                 return false;
-            return array(
-                'event_code' => 'products',
-                'event_action' => 'view',
-                'event_message' => $id,
-            );
+            return $this->getViewActionInfo($action, $success);
             break;
         case 'catalog_product_save':
-            $models = Mage::registry('saved_models');
-            $model = null;
-            foreach($models as $m) {
-                if($m instanceof Mage_Catalog_Model_Product)
-                    $model = $m;
-            }
-            if($model == null) {
-                Mage::throwException('Admin Logging error: Unable to log save action');
-            }
-            $id = $model->getId();
-            if ($success && $request->getParam('back')) {
-                Mage::getSingleton('admin/session')->setSkipLoggingAction('catalog_product_edit');
-            }
-            return array(
-                'event_code' => 'products',
-                'event_action' => 'save',
-                'event_message' => $id
-            );
+        case 'customer_save':
+        case 'customerbalance_save':
+        case 'customer_group_save':
+        case 'promo_catalog_save':
+        case 'promo_quote_save':
+            return $this->getSaveActionInfo($action, $success, $model);
             break;
         case 'catalog_product_delete':
-            $id = $request->getParam('id');
-            return array(
-                'event_code' => 'products',
-                'event_action' => 'delete',
-                'event_message' => $id
-            );
-            break;
-        case 'customer_edit':
-            $id = $request->getParam('id');
-            if(!$id)
-                return false;
-
-            return array(
-                'event_code' => 'customers',
-                'event_action' => 'view',
-                'event_message' => $id
-            );
-            break;
-        case 'customer_save':
-            $models = Mage::registry('saved_models');
-            $model = null;
-            foreach($models as $m) {
-                if($m instanceof Mage_Customer_Model_Customer)
-                    $model = $m;
-            }
-            if($model == null) {
-                Mage::throwException('Admin Logging error: Unable to log save action (customer)');
-            }
-            $id = $model->getId();
-            if ($success && $request->getParam('back')) {
-                Mage::getSingleton('admin/session')->setSkipLoggingAction('customer_edit');
-            }
-            if ($success && $request->getParam('back')) {
-                $den = explode(',', Mage::getSingleton('admin/session')->getSkipLoggingAction());
-                $den[] = 'customer_edit';
-                Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $den));
-            }
-
-            return array(
-                'event_code' => 'customers',
-                'event_action' => 'save',
-                'event_message' => $id,
-            );
-            break;
-        case 'customerbalance_save':
-            $models = Mage::registry('saved_models');
-            $model = null;
-            foreach($models as $m) {
-                if($m instanceof Mage_Customer_Model_Customer)
-                    $model = $m;
-            }
-            if($model == null) {
-                Mage::throwException('Admin Logging error: Unable to log save action (customerbalance)');
-            }
-            $id = $model->getId();
-            if ($success && $request->getParam('back')) {
-                Mage::getSingleton('admin/session')->setSkipLoggingAction('customer_edit');
-            }
-
-            if ($success && $request->getParam('back')) {
-                $den = explode(',', Mage::getSingleton('admin/session')->getSkipLoggingAction());
-                $den[] = 'customerbalance_form';
-                Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $den));
-            }
-
-            return array(
-                'event_code' => 'customerbalance',
-                'event_action' => 'save',
-                'event_message' => $id
-            );
-            break;
         case 'customer_delete':
-            $id = $request->getParam('id');
-            return array(
-                'event_code' => 'customers',
-                'event_action' => 'delete',
-                'event_message' => $id
-            );
+        case 'customer_group_delete':
+            if($model !== null)
+                return false;
+            return $this->getDeleteActionInfo($action, $success);
             break;
         case 'customerbalance_form':
             $id = $request->getParam('id');
@@ -283,6 +319,35 @@ class Enterprise_Logging_Model_Observer
                 'event_message' => $id
             );
             break;
+        case 'report_sales_shipping':
+        case 'report_sales_tax':
+        case 'report_sales_shipping':
+        case 'report_sales_invoiced':
+        case 'report_sales_refunded':
+        case 'report_sales_coupons':
+        case 'report_shopcard_product':
+        case 'report_shopcard_abadoned':
+        case 'report_product_ordered':
+        case 'report_product_viewed':
+        case 'report_product_lowstock':
+        case 'report_product_downloads':
+        case 'report_customer_accouts':
+        case 'report_customer_orders':
+        case 'report_customer_totals':
+        case 'report_review_customer':
+        case 'report_review_product':
+        case 'report_tag_customer':
+        case 'report_tag_product':
+        case 'report_tag_popular':
+        case 'report_search':
+        case 'report_invitation_index':
+        case 'report_invitation_customer':
+        case 'report_invitation_order':
+            return array(
+                'event_code' => 'reports',
+                'event_action' => 'view',
+                'event_message' => substr($action, 7) 
+            );
         }
 
     }
