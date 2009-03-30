@@ -184,9 +184,7 @@ class Enterprise_Pci_Model_Observer
             if ($password && !$user->getForceNewPassword()) {
                 $resource     = Mage::getResourceSingleton('enterprise_pci/admin_user');
                 $passwordHash = Mage::helper('core')->getHash($password, false);
-                $resource->trackPassword($user, $passwordHash,
-                    86400 * (int)Mage::getStoreConfig('admin/security/password_lifetime')
-                );
+                $resource->trackPassword($user, $passwordHash, $this->getAdminPasswordLifetime());
                 Mage::getSingleton('adminhtml/session')->getMessages()->deleteMessageByIdentifier('enterprise_pci_password_expired');
             }
         }
@@ -205,6 +203,20 @@ class Enterprise_Pci_Model_Observer
         }
         $lockThreshold = $lockThreshold * 60;
         return $lockThreshold;
+    }
+
+    /**
+     * Get admin password lifetime
+     *
+     * @return int
+     */
+    public function getAdminPasswordLifetime()
+    {
+        $lifetimeDays = (int)Mage::getStoreConfig('admin/security/password_lifetime');
+        if ($lifetimeDays < 1) {
+            $lifetimeDays = 1;
+        }
+        return 86400 * $lifetimeDays;
     }
 
     /**

@@ -134,10 +134,12 @@ class Enterprise_Pci_Model_Mysql4_Admin_User extends Mage_Admin_Model_Mysql4_Use
      */
     public function trackPassword($user, $passwordHash, $lifetime)
     {
+        $now = time();
         $this->_getWriteAdapter()->insert($this->getTable('enterprise_pci/admin_passwords'), array(
             'user_id'       => $user->getId(),
             'password_hash' => $passwordHash,
-            'expires'       => time() + $lifetime,
+            'expires'       => $now + $lifetime,
+            'last_updated'         => $now,
         ));
     }
 
