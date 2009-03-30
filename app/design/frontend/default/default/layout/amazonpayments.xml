@@ -47,4 +47,15 @@ Shopping cart
             <block type="amazonpayments/cba_success" name="amazonpayments_cba_success"  template="amazonpayments/cba/success.phtml"></block>
         </reference>
     </amazonpayments_cba_success>
+    
+    
+    <amazonpayments_asp_pay>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <!-- block type="amazonpayments/asp_redirect" name="amazonpayments_asp_redirect" template="page/redirect.phtml" / -->
+            <block type="amazonpayments/asp_redirect" name="amazonpayments_asp_redirect" template="amazonpayments/asp/redirect.phtml" />
+        </reference>
+    </amazonpayments_asp_pay>
 </layout>
