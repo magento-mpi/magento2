@@ -130,11 +130,12 @@ class Mage_Tax_Model_Observer
     public function addTaxPercentToProductCollection($observer)
     {
         $helper = Mage::helper('tax');
-        if (!$helper->needPriceConversion()) {
+        $collection = $observer->getEvent()->getCollection();
+        $store = $collection->getStoreId();
+        if (!$helper->needPriceConversion($store)) {
             return $this;
         }
 
-        $collection = $observer->getEvent()->getCollection();
         if ($collection->requireTaxPercent()) {
             $request = Mage::getSingleton('tax/calculation')->getRateRequest();
             foreach ($collection as $item) {

@@ -241,4 +241,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             return Mage::helper('sales')->__('* - Enter custom price excluding tax');
         }
     }
+
+    public function getStore()
+    {
+        return $this->getQuote()->getStore();
+    }
 }

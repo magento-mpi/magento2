@@ -280,11 +280,11 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     public function getPrice($product, $price, $includingTax = null, $shippingAddress = null, $billingAddress = null, $ctc = null, $store = null, $priceIncludesTax = null)
     {
         $store = Mage::app()->getStore($store);
-        if (!$this->needPriceConversion()) {
+        if (!$this->needPriceConversion($store)) {
         	return $store->roundPrice($price);
         }
         if (is_null($priceIncludesTax)) {
-            $priceIncludesTax = $this->priceIncludesTax();
+            $priceIncludesTax = $this->priceIncludesTax($store);
         }
 
         $percent = $product->getTaxPercent();
