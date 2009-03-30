@@ -42,6 +42,8 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     public function validateUserValue($values)
     {
+        Mage::getSingleton('checkout/session')->setUseNotice(false);
+
         $this->setIsValid(true);
         $option = $this->getOption();
 
@@ -169,27 +171,24 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         } elseif ($upload->getErrors()) {
             $errors = array();
             foreach ($upload->getErrors() as $errorCode) {
-                switch ($errorCode) {
-                    case Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION:
-                        $errors[] = Mage::helper('catalog')->__("The file '%s' has an invalid extension", $fileInfo['name']);
-                        break;
-                    case Zend_Validate_File_Extension::FALSE_EXTENSION:
-                        $errors[] = Mage::helper('catalog')->__("The file '%s' has an invalid extension", $fileInfo['name']);
-                        break;
-                    case Zend_Validate_File_ImageSize::WIDTH_TOO_BIG:
-                        $errors[] = Mage::helper('catalog')->__("Maximum allowed width for image '%s' should be '%s' px.",
-                            $fileInfo['name'],
-                            $option->getImageSizeX()
-                        );
-                        break;
-                    case Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG:
-                        $errors[] = Mage::helper('catalog')->__("Maximum allowed height for image '%s' should be '%s' px.",
-                            $fileInfo['name'],
-                            $option->getImageSizeY()
-                        );
-                        break;
-                    default:
-                        break;
+                if ($errorCode == Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
+                    $errors[] = Mage::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
+                        $fileInfo['name'],
+                        $option->getTitle()
+                    );
+                } elseif ($errorCode == Zend_Validate_File_Extension::FALSE_EXTENSION) {
+                    $errors[] = Mage::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
+                        $fileInfo['name'],
+                        $option->getTitle()
+                    );
+                } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
+                    || $errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG)
+                {
+                    $errors[] = Mage::helper('catalog')->__("Maximum allowed image size for '%s' is %sx%s px.",
+                        $option->getTitle(),
+                        $option->getImageSizeX(),
+                        $option->getImageSizeY()
+                    );
                 }
             }
             if (count($errors) > 0) {
@@ -238,7 +237,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 } else {
                     $sizes = '';
                 }
-                $result = sprintf('<a href="%s">%s</a> %s',
+                $result = sprintf('<a href="%s" target="_blank">%s</a> %s',
                     $this->_getOptionDownloadUrl($value['secret_key']),
                     Mage::helper('core')->htmlEscape($value['title']),
                     $sizes

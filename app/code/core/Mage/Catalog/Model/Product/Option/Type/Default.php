@@ -167,6 +167,8 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
      */
     public function validateUserValue($values)
     {
+        Mage::getSingleton('checkout/session')->setUseNotice(false);
+
         $this->setIsValid(false);
 
         $option = $this->getOption();
