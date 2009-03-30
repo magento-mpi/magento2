@@ -83,6 +83,9 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         $this->setEventCode($code);
         $action = $info['event_action'];
         $this->setAction($action);
+        if(isset($info['event_status']) && $info['event_status'] != $this->getSuccess()) {
+            $this->setSuccess($info['event_status']);
+        }
 
         $success = $this->getSuccess() ? 'success' : 'fail';
         $this->setStatus($success);

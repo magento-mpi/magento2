@@ -58,6 +58,7 @@ class Enterprise_Logging_Model_Observer
         if(!in_array($action, $this->_getActionsToLog())) {
             return;
         }
+
         if($act = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
             if(is_array($act))
                 $denied = $act;
@@ -145,8 +146,8 @@ class Enterprise_Logging_Model_Observer
                 'catalog_category_save' => 'category/save',
                 'catalog_category_move' => 'category/move',
                 'catalog_category_delete' => 'category/delete',
-                'catalog_event_edit' => 'catalogevents/view',
-                'catalog_event_save' => 'catalogevents/save/Mage_Catalog_Model_Event',
+                'catalog_event_edit' => 'catalogevents/view/event_id',
+                'catalog_event_save' => 'catalogevents/save/Enterprise_CatalogEvent_Model_Event',
                 'catalog_event_delete' => 'catalogevents/delete',
                 'promo_catalog_edit' => 'promocatalog/view',
                 'promo_catalog_save' => 'promocatalog/save/Mage_CatalogRule_Model_Rule',
@@ -162,13 +163,13 @@ class Enterprise_Logging_Model_Observer
                 'customer_group_edit' => 'customer_group_edit/view',
                 'customer_group_save' => 'customer_group_save/save/Mage_Customer_Model_Group',
                 'customer_group_delete' => 'customer_group_delete/delete',
-                'cms_page_edit' => 'cms_page/view/page_id',
-                'cms_page_save' => 'cms_page/save',
-                'cms_page_delete' => 'cms_page/delete/page_id',
-                'cms_block_edit' => 'cms_block/view/block_id',
-                'cms_block_save' => 'cms_block/save',
-                'cms_block_delete' => 'cms_block/delete/block_id',
-                'poll_save' => 'poll/save',
+                'cms_page_edit' => 'cmspages/view/page_id',
+                'cms_page_save' => 'cmspages/save/Mage_Cms_Model_Page',
+                'cms_page_delete' => 'cmspages/delete/page_id',
+                'cms_block_edit' => 'cmsblocks/view/block_id',
+                'cms_block_save' => 'cmsblocks/save/Mage_Cms_Model_Block',
+                'cms_block_delete' => 'cmsblocks/delete/block_id',
+                'poll_save' => 'poll/save/Mage_Cms_Model_Poll',
                 'poll_delete' => 'poll/delete',
                 'poll_edit' => 'poll/view',
                 'report_sales_sales' => 'report_sales_sales/view',
@@ -194,7 +195,13 @@ class Enterprise_Logging_Model_Observer
                 'report_search' => 'report_search/view',
                 'report_invitation_index' => 'report_invitation_index/view',
                 'report_invitation_customer' => 'report_invitation_customer/view',
-                'report_invitation_order' => 'report_invitation_order/view'
+                'report_invitation_order' => 'report_invitation_order/view',
+                'manage_giftcardaccount_edit' => 'giftaccount/view',
+                'manage_giftcardaccount_save' => 'giftaccount/save/Enterprise_GiftCardAccount_Model_Giftcardaccount',
+                'manage_giftcardaccount_delete' => 'giftaccount/delete',
+                'newsletter_template_edit' => 'newslettertemplate/view',
+                'newsletter_template_save' => 'newslettertemplate/save/Mage_Newsletter_Model_Template',
+                'newsletter_template_delete' => 'newslettertemplate/delete'
             );
             Mage::register('enterprise_actions_to_log', $actions);
         }
@@ -205,14 +212,8 @@ class Enterprise_Logging_Model_Observer
     }
 
     public function getSuccess($action) {
-        return true;
-        $messages = Mage::getModel('admin/session')->getErrors(true)->getMessages();
-        $model = Mage::getModel('enterprise_logging/event');
-        foreach($messages as $mes) {
-            if($mes->getName() == $model->getErrorName($action))
-                return false;
-        }
-        return true;
+        $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
+        return !(is_array($errors) && count($errors) > 0);
     }
 
     public function getViewActionInfo($action, $success) {
@@ -256,6 +257,7 @@ class Enterprise_Logging_Model_Observer
         $code = $data[0];
         $act = $data[1];
         $class = $data[2];
+        $id = isset($data[3]) ? $data[3] : 'id';
 
         if($model != null) {
             $r = @is_a($model, $class);
@@ -264,16 +266,19 @@ class Enterprise_Logging_Model_Observer
         $request = Mage::app()->getRequest();
         $model = Mage::registry('saved_model_'.$action);
         if($model == null || !(@is_a($model, $class))) {
-            Mage::throwException('Admin Logging error: Unable to log save action: '.$action);
-        }
-        $id = $model->getId();
+            $id = Mage::app()->getRequest()->getParam('id');
+            $success = 0;
+        } else
+            $id = $model->getId();
+
         if ($success && $request->getParam('back')) {
             Mage::getSingleton('admin/session')->setSkipLoggingAction('catalog_product_edit');
         }
         return array(
             'event_code' => $code,
             'event_action' => $act,
-            'event_message' => $id
+            'event_message' => $id,
+            'event_status' => $success
         );
         break;
     }
@@ -289,9 +294,13 @@ class Enterprise_Logging_Model_Observer
         case 'poll_edit':
         case 'customer_group_edit':
         case 'customer_online_edit':
-        case 'manage_giftcardaccount':
+        case 'manage_giftcardaccount_edit':
         case 'promo_catalog_edit':
         case 'promo_quote_edit':
+        case 'newsletter_template_edit':
+        case 'newsletter_queue_edit':
+        case 'newsletter_subscriber_edit':
+        case 'newsletter_problem_edit':
             if($model !== null)
                 return false;
             return $this->getViewActionInfo($action, $success);
@@ -302,11 +311,24 @@ class Enterprise_Logging_Model_Observer
         case 'customer_group_save':
         case 'promo_catalog_save':
         case 'promo_quote_save':
+        case 'cms_page_save':
+        case 'cms_block_save':
+        case 'poll_save':
+        case 'manage_giftcardaccount_save':
+        case 'catalog_event_save':
+        case 'newsletter_template_save':
+        case 'newsletter_queue_save':
+        case 'newsletter_subscriber_save':
+        case 'newsletter_problem_save':
             return $this->getSaveActionInfo($action, $success, $model);
             break;
         case 'catalog_product_delete':
         case 'customer_delete':
         case 'customer_group_delete':
+        case 'newsletter_template_delete':
+        case 'newsletter_queue_delete':
+        case 'newsletter_subscriber_delete':
+        case 'newsletter_problem_delete':
             if($model !== null)
                 return false;
             return $this->getDeleteActionInfo($action, $success);
@@ -348,6 +370,7 @@ class Enterprise_Logging_Model_Observer
                 'event_action' => 'view',
                 'event_message' => substr($action, 7) 
             );
+            break;
         }
 
     }

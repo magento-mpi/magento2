@@ -914,6 +914,10 @@
           <promoquote>1</promoquote>
           <systemaccount>1</systemaccount>
           <invitations>1</invitations>
+          <newslettertemplate>1</newslettertemplate>
+          <newsletterqueue>1</newsletterqueue>
+          <newslettersubscriber>1</newslettersubscriber>
+          <newsletterproblem>1</newsletterproblem>
         </logsenabled>
       </admin>
       <system>
