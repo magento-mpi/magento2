@@ -118,7 +118,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
      * Process FPS request
      *
      * @param object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract $request
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
     public function process($request)
     {
@@ -153,7 +153,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
      * Add required params to FPS request
      *
      * @param object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
      */
     protected function _addRequiredParameters($request)
     {
@@ -167,7 +167,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
      * Add signature param to FPS request
      *
      * @param object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
      */
     protected function _signRequest($request)
     {
@@ -180,7 +180,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
      *
      * @param string $serviceUrl
      * @param array $params
-     * @return object Varien_Simplexml_Element
+     * @return Varien_Simplexml_Element
      */
     protected function _call($serviceUrl, $params)
     {

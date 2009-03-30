@@ -55,7 +55,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
      * Init object 
      *
      * @param array $requestParams
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
+     * @return Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
      */
     public function init($requestParams)
     {
@@ -147,9 +147,9 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
      * convert union amount string to amount value and amount currency code
      *
      * @param string $requestAmount
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Amount
+     * @return Mage_AmazonPayments_Model_Api_Asp_Amount
      */
-    private function _convertAmount ($requestAmount) 
+    private function _convertAmount($requestAmount) 
     {
         $amount = Mage::getSingleton('amazonpayments/api_asp_amount');
         if (!$amount->init($requestAmount)) {
@@ -168,7 +168,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
      * @param string $referenceId
      * @return string
      */
-    private function _convertReferenceId ($referenceId) 
+    private function _convertReferenceId($referenceId) 
     {
         $tmpArr = array();
         if (!preg_match("/^Refund\sfor\s([0-9]{9})$/", $referenceId, $tmpArr)) {
@@ -183,7 +183,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Ipn_Request extends Varien_Object
      * @param string $transactionDate
      * @return string
      */
-    private function _convertTransactionDate ($transactionDate) 
+    private function _convertTransactionDate($transactionDate) 
     {
         return Mage::app()->getLocale()->date($transactionDate);
     }    

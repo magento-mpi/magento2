@@ -42,7 +42,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract extends Varien_Obje
      * Init object 
      *
      * @param string $actionCode
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
      */
     public function init($actionCode)
     {

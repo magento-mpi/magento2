@@ -36,7 +36,7 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
     /**
      * Get singleton with payment model AmazonPayments ASP
      *
-     * @return object Mage_AmazonPayments_Model_Payment_Asp
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     public function getPayment()
     {
@@ -46,7 +46,7 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
     /**
      * Get singleton with model checkout session 
      *
-     * @return object Mage_Checkout_Model_Session
+     * @return Mage_Checkout_Model_Session
      */
     public function getSession()
     {
@@ -70,16 +70,11 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
         $payment = $this->getPayment(); 
         $payment->setOrder($order);
         
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('amazonpayments/asp_redirect')
-                ->setRedirectUrl($payment->getPayRedirectUrl())
-                ->setRedirectParams($payment->getPayRedirectParams())
-                ->toHtml()
-         );
-        
         $payment->processEventRedirect();
-                
+        Mage::register('amazonpayments_payment_asp', $payment); 
+        $this->loadLayout();
+        $this->renderLayout();
+        
         $session->unsQuoteId();
         $session->unsLastRealOrderId();
     }
@@ -141,6 +136,6 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
      */
     public function notificationAction()
     {
-    	$this->getPayment()->processNotification($this->getRequest()->getParams());
+        $this->getPayment()->processNotification($this->getRequest()->getParams());
     }
 }

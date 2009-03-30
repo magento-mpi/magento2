@@ -42,7 +42,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
      * Set payment Model
      *
      * @param Mage_AmazonPayments_Model_Payment_Asp $payment
-     * @return object Mage_AmazonPayments_Model_Payment_Asp_Notification
+     * @return Mage_AmazonPayments_Model_Payment_Asp_Notification
      */
     public function setPayment($payment)
     {
@@ -53,7 +53,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
     /**
      * Get payment Model
      *
-     * @return object Mage_AmazonPayments_Model_Payment_Asp
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     public function getPayment()
     {
@@ -117,12 +117,10 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         }
 
         if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW) {
-           $order->setState(
-                Mage_Sales_Model_Order::STATE_CANCELED,
-                true,
-                Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed cancelation.'),
-                $notified = false
-            );
+            $order->addStatusToHistory(
+               $order->getStatus(),
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed cancelation.')
+            )->cancel();
             return true;
         }
 
@@ -391,7 +389,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
      * Return order model for current request
      *
      * @param array $request
-     * @return object Mage_Sales_Model_Order
+     * @return Mage_Sales_Model_Order
      */
     protected function _getRequestOrder($request)
     {
@@ -426,7 +424,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
      * Return invoice model for current order
      *
      * @param Mage_Sales_Model_Order $order
-     * @return object Mage_Sales_Model_Order_Invoice
+     * @return Mage_Sales_Model_Order_Invoice
      */
     protected function _getOrderInvoice($order)
     {
@@ -444,7 +442,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
      * Create and return creditmemo for current order
      *
      * @param Mage_Sales_Model_Order $order
-     * @return object Mage_Sales_Model_Order_Creditmemo
+     * @return Mage_Sales_Model_Order_Creditmemo
      */
     protected function _initCreditMemo($order)
     {
@@ -475,7 +473,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
      * Return creditmemo model for current order
      *
      * @param Mage_Sales_Model_Order $order
-     * @return object Mage_Sales_Model_Order_Creditmemo
+     * @return Mage_Sales_Model_Order_Creditmemo
      */
     protected function _getOrderCreditmemo($order)
     {

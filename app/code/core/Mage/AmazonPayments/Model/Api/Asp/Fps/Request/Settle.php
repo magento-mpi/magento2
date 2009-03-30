@@ -48,7 +48,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle extends Mage_AmazonPa
      * Set request transactionId 
      *
      * @param string $transactionId
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle
      */
     public function setTransactionId($transactionId)
     {
@@ -59,7 +59,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle extends Mage_AmazonPa
      * Set request amount
      *
      * @param Mage_AmazonPayments_Model_Api_Asp_Amount $amount
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Settle
      */
     public function setAmount($amount)
     {

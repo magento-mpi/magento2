@@ -49,7 +49,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund extends Mage_AmazonPa
      * Set request transactionId 
      *
      * @param string $transactionId
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
      */
     public function setTransactionId($transactionId)
     {
@@ -60,7 +60,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund extends Mage_AmazonPa
      * Set request referenceId 
      *
      * @param string $referenceId
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
      */
     public function setReferenceId($referenceId)
     {
@@ -71,7 +71,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund extends Mage_AmazonPa
      * Set request description
      *
      * @param string $description
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
      */
     public function setDescription($description)
     {
@@ -82,7 +82,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund extends Mage_AmazonPa
      * Set request amount
      *
      * @param Mage_AmazonPayments_Model_Api_Asp_Amount $amount
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Refund
      */
     public function setAmount($amount)
     {

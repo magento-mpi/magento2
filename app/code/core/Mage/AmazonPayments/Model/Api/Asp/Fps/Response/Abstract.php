@@ -47,7 +47,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract extends Varien_Obj
      * Init object 
      *
      * @param Varien_Simplexml_Element $responseBody
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
     public function init($responseBody)
     {

@@ -34,6 +34,11 @@
 class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_Asp_Abstract
 {
     /**
+     * collect shipping address to IPN notification request 
+     */
+    protected $_collectShippingAddress = 0;
+
+    /**
      * IPN notification request model path 
      */
     protected $_ipnRequest = 'amazonpayments/api_asp_ipn_request';
@@ -46,7 +51,7 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
     /**
      * Get singleton with AmazonPayments ASP API FPS Model
      *
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps
      */
     protected function _getFps()
     {
@@ -56,7 +61,7 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
     /**
      * Get singleton with AmazonPayments ASP IPN notification request Model
      *
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
+     * @return Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
      */
     protected function _getIpnRequest()
     {
@@ -83,9 +88,12 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $referenceId
      * @param string $amountValue
      * @param string $currencyCode
+     * @param string $abandonUrl
+     * @param string $returnUrl
+     * @param string $ipnUrl
      * @return array
      */
-    public function getPayParams ($referenceId, $amountValue, $currencyCode) 
+    public function getPayParams($referenceId, $amountValue, $currencyCode, $abandonUrl, $returnUrl, $ipnUrl) 
     {
         $amount = Mage::getSingleton('amazonpayments/api_asp_amount')
             ->setValue($amountValue)
@@ -95,11 +103,15 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
         $requestParams['referenceId'] = $referenceId;
         $requestParams['amount'] = $amount->toString(); 
         $requestParams['description'] = $this->_getConfig('pay_description');
+
         $requestParams['accessKey'] = $this->_getConfig('access_key');
         $requestParams['processImmediate'] = $this->_getConfig('pay_process_immediate');
         $requestParams['immediateReturn'] = $this->_getConfig('pay_immediate_return');
-        $requestParams['collectShippingAddress'] = $this->_getConfig('pay_collect_shipping_address');
-
+        $requestParams['collectShippingAddress'] = $this->_collectShippingAddress;
+        $requestParams['abandonUrl'] = $abandonUrl;
+        $requestParams['returnUrl'] = $returnUrl;
+        $requestParams['ipnUrl'] = $ipnUrl;
+        
         $signature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
         $requestParams['signature'] = $signature;
 
@@ -110,9 +122,9 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * process notification request
      *
      * @param array $requestParams
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
+     * @return Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
      */
-    public function processNotification ($requestParams) 
+    public function processNotification($requestParams) 
     {
         $requestSignature = false;
         
@@ -139,9 +151,9 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * cancel payment through FPS api
      *
      * @param string $transactionId
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
-    public function cancel ($transactionId) 
+    public function cancel($transactionId) 
     {
         $fps = $this->_getFps();
 
@@ -159,9 +171,9 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $transactionId
      * @param string $amount
      * @param string $currencyCode
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
-    public function capture ($transactionId, $amount, $currencyCode) 
+    public function capture($transactionId, $amount, $currencyCode) 
     {
         $fps = $this->_getFps();
 
@@ -184,9 +196,9 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $amount
      * @param string $currencyCode
      * @param string $referenceId
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
+     * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
-    public function refund ($transactionId, $amount, $currencyCode, $referenceId) 
+    public function refund($transactionId, $amount, $currencyCode, $referenceId) 
     {
         $fps = $this->_getFps();
 

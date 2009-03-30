@@ -149,7 +149,7 @@ abstract class Mage_AmazonPayments_Model_Api_Abstract extends Varien_Object
      * @param string $secretKey
      * @return string
      */
-    protected function _getSignatureForString ($string, $secretKey)
+    protected function _getSignatureForString($string, $secretKey)
     {
         $rawHmac = hash_hmac(self::$HMAC_SHA1_ALGORITHM, $string, $secretKey, true);
         return base64_encode($rawHmac);

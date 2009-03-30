@@ -34,11 +34,22 @@
 class Mage_AmazonPayments_Block_Asp_Redirect extends Mage_Core_Block_Template
 {
     /**
-     * Varien constructor
+     * Return Amazon Simple Pay payment url
+     *
+     * @return string
      */
-    protected function _construct()
+    public function getRedirectUrl()
     {
-        $this->setTemplate('amazonpayments/asp/redirect.phtml');
-        parent::_construct();
+        return Mage::registry('amazonpayments_payment_asp')->getPayRedirectUrl();
+    }
+
+    /**
+     * Return pay params for current order
+     *
+     * @return array
+     */
+    public function getRedirectParams()
+    {
+        return Mage::registry('amazonpayments_payment_asp')->getPayRedirectParams();
     }
 }

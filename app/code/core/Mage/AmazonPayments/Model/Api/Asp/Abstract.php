@@ -34,6 +34,12 @@
 class Mage_AmazonPayments_Model_Api_Asp_Abstract extends Mage_AmazonPayments_Model_Api_Abstract
 {
     /**
+     * payment actions 
+     */
+    const PAY_ACTION_SETTLE = 0;
+    const PAY_ACTION_SETTLE_CAPTURE = 1;
+    
+    /**
      * rewrited for Mage_AmazonPayments_Model_Api_Abstract 
      */
     protected $paymentCode = 'amazonpayments_asp';
@@ -46,7 +52,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Abstract extends Mage_AmazonPayments_Mod
     /**
      * Get singleton with AmazonPayments ASP Amount Model
      *
-     * @return object Mage_AmazonPayments_Model_Api_Asp_Amount
+     * @return Mage_AmazonPayments_Model_Api_Asp_Amount
      */
     protected function _getAmount()
     {

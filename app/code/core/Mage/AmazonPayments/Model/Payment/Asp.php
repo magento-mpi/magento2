@@ -84,7 +84,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
     /**
      * Get singleton with AmazonPayments ASP API Model
      *
-     * @return object Mage_AmazonPayments_Model_Api_Asp
+     * @return Mage_AmazonPayments_Model_Api_Asp
      */
     public function getApi()
     {
@@ -94,7 +94,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
     /**
      * Get singleton with AmazonPayments ASP Notification Model
      *
-     * @return object Mage_AmazonPayments_Model_Payment_Asp_Notification
+     * @return Mage_AmazonPayments_Model_Payment_Asp_Notification
      */
     public function getNotification()
     {
@@ -105,7 +105,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      * Set model of current order
      *
      * @param Mage_Sales_Model_Order $order
-     * @return object Mage_Sales_Model_Order
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     public function setOrder($order)
     {
@@ -116,7 +116,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
     /**
      * Get model of current order
      *
-     * @return object Mage_Sales_Model_Order
+     * @return Mage_Sales_Model_Order
      */
     public function getOrder()
     {
@@ -134,6 +134,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      *
      * @param string $request
      * @param string $response
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     protected function _log($request, $response = '')
     {
@@ -141,6 +142,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
             ->setRequestBody($request)
             ->setResponseBody($response)
             ->save();
+        return $this;
     }
 
     /**
@@ -148,6 +150,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      *
      * @param string $template
      * @param array $variables
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     protected function _mail($template, array $variables = array())
     {
@@ -160,6 +163,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                         null,
                         $variables
                     );  
+        return $this;
     }
     
     /**
@@ -190,12 +194,20 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
         $orderId = $this->getOrder()->getRealOrderId();
         $amount = Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseGrandTotal());
         $currencyCode = $this->getOrder()->getBaseCurrency();
-        return $this->getApi()->getPayParams($orderId, $amount, $currencyCode);
+        return $this->getApi()->getPayParams(
+            $orderId, 
+            $amount, 
+            $currencyCode,
+            Mage::getUrl('amazonpayments/asp/returnCancel'),
+            Mage::getUrl('amazonpayments/asp/returnSuccess'),
+            Mage::getUrl('amazonpayments/asp/notification')
+        );
     }
 
     /**
      * When a customer redirect to Amazon Simple Pay site 
      * 
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     public function processEventRedirect()
     {
@@ -203,11 +215,13 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
            $this->getOrder()->getStatus(),
            Mage::helper('amazonpayments')->__('Customer was redirected to Amazon Simple Pay site')
         )->save();
+        return $this;
     }
 
     /**
      * When a customer successfully returned from Amazon Simple Pay site 
-     * 
+     *
+     * @return Mage_AmazonPayments_Model_Payment_Asp 
      */
     public function processEventReturnSuccess()
     {
@@ -215,20 +229,21 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
            $this->getOrder()->getStatus(),
            Mage::helper('amazonpayments')->__('Customer successfully returned from Amazon Simple Pay site')
         )->save();
+        return $this;
     }
 
     /**
      * Customer canceled payment and successfully returned from Amazon Simple Pay site 
      * 
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     public function processEventReturnCancel()
     {
-        $this->getOrder()->setState(
-            Mage_Sales_Model_Order::STATE_CANCELED,
-            true,
-            Mage::helper('amazonpayments')->__('Customer canceled payment and successfully returned from Amazon Simple Pay site'),
-            $notified = false
+        $this->getOrder()->addStatusToHistory(
+           $this->getOrder()->getStatus(),
+           Mage::helper('amazonpayments')->__('Customer canceled payment and successfully returned from Amazon Simple Pay site')
         )->save();
+        return $this;
     }
 
     /**
@@ -240,12 +255,14 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
         $stateObject->setState($state);
         $stateObject->setStatus(Mage::getSingleton('sales/order_config')->getStateDefaultStatus($state));
         $stateObject->setIsNotified(false);
+        return $this;
     }
 
     /**
      * process Amazon Simple Pay notification request
      *
      * @param   array $requestParams
+     * @return Mage_AmazonPayments_Model_Payment_Asp
      */
     public function processNotification($requestParams)
     {
@@ -267,6 +284,8 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                 $this->_mail('email_template_notofication_error', $variables);
             }
         }
+        
+        return $this;
     }
 
     /**
@@ -279,6 +298,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                 Mage::helper('amazonpayments')->__('Order was not captured online. Authorization confirmation is required.')
             );
         }
+        return $this;
     }
 
     /**
@@ -317,6 +337,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
 
             }
         }
+        return $this;
     }
 
     /**
@@ -354,7 +375,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                 )->save();
             }
         }
-
+        return $this;
     }
 
     /**
@@ -383,5 +404,6 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                 )->save();
             }
         }
+        return $this;
     }
 }
