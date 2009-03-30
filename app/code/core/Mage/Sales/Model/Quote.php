@@ -1129,13 +1129,16 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $code = $this->_getData('coupon_code');
         if ($code) {
             $addressHasCoupon = false;
-            foreach ($this->getAllAddresses() as $address) {
-                if ($address->hasCouponCode()) {
-                    $addressHasCoupon = true;
+            $addresses = $this->getAllAddresses();
+            if (count($addresses)>0) {
+                foreach ($addresses as $address) {
+                    if ($address->hasCouponCode()) {
+                        $addressHasCoupon = true;
+                    }
                 }
-            }
-            if (!$addressHasCoupon) {
-                $this->setCouponCode('');
+                if (!$addressHasCoupon) {
+                    $this->setCouponCode('');
+                }
             }
         }
         return $this;
