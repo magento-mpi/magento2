@@ -62,16 +62,6 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     }
 
     /**
-     * Return Intgrator Id from config
-     *
-     * @return string
-     */
-    public function getIntegratorId()
-    {
-        return Mage::getStoreConfig('payment/amazonpayments_cba/integrator_id');
-    }
-
-    /**
      * Return action url for CBA Cart form to Amazon
      *
      * @return unknown
@@ -258,7 +248,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         }
 
         $calculationsEnabled = ($this->getConfigData('use_callback_api') ? 'true' : 'false');
-        $_xml .= " <IntegratorId>{$this->getIntegratorId()}</IntegratorId>\n"
+        $_xml .= " <IntegratorId>A2ZZYWSJ0WMID8MAGENTO</IntegratorId>\n"
                 ." <IntegratorName>Varien</IntegratorName>\n";
         $_xml .= " <OrderCalculationCallbacks>\n"
                 ."   <CalculateTaxRates>{$calculationsEnabled}</CalculateTaxRates>\n"

@@ -191,23 +191,22 @@ Something like this is to be added to resolve bug #4890
         <payment>
 
             <amazonpayments_cba>
-                <active>1</active>
+                <active>0</active>
                 <model>amazonpayments/payment_cba</model>
                 <title>Checkout by Amazon</title>
                 <order_status>pending</order_status>
                 <allowspecific>0</allowspecific>
                 <payment_action>Authorization</payment_action>
-                <merchant_id>A2ZZYWSJ0WMID8</merchant_id>
-                <integrator_id>A2ZZYWSJ0WMID8</integrator_id>
-                <merchant_name>Varien</merchant_name>
+                <merchant_id></merchant_id>
+                <merchant_name></merchant_name>
                 <sandbox_flag>1</sandbox_flag>
-                <accesskey_id>0RE4EZZ3H1P6ZHMK79G2</accesskey_id>
-                <secretkey_id>naE7t1vI6PwrAPUgprm7tYf3pl8V6mCkJqOoXg/H</secretkey_id>
+                <accesskey_id></accesskey_id>
+                <secretkey_id></secretkey_id>
                 <pay_service_url>https://payments.amazon.com/checkout/</pay_service_url>
                 <sandbox_pay_service_url>https://payments-sandbox.amazon.com/checkout/</sandbox_pay_service_url>
                 <button_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</button_url>
                 <wsdl>https://merchant-api.amazon.com/gateway/merchant-interface-mime/</wsdl>
-                <use_callback_api>false</use_callback_api>
+                <use_callback_api>1</use_callback_api>
             </amazonpayments_cba>
 
             <amazonpayments_asp>
@@ -217,8 +216,8 @@ Something like this is to be added to resolve bug #4890
                 <active>0</active>
 
                 <is_sandbox>1</is_sandbox>
-                <access_key>1VZ8ZAV29R24E44ZMX82</access_key>
-                <secret_key>DkY4MYLYX2359/7Wo8ILdN1GHc2lK77goDQGS64R</secret_key>
+                <access_key></access_key>
+                <secret_key></secret_key>
 
                 <pay_service_url>https://authorize.payments.amazon.com/pba/paypipeline</pay_service_url>
                 <pay_service_url_sandbox>https://authorize.payments-sandbox.amazon.com/pba/paypipeline</pay_service_url_sandbox>
@@ -230,7 +229,7 @@ Something like this is to be added to resolve bug #4890
                 <pay_immediate_return>1</pay_immediate_return>
                 <pay_collect_shipping_address>0</pay_collect_shipping_address>
 
-                <pay_process_immediate>0</pay_process_immediate>
+                <pay_process_immediate>1</pay_process_immediate>
 
                 <fps_service_url>https://fps.amazonaws.com</fps_service_url>
                 <fps_service_url_sandbox>https://fps.sandbox.amazonaws.com/</fps_service_url_sandbox>

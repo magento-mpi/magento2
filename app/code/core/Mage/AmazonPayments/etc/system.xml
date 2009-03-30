@@ -28,23 +28,24 @@
 <config>
     <sections>
         <payment>
-        <!--<amazon translate="label" module="amazonpayments">
-            <label>Amazon API</label>
-            <tab>general</tab>
-            <frontend_type>text</frontend_type>
-            <sort_order>340</sort_order>
-            <show_in_default>1</show_in_default>
-            <show_in_website>1</show_in_website>
-            <show_in_store>1</show_in_store>-->
             <groups>
-                <amazonpayments_cba translate="label">
+                <amazonpayments_cba translate="label" module="amazonpayments">
                     <label>Checkout by Amazon</label>
+                    <comment><![CDATA[<br /><a href="https://payments.amazon.com/sdui/sdui/business?sn=cba/o">Signup for Checkout by Amazon</a><br /><a href="https://payments.amazon.com/sdui/sdui/business?sn=cba/o">Learn More</a><br /><br />]]></comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>601</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
                         <active translate="label">
                             <label>Enable</label>
                             <frontend_type>select</frontend_type>
@@ -130,31 +131,13 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_status>
-                         <allowspecific translate="label">
-                            <label>Payment from applicable countries</label>
-                            <frontend_type>allowspecific</frontend_type>
-                            <sort_order>80</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </allowspecific>
-                        <specificcountry translate="label">
-                            <label>Payment from Specific countries</label>
-                            <frontend_type>multiselect</frontend_type>
-                            <sort_order>81</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </specificcountry>
                         <use_callback_api translate="label">
                             <label>Use Callback Api</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>91</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_callback_api>
                         <standard_rate>
@@ -199,14 +182,23 @@
                         </twoday_rate>
                     </fields>
                 </amazonpayments_cba>
-                <amazonpayments_asp translate="label">
+                <amazonpayments_asp translate="label" module="amazonpayments">
                     <label>Amazon Simple Pay</label>
+                    <comment><![CDATA[<br /><a href="https://payments.amazon.com/sdui/sdui/business?sn=paynow/o">Signup for Checkout by Amazon</a><br /><a href="https://payments.amazon.com/sdui/sdui/business?sn=paynow/o">Learn More</a><br /><br />]]></comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>601</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
                         <active translate="label">
                             <label>Enable</label>
                             <frontend_type>select</frontend_type>
@@ -254,16 +246,16 @@
                             <label>Payment service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>15</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pay_service_url>
                         <pay_service_url_sandbox translate="label">
                             <label>Payment sandbox service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>16</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pay_service_url_sandbox>
                         <pay_immediate_return translate="label">
@@ -288,16 +280,16 @@
                             <label>FPS service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>21</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </fps_service_url>
                         <fps_service_url_sandbox translate="label">
                             <label>FPS sandbox service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>22</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </fps_service_url_sandbox>
 

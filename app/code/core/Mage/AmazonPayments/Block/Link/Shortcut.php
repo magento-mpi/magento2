@@ -54,4 +54,27 @@ class Mage_AmazonPayments_Block_Link_Shortcut extends Mage_Core_Block_Template
 
         return '';
     }
+
+    public function getCbaOneClickJsUrl()
+    {
+        if (Mage::getStoreConfigFlag('payment/amazonpayments_cba/sandbox_flag')) {
+            $url = 'https://images-na.ssl-images-amazon.com/images/G/01/cba/js/widget/sandbox/widget.js';
+        } else {
+            $url = 'https://images-na.ssl-images-amazon.com/images/G/01/cba/js/widget/widget.js';
+        }
+        return $url;
+    }
+
+    public function getCbaStylesheetUrl()
+    {
+        $url = 'https://images-na.ssl-images-amazon.com/images/G/01/cba/styles/one-click.css';
+        return $url;
+    }
+
+    public function getCbaJquerySetupUrl()
+    {
+        $url = 'https://images-na.ssl-images-amazon.com/images/G/01/cba/js/jquery.js';
+        return $url;
+    }
+
 }
