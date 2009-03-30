@@ -37,9 +37,10 @@ class Mage_AmazonPayments_Model_Observer
     {
         $track = $observer->getEvent()->getTrack();
         $order = $track->getShipment()->getOrder();
-//        if ($order->getShippingMethod()!='amazonpayments_carrier') {
-//            return;
-//        }
+        /* @var $order Mage_Sales_Model_Order */
+        if ($order->getPayment()->getMethod() != 'amazonpayments_cba') {
+            return;
+        }
         Mage::getModel('amazonpayments/api_cba')
             ->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
