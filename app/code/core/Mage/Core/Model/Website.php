@@ -192,13 +192,13 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
                 return false;
                 #throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid websites configuration path: %s', $path));
             }
-            if (!$config->children()) {
-                $value = (string)$config;
-            } else {
+            if ($config->hasChildren()) {
                 $value = array();
                 foreach ($config->children() as $k=>$v) {
                     $value[$k] = $v;
                 }
+            } else {
+                $value = (string)$config;
             }
             $this->_configCache[$path] = $value;
         }
