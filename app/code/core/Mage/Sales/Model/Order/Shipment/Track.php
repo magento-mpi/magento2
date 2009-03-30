@@ -76,10 +76,11 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
     {
         $carrierInstance = Mage::getSingleton('shipping/config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
-            $carrierInstance->setStore($this->getStore());
             $custom['title'] = $this->getTitle();
             $custom['number'] = $this->getNumber();
             return $custom;
+        } else {
+            $carrierInstance->setStore($this->getStore());
         }
 
         if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber())) {
