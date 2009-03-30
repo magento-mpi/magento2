@@ -445,4 +445,25 @@ class Mage_CatalogInventory_Model_Observer
             ->updateStatus($productId);
         return $this;
     }
+
+    /**
+     * Catalog Product website update
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogInventory_Model_Observer
+     */
+    public function catalogProductWebsiteUpdate(Varien_Event_Observer $observer)
+    {
+        $websiteIds = $observer->getEvent()->getWebsiteIds();
+        $productIds = $observer->getEvent()->getProductIds();
+
+        foreach ($websiteIds as $websiteId) {
+            foreach ($productIds as $productId) {
+                Mage::getSingleton('cataloginventory/stock_status')
+                    ->updateStatus($productId, null, $websiteId);
+            }
+        }
+
+        return $this;
+    }
 }
