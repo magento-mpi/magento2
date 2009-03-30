@@ -59,6 +59,10 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
      */
     public function getShipment()
     {
+        if (!($this->_shipment instanceof Mage_Sales_Model_Order_Shipment)) {
+            $this->_shipment = Mage::getModel('sales/order_shipment')->load($this->getParentId());
+        }
+
         return $this->_shipment;
     }
 
