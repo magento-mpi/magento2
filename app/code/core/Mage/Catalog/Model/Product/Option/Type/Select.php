@@ -70,10 +70,11 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
      */
     public function prepareForCart()
     {
-        if ($this->getIsValid()) {
+        if ($this->getIsValid() && $this->getUserValue()) {
             return is_array($this->getUserValue()) ? implode(',', $this->getUserValue()) : $this->getUserValue();
+        } else {
+            return null;
         }
-        Mage::throwException(Mage::helper('catalog')->__('Option validation failed to add product to cart'));
     }
 
     /**
