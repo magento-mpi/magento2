@@ -208,7 +208,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     $this->_proccessOrder($amazonOrderDetails);
                     break;
                 case 'OrderCancelledNotification':
-                    $amazonOrderDetails = $this->getApi()->parseCancelOrder($_request['NotificationData']);
+//                    $amazonOrderDetails = $this->getApi()->parseCancelOrder($_request['NotificationData']);
+                    $amazonOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
                     $this->_cancelOrder($amazonOrderDetails);
                     break;
                 default:
@@ -376,7 +377,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     {
         if ($quoteId = $newOrderDetails['ClientRequestId']) {
             if ($order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $quoteId)) {
-                /** @var $order Mage_Sales_Model_Order */
+                /* @var $order Mage_Sales_Model_Order */
 
                 $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
                 $order->setStatus('Processing');
@@ -396,12 +397,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     {
         if ($quoteId = $newOrderDetails['ClientRequestId']) {
             if ($order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $quoteId)) {
-                /** @var $order Mage_Sales_Model_Order */
-
-                $order->setState(Mage_Sales_Model_Order::STATE_CANCELED);
-                $order->setStatus('Cancel');
-                $order->setIsNotified(false);
-                $order->save();
+                /* @var $order Mage_Sales_Model_Order */
+                $order->cancel()->save();
             }
         }
         return true;

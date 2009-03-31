@@ -118,7 +118,7 @@ class SOAP_Base_Object extends PEAR
                               $mode = null, $options = null, $skipmsg = false)
     {
         // Pass through previous faults.
-        $is_instance = isset($this) && is_a($this, 'SOAP_Base_Object');
+        $is_instance = isset($this) && $this instanceof SOAP_Base_Object;
         if (is_object($str)) {
             $fault = $str;
         } else {
@@ -534,7 +534,7 @@ class SOAP_Base extends SOAP_Base_Object
                 }
             }
             $xmlout_arrayType .= "[$ar_size]\"";
-        } elseif (is_a($value, 'SOAP_Value')) {
+        } elseif ($value instanceof SOAP_Value) {
             $xmlout_value = $value->serialize($this);
         } elseif ($type->name == 'string') {
             $xmlout_value = htmlspecialchars($value);
@@ -755,7 +755,7 @@ class SOAP_Base extends SOAP_Base_Object
      */
     function _decode($soapval)
     {
-        if (!is_a($soapval, 'SOAP_Value')) {
+        if (!$soapval instanceof SOAP_Value) {
             return $soapval;
         }
 

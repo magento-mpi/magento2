@@ -39,7 +39,7 @@ require_once 'SOAP/Parser.php';
 /**
  * @package SOAP
  */
-if (!class_exists('SOAP_Client_Overload')) {
+if (!class_exists('SOAP_Client_Overload', false)) {
     if (substr(zend_version(), 0, 1) > 1) {
         class SOAP_Client_Overload extends SOAP_Base {
             function __call($method, $args)
@@ -572,7 +572,7 @@ class SOAP_Client extends SOAP_Client_Overload
             if (PEAR::isError($opData)) {
                 return $this->_raiseSoapFault($opData);
             }
-            $namespace                    = $opData['namespace'];
+            $namespace                    = isset($opData['namespace'])?$opData['namespace']:'';
             $this->_options['style']      = $opData['style'];
             $this->_options['use']        = $opData['input']['use'];
             $this->_options['soapaction'] = $opData['soapAction'];
@@ -601,7 +601,7 @@ class SOAP_Client extends SOAP_Client_Overload
                             return $this->_raiseSoapFault("The named parameter $name is not in the call parameters.");
                         }
                         if (gettype($nparams[$name]) != 'object' ||
-                            !is_a($nparams[$name], 'SOAP_Value')) {
+                            !$nparams[$name] instanceof SOAP_Value) {
                             // Type is likely a qname, split it apart, and get
                             // the type namespace from WSDL.
                             $qname = new QName($part['type']);
@@ -768,7 +768,7 @@ class SOAP_Client extends SOAP_Client_Overload
         if (PEAR::isError($response)) {
             $fault = $this->_raiseSoapFault($response);
             return $fault;
-        } elseif (!is_a($response, 'soap_value')) {
+        } elseif (!$response instanceof SOAP_Value) {
             $fault = $this->_raiseSoapFault("Didn't get SOAP_Value object back from client");
             return $fault;
         }
