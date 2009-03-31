@@ -68,6 +68,17 @@ Validator.methods = {
 }
 
 var Validation = Class.create();
+Validation.defaultOptions = {
+    onSubmit : true,
+    stopOnFirst : false,
+    immediate : false,
+    focusOnError : true,
+    useTitles : false,
+    addClassNameToContainer: false,
+    containerClassName: '.input-box',
+    onFormValidate : function(result, form) {},
+    onElementValidate : function(result, elm) {}
+};
 
 Validation.prototype = {
     initialize : function(form, options){
@@ -76,13 +87,13 @@ Validation.prototype = {
             return;
         }
         this.options = Object.extend({
-            onSubmit : true,
-            stopOnFirst : false,
-            immediate : false,
-            focusOnError : true,
-            useTitles : false,
-            onFormValidate : function(result, form) {},
-            onElementValidate : function(result, elm) {}
+            onSubmit : Validation.defaultOptions.onSubmit,
+            stopOnFirst : Validation.defaultOptions.stopOnFirst,
+            immediate : Validation.defaultOptions.immediate,
+            focusOnError : Validation.defaultOptions.focusOnError,
+            useTitles : Validation.defaultOptions.useTitles,
+            onFormValidate : Validation.defaultOptions.onFormValidate,
+            onElementValidate : Validation.defaultOptions.onElementValidate
         }, options || {});
         if(this.options.onSubmit) Event.observe(this.form,'submit',this.onSubmit.bind(this),false);
         if(this.options.immediate) {
@@ -211,6 +222,13 @@ Object.extend(Validation, {
 
         elm.addClassName('validation-failed');
         elm.addClassName('validate-ajax');
+        if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
+            var container = elm.up(Validation.defaultOptions.containerClassName);
+            if (container) {
+                container.removeClassName('validation-passed');
+                container.addClassName('validation-error');
+            }
+        }
     },
     test : function(name, elm, useTitle) {
         var v = Validation.get(name);
@@ -229,6 +247,13 @@ Object.extend(Validation, {
             if (!elm.advaiceContainer) {
                 elm.removeClassName('validation-passed');
                 elm.addClassName('validation-failed');
+                if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
+                    var container = elm.up(Validation.defaultOptions.containerClassName);
+                    if (container) {
+                        container.removeClassName('validation-passed');
+                        container.addClassName('validation-error');
+                    }
+                }
             }
             return false;
         } else {
@@ -238,6 +263,13 @@ Object.extend(Validation, {
             elm[prop] = '';
             elm.removeClassName('validation-failed');
             elm.addClassName('validation-passed');
+            if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
+                var container = elm.up(Validation.defaultOptions.containerClassName);
+                if (container) {
+                    container.addClassName('validation-passed');
+                    container.removeClassName('validation-error');
+                }
+            }
             return true;
         }
         } catch(e) {
