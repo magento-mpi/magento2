@@ -128,7 +128,7 @@ class Mage_Core_Model_Locale
      */
     public function setLocale($locale = null)
     {
-        if ($locale !== null) {
+        if (($locale !== null) && is_string($locale)) {
             $this->_localeCode = $locale;
         } else {
             $this->_localeCode = $this->getDefaultLocale();
@@ -181,6 +181,9 @@ class Mage_Core_Model_Locale
      */
     public function getLocaleCode()
     {
+        if ($this->_localeCode === null) {
+            $this->setLocale();
+        }
         return $this->_localeCode;
     }
 
