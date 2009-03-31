@@ -52,9 +52,9 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
     }
 
     /**
-     * Enter description here...
+     * Return namespaces with their prefix
      *
-     * @return unknown
+     * @return array
      */
     public static function getNamepsacesPrefix()
     {
@@ -148,6 +148,11 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
         return $this;
     }
 
+    /**
+     * Return Xml of node as string
+     *
+     * @return string
+     */
     public function getXmlString()
     {
         return $this->getNode()->asXML();
