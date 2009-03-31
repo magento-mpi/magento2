@@ -226,7 +226,8 @@ Object.extend(Enterprise.Slider.prototype, {
             backwardButtonCss: 'backward',
             pageSize: 2,
             slideDuration: 1.0,
-            slideDirection: 'horizontal'
+            slideDirection: 'horizontal',
+            fadeEffect: true
         };
         
         Object.extend(this.config, config || {});
@@ -303,24 +304,61 @@ Object.extend(Enterprise.Slider.prototype, {
         }       
         this.absolutize();
         this.currentPage = page;
-        var effectConfig = {
-            afterFinish: this.effectEnds.bind(this),
-            beforeStart: this.effectStarts.bind(this),
+        this.effectConfig = {
             duration: this.config.slideDuration
         };
         if (this.config.slideDirection == 'horizontal') {
-            effectConfig.x = this.getSlidePosition(page).left;
+            this.effectConfig.x = this.getSlidePosition(page).left;
         } else {
-            effectConfig.y = this.getSlidePosition(page).top;
+            this.effectConfig.y = this.getSlidePosition(page).top;
         }
-        new Effect.Move(this.slider, effectConfig);
-        this.updateButtons();
+        this.start();
+        
+    },
+    start: function ()
+    {
+        if (this.config.fadeEffect) {
+            this.fadeIn();
+        } else {
+            this.move();
+        }
+    },
+    fadeIn: function () 
+    {
+        new Effect.Fade(this.slider, {
+            from: 1.0,
+            to:0.5,
+            afterFinish: this.move.bind(this),
+            beforeStart: this.effectStarts.bind(this),
+            duration: 0.3
+        });
+    },
+    fadeOut: function () 
+    {
+        new Effect.Fade(this.slider, {
+                from: 0.5, 
+                to:1.0, 
+                afterFinish: this.effectEnds.bind(this),
+                duration: 0.3
+        });
+    },
+    move: function ()
+    {
+        if (this.config.fadeEffect) {
+            this.effectConfig.afterFinish = this.fadeOut.bind(this);
+        } else {
+            this.effectConfig.afterFinish = this.effectEnds.bind(this);
+            this.effectConfig.beforeStart = this.effectStarts.bind(this);
+        }
+        
+        new Effect.Move(this.slider, this.effectConfig);
     },
     effectStarts: function () {
         this.isPlaying = true;
     },
     effectEnds: function () {
         this.isPlaying = false;
+        this.updateButtons();
     },
     getSlidePosition: function (page) {
         var item = this.findItem(page * this.config.pageSize - this.config.pageSize, this.config.pageSize);
@@ -345,61 +383,98 @@ Object.extend(Enterprise.Slider.prototype, {
     }
 });
 
-function popUpMenu(element,trigger) {
-        var iDelay = 1500;
-        var new_popup = 0;
-        var sTempId = 'popUped';
-        if (document.getElementById(sTempId)) {
-            var eTemp = document.getElementById(sTempId);
-            eTemp.hide();
-            eTemp.id = sNativeId;
-            clearTimeout(tId);
-            document.onclick = null;
+Enterprise.PopUpMenu = {
+    currentPopUp: null, 
+    documentHandlerInitialized: false,
+    popUpZIndex: 994, 
+    hideDelay: 1500,
+    hideOnClick: true,
+    hideInterval: null,
+    //
+    initializeDocumentHandler: function () {
+        if (!this.documentHandlerInitialized) {
+            this.documentHandlerInitialized = true;
+            Event.observe(
+                document, 
+                'click', 
+                this.handleDocumentClick.bindAsEventListener(this)
+            );
         }
-            
-        sNativeId = 'popId-'+element.parentNode.id;
-
-        var el = $(sNativeId);
-
-        el.id = sTempId;
-
-        if (eTemp && el == eTemp) {
-            hideElement();
-        } else {
-            $(sTempId).getOffsetParent().style.zIndex = 994;
-//          el.show();
-            new Effect.Appear (el, { duration:0.3 });
-            tId=setTimeout("hideElement()",2*iDelay);        
-        }
-        new_popup = 1;    
-        document.onclick = function() {
-            if (!new_popup) {
-                hideElement();
-                document.onclick = null;
-            }
-            new_popup = 0;    
-        }
-        
-        el.onmouseout = function() {
-            if ($(sTempId)) {    
-                $(sTempId).addClassName('faded');
-                tId=setTimeout("hideElement()",iDelay);
+    },
+    handleDocumentClick: function (evt) {
+        if (this.currentPopUp !== null) {
+            var element = Event.element(evt);
+            if (!this.currentPopUp.onlyShowed && (!element.descendantOf(this.currentPopUp) || this.hideOnClick)) {
+                this.hide();
+            } else {
+                this.currentPopUp.onlyShowed = false;
             }
         }
-        
-        el.onmouseover = function() {
-            if ($(sTempId)) {    
-                $(sTempId).removeClassName('faded');
-                clearTimeout(tId);
+    },
+    handlePopUpOver: function (evt) {
+        if (this.currentPopUp !== null) {
+            this.currentPopUp.removeClassName('faded');
+            if (this.hideTimeout !== null) {
+                clearTimeout(this.hideTimeout);
             }
         }
-        
-        hideElement = function() {    
-            //el.hide();
-            new Effect.Fade (el, { duration:0.3 });
-            el.getOffsetParent().style.zIndex = 1;
-            el.id = sNativeId;
-            if (tId) {clearTimeout(tId);}
+    },
+    handlePopUpOut: function (evt) {
+        if (this.currentPopUp !== null) {
+            this.currentPopUp.addClassName('faded');
+            if (this.hideTimeout === null) {
+                this.hideTimeout = setTimeout(
+                    this.hide.bind(this), 
+                    this.hideDelay
+                );
+            }
         }
+    },
+    show: function (trigger) {
+        this.initializeDocumentHandler();
+        if (this.currentPopUp !== null) {
+            this.hide(true);
+        }
+        
+        var container = $(trigger).up('*[id]');
+        if (!$('popId-' + container.id)) {
+            return;
+        }
+        
+        this.currentPopUp = $('popId-' + container.id);
+        this.currentPopUp.container = container;
+        this.currentPopUp.container.oldZIndex = this.currentPopUp.container.style.zIndex;
+        this.currentPopUp.container.style.zIndex = this.popUpZIndex;
+        new Effect.Appear(this.currentPopUp, { duration:0.3 });
+        
+        this.hideTimeout = setTimeout(
+            this.hide.bind(this), 
+            this.hideDelay * 2
+        );
+        if (!this.currentPopUp.isHandled) {
+            this.currentPopUp.observe('mouseover', this.handlePopUpOver.bindAsEventListener(this));
+            this.currentPopUp.observe('mouseout', this.handlePopUpOut.bindAsEventListener(this));
+            this.currentPopUp.isHandled = true;
+        }
+        this.currentPopUp.onlyShowed = true;
+    },
+    hide: function () {
+        if (this.currentPopUp !== null) {
+            if (arguments.length == 0) {
+                new Effect.Fade(this.currentPopUp, {duration: 0.3});
+            } else {
+                this.currentPopUp.hide();
+            }
+            this.currentPopUp.container.style.zIndex = this.currentPopUp.container.oldZIndex;
+            if (this.hideTimeout !== null) {
+                this.hideTimeout = null;
+            }
+            this.currentPopUp = null;
+        }
+    }
+};
+
+
+function popUpMenu(element) {
+   Enterprise.PopUpMenu.show(element);
 }
-
