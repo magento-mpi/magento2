@@ -44,9 +44,7 @@ class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_B
             $customerFormData = Mage::getSingleton('customer/session')->getCustomerFormData(true);
             $data = new Varien_Object($customerFormData);
             if (empty($customerFormData)) {
-                $invitationCode = $this->getRequest()->getParam('enterprise_invitation', false);
-                Mage::getSingleton('customer/session')->setInvitationCode($invitationCode);
-                $invitation = Mage::getModel('enterprise_invitation/invitation')->loadByInvitationCode($invitationCode);
+                $invitation = $this->getCustomerInvitation();
 
                 if ($invitation->getId()) {
                     // check, set invitation email
@@ -56,5 +54,15 @@ class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_B
             $this->setData('form_data', $data);
         }
         return $data;
+    }
+
+    /**
+     * Retrieve customer invitation
+     *
+     * @return Enterprise_Invitation_Model_Invitation
+     */
+    public function getCustomerInvitation()
+    {
+        return Mage::registry('customer_invitation');
     }
 }

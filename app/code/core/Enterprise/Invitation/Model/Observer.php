@@ -38,83 +38,15 @@ class Enterprise_Invitation_Model_Observer
      *
      * @return void
      */
-    public function observeCustomerRegistration(Varien_Event_Observer $observer)
+    public function restrictCustomerRegistration(Varien_Event_Observer $observer)
     {
-        $action = $observer->getEvent()->getControllerAction();
+        $result = $observer->getEvent()->getResult();
 
-        $invitationCode = $action->getRequest()->getParam('enterprise_invitation', false);
-        if (Mage::helper('enterprise_invitation')->getInvitationRequired() && !$invitationCode) {
-            $action->setFlag('', 'no-dispatch', true);
-            $action->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
-            return;
-        }
-/*
-        if ($invitationCode &&
-            ! Mage::helper('enterprise_invitation')->getInvitationRequired()) {
-            Mage::getSingleton('customer/session')
-                ->addNotice(Mage::helper('enterprise_invitation')->__(
-                    'You are creating account with invitation. You can create account <a href="%s">without it</a>.',
-                    Mage::getUrl('customer/account/create')
-                ));
-
-        }
-*/
-    }
-
-    /**
-     * Update invitation status after customer account was created with invitation
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function observeCustomerSaveAfter(Varien_Event_Observer $observer)
-    {
-        $invitationCode = Mage::getSingleton('customer/session')->getInvitationCode();
-        $invitation = Mage::getModel('enterprise_invitation/invitation')->loadByInvitationCode($invitationCode);
-        $referralId = $observer->getEvent()->getCustomer()->getId();
-
-        if ($invitation->getId() && $this->_flagInCustomerRegistration) {
-            $this->_flagInCustomerRegistration = false;
-            $now = Mage::app()->getLocale()->date()
-                    ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
-                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-
-            $invitation->setReferralId($referralId)
-                ->setSignupDate($now)
-                ->setStatus(Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED)
-                ->save();
-
-            Mage::getSingleton('customer/session')->unsInvitationCode();
+        if (!$result->getIsAllowed()) {
+            Mage::helper('enterprise_invitation')->isRegistrationAllowed(false);
         } else {
-            Mage::getSingleton('customer/session')->unsInvitationCode();
-        }
-    }
-
-    /**
-     * Check invitation behaviors before customer account was created with invitation
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function observeCustomerSaveBefore(Varien_Event_Observer $observer)
-    {
-        $customer = $observer->getEvent()->getCustomer();
-        /* @var $customer Mage_Customer_Model_Customer */
-        if (!$customer->getId()) {
-            $this->_flagInCustomerRegistration = true;
-            $invitationCode = Mage::getSingleton('customer/session')->getInvitationCode();
-            if (empty($invitationCode) && Mage::helper('enterprise_invitation')->getInvitationRequired()) {
-                Mage::throwException(Mage::helper('enterprise_invitation')->__('Registration only by invitation'));
-            }
-            $invitation = Mage::getModel('enterprise_invitation/invitation')->loadByInvitationCode($invitationCode);
-            if (!$invitation->getId() &&
-                Mage::helper('enterprise_invitation')->getInvitationRequired()) {
-                Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid invitation link'));
-            }
-
-            if ($invitation->getId() && $invitation->getGroupId()) {
-                $customer->setGroupId($invitation->getGroupId());
-            }
+            Mage::helper('enterprise_invitation')->isRegistrationAllowed(true);
+            $result->setIsAllowed(!Mage::helper('enterprise_invitation')->getInvitationRequired());
         }
     }
 }

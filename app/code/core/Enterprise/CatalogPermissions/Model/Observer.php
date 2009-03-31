@@ -514,8 +514,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchPreDispatch(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()) {
-            $observer->getEvent()->getControllerAction()->setFlag('', 'no-dispatch', true);
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()
+            && !$observer->getEvent()->getControllerAction()->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true)
+            && $observer->getEvent()->getControllerAction()->getRequest()->isDispatched()) {
+            $observer->getEvent()->getControllerAction()->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
         }

@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Customer/>
+                <Enterprise_WebsiteRestriction />
             </depends>
         </Enterprise_Invitation>
     </modules>

@@ -32,11 +32,13 @@
  */
 class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_USE_INVITATION_MESSAGE = 'invitation/general/allow_customer_message';
-    const XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND = 'invitation/general/max_invitation_amount_per_send';
+    const XML_PATH_USE_INVITATION_MESSAGE = 'enterprise_invitation/general/allow_customer_message';
+    const XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND = 'enterprise_invitation/general/max_invitation_amount_per_send';
 
-    const XML_PATH_REGISTRATION_REQUIRED_INVITATION = 'invitation/general/registration_required_invitation';
-    const XML_PATH_REGISTRATION_USE_INVITER_GROUP = 'invitation/general/registration_use_inviter_group';
+    const XML_PATH_REGISTRATION_REQUIRED_INVITATION = 'enterprise_invitation/general/registration_required_invitation';
+    const XML_PATH_REGISTRATION_USE_INVITER_GROUP = 'enterprise_invitation/general/registration_use_inviter_group';
+
+    protected $_isRegistrationAllowed = null;
 
     /**
      * Return max inventation amount per send by config
@@ -115,7 +117,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
         $urlModel = Mage::getModel('core/url');
         $urlModel->setStore($invitation->getStoreId());
 
-        return $urlModel->getUrl('customer/account/create', $params);
+        return $urlModel->getUrl('enterprise_invitation/customer_account/create', $params);
     }
 
     /**
@@ -127,4 +129,25 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('enterprise_invitation/index/list');
     }
+
+    /**
+     * Checks is allowed registration in invitation controller
+     *
+     * @param boolean $isAllowed
+     * @return boolean
+     */
+    public function isRegistrationAllowed($isAllowed = null)
+    {
+        if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
+            $result = Mage::helper('customer')->isRegistrationAllowed();
+            if ($this->_isRegistrationAllowed === null) {
+                $this->_isRegistrationAllowed = $result;
+            }
+        } elseif ($isAllowed !== null) {
+            $this->_isRegistrationAllowed = $isAllowed;
+        }
+
+        return $this->_isRegistrationAllowed;
+    }
+
 }

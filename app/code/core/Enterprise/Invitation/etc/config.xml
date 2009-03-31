@@ -171,6 +171,16 @@
          </menu>
     </adminhtml>
     <frontend>
+        <enterprise>
+            <websiterestriction>
+                <full_action_names>
+                    <register>
+                        <invitation_customer_account_create/>
+                        <invitation_customer_account_createpost/>
+                    </register>
+                </full_action_names>
+            </websiterestriction>
+        </enterprise>
         <layout>
             <updates>
                 <enterprise_invitation>
@@ -197,33 +207,14 @@
             </enterprise_invitation>
         </routers>
         <events>
-            <customer_save_after>
+            <customer_registration_is_allowed>
                 <observers>
-                    <enterprise_invitation>
-                        <type>singleton</type>
+                    <enterprise_websiterestriction>
                         <class>enterprise_invitation/observer</class>
-                        <method>observeCustomerSaveAfter</method>
-                    </enterprise_invitation>
+                        <method>restrictCustomerRegistration</method>
+                    </enterprise_websiterestriction>
                 </observers>
-            </customer_save_after>
-            <customer_save_before>
-                <observers>
-                    <enterprise_invitation>
-                        <type>singleton</type>
-                        <class>enterprise_invitation/observer</class>
-                        <method>observeCustomerSaveBefore</method>
-                    </enterprise_invitation>
-                </observers>
-            </customer_save_before>
-            <controller_action_predispatch_customer_account_create>
-                <observers>
-                    <enterprise_invitation>
-                        <type>singleton</type>
-                        <class>enterprise_invitation/observer</class>
-                        <method>observeCustomerRegistration</method>
-                    </enterprise_invitation>
-                </observers>
-            </controller_action_predispatch_customer_account_create>
+            </customer_registration_is_allowed>
         </events>
     </frontend>
     <default>

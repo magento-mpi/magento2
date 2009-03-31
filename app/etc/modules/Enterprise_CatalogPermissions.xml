@@ -36,6 +36,7 @@
                 <Mage_CatalogSearch />
                 <Mage_Sales />
                 <Mage_Checkout />
+                <Enterprise_WebsiteRestriction />
             </depends>
         </Enterprise_CatalogPermissions>
     </modules>
