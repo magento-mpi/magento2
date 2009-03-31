@@ -446,12 +446,9 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
             $select->where('permission_index_product.grant_catalog_product_price = -1');
         } else {
-            $select->where('permission_index_product.grant_catalog_product_price IS NULL
-                     OR permission_index_product.grant_catalog_product_price = -1
-                     OR permission_index_product.grant_catalog_product_price = 0');
+            $select->where('permission_index_product.grant_catalog_product_price != -2
+                     OR permission_index_product.grant_catalog_product_price IS NULL');
         }
-
-
 
         return $this;
     }
@@ -486,9 +483,8 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 ->where('permission_index_product_count.grant_catalog_category_view = -1');
         } else {
             $collection->getProductCountSelect()
-                ->where('permission_index_product_count.grant_catalog_category_view IS NULL
-                         OR permission_index_product_count.grant_catalog_category_view = -1
-                         OR permission_index_product_count.grant_catalog_category_view = 0');
+                ->where('permission_index_product_count.grant_catalog_category_view != -2
+                         OR permission_index_product_count.grant_catalog_category_view IS NULL');
         }
 
         return $this;
@@ -523,9 +519,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 ->where('permission_index.grant_catalog_category_view = -1');
         } else {
             $collection->getSelect()
-                ->where('permission_index.grant_catalog_category_view IS NULL
-                         OR permission_index.grant_catalog_category_view = -1
-                         OR permission_index.grant_catalog_category_view = 0');
+                ->where('permission_index.grant_catalog_category_view != -2');
         }
 
         return $this;
@@ -573,10 +567,11 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 ->where('permission_index_product.grant_catalog_category_view = -1');
         } else {
             $collection->getSelect()
-                ->where('permission_index_product.grant_catalog_category_view IS NULL
-                         OR permission_index_product.grant_catalog_category_view = -1
-                         OR permission_index_product.grant_catalog_category_view = 0');
+                ->where('permission_index_product.grant_catalog_category_view != -2
+                         OR permission_index_product.grant_catalog_category_view IS NULL');
         }
+
+
         return $this;
     }
 

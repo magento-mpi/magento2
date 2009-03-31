@@ -227,7 +227,7 @@ class Enterprise_CatalogEvent_Model_Observer
                 if (!$quoteItem->getId()) {
                     $quoteItem->setIsDeleted(true);
                 } else {
-                    $quoteItem->getQuote()->removeItem($quoteItem->getId());
+                    return;
                 }
 
                 Mage::throwException(

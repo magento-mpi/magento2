@@ -34,7 +34,7 @@
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-    protected $_objectId = 'event_id';
+    protected $_objectId = 'id';
     protected $_blockGroup = 'enterprise_catalogevent';
     protected $_controller = 'adminhtml_event';
 

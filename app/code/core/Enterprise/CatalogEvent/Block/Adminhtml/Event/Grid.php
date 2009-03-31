@@ -123,7 +123,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'type'      => 'action',
             'actions'   => array(
                 array(
-                    'url'       => $this->getUrl('*/*/edit') . 'event_id/$event_id',
+                    'url'       => $this->getUrl('*/*/edit') . 'id/$event_id',
                     'caption'   => $this->helper('enterprise_catalogevent')->__('Edit'),
                 ),
             )

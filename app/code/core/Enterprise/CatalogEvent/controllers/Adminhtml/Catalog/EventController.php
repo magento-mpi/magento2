@@ -74,7 +74,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     public function editAction()
     {
         $event = Mage::getModel('enterprise_catalogevent/event');
-        if ($eventId = $this->getRequest()->getParam('event_id', false)) {
+        if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
@@ -96,7 +96,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     {
         $event = Mage::getModel('enterprise_catalogevent/event');
         /* @var $event Enterprise_CatalogEvent_Model_Event */
-        if ($eventId = $this->getRequest()->getParam('event_id', false)) {
+        if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
@@ -133,7 +133,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     public function deleteAction()
     {
         $event = Mage::getModel('enterprise_catalogevent/event');
-        $event->load($this->getRequest()->getParam('event_id', false));
+        $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {
             try {
                 $event->delete();
@@ -141,7 +141,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                     Mage::helper('enterprise_catalogevent')->__('Event was successfully deleted.')
                 );
                 if ($this->getRequest()->getParam('category')) {
-                    $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId()));
+                    $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
                 } else {
                     $this->_redirect('*/*/');
                 }
