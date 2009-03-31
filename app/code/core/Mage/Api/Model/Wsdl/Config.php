@@ -33,8 +33,6 @@
  */
 class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
 {
-    protected $_wsdlContent = null;
-
     protected static $_namespacesPrefix = null;
 
     public function __construct($sourceData=null)
@@ -44,15 +42,13 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
     }
 
     /**
-     * Set content of wsdl file as string
+     * Return wsdl content
      *
-     * @param string $wsdlContent
-     * @return Mage_Api_Model_Wsdl_Config
+     * @return string
      */
-    public function setWsdlContent($wsdlContent)
+    public function getWsdlContent()
     {
-        $this->_wsdlContent = $wsdlContent;
-        return $this;
+        return $this->_xml->asXML();
     }
 
     /**
@@ -70,16 +66,6 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
             }
         }
         return self::$_namespacesPrefix;
-    }
-
-    /**
-     * Return wsdl content
-     *
-     * @return string
-     */
-    public function getWsdlContent()
-    {
-        return $this->_wsdlContent;
     }
 
     public function getCache()
@@ -119,16 +105,9 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
             $libDir = Mage::getConfig()->getOptions()->getLibDir();
 
             set_include_path(
-                // excluded '/app/code/local'
                 BP . DS . 'app' . DS . 'code' . DS . 'community' . PS .
                 BP . DS . 'app' . DS . 'code' . DS . 'core' . PS .
                 BP . DS . 'lib' . PS .
-                /**
-                 * Problem with concatenate BP . $codeDir
-                 */
-                /*BP . $codeDir . DS .'community' . PS .
-                BP . $codeDir . DS .'core' . PS .
-                BP . $libDir . PS .*/
                 Mage::registry('original_include_path')
             );
         }
@@ -161,12 +140,16 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
                 }
             }
         }
-        $this->setWsdlContent($this->_xml->asXML());
 
         if (Mage::app()->useCache('config')) {
             $this->saveCache(array('config'));
         }
 
         return $this;
+    }
+
+    public function getXmlString()
+    {
+        return $this->getNode()->asXML();
     }
 }
