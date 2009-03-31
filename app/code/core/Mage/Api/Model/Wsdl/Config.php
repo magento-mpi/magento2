@@ -33,8 +33,9 @@
  */
 class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
 {
-
     protected $_wsdlContent = null;
+
+    protected static $_namespacesPrefix = null;
 
     public function __construct($sourceData=null)
     {
@@ -52,6 +53,23 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
     {
         $this->_wsdlContent = $wsdlContent;
         return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
+    public static function getNamepsacesPrefix()
+    {
+        if (is_null(self::$_namespacesPrefix)) {
+            self::$_namespacesPrefix = array();
+            $config = Mage::getConfig()->getNode('api/v2/wsdl/prefix')->children();
+            foreach ($config as $prefix => $namespace) {
+                self::$_namespacesPrefix[$namespace->asArray()] = $prefix;
+            }
+        }
+        return self::$_namespacesPrefix;
     }
 
     /**
@@ -133,7 +151,6 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
         $this->loadFile($baseWsdlFile);
 
         foreach ($modules as $modName=>$module) {
-//            if ($module->is('active') && $modName == 'Mage_Customer') {
             if ($module->is('active') && $modName != 'Mage_Api') {
                 if ($disableLocalModules && ('local' === (string)$module->codePool)) {
                     continue;
