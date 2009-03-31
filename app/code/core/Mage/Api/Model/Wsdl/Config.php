@@ -56,7 +56,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
      *
      * @return array
      */
-    public static function getNamepsacesPrefix()
+    public static function getNamespacesPrefix()
     {
         if (is_null(self::$_namespacesPrefix)) {
             self::$_namespacesPrefix = array();
@@ -105,6 +105,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
             $libDir = Mage::getConfig()->getOptions()->getLibDir();
 
             set_include_path(
+                // excluded '/app/code/local'
                 BP . DS . 'app' . DS . 'code' . DS . 'community' . PS .
                 BP . DS . 'app' . DS . 'code' . DS . 'core' . PS .
                 BP . DS . 'lib' . PS .

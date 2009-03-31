@@ -69,7 +69,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         if ($elmNamespace == '') {
             $elmNamespace = null;
         }
-//        Mage::log(Mage_Api_Model_Wsdl_Config_Element::getAllNamespaces($this));
+
         if (!$source->hasChildren()) {
             // handle string node
             $elm = $this->getElementByName($source, $elmNamespace);
@@ -90,7 +90,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
             $targetChild->setParent($this);
             foreach ($this->getAttributes($source) as $namespace => $attributes) {
                 foreach ($attributes as $key => $value) {
-                    $_namespacesPrefix = Mage_Api_Model_Wsdl_Config::getNamepsacesPrefix();
+                    $_namespacesPrefix = Mage_Api_Model_Wsdl_Config::getNamespacesPrefix();
                     if ($namespace == '') {
                         $namespace = null;
                     } elseif (array_key_exists($namespace, $_namespacesPrefix)) {
@@ -113,7 +113,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
             $targetChild->setParent($this);
             foreach ($this->getAttributes($source) as $namespace => $attributes) {
                 foreach ($attributes as $key => $value) {
-                    $_namespacesPrefix = Mage_Api_Model_Wsdl_Config::getNamepsacesPrefix();
+                    $_namespacesPrefix = Mage_Api_Model_Wsdl_Config::getNamespacesPrefix();
                     if ($namespace == '') {
                         $namespace = null;
                     } elseif (array_key_exists($namespace, $_namespacesPrefix)) {
