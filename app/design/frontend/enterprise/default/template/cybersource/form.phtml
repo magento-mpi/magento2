@@ -33,7 +33,8 @@
     Validation.creditCartTypes.set('MCI', [false, new RegExp('^[0-9]{3}([0-9]{1})?$'), false]);
 //]]>
 </script>
-<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+<div class="fieldset" id="payment_form_<?php echo $_code ?>" style="display:none;">
+<ul class="form-list">
     <!--li>
         <div class="input-box">
             <label for="<?php echo $_code ?>_cc_owner"><?php echo $this->__('Name on Card') ?> <span class="required">*</span></label><br />
@@ -41,8 +42,8 @@
         </div>
     </li-->
     <li>
+        <label for="<?php echo $_code ?>_cc_type"><span class="required">*</span> <?php echo $this->__('Credit Card Type') ?></label>
         <div class="input-box">
-            <label for="<?php echo $_code ?>_cc_type"><?php echo $this->__('Credit Card Type') ?> <span class="required">*</span></label><br />
             <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]" class="required-entry validate-cybsersource-cc-type-select">
             <?php $_ccType = $this->getInfoData('cc_type') ?>
             <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
@@ -52,14 +53,14 @@
         </div>
     </li>
     <li>
+        <label for="<?php echo $_code ?>_cc_number"><span class="required">*</span> <?php echo $this->__('Credit Card Number') ?></label>
         <div class="input-box">
-            <label for="<?php echo $_code ?>_cc_number"><?php echo $this->__('Credit Card Number') ?> <span class="required">*</span></label><br />
             <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type" value="" />
         </div>
     </li>
     <li>
+        <label for="<?php echo $_code ?>_expiration"><span class="required">*</span> <?php echo $this->__('Expiration Date') ?></label>
         <div class="input-box">
-            <label for="<?php echo $_code ?>_expiration"><?php echo $this->__('Expiration Date') ?> <span class="required">*</span></label><br />
             <div class="v-fix">
                 <select id="<?php echo $_code ?>_expiration" name="payment[cc_exp_month]" class="month required-entry">
                 <?php $_ccExpMonth = $this->getInfoData('cc_exp_month') ?>
@@ -78,36 +79,38 @@
             </div>
         </div>
     </li>
+    </ul>
     <?php if ($this->hasSsCardType()): ?>
-    <li id="<?php echo $_code ?>_cc_type_ss_div">
-        <div class="input-box">
-            <label for="<?php echo $_code ?>_issue"><?php echo $this->__('Switch/Solo/Maestro(UK Domestic) Only') ?> <span class="required">*</span></label><br />
-            <ul>
-                <li>
-                    <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?>:</label><br />
-                    <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text cvv validate-cybersource-cc-ss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" />
-                </li>
-                <li>
-                    <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?>:</label>
-                    <div class="v-fix">
-                        <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="month validate-cybersource-cc-ss">
-                        <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
-                        <?php foreach ($this->getCcMonths() as $k=>$v): ?>
-                            <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
-                        <?php endforeach ?>
-                        </select>
-                    </div>
-                    <div class="v-fix">
-                        <select id="<?php echo $_code ?>_start_year" name="payment[cc_ss_start_year]" class="year validate-cybersource-cc-ss">
-                        <?php $_ccStartYear = $this->getInfoData('cc_ss_start_year') ?>
-                        <?php foreach ($this->getSsStartYears() as $k=>$v): ?>
-                            <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
-                        <?php endforeach ?>
-                        </select>
-                     </div>
-                </li>
-           </ul>
-        </div>
+    <ul class="form-list" id="<?php echo $_code ?>_cc_type_ss_div">
+        <li class="form-alt"><span class="required">*</span> <label for="<?php echo $_code ?>_issue"><?php echo $this->__('Switch/Solo/Maestro(UK Domestic) Only') ?></label></li>
+        <li>
+            <label for="<?php echo $_code ?>_cc_issue"><span class="required">*</span> <?php echo $this->__('Issue Number') ?>:</label>
+            <div class="input-box">
+                <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text cvv validate-cybersource-cc-ss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" />
+            </div>
+        </li>
+        <li>
+            <label for="<?php echo $_code ?>_start_month"><span class="required">*</span> <?php echo $this->__('Start Date') ?>:</label>
+            <div class="input-box">
+                <div class="v-fix">
+                    <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="month validate-cybersource-cc-ss">
+                    <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
+                    <?php foreach ($this->getCcMonths() as $k=>$v): ?>
+                        <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
+                    <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="v-fix">
+                    <select id="<?php echo $_code ?>_start_year" name="payment[cc_ss_start_year]" class="year validate-cybersource-cc-ss">
+                    <?php $_ccStartYear = $this->getInfoData('cc_ss_start_year') ?>
+                    <?php foreach ($this->getSsStartYears() as $k=>$v): ?>
+                        <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
+                    <?php endforeach ?>
+                    </select>
+                 </div>
+            </div>
+        </li>
+    </ul>
         <script type="text/javascript">
         var SSChecked<?php echo $_code ?> = function() {
             var elm = $('<?php echo $_code ?>_cc_type');
@@ -120,20 +123,22 @@
         Event.observe($('<?php echo $_code ?>_cc_type'), 'change', SSChecked<?php echo $_code ?>);
         SSChecked<?php echo $_code ?>();
         </script>
-    </li>
+
     <?php endif; ?>
     <?php if($this->hasVerification()): ?>
-    <li>
-        <div class="input-box">
-            <label for="<?php echo $_code ?>_cc_cid"><?php echo $this->__('Card Verification Number') ?> <span class="required">*</span></label><br />
-            <div class="v-fix">
-                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" />
+    <ul class="form-list">
+        <li>
+            <label for="<?php echo $_code ?>_cc_cid"><span class="required">*</span> <?php echo $this->__('Card Verification Number') ?></label>
+            <div class="input-box">
+                <div class="v-fix">
+                    <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" />
+                </div>
+                <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
             </div>
-            <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
-        </div>
-    </li>
+        </li>
+    </ul>
     <?php endif; ?>
-</ul>
+</div>
 <script type="text/javascript">
 //<![CDATA[
 Validation.addAllThese([

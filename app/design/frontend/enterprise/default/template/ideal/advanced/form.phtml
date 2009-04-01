@@ -28,8 +28,8 @@
 <?php if($_issuers = $this->getIssuerList()):?>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
     <li>
+        <label for="<?php echo $_code ?>_ideal_issuer_id"><span class="required">*</span> <?php echo $this->__('Issuer') ?></label>
         <div class="input-box">
-            <label for="<?php echo $_code ?>_ideal_issuer_id"><?php echo $this->__('Issuer') ?> <span class="required">*</span></label><br />
             <select id="<?php echo $_code ?>_ideal_issuer_id" name="payment[ideal_issuer_id]" class="required-entry">
                 <option value="">--<?php echo $this->__('Please Select') ?>--</option>
             <?php foreach ($_issuers as $_id => $_name): ?>

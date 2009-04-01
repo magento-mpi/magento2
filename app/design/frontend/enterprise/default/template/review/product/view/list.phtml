@@ -27,17 +27,19 @@
 
 <?php $_items = $this->getReviewsCollection()->getItems();?>
 <?php if (count($_items)):?>
-<div class="reviews" id="customer-reviews">
-    <h3><?php echo $this->__('Customer Reviews') ?></h3>
+<div class="reviews block" id="customer-reviews">
+    <div class="block-title">
+        <h3><?php echo $this->__('Customer Reviews') ?></h3>
+    </div>
     <?php echo $this->getChildHtml('toolbar') ?>
-    <dl>
+    <dl class="block-content" id="product-reviews-list">
     <?php foreach ($_items as $_review):?>
         <dt>
             <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><?php echo $this->htmlEscape($_review->getTitle()) ?></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
         </dt>
         <dd>
-            <table class="data-table">
-                <col width="30%" />
+            <table class="data-table review-summary-table">
+                <col />
                 <col />
                 <tbody>
                     <?php foreach ($_review->getRatingVotes() as $_vote): ?>
@@ -57,6 +59,7 @@
         </dd>
     <?php endforeach; ?>
     </dl>
+    <script type="text/javascript">decorateGeneric($$('#product-reviews-list dd'), ['last']);</script>
     <?php echo $this->getChildHtml('toolbar') ?>
 </div>
 <?php endif;?>

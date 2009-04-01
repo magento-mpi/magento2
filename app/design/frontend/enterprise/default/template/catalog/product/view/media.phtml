@@ -43,6 +43,7 @@
     <?php list($_imgWidth, $_imgHeight) = getimagesize($this->helper('catalog/image')->init($_product, 'image')); ?>
 
         <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 286 && $_imgHeight < 286): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
+        <?php if(!$_product->isSaleable()): ?><span class="sold-out">&nbsp;</span><?php endif; ?>
             <?php
                 $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" height="285" width="285" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image-thumb');
@@ -66,6 +67,7 @@
 
     <?php else: ?>
         <p class="product-image">
+            <?php if(!$_product->isSaleable()): ?><span class="sold-out">&nbsp;</span><?php endif; ?>
             <?php
                 $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(285).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image');

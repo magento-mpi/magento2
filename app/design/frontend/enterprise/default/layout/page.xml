@@ -154,10 +154,10 @@ Default layout, loads most of the pages
                     <block type="enterprise_websiterestriction/cms_stub" name="cms_page" as="cms_page" />
                 </block>
             </block>
-<!--
+
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
             </block>
--->
+
         </block>
         <block type="core/profiler" output="toHtml"/>
     </restriction_index_stub>

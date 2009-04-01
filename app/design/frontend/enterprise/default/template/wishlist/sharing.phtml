@@ -29,31 +29,37 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSendUrl() ?>" id="form-validate" method="post">
-<fieldset>
+<div class="fieldset">
     <?php echo $this->getBlockHtml('formkey')?>
     <h3><?php echo $this->__('Sharing Information') ?></h3>
     <ul class="form-list group-select">
         <li>
-            <label for="email_address"><?php echo $this->__('Email addresses, separated by commas') ?> <span class="required">*</span></label><br />
-            <textarea name="emails" cols="60" rows="5" id="email_address" class="validate-emails required-entry"><?php echo $this->getEnteredData('emails') ?></textarea>
+            <label for="email_address"><span class="required">*</span> <?php echo $this->__('Email addresses, separated by commas') ?></label>
+            <div class="input-box">
+                <textarea name="emails" cols="60" rows="5" id="email_address" class="validate-emails required-entry"><?php echo $this->getEnteredData('emails') ?></textarea>
+            </div>
         </li>
         <li>
-            <label for="message"><?php echo $this->__('Message') ?></label><br />
-            <textarea id="message" name="message" cols="60" rows="5"><?php echo $this->getEnteredData('message') ?></textarea>
+            <label for="message"><?php echo $this->__('Message') ?></label>
+            <div class="input-box">
+                <textarea id="message" name="message" cols="60" rows="5"><?php echo $this->getEnteredData('message') ?></textarea>
+            </div>
         </li>
         <?php if($this->helper('wishlist')->isRssAllow()): ?>
         <li>
-            <input type="checkbox" name="rss_url" id="rss_url" value="1" class="checkbox" />
             <label for="rss_url"><?php echo $this->__('Check this checkbox if you want to add a link to an rss feed to your wishlist.') ?></label>
+            <div class="input-box"><input type="checkbox" name="rss_url" id="rss_url" value="1" class="checkbox" /></div>
         </li>
         <?php endif; ?>
+        <li class="buttons-set">
+            <span class="back-link"><a href="<?php echo $this->getUrl('*/')?>" class="back-link">&laquo; <?php echo $this->__('Back')?></a></span>
+            <button type="submit" class="button"><span><?php echo $this->__('Share Wishlist') ?></span></button>
+        </li>
+        <li>
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        </li>
     </ul>
-    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-    <div class="buttons-set">
-        <a href="<?php echo $this->getUrl('*/')?>" class="back-link">&laquo; <?php echo $this->__('Back')?></a>
-        <button type="submit" class="button"><span><?php echo $this->__('Share Wishlist') ?></span></button>
-    </div>
-</fieldset>
+</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

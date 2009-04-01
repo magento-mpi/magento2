@@ -46,12 +46,13 @@
     }
 
     function add_recipient(){
-        ul = $('recipients_options');
-        var li_mail = Element.extend(document.createElement("LI"));
+        div = $('recipients_options');
+        var li_mail = Element.extend(document.createElement("ul"));
         li_mail.addClassName('add-row');
-        li_mail.innerHTML = '<p class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" title="<?php echo $this->__('Remove Email') ?>" /><\/a><\/p>'
-        li_mail.innerHTML += '<div class="input-box"><label for="recipients_name'+i+'"><?php echo $this->__('Name:') ?> <span class="required">*<\/span><\/label><br /><div><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" /><\/div>';
-        li_mail.innerHTML += '<div class="input-box"><label for="recipients_email'+i+'"><?php echo $this->__('Email Address:') ?><span class="required">*<\/span><\/label><br /><input name="recipients[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" /><\/div>';
+        li_mail.addClassName('form-list');
+        li_mail.innerHTML = '<li class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" title="<?php echo $this->__('Remove Email') ?>" /><\/a><\/li>'
+        li_mail.innerHTML += '<li><label for="recipients_name'+i+'"><span class="required">*<\/span> <?php echo $this->__('Name:') ?><\/label><div class="input-box"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" /><\/div><\/li>';
+        li_mail.innerHTML += '<li><label for="recipients_email'+i+'"><span class="required">*<\/span> <?php echo $this->__('Email Address:') ?><\/label><div class="input-box"><input name="recipients[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" /><\/div><\/li>';
         i++;
         recipCount++;
         if(recipCount>=maxRecip && maxRecip != 0) {
@@ -59,62 +60,78 @@
             $('max_recipient_message').show();
         }
 
-        ul.appendChild(li_mail);
+        div.appendChild(li_mail);
     }
 //]]>
 </script>
 
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="page-title">
     <h2><?php echo $this->__('Email to a Friend') ?></h2>
 </div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('*/*/sendmail', array('id'=>$this->getProductId(), 'cat_id'=>$this->getCategoryId())) ?>" method="post" id="product_sendtofriend_form">
-    <fieldset>
+    <div class="fieldset">
         <h3><?php echo $this->__('Sender:') ?></h3>
         <ul class="form-list group-select" id="sender_options">
             <li>
+                <label for="sender_name"><span class="required">*</span> <?php echo $this->__('Name:') ?></label>
                 <div class="input-box">
-                    <label for="sender_name"><?php echo $this->__('Name:') ?> <span class="required">*</span></label><br />
                     <input name="sender[name]" value="<?php echo $this->htmlEscape($this->getUserName()) ?>" title="<?php echo $this->__('Name') ?>" id="sender_name" type="text" class="input-text required-entry" />
                 </div>
-                <div class="input-box">
-                   <label for="sender_email"><?php echo $this->__('Email:') ?> <span class="required">*</span></label><br />
-                   <input name="sender[email]" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="sender_email" type="text" class="input-text required-entry validate-email" /></div>
             </li>
             <li>
-                <label for="sender_message"><?php echo $this->__('Message:') ?></label> <span class="required">*</span><br />
-                <textarea name="sender[message]" class="input-text required-entry" id="sender_message" cols="3" rows="3" style="height:100px;"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
+               <label for="sender_email"><span class="required">*</span> <?php echo $this->__('Email:') ?></label>
+                <div class="input-box">
+                   <input name="sender[email]" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="sender_email" type="text" class="input-text required-entry validate-email" />
+                </div>
+            </li>
+            <li>
+                <label for="sender_message"><span class="required">*</span> <?php echo $this->__('Message:') ?></label>
+                <div class="input-box">
+                    <textarea name="sender[message]" class="input-text required-entry" id="sender_message" cols="3" rows="3" style="height:100px;"><?php echo $this->htmlEscape($this->getFormData()->getData('sender/message'))?></textarea>
+                </div>
             </li>
         </ul>
-    </fieldset>
-    <fieldset>
+    </div>
+    <div class="fieldset">
         <h3><?php echo $this->__('Recipient:') ?></h3>
-        <ul class="form-list group-select" id="recipients_options">
+        <ul class="form-list group-select">
             <li>
+                <label for="recipients_name"><span class="required">*</span> <?php echo $this->__('Name:') ?></label>
                 <div class="input-box">
-                    <label for="recipients_name"><?php echo $this->__('Name:') ?> <span class="required">*</span></label><br />
                     <input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name" />
                 </div>
+            </li>
+            <li>
+                <label for="recipients_email"><span class="required">*</span> <?php echo $this->__('Email Address:') ?></label>
                 <div class="input-box">
-                    <label for="recipients_email"><?php echo $this->__('Email Address:') ?> <span class="required">*</span></label><br />
                     <input name="recipients[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipients_email" type="text" class="input-text required-entry validate-email" />
                 </div>
             </li>
         </ul>
-        <div class="buttons-set">
-            <button type="submit" class="button"><span><?php echo $this->__('Send email') ?></span></button>
-            <div id="max_recipient_message" style="display:none;">
-                <?php if ($this->getMaxRecipients()): ?>
-                  <p><?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRecipients()) ?></p>
-                <?php endif; ?>
-            </div>
-            <?php if (1 < $this->getMaxRecipients()): ?>
-                <p id="add_recipient_button">
-                    <button type="button" onclick="add_recipient();" class="button f-left"><span><?php echo $this->__('Add Recipient') ?></span></button>
-                </p>
-            <?php endif; ?>
+        <div id="recipients_options">
         </div>
-    </fieldset>
+        <ul class="form-list">
+            <li class="buttons-set">
+                <span class="label">
+                    <span id="max_recipient_message" style="display:none;">
+                        <?php if ($this->getMaxRecipients()): ?>
+                          <span><?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRecipients()) ?></span>
+                        <?php endif; ?>
+                    </span>                
+                </span>
+                <button type="submit" class="button"><span><?php echo $this->__('Send email') ?></span></button>
+                <?php if (1 < $this->getMaxRecipients()): ?>
+                    <span id="add_recipient_button">
+                        <button type="button" onclick="add_recipient();" class="button"><span><?php echo $this->__('Add Recipient') ?></span></button>
+                    </span>
+                <?php endif; ?>                
+            </li>
+            <li>
+                <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            </li>
+        </ul>
+    </div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

@@ -53,8 +53,11 @@
                                 $('reorder-item-<?php echo $_item->getId() ?>').advaiceContainer = 'cart-sidebar-reorder-advice-container';
                             //]]>
                             </script>
+                            <span class="label">
+                        <?php else: ?>
+                            <span>
                         <?php endif; ?>
-                        <span class="label"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></span>
+                            <a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></span>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

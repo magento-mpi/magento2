@@ -34,7 +34,7 @@
 
 <?php if(count($this->getStores())>1): ?>
 <div class="switcher-language" id="languageSelect">
-    <span class="separator">|</span> <label><?php echo $this->__('Language') ?>: </label>
+    <label><?php echo $this->__('Language') ?>: </label>
     <strong class="current-language language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
         <?php echo $this->htmlEscape(Mage::app()->getStore()->getName()) ?>
     </strong>  

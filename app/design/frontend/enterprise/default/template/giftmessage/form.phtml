@@ -32,39 +32,45 @@
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
     <ul class="form-list">
         <li>
+            <label for="sender"><span class="required">*</span> <?php echo $this->__('From') ?></label>
             <div class="input-box">
-                <label for="sender"><?php echo $this->__('From') ?> <span class="required">*</span></label><br />
                 <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="input-text required-entry" />
             </div>
         </li>
         <li>
+            <label for="recipient"><span class="required">*</span> <?php echo $this->__('To') ?></label>
             <div class="input-box">
-                <label for="recipient"><?php echo $this->__('To') ?> <span class="required">*</span></label><br />
                 <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="input-text required-entry" />
             </div>
         </li>
         <li>
+            <label for="email_address"><span class="required">*</span> <?php echo $this->__('Message') ?></label>
             <div class="input-box">
-                <label for="email_address"><?php echo $this->__('Message') ?> <span class="required">*</span></label><br />
                 <textarea name="messagetext" title="<?php echo $this->__('Message') ?>" class="input-text required-entry" cols="60" rows="5"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
             </div>
         </li>
+        <li class="buttons-set">
+            <span class="label"><button class="button listen-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button></span>
+            <button class="button" type="submit" name="send"><span><?php echo $this->__('Save') ?></span></button>
+            <?php if($this->getMessage()->getGiftMessageId()): ?>
+                &nbps;<button class="button listen-remove" type="button"><span><?php echo $this->__('Remove') ?></span></button>
+            <?php endif; ?>            
+        </li>
+        <li>
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        </li>
     </ul>
-    <div class="buttons-set">
-        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-        <button class="button" type="submit" name="send"><span><?php echo $this->__('Save') ?></span></button> &nbsp;
-        <button class="button listen-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button>
-        <?php if($this->getMessage()->getGiftMessageId()): ?>
-        <button class="button listen-remove" type="button"><span><?php echo $this->__('Remove') ?></span></button>
-        <?php endif; ?>
-    </div>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
-<h2><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
-<p><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
+<div class="page-title">
+    <h2><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
+</div>
+<div class="buttons-set"><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></div>
 <?php else: ?>
-<h2><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
-<p><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></p>
+<div class="page-title">
+    <h2><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
+</div>
+<div class="buttons-set"><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><?php echo $this->__('Close') ?></span></button></div>
 <?php endif; ?>
 <script type="text/javascript">
 //<![CDATA[

@@ -30,13 +30,19 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="post">
 <fieldset class="group-select">
-    <h3><?php echo $this->__('Tag Information') ?></h3>
-    <p><input type="text" class="input-text required-entry" name="productTagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" /></p>
+    <ul class="form-list">
+        <li>
+            <label for="productTagName"><?php echo $this->__('Tag Information') ?></label>
+            <div class="input-box">
+                <input type="text" class="input-text required-entry" name="productTagName" id="productTagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" />
+            </div>
+        </li>
+        <li class="buttons-set">
+            <span class="label"><a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="back-link">&laquo; <?php echo $this->__('Back to view Tag') ?></a></span>
+            <button type="button" class="button" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
+        </li>
+    </ul>
 </fieldset>
-<div class="buttons-set">
-    <a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="back-link">&laquo; <?php echo $this->__('Back to view Tag') ?></a>
-    <button type="button" class="button" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
-</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

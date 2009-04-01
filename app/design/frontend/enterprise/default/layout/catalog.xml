@@ -83,7 +83,7 @@ Category default layout
             <block type="catalog/navigation" name="catalog.leftnav" after="currency" template="catalog/navigation/left.phtml"/>
         </reference>
         <reference name="content">
-        	<block type="catalog/category_view" name="category.title" before="-" template="catalog/category/title.phtml"/>
+            <block type="catalog/category_view" name="category.title" before="-" template="catalog/category/title.phtml"/>
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                     <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
@@ -113,7 +113,7 @@ Category layered navigation layout
             <block type="catalog/layer_view" name="catalog.leftnav" after="currency" template="catalog/layer/view.phtml"/>
         </reference>
         <reference name="content">
-        	<block type="catalog/category_view" name="category.title" before="-" template="catalog/category/title.phtml"/>
+            <block type="catalog/category_view" name="category.title" before="-" template="catalog/category/title.phtml"/>
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                     <!-- <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/su.phtml</template></action> -->
@@ -207,7 +207,7 @@ Product view
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
                 <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
 
-            	<block type="catalog/product_list_related" name="catalog.product.related" as="relatedProducts" template="catalog/product/list/related.phtml"/>
+                <block type="catalog/product_list_related" name="catalog.product.related" as="relatedProducts" template="catalog/product/list/related.phtml"/>
                 <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml">
                     <block type="catalog/product_view_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
                         <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/view/options/type/text.phtml</template></action>
@@ -218,9 +218,9 @@ Product view
                     </block>
                 </block>
                 <block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml">
-                    <action method="insert"><block>product.tierprices</block></action>
                     <action method="append"><block>product.info.addtocart</block></action>
                     <block type="catalog/product_view" name="product.clone_prices" as="prices" template="catalog/product/view/price_clone.phtml"/>
+                    <action method="append"><block>product.tierprices</block></action>
                 </block>
 
                 <block type="core/template_facade" name="product.info.container1" as="container1">

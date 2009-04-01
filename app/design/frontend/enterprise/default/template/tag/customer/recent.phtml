@@ -25,17 +25,14 @@
  */
 ?>
 <div class="tags">
-    <div class="title-buttons">
-        <h3><?php echo $this->__('My Recent Tags') ?></h3>
-        <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo $this->__('View All Tags') ?></a>
-    </div>
+    <h3 class="sub-title"><?php echo $this->__('My Recent Tags') ?> <span class="separator">|</span> <a href="<?php echo $this->getAllTagsUrl() ?>"><?php echo $this->__('View All Tags') ?></a></h3>
     <ol id="my_recent_tags">
         <?php $iterator = 0; ?>
         <?php foreach( $this->getCollection()->getItems() as $_item ): ?>
             <li>
                 <span class="number"><?php echo ++$iterator ?></span>
                 <div class="details">
-                    <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
+                    <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                     <p><strong><?php echo $this->__('Tags:') ?></strong></p>
                         <?php $_i = 0; ?>
                         <?php foreach( $_item->getProductTags() as $_tag ): ?>

@@ -29,18 +29,18 @@
     <div class="page-title">
         <h2><?php echo $this->__('Review Details') ?></h2>
     </div>
-        <div>
-            <a class="product-image" href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="125" width="125" /></a>
+        <div class="product-img-box">
+            <a class="product-image" href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'image')->resize(285, 285); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="285" width="285" /></a>
             <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
             <p><?php echo $this->__('Average Customer Rating:') ?></p>
             <?php echo $this->getReviewsSummaryHtml($this->getProductData()) ?>
             <?php endif; ?>
         </div>
-        <div class="product-details">
+        <div class="details">
             <h3 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
             <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
             <strong><?php echo $this->__('Your Rating:') ?></strong>
-            <table class="data-table">
+            <table class="data-table review-summary-table">
             <?php foreach ($this->getRating() as $_rating): ?>
             <?php if($_rating->getPercent()): ?>
                 <tr>
@@ -54,7 +54,7 @@
             <?php endforeach; ?>
             </table>
             <?php endif; ?>
-            <?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
+            <p class="date"><?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
             <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
         </div>
         <div class="buttons-set">
