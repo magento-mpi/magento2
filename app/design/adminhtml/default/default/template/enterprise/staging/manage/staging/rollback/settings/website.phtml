@@ -63,7 +63,8 @@
 <?php echo $this->getMassactionBlockHtml() ?>
 <?php endif ?>
 <div id="enterprise_staging_rollback_container" class="grid">
-    <table cellspacing="0" cellpadding="0" style="width:210px;" class="option-header">
+
+    <!-- table cellspacing="0" cellpadding="0" style="width:210px;" class="option-header">
     <thead>
     <tr class="headings">
         <th><?php echo $this->__('Website'); ?></th>
@@ -100,8 +101,28 @@
         <?php endif; ?>
     <?php endforeach; ?>
     </tbody>
-    </table>
+    </table-->
 
+    
+    <?php foreach($mapperWebSites AS $mapperWebSiteInfo): ?>
+        <?php if (isset($mapperWebSiteInfo["master_website"])): ?>
+        
+            <?php foreach($mapperWebSiteInfo["master_website"] AS $toSiteId => $fromSiteId): ?>
+                <input type="hidden" name="map[websites][from][]" value="<?php echo $fromSiteId; ?>">
+                <input type="hidden" name="back" value="1" />
+                <?php $siteInfo = $masterWebsites->getItemByColumnValue("website_id", $toSiteId); ?>
+                <input type="hidden" name="map[websites][to][]" value="<?php echo $toSiteId; ?>" />
+                <?php if (isset($mapperWebSiteInfo["stores"][$toSiteId])): ?>
+                <?php foreach($stores AS $storeInfo): ?>
+                    <?php if ($fromStoreId = array_search($storeInfo->getId(), $mapperWebSiteInfo["stores"][$toSiteId])): ?>
+                        <input type="hidden" name="map[stores][<?php echo $fromSiteId . '-' . $toSiteId; ?>][from][]" value="<?php echo $fromStoreId; ?>" />                    
+                        <input type="hidden" name="map[stores][<?php echo $fromSiteId . '-' . $toSiteId; ?>][to][]" value="<?php echo $storeInfo->getId() ?>" />                            
+                    <?php endif; ?>                       
+                <?php endforeach; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
     
 <?php echo $this->getBlockHtml('formkey')?>
 <?php echo $this->getChildHtml('items'); ?>

@@ -59,4 +59,39 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
 
         return $this;
     }
+
+    /**
+     * After save processing
+     *
+     * @param   Mage_Core_Model_Abstract $object
+     * @return  Enterprise_Staging_Model_Mysql4_Staging_Backup
+     */    
+    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    {
+ 
+        if ($object->getIsDeleteTables() === true) {
+            
+            $stagingTablePrefix = $object->getStagingTablePrefix();
+
+            $connection = $object->getStaging()->getAdapterInstance(true)
+                            ->getConnection("backup");
+            
+            // create sql
+            $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
+            
+            $result = $connection->fetchAll($sql);
+
+            foreach ($result AS $row) {
+                $table = array_values($row);
+
+                if (!empty($table[0])) {
+                    $dropTableSql = "DROP TABLE {$table[0]}";
+                   
+                    $connection->query($dropTableSql);
+                    
+                }
+            }
+        }
+        return $this;
+    }    
 }

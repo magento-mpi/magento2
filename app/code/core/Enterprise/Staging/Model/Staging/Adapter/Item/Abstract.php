@@ -196,13 +196,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
 
 
-
-
-
-
-
     public function mergeItem(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Website $stagingWebsite, $itemXmlConfig)
     {
+        if ($staging->getIsMergeLater() == true) {
+            return $this;
+        }
+        
         $this->_processItemMethodCallback('_mergeItemTableData', $staging, $itemXmlConfig, $stagingWebsite);
 
         return $this;
@@ -342,25 +341,44 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         return $this;
     }
-
+    
     protected function _backupItemTable($staging, $srcModel, $srcTable, $targetModel, $targetTable, $usedStorageMethod)
     {
         $connection      = $this->getConnection($targetModel);
 
         $srcTableDesc    = $this->getTableProperties($srcModel, $srcTable);
 
-        $targetTable     = $this->getStagingTableName($staging, $srcModel, $srcTable, 'bk_', true);
+        $internalPrefix = "";        
+        
+        $stateRegestryCode  = "staging/" . $this->getEventStateCode() . "/enterprise_staging/staging_event";
+        
+        $event = Mage::registry($stateRegestryCode);
+        
+        if (is_object($event)) {
+            $internalPrefix = $event->getId();
+        }
+        
+        $backupPrefix    = $this->getBackupTablePrefix($internalPrefix);
+        
+        $targetTable     = $this->getStagingTableName($staging, $srcModel, $srcTable, $backupPrefix, true);
 
         $targetTableDesc = $this->getTableProperties($targetModel, $targetTable);
 
         if (!$targetTableDesc) {
             $srcTableDesc['table_name'] = $targetTable;
+            
+            if (!empty($srcTableDesc['constraints'])) {
+                foreach($srcTableDesc['constraints'] AS $constraint => $data) {
+                    $srcTableDesc['constraints'][$constraint]['fk_name'] = $backupPrefix . $data['fk_name'];    
+                }
+            }
+            
             $sql = $this->_getCreateSql($targetModel, $srcTableDesc, $staging);
 
-//            echo '<pre>';
-//            echo $sql;
-//            echo '</pre>';
-//            echo '<br>';
+            //echo '<pre>';
+            //echo $sql;
+            //echo '</pre>';
+            //echo '<br>';
 
             $connection->query($sql);
         }
@@ -370,6 +388,21 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
 
         return $targetTable;
+    }
+
+    /**
+     * get backup table prefix
+     *
+     * @return string
+     */
+    public function getBackupTablePrefix($internalPrefix=null)
+    {
+        $backupPrefix    = Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix();
+        
+        if (isset($internalPrefix)) {
+            $backupPrefix .= $internalPrefix . "_";
+        }
+        return $backupPrefix;
     }
 
     protected function _backupItemTableData($staging, $srcModel, $srcTable, $targetModel, $targetTable)
@@ -467,9 +500,14 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 }
             }
         }
+        
         $fields = array_keys($fields);
+        
+        $internalPrefix = $object->getEventId();
+        
+        $backupPrefix    = $this->getBackupTablePrefix($internalPrefix);
 
-        $backupTable = $this->getStagingTableName($object, $srcModel, $targetTable, 'bk_', true);
+        $backupTable = $this->getStagingTableName($object, $srcModel, $targetTable, $backupPrefix, true);
 
         $this->_rollbackTableDataInWebsiteScope($object, $backupTable, $targetTable , $fields, $primaryField);
 

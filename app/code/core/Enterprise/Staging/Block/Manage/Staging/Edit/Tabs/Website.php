@@ -58,7 +58,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
     protected function _prepareForm()
     {
         $form          = new Varien_Data_Form();
-
+            
         $staging       = $this->getStaging();
         $collection    = $staging->getWebsitesCollection();
 
@@ -74,7 +74,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             'require'   => true
         ));
 
-        $fieldset->addField('code', 'text', array(
+        $fieldset->addField('code', 'hidden', array(
             'label'     => $this->helper->__('Staging code'),
             'title'     => $this->helper->__('Staging code'),
             'name'      => 'code',
@@ -84,7 +84,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         ));
 
         foreach ($this->getWebsiteCollection() as $website) {
+            
             $_id = $website->getId();
+            
             $stagingWebsite = $collection->getItemByMasterCode($website->getCode());
 
             if ($stagingWebsite) {
@@ -167,6 +169,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         )
                     );
                 }
+                
             } else {
             	$fieldset->addField('staging_website_code_'.$_id, 'text',
 	                array(
@@ -226,55 +229,238 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 	                'required' => true
 	            )
 	        );
-
-            if ($stagingWebsite) {
-                $element = new Varien_Data_Form_Element_Fieldset(array(
-                    //'legend'        => $this->helper->__('Staging Stores'),
-                    'html_content'  => $this->getLayout()
-                        ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store')
-                        ->setWebsite($website)
-                        ->setStagingWebsite($stagingWebsite)
-                        ->toHtml()
-                ));
-                $element->setId('store_'.$_id);
-                $fieldset->addElement($element, false);
-
-                $values = array();
-                foreach ($stagingWebsite->getData() as $key => $value) {
-                    $values[$key.'_'.$_id] = $value;
-                }
-                $form->addValues($values);
-            } else {
-                $element = new Varien_Data_Form_Element_Fieldset(array(
-                    'legend'        => $this->helper->__('Create Staging Stores based on Master Website Stores'),
-                    'html_content'  => $this->getLayout()
-                        ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store')
-                        ->setWebsite($website)
-                        ->setStagingWebsite($stagingWebsite)
-                        ->toHtml()
-                ));
-                $element->setId('store_'.$_id);
-                $fieldset->addElement($element, false);
+	        
+            foreach ($stagingWebsite->getData() as $key => $value) {
+                $values[$key.'_'.$_id] = $value;
             }
+            $form->addValues($values);
+                
+	        
 
-            $params = array(
-                'label'    => $stagingWebsite ? 'Copied data' : $this->helper->__('Data to copy'),
-                'name'     => "{$_id}[dataset_items]",
-                'value'    => $stagingWebsite ? $stagingWebsite->getDatasetItemIds() : array(),
-                'values'   => $staging->getDatasetItemsCollection(true)->toOptionArray()
-            );
-            if ($stagingWebsite) {
-                $params['disabled'] = true;
-            }
-            $fieldset->addField("staging_website_items_{$_id}", 'multiselect',$params);
+            
+	        $form = $this->_initWebsiteItems($form , $staging, $_id, $stagingWebsite);
+                        
+            
+            $form = $this->_initWebsiteStore($form , $website, $stagingWebsite);
         }
-
-        $form->setFieldNameSuffix($this->getFieldNameSuffix());
+        
+        $form->addFieldNameSuffix($this->getFieldNameSuffix());
         $this->setForm($form);
-
+        
         return parent::_prepareForm();
     }
+    
+    /**
+     * Init Website Item Elements
+     *
+     * @param Varien_Data_Form $form
+     * @param Staging Object $staging
+     * @param int $website_id 
+     * @param StagingWebsiteObject $stagingWebsite
+     * @return Varien_Data_Form
+     */         
+    protected function _initWebsiteItems($form, $staging, $website_id, $stagingWebsite = null)
+    {
+        if (empty($staging)) {
+            return $form;
+        }
+                
+        $fieldset = $form->addFieldset('staging_website_items', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Website Items')));
+        
+        foreach ($staging->getDatasetItemsCollection(true) as $datasetItem) {
+            $_id = $datasetItem->getId();
 
+            if ($stagingWebsite) {
+                $item_id = $stagingWebsite->getDatasetItemIds();
+                if (in_array($datasetItem->getId() , $item_id)) {
+                    $fieldset = $this->_initWebsiteItemsStored($fieldset, $datasetItem, $_id);
+                }
+            } else {
+                $fieldset = $this->_initWebsiteItemsNew($fieldset, $datasetItem, $website_id, $_id);
+            }
+        }
+        
+        if (!$stagingWebsite) {
+            $fieldset->addField('staging_website_item_check' , 'hidden' , 
+                array(
+                    'lable'     => 'staging_website_item_check',
+                    'name'      => 'staging_website_item_check',
+                    'value'     => 'check',
+                    'class'     => 'staging_website_item_check'
+                )
+            );
+        }
+            
+        return $form;                        
+    }
+    
+    /**
+     * Init Website Item New Elements
+     *
+     * @param Varien_Data_Form $fieldset
+     * @param Item Object $dataSet
+     * @param int $website_id 
+     * @param string $_id
+     * @return Varien_Data_Form
+     */         
+    protected function _initWebsiteItemsNew($fieldset, $dataSet, $website_id, $_id)
+    {
+        $fieldset->addField('staging_website_items_'.$_id, 'checkbox',
+            array(
+                'label'    => $dataSet->getName(),
+                'name'     => "{$website_id}[dataset_items][]",
+                'value'    => $dataSet->getId(),
+                'checked'  => true,
+            )
+        );
+        
+        return $fieldset;
+    }
+    
+    /**
+     * Init Website Item Stores Elements
+     *
+     * @param Varien_Data_Form $fieldset
+     * @param Item Object $dataSet
+     * @param string $_id
+     * @return Varien_Data_Form
+     */         
+    protected function _initWebsiteItemsStored($fieldset, $dataSet, $_id)
+    {
+        $fieldset->addField('staging_website_items_'.$_id, 'label',
+            array(
+                'label'    => $dataSet->getName(),
+                'name'     => "{$dataSet->getId()}[dataset_items]",
+                'value'    => '',
+                'checked'  => true,
+                'disabled' => true
+            )
+        );
+        
+        return $fieldset;
+    }
+    
+    /**
+     * Init Website Store Elements
+     *
+     * @param Varien_Data_Form $form
+     * @param WebsiteObject $website
+     * @param StagingWebsiteObject $stagingWebsite
+     * @return Varien_Data_Form
+     */         
+    protected function _initWebsiteStore($form, $website, $stagingWebsite = null) 
+    {
+        if (empty($website)) {
+            return $form;
+        }
+        
+        $fieldset = $form->addFieldset('staging_website_stores', array('legend'=>Mage::helper('enterprise_staging')->__(' Staging Stores')));
+        
+        if ($stagingWebsite) {
+            $_storeCollection = $stagingWebsite->getStoresCollection();
+        } else {
+            $_storeCollection = $website->getStoreCollection(true);    
+        }
+        
+        if ($_storeCollection) {
+            foreach($_storeCollection as $storeView){
+                $_id    = $storeView->getId() . '_' . $website->getId();
+                if ($stagingWebsite) {
+                    $fieldset = $this->_initWebsiteStoreStored($fieldset, $storeView , $_id );                    
+                } else {
+                    $fieldset = $this->_initWebsiteStoreNew($fieldset, $storeView , $website->getId(), $_id );
+                }
+            }
+        }
+        if (!$stagingWebsite) {
+            $fieldset->addField('staging_website_stores_check' , 'hidden' , 
+                array(
+                    'lable'     => 'staging_website_stores_check',
+                    'name'      => 'staging_website_stores_check',
+                    'value'     => 'check',
+                    'class'     => 'staging_website_stores_check'
+                )
+            );
+        }
+        
+        return $form;
+    }
+    
+    /**
+     * Init Existens Website Store Element
+     *
+     * @param Varien_Data_Form $fieldset
+     * @param StoreCollection $storeView
+     * @param string $_id
+     * @return Varien_Data_Form
+     */
+    protected function _initWebsiteStoreStored($fieldset, $storeView, $_id)
+    {
+        $fieldset->addField('staging_store_'.$_id, 'label',
+            array(
+                'label'    => $storeView->getName(),
+                'name'     => "{$_id}[staging_store_id]",
+                'value'    => '',
+            )
+        );
+        return $fieldset;
+    }
+    
+    /**
+     * Init Website Store New Element
+     *
+     * @param Varien_Data_Form $fieldset
+     * @param StoreCollection $storeView
+     * @param int $websiteId
+     * @param string $_id
+     * @return Varien_Data_Form
+     */
+    protected function _initWebsiteStoreNew($fieldset, $storeView, $websiteId, $_id)
+    {
+        $fieldset->addField('staging_store_'.$_id, 'checkbox',
+            array(
+                'label'    => $storeView->getName(),
+                'name'     => "{$websiteId}[stores][{$websiteId}][{$_id}][staging_store]",
+                'value'    => $storeView->getId(),
+                'checked'  => true
+            )
+        );
+        
+        $fieldset->addField('master_id_'.$_id, 'hidden',
+            array(
+                'label' => $this->helper->__('Master Store Id'),
+                'name'  => "{$websiteId}[stores][{$websiteId}][{$_id}][master_store_id]",
+                'value' => $storeView->getId(),
+            )
+        );
+
+        $fieldset->addField('master_code_'.$_id, 'hidden',
+            array(
+                'label' => $this->helper->__('Master Store Code'),
+                'name'  => "{$websiteId}[stores][{$websiteId}][{$_id}][master_store_code]",
+                'value' => $storeView->getCode()
+            )
+        );
+
+        $fieldset->addField('code_'.$_id, 'hidden',
+            array(
+                'label' => $this->helper->__('Staging Store Code'),
+                'name'  => "{$websiteId}[stores][{$websiteId}][{$_id}][code]",
+                'value' => Mage::getResourceSingleton('enterprise_staging/staging_store')->generateStoreCode($storeView->getCode())
+            )
+        );
+
+        $fieldset->addField('name_'.$_id, 'hidden',
+            array(
+                'label' => $this->helper->__('Staging Store Name'),
+                'name'  => "{$websiteId}[stores][{$websiteId}][{$_id}][name]",
+                'value' => $storeView->getName()
+            )
+        );
+        return $fieldset;        
+        
+    }
+    
     public function getWebsiteCollection()
     {
         $collection = Mage::getModel('core/website')->getResourceCollection();

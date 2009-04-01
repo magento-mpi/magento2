@@ -40,14 +40,21 @@ class Enterprise_Staging_Model_Observer
         if (!Mage::app()->isInstalled()) {
             return $this;
         }
+        if (Mage::app()->getStore()->isAdmin()) {
+            return $this;
+        }
+        
         try {
+
             $resource = $observer->getEvent()->getResource();
             $tableName = $observer->getEvent()->getTableName();
             $modelEntity = $observer->getEvent()->getModelEntity();
-
-            $config = Mage::getResourceSingleton('enterprise_staging/config');
-            $_tableName = $config->getStagingTableName($tableName, $modelEntity);
-
+            $website = Mage::app()->getWebsite();
+            $_tableName = '';
+            if ($website->getIsStaging()) {
+                $_tableName = Enterprise_Staging_Model_Staging_Config::getStagingTableName($tableName, $modelEntity);
+            }       
+     
             if ($_tableName) {
                 $resource->setMappedTableName($tableName, $_tableName);
             }
@@ -141,14 +148,37 @@ class Enterprise_Staging_Model_Observer
     {
         try {
             $currentDate = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
-            $collection = Mage::getResourceModel('enterprise_staging/staging_website_collection');
-            foreach ($collection as $website) {
-                if ($website->getStatus() !== Enterprise_Staging_Model_Staging_Config::STATUS_MERGED) {
-                    $applyDate = $website->getApplyDate();
-                    $applyIsActive = $website->getAutoApplyIsActive();
-                    if ($applyIsActive) {
-                        if ($currentDate <= $applyDate) {
-                            $website->merge();
+            
+            $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
+            
+            $collection->addHoldedFilter();
+            
+            foreach ($collection as $event) {
+                
+                if ($event->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
+
+                    $applyDate = $event->getMergeScheduleDate();
+                    
+                    $stagingId = $event->getStagingId();
+                    
+                    if ($currentDate <= $applyDate) {
+                        if ($stagingId){    
+                            $staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
+                             
+                            $staging->setEventId($event->getId());
+                            
+                            $mapData = $event->getMergeMap();
+                            
+                            
+                            if (!empty($mapData)) { 
+                                $staging->getMapperInstance()->unserialize($mapData);
+                                
+                                if ($event->getIsBackuped() == true) {
+                                    $staging->backup();
+                                }
+                                
+                                $staging->merge();
+                            }
                         }
                     }
                 }

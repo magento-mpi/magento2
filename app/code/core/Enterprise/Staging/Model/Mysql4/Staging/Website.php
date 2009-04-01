@@ -294,7 +294,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
     public function loadBySlaveWebsiteId($website, $id)
     {
-        return parent::load($website, $id, 'slave_website_id');
+        $this->load($website, $id, 'slave_website_id');
+        return $this;
     }
 
     public function syncWithWebsite($object, $website)

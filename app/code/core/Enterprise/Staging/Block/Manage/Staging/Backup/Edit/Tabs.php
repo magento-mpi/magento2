@@ -50,22 +50,27 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs extends Mage_Admi
             'label'     => Mage::helper('enterprise_staging')->__('Backup General Info'),
             'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_general')->toHtml(),
         ));
-
+/*
         $this->addTab('staging_general_info', array(
             'label'     => Mage::helper('enterprise_staging')->__('Staging General Info'),
             'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_general')->toHtml(),
-        ));
-
+        ));*/
+/*
         $this->addTab('event_info', array(
             'label'     => Mage::helper('enterprise_staging')->__('Event'),
-            'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_event')->toHtml(),
-        ));
+            'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_event')->unsetChild('back_button')->toHtml(),
+        ));*/
 
-        $this->addTab('rollbacks', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Rollbacks'),
+        $this->addTab('rollbacks_info', array(
+            'label'     => Mage::helper('enterprise_staging')->__('Rollback History'),
             'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')->toHtml(),
         ));
 
+        $this->addTab('rollback', array(
+            'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+            'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_rollback_settings_website')->toHtml(),
+        ));
+        
         return parent::_prepareLayout();
     }
 

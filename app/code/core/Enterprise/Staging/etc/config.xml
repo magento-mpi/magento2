@@ -137,6 +137,8 @@
         </events>
         <enterprise>
             <staging>
+                <global_staging_table_prefix>st</global_staging_table_prefix>
+                <global_staging_backup_table_prefix>bk</global_staging_backup_table_prefix>
                 <use_storage_method>table_prefix</use_storage_method>
                 <starage_method>
                     <new_db></new_db>
@@ -186,9 +188,16 @@
                                     <code>backup</code>
                                     <label>Database Backup</label>
                                     <model>enterprise_staging/staging_state_website_backup</model>
+                                    <before>
+                                        <save_event>
+                                            <type>model</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+                                    </before>
 						            <after>
                                         <save_event>
-                                            <type>singleton</type>
+                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromEvent</method>
                                         </save_event>
@@ -256,10 +265,10 @@
                     <customer>
                         <code>customer</code>
                         <model>customer</model>
-                        <is_backend>1</is_backend>
+                        <is_backend></is_backend>
                         <label>Customers</label>
                         <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
+                        <use_storage_method></use_storage_method>
                     </customer>
                     <customer_address>
                         <code>customer_address</code>
@@ -282,18 +291,38 @@
                     <catalog_product>
                         <code>catalog_product</code>
                         <model>catalog</model>
+                        <is_backend></is_backend>
                         <label>Catalog Products</label>
                         <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                         <use_storage_method></use_storage_method>
                         <extends>
                             <bundle>
                                 <code>bundle</code>
+                                <model>bundle</model>
+                                <is_backend></is_backend>
+                                <adapter>enterprise_staging/staging_adapter_item_product</adapter>
+                                <entities>
+                                    <option_value />
+                                </entities>                                
                             </bundle>
                             <downloadable>
                                 <code>downloadable</code>
+                                <model>downloadable</model>
+                                <is_backend></is_backend>
+                                <adapter>enterprise_staging/staging_adapter_item_product</adapter>
+                                <entities>
+                                    <link_title />
+                                    <sample_title />
+                                </entities>                                
                             </downloadable>
                             <giftcertificate>
                                 <code>giftcertificate</code>
+                                <model>giftcertificate</model>
+                                <is_backend></is_backend>
+                                <adapter>enterprise_staging/staging_adapter_item_product</adapter>
+                                <entities>
+                                    <code />
+                                </entities>
                             </giftcertificate>
                         </extends>
                     </catalog_product>

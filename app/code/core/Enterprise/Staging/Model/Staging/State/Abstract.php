@@ -127,6 +127,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected function _beforeRun(Enterprise_Staging_Model_Staging $staging)
     {
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATE_PROCESSING);
         $this->_runExtendActions('before', $staging);
         return $this;
     }
@@ -142,6 +143,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
     {
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
         $this->_runExtendActions('after', $staging);
         return $this;
     }
@@ -174,15 +176,25 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected function _runExtendAction($action, $staging)
     {
+        
         $instance = null;
-        switch ($action->type) {
-            case "singleton" :
-                $instance = Mage::getSingleton($action->class);
-                break;
-            default:
-                $instance = Mage::getModel($action->class);
-                break;                        
-        }
+        
+        $stateRegistryCode = "staging/" . $this->getEventStateCode() . "/".$action->class;
+        $instance = Mage::registry($stateRegistryCode);
+        
+        if (!is_object($instance)) {
+            switch ($action->type) {
+                case "singleton" :
+                    $instance = Mage::getSingleton($action->class);
+                    break;
+                default:
+                    $instance = Mage::getModel($action->class);
+                    break;                        
+            }
+
+            Mage::register($stateRegistryCode, $instance);
+        }            
+            
         if (is_object($instance)) {
             $method = (string) $action->method;
             if (!empty($method)) {

@@ -241,12 +241,28 @@ class Enterprise_Staging_Model_Staging_Config
 
     static public function getStagingItems()
     {
-        return self::getConfig('staging_items');
+        $stagingItems = self::getConfig('staging_items');
+        
+        foreach($stagingItems->children() AS $item_id => $item){
+            if (!empty($item->extends) && is_object($item->extends)){
+                foreach($item->extends->children() AS $extendItem){
+                    $stagingItems->appendChild($extendItem);             
+                }
+            }
+        }
+        
+        return $stagingItems;
     }
 
     static public function getStagingItem($itemCode)
     {
-        return self::getConfig("staging_items/{$itemCode}");
+        $stagingItems = self::getStagingItems();
+        
+        if (!empty($stagingItems->{$itemCode})) {
+            return $stagingItems->{$itemCode};
+        } else {
+            return null;
+        }
     }
 
     static public function getUsedStorageMethod()
@@ -335,7 +351,8 @@ class Enterprise_Staging_Model_Staging_Config
     {
         $globalTablePrefix   = (string) Mage::getConfig()->getTablePrefix();
 
-        $stagingTablePrefix = 'staging_';
+        $stagingTablePrefix = self::getStagingTablePrefix();
+
         if (!is_null($object)) {
             $stagingTablePrefix = $object->getTablePrefix();
         }
@@ -344,6 +361,120 @@ class Enterprise_Staging_Model_Staging_Config
 
         return $globalTablePrefix . $stagingTablePrefix;            
     }
+
+    /**
+     * Get staging global table prefix
+     *
+     * @return string
+     */
+    static public function getStagingTablePrefix()
+    {
+    	return (string) self::getConfig('global_staging_table_prefix');
+    }
+
+    /**
+     * Get staging global table prefix
+     * @param string $internalPrefix
+     * @return string
+     */
+    static public function getBackupTablePrefix($internalPrefix)
+    {
+        $backupPrefix    = Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix();
+        
+        if (is_object($internalPrefix)) {
+            $backupPrefix .= $internalPrefix . "_";
+        }
+        return $backupPrefix;
+    }
+    /**
+     * Get staging global table prefix
+     *
+     * @return string
+     */
+    static public function getStagingBackupTablePrefix()
+    {
+        return (string) self::getConfig('global_staging_backup_table_prefix');
+    }
+        
+    /**
+     * Get table name by item config info 
+     *
+     * @param string $tableName
+     * @param string $modelEntity
+     * @return string
+     */
+    static public function getStagingTableName($tableName, $modelEntity)
+    {
+
+    	list($model, $entity) = split("[/]" , $modelEntity,2);
+    
+    	if (!$model){
+    	    return $tableName;	
+    	}
+    
+    	$stagingTablePrefix = self::getTablePrefix();
+ 
+    	if (empty($stagingTablePrefix)){
+    	    return $tableName;	
+    	}
+    	
+    	if (self::isStagingUpTableName($model, $tableName)) {
+
+    	    $stagingAdapter = Mage::getModel('enterprise_staging/staging')
+                ->getAdapterInstance(true);
+
+    	    $tableDescription = $stagingAdapter->getTableProperties($model, $tableName);
+    	    
+            $tableName = $stagingTablePrefix . $tableName;
+            
+            $stagingAdapter->createTable($tableName, $model, $modelEntity, $tableDescription);
+    	}
+    
+    	return $tableName;
+    	
+    }
+    
+    /**
+     * Check in staging config ig need to modify src table name
+     *
+     * @param string $model
+     * @param string $tableName
+     * @return bool
+     */
+    static public function isStagingUpTableName($model, $tableName)
+    {
+        $itemSet = self::getConfig("staging_items");
+
+        if (is_object($itemSet)) {
+            foreach($itemSet->children() AS $item) {
+                
+                $itemModel = (string) $item->model;
+                
+                if ($itemModel == $model) {
+                    
+                    $isBackand = (string) $item->is_backend;
+                    $useStorageMethod = (string) $item->use_storage_method;
+                    
+                    if ($isBackand && $useStorageMethod == "table_prefix") {
+                        //apply prefix for custom tables
+                        if (!empty($item->entities) && is_object($item->entities)){
+                            $entities = $item->entities;
+                            foreach($entities->children() AS $entitie) {
+                                $entitieTable = (string) $entitie->table;
+                                if (!empty($entitieTable) && $entitieTable == $tableName) {
+                                    return true;    
+                                }
+                            }   
+                        } else {
+                             return true;
+                        }
+                    }
+                }
+            }   
+        }
+        return false;
+    }
+
 
     /**
      * Retrieve core resources version

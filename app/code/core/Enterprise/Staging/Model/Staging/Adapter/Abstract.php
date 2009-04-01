@@ -56,6 +56,18 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
        'customer_address_entity'    => 'customer',
     );
 
+    protected $_excludeList = array(
+        'core_store',
+        'core_website',
+        'eav_attribute',
+        'eav_attribute_set',
+        'eav_entity_type',
+        'cms_page',
+        'cms_block',
+        'catalog_product_bundle_option_value',
+        'downloadable_sample_title'
+    );
+    
     protected $_ignoreTables = array(
         'catalog_category_flat'     => true,
         'catalog_product_flat'      => true
@@ -111,8 +123,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     {
         return $this;
     }
-
-
 
     /**
      * Specify staging instance
@@ -174,6 +184,28 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         }
 
         return $this->_connections[$connectionName];
+    }
+    
+    /**
+     * Create table
+     *
+     * @param string $targetTable
+     * @param string $targetModel
+     * @param string $srcModel
+     * @param array $srcTableDescription
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
+    public function createTable($targetTable, $targetModel, $srcModel, $srcTableDescription)
+    {
+        $connection = $this->getConnection($targetModel);
+
+        $srcTableDescription['table_name'] = $targetTable;
+
+        $sql = $this->_getCreateSql($srcModel, $srcTableDescription);
+
+        $connection->query($sql);
+
+        return $this;
     }
 
     protected function _getCreateSql($model, $tableDescription, $object= null)

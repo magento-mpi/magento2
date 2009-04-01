@@ -48,7 +48,8 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection');
+        $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')
+            ->addStagingToCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -58,9 +59,9 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array(
-            'header'    => 'Name',
-            'index'     => 'name',
+        $this->addColumn('staging_name', array(
+            'header'    => 'Staging Name',
+            'index'     => 'staging_name',
             'type'      => 'text',
         ));
 

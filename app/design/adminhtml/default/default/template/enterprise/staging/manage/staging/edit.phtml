@@ -70,6 +70,33 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
+
+Validation.addAllThese([
+    ['staging_website_item_check', '<?php echo Mage::helper('catalog')->__('Web Site Item Must be checked') ?>', function(v) {
+
+                var isChecked = false;
+                $$('#staging_website_items input[type=checkbox]').each(function(el){
+                    if (el.checked == true) {
+                        isChecked = true;
+                    }                    
+                });
+                
+                return isChecked;
+            }],
+    ['staging_website_stores_check', '<?php echo Mage::helper('catalog')->__('Web Site Store Must be checked') ?>', function(v) {
+    
+                var isChecked = false;
+                $$('#staging_website_stores input[type=checkbox]').each(function(el){
+                    if (el.checked== true) {
+                        isChecked = true;
+                    }                    
+                });
+                
+                return isChecked;
+            }]
+            
+]);
+            
 var <?php echo $this->getEditFormJsObject(); ?> = new Enterprise.Staging.Form('enterprise_staging', 'enterprise_staging_form', '<?php echo $this->getValidationUrl() ?>', '<?php echo $this->getCreateItemNextUrl(); ?>', '<?php echo $this->getFinishCreateUrl(); ?>', <?php echo $this->getConfig()?>, <?php echo $this->getItemsJson()?>);
 //]]>
 </script>

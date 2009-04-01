@@ -90,6 +90,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         }
 
         $stagingId = $event->getStagingId();
+
         if ($stagingId) {
             $this->_initStaging($stagingId);
         }
@@ -119,6 +120,7 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         }
 
         $eventId = $backup->getEventId();
+
         if ($eventId) {
             $this->_initEvent($eventId);
         } else {
@@ -343,10 +345,16 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 }
             }
 
-            $stores = isset($stagingData['stores'][$masterWebsiteId]) ? $stagingData['stores'][$masterWebsiteId] : array();
+            $stores = isset($websiteData['stores'][$masterWebsiteId]) ? $websiteData['stores'][$masterWebsiteId] : array();
+            
             $existStores = Mage::getResourceSingleton('enterprise_staging/staging_website')->getStoreIds($website);
 
             foreach ($stores as $storeData) {
+                
+                if (empty($storeData['staging_store'])) {
+                    continue;
+                }
+                
                 $storeId = isset($storeData['staging_store_id']) ? $storeData['staging_store_id'] : false;
                 if ($storeId && in_array($storeId, $existStores)) {
                     $store = $website->getStoresCollection()->getItemById($storeId);
@@ -513,6 +521,10 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         /* @var $staging Enterprise_Staging_Model_Staging */
 
         $mapData = $this->getRequest()->getPost('map');
+        
+        $isMergeLater = $this->getRequest()->getPost('schedule_merge_later_flag');
+        
+        $mergeSchedulingDate = $this->getRequest()->getPost('schedule_merge_later');
 
         $stagingId = "";
 
@@ -520,11 +532,27 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
             try {
                 $staging->getMapperInstance()->setMapData($mapData);
 
-                if (!empty($mapData['backup'])) {
-                    // run create database backup
-                    $staging->backup();
+                if (!empty($mapData['backup'])) {                        
+                    $staging->setIsBackuped(1);
                 }
-
+                
+                //scheduling merge
+                if ($isMergeLater && !empty($mergeSchedulingDate)) {
+                    $staging->setIsMergeLater('true');
+                    $date = date("Y-m-d H:i:s", strtotime($mergeSchedulingDate));
+                        
+                    //convert to internal time
+                    $date = Mage::app()->getLocale()->date($date, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString("YYYY-MM-dd HH:mm:ss");
+                        
+                    $staging->setMergeSchedulingDate($date);
+                } else {
+                    
+                    if (!empty($mapData['backup'])) {
+                        // run create database backup
+                        $staging->backup();
+                    }
+                }
+                
                 $staging->merge();
 
                 if ($staging->getId()) {
@@ -575,6 +603,40 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
 
         $this->renderLayout();
     }
+    
+    /**
+     * Remove backup
+     * 
+     */   
+    public function backupDeleteAction()
+    {
+        $backup = $this->_initBackup();
+        
+        $staging = $backup->getStaging();
+        
+        $redirectBack = false;
+       
+        try{
+            
+            $backup->setIsDeleteTables(true);
+            
+            $backup->delete();
+            
+        } catch (Exception $e) {
+
+            $redirectBack = true;
+        }
+        
+        if ($redirectBack) {
+            $this->_redirect('*/*/backup', array(
+                'id'        => $backup->getId(),
+                '_current'  =>true
+            ));
+        } else {
+            $this->_redirect('*/*/backup');
+        }
+        
+    }
 
     public function rollbackAction()
     {
@@ -606,7 +668,9 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
         try {
             $staging->getMapperInstance()->setMapData($mapData);
             
-            $staging->rollback($backup);
+            $staging->setEventId($backup->getEventId());
+            
+            $staging->rollback();
 
             $this->_getSession()->addSuccess($this->__('Staging master website was successfully restored.'));
 

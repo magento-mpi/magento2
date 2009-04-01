@@ -60,6 +60,18 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
     }
 
     /**
+     * Add holded status filter into collection
+     *
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Event_Collection
+     */
+    public function addHoldedFilter()
+    {
+        $this->addFieldToFilter('main_table.status', 'holded');
+
+        return $this;
+    }
+        
+    /**
      * Add merged staging filter into collection
      *
      * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Event_Collection

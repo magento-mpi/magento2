@@ -42,7 +42,8 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
      */
     protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        $this->_backup($staging);
+        $this->_backup($staging);            
+
         return $this;
     }
 
@@ -66,4 +67,6 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
 
         return $this;
     }
+
+    
 }

@@ -44,15 +44,26 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
 
     protected function _prepareLayout()
     {
-        $this->setChild('rollback_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'   => Mage::helper('enterprise_staging')->__('Rollback'),
-                    'onclick' => $this->getJsObjectName().'.submit()',
-                    'class'   => 'task'
-                ))
-        );
-
+        if ($this->getBackup()->canRollback()) {
+            $this->setChild('rollback_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+                        'onclick'   => $this->getJsObjectName().'.submit()',
+                        'class'  => 'add'
+                    ))
+            );
+        } else {
+            $this->setChild('rollback_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+                        'class'  => 'disabled'
+                    ))
+            );
+            $this->setIsVersionConflict(true);
+        }
+        
         $this->setChild('items',
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')

@@ -45,6 +45,12 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
      * @var Enterprise_Staging_Model_Staging_Mysql4_Staging_Item_Collection
      */
     protected $_items;
+    
+    /**
+     * Staging Items Collection
+     * @var Enterprise_Staging_Model_Staging
+     */
+    protected $_staging;    
 
     /**
      * Constructor (init resource model)
@@ -54,6 +60,46 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         $this->_init('enterprise_staging/staging_website');
     }
 
+    /**
+     * Declare staging
+     *
+     * @param   Enterprise_Staging_Model_Staging $staging
+     * @return  Enterprise_Staging_Model_Staging_Store
+     */
+    public function setStaging(Enterprise_Staging_Model_Staging $staging)
+    {
+        $this->_staging = $staging;
+        $this->setStagingId($staging->getId());
+        return $this;
+    }
+    
+    /**
+     * Retrieve staging object
+     *
+     * @return  Enterprise_Staging_Model_Staging
+     */
+    public function getStaging()
+    {
+        if (is_object($this->_staging)) {
+            return $this->_staging;
+        }
+        /* try to set staging_id instead whole staging object */
+        $_staging = Mage::registry('staging');
+        if ($_staging && !is_null($this->_staging) && $_staging->getId() == (int) $this->_staging) {
+            return $_staging;
+        } elseif($_staging && is_null($this->_staging)) {
+            return $_staging; 
+        } else {
+            if (is_int($this->_staging)) {
+                $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->_staging);
+            } else {
+                $this->_staging = false;
+            }
+        }
+
+        return $this->_staging;
+    }
+    
     /**
      * Authenticate user for frontend view
      *

@@ -395,6 +395,7 @@ CREATE TABLE `".$this->getTable('enterprise_staging/staging_event')."` (
   `comment` text NOT NULL default '',
   `log` text NOT NULL default '',
   `merge_map` text default '',
+  `merge_schedule_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`event_id`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_STAGING_ID` (`staging_id`),
   KEY `IDX_ENTERPRISE_STAGING_EVENT_PARENT_ID` (`parent_id`),

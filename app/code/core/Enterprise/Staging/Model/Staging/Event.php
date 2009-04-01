@@ -119,23 +119,30 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
         if ($staging && $staging->getId()) {
-            $comment = Mage::helper('enterprise_staging')->__('%s was successfuly finished.', $state->getEventStateLabel());
-            $event = Mage::getModel('enterprise_staging/staging_event')
-                ->setStagingId($staging->getId())
-                ->setParentId($state->getEventId())
-                ->setCode($state->getEventStateCode)
+            
+            if ($staging->getIsMergeLater()==true) {
+                $comment = Mage::helper('enterprise_staging')->__('%s was successfuly scheduled.', $state->getEventStateLabel());                
+                $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
+            } else {
+                $comment = Mage::helper('enterprise_staging')->__('%s was successfuly finished.', $state->getEventStateLabel());                
+                $status = $staging->getStatus();
+            }
+           
+            $this->setStagingId($staging->getId())
+                ->setCode($state->getEventStateCode())
                 ->setName($state->getEventStateLabel())
                 ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
-                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setDate(Mage::getModel('core/date')->gmtDate())
+                ->setStatus($status)
                 ->setIsAdminNotified(false)
                 ->setComment($comment)
                 ->setLog(Enterprise_Staging_Model_Log::buildLogReport(""))
                 ->setMergeMap($staging->getMapperInstance()->serialize())
+                ->setMergeScheduleDate($staging->getMergeSchedulingDate())
+                ->setIsBackuped($staging->getIsBackuped())
                 ->setStaging($staging);
-//            $staging->addEventToHistory($event);
-            $event->save();
-            $state->setEventId($event->getId());
+
+            $this->save();
+            $state->setEventId($this->getId());
         }        
         return $this;
     } 

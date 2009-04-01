@@ -41,6 +41,15 @@
             <?php echo $this->getChildHtml('rollback_button') ?>
         </p>
     </div>
+    <?php if ($this->getIsVersionConflict()): ?>
+        <div id="messages">
+        <ul class="messages">
+            <li class="notice-msg">
+                <?php echo $this->__('Module version conflict!'); ?>
+            </li>            
+        </ul>
+        </div>
+    <?php endif; ?>        
     <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_backup_form" enctype="multipart/form-data">
         <?php echo $this->getBlockHtml('formkey')?>
         <div style="display:none"></div>

@@ -92,7 +92,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
     public function getTablePrefix()
     {
-        $prefix = $this->_tablePrefix;
+        $prefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix();
         if ($this->getId()) {
             $prefix .= $this->getId();
         }

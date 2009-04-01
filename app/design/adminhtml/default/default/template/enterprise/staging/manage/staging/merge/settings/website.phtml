@@ -159,14 +159,14 @@
         </div>
         <div class="fieldset">
             <div class="hor-scroll">
-                <div>
-                    <label for="schedule_merge_later">Set Staging Merge Date</label>
-                    <input type="text" style="width: 100px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
+                <div align="center">
+                    <!-- label for="schedule_merge_later">Set Staging Merge Date</label-->
+                    <input type="text" style="width: 120px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
                     <script type="text/javascript">
                     //<![CDATA[
                         Calendar.setup({
                             inputField: "schedule_merge_later",
-                            ifFormat: "%m/%e/%Y",
+                            ifFormat: "%m/%e/%Y %H:%M:%S",
                             showsTime: true,
                             button: "schedule_merge_later_trig",
                             align: "Bl",
@@ -218,10 +218,11 @@ stagingGrid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(st
 <?php endif; ?>
 
 Validation.addAllThese([
-    ['schedule_merge_later', '<?php echo Mage::helper('catalog')->__('Please set up merge date .') ?>', function(v) {
+    ['schedule_merge_later', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time .') ?>', function(v) {
                 if ($('schedule_merge_later_flag').value == 1) {
                     var mergeDate   = new Date(v);
                     var currentTime  = new Date();
+
                     if (v == '' || ((currentTime.getTime()+3600) >= mergeDate.getTime())) {
                         return false;
                     }
@@ -231,7 +232,7 @@ Validation.addAllThese([
             
     ['validate-select-website', 'Please select website', function(v, elem) {
                 if (elem.parentNode.parentNode.style.display != 'none') {
-                    return ((v != "none") && (v != null) && (v.length != 0));
+                    
                 }
                 return true;
             }],
