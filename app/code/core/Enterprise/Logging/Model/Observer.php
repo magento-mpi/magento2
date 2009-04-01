@@ -136,85 +136,6 @@ class Enterprise_Logging_Model_Observer
         }
     }
 
-    protected function _getActionsToLog($mode = 'short') {
-        if(!($actions = Mage::registry('enterprise_actions_to_log'))) {
-            $actions = array(
-                'catalog_product_edit' => 'products/view',
-                'catalog_product_save' => 'products/save/Mage_Catalog_Model_Product',
-                'catalog_product_delete' => 'products/delete',
-                'catalog_category_edit' => 'category/view',
-                'catalog_category_save' => 'category/save',
-                'catalog_category_move' => 'category/move',
-                'catalog_category_delete' => 'category/delete',
-                'catalog_event_edit' => 'catalogevents/view/event_id',
-                'catalog_event_save' => 'catalogevents/save/Enterprise_CatalogEvent_Model_Event',
-                'catalog_event_delete' => 'catalogevents/delete',
-                'promo_catalog_edit' => 'promocatalog/view',
-                'promo_catalog_save' => 'promocatalog/save/Mage_CatalogRule_Model_Rule',
-                'promo_catalog_delete' => 'promocatalog/delete',
-                'promo_quote_edit' => 'promoquote/view',
-                'promo_quote_save' => 'promoquote/save/Mage_SalesRule_Model_Rule',
-                'promo_quote_delete' => 'promoquote/delete',
-                'customer_edit' => 'customer/view',
-                'customer_save' => 'customer/save/Mage_Customer_Model_Customer',
-                'customer_delete' => 'customer/delete',
-                'customerbalance_form' => 'customerbalance/view',
-                'customerbalance_save' => 'customerbalance/save/Mage_Customer_Model_Customer',
-                'customer_group_edit' => 'customer_group_edit/view',
-                'customer_group_save' => 'customer_group_save/save/Mage_Customer_Model_Group',
-                'customer_group_delete' => 'customer_group_delete/delete',
-                'cms_page_edit' => 'cmspages/view/page_id',
-                'cms_page_save' => 'cmspages/save/Mage_Cms_Model_Page',
-                'cms_page_delete' => 'cmspages/delete/page_id',
-                'cms_block_edit' => 'cmsblocks/view/block_id',
-                'cms_block_save' => 'cmsblocks/save/Mage_Cms_Model_Block',
-                'cms_block_delete' => 'cmsblocks/delete/block_id',
-                'poll_save' => 'poll/save/Mage_Cms_Model_Poll',
-                'poll_delete' => 'poll/delete',
-                'poll_edit' => 'poll/view',
-                'report_sales_sales' => 'report_sales_sales/view',
-                'report_sales_tax' => 'report_sales_tax/view',
-                'report_sales_shipping' => 'report_sales_shipping/view',
-                'report_sales_invoiced' => 'report_sales_invoiced/view',
-                'report_sales_refunded' => 'report_sales_refunded/view',
-                'report_sales_coupons' => 'report_sales_coupons/view',
-                'report_shopcard_product' => 'report_shopcard_products/view',
-                'report_shopcard_abadoned' => 'report_shopcard_abadoned/view',
-                'report_product_ordered' => 'report_product_ordered/view',
-                'report_product_viewed' => 'report_product_viewed/view',
-                'report_product_lowstock' => 'report_product_lowstock/view',
-                'report_product_downloads' => 'report_product_downloads/view',
-                'report_customer_accouts' => 'report_customer_accounts/view',
-                'report_customer_orders' => 'report_customer_orders/view',
-                'report_customer_totals' => 'report_customer_totals/view',
-                'report_review_customer' => 'report_review_customer/view',
-                'report_review_product' => 'report_review_product/view',
-                'report_tag_customer' => 'report_tag_customer/view',
-                'report_tag_product' => 'report_tag_product/view',
-                'report_tag_popular' => 'report_tag_popular/view',
-                'report_search' => 'report_search/view',
-                'report_invitation_index' => 'report_invitation_index/view',
-                'report_invitation_customer' => 'report_invitation_customer/view',
-                'report_invitation_order' => 'report_invitation_order/view',
-                'manage_giftcardaccount_edit' => 'giftaccount/view',
-                'manage_giftcardaccount_save' => 'giftaccount/save/Enterprise_GiftCardAccount_Model_Giftcardaccount',
-                'manage_giftcardaccount_delete' => 'giftaccount/delete',
-                'newsletter_template_edit' => 'newslettertemplate/view',
-                'newsletter_template_save' => 'newslettertemplate/save/Mage_Newsletter_Model_Template',
-                'newsletter_template_delete' => 'newslettertemplate/delete'
-            );
-            Mage::register('enterprise_actions_to_log', $actions);
-        }
-        if($mode == 'short')
-            return array_keys($actions);
-
-        return $actions;
-    }
-
-    public function getSuccess($action) {
-        $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
-        return !(is_array($errors) && count($errors) > 0);
-    }
 
     public function getViewActionInfo($action, $success) {
         $actions = $this->_getActionsToLog('long');
@@ -301,11 +222,18 @@ class Enterprise_Logging_Model_Observer
         case 'newsletter_queue_edit':
         case 'newsletter_subscriber_edit':
         case 'newsletter_problem_edit':
+        case 'sales_order_view':
+        case 'sales_invoice_view':
+        case 'sales_shipment_view':
+        case 'sales_creditmemo_view':
+        case 'catalog_category_edit':
             if($model !== null)
                 return false;
             return $this->getViewActionInfo($action, $success);
             break;
         case 'catalog_product_save':
+        case 'catalog_category_save':
+        case 'catalog_category_move':
         case 'customer_save':
         case 'customerbalance_save':
         case 'customer_group_save':
@@ -320,9 +248,14 @@ class Enterprise_Logging_Model_Observer
         case 'newsletter_queue_save':
         case 'newsletter_subscriber_save':
         case 'newsletter_problem_save':
+        case 'sales_order_create_save':
+        case 'sales_order_invoice_save':
+        case 'sales_order_shipment_save':
+        case 'sales_order_creditmemo_save':
             return $this->getSaveActionInfo($action, $success, $model);
             break;
         case 'catalog_product_delete':
+        case 'catalog_category_delete':
         case 'customer_delete':
         case 'customer_group_delete':
         case 'newsletter_template_delete':
@@ -373,6 +306,97 @@ class Enterprise_Logging_Model_Observer
             break;
         }
 
+    }
+
+
+
+    protected function _getActionsToLog($mode = 'short') {
+        if(!($actions = Mage::registry('enterprise_actions_to_log'))) {
+            $actions = array(
+                'catalog_product_edit' => 'products/view',
+                'catalog_product_save' => 'products/save/Mage_Catalog_Model_Product',
+                'catalog_product_delete' => 'products/delete',
+                'catalog_category_edit' => 'categories/view',
+                'catalog_category_save' => 'categories/save/Mage_Catalog_Model_Category',
+                'catalog_category_move' => 'categories/move/Mage_Catalog_Model_Category',
+                'catalog_category_delete' => 'categories/delete',
+                'catalog_event_edit' => 'catalogevents/view/event_id',
+                'catalog_event_save' => 'catalogevents/save/Enterprise_CatalogEvent_Model_Event',
+                'catalog_event_delete' => 'catalogevents/delete',
+                'promo_catalog_edit' => 'promocatalog/view',
+                'promo_catalog_save' => 'promocatalog/save/Mage_CatalogRule_Model_Rule',
+                'promo_catalog_delete' => 'promocatalog/delete',
+                'promo_quote_edit' => 'promoquote/view',
+                'promo_quote_save' => 'promoquote/save/Mage_SalesRule_Model_Rule',
+                'promo_quote_delete' => 'promoquote/delete',
+                'customer_edit' => 'customer/view',
+                'customer_save' => 'customer/save/Mage_Customer_Model_Customer',
+                'customer_delete' => 'customer/delete',
+                'customerbalance_form' => 'customerbalance/view',
+                'customerbalance_save' => 'customerbalance/save/Mage_Customer_Model_Customer',
+                'customer_group_edit' => 'customer_group_edit/view',
+                'customer_group_save' => 'customer_group_save/save/Mage_Customer_Model_Group',
+                'customer_group_delete' => 'customer_group_delete/delete',
+                'cms_page_edit' => 'cmspages/view/page_id',
+                'cms_page_save' => 'cmspages/save/Mage_Cms_Model_Page',
+                'cms_page_delete' => 'cmspages/delete/page_id',
+                'cms_block_edit' => 'cmsblocks/view/block_id',
+                'cms_block_save' => 'cmsblocks/save/Mage_Cms_Model_Block',
+                'cms_block_delete' => 'cmsblocks/delete/block_id',
+                'poll_save' => 'poll/save/Mage_Cms_Model_Poll',
+                'poll_delete' => 'poll/delete',
+                'poll_edit' => 'poll/view',
+                'report_sales_sales' => 'report_sales_sales/view',
+                'report_sales_tax' => 'report_sales_tax/view',
+                'report_sales_shipping' => 'report_sales_shipping/view',
+                'report_sales_invoiced' => 'report_sales_invoiced/view',
+                'report_sales_refunded' => 'report_sales_refunded/view',
+                'report_sales_coupons' => 'report_sales_coupons/view',
+                'report_shopcard_product' => 'report_shopcard_products/view',
+                'report_shopcard_abadoned' => 'report_shopcard_abadoned/view',
+                'report_product_ordered' => 'report_product_ordered/view',
+                'report_product_viewed' => 'report_product_viewed/view',
+                'report_product_lowstock' => 'report_product_lowstock/view',
+                'report_product_downloads' => 'report_product_downloads/view',
+                'report_customer_accouts' => 'report_customer_accounts/view',
+                'report_customer_orders' => 'report_customer_orders/view',
+                'report_customer_totals' => 'report_customer_totals/view',
+                'report_review_customer' => 'report_review_customer/view',
+                'report_review_product' => 'report_review_product/view',
+                'report_tag_customer' => 'report_tag_customer/view',
+                'report_tag_product' => 'report_tag_product/view',
+                'report_tag_popular' => 'report_tag_popular/view',
+                'report_search' => 'report_search/view',
+                'report_invitation_index' => 'report_invitation_index/view',
+                'report_invitation_customer' => 'report_invitation_customer/view',
+                'report_invitation_order' => 'report_invitation_order/view',
+                'manage_giftcardaccount_edit' => 'giftaccount/view',
+                'manage_giftcardaccount_save' => 'giftaccount/save/Enterprise_GiftCardAccount_Model_Giftcardaccount',
+                'manage_giftcardaccount_delete' => 'giftaccount/delete',
+                'newsletter_template_edit' => 'newslettertemplate/view',
+                'newsletter_template_save' => 'newslettertemplate/save/Mage_Newsletter_Model_Template',
+                'newsletter_template_delete' => 'newslettertemplate/delete',
+                'sales_order_view' => 'orders/view/order_id',
+                'sales_order_create_save' => 'orders/create/Mage_Sales_Model_Order',
+                'sales_invoice_view' => 'invoices/view/invoice_id',
+                'sales_order_invoice_save' => 'invoices/save/Mage_Sales_Model_Order_Invoice',
+                'sales_shipment_view' => 'shipments/view/shipment_id',
+                'sales_order_shipment_save' => 'shipments/save/Mage_Sales_Model_Order_Shipment',
+                'sales_creditmemo_view' => 'creditmemos/view/creditmemo_id',
+                'sales_order_creditmemo_save' => 'creditmemos/save/Mage_Sales_Model_Order_Creditmemo',
+
+            );
+            Mage::register('enterprise_actions_to_log', $actions);
+        }
+        if($mode == 'short')
+            return array_keys($actions);
+
+        return $actions;
+    }
+
+    public function getSuccess($action) {
+        $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
+        return !(is_array($errors) && count($errors) > 0);
     }
 
   

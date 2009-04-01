@@ -166,7 +166,7 @@
                     </enterprise_logging>
                 </observers>
 	    </adminhtml_category_on_delete>
--->
+
         <category_move>
           <observers>
             <enterprise_logging>
@@ -176,7 +176,7 @@
             </enterprise_logging>
           </observers>
         </category_move>
-<!--
+
         <adminhtml_cmspage_on_view>
                 <observers>
                     <enterprise_logging>
@@ -918,6 +918,10 @@
           <newsletterqueue>1</newsletterqueue>
           <newslettersubscriber>1</newslettersubscriber>
           <newsletterproblem>1</newsletterproblem>
+          <orders>1</orders>
+          <invoices>1</invoices>
+          <shipments>1</shipments>
+          <creditmemos>1</creditmemos>
         </logsenabled>
       </admin>
       <system>
