@@ -44,7 +44,7 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 $usage->getPercent(),
                 $usage->getFree(),
                 $usage->getTotal(),
-                Mage::getUrl('*/*/generate'))
+                Mage::getSingleton('adminhtml/url')->getUrl('*/*/generate'))
         );
 
         $this->loadLayout();
