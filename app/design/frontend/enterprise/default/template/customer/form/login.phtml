@@ -33,12 +33,20 @@
 ?>
 <div class="account-login">
     <div class="page-title">
-        <h2><?php echo $this->__('Login or Create an Account') ?></h2>
+        <h2><?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
+            <?php echo $this->__('Login or Create an Account') ?>
+            <?php else: ?>
+            <?php echo $this->__('Login'); ?>
+            <?php endif; ?></h2>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <fieldset class="fieldset">
-            <legend><?php echo $this->__('Login or Create an Account') ?></legend>
+            <legend><?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
+            <?php echo $this->__('Login or Create an Account') ?>
+            <?php else: ?>
+            <?php echo $this->__('Login'); ?>
+            <?php endif; ?></legend>
             <div class="spacer"></div>
             <div class="col2-set">
                 <div class="col-1 registered-users">
@@ -69,6 +77,7 @@
                         </li>
                     </ul>
                 </div>
+                <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">
                     <h3><?php echo $this->__('New Customers') ?></h3>
                     <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
@@ -76,6 +85,7 @@
                         <button type="button" class="button" onclick="window.location='<?php echo $this->getCreateAccountUrl() ?>';"><span><?php echo $this->__('Register') ?></span></button>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </fieldset>
     </form>

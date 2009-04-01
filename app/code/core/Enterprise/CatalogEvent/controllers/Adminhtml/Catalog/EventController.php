@@ -112,7 +112,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                 Mage::helper('enterprise_catalogevent')->__('Event was successfully saved.')
             );
             if ($this->getRequest()->getParam('category')) {
-                $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId()));
+                $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
             } else {
                 $this->_redirect('*/*/');
             }

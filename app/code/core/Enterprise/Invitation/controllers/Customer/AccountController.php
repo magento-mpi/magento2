@@ -61,7 +61,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
         }
 
         if (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()) {
-            $this->_redirect('customer/login');
+            $this->_redirect('customer/account/create');
             return;
         }
 
@@ -88,7 +88,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
         }
 
         if (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()) {
-            $this->_redirect('customer/login');
+            $this->_redirect('customer/account/create');
             return;
         }
 

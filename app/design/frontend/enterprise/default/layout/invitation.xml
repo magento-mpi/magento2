@@ -32,34 +32,34 @@
         </reference>
     </default>
     
-    <invitation_index_index>
+    <enterprise_invitation_index_index>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="core/template" name="invitationForm" template="invitation/form.phtml"/>
         </reference>
-    </invitation_index_index>
+    </enterprise_invitation_index_index>
 
-    <invitation_index_list>
+    <enterprise_invitation_index_list>
         <update handle="customer_account"/>
         
         <reference name="content">
             <block type="enterprise_invitation/customer_list" name="invitations_list" template="invitation/list.phtml"/>
         </reference>
-    </invitation_index_list>
+    </enterprise_invitation_index_list>
 
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>invitation/index/list</path><label>Invitations</label></action>
+            <action method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/index/list</path><label>Invitations</label></action>
         </reference>
     </customer_account>
     
-    <invitation_customer_account_create>
+    <enterprise_invitation_customer_account_create>
         <update handle="customer_account_create" />
         <reference name="content">
             <remove name="customer_form_register" />
             <block type="enterprise_invitation/customer_form_register" name="customer_form_register_invitation" template="customer/form/register.phtml"/>
         </reference>
-    </invitation_customer_account_create>
+    </enterprise_invitation_customer_account_create>
 </layout>

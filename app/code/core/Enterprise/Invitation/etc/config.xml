@@ -132,7 +132,7 @@
                     <enterprise_invitation translate="title" module="enterprise_invitation">
                            <title>Invitations</title>
                            <action>adminhtml/invitation</action>
-                           <resource>customer/invitation</resource>
+                           <resource>customer/enterprise_invitation</resource>
                            <sort_order>30</sort_order>
                            <depends><module>Enterprise_Invitation</module></depends>
                     </enterprise_invitation>
@@ -142,26 +142,26 @@
                 <children>
                     <enterprise_invitation translate="title" module="enterprise_invitation">
                            <title>Invitations</title>
-                           <resource>customer/invitation</resource>
+                           <resource>customer/enterprise_invitation</resource>
                            <sort_order>30</sort_order>
                            <depends><module>Enterprise_Invitation</module></depends>
                            <children>
                                <general translate="title" module="enterprise_invitation">
                                    <title>General</title>
                                    <action>adminhtml/report_invitation</action>
-                                   <resource>customer/invitation</resource>
+                                   <resource>customer/enterprise_invitation</resource>
                                    <sort_order>10</sort_order>
                                </general>
                                <customer translate="title" module="enterprise_invitation">
                                    <title>Customers</title>
                                    <action>adminhtml/report_invitation/customer</action>
-                                   <resource>customer/invitation</resource>
+                                   <resource>customer/enterprise_invitation</resource>
                                    <sort_order>20</sort_order>
                                </customer>
                                <order translate="title" module="enterprise_invitation">
                                    <title>Order Conversion Rate</title>
                                    <action>adminhtml/report_invitation/order</action>
-                                   <resource>customer/invitation</resource>
+                                   <resource>customer/enterprise_invitation</resource>
                                    <sort_order>30</sort_order>
                                </order>
                            </children>
@@ -174,10 +174,10 @@
         <enterprise>
             <websiterestriction>
                 <full_action_names>
-                    <register>
-                        <invitation_customer_account_create/>
-                        <invitation_customer_account_createpost/>
-                    </register>
+                    <login>
+                        <enterprise_invitation_customer_account_create />
+                        <enterprise_invitation_customer_account_createpost />
+                    </login>
                 </full_action_names>
             </websiterestriction>
         </enterprise>
@@ -209,10 +209,10 @@
         <events>
             <customer_registration_is_allowed>
                 <observers>
-                    <enterprise_websiterestriction>
+                    <enterprise_invitation>
                         <class>enterprise_invitation/observer</class>
                         <method>restrictCustomerRegistration</method>
-                    </enterprise_websiterestriction>
+                    </enterprise_invitation>
                 </observers>
             </customer_registration_is_allowed>
         </events>

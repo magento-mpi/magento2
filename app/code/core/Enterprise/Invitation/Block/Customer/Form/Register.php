@@ -56,6 +56,17 @@ class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_B
         return $data;
     }
 
+
+    /**
+     * Retrieve form posting url
+     *
+     * @return string
+     */
+    public function getPostActionUrl()
+    {
+        return $this->getUrl('*/*/createpost', array('_current'=>true));
+    }
+
     /**
      * Retrieve customer invitation
      *

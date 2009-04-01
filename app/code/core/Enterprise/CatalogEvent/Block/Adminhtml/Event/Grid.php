@@ -140,6 +140,6 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('event_id' => $row->getId()));
+        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
 }
