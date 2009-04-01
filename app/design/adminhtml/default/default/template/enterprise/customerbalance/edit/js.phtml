@@ -25,15 +25,16 @@
  */
 ?>
 <script type="text/javascript">
-
-function updateEmailWebsites() {
-    emailWebsites = $('_customerbalancetrans_email_store');
-    balanceWebsites = $('_customerbalancewebsite');
-    selectedWebsite = $('_customerbalancewebsite') ? $('_customerbalancewebsite').value : '<?php echo $this->getCustomerWebsite()?>';
+//<![CDATA[
+function updateEmailWebsites()
+{
+    emailWebsites = $('<?php echo $this->getPrefix() ?>store_id');
+    balanceWebsites = $('<?php echo $this->getPrefix() ?>website_id');
+    selectedWebsite = $('<?php echo $this->getPrefix() ?>website_id') ? $('<?php echo $this->getPrefix() ?>website_id').value : '<?php echo $this->getCustomerWebsite() ?>';
     allowedWebsites = false;
-    
-    if( emailWebsites ) {
-        new Ajax.Request('<?php echo $this->helper('enterprise_customerbalance')->getAllowedEmailWebsitesAjaxUrl();?>'+'website_id/'+selectedWebsite, 
+
+    if (emailWebsites) {
+        new Ajax.Request('<?php echo $this->getAllowedEmailWebsitesAjaxUrl() ?>'+'website_id/'+selectedWebsite,
         {
             method: 'get',
             onSuccess: function(transport) {
@@ -43,7 +44,7 @@ function updateEmailWebsites() {
                 }
 
                 for( website in allowedWebsites ) {
-                    var objOption = document.createElement("option");
+                    var objOption = document.createElement('option');
                     if( allowedWebsites[website].website_id ) {
                         objOption.innerHTML = allowedWebsites[website].name;
                         objOption.value = allowedWebsites[website].store_id;
@@ -52,17 +53,16 @@ function updateEmailWebsites() {
                 }
             }
         })
-        
-        new Ajax.Request('<?php echo $this->helper('enterprise_customerbalance')->getWebsiteBaseCurrencyAjaxUrl();?>'+'website_id/'+selectedWebsite, 
+
+        new Ajax.Request('<?php echo $this->getWebsiteBaseCurrencyAjaxUrl() ?>'+'website_id/'+selectedWebsite,
         {
             method: 'get',
             onSuccess: function(transport) {
-                currency = transport.responseText;
-                container = $$('#note_delta small');
-                container[0].innerHTML = '<strong>[' + currency + ']</strong>';
+                container = $$('#note_amount_delta small');
+                container[0].innerHTML = '<strong>[' + transport.responseText + ']</strong>';
             }
         })
     }
 }
-
+//]]>
 </script>

@@ -33,95 +33,131 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         $this->_init('enterprise_customerbalance/balance');
     }
 
-    public function updateBalance()
+    public function shouldCustomerHaveOneBalance($customer)
     {
-        if( abs($this->getDelta()) > 0 ) {
-            $this->loadByCustomerWebsite($this->getCustomerId(), $this->getWebsiteId());
-            $this->_updateDelta();
-            if( $this->getDelta() == 0 ) {
-                return;                
-            }
-            
-            try {
-	            if( !$this->getId() ) {
-	                $this->setBalance($this->getDelta())
-	                     ->save();
-	                $this->getHistoryModel()->addCreateEvent($this);
-	            } else {
-	                $newBalance = $this->getBalance() + $this->getDelta();
-	                $this->setBalance($newBalance)
-	                     ->save();
-	                $this->getHistoryModel()->addUpdateEvent($this);
-	            	
-	            }
-	            $this->_sendNotice();
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            }
+        if (0 == $customer->getWebsiteId()) {
+            return false;
         }
+        return Mage::getSingleton('customer/config_share')->isWebsiteScope();
     }
 
-    public function loadByCustomerWebsite($customerId, $websiteId)
+    public function getAmount()
     {
-        $this->getResource()->loadByCustomerWebsite($this, $customerId, $websiteId);
+        return (float)$this->getData('amount');
+    }
+
+    public function loadByCustomer()
+    {
+        $this->_ensureCustomer();
+        if ($this->hasWebsiteId()) {
+            $websiteId = $this->getWebsiteId();
+        }
+        else {
+            $websiteId = $this->getCustomer()->getWebsiteId();
+        }
+        $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $websiteId);
         return $this;
     }
 
-    public function getTotal($customerId)
+    public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
-        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
-            $customer = Mage::getModel('customer/customer')->load($customerId);
-            return $this->getResource()->getTotal($customerId, $customer->getWebsiteId());
+        $this->setData('notify_by_email', $shouldNotify);
+        if ($shouldNotify) {
+            if (null === $storeId) {
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Set Store ID as well.'));
+            }
+            $this->setStoreId($storeId);
         }
-        return $this->getResource()->getTotal($customerId);
+        return $this;
+
     }
 
-    public function getHistoryModel()
+    protected function _beforeSave()
     {
-        return Mage::getModel('enterprise_customerbalance/balance_history');
-    }
-    
-    protected function _sendNotice()
-    {
-    	if( !$this->getEmailNotify() ) {
-    		return $this;
-    	}
+        $this->_ensureCustomer();
 
-    	Mage::getModel('core/email_template')
-            ->setDesignConfig(array('store'=>$this->getEmailStoreId()))
-            ->sendTransactional(
-                Mage::getStoreConfig('customer/enterprise_customerbalance_email/template'),
-                Mage::getStoreConfig('customer/enterprise_customerbalance_email/identity'),
-                $this->_getCustomer()->getEmail(),
-                $this->_getCustomer()->getName(),
-                array('balance' => $this->getBalance(),
-                      'name' => $this->_getCustomer()->getName())
-            );
-    	return $this;
-    }
-    
-    protected function _getCustomer()
-    {
-    	if( $this->_customer ) {
-    		return $this->_customer;
-    	}
-    	
-    	if( !$this->getCustomerId() ) {
-    		return false;
-    	}
-    	
-    	$this->_customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
-    	return $this->_customer;
+        // make sure appropriate website was set. Admin website is disallowed
+        if ((!$this->hasWebsiteId()) && $this->shouldCustomerHaveOneBalance()) {
+            $this->setWebsiteId($this->getCustomer()->getWebsiteId());
+        }
+        if (0 == $this->getWebsiteId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Website ID must be set.'));
+        }
+
+        // check history action
+        if (!$this->getId()) {
+            $this->loadByCustomer();
+            if (!$this->getId()) {
+                $this->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_CREATED);
+            }
+        }
+        if (!$this->hasHistoryAction()) {
+            $this->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_UPDATED);
+        }
+
+        // check balance delta and email notification settings
+        $delta = $this->_prepareAmountDelta();
+        if (0 == $delta) {
+            $this->setNotifyByEmail(false);
+        }
+        if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('In order to send email notification, the Store ID must be set.'));
+        }
+
+        return parent::_beforeSave();
     }
 
-    protected function _updateDelta()
+    protected function _afterSave()
     {
-        if( $this->getBalance() == 0 && $this->getDelta() < 0 ) {
-            $this->setDelta(0);
+        parent::_afterSave();
+
+        // save history action
+        if (abs($this->getAmountDelta())) {
+            $history = Mage::getModel('enterprise_customerbalance/balance_history')
+                ->setBalanceModel($this)
+                ->save();
         }
-        
-        if( $this->getBalance() > 0 && ( $this->getDelta() + $this->getBalance() ) < 0 ) {
-            $this->setDelta( ($this->getBalance() * (-1)) );
+
+        return $this;
+    }
+
+    protected function _ensureCustomer()
+    {
+        if ($this->getCustomer() && $this->getCustomer()->getId()) {
+            $this->setCustomerId($this->getCustomer()->getId());
         }
+        if (!$this->getCustomerId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Customer ID must be specified.'));
+        }
+        if (!$this->getCustomer()) {
+            $this->setCustomer(Mage::getModel('customer/customer')->load($this->getCustomerId()));
+        }
+        if (!$this->getCustomer()->getId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Customer is not set or does not exist.'));
+        }
+    }
+
+    protected function _prepareAmountDelta()
+    {
+        $result = 0;
+        if ($this->hasAmountDelta()) {
+            $result = (float)$this->getAmountDelta();
+            if ($this->getId()) {
+                if (($result < 0) && (($this->getAmount() + $result) < 0)) {
+                    $result = -1 * $this->getAmount();
+                }
+            }
+            elseif ($result <= 0) {
+                $result = 0;
+            }
+        }
+        $this->setAmountDelta($result);
+        if (!$this->getId()) {
+            $this->setAmount($result);
+        }
+        else {
+            $this->setAmount($this->getAmount() + $result);
+        }
+        return $result;
     }
 }

@@ -26,13 +26,5 @@
 
 class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public function getAllowedEmailWebsitesAjaxUrl()
-    {
-    	return Mage::getUrl('*/customerbalance/getAllowedEmailWebsites');
-    }
-    
-    public function getWebsiteBaseCurrencyAjaxUrl()
-    {
-        return Mage::getUrl('*/customerbalance/getWebsiteBaseCurrency');
-    }
+
 }

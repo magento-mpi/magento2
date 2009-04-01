@@ -40,40 +40,30 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     {
         $collection = Mage::getModel('enterprise_customerbalance/balance')
             ->getCollection()
-            ->addWebsiteData()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'))
-            ->addWebsiteFilter(Mage::helper('enterprise_permissions')->getRelevantWebsites());
-
+        ;
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('balance', array(
-            'header'    => Mage::helper('enterprise_customerbalance')->__('Balance'),
-            'width'     => '50px',
-            'index'     => 'balance',
-            'sortable'  => false,
-            'renderer'  =>'enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid_renderer_balance',
+        $this->addColumn('amount', array(
+            'header'   => Mage::helper('enterprise_customerbalance')->__('Balance'),
+            'width'    => 50,
+            'index'    => 'amount',
+            'sortable' => false,
+            'renderer' => 'enterprise_customerbalance/adminhtml_widget_grid_column_renderer_currency',
         ));
 
-        $this->addColumn('website_name', array(
-            'header'    => Mage::helper('enterprise_customerbalance')->__('Website'),
-            'index'     => 'name',
+        $this->addColumn('website_id', array(
+            'header'   => Mage::helper('enterprise_customerbalance')->__('Website'),
+            'index'    => 'website_id',
             'sortable' => false,
+            'type'     => 'options',
+            'options'  => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(),
         ));
 
         return parent::_prepareColumns();
-    }
-
-    protected function _toHtml()
-    {
-        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
-            return '';
-        }
-
-        return parent::_toHtml();
     }
 }

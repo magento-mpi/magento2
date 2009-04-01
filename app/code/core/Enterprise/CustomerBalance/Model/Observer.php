@@ -26,30 +26,31 @@
 
 class Enterprise_CustomerBalance_Model_Observer
 {
-    public function customerSave($observer)
+    public function prepareCustomerBalanceSave($observer)
     {
-        $post = Mage::app()->getFrontController()->getAction()->getRequest()->getPost();
-        if( isset($post['customerbalance']) ) {
-            $data = $post['customerbalance'];
-            $data = new Varien_Object($data);
-
-            Mage::getModel('enterprise_customerbalance/balance')
-                ->setDelta($data->getDelta())
-                ->setEmailNotify( $data->getEmailNotify() == '' ? 1 : 0)
-                ->setEmailStoreId($data->getTransEmailStore())
-                ->setCustomerId($observer->getEvent()->getCustomer()->getId())
-                ->setWebsiteId( $this->_getWebsiteId($observer) )
-                ->updateBalance();
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = $observer->getCustomer();
+        /* @var $request Mage_Core_Controller_Request_Http */
+        $request = $observer->getRequest();
+        if ($data = $request->getPost('customerbalance')) {
+            $customer->setCustomerBalanceData($data);
         }
     }
 
-    protected function _getWebsiteId($observer)
+    public function customerSaveAfter($observer)
     {
-        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
-            return $observer->getEvent()->getCustomer()->getWebsiteId();
-        } else {
-            $post = Mage::app()->getFrontController()->getAction()->getRequest()->getPost();
-            return $post['customerbalance']['website'];
+        if ($data = $observer->getCustomer()->getCustomerBalanceData()) {
+            if (!empty($data['amount_delta'])) {
+                $balance = Mage::getModel('enterprise_customerbalance/balance')
+                    ->setCustomer($observer->getCustomer())
+                    ->setWebsiteId(isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId())
+                    ->setAmountDelta($data['amount_delta'])
+                ;
+                if (isset($data['notify_by_email']) && isset($data['store_id'])) {
+                    $balance->setNotifyByEmail(true, $data['store_id']);
+                }
+                $balance->save();
+            }
         }
     }
 }

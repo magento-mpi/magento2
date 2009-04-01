@@ -26,68 +26,96 @@
 
 class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_Abstract
 {
-    const ACTION_EVENT_CREATE = 1;
-    const ACTION_EVENT_UPDATE = 2;
+    const ACTION_UPDATED  = 1;
+    const ACTION_CREATED  = 2;
+    const ACTION_USED     = 3;
+    const ACTION_REFUNDED = 4;
 
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance_history');
     }
 
-    public function addCreateEvent($object)
-    {
-        $this->setAction(self::ACTION_EVENT_CREATE)
-             ->setAdminUser(Mage::getSingleton('admin/session')->getUser()->getUsername())
-             ->setNotified($object->getEmailNotify());
-
-        $this->_addEvent($object);
-        return $this;
-    }
-
-    public function addUpdateEvent($object)
-    {
-        if (Mage::getSingleton('admin/session')->getUser()) {
-            $user = Mage::getSingleton('admin/session')->getUser()->getUsername();
-        } else {
-            $user = '';
-        }
-
-        $this->setAction(self::ACTION_EVENT_UPDATE)
-             ->setAdminUser($user)
-             ->setNotified($object->getEmailNotify());
-
-        $this->_addEvent($object);
-        return $this;
-    }
-
-    protected function _addEvent($object)
-    {
-        $this->setCustomerId($object->getCustomerId())
-             ->setWebsiteId($object->getWebsiteId())
-             ->setDelta($object->getDelta())
-             ->setBalance($object->getBalance())
-             ->setDate($this->_getResource()->formatDate(time()))
-             ->save();
-
-         return $this;
-    }
-
-    public function getActionName()
-    {
-    	$actions = $this->getActionNamesArray();
-        return $actions[$this->getAction()];
-    }
-
-    public function getActionNamesArray()
+    public static function getActionNamesArray()
     {
         return array(
-            self::ACTION_EVENT_CREATE => Mage::helper('enterprise_customerbalance')->__('Created'),
-            self::ACTION_EVENT_UPDATE => Mage::helper('enterprise_customerbalance')->__('Updated'),
+            self::ACTION_CREATED  => Mage::helper('enterprise_customerbalance')->__('Created'),
+            self::ACTION_UPDATED  => Mage::helper('enterprise_customerbalance')->__('Updated'),
+            self::ACTION_USED     => Mage::helper('enterprise_customerbalance')->__('Used'),
+            self::ACTION_REFUNDED => Mage::helper('enterprise_customerbalance')->__('Refunded'),
         );
     }
 
-    public function getFormattedDelta()
+    protected function _beforeSave()
     {
-        return Mage::app()->getStore()->formatPrice($this->getDelta());
+        $balance = $this->getBalanceModel();
+        if ((!$balance) || !$balance->getId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Balance history cannot be saved without existing balance.'));
+        }
+
+        $this->addData(array(
+            'balance_id'     => $balance->getId(),
+            'updated_at'     => time(),
+            'balance_amount' => $balance->getAmount(),
+            'balance_delta'  => $balance->getAmountDelta(),
+        ));
+
+        switch ((int)$balance->getHistoryAction())
+        {
+            case self::ACTION_CREATED:
+                // break intentionally omitted
+            case self::ACTION_UPDATED:
+                break;
+            case self::ACION_USED:
+                $this->_checkBalanceModelOrder($balance);
+                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('Order #%s', $balance->getOrder()->getIncrementId()));
+                break;
+            case self::ACTION_REFUNDED:
+                $this->_checkBalanceModelOrder($balance);
+                if ((!$balance->getCreditMemo()) || !$balance->getCreditMemo()->getIncrementId()) {
+                    Mage::throwException(Mage::helper('enterprise_customerbalance')->__('There is no creditmemo set to balance model.'));
+                }
+                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('Order #%s, creditmemo #%s',
+                    $balance->getCreditMemo()->getIncrementId(), $balance->getCreditMemo()->getIncrementId()
+                ));
+                break;
+            default:
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Unknown balance history action code'));
+                // break intentionally omitted
+        }
+        $this->setAction((int)$balance->getHistoryAction());
+
+        return parent::_beforeSave();
+    }
+
+    protected function _afterSave()
+    {
+        parent::_afterSave();
+
+        // attempt to send email
+        $this->setIsCustomerNotified(false);
+        if ($this->getBalanceModel()->getNotifyByEmail()) {
+            $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $this->getBalanceModel()->getStoreId()));
+            $customer = $this->getBalanceModel()->getCustomer();
+            $email->sendTransactional(
+                Mage::getStoreConfig('customer/enterprise_customerbalance_email/template'),
+                Mage::getStoreConfig('customer/enterprise_customerbalance_email/identity'),
+                $customer->getEmail(), $customer->getName(),
+                array('balance' => $this->getBalanceModel()->getAmount(), 'name' => $customer->getName())
+            );
+            if ($email->getSentSuccess()) {
+                $this->getResource()->markAsSent($this->getId());
+                $this->setIsCustomerNotified(true);
+            }
+        }
+
+        return $this;
+    }
+
+    protected function _checkBalanceModelOrder($model)
+    {
+        if ((!$model->getOrder()) || !$model->getOrder()->getIncrementId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('There is no order set to balance model.'));
+        }
     }
 }

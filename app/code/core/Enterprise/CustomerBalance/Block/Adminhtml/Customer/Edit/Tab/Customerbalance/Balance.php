@@ -26,37 +26,17 @@
 
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    public function getOneBalanceTotal()
     {
-        $this->setTemplate('enterprise/customerbalance/balance.phtml');
+        $customer = Mage::registry('current_customer');
+        $balance = Mage::getModel('enterprise_customerbalance/balance')->setCustomer($customer)->loadByCustomer();
+        return Mage::app()->getLocale()->currency(Mage::app()->getWebsite($customer->getWebsiteId())->getBaseCurrencyCode())
+            ->toCurrency($balance->getAmount());
     }
 
-    protected function _prepareLayout()
+    public function shouldShowOneBalance()
     {
-        $this->setChild('grid', $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_grid', 'customer.balance.grid'));
-        return parent::_prepareLayout();
-    }
-
-    public function getBalance()
-    {
-        if( $customerId = $this->getRequest()->getParam('id') ) {
-            $totalCredit = Mage::getModel('enterprise_customerbalance/balance')->getTotal($customerId);
-            return Mage::app()->getStore()->formatPrice($totalCredit);
-        } else {
-            return false;
-        }
-    }
-
-    public function getGrid()
-    {
-        return $this->getChildHtml('grid');
-    }
-    
-    public function canShowTotal()
-    {
-        if( (bool) Mage::getStoreConfig('customer/account_share/scope') ) {
-            return true;
-        }
-        return false;
+        return Mage::getSingleton('enterprise_customerbalance/balance')
+            ->shouldCustomerHaveOneBalance(Mage::registry('current_customer'));
     }
 }

@@ -24,43 +24,61 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerBalance_CustomerbalanceController extends Mage_Adminhtml_Controller_Action
+/**
+ * Controller for Customer account -> Store Credit ajax tab and all its contents
+ *
+ */
+class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Customer balance form
+     *
+     */
     public function formAction()
     {
+        $this->_initCustomer();
         $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance')->toHtml() .
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_form')->initForm()->toHtml() .
-            $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history')->toHtml()
-        );
+        $this->renderLayout();
     }
-    
+
+    /**
+     * Customer balance grid
+     *
+     */
     public function gridHistoryAction()
     {
+        $this->_initCustomer();
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid')->toHtml()
         );
     }
-    
+
+    /**
+     * Get store views of specified website for transactional email
+     *
+     */
     public function getAllowedEmailWebsitesAction()
     {
-    	$websiteId = $this->getRequest()->getParam('website_id');
-    	if( $websiteId ) {
-    		$collection = Mage::getModel('core/store')->getCollection()
-    		  ->addWebsiteFilter($websiteId);
-    		 
-    		$items = array();
+        $websiteId = $this->getRequest()->getParam('website_id');
+        if( $websiteId ) {
+            $collection = Mage::getModel('core/store')->getCollection()
+              ->addWebsiteFilter($websiteId);
+
+            $items = array();
             foreach( $collection->getItems() as $item ) {
-            	$items[] = $item->getData();
+                $items[] = $item->getData();
             }
-            
+
             $items = new Varien_Object($items);
             $this->getResponse()->setBody($items->toJson());
-    	}
+        }
     }
-    
+
+    /**
+     * Get currency for specified website
+     *
+     */
     public function getWebsiteBaseCurrencyAction()
     {
         $websiteId = $this->getRequest()->getParam('website_id');
@@ -68,5 +86,14 @@ class Enterprise_CustomerBalance_CustomerbalanceController extends Mage_Adminhtm
             $website = Mage::app()->getWebsite($websiteId);
             $this->getResponse()->setBody($website->getBaseCurrencyCode());
         }
+    }
+
+    protected function _initCustomer($idFieldName = 'id')
+    {
+        $customer = Mage::getModel('customer/customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        if (!$customer->getId()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Failed to initialize customer'));
+        }
+        Mage::register('current_customer', $customer);
     }
 }

@@ -28,35 +28,17 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Mage_Core_Model_My
 {
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance', 'primary_id');
+        $this->_init('enterprise_customerbalance/balance', 'balance_id');
     }
 
-    public function loadByCustomerWebsite($object, $customerId, $websiteId)
+    public function loadByCustomerAndWebsiteIds($object, $customerId, $websiteId)
     {
-        $select = $this->getReadConnection()->select()
+        if ($data = $this->getReadConnection()->fetchRow($this->getReadConnection()->select()
             ->from($this->getMainTable())
-            ->where($this->getReadConnection()->quoteInto('customer_id = ?', $customerId))
-            ->where($this->getReadConnection()->quoteInto('website_id = ?', $websiteId));
-
-        $data = $this->getReadConnection()->fetchRow($select);
-        if( is_array($data) ) {
+            ->where('customer_id = ?', $customerId)
+            ->where('website_id = ?', $websiteId)
+            ->limit(1))) {
             $object->addData($data);
         }
-        return $this;
-    }
-
-    public function getTotal($customerId, $websiteId=false)
-    {
-        $select = $this->getReadConnection()->select()
-            ->from($this->getMainTable(), new Zend_Db_Expr('SUM(balance)'))
-            ->where($this->getReadConnection()->quoteInto('customer_id = ?', $customerId));
-
-        if( $websiteId ) {
-            $select->where($this->getReadConnection()->quoteInto('website_id = ?', $websiteId));
-        }
-
-        $data = $this->getReadConnection()->fetchOne($select);
-
-        return $data;
     }
 }

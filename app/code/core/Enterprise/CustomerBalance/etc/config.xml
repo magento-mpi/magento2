@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerBalance>
-             <version>0.0.4</version>
+             <version>0.0.5</version>
         </Enterprise_CustomerBalance>
     </modules>
     <global>
@@ -89,6 +89,16 @@
                </customer_enterprise_customerbalance_email_template>
             </email>
         </template>
+        <events>
+            <adminhtml_customer_save_after>
+                <observers>
+                    <enterprise_customerbalance>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>customerSaveAfter</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </adminhtml_customer_save_after>
+        </events>
     </global>
     <frontend>
         <translate>
@@ -122,7 +132,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <customerbalance before="Mage_Adminhtml">Enterprise_CustomerBalance</customerbalance>
+                        <customerbalance before="Mage_Adminhtml">Enterprise_CustomerBalance_Adminhtml</customerbalance>
                     </modules>
                 </args>
             </adminhtml>
@@ -137,15 +147,14 @@
             </updates>
         </layout>
         <events>
-            <adminhtml_customer_save_after>
+            <adminhtml_customer_prepare_save>
                 <observers>
-                    <enterprise_permissions>
-                        <type>singleton</type>
+                    <enterprise_customerbalance>
                         <class>enterprise_customerbalance/observer</class>
-                        <method>customerSave</method>
-                    </enterprise_permissions>
+                        <method>prepareCustomerBalanceSave</method>
+                    </enterprise_customerbalance>
                 </observers>
-            </adminhtml_customer_save_after>
+            </adminhtml_customer_prepare_save>
         </events>
     </adminhtml>
     <default>

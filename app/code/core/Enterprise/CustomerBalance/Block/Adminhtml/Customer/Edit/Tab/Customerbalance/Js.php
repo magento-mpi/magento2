@@ -24,11 +24,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Mage_Adminhtml_Block_Template 
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Mage_Adminhtml_Block_Template
 {
     public function getCustomerWebsite()
     {
-        $customer = Mage::getModel('customer/customer')->load($this->getRequest()->getParam('id'));
-        return $customer->getWebsiteId();
+        return Mage::registry('current_customer')->getWebsiteId();
+    }
+
+    public function getAllowedEmailWebsitesAjaxUrl()
+    {
+        return Mage::getUrl('*/customerbalance/getAllowedEmailWebsites');
+    }
+
+    public function getWebsiteBaseCurrencyAjaxUrl()
+    {
+        return Mage::getUrl('*/customerbalance/getWebsiteBaseCurrency');
     }
 }

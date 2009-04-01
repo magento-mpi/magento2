@@ -36,14 +36,4 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $this->setChild('grid', $this->getLayout()->createBlock('enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history_grid', 'customer.balance.history.grid'));
         return parent::_prepareLayout();
     }
-
-    public function getGridHtml()
-    {
-        return $this->getChildHtml('grid');
-    }
-    
-    public function getGrid()
-    {
-        return $this->getChild('grid');
-    }
 }

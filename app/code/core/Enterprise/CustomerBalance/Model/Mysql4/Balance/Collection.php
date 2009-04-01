@@ -26,28 +26,15 @@
 
 class Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-	protected $_map = array('fields' => array('website_id' => 'main_table.website_id', 'core_website_id' => 'w.website_id'));
-	
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance');
     }
 
-    public function addWebsiteData()
-    {
-        $this->getSelect()->joinInner(array('w' => $this->getTable('core/website')), 'main_table.website_id = w.website_id');
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param int|array $website
-     */
-    public function addWebsiteFilter($website)
+    public function addWebsitesFilter($websiteIds)
     {
         $this->getSelect()->where(
-            $this->getConnection()->quoteInto('main_table.website_id IN(?)', $website)
+            $this->getConnection()->quoteInto('main_table.website_id IN (?)', $websiteIds)
         );
         return $this;
     }

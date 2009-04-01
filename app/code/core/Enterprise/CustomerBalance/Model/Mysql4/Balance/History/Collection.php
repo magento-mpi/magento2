@@ -31,21 +31,21 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection extends
         $this->_init('enterprise_customerbalance/balance_history');
     }
 
-    public function addWebsiteData()
+    protected function _initSelect()
     {
-        $this->getSelect()->join(array('w' => $this->getTable('core/website')), 'main_table.website_id = w.website_id');
+        parent::_initSelect();
+        $this->getSelect()
+            ->joinInner(array('b' => $this->getTable('enterprise_customerbalance/balance')),
+                'main_table.balance_id = b.balance_id', array('customer_id' => 'b.customer_id', 'website_id' => 'b.website_id'))
+            ->joinLeft(array('w' => $this->getTable('core/website')),
+                'b.website_id = w.website_id', array('website_id' => 'b.website_id', 'website_name' => 'w.name'));
         return $this;
     }
 
-    /**
-     * Enter description here...
-     *
-     * @param int|array $website
-     */
-    public function addWebsiteFilter($website)
+    public function addWebsitesFilter($websiteIds)
     {
         $this->getSelect()->where(
-            $this->getConnection()->quoteInto('main_table.website_id IN(?)', $website)
+            $this->getConnection()->quoteInto('b.website_id IN (?)', $websiteIds)
         );
         return $this;
     }

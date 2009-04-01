@@ -24,23 +24,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * @category   Enterprise
- * @package    Enterprise_CustomerBalance
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid_Renderer_Balance extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency
+extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
 {
+    protected static $_websiteBaseCurrencyCodes = array();
 
-    public function render(Varien_Object $row)
+    protected function _getCurrencyCode($row)
     {
-    	$data = $row->getData('balance');
-    	$currency_code = Mage::app()->getWebsite($row->getData('website_id'))->getBaseCurrencyCode(); 
-    	
-        $data = floatval($data);
-        $data = sprintf("%f", $data);
-        $data = Mage::app()->getLocale()->currency($currency_code)->toCurrency($data);
-        return $data;
+        $websiteId = $row->getData('website_id');
+        if (!isset(self::$_websiteBaseCurrencyCodes[$websiteId])) {
+            self::$_websiteBaseCurrencyCodes[$websiteId] = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+        }
+        return self::$_websiteBaseCurrencyCodes[$websiteId];
     }
 
+    protected function _getRate($row)
+    {
+        return 1;
+    }
 }

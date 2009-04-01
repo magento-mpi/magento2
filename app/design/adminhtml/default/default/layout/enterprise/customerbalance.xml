@@ -33,7 +33,18 @@
             <action method="addTab"><name>customerbalance</name><block>customerbalance</block></action>
         </reference>
         <reference name="js">
-            <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_js" template="enterprise/customerbalance/edit/js.phtml" name="customerbalance_edit_js"></block>
+            <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_js" template="enterprise/customerbalance/edit/js.phtml" name="customerbalance_edit_js">
+                <action method="setPrefix"><value>_customerbalance</value></action>
+            </block>
         </reference>
     </adminhtml_customer_edit>
+    <adminhtml_customerbalance_form>
+        <block type="core/text_list" name="root">
+            <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance" name="customerbalance.balance" template="enterprise/customerbalance/balance.phtml">
+                <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_grid" name="customer.balance.grid" as="grid"/>
+            </block>
+            <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_form" name="customerbalance.form"/>
+            <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_history" name="customerbalance.history"/>
+        </block>
+    </adminhtml_customerbalance_form>
 </layout>
