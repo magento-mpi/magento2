@@ -68,6 +68,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
                 ->setFieldNameSuffix('map[items]')
+                ->setExtendInfo($this->getBackup()->getItemVersionCheck())
         );
         
         return parent::_prepareLayout();

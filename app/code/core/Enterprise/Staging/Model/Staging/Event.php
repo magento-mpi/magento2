@@ -93,6 +93,28 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     {
         return Enterprise_Staging_Model_Staging_Config::getEventLabel($this->getCode());
     }
+    
+    /**
+     * Get backup Id by EventId
+     *
+     * @return int
+     */
+    public function getBackupId()
+    {
+        $eventId = $this->getId();
+        if (!empty($eventId)) {
+            $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection');
+            
+            $collection->setEventFilter($eventId);
+                    
+            foreach($collection AS $backup) {
+                if ($backup->getId()){
+                    return $backup->getId(); 
+                }
+            }
+        }
+        return 0;
+    }
 
     public function updateAttribute($attribute, $value)
     {

@@ -48,6 +48,22 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
     }
 
     /**
+     * Set event filter into collection
+     *
+     * @param   mixed   $eventId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection
+     */
+    public function setEventFilter($eventId)
+    {
+        if (is_object($eventId)) {
+            $eventId = $eventId->getId();
+        }
+        $this->addFieldToFilter('event_id', (int) $eventId);
+
+        return $this;
+    }
+        
+    /**
      * Add backuped filter into collection
      *
      * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection

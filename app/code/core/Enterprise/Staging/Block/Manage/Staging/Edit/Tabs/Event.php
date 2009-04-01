@@ -161,6 +161,16 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
      */
     public function getRowUrl($row)
     {
+        //customisation
+        if ($row->getCode()=='backup') {
+            $backupId = $row->getBackupId();
+            if ($backupId > 0) {
+                return $this->getUrl('*/*/backupEdit', array(
+                    'id' => $backupId 
+                ));
+            }
+        }
+        
         return $this->getUrl('*/*/event', array(
             'id' => $row->getId()
         ));

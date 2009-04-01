@@ -33,7 +33,17 @@
 <?php $stores           = $this->getAllStoresCollection(); ?>
 <?php $stagingWebsites  = $staging->getWebsitesCollection(); ?>
 <?php $mapperUsedItems  = $this->getMapper()->getUsedItems(); ?>
-<?php $mapperWebSites   = $this->getMapper()->getAllUsedWebsites();?> 
+<?php $mapperWebSites   = $this->getMapper()->getAllUsedWebsites();?>
+ 
+<?php if ($this->getIsVersionConflict()): ?>
+    <div id="messages">
+    <ul class="messages">
+        <li class="notice-msg">
+            <?php echo $this->__('Module version conflict!'); ?>
+        </li>            
+    </ul>
+    </div>
+<?php endif; ?>     
 
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_rollback_form" enctype="multipart/form-data">
 <input type="hidden" name="staging_id" value="<?php echo $staging->getId(); ?>">

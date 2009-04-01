@@ -64,16 +64,35 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
 
         $fieldset = $form->addFieldset('staging_dataset_item', array('legend'=>Mage::helper('enterprise_staging')->__('Items to merge')));
 
+        $extendInfo = $this->getExtendInfo();
+        
         foreach ($staging->getDatasetItemsCollection(true) as $datasetItem) {
             $_id = $datasetItem->getId();
+
+            $disabled = "none";
+            $note = "";
+            
+            //process extend information
+            if (!empty($extendInfo) && is_array($extendInfo)) {
+                if ($extendInfo[$datasetItem->getCode()]["disabled"]==true) {
+                    $disabled = "disabled";
+                    $note = '<div style="color:#900">'.$extendInfo[$datasetItem->getCode()]["note"] . "<div>"; 
+                } else {
+                    $note = '<div style="color:#090">'.$extendInfo[$datasetItem->getCode()]["note"] . "<div>"; 
+                }
+            }
+            
             $fieldset->addField('dataset_item_id_'.$_id, 'checkbox',
                 array(
                     'label'    => $datasetItem->getName(),
                     'name'     => "{$datasetItem->getId()}[dataset_item_id]",
                     'value'    => $datasetItem->getId(),
-                    'checked'  => true
+                    'checked'  => true,
+                    $disabled  => true,                                                
+                    'note'     => $note, 
                 )
             );
+            
             $fieldset->addField('staging_item_code_'.$_id, 'hidden',
                 array(
                     'name'     => "{$datasetItem->getId()}[code]",

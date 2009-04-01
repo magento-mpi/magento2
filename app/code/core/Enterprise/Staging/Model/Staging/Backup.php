@@ -140,39 +140,59 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
+        $itemInfo = $this->getItemVersionCheck();
 
-        // get all current item version
-        $currentModuleVersion = Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion();
+        if (empty($itemInfo)) {
+            return true;
+        }
 
-        // get our version list
-        $backupModules = unserialize($this->getMageModulesVersion());
-        
-        // array_intersect both        
-        $modulesIntersect = array_diff_assoc($currentModuleVersion, $backupModules);
-
-        $getCurrentItems = Enterprise_Staging_Model_Staging_Config::getConfig("staging_items");
-        
-        if (!empty($getCurrentItems) && count($modulesIntersect)>0) {
-            foreach($getCurrentItems->children() AS $item) {
-                $checkModuleName = (string) $item->model . "_setup";
-                if (isset($modulesIntersect[$checkModuleName])) {
-                    return false;
-                }
+        foreach($itemInfo AS $item) {
+            if($item["disabled"]==false) {
+                return true;    
             }
-            return true;
-        } else {
-            return true;
         }
-        
-        /*
-        if ($this->getState() == Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE) {
-            return true;
-        }
-                
-        if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE) {
-            return true;
-        }*/
         return false;
     }
     
+    public function getItemVersionCheck()
+    {
+        if (!$this->getId()) {
+            return false;
+        }
+        
+        // get all current module version
+        $currentModuleVersion = Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion();
+
+        //get backup version list
+        $backupModules = unserialize($this->getMageModulesVersion());
+        
+        //Item List
+        $getCurrentItems = Enterprise_Staging_Model_Staging_Config::getConfig("staging_items");
+        
+        $itemVersionCheck = array();
+        
+        if (!empty($getCurrentItems) && count($getCurrentItems)>0) {
+            foreach($getCurrentItems->children() AS $item) {
+                $itemModel = (string) $item->model;
+                $itemCode = (string) $item->code;
+                $itemCheckModuleName = $itemModel . "_setup";                
+                
+                $itemVersionCheck[$itemCode]["model"] = $itemModel;
+                $itemVersionCheck[$itemCode]["backupVersion"] = $backupModules[$itemCheckModuleName];
+                $itemVersionCheck[$itemCode]["currentVersion"] =  $currentModuleVersion[$itemCheckModuleName];
+                if ($backupModules[$itemCheckModuleName] == $currentModuleVersion[$itemCheckModuleName]) {
+                    $itemVersionCheck[$itemCode]["disabled"] = false;                    
+                    $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');    
+                } else {
+                    $itemVersionCheck[$itemCode]["disabled"] = true;                    
+                    $itemVersionCheck[$itemCode]["note"] = 
+                        Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .  
+                        $backupModules[$itemCheckModuleName]. " ,". 
+                        Mage::helper('enterprise_staging')->__('Current: ') .
+                        $currentModuleVersion[$itemCheckModuleName];    
+                }
+            }
+        } 
+        return $itemVersionCheck;
+    }
 }
