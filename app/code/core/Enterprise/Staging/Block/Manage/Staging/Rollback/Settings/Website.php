@@ -64,12 +64,17 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
             $this->setIsVersionConflict(true);
         }
         
-        $this->setChild('items',
+/*        $this->setChild('items',
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
                 ->setFieldNameSuffix('map[items]')
                 ->setExtendInfo($this->getBackup()->getItemVersionCheck())
-        );
+        );*/
+
+
+        $this->setChild('rollbackGrid',
+            $this->getLayout()->createBlock('enterprise_staging/manage_staging_rollback_grid', 'staging.rollback.grid')
+                ->setExtendInfo($this->getBackup()->getItemVersionCheck()));        
         
         return parent::_prepareLayout();
     }

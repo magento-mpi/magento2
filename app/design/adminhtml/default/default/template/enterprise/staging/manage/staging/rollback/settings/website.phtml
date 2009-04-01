@@ -49,31 +49,7 @@
 <input type="hidden" name="staging_id" value="<?php echo $staging->getId(); ?>">
 <input type="hidden" name="backup_id" value="<?php echo $backup->getId(); ?>">
 
-<?php if($this->getPagerVisibility() || $this->getExportTypes() || $this->getFilterVisibility()): ?>
-    <table cellspacing="0" class="actions">
-        <tr>
-    <?php if($this->getExportTypes()): ?>
-        <td class="export a-right">
-            <img src="<?php echo $this->getSkinUrl('images/icon_export.gif') ?>" alt="" class="v-middle"/>&nbsp; <?php echo $this->__('Export to:') ?>
-            <select name="<?php echo $this->getId() ?>_export" id="<?php echo $this->getId() ?>_export" style="width:8em;">
-            <?php foreach ($this->getExportTypes() as $_type): ?>
-                <option value="<?php echo $_type->getUrl() ?>"><?php echo $_type->getLabel() ?></option>
-            <?php endforeach; ?>
-            </select>
-            <?php echo $this->getExportButtonHtml() ?>
-        </td>
-    <?php endif; ?>
-        <td class="filter-actions a-right">
-            <?php echo $this->getMainButtonsHtml() ?>
-        </td>
-        </tr>
-    </table>
-<?php endif; ?>
-<?php if($this->getMassactionBlock()->isAvailable()): ?>
-<?php echo $this->getMassactionBlockHtml() ?>
-<?php endif ?>
 <div id="enterprise_staging_rollback_container" class="grid">
-
     <!-- table cellspacing="0" cellpadding="0" style="width:210px;" class="option-header">
     <thead>
     <tr class="headings">
@@ -136,6 +112,8 @@
     
 <?php echo $this->getBlockHtml('formkey')?>
 <?php echo $this->getChildHtml('items'); ?>
+<?php echo $this->getChildHtml('rollbackGrid'); ?>
+<?php echo $this->getMainButtonsHtml() ?>
 </form>
 </div>
 <script type="text/javascript">

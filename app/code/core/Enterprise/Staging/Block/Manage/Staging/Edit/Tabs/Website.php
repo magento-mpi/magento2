@@ -86,9 +86,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         foreach ($this->getWebsiteCollection() as $website) {
             
             $_id = $website->getId();
-            
-            $stagingWebsite = $collection->getItemByMasterCode($website->getCode());
 
+            $stagingWebsite = $collection->getItemByMasterCode($website->getCode());
+            
             if ($stagingWebsite) {
                 $stagingWebsiteName = $stagingWebsite->getName();
             } else {
@@ -230,13 +230,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 	            )
 	        );
 	        
-            foreach ($stagingWebsite->getData() as $key => $value) {
-                $values[$key.'_'.$_id] = $value;
-            }
-            $form->addValues($values);
+	        if ($stagingWebsite) {
+                foreach ($stagingWebsite->getData() as $key => $value) {
+                    $values[$key.'_'.$_id] = $value;
+                }
                 
-	        
-
+                $form->addValues($values);
+	        }
             
 	        $form = $this->_initWebsiteItems($form , $staging, $_id, $stagingWebsite);
                         
