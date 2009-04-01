@@ -914,4 +914,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
         }
         return $categories;
     }
+
+    /**
+     * Retrieve anchors above
+     *
+     * @param array $filterIds
+     * @param int $storeId
+     * @return array
+     */
+    public function getAnchorsAbove(array $filterIds, $storeId = 0)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('e' => $this->getMainStoreTable($storeId)), 'entity_id')
+            ->where('is_anchor = ?', 1)
+            ->where('entity_id IN (?)', $filterIds);
+
+        return $this->_getReadAdapter()->fetchCol($select);
+    }
 }
