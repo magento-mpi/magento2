@@ -254,8 +254,8 @@
                     <adminhtml_report_tag_exportPopularCsv>enterprise_permissions/validate_block::filterReportTagPopularGrid</adminhtml_report_tag_exportPopularCsv>
                     <adminhtml_report_tag_exportPopularExcel>enterprise_permissions/validate_block::filterReportTagPopularGrid</adminhtml_report_tag_exportPopularExcel>
                     <adminhtml_report_search>enterprise_permissions/validate_block::filterReportSearchGrid</adminhtml_report_search>
-                    <adminhtml_report_exportSearchCsv>enterprise_permissions/validate_block::filterReportTagPopularGrid</adminhtml_report_exportSearchCsv>
-                    <adminhtml_report_exportSearchExcel>enterprise_permissions/validate_block::filterReportTagPopularGrid</adminhtml_report_exportSearchExcel>
+                    <adminhtml_report_exportSearchCsv>enterprise_permissions/validate_block::filterReportSearchGrid</adminhtml_report_exportSearchCsv>
+                    <adminhtml_report_exportSearchExcel>enterprise_permissions/validate_block::filterReportSearchGrid</adminhtml_report_exportSearchExcel>
                     <adminhtml_cms_page_index>enterprise_permissions/validate_block::filterCmsCommonGrid</adminhtml_cms_page_index>
                     <adminhtml_cms_block_index>enterprise_permissions/validate_block::filterCmsCommonGrid</adminhtml_cms_block_index>
                     <adminhtml_poll_index>enterprise_permissions/validate_block::filterPollGrid</adminhtml_poll_index>
