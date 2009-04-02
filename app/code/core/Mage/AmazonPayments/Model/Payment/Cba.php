@@ -189,15 +189,31 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                         ->save();
                 }
             }
-        } elseif (!empty($_request['NotificationData']) && !empty($_request['NotificationType'])) {
+        } else {
+            if ($this->getDebug()) {
+                $debug = Mage::getModel('amazonpayments/api_debug')
+                    ->setRequestBody(print_r($_request, 1))
+                    ->setResponseBody(time().' - error request callback')
+                    ->save();
+            }
+        }
+        return $response;
+    }
 
+    public function handleNotification($_request)
+    {
+        if (!empty($_request) && !empty($_request['NotificationData']) && !empty($_request['NotificationType'])) {
+            /**
+             * Debug
+             */
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
                     ->setRequestBody(print_r($_request, 1))
                     ->setResponseBody(time().' - Notification: '. $_request['NotificationType'])
                     ->save();
             }
-
+            Mage::log($_request['NotificationData']);
+//            $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
             switch ($_request['NotificationType']) {
                 case 'NewOrderNotification':
                     $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
@@ -209,13 +225,12 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     break;
                 case 'OrderCancelledNotification':
 //                    $amazonOrderDetails = $this->getApi()->parseCancelOrder($_request['NotificationData']);
-                    $amazonOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
-                    $this->_cancelOrder($amazonOrderDetails);
+//                    $amazonOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
+//                    $this->_cancelOrder($amazonOrderDetails);
                     break;
                 default:
                     // Unknown notification type
             }
-
         } else {
             if ($this->getDebug()) {
                 $debug = Mage::getModel('amazonpayments/api_debug')
@@ -224,7 +239,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     ->save();
             }
         }
-        return $response;
+        return $this;
     }
 
     /**
@@ -366,6 +381,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
 
         $order->sendNewOrderEmail();
+        return $this;
     }
 
     /**
@@ -504,6 +520,39 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $_quote = $this->getCheckout()->getQuote();
 
         $xml = $this->getApi()->getXmlCart($_quote);
+        Mage::log($xml, null, 'amazon.log');
+        $__xml = '<?xml version="1.0" encoding="utf-8"?>
+<Order xmlns="http://payments.amazon.com/checkout/2008-11-30/">
+    <ClientRequestId>cartId:75475</ClientRequestId>
+    <Cart>
+        <Items>
+            <Item>
+                <SKU>16</SKU>
+                <MerchantId>A2ZZYWSJ0WMID8</MerchantId>
+                <Title>Courage Under Fire</Title>
+                <Description>Regional Code: 2 (Japan, Europe, Middle East, South Africa)</Description>
+        <Price>
+          <Amount>29.99</Amount>
+          <CurrencyCode>USD</CurrencyCode>
+        </Price>
+        <Quantity>1</Quantity>
+        <Weight>
+          <Amount>7.00</Amount>
+          <Unit>lb</Unit>
+        </Weight>
+        <Category>Drama</Category>
+        <FulfillmentNetwork>MERCHANT</FulfillmentNetwork>
+      </Item>
+    </Items>
+  </Cart>
+</Order>';
+
+        /*
+         * <IntegratorId>A2E8RSUU6OBDEI</IntegratorId>
+  <IntegratorName>OSCommercev2.0RC2</IntegratorName>
+  <ReturnUrl>http://kv.no-ip.org/dev/ruslan.voitenko/osc/checkout_by_amazon_order_request_handler.php?cbaAction=ResetCart</ReturnUrl>
+  <CancelUrl>http://kv.no-ip.org/dev/ruslan.voitenko/osc/index.php</CancelUrl>
+         */
 
         $xmlCart = array('order-input' =>
             "type:merchant-signed-order/aws-accesskey/1;"
@@ -517,7 +566,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 ->setRequestBody(time() .' - xml cart')
                 ->save();
         }
-
         return $xmlCart;
     }
 

@@ -122,6 +122,26 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
         exit(0);
     }
 
+    public function notificationAction()
+    {
+        $response = '';
+        $session = $this->getCheckout();
+
+        $_request = Mage::app()->getRequest()->getParams();
+
+        try {
+            $this->getCba()
+                ->handleNotification($_request);
+        }
+        catch (Exception $e) {
+            // Return Xml with Error
+            $response = $this->getCba()->callbackXmlError($e);
+            Mage::log($e->getMessage());
+        }
+        $this->getResponse()
+            ->setHttpResponseCode(200);
+    }
+
     /**
      * When a customer has checkout on Amazon and return with Cancel
      *

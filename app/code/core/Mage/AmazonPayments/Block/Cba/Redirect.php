@@ -77,9 +77,7 @@ class Mage_AmazonPayments_Block_Cba_Redirect extends Mage_Core_Block_Abstract
     protected function _toHtml()
     {
         $cba = Mage::getModel('amazonpayments/payment_cba');
-        /**
-         * @var $cba Mage_AmazonPayments_Model_Payment_Cba
-         */
+        /* @var $cba Mage_AmazonPayments_Model_Payment_Cba */
 
         $form = new Varien_Data_Form();
         $form->setAction($cba->getAmazonRedirectUrl())
