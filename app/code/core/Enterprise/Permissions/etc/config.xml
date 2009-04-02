@@ -177,6 +177,7 @@
                     <adminhtml_catalog_product_crosssell>enterprise_permissions/validate_block::filterCatalogProductGrid</adminhtml_catalog_product_crosssell>
                     <adminhtml_catalog_product_related>enterprise_permissions/validate_block::filterCatalogProductGrid</adminhtml_catalog_product_related>
                     <adminhtml_catalog_product_upsell>enterprise_permissions/validate_block::filterCatalogProductGrid</adminhtml_catalog_product_upsell>
+                    <adminhtml_catalog_product_superConfig>enterprise_permissions/validate_block::filterCatalogProductGrid</adminhtml_catalog_product_superConfig>
                     <adminhtml_catalog_product_reviews>enterprise_permissions/validate_block::filterCatalogProductReviewGrid</adminhtml_catalog_product_reviews>
                     <adminhtml_catalog_product_review_reviewGrid>enterprise_permissions/validate_block::filterCatalogProductReviewGrid</adminhtml_catalog_product_review_reviewGrid>
                     <adminhtml_catalog_product_review_index>enterprise_permissions/validate_block::filterReviewGrid</adminhtml_catalog_product_review_index>
