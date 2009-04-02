@@ -56,10 +56,9 @@
 <?php echo $this->getMassactionBlockHtml() ?>
 <?php endif ?>
 <div class="entry-edit-head">
-    <h3><?php echo $this->__('Staging Merge Mapping Configuration'); ?></h3>
+    <h3><?php echo $this->__('Mapping Configuration'); ?></h3>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_merge_form" enctype="multipart/form-data">
-<input type="hidden" name="schedule_merge_later_flag" value="" id="schedule_merge_later_flag">
 <?php echo $this->getBlockHtml('formkey')?>
 <div id="<?php echo $this->getId() ?>" class="grid">
     <div class="hor-scroll">
@@ -135,10 +134,10 @@
         </table>
     </div>
 </div>
-<h3><?php echo $this->__('Items to merge'); ?></h3>
+<!-- h3><?php echo $this->__('Items to merge'); ?></h3-->
 <?php echo $this->getChildHtml('items'); ?>
 
-<div id="schedule_config_container" style="background: #E5ECF2; border:2px solid #D6D6D6; width: 300px; height: 300px; display: none; left:40%; margin-left:-60px; padding:35px 35px; position:fixed; top:30%;">
+<!-- div id="schedule_config_container" style="background: #E5ECF2; border:2px solid #D6D6D6; width: 300px; height: 300px; display: none; left:40%; margin-left:-60px; padding:35px 35px; position:fixed; top:30%;">
     <div class="entry-edit">
         <div class="entry-edit-head">
             <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Merge Now') ?></h4>
@@ -160,7 +159,6 @@
         <div class="fieldset">
             <div class="hor-scroll">
                 <div align="center">
-                    <!-- label for="schedule_merge_later">Set Staging Merge Date</label-->
                     <input type="text" style="width: 120px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
                     <script type="text/javascript">
                     //<![CDATA[
@@ -199,7 +197,47 @@
             </div>
         </div>
     </div>
-</div>
+</div-->
+
+    <div class="entry-edit" align="center">
+            <span class="hor-scroll">
+                <span class="a-center">
+                    <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge(); return false;" class="staging-mapper-add-website-btn button">
+                        <span><?php echo $this->__('Merge') ?></span>
+                    </button>
+                </span>
+            </span>
+            <span style="padding: 0px 20px 0px 20px;"><b><?php echo $this->__('or') ?></b></span> 
+            <span class="hor-scroll">
+                <span>
+                    <input type="text" style="width: 120px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
+                    <script type="text/javascript">
+                    //<![CDATA[
+                        Calendar.setup({
+                            inputField: "schedule_merge_later",
+                            ifFormat: "%m/%e/%Y %H:%M:%S",
+                            showsTime: true,
+                            button: "schedule_merge_later_trig",
+                            align: "Bl",
+                            singleClick : true
+                        });
+                    //]]>
+                    </script>
+                </span>
+                <span class="a-center">
+                    <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge( {merge_later: 1} ); return false;" class="staging-mapper-add-website-btn button">
+                        <span><?php echo $this->__('Merge later') ?></span>
+                    </button>
+                </span>
+            </span>
+    </div>
+    <div align="center">
+        <span style="width: 200px;">
+            <input type="hidden" class="schedule_merge_later_flag" name="schedule_merge_later_flag" value="" id="schedule_merge_later_flag">
+        </span>
+    </div>
+
+
 </form>
 <script type="text/javascript">
 //<![CDATA[
@@ -218,11 +256,19 @@ stagingGrid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(st
 <?php endif; ?>
 
 Validation.addAllThese([
-    ['schedule_merge_later', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time .') ?>', function(v) {
+    ['schedule_merge_later_flag', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time .') ?>', function(v) {
                 if ($('schedule_merge_later_flag').value == 1) {
-                    var mergeDate   = new Date(v);
+                
+                    var dateV = $('schedule_merge_later').value;
+                    
+                    if (!dateV) {
+                        return false;
+                    }
+                    
+                    var mergeDate   = new Date(dateV);
+                    
                     var currentTime  = new Date();
-
+                    
                     if (v == '' || ((currentTime.getTime()+3600) >= mergeDate.getTime())) {
                         return false;
                     }

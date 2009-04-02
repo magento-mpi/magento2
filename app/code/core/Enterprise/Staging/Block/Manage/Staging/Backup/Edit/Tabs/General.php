@@ -52,15 +52,32 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('staging_backup_general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Backup Main Info')));
+        $fieldset = $form->addFieldset('staging_backup_general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Backup Main Info')));
 
-        $fieldset->addField('name', 'text', array(
+        $fieldset->addField('name', 'label', array(
             'label'     => $this->helper->__('Name'),
             'title'     => $this->helper->__('Name'),
-            'name'      => 'name'
+            'value'      => $this->getBackup()->getStaging()->getName()
         ));
+        
+        $fieldset->addField('backupCreateAt', 'label', array(
+            'label'     => $this->helper->__('Created Date'),
+            'title'     => $this->helper->__('Created Date'),
+            'value'     => $this->getBackup()->getCreatedAt()
+        ));
+        
+        $fieldset = $form->addFieldset('staging_backup_used_tables', array('legend'=>Mage::helper('enterprise_staging')->__('Used Tables')));
 
-        $form->addValues($this->getBackup()->getData());
+        $usedTables = $this->_getBackupTables();
+        if (is_array($usedTables)) {
+            foreach($usedTables AS $tableName) {
+                $fieldset->addField('UsedTable_' . $tableName, 'label', array(
+                    'value'     => $tableName
+                ));
+            }
+        }
+        
+        //$form->addValues($this->getBackup()->getData());        
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
 
         $this->setForm($form);
@@ -79,5 +96,31 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
             $this->setData('staging_backup', Mage::registry('staging_backup'));
         }
         return $this->getData('staging_backup');
+    }
+    /**
+     * Get backupped table list
+     *
+     * @return unknown
+     */
+    protected function _getBackupTables()
+    {
+        $backup = $this->getBackup();
+        $stagingTablePrefix = $backup->getStagingTablePrefix();
+
+        $connection = $backup->getStaging()->getAdapterInstance(true)
+            ->getConnection("backup");
+        
+        // create sql
+        $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
+        
+        $result = $connection->fetchAll($sql);
+
+        $resultArray = array();
+        
+        foreach ($result AS $row) {
+            $table = array_values($row);
+            $resultArray[] = $table[0];
+        }
+        return $resultArray;
     }
 }

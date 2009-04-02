@@ -146,7 +146,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             }
         }
 
-        $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$targetTable}` WHERE {$_websiteFieldNameSql}";
+        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$targetTable}` WHERE {$_websiteFieldNameSql}";
+        $srcSelectSql = $this->_getSimpleSelect($fields, $targetTable, $_websiteFieldNameSql);
+        
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
         //echo $destInsertSql.'<br /><br /><br /><br />';
@@ -181,7 +183,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             }
         }
 
-        $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$targetTable}` WHERE {$_storeFieldNameSql}";
+        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$targetTable}` WHERE {$_storeFieldNameSql}";
+        $srcSelectSql = $this->_getSimpleSelect($fields, $targetTable, $_storeFieldNameSql);
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
         //echo $destInsertSql.'<br /><br /><br /><br />';
@@ -269,7 +272,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 }
             }
 
-            $srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
+            //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
+            $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, $_websiteFieldNameSql);
 
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
             //echo $destInsertSql.'<br /><br /><br /><br />';
@@ -313,7 +317,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                     }
                 }
 
-                $srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
+                //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
+                $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$slaveStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
                 //echo $destInsertSql.'<br /><br /><br /><br />';
@@ -435,7 +440,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$updateField}=VALUES({$updateField})";
 
-        $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
+        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
+        $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);
 
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
@@ -459,7 +465,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$field}=VALUES({$field})";
 
-        $srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
+        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
+        $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);        
 
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
@@ -537,13 +544,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $mapperUsedWebSites   = $mapper->getAllUsedWebsites();
 
         if (!empty($mapperUsedWebSites)) {
-            $slaveWebsiteIds = array_keys($mapperUsedWebSites);
+            $masterWebsiteIds = array_keys($mapperUsedWebSites);
         }
 
-        if (!empty($mapperUsedWebSites[$slaveWebsiteIds[0]]['master_website'])) {
-            $masterWebsiteIds = array_values($mapperUsedWebSites[$slaveWebsiteIds[0]]['master_website']);
+        if (!empty($mapperUsedWebSites[$masterWebsiteIds[0]]['master_website'])) {
+            $slaveWebsiteIds = array_keys($mapperUsedWebSites[$masterWebsiteIds[0]]['master_website']);
         }
-
+        
         if (count($slaveWebsiteIds) > 0 && count($masterWebsiteIds) > 0 && !empty($slaveWebsiteIds[0])){
 
             $_websiteFieldNameSql = 'website_id';
@@ -577,8 +584,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             //2 - copy old data from bk_ tables
             $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
 
-            $srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
-
+            //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
+            $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, $_websiteFieldNameSql);
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
             //echo $destInsertSql.'<br /><br /><br /><br />';
             $connection->query($destInsertSql);
@@ -642,8 +649,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 //2 - refresh data by backup
                 $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
 
-                $srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
-
+                //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
+                $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$slaveStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
                 //echo $destInsertSql.'<br /><br />store<br /><br />';
                 $connection->query($destInsertSql);
@@ -732,6 +739,19 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     public function getEventStateCode()
     {
         return $this->_eventStateCode;
+    }
+    
+    protected function _getSimpleSelect($fields, $table, $where=null)
+    {
+        if (is_array($fields)) {
+            $fields = implode("," , $fields);
+        }
+        
+        if (isset($where)) {
+            $where = " WHERE " . $where;
+        }
+
+        return "SELECT $fields FROM `{$table}` $where";
     }
 
 }

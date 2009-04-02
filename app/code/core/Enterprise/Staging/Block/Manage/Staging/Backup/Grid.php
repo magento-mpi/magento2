@@ -60,13 +60,13 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('staging_name', array(
-            'header'    => 'Staging Name',
+            'header'    => Mage::helper('enterprise_staging')->__('Label'),
             'index'     => 'staging_name',
             'type'      => 'text',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => 'Created At',
+            'header'    => Mage::helper('enterprise_staging')->__('Created At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));

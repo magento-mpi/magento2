@@ -44,14 +44,14 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
 
     protected function _prepareLayout()
     {
-        $this->setChild('merge_button',
+/*        $this->setChild('merge_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'   => Mage::helper('enterprise_staging')->__('Merge'),
                     'onclick' => $this->getJsObjectName().'.stagingMergeConfig()',
                     'class'   => 'task'
                 ))
-        );
+        );*/
 
         $this->setChild('items',
             $this->getLayout()

@@ -275,14 +275,21 @@ Enterprise.Staging.Mapper.prototype = {
     },
     stagingMerge : function(additional_conditions)
     {
-        var container = $('schedule_config_container');
-        $(this.formId).appendChild(container);
+        if (!this.mapKeys.size()) {
+            alert('Please, select websites to map');
+            return;
+        }
+
         if (additional_conditions && additional_conditions.merge_later == 1) {
             $('schedule_merge_later_flag').value = 1;
         } else {
             $('schedule_merge_later_flag').value = '';        
         }
-            
+        
+        if (!this.mergeForm.validator.validate()){
+            return false;
+        }
+
         this.mergeForm.submit();
     },
     showScheduleConfigForm : function()

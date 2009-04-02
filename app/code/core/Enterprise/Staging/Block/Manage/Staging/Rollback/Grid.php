@@ -66,12 +66,16 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
                 if ($extendInfo[$datasetItem->getCode()]["disabled"]==true) {
                     $disabled = "disabled";
                     $checked = false;
+                    $availabilityText = '<div style="color:#800;">version mismatch</div>';
+                } else {
+                    $availabilityText = '<div style="color:#080;"><b>available</b></div>';
                 }
             }
             
             $itemData->setData("code", $datasetItem->getCode());
             $itemData->setData("id", $datasetItem->getId());
             $itemData->setData("itemCheckbox", $this->_addFieldset($datasetItem->getId(), $datasetItem->getCode(), $disabled, $checked));
+            $itemData->setData("rollbackAvailability", $availabilityText);
             
             $collection->addItem($itemData);            
         }
@@ -132,18 +136,12 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
             'truncate'  => 1000
         ));
 
-        $this->addColumn('backupVersion', array(
-            'header'    => 'Backup Version',
-            'index'     => 'backupVersion',
+        $this->addColumn('rollbackAvailability', array(
+            'header'    => 'Rollback availability',
+            'index'     => 'rollbackAvailability',
             'type'      => 'text',
         ));
 
-        $this->addColumn('currentVersion', array(
-            'header'    => 'Current Version',
-            'index'     => 'currentVersion',
-            'type'      => 'text',
-        ));  
-        
         return $this;
     }
 

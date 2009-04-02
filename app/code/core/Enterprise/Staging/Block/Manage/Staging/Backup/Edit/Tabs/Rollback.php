@@ -87,12 +87,12 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
             'type'      => 'text'
         ));
 
-        $this->addColumn('state', array(
+        /*$this->addColumn('state', array(
             'header'    => $this->helper->__('State'),
             'index'     => 'state',
             'type'      => 'text',
             'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
-        ));
+        ));*/
 
         $this->addColumn('status', array(
             'header'    => $this->helper->__('Status'),

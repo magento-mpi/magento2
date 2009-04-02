@@ -55,8 +55,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_General extends Mage_Adm
         $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Main Info')));
 
         $fieldset->addField('name', 'text', array(
-            'label'     => $this->helper->__('Staging name'),
-            'title'     => $this->helper->__('Staging name'),
+            'label'     => $this->helper->__('Label'),
+            'title'     => $this->helper->__('Label'),
             'name'      => 'name'
         ));
 

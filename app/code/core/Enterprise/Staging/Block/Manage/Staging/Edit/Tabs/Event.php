@@ -50,7 +50,12 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
-
+        
+        $this->setColumnRenderers(
+            array(
+                'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
+            ));
+        
         $this->helper = Mage::helper('enterprise_staging');
     }
 
@@ -61,10 +66,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
-        $collection->setStagingFilter($this->getStaging());
-        $this->setCollection($collection);
-
+        if ($this->getCollection()){
+            $collection = $this->getCollection(); 
+        } else {
+            $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
+            $collection->setStagingFilter($this->getStaging());
+            $this->setCollection($collection);
+        }
         return parent::_prepareCollection();
     }
 
@@ -76,30 +84,33 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('created_at', array(
-            'header'    => $this->helper->__('Event Time'),
+            'header'    => $this->helper->__('Date/Time'),
             'index'     => 'created_at',
-            'type'      => 'datetime'
+            'type'      => 'datetime',
+            'width'     => '150px'
         ));
 
         $this->addColumn('ip', array(
             'header'    => $this->helper->__('IP'),
             'index'     => 'ip',
-            'type'      => 'long2ip'
+            'type'    => 'long2ip'
         ));
 
         $this->addColumn('code', array(
             'header'    => $this->helper->__('Event Code'),
+            'width'     => '100px',        
             'index'     => 'code',
-            'type'      => 'eventlabel'
+            'type'      => 'options',
+            'options'   => $this->_getEventCodeArray()
         ));
 
         $this->addColumn('username', array(
-            'header'    => $this->helper->__('User Name'),
+            'header'    => $this->helper->__('Login'),
             'index'     => 'username',
             'type'      => 'text'
         ));
 
-        $this->addColumn('action', array(
+        /*$this->addColumn('action', array(
             'header'    => $this->helper->__('Action'),
             'index'     => 'action',
             'type'      => 'text'
@@ -110,7 +121,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'index'     => 'state',
             'type'      => 'text',
             'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
-        ));
+        )); */
 
         $this->addColumn('status', array(
             'header'    => $this->helper->__('Status'),
@@ -130,7 +141,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'sortable'      => false,
             'filter'        => false
         ));
-
+/*
         $this->addColumn('log', array(
             'header'        => $this->helper->__('Log'),
             'align'         => 'left',
@@ -141,11 +152,28 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'escape'        => true,
             'sortable'      => false,
             'filter'        => false
-        ));
+        ));*/
 
         return parent::_prepareColumns();
     }
 
+    
+    protected function _getEventCodeArray()
+    {
+        $eventCodes = array();
+        
+        $collection =  Mage::getResourceModel('enterprise_staging/staging_event_collection');
+        $collection->setStagingFilter($this->getStaging());
+        $this->setCollection($collection);
+        
+        if ($collection) {
+            foreach($collection as $item){
+                $eventCodes[$item->getCode()] = $item->getCode();         
+            }
+        }
+        return $eventCodes;
+    }
+    
     /**
      * Return Url for "Only Grid" retrieves
      *

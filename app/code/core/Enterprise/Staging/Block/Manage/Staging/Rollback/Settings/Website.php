@@ -29,7 +29,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {
@@ -37,8 +37,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         $this->setTemplate('enterprise/staging/manage/staging/rollback/settings/website.phtml');
         $this->setId('staging_website_mapper');
         $this->setUseAjax(true);
-
-        $this->setRowInitCallback($this->getJsObjectName().'.stagingWebsiteMapperRowInit');
+        
+        $this->setRollbackJsObjectName('enterpriseRollbackForm');
+        $this->setRowInitCallback($this->getRollbackJsObjectName().'.stagingWebsiteMapperRowInit');
         $this->setIsReadyForRollback(true);
     }
 
@@ -49,7 +50,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
-                        'onclick'   => $this->getJsObjectName().'.submit()',
+                        'onclick'   => $this->getRollbackJsObjectName().'.submit()',
                         'class'  => 'add'
                     ))
             );
@@ -63,13 +64,11 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
             );
             $this->setIsVersionConflict(true);
         }
-        
-/*        $this->setChild('items',
+       
+        $this->setChild('website_store_form',
             $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
-                ->setFieldNameSuffix('map[items]')
-                ->setExtendInfo($this->getBackup()->getItemVersionCheck())
-        );*/
+                ->createBlock('enterprise_staging/manage_staging_rollback_settings_store')
+        );
 
 
         $this->setChild('rollbackGrid',
@@ -78,7 +77,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         
         return parent::_prepareLayout();
     }
-
+    
     /**
      * Retrieve currently edited backup object
      *

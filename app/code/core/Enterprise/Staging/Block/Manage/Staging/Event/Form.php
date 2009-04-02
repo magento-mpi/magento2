@@ -47,8 +47,8 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
         $fieldset = $form->addFieldset('event_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Staging Event Information')));
 
         $fieldset->addField('name', 'label', array(
-            'label'     => $this->helper->__('Staging name'),
-            'title'     => $this->helper->__('Staging name'),
+            'label'     => $this->helper->__('Label'),
+            'title'     => $this->helper->__('Label'),
             'name'      => 'name',
             'value'     => $this->getStaging()->getName()
         ));

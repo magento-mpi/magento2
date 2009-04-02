@@ -113,6 +113,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store extends Mage_Core_Model_Mysq
             $slaveStore->load($slaveStoreId);
         }
 
+        $slaveStore->setData('is_active', 1);
         $slaveStore->setData('is_staging', 1);
         $slaveStore->setData('website_id',  $object->getSlaveWebsiteId());
         $slaveStore->setData('group_id',    $object->getSlaveGroupId());

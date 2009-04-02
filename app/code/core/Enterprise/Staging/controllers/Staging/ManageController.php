@@ -556,12 +556,20 @@ class Enterprise_Staging_Staging_ManageController extends Mage_Adminhtml_Control
                 $staging->merge();
 
                 if ($staging->getId()) {
-                    $this->_getSession()->addSuccess($this->__('Staging was successfully merged.'));
+                    if ($isMergeLater && !empty($mergeSchedulingDate)) {
+                        $this->_getSession()->addSuccess($this->__('Staging was successfully scheduled to merge.'));                        
+                    } else {
+                        $this->_getSession()->addSuccess($this->__('Staging was successfully merged.'));
+                    }
                     $stagingId = $staging->getId();
                     Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
                 } else {
                     $redirectBack = false;
-                    $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully merged.'));
+                    if ($isMergeLater && !empty($mergeSchedulingDate)) {
+                        $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully scheduled to merged.'));
+                    } else {
+                        $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully merged.'));
+                    }
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
