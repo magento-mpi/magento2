@@ -130,54 +130,62 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
      */
     public function getXmlCart(Mage_Sales_Model_Quote $quote)
     {
-        $_xml = '<?xml version="1.0" encoding="utf-8"?>'."\n"
+        $_xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
                 .'<Order xmlns="http://payments.amazon.com/checkout/2008-11-30/">'."\n";
         if (!$quote->hasItems()) {
             return false;
         }
-        $_xml .= "<ClientRequestId>" . $quote->getId() . "</ClientRequestId>\n"; // Returning parametr
+        $_xml .= " <ClientRequestId>{$quote->getId()}</ClientRequestId>\n"; // Returning parametr
         #        ."<ExpirationDate></ExpirationDate>";
 
-        $_xml .= "<Cart>\n"
-                ."    <Items>\n";
+        $_xml .= " <Cart>\n"
+                ."   <Items>\n";
 
         foreach ($quote->getAllVisibleItems() as $_item) {
-            $_xml .= "<Item>\n"
-                    ."    <SKU>" . $_item->getSku() . "</SKU>\n"
-                    ."    <MerchantId>" . $this->getMerchantId() . "</MerchantId>\n"
-                    ."    <Title>" . $_item->getName() . "</Title>\n"
-                    ."    <Price>\n"
-                    ."        <Amount>" . $_item->getPrice() . "</Amount>\n"
-                    ."         <CurrencyCode>" . $quote->getBaseCurrencyCode() . "</CurrencyCode>\n"
-                    ."    </Price>\n"
-                    ."    <Quantity>" . $_item->getQty() . "</Quantity>\n"
-                    ."    <Weight>\n"
-                    ."        <Amount>" . $_item->getWeight() . "</Amount>\n"
-                    ."        <Unit>lb</Unit>\n"
-                    ."    </Weight>\n";
-                    $_xml.="    <FulfillmentNetwork>MERCHANT</FulfillmentNetwork>";
-            $_xml .= "</Item>\n";
+            $_xml .= "   <Item>\n"
+                ."    <SKU>{$_item->getSku()}</SKU>\n"
+                ."    <MerchantId>{$this->getMerchantId()}</MerchantId>\n"
+                ."    <Title>{$_item->getName()}</Title>\n"
+                ."    <Price>\n"
+                ."     <Amount>{$_item->getPrice()}</Amount>\n"
+                ."     <CurrencyCode>{$quote->getBaseCurrencyCode()}</CurrencyCode>\n"
+                ."    </Price>\n"
+                ."    <Quantity>{$_item->getQty()}</Quantity>\n"
+                ."    <Weight>\n"
+                ."      <Amount>{$_item->getWeight()}</Amount>\n"
+                ."       <Unit>lb</Unit>\n"
+                ."     </Weight>\n";
+            if (!$this->getConfigData('use_callback_api')) {
+                $taxClass = ($_item->getTaxClassId() == 0 ? 'none' : $_item->getTaxClassId());
+                $_xml .= "     <TaxTableId>tax_{$taxClass}</TaxTableId>\n"
+                    ."     <ShippingMethodIds>\n"
+                    ."       <ShippingMethodId>US Standard</ShippingMethodId>\n"
+                    ."       <ShippingMethodId>US Expedited</ShippingMethodId>\n"
+                    ."       <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
+                    ."       <ShippingMethodId>US One-Day</ShippingMethodId>\n"
+                    ."     </ShippingMethodIds>\n";
+            }
+            $_xml .= "   </Item>\n";
+
         }
-        $_xml .= "</Items>\n"
-//                ."<CartPromotionId>cart-total-discount</CartPromotionId>\n"
-            ."</Cart>\n"
-            /*
-             * @todo put real integrator id and name of Varien
-             * /
-//            ."<IntegratorId>A2ZZYWSJ0WMID8MAGENTO</IntegratorId>\n"
-//            ."<IntegratorName>Varien</IntegratorName>\n"
-            /*."<OrderCalculationCallbacks>\n"
-            ."    <CalculateTaxRates>true</CalculateTaxRates>\n"
-            ."    <CalculatePromotions>true</CalculatePromotions>\n"
-            ."    <CalculateShippingRates>true</CalculateShippingRates>\n"
-            ."    <OrderCallbackEndpoint>" . Mage::getUrl('amazonpayments/cba/callback', array('_secure' => true)) . "</OrderCallbackEndpoint>\n"
-            ."    <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
-            ."</OrderCalculationCallbacks>\n"*/
-//            ."<ReturnUrl>" . Mage::getUrl('amazonpayments/cba/success', array('_secure' => true)) . "</ReturnUrl>"
-//            ."<CancelUrl>" . Mage::getUrl('amazonpayments/cba/cancel', array('_secure' => true)) . "</CancelUrl>"
-        . "</Order>\n";
-        $xml = simplexml_load_string($_xml, 'Varien_Simplexml_Element');
-        return $xml->asXML();
+        $_xml .= "   </Items>\n"
+                ."   <CartPromotionId>cart-total-discount</CartPromotionId>\n"
+                ." </Cart>\n";
+
+        $calculationsEnabled = ($this->getConfigData('use_callback_api') ? 'true' : 'false');
+        $_xml .= " <IntegratorId>A2ZZYWSJ0WMID8MAGENTO</IntegratorId>\n"
+                ." <IntegratorName>Varien</IntegratorName>\n";
+        $_xml .= " <OrderCalculationCallbacks>\n"
+                ."   <CalculateTaxRates>{$calculationsEnabled}</CalculateTaxRates>\n"
+                ."   <CalculatePromotions>{$calculationsEnabled}</CalculatePromotions>\n"
+                ."   <CalculateShippingRates>{$calculationsEnabled}</CalculateShippingRates>\n"
+                ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback')."</OrderCallbackEndpoint>\n"
+                ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
+                ." </OrderCalculationCallbacks>\n";
+
+        $_xml .= "</Order>\n";
+        return $_xml;
+
     }
 
     /**
