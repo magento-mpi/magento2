@@ -625,6 +625,18 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         return $parsedOrder;
     }
 
+    public function parseCancelNotification($xmlData)
+    {
+        $cancelData = array();
+        if (strlen(trim($xmlData))) {
+            $xml = new Varien_Simplexml_Config();
+            $xml->loadString($xmlData);
+            $aOrderId = (string) $xml->getNode('ProcessedOrder/AmazonOrderID');
+            $cancelData['amazon_order_id'] = $aOrderId;
+        }
+        return $cancelData;
+    }
+
     /**
      * Return address from Amazon request
      *

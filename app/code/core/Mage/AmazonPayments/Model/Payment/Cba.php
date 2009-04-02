@@ -213,7 +213,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     ->save();
             }
             Mage::log($_request['NotificationData']);
-//            $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
             switch ($_request['NotificationType']) {
                 case 'NewOrderNotification':
                     $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
@@ -225,8 +224,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     break;
                 case 'OrderCancelledNotification':
 //                    $amazonOrderDetails = $this->getApi()->parseCancelOrder($_request['NotificationData']);
-//                    $amazonOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
-//                    $this->_cancelOrder($amazonOrderDetails);
+                    $cancelDetails = $this->getApi()->parseCancelNotification($_request['NotificationData']);
+                    $this->_cancelOrder($cancelDetails);
                     break;
                 default:
                     // Unknown notification type
@@ -249,6 +248,15 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     protected function _createNewOrder(array $newOrderDetails)
     {
+        if (array_key_exists('amazonOrderID', $newOrderDetails)) {
+            $_order = Mage::getModel('sales/order')
+                ->loadByAttribute('ext_order_id', $newOrderDetails['amazonOrderID']);
+            if ($_order->getId()) {
+                $_order = null;
+                return $this;
+            }
+            $_order = null;
+        }
         $session = $this->getCheckout();
 
         #$quoteId = $session->getAmazonQuoteId();
@@ -409,12 +417,18 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      *
      * @param array $amazonOrderDetails
      */
-    protected function _cancelOrder($amazonOrderDetails)
+    protected function _cancelOrder($cancelDetails)
     {
-        if ($quoteId = $newOrderDetails['ClientRequestId']) {
-            if ($order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $quoteId)) {
-                /* @var $order Mage_Sales_Model_Order */
-                $order->cancel()->save();
+        if (array_key_exists('amazon_order_id', $cancelDetails)) {
+            $order = Mage::getModel('sales/order')
+                ->loadByAttribute('ext_order_id', $cancelDetails['amazon_order_id']);
+            /* @var $order Mage_Sales_Model_Order */
+            if ($order->getId()) {
+                try {
+                    $order->cancel()->save();
+                } catch (Exception $e) {
+                    return false;
+                }
             }
         }
         return true;
