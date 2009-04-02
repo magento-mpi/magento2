@@ -20,19 +20,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise
+ * @package    Enterprise_Staging
  * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <config>
     <modules>
-        <!--Enterprise_Staging>
-            <active>true</active>
+        <Enterprise_Staging>
+            <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Catalog />
+                <Mage_Catalog/>
             </depends>
-        </Enterprise_Staging-->
+        </Enterprise_Staging>
     </modules>
 </config>
