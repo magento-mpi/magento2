@@ -20,20 +20,17 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   design_default
- * @package    Mage
+ * @package    Enterprise_WebsiteRestriction
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <layout version="0.1.0">
-<!--
-Default layout, loads most of the pages
--->
-
-    <default>
-        <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
-
+    <!-- stub-page for a closed website -->
+    <restriction_index_stub>
+        <block type="page/html" name="root" output="toHtml" template="page/1column.phtml">
             <block type="page/html_head" name="head" as="head">
+                <!-- please remove non-required elements from this block -->
                 <action method="addJs"><script>prototype/prototype.js</script></action>
                 <action method="addJs" ifconfig="dev/js/deprecation"><script>prototype/deprecation.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
@@ -51,69 +48,27 @@ Default layout, loads most of the pages
                 <action method="addCss"><stylesheet>css/reset.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/clears.css</stylesheet></action>
-
                 <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
-
                 <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
                 <action method="addItem"><type>skin_js</type><name>js/iehover-fix.js</name><params/><if>lt IE 7</if></action>
-
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
-
             <block type="page/html_header" name="header" as="header">
-                <block type="page/template_links" name="top.links" as="topLinks"/>
-                <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
-                <block type="core/text_list" name="top.menu" as="topMenu"/>
                 <block type="core/text_list" name="top.container" as="topContainer"/>
             </block>
-
-            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
-
-            <block type="core/text_list" name="left" as="left"/>
-
             <block type="core/messages" name="global_messages" as="global_messages"/>
             <block type="core/messages" name="messages" as="messages"/>
-
-            <block type="core/text_list" name="content" as="content"/>
-
-            <block type="core/text_list" name="right" as="right"/>
-
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
-                <block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
-                <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
+            <block type="core/text_list" name="content" as="content">
+                <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml">
+                    <block type="enterprise_websiterestriction/cms_stub" name="cms_page" as="cms_page" />
+                </block>
             </block>
-
-            <block type="core/text_list" name="before_body_end" as="before_body_end"/>
+            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml"/>
         </block>
-
         <block type="core/profiler" output="toHtml"/>
-    </default>
+    </restriction_index_stub>
 
-    <print>
-        <!-- Mage_Page -->
-        <block type="page/html" name="root" output="toHtml" template="page/print.phtml">
-
-            <block type="page/html_head" name="head" as="head">
-                <action method="addJs"><script>prototype/prototype.js</script></action>
-                <action method="addJs"><script>mage/translate.js</script></action>
-                <action method="addJs"><script>prototype/validation.js</script></action>
-                <action method="addJs"><script>varien/js.js</script></action>
-                <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
-
-                <action method="addCss"><stylesheet>css/reset.css</stylesheet></action>
-                <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
-                <action method="addCss"><stylesheet>css/clears.css</stylesheet></action>
-
-                <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>IE</if></action>
-
-                <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
-                <!--<action method="addItem"><type>skin_js</type><name>js/iehover-fix.js</name><params/><if>lt IE 7</if></action>-->
-
-                <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
-            </block>
-
-            <block type="core/text_list" name="content" as="content"/>
-
-        </block>
-    </print>
+    <!-- private sales mode additional layout update -->
+    <restriction_privatesales_mode>
+    </restriction_privatesales_mode>
 </layout>

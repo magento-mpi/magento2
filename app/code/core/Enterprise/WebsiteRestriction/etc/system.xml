@@ -40,6 +40,7 @@
                             <label>Limit website access</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </is_active>
@@ -48,20 +49,12 @@
                             <label>Restriction mode</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_websiterestriction/system_config_source_modes</source_model>
+                            <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </mode>
-                        <http_status translate="label comment">
-                            <sort_order>30</sort_order>
-                            <label>Closed HTTP response</label>
-                            <comment>In this mode the landing page is rendered as raw output</comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>enterprise_websiterestriction/system_config_source_http</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </http_status>
                         <http_redirect translate="label">
-                            <sort_order>40</sort_order>
+                            <sort_order>30</sort_order>
                             <label>Private sales redirect</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_websiterestriction/system_config_source_redirect</source_model>
@@ -69,13 +62,22 @@
                             <show_in_website>1</show_in_website>
                         </http_redirect>
                         <cms_page translate="label">
-                            <sort_order>50</sort_order>
+                            <sort_order>40</sort_order>
                             <label>Landing page</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_cms_page</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </cms_page>
+                        <http_status translate="label comment">
+                            <sort_order>50</sort_order>
+                            <label>Closed HTTP response</label>
+                            <comment>Applicable only website is closed. In this mode the landing page is rendered as raw output</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_websiterestriction/system_config_source_http</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </http_status>
                     </fields>
                 </restriction>
             </groups>

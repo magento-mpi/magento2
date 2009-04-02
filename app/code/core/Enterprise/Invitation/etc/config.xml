@@ -174,10 +174,10 @@
         <enterprise>
             <websiterestriction>
                 <full_action_names>
-                    <login>
-                        <enterprise_invitation_customer_account_create />
-                        <enterprise_invitation_customer_account_createpost />
-                    </login>
+                    <generic>
+                        <enterprise_invitation_customer_account_create/>
+                        <enterprise_invitation_customer_account_createpost/>
+                    </generic>
                 </full_action_names>
             </websiterestriction>
         </enterprise>

@@ -67,6 +67,14 @@
                     </enterprise_websiterestriction>
                 </observers>
             </customer_registration_is_allowed>
+            <controller_action_layout_load_before>
+                <observers>
+                    <enterprise_websiterestriction>
+                        <class>enterprise_websiterestriction/observer</class>
+                        <method>addPrivateSalesLayoutUpdate</method>
+                    </enterprise_websiterestriction>
+                </observers>
+            </controller_action_layout_load_before>
         </events>
         <routers>
             <restriction>
@@ -80,12 +88,12 @@
         <enterprise>
             <websiterestriction>
                 <full_action_names>
-                    <login>
+                    <generic>
                         <customer_account_login/>
                         <customer_account_loginPost/>
                         <customer_account_forgotpassword/>
                         <customer_account_forgotpasswordpost/>
-                    </login>
+                    </generic>
                     <register>
                         <customer_account_create/>
                         <customer_account_createpost/>
@@ -93,6 +101,13 @@
                 </full_action_names>
             </websiterestriction>
         </enterprise>
+        <layout>
+            <updates>
+                <enterprise_websiterestriction>
+                    <file>websiterestriction.xml</file>
+                </enterprise_websiterestriction>
+            </updates>
+        </layout>
     </frontend>
     <default>
         <general>

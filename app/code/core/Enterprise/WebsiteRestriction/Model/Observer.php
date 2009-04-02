@@ -62,13 +62,13 @@ class Enterprise_WebsiteRestriction_Model_Observer
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER:
                     // break intentionally omitted
 
-                // show/redirect to landing page/login
+                // redirect to landing page/login
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
                     if (!Mage::helper('customer')->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
-                            ->getNode('frontend/enterprise/websiterestriction/full_action_names/login')->asArray()
+                            ->getNode('frontend/enterprise/websiterestriction/full_action_names/generic')->asArray()
                         );
                         if (Mage::helper('customer')->isRegistrationAllowed()) {
                             foreach(array_keys(Mage::getConfig()->getNode('frontend/enterprise/websiterestriction/full_action_names/register')
@@ -114,6 +114,21 @@ class Enterprise_WebsiteRestriction_Model_Observer
             $result->setIsAllowed((!(bool)(int)Mage::getStoreConfig('general/restriction/is_active'))
                 || (Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === (int)Mage::getStoreConfig('general/restriction/mode'))
             );
+        }
+    }
+
+    /**
+     * Make layout load additional handler when in private sales mode
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addPrivateSalesLayoutUpdate($observer)
+    {
+        if (in_array((int)Mage::getStoreConfig('general/restriction/mode'), array(
+            Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
+            Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN
+            ), true)) {
+            $observer->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
 }
