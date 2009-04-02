@@ -130,6 +130,17 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getUrl('enterprise_invitation/index/list');
     }
 
+
+    /**
+     * Return invitation send form url
+     *
+     * @return string
+     */
+    public function getCustomerInvitationFormUrl()
+    {
+        return $this->_getUrl('enterprise_invitation/');
+    }
+
     /**
      * Checks is allowed registration in invitation controller
      *

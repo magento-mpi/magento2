@@ -74,6 +74,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnIsActiveFilterToCollection(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
 
         $this->_getIndexModel()->addIndexToCategoryCollection($categoryCollection, $this->_getCustomerGroupId(), $this->_getWebsiteId());
@@ -89,6 +93,11 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnLoadCollection(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
+
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
         $categoryIds = $categoryCollection->getColumnValues('entity_id');
         $permissions = $this->_getIndexModel()->getIndexForCategory($categoryIds, $this->_getCustomerGroupId(), $this->_getWebsiteId());
@@ -112,6 +121,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryInactiveIds(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $categoryIds = $this->_getIndexModel()->getRestrictedCategoryIds($this->_getCustomerGroupId(), $this->_getWebsiteId());
 
         $observer->getEvent()->getTree()->addInactiveCategoryIds($categoryIds);
@@ -127,6 +140,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyPriceGrantOnPriceIndex(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $this->_getIndexModel()->applyPriceGrantToPriceIndex($observer->getEvent(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
         return $this;
     }
@@ -139,6 +156,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnProductCount(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $collection = $observer->getEvent()->getCollection();
         $this->_getIndexModel()->addIndexToProductCount($collection, $this->_getCustomerGroupId());
         return $this;
@@ -152,6 +173,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnLoadModel(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $category = $observer->getEvent()->getCategory();
         if (!$this->_isCategoryQueue) {
             $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
@@ -175,6 +200,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnCollection(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $collection = $observer->getEvent()->getCollection();
         $this->_getIndexModel()->addIndexToProductCollection($collection, $this->_getCustomerGroupId());
         return $this;
@@ -188,6 +217,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnCollectionAfterLoad(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection as $product) {
             $this->_applyPermissionsOnProduct($product);
@@ -203,6 +236,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkQuoteItem(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $quoteItem = $observer->getEvent()->getItem();
 
         $this->_initPermissionsOnQuoteItems($quoteItem->getQuote());
@@ -240,6 +277,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkQuoteItemSetProduct(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $quoteItem = $observer->getEvent()->getQuoteItem();
         $product = $observer->getEvent()->getProduct();
 
@@ -276,7 +317,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      * @param Mage_Sales_Model_Quote $quote
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
-    public function _initPermissionsOnQuoteItems($quote)
+    protected function _initPermissionsOnQuoteItems($quote)
     {
         $productIds = array();
 
@@ -337,6 +378,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnModelAfterLoad(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $product = $observer->getEvent()->getProduct();
         if (!$this->_isProductQueue) {
             $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
@@ -356,6 +401,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function startProductIndexQueue(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $this->_isProductQueue = true;
         return $this;
     }
@@ -368,6 +417,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function endProductIndexQueue(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $this->_isProductQueue = false;
 
         foreach ($this->_queue as $index => $product) {
@@ -396,6 +449,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function startCategoryIndexQueue(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $this->_isCategoryQueue = true;
         return $this;
     }
@@ -408,7 +465,11 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function endCategoryIndexQueue(Varien_Event_Observer $observer)
     {
-        $this->_isCategoryQueueQueue = false;
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
+        $this->_isCategoryQueue = false;
 
         foreach ($this->_queue as $index => $category) {
             if ($category instanceof Mage_Catalog_Model_Category) {
@@ -498,6 +559,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchLayout(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()) {
             $observer->getEvent()->getLayout()->getUpdate()->addHandle(
                 'CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH'
@@ -514,6 +579,10 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchPreDispatch(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()
             && !$observer->getEvent()->getControllerAction()->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true)
             && $observer->getEvent()->getControllerAction()->getRequest()->isDispatched()) {
@@ -521,6 +590,8 @@ class Enterprise_CatalogPermissions_Model_Observer
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
         }
+
+        return $this;
     }
 
     /**

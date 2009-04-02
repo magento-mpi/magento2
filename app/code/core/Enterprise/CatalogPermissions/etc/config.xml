@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CatalogPermissions>
-            <version>0.0.4</version>
+            <version>0.0.5</version>
         </Enterprise_CatalogPermissions>
     </modules>
     <global>
@@ -112,11 +112,29 @@
                 <observers>
                     <enterprise_catalogpermissions>
                         <type>singleton</type>
-                        <class>catalogindex/observer</class>
-                        <method>reindexAfterProductImport</method>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
                 </observers>
             </store_add>
+            <website_add>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindexProducts</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </website_add>
+            <customer_group_save_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindex</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </customer_group_save_after>
             <controller_action_postdispatch>
                 <observers>
                     <enterprise_catalogpermissions>
@@ -149,7 +167,7 @@
                      <enterprise_catalogpermissions>
                         <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
-                        <method>reindexAfterProductImport</method>
+                        <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_import_after>
@@ -162,6 +180,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_to_website_change>
+            <admin_system_config_changed_section_enterprise_catalogpermissions>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>cleanCacheOnConfigChange</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </admin_system_config_changed_section_enterprise_catalogpermissions>
         </events>
         <translate>
             <modules>
@@ -388,6 +415,7 @@
                 <grant_checkout_items>0</grant_checkout_items>
                 <restricted_landing_page>no-route</restricted_landing_page>
                 <deny_catalog_search></deny_catalog_search>
+                <enabled>0</enabled>
             </general>
         </enterprise_catalogpermissions>
     </default>

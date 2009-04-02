@@ -93,9 +93,18 @@
         
         
         for (i=0, l=params.length; i < l; i ++) {
-            if (row.down('.' + this.fieldClassName(params[i]))) {
+            var field = row.down('.' + this.fieldClassName(params[i]));
+            if (field) {
                if (!params[i].match(/grant_/i)) {
-                    row.down('.' + this.fieldClassName(params[i])).value = config[params[i]];
+                   if (field.tagName.toUpperCase() != 'SELECT') {
+                       field.value = config[params[i]];
+                   } else {
+                       for (var j=0, ln = field.options.length; j < ln; j++) {
+                           if (field.options[j].value == config[params[i]] && field.options[j].value.length == config[params[i]].length) { 
+                               field.value = field.options[j].value;
+                           }
+                       }
+                  }
                }
             }
         }
@@ -127,6 +136,8 @@
     
     handleAddButton: function (evt) {
         this.add();
+        this.checkDuplicates();
+        this.validate();
     },
     handleUpdatePermission: function (evt) {
         var field = $(Event.element(evt));
@@ -194,9 +205,7 @@
         var fields = row.select('select.is-unique', 'input.is-unique');
         var key = '';
         for (var i=0, l=fields.length; i < l; i ++) {
-            if (fields[i].value !== '') {
-                key += '_' + fields[i].value;
-            }
+            key += '_' + fields[i].value;
         }
         
         return key;

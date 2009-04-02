@@ -43,6 +43,10 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function saveCategoryPermissions(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $category = $observer->getEvent()->getCategory();
 
         /* @var $category Mage_Catalog_Model_Category */
@@ -60,6 +64,14 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                     continue;
                 }
 
+                if (strlen($data['website_id']) == 0) {
+                    $data['website_id'] = null;
+                }
+
+                if (strlen($data['customer_group_id']) == 0) {
+                    $data['customer_group_id'] = null;
+                }
+
                 $permission->addData($data);
                 if ($permission->getGrantCatalogCategoryView() == -2) {
                     $permission->setGrantCatalogProductPrice(-2);
@@ -72,12 +84,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 $permission->save();
             }
         }
-
-        try {
-            $this->_indexQueue[] = $category->getPath();
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
+        $this->_indexQueue[] = $category->getPath();
         return $this;
     }
 
@@ -94,6 +101,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindex($item);
             }
             $this->_indexQueue = array();
+            Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {
@@ -107,14 +115,36 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     }
 
     /**
-     * Rebuild index after catalog import
+     * Refresh category related cache on catalog permissions config save
+     *
+     * @return Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
+    public function cleanCacheOnConfigChange()
+    {
+        Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
+        return $this;
+    }
+
+    /**
+     * Rebuild index for products
+     *
+     * @return  Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
+    public function reindexProducts()
+    {
+        $this->_indexProductQueue[] = null;
+        return $this;
+    }
+
+    /**
+     * Rebuild index
      *
      * @param   Varien_Event_Observer $observer
      * @return  Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
-    public function reindexAfterProductImport(Varien_Event_Observer $observer)
+    public function reindex()
     {
-        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProducts();
+        $this->_indexQueue[] = '1';
         return $this;
     }
 
@@ -153,6 +183,10 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function addCategoryPermissionTab(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
         $tabs->addTab(

@@ -34,24 +34,26 @@
 <form id="invitationForm" action="" method="post">
     <div class="group-select">
         <h3><?php echo Mage::helper('enterprise_invitation')->__('E-mails') ?></h3>
-        <fieldset>
-            <ul>
+        <fieldset class="fieldset">
+            <ul class="form-list">
                 <?php $_perRow = ceil($_fieldAmount/3); for($_index = 1; $_index <= $_fieldAmount; $_index ++): ?>
                 <li>
                     <label for="email_<?php echo $_index ?>"><?php echo $_index; ?>: <?php if ($_index == 1): ?><span class="required">*</span><?php endif;?></label>
-                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('enterprise_invitation')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
+                    <div class="input-box">
+                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('enterprise_invitation')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
+                    </div>
                 </li>
-                <?php if ($_index%$_perRow==0 && $_index!=$_fieldAmount): ?>
-                    </ul><ul>
-                <?php elseif ($_index==$_fieldAmount ): ?>
-                    </ul>
-                <?php endif; ?>
+
+
+
                 <?php endfor; ?>
             <?php if (Mage::helper('enterprise_invitation')->getUseInvitationMessage()): ?>
-            <ul>
+
                 <li>
                     <label for="message"><?php echo Mage::helper('enterprise_invitation')->__('Message');?>: </label>
+                    <div class="input-box">
                     <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo Mage::helper('enterprise_invitation')->__('Message') ?>"  class="input-text" rows="5"></textarea>
+                    </div>
                 </li>
             </ul>
             <?php endif;?>
@@ -63,7 +65,7 @@
     <p class="required"><?php echo Mage::helper('enterprise_invitation')->__('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
-    var contactForm = new VarienForm('enterprise_invitationForm', true);
+    var contactForm = new VarienForm('invitationForm', true);
 </script>
 <?php else:?>
 <h2><?php echo Mage::helper('enterprise_invitation')->__('You cannot send more invitations'); ?></h2>

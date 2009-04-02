@@ -97,6 +97,16 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
+        $websiteIds = Mage::getModel('core/website')->getCollection()
+            ->addFieldToFilter('website_id', array('neq'=>0))
+            ->getAllIds();
+
+
+        $customerGroupIds = Mage::getModel('customer/group')->getCollection()
+            ->getAllIds();
+
+
+
         $notEmptyWhere = array();
 
         foreach (array_keys($this->_grantsInheritance) as $grant) {
@@ -118,11 +128,57 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         foreach ($permissions as $permission) {
             $uniqKey = $permission['website_id']
                      . '_' . $permission['customer_group_id'];
+            if ($permission['website_id'] === null ||
+                $permission['customer_group_id'] === null) {
+                $uniqKey .= '_default';
+            }
+
             $path = $categoryPath[$permission['category_id']];
             $this->_permissionCache[$path][$uniqKey] = $permission;
         }
 
         unset ($permissions);
+
+        foreach ($this->_permissionCache as &$permissions) {
+            foreach (array_keys($permissions) as $uniqKey) {
+                $permission = $permissions[$uniqKey];
+                if ($permission['website_id'] === null &&
+                    $permission['customer_group_id'] === null) {
+                    foreach ($customerGroupIds as $customerGroupId) {
+                        // Apply permissions for all customer groups
+                        if (!isset($permissions['_' . $customerGroupId . '_default'])) {
+                            $permission['customer_group_id'] = $customerGroupId;
+                            $permissions['_' . $customerGroupId . '_default'] = $permission;
+                        }
+                    }
+                    unset($permissions[$uniqKey]);
+                }
+            }
+
+            foreach (array_keys($permissions) as $uniqKey) {
+                $permission = $permissions[$uniqKey];
+                if ($permission['website_id'] === null) {
+                    foreach ($websiteIds as $websiteId) {
+                        if (!isset($permissions[$websiteId . '__default'])
+                            && !isset($permissions[$websiteId . '_' . $permission['customer_group_id']])) {
+                            // Apply permissions for all websites
+                            $permission['website_id'] = $websiteId;
+                            $permissions[$websiteId . '_' . $permission['customer_group_id']] = $permission;
+                        }
+                    }
+                } elseif ($permission['customer_group_id'] === null) {
+                    foreach ($customerGroupIds as $customerGroupId) {
+                        if (!isset($permissions[$permission['website_id'] . '_' . $customerGroupId])) {
+                            $permission['customer_group_id'] = $customerGroupId;
+                            $permissions[$permission['website_id'] . '_' . $customerGroupId] = $permission;
+                        }
+                    }
+                } else {
+                    continue;
+                }
+                unset($permissions[$uniqKey]);
+            }
+        }
 
         $fields =  array_merge(
             array(
@@ -410,7 +466,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         if (!empty($restrictedCatIds) && !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
             $select->where('entity_id NOT IN(?)', $restrictedCatIds);
         } elseif (!empty($restrictedCatIds) && Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
-            $select->where('entity_id IN(?)');
+            $select->where('entity_id IN(?)', $restrictedCatIds);
         } elseif (Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
             $select->where('1 = 0'); // category view allowed for all
         }

@@ -34,4 +34,9 @@
     <adminhtml_catalog_category_edit>
         <update handle="PERMISSIONS_JAVASCRIPT"/>
     </adminhtml_catalog_category_edit>
+    <adminhtml_system_config_edit>
+         <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/catalogpermissions-config.js</script></action>
+         </reference>
+    </adminhtml_system_config_edit>
 </layout>

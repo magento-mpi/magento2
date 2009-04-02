@@ -33,11 +33,23 @@
 
 class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_ENABLED = 'enterprise_catalogpermissions/general/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'enterprise_catalogpermissions/general/grant_catalog_category_view';
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
     const XML_PATH_DENY_CATALOG_SEARCH = 'enterprise_catalogpermissions/general/deny_catalog_search';
     const XML_PATH_LANDING_PAGE = 'enterprise_catalogpermissions/general/restricted_landing_page';
+
+
+    /**
+     * Retrieve config value for permission enabled
+     *
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+    }
 
 
     /**
@@ -47,7 +59,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
      */
     public function isAllowedCategoryView()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW);
+        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW);
     }
 
     /**
@@ -57,7 +69,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
      */
     public function isAllowedProductPrice()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE);
+        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE);
     }
 
     /**
@@ -67,7 +79,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
      */
     public function isAllowedCheckoutItems()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_GRANT_CHECKOUT_ITEMS);
+        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CHECKOUT_ITEMS);
     }
 
 
@@ -97,5 +109,31 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
     public function getLandingPageUrl()
     {
         return $this->_getUrl('', array('_direct' => Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE)));
+    }
+
+    /**
+     * Retrieve is allowed grant from configuration
+     *
+     * @param string $configPath
+     * @return boolean
+     */
+    protected function _getIsAllowedGrant($configPath)
+    {
+        if (Mage::getStoreConfig($configPath) == 2) {
+            $groups = trim(Mage::getStoreConfig($configPath . '_groups'));
+
+            if ($groups === '') {
+                return false;
+            }
+
+            $groups = explode(',', $groups);
+
+            return in_array(
+                Mage::getSingleton('customer/session')->getCustomerGroupId(),
+                $groups
+            );
+        }
+
+        return Mage::getStoreConfig($configPath) == 1;
     }
 }

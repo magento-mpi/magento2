@@ -26,11 +26,11 @@
  */
 -->
 <layout version="0.1.0">
-    <default>
-        <reference name="cart_sidebar_links">
-            <action method="addLink" translate="label title" module="enterprise_invitation"><label>Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationUrl" /><title>Invitations</title></action>
+    <customer_logged_in>
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>40</position></action>
         </reference>
-    </default>
+    </customer_logged_in>
     
     <enterprise_invitation_index_index>
         <reference name="root">
