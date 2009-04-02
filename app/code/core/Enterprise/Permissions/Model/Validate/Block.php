@@ -31,6 +31,11 @@ class Enterprise_Permissions_Model_Validate_Block extends Enterprise_Permissions
         $collection->addAttributeToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getRelevantWebsites()));
     }
 
+    public function filterCustomerOnlineGrid($collection, $request)
+    {
+        $collection->addFieldToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
+    }
+    
     public function filterCatalogProductGrid($collection, $request)
     {
         $collection->addStoreFilter($request->getParam('store'));

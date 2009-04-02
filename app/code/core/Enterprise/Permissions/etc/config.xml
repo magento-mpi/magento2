@@ -184,6 +184,7 @@
                     <adminhtml_catalog_product_tagGrid>enterprise_permissions/validate_block::filterCatalogProductTagGrid</adminhtml_catalog_product_tagGrid>
                     <adminhtml_catalog_product_gridOnly>enterprise_permissions/validate_block::filterCatalogProductGrid</adminhtml_catalog_product_gridOnly>
                     <adminhtml_customer_index>enterprise_permissions/validate_block::filterCustomerGrid</adminhtml_customer_index>
+                    <adminhtml_customer_online_index>enterprise_permissions/validate_block::filterCustomerOnlineGrid</adminhtml_customer_online_index>
                     <adminhtml_customer_exportCsv>enterprise_permissions/validate_block::filterCustomerGrid</adminhtml_customer_exportCsv>
                     <adminhtml_customer_exportXml>enterprise_permissions/validate_block::filterCustomerGrid</adminhtml_customer_exportXml>
                     <adminhtml_sales_order_index>enterprise_permissions/validate_block::filterSalesOrderGrid</adminhtml_sales_order_index>
