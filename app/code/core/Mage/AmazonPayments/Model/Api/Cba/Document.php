@@ -123,7 +123,6 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         if ($this->getClient()) {
             $this->_result = null;
             try {
-                Zend_Debug::dump($this->_options);
                 $this->_result = $this->getClient()
                     ->call($method, $params, $this->_options);
             } catch (Exception $e) {
@@ -140,18 +139,20 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      */
     public function getDocument($aOrderId)
     {
-        $params = array('merchant' => $this->getMerchantInfo(), 'documentIdentifier' => $aOrderId);
-        try {
-            $this->_proccessRequest('getDocument', $params);
-        } catch (Exception $e) {
-            Zend_Debug::dump($e->getMessage());
-        }
+        $params = array(
+            'merchant' => $this->getMerchantInfo(),
+            'documentIdentifier' => $aOrderId
+        );
+        $this->_proccessRequest('getDocument', $params);
         return $this->_result;
     }
 
-    public function getPendingDocuments($documentType)
+    public function getPendingDocuments()
     {
-        $params = array('merchant' => $this->getMerchantInfo(), 'messageType' => $documentType);
+        $params = array(
+            'merchant' => $this->getMerchantInfo(),
+            'messageType' => '_GET_ORDERS_DATA_'
+        );
         $this->_proccessRequest('getAllPendingDocumentInfo', $params);
         return $this->_result;
     }
@@ -164,6 +165,16 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      */
     public function cancel($aOrderId)
     {
+//        $this->getPendingDocuments();
+//        $this->getDocument('105-6632304-7385012');
+//        try {
+//            Zend_Debug::dump($this->getClient()->getWire());
+//        } catch (Exception $e) {
+//            echo 'Exception';
+//            Zend_Debug::dump($e->getMessage());
+//        }
+//        Zend_Debug::dump($this->_result);
+//        die(__METHOD__.'::'.__LINE__);
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
 <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
 <Header>
@@ -186,6 +197,9 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             'doc' => $this->_createAttachment($_document)
         );
         $this->_proccessRequest('postDocument', $params);
+//        Zend_Debug::dump($this->_result);
+//        Zend_Debug::dump($this->getClient()->getWire());
+//        die(__METHOD__.'::'.__LINE__);
         return $this->_result;
     }
 
