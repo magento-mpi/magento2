@@ -549,30 +549,29 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     {
         $parsedOrder = array();
         if (strlen(trim($xmlData)) > 0) {
-            $xml = new Varien_Simplexml_Config();
-            $xml->loadString($xmlData);
+            $xml = simplexml_load_string($xmlData, 'Varien_Simplexml_Element');
             $parsedOrder = array(
-                'NotificationReferenceId'   => (string) $xml->getNode("NotificationReferenceId"),
-                'amazonOrderID'     => (string) $xml->getNode("ProcessedOrder/AmazonOrderID"),
-                'orderDate'         => (string) $xml->getNode("ProcessedOrder/OrderDate"),
-                'orderChannel'      => (string) $xml->getNode("ProcessedOrder/OrderChannel"),
-                'buyerName'         => (string) $xml->getNode("ProcessedOrder/BuyerInfo/BuyerName"),
-                'buyerEmailAddress' => (string) $xml->getNode("ProcessedOrder/BuyerInfo/BuyerEmailAddress"),
-                'ShippingLevel'     => (string) $xml->getNode("ProcessedOrder/ShippingServiceLevel"),
+                'NotificationReferenceId'   => (string) $xml->descend("NotificationReferenceId"),
+                'amazonOrderID'     => (string) $xml->descend("ProcessedOrder/AmazonOrderID"),
+                'orderDate'         => (string) $xml->descend("ProcessedOrder/OrderDate"),
+                'orderChannel'      => (string) $xml->descend("ProcessedOrder/OrderChannel"),
+                'buyerName'         => (string) $xml->descend("ProcessedOrder/BuyerInfo/BuyerName"),
+                'buyerEmailAddress' => (string) $xml->descend("ProcessedOrder/BuyerInfo/BuyerEmailAddress"),
+                'ShippingLevel'     => (string) $xml->descend("ProcessedOrder/ShippingServiceLevel"),
                 'shippingAddress'   => array(
-                    'name'          => (string) $xml->getNode("ProcessedOrder/ShippingAddress/Name"),
-                    'street'        => (string) $xml->getNode("ProcessedOrder/ShippingAddress/AddressFieldOne"),
-                    'city'          => (string) $xml->getNode("ProcessedOrder/ShippingAddress/City"),
-                    'regionCode'    => (string) $xml->getNode("ProcessedOrder/ShippingAddress/State"),
-                    'postCode'      => (string) $xml->getNode("ProcessedOrder/ShippingAddress/PostalCode"),
-                    'countryCode'   => (string) $xml->getNode("ProcessedOrder/ShippingAddress/CountryCode"),
+                    'name'          => (string) $xml->descend("ProcessedOrder/ShippingAddress/Name"),
+                    'street'        => (string) $xml->descend("ProcessedOrder/ShippingAddress/AddressFieldOne"),
+                    'city'          => (string) $xml->descend("ProcessedOrder/ShippingAddress/City"),
+                    'regionCode'    => (string) $xml->descend("ProcessedOrder/ShippingAddress/State"),
+                    'postCode'      => (string) $xml->descend("ProcessedOrder/ShippingAddress/PostalCode"),
+                    'countryCode'   => (string) $xml->descend("ProcessedOrder/ShippingAddress/CountryCode"),
                 ),
                 'items'             => array(),
             );
 
             $_total = $_shipping = $_tax = $_shippingTax = $_subtotalPromo = $_shippingPromo = $_subtotal = 0;
             $_itemsCount = $_itemsQty = 0;
-            foreach ($xml->getNode("ProcessedOrder/ProcessedOrderItems/ProcessedOrderItem") as $_item) {
+            foreach ($xml->descend("ProcessedOrder/ProcessedOrderItems/ProcessedOrderItem") as $_item) {
                 $parsedOrder['ClientRequestId'] = (string) $_item->ClientRequestId;
                 $_sku = (string) $_item->SKU;
                 $_itemQty = (string) $_item->Quantity;
@@ -637,9 +636,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     {
         $cancelData = array();
         if (strlen(trim($xmlData))) {
-            $xml = new Varien_Simplexml_Config();
-            $xml->loadString($xmlData);
-            $aOrderId = (string) $xml->getNode('ProcessedOrder/AmazonOrderID');
+            $xml = simplexml_load_string($xmlData, 'Varien_Simplexml_Element');
+            $aOrderId = (string) $xml->descend('ProcessedOrder/AmazonOrderID');
             $cancelData['amazon_order_id'] = $aOrderId;
         }
         return $cancelData;
@@ -654,17 +652,16 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     {
         $address = array();
         if (strlen(trim($xmlResponse)) > 0) {
-            $xml = new Varien_Simplexml_Config();
-            $xml->loadString($xmlResponse);
+            $xml = simplexml_load_string($xmlResponse, 'Varien_Simplexml_Element');
 
             $address = array(
-                'addressId'         => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/AddressId"),
-                'regionCode'        => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/State"),
-                'countryCode'       => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/CountryCode"),
-                'city'              => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/City"),
-                'street'            => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/AddressFieldOne"),
-                'postCode'          => (string) $xml->getNode("CallbackOrders/CallbackOrder/Address/PostalCode"),
-                'ClientRequestId'   => (string) $xml->getNode("ClientRequestId"),
+                'addressId'         => (string) $xml->descend("CallbackOrders/CallbackOrder/Address/AddressId"),
+                'regionCode'        => (string) $xml->descend("CallbackOrders/CallbackOrder/Address/State"),
+                'countryCode'       => (string) $xml->descend("CallbackOrders/CallbackOrder/Address/CountryCode"),
+                'city'              => (string) $xml->descend("CallbackOrders/CallbackOrder/Address/City"),
+                'street'            => (string) $xml->descend("CallbackOrders/CallbackOrder/Address/AddressFieldOne"),
+                'postCode'          => (string) $xml->descend("CallbackOrders/CallbackOrder/Address/PostalCode"),
+                'ClientRequestId'   => (string) $xml->descend("ClientRequestId"),
             );
         } else {
             $address = array(
@@ -688,10 +685,8 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     {
         $items = array();
         if (strlen(trim($xmlResponse)) > 0) {
-            $xml = new Varien_Simplexml_Config();
-            $xml->loadString($xmlResponse);
-            $itemsXml = $xml->getNode("Cart/Items");
-
+            $xml = simplexml_load_string($xmlResponse, 'Varien_Simplexml_Element');
+            $itemsXml = $xml->descend("Cart/Items");
             foreach ($itemsXml as $_item) {
                 $_itemArr = $_item->asArray();
                 $items[$_itemArr['Item']['SKU']] = $_itemArr['Item']['SKU'];
