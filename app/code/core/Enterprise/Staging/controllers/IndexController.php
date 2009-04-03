@@ -19,29 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_WebsiteRestriction
+ * @package    Enterprise_Staging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once 'Enterprise/WebsiteRestriction/controllers/IndexController.php';
+
 /**
- * Website stub controller
+ * Frontend stub controller
  *
  */
-class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller_Front_Action
+class Enterprise_Staging_IndexController extends Enterprise_WebsiteRestriction_IndexController
 {
-    protected $_stubPageIdentifier = 'general/restriction/cms_page';
-    protected $_layoutUpdate       = 'restriction_index_stub';
-
-    /**
-     * Display a raw CMS-page
-     *
-     */
-    public function stubAction()
-    {
-        $this->loadLayout($this->_layoutUpdate);
-        $this->getLayout()->getBlock('cms_page')
-            ->setPageIdentifier(Mage::getStoreConfig($this->_stubPageIdentifier));
-        $this->renderLayout();
-    }
+    protected $_stubPageIdentifier = 'general/content_staging/block_frontend_stub';
 }

@@ -75,19 +75,19 @@
               </connection>
             </enterprise_staging_read>
         </resources>
-        
+
         <blocks>
             <enterprise_staging>
                 <class>Enterprise_Staging_Block</class>
             </enterprise_staging>
         </blocks>
-        
+
         <helpers>
             <enterprise_staging>
                 <class>Enterprise_Staging_Helper</class>
             </enterprise_staging>
         </helpers>
-        
+
         <events>
             <resource_get_tablename>
                 <observers>
@@ -144,14 +144,14 @@
                     <new_db></new_db>
                     <table_prefix></table_prefix>
                 </starage_method>
-                
+
                 <use_backup_method>table_prefix</use_backup_method>
                 <backup_method>
                     <new_db></new_db>
                     <table_prefix></table_prefix>
                     <basic></basic>
                 </backup_method>
-                
+
                 <type>
                     <website>
                         <code>website</code>
@@ -206,7 +206,7 @@
 					                        <class>enterprise_staging/staging_backup</class>
 					                        <method>saveFromEvent</method>
 						                </save_backup>
-						            </after>                                    
+						            </after>
                                     <next>0</next>
                                 </backup>
                             </backup>
@@ -227,7 +227,7 @@
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromEvent</method>
                                         </save_event>
-                                    </after>                                    
+                                    </after>
                                     <next>0</next>
                                 </merge>
                             </merge>
@@ -253,14 +253,14 @@
                                             <class>enterprise_staging/staging_rollback</class>
                                             <method>saveFromEvent</method>
                                         </save_rollback>
-                                    </after>                                    
+                                    </after>
                                     <next>0</next>
                                 </rollback>
-                            </rollback>                            
+                            </rollback>
                         </scenaries>
                     </website>
                 </type>
-                
+
                 <staging_items>
                     <customer>
                         <code>customer</code>
@@ -278,7 +278,7 @@
                         <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </customer_address>
-                    
+
                     <sales>
                         <code>sales</code>
                         <model>sales</model>
@@ -287,7 +287,7 @@
                         <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </sales>
-                    
+
                     <catalog_product>
                         <code>catalog_product</code>
                         <model>catalog</model>
@@ -303,7 +303,7 @@
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <option_value />
-                                </entities>                                
+                                </entities>
                             </bundle>
                             <downloadable>
                                 <code>downloadable</code>
@@ -313,7 +313,7 @@
                                 <entities>
                                     <link_title />
                                     <sample_title />
-                                </entities>                                
+                                </entities>
                             </downloadable>
                             <giftcertificate>
                                 <code>giftcertificate</code>
@@ -434,7 +434,7 @@
                     </catalogsearch>
                 </staging_items>
                 <staging_website_code_suffix></staging_website_code_suffix>
-                
+
                 <state>
                     <new translate="label">
                         <label>New</label>
@@ -567,10 +567,10 @@
                             <children>
                                 <config>
                                     <children>
-                                        <enterprise_staging>
-                                            <title>Catalog Staging</title>
+                                        <content_staging>
+                                            <title>Content Staging</title>
                                             <sort_order>201</sort_order>
-                                        </enterprise_staging>
+                                        </content_staging>
                                     </children>
                                 </config>
                             </children>
@@ -588,17 +588,34 @@
             </updates>
         </layout>
     </adminhtml>
-
-    <enterprise>
-
-    </enterprise>
-
+    <frontend>
+        <routers>
+            <staging>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_Staging</module>
+                    <frontName>staging</frontName>
+                </args>
+            </staging>
+        </routers>
+        <events>
+            <websiterestriction_frontend>
+                <observers>
+                    <enterprise_staging>
+                        <class>enterprise_staging/observer</class>
+                        <method>takeFrontendDown</method>
+                    </enterprise_staging>
+                </observers>
+            </websiterestriction_frontend>
+        </events>
+    </frontend>
     <admin>
         <routers>
             <adminhtml>
                 <args>
+                    <frontName>admin</frontName>
                     <modules>
-                        <enterprise_staging before="Mage_Adminhtml">Enterprise_Staging</enterprise_staging>
+                        <Enterprise_Staging before="Mage_Adminhtml">Enterprise_Staging_Adminhtml</Enterprise_Staging>
                     </modules>
                 </args>
             </adminhtml>
@@ -625,7 +642,7 @@
             </resources>
         </acl>
     </admin>
-    
+
     <crontab>
         <jobs>
             <enterprise_staging_automates>
@@ -634,4 +651,13 @@
             </enterprise_staging_automates>
         </jobs>
     </crontab>
+
+    <default>
+        <general>
+            <content_staging>
+                <block_frontend>0</block_frontend>
+                <block_frontend_stub>no-route</block_frontend_stub>
+            </content_staging>
+        </general>
+    </default>
 </config>

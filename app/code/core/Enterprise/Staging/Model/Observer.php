@@ -43,7 +43,7 @@ class Enterprise_Staging_Model_Observer
         if (Mage::app()->getStore()->isAdmin()) {
             return $this;
         }
-        
+
         try {
 
             $resource = $observer->getEvent()->getResource();
@@ -53,8 +53,8 @@ class Enterprise_Staging_Model_Observer
             $_tableName = '';
             if ($website->getIsStaging()) {
                 $_tableName = Enterprise_Staging_Model_Staging_Config::getStagingTableName($tableName, $modelEntity);
-            }       
-     
+            }
+
             if ($_tableName) {
                 $resource->setMappedTableName($tableName, $_tableName);
             }
@@ -65,42 +65,38 @@ class Enterprise_Staging_Model_Observer
 
     public function beforeFrontendInit()
     {
-        try {
-            $website = Mage::app()->getWebsite();
-            if ($website->getIsStaging()) {
-                $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
-                $stagingWebsite->loadBySlaveWebsiteId($website->getId());
-                if (!$stagingWebsite->getId()) {
+        $website = Mage::app()->getWebsite();
+        if ($website->getIsStaging()) {
+            $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
+            $stagingWebsite->loadBySlaveWebsiteId($website->getId());
+            if (!$stagingWebsite->getId()) {
+                Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+                exit();
+            }
+
+            $key = 'allow_view_staging_website_'.$website->getCode();
+            $coreSession = Mage::getSingleton('core/session');
+
+            switch ($stagingWebsite->getVisibility()) {
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
+                    $coreSession->setData($key, false);
                     Mage::app()->getResponse()->setRedirect('/')->sendResponse();
                     exit();
-                }
-
-                $key = 'allow_view_staging_website_'.$website->getCode();
-                $coreSession = Mage::getSingleton('core/session');
-
-                switch ($stagingWebsite->getVisibility()) {
-                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
-                        $coreSession->setData($key, false);
-                        Mage::app()->getResponse()->setRedirect('/')->sendResponse();
-                        exit();
-                        break;
-                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
-                        $coreSession->setData($key, true);
-                        break;
-                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
-                        $this->_checkHttpAuth($key);
-                        break;
-                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_ADMIN_SESSION :
-                        $this->_checkAdminSession($key);
-                        break;
-                    case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_BOTH :
-                        $this->_checkHttpAuth($key);
-                        $this->_checkAdminSession($key);
-                        break;
-                }
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
+                    $coreSession->setData($key, true);
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
+                    $this->_checkHttpAuth($key);
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_ADMIN_SESSION :
+                    $this->_checkAdminSession($key);
+                    break;
+                case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_BOTH :
+                    $this->_checkHttpAuth($key);
+                    $this->_checkAdminSession($key);
+                    break;
             }
-        } catch (Exception $e) {
-
         }
     }
 
@@ -148,35 +144,35 @@ class Enterprise_Staging_Model_Observer
     {
         try {
             $currentDate = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
-            
+
             $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
-            
+
             $collection->addHoldedFilter();
-            
+
             foreach ($collection as $event) {
-                
+
                 if ($event->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
 
                     $applyDate = $event->getMergeScheduleDate();
-                    
+
                     $stagingId = $event->getStagingId();
-                    
+
                     if ($currentDate <= $applyDate) {
-                        if ($stagingId){    
+                        if ($stagingId){
                             $staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
-                             
+
                             $staging->setEventId($event->getId());
-                            
+
                             $mapData = $event->getMergeMap();
-                            
-                            
-                            if (!empty($mapData)) { 
+
+
+                            if (!empty($mapData)) {
                                 $staging->getMapperInstance()->unserialize($mapData);
-                                
+
                                 if ($event->getIsBackuped() == true) {
                                     $staging->backup();
                                 }
-                                
+
                                 $staging->merge();
                             }
                         }
@@ -257,5 +253,33 @@ class Enterprise_Staging_Model_Observer
         }
 
         return $this;
+    }
+
+    /**
+     * Take down entire frontend if required
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function takeFrontendDown($observer)
+    {
+        $result = $observer->getResult();
+        if ($result->getShouldProceed() && (bool)Mage::getStoreConfig('general/content_staging/block_frontend')) {
+            // check whether frontend should be down
+            if (!true) {
+                return;
+            }
+
+            // take the frontend down
+            $controller = $observer->getController();
+            if ($controller->getFullActionName() !== 'staging_index_stub') {
+                $controller->getRequest()
+                    ->setModuleName('staging')
+                    ->setControllerName('index')
+                    ->setActionName('stub')
+                    ->setDispatched(false);
+                $controller->getResponse()->setHeader('HTTP/1.1','503 Service Unavailable');
+                $result->setShouldProceed(false);
+            }
+        }
     }
 }

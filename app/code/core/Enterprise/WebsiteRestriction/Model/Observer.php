@@ -37,9 +37,18 @@ class Enterprise_WebsiteRestriction_Model_Observer
      */
     public function restrictWebsite($observer)
     {
-        if ((!Mage::app()->getStore()->isAdmin()) && (int)Mage::getStoreConfig('general/restriction/is_active')) {
-            /* @var $controller Mage_Core_Controller_Front_Action */
-            $controller = $observer->getControllerAction();
+        /* @var $controller Mage_Core_Controller_Front_Action */
+        $controller = $observer->getControllerAction();
+
+        if (!Mage::app()->getStore()->isAdmin()) {
+            $dispatchResult = new Varien_Object(array('should_proceed' => true));
+            Mage::dispatchEvent('websiterestriction_frontend', array('controller' => $controller, 'result' => $dispatchResult));
+            if (!$dispatchResult->getShouldProceed()) {
+                return;
+            }
+            if (!(int)Mage::getStoreConfig('general/restriction/is_active')) {
+                return;
+            }
             /* @var $request Mage_Core_Controller_Request_Http */
             $request    = $controller->getRequest();
             /* @var $response Mage_Core_Controller_Response_Http */

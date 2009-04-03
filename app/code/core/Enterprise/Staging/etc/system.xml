@@ -20,154 +20,43 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_Permissions
+ * @package    Enterprise_Staging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
 <config>
     <sections>
-        <enterprise_staging>
-            <tab>advanced</tab>
-            <label>Website Staging Items</label>
-            <show_in_default>1</show_in_default>
+        <general>
             <groups>
-              <catalog_category>
-                <label>Catalog Categories</label>
-                <sort_order>10</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
+                <content_staging translate="label">
+                    <label>Content Staging frontend restrictions</label>
+                    <sort_order>80</sort_order>
                     <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </catalog_category>
-              
-              <catalog_product>
-                <label>Catalog Products</label>
-                <sort_order>20</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </catalog_product>
-              
-              <catalogrule>
-                <label>Catalog Rules</label>
-                <sort_order>30</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </catalogrule>
-              
-              <salesrule>
-                <label>Sales Rules</label>
-                <sort_order>40</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </salesrule>
-              
-              <poll>
-                <label>Polls</label>
-                <sort_order>50</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </poll>
-              
-              <cms_block>
-                <label>CMS Blocks</label>
-                <sort_order>60</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </cms_block>
-              
-              <cms_page>
-                <label>CMS Pages</label>
-                <sort_order>70</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </cms_page>
-              
-              <conditions_and_terms>
-                <label>Conditions and Terms</label>
-                <sort_order>80</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                  </is_active>
-                </fields>
-              </conditions_and_terms>
-              
-              <system_config>
-                <label>System Config</label>
-                <sort_order>90</sort_order>
-                <show_in_default>1</show_in_default>
-                <fields>
-                  <is_active>
-                    <label>Use in Staging</label>
-                    <frontend_type>select</frontend_type>
-                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <default_value>1</default_value>
-                  </is_active>
-                </fields>
-              </system_config>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <block_frontend translate="label comment">
+                            <sort_order>10</sort_order>
+                            <label>Take down entire frontend while applying Staging Merge or Rollback</label>
+                            <comment>The "503 Service Unavailable" HTTP response code will be returned.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
+                            <show_in_default>1</show_in_default>
+                        </block_frontend>
+                        <block_frontend_stub translate="label">
+                            <sort_order>20</sort_order>
+                            <label>Landing page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_cms_page</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </block_frontend_stub>
+                    </fields>
+                </content_staging>
             </groups>
-        </enterprise_staging>
+        </general>
     </sections>
 </config>
