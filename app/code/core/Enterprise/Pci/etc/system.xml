@@ -35,19 +35,19 @@
                         <lockout_failures translate="label comment">
                             <sort_order>100</sort_order>
                             <label>Login failures to lockout account</label>
-                            <comment>Value less than 6 will be ignored</comment>
+                            <comment>Set zero to disable lockout feature</comment>
                             <show_in_default>1</show_in_default>
                         </lockout_failures>
                         <lockout_threshold translate="label comment">
                             <sort_order>101</sort_order>
                             <label>Lockout account for</label>
-                            <comment>Minutes. Value less than 30 will be ignored.</comment>
+                            <comment>Minutes.</comment>
                             <show_in_default>1</show_in_default>
                         </lockout_threshold>
                         <password_lifetime translate="label comment">
                             <sort_order>102</sort_order>
-                            <label>Recommended password lifetime</label>
-                            <comment>Days.</comment>
+                            <label>Admin password lifetime</label>
+                            <comment>Days. Admin will be forced to change password.&lt;br/&gt;Set zero to disable this feature.</comment>
                             <show_in_default>1</show_in_default>
                         </password_lifetime>
                     </fields>

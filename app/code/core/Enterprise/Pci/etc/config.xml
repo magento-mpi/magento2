@@ -128,6 +128,14 @@
                     </enterprise_pci>
                 </observers>
             </api_user_authenticated>
+            <controller_action_predispatch>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>forceAdminPasswordChange</method>
+                    </enterprise_pci>
+                </observers>
+            </controller_action_predispatch>
         </events>
         <menu>
             <system>
