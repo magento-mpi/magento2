@@ -33,6 +33,11 @@
  */
 class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Product_Option_Type_Default
 {
+    public function isCustomizedView()
+    {
+        return true;
+    }
+
     /**
      * Validate user input for option
      *
@@ -229,27 +234,41 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     public function getFormattedOptionValue($optionValue)
     {
-        try {
-            $value = unserialize($optionValue);
-            if ($value !== false) {
-                if ($value['width'] > 0 && $value['height'] > 0) {
-                    $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('catalog')->__('px.');
-                } else {
-                    $sizes = '';
+        if ($this->_formattedOptionValue === null) {
+            try {
+                $value = unserialize($optionValue);
+                if ($value !== false) {
+                    if ($value['width'] > 0 && $value['height'] > 0) {
+                        $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('catalog')->__('px.');
+                    } else {
+                        $sizes = '';
+                    }
+                    $this->_formattedOptionValue = sprintf('<a href="%s" target="_blank">%s</a> %s',
+                        $this->_getOptionDownloadUrl($value['secret_key']),
+                        Mage::helper('core')->htmlEscape($value['title']),
+                        $sizes
+                    );
+                    return $this->_formattedOptionValue;
                 }
-                $result = sprintf('<a href="%s" target="_blank">%s</a> %s',
-                    $this->_getOptionDownloadUrl($value['secret_key']),
-                    Mage::helper('core')->htmlEscape($value['title']),
-                    $sizes
-                );
-                return $result;
+
+                throw new Exception();
+
+            } catch (Exception $e) {
+                return $optionValue;
             }
-
-            throw new Exception();
-
-        } catch (Exception $e) {
-            return $optionValue;
         }
+        return $this->_formattedOptionValue;
+    }
+
+    /**
+     * Return printable option value
+     *
+     * @param string $optionValue Prepared for cart option value
+     * @return string
+     */
+    public function getPrintableOptionValue($optionValue)
+    {
+        return strip_tags($this->getFormattedOptionValue($optionValue));
     }
 
     /**

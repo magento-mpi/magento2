@@ -138,7 +138,11 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
 
                     $options[] = array(
                         'label' => $option->getTitle(),
-                        'value' => $group->getFormattedOptionValue($quoteItemOption->getValue())
+                        'value' => $group->getFormattedOptionValue($quoteItemOption->getValue()),
+                        'print_value' => $group->getPrintableOptionValue($quoteItemOption->getValue()),
+                        'option_id' => $option->getId(),
+                        'option_type' => $option->getType(),
+                        'custom_view' => $group->isCustomizedView()
                     );
                 }
             }
@@ -223,13 +227,46 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
         return array_unique($messages);
     }
 
+    /**
+     * Accept option value and return its formatted view
+     *
+     * @param mixed $optionValue
+     * Method works well with these $optionValue format:
+     *      1. String
+     *      2. Indexed array e.g. array(val1, val2, ...)
+     *      3. Associative array, containing additional option info, including option value, e.g.
+     *          array
+     *          (
+     *              [label] => ...,
+     *              [value] => ...,
+     *              [print_value] => ...,
+     *              [option_id] => ...,
+     *              [option_type] => ...,
+     *              [custom_view] =>...,
+     *          )
+     *
+     * @return array
+     */
     public function getFormatedOptionValue($optionValue)
     {
-        if (Mage::helper('catalog/product_options')->isHtmlFormattedOptionValue($optionValue)) {
+        $optionInfo = array();
+
+        if (is_array($optionValue)) {
+            if (isset($optionValue['option_id'])) {
+                $optionInfo = $optionValue;
+                if (isset($optionInfo['value'])) {
+                    $optionValue = $optionInfo['value'];
+                }
+            } elseif (isset($optionValue['value'])) {
+                $optionValue = $optionValue['value'];
+            }
+        }
+
+        if (isset($optionInfo['custom_view']) && $optionInfo['custom_view']) {
             return array('value' => $optionValue);
         }
 
-        $formateOptionValue = array();
+        $result = array();
         if (is_array($optionValue)) {
             $_truncatedValue = implode("\n", $optionValue);
             $_truncatedValue = nl2br($_truncatedValue);
@@ -239,16 +276,14 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             $_truncatedValue = nl2br($_truncatedValue);
         }
 
-        $formateOptionValue = array(
-            'value' => $_truncatedValue
-        );
+        $result = array('value' => $_truncatedValue);
 
         if (Mage::helper('core/string')->strlen($optionValue) > 55) {
-            $formateOptionValue['value'] = $formateOptionValue['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
+            $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
-            $formateOptionValue = array_merge($formateOptionValue, array('full_view' => $optionValue));
+            $result = array_merge($result, array('full_view' => $optionValue));
         }
 
-        return $formateOptionValue;
+        return $result;
     }
 }
