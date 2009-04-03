@@ -545,7 +545,7 @@ class SOAP_Transport_HTTP extends SOAP_Transport
         }
 
         $ch = curl_init();
-
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         if (isset($options['proxy_host'])) {
             $port = isset($options['proxy_port']) ? $options['proxy_port'] : 8080;
             curl_setopt($ch, CURLOPT_PROXY,
