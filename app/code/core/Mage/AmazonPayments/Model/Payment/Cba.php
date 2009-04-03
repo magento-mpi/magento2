@@ -305,6 +305,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setFirstname($sFirstname)
             ->setLastname($sLastname);
 
+        /** @todo save shipping method */
+//        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod);
+
         $billing->setCountryId($_address['countryCode'])
             ->setRegion($_address['regionCode'])
             ->setRegionId($_regionId)
@@ -345,10 +348,11 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing))
             ->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
 
+//        $order->setShippingDescription($newOrderDetails['ShippingServiceLevel']);
+        /**
+         * OR
+         */
         $order->setShippingDescription($newOrderDetails['ShippingLevel']);
-
-//        $order->setAmazonname($newOrderDetails['buyerName'])
-//            ->setAmazonemail($newOrderDetails['buyerEmailAddress']);
 
         $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
 

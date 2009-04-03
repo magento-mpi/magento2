@@ -172,14 +172,13 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 ."   <CartPromotionId>cart-total-discount</CartPromotionId>\n"
                 ." </Cart>\n";
 
-        $calculationsEnabled = ($this->getConfigData('use_callback_api') ? 'true' : 'false');
         $_xml .= " <IntegratorId>A2ZZYWSJ0WMID8MAGENTO</IntegratorId>\n"
                 ." <IntegratorName>Varien</IntegratorName>\n";
         $_xml .= " <OrderCalculationCallbacks>\n"
-                ."   <CalculateTaxRates>{$calculationsEnabled}</CalculateTaxRates>\n"
-                ."   <CalculatePromotions>{$calculationsEnabled}</CalculatePromotions>\n"
-                ."   <CalculateShippingRates>{$calculationsEnabled}</CalculateShippingRates>\n"
-                ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback')."</OrderCallbackEndpoint>\n"
+                ."   <CalculateTaxRates>true</CalculateTaxRates>\n"
+                ."   <CalculatePromotions>true</CalculatePromotions>\n"
+                ."   <CalculateShippingRates>true</CalculateShippingRates>\n"
+                ."   <OrderCallbackEndpoint>".Mage::getUrl('amazonpayments/cba/callback', array('_secure' => true))."</OrderCallbackEndpoint>\n"
                 ."   <ProcessOrderOnCallbackFailure>true</ProcessOrderOnCallbackFailure>\n"
                 ." </OrderCalculationCallbacks>\n";
 
@@ -899,9 +898,10 @@ XML;
      * @param string $carrierCode
      * @param string $trackNumber
      */
-    public function deliver($orderId, $carrierCode, $trackNumber)
+    public function deliver($aOrderId, $carrierCode, $trackNumber)
     {
-        $this->getDocumentApi()->sendTrackNumber();
+        /** @todo get carrier method (shipping method) */
+        $this->getDocumentApi()->sendTrackNumber($aOrderId, $carrierCode, $carrierCode, $trackNumber);
         return $this;
     }
 

@@ -34,8 +34,9 @@
  */
 class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
 {
-    const MESSAGE_TYPE_ADJUSTMENT  = '_POST_PAYMENT_ADJUSTMENT_DATA_';
-    const MESSAGE_TYPE_FULFILLMENT = '_POST_ORDER_FULFILLMENT_DATA_';
+    const MESSAGE_TYPE_ADJUSTMENT       = '_POST_PAYMENT_ADJUSTMENT_DATA_';
+    const MESSAGE_TYPE_FULFILLMENT      = '_POST_ORDER_FULFILLMENT_DATA_';
+    const MESSAGE_TYPE_ACKNOWLEDGEMENT  = '_POST_ORDER_ACKNOWLEDGEMENT_DATA_';
 
     protected $_wsdlUri = null;
     protected $_merchantInfo = array();
@@ -159,7 +160,7 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         if (!($boundaryIndex === false)) {
             $xml = substr($xml, 0, $boundaryIndex);
         }
-        
+
         return simplexml_load_string($xml, 'Varien_Simplexml_Element');
     }
 
@@ -184,17 +185,17 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      */
     public function cancel($aOrderId)
     {
-//        $this->getPendingDocuments();
-//        $this->getDocument('105-6632304-7385012');
+        $this->getPendingDocuments();
+//        $this->getDocument('990002713');
 //        try {
 //            Zend_Debug::dump($this->getClient()->getWire());
 //        } catch (Exception $e) {
 //            echo 'Exception';
 //            Zend_Debug::dump($e->getMessage());
 //        }
-//        Zend_Debug::dump($this->_result);
-//        die(__METHOD__.'::'.__LINE__);
-        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+        Zend_Debug::dump($this->_result);
+        die(__METHOD__.'::'.__LINE__);
+/*        $_document = '<?xml version="1.0" encoding="UTF-8"?>
 <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
 <Header>
     <DocumentVersion>1.01</DocumentVersion>
@@ -205,20 +206,47 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         <MessageID>1</MessageID>
         <OperationType>Update</OperationType>
         <OrderAcknowledgement>
-            <AmazonOrderID> ' . $aOrderId . '</AmazonOrderID>
-            <StatusCode>Failure</StatusCode>
+            <AmazonOrderID>104-6821183-3892212</AmazonOrderID>
+            <MerchantOrderID>100000167</MerchantOrderID>
+            <StatusCode>Success</StatusCode>
+            <Item>
+                <AmazonOrderItemCode>19977485248298</AmazonOrderItemCode>
+                <MerchantOrderItemID>100000167-1</MerchantOrderItemID>
+            </Item>
+        </OrderAcknowledgement>
+    </Message>
+</AmazonEnvelope>';*/
+$_document = '<?xml version="1.0" encoding="UTF-8"?>
+<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+<Header>
+    <DocumentVersion>1.01</DocumentVersion>
+    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+</Header>
+<MessageType>OrderAcknowledgement</MessageType>
+    <Message>
+        <MessageID>1</MessageID>
+        <OperationType>Update</OperationType>
+        <OrderAcknowledgement>
+            <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>'
+            //.'<MerchantOrderID>100000166</MerchantOrderID>'
+            .'<StatusCode>Failure</StatusCode>
+            <Item>
+                <AmazonOrderItemCode>19977485248298</AmazonOrderItemCode>'
+                //.'<MerchantOrderItemID>100000166-1</MerchantOrderItemID>'
+                .'<CancelReason>BuyerCanceled</CancelReason>
+            </Item>
         </OrderAcknowledgement>
     </Message>
 </AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
-            'messageType' => self::MESSAGE_TYPE_ADJUSTMENT,
+            'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
             'doc' => $this->_createAttachment($_document)
         );
         $this->_proccessRequest('postDocument', $params);
-//        Zend_Debug::dump($this->_result);
-//        Zend_Debug::dump($this->getClient()->getWire());
-//        die(__METHOD__.'::'.__LINE__);
+        Zend_Debug::dump($this->_result);
+        Zend_Debug::dump($this->getClient()->getWire());
+        die(__METHOD__.'::'.__LINE__);
         return $this->_result;
     }
 
@@ -240,9 +268,11 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             /* @var $item Mage_Sales_Model_Order_Item */
             $itemAmount = $item->getQtyRefunded()*$item->getBasePrice();
             $itemTaxAmount = ($item->getBaseTaxAmount()/$item->getQtyInvoiced())*$item->getQtyRefunded();
-            /**
-             * @todo calculate for one item
-             */
+            /** @todo
+                    calculate tax for one item
+                    calculate shipping for one item
+                    calculate shipping tax for one item
+            */
             $itemShippingAmount = $order->getShippingAmount();
             $itemShippingTaxAmount = 0;
             $_document .= '<Message>
@@ -256,24 +286,41 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                                         <Component>
                                             <Type>Principal</Type>
                                             <Amount currency="USD">' . $itemAmount . '</Amount>
-                                        </Component>
-                                        <Component>
+                                        </Component>'
+                                        /*.'<Component>
                                             <Type>Shipping</Type>
                                             <Amount currency="USD">' . $itemShippingAmount . '</Amount>
-                                        </Component>
-                                        <Component>
+                                        </Component>'*/
+                                        .'<Component>
                                             <Type>Tax</Type>
                                             <Amount currency="USD">' . $itemTaxAmount . ' </Amount>
-                                        </Component>
-                                        <Component>
+                                        </Component>'
+                                        /*.'<Component>
                                             <Type>ShippingTax</Type>
                                             <Amount currency="USD">' . $itemShippingTaxAmount . '</Amount>
+                                        </Component>'*/
+                                    .'</ItemPriceAdjustments>';
+            /** @todo
+                    calculate promotion
+            */
+            $promotion = false;
+            if ($promotion) {
+                $_document .= '<PromotionAdjustments>
+                                        <PromotionClaimCode>ABC123</PromotionClaimCode>
+                                        <MerchantPromotionID>12345678</MerchantPromotionID>
+                                        <Component>
+                                            <Type>Principal</Type>
+                                            <Amount currency="USD">-1.00</Amount>
                                         </Component>
-                                    </ItemPriceAdjustments>
-                                </AdjustedItem>
-                            </OrderAdjustment>
-                        </Message>';
+                                    </PromotionAdjustments>';
+            }
+            $_document .= '</AdjustedItem>
+                        </OrderAdjustment>
+                    </Message>';
         }
+        /** @todo
+                promotion adjustment
+        */
         $_document .= '</AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
@@ -284,7 +331,7 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $this->_result;
     }
 
-    public function sendTrackNumber($aOrderId, $carrierCode, $trackNumber)
+    public function sendTrackNumber($aOrderId, $carrierCode, $carrierMethod, $trackNumber)
     {
         $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
@@ -301,7 +348,7 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
             <FulfillmentData>
                 <CarrierCode>' . $carrierCode . '</CarrierCode>
-                <ShippingMethod>' . $carrierCode . '</ShippingMethod>
+                <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
                 <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
             </FulfillmentData>
         </OrderFulfillment>
