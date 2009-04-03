@@ -305,6 +305,16 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setFirstname($sFirstname)
             ->setLastname($sLastname);
 
+        $_shippingDesc = '';
+        $_shippingServices = unserialize($quote->getExtShippingInfo());
+        if (is_array($_shippingServices) && array_key_exists('amazon_service_level', $_shippingServices)) {
+            foreach ($_shippingServices['amazon_service_level'] as $_level) {
+                if ($_level['service_level'] == $newOrderDetails['ShippingLevel']) {
+                    $shipping->setShippingMethod($_level['code']);
+                    $_shippingDesc = $_level['description'];
+                }
+            }
+        }
         /** @todo save shipping method */
 //        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod);
 
@@ -349,10 +359,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
 
 //        $order->setShippingDescription($newOrderDetails['ShippingServiceLevel']);
-        /**
-         * OR
-         */
-        $order->setShippingDescription($newOrderDetails['ShippingLevel']);
+        $order->setShippingMethod($shipping->getShippingMethod());
+        $order->setShippingDescription($_shippingDesc);
 
         $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
 

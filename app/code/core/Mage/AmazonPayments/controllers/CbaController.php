@@ -136,7 +136,6 @@ class Mage_AmazonPayments_CbaController extends Mage_Core_Controller_Front_Actio
         catch (Exception $e) {
             // Return Xml with Error
             $response = $this->getCba()->callbackXmlError($e);
-            Mage::log($e->getMessage());
         }
         $this->getResponse()
             ->setHttpResponseCode(200);

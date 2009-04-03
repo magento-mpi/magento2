@@ -520,14 +520,22 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                         }
                         $this->_carriers[] = array(
                             'service_level' => $_cfgRateLevel,
-                            'code' => $rate->getCarrier() . '_' . $rate->getMethod(),
-                            'price' => $price,
-                            'currency' => $currency['currency_code'],
+                            'code'          => $rate->getCarrier() . '_' . $rate->getMethod(),
+                            'price'         => $price,
+                            'currency'      => $currency['currency_code'],
+                            'description'   => $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle() . ' (Amazon ' . $_cfgRateLevel . ' Service Level)'
                         );
                     }
                 }
             }
         }
+
+        if ($_extShippingInfo = unserialize($quote->getExtShippingInfo())) {
+            $_extShippingInfo = array_merge($_extShippingInfo, array('amazon_service_level' => $this->_carriers));
+        } else {
+            $_extShippingInfo = array('amazon_service_level' => $this->_carriers);
+        }
+        $quote->setExtShippingInfo(serialize($_extShippingInfo));
 
         $_items = $this->_parseRequestItems($xmlRequest);
         $xml = $this->_generateXmlResponse($quote, $_items);
@@ -536,6 +544,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             ->setForcedCurrency($currency)
             ->collectTotals()
             ->save();
+        $quote->save();
         return $xml;
     }
 

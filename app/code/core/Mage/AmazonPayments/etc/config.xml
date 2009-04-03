@@ -32,15 +32,6 @@
         </Mage_AmazonPayments>
     </modules>
     <global>
-        <!--<sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <disable_amazonpayments/>
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>-->
         <models>
             <amazonpayments>
                 <class>Mage_AmazonPayments_Model</class>
@@ -84,19 +75,6 @@
         </blocks>
         <sales>
             <order>
-
-                <!-- statuses>
-                    <pending_paypal translate="label"><label>Pending PayPal</label></pending_paypal>
-                </statuses>
-                <states>
-                    <pending_payment translate="label">
-                        <label>Pending Payment</label>
-                        <statuses>
-                            <pending_paypal/>
-                        </statuses>
-                    </pending_payment>
-                </states -->
-
                 <statuses>
                     <pending_amazon_asp translate="label"><label>Pending Amazon Simple Pay</label></pending_amazon_asp>
                 </statuses>
