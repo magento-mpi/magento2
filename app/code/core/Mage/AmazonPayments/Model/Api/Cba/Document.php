@@ -144,7 +144,23 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             'documentIdentifier' => $aOrderId
         );
         $this->_proccessRequest('getDocument', $params);
-        return $this->_result;
+
+        require_once 'Mail/mimeDecode.php';
+        $decoder = new Mail_mimeDecode($this->getClient()->xml);
+        $decoder->decode(array(
+            'include_bodies' => true,
+            'decode_bodies'  => true,
+            'decode_headers' => true,
+        ));
+        $xml = $decoder->_body;
+
+        // remove the ending mime boundary
+        $boundaryIndex = strripos($xml, '--xxx-WASP-CPP-MIME-Boundary-xxx');
+        if (!($boundaryIndex === false)) {
+            $xml = substr($xml, 0, $boundaryIndex);
+        }
+        
+        return simplexml_load_string($xml, 'Varien_Simplexml_Element');
     }
 
     public function getPendingDocuments()
@@ -154,6 +170,9 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             'messageType' => '_GET_ORDERS_DATA_'
         );
         $this->_proccessRequest('getAllPendingDocumentInfo', $params);
+        if (!is_array($this->_result)) {
+            $this->_result = array($this->_result);
+        }
         return $this->_result;
     }
 
@@ -297,4 +316,3 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $this->_result;
     }
 }
-?>
