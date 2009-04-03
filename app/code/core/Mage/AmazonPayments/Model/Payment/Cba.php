@@ -342,8 +342,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $quote->setBillingAddress($billing);
         $quote->setShippingAddress($shipping);
 
-        $quote->save();
-
         $billing = $quote->getBillingAddress();
         $shipping = $quote->getShippingAddress();
 
@@ -372,6 +370,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         // add items to order
         foreach ($quote->getAllItems() as $item) {
             $order->addItem($convertQuote->itemToOrderItem($item));
+            $orderItem = $order->getItemByQuoteItemId($item->getId());
+            $orderItem->setExtOrderItemId($newOrderDetails['items'][$item->getId()]['AmazonOrderItemCode']);
         }
 
         $order->place();

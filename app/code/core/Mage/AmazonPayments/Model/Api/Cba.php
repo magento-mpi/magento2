@@ -143,7 +143,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
 
         foreach ($quote->getAllVisibleItems() as $_item) {
             $_xml .= "   <Item>\n"
-                ."    <SKU>{$_item->getSku()}</SKU>\n"
+                ."    <SKU>{$_item->getSku()}/{$_item->getId()}</SKU>\n"
                 ."    <MerchantId>{$this->getMerchantId()}</MerchantId>\n"
                 ."    <Title>{$_item->getName()}</Title>\n"
                 ."    <Price>\n"
@@ -581,11 +581,20 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             $_itemsCount = $_itemsQty = 0;
             foreach ($xml->descend("ProcessedOrder/ProcessedOrderItems/ProcessedOrderItem") as $_item) {
                 $parsedOrder['ClientRequestId'] = (string) $_item->ClientRequestId;
-                $_sku = (string) $_item->SKU;
+                $_compositeSku = explode('/', (string) $_item->SKU);
+                $_sku = '';
+                if (isset($_compositeSku[0])) {
+                    $_sku = $_compositeSku[0];
+                }
+                $_itemId = '';
+                if ($_compositeSku[1]) {
+                    $_itemId = $_compositeSku[1];
+                }
                 $_itemQty = (string) $_item->Quantity;
                 $_itemsQty += $_itemQty;
                 $_itemsCount++;
-                $parsedOrder['items'][$_sku] = array(
+                $parsedOrder['items'][$_itemId] = array(
+                    'AmazonOrderItemCode' => (string) $_item->AmazonOrderItemCode,
                     'sku'   => $_sku,
                     'title' => (string) $_item->Title,
                     'price' => array(
@@ -603,7 +612,7 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                     switch ((string) $_component->Type) {
                         case 'Principal':
                             $_itemSubtotal  += (string) $_component->Charge->Amount;
-                            $parsedOrder['items'][$_sku]['subtotal'] = $_itemSubtotal;
+                            $parsedOrder['items'][$_itemId]['subtotal'] = $_itemSubtotal;
                             break;
                         case 'Shipping':
                             $_shipping      += (string) $_component->Charge->Amount;
@@ -697,7 +706,12 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             $itemsXml = $xml->descend("Cart/Items");
             foreach ($itemsXml as $_item) {
                 $_itemArr = $_item->asArray();
-                $items[$_itemArr['Item']['SKU']] = $_itemArr['Item']['SKU'];
+                $sku = '';
+                $compositeSku = explode('/', $_itemArr['Item']['SKU']);
+                if (isset($compositeSku[0])) {
+                    $sku = $compositeSku[0];
+                }
+                $items[$_itemArr['Item']['SKU']] = $sku;
             }
         } else {
             return false;
@@ -743,7 +757,7 @@ XML;
                 }
 
                 $_xmlCallbackOrderItem = $_xmlCallbackOrderItems->addChild('CallbackOrderItem');
-                $_xmlCallbackOrderItem->addChild('SKU', $_itemSku);
+                $_xmlCallbackOrderItem->addChild('SKU/' . $_quoteItem->getId(), $_itemSku);
                 $_xmlCallbackOrderItem->addChild('TaxTableId', 'tax_'.$_quoteItem->getTaxClassId());
 
 
