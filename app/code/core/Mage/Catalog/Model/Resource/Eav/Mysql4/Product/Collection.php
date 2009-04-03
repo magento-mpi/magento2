@@ -1166,7 +1166,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             }
         } else {
             if ($this->isEnabledFlat()) {
-                if ($sortColumn = $this->getEntity()->getAttributeSortColumn($attribute)) {
+                if ($attribute == 'position') {
+                    $this->getSelect()->order("{$attribute} {$dir}");
+                }
+                elseif ($sortColumn = $this->getEntity()->getAttributeSortColumn($attribute)) {
                     $this->getSelect()->order("e.{$sortColumn} {$dir}");
                 }
             }
