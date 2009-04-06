@@ -54,40 +54,6 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
         );
     }
 
-    /**
-     * Get store views of specified website for transactional email
-     *
-     */
-    public function getAllowedEmailWebsitesAction()
-    {
-        $websiteId = $this->getRequest()->getParam('website_id');
-        if( $websiteId ) {
-            $collection = Mage::getModel('core/store')->getCollection()
-              ->addWebsiteFilter($websiteId);
-
-            $items = array();
-            foreach( $collection->getItems() as $item ) {
-                $items[] = $item->getData();
-            }
-
-            $items = new Varien_Object($items);
-            $this->getResponse()->setBody($items->toJson());
-        }
-    }
-
-    /**
-     * Get currency for specified website
-     *
-     */
-    public function getWebsiteBaseCurrencyAction()
-    {
-        $websiteId = $this->getRequest()->getParam('website_id');
-        if( $websiteId ) {
-            $website = Mage::app()->getWebsite($websiteId);
-            $this->getResponse()->setBody($website->getBaseCurrencyCode());
-        }
-    }
-
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = Mage::getModel('customer/customer')->load((int)$this->getRequest()->getParam($idFieldName));

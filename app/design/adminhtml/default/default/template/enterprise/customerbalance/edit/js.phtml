@@ -31,38 +31,26 @@ function updateEmailWebsites()
     emailWebsites = $('<?php echo $this->getPrefix() ?>store_id');
     balanceWebsites = $('<?php echo $this->getPrefix() ?>website_id');
     selectedWebsite = $('<?php echo $this->getPrefix() ?>website_id') ? $('<?php echo $this->getPrefix() ?>website_id').value : '<?php echo $this->getCustomerWebsite() ?>';
-    allowedWebsites = false;
+    allowedWebsites = eval(<?php echo $this->getAllowedWebsitesJson()?>);
 
-    if (emailWebsites) {
-        new Ajax.Request('<?php echo $this->getAllowedEmailWebsitesAjaxUrl() ?>'+'website_id/'+selectedWebsite,
-        {
-            method: 'get',
-            onSuccess: function(transport) {
-                allowedWebsites = transport.responseText.evalJSON();
-                while(emailWebsites.options.length > 0) {
-                    emailWebsites.remove(0);
-                }
-
-                for( website in allowedWebsites ) {
-                    var objOption = document.createElement('option');
-                    if( allowedWebsites[website].website_id ) {
-                        objOption.innerHTML = allowedWebsites[website].name;
-                        objOption.value = allowedWebsites[website].store_id;
-                        emailWebsites.appendChild(objOption);
-                    }
-                }
-            }
-        })
-
-        new Ajax.Request('<?php echo $this->getWebsiteBaseCurrencyAjaxUrl() ?>'+'website_id/'+selectedWebsite,
-        {
-            method: 'get',
-            onSuccess: function(transport) {
-                container = $$('#note_amount_delta small');
-                container[0].innerHTML = '<strong>[' + transport.responseText + ']</strong>';
-            }
-        })
+    while(emailWebsites.options.length > 0) {
+        emailWebsites.remove(0);
     }
+
+    for( website in allowedWebsites ) {
+        var objOption = document.createElement('option');
+        if( allowedWebsites[website].website_id && allowedWebsites[website].website_id == selectedWebsite ) {
+            for( store in allowedWebsites[website].stores ) {
+                var objOption = document.createElement('option');
+                objOption.innerHTML = allowedWebsites[website].stores[store].name;
+                objOption.value = allowedWebsites[website].stores[store].store_id;
+                emailWebsites.appendChild(objOption);
+            }
+        }
+    }
+
+    container = $$('#note_amount_delta small');
+    container[0].innerHTML = '<strong>[' + allowedWebsites[selectedWebsite].currency_code + ']</strong>';
 }
 //]]>
 </script>

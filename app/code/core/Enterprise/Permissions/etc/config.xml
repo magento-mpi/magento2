@@ -262,6 +262,7 @@
                     <adminhtml_rating_index>enterprise_permissions/validate_block::filterRatingGrid</adminhtml_rating_index>
                     <adminhtml_system_design_index>enterprise_permissions/validate_block::filterSystemDesignGrid</adminhtml_system_design_index>
                     <adminhtml_system_design_grid>enterprise_permissions/validate_block::filterSystemDesignGrid</adminhtml_system_design_grid>
+                    <adminhtml_customerbalance_form>enterprise_permissions/validate_block::filterCustomerBalanceGrid</adminhtml_customerbalance_form>
                 </admin_grid_filters>
             </permissions>
         </enterprise>

@@ -35,7 +35,7 @@ class Enterprise_Permissions_Model_Validate_Block extends Enterprise_Permissions
     {
         $collection->addFieldToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
     }
-    
+
     public function filterCatalogProductGrid($collection, $request)
     {
         $collection->addStoreFilter($request->getParam('store'));
@@ -180,6 +180,11 @@ class Enterprise_Permissions_Model_Validate_Block extends Enterprise_Permissions
     public function filterRatingGrid($collection, $request)
     {
         $collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+    }
+
+    public function filterCustomerBalanceGrid($collection, $request)
+    {
+        $collection->addWebsitesFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
     }
 
     /**
