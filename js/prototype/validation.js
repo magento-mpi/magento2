@@ -100,7 +100,7 @@ Validation.prototype = {
             var useTitles = this.options.useTitles;
             var callback = this.options.onElementValidate;
             Form.getElements(this.form).each(function(input) { // Thanks Mike!
-                Event.observe(input, 'blur', function(ev) { Validation.validate(Event.element(ev),{useTitle : useTitles, onElementValidate : callback}); });
+                Event.observe(input, 'change', function(ev) { Validation.validate(Event.element(ev),{useTitle : useTitles, onElementValidate : callback}); });
             });
         }
     },
