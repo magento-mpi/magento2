@@ -76,7 +76,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_invitation')->__('Create Invitations');
+        return Mage::helper('enterprise_invitation')->__('Create Invitation(s)');
     }
 
 }

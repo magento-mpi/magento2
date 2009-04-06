@@ -101,6 +101,10 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             'parent_id'      => (int)$node->getParentId(),
             'children_count' => (int)$node->getChildrenCount(),
             'is_active'      => (bool)$node->getIsActive(),
+            'disabled'     => ($node->getLevel() <= 1 || in_array(
+                                    $node->getId(),
+                                    $this->helper('enterprise_catalogevent/adminhtml_event')->getInEventCategoryIds()
+                                )),
             'name'           => $node->getName(),
             'level'          => (int)$node->getLevel(),
             'product_count'  => (int)$node->getProductCount(),
@@ -112,6 +116,9 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             }
         }
         $result['cls'] = ($result['is_active'] ? '' : 'no-') . 'active-category';
+        if ($result['disabled']) {
+            $result['cls'] .= ' em';
+        }
         $result['expanded'] = false;
         if (!empty($result['children'])) {
             $result['expanded'] = true;

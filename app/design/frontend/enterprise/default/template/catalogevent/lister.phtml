@@ -28,7 +28,7 @@
 /**
  * Catalog Event category page
  *
- * @see Enterprise_CatalogEvent_Block_Event_Home
+ * @see Enterprise_CatalogEvent_Block_Event_Lister
  */
 ?>
 
@@ -37,13 +37,13 @@
 <div class="slide-button backward">&laquo;</div>
 <div class="slider-panel">
     <ul class="slider">
-<?php foreach ($this->getCategories() as $_category): ?>
-<?php $_event = $_category->getEvent(); ?>
+<?php foreach ($this->getEvents() as $_event): ?>
+<?php $_category = $_event->getCategory(); ?>
 <li class="slider-item">
 <div class="category-info">
     <a class="category-show" href="<?php echo $this->getCategoryUrl($_category); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>">
-    <?php if ($this->getCategoryImageUrl($_category)): ?>
-    <img src="<?php echo $this->getCategoryImageUrl($_category); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" />
+    <?php if ($this->getEventImageUrl($_event)): ?>
+    <img src="<?php echo $this->getEventImageUrl($_event); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" />
     <?php else: ?>
     <span class="category-name"><?php echo $this->htmlEscape($_category->getName()) ?></span>
     <?php endif; ?>
@@ -67,7 +67,7 @@
             </p>
         </div>
         <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Preview Sale') ?></span></a>
-        <p><a href="#"><?php echo $this->__('Invite a Friend'); ?></a></p>        
+
 
     <?php break;
         case 'open': ?>
@@ -80,7 +80,7 @@
         new Enterprise.CatalogEvent.Ticker('event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
         </script>
         <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Go To Sale') ?></span></a>
-        <p><a href="#"><?php echo $this->__('Invite a Friend'); ?></a></p>
+
 
     <?php break;
         case 'closed': ?>
@@ -96,7 +96,7 @@
             </p>
         </div>
         <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></span></a>
-        <p><a href="#"><?php echo $this->__('Invite a Friend'); ?></a></p>
+
 
     <?php break; ?>
 <?php endswitch; ?>

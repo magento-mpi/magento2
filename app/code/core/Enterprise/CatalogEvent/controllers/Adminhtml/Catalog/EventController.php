@@ -73,7 +73,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function editAction()
     {
-        $event = Mage::getModel('enterprise_catalogevent/event');
+        $event = Mage::getModel('enterprise_catalogevent/event')
+            ->setStoreId($this->getRequest()->getParam('store', 0));
         if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
         } else {
@@ -82,9 +83,19 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
 
         Mage::register('enterprise_catalogevent_event', $event);
 
+
+        if ($event->getId() && !Mage::app()->isSingleStoreMode()) {
+            $this->getLayout()->getUpdate()->addHandle('enterprise_catalogevent_store_switcher');
+        }
+
         $this->_initAction();
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        if (($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
+            $switchBlock->setDefaultStoreName(Mage::helper('enterprise_catalogevent')->__('Default Values'))
+                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'store'=>null)));
+        }
         $this->renderLayout();
+
     }
 
     /**
@@ -94,7 +105,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function saveAction()
     {
-        $event = Mage::getModel('enterprise_catalogevent/event');
+        $event = Mage::getModel('enterprise_catalogevent/event')
+            ->setStoreId($this->getRequest()->getParam('store', 0));
         /* @var $event Enterprise_CatalogEvent_Model_Event */
         if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
@@ -102,17 +114,48 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $event->setDisplayState($this->getRequest()->getParam('display_state'))
-            ->setDateStart($this->getRequest()->getParam('date_start'))
-            ->setDateEnd($this->getRequest()->getParam('date_end'));
+        $data = new Varien_Object($this->getRequest()->getPost('catalogevent'));
+
+        $event->setDisplayState($data->getDisplayState())
+            ->setDateStart($data->getDateStart())
+            ->setDateEnd($data->getDateEnd())
+            ->setSortOrder($data->getSortOrder());
+
+        $isUploaded = true;
+        try {
+            $uploader = new Varien_File_Uploader('image');
+            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+            $uploader->setAllowRenameFiles(true);
+            $uploader->setAllowCreateFolders(true);
+            $uploader->setFilesDispersion(false);
+        } catch (Exception $e) {
+            $isUploaded = false;
+        }
+
+
 
         try {
+            $path = Mage::getBaseDir('media') . DS . 'enterprise' . DS . 'catalogevent';
+            if ($data->getData('image/is_default')) {
+                $event->setImage(null);
+            } elseif ($data->getData('image/delete')) {
+                $event->setImage('');
+            } elseif ($isUploaded) {
+                try {
+                    $uploader->save($path);
+                    $event->setImage($uploader->getUploadedFileName());
+                } catch (Exception $e) {
+                    Mage::throwException(
+                        Mage::helper('enterprise_catalogevent')->__('Image was not uploaded')
+                    );
+                }
+            }
             $event->save();
             $this->_getSession()->addSuccess(
                 Mage::helper('enterprise_catalogevent')->__('Event was successfully saved.')
             );
-            if ($this->getRequest()->getParam('category')) {
-                $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
+            if ($this->getRequest()->getParam('_continue')) {
+                $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$event->getId()));
             } else {
                 $this->_redirect('*/*/');
             }

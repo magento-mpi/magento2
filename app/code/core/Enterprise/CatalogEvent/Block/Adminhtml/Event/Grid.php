@@ -70,17 +70,24 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'index' => 'event_id'
         ));
 
+        $this->addColumn('category_id', array(
+            'header' => Mage::helper('enterprise_catalogevent')->__('Category ID'),
+            'index' => 'category_id',
+            'type'  => 'text',
+            'width' => 70
+        ));
+
         $this->addColumn('category', array(
             'header' => Mage::helper('enterprise_catalogevent')->__('Category'),
             'index' => 'category_name',
-       		'type'  => 'text'
+            'type'  => 'text'
         ));
 
         $this->addColumn('date_start', array(
             'header' => Mage::helper('enterprise_catalogevent')->__('Start On'),
             'index' => 'date_start',
             'type' => 'datetime',
-        	'filter_time' => true,
+            'filter_time' => true,
             'width' => '150px'
         ));
 
@@ -88,7 +95,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'header' => Mage::helper('enterprise_catalogevent')->__('End On'),
             'index' => 'date_end',
             'type' => 'datetime',
-        	'filter_time' => true,
+            'filter_time' => true,
             'width' => '150px'
         ));
 
@@ -110,9 +117,17 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'type' => 'options',
             'renderer' => 'enterprise_catalogevent/adminhtml_event_grid_column_renderer_bitmask',
             'options' => array(
+                0 => Mage::helper('enterprise_catalogevent')->__('Lister Block'),
                 Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),
                 Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => Mage::helper('enterprise_catalogevent')->__('Product Page')
             )
+        ));
+
+        $this->addColumn('sort_order', array(
+            'header' => Mage::helper('enterprise_catalogevent')->__('Sort Order'),
+            'index' => 'sort_order',
+            'type'  => 'text',
+            'width' => 70
         ));
 
         $this->addColumn('actions', array(

@@ -37,7 +37,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order extends
     {
         $this->_controller = 'adminhtml_report_invitation_order';
         $this->_blockGroup = 'invitation';
-        $this->_headerText = Mage::helper('enterprise_invitation')->__('Order conversion by accepted invitations');
+        $this->_headerText = Mage::helper('enterprise_invitation')->__('Order Conversion by Accepted Invitations');
         parent::__construct();
         $this->_removeButton('add');
     }

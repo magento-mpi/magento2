@@ -61,9 +61,7 @@ class Enterprise_CatalogEvent_Model_Observer
         // We should check only not closed events.
         $collection->addFieldToFilter('status',
             array(
-
                 'in' => array(
-
                     Enterprise_CatalogEvent_Model_Event::STATUS_OPEN,
                     Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING
                 )

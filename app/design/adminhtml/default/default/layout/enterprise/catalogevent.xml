@@ -38,6 +38,12 @@
         </reference>
     </adminhtml_catalog_event_edit>
     
+    <enterprise_catalogevent_store_switcher>
+        <reference name="left">
+            <block before="-" type="adminhtml/store_switcher" name="store_switcher" template="store/switcher.phtml"></block>
+        </reference>
+    </enterprise_catalogevent_store_switcher>
+    
     <adminhtml_catalog_category_edit>
         <reference name="category.edit">
             <block name="event.buttons" type="enterprise_catalogevent/adminhtml_catalog_category_edit_buttons">

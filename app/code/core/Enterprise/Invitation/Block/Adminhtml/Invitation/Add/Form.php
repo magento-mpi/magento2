@@ -58,11 +58,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->helper('enterprise_invitation')->__('Invitation information')
+            'legend' => $this->helper('enterprise_invitation')->__('Invitation Information')
         ));
 
         $fieldset->addField('email', 'textarea', array(
-            'label' => $this->helper('enterprise_invitation')->__('Emails (separated by new lines)'),
+            'label' => $this->helper('enterprise_invitation')->__('Enter Each Email on New Line'),
             'required' => true,
             'class' => 'validate-emails',
             'name' => 'email'
@@ -75,7 +75,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
 
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
-                'label' => $this->helper('enterprise_invitation')->__('Send from'),
+                'label' => $this->helper('enterprise_invitation')->__('Send From'),
                 'required' => true,
                 'name' => 'store_id',
                 'values' => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()

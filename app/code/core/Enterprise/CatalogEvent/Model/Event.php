@@ -42,6 +42,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
 
+    protected $_store = null;
+
     /**
      * Intialize model
      *
@@ -74,6 +76,41 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         }
         $this->setDisplayStateArray($state);
         return $this;
+    }
+
+    /**
+     * Set store id
+     *
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
+    public function setStoreId($storeId = null)
+    {
+        $this->_store = Mage::app()->getStore($storeId);
+        return $this;
+    }
+
+    /**
+     * Retrive store
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        if ($this->_store === null) {
+            $this->setStoreId();
+        }
+
+        return $this->_store;
+    }
+
+    /**
+     * Retrieve store id
+     *
+     * @return int
+     */
+    public function getStoreId()
+    {
+        return $this->getStore()->getId();
     }
 
     /**
@@ -166,7 +203,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
                 try {
-                    $this->setData($dateType, $this->_convertDateTime($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM));
+                    $this->setData($dateType, $this->_convertDateTime($date, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
                 } catch (Exception $e) {
                     Mage::throwException(Mage::helper('enterprise_catalogevent')->__('%s has invalid date format.', $fieldTitles[$dateType]));
                 }

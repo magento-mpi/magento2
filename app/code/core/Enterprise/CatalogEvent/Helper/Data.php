@@ -33,5 +33,30 @@
  */
 class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_DISABLE_EVENT_LISTER = 'catalog/frontend/enterprise_catalogevent_disable_event_lister';
 
+    /**
+     * Retreive event image url
+     *
+     * @param Enterprise_CatalogEvent_Model_Event
+     * @return string|boolean
+     */
+    public function getEventImageUrl($event)
+    {
+        if ($event->getImage()) {
+            return Mage::getBaseUrl('media').'enterprise/catalogevent/'. $event->getImage();
+        }
+
+        return false;
+    }
+
+    /**
+     * Retreive configuration value for event lister block output
+     *
+     * @return boolean
+     */
+    public function isDisabledEventLister()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_EVENT_LISTER);
+    }
 }

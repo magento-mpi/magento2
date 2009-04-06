@@ -75,14 +75,14 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid
         ));
 
         $this->addColumn('sent', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations sent'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations Sent'),
             'type'      =>'number',
             'index'     => 'sent'
         ));
 
 
         $this->addColumn('accepted', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations accepted'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations Accepted'),
             'type'      =>'number',
             'index'     => 'accepted'
         ));

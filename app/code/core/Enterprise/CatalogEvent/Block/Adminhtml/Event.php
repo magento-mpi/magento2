@@ -39,7 +39,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Mage_Adminhtml_Block
         $this->_controller = 'adminhtml_event';
         $this->_blockGroup = 'enterprise_catalogevent';
         $this->_headerText = Mage::helper('enterprise_catalogevent')->__('Catalog Events');
-        $this->_addButtonLabel = Mage::helper('enterprise_catalogevent')->__('Add New Event');
+        $this->_addButtonLabel = Mage::helper('enterprise_catalogevent')->__('Add Catalog Event');
         parent::__construct();
     }
 

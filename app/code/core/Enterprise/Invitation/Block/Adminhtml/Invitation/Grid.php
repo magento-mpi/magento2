@@ -90,7 +90,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('customer_id', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Customer ID'),
+            'header' => Mage::helper('enterprise_invitation')->__('Inviter ID'),
             'index' => 'customer_id',
             'default'   =>  ' ---- ',
             'width' => '140px'
@@ -102,7 +102,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             ->toOptionHash();
 
         $this->addColumn('group_id', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Referral Group'),
+            'header' => Mage::helper('enterprise_invitation')->__('Invitee Group'),
             'index' => 'group_id',
             'type'  => 'options',
             'options' => $groups,
@@ -110,7 +110,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('referral_id', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Referral ID'),
+            'header' => Mage::helper('enterprise_invitation')->__('Invitee ID'),
             'index' => 'referral_id',
             'default'   =>  ' ---- ',
             'width' => '140px'

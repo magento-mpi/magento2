@@ -44,6 +44,24 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
     }
 
     /**
+     * Prepares layout, set custom renderers
+     *
+     * @return void
+     */
+    protected function _prepareLayout()
+    {
+        Varien_Data_Form::setElementRenderer(
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_element')
+        );
+        Varien_Data_Form::setFieldsetRenderer(
+            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset')
+        );
+        Varien_Data_Form::setFieldsetElementRenderer(
+            $this->getLayout()->createBlock('enterprise_catalogevent/adminhtml_form_renderer_fieldset_element')
+        );
+    }
+
+    /**
      * Prepares event edit form
      *
      * @return Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form
@@ -54,21 +72,23 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             array(
                 'id' => 'edit_form',
                 'action' => $this->getActionUrl(),
-                'method' => 'post'
+                'method' => 'post',
+                'field_name_suffix' => 'catalogevent',
+                'enctype' => 'multipart/form-data'
             )
         );
+
 
         $form->setHtmlIdPrefix('event_edit_');
 
-        $dataHelper = $this->helper('enterprise_catalogevent/adminhtml_event');
-        /* @var $dataHelper Enterprise_CatalogEvent_Helper_Adminhtml_Event */
-
         $fieldset = $form->addFieldset('general_fieldset',
             array(
-                'legend' => Mage::helper('enterprise_catalogevent')->__('Event Information'),
+                'legend' => Mage::helper('enterprise_catalogevent')->__('Catalog Event Information'),
                 'class' => 'fieldset-wide'
             )
         );
+
+        $this->_addElementTypes($fieldset);
 
         $currentCategory = Mage::getModel('catalog/category')
             ->load($this->getEvent()->getCategoryId());
@@ -82,7 +102,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         );
 
         $dateFormatIso = Mage::app()->getLocale()->getDateTimeFormat(
-            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM
+            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
         );
 
         $fieldset->addField('date_start', 'date',
@@ -104,6 +124,22 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
                 'format' => $dateFormatIso
             ));
 
+        $fieldset->addField('image', 'image',
+             array(
+                'label' => Mage::helper('enterprise_catalogevent')->__('Image'),
+                'scope' => 'store',
+                'name'  => 'image'
+             )
+        );
+
+        $fieldset->addField('sort_order', 'text',
+             array(
+                'label' => Mage::helper('enterprise_catalogevent')->__('Sort Order'),
+                'name'  => 'sort_order',
+                'class' => 'validate-num qty'
+             )
+        );
+
         $statuses = array(
             Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => Mage::helper('enterprise_catalogevent')->__('Upcoming'),
             Enterprise_CatalogEvent_Model_Event::STATUS_OPEN => Mage::helper('enterprise_catalogevent')->__('Open'),
@@ -124,7 +160,6 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         if ($this->getEvent()->getId()) {
             $fieldset->addField('status', 'note',
                 array(
-
                     'label' => Mage::helper('enterprise_catalogevent')->__('Status'),
                     'text' => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
             ));
@@ -176,6 +211,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         }
 
         $form->setUseContainer(true);
+        $form->setDataObject($this->getEvent());
         $this->setForm($form);
 
         return parent::_prepareForm();
@@ -189,6 +225,18 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
     public function getEvent()
     {
         return Mage::registry('enterprise_catalogevent_event');
+    }
+
+    /**
+     * Retrieve Additional Element Types
+     *
+     * @return array
+     */
+    protected function _getAdditionalElementTypes()
+    {
+        return array(
+            'image' => Mage::getConfig()->getBlockClassName('enterprise_catalogevent/adminhtml_event_helper_image')
+        );
     }
 
 }

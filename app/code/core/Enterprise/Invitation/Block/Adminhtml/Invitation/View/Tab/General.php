@@ -49,7 +49,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
         $this->setChild('save_message_button', $this->getLayout()->createBlock('adminhtml/widget_button', 'save_message_button', array(
             'type' => 'submit',
             'class' => 'save',
-            'label' => $this->helper('enterprise_invitation')->__('Save invitation message')
+            'label' => $this->helper('enterprise_invitation')->__('Save Invitation Message')
         )));
         return parent::_prepareLayout();
     }

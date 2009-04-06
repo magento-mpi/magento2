@@ -19,25 +19,46 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_CatalogPermissions
+ * @package    Enterprise_CatalogEvent
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Configuration source for grant permission select
+ * Catalog Events edit page
  *
  * @category   Enterprise
- * @package    Enterprise_CatalogPermissions
+ * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Helper_Image extends Varien_Data_Form_Element_Image
 {
-    public function toOptionArray()
+    /**
+     * Get url for image
+     *
+     * @return string|boolean
+     */
+    protected function _getUrl()
     {
-        return array(
-            1 => Mage::helper('enterprise_catalogpermissions')->__('Yes, to all'),
-            2 => Mage::helper('enterprise_catalogpermissions')->__('Yes, to specified customer groups'),
-            0 => Mage::helper('enterprise_catalogpermissions')->__('No')
-        );
+        $url = false;
+        if ($this->getValue()) {
+            $url = Mage::getBaseUrl('media').'enterprise/catalogevent/'. $this->getValue();
+        }
+        return $url;
     }
+
+    /**
+     * Get default field name
+     *
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        $name = $this->getData('name');
+        if ($suffix = $this->getForm()->getFieldNameSuffix()) {
+            $name = $this->getForm()->addSuffixToName($name, $suffix);
+        }
+        return $name;
+    }
+
 }

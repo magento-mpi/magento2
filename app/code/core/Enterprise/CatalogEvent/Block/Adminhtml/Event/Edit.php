@@ -45,10 +45,40 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
      */
     protected function _prepareLayout()
     {
+        if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
+            $this->_removeButton('save');
+            $this->_removeButton('reset');
+        } else {
+            $this->_addButton(
+                'save_and_continue',
+                array(
+                    'label' => $this->helper('enterprise_catalogevent')->__('Save And Continue Edit'),
+                    'class' => 'save',
+                    'onclick'   => 'saveAndContinue()',
+                ),
+                1
+            );
+
+            $this->_formScripts[] = '
+                function saveAndContinue() {
+                    if (editForm.validator.validate()) {
+                        $(editForm.formId).insert({bottom:
+                            \'<\' + \'input type="hidden" name="_continue" value="1" /\' + \'>\'
+                        });
+                        editForm.submit();
+                    }
+                }
+            ';
+        }
+
         parent::_prepareLayout();
 
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild('form', $this->getLayout()->createBlock($this->_blockGroup . '/' . $this->_controller . '_' . $this->_mode . '_category'));
+        }
+
+        if ($this->getRequest()->getParam('category')) {
+            $this->_updateButton('back', 'label', $this->helper('enterprise_catalogevent')->__('Back to Category'));
         }
 
         return $this;
@@ -82,10 +112,10 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
     public function getHeaderText()
     {
         if ($this->getEvent()->getId()) {
-            return Mage::helper('enterprise_catalogevent')->__('Edit Event');
+            return Mage::helper('enterprise_catalogevent')->__('Edit Catalog Event');
         }
         else {
-            return Mage::helper('enterprise_catalogevent')->__('New Event');
+            return Mage::helper('enterprise_catalogevent')->__('New Catalog Event');
         }
     }
 

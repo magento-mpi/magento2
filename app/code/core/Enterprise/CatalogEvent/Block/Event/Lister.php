@@ -31,14 +31,14 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Event_Home extends Enterprise_CatalogEvent_Block_Event_Abstract
+class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent_Block_Event_Abstract
 {
     /**
-     * Categories with events
+     * Events list
      *
      * @var array
      */
-    protected $_categories = null;
+    protected $_events = null;
 
     /**
      * Check availability to display event block
@@ -47,7 +47,7 @@ class Enterprise_CatalogEvent_Block_Event_Home extends Enterprise_CatalogEvent_B
      */
     public function canDisplay()
     {
-        return count($this->getCategories()) > 0;
+        return (!$this->helper('enterprise_catalogevent')->isDisabledEventLister()) && count($this->getEvents()) > 0;
     }
 
     /**
@@ -55,28 +55,42 @@ class Enterprise_CatalogEvent_Block_Event_Home extends Enterprise_CatalogEvent_B
      *
      * @return array
      */
-    public function getCategories()
+    public function getEvents()
     {
-        if ($this->_categories === null) {
-            $this->_categories = array();
+        if ($this->_events === null) {
+            $this->_events = array();
             $categories = $this->helper('catalog/category')->getStoreCategories('position', true, false);
-            $categories->addAttributeToSelect('image');
             $allIds = $categories->getAllIds();
             if (!empty($allIds)) {
-                $eventCategories = Mage::getModel('enterprise_catalogevent/event')
-                    ->getCollection()
-                    ->addFieldToFilter('category_id', array('in' => $allIds))
+                $eventCollection = Mage::getModel('enterprise_catalogevent/event')
+                    ->getCollection();
+                $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()
-                    ->getColumnValues('category_id');
+                    ->addImageData()
+                    ->addSortByStatus()
+                    ;
 
-                $categories->addIdFilter($eventCategories);
+                $categories->addIdFilter(
+                    $eventCollection->getColumnValues('category_id')
+                );
+
+                foreach ($categories as $category) {
+                    $event = $eventCollection->getItemByColumnValue('category_id', $category->getId());
+                    if ($category->getIsActive()) {
+                        $event->setCategory($category);
+                    } else {
+                        $eventCollection->removeItem($event);
+                    }
+                }
+
+                foreach ($eventCollection as $event) {
+                    $this->_events[] = $event;
+                }
             }
-            foreach ($categories as $category) {
-                 $this->_categories[] = $category;
-            }
+
         }
 
-        return $this->_categories;
+        return $this->_events;
     }
 
     /**
@@ -93,15 +107,11 @@ class Enterprise_CatalogEvent_Block_Event_Home extends Enterprise_CatalogEvent_B
     /**
      * Retrieve catalog category image url
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Enterprise_CatalogEvent_Model_Event $event
      * @return string
      */
-    public function getCategoryImageUrl($category)
+    public function getEventImageUrl($event)
     {
-        if ($category->getImageUrl()) {
-            return $category->getImageUrl();
-        }
-
-        return false;
+        return $this->helper('enterprise_catalogevent')->getEventImageUrl($event);
     }
 }

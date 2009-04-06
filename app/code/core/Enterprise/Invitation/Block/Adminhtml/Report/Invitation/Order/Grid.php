@@ -54,28 +54,28 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('sent', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations sent'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations Sent'),
             'type'      =>'number',
             'index'     => 'sent',
             'width'     =>'200'
         ));
 
         $this->addColumn('accepted', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations accepted'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Invitations Accepted'),
             'type'      =>'number',
             'index'     => 'accepted',
             'width'     =>'200'
         ));
 
         $this->addColumn('purchased', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Accepted and purchased'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Accepted and Purchased'),
             'type'      =>'number',
             'index'     => 'purchased',
             'width'     =>'220'
         ));
 
         $this->addColumn('purchased_rate', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Conversion rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Conversion Rate'),
             'index'     =>'purchased_rate',
             'renderer'  => 'invitation/adminhtml_grid_column_renderer_percent',
             'type'      =>'string',

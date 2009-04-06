@@ -36,7 +36,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
     protected function _prepareLayout()
     {
         $this->_headerText = Mage::helper('enterprise_invitation')->__(
-            'View invitation for %s (ID: %s)',
+            'View Invitation for %s (ID: %s)',
             $this->getInvitation()->getEmail(),
             $this->getInvitation()->getId()
         );

@@ -30,14 +30,14 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogPermissions
  */
-class Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant
+class Enterprise_CatalogPermissions_Model_Adminhtml_System_Config_Source_Grant_Landing
 {
     public function toOptionArray()
     {
         return array(
             1 => Mage::helper('enterprise_catalogpermissions')->__('Yes, to all'),
             2 => Mage::helper('enterprise_catalogpermissions')->__('Yes, to specified customer groups'),
-            0 => Mage::helper('enterprise_catalogpermissions')->__('No')
+            0 => Mage::helper('enterprise_catalogpermissions')->__('No, redirect to landing page')
         );
     }
 }

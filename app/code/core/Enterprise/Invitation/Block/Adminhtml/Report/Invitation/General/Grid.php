@@ -74,7 +74,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
         ));
 
         $this->addColumn('accepted_rate', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Acceptance Conversion rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Acceptance Conversion Rate'),
             'index'     =>'accepted_rate',
             'renderer'  => 'invitation/grid_adminhtml_column_renderer_percent',
             'type'      =>'string',
@@ -83,7 +83,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
         ));
 
         $this->addColumn('canceled_rate', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Canceled Conversion rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Canceled Conversion Rate'),
             'index'     =>'canceled_rate',
             'type'      =>'number',
             'renderer'  => 'invitation/grid_adminhtml_column_renderer_percent',

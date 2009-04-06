@@ -106,7 +106,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     public function addCategoryData()
     {
         if (! $this->_categoryDataAdded) {
-            $this->_select->joinLeft(array('category' => $this->getTable('catalog/category')), 'category.entity_id = main_table.category_id', array('category_position' => 'position'))->joinLeft(array('category_name_attribute' => $this->getTable('eav/attribute')), 'category_name_attribute.entity_type_id = category.entity_type_id
+             $this->getSelect()->joinLeft(array('category' => $this->getTable('catalog/category')), 'category.entity_id = main_table.category_id', array('category_position' => 'position'))->joinLeft(array('category_name_attribute' => $this->getTable('eav/attribute')), 'category_name_attribute.entity_type_id = category.entity_type_id
                     AND
                 category_name_attribute.attribute_code = \'name\'', array())
                 ->joinLeft(array('category_varchar' => $this->getTable('catalog/category') . '_varchar'), 'category_varchar.entity_id = category.entity_id
@@ -117,6 +117,53 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
             $this->_map['fields']['category_position'] = 'category.position';
             $this->_categoryDataAdded = true;
         }
+        return $this;
+    }
+
+    /**
+     * Add sorting by status.
+     * first will be open, then upcoming
+     *
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     */
+    public function addSortByStatus()
+    {
+        $this->getSelect()
+            ->order(array(
+                $this->getConnection()->quoteInto(
+                    'IF (main_table.status = ?, 0, 1) ASC',
+                    Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
+                ),
+                $this->getConnection()->quoteInto(
+                    'IF (main_table.status = ?, main_table.date_end, main_table.date_start) ASC',
+                    Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
+                ),
+                'main_table.sort_order ASC'
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Add image data
+     *
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     */
+    public function addImageData()
+    {
+        $this->getSelect()->joinLeft(
+            array('event_image' => $this->getTable('event_image')),
+            'event_image.event_id = main_table.event_id
+            AND event_image.store_id = ' . Mage::app()->getStore()->getId() . '',
+            array('image' => 'IFNULL(event_image.image, event_image_default.image)')
+        )
+        ->joinLeft(
+            array('event_image_default' => $this->getTable('event_image')),
+            'event_image_default.event_id = main_table.event_id
+            AND event_image_default.store_id = 0',
+            array())
+        ->group('main_table.event_id');
+
         return $this;
     }
 }

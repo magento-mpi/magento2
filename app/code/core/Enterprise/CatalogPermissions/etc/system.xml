@@ -37,7 +37,7 @@
             <show_in_store>1</show_in_store>
             <groups>
                 <general translate="label" module="enterprise_catalogpermissions">
-                    <label>Default category permissions</label>
+                    <label>Default Category Permissions</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>
                     <show_in_default>1</show_in_default>
@@ -45,7 +45,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <enabled translate="label">
-                            <label>Enable caterory permissions</label>
+                            <label>Enable Caterory Permissions</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
@@ -54,76 +54,76 @@
                             <show_in_store>0</show_in_store>
                         </enabled>
                         <grant_catalog_category_view translate="label">
-                            <label>Allow browsing category</label>
+                            <label>Allow Browsing Category</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>enterprise-grant-select</frontend_class>
-                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant</source_model>
-                            <sort_order>1</sort_order>
+                            <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant_landing</source_model>
+                            <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </grant_catalog_category_view>
                         <grant_catalog_category_view_groups translate="label">
-                            <label>Customer groups</label>
+                            <label>Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
-                            <sort_order>2</sort_order>
+                            <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </grant_catalog_category_view_groups>
                         <grant_catalog_product_price translate="label">
-                            <label>Display product prices</label>
+                            <label>Display Product Prices</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>enterprise-grant-select</frontend_class>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant</source_model>
-                            <sort_order>3</sort_order>
+                            <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </grant_catalog_product_price>
                         <grant_catalog_product_price_groups translate="label">
-                            <label>Customer groups</label>
+                            <label>Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
-                            <sort_order>4</sort_order>
+                            <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </grant_catalog_product_price_groups>
                         <grant_checkout_items translate="label">
-                            <label>Allow add to cart</label>
+                            <label>Allow Add to Cart</label>
                             <frontend_type>select</frontend_type>
                             <frontend_class>enterprise-grant-select</frontend_class>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_grant</source_model>
-                            <sort_order>5</sort_order>
+                            <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </grant_checkout_items>
                         <grant_checkout_items_groups translate="label">
-                            <label>Customer groups</label>
+                            <label>Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
-                            <sort_order>6</sort_order>
+                            <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </grant_checkout_items_groups>
                         <restricted_landing_page translate="label">
-                            <label>Redirect non-permitted customers to</label>
+                            <label>Redirect Non-permitted Customers to</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_cms_page</source_model>
-                            <sort_order>7</sort_order>
+                            <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </restricted_landing_page>
                         <deny_catalog_search translate="label">
-                            <label>Deny catalog search for customer groups</label>
+                            <label>Deny Catalog Search for Customer Groups</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>enterprise_catalogpermissions/adminhtml_system_config_source_customer_group</source_model>
                             <sort_order>8</sort_order>

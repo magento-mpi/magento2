@@ -44,7 +44,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $this->setChild('delete_button', $this->getLayout()->createBlock('adminhtml/widget_button')
             ->addData(array(
-                'label' => $this->helper('enterprise_catalogpermissions')->__('Remove Permission'),
+                //'label' => $this->helper('enterprise_catalogpermissions')->__('Remove Permission'),
                 'class' => 'delete',
                 'type'  => 'button',
                 'id'    => '{{html_id}}_delete_button'
@@ -77,9 +77,9 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getGrants()
     {
         return array(
-            'grant_catalog_category_view' => $this->helper('enterprise_catalogpermissions')->__('Category Access'),
-            'grant_catalog_product_price' => $this->helper('enterprise_catalogpermissions')->__('View Product Prices'),
-            'grant_checkout_items' => $this->helper('enterprise_catalogpermissions')->__('Add Products to Cart')
+            'grant_catalog_category_view' => $this->helper('enterprise_catalogpermissions')->__('Browsing Category'),
+            'grant_catalog_product_price' => $this->helper('enterprise_catalogpermissions')->__('Display Product Prices'),
+            'grant_checkout_items' => $this->helper('enterprise_catalogpermissions')->__('Add to Cart')
         );
     }
 

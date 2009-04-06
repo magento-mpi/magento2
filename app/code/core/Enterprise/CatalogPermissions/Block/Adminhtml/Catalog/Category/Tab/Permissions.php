@@ -103,7 +103,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function getTabLabel()
     {
-        return $this->helper('enterprise_catalogpermissions')->__('Permissions');
+        return $this->helper('enterprise_catalogpermissions')->__('Category Permissions');
     }
 
     /**
@@ -113,7 +113,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function getTabTitle()
     {
-        return $this->helper('enterprise_catalogpermissions')->__('Permissions');
+        return $this->helper('enterprise_catalogpermissions')->__('Category Permissions');
     }
 
     /**
