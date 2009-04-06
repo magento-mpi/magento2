@@ -29,20 +29,20 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="post">
-<fieldset class="group-select">
-    <ul class="form-list">
+<fieldset class="fieldset">
+    <ul class="form-list group-select">
         <li>
             <label for="productTagName"><?php echo $this->__('Tag Information') ?></label>
-            <div class="input-box">
+            <span class="input-box">
                 <input type="text" class="input-text required-entry" name="productTagName" id="productTagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" />
-            </div>
-        </li>
-        <li class="buttons-set">
-            <span class="label"><a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="back-link">&laquo; <?php echo $this->__('Back to view Tag') ?></a></span>
-            <button type="button" class="button" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
+            </span>
         </li>
     </ul>
 </fieldset>
+<div class="buttons-set form-buttons">
+    <p class="back-link""><a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="back-link">&laquo; <?php echo $this->__('Back to view Tag') ?></a></p>
+    <button type="button" class="button" onclick="tagForm.submit();"><span><?php echo $this->__('Save Tag') ?></span></button>
+</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

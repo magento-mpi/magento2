@@ -72,7 +72,7 @@
     </table>
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
     <div class="buttons-set">
-        <span class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Shopping Cart') ?></a></span>
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Shopping Cart') ?></a></p>
         <button type="submit" class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" onclick="$('can_continue_flag').value=1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><?php echo $this->__('Continue to Shipping Information') ?></span></button>
     </div>
 </fieldset>

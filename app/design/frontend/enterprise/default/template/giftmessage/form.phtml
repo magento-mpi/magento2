@@ -30,36 +30,38 @@
     <h2><?php echo $this->__('Gift Message') ?></h2>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
-    <ul class="form-list">
-        <li>
-            <label for="sender"><span class="required">*</span> <?php echo $this->__('From') ?></label>
-            <div class="input-box">
-                <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="input-text required-entry" />
+<fieldset class="fieldset">
+    <ul class="form-list group-select">
+        <li class="fields">
+            <div class="field">
+                <label for="sender" class="required"><em>*</em><?php echo $this->__('From') ?></label>
+                <span class="input-box">
+                    <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="input-text required-entry" />
+                </span>
+            </div>
+            <div class="field">
+                <label for="recipient" class="required"><em>*</em><?php echo $this->__('To') ?></label>
+                <span class="input-box">
+                    <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="input-text required-entry" />
+                </span>
             </div>
         </li>
         <li>
-            <label for="recipient"><span class="required">*</span> <?php echo $this->__('To') ?></label>
-            <div class="input-box">
-                <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="input-text required-entry" />
-            </div>
-        </li>
-        <li>
-            <label for="email_address"><span class="required">*</span> <?php echo $this->__('Message') ?></label>
-            <div class="input-box">
+            <label for="email_address" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
+            <span class="input-box">
                 <textarea name="messagetext" title="<?php echo $this->__('Message') ?>" class="input-text required-entry" cols="60" rows="5"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
-            </div>
-        </li>
-        <li class="buttons-set">
-            <span class="label"><button class="button listen-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button></span>
-            <button class="button" type="submit" name="send"><span><?php echo $this->__('Save') ?></span></button>
-            <?php if($this->getMessage()->getGiftMessageId()): ?>
-                &nbps;<button class="button listen-remove" type="button"><span><?php echo $this->__('Remove') ?></span></button>
-            <?php endif; ?>            
-        </li>
-        <li>
-            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            </span>
         </li>
     </ul>
+</fieldset>
+<div class="buttons-set form-buttons">
+    <p class="back-link"><button class="button listen-cancel" type="button"><span><?php echo $this->__('Cancel') ?></span></button></p>
+    <button class="button" type="submit" name="send"><span><?php echo $this->__('Save') ?></span></button>
+    <?php if($this->getMessage()->getGiftMessageId()): ?>
+        &nbps;<button class="button listen-remove" type="button"><span><?php echo $this->__('Remove') ?></span></button>
+    <?php endif; ?>            
+</div>
+<p class="required"><?php echo $this->__('* Required Fields') ?></p>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
 <div class="page-title">

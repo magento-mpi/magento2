@@ -33,7 +33,7 @@
                 <span class="number"><?php echo ++$iterator ?></span>
                 <div class="details">
                     <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
-                    <p><strong><?php echo $this->__('Tags:') ?></strong></p>
+                    <p><?php echo $this->__('Tags:') ?> </p>
                         <?php $_i = 0; ?>
                         <?php foreach( $_item->getProductTags() as $_tag ): ?>
                             <a href="<?php echo $_tag->getViewTagUrl() ?>"><?php echo $this->htmlEscape($_tag->getName()) ?></a><?php if(++$_i != sizeof($_item->getProductTags()->getItems())): ?>,<?php endif; ?>

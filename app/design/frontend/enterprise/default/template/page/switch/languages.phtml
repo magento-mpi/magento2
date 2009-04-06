@@ -33,24 +33,26 @@
 ?>
 
 <?php if(count($this->getStores())>1): ?>
-<div class="switcher-language" id="languageSelect">
-    <label><?php echo $this->__('Language') ?>: </label>
-    <strong class="current-language language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
-        <?php echo $this->htmlEscape(Mage::app()->getStore()->getName()) ?>
-    </strong>  
-    (<span onclick="popUpMenu(this);" class="switcher"><?php echo $this->__('Change')?></span>)
-    <ul style="display:none" id="popId-languageSelect">
-        <li class="current-language language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
+<div class="switch switcher-language">
+    <label><?php echo $this->__('Language') ?>:</label>
+    <div class="switch-wrapper" id="languageSelect">
+        <strong class="current language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
             <?php echo $this->htmlEscape(Mage::app()->getStore()->getName()) ?>
-        </li>   
-        <?php foreach ($this->getStores() as $_lang): ?>
-            <?php if($_lang->getId()!=$this->getCurrentStoreId()): ?>
-                <li class="language-<?php echo $this->htmlEscape($_lang->getCode()); ?>">
-                    <a href="<?php echo $_lang->getCurrentUrl() ?>"><?php echo $this->htmlEscape($_lang->getName()) ?></a>
-                </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </ul>    
+        </strong>
+        <span class="switcher-holder">(<span onclick="popUpMenu(this);" class="switcher"><?php echo $this->__('Change')?></span>)</span>
+        <ul style="display:none" id="popId-languageSelect">
+            <li class="current language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
+                <span><?php echo $this->htmlEscape(Mage::app()->getStore()->getName()) ?></span>
+            </li>   
+            <?php foreach ($this->getStores() as $_lang): ?>
+                <?php if($_lang->getId()!=$this->getCurrentStoreId()): ?>
+                    <li class="language-<?php echo $this->htmlEscape($_lang->getCode()); ?>">
+                        <a href="<?php echo $_lang->getCurrentUrl() ?>"><?php echo $this->htmlEscape($_lang->getName()) ?></a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 </div>
 <?php endif; ?>
 

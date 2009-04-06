@@ -54,28 +54,23 @@
                     <p><?php echo $this->__('If you have an account with us, log in using your email address.') ?></p>
                     <ul class="form-list">
                         <li>
-                            <label for="email"><span class="required">*</span> <?php echo $this->__('Email Address') ?></label>
-                            <div class="input-box">
+                            <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                            <span class="input-box">
                                 <input name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" id="email" type="text" class="input-text required-entry" title="<?php echo $this->__('Email Address') ?>" />
-                            </div>
+                            </span>
                         </li>
                         <li>
-                            <label for="pass"><span class="required">*</span> <?php echo $this->__('Password') ?></label>
-                            <div class="input-box">
+                            <label for="pass" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                            <span class="input-box">
                                 <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
-                            </div>
-                        </li>
-                        <li>
-                            <span class="label">&nbsp;</span>
-                            <div class="input-box">
-                                <button type="submit" class="button f-left" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button>
-                                <a href="<?php echo $this->getForgotPasswordUrl() ?>" class="f-right"><?php echo $this->__('Forgot Your Password?') ?></a>
-                            </div>
-                        </li>
-                        <li>
-                            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                            </span>
                         </li>
                     </ul>
+                    <div class="buttons-set form-buttons btn-only">
+                        <button type="submit" class="button f-left" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button>
+                        <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+                    </div>
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                 </div>
                 <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">

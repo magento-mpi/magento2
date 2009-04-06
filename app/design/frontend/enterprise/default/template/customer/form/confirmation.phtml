@@ -29,23 +29,23 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="" method="post" id="form-validate">
-    <fieldset>
+    <fieldset class="fieldset">
         <legend><?php echo $this->__('Retrieve your confirmation link here') ?></legend>
         <p><?php echo $this->__('Please enter your email below and we\'ll send you confirmation link for it.') ?></p>
         <ul class="form-list">
             <li>
-                <label for="email_address"><span class="required">*</span> <?php echo $this->__('Email Address') ?></label>
-                <div class="input-box">
-                    <input type="text" name="email" id="email_address" class="input-text required-entry validate-email" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" /></div></li>
-            <li class="buttons-set">
-                <span class="back-link"><a href="<?php echo $this->helper('customer')->getLoginUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Login') ?></a></span>
-                <button type="submit" class="button right"><span><?php echo $this->__('Submit') ?></span></button>
-            </li>
-            <li>
-                <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                <label for="email_address" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                <span class="input-box">
+                    <input type="text" name="email" id="email_address" class="input-text required-entry validate-email" value="<?php echo $this->htmlEscape($this->getEmail()) ?>" />
+                </span>
             </li>
         </ul>
     </fieldset>
+    <div class="buttons-set form-buttons">
+        <p class="back-link"><a href="<?php echo $this->helper('customer')->getLoginUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Login') ?></a></p>
+        <button type="submit" class="button right"><span><?php echo $this->__('Submit') ?></span></button>
+    </div>
+    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
 //<![CDATA[

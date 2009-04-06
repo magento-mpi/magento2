@@ -28,7 +28,7 @@
 <li class="item">
     <a href="<?php echo $this->getProductUrl()?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
     <div class="product-details">
-        <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" title="<?php echo $this->__('Remove Product') ?>" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a>
+        
         <h4><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h4>
         <table cellpadding="0">
         <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
@@ -138,7 +138,7 @@
         <div class="truncated">
             <div class="truncated_full_value">
                 <div class="item-options">
-                    <h5><?php echo $this->__('Bundle Details'); ?></h5>
+                    <h5><?php echo $this->__('Options Details'); ?></h5>
                     <dl>
                         <?php foreach ($_options as $_option) : ?>
                         <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
@@ -156,5 +156,6 @@
             <a href="#" onclick="return false;" class="details"><?php echo $this->__('View Details') ?></a>
         </div>
         <?php endif; ?>
+        <a href="<?php echo $this->getDeleteUrl() ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>');" title="<?php echo $this->__('Remove Product') ?>" class="btn-remove"><?php echo $this->__('Remove') ?></a>
     </div>
 </li>

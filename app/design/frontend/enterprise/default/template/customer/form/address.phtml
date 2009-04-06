@@ -31,103 +31,106 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $action ?>" method="post" id="form-validate">
-    <fieldset>
+    <fieldset class="fieldset">
     <input type="hidden" name="address_id" value="<?php echo $data->getAddressId() ?>" />
     <input type="hidden" name="customer_id" id="address_id" value="<?php echo $data->getCustomerId() ?>" />
         <h3><?php echo $this->__('Personal Information') ?></h3>
         <ul class="form-list group-select">
-            <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($data)->toHtml() ?>
+            <li class="fields">
+                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($data)->toHtml() ?>
+            </li>
             <li>
                 <label for="company"><?php echo $this->__('Company') ?></label>
-                <div class="input-box">
+                <span class="input-box">
                     <input type="text" name="company" id="company" title="<?php echo $this->__('Company') ?>" value="<?php echo $this->htmlEscape($data->getCompany()) ?>" class="input-text" />
-                </div>
+                </span>
             </li>
         </ul>
     </fieldset>
-    <fieldset>
+    <fieldset class="fieldset">
         <h3><?php echo $this->__('Address') ?></h3>
         <ul class="form-list group-select">
             <li>
-                <label for="street_1"><span class="required">*</span> <?php echo $this->__('Street Address') ?></label>
-                <div class="input-box">
+                <label for="street_1" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
+                <span class="input-box">
                     <input type="text" name="street[]" value="<?php echo $this->htmlEscape($data->getStreet(1)) ?>" title="<?php echo $this->__('Street Address') ?>" id="street_1" class="input-text required-entry" />
-                </div>
+                </span>
             </li>
         <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
-            <li>
-                <span class="label">&nbsp;</span>
-                <div class="input-box">
+            <li class="add-field">
+                <span class="input-box">
                     <input type="text" name="street[]" value="<?php echo $this->htmlEscape($data->getStreet($_i)) ?>" title="<?php echo $this->__('Street Address '.$_i) ?>" id="street_<?php echo $_i?>" class="input-text" />
-                </div>
+                </span>
             </li>
         <?php endfor ?>
-            <li>
-                <label for="city"><span class="required">*</span> <?php echo $this->__('City') ?></label>
-                <div class="input-box">
-                    <input type="text" name="city" value="<?php echo $this->htmlEscape($data->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text required-entry" id="city" />
+            <li class="fields">
+                <div class="field">
+                    <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                    <span class="input-box">
+                        <input type="text" name="city" value="<?php echo $this->htmlEscape($data->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text required-entry" id="city" />
+                    </span>
+                </div>
+                <div class="field">
+                    <label for="region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                    <span class="input-box">
+                        <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                            <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <script type="text/javascript">
+                            $('region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                        </script>
+                        <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text required-entry" style="display:none;" />
+                    </span>
                 </div>
             </li>
-            <li>
-                <label for="region_id"><span class="required">*</span> <?php echo $this->__('State/Province') ?></label>
-                <div class="input-box">
-                    <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
-                        <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
-                    </select>
-                    <script type="text/javascript">
-                        $('region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
-                    </script>
-                    <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text required-entry" style="display:none;" />
+            <li class="fields">
+                <div class="field">
+                    <label for="zip" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                    <span class="input-box">
+                        <input type="text" name="postcode" value="<?php echo $this->htmlEscape($data->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international required-entry" />
+                    </span>
+                </div>
+                <div class="field">
+                    <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                    <span class="input-box">
+                        <select name="country_id" id="country" title="<?php echo $this->__('Country') ?>" class="validate-select">
+                            <?php echo $countries->toHtmlOptions($data->getCountryId()) ?>
+                        </select>
+                    </span>
                 </div>
             </li>
-            <li>
-                <label for="zip"><span class="required">*</span> <?php echo $this->__('Zip/Postal Code') ?></label>
-                <div class="input-box">
-                    <input type="text" name="postcode" value="<?php echo $this->htmlEscape($data->getPostcode()) ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international required-entry" />
+            <li class="fields">
+                <div class="field">
+                    <label for="telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                    <span class="input-box">
+                        <input type="text" name="telephone" value="<?php echo $this->htmlEscape($data->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="telephone" /></span>
                 </div>
-            </li>
-            <li>
-                <label for="country"><span class="required">*</span> <?php echo $this->__('Country') ?></label>
-                <div class="input-box">
-                    <select name="country_id" id="country" title="<?php echo $this->__('Country') ?>" class="validate-select">
-                        <?php echo $countries->toHtmlOptions($data->getCountryId()) ?>
-                    </select>
-                </div>
-            </li>
-            <li>
-                <label for="telephone"><span class="required">*</span> <?php echo $this->__('Telephone') ?></label>
-                <div class="input-box">
-                    <input type="text" name="telephone" value="<?php echo $this->htmlEscape($data->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="telephone" /></div>
-            </li>
-            <li>
-                <label for="fax"><?php echo $this->__('Fax') ?></label>
-                <div class="input-box">
-                    <input type="text" name="fax" value="<?php echo $this->htmlEscape($data->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="fax" />
+                <div class="field">
+                    <label for="fax"><?php echo $this->__('Fax') ?></label>
+                    <span class="input-box">
+                        <input type="text" name="fax" value="<?php echo $this->htmlEscape($data->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="fax" />
+                    </span>
                 </div>
             </li>
             <?php foreach ($primaryTypes as $code=>$type): ?>
-                <li>
+                <li class="form-element">
                 <?php if ($address->isPrimary($type['address_type_id'])): ?>
-                    <span class="label">&nbsp;</span>
-                    <?php echo $this->__("This is My Primary %s Address", ucfirst($type['name'])) ?>
+                    <p><?php echo $this->__("This is My Primary %s Address", ucfirst($type['name'])) ?></p>
                 <?php else: ?>
-                    <label for="primary_<?php echo $code ?>"><?php echo $this->__("Use as My Primary %s Address", ucfirst($type['name'])) ?></label>
-                    <div class="input-box">
+                    <span class="input-box">
                         <input type="checkbox" id="primary_<?php echo $code ?>" name="primary_types[]" value="<?php echo $type['address_type_id'] ?>" class="checkbox" />
-                    </div>
+                    </span>
+                    <label for="primary_<?php echo $code ?>"><?php echo $this->__("Use as My Primary %s Address", ucfirst($type['name'])) ?></label>
                 <?php endif ?>
-                </li>
-                <li class="buttons-set">
-                    <span class="back-link"><a href="<?php echo $this->getUrl('customer/address/') ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></span>
-                    <button class="button" type="submit"><span><?php echo $this->__('Save Address') ?></span></button>
-                </li>
-                <li>
-                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-                </li>
-                
+                </li>               
             <?php endforeach ?>
         </ul>
     </fieldset>
+    <div class="buttons-set form-buttons">
+        <p class="back-link"><a href="<?php echo $this->getUrl('customer/address/') ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></p>
+        <button class="button" type="submit"><span><?php echo $this->__('Save Address') ?></span></button>
+    </div>
+    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
 //<![CDATA[

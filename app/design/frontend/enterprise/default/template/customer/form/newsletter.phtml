@@ -38,14 +38,12 @@
                 <input type="checkbox" name="is_subscribed" id="subscription" value="1" title="<?php echo $this->__('General Subscription') ?>"<?php if($this->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox" />
             </div>
         </li>
-        <li>
-            <span class="label"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go back') ?></a></span>
-            <div class="input-box">
-                <button type="submit" class="button" title="<?php echo $this->__('Save') ?>"><span><?php echo $this->__('Save') ?></span></button>
-            </div>
-        </li>
     </ul>
 </fieldset>
+<div class="buttons-set form-buttons">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go back') ?></a></p>
+    <button type="submit" class="button" title="<?php echo $this->__('Save') ?>"><span><?php echo $this->__('Save') ?></span></button>
+</div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

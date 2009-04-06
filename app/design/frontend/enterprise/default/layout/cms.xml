@@ -54,7 +54,7 @@ Default layout, loads most of the pages
         <reference name="content">
             <remove name="cms.wrapper"/>
             <!--<block type="cms/page" name="cms_page"/>-->
-			<block type="core/template" name="homepage" template="cms/homepage.phtml"/>
+            <block type="core/template" name="homepage" template="cms/homepage.phtml"/>
         </reference>
 
         <reference name="root">

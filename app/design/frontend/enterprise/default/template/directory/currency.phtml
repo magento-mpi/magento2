@@ -31,7 +31,35 @@
  * @see Mage_Directory_Block_Currency
  */
 ?>
+
 <?php if($this->getCurrencyCount()>1): ?>
+<div class="switch switcher-currency">
+    <label><?php echo $this->__('Currency') ?>:</label>
+    <div class="switch-wrapper" id="currencySelect">
+        <strong class="current language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
+            <?php echo $this->htmlEscape($this->getCurrentCurrencyCode()) ?>
+             - <?php echo $this->htmlEscape(Mage::app()->getStore()->getCurrentCurrencyCode()) ?>
+        </strong>  
+        <span class="switcher-holder">(<span onclick="popUpMenu(this);" class="switcher"><?php echo $this->__('Change')?></span>)</span>
+        <ul style="display:none" id="popId-currencySelect">
+            <li class="current currency-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
+                <span><?php echo $this->htmlEscape($this->getCurrentCurrencyCode()) ?>
+                - <?php echo $this->htmlEscape(Mage::app()->getStore()->getCurrentCurrencyCode()) ?></span>
+            </li>   
+            <?php foreach ($this->getCurrencies() as $_code => $_name): ?>
+                <?php if($_code!=$this->getCurrentCurrencyCode()): ?>
+                    <li class="currency-<?php echo $_code ?>">
+                        <a href="<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() . 'currency/' . $_code ?>"><?php echo $_code ?> - <?php echo $_name ?></a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+    </div>
+    </ul>    
+</div>
+<?php endif; ?>
+
+
+<?php /* if($this->getCurrencyCount()>1): ?>
 <div class="block block-currency">
     <div class="block-title">
         <h2><?php echo $this->__('Select Your Currency') ?></h2>
@@ -55,4 +83,4 @@ function changeCurrency(sObject){
 }
 //]]>
 </script>
-<?php endif; ?>
+<?php endif; */ ?>

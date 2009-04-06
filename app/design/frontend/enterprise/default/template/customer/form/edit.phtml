@@ -32,66 +32,68 @@
 <fieldset class="fieldset">
     <?php echo $this->getBlockHtml('formkey')?>
     <h3><?php echo $this->__('Account Information') ?></h3>
-    <ul class="form-list">
-        <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
-        <li>
-            <label for="email"><span class="required">*</span> <?php echo $this->__('Email Address') ?></label>
-            <div class="input-box">
-                <input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text required-entry validate-email" />
-            </div>
+    <ul class="form-list grop-select">
+        <li class="fields">
+            <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
         </li>
-    <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
-    <?php if ($_dob->isEnabled()): ?>
-        <li><?php echo $_dob->setDate($this->getCustomer()->getDob())->toHtml() ?></li>
-    <?php endif ?>
-    <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
-    <?php if ($_taxvat->isEnabled()): ?>
-        <li><?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())->toHtml() ?></li>
-    <?php endif ?>
         <li>
-            <label for="change_password"><?php echo $this->__('Change Password') ?></label>
-            <div class="inpuit-box">
+            <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+            <span class="input-box">
+                <input type="text" name="email" id="email" value="<?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text required-entry validate-email" />
+            </span>
+        </li>
+        <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+        <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
+        <?php if($_dob->isEnabled() || $_taxvat->isEnabled()): ?>
+        <li class="fields">
+            <?php if ($_dob->isEnabled()): ?>
+            <div class="field"><?php echo $_dob->setDate($this->getCustomer()->getDob())->toHtml() ?></div>
+            <?php endif ?>
+            <?php if ($_taxvat->isEnabled()): ?>
+            <div class="field"><?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())->toHtml() ?></div>
+            <?php endif ?>
+        </li>
+        <?php endif ?>
+        <li class="form-element">
+            <span class="input-box">
                 <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" />
-            </div>
+            </span>
+            <label for="change_password"><?php echo $this->__('Change Password') ?></label>
         </li>
     </ul>
 </fieldset>
 <div class="fieldset" style="display:none;">
     <h3><?php echo $this->__('Change Password') ?></h3>
-    <ul class="form-list">
-        <li>
-            <label for="current_password"><?php echo $this->__('Current Password') ?></label>
-            <div class="input-box">
-                <input type="password" class="input-text" name="current_password" id="current_password" />
+    <ul class="form-list group-select">
+        <li class="fields">
+            <div class="field">
+                <label for="current_password"><?php echo $this->__('Current Password') ?></label>
+                <span class="input-box">
+                    <input type="password" class="input-text" name="current_password" id="current_password" />
+                </span>
             </div>
         </li>
-        <li>
-            <label for="password"><?php echo $this->__('New Password') ?></label>
-            <div class="input-box">
-                <input type="password" class="input-text validate-password" name="password" id="password" />
+        <li class="fields">
+            <div class="field">
+                <label for="password"><?php echo $this->__('New Password') ?></label>
+                <span class="input-box">
+                    <input type="password" class="input-text validate-password" name="password" id="password" />
+                </span>
             </div>
-        </li>
-        <li>
-            <label for="confirmation"><?php echo $this->__('Confirm New Password') ?></label>
-            <div class="input-box">
-                <input type="password" class="input-text validate-cpassword" name="confirmation" id="confirmation" />
+            <div class="field">
+                <label for="confirmation"><?php echo $this->__('Confirm New Password') ?></label>
+                <span class="input-box">
+                    <input type="password" class="input-text validate-cpassword" name="confirmation" id="confirmation" />
+                </span>
             </div>
         </li>
     </ul>
 </div>
-<fieldset>
-    <ul class="form-list">
-        <li>
-            <span class="label"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go back') ?></a></span>
-            <div class="input-box">
-                <button type="submit" class="button" title="<?php echo $this->__('Save') ?>"><span><?php echo $this->__('Save') ?></span></button>
-            </div>
-        </li>
-        <li>
-            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-        </li>
-    </ul>
-</fieldset>
+<div class="buttons-set form-buttons">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Go back') ?></a></p>
+    <button type="submit" class="button" title="<?php echo $this->__('Save') ?>"><span><?php echo $this->__('Save') ?></span></button>
+</div>
+<p class="required"><?php echo $this->__('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
 //<![CDATA[

@@ -27,8 +27,8 @@
 -->
 <layout version="0.1.0">
     <customer_logged_in>
-        <reference name="top.links">
-            <action method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>40</position></action>
+        <reference name="account.links">
+            <action method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>1</position><li>id="invitation-send-link"</li></action>
         </reference>
     </customer_logged_in>
     

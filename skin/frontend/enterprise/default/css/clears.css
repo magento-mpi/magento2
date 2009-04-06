@@ -24,6 +24,8 @@
 /************************************************/
 /******************** Clears ********************/
 /************************************************/
+.top-cart .actions:after,
+.header .quick-access:after,
 .block-related li.item:after,
 .bundle-summary .product:after,
 .collateral-tabs:after,
@@ -66,6 +68,7 @@
 .checkout-progress:after,
 .field-100:after,
 .group-select li:after,
+.group-select .field:after,
 .form-list li:after,
 .clearfix:after,
 .buttons-set:after,

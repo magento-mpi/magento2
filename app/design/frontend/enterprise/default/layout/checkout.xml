@@ -35,14 +35,14 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Checkout -->
-        <reference name="top.links">
-            <!-- <block type="checkout/links" name="checkout_cart_link">
-                <action method="addCartLink"></action>
+        <reference name="checkout.links">
+            <block type="checkout/links" name="checkout_cart_link">
+                <!-- <action method="addCartLink"></action> -->
                 <action method="addCheckoutLink"></action>
-            </block>  -->
+            </block>          
         </reference>
         <reference name="header">
-            <block type="checkout/cart_sidebar" name="topCart" template="checkout/cart/sidebar.phtml">
+            <block type="checkout/cart_sidebar" name="topCart" template="checkout/cart/cartheader.phtml">
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
