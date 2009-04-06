@@ -157,11 +157,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
 
         $slaveWebsite->setIgnoreSyncStagingWebsite(true);
         $slaveWebsite->save();
-
+        
         if (!$slaveWebsiteId) {
-            $slaveWebsiteId = (int) $slaveWebsite->getId();
+            $slaveWebsiteId = (int)$slaveWebsite->getId();
             $this->updateAttribute($object, 'slave_website_id', $slaveWebsiteId);
             $object->setSlaveWebsiteId($slaveWebsiteId);
+            Mage::dispatchEvent('staging_website_create_after', array('id' => $slaveWebsiteId));
         }
 
         return $this;
