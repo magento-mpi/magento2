@@ -26,6 +26,11 @@
 
 class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * @var Enterprise_Staging_Model_Entry
+     */
+    protected $_entryPoint;
+
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_website', 'staging_website_id');
@@ -155,9 +160,11 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         $slaveWebsite->setData('master_password', $object->getMasterPassword());
         $slaveWebsite->setData('master_password_hash', $object->getMasterPasswordHash());
 
+        $this->_entryPoint = Mage::getModel('enterprise_staging/entry')->setWebsite($slaveWebsite)->save();
+
         $slaveWebsite->setIgnoreSyncStagingWebsite(true);
         $slaveWebsite->save();
-        
+
         if (!$slaveWebsiteId) {
             $slaveWebsiteId = (int)$slaveWebsite->getId();
             $this->updateAttribute($object, 'slave_website_id', $slaveWebsiteId);
@@ -180,12 +187,19 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     public function saveSystemConfig($object)
     {
         if ($object->getEventCode() == 'create') {
+            $unsecureBaseUrl = $object->getBaseUrl();
+            $secureBaseUrl   = $object->getBaseSecureUrl();
+            if ($this->_entryPoint && $this->_entryPoint->isAutomatic()) {
+                $unsecureBaseUrl = $this->_entryPoint->getBaseUrl();
+                $secureBaseUrl   = $this->_entryPoint->getBaseUrl(true);
+            }
+
             $config = Mage::getModel('core/config_data');
             $path = 'web/unsecure/base_url';
             $config->setPath($path);
             $config->setScope('websites');
             $config->setScopeId($object->getSlaveWebsiteId());
-            $config->setValue($object->getBaseUrl());
+            $config->setValue($unsecureBaseUrl);
             $config->save();
 
             $config = Mage::getModel('core/config_data');
@@ -193,7 +207,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $config->setPath('web/secure/base_url');
             $config->setScope('websites');
             $config->setScopeId($object->getSlaveWebsiteId());
-            $config->setValue($object->getBaseSecureUrl());
+            $config->setValue($secureBaseUrl);
             $config->save();
         }
 

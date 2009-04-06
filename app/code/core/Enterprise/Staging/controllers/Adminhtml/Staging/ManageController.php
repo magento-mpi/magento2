@@ -68,11 +68,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if ($stagingId) {
             $staging->load($stagingId);
         }
-        
+
         if (Mage::registry('staging')) {
-            Mage::unregister('staging');    
+            Mage::unregister('staging');
         }
-        
+
         Mage::register('staging', $staging);
         return $staging;
     }
@@ -102,11 +102,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $event->restoreMap();
 
         if (Mage::registry('staging_event')) {
-            Mage::unregister('staging_event');    
+            Mage::unregister('staging_event');
         }
-        
+
         Mage::register('staging_event', $event);
-        
+
         return $event;
     }
 
@@ -139,11 +139,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
 
         if (Mage::registry('staging_backup')) {
-            Mage::unregister('staging_backup');    
+            Mage::unregister('staging_backup');
         }
-        
+
         Mage::register('staging_backup', $backup);
-        
+
         return $backup;
     }
 
@@ -192,6 +192,19 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $_additionalLayoutPart = '';
         if (!$staging->getId()) {
             $_additionalLayoutPart = '_new';
+        }
+
+        if (!$staging->getId()) {
+            $entryPoint = Mage::getSingleton('enterprise_staging/entry');
+            if ($entryPoint->isAutomatic()) {
+                try {
+                    $this->_getSession()->addNotice($this->__('Entry point to this website will be created automatically.'));
+                    $entryPoint->canEntryPointBeCreated();
+                }
+                catch (Mage_Core_Exception $e) {
+                    $this->_getSession()->addError($e->getMessage());
+                }
+            }
         }
 
         $this->loadLayout(array(
@@ -503,15 +516,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $staging = Mage::getModel('enterprise_staging/staging')->load($id);
 
             try {
-                
+
                 $backupCollection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')->setStagingFilter($staging->getId());
                 foreach ($backupCollection as $backup) {
                     if ($backup->getId() > 0) {
-                        $backup->setStaging($staging); 
+                        $backup->setStaging($staging);
                         $backup->setIsDeleteTables(true);
                         $backup->delete();
                     }
-                } 
+                }
 
                 Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
                 $staging->delete();
@@ -647,8 +660,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 ->setStaging($staging)
                 ->toHtml()
         );
-    }   
-     
+    }
+
     /**
      * Remove backup
      *
@@ -656,20 +669,20 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function massBackupDeleteAction()
     {
         $backupDeleteIds = $this->getRequest()->getPost("backupDelete");
-        
+
         $redirectBack = false;
-        
+
         if (is_array($backupDeleteIds)) {
             foreach ($backupDeleteIds as $backupId) {
                 if ($backupId > 0) {
                     $backup = $this->_initBackup($backupId);
 
                     if ($backup->getId() > 0) {
-                        
+
                         $staging = $backup->getStaging();
-                        
+
                         $redirectBack = false;
-                
+
                         try{
                             $backup->setIsDeleteTables(true);
                             $backup->delete();
@@ -691,7 +704,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
 
     }
-        
+
     /**
      * Remove backup
      *
@@ -732,20 +745,20 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function rollbackGridAction()
     {
         $backupId = $this->getRequest()->getParam('id');
-        
+
         $backup = $this->_initBackup($backupId);
-        
+
         $staging = $backup->getStaging();
 
         $this->getResponse()->setBody(
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')
                 ->setStaging($staging)
-                ->setBackup($backup)                
+                ->setBackup($backup)
                 ->toHtml()
         );
     }
-        
+
     public function rollbackAction()
     {
         $this->_initBackup();

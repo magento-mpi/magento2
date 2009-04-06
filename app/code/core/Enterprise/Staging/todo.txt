@@ -1,1 +1,0 @@
-need to remove auto_increment from product_id field catalog_product_website table

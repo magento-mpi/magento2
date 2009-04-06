@@ -30,12 +30,20 @@
         <general>
             <groups>
                 <content_staging translate="label">
-                    <label>Content Staging frontend restrictions</label>
+                    <label>Content Staging</label>
                     <sort_order>80</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
+                        <create_entry_point translate="label comment">
+                            <sort_order>0</sort_order>
+                            <label>Automatically create entry points for staging websites</label>
+                            <comment>Automatic entry point is built basing on staging website code</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </create_entry_point>
                         <block_frontend translate="label comment">
                             <sort_order>10</sort_order>
                             <label>Block frontend while applying Staging Merge or Rollback</label>
@@ -47,7 +55,7 @@
                         </block_frontend>
                         <block_frontend_stub translate="label">
                             <sort_order>20</sort_order>
-                            <label>Landing page</label>
+                            <label>Landing page for blocked frontend</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_cms_page</source_model>
                             <show_in_default>1</show_in_default>
