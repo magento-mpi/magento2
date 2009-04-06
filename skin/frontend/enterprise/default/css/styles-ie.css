@@ -72,6 +72,8 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
+.product-view .product-shop .product-main-info,
+.product-view,
 .col-main .page-title,
 .top-cart .actions,
 .header .quick-access,
@@ -112,7 +114,6 @@ button.btn-cart span { background-position:100% 0; }
 .products-list .item,
 .add-to-box,
 .add-to-cart,
-.product-essential,
 .product-view .product-img-box .more-views ul,
 .product-view .tags .form-add-tags,
 .product-options .options-list li,

@@ -30,7 +30,7 @@
 <?php $_id = $_product->getId(); ?>
 
 <?php if($_product->isSaleable() && $this->isConfigured($_product)): ?>
-    <p class="availability"><?php echo $this->helper('catalog')->__('Availability') ?>: <span class="in-stock"><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
+    <p class="availability in-stock"><?php echo $this->helper('catalog')->__('Availability') ?>: <span><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
 
     <?php if (!$this->isOpenAmountAvailable($_product) && (count($this->getAmounts($_product)) == 1)): ?>
         <?php $_amount = $this->getAmounts($_product); $_amount = array_shift($_amount); ?>
@@ -153,5 +153,5 @@
         <?php endif; ?>
     </table>
 <?php else: ?>
-    <p class="availability"><?php echo $this->helper('catalog')->__('Availability') ?>: <span class="out-of-stock"><?php echo $this->helper('catalog')->__('Out of stock') ?></span></p>
+    <p class="availability out-of-stock"><?php echo $this->helper('catalog')->__('Availability') ?>: <span><?php echo $this->helper('catalog')->__('Out of stock') ?></span></p>
 <?php endif; ?>
