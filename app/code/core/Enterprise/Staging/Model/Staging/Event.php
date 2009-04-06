@@ -131,6 +131,34 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     }
     
     /**
+     * get Event Comment
+     *
+     * @param unknown_type $eventLabel
+     * @param unknown_type $eventStatus
+     * @return string
+     */
+    public function _getEventComment($eventLabel, $eventStatus, $aditional)
+    {
+        $confPath = "type/website/scenaries_status/" . $eventStatus;
+        $config = Enterprise_Staging_Model_Staging_Config::getConfig($confPath);
+
+        if (!is_object($config)) {
+            return "";
+        }
+
+        $comment = (string) $config->label;
+
+        $comment = Mage::helper('enterprise_staging')->__('%s '.$comment, $eventLabel);
+
+        if (isset($aditional)) {
+            $comment .= ' ' . $aditional;
+        }
+
+        return $comment;
+    }
+
+    
+    /**
      * save event state in db
      *
      * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
@@ -143,13 +171,25 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
         if ($staging && $staging->getId()) {
             
             if ($staging->getIsMergeLater()==true) {
-                $comment = Mage::helper('enterprise_staging')->__('%s was successfuly scheduled.', $state->getEventStateLabel());                
                 $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
+            } elseif ($staging->getIsNewStaging()==true) {                    
+                $status = Enterprise_Staging_Model_Staging_Config::STATUS_NEW;
             } else {
-                $comment = Mage::helper('enterprise_staging')->__('%s was successfuly finished.', $state->getEventStateLabel());                
                 $status = $staging->getStatus();
             }
-           
+            
+            $statusesLabel = $state->getEventStateStatuses();
+            $comment = "";
+            $scheduleDate = $staging->getMergeSchedulingDate();
+            
+            if (!empty($statusesLabel)) {
+                $comment = $statusesLabel->$status;
+            }
+            
+            if (!empty($scheduleDate)) {
+                $comment .= " " . $scheduleDate;
+            }
+            
             $this->setStagingId($staging->getId())
                 ->setCode($state->getEventStateCode())
                 ->setName($state->getEventStateLabel())
@@ -159,7 +199,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
                 ->setComment($comment)
                 ->setLog(Enterprise_Staging_Model_Log::buildLogReport(""))
                 ->setMergeMap($staging->getMapperInstance()->serialize())
-                ->setMergeScheduleDate($staging->getMergeSchedulingDate())
+                ->setMergeScheduleDate($scheduleDate)
                 ->setIsBackuped($staging->getIsBackuped())
                 ->setStaging($staging);
 

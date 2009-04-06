@@ -69,14 +69,11 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
         	$object->setRollbackDate('0000-00-00 00:00:00');
         }
 
+        $object->setUpdatedAt($this->formatDate(time()));
         if (!$object->getId()) {
-        	$value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
-        	$object->setCreatedAt($value);
-        } else {
-        	$value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
-            $object->setUpdatedAt($value);
+            $object->setCreatedAt($object->getUpdatedAt());
         }
-
+        
         parent::_beforeSave($object);
 
         return $this;

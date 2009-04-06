@@ -101,6 +101,22 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
         return $this;
     }
 
+    public function addWebsiteToCollection()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('staging_website' => $this->getTable('enterprise_staging/staging_website')),
+                'main_table.staging_id=staging_website.staging_id',
+                array('master_website_id'=>'master_website_id'))
+            ->joinLeft(
+                array('core_website' => $this->getTable('core/website')),
+                'staging_website.master_website_id=core_website.website_id',
+                array('website_id'=>'website_id' , 
+                      'website'=>'name')                
+        );
+
+        return $this;
+    }    
     public function toOptionArray()
     {
         return parent::_toOptionArray('backup_id', 'name');

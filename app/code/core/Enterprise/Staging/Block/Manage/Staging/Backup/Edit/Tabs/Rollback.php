@@ -50,6 +50,12 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
+        
+        $this->setColumnRenderers(
+            array(
+                'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
+            ));
+        
 
         $this->helper = Mage::helper('enterprise_staging');
     }
@@ -62,8 +68,15 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_rollback_collection');
-        $collection->setBackupFilter($this->getBackup());
-        $collection->addCompleteFilter();
+        $collection->setBackupFilter($this->getBackup())->addEventToCollection()->getSelect();
+        //$collection->addCompleteFilter();
+        foreach($collection AS $datasetItem) {
+            $user = Mage::getModel('admin/user')->load($datasetItem->getEventUserId());
+            
+            $collection->getItemById($datasetItem->getId())
+                ->setData("loginname", $user->getUsername());
+        }
+        
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -76,30 +89,76 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
     protected function _prepareColumns()
     {
         $this->addColumn('created_at', array(
-            'header'    => $this->helper->__('Time'),
+            'header'    => $this->helper->__('Rollback Date'),
             'index'     => 'created_at',
-            'type'      => 'datetime'
+            'type'      => 'datetime',
+            'width'     => '150px',
+            'filter'    => false
+        
         ));
 
-        $this->addColumn('name', array(
-            'header'    => $this->helper->__('Name'),
-            'index'     => 'name',
+        $this->addColumn('event_ip', array(
+            'header'    => $this->helper->__('IP'),
+            'index'     => 'event_ip',
+            'type'    => 'long2ip',
+            'sortable'  => false,
+            'filter'    => false            
+        ));
+
+        /*$this->addColumn('code', array(
+            'header'    => $this->helper->__('Event Code'),
+            'width'     => '100px',        
+            'index'     => 'code',
+            'type'      => 'options',
+            'options'   => $this->_getEventCodeArray()
+        ));*/
+
+        $this->addColumn('loginname', array(
+            'header'    => $this->helper->__('Username'),
+            'index'     => 'loginname',
+            'type'      => 'text',
+            'sortable'  => false,            
+            'filter'    => false
+        ));
+
+        /*$this->addColumn('action', array(
+            'header'    => $this->helper->__('Action'),
+            'index'     => 'action',
             'type'      => 'text'
         ));
 
+        $this->addColumn('state', array(
+            'header'    => $this->helper->__('State'),
+            'index'     => 'state',
+            'type'      => 'text',
+            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
+        )); */
+
+        /*$this->addColumn('status', array(
+            'header'    => $this->helper->__('Status'),
+            'index'     => 'status',
+            'type'      => 'text',
+            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('status')
+        ));*/
+
+        $this->addColumn('event_comment', array(
+            'header'        => $this->helper->__('Comment'),
+            'align'         => 'left',
+            'index'         => 'event_comment',
+            'type'          => 'text',
+            'truncate'      => 50,
+            'nl2br'         => true,
+            'escape'        => true,
+            'sortable'      => false,
+            'filter'        => false
+        ));
+        
         /*$this->addColumn('state', array(
             'header'    => $this->helper->__('State'),
             'index'     => 'state',
             'type'      => 'text',
             'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
         ));*/
-
-        $this->addColumn('status', array(
-            'header'    => $this->helper->__('Status'),
-            'index'     => 'status',
-            'type'      => 'text',
-            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('status')
-        ));
 
         return parent::_prepareColumns();
     }
@@ -111,9 +170,8 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/eventGrid', array('id' => $this->getStaging()->getId()));
-    }
-
+        return $this->getUrl('*/*/rollbackGrid', array('_current'=>true));
+    }   
     /**
      * Return url for row events (onclick, etc)
      */

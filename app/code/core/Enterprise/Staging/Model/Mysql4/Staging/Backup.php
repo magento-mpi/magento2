@@ -72,7 +72,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
         if ($object->getIsDeleteTables() === true) {
             
             $stagingTablePrefix = $object->getStagingTablePrefix();
-
             $connection = $object->getStaging()->getAdapterInstance(true)
                             ->getConnection("backup");
             

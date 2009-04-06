@@ -68,7 +68,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if ($stagingId) {
             $staging->load($stagingId);
         }
-
+        
+        if (Mage::registry('staging')) {
+            Mage::unregister('staging');    
+        }
+        
         Mage::register('staging', $staging);
         return $staging;
     }
@@ -97,8 +101,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         $event->restoreMap();
 
+        if (Mage::registry('staging_event')) {
+            Mage::unregister('staging_event');    
+        }
+        
         Mage::register('staging_event', $event);
-
+        
         return $event;
     }
 
@@ -130,8 +138,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             }
         }
 
+        if (Mage::registry('staging_backup')) {
+            Mage::unregister('staging_backup');    
+        }
+        
         Mage::register('staging_backup', $backup);
-
+        
         return $backup;
     }
 
@@ -452,7 +464,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     $staging->create();
                 }
 
-                $this->_getSession()->addSuccess($this->__('Staging was successfully saved.'));
+                $this->_getSession()->addSuccess($this->__('Staging website successfully saved.'));
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
@@ -491,9 +503,19 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $staging = Mage::getModel('enterprise_staging/staging')->load($id);
 
             try {
+                
+                $backupCollection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')->setStagingFilter($staging->getId());
+                foreach ($backupCollection as $backup) {
+                    if ($backup->getId() > 0) {
+                        $backup->setStaging($staging); 
+                        $backup->setIsDeleteTables(true);
+                        $backup->delete();
+                    }
+                } 
+
                 Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
                 $staging->delete();
-                $this->_getSession()->addSuccess($this->__('Staging deleted'));
+                $this->_getSession()->addSuccess($this->__('Staging website deleted'));
             } catch (Exception $e){
                 mageDebugBacktrace();fff();
                 $this->_getSession()->addError($e->getMessage());
@@ -557,9 +579,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
                 if ($staging->getId()) {
                     if ($isMergeLater && !empty($mergeSchedulingDate)) {
-                        $this->_getSession()->addSuccess($this->__('Staging was successfully scheduled to merge.'));
+                        $this->_getSession()->addSuccess($this->__('Staging website successfully scheduled to merge.'));
                     } else {
-                        $this->_getSession()->addSuccess($this->__('Staging was successfully merged.'));
+                        $this->_getSession()->addSuccess($this->__('Staging website successfully merged.'));
                     }
                     $stagingId = $staging->getId();
                     Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
@@ -613,6 +635,64 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
+     * Staging grid for AJAX request
+     */
+    public function backupGridAction()
+    {
+        $staging = $this->_initStaging();
+
+        $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_backup_grid')
+                ->setStaging($staging)
+                ->toHtml()
+        );
+    }   
+     
+    /**
+     * Remove backup
+     *
+     */
+    public function massBackupDeleteAction()
+    {
+        $backupDeleteIds = $this->getRequest()->getPost("backupDelete");
+        
+        $redirectBack = false;
+        
+        if (is_array($backupDeleteIds)) {
+            foreach ($backupDeleteIds as $backupId) {
+                if ($backupId > 0) {
+                    $backup = $this->_initBackup($backupId);
+
+                    if ($backup->getId() > 0) {
+                        
+                        $staging = $backup->getStaging();
+                        
+                        $redirectBack = false;
+                
+                        try{
+                            $backup->setIsDeleteTables(true);
+                            $backup->delete();
+                        } catch (Exception $e) {
+                            $redirectBack = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($redirectBack) {
+            $this->_redirect('*/*/backup', array(
+                'id'        => $backup->getId(),
+                '_current'  =>true
+            ));
+        } else {
+            $this->_redirect('*/*/backup');
+        }
+
+    }
+        
+    /**
      * Remove backup
      *
      */
@@ -646,6 +726,26 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
     }
 
+    /**
+     * Staging grid for AJAX request
+     */
+    public function rollbackGridAction()
+    {
+        $backupId = $this->getRequest()->getParam('id');
+        
+        $backup = $this->_initBackup($backupId);
+        
+        $staging = $backup->getStaging();
+
+        $this->getResponse()->setBody(
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')
+                ->setStaging($staging)
+                ->setBackup($backup)                
+                ->toHtml()
+        );
+    }
+        
     public function rollbackAction()
     {
         $this->_initBackup();
@@ -680,7 +780,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
             $staging->rollback();
 
-            $this->_getSession()->addSuccess($this->__('Staging master website was successfully restored.'));
+            $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
 
             $stagingId = $staging->getId();
 

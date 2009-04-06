@@ -110,7 +110,9 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
         if ($staging && $staging->getId()) {
-            $name = Mage::helper('enterprise_staging')->__('Staging backup: ') . $staging->getName();
+            
+            $name = Mage::helper('enterprise_staging')->__('Backup: ') . $staging->getName();
+            
             $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging) 
                            . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
                            . $state->getEventId() . "_";

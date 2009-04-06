@@ -123,17 +123,20 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array(
-            'header'    => 'Item Name',
-            'index'     => 'name',
-            'type'      => 'text',
-        ));
 
         $this->addColumn('itemCheckbox', array(
             'header'    => '',
             'index'     => 'itemCheckbox',
             'type'      => 'text',
-            'truncate'  => 1000
+            'truncate'  => 1000,
+            'width'     => '20px'
+        
+        ));
+                
+        $this->addColumn('name', array(
+            'header'    => 'Item Name',
+            'index'     => 'name',
+            'type'      => 'text',
         ));
 
         $this->addColumn('rollbackAvailability', array(

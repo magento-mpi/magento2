@@ -53,33 +53,49 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
             'value'     => $this->getStaging()->getName()
         ));
 
+        $fieldset->addField('username', 'label', array(
+            'label'     => $this->helper->__('Username'),
+            'title'     => $this->helper->__('Username'),
+            'name'      => 'username',
+            'value'     => Mage::getModel('admin/user')->load($this->getEvent()->getUserId())
+                ->getUsername()
+        ));
+        
         $fieldset->addField('code', 'label', array(
-            'label'     => $this->helper->__('Staging Event Code'),
-            'title'     => $this->helper->__('Staging Event Code'),
+            'label'     => $this->helper->__('Event Code'),
+            'title'     => $this->helper->__('Event Code'),
             'name'      => 'code',
             'value'     => $this->getEvent()->getCode()
         ));
 
-        $fieldset->addField('state', 'label', array(
+        /*$fieldset->addField('state', 'label', array(
             'label'     => $this->helper->__('Staging Event State'),
             'title'     => $this->helper->__('Staging Event State'),
             'name'      => 'state',
             'value'     => $this->getEvent()->getSateLabel()
-        ));
+        ));*/
 
         $fieldset->addField('status', 'label', array(
-            'label'     => $this->helper->__('Staging Event Status'),
-            'title'     => $this->helper->__('Staging Event Status'),
+            'label'     => $this->helper->__('Event Status'),
+            'title'     => $this->helper->__('Event Status'),
             'name'      => 'status',
             'value'     => $this->getEvent()->getStatusLabel()
         ));
 
         $fieldset->addField('created_at', 'label', array(
-            'label'     => $this->helper->__('Completed at'),
-            'title'     => $this->helper->__('Completed at'),
+            'label'     => $this->helper->__('Created At'),
+            'title'     => $this->helper->__('Created At'),
             'name'      => 'created_at',
             'value'     => $this->getEvent()->getCreatedAt()
         ));
+        
+        $fieldset->addField('updated_at', 'label', array(
+            'label'     => $this->helper->__('Updated At'),
+            'title'     => $this->helper->__('Updated At'),
+            'name'      => 'updated_at',
+            'value'     => $this->getEvent()->getUpdatedAt()
+        ));
+                
 
         $fieldset->addField('comment', 'textarea', array(
             'label'     => $this->helper->__('Comments'),
@@ -89,14 +105,21 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
             'readonly'  => true
         ));
 
-        $fieldset->addField('log', 'textarea', array(
+        /*$fieldset->addField('log', 'textarea', array(
             'label'     => $this->helper->__('Log'),
             'title'     => $this->helper->__('Log'),
             'name'      => 'log',
             'value'     => $this->getEvent()->getLog(),
             'readonly'  => true
-        ));
+        ));*/
 
+        $fieldset->addField('merge_schedule_date', 'label', array(
+            'label'     => $this->helper->__('Schedule Date'),
+            'title'     => $this->helper->__('Schedule Date'),
+            'name'      => 'merge_schedule_date',
+            'value'     => $this->getEvent()->getMergeScheduleDate()
+        ));
+        
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
 
         $this->setForm($form);

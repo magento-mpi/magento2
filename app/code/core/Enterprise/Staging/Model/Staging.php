@@ -447,7 +447,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     protected function _checkState()
     {
         if (!$this->getId()) {
-            $this->setState(Enterprise_Staging_Model_Staging_Config::STATE_NEW);
+            $this->setIsNewStaging(true);
+            $this->setState(Enterprise_Staging_Model_Staging_Config::STATE_NEW, Enterprise_Staging_Model_Staging_Config::STATUS_NEW);
             $this->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_NEW);
             return $this;
         }
@@ -472,10 +473,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
                 $status = Enterprise_Staging_Model_Staging_Config::getStateDefaultStatus($state);
             }
         }
-        if ($this->getEventCode()) {
+/*        if ($this->getEventCode()) {
             $eventName = Mage::helper('enterprise_staging')->__('Staging save');
             $this->addEvent($this->getEventCode(), $state, $status, $eventName, $comment, $log, $isAdminNotified);
-        }
+        }*/
         return $this;
     }
 

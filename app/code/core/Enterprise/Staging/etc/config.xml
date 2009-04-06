@@ -33,7 +33,7 @@
     </modules>
     <global>
         <models>
-			<enterprise_staging>
+            <enterprise_staging>
                 <class>Enterprise_Staging_Model</class>
                 <resourceModel>enterprise_staging_mysql4</resourceModel>
             </enterprise_staging>
@@ -172,8 +172,21 @@
                                 </prepare>
                                 <create>
                                     <code>create</code>
-                                    <label>Staging Create</label>
+                                    <label>Staging Website Create</label>
+                                    <status>
+                                        <new translate="label">Staging Website Created</new>                                    
+                                        <processing translate="label">Staging Website creating in progress</processing>
+                                        <complete translate="label">Staging Website create successfuly complete</complete>
+                                        <holded translate="label">Staging Website create scheduled</holded>
+                                    </status>                                        
                                     <model>enterprise_staging/staging_state_website_create</model>
+                                    <after>
+                                        <save_event>
+                                            <type>model</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+                                    </after>
                                     <next>0</next>
                                 </create>
                             </create>
@@ -187,6 +200,11 @@
                                 <backup>
                                     <code>backup</code>
                                     <label>Database Backup</label>
+                                    <status>
+                                        <processing translate="label">Backup in progress</processing>
+                                        <complete translate="label">Backup successfuly complete</complete>
+                                        <holded translate="label">Backup scheduled</holded>
+                                    </status>                                        
                                     <model>enterprise_staging/staging_state_website_backup</model>
                                     <before>
                                         <save_event>
@@ -195,18 +213,18 @@
                                             <method>saveFromEvent</method>
                                         </save_event>
                                     </before>
-						            <after>
+                                    <after>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromEvent</method>
                                         </save_event>
-						                <save_backup>
-					                        <type>singleton</type>
-					                        <class>enterprise_staging/staging_backup</class>
-					                        <method>saveFromEvent</method>
-						                </save_backup>
-						            </after>
+                                        <save_backup>
+                                            <type>singleton</type>
+                                            <class>enterprise_staging/staging_backup</class>
+                                            <method>saveFromEvent</method>
+                                        </save_backup>
+                                    </after>
                                     <next>0</next>
                                 </backup>
                             </backup>
@@ -219,11 +237,23 @@
                                 </prepare>
                                 <merge>
                                     <code>merge</code>
-                                    <label>Staging Merge</label>
+                                    <label>Merge</label>
+                                    <status>
+                                        <processing translate="label">Merge in progress</processing>
+                                        <complete translate="label">Merge successfuly complete</complete>
+                                        <holded translate="label">Merge scheduled</holded>
+                                    </status>    
                                     <model>enterprise_staging/staging_state_website_merge</model>
+                                    <before>
+                                        <save_event>
+                                            <type>model</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+                                    </before>
                                     <after>
                                         <save_event>
-                                            <type>singleton</type>
+                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromEvent</method>
                                         </save_event>
@@ -238,13 +268,25 @@
                                     <model>enterprise_staging/staging_state_website_prepare</model>
                                     <next>rollback</next>
                                 </prepare>
-                                <rollback>
+                                <rollback translate="label">
                                     <code>rollback</code>
-                                    <label>Staging Rollback</label>
+                                    <label>Rollback</label>
+                                    <status>
+                                        <processing translate="label">Rollback in progress</processing>
+                                        <complete translate="label">Rollback successfuly complete</complete>
+                                        <holded translate="label">Rolback scheduled</holded>
+                                    </status>    
                                     <model>enterprise_staging/staging_state_website_rollback</model>
+                                    <before>
+                                        <save_event>
+                                            <type>model</type>
+                                            <class>enterprise_staging/staging_event</class>
+                                            <method>saveFromEvent</method>
+                                        </save_event>
+                                    </before>
                                     <after>
                                         <save_event>
-                                            <type>singleton</type>
+                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromEvent</method>
                                         </save_event>
@@ -258,6 +300,12 @@
                                 </rollback>
                             </rollback>
                         </scenaries>
+                        <scenaries_status>
+                            <new translate="label"><label>New</label></new>
+                            <processing translate="label"><label>In progress</label></processing>
+                            <complete translate="label"><label>successfuly finished</label></complete>
+                            <holded translate="label"><label>successfuly scheduled</label></holded>
+                        </scenaries_status> 
                     </website>
                 </type>
 
@@ -536,8 +584,8 @@
                  <children>
                     <staging_grid>
                         <title>Stagings</title>
-		                 <sort_order>10</sort_order>
-		                 <action>adminhtml/staging_manage/index</action>
+                         <sort_order>10</sort_order>
+                         <action>adminhtml/staging_manage/index</action>
                     </staging_grid>
                     <staging_backup>
                         <title>Backups</title>

@@ -75,7 +75,23 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
 
         return $this;
     }
+    
+    public function addEventToCollection()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('enterprise_staging_event' => $this->getTable('enterprise_staging/staging_event')),
+                'main_table.event_id=enterprise_staging_event.event_id',
+                array(
+                    'event_comment' =>  'comment',
+                    'event_user_id' =>  'user_id',
+                    'event_id'      =>  'event_id',
+                    'event_ip'      =>  'ip'
+                )
+        );
 
+        return $this;
+    }    
     public function toOptionArray()
     {
         return parent::_toOptionArray('rollback_id', 'name');

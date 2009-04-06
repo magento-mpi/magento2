@@ -60,13 +60,26 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
             'value'      => $this->getBackup()->getStaging()->getName()
         ));
         
+        $fieldset->addField('master_website', 'label', array(
+            'label'     => $this->helper->__('Master Website'),
+            'title'     => $this->helper->__('Master Website'),
+            'value'      => $this->getMasterWebsite()->getName()
+        ));
+                
         $fieldset->addField('backupCreateAt', 'label', array(
             'label'     => $this->helper->__('Created Date'),
             'title'     => $this->helper->__('Created Date'),
             'value'     => $this->getBackup()->getCreatedAt()
         ));
         
-        $fieldset = $form->addFieldset('staging_backup_used_tables', array('legend'=>Mage::helper('enterprise_staging')->__('Used Tables')));
+        $fieldset->addField('tablePrefix', 'label', array(
+            'label'     => $this->helper->__('Table Prefix'),
+            'title'     => $this->helper->__('Table Prefix'),
+            'value'     => $this->getBackup()->getStagingTablePrefix()
+        ));
+        
+        
+/*        $fieldset = $form->addFieldset('staging_backup_used_tables', array('legend'=>Mage::helper('enterprise_staging')->__('Used Tables')));
 
         $usedTables = $this->_getBackupTables();
         if (is_array($usedTables)) {
@@ -75,7 +88,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
                     'value'     => $tableName
                 ));
             }
-        }
+        }*/
         
         //$form->addValues($this->getBackup()->getData());        
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
@@ -85,6 +98,19 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         return parent::_prepareForm();
     }
 
+    public function getMasterWebsite()
+    {
+
+        $masterWebsiteId = $this->getBackup()->getStaging()->getMasterWebsiteIds();
+        $masterWebsiteId = $masterWebsiteId[0];
+        if (!is_null($masterWebsiteId)) {
+            return Mage::app()->getWebsite($masterWebsiteId);
+        } else {
+            return false;
+        }
+    }
+    
+    
     /**
      * Retrieve currently edited backup object
      *

@@ -69,4 +69,17 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         return $this;
     }
     
+    public function getProcessingWebsites()
+    {
+        $coreResource = Mage::getSingleton('core/resource');
+        $connection = $coreResource->getConnection('core_read');
+        $select = $connection->select()->from($coreResource->getTableName('enterprise_staging/staging_event'), array('merge_map'));
+        $result = $connection->fetchAll($select);
+
+        if (is_array($result) && count($result)>0) {
+            return $result;
+        } else {
+            return array();
+        }
+    }
 }

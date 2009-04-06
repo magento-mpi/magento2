@@ -80,6 +80,8 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     protected $_eventStateCode;
 
     protected $_eventStateLabel;
+    
+    protected $_eventStateStatuses;
 
     public function __construct()
     {
@@ -102,14 +104,18 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             $this->_afterRun($staging);
             $this->getAdapter()->commitTransaction('enterprise_staging');
 
+            $message = $this->getEventStateStatuses()->complite;
             $message = Mage::helper('enterprise_staging')
-                ->__('%s was successfuly finished.', $this->getEventStateLabel());
+                ->__($message);
             //$this->endEventState($staging, $message);
         } catch (Exception $e) {
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
 
+            $message = $this->getEventStateStatuses()->processing;
+            
             $message = Mage::helper('enterprise_staging')
-                ->__('%s was canceled becouse of errors while processing.', $this->getEventStateLabel());
+                ->__($message);
+            
             $this->endEventState($staging, $message, $e, true);
 
             throw new Enterprise_Staging_Exception($e);
@@ -127,7 +133,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected function _beforeRun(Enterprise_Staging_Model_Staging $staging)
     {
-        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATE_PROCESSING);
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
         $this->_runExtendActions('before', $staging);
         return $this;
     }
@@ -143,7 +149,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
     {
-        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
         $this->_runExtendActions('after', $staging);
         return $this;
     }
@@ -157,7 +163,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      * @return Enterprise_Staging_Model_Staging_State_Abstract 
      */
     protected function _runExtendActions($nodeName, $staging)
-    {
+    {   
         if ($config = $this->getConfig($nodeName)) {
             foreach ($config->children() AS $action) {
                 $this->_runExtendAction($action, $staging);
@@ -241,6 +247,21 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             throw new Enterprise_Staging_Exception('State label is not defined.');
         }
         return $this->_eventStateLabel;
+    }
+
+    public function setEventStateStatuses($statuses)
+    {
+        $this->_eventStateStatuses = $statuses;
+
+        return $this;
+    }
+
+    public function getEventStateStatuses()
+    {
+        if (is_null($this->_eventStateStatuses)) {
+            throw new Enterprise_Staging_Exception('State statuses label is not defined.');
+        }
+        return $this->_eventStateStatuses;
     }
 
     public function setNextStateName($name)

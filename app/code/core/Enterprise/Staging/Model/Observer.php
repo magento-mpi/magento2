@@ -264,22 +264,25 @@ class Enterprise_Staging_Model_Observer
     {
         $result = $observer->getResult();
         if ($result->getShouldProceed() && (bool)Mage::getStoreConfig('general/content_staging/block_frontend')) {
+//            Mage::app()->getWebsite()->getId();
             // check whether frontend should be down
-            if (!true) {
-                return;
-            }
-
-            // take the frontend down
-            $controller = $observer->getController();
-            if ($controller->getFullActionName() !== 'staging_index_stub') {
-                $controller->getRequest()
-                    ->setModuleName('staging')
-                    ->setControllerName('index')
-                    ->setActionName('stub')
-                    ->setDispatched(false);
-                $controller->getResponse()->setHeader('HTTP/1.1','503 Service Unavailable');
-                $result->setShouldProceed(false);
-            }
+            $eventProcessingSites = Mage::getResourceSingleton('enterprise_staging/staging_event')
+                ->getProcessingWebsites();
+   
+            if (count($eventcollection)>0) {
+                // take the frontend down
+                $controller = $observer->getController();
+                if ($controller->getFullActionName() !== 'staging_index_stub') {
+                    $controller->getRequest()
+                        ->setModuleName('staging')
+                        ->setControllerName('index')
+                        ->setActionName('stub')
+                        ->setDispatched(false);
+                    $controller->getResponse()->setHeader('HTTP/1.1','503 Service Unavailable');
+                    $result->setShouldProceed(false);
+                }
+            } 
+            return $this;
         }
     }
 }
