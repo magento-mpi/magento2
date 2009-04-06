@@ -39,6 +39,22 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     }
 
     /**
+     * Return option html
+     *
+     * @param array $optionInfo
+     * @return string
+     */
+    public function getCustomizedView($optionInfo)
+    {
+        try {
+            $result = $this->_getOptionHtml($optionInfo['option_value']);
+            return $result;
+        } catch (Exception $e) {
+            return $optionInfo['value'];
+        }
+    }
+
+    /**
      * Validate user input for option
      *
      * @throws Mage_Core_Exception
@@ -237,27 +253,53 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         if ($this->_formattedOptionValue === null) {
             try {
                 $value = unserialize($optionValue);
-                if ($value !== false) {
-                    if ($value['width'] > 0 && $value['height'] > 0) {
-                        $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('catalog')->__('px.');
-                    } else {
-                        $sizes = '';
-                    }
-                    $this->_formattedOptionValue = sprintf('<a href="%s" target="_blank">%s</a> %s',
-                        $this->_getOptionDownloadUrl($value['secret_key']),
-                        Mage::helper('core')->htmlEscape($value['title']),
-                        $sizes
-                    );
-                    return $this->_formattedOptionValue;
-                }
 
-                throw new Exception();
+                $value['url'] = array(
+                    'route' => 'sales/download/downloadCustomOption',
+                    'params' => array(
+                        'id'  => $this->getQuoteItemOption()->getId(),
+                        'key' => $value['secret_key']
+                    )
+                );
+
+                $this->_formattedOptionValue = $this->_getOptionHtml($value);
+                $this->getQuoteItemOption()->setValue(serialize($value));
+                return $this->_formattedOptionValue;
 
             } catch (Exception $e) {
                 return $optionValue;
             }
         }
         return $this->_formattedOptionValue;
+    }
+
+    /**
+     * Format File option html
+     *
+     * @param string|array $optionValue Serialized string of option data or its data array
+     * @return string
+     */
+    protected function _getOptionHtml($optionValue)
+    {
+        try {
+            $value = unserialize($optionValue);
+        } catch (Exception $e) {
+            $value = $optionValue;
+        }
+        try {
+            if ($value['width'] > 0 && $value['height'] > 0) {
+                $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('catalog')->__('px.');
+            } else {
+                $sizes = '';
+            }
+            return sprintf('<a href="%s" target="_blank">%s</a> %s',
+                $this->_getOptionDownloadUrl($value['url']['route'], $value['url']['params']),
+                Mage::helper('core')->htmlEscape($value['title']),
+                $sizes
+            );
+        } catch (Exception $e) {
+            Mage::throwException(Mage::helper('catalog')->__("File options format is not valid"));
+        }
     }
 
     /**
@@ -281,15 +323,10 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     {
         try {
             $value = unserialize($optionValue);
-            if ($value !== false) {
-                $result = sprintf('%s [%d]',
-                    Mage::helper('core')->htmlEscape($value['title']),
-                    $this->getQuoteItemOption()->getId()
-                );
-                return $result;
-            }
-
-            throw new Exception();
+            return sprintf('%s [%d]',
+                Mage::helper('core')->htmlEscape($value['title']),
+                $this->getQuoteItemOption()->getId()
+            );
 
         } catch (Exception $e) {
             return $optionValue;
@@ -437,12 +474,9 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      *
      * @return string
      */
-    protected function _getOptionDownloadUrl($sekretKey)
+    protected function _getOptionDownloadUrl($route, $params)
     {
-        return Mage::getUrl('sales/download/downloadCustomOption', array(
-            'id'  => $this->getQuoteItemOption()->getId(),
-            'key' => $sekretKey
-        ));
+        return Mage::getUrl($route, $params);
     }
 
     /**

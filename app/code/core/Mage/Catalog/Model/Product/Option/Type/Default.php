@@ -217,6 +217,17 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
     }
 
     /**
+     * Return option html
+     *
+     * @param array $optionInfo
+     * @return string
+     */
+    public function getCustomizedView($optionInfo)
+    {
+        return isset($optionInfo['value']) ? $optionInfo['value'] : $optionInfo;
+    }
+
+    /**
      * Return printable option value
      *
      * @param string $optionValue Prepared for cart option value

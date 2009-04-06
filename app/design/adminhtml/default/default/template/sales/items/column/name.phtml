@@ -39,7 +39,7 @@
             <dt><?php echo $_option['label'] ?></dt>
             <dd>
             <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
-                <?php echo $_option['value'];?>
+                <?php echo $this->getCustomizedOptionValue($_option); ?>
             <?php else: ?>
                 <?php echo Mage::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
                 <?php if ($_remainder):?>

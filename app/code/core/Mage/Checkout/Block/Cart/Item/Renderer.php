@@ -251,6 +251,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     {
         $optionInfo = array();
 
+        // define input data format
         if (is_array($optionValue)) {
             if (isset($optionValue['option_id'])) {
                 $optionInfo = $optionValue;
@@ -262,10 +263,21 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             }
         }
 
+        // render customized option view
         if (isset($optionInfo['custom_view']) && $optionInfo['custom_view']) {
-            return array('value' => $optionValue);
+            $_default = array('value' => $optionValue);
+            if (isset($optionInfo['option_type'])) {
+                try {
+                    $group = Mage::getModel('catalog/product_option')->groupFactory($optionInfo['option_type']);
+                    return array('value' => $group->getCustomizedView($optionInfo));
+                } catch (Exception $e) {
+                    return $_default;
+                }
+            }
+            return $_default;
         }
 
+        // truncate standard view
         $result = array();
         if (is_array($optionValue)) {
             $_truncatedValue = implode("\n", $optionValue);
