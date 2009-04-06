@@ -72,6 +72,7 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
+.col-main .page-title,
 .top-cart .actions,
 .header .quick-access,
 .dashboard .reviews li,

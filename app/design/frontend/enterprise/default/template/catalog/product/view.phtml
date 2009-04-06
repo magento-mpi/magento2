@@ -40,8 +40,7 @@
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div id="productView" class="product-view">
-    <div>
-    <?php // extra div to smooth slideUp and slideDown ?>
+    <div><?php // extra div to smooth slideUp and slideDown ?>
         <div class="product-essential">
         <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
@@ -77,7 +76,9 @@
                 <?php else:?>
                 
                     <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
-                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                        <div class="options-container-small">
+                            <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                        </div>
                     <?php endif;?>                
                 
                     <?php echo $this->getChildHtml('addto') ?>
@@ -95,14 +96,7 @@
                 <?php endif;?>
 
                 <?php echo $this->getChildHtml('other');?>
-
-
-
             </div>
-            <div class="clearer"></div>
-            <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
-                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
-            <?php endif;?>
         </form>
         </div>
         <div class="product-collateral">
@@ -133,9 +127,15 @@
             <?php endif;?>
             </dl>
             <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
-            <?php echo $this->getChildHtml('upsell_products') ?>
-            <?php echo $this->getChildHtml('product_additional_data') ?>
         </div>
+        <div class="clearer"></div>
+        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
+            <div class="options-container-big">
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            </div>
+        <?php endif;?>        
+        <?php echo $this->getChildHtml('upsell_products') ?>
+        <?php echo $this->getChildHtml('product_additional_data') ?>        
     </div>
 </div>
 

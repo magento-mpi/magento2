@@ -24,10 +24,10 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="page-title">
     <h2><?php echo $this->__('My Product Reviews') ?></h2>
 </div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if( $this->getCollection() && $this->count()): ?>
     <?php echo $this->getToolbarHtml() ?>
         <table class="data-table" id="my-reviews-table">

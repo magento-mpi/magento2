@@ -24,10 +24,10 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <div class="page-title">
     <h2><?php echo $this->__('My Tags') ?></h2>
 </div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php if($this->getTags()): ?>
     <p><?php echo $this->__('Click on a tag to view your corresponding products.') ?></p>
     <ul class="tags-list">
