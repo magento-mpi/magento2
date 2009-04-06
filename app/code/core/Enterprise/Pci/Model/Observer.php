@@ -42,67 +42,76 @@ class Enterprise_Pci_Model_Observer
         $password = $observer->getPassword();
         $user     = $observer->getUser();
         $resource = Mage::getResourceSingleton('enterprise_pci/admin_user');
-        if ($observer->getResult()) {
-            // check whether user is locked
-            if ($lockExpires = $user->getLockExpires()) {
-                $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
-                $lockExpires = $lockExpires->toValue();
-                if ($lockExpires > time()) {
-                    Mage::throwException(Mage::helper('enterprise_pci')->__('This account is locked.'));
-                }
-            }
-            $resource->unlock($user->getId());
+        $authResult = $observer->getResult();
 
-            /**
-             * Check whether the latest password is expired
-             * Side-effect can be when passwords were changed with different lifetime configuration settings
-             */
-            if ($latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId())) {
-                if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time())) {
-                    Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('enterprise_pci')->__(
-                        'Your password is expired and should be changed now.'
-                    ));
-                    if ($message = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()) {
-                        $message->setIdentifier('enterprise_pci_password_expired')->setIsSticky(true);
-                        Mage::getSingleton('admin/session')->setPciAdminUserIsPasswordExpired(true);
-                    }
-                }
+        // update locking information regardless whether user locked or not
+        if ((!$authResult) && ($user->getId())) {
+            $now = time();
+            $lockThreshold = $this->getAdminLockThreshold();
+            $maxFailures = (int)Mage::getStoreConfig('admin/security/lockout_failures');
+            if (!($lockThreshold && $maxFailures)) {
+                return;
+            }
+            $failuresNum = (int)$user->getFailuresNum();
+            if ($firstFailureDate = $user->getFirstFailure()) {
+                $firstFailureDate = new Zend_Date($firstFailureDate, Varien_Date::DATETIME_INTERNAL_FORMAT);
+                $firstFailureDate = $firstFailureDate->toValue();
             }
 
-            // upgrade admin password
-            if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
-                Mage::getModel('admin/user')->load($user->getId())
-                    ->setNewPassword($password)->setForceNewPassword(true)
-                    ->save();
+            $updateFirstFailureDate = false;
+            $updateLockExpires      = false;
+            // set first failure date when this is first failure or last first failure expired
+            if (0 === $failuresNum || !$firstFailureDate || (($now - $firstFailureDate) > $lockThreshold)) {
+                $updateFirstFailureDate = $now;
+            }
+            // otherwise lock user
+            elseif ($failuresNum >= $maxFailures) {
+                $updateLockExpires = $now + $lockThreshold;
+            }
+            $resource->updateFaiure($user, $updateLockExpires, $updateFirstFailureDate);
+        }
+
+        // check whether user is locked
+        if ($lockExpires = $user->getLockExpires()) {
+            $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $lockExpires = $lockExpires->toValue();
+            if ($lockExpires > time()) {
+                Mage::throwException(Mage::helper('enterprise_pci')->__('This account is locked.'));
             }
         }
-        // update locking information
-        else {
-            if ($user->getId()) {
-                $now = time();
-                $lockThreshold = $this->getAdminLockThreshold();
-                $maxFailures = (int)Mage::getStoreConfig('admin/security/lockout_failures');
-                if (!($lockThreshold && $maxFailures)) {
-                    return;
-                }
-                $failuresNum = (int)$user->getFailuresNum();
-                if ($firstFailureDate = $user->getFirstFailure()) {
-                    $firstFailureDate = new Zend_Date($firstFailureDate, Varien_Date::DATETIME_INTERNAL_FORMAT);
-                    $firstFailureDate = $firstFailureDate->toValue();
-                }
 
-                $updateFirstFailureDate = false;
-                $updateLockExpires      = false;
-                // set first failure date when this is first failure or last first failure expired
-                if (0 === $failuresNum || !$firstFailureDate || (($now - $firstFailureDate) > $lockThreshold)) {
-                    $updateFirstFailureDate = $now;
+        if (!$authResult) {
+            return;
+        }
+
+        $resource->unlock($user->getId());
+
+        /**
+         * Check whether the latest password is expired
+         * Side-effect can be when passwords were changed with different lifetime configuration settings
+         */
+        if ($latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId())) {
+            if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time())) {
+                if ($this->isPasswordChangeForced()) {
+                    $message = Mage::helper('enterprise_pci')->__('Your password is expired, you must change it now.');
                 }
-                // otherwise lock user
-                elseif ($failuresNum >= $maxFailures) {
-                    $updateLockExpires = $now + $lockThreshold;
+                else {
+                    $myAccountUrl = Mage::getUrl('adminhtml/system_account/');
+                    $message = Mage::helper('enterprise_pci')->__('Your password is expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
-                $resource->updateFaiure($user, $updateLockExpires, $updateFirstFailureDate);
+                Mage::getSingleton('adminhtml/session')->addNotice($message);
+                if ($message = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()) {
+                    $message->setIdentifier('enterprise_pci_password_expired')->setIsSticky(true);
+                    Mage::getSingleton('admin/session')->setPciAdminUserIsPasswordExpired(true);
+                }
             }
+        }
+
+        // upgrade admin password
+        if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($password, $user->getPassword())) {
+            Mage::getModel('admin/user')->load($user->getId())
+                ->setNewPassword($password)->setForceNewPassword(true)
+                ->save();
         }
     }
 
@@ -231,6 +240,9 @@ class Enterprise_Pci_Model_Observer
      */
     public function forceAdminPasswordChange($observer)
     {
+        if (!$this->isPasswordChangeForced()) {
+            return;
+        }
         $session = Mage::getSingleton('admin/session');
         if (!$session->isLoggedIn()) {
             return;
@@ -243,5 +255,15 @@ class Enterprise_Pci_Model_Observer
                 $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
             }
         }
+    }
+
+    /**
+     * Check whether password change is forced
+     *
+     * @return bool
+     */
+    public function isPasswordChangeForced()
+    {
+        return (bool)(int)Mage::getStoreConfig('admin/security/password_is_forced');
     }
 }
