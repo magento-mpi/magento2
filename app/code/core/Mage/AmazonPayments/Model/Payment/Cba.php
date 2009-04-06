@@ -223,7 +223,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     $this->_proccessOrder($amazonOrderDetails);
                     break;
                 case 'OrderCancelledNotification':
-//                    $amazonOrderDetails = $this->getApi()->parseCancelOrder($_request['NotificationData']);
                     $cancelDetails = $this->getApi()->parseCancelNotification($_request['NotificationData']);
                     $this->_cancelOrder($cancelDetails);
                     break;
@@ -428,6 +427,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      * Cancel the order
      *
      * @param array $amazonOrderDetails
+     * @return boolean
      */
     protected function _cancelOrder($cancelDetails)
     {
@@ -546,7 +546,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $_quote = $this->getCheckout()->getQuote();
 
         $xml = $this->getApi()->getXmlCart($_quote);
-        Mage::log($xml, null, 'amazon.log');
         $__xml = '<?xml version="1.0" encoding="utf-8"?>
 <Order xmlns="http://payments.amazon.com/checkout/2008-11-30/">
     <ClientRequestId>cartId:75475</ClientRequestId>

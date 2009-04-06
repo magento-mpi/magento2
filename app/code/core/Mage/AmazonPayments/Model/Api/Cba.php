@@ -899,7 +899,7 @@ XML;
      */
     public function cancel($order)
     {
-        $this->getDocumentApi()->cancel($order->getExtOrderId());
+        $this->getDocumentApi()->cancel($order);
         return $this;
     }
 

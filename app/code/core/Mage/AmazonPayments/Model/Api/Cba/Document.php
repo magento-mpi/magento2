@@ -183,10 +183,10 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      * @param string $documentType
      * @param Mage_Sales_Model_Order $order
      */
-    public function cancel($aOrderId)
+    public function cancel($order)
     {
-        $this->getPendingDocuments();
-//        $this->getDocument('990002713');
+//        $this->getPendingDocuments();
+        Zend_Debug::dump($this->getDocument('990002713')->asXML());
 //        try {
 //            Zend_Debug::dump($this->getClient()->getWire());
 //        } catch (Exception $e) {
@@ -195,49 +195,28 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
 //        }
         Zend_Debug::dump($this->_result);
         die(__METHOD__.'::'.__LINE__);
-/*        $_document = '<?xml version="1.0" encoding="UTF-8"?>
-<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-<Header>
-    <DocumentVersion>1.01</DocumentVersion>
-    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-</Header>
-<MessageType>OrderAcknowledgement</MessageType>
-    <Message>
-        <MessageID>1</MessageID>
-        <OperationType>Update</OperationType>
-        <OrderAcknowledgement>
-            <AmazonOrderID>104-6821183-3892212</AmazonOrderID>
-            <MerchantOrderID>100000167</MerchantOrderID>
-            <StatusCode>Success</StatusCode>
-            <Item>
-                <AmazonOrderItemCode>19977485248298</AmazonOrderItemCode>
-                <MerchantOrderItemID>100000167-1</MerchantOrderItemID>
-            </Item>
-        </OrderAcknowledgement>
-    </Message>
-</AmazonEnvelope>';*/
-$_document = '<?xml version="1.0" encoding="UTF-8"?>
-<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-<Header>
-    <DocumentVersion>1.01</DocumentVersion>
-    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-</Header>
-<MessageType>OrderAcknowledgement</MessageType>
-    <Message>
-        <MessageID>1</MessageID>
-        <OperationType>Update</OperationType>
-        <OrderAcknowledgement>
-            <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>'
-            //.'<MerchantOrderID>100000166</MerchantOrderID>'
-            .'<StatusCode>Failure</StatusCode>
-            <Item>
-                <AmazonOrderItemCode>19977485248298</AmazonOrderItemCode>'
-                //.'<MerchantOrderItemID>100000166-1</MerchantOrderItemID>'
-                .'<CancelReason>BuyerCanceled</CancelReason>
-            </Item>
-        </OrderAcknowledgement>
-    </Message>
-</AmazonEnvelope>';
+        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+        <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+        <Header>
+            <DocumentVersion>1.01</DocumentVersion>
+            <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+        </Header>
+        <MessageType>OrderAcknowledgement</MessageType>';
+        foreach ($order->getAllVisibleItems() as $item) {
+            $_document .= '<Message>
+                <MessageID>1</MessageID>
+                <OperationType>Update</OperationType>
+                <OrderAcknowledgement>
+                    <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
+                    <StatusCode>Failure</StatusCode>
+                    <Item>
+                        <AmazonOrderItemCode>'. $item->getExtOrderItemId() . '</AmazonOrderItemCode>
+                        <CancelReason>BuyerCanceled</CancelReason>
+                    </Item>
+                </OrderAcknowledgement>
+            </Message>';
+        }
+        $_document .= '</AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
             'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
@@ -264,7 +243,7 @@ $_document = '<?xml version="1.0" encoding="UTF-8"?>
 </Header>
 <MessageType>OrderAdjustment</MessageType>';
 
-        foreach ($order->getAllItems() as $item) {
+        foreach ($order->getAllVisibleItems() as $item) {
             /* @var $item Mage_Sales_Model_Order_Item */
             $itemAmount = $item->getQtyRefunded()*$item->getBasePrice();
             $itemTaxAmount = ($item->getBaseTaxAmount()/$item->getQtyInvoiced())*$item->getQtyRefunded();
@@ -280,7 +259,7 @@ $_document = '<?xml version="1.0" encoding="UTF-8"?>
                             <OrderAdjustment>
                                 <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
                                 <AdjustedItem>
-                                    <AmazonOrderItemCode>26944749629754</AmazonOrderItemCode>
+                                    <AmazonOrderItemCode>'. $item->getExtOrderItemId() . '</AmazonOrderItemCode>
                                     <AdjustmentReason>GeneralAdjustment</AdjustmentReason>
                                     <ItemPriceAdjustments>
                                         <Component>
