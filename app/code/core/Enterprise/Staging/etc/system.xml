@@ -38,10 +38,10 @@
                     <fields>
                         <block_frontend translate="label comment">
                             <sort_order>10</sort_order>
-                            <label>Take down entire frontend while applying Staging Merge or Rollback</label>
+                            <label>Block frontend while applying Staging Merge or Rollback</label>
                             <comment>The "503 Service Unavailable" HTTP response code will be returned.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>enterprise_staging/system_config_source_down</source_model>
                             <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
                             <show_in_default>1</show_in_default>
                         </block_frontend>
