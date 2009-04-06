@@ -59,6 +59,16 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function save()
     {
+        $_isValid = Zend_Validate::is($this->getUsername(), 'NotEmpty')
+            && Zend_Validate::is($this->getFirstname(), 'NotEmpty')
+            && Zend_Validate::is($this->getLastname(), 'NotEmpty')
+            && Zend_Validate::is($this->getEmail(), 'EmailAddress');
+
+        if (!$_isValid) {
+            Mage::throwException(Mage::helper('adminhtml')->__('Error while saving account. Please check all required fields'));
+            return $this;
+        }
+
         $this->_beforeSave();
         $data = array(
             'firstname' => $this->getFirstname(),
