@@ -33,7 +33,7 @@
  
  Object.extend(Enterprise.CatalogPermissions.Config.prototype, {
      initialize: function () {
-         document.observe('dom:loaded', this.handleDomLoaded.bindAsEventListener(this));
+         Event.observe(window.document, 'dom:loaded', this.handleDomLoaded.bindAsEventListener(this));
      },
      handleDomLoaded: function () {
          $$('.enterprise-grant-select').each(function(element) {
@@ -44,7 +44,7 @@
      },
      updateFields: function() {
          $$('.enterprise-grant-select').each(function(element) {
-             if (parseInt(element.value) != 2) {
+             if (parseInt(element.value) !== 2) {
                  element.up('tr').next('tr').hide();
              } else {
                  element.up('tr').next('tr').show();

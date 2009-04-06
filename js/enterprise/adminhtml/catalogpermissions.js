@@ -84,7 +84,7 @@
             this.permissions.set(config.permission_id, {});
         }
         
-        this.items.insert({bottom: this.rowTemplate.evaluate(config)});
+        this.items.insert({top: this.rowTemplate.evaluate(config)});
         
         var row  = $(config.html_id);
         row.permissionId = config.permission_id;
