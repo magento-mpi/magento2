@@ -49,6 +49,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     const ACTION_AUTHORIZE_CAPTURE = 1;
     const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
 
+    protected $_skipProccessDocument = false;
+
     /**
      * Return true if the method can be used at this time
      *
@@ -129,6 +131,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
 
     public function cancel(Varien_Object $payment)
     {
+        if ($this->_skipProccessDocument) {
+            return $this;
+        }
         $this->getApi()->cancel($payment->getOrder());
         return $this;
     }
@@ -141,8 +146,10 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     public function refund(Varien_Object $payment, $amount)
     {
+        if ($this->_skipProccessDocument) {
+            return $this;
+        }
         $this->getApi()->refund($payment->getOrder(), $amount);
-
         return $this;
     }
 
@@ -224,7 +231,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     break;
                 case 'OrderCancelledNotification':
                     $cancelDetails = $this->getApi()->parseCancelNotification($_request['NotificationData']);
+                    $this->_skipProccessDocument = true;
                     $this->_cancelOrder($cancelDetails);
+                    $this->_skipProccessDocument = false;
                     break;
                 default:
                     // Unknown notification type
