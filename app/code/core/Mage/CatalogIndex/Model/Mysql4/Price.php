@@ -172,7 +172,12 @@ class Mage_CatalogIndex_Model_Mysql4_Price extends Mage_CatalogIndex_Model_Mysql
 
     public function applyFilterToCollection($collection, $attribute, $range, $index, $tableName = 'price_table')
     {
-        $collection->getSelect()->join(
+        /**
+         * Distinct required for removing duplicates in case when we have grouped products
+         * which contain multiple rows for one product id
+         */
+        $collection->getSelect()->distinct(true);
+        $collection->getSelect()->joinLeft(
             array($tableName => $this->getMainTable()),
             $tableName .'.entity_id=e.entity_id',
             array()
