@@ -152,6 +152,14 @@
                     </enterprise_permissions>
                 </observers>
             </adminhtml_widget_form_before_tohtml>
+            <staging_website_create_after>
+                <observers>
+                    <enterprise_permissions>
+                        <class>enterprise_permissions/observer</class>
+                        <method>copyWebsiteCopyPermissions</method>
+                    </enterprise_permissions>
+                </observers>
+            </staging_website_create_after>
         </events>
         <enterprise>
             <permissions>

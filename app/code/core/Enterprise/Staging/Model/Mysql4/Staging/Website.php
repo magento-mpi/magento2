@@ -182,7 +182,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $slaveWebsiteId = (int)$slaveWebsite->getId();
             $this->updateAttribute($object, 'slave_website_id', $slaveWebsiteId);
             $object->setSlaveWebsiteId($slaveWebsiteId);
-            Mage::dispatchEvent('staging_website_create_after', array('id' => $slaveWebsiteId));
+            Mage::dispatchEvent('staging_website_create_after', array(
+                'old_website_id' => $object->getMasterWebsiteId(), 'new_website_id' => $slaveWebsiteId)
+            );
         }
 
         return $this;

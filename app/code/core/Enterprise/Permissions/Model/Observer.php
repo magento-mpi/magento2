@@ -217,4 +217,30 @@ class Enterprise_Permissions_Model_Observer
         $model->setObserver($observer);
         $model->$method($observer->getForm(), Mage::app()->getFrontController()->getAction()->getRequest(), $observer->getLayout());
     }
+
+    /**
+     * Copy permission scopes to new specified website
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function copyWebsiteCopyPermissions($observer)
+    {
+        $oldWebsiteId = (string)$observer->getOldWebsiteId();
+        $newWebsiteId = (string)$observer->getNewWebsiteId();
+        $roles = Mage::getResourceSingleton('admin/roles_collection');
+        foreach ($roles as $role) {
+            $shouldRoleBeUpdated = false;
+            $roleWebsites = explode(',', $role->getWebsiteIds());
+            if ((!$role->getIsAllPermissions()) && $role->getWebsiteIds()) {
+                if (in_array($oldWebsiteId, $roleWebsites)) {
+                    $roleWebsites[] = $newWebsiteId;
+                    $shouldRoleBeUpdated = true;
+                }
+            }
+            if ($shouldRoleBeUpdated) {
+                $role->setWebsiteIds(implode(',', $roleWebsites));
+                $role->save();
+            }
+        }
+    }
 }
