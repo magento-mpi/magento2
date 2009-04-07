@@ -917,14 +917,14 @@ XML;
     /**
      * Send shipping track number
      *
-     * @param string $orderId
+     * @param Mage_Sales_Model_Order $order
      * @param string $carrierCode
      * @param string $trackNumber
      */
-    public function deliver($aOrderId, $carrierCode, $trackNumber)
+    public function deliver($order, $carrierCode, $trackNumber)
     {
         /** @todo get carrier method (shipping method) */
-        $this->getDocumentApi()->sendTrackNumber($aOrderId, $carrierCode, $carrierCode, $trackNumber);
+        $this->getDocumentApi()->sendTrackNumber($order, $carrierCode, $carrierCode, $trackNumber);
         return $this;
     }
 

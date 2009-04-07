@@ -42,6 +42,6 @@ class Mage_AmazonPayments_Model_Observer
             return;
         }
         Mage::getModel('amazonpayments/api_cba')
-            ->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
+            ->deliver($order, $track->getCarrierCode(), $track->getNumber());
     }
 }

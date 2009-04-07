@@ -193,7 +193,37 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
 //            echo 'Exception';
 //            Zend_Debug::dump($e->getMessage());
 //        }
+//        Zend_Debug::dump($this->_result);
 //        die(__METHOD__.'::'.__LINE__);
+
+        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+        <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+        <Header>
+            <DocumentVersion>1.01</DocumentVersion>
+            <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+        </Header>
+        <MessageType>OrderAcknowledgement</MessageType>
+            <Message>
+                <MessageID>1</MessageID>
+                <OperationType>Update</OperationType>
+                <OrderAcknowledgement>
+                    <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
+                    <StatusCode>Failure</StatusCode>
+                </OrderAcknowledgement>
+            </Message>
+        </AmazonEnvelope>';
+
+        $params = array(
+            'merchant' => $this->getMerchantInfo(),
+            'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
+            'doc' => $this->_createAttachment($_document)
+        );
+
+
+        /**
+         * WE ARE NOT USING THIS FEED
+         */
+/*
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
         <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
         <Header>
@@ -201,27 +231,150 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
         </Header>
         <MessageType>OrderAcknowledgement</MessageType>';
-        foreach ($order->getAllVisibleItems() as $item) {
+//        foreach ($order->getAllVisibleItems() as $item) {
             $_document .= '<Message>
                 <MessageID>1</MessageID>
-                <OperationType>Update</OperationType>
                 <OrderAcknowledgement>
-                    <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
-                    <StatusCode>Failure</StatusCode>
+                    <AmazonOrderID>104-8041877-0097021</AmazonOrderID>
+                    <MerchantOrderID>1234567890</MerchantOrderID>
+                    <StatusCode>Success</StatusCode>
                     <Item>
-                        <AmazonOrderItemCode>'. $item->getExtOrderItemId() . '</AmazonOrderItemCode>
-                        <CancelReason>BuyerCanceled</CancelReason>
+                        <AmazonOrderItemCode>18852724239922</AmazonOrderItemCode>
+                        <MerchantOrderItemID>12345678901</MerchantOrderItemID>
                     </Item>
                 </OrderAcknowledgement>
             </Message>';
-        }
+//        }
         $_document .= '</AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
             'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
             'doc' => $this->_createAttachment($_document)
+        );*/
+
+        /**
+         * EOF WE ARE NOT USING THIS FEED
+         */
+
+        /**
+         * SEND SHIPPING INFORMATION
+         */
+/*
+        $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
+        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+<Header>
+    <DocumentVersion>1.01</DocumentVersion>
+    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+</Header>
+<MessageType>OrderFulfillment</MessageType>
+    <Message>
+        <MessageID>1</MessageID>
+        <OrderFulfillment>
+            <AmazonOrderID>105-5075149-6736251</AmazonOrderID>
+            <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
+            <FulfillmentData>
+                <CarrierCode>UPS</CarrierCode>
+                <ShippingMethod>Ground</ShippingMethod>
+                <ShipperTrackingNumber>1234567890</ShipperTrackingNumber>
+            </FulfillmentData>
+            <Item>
+                <AmazonOrderItemCode>29698223757722</AmazonOrderItemCode>
+                <Quantity>1</Quantity>
+            </Item>
+        </OrderFulfillment>
+    </Message>
+</AmazonEnvelope>';
+        $params = array(
+            'merchant' => $this->getMerchantInfo(),
+            'messageType' => self::MESSAGE_TYPE_FULFILLMENT,
+            'doc' => $this->_createAttachment($_document)
         );
+*/
+        /**
+         * EOF SEND SHIPPING INFORMATION
+         */
+
+
+        /**
+         * CANCELLATION
+         */
+/*
+        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+        <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+        <Header>
+            <DocumentVersion>1.01</DocumentVersion>
+            <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+        </Header>
+        <MessageType>OrderAcknowledgement</MessageType>';
+            $_document .= '<Message>
+                <MessageID>1</MessageID>
+                <OperationType>Update</OperationType>
+                <OrderAcknowledgement>
+                    <AmazonOrderID>104-8041877-0097021</AmazonOrderID>
+                    <MerchantOrderID>1234567890</MerchantOrderID>
+                    <StatusCode>Failure</StatusCode>
+                </OrderAcknowledgement>
+            </Message>';
+        $_document .= '</AmazonEnvelope>';
+        $params = array(
+            'merchant' => $this->getMerchantInfo(),
+            'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
+            'doc' => $this->_createAttachment($_document)
+        );*/
+
+        /**
+         * EOF CANCELLATION
+         */
+
+        /**
+         * REFUND
+         */
+/*
+        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+<Header>
+    <DocumentVersion>1.01</DocumentVersion>
+    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+</Header>
+<MessageType>OrderAdjustment</MessageType>';
+
+        $_document .= '<Message>
+                            <MessageID>1</MessageID>
+                            <OrderAdjustment>
+                                <AmazonOrderID>105-5075149-6736251</AmazonOrderID>
+                                <AdjustedItem>
+                                    <AmazonOrderItemCode>29698223757722</AmazonOrderItemCode>
+                                    <AdjustmentReason>GeneralAdjustment</AdjustmentReason>
+                                    <ItemPriceAdjustments>
+                                        <Component>
+                                            <Type>Principal</Type>
+                                            <Amount currency="USD">0.51</Amount>
+                                        </Component>'
+                                        .'<Component>
+                                            <Type>Shipping</Type>
+                                            <Amount currency="USD">0.04</Amount>
+                                        </Component>'
+                                    .'</ItemPriceAdjustments>';
+
+                $_document .= '</AdjustedItem>
+                        </OrderAdjustment>
+                    </Message>';
+
+                $_document .= '</AmazonEnvelope>';
+            $params = array(
+                'merchant' => $this->getMerchantInfo(),
+                'messageType' => self::MESSAGE_TYPE_ADJUSTMENT,
+                'doc' => $this->_createAttachment($_document)
+            );
+*/
+        /**
+         * EOF REFUND
+         */
+
         $this->_proccessRequest('postDocument', $params);
+        Zend_Debug::dump($this->getClient()->getWire());
+        die(__METHOD__.'::'.__LINE__);
         return $this->_result;
     }
 
@@ -282,10 +435,9 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             if ($promotion) {
                 $_document .= '<PromotionAdjustments>
                                         <PromotionClaimCode>ABC123</PromotionClaimCode>
-                                        <MerchantPromotionID>12345678</MerchantPromotionID>
                                         <Component>
                                             <Type>Principal</Type>
-                                            <Amount currency="USD">-1.00</Amount>
+                                            <Amount currency="USD">-' . $item->getBaseDiscountAmount() . '</Amount>
                                         </Component>
                                     </PromotionAdjustments>';
             }
@@ -306,29 +458,47 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $this->_result;
     }
 
-    public function sendTrackNumber($aOrderId, $carrierCode, $carrierMethod, $trackNumber)
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @param unknown_type $carrierCode
+     * @param unknown_type $carrierMethod
+     * @param unknown_type $trackNumber
+     * @return unknown
+     */
+    public function sendTrackNumber($order, $carrierCode, $carrierMethod, $trackNumber)
     {
         $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
-<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-<Header>
-    <DocumentVersion>1.01</DocumentVersion>
-    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-</Header>
-<MessageType>OrderFulfillment</MessageType>
-    <Message>
-        <MessageID>1</MessageID>
-        <OrderFulfillment>
-            <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>
-            <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
-            <FulfillmentData>
-                <CarrierCode>' . $carrierCode . '</CarrierCode>
-                <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
-                <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
-            </FulfillmentData>
-        </OrderFulfillment>
-    </Message>
-</AmazonEnvelope>';
+            <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+            <Header>
+                <DocumentVersion>1.01</DocumentVersion>
+                <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+            </Header>
+            <MessageType>OrderFulfillment</MessageType>';
+        $_messageId = 1;
+        foreach ($order->getAllVisibleItems() as $item) {
+            /* @var $item Mage_Sales_Model_Order_Item */
+            $_document .= '<Message>
+                    <MessageID>' . $_messageId . '</MessageID>
+                    <OrderFulfillment>
+                        <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
+                        <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
+                        <FulfillmentData>
+                            <CarrierCode>' . $carrierCode . '</CarrierCode>
+                            <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
+                            <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
+                        </FulfillmentData>
+                        <Item>
+                            <AmazonOrderItemCode>' . $item->getExtOrderItemId() . '</AmazonOrderItemCode>
+                            <Quantity>' . $item->getQtyShipped() . '</Quantity>
+                        </Item>
+                    </OrderFulfillment>
+                </Message>';
+            $_messageId++;
+        }
+        $_document .= '</AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
             'messageType' => self::MESSAGE_TYPE_FULFILLMENT,
