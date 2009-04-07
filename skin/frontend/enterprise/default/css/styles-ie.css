@@ -29,6 +29,7 @@
 .opc li.section { vertical-align:top; }
 .products-grid .product-name { _height:2em; }
 .products-grid .actions { _height:70px; }
+.giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 #nav li a { _margin-bottom:-1px; }
 #nav li.active,
@@ -78,6 +79,7 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
+.giftcard-send-form,
 .product-options dd .input-box,
 .options-container-small .product-options,
 .product-view .product-shop .product-main-info,

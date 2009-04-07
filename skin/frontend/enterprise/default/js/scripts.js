@@ -111,9 +111,9 @@ Enterprise.Bundle = {
          this.summary = $('bundleSummary').hide();
      },
      start: function () {
-         $$('.col-right').each(function(el){el.id='rightCOL'});
-         new Effect.SlideUp('productView', { duration: 0.8 });
-         new Effect.SlideUp('rightCOL', { duration: 0.8 });
+        if ($$('.col-right')) {$$('.col-right').each(function(el){el.id='rightCOL'});}
+        new Effect.SlideUp('productView', { duration: 0.8 });
+        if ($('rightCOL')) {new Effect.SlideUp('rightCOL', { duration: 0.8 });}
          if (this.options) {
             new Effect.SlideDown(this.options, { 
                 duration: 0.8, 
@@ -125,7 +125,7 @@ Enterprise.Bundle = {
      },
      end: function () {
          new Effect.SlideDown('productView', { duration: 0.8 });
-         new Effect.SlideDown('rightCOL', { duration: 0.8 });
+         if ($('rightCOL')) {new Effect.SlideDown('rightCOL', { duration: 0.8 });}
          if (this.options) {
             new Effect.SlideUp(this.options, { 
                 duration: 0.8,
@@ -144,27 +144,26 @@ Enterprise.BundleSummary = {
         this.summary = $('bundleSummary');
         this.summary.show();
         this.summaryContainer = this.summary.getOffsetParent();
-        this.summary.style.top = '31px';
-        this.summary.style.right = '-214px';
+        this.summary.style.top = '61px';
+        this.summary.style.right = '0';
 
         this.summaryStartY = this.summary.positionedOffset().top;
-        this.summaryStartX = 693;
+        this.summaryStartX = 643;
         this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
         this.GetScroll = setInterval(this.onDocScroll,1100);   
     },
     
     handleDocScroll: function () {
         if (this.summaryContainer.viewportOffset().top < 10) {
-        
               new Effect.Move(this.summary, { 
-                    x: 693, 
+                    x: 643, 
                     y: -(this.summaryContainer.viewportOffset().top)+31, 
                     mode: 'absolute'
                 });
 
         } else {
              new Effect.Move(this.summary, { 
-                    x: 693, 
+                    x: 643, 
                     y: this.summaryStartY, 
                     mode: 'absolute'
                 });

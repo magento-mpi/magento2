@@ -38,8 +38,8 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
-<div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <div id="productView" class="product-view">
     <div><?php // extra div to smooth slideUp and slideDown ?>
         <div class="product-essential">
@@ -50,14 +50,17 @@
             </div>
 
             <div class="product-shop">
-                <div class="product-name">
-                    <h2><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h2>
+                <div class="product-main-info">
+                    <div class="product-name">
+                        <h2><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h2>
+                    </div>
+                    <p class="product-ids"><?php echo $this->__('SKU#%s',$_product->getSku()); ?></p>
+                    <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+                    <?php echo $this->getChildHtml('product_type_data') ?>
+                    <?php echo $this->getChildHtml('alert_urls') ?>
                 </div>
-                <p class="product-ids"><?php echo $this->__('SKU#%s',$_product->getSku()); ?></p>
-                <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
-                <?php echo $this->getChildHtml('alert_urls') ?>
-                <?php echo $this->getChildHtml('product_type_data') ?>
                 <?php echo $this->getChildHtml('tierprices') ?>
+                <button class="button btn-cart" onclick="Enterprise.Bundle.start();" type="button"><span><?php echo $this->__('Customize and Add to Cart'); ?></span></button>
 
                 <?php if (!$this->hasOptions()):?>
                     <div class="add-to-box">
@@ -65,15 +68,9 @@
                             <?php echo $this->getChildHtml('addtocart') ?>
                         <?php endif; ?>
                         <?php echo $this->getChildHtml('addto') ?>
-                        <?php if ($this->canEmailToFriend()): ?>
-                            <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
-                        <?php endif; ?>
                     </div>
                 <?php else:?>
                     <?php echo $this->getChildHtml('addto') ?>
-                    <?php if ($this->canEmailToFriend()): ?>
-                        <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
-                    <?php endif; ?>
                 <?php endif; ?>
 
 
@@ -87,8 +84,6 @@
                 <?php echo $this->getChildHtml('other');?>
 
             </div>
-            <div class="clearer"></div>
-
         </div>
         <div class="product-collateral">
             <dl id="collateral-tabs" class="collateral-tabs">
@@ -112,9 +107,16 @@
             <?php endif;?>
             </dl>
             <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
-            <?php echo $this->getChildHtml('upsell_products') ?>
-            <?php echo $this->getChildHtml('product_additional_data') ?>
+            <?php if ($this->canEmailToFriend()): ?>
+                <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+            <?php endif; ?> 
         </div>
+        <div class="clearer"></div>  
+        <div class="no-display">
+            <?php echo $this->getChildHtml('relatedProducts') ?>  
+        </div>
+        <?php echo $this->getChildHtml('upsell_products') ?>
+        <?php echo $this->getChildHtml('product_additional_data') ?>        
     </div>
 
 </div>
