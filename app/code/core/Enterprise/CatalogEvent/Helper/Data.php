@@ -33,7 +33,9 @@
  */
 class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_DISABLE_EVENT_LISTER = 'catalog/frontend/enterprise_catalogevent_disable_event_lister';
+    const XML_PATH_EVENT_LISTER_OUTPUT = 'catalog/enterprise_catalogevent/lister_output';
+    const XML_PATH_EVENT_LISTER_ITEMS_NUMBER_CATEGORY = 'catalog/enterprise_catalogevent/lister_items_number_category';
+    const XML_PATH_EVENT_LISTER_ITEMS_NUMBER_CMS = 'catalog/enterprise_catalogevent/lister_items_number_cms';
 
     /**
      * Retreive event image url
@@ -55,8 +57,22 @@ class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return boolean
      */
-    public function isDisabledEventLister()
+    public function isEnabledEventLister()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_EVENT_LISTER);
+        return Mage::getStoreConfigFlag(self::XML_PATH_EVENT_LISTER_OUTPUT);
+    }
+
+    /**
+     * Retreive items number for lister
+     *
+     * @return int
+     */
+    public function getListerItemsNumber()
+    {
+        if (Mage::registry('current_category')) {
+            return Mage::getStoreConfig(self::XML_PATH_EVENT_LISTER_ITEMS_NUMBER_CATEGORY);
+        }
+
+        return Mage::getStoreConfig(self::XML_PATH_EVENT_LISTER_ITEMS_NUMBER_CMS);
     }
 }

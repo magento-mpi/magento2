@@ -41,13 +41,27 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     protected $_events = null;
 
     /**
+     * Retrieve html id
+     *
+     * @return string
+     */
+    public function getHtmlId()
+    {
+        if (!$this->hasData('html_id')) {
+            $this->setData('html_id', 'id_' . md5(uniqid('catalogevent', true)));
+        }
+
+        return $this->getData('html_id');
+    }
+
+    /**
      * Check availability to display event block
      *
      * @return boolean
      */
     public function canDisplay()
     {
-        return (!$this->helper('enterprise_catalogevent')->isDisabledEventLister()) && count($this->getEvents()) > 0;
+        return ($this->helper('enterprise_catalogevent')->isEnabledEventLister()) && count($this->getEvents()) > 0;
     }
 
     /**
@@ -113,5 +127,16 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     public function getEventImageUrl($event)
     {
         return $this->helper('enterprise_catalogevent')->getEventImageUrl($event);
+    }
+
+    /**
+     * Retreive items number
+     *
+     * @return int
+     */
+    public function getItemsNumber()
+    {
+        $configItemsNumber = $this->helper('enterprise_catalogevent')->getListerItemsNumber();
+        return ( $configItemsNumber > 0 ? $configItemsNumber : 4);
     }
 }

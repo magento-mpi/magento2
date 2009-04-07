@@ -23,19 +23,40 @@
     <sections>
         <catalog>
             <groups>
-                <frontend>
+                <enterprise_catalogevent translate="label" module="enterprise_catalogevent">
+                    <label>Catalog Events</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>800</sort_order>
                     <fields>
-                        <enterprise_catalogevent_disable_event_lister translate="label" module="enterprise_catalogevent">
-                            <label>Disable Catalog Event Lister Output</label>
+                        <lister_output translate="label">
+                            <label>Enable Catalog Event Widget</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>200</sort_order>
+                            <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </enterprise_catalogevent_disable_event_lister>
+                        </lister_output>
+                        <lister_items_number_category translate="label">
+                            <label>Number Of Events to be Displayed on Category</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lister_items_number_category>
+                        <lister_items_number_cms translate="label">
+                            <label>Number of Events to be Displayed on CMS Pages</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lister_items_number_cms>
                     </fields>
-                </frontend>
+                </enterprise_catalogevent>
             </groups>
         </catalog>
     </sections>

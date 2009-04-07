@@ -36,13 +36,10 @@
         <reference name="content">
             <block name="event_edit_page" type="enterprise_catalogevent/adminhtml_event_edit" />
         </reference>
-    </adminhtml_catalog_event_edit>
-    
-    <enterprise_catalogevent_store_switcher>
         <reference name="left">
             <block before="-" type="adminhtml/store_switcher" name="store_switcher" template="store/switcher.phtml"></block>
         </reference>
-    </enterprise_catalogevent_store_switcher>
+    </adminhtml_catalog_event_edit>
     
     <adminhtml_catalog_category_edit>
         <reference name="category.edit">

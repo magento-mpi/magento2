@@ -88,7 +88,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
             ->toOptionHash();
 
         $fieldset->addField('group_id', 'select', array(
-            'label' => $this->helper('enterprise_invitation')->__('Assigned to Group'),
+            'label' => $this->helper('enterprise_invitation')->__('Invitee Group'),
             'required' => true,
             'name' => 'group_id',
             'values' => $groups

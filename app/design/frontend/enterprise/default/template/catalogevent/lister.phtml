@@ -33,7 +33,7 @@
 ?>
 
 <?php if ($this->canDisplay()): ?>
-<div id="events-home-page" class="events-slider">
+<div id="<?php echo $this->getHtmlId(); ?>" class="events-slider">
 <div class="slide-button backward">&laquo;</div>
 <div class="slider-panel">
     <ul class="slider">
@@ -71,13 +71,13 @@
 
     <?php break;
         case 'open': ?>
-        <div class="event-ticker" id="event-ticker-<?php echo $_event->getId()?>">
+        <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>">
             <div class="container">
                 <span class="days">00</span><span class="delimiter">:</span><span class="hour">00</span><span class="delimiter">:</span><span class="minute">00</span><span class="delimiter">:</span><span class="second">00</span>
             </div>
         </div>
         <script type="text/javascript">
-        new Enterprise.CatalogEvent.Ticker('event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
+        new Enterprise.CatalogEvent.Ticker('<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
         </script>
         <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Go To Sale') ?></span></a>
 
@@ -108,6 +108,6 @@
 <div class="slide-button inactive forward">&raquo;</div>
 </div>
 <script type="text/javascript">
-new Enterprise.Slider('events-home-page', {pageSize: 5});
+new Enterprise.Slider('<?php echo $this->getHtmlId(); ?>', {pageSize: <?php echo $this->getItemsNumber(); ?>});
 </script>
 <?php endif; ?>

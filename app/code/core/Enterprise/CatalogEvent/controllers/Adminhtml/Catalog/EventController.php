@@ -84,15 +84,16 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
         Mage::register('enterprise_catalogevent_event', $event);
 
 
-        if ($event->getId() && !Mage::app()->isSingleStoreMode()) {
-            $this->getLayout()->getUpdate()->addHandle('enterprise_catalogevent_store_switcher');
-        }
 
         $this->_initAction();
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
-            $switchBlock->setDefaultStoreName(Mage::helper('enterprise_catalogevent')->__('Default Values'))
-                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'store'=>null)));
+            if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
+                $switchBlock->getParentBlock()->unsetChild('store_switcher');
+            } else {
+                $switchBlock->setDefaultStoreName(Mage::helper('enterprise_catalogevent')->__('Default Values'))
+                    ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'store'=>null)));
+            }
         }
         $this->renderLayout();
 

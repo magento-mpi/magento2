@@ -79,9 +79,11 @@
     </global>
     <default>
         <catalog>
-            <frontend>
-                <enterprise_catalogevent_disable_event_lister>0</enterprise_catalogevent_disable_event_lister>
-            </frontend>
+            <enterprise_catalogevent>
+                <lister_output>1</lister_output>
+                <lister_items_number_category>3</lister_items_number_category>
+                <lister_items_number_cms>5</lister_items_number_cms>
+            </enterprise_catalogevent>
         </catalog>
     </default>
     <frontend>
