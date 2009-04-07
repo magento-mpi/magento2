@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.63</version>
+            <version>0.7.64</version>
         </Mage_Catalog>
     </modules>
 
@@ -636,9 +636,7 @@
                     <special_price />
                     <special_from_date />
                     <special_to_date />
-                    <description />
                     <short_description />
-                    <image />
                     <thumbnail />
                     <small_image />
                     <image_label />
