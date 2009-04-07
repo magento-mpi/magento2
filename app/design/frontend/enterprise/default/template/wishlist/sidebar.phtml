@@ -38,7 +38,7 @@
         <li class="item">
             <a href="<?php echo $_item->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50); ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
             <div class="product-details">
-                <a href="<?php echo $this->helper('wishlist')->getRemoveUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the wishlist?') ?>');" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Item') ?>" title="<?php echo $this->__('Remove Item') ?>" /></a>
+                <a href="<?php echo $this->helper('wishlist')->getRemoveUrl($_item) ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the wishlist?') ?>');" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove item')?>" /></a>
                 <h4 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h4>
                 <?php echo $this->getPriceHtml($_item) ?>
                 <?php if($_item->isSaleable()): ?>

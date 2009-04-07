@@ -23,7 +23,7 @@
  
 /* IE 6 only */
 .switch ul .current { _padding-right:4em;}
-.main { _height:400px; }
+.main { _height:350px; }
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }
 .opc li.section { vertical-align:top; }
@@ -55,7 +55,9 @@ input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
 button.button span { position:relative; }
 button.button { height:21px; _overflow-y:hidden; position:relative; }
+.cart .checkout-types .btn-proceed-checkout,
 button.btn-cart { height:27px; background-position:0 0; }
+.cart .checkout-types .btn-proceed-checkout span,
 button.btn-cart span { background-position:100% 0; }
 .multiple-checkout .buttons-set .button,
 .opc button.button { height:30px; background-position:0 0; }
@@ -99,7 +101,7 @@ button.btn-cart span { background-position:100% 0; }
 .header-panel,
 #nav,
 .main,
-.footer-panel,
+.footer-container,
 .footer,
 .col-main,
 .col2-set,

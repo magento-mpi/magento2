@@ -31,7 +31,7 @@
  * @see Mage_Customer_Block_Form_Login
  */
 ?>
-<div class="account-login">
+<div class="account-login<?php if (!$this->helper('customer')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
         <h2><?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
             <?php echo $this->__('Login or Create an Account') ?>
@@ -47,7 +47,6 @@
             <?php else: ?>
             <?php echo $this->__('Login'); ?>
             <?php endif; ?></legend>
-            <div class="spacer"></div>
             <div class="col2-set">
                 <div class="col-1 registered-users">
                     <h3><?php echo $this->__('Registered Customers') ?></h3>

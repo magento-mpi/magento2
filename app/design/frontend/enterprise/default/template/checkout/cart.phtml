@@ -75,7 +75,7 @@
                         <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
                         <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
-                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Remove') ?></th>
                     </tr>
                     <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
                     <tr>
@@ -113,7 +113,7 @@
         </ul>
         <?php endif; ?>
     </div>
-    <div class="cart-collaterals">   
+    <div class="cart-collaterals<?php if($this->getChildHtml('crosssell')) echo ' cross-inside'; ?>">   
         <?php echo $this->getChildHtml('crosssell') ?>
         <div class="deals">
             <?php echo $this->getChildHtml('coupon') ?>

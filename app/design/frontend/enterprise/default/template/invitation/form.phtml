@@ -30,10 +30,9 @@
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php $_fieldAmount = (int) Mage::helper('enterprise_invitation')->getMaxInvitationAmountPerSend(); ?>
 <?php if ($_fieldAmount>0): ?>
-<p><?php echo Mage::helper('enterprise_invitation')->__('Sponsor your friends by entering their email addresses below'); ?></p>
 <form id="invitationForm" action="" method="post">
     <fieldset class="fieldset">
-    <h3><?php echo Mage::helper('enterprise_invitation')->__('E-mails') ?></h3>
+    <h3><?php echo Mage::helper('enterprise_invitation')->__('Sponsor your friends by entering their email addresses below'); ?></h3>
         <ul class="form-list group-select">
             <?php $_perRow = ceil($_fieldAmount/3); for($_index = 1; $_index <= $_fieldAmount; $_index ++): ?>
             <li>

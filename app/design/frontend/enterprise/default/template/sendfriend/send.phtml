@@ -50,7 +50,7 @@
         var li_mail = Element.extend(document.createElement("li"));
         li_mail.addClassName('add-row');
         li_mail.addClassName('fields');
-        li_mail.innerHTML = '<p class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" title="<?php echo $this->__('Remove Email') ?>" /><\/a><\/p>'
+        li_mail.innerHTML = '<p class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" /><\/a><\/p>'
         li_mail.innerHTML += '<div class="field"><label for="recipients_name'+i+'" class="required"><em>*<\/em> <?php echo $this->__('Name:') ?><\/label><span class="input-box"><input name="recipients[name][]" type="text" class="input-text required-entry" id="recipients_name'+i+'" /><\/span><\/div>';
         li_mail.innerHTML += '<div class="field"><label for="recipients_email'+i+'" class="required"><em>*<\/em> <?php echo $this->__('Email Address:') ?><\/label><span class="input-box"><input name="recipients[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" /><\/span><\/div>';
         i++;
