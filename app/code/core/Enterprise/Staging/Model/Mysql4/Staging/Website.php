@@ -31,6 +31,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
      */
     protected $_entryPoint;
 
+    /**
+     * Constructor
+     */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_website', 'staging_website_id');
@@ -58,20 +61,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $object->setMasterPasswordHash($object->hashPassword($password));
         }
 
-        $value = (string) $this->formatDate($object->getApplyDate());
-        if ($value) {
-            $object->setApplyDate($value);
-        } else {
-            $object->setApplyDate('0000-00-00 00:00:00');
-        }
-
-        $value = (string) $this->formatDate($object->getRollbackDate());
-        if ($value) {
-            $object->setRollbackDate($value);
-        } else {
-            $object->setRollbackDate('0000-00-00 00:00:00');
-        }
-
         if (!$object->getId()) {
             $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
             $object->setCreatedAt($value);
@@ -85,6 +74,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * After save resource model
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getIsPureSave()) {
@@ -104,6 +99,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * Save item resource model
+     *
+     * @param website collection $website
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function saveItems($website)
     {
         foreach ($website->getItemsCollection() as $item) {
@@ -113,6 +114,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * Save staging store group, create new
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function saveStagingStoreGroup(Mage_Core_Model_Abstract $object)
     {
 
@@ -146,6 +153,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * save staging website resource model
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function saveSlaveWebsite(Mage_Core_Model_Abstract $object)
     {
         $slaveWebsite   = Mage::getModel('core/website');
@@ -175,6 +188,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * save store resource model
+     *
+     * @param store collection $object
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function saveStores($object)
     {
         foreach ($object->getStoresCollection() as $store) {
@@ -184,6 +203,12 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this;
     }
 
+    /**
+     * save system config resource model
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function saveSystemConfig($object)
     {
         if ($object->getEventCode() == 'create') {
@@ -293,7 +318,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     }
 
     /**
-     *
+     * Return saved store id
+     * @param Enterprise_Staging_Model_Staging_Website $website
+     * @return mixed
      */
     public function getStoreIds(Enterprise_Staging_Model_Staging_Website $website)
     {
@@ -307,12 +334,26 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         return $this->_getReadAdapter()->fetchCol($select);
     }
 
+    /**
+     * load wesbite resource model data by id
+     *
+     * @param Enterprise_Staging_Model_Staging_Website $website
+     * @param int $id
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function loadBySlaveWebsiteId($website, $id)
     {
         $this->load($website, $id, 'slave_website_id');
         return $this;
     }
 
+    /**
+     * Sinc website resource model
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param Enterprise_Staging_Model_Staging_Website $website
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
     public function syncWithWebsite($object, $website)
     {
         if ($website->getIgnoreSyncStagingWebsite()) {
@@ -343,9 +384,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $object->setData('master_password');
             $object->setData('master_password_hash');
         }
-
-//        $object->setData('base_url', $website->getBaseUrl());
-//        $object->setData('base_secure_url', $website->getSecureBaseUrl());
 
         if ($website->getApplyDate()) {
             $object->setData('apply_date', $website->getApplyDate());

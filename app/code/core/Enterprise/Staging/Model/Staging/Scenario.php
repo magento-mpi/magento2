@@ -30,12 +30,32 @@
  */
 final class Enterprise_Staging_Model_Staging_Scenario
 {
+    /**
+     * Scenario Code
+     *
+     * @var string
+     */
     private $_scenarioCode;
 
+    /**
+     * adapter model
+     *
+     * @var Enterprise_Staging_Model_Staging_Adapter
+     */
     private $_adapter;
 
+    /**
+     * Staging model
+     *
+     * @var Enterprise_Staging_Model_Staging
+     */
     private $_staging;
 
+    /**
+     * state model
+     *
+     * @var Enterprise_Staging_Model_Staging_State_Abstract
+     */
     private $_state;
 
     /**
@@ -62,6 +82,11 @@ final class Enterprise_Staging_Model_Staging_Scenario
         return $this;
     }
 
+    /**
+     * Run scenario
+     *
+     * @return Enterprise_Staging_Model_Staging_Scenario
+     */
     final public function run()
     {
         $state = $this->getState();
@@ -75,6 +100,12 @@ final class Enterprise_Staging_Model_Staging_Scenario
         return $this;
     }
 
+    /**
+     * set adapter model
+     *
+     * @param Enterprise_Staging_Model_Staging_Adapter $adapter
+     * @return Enterprise_Staging_Model_Staging_Scenario
+     */
     function setAdapter($adapter)
     {
         $this->_adapter = $adapter;
@@ -82,11 +113,22 @@ final class Enterprise_Staging_Model_Staging_Scenario
         return $this;
     }
 
+    /**
+     * get adapter model
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter
+     */
     function getAdapter()
     {
         return $this->_adapter;
     }
 
+    /**
+     * set scenario code
+     *
+     * @param srting $code
+     * @return Enterprise_Staging_Model_Staging_Scenario
+     */
     function setScenarioCode($code)
     {
         $this->_scenarioCode = $code;
@@ -94,11 +136,22 @@ final class Enterprise_Staging_Model_Staging_Scenario
         return $this;
     }
 
+    /**
+     * get scenario code
+     *
+     * @return string
+     */
     function getScenarioCode()
     {
         return $this->_scenarioCode;
     }
 
+    /**
+     * Enter description here...
+     *
+     * @param Enterprise_Staging_Model_Staging_State_Abstract $state
+     * @return Enterprise_Staging_Model_Staging_Scenario
+     */
     function setState(Enterprise_Staging_Model_Staging_State_Abstract $state)
     {
         $this->_state = $state;
@@ -106,6 +159,11 @@ final class Enterprise_Staging_Model_Staging_Scenario
         return $this;
     }
 
+    /**
+     * get state model
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     function getState()
     {
         return $this->_state;

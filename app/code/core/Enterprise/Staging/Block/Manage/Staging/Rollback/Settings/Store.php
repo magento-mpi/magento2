@@ -90,6 +90,14 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
         return parent::_prepareForm();
     }
     
+    /**
+     * Init website form
+     *
+     * @param Mage_Adminhtml_Block_Widget_Form $form
+     * @param int $fromSiteId
+     * @param int $toSiteId
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _initWebSiteForm($form, $fromSiteId, $toSiteId)
     {
         $id = $fromSiteId . "_" . $toSiteId;
@@ -112,6 +120,16 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
         
     }
 
+    /**
+     * Init Store form
+     *
+     * @param Mage_Adminhtml_Block_Widget_Form $form
+     * @param int $website_id
+     * @param int $fromStoreId
+     * @param int $toStoreId
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
+    
     protected function _initStoreForm($form, $website_id, $fromStore, $toStore)
     {
         $fieldset_id = $website_id . '_' . $fromStore . '_' . $toStore;
@@ -170,11 +188,21 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
         return $this->getEvent()->getStaging();
     }
     
+    /**
+     * return mapper instance
+     *
+     * @return Enterprise_Staging_Model_Mapper
+     */
     public function getMapper()
     {
         return $this->getStaging()->getMapperInstance();
     }
     
+    /**
+     * return website collection
+     *
+     * @return object
+     */
     public function getWebsiteCollection()
     {
         $collection = Mage::getModel('core/website')->getResourceCollection();
@@ -186,12 +214,21 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
         return $collection->load();
     }
 
-
+    /**
+     * return store collection
+     *
+     * @return object
+     */
     public function getAllStoresCollection()
     {
         return Mage::app()->getStores();
     }
 
+    /**
+     * return store json
+     *
+     * @return string
+     */
     public function getAllStoresJson()
     {
         $stores = array();

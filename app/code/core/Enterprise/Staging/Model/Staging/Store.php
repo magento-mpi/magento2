@@ -263,6 +263,12 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * init Enterprise_Staging_Model_Staging_Store object by store id
+     *
+     * @param int $id
+     * @return Enterprise_Staging_Model_Staging_Store
+     */
     public function loadBySlaveStoreId($id)
     {
         $this->getResource()->loadBySlaveStoreId($this, $id);
@@ -270,6 +276,12 @@ class Enterprise_Staging_Model_Staging_Store extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * sync store
+     *
+     * @param Mage_Core_Model_Store $store
+     * @return Enterprise_Staging_Model_Staging_Store
+     */
     public function syncWithStore(Mage_Core_Model_Store $store)
     {
         $this->getResource()->syncWithStore($this, $store);

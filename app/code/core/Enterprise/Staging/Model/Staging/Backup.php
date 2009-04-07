@@ -94,6 +94,13 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         return Enterprise_Staging_Model_Staging_Config::getEventLabel($this->getCode());
     }
 
+    /**
+     * Update backup attribute
+     *
+     * @param string $attribute
+     * @param undefined $value
+     * @return ResourceModel
+     */
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
@@ -156,6 +163,12 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         return false;
     }
     
+    /**
+     * Check items modules versions
+     * return item version check array
+     *
+     * @return mixed
+     */
     public function getItemVersionCheck()
     {
         if (!$this->getId()) {

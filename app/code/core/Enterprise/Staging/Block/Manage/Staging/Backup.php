@@ -40,6 +40,9 @@ class Enterprise_Staging_Block_Manage_Staging_Backup extends Mage_Adminhtml_Bloc
         $this->setTemplate('enterprise/staging/manage/staging/backup.phtml');
     }
 
+    /**
+     * Prepare Layout
+     */
     protected function _prepareLayout()
     {
         $this->setChild('grid',

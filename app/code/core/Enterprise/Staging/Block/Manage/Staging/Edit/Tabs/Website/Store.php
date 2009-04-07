@@ -41,6 +41,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store extends Ma
         $this->setTemplate('enterprise/staging/manage/staging/edit/tabs/website/store.phtml');
     }
 
+    /**
+     * Return User stores html
+     * 
+     * @return string
+     */
     public function getUsedStoresHtml()
     {
         $html           = '';
@@ -68,6 +73,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store extends Ma
         return $html;
     }
 
+    /**
+     * Return Store collection
+     * 
+     * @return array
+     */
     public function getStoreCollection()
     {
         $website = $this->getWebsite();
@@ -78,6 +88,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website_Store extends Ma
         }
     }
 
+    /**
+     * Return store url
+     * 
+     * @return string
+     */
     public function getCreateStagingStoreUrl()
     {
         $params = array(

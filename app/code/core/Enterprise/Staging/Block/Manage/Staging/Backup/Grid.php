@@ -128,6 +128,11 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
     }
 
 
+    /**
+     * prepare used website list
+     *
+     * @return array
+     */
     protected function _getWebsiteList()
     {
         if (!$this->getCollection()) {
@@ -170,6 +175,9 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
         return $this->getUrl('*/*/backupGrid', array('_current'=>true));
     }
 
+    /**
+     * Return grid row url
+     */    
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/backupEdit', array('_current'=>true, 'id'=>$row->getId()));

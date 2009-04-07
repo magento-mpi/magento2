@@ -75,20 +75,49 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected $_store;
 
+    /**
+     * Flag to add event in event history
+     *
+     * @var bool
+     */
     protected $_addToEventHistory = false;
 
+    /**
+     * Event State Code
+     *
+     * @var string
+     */
     protected $_eventStateCode;
 
+    /**
+     * Event State Label
+     *
+     * @var string
+     */
     protected $_eventStateLabel;
     
+    /**
+     * Event State status message
+     *
+     * @var string
+     */
     protected $_eventStateStatuses;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('staging_read');
         $this->_write = Mage::getSingleton('core/resource')->getConnection('staging_write');
     }
 
+    /**
+     * Run state process
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     final public function run($staging = null)
     {
         if (is_null($staging)) {
@@ -210,6 +239,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * Execute next state of scenario
+     *
+     * @return object/false
+     */
     final public function next()
     {
         if ($this->getNextStateName()) {
@@ -219,6 +253,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         }
     }
     
+    /**
+     * Set state code
+     *
+     * @param string $code
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setEventStateCode($code)
     {
         $this->_eventStateCode = $code;
@@ -226,6 +266,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * Return state code
+     *
+     * @return string
+     */
     public function getEventStateCode()
     {
         if (is_null($this->_eventStateCode)) {
@@ -234,6 +279,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_eventStateCode;
     }
 
+    /**
+     * Set Event state label as attribute
+     *
+     * @param string $label
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setEventStateLabel($label)
     {
         $this->_eventStateLabel = $label;
@@ -241,6 +292,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * get state label text
+     *
+     * @return string
+     */
     public function getEventStateLabel()
     {
         if (is_null($this->_eventStateLabel)) {
@@ -249,6 +305,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_eventStateLabel;
     }
 
+    /**
+     * Set evet status message
+     *
+     * @param string $statuses
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setEventStateStatuses($statuses)
     {
         $this->_eventStateStatuses = $statuses;
@@ -256,6 +318,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * get event status message
+     *
+     * @return string
+     */
     public function getEventStateStatuses()
     {
         if (is_null($this->_eventStateStatuses)) {
@@ -264,6 +331,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_eventStateStatuses;
     }
 
+    /**
+     * Set next state name
+     *
+     * @param string $name
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setNextStateName($name)
     {
         $this->_nextStateName = $name;
@@ -271,6 +344,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * get next state name
+     *
+     * @return string
+     */
     public function getNextStateName()
     {
         if (is_null($this->_adapter)) {
@@ -279,17 +357,33 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_nextStateName;
     }
 
+    /**
+     * check
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function check()
     {
         return true;
     }
 
+    /**
+     * Set staging adapter as attribute
+     *
+     * @param Enterprise_Staging_Model_Staging_Adapter_Abstract $adapter
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setAdapter(Enterprise_Staging_Model_Staging_Adapter_Abstract $adapter)
     {
         $this->_adapter = $adapter;
         return $this;
     }
 
+    /**
+     * get staging adapter
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function getAdapter()
     {
         if (is_null($this->_adapter)) {
@@ -298,6 +392,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_adapter;
     }
 
+    /**
+     * set stenario model as attribute
+     *
+     * @param Enterprise_Staging_Model_Staging_Scenario $scenario
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setScenario(Enterprise_Staging_Model_Staging_Scenario $scenario)
     {
         $this->_scenario = $scenario;
@@ -384,12 +484,23 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_staging;
     }
 
+    /**
+     * set website model as attribute
+     *
+     * @param Enterprise_Staging_Model_Staging_Type_Website $website
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setWebsite(Enterprise_Staging_Model_Staging_Type_Website $website)
     {
         $this->_website = $website;
         return $this;
     }
 
+    /**
+     * get website model
+     *
+     * @return Enterprise_Staging_Model_Staging_Type_Website
+     */
     public function getWebsite()
     {
         if (is_null($this->_website)) {
@@ -398,12 +509,23 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_website;
     }
 
+    /**
+     * set staging group as attribute 
+     *
+     * @param Enterprise_Staging_Model_Staging_Type_Store_Group $group
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setGroup(Enterprise_Staging_Model_Staging_Type_Store_Group $group)
     {
         $this->_group = $group;
         return $this;
     }
 
+    /**
+     * get staging group 
+     *
+     * @return Enterprise_Staging_Model_Staging_Type_Store_Group
+     */
     public function getGroup()
     {
         if (is_null($this->_group)) {
@@ -412,12 +534,23 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this->_group;
     }
 
+    /**
+     * set staging store object as attribute
+     *
+     * @param Enterprise_Staging_Model_Staging_Type_Store $store
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function setStore(Enterprise_Staging_Model_Staging_Type_Store $store)
     {
         $this->_store = $store;
         return $this;
     }
 
+    /**
+     * get staging store object
+     *
+     * @return Enterprise_Staging_Model_Staging_Type_Store
+     */
     public function getStore()
     {
         if (is_null($this->_store)) {
@@ -428,6 +561,14 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
 
 
 
+    /**
+     * set start event state
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param string $message
+     * @param string $log
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function startEventState($staging = null, $message = null, $log = null)
     {
 /*
@@ -456,6 +597,15 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    /**
+     * set end event state
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param string $message
+     * @param string $log
+     * @param bool $isError 
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
+     */
     public function endEventState($staging = null, $message = null, $log = null, $isError = false)
     {
         if (!$this->_addToEventHistory) {

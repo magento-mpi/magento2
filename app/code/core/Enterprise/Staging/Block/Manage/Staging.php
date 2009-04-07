@@ -37,6 +37,9 @@ class Enterprise_Staging_Block_Manage_Staging extends Mage_Adminhtml_Block_Templ
         $this->setTemplate('enterprise/staging/manage/staging.phtml');
     }
 
+    /**
+     * Prepare Layout
+     */
     protected function _prepareLayout()
     {
         $this->setChild('add_new_button',
@@ -52,6 +55,11 @@ class Enterprise_Staging_Block_Manage_Staging extends Mage_Adminhtml_Block_Templ
         return parent::_prepareLayout();
     }
 
+    /**
+     * return "add new" button as html
+     *
+     * @return string
+     */
     public function getAddNewButtonHtml()
     {
         if ($this->_enabledAddNewButton()) {
@@ -61,11 +69,19 @@ class Enterprise_Staging_Block_Manage_Staging extends Mage_Adminhtml_Block_Templ
         }
     }
 
+    /**
+     * Return grid html url
+     */
     public function getGridHtml()
     {
         return $this->getChildHtml('grid');
     }
 
+    /**
+     * return "add new" button status: enable/disable
+     *
+     * @return bool
+     */
     protected function _enabledAddNewButton()
     {
         return true;

@@ -53,6 +53,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return $this->getData('staging');
     }
 
+    /**
+     * Prepare layout
+     */
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
@@ -130,61 +133,97 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return parent::_prepareLayout();
     }
 
+    /**
+     * Return Back button as html
+     */
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('back_button');
     }
 
+    /**
+     * Return Cansel button as html
+     */
     public function getCancelButtonHtml()
     {
         return $this->getChildHtml('reset_button');
     }
-
+    
+    /**
+     * Return Save button as html
+     */
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
     }
 
+    /**
+     * Return SaveandEdit button as html
+     */
     public function getSaveAndEditButtonHtml()
     {
         return $this->getChildHtml('save_and_edit_button');
     }
-
+    
+    /**
+     * Return Delete button as html
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
     }
 
+    /**
+     * Return Rollback button as html
+     */
     public function getRollbackButtonHtml()
     {
         return $this->getChildHtml('rollback_button');
     }
 
+    /**
+     * Return Merge button as html
+     */
     public function getMergeButtonHtml()
     {
         return $this->getChildHtml('merge_button');
     }
 
+    /**
+     * Return validation url
+     */
     public function getValidationUrl()
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));
     }
 
+    /**
+     * Return save url
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('_current'=>true, 'back'=>null));
     }
 
+    /**
+     * Return Create Item Url
+     */
     public function getCreateItemNextUrl()
     {
         return $this->getUrl('*/*/createItem', array('_current'=>true));
     }
 
+    /**
+     * Return Finish url
+     */
     public function getFinishCreateUrl()
     {
         return $this->getUrl('*/*/finishCreate', array('_current'=>true));
     }
 
+    /**
+     * REturn SaveandEdit Url
+     */
     public function getSaveAndContinueUrl()
     {
         return $this->getUrl('*/*/save', array(
@@ -194,11 +233,17 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         ));
     }
 
+    /**
+     * Return staging id
+     */
     public function getStagingId()
     {
         return $this->getStaging()->getId();
     }
 
+    /**
+     * Return dataset id
+     */
     public function getDatasetId()
     {
         if (!($setId = $this->getStaging()->getDatasetId()) && $this->getRequest()) {
@@ -207,26 +252,41 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return $setId;
     }
 
+    /**
+     * Return delete url
+     */
     public function getDeleteUrl()
     {
         return $this->getUrl('*/*/delete', array('_current'=>true));
     }
 
+    /**
+     * Return merge url
+     */    
     public function getMergeUrl()
     {
         return $this->getUrl('*/*/merge', array('_current'=>true));
     }
 
+    /**
+     * Return sync url
+     */    
     public function getSyncUrl()
     {
         return $this->getUrl('*/*/sync', array('_current'=>true));
     }
 
+    /**
+     * Return rollback url
+     */    
     public function getRollbackUrl()
     {
         return $this->getUrl('*/*/rollback', array('_current'=>true));
     }
 
+    /**
+     * Return header
+     */    
     public function getHeader()
     {
         $header = '';
@@ -242,6 +302,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return $header;
     }
 
+    /**
+     * Return staging entity set name
+     */    
     public function getStagingEntitySetName()
     {
     	$setId = $this->getStaging()->getStagingEntitySetId();
@@ -253,20 +316,39 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return '';
     }
 
+    /**
+     * status if IsConfigurable
+     */    
     public function getIsConfigurable()
     {
         return $this->getStaging()->isConfigurable();
     }
 
+    /**
+     * return selected table id
+     *
+     * @return string
+     */
     public function getSelectedTabId()
     {
         return addslashes(htmlspecialchars($this->getRequest()->getParam('tab')));
     }
 
+    /**
+     * return dataset item ids
+     *
+     * @return int
+     */
     public function getDatasetItemIds()
     {
         return count($this->getStaging()->getDatasetItemIds());
     }
+    
+    /**
+     * get config data as json
+     *
+     * @return string
+     */
     public function getConfig()
     {
         $config = array(
@@ -286,6 +368,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return Zend_Json::encode($config);
     }
 
+    /**
+     * return item as json
+     *
+     * @return string
+     */
     public function getItemsJson()
     {
         $json = array();

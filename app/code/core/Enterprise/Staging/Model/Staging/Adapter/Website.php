@@ -27,11 +27,20 @@
 class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Staging_Model_Staging_Adapter_Abstract
 {
 
+    /**
+     * constructor
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * Scenario Create staging 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */
     public function create(Enterprise_Staging_Model_Staging $staging)
     {
         try {
@@ -47,6 +56,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
+    /**
+     * Merge staging 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */    
     public function merge(Enterprise_Staging_Model_Staging $staging)
     {
         try {
@@ -62,6 +77,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
+    /**
+     * Rollback staging 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */    
     public function rollback(Enterprise_Staging_Model_Staging $staging)
     {
         try {
@@ -77,6 +98,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
+    /**
+     * Check staging state 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */    
     public function check(Enterprise_Staging_Model_Staging $staging)
     {
         try {
@@ -92,6 +119,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
+    /**
+     * Repair staging structure 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */    
     public function repair(Enterprise_Staging_Model_Staging $staging)
     {
         try {
@@ -107,6 +140,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
+    /**
+     * Copy staging structure 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */    
     public function copy(Enterprise_Staging_Model_Staging $staging)
     {
         try {
@@ -122,6 +161,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         return $this;
     }
 
+    /**
+     * Backup staging  
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */    
     public function backup(Enterprise_Staging_Model_Staging $staging)
     {
         try {

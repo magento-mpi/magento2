@@ -26,14 +26,31 @@
 
 class Enterprise_Staging_Model_Staging_State_Website_Rollback extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
+    /**
+     * flag to add Event in event history
+     *
+     * @var bool
+     */
     protected $_addToEventHistory = true;
 
+    /**
+     * Run rollback process
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_State_Website_Rollback
+     */
     protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
         $this->_rollbackItems($staging);
         return $this;
     }
 
+    /**
+     * Process rollback items
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_State_Website_Rollback
+     */
     protected function _rollbackItems($staging)
     {
         $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();

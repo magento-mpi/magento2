@@ -31,13 +31,26 @@
  */
 class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
 {
+    /**
+     * Dataset model
+     *
+     * @var Enterprise_Staging_Dataset_Item
+     */
     protected $_datasetItem;
 
+    /**
+     * constructor
+     */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_item');
     }
 
+    /**
+     * create instanse of Enterprise_Staging_Dataset_Item and put it on $this->_datasetItem
+     *
+     * @return Enterprise_Staging_Dataset_Item
+     */
     public function getDatasetItemInstance()
     {
         if (is_null($this->_datasetItem)) {
@@ -51,6 +64,13 @@ class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
         return $this->_datasetItem;
     }
 
+    /**
+     * Update staging item
+     *
+     * @param string $attribute
+     * @param unknown_type $value
+     * @return Mage_Core_Model_Abstract
+     */
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);

@@ -134,6 +134,15 @@
                     </enterprise_staging_save_website>
                 </observers>
             </website_save_after>
+            <website_delete_after>
+                <observers>
+                    <enterprise_staging_delete_website>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>deleteWebsite</method>
+                    </enterprise_staging_delete_website>
+                </observers>
+            </website_delete_after>
         </events>
         <enterprise>
             <staging>

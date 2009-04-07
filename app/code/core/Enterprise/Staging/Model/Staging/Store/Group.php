@@ -36,11 +36,19 @@ class Enterprise_Staging_Model_Staging_Store_Group extends Mage_Core_Model_Abstr
 
     protected $_items;
 
+    /**
+     * Constructor
+     */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_store_group');
     }
 
+    /**
+     * get master store object
+     *
+     * @return Mage_Core_Model_Store
+     */
     public function getMasterStore()
     {
     	$masterStoreId = $this->getMasterStoreId();
@@ -51,6 +59,11 @@ class Enterprise_Staging_Model_Staging_Store_Group extends Mage_Core_Model_Abstr
     	}
     }
 
+    /**
+     * get slave store object
+     *
+     * @return Mage_Core_Model_Store
+     */
     public function getSlaveStore()
     {
         $slaveStoreId = $this->getSlaveStoreId();
@@ -61,6 +74,12 @@ class Enterprise_Staging_Model_Staging_Store_Group extends Mage_Core_Model_Abstr
         }
     }
 
+    /**
+     * init group object by id
+     *
+     * @param int $id
+     * @return Enterprise_Staging_Model_Staging_Store_Group
+     */
     public function loadBySlaveStoreGroupId($id)
     {
         $this->getResource()->loadBySlaveStoreGroupId($this, $id);
@@ -68,6 +87,12 @@ class Enterprise_Staging_Model_Staging_Store_Group extends Mage_Core_Model_Abstr
         return $this;
     }
 
+    /**
+     * sync with store group
+     *
+     * @param Mage_Core_Model_Store_Group $group
+     * @return Enterprise_Staging_Model_Staging_Store_Group
+     */
     public function syncWithStoreGroup(Mage_Core_Model_Store_Group $group)
     {
         $this->getResource()->syncWithStoreGroup($this, $group);

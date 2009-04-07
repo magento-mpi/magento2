@@ -43,6 +43,11 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         $this->setIsReadyForRollback(true);
     }
 
+    /**
+     * Prepare layout
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareLayout()
     {
         if ($this->getBackup()->canRollback()) {
@@ -114,16 +119,27 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         return $this->getEvent()->getStaging();
     }
     
+    /**
+     * Return mapper instance
+     */
     public function getMapper()
     {
         return $this->getStaging()->getMapperInstance();
     }
     
+    /**
+     * Return Save url
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/rollbackPost', array('_current'=>true, 'back'=>null));
     }
 
+    /**
+     * Return website collection 
+     *
+     * @return object
+     */
     public function getWebsiteCollection()
     {
         $collection = Mage::getModel('core/website')->getResourceCollection();
@@ -135,12 +151,21 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         return $collection->load();
     }
 
-
+    /**
+     * return store collection
+     *
+     * @return object
+     */
     public function getAllStoresCollection()
     {
         return Mage::app()->getStores();
     }
 
+    /**
+     * return stores as json
+     *
+     * @return string
+     */
     public function getAllStoresJson()
     {
         $stores = array();
@@ -154,6 +179,11 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         }
     }
 
+    /**
+     * return main buttons as html structure
+     *
+     * @return string
+     */
     public function getMainButtonsHtml()
     {
         $html = '';

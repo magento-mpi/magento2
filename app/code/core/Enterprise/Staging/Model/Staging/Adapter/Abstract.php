@@ -47,8 +47,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      */
     protected $_config;
 
-    static $_proceedTables = array();
-
+    /**
+     * Custom Table models
+     *
+     * @var mixed
+     */
     protected $_tableModels = array(
        'catalog_product_entity'     => 'catalog',
        'catalog_category_entity'    => 'catalog',
@@ -56,6 +59,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
        'customer_address_entity'    => 'customer',
     );
 
+    /**
+     * Table list, exclude from copying 
+     *
+     * @var mixed
+     */
     protected $_excludeList = array(
         'core_store',
         'core_website',
@@ -68,19 +76,48 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         'downloadable_sample_title'
     );
     
+    /**
+     * tables to ignore on _processItemMethod
+     *
+     * @var mixed
+     */
     protected $_ignoreTables = array(
         'catalog_category_flat'     => true,
         'catalog_product_flat'      => true
     );
 
+    /**
+     * table list
+     *
+     * @var mixed
+     */
     protected $_tables;
 
+    /**
+     * EAV table entities
+     *
+     * @var modex
+     */
     protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
 
+    /**
+     * Current source Model name
+     *
+     * @var string
+     */
     protected $_srcModel;
 
+    /**
+     * Current target Model name
+     *
+     * @var string
+     */
     protected $_targetModel;
 
+    /**
+     * Constructor
+     *
+     */
     public function __construct()
     {
         $this->_resource = Mage::getSingleton('core/resource');
@@ -89,36 +126,78 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         $this->_write = $this->_resource->getConnection('staging_write');
     }
 
+    /**
+     * Create Staging
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function create(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }
-
+    
+    /**
+     * Make staging content merge
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function merge(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }
 
+    /**
+     * Make staging content rollback 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function rollback(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }
 
+    /**
+     * Staging content check
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function check(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }
 
+    /**
+     * Staging Content repair 
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function repair(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }
 
+    /**
+     * Staging content copy
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function copy(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
     }
 
+    /**
+     * Create Staging content backup
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
     public function backup(Enterprise_Staging_Model_Staging $staging)
     {
         return $this;
@@ -208,6 +287,14 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $this;
     }
 
+    /**
+     * get sql to create new tables
+     *
+     * @param string $model
+     * @param mixed $tableDescription
+     * @param Enterprise_Staging_Model_Staging $object
+     * @return string
+     */
     protected function _getCreateSql($model, $tableDescription, $object= null)
     {
         $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
@@ -241,6 +328,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $_sql;
     }
 
+    /**
+     * get sql fields list 
+     *
+     * @param mixed $field
+     * @param Enterprise_Staging_Model_Staging $object
+     * @return string
+     */    
     protected function _getFieldSql($field, $object= null)
     {
         $_fieldSql = "`{$field['name']}` {$field['type']} {$field['extra']}";
@@ -269,6 +363,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $_fieldSql;
     }
 
+    /**
+     * get sql keys list 
+     *
+     * @param mixed $key
+     * @param Enterprise_Staging_Model_Staging $object
+     * @return string
+     */       
     protected function _getKeySql($key, $object= null)
     {
         $_keySql = "";
@@ -296,6 +397,14 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $_keySql;
     }
 
+    /**
+     * get sql FOREIGN KEY list 
+     *
+     * @param mixed $key
+     * @param string $model 
+     * @param Enterprise_Staging_Model_Staging $object
+     * @return string
+     */    
     protected function _getConstraintSql($key, $model, $object= null)
     {
         $targetRefTable = $this->getStagingTableName($object, $model, $key['ref_table']);
@@ -330,6 +439,16 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $_keySql;
     }
 
+    /**
+     * Return Staging table name with all prefixes
+     *
+     * @param Enterprise_Staging_Model_Staging $object
+     * @param string $model
+     * @param string $table
+     * @param string $internalPrefix
+     * @param bool $ignoreIsStaging
+     * @return string
+     */
     public function getStagingTableName($object = null, $model, $table, $internalPrefix = '', $ignoreIsStaging = false)
     {
         if (!$ignoreIsStaging) {
@@ -595,6 +714,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         return $this;
     }
 
+    /**
+     * Check if item in staging
+     *
+     * @param string $model
+     * @param string $table
+     * @return bool
+     */
     public function isStagingItem($model, $table)
     {
         if (in_array($table, $this->_excludeList)) {

@@ -48,6 +48,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_General extends Mage_Adm
         $this->helper = Mage::helper('enterprise_staging');
     }
 
+    /**
+     * Prepare form
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();

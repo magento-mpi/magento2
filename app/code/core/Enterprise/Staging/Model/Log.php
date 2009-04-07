@@ -39,11 +39,23 @@ class Enterprise_Staging_Model_Log
 
     const LOG_CODE_SUCCESS  = 3;
 
+    /**
+     * add error log in collection
+     *
+     * @param string $action
+     * @param string $logMessage
+     * @param string $code
+     */
     static public function addLog($action, $logMessage, $code = 'error')
     {
         self::$_logs[$code][$action] = $logMessage;
     }
 
+    /**
+     * get all logs from collection
+     *
+     * @return string
+     */
     static public function getLogs()
     {
         $logs = array();
@@ -71,6 +83,12 @@ class Enterprise_Staging_Model_Log
         return $logs;
     }
 
+    /**
+     * build log report
+     *
+     * @param mixed $logs
+     * @return string
+     */
     static public function buildLogReport($logs)
     {
         if (!is_array($logs)) {

@@ -116,6 +116,13 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
         return 0;
     }
 
+    /**
+     * Update event attribute
+     *
+     * @param string $attribute
+     * @param any_type $value
+     * @return Mage_Core_Model_Abstract
+     */
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);

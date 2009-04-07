@@ -63,6 +63,10 @@ class Enterprise_Staging_Model_Observer
         }
     }
 
+    /**
+     * observer execute before frontend init
+     *
+     */
     public function beforeFrontendInit()
     {
         $website = Mage::app()->getWebsite();
@@ -100,6 +104,11 @@ class Enterprise_Staging_Model_Observer
         }
     }
 
+    /**
+     * check admin session, to apply staging website settings
+     *
+     * @param dataset $key
+     */
     protected function _checkAdminSession($key)
     {
         $coreSession = Mage::getSingleton('core/session');
@@ -113,6 +122,11 @@ class Enterprise_Staging_Model_Observer
         }
     }
 
+    /**
+     * check http auth on staging website loading
+     *
+     * @param dataset $key
+     */
     protected function _checkHttpAuth($key)
     {
         $coreSession = Mage::getSingleton('core/session');
@@ -140,6 +154,10 @@ class Enterprise_Staging_Model_Observer
         }
     }
 
+    /**
+     * automate/crontab processing, check and execute all scheduled actions
+     *
+     */
     public function automates()
     {
         try {
@@ -184,6 +202,12 @@ class Enterprise_Staging_Model_Observer
         }
     }
 
+    /**
+     * perform action on master store save
+     *
+     * @param Enterprise_Staging_Model_Observer $observer
+     * @return Enterprise_Staging_Model_Observer
+     */
     public function saveStore($observer)
     {
         try {
@@ -207,6 +231,12 @@ class Enterprise_Staging_Model_Observer
         return $this;
     }
 
+    /**
+     * perform action on master group save
+     *
+     * @param Enterprise_Staging_Model_Observer $observer
+     * @return Enterprise_Staging_Model_Observer
+     */
     public function saveStoreGroup($observer)
     {
         try {
@@ -230,6 +260,12 @@ class Enterprise_Staging_Model_Observer
         return $this;
     }
 
+    /**
+     * perform action on master website save
+     *
+     * @param Enterprise_Staging_Model_Observer $observer
+     * @return Enterprise_Staging_Model_Observer
+     */
     public function saveWebsite($observer)
     {
         try {
@@ -256,6 +292,57 @@ class Enterprise_Staging_Model_Observer
     }
 
     /**
+     * perform action on master website delete
+     *
+     * @param Enterprise_Staging_Model_Observer $observer
+     * @return Enterprise_Staging_Model_Observer
+     */    
+    public function deleteWebsite($observer)
+    {
+        try {
+            $website = $observer->getEvent()->getWebsite();
+            
+            $websiteId = $website->getId();
+
+            $_website = Mage::app()->getWebsite($websiteId);
+
+            if (!$_website || !$_website->getIsStaging()) {
+                return $this;
+            }
+
+            $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
+            
+            /* @var $stagingWebsite Enterprise_Staging_Model_Staging_Website */
+            $stagingWebsite->loadBySlaveWebsiteId($websiteId);
+            
+            
+            $stagingId = $stagingWebsite->getStagingId();
+            if (!empty($stagingId)) {
+                $staging    = Mage::getModel('enterprise_staging/staging');
+                $staging->load($stagingId);
+            
+                $backupCollection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')->setStagingFilter($stagingId);
+            
+                foreach ($backupCollection as $backup) {
+                    if ($backup->getId() > 0) {
+                        $backup->setStaging($staging);
+                        $backup->setIsDeleteTables(true);
+                        $backup->delete();
+                    }
+                }
+    
+                Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
+                $staging->delete();
+            }
+                
+        } catch (Exception $e) {
+
+        }
+
+        return $this;
+    }
+    
+    /**
      * Take down entire frontend if required
      *
      * @param Varien_Event_Observer $observer
@@ -264,14 +351,30 @@ class Enterprise_Staging_Model_Observer
     {
         $result = $observer->getResult();
         if ($result->getShouldProceed() && (bool)Mage::getStoreConfig('general/content_staging/block_frontend')) {
-//            Mage::app()->getWebsite()->getId();
+            
+            $currentSiteId = Mage::app()->getWebsite()->getId();
+
             // check whether frontend should be down
-            $eventProcessingSites = Mage::getResourceSingleton('enterprise_staging/staging_event')
-                ->getProcessingWebsites();
-   
-            if (count($eventcollection)>0) {
+            $isNeedToDisable = false;
+            
+            if ((int)Mage::getStoreConfig('general/content_staging/block_frontend')===1) {
+                $eventProcessingSites = Mage::getResourceSingleton('enterprise_staging/staging_event')
+                    ->getProcessingWebsites();
+                if (count($eventProcessingSites)>0){
+                    $isNeedToDisable = true;
+                }
+            }
+            
+            if ((int)Mage::getStoreConfig('general/content_staging/block_frontend')===2) {
+                 $isNeedToDisable = Mage::getResourceSingleton('enterprise_staging/staging_event')
+                    ->isWebsiteInProcessing($currentSiteId);
+            }
+            
+            if ($isNeedToDisable===true) {
                 // take the frontend down
+                
                 $controller = $observer->getController();
+                
                 if ($controller->getFullActionName() !== 'staging_index_stub') {
                     $controller->getRequest()
                         ->setModuleName('staging')

@@ -39,6 +39,9 @@ class Enterprise_Staging_Block_Manage_Staging_Event extends Mage_Adminhtml_Block
         $this->helper = Mage::helper('enterprise_staging');
     }
 
+    /**
+     * Prepare layout
+     */
     protected function _prepareLayout()
     {
         $this->setChild('back_button',

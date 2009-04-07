@@ -147,6 +147,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         return $backup;
     }
 
+    /**
+     * execute index action: load layout, render layout
+     *
+     */
     public function indexAction()
     {
         $this->loadLayout();
@@ -234,6 +238,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         );
     }
 
+    /**
+     * execute event action: init event, load layout, render layout
+     *
+     */
     public function eventAction()
     {
         $this->_initEvent();
@@ -271,6 +279,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         );
     }
 
+    /**
+     * execute validate methods
+     *
+     */
     public function validateAction()
     {
         $response = new Varien_Object();
@@ -509,6 +521,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
 
+    /**
+     * Staging delete action 
+     */
     public function deleteAction()
     {
         $id = $this->getRequest()->getParam('id');
@@ -537,6 +552,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->getResponse()->setRedirect($this->getUrl('*/*/'));
     }
 
+    /**
+     * Staging merge view action
+     *
+     */
     public function mergeAction()
     {
         $this->_initStaging();
@@ -548,6 +567,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->renderLayout();
     }
 
+    /**
+     * Staging process merge
+     *
+     */
     public function mergePostAction()
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
@@ -625,6 +648,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
     }
 
+    /**
+     * Staging backup view action
+     *
+     */
     public function backupAction()
     {
         $this->_initStaging();
@@ -636,6 +663,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->renderLayout();
     }
 
+    /**
+     * backup edit process
+     *
+     */
     public function backupEditAction()
     {
         $this->_initBackup();
@@ -663,7 +694,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * Remove backup
+     * Remove mass backups
      *
      */
     public function massBackupDeleteAction()
@@ -759,6 +790,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         );
     }
 
+    /**
+     * Rollback view action
+     * 
+     */
     public function rollbackAction()
     {
         $this->_initBackup();
@@ -770,6 +805,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->renderLayout();
     }
 
+    /**
+     * Process rollback Action
+     * 
+     */
     public function rollbackPostAction()
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
@@ -816,9 +855,4 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_redirect('*/*/');
         }
     }
-
-//    protected function _isAllowed()
-//    {
-//        return Mage::getSingleton('admin/session')->isAllowed('enterprise/staging');
-//    }
 }

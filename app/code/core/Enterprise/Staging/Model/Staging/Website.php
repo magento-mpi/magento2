@@ -191,9 +191,11 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         return Mage::helper('core')->decrypt($password);
     }
 
-
-
-
+    /**
+     * return item ids
+     *
+     * @return mixed
+     */
     public function getItemIds()
     {
         if ($this->hasData('item_ids')) {
@@ -263,8 +265,11 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
     }
 
 
-
-
+    /**
+     * get Master website object
+     *
+     * @return Mage_Core_Model_Website
+     */
     public function getMasterWebsite()
     {
     	$masterWebsiteId = $this->getMasterWebsiteId();
@@ -275,6 +280,11 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
     	}
     }
 
+    /**
+     * get slave website object collection
+     *
+     * @return Mage_Core_Model_Website
+     */
     public function getSlaveWebsite()
     {
         $slaveWebsiteId = $this->getSlaveWebsiteId();
@@ -305,6 +315,12 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         return $this->_stores;
     }
 
+    /**
+     * add store in store collection
+     *
+     * @param Enterprise_Staging_Model_Staging_Store $store
+     * @return Enterprise_Staging_Model_Staging_Website
+     */
     public function addStore(Enterprise_Staging_Model_Staging_Store $store)
     {
         $store->setStagingWebsite($this);
@@ -314,6 +330,11 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * get store ids 
+     *
+     * @return mixed
+     */
     public function getStoreIds()
     {
         if ($this->hasData('store_ids')) {
@@ -346,13 +367,25 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
         return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
 
+    /**
+     * init Enterprise_Staging_Model_Staging_Website object by slave website id
+     *
+     * @param int $id
+     * @return Enterprise_Staging_Model_Staging_Website
+     */
     public function loadBySlaveWebsiteId($id)
     {
         $this->getResource()->loadBySlaveWebsiteId($this, $id);
-
+        
         return $this;
     }
 
+    /**
+     * sync website
+     *
+     * @param Mage_Core_Model_Website $website
+     * @return Enterprise_Staging_Model_Staging_Website
+     */
     public function syncWithWebsite(Mage_Core_Model_Website $website)
     {
         $this->getResource()->syncWithWebsite($this, $website);

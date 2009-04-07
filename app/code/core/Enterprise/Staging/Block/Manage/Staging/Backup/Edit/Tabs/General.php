@@ -48,6 +48,11 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         $this->helper = Mage::helper('enterprise_staging');
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -98,6 +103,12 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         return parent::_prepareForm();
     }
 
+
+    /**
+     * get master website instance
+     *
+     * @return Mage_Core_Model_Website
+     */
     public function getMasterWebsite()
     {
 

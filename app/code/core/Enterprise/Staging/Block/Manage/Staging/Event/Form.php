@@ -38,6 +38,11 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
         $this->helper = Mage::helper('enterprise_staging');
     }
 
+    /**
+     * Prepare form
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -68,13 +73,6 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
             'value'     => $this->getEvent()->getCode()
         ));
 
-        /*$fieldset->addField('state', 'label', array(
-            'label'     => $this->helper->__('Staging Event State'),
-            'title'     => $this->helper->__('Staging Event State'),
-            'name'      => 'state',
-            'value'     => $this->getEvent()->getSateLabel()
-        ));*/
-
         $fieldset->addField('status', 'label', array(
             'label'     => $this->helper->__('Event Status'),
             'title'     => $this->helper->__('Event Status'),
@@ -104,14 +102,6 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
             'value'     => $this->getEvent()->getComment(),
             'readonly'  => true
         ));
-
-        /*$fieldset->addField('log', 'textarea', array(
-            'label'     => $this->helper->__('Log'),
-            'title'     => $this->helper->__('Log'),
-            'name'      => 'log',
-            'value'     => $this->getEvent()->getLog(),
-            'readonly'  => true
-        ));*/
 
         $fieldset->addField('merge_schedule_date', 'label', array(
             'label'     => $this->helper->__('Schedule Date'),

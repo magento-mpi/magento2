@@ -40,6 +40,10 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
      */
     protected $_config;
 
+    /**
+     * Constructor
+     *
+     */
     public function __construct()
     {
         $this->_read  = Mage::getSingleton('core/resource')->getConnection('staging_read');

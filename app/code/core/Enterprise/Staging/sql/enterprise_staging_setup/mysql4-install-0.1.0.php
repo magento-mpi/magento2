@@ -257,7 +257,7 @@ CREATE TABLE `{$installer->getTable('enterprise_staging/staging_website')}` (
   KEY `IDX_ENTERPRISE_STAGING_WEBSITE_SORT_ORDER` (`staging_id`,`sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Websites';
 ");
-$installer->getConnection()->addConstraint(
+/*$installer->getConnection()->addConstraint(
     'FK_ENTERPRISE_STAGING_WEBSITE_MASTER_WEBSITE_ID',
     $this->getTable('enterprise_staging/staging_website'),
     'master_website_id',
@@ -270,7 +270,7 @@ $installer->getConnection()->addConstraint(
     'slave_website_id',
     $installer->getTable('core/website'),
     'website_id'
-);
+);*/
 
 $installer->run("
 CREATE TABLE `{$installer->getTable('enterprise_staging/staging_store_group')}` (

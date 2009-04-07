@@ -471,6 +471,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 
     }
 
+    /**
+     * return website collection
+     *
+     * @return object
+     */
     public function getWebsiteCollection()
     {
         $collection = Mage::getModel('core/website')->getResourceCollection();
@@ -487,6 +492,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         return $collection->load();
     }
 
+    /**
+     * return store group collection
+     *
+     * @return object
+     */
     public function getGroupCollection($website)
     {
         if (!$website instanceof Mage_Core_Model_Website) {
@@ -495,6 +505,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         return $website->getGroupCollection();
     }
 
+    /**
+     * return store collection
+     *
+     * @return object
+     */
     public function getStoreCollection($group)
     {
         if (!$group instanceof Mage_Core_Model_Store_Group) {
@@ -507,6 +522,12 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         return $stores;
     }
 
+    /**
+     * return website name
+     *
+     * @param Enterprise_Staging_Model_Staging_Website $website
+     * @return string
+     */
     public function getWebsiteName($website)
     {
         $name = $website->getName() . '&nbsp;' . $website->getCode();

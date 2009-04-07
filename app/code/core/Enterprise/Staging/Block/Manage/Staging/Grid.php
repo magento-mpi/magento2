@@ -45,7 +45,6 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
     /**
      * PrepareCollection method.
      */
-
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_collection');
@@ -93,20 +92,6 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'type'      => 'datetime',
         ));
         
-//        $this->addColumn('state', array(
-//            'header'    => 'State',
-//            'index'     => 'state',
-//            'type'      => 'options',
-//            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
-//        ));
-//
-//        $this->addColumn('status', array(
-//            'header'    => 'Status',
-//            'index'     => 'status',
-//            'type'      => 'options',
-//            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('status')
-//        ));
-
         $actions = array();
         $actions[] = array(
             'caption' => Mage::helper('enterprise_staging')->__('Edit'),
@@ -140,6 +125,9 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
+    /**
+     * Return Row Url
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array(

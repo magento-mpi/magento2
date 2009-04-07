@@ -50,6 +50,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Schedule extends Mage_Ad
         $this->helper = Mage::helper('enterprise_staging');
     }
 
+    /**
+     * return html content
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);

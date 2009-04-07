@@ -26,34 +26,150 @@
 
 class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging_Model_Staging_Mapper_Abstract
 {
+    /**
+     * Slave to master stores mapping
+     *
+     * @var array
+     */
     protected $_slaveStoresToMasterStores               = array();
+    
+    /**
+     * slave to master store group mapping
+     *
+     * @var array
+     */
     protected $_slaveStoreGroupsToMasterStoreGroups     = array();
+    
+    /**
+     * slave to master website mapping
+     *
+     * @var array
+     */
     protected $_slaveWebsitesToMasterWebsites           = array();
 
+    /**
+     * staging to master store mapping
+     *
+     * @var array
+     */
     protected $_stagingStoresToMasterStores             = array();
+    
+    /**
+     * staging to master store group mapping
+     *
+     * @var array
+     */
     protected $_stagingStoreGroupsToMasterStoreGroups   = array();
+    
+    /**
+     * staging to master website mapping
+     *
+     * @var array
+     */
     protected $_stagingWebsitesToMasterWebsites         = array();
 
+    /**
+     * master to slave store mapping
+     *
+     * @var array
+     */
     protected $_masterStoresToSlaveStores               = array();
+    
+    /**
+     * master to slave store group mapping
+     *
+     * @var array
+     */
     protected $_masterStoreGroupsToSlaveStoreGroups     = array();
+    
+    /**
+     * master to slave website mapping
+     *
+     * @var array
+     */
     protected $_masterWebsitesToSlaveWebsites           = array();
 
+    /**
+     * master to staging store mapping
+     *
+     * @var array
+     */
     protected $_masterStoresToStagingStores             = array();
+    
+    /**
+     * master store groupe to staging sotre group mapping
+     *
+     * @var array
+     */
     protected $_masterStoreGroupsToStagingStoreGroups   = array();
+    
+    /**
+     * master website to staging website mapping
+     *
+     * @var array
+     */
     protected $_masterWebsitesToStagingWebsites         = array();
 
+    /**
+     * array website tables
+     *
+     * @var array
+     */
     protected $_websiteTable                            = array();
+    
+    /**
+     *  array store group tables
+     *
+     * @var array
+     */
     protected $_storeGroupTable                         = array();
+    
+    /**
+     * array store group tables
+     *
+     * @var array
+     */
     protected $_storeTable                              = array();
 
+    /**
+     * staging website tables
+     *
+     * @var array
+     */
     protected $_stagingWebsiteTable                     = array();
+    
+    /**
+     * staging store group tables
+     *
+     * @var array
+     */
     protected $_stagingStoreGroupTable                  = array();
+    
+    /**
+     * staging store tables
+     *
+     * @var array
+     */
     protected $_stagingStoreTable                       = array();
 
+    /**
+     * user items list
+     *
+     * @var array
+     */
     protected $_usedItems                               = array();
 
+    /**
+     * used create items list
+     *
+     * @var array
+     */
     protected $_usedCreateItems                         = array();
 
+    /**
+     * constructor
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -68,6 +184,11 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
     }
 
 
+    /**
+     * set mapper data
+     *
+     * @param array $mapData
+     */
     public function setCreateMapData($mapData)
     {
         $websitesMap    = !empty($mapData['websites']) ? $mapData['websites'] : array();
@@ -106,6 +227,13 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
+    /**
+     * get Store used items list
+     *
+     * @param int $websiteId
+     * @param int $storeId
+     * @return array
+     */
     public function getStoreUsedCreateItems($websiteId, $storeId = null)
     {
         if (!isset($this->_usedCreateItems[$websiteId]['stores'])) {
@@ -123,6 +251,12 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
+    /**
+     * get website user list
+     *
+     * @param int $websiteId
+     * @return array
+     */
     public function getWebsiteUsedCreateItems($websiteId = null)
     {
         if (is_null($websiteId)) {
@@ -136,6 +270,11 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
+    /**
+     * set Mapper data
+     *
+     * @param array $mapData
+     */
     public function setMapData($mapData)
     {
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
@@ -184,6 +323,15 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
+    /**
+     * setialize main map data
+     *
+     * @param array $attributes
+     * @param string $valueSeparator
+     * @param string $fieldSeparator
+     * @param string $quote
+     * @return string
+     */
     public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
     {
         $resArray["_usedItems"] = $this->_usedItems;
@@ -192,6 +340,11 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         return serialize($resArray);
     }
 
+    /**
+     * unserialize map array and init mapper
+     *
+     * @param string $serializedData
+     */
     public function unserialize($serializedData)
     {
         $unserializedArray = unserialize($serializedData);
@@ -212,31 +365,66 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
     }
 
+    /**
+     * return user website array
+     *
+     * @param int $id
+     * @return array
+     */
     public function getUsedWebsites($id)
     {
         return isset($this->_slaveWebsitesToMasterWebsites[$id]) ? $this->_slaveWebsitesToMasterWebsites[$id] : array();
     }
 
+    /**
+     * get all used websites
+     *
+     * @return array
+     */
     public function getAllUsedWebsites()
     {
         return isset($this->_slaveWebsitesToMasterWebsites) ? $this->_slaveWebsitesToMasterWebsites : array();
     }
 
+    /**
+     * get all slave used websites
+     *
+     * @param int $masterWebsiteId
+     * @return array
+     */
     public function getSlaveToMasterWebsiteIds($masterWebsiteId)
     {
         return isset($this->_masterWebsitesToSlaveWebsites[$masterWebsiteId]['slave_website']) ? $this->_masterWebsitesToSlaveWebsites[$masterWebsiteId]['slave_website'] : array();
     }
 
+    /**
+     * get all slave used stores
+     *
+     * @param int $slaveWebsiteId
+     * @return array
+     */
     public function getSlaveToMasterStoreIds($slaveWebsiteId)
     {
         return isset($this->_slaveWebsitesToMasterWebsites[$slaveWebsiteId]['stores']) ? $this->_slaveWebsitesToMasterWebsites[$slaveWebsiteId]['stores'] : array();
     }
 
+    /**
+     * return all used in mapping items
+     *
+     * @return array
+     */
     public function getUsedItems()
     {
         return $this->_usedItems;
     }
 
+    /**
+     * return slave stores by master id
+     *
+     * @param int $website
+     * @param int $storeId
+     * @return int
+     */
     public function getSlaveStoreIdByMasterStoreId($website, $storeId)
     {
         $this->map($website);

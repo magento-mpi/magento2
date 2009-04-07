@@ -31,8 +31,25 @@
  */
 class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Block_Widget
 {
+    /**
+     * Rollback settings block list
+     *
+     * @var array
+     */
 	private $_rollbackSettingsBlock = array();
+	
+	/**
+	 * rollback setting block template
+	 *
+	 * @var string
+	 */
     private $_rollbackSettingsBlockDefaultTemplate = 'enterprise/staging/rollback/settings.phtml';
+    
+    /**
+     * rollback setting block types
+     *
+     * @var array
+     */
     private $_rollbackSettingsBlockTypes = array();
 
     /**
@@ -58,6 +75,12 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
         return $this->getEvent()->getStaging();
     }
 
+    /**
+     * get rollback setting blocks
+     *
+     * @param string $stagingType
+     * @return array
+     */
     protected function _getRollbackSettingsBlock($stagingType)
     {
         if (!isset($this->_rollbackSettingsBlock[$stagingType])) {
@@ -71,7 +94,13 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
         }
         return $this->_rollbackSettingsBlock[$stagingType];
     }
-
+    
+    /**
+     * get rollback settings block types
+     *
+     * @param string $stagingType
+     * @return array
+     */
     protected function _getRollbackSettingsBlockTemplate($stagingType)
     {
         if (isset($this->_rollbackSettingsBlockTypes[$stagingType])) {
@@ -100,6 +129,11 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
             ->toHtml();
     }
 
+    /**
+     * get rollbacl content as html
+     *
+     * @return unknown
+     */
     protected function _toHtml()
     {
     	return $this->getRollbackSettingsHtml();

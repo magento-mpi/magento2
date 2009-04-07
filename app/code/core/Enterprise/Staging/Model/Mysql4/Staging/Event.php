@@ -69,11 +69,18 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         return $this;
     }
     
+    /**
+     * Return margeMap for processing websites
+     *
+     * @return array
+     */
     public function getProcessingWebsites()
     {
         $coreResource = Mage::getSingleton('core/resource');
         $connection = $coreResource->getConnection('core_read');
-        $select = $connection->select()->from($coreResource->getTableName('enterprise_staging/staging_event'), array('merge_map'));
+        $select = $connection->select()->from($coreResource->getTableName('enterprise_staging/staging_event'), array('merge_map'))
+            ->where("status='processing'");
+
         $result = $connection->fetchAll($select);
 
         if (is_array($result) && count($result)>0) {
@@ -81,5 +88,31 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         } else {
             return array();
         }
+    }
+    
+    /**
+     * get bool result if website in processing now 
+     *
+     * @param int website
+     * @return bool
+     */
+    public function isWebsiteInProcessing($currentWebsiteId)
+    {
+        if (empty($currentWebsiteId)) {
+            return false;
+        }
+        $eventProcessingSites = self::getProcessingWebsites();
+        foreach($eventProcessingSites AS $margeMap){
+            $margeMap = unserialize($margeMap['merge_map']);
+            if (!empty($margeMap['_slaveWebsitesToMasterWebsites'])){
+                foreach ($margeMap['_slaveWebsitesToMasterWebsites'] AS $masterId => $slaveMap){
+                    $websiteIds = array_merge(array_keys($slaveMap['master_website']), array_values($slaveMap['master_website']));
+                    if (in_array($currentWebsiteId, $websiteIds)) {
+                        return true;                                                                
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

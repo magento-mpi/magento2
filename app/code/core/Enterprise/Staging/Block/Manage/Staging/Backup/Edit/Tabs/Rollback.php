@@ -171,7 +171,8 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
     public function getGridUrl()
     {
         return $this->getUrl('*/*/rollbackGrid', array('_current'=>true));
-    }   
+    }
+       
     /**
      * Return url for row events (onclick, etc)
      */

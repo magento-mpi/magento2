@@ -31,8 +31,25 @@
  */
 class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block_Widget
 {
+    /**
+     * merge settinggs blocks
+     *
+     * @var array
+     */
 	private $_mergeSettingsBlock = array();
+	
+	/**
+	 * merge settings template
+	 *
+	 * @var string
+	 */
     private $_mergeSettingsBlockDefaultTemplate = 'enterprise/staging/merge/settings.phtml';
+    
+    /**
+     * merge settings block types
+     *
+     * @var array
+     */
     private $_mergeSettingsBlockTypes = array();
 
     public function __construct()
@@ -55,6 +72,12 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
         return $this->getData('staging');
     }
 
+    /**
+     * get merge setting bclocks
+     *
+     * @param string $stagingType
+     * @return array
+     */
     protected function _getMergeSettingsBlock($stagingType)
     {
         if (!isset($this->_mergeSettingsBlock[$stagingType])) {
@@ -69,6 +92,12 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
         return $this->_mergeSettingsBlock[$stagingType];
     }
 
+    /**
+     * get merge settinh block template
+     *
+     * @param string $stagingType
+     * @return array
+     */
     protected function _getMergeSettingsBlockTemplate($stagingType)
     {
         if (isset($this->_mergeSettingsBlockTypes[$stagingType])) {
@@ -100,6 +129,11 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
             ->toHtml();
     }
 
+    /**
+     * return html structure of merge 
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
     	return $this->getMergeSettingsHtml();

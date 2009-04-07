@@ -272,6 +272,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->_getResource()->getIdByCode($code);
     }
 
+    /**
+     * get item ids
+     *
+     * @return mixed
+     */
     public function getItemIds()
     {
         if ($this->hasData('item_ids')) {
@@ -290,6 +295,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->getData('item_ids');
     }
 
+    /**
+     * add item in item collection
+     *
+     * @param Enterprise_Staging_Model_Staging_Item $item
+     * @return Enterprise_Staging_Model_Staging
+     */
     public function addItem(Enterprise_Staging_Model_Staging_Item $item)
     {
         $item->setStaging($this);
@@ -322,6 +333,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
 
 
+    /**
+     * get master website ids
+     *
+     * @return mixed
+     */
     public function getMasterWebsiteIds()
     {
     	if ($this->hasData('master_website_ids')) {
@@ -341,6 +357,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->getData('master_website_ids');
     }
 
+    /**
+     * get website ids
+     *
+     * @return mixed
+     */
     public function getWebsiteIds()
     {
         if ($this->hasData('website_ids')) {
@@ -360,6 +381,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->getData('website_ids');
     }
 
+    /**
+     * add website instance in website collection
+     *
+     * @param Enterprise_Staging_Model_Staging_Website $website
+     * @return Enterprise_Staging_Model_Staging
+     */
     public function addWebsite(Enterprise_Staging_Model_Staging_Website $website)
     {
         $website->setStaging($this);
@@ -390,6 +417,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->_websites;
     }
 
+    /**
+     * get items collection
+     *
+     * @param bool $ignoreBackendFlag
+     * @return item collection
+     */
     public function getDatasetItemsCollection($ignoreBackendFlag = null)
     {
         if (is_null($this->_datasetItems)) {
@@ -416,6 +449,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $ids;
     }
 
+    /**
+     * create staging
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
     public function create()
     {
         $this->getAdapterInstance(true)->create($this);
@@ -423,6 +461,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Merge Staging
+     *
+     * @return Enterprise_Staging_Model_Staging  
+     */
     public function merge()
     {
         $this->getAdapterInstance(true)->merge($this);
@@ -430,6 +473,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Backup Staging
+     *
+     * @return Enterprise_Staging_Model_Staging  
+     */
     public function backup()
     {
         $this->getAdapterInstance(true)->backup($this);
@@ -437,6 +485,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Rollback Staging
+     *
+     * @return Enterprise_Staging_Model_Staging  
+     */    
     public function rollback()
     {
         $this->getAdapterInstance(true)->rollback($this);
@@ -444,6 +497,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Check staging state, new or created
+     *
+     * @return Enterprise_Staging_Model_Staging  
+     */    
     protected function _checkState()
     {
         if (!$this->getId()) {
@@ -618,16 +676,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function getApplyDate()
-    {
-        return $this->_getData('apply_date');
-    }
-
-    public function getRollbackDate()
-    {
-        return $this->_getData('rollback_date');
-    }
-
     /**
      * Check is staging configurable
      *
@@ -638,6 +686,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->getType() == Enterprise_Staging_Model_Staging_Type::TYPE_CONFIGURABLE;
     }
 
+    /**
+     * get visibility on front
+     *
+     * @return bool
+     */
     public function getVisibleOnFront()
     {
         return Enterprise_Staging_Model_Config::checkCurrentVisibility($this);
@@ -668,6 +721,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->_typeInstance;
     }
 
+    /**
+     * get Mapper instance
+     *
+     * @param bool $singleton
+     * @return Enterprise_Staging_Model_Mapper
+     */
     public function getMapperInstance($singleton = true)
     {
         if ($singleton === true) {
@@ -704,6 +763,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return $this->_adapterInstance;
     }
 
+    /**
+     * check if we can save
+     *
+     * @return bool
+     */
     public function canSave()
     {
         if (!$this->getId()) {
@@ -712,6 +776,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return true;
     }
 
+    /**
+     * check if we can delete
+     *
+     * @return bool
+     */    
     public function canDelete()
     {
         if (!$this->getId()) {
@@ -724,6 +793,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return true;
     }
 
+    /**
+     * check if we can merge
+     *
+     * @return bool
+     */    
     public function canMerge()
     {
         if (!$this->getId()) {
@@ -736,6 +810,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return true;
     }
 
+    /**
+     * check if we can do rollback
+     *
+     * @return bool
+     */    
     public function canRollback()
     {
         if (!$this->getId()) {
@@ -747,11 +826,23 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         return false;
     }
 
+    /**
+     * Update staging attribute
+     *
+     * @param string $attribute
+     * @param any_type $value
+     * @return Enterprice_Staging_Model_Staging
+     */
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
 
+    /**
+     * save event in event history list
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
     public function saveEventHistory()
     {
         $this->getResource()->saveEvents($this);

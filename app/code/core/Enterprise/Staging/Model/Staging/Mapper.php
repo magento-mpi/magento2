@@ -45,8 +45,25 @@ class Enterprise_Staging_Model_Staging_Mapper
     const DEFAULT_TYPE_MODEL    = 'catalog/product_type_simple';
     const DEFAULT_PRICE_MODEL   = 'catalog/product_type_price';
 
+    /**
+     * product type array
+     *
+     * @var mixed
+     */
     static protected $_types;
+    
+    /**
+     * composite product type array
+     *
+     * @var mixed
+     */
     static protected $_compositeTypes;
+    
+    /**
+     * Price model collection
+     *
+     * @var collection
+     */
     static protected $_priceModels;
 
     /**
@@ -101,6 +118,11 @@ class Enterprise_Staging_Model_Staging_Mapper
         return self::$_priceModels[$productType];
     }
 
+    /**
+     * return type as option array
+     *
+     * @return mixed
+     */
     static public function getOptionArray()
     {
         $options = array();
@@ -111,6 +133,11 @@ class Enterprise_Staging_Model_Staging_Mapper
         return $options;
     }
 
+    /**
+     * get product type as option array with empty first element
+     *
+     * @return mixed
+     */
     static public function getAllOption()
     {
         $options = self::getOptionArray();
@@ -118,6 +145,12 @@ class Enterprise_Staging_Model_Staging_Mapper
         return $options;
     }
 
+    /**
+     * get product type as array with option attributes: value, label
+     * first element is empty
+     *
+     * @return mixed
+     */
     static public function getAllOptions()
     {
         $res = array();
@@ -131,6 +164,11 @@ class Enterprise_Staging_Model_Staging_Mapper
         return $res;
     }
 
+    /**
+     * get product type as array with option attributes: value, label
+     *
+     * @return mixed
+     */
     static public function getOptions()
     {
         $res = array();
@@ -143,12 +181,23 @@ class Enterprise_Staging_Model_Staging_Mapper
         return $res;
     }
 
+    /**
+     * get product type element as text
+     *
+     * @param int $optionId
+     * @return string
+     */
     static public function getOptionText($optionId)
     {
         $options = self::getOptionArray();
         return isset($options[$optionId]) ? $options[$optionId] : null;
     }
 
+    /**
+     * get product type, if it is not set
+     *
+     * @return mixed
+     */
     static public function getTypes()
     {
         if (is_null(self::$_types)) {

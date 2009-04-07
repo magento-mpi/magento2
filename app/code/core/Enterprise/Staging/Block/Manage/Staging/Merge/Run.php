@@ -38,6 +38,10 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         return Mage::registry('current_convert_profile');
     }
 
+    /**
+     * To html content
+     *
+     */
     protected function _toHtml()
     {
         $profile = $this->getProfile();

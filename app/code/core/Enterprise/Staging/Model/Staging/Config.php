@@ -188,6 +188,12 @@ class Enterprise_Staging_Model_Staging_Config
         return self::factory('state', $staging, $singleton);
     }
 
+    /**
+     * get Config node as mixed option array
+     *
+     * @param string $nodeName
+     * @return mixed
+     */
     static public function getOptionArray($nodeName='type')
     {
         $options = array();
@@ -199,6 +205,12 @@ class Enterprise_Staging_Model_Staging_Config
         return $options;
     }
 
+    /**
+     * get Config node as mixed option array with empty first element
+     *
+     * @param string $nodeName
+     * @return mixed
+     */
     static public function getAllOption($nodeName='type')
     {
         $options = self::getOptionArray($nodeName);
@@ -206,6 +218,13 @@ class Enterprise_Staging_Model_Staging_Config
         return $options;
     }
 
+    /**
+     * get Config node as mixed option array, with selected structure: value, label  
+     * with empty first element
+     *
+     * @param string $nodeName
+     * @return mixed
+     */    
     static public function getAllOptions($nodeName='type')
     {
         $res = array();
@@ -219,6 +238,12 @@ class Enterprise_Staging_Model_Staging_Config
         return $res;
     }
 
+    /**
+     * get Config node as mixed option array, with selected structure: value, label  
+     *
+     * @param string $nodeName
+     * @return mixed
+     */      
     static public function getOptions($nodeName='type')
     {
         $res = array();
@@ -231,12 +256,24 @@ class Enterprise_Staging_Model_Staging_Config
         return $res;
     }
 
+    /**
+     * get Config node as text by option id  
+     *
+     * @param int $optionId 
+     * @param string $nodeName
+     * @return text
+     */      
     static public function getOptionText($optionId, $nodeName)
     {
         $options = self::getOptionArray($nodeName);
         return isset($options[$optionId]) ? $options[$optionId] : null;
     }
 
+    /**
+     * create staging item as simpleXml
+     *
+     * @return simpleXml 
+     */
     static public function getStagingItems()
     {
         $stagingItems = self::getConfig('staging_items');
@@ -252,6 +289,12 @@ class Enterprise_Staging_Model_Staging_Config
         return $stagingItems;
     }
 
+    /**
+     * get staging item
+     *
+     * @param string $itemCode
+     * @return string
+     */
     static public function getStagingItem($itemCode)
     {
         $stagingItems = self::getStagingItems();
@@ -263,6 +306,11 @@ class Enterprise_Staging_Model_Staging_Config
         }
     }
 
+    /**
+     * get used storage method
+     *
+     * @return string
+     */
     static public function getUsedStorageMethod()
     {
         return (string) self::getConfig('use_storage_method');

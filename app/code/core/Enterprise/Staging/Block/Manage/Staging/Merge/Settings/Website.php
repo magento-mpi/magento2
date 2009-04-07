@@ -42,17 +42,13 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
         $this->setIsReadyForMerge(true);
     }
 
+    /**
+     * prepare layout
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareLayout()
     {
-/*        $this->setChild('merge_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'   => Mage::helper('enterprise_staging')->__('Merge'),
-                    'onclick' => $this->getJsObjectName().'.stagingMergeConfig()',
-                    'class'   => 'task'
-                ))
-        );*/
-
         $this->setChild('items',
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
@@ -81,11 +77,19 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
         return $this->getData('staging');
     }
 
+    /**
+     * Return save url
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/mergePost', array('_current'=>true, 'back'=>null));
     }
 
+    /**
+     * return website collection
+     *
+     * @return Varien_Object
+     */
     public function getWebsiteCollection()
     {
         $collection = Mage::getModel('core/website')->getResourceCollection();
@@ -97,12 +101,21 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
         return $collection->load();
     }
 
-
+    /**
+     * return stores collection
+     *
+     * @return Varien_Object
+     */
     public function getAllStoresCollection()
     {
         return Mage::app()->getStores();
     }
 
+    /**
+     * return store Json
+     *
+     * @return string (Json)
+     */
     public function getAllStoresJson()
     {
         $stores = array();
@@ -116,6 +129,9 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
         }
     }
 
+    /**
+     * Return Main buttons html
+     */
     public function getMainButtonsHtml()
     {
         $html = '';
