@@ -28,7 +28,7 @@
 <dt><label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?><?php echo  $this->htmlEscape($_option->getTitle()) ?></label>
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
-<input type="file" id="option_<?php echo $_option->getId() ?>_file"  name="options_<?php echo $_option->getId() ?>_file" />
+<span class="input-box"><input type="file" id="option_<?php echo $_option->getId() ?>_file"  name="options_<?php echo $_option->getId() ?>_file" /></span>
 <?php if ($_option->getFileExtension()): ?>
 <p class="no-margin"><?php echo Mage::helper('catalog')->__('Allowed file extensions to upload')?>: <strong><?php echo $_option->getFileExtension() ?></strong></p>
 <?php endif; ?>

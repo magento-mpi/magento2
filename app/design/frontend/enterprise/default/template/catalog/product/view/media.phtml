@@ -42,7 +42,7 @@
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
     <?php list($_imgWidth, $_imgHeight) = getimagesize($this->helper('catalog/image')->init($_product, 'image')); ?>
 
-        <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 286 && $_imgHeight < 286): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
+        <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 380 && $_imgHeight < 380): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
         <?php if(!$_product->isSaleable()): ?><span class="sold-out">&nbsp;</span><?php endif; ?>
             <?php
                 $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(370).'" height="370" width="370" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
@@ -63,8 +63,9 @@
             });
         //]]>
         </script>
-        
-
+        <?php if ($_imgWidth > 380 && $_imgHeight > 380):?>
+        <p class="notice">Move mouse over the above image to activate zoom</p>
+        <?php endif; ?>
     <?php else: ?>
         <p class="product-image">
             <?php if(!$_product->isSaleable()): ?><span class="sold-out">&nbsp;</span><?php endif; ?>

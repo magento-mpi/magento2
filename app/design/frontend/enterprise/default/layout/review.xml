@@ -68,9 +68,11 @@ Product reviews page
 
     <review_product_list>
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery-1.3.1.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery.jqzoom1.0.1.js</name></action>        
             <action method="addJs"><script>varien/product.js</script></action>
         </reference>
         <reference name="content">
@@ -93,7 +95,7 @@ Product reviews page
 
     <review_product_view>
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="review/view" name="review_view"/>

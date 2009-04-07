@@ -71,9 +71,6 @@
                                 <?php echo $this->getChildHtml('addtocart') ?>
                             <?php endif; ?>
                             <?php echo $this->getChildHtml('addto') ?>
-                            <?php if ($this->canEmailToFriend()): ?>
-                                <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
-                            <?php endif; ?>
                         </div>
                     <?php else:?>
                     
@@ -84,9 +81,6 @@
                         <?php endif;?>                
                     
                         <?php echo $this->getChildHtml('addto') ?>
-                        <?php if ($this->canEmailToFriend()): ?>
-                            <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a>
-                        <?php endif; ?>
                     <?php endif; ?>
 
 
@@ -103,12 +97,6 @@
         </div>
         <div class="product-collateral">
             <dl id="collateral-tabs" class="collateral-tabs">
-            <?php if ($this->getChildHtml('relatedProducts')): ?>
-                <dt class="tab"><span><?php echo $this->__('Related Products') ?></span></dt>
-                <dd class="tab-container">
-                    <div class="tab-content"><?php echo $this->getChildHtml('relatedProducts') ?></div>
-                </dd>
-            <?php endif;?>
             <?php if ($_description = $this->getChildHtml('description')):?>
                 <dt class="tab"><span><?php echo $this->__('Details') ?></span></dt>
                 <dd class="tab-container">
@@ -129,6 +117,9 @@
             <?php endif;?>
             </dl>
             <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
+            <?php if ($this->canEmailToFriend()): ?>
+                <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+            <?php endif; ?>            
         </div>
         <div class="clearer"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
@@ -136,6 +127,9 @@
                 <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
             </div>
         <?php endif;?>        
+        <div class="no-display">
+            <?php echo $this->getChildHtml('relatedProducts') ?>  
+        </div>
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>        
     </div>

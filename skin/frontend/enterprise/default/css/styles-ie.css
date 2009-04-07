@@ -49,7 +49,7 @@
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
 button.button span { position:relative; }
-button.button { height:21px; _overflow-y:hidden; }
+button.button { height:21px; _overflow-y:hidden; position:relative; }
 button.btn-cart { height:27px; background-position:0 0; }
 button.btn-cart span { background-position:100% 0; }
 .multiple-checkout .buttons-set .button,
@@ -63,6 +63,8 @@ button.btn-cart span { background-position:100% 0; }
 /* jQzoom */
 .preload { width:100px; height:55px; }
 
+.options-container-small  dt { margin-top:1px; }
+
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
@@ -72,6 +74,8 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
+.product-options dd .input-box,
+.options-container-small .product-options,
 .product-view .product-shop .product-main-info,
 .product-view,
 .col-main .page-title,
