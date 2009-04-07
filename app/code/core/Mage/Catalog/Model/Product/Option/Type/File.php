@@ -106,7 +106,11 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
         } catch (Exception $e) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__("Files upload failed"));
+            Mage::throwException(
+                Mage::helper('catalog')->__("The file you uploaded is larger than %s Megabytes allowed by server",
+                    $this->_getUploadMaxFilesize()
+                )
+            );
         }
 
         /**
@@ -115,10 +119,10 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
         // Image dimensions
         $_dimentions = array();
-        if ($option->getImageSizeX() > 0) {
+        if ($option->getImageSizeX() > 0 && $this->_isImage($fileInfo)) {
             $_dimentions['maxwidth'] = $option->getImageSizeX();
         }
-        if ($option->getImageSizeY() > 0) {
+        if ($option->getImageSizeY() > 0 && $this->_isImage($fileInfo)) {
             $_dimentions['maxheight'] = $option->getImageSizeY();
         }
         if (count($_dimentions) > 0) {
@@ -492,5 +496,62 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             return $matches[0];
         }
         return null;
+    }
+
+    /**
+     * Simple check if file is image
+     *
+     * @param array $fileInfo File data from Zend_File_Transfer
+     * @return boolean
+     */
+    protected function _isImage($fileInfo)
+    {
+        try {
+
+            return strstr($fileInfo['type'], 'image/');
+
+            // We can use Zend Validator, but the lack of mime types
+            // $validator = new Zend_Validate_File_IsImage();
+            // return $validator->isValid($fileInfo['tmp_name'], $fileInfo);
+
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Max upload filesize
+     *
+     * @return int Maximum allowed file size in Mbytes
+     */
+    protected function _getUploadMaxFilesize()
+    {
+        return min($this->_getMbytesIniValue('upload_max_filesize'), $this->_getMbytesIniValue('post_max_size'));
+    }
+
+    /**
+     * Return php.ini setting value in Mbytes
+     *
+     * @param string $ini_key php.ini Var name
+     * @return int Setting value
+     */
+    protected function _getMbytesIniValue($ini_key)
+    {
+        $_Mbytes = @ini_get($ini_key);
+
+        // kilobytes
+        if (stristr($_Mbytes, 'k')) {
+            $_Mbytes = round(intval($_Mbytes) / 1024);
+        // megabytes
+        } elseif (stristr($_Mbytes, 'm')) {
+            $_Mbytes = intval($_Mbytes);
+        // gigabytes
+        } elseif (stristr($_Mbytes, 'g')) {
+            $_Mbytes = round(intval($_Mbytes) * 1024);
+        // bytes
+        } else {
+            $_Mbytes = round(intval($_Mbytes) / (1024 * 1024));
+        }
+        return $_Mbytes;
     }
 }
