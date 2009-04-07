@@ -32,10 +32,12 @@
  */
 ?>
 <?php //if(count($this->getStoreCategories())>1): ?>
+<div class="nav-container">
     <ul id="nav">
     <?php foreach ($this->getStoreCategories() as $_category): ?>
         <?php echo $this->drawItem($_category) ?>
-    <?php endforeach ?>
+    <?php endforeach ?>   
     </ul>
+</div>
     <script type="text/javascript">decorateGeneric($('nav').select('li.level0'),['first','last']);</script>
 <?php //endif; ?>
