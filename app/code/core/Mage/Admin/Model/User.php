@@ -108,6 +108,21 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Save admin user extra data (like configuration sections state)
+     *
+     * @param   array $data
+     * @return  Mage_Admin_Model_User
+     */
+    public function saveExtra($data)
+    {
+        if (is_array($data)) {
+            $data = serialize($data);
+        }
+        $this->_getResource()->saveExtra($this, $data);
+        return $this;
+    }
+
+    /**
      * Delete user
      *
      * @return Mage_Admin_Model_User
