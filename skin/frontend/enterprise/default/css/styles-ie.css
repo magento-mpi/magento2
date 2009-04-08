@@ -31,6 +31,7 @@
 .products-grid .actions { _height:70px; }
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
+.cart .crosssell { _height:400px; }
 #nav li a { _margin-bottom:-1px; }
 #nav li.active,
 #nav li.over a { _margin-bottom:-3px; }
@@ -59,10 +60,12 @@ button.button { height:21px; _overflow-y:hidden; position:relative; }
 button.btn-cart { height:27px; background-position:0 0; }
 .cart .checkout-types .btn-proceed-checkout span,
 button.btn-cart span { background-position:100% 0; }
-.multiple-checkout .buttons-set .button,
+
+/* Checkout buttons */
+/* .multiple-checkout .buttons-set .button,
 .opc button.button { height:30px; background-position:0 0; }
 .multiple-checkout .buttons-set .button span,
-.opc button.button span { background-position:100% 0; }
+.opc button.button span { background-position:100% 0; } */
 
 .header-panel .form-search,
 .footer-panel { padding-top:3px; }

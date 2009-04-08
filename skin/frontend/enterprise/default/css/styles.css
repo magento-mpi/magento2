@@ -316,7 +316,7 @@ tr.tax-total td {}
 tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
 tr.show-details .tax-collapse { background-position:0 -53px; }
 tr.show-details td {}
-tr.tax-details td { background-color:#f6f6f6; }
+tr.tax-details td { background-color:#ede9e6; font-size:12px; padding:5px!important; }
 tr.tax-details-first td {}
 
 /* Shopping cart tax info */
@@ -1091,6 +1091,9 @@ button.btn-cart  span { }
 .giftcard-amount-form .form-list  .input-text { width:55px; }
 .giftcard-amount-form .form-list select { width:150px; }
 .giftcard-amount-form .form-list .input-box { padding-right:20px; margin-right:9px; }
+.giftcard-amount-form .form-list .input-box .v-fix { white-space:nowrap; }
+.giftcard-amount-form .form-list .input-box p.notice { float:left; padding:0; clear:left; width:55px; margin:5px -100px 0 0; white-space:nowrap; font-size:11px; position:relative; z-index:1; }
+.giftcard-amount-form .form-list .input-box p.notice span { margin-right:5px; display:block; }
 .giftcard-send-form   { background:#fff; z-index:2; position:relative; border-top:1px solid #ddd; padding:30px 30px 10px; margin:0 -30px -30px; }
 .giftcard-send-form  label { width:120px; text-align:left; padding-right:5px; padding-bottom:5px; }
 .giftcard-send-form  .field label { padding-bottom:0px;}
@@ -1247,11 +1250,10 @@ button.btn-cart  span { }
 .cart .deals { float:left; width:280px; display:inline; margin:0 0px 0 30px; font-size:12px; }
 .cart .deals p,
 .cart .deals label { margin:0 0 7px; display:block;}
-.cart .deals .input-text { width:140px; margin:1px 5px 0 0; }
+.cart .deals .input-text { width:140px; margin:1px 5px 0 0; float:left; }
+.cart .giftcard,
 .cart .discount { margin:0 0 20px 0; }
-.cart .giftcard { margin:0 0 20px 0; }
-.cart .giftcard .input-text,
-.cart .discount .input-text { float:left; }
+.cart .cancel-btn { margin:5px 30px 0 0; clear:left; }
 .cart .shipping { float:left; margin:0 0 0 30px; display:inline; font-size:12px; width:280px; }
 .cart .shipping p { margin:0 0 15px; }
 .cart .shipping .buttons-set { width:256px; }
@@ -1259,7 +1261,7 @@ button.btn-cart  span { }
 .cart .shipping .form-list .input-text,
 .cart .shipping .form-list select { display:block; }
 
-.cart .crosssell { float:left; min-height:350px; width:260px; padding:0 20px 15px 30px; border:1px solid #d9d9d9; border-width:0 1px 0 0; background:#fbf3f0; }
+.cart .crosssell { float:left; min-height:400px; width:260px; padding:0 20px 15px 30px; border:1px solid #d9d9d9; border-width:0 1px 0 0; background:#fbf3f0; }
 .cart .crosssell h3 { font-size:11px; color:#cd3800; font-weight:bold; text-transform:uppercase; }
 .cart .crosssell .item  { padding:17px 0 0 ; }
 .cart .crosssell .product-image  { float:left; margin:3px -90px 0 0; }
@@ -1271,7 +1273,7 @@ button.btn-cart  span { }
 .cart .crosssell .add-to-links li  { margin:0; }
 
 /* Shopping Cart Totals */
-.cart .totals { float:right; width:277px; padding: 23px 20px 0 8px; font-size:14px; }
+.cart .totals { float:right; width:275px; padding: 23px 15px 0 15px; font-size:14px; }
 .cart .totals table { width:100%; }
 .cart .totals table th,
 .cart .totals table td { padding:0 5px 5px; }
@@ -1307,8 +1309,9 @@ button.btn-cart  span { }
 
 /* Checkout ============================================================================== */
 /* One Page */
-.checkout-onepage-index .col-main {padding-left:0; padding-right:0;}
-.checkout-onepage-index .col-main .callout { float:right; position:relative; z-index:1; margin-top:-15px; }
+.checkout-onepage-index .col-main { padding-left:0; position:relative; z-index:1; padding-right:0; }
+.checkout-onepage-index .page-title { margin:0;}
+.checkout-onepage-index .col-main .callout { position:absolute; right:20px; top:7px; }
 .opc-progress-container { float:left; width:195px; }
 
 .opc-block-progress .block-title h2 { font-size:14px; color:#d64700; }
@@ -1382,12 +1385,13 @@ button.btn-cart  span { }
 /********** < Common Checkout Styles */
 
 /* Buttons */
-.multiple-checkout .buttons-set .button,
+
+/* .multiple-checkout .buttons-set .button,
 .opc button.button { background:transparent url(../images/bkg_button-co.gif) 0 50% no-repeat; padding:0 0 0 6px; vertical-align:middle; }
 .multiple-checkout .buttons-set .button span,
 .opc button.button span { border:0; background:transparent url(../images/bkg_button-co.gif) 100% 50% no-repeat; padding:0 17px 0 11px; color:#d64700; font:normal 14px/28px Arial, Helvetica, sans-serif; text-transform:none; height:30px; }
 .multiple-checkout .buttons-set,
-.opc .buttons-set {line-height:30px;}
+.opc .buttons-set {line-height:30px;} */
 
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
