@@ -380,57 +380,48 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
 
     /**
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Mage_Sales_Model_Order_Payment $payment
      */
-    public function refund($order, $amount)
+    public function refund($payment, $amount)
     {
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
-<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-<Header>
-    <DocumentVersion>1.01</DocumentVersion>
-    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-</Header>
-<MessageType>OrderAdjustment</MessageType>';
-
-        foreach ($order->getAllVisibleItems() as $item) {
-            /* @var $item Mage_Sales_Model_Order_Item */
-            $itemAmount = $item->getQtyRefunded()*$item->getBasePrice();
-            $itemTaxAmount = ($item->getBaseTaxAmount()/$item->getQtyInvoiced())*$item->getQtyRefunded();
-            /** @todo
-                    calculate tax for one item
-                    calculate shipping for one item
-                    calculate shipping tax for one item
-            */
-            $itemShippingAmount = $order->getShippingAmount();
-            $itemShippingTaxAmount = 0;
+            <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+            <Header>
+                <DocumentVersion>1.01</DocumentVersion>
+                <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+            </Header>
+            <MessageType>OrderAdjustment</MessageType>';
+        $items = $payment->getCreditmemo()->getAllItems();
+        $lastId = count($items);
+        $itemsAmount = 0;
+        $_messageId = 1;
+        foreach ($items as $item) {
+            /* @var $item Mage_Sales_Model_Order_Creditmemo_Item */
+            if ($item->getOrderItem()->getParentItemId()) {
+                continue;
+            }
+            $_itemsAmount =+ $item->getBaseRowTotal();
+            $_itemAmount = $item->getBaseRowTotal();
+            if ($_messageId == $lastId) {
+                $_itemAmount =+ ($amount - $_itemsAmount);
+            }
             $_document .= '<Message>
-                            <MessageID>' . $item->getId() . '</MessageID>
+                            <MessageID>' . $_messageId . '</MessageID>
                             <OrderAdjustment>
-                                <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
+                                <AmazonOrderID>' . $payment->getOrder()->getExtOrderId() . '</AmazonOrderID>
                                 <AdjustedItem>
-                                    <AmazonOrderItemCode>'. $item->getExtOrderItemId() . '</AmazonOrderItemCode>
+                                    <AmazonOrderItemCode>'. $item->getOrderItem()->getExtOrderItemId() . '</AmazonOrderItemCode>
                                     <AdjustmentReason>GeneralAdjustment</AdjustmentReason>
                                     <ItemPriceAdjustments>
                                         <Component>
                                             <Type>Principal</Type>
-                                            <Amount currency="USD">' . $itemAmount . '</Amount>
+                                            <Amount currency="USD">' . $_itemAmount . '</Amount>
                                         </Component>'
-                                        /*.'<Component>
-                                            <Type>Shipping</Type>
-                                            <Amount currency="USD">' . $itemShippingAmount . '</Amount>
-                                        </Component>'*/
-                                        .'<Component>
-                                            <Type>Tax</Type>
-                                            <Amount currency="USD">' . $itemTaxAmount . ' </Amount>
-                                        </Component>'
-                                        /*.'<Component>
-                                            <Type>ShippingTax</Type>
-                                            <Amount currency="USD">' . $itemShippingTaxAmount . '</Amount>
-                                        </Component>'*/
                                     .'</ItemPriceAdjustments>';
-            /** @todo
-                    calculate promotion
-            */
+
+            /** @todo Check node directAdjustment */
+
+            /** @todo calculate promotion */
             $promotion = false;
             if ($promotion) {
                 $_document .= '<PromotionAdjustments>
@@ -445,13 +436,52 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                         </OrderAdjustment>
                     </Message>';
         }
-        /** @todo
-                promotion adjustment
-        */
+
         $_document .= '</AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
             'messageType' => self::MESSAGE_TYPE_ADJUSTMENT,
+            'doc' => $this->_createAttachment($_document)
+        );
+        $this->_proccessRequest('postDocument', $params);
+        return $this->_result;
+    }
+
+    public function confirmShipment($aOrderId, $carrierCode, $carrierMethod, $items, $trackNumber = '')
+    {
+        $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
+        $_document = '<?xml version="1.0" encoding="UTF-8"?>
+            <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+            <Header>
+                <DocumentVersion>1.01</DocumentVersion>
+                <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
+            </Header>
+            <MessageType>OrderFulfillment</MessageType>';
+        $_messageId = 1;
+        foreach ($items as $item) {
+            /* @var $item Mage_Sales_Model_Order_Item */
+            $_document .= '<Message>
+                    <MessageID>' . $_messageId . '</MessageID>
+                    <OrderFulfillment>
+                        <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>
+                        <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
+                        <FulfillmentData>
+                            <CarrierCode>' . $carrierCode . '</CarrierCode>
+                            <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
+                            <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
+                        </FulfillmentData>
+                        <Item>
+                            <AmazonOrderItemCode>' . $item['id'] . '</AmazonOrderItemCode>
+                            <Quantity>' . $item['qty'] . '</Quantity>
+                        </Item>
+                    </OrderFulfillment>
+                </Message>';
+            $_messageId++;
+        }
+        $_document .= '</AmazonEnvelope>';
+        $params = array(
+            'merchant' => $this->getMerchantInfo(),
+            'messageType' => self::MESSAGE_TYPE_FULFILLMENT,
             'doc' => $this->_createAttachment($_document)
         );
         $this->_proccessRequest('postDocument', $params);

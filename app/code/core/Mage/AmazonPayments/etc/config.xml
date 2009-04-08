@@ -153,6 +153,15 @@ Something like this is to be added to resolve bug #4890
             </modules>
         </translate>
         <events>
+            <sales_order_shipment_save_after>
+                <observers>
+                    <amazonpayments>
+                        <type>model</type>
+                        <class>amazonpayments/observer</class>
+                        <method>confirmShipment</method>
+                    </amazonpayments>
+                </observers>
+            </sales_order_shipment_save_after>
             <sales_order_shipment_track_save_after>
                 <observers>
                     <amazonpayments>

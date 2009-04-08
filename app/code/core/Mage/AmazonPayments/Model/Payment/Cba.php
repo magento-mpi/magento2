@@ -39,15 +39,14 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     protected $_canAuthorize            = true;
     protected $_canCapture              = false;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
+    protected $_canRefund               = true;
     protected $_canVoid                 = false;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = false;
     protected $_canUseForMultishipping  = false;
 
-    const ACTION_AUTHORIZE = 0;
-    const ACTION_AUTHORIZE_CAPTURE = 1;
-    const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
+//    const ACTION_AUTHORIZE = 0;
+//    const ACTION_AUTHORIZE_CAPTURE = 1;
 
     protected $_skipProccessDocument = false;
 
@@ -116,17 +115,27 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     }
 
     /**
-     * Getting amazonpayments_cba action url
+     * Authorize
      *
-     * @return string
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
      */
-    public function getPaymentAction()
+    public function authorize(Varien_Object $payment, $amount)
     {
-        $paymentAction = Mage::getStoreConfig('payment/amazon_cna/payment_action');
-        if (!$paymentAction) {
-            $paymentAction = Mage_AmazonPayments_Model_Api_Cba::PAYMENT_TYPE_AUTH;
-        }
-        return $paymentAction;
+        parent::authorize($payment, $amount);
+        return $this;
+    }
+
+    /**
+     * Capture payment
+     *
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        parent::capture($payment, $amount);
+        return $this;
     }
 
     public function cancel(Varien_Object $payment)
@@ -141,7 +150,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     /**
      * Refund order
      *
-     * @param   Varien_Object $invoicePayment
+     * @param   Varien_Object $payment
      * @return  Mage_AmazonPayments_Model_Payment_Cba
      */
     public function refund(Varien_Object $payment, $amount)
@@ -149,7 +158,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         if ($this->_skipProccessDocument) {
             return $this;
         }
-        $this->getApi()->refund($payment->getOrder(), $amount);
+        $this->getApi()->refund($payment, $amount);
         return $this;
     }
 
@@ -472,76 +481,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 .'&Signature='.urlencode($_signature)
                 .'&aws-access-key-id='.urlencode(Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'));
         return $response;
-    }
-
-    /**
-     * Prepare fields for Html-based cart signed form for CBA
-     *
-     * @return array
-     */
-    public function getCheckoutFormFields()
-    {
-        $secretKeyID = Mage::getStoreConfig('payment/amazonpayments_cba/secretkey_id');
-        $_quote = $this->getCheckout()->getQuote();
-        /**
-         * @var $_quote Mage_Sales_Model_Quote
-         */
-        if ($_quote->getIsVirtual()) {
-            $a = $_quote->getBillingAddress();
-            $b = $_quote->getShippingAddress();
-        } else {
-            $a = $_quote->getShippingAddress();
-            $b = $_quote->getBillingAddress();
-        }
-        //getQuoteCurrencyCode
-        $currency_code = $_quote->getBaseCurrencyCode();
-
-        $sArr = array();
-        $i = 1;
-        $_merchant_id = $this->getMerchantId();
-        foreach ($_quote->getAllVisibleItems() as $_item) {
-            $sArr = array_merge($sArr, array(
-                "item_merchant_id_{$i}"         => Mage::getStoreConfig('payment/amazonpayments_cba/merchant_id'),
-                "item_title_{$i}"               => $_item->getName(),
-                "item_description_{$i}"         => $_item->getProduct()->getDescription(),
-                "item_price_{$i}"               => $_item->getPrice(),
-                "item_quantity_{$i}"            => $_item->getQty(),
-                "item_sku_{$i}"                 => $_item->getSku(),
-                #"item_category_{$i}"            => $_item->getProduct()->getData('category_ids'),
-            ));
-            #if ($_item->hasTaxAmount() && $_item->getTaxAmount()) {
-            #   $sArr["item_tax_rate_{$i}"] = $_item->getTaxAmount();
-            #}
-            #if ($_item->hasWeight() && $_item->getWeight()) {
-            #   $sArr["item_weight_{$i}"] = $_item->getWeight();
-            #}
-            $i++;
-        }
-
-        $sArr = array_merge($sArr, array(
-            'aws_access_key_id' => Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'),
-            'currency_code'     => $currency_code,
-            'form_key'          => Mage::getSingleton('core/session')->getFormKey(),
-        ));
-
-        if($this->getConfigData('payment_action')==self::PAYMENT_TYPE_AUTH){
-             $sArr = array_merge($sArr, array(
-                  'paymentaction' => 'authorization'
-             ));
-        }
-
-        ksort($sArr);
-        $rArr = array();
-        foreach ($sArr as $k=>$v) {
-            /** replacing & char with and. otherwise it will break the post */
-            $value =  str_replace("&","and",$v);
-            $rArr[$k] =  $value;
-        }
-
-        $rArr['merchant_signature'] = $this->getApi()->calculateSignature($rArr, $secretKeyID);
-        unset($rArr['form_key']);
-
-        return $rArr;
     }
 
     /**

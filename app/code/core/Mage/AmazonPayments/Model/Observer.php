@@ -33,6 +33,14 @@
  */
 class Mage_AmazonPayments_Model_Observer
 {
+    public function confirmShipment(Varien_Event_Observer $observer)
+    {
+        $shipment = $observer->getEvent()->getShipment();
+
+        Mage::getModel('amazonpayments/api_cba')
+            ->confirmShipment($shipment);
+    }
+
     public function salesOrderShipmentTrackSaveAfter(Varien_Event_Observer $observer)
     {
         $track = $observer->getEvent()->getTrack();
@@ -42,6 +50,6 @@ class Mage_AmazonPayments_Model_Observer
             return;
         }
         Mage::getModel('amazonpayments/api_cba')
-            ->deliver($order, $track->getCarrierCode(), $track->getNumber());
+            ->sendTrackingNumber($order, $track);
     }
 }

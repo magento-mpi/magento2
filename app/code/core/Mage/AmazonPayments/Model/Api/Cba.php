@@ -906,11 +906,57 @@ XML;
     /**
      * Refund order
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Mage_Sales_Model_Order_Payment $payment
      */
-    public function refund($order, $amount)
+    public function refund($payment, $amount)
     {
-        $this->getDocumentApi()->refund($order, $amount);
+        $this->getDocumentApi()->refund($payment, $amount);
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Sales_Model_Order_Shipment $shipment
+     * @return unknown
+     */
+    public function confirmShipment($shipment)
+    {
+        $items = array();
+        foreach ($shipment->getAllItems() as $item) {
+            if ($item->getOrderItem()->getParentItemId()) {
+                continue;
+            }
+            $items[] = array(
+                'id' => $item->getOrderItem()->getExtOrderItemId(),
+                'qty' => $item->getQty()
+            );
+        }
+        $carrier = $shipment->getOrder()->getShippingCarrier();
+        $carrierCode = '';
+        $carrierMethod = '';
+        $trackNumber = '';
+        /**
+         * Magento track numbers is not connected with items
+         */
+        foreach ($shipment->getAllTracks() as $track) {
+            $trackNumber = $track->getNumber();
+            break;
+        }
+        $_shipping = explode('_', $shipment->getOrder()->getShippingMethod());
+        if ($_shipping && count($_shipping) >= 2) {
+            $carrierCode = $_shipping[0];
+            $carrierMethod = $carrier->getCode('method', $_shipping[1]);
+        }
+        $carrier = $shipment->getOrder()->getShippingCarrier();
+
+        $this->getDocumentApi()->confirmShipment(
+            $shipment->getOrder()->getExtOrderId(),
+            $carrier,
+            $carrierMethod,
+            $items,
+            $trackNumber
+        );
         return $this;
     }
 
@@ -918,13 +964,29 @@ XML;
      * Send shipping track number
      *
      * @param Mage_Sales_Model_Order $order
-     * @param string $carrierCode
-     * @param string $trackNumber
+     * @param Mage_Sales_Model_Order_Shipment_Track $track
      */
-    public function deliver($order, $carrierCode, $trackNumber)
+    public function sendTrackingNumber($order, $track)
     {
+//        $items = array();
+//        foreach ($track->getShipment()->getAllItems() as $item) {
+//            if ($item->getOrderItem()->getParentItemId()) {
+//                continue;
+//            }
+//            $items[] = array(
+//                'id' => $item->getOrderItem()->getExtOrderItemId(),
+//                'qty' => $item->getQty()
+//            );
+//        }
         /** @todo get carrier method (shipping method) */
-        $this->getDocumentApi()->sendTrackNumber($order, $carrierCode, $carrierCode, $trackNumber);
+//        $this->getDocumentApi()->confirmShipment(
+//            $order->getExtOrderId(),
+//            $track->getCarrierCode(),
+//            $order->getShippingCarrier()->getCode('method', $track->getCarrierCode()),
+//            $items,
+//            $track->getNumber()
+//        );
+//        $this->getDocumentApi()->sendTrackNumber($track->getShipment(), $carrierCode, $carrierMethod, $trackNumber);
         return $this;
     }
 
